@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-03-13 11:06+0100\n"
-"PO-Revision-Date: 2015-02-04 21:37+0000\n"
-"Last-Translator: Volkan Gezer <Unknown>\n"
+"PO-Revision-Date: 2015-03-22 15:56+0000\n"
+"Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-20 05:21+0000\n"
+"X-Launchpad-Export-Date: 2015-03-23 05:31+0000\n"
 "X-Generator: Launchpad (build 17405)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -208,7 +208,7 @@ msgstr "Yenilemek için bırakın..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Konum bilgisi aktif"
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
@@ -232,7 +232,7 @@ msgstr ""
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Kilidi açmak için dokun"
 
 #: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
@@ -347,19 +347,19 @@ msgstr "Dolaşım"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Bu hareket farklı uygulamalar için farklı şeyler yapar"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Bitirmek için dokun."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Özel menüleri aç"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Aşağıdan yukarı kaydırın."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -367,7 +367,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "Devam  etmek için buraya dokunun."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -387,7 +387,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Açık uygulamaları görmek için"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
@@ -395,7 +395,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Çalışan tüm görevleri incele."
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
