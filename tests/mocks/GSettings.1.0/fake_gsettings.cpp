@@ -20,7 +20,9 @@
 
 GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 
-GSettingsControllerQml::GSettingsControllerQml() {
+GSettingsControllerQml::GSettingsControllerQml()
+    : m_usageMode("Staged")
+{
 }
 
 GSettingsControllerQml::~GSettingsControllerQml() {
@@ -34,17 +36,29 @@ GSettingsControllerQml* GSettingsControllerQml::instance()  {
     return s_controllerInstance;
 }
 
-void GSettingsControllerQml::registerSettingsObject(GSettingsQml *obj) {
-    m_registeredGSettings.append(obj);
+QString GSettingsControllerQml::pictureUri() const
+{
+    return m_pictureUri;
 }
 
-void GSettingsControllerQml::unRegisterSettingsObject(GSettingsQml *obj) {
-    m_registeredGSettings.removeOne(obj);
+void GSettingsControllerQml::setPictureUri(const QString &str)
+{
+    if (str != m_pictureUri) {
+        m_pictureUri = str;
+        Q_EMIT pictureUriChanged(m_pictureUri);
+    }
 }
 
-void GSettingsControllerQml::setPictureUri(const QString &str) {
-    Q_FOREACH (GSettingsQml *obj, m_registeredGSettings) {
-        obj->setPictureUri(str);
+QString GSettingsControllerQml::usageMode() const
+{
+    return m_usageMode;
+}
+
+void GSettingsControllerQml::setUsageMode(const QString &usageMode)
+{
+    if (usageMode != m_usageMode) {
+        m_usageMode = usageMode;
+        Q_EMIT usageModeChanged(m_usageMode);
     }
 }
 
@@ -56,7 +70,7 @@ QByteArray GSettingsSchemaQml::id() const {
 }
 
 void GSettingsSchemaQml::setId(const QByteArray &id) {
-    if (m_id.isEmpty()) {
+    if (!m_id.isEmpty()) {
         qWarning("GSettings.schema.id may only be set on construction");
         return;
     }
@@ -69,7 +83,7 @@ QByteArray GSettingsSchemaQml::path() const {
 }
 
 void GSettingsSchemaQml::setPath(const QByteArray &path) {
-    if (m_path.isEmpty()) {
+    if (!m_path.isEmpty()) {
         qWarning("GSettings.schema.path may only be set on construction");
         return;
     }
@@ -77,26 +91,48 @@ void GSettingsSchemaQml::setPath(const QByteArray &path) {
     m_path = path;
 }
 
-GSettingsQml::GSettingsQml(QObject *parent): QObject(parent) {
+GSettingsQml::GSettingsQml(QObject *parent)
+    : QObject(parent)
+{
     m_schema = new GSettingsSchemaQml(this);
-    GSettingsControllerQml::instance()->registerSettingsObject(this);
-}
-
-GSettingsQml::~GSettingsQml() {
-    GSettingsControllerQml::instance()->unRegisterSettingsObject(this);
+    connect(GSettingsControllerQml::instance(), SIGNAL(pictureUriChanged(const QString &)),
+            this, SIGNAL(pictureUriChanged(const QString &)));
+    connect(GSettingsControllerQml::instance(), SIGNAL(usageModeChanged(const QString &)),
+            this, SIGNAL(usageModeChanged(const QString &)));
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
     return m_schema;
 }
 
-QString GSettingsQml::pictureUri() const {
-    return m_pictureUri;
+QString GSettingsQml::pictureUri() const
+{
+    if (m_schema->id() == "org.gnome.desktop.background") {
+        return GSettingsControllerQml::instance()->pictureUri();
+    } else {
+        return "";
+    }
 }
 
-void GSettingsQml::setPictureUri(const QString &str) {
-    if (str != m_pictureUri) {
-        m_pictureUri = str;
-        Q_EMIT pictureUriChanged(m_pictureUri);
+void GSettingsQml::setPictureUri(const QString &str)
+{
+    if (m_schema->id() == "org.gnome.desktop.background") {
+        GSettingsControllerQml::instance()->setPictureUri(str);
+    }
+}
+
+QString GSettingsQml::usageMode() const
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->usageMode();
+    } else {
+        return "";
+    }
+}
+
+void GSettingsQml::setUsageMode(const QString &usageMode)
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setUsageMode(usageMode);
     }
 }

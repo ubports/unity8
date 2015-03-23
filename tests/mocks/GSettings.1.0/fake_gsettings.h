@@ -46,24 +46,25 @@ class GSettingsQml: public QObject
 
     Q_PROPERTY(GSettingsSchemaQml* schema READ schema NOTIFY schemaChanged)
     Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
+    Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
-    ~GSettingsQml();
 
     GSettingsSchemaQml * schema() const;
     QString pictureUri() const;
+    QString usageMode() const;
 
     void setPictureUri(const QString &str);
+    void setUsageMode(const QString &usageMode);
 
 Q_SIGNALS:
     void schemaChanged();
     void pictureUriChanged(const QString&);
+    void usageModeChanged(const QString&);
 
 private:
     GSettingsSchemaQml* m_schema;
-
-    QString m_pictureUri;
 
     friend class GSettingsSchemaQml;
 };
@@ -76,12 +77,21 @@ public:
     static GSettingsControllerQml* instance();
     ~GSettingsControllerQml();
 
-    void registerSettingsObject(GSettingsQml *obj);
-    void unRegisterSettingsObject(GSettingsQml *obj);
-    Q_INVOKABLE void setPictureUri(const QString &str);
+    QString pictureUri() const;
+    void setPictureUri(const QString &str);
+
+    QString usageMode() const;
+    void setUsageMode(const QString &usageMode);
+
+Q_SIGNALS:
+    void pictureUriChanged(const QString&);
+    void usageModeChanged(const QString&);
 
 private:
     GSettingsControllerQml();
+
+    QString m_pictureUri;
+    QString m_usageMode;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;
