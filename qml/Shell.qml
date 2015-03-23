@@ -591,6 +591,14 @@ Item {
         overlay: overlay
         edgeSize: shell.edgeSize
 
+        // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
+        // we'll tell the tutorial to avoid using them on the Desktop.  The
+        // Desktop doesn't use the same spread design anyway.  The tutorial is
+        // all a bit of a placeholder on non-phone form factors right now.
+        // When the design team gives us more guidance, we can do something
+        // more clever here.
+        useEdgeDragArea: applicationsDisplayLoader.source != Qt.resolvedUrl("Stages/DesktopStage.qml")
+
         onFinished: {
             AccountsService.demoEdges = false;
             active = false; // for immediate response / if AS is having problems
