@@ -79,6 +79,9 @@ Item {
         }
     }
 
+    // This is _only_ used to expose the property to autopilot tests
+    readonly property string testShellMode: shellMode
+
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
