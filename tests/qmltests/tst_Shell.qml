@@ -64,11 +64,6 @@ Rectangle {
         }
     }
 
-    GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
-    }
-
     Item {
         anchors.left: root.left
         anchors.right: controls.left
@@ -89,10 +84,6 @@ Rectangle {
                         width: units.gu(40)
                         height: units.gu(71)
                     }
-                    PropertyChanges {
-                        target: unity8Settings
-                        usageMode: "Staged"
-                    }
                 },
                 State {
                     name: "tablet"
@@ -100,22 +91,6 @@ Rectangle {
                         target: shellLoader
                         width: units.gu(100)
                         height: units.gu(71)
-                    }
-                    PropertyChanges {
-                        target: unity8Settings
-                        usageMode: "Staged"
-                    }
-                },
-                State {
-                    name: "desktop"
-                    PropertyChanges {
-                        target: shellLoader
-                        width: units.gu(100)
-                        height: units.gu(71)
-                    }
-                    PropertyChanges {
-                        target: unity8Settings
-                        usageMode: "Windowed"
                     }
                 }
             ]
@@ -1013,21 +988,6 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
             compare(wizard.shown, false);
             compare(tutorial.running, false);
-        }
-
-        function test_tutorialDesktopMode_data() {
-            return [
-                {tag: "phone", formFactor: "phone", usingDrag: true},
-                {tag: "tablet", formFactor: "tablet", usingDrag: true},
-                {tag: "desktop", formFactor: "desktop", usingDrag: false},
-            ];
-        }
-        function test_tutorialDesktopMode(data) {
-            AccountsService.demoEdges = true;
-            loadShell(data.formFactor);
-
-            var tutorial = findChild(shell, "tutorial");
-            compare(tutorial.useEdgeDragArea, data.usingDrag);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
