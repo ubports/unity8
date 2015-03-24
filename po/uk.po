@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-03-13 11:06+0100\n"
-"PO-Revision-Date: 2014-11-07 16:47+0000\n"
+"PO-Revision-Date: 2015-03-20 11:40+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-03-20 05:21+0000\n"
+"X-Launchpad-Export-Date: 2015-03-21 05:43+0000\n"
 "X-Generator: Launchpad (build 17405)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -59,7 +59,7 @@ msgstr[2] "Зачекайте %1 хвилин і повторіть спробу
 #: qml/Components/Dialogs.qml:67
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "Вийти"
 
 #: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
@@ -68,12 +68,12 @@ msgstr "Ви справді хочете вийти?"
 #: qml/Components/Dialogs.qml:70
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Заблокувати"
 
 #: qml/Components/Dialogs.qml:77
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Вийти"
 
 #: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
 #: qml/Components/Dialogs.qml:171
@@ -83,7 +83,7 @@ msgstr "Скасувати"
 #: qml/Components/Dialogs.qml:96
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Вимкнути"
 
 #: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
@@ -92,17 +92,17 @@ msgstr "Ви справді хочете вимкнути пристрій?"
 #: qml/Components/Dialogs.qml:99
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Перезавантажити"
 
 #: qml/Components/Dialogs.qml:107
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Вимкнути"
 
 #: qml/Components/Dialogs.qml:127
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Перезавантажити"
 
 #: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
@@ -119,7 +119,7 @@ msgstr "Так"
 #: qml/Components/Dialogs.qml:150
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Живлення"
 
 #: qml/Components/Dialogs.qml:151
 msgid ""
@@ -132,12 +132,12 @@ msgstr ""
 #: qml/Components/Dialogs.qml:153
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Вимкнути"
 
 #: qml/Components/Dialogs.qml:162
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Перезапустити"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -162,17 +162,17 @@ msgstr "Детальніше"
 #: qml/Dash/GenericScopeView.qml:595
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: The Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Крамниця"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Shown in Page Header Menu"
 msgid "Search"
-msgstr ""
+msgstr "Шукати"
 
 #: qml/Dash/PageHeader.qml:286
 msgid "Settings"
@@ -343,7 +343,7 @@ msgstr "Помилка, торкніться, щоб повторити спро
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Відповісти"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -408,7 +408,7 @@ msgstr "Показати усі запущені завдання."
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -452,32 +452,32 @@ msgstr "Будь ласка, виберіть спосіб розблокува�
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Рух пальцем"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Без захисту"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Код-пароль"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "лише 4 цифри"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Пароль"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Цифри і літери"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"

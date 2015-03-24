@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-03-13 11:06+0100\n"
-"PO-Revision-Date: 2015-03-05 19:15+0000\n"
+"PO-Revision-Date: 2015-03-21 16:29+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-20 05:21+0000\n"
+"X-Launchpad-Export-Date: 2015-03-22 05:30+0000\n"
 "X-Generator: Launchpad (build 17405)\n"
 "Language: sv\n"
 
@@ -54,7 +54,7 @@ msgstr[1] "Vänta %1 minuter och prova sedan igen..."
 #: qml/Components/Dialogs.qml:67
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "Logga ut"
 
 #: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
@@ -63,12 +63,12 @@ msgstr "Är du säker på att du vill logga ut?"
 #: qml/Components/Dialogs.qml:70
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Lås"
 
 #: qml/Components/Dialogs.qml:77
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Logga ut"
 
 #: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
 #: qml/Components/Dialogs.qml:171
@@ -78,7 +78,7 @@ msgstr "Avbryt"
 #: qml/Components/Dialogs.qml:96
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Stäng av"
 
 #: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
@@ -87,17 +87,17 @@ msgstr "Är du säker på att du vill stänga av?"
 #: qml/Components/Dialogs.qml:99
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Starta om"
 
 #: qml/Components/Dialogs.qml:107
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Stäng av"
 
 #: qml/Components/Dialogs.qml:127
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Starta om"
 
 #: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
@@ -114,7 +114,7 @@ msgstr "Ja"
 #: qml/Components/Dialogs.qml:150
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Ström"
 
 #: qml/Components/Dialogs.qml:151
 msgid ""
@@ -127,12 +127,12 @@ msgstr ""
 #: qml/Components/Dialogs.qml:153
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Stäng av"
 
 #: qml/Components/Dialogs.qml:162
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Starta om"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -157,17 +157,17 @@ msgstr "Visa alla"
 #: qml/Dash/GenericScopeView.qml:595
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: The Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Butik"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Shown in Page Header Menu"
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: qml/Dash/PageHeader.qml:286
 msgid "Settings"
@@ -338,7 +338,7 @@ msgstr "Misslyckades, tryck för att försöka igen"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Svara"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -403,7 +403,7 @@ msgstr "Visa alla körande processer."
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Bakåt"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -448,32 +448,32 @@ msgstr "Välj hur du vill låsa upp din telefon."
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Gest"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Ingen säkerhet"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Lösenkod"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "Endast fyra siffror"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Lösenfras"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Siffror och bokstäver"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
