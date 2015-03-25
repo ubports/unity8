@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-13 11:06+0100\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
 "PO-Revision-Date: 2015-03-23 07:24+0000\n"
 "Last-Translator: Damir Jerovšek <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2015-03-24 06:10+0000\n"
+"X-Launchpad-Export-Date: 2015-03-25 06:05+0000\n"
 "X-Generator: Launchpad (build 17413)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -162,18 +162,19 @@ msgid "Search"
 msgstr "Iskanje"
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "Button: The Ubuntu Store"
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Trgovina"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Shown in Page Header Menu"
+msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr "Poišči"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Nastavitve"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
@@ -678,5 +679,16 @@ msgstr "%1  〉"
 #~ msgid "Power"
 #~ msgstr "Izključitev"
 
+#~ msgid "Settings"
+#~ msgstr "Nastavitve"
+
 #~ msgid "Restart"
 #~ msgstr "Ponovni zagon"
+
+#~ msgctxt "Button: Shown in Page Header Menu"
+#~ msgid "Search"
+#~ msgstr "Poišči"
+
+#~ msgctxt "Button: The Ubuntu Store"
+#~ msgid "Store"
+#~ msgstr "Trgovina"
