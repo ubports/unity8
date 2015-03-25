@@ -237,16 +237,15 @@ FocusScope {
                 }
 
 
-                RowLayout {
+                ColumnLayout {
                     id: tileInfo
-                    height: units.gu(6)
-                    width: units.gu(20)
+                    width: units.gu(30)
                     anchors { left: parent.left; top: parent.bottom; topMargin: units.gu(5) }
                     visible: false
                     spacing: units.gu(1)
 
                     UbuntuShape {
-                        Layout.preferredHeight: parent.height
+                        Layout.preferredHeight: units.gu(6)
                         Layout.preferredWidth: height
                         image: Image {
                             anchors.fill: parent
@@ -255,7 +254,7 @@ FocusScope {
                     }
                     Label {
                         Layout.fillWidth: true
-                        Layout.preferredHeight: tileInfo.height * 0.8
+                        Layout.preferredHeight: units.gu(6)
                         text: model.name
                         wrapMode: Text.WordWrap
                         maximumLineCount: 2
