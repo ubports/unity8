@@ -128,7 +128,7 @@ Item {
                 objectName: "sync"
                 syncTimeout: Utils.Constants.indicatorValueTimeout
                 bufferedSyncTimeout: true
-                maximumWaitBufferInterval: 100
+                maximumWaitBufferInterval: 16
 
                 serverTarget: sliderItem
                 serverProperty: "serverValue"
