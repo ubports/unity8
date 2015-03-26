@@ -82,7 +82,7 @@ Item {
         anchors.fill: parent
         textXOffset: root.launcher.panelWidth
         paused: !shown || root.paused
-        text: root.useEdgeDragArea ? i18n.tr("Tap here to continue.") : i18n.tr("Tap here to finish.")
+        text: root.useEdgeDragArea ? i18n.tr("Tap here to continue.") : i18n.tr("Click here to finish.")
 
         onFinished: {
             root.launcher.hide();

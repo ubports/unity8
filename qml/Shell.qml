@@ -597,6 +597,7 @@ Item {
         // all a bit of a placeholder on non-phone form factors right now.
         // When the design team gives us more guidance, we can do something
         // more clever here.
+        // TODO: use DeviceConfiguration instead of checking source
         useEdgeDragArea: applicationsDisplayLoader.source != Qt.resolvedUrl("Stages/DesktopStage.qml")
 
         onFinished: {
