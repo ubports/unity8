@@ -22,8 +22,6 @@ Item {
 
     property Item launcher
     property Item panel
-    property Item stages
-    property Item overlay
 
     readonly property bool launcherEnabled: !running ||
                                             (!paused && tutorialLeft.shown)
@@ -66,7 +64,6 @@ Item {
     TutorialLeft {
         id: tutorialLeft
         objectName: "tutorialLeft"
-        parent: root.stages
         anchors.fill: parent
         launcher: root.launcher
         paused: !shown || root.paused
@@ -77,7 +74,6 @@ Item {
     TutorialLeftFinish {
         id: tutorialLeftFinish
         objectName: "tutorialLeftFinish"
-        parent: root.stages
         anchors.fill: parent
         textXOffset: root.launcher.panelWidth
         paused: !shown || root.paused
@@ -91,7 +87,6 @@ Item {
     TutorialRight {
         id: tutorialRight
         objectName: "tutorialRight"
-        parent: root.stages
         anchors.fill: parent
         edgeSize: root.edgeSize
         panel: root.panel
@@ -103,7 +98,6 @@ Item {
     TutorialBottom {
         id: tutorialBottom
         objectName: "tutorialBottom"
-        parent: root.stages
         anchors.fill: parent
         edgeSize: root.edgeSize
         paused: !shown || root.paused
@@ -114,7 +108,6 @@ Item {
     TutorialBottomFinish {
         id: tutorialBottomFinish
         objectName: "tutorialBottomFinish"
-        parent: root.stages
         anchors.fill: parent
         backgroundFadesOut: true
         paused: !shown || root.paused

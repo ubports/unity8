@@ -283,6 +283,22 @@ Item {
                 value: shell.background
             }
         }
+
+        Tutorial {
+            id: tutorial
+            objectName: "tutorial"
+            anchors.fill: parent
+            active: AccountsService.demoEdges
+            paused: LightDM.Greeter.active
+            launcher: launcher
+            panel: panel
+            edgeSize: shell.edgeSize
+
+            onFinished: {
+                AccountsService.demoEdges = false;
+                active = false; // for immediate response / if AS is having problems
+            }
+        }
     }
 
     InputMethod {
@@ -577,23 +593,6 @@ Item {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
-        }
-    }
-
-    Tutorial {
-        id: tutorial
-        objectName: "tutorial"
-        active: AccountsService.demoEdges
-        paused: LightDM.Greeter.active
-        launcher: launcher
-        panel: panel
-        stages: stages
-        overlay: overlay
-        edgeSize: shell.edgeSize
-
-        onFinished: {
-            AccountsService.demoEdges = false;
-            active = false; // for immediate response / if AS is having problems
         }
     }
 
