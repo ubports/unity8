@@ -79,7 +79,7 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Button { text: "Power dialog"; onClicked: { testCase.showPowerDialog(); } }
+            Button { text: "Power dialog"; onClicked: { testCase.test_showPowerDialog(); } }
             Button { text: "Logout Requested"; onClicked: { fakeUnitySession.logoutRequested(); } }
             Button { text: "Shutdown Requested"; onClicked: { fakeUnitySession.shutdownRequested(); } }
             Button { text: "Reboot Requested"; onClicked: { fakeUnitySession.rebootRequested(); } }
