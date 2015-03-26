@@ -46,7 +46,7 @@ FocusScope {
         if (root.altTabPressed) {
             print("should tab next")
             appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count
-            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 2)))
+            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3)))
         }
     }
 
@@ -55,7 +55,7 @@ FocusScope {
         if (root.altTabPressed) {
             var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
             appRepeater.highlightedIndex = newIndex;
-            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 2)))
+            spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1)))
         }
     }
 
@@ -151,9 +151,9 @@ FocusScope {
                         name: "altTab"; when: root.state == "altTab"
                         PropertyChanges {
                             target: appDelegate
-                            x: spreadMaths.desktopX(index, root.width, spreadFlickable.contentX)
+                            x: spreadMaths.animatedX
                             y: spreadMaths.desktopY(root.height, appDelegate.height)
-                            angle: spreadMaths.desktopAngle(index, spreadFlickable.contentX)
+                            angle: spreadMaths.animatedAngle
                             itemScale: spreadMaths.desktopScale(root.height, appDelegate.height)
                             itemScaleOriginY: appDelegate.height;
                             color: "green"
@@ -169,7 +169,7 @@ FocusScope {
                         }
                         PropertyChanges {
                             target: tileInfo
-                            visible: true
+                            visible: spreadMaths.desktopTitleInfoShown(index, spreadFlickable.contentX)
                         }
                     }
                 ]
@@ -187,6 +187,9 @@ FocusScope {
 
                 SpreadMaths {
                     id: spreadMaths
+                    flickable: spreadFlickable
+                    itemIndex: index
+                    totalItems: ApplicationManager.count
                 }
 
                 WindowMoveResizeArea {
@@ -269,7 +272,11 @@ FocusScope {
         anchors.fill: parent
         contentWidth: ApplicationManager.count * width / 5
         visible: false
-        onContentXChanged: print("flickable flicked", contentX)
+        //boundsBehavior: Flickable.StopAtBounds
+
+        function ensureVisible(index) {
+
+        }
 
         function snapTo(contentX) {
             snapAnimation.to = contentX
@@ -281,6 +288,14 @@ FocusScope {
             target: spreadFlickable
             property: "contentX"
         }
+    }
+
+    Label {
+        anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1) }
+        text: "Progress: " + (spreadFlickable.contentX / (spreadFlickable.contentWidth -  spreadFlickable.width))
+        color: "red"
+        fontSize: "x-large"
+        z: 100
     }
 
     states: [

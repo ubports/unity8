@@ -126,6 +126,15 @@ Item {
                     }
                 }
 
+                Button {
+                    text: "Start all apps"
+                    onClicked: {
+                        for (var i = 0; i < ApplicationManager.availableApplications.length; i++) {
+                            ApplicationManager.startApplication(ApplicationManager.availableApplications[i])
+                        }
+                    }
+                }
+
                 Repeater {
                     id: apps
                     model: ApplicationManager.availableApplications
