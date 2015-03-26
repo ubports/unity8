@@ -96,9 +96,11 @@ Rectangle {
         name: "Dialogs"
         when: windowShown
 
-        function showPowerDialog() {
+        function test_showPowerDialog() {
             var dialogsPrivate = findInvisibleChild(dialogs, "dialogsPrivate");
             dialogsPrivate.showPowerDialog();
+            var dialogLoader = findInvisibleChild(dialogs, "dialogLoader");
+            tryCompare(dialogLoader.item, "focus", true);
         }
     }
 }

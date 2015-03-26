@@ -57,6 +57,7 @@ Item {
     }
     Loader {
         id: dialogLoader
+        objectName: "dialogLoader"
         anchors.fill: parent
         active: false
     }
