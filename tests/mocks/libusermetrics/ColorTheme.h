@@ -19,6 +19,7 @@
 #ifndef UNITY_MOCK_COLORTHEME_H
 #define UNITY_MOCK_COLORTHEME_H
 
+#include <QtCore/QObject>
 #include <QtGui/QColor>
 
 namespace UserMetricsOutput

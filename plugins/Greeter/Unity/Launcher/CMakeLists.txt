@@ -19,6 +19,7 @@ set(QMLLAUNCHERPLUGINAS_SRC
     quicklistmodel.cpp
     quicklistentry.cpp
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
+    ${LAUNCHER_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
