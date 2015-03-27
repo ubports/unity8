@@ -310,3 +310,12 @@ void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation
         Q_EMIT currentNavigationIdChanged();
     }
 }
+
+void Scope::performQuery(const QString& query)
+{
+    Q_EMIT queryPerformed(query);
+    if (query.startsWith("scopes://")) {
+        QString scopeId = query.mid(9);
+        Q_EMIT gotoScope(scopeId);
+    }
+}

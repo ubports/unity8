@@ -315,7 +315,7 @@ Item {
 
             var scopesList = findChild(dash, "scopesList");
             spy.target = scopesList.scope;
-            spy.signalName = "performQuery";
+            spy.signalName = "queryPerformed";
 
             // Click on the store
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
