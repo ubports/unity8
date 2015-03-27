@@ -18,7 +18,7 @@ Item {
     property int totalItems: 0
     property Item flickable: null
     property int margins: units.gu(5)
-    property int foldingAreaWidth: units.gu(5)
+    property int foldingAreaWidth: units.gu(10)
 
     property int maxVisibleItems: 5
 
@@ -32,16 +32,20 @@ Item {
 
     // Internal
     readonly property real progressSlice: 1 / totalItems;
-    readonly property real startProgress: Math.max(0, index - 2) * progressSlice
+    readonly property real startProgress: (index - 2) * progressSlice
     readonly property real endProgress: (index + 3) * progressSlice
 
-    readonly property real startX: index < maxVisibleItems ?
-                                       margins + index * unfoldedDistance
-                                     : contentWidth - foldingAreaWidth + (startLayout.value * foldingAreaWidth)
+//    readonly property real startX: index < maxVisibleItems ?
+//                                       margins + index * unfoldedDistance
+//                                     : contentWidth - foldingAreaWidth + (startLayout.value * foldingAreaWidth)
 
-    readonly property real endX: totalItems - maxVisibleItems < index ?
-                                     contentWidth - (totalItems - index) * unfoldedDistance
-                                   : margins + foldingAreaWidth - (endLayout.value * foldingAreaWidth)
+    readonly property real startX: contentWidth - foldingAreaWidth + (startLayout.value * foldingAreaWidth)
+
+//    readonly property real endX: totalItems - maxVisibleItems < index ?
+//                                     contentWidth - (totalItems - index) * unfoldedDistance
+//                                   : margins + foldingAreaWidth - (endLayout.value * foldingAreaWidth)
+
+    readonly property real endX: margins + foldingAreaWidth - (endLayout.value * foldingAreaWidth)
 
     readonly property int animatedX: transitionCurve.value * (endX - startX) + startX
 
@@ -76,7 +80,7 @@ Item {
 
     EasingCurve {
         id: transitionCurve
-        type: easingCurve.InOutSine
+        type: EasingCurve.InOutSine
 
         readonly property real normalizedEndProgress: endProgress - startProgress
         readonly property real normalizedProgress: (root.flickableProgress - root.startProgress) / normalizedEndProgress

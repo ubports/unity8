@@ -270,7 +270,7 @@ FocusScope {
     Flickable {
         id: spreadFlickable
         anchors.fill: parent
-        contentWidth: ApplicationManager.count * width / 5
+        contentWidth: Math.max(6, ApplicationManager.count) * width / 5
         visible: false
         //boundsBehavior: Flickable.StopAtBounds
 
@@ -292,7 +292,11 @@ FocusScope {
 
     Label {
         anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1) }
-        text: "Progress: " + (spreadFlickable.contentX / (spreadFlickable.contentWidth -  spreadFlickable.width))
+        text: "Progress: " + (spreadFlickable.contentX / (spreadFlickable.contentWidth -  spreadFlickable.width)).toFixed(3) +
+              ", ContentX: " + spreadFlickable.contentX +
+              ", Width: " + spreadFlickable.width +
+              ", ContentWidth: " + spreadFlickable.contentWidth
+
         color: "red"
         fontSize: "x-large"
         z: 100
@@ -311,7 +315,7 @@ FocusScope {
         Transition {
             from: "*"
             to: "altTab"
-            PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
+            PropertyAction { target: spreadFlickable; property: "contentX"; value: (1.88 / ApplicationManager.count) * (spreadFlickable.contentWidth - spreadFlickable.width) }
         }
     ]
 }

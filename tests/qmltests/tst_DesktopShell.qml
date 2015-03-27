@@ -130,6 +130,7 @@ Item {
                     text: "Start all apps"
                     onClicked: {
                         for (var i = 0; i < ApplicationManager.availableApplications.length; i++) {
+                            print("starting", ApplicationManager.availableApplications[i])
                             ApplicationManager.startApplication(ApplicationManager.availableApplications[i])
                         }
                     }
