@@ -112,6 +112,21 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         new_ld_library_path = ':'.join(new_ld_library_path)
         _environment['LD_LIBRARY_PATH'] = new_ld_library_path
 
+        # FIXME: we shouldn't be doing this
+        # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
+        # /tmp/mir_socket as last resort
+        try:
+            os.unlink(
+                os.getenv('MIR_SOCKET',
+                          os.path.join(os.getenv('XDG_RUNTIME_DIR', "/tmp"),
+                                       "mir_socket")))
+        except OSError:
+            pass
+        try:
+            os.unlink("/tmp/mir_socket")
+        except OSError:
+            pass
+
         binary_arg = "BINARY=%s" % get_binary_path()
         env_args = ["%s=%s" % (k, v) for k, v in _environment.items()]
         args = [binary_arg] + env_args

@@ -44,14 +44,17 @@ class RotationBase(tests.UnityTestCase):
             self.skipTest('Test cannot be run on the desktop.')
         super(RotationBase, self).setUp()
         self._qml_mock_enabled = False
-        self._data_dirs_mock_enabled = False
+        #self._data_dirs_mock_enabled = False
 
         # get unity8 with fake sensors running 
-        unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
-        self.useFixture(unity_with_sensors)
-        process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
-        self.fake_sensors = unity_with_sensors.fake_sensors
-        self.shell_proxy = unity_with_sensors.main_win.select_single(objectName="shell")
+        #unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
+        #self.useFixture(unity_with_sensors)
+        #process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
+        #self.fake_sensors = unity_with_sensors.fake_sensors
+        #self.shell_proxy = unity_with_sensors.main_win.select_single(objectName="shell")
+
+        self.shell_proxy = self.launch_unity()
+        process_helpers.unlock_unity(self.shell_proxy)
 
     def _create_test_application(self):
         desktop_file_dict = ubuntuuitoolkit.fixture_setup.DEFAULT_DESKTOP_FILE_DICT
@@ -82,27 +85,28 @@ class RotationBase(tests.UnityTestCase):
 
         # launch an application
         app_name = self._launch_fake_app()
+        print("\nfake app-name: ", app_name)
 
         # get default orientation and angle
-        self.orientation = self.shell_proxy.orientation
-        self.angle = self.shell_proxy.orientationAngle
+        #self.orientation = self.shell_proxy.orientation
+        #self.angle = self.shell_proxy.orientationAngle
 
         # check if fake sensors affect orientation and angle
-        print("\nafter fake-sensor changed to top-up...")
-        self.fake_sensors.set_orientation_top_up()
-        self._assert_change_of_orientation_and_angle()
+        #print("\nafter fake-sensor changed to top-up...")
+        #self.fake_sensors.set_orientation_top_up()
+        #self._assert_change_of_orientation_and_angle()
 
-        self.fake_sensors.set_orientation_right_up()
-        print("\nafter fake-sensor changed to right-up...")
-        self._assert_change_of_orientation_and_angle()
+        #self.fake_sensors.set_orientation_right_up()
+        #print("\nafter fake-sensor changed to right-up...")
+        #self._assert_change_of_orientation_and_angle()
 
-        self.fake_sensors.set_orientation_top_down()
-        print("\nafter  top-down...")
-        self._assert_change_of_orientation_and_angle()
+        #self.fake_sensors.set_orientation_top_down()
+        #print("\nafter  top-down...")
+        #self._assert_change_of_orientation_and_angle()
 
-        self.fake_sensors.set_orientation_left_up()
-        print("\nafter fake-sensor changed to left-up...")
-        self._assert_change_of_orientation_and_angle()
+        #self.fake_sensors.set_orientation_left_up()
+        #print("\nafter fake-sensor changed to left-up...")
+        #self._assert_change_of_orientation_and_angle()
 
         # set accelerometer sensor rotation from 0 to 90
 
