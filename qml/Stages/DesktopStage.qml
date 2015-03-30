@@ -315,7 +315,7 @@ FocusScope {
         Transition {
             from: "*"
             to: "altTab"
-            PropertyAction { target: spreadFlickable; property: "contentX"; value: (1.88 / ApplicationManager.count) * (spreadFlickable.contentWidth - spreadFlickable.width) }
+            PropertyAction { target: spreadFlickable; property: "contentX"; value: (2.6 / ApplicationManager.count) * (spreadFlickable.contentWidth - spreadFlickable.width) }
         }
     ]
 }

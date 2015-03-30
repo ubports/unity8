@@ -78,7 +78,7 @@ Item {
             id: shellLoader
 
             active: false
-            width: units.gu(110)
+            width: parent.width - units.gu(30)
             height: parent.height
 
             property bool itemDestroyed: false
@@ -130,8 +130,11 @@ Item {
                     text: "Start all apps"
                     onClicked: {
                         for (var i = 0; i < ApplicationManager.availableApplications.length; i++) {
-                            print("starting", ApplicationManager.availableApplications[i])
-                            ApplicationManager.startApplication(ApplicationManager.availableApplications[i])
+                            var appId = ApplicationManager.availableApplications[i];
+                            if (ApplicationManager.findApplication(appId) == null) {
+                                print("starting", appId)
+                                ApplicationManager.startApplication(appId)
+                            }
                         }
                     }
                 }
