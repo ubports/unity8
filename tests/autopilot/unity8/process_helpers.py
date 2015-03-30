@@ -94,6 +94,7 @@ def lock_unity(unity_proxy_obj=None):
     import time
     uinput = evdev.UInput(name='unity8-autopilot-power-button',
                           devnode='/dev/autopilot-uinput')
+    time.sleep(1) # give it some time to appear for mir.
     # One press and release to turn screen off (locking unity)
     uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
     uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
