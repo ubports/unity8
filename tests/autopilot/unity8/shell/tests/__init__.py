@@ -403,6 +403,9 @@ class UnityTestCase(AutopilotTestCase):
         self.uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
         self.uinput.syn()
 
+        greeter = self.main_window.wait_select_single(objectName='greeter')
+        greeter.fullyShown.wait_for(True);
+
     @property
     def main_window(self):
         return self._proxy.select_single(main_window_emulator.QQuickView)
