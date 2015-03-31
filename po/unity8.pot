@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 11:06+0100\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,16 +157,17 @@ msgid "Search"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "Button: The Ubuntu Store"
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Shown in Page Header Menu"
+msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr ""
 
