@@ -34,7 +34,6 @@ import logging
 import os.path
 import subprocess
 import sys
-import evdev
 from testtools.matchers import Equals
 from ubuntuuitoolkit import (
     fixture_setup as toolkit_fixtures,
@@ -164,8 +163,6 @@ class UnityTestCase(AutopilotTestCase):
             _uinput._touch_device = _uinput.create_touch_device()
             self.addCleanup(_uinput._touch_device.close)
 
-        self.uinput = evdev.UInput(name='unity8-autopilot-power-button',
-                                   devnode='/dev/autopilot-uinput')
         self.touch = Touch.create()
         self._setup_display_details()
 
@@ -389,23 +386,6 @@ class UnityTestCase(AutopilotTestCase):
         )
         dash_app = dash_helpers.DashApp(dash_proxy)
         return dash_app.dash
-
-    def lock_unity(self):
-        """Helper function that attempts to lock the unity greeter."""
-        import time
-        # One press and release to turn screen off (locking unity)
-        self.uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
-        self.uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
-        self.uinput.syn()
-        time.sleep(1)
-        # And another press and release to turn screen back on
-        self.uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
-        self.uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
-        self.uinput.syn()
-
-        greeter = self.main_window.wait_select_single(objectName='greeter')
-        print("Greeter status ", greeter.fullyShown, greeter.active, greeter.waiting, greeter.locked);
-        greeter.fullyShown.wait_for(True);
 
     @property
     def main_window(self):

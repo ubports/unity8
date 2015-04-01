@@ -90,9 +90,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
     def test_greeter_hides_on_app_open(self):
         """Greeter should hide when an app is opened"""
-        self.lock_unity()
-        greeter = self.main_window.get_greeter()
-        self.assertThat(greeter.created, Eventually(Equals(True)))
+        process_helpers.lock_unity()
 
         application_name = self.launch_fake_app()
         greeter.wait_swiped_away()
@@ -107,9 +105,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         self.main_window.show_dash_swiping()
         self.assert_current_focused_application('unity8-dash')
 
-        self.lock_unity()
-        greeter = self.main_window.get_greeter()
-        self.assertThat(greeter.created, Eventually(Equals(True)))
+        process_helpers.lock_unity()
 
         self.launch_upstart_application(application_name)
         greeter.wait_swiped_away()
