@@ -43,4 +43,3 @@ ScriptAction {
         info.transitioning = false;
     }
 }
-

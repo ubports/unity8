@@ -147,7 +147,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         with open(fifo_path, 'w') as fifo:
             fifo.write('create accel 0 1000 0.1\n')
             fifo.write('create light 0 10 1\n')
-            fifo.write('create proximity\n') 
+            fifo.write('create proximity\n')
 
 class LaunchDashApp(fixtures.Fixture):
 
