@@ -45,7 +45,7 @@ FocusScope {
     function altTabNext() {
         if (root.altTabPressed) {
             print("should tab next")
-            appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count
+            appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count;
             spreadFlickable.snapTo(spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3)))
         }
     }
@@ -315,7 +315,7 @@ FocusScope {
         Transition {
             from: "*"
             to: "altTab"
-            PropertyAction { target: spreadFlickable; property: "contentX"; value: (2.6 / ApplicationManager.count) * (spreadFlickable.contentWidth - spreadFlickable.width) }
+            PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
         }
     ]
 }

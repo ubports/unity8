@@ -25,6 +25,15 @@ Item {
     readonly property int flickableWidth: flickable ? flickable.width : 0
     readonly property int flickableContentWidth: flickable ? flickable.contentWidth: 0
     readonly property real flickableProgress: flickable ? flickable.contentX / (flickable.contentWidth -  flickableWidth) : 0
+    // We require the full flickable progress going from 0 to 1 so the user can drag/overshoot tiles in both directions
+    // 0 => all the tiles are stacked up on the right edge
+    // 1 => all the tiles are stacked up on the left edge
+    // However, we also want to restrict tiles to start/end distributed across the screen, so let's adjust the
+    // progress to work on a smaller area => trim progress on left and right by progressAdjust
+    // TODO: 2.6 is a value figured by try&error. Is there a way we can calculate it?
+    readonly property real progressAdjust: (2.6 / ApplicationManager.count)
+    readonly property real adjustedProgress: (flickableProgress * (1-2*progressAdjust)) + progressAdjust
+
 
     readonly property int contentWidth: flickableWidth - root.margins * 2
 
@@ -95,7 +104,7 @@ Item {
         type: EasingCurve.InOutSine
 
         readonly property real normalizedEndProgress: endProgress - startProgress
-        readonly property real normalizedProgress: (root.flickableProgress - root.startProgress) / normalizedEndProgress
+        readonly property real normalizedProgress: (root.adjustedProgress - root.startProgress) / normalizedEndProgress
         progress: normalizedProgress
     }
 
