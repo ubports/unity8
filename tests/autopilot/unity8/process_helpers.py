@@ -87,6 +87,7 @@ def unlock_unity(unity_proxy_obj=None):
         greeter.created.wait_for(False)
         logger.info("Greeter unlocked, continuing.")
 
+
 def lock_unity(unity_proxy_obj=None):
     """Helper function that attempts to lock unity greeter.
 
@@ -135,6 +136,7 @@ def lock_unity(unity_proxy_obj=None):
     else:
         greeter.created.wait_for(True)
         logger.info("Greeter locked, continuing.")
+
 
 def restart_unity_with_testability(*args):
     """Restarts (or starts) unity with testability enabled.
