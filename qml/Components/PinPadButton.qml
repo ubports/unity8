@@ -23,6 +23,7 @@ AbstractButton {
 
     property alias text: label.text
     property string iconName
+    property color foregroundColor: "#000000"
 
     UbuntuShape {
         anchors.fill: parent
@@ -36,7 +37,7 @@ AbstractButton {
         id: label
         anchors.centerIn: parent
         horizontalAlignment: Text.AlignHCenter
-        color: "#f3f3e7"
+        color: root.foregroundColor
         fontSize: "x-large"
         font.weight: Font.DemiBold
         visible: text.length > 0
@@ -52,7 +53,7 @@ AbstractButton {
         width: height
         anchors.centerIn: parent
         name: root.iconName
-        color: "#f3f3e7"
+        color: root.foregroundColor
         visible: name.length > 0
         scale: root.pressed ? 0.9 : 1
         Behavior on scale {

@@ -23,34 +23,12 @@ from unity8 import (
     indicators,
     process_helpers
 )
-from unity8.shell import tests
+from unity8.indicators import tests
 
 
-class DisplayIndicatorTestCase(tests.UnityTestCase):
+class DisplayIndicatorTestCase(tests.IndicatorTestCase):
 
-    def setUp(self):
-        if platform.model() == 'Desktop':
-            self.skipTest('Test cannot be run on the desktop.')
-        super(DisplayIndicatorTestCase, self).setUp()
-
-        unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
-        self.useFixture(unity_with_sensors)
-
-        self.unity_proxy = unity_with_sensors.unity_proxy
-        process_helpers.unlock_unity(self.unity_proxy)
-        self.fake_sensors = unity_with_sensors.fake_sensors
-
-    def test_rotation_unlocked_must_change_orientation_with_sensors(self):
-        rotation_unlocked = fixture_setup.DisplayRotationLock(False)
-        self.useFixture(rotation_unlocked)
-
-        self.fake_sensors.set_orientation_top_down()
-        # TODO how to get the shell orientation?
-
-    def test_rotation_locked_must_display_icon_and_ignore_sensors(self):
-        # TODO remove the skip when the bug is fixed. --elopio - 2015-01-20
-        self.skipTest(
-            'This test fails because of bug http://pad.lv/1410915')
+    def test_indicator_icon_must_be_visible_after_rotation_locked(self):
         rotation_unlocked = fixture_setup.DisplayRotationLock(False)
         self.useFixture(rotation_unlocked)
         display_indicator = indicators.DisplayIndicator(self.main_window)

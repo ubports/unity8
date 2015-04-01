@@ -592,7 +592,7 @@ FocusScope {
                     objectName: "scopePageHeader"
                     width: parent.width
                     title: scopeView.scope ? scopeView.scope.name : ""
-                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
+                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
                     settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false

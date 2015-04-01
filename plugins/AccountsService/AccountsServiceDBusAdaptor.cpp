@@ -25,7 +25,8 @@
 AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
   : QObject(parent),
     m_accountsManager(nullptr),
-    m_users()
+    m_users(),
+    m_ignoreNextChanged(false)
 {
     QDBusConnection connection = QDBusConnection::SM_BUSNAME();
     QDBusConnectionInterface *interface = connection.interface();
@@ -75,11 +76,19 @@ void AccountsServiceDBusAdaptor::propertiesChangedSlot(const QString &interface,
     combined.removeDuplicates();
 
     Q_EMIT propertiesChanged(getUserForPath(message().path()), interface, combined);
+
+    // In case a non-builtin property changes, we're getting propertiesChanged *and* changed
+    // As the generic changed requires asking back over DBus, it's quite slow to process.
+    // We don't want to trigger that when we know it's not a built-in property change.
+    m_ignoreNextChanged = true;
 }
 
 void AccountsServiceDBusAdaptor::maybeChangedSlot()
 {
-    Q_EMIT maybeChanged(getUserForPath(message().path()));
+    if (!m_ignoreNextChanged) {
+        Q_EMIT maybeChanged(getUserForPath(message().path()));
+    }
+    m_ignoreNextChanged = false;
 }
 
 QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path)

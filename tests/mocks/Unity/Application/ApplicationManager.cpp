@@ -241,10 +241,6 @@ ApplicationInfo* ApplicationManager::add(QString appId)
 
 bool ApplicationManager::stopApplication(const QString &appId)
 {
-    if (appId == "unity8-dash") {
-        return false;
-    }
-
     ApplicationInfo *application = findApplication(appId);
     if (application == nullptr)
         return false;

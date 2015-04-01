@@ -94,14 +94,14 @@ LocalComponents.Page {
                     var name = ""
                     var desc = ""
                     if (method === UbuntuSecurityPrivacyPanel.Swipe) {
-                        name = i18n.tr("Swipe")
-                        desc = i18n.tr("No security")
+                        name = i18n.ctr("Label: Type of security method", "Swipe")
+                        desc = i18n.ctr("Label: Description of security method", "No security")
                     } else if (method === UbuntuSecurityPrivacyPanel.Passcode) {
-                        name = i18n.tr("Passcode")
-                        desc = i18n.tr("4 digits only")
+                        name = i18n.ctr("Label: Type of security method", "Passcode")
+                        desc = i18n.ctr("Label: Description of security method", "4 digits only")
                     } else {
-                        name = i18n.tr("Passphrase")
-                        desc = i18n.tr("Numbers and letters")
+                        name = i18n.ctr("Label: Type of security method", "Passphrase")
+                        desc = i18n.ctr("Label: Description of security method", "Numbers and letters")
                     }
                     return "<b>%1</b> (%2)".arg(name).arg(desc)
                 }

@@ -3,3 +3,4 @@ plugin UnityTestQml
 typeinfo Test.qmltypes
 
 UnityTestCase 0.1 UnityTestCase.qml
+MouseTouchEmulationCheckbox 0.1 MouseTouchEmulationCheckbox.qml 

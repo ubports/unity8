@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 20014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,10 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.1
-import QtGraphicalEffects 1.0
 
 Item {
     id: swipeToAct
 
-    width: parent.width
     height: childrenRect.height
 
     signal leftTriggered()
@@ -29,280 +27,213 @@ Item {
 
     property string leftIconName
     property string rightIconName
-    readonly property double sliderHeight: units.gu(6)
-    readonly property double gap: units.gu(1)
-    readonly property double halfWay: mouseArea.drag.maximumX / 2
 
-    Rectangle {
-        id: gradient
-        width: parent.width * 5
-        height: sliderHeight
-        visible: false
-        LinearGradient {
-            anchors.fill: parent
-            start: Qt.point(parent.x, parent.y)
-            end: Qt.point(parent.width, parent.y)
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: UbuntuColors.red }
-                GradientStop { position: 0.2; color: UbuntuColors.red }
-                GradientStop { position: 0.4; color: "#dddddd" }
-                GradientStop { position: 0.6; color: "#dddddd" }
-                GradientStop { position: 0.8; color: UbuntuColors.green }
-                GradientStop { position: 1.0; color: UbuntuColors.green }
-            }
+    QtObject {
+        id: priv
+
+        property double opacityDelta
+        readonly property double sliderHeight: units.gu(8)
+        readonly property double gap: units.gu(1)
+        readonly property color sliderMainColor: "#b2b2b2"
+        readonly property color sliderBGColor: "#f4f4f4"
+        readonly property double halfWay: mouseArea.drag.maximumX / 2
+
+        UbuntuNumberAnimation on opacityDelta {
+            from: 0
+            to: .5
+            loops: Animation.Infinite
+            duration: UbuntuAnimation.SleepyDuration
+            easing.type: Easing.Linear
         }
-    }
 
-    ShaderEffectSource {
-        id: effectSourceGradient
-        sourceItem: gradient
-        width: gradient.width
-        height: gradient.height
-        sourceRect: Qt.rect(0.4 * gradient.width * (slider.x / halfWay), 0, mask.width, mask.height)
-        visible: false
-        hideSource: true
+        // linearly interpolate between start- and end-color
+        // with a normalized weight-factor
+        // 0.0 meaning just the start-color being taken into
+        // account and 1.0 only taking the end-color into
+        // account
+        function interpolate(start, end, factor) {
+            var rdiff = start.r > end.r ? end.r - start.r : end.r - start.r
+            var gdiff = start.g > end.g ? end.g - start.g : end.g - start.g
+            var bdiff = start.b > end.b ? end.b - start.b : end.b - start.b
+            var adiff = start.a > end.a ? end.a - start.a : end.a - start.a
+            var r = start.r + factor * rdiff
+            var g = start.g + factor * gdiff
+            var b = start.b + factor * bdiff
+            var a = start.a + factor * adiff
+            return Qt.rgba(r,g,b,a)
+        }
     }
 
     UbuntuShape {
-        id: mask
-        color: "black"
+        id: row
         width: parent.width
-        height: sliderHeight
+        height: priv.sliderHeight
+        color: priv.sliderBGColor
         borderSource: "none"
-        visible: false
-    }
 
-    ShaderEffectSource {
-        id: effectSourceMask
-        sourceItem: mask
-        width: mask.width
-        height: mask.height
-        visible: false
-        hideSource: true
-    }
+        UbuntuShape {
+            id: leftShape
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.margins: priv.gap
+            color: UbuntuColors.red
+            borderSource: "none"
 
-    ShaderEffect {
-        width: parent.width
-        height: sliderHeight
-        property variant mask: effectSourceMask
-        property variant gradient: effectSourceGradient
-        vertexShader: "
-            uniform highp mat4 qt_Matrix;
-            attribute highp vec4 qt_Vertex;
-            attribute highp vec2 qt_MultiTexCoord0;
-            varying highp vec2 coord;
-            void main() {
-                coord = qt_MultiTexCoord0;
-                gl_Position = qt_Matrix * qt_Vertex;
-            }"
-        fragmentShader: "
-            varying highp vec2 coord;
-            uniform sampler2D mask;
-            uniform sampler2D gradient;
-            void main() {
-                lowp vec4 texMask = texture2D(mask, coord);
-                lowp vec4 texGradient = texture2D(gradient, coord);
-                gl_FragColor = texGradient.rgba * texMask.a ;
-            }"
+            state: "normal"
+            height: units.gu(6)
+            width: units.gu(6)
+            radius: "medium"
+            opacity: slider.x <= priv.halfWay ? 1.0 : 1.0 - ((slider.x - priv.halfWay) / priv.halfWay)
 
-        Row {
-            id: row
-            anchors.fill: parent
-            spacing: gap
-            anchors.margins: gap
-
-            UbuntuShape {
-                id: leftShape
-                states: [
-                    State {
-                        name: "normal"
-                        PropertyChanges {
-                            target: leftShape
-                            color: UbuntuColors.red
-                        }
-                        PropertyChanges {
-                            target: innerLeftShape
-                            color: UbuntuColors.red
-                            visible: false
-                        }
-                    },
-                    State {
-                        name: "selected"
-                        PropertyChanges {
-                            target: leftShape
-                            color: "white"
-                        }
-                        PropertyChanges {
-                            target: innerLeftShape
-                            color: UbuntuColors.red
-                            visible: true
-                        }
-                    }
-                ]
-                state: "normal"
-                height: units.gu(4)
-                width: units.gu(7)
-                borderSource: "none"
-                opacity: slider.x <= halfWay ? 1.0 : 1.0 - ((slider.x - halfWay) / halfWay)
-                UbuntuShape {
-                    id: innerLeftShape
-                    anchors.centerIn: parent
-                    borderSource: "none"
-                    width: parent.width - units.gu(.5)
-                    height: parent.height - units.gu(.5)
-                }
-                Icon {
-                    anchors.centerIn: parent
-                    width: units.gu(2)
-                    height: units.gu(2)
-                    name: leftIconName
-                    color: "white"
-                }
-            }
-
-            Rectangle {
-                id: leftSpacer
-                width: (row.width - (leftShape.width + slider.width + rightShape.width + 4 * row.spacing)) / 2
-                height: units.gu(4)
-                opacity: 0
-            }
-
-            UbuntuShape {
-                id: slider
-                objectName: "slider"
-
-                Behavior on x {
-                    UbuntuNumberAnimation {
-                        duration: UbuntuAnimation.FastDuration
-                        easing.type: Easing.OutBounce
-                    }
-                }
-
-                Behavior on opacity {
-                    UbuntuNumberAnimation {
-                        duration: UbuntuAnimation.FastDuration
-                    }
-                }
-
-                onOpacityChanged: {
-                    if (opacity === 0) {
-                        if (rightShape.state === "selected") {
-                            rightTriggered()
-                        }
-                        if (leftShape.state === "selected") {
-                            leftTriggered()
-                        }
-                    }
-                }
-
-                z: 1
+            Icon {
+                anchors.centerIn: parent
+                width: units.gu(3.5)
+                height: units.gu(3.5)
+                name: leftIconName
                 color: "white"
-                height: units.gu(4)
-                width: units.gu(7)
-                borderSource: "none"
-                Row {
-                    anchors.fill: parent
-                    spacing: 2 * gap
-                    anchors.leftMargin: units.gu(.5)
-                    anchors.rightMargin: units.gu(.5)
-                    Icon {
-                        anchors.verticalCenter: parent.verticalCenter
-                        name: "back"
-                        width: units.gu(2)
-                        height: units.gu(2)
-                    }
-                    Icon {
-                        anchors.verticalCenter: parent.verticalCenter
-                        name: "next"
-                        width: units.gu(2)
-                        height: units.gu(2)
-                    }
-                }
-            }
-
-            Rectangle {
-                id: rightSpacer
-                width: leftSpacer.width
-                height: units.gu(4)
-                opacity: 0
-            }
-
-            UbuntuShape {
-                id: rightShape
-                states: [
-                    State {
-                        name: "normal"
-                        PropertyChanges {
-                            target: rightShape
-                            color: UbuntuColors.green
-                        }
-                        PropertyChanges {
-                            target: innerRightShape
-                            color: UbuntuColors.green
-                            visible: false
-                        }
-                    },
-                    State {
-                        name: "selected"
-                        PropertyChanges {
-                            target: rightShape
-                            color: "white"
-                        }
-                        PropertyChanges {
-                            target: innerRightShape
-                            color: UbuntuColors.green
-                            visible: true
-                        }
-                    }
-                ]
-                state: "normal"
-                height: units.gu(4)
-                width: units.gu(7)
-                borderSource: "none"
-                opacity: slider.x >= halfWay ? 1.0 : slider.x / halfWay
-                UbuntuShape {
-                    id: innerRightShape
-                    anchors.centerIn: parent
-                    borderSource: "none"
-                    width: parent.width - units.gu(.5)
-                    height: parent.height - units.gu(.5)
-                }
-                Icon {
-                    anchors.centerIn: parent
-                    width: units.gu(2)
-                    height: units.gu(2)
-                    name: rightIconName
-                    color: "white"
-                }
             }
         }
 
-        MouseArea {
-            id: mouseArea
-            objectName: "swipeMouseArea"
+        Row {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: slider.left
+            anchors.rightMargin: units.gu(1.5)
+            spacing: -units.gu(1)
+            visible: slider.x === priv.halfWay
+            Icon {
+                name: "back"
+                height: units.gu(2.5)
+                color: priv.sliderMainColor
+                opacity: .5 + priv.opacityDelta
+            }
+            Icon {
+                name: "back"
+                height: units.gu(2.5)
+                color: priv.sliderMainColor
+                opacity: 1 - priv.opacityDelta
+            }
+        }
 
-            anchors.fill: row
-            drag.target: slider
-            drag.axis: Drag.XAxis
-            drag.minimumX: 0
-            drag.maximumX: row.width - slider.width
+        UbuntuShape {
+            id: slider
+            objectName: "slider"
+            anchors.top: parent.top
+            anchors.margins: priv.gap
+            x: priv.halfWay
 
-            onReleased: {
-                if (slider.x !== drag.minimumX || slider.x !== drag.maximumX) {
-                    slider.x = halfWay
+            Component.onCompleted: {
+                xBehavior.enabled = true
+            }
+
+            Behavior on x {
+                id: xBehavior
+                enabled: false
+                UbuntuNumberAnimation {
+                    duration: UbuntuAnimation.FastDuration
+                    easing.type: Easing.OutBounce
                 }
-                if (slider.x === drag.minimumX) {
-                    slider.x = drag.minimumX
-                    slider.opacity = 0
-                    enabled = false
-                    leftShape.state = "selected"
+            }
+
+            Behavior on opacity {
+                UbuntuNumberAnimation {
+                    duration: UbuntuAnimation.FastDuration
                 }
-                if (slider.x === drag.maximumX) {
-                    slider.x = drag.maximumX
-                    slider.opacity = 0
-                    enabled = false
-                    rightShape.state = "selected"
+            }
+
+            onXChanged: {
+                var factor
+                if (slider.x <= priv.gap + leftShape.width)
+                {
+                    factor = (slider.x - priv.gap) / leftShape.width
+                    slider.color = priv.interpolate(leftShape.color, priv.sliderMainColor, factor)
+                } else if (slider.x >= rightShape.x - slider.width) {
+                    factor = (slider.x - rightShape.x + rightShape.width) / rightShape.width
+                    slider.color = priv.interpolate(priv.sliderMainColor, rightShape.color, factor)
+                } else {
+                    slider.color = priv.sliderMainColor
                 }
+            }
+
+            z: 1
+            color: priv.sliderMainColor
+            height: units.gu(6)
+            width: units.gu(6)
+            borderSource: "none"
+            radius: "medium"
+            Icon {
+                anchors.fill: parent
+                anchors.margins: units.gu(1.5)
+                source: "grip-large.svg"
+                color: "white"
+            }
+        }
+        Row {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: slider.right
+            anchors.leftMargin: units.gu(1.5)
+            spacing: -units.gu(1)
+            visible: slider.x === priv.halfWay
+            Icon {
+                name: "next"
+                height: units.gu(2.5)
+                color: priv.sliderMainColor
+                opacity: 1 - priv.opacityDelta
+            }
+            Icon {
+                name: "next"
+                height: units.gu(2.5)
+                color: priv.sliderMainColor
+                opacity: 0.5 + priv.opacityDelta
+            }
+        }
+
+        UbuntuShape {
+            id: rightShape
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.margins: priv.gap
+            color: UbuntuColors.green
+            borderSource: "none"
+
+            state: "normal"
+            height: units.gu(6)
+            width: units.gu(6)
+            radius: "medium"
+            opacity: slider.x >= priv.halfWay ? 1.0 : slider.x / priv.halfWay
+
+            Icon {
+                anchors.centerIn: parent
+                width: units.gu(3.5)
+                height: units.gu(3.5)
+                name: rightIconName
+                color: "white"
+            }
+        }
+    }
+
+    MouseArea {
+        id: mouseArea
+        objectName: "swipeMouseArea"
+
+        anchors.fill: row
+        drag.target: slider
+        drag.axis: Drag.XAxis
+        drag.minimumX: priv.gap
+        drag.maximumX: row.width - slider.width - priv.gap
+
+        onReleased: {
+            if (slider.x !== drag.minimumX || slider.x !== drag.maximumX) {
+                slider.x = priv.halfWay
+            }
+            if (slider.x === drag.minimumX) {
+                slider.x = drag.minimumX
+                enabled = false
+                leftTriggered()
+            }
+            if (slider.x === drag.maximumX) {
+                slider.x = drag.maximumX
+                enabled = false
+                rightTriggered()
             }
         }
     }

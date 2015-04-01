@@ -102,7 +102,7 @@ int main(int argc, const char *argv[])
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
     if (parser.hasMouseToTouch()) {
-        mouseTouchAdaptor = new MouseTouchAdaptor;
+        mouseTouchAdaptor = MouseTouchAdaptor::instance();
         application->installNativeEventFilter(mouseTouchAdaptor);
     }
 
