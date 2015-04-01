@@ -16,6 +16,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitymenumodelpaths.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowkeysfilter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
     windowstatestorage.cpp
     plugin.cpp
     )
