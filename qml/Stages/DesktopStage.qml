@@ -158,9 +158,9 @@ FocusScope {
                         PropertyChanges {
                             target: appDelegate
                             x: spreadMaths.animatedX
-                            y: spreadMaths.desktopY(root.height, appDelegate.height)
+                            y: spreadMaths.animatedY
                             angle: spreadMaths.animatedAngle
-                            itemScale: spreadMaths.desktopScale(root.height, appDelegate.height)
+                            itemScale: spreadMaths.scale
                             itemScaleOriginY: appDelegate.height;
                             color: "green"
                             z: index
@@ -196,6 +196,10 @@ FocusScope {
                     flickable: spreadFlickable
                     itemIndex: index
                     totalItems: ApplicationManager.count
+                    sceneHeight: root.height
+                    spreadHeight: root.height * 0.35
+                    spreadBottomOffset: sceneHeight * 0.2
+                    itemHeight: appDelegate.height
                 }
 
                 WindowMoveResizeArea {
