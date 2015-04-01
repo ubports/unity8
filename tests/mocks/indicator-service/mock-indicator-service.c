@@ -31,17 +31,17 @@ typedef struct
 
 static void
 bus_acquired (GDBusConnection *connection,
-          const gchar     *name,
-          gpointer         user_data)
+              const gchar     *name,
+              gpointer         user_data)
 {
     (void) name;
     IndicatorTestService *indicator = user_data;
     GError *error = NULL;
 
     indicator->actions_export_id = g_dbus_connection_export_action_group (connection,
-                                                                        "/com/canonical/indicator/mock",
-                                                                        G_ACTION_GROUP (indicator->actions),
-                                                                        &error);
+                                                                          "/com/canonical/indicator/mock",
+                                                                          G_ACTION_GROUP (indicator->actions),
+                                                                          &error);
     if (indicator->actions_export_id == 0)
     {
         g_warning ("cannot export action group: %s", error->message);
@@ -50,9 +50,9 @@ bus_acquired (GDBusConnection *connection,
     }
 
     indicator->menu_export_id = g_dbus_connection_export_menu_model (connection,
-                                                                   "/com/canonical/indicator/mock/desktop",
-                                                                   G_MENU_MODEL (indicator->menu),
-                                                                   &error);
+                                                                     "/com/canonical/indicator/mock/desktop",
+                                                                     G_MENU_MODEL (indicator->menu),
+                                                                     &error);
     if (indicator->menu_export_id == 0)
     {
         g_warning ("cannot export menu: %s", error->message);
@@ -63,8 +63,8 @@ bus_acquired (GDBusConnection *connection,
 
 static void
 name_lost (GDBusConnection *connection,
-       const gchar     *name,
-       gpointer         user_data)
+           const gchar     *name,
+           gpointer         user_data)
 {
     (void) name;
     IndicatorTestService *indicator = user_data;
@@ -78,8 +78,8 @@ name_lost (GDBusConnection *connection,
 
 static void
 activate_show (GSimpleAction *action,
-           GVariant      *parameter,
-           gpointer       user_data)
+               GVariant      *parameter,
+               gpointer       user_data)
 {
     (void) action;
     (void) parameter;
@@ -105,8 +105,8 @@ actual_switch (gpointer user_data)
 
 static void
 activate_switch (GSimpleAction *action,
-           GVariant      *parameter,
-           gpointer       user_data)
+                 GVariant      *parameter,
+                 gpointer       user_data)
 {
     (void) action;
     (void) parameter;
@@ -240,13 +240,13 @@ main (int argc, char **argv)
     g_menu_append_item (indicator.menu, item);
 
     g_bus_own_name (G_BUS_TYPE_SESSION,
-                  "com.canonical.indicator.mock",
-                  G_BUS_NAME_OWNER_FLAGS_NONE,
-                  bus_acquired,
-                  NULL,
-                  name_lost,
-                  &indicator,
-                  NULL);
+                    "com.canonical.indicator.mock",
+                    G_BUS_NAME_OWNER_FLAGS_NONE,
+                    bus_acquired,
+                    NULL,
+                    name_lost,
+                    &indicator,
+                    NULL);
 
     loop = g_main_loop_new (NULL, FALSE);
     g_main_loop_run (loop);

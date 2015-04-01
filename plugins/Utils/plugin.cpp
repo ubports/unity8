@@ -50,7 +50,6 @@ static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
     return new Constants();
 }
 
-
 void UtilsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Utils"));
@@ -64,8 +63,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
-
-    qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "Constants", createConstants);
+    qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

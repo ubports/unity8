@@ -320,7 +320,6 @@ Item {
             objectName: "switchMenu"
             property QtObject menuData: null
             property int menuIndex: -1
-
             property bool serverChecked: menuData && menuData.isToggled || false
 
             text: menuData && menuData.label || ""
