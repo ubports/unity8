@@ -95,9 +95,11 @@ Item {
                                    ) / itemHeight
 
 
-    function desktopTitleInfoShown(index, flickableX) {
-        return true;
-    }
+    readonly property real tileInfoOpacity: leftFoldingAreaProgress > 0 ?
+                                                      linearAnimation(0, 0.5, 1, 0, leftFoldingAreaProgress)
+                                                    : rightFoldingAreaProgress > 0 ?
+                                                          linearAnimation(0 ,0.5, 1, 0, rightFoldingAreaProgress)
+                                                        : 1
 
     // Helpers
     function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {

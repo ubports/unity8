@@ -162,7 +162,6 @@ FocusScope {
                             angle: spreadMaths.animatedAngle
                             itemScale: spreadMaths.scale
                             itemScaleOriginY: appDelegate.height;
-                            color: "green"
                             z: index
                         }
                         PropertyChanges {
@@ -175,7 +174,8 @@ FocusScope {
                         }
                         PropertyChanges {
                             target: tileInfo
-                            visible: spreadMaths.desktopTitleInfoShown(index, spreadFlickable.contentX)
+                            visible: true
+                            opacity: spreadMaths.tileInfoOpacity
                         }
                     }
                 ]
