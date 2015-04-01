@@ -404,6 +404,7 @@ class UnityTestCase(AutopilotTestCase):
         self.uinput.syn()
 
         greeter = self.main_window.wait_select_single(objectName='greeter')
+        print("Greeter status ", greeter.fullyShown, greeter.active, greeter.waiting, greeter.locked);
         greeter.fullyShown.wait_for(True);
 
     @property
