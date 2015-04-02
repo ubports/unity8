@@ -93,6 +93,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         process_helpers.lock_unity()
 
         application_name = self.launch_fake_app()
+        greeter = self.main_window.get_greeter()
         greeter.wait_swiped_away()
         process_helpers.unlock_unity()
         self.assert_current_focused_application(application_name)
@@ -108,6 +109,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         process_helpers.lock_unity()
 
         self.launch_upstart_application(application_name)
+        greeter = self.main_window.get_greeter()
         greeter.wait_swiped_away()
         process_helpers.unlock_unity()
         self.assert_current_focused_application(application_name)
