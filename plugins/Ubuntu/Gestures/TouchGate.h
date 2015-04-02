@@ -53,8 +53,6 @@ public:
 Q_SIGNALS:
     void targetItemChanged(QQuickItem *item);
 
-    void pressed();
-
 protected:
     void touchEvent(QTouchEvent *event) override;
 private:

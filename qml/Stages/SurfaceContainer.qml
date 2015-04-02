@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Ubuntu.Gestures 0.1 // For TouchGate
+import Utils 0.1 // for InputWatcher
 
 FocusScope {
     id: root
@@ -25,8 +26,6 @@ FocusScope {
     property bool hadSurface: false
     property int orientation
     property bool interactive
-
-    signal surfacePressed()
 
     onSurfaceChanged: {
         if (surface) {
@@ -45,17 +44,21 @@ FocusScope {
     Binding { target: surface; property: "enabled"; value: root.interactive; when: surface }
     Binding { target: surface; property: "antialiasing"; value: !root.interactive; when: surface }
 
+    InputWatcher {
+        target: root.surface
+        onTargetPressedChanged: {
+            if (targetPressed && root.interactive) {
+                root.focus = true;
+                root.forceActiveFocus();
+            }
+        }
+    }
+
     TouchGate {
         targetItem: surface
         anchors.fill: root
         enabled: root.surface ? root.surface.enabled : false
         z: 2
-        onPressed: {
-            root.focus = true;
-            if (root.interactive) {
-                root.forceActiveFocus();
-            }
-        }
     }
 
     states: [
