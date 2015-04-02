@@ -88,6 +88,7 @@ Showable {
 
     Handle {
         id: handle
+        objectName: "handle"
         anchors {
             left: parent.left
             right: parent.right
