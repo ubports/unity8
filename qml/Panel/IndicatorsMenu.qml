@@ -164,7 +164,10 @@ Showable {
     }
 
     MouseArea {
-        anchors.fill: __showDragHandle
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: minimizedPanelHeight
         enabled: __showDragHandle.enabled
         onClicked: {
             bar.selectItemAt(mouseX)
