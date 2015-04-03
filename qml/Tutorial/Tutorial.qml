@@ -23,6 +23,7 @@ Item {
     property alias active: loader.active
     property bool paused
     property real edgeSize
+    property bool useEdgeDragArea
 
     property Item launcher
     property Item panel
@@ -56,6 +57,12 @@ Item {
             target: loader.item
             property: "edgeSize"
             value: root.edgeSize
+        }
+
+        Binding {
+            target: loader.item
+            property: "useEdgeDragArea"
+            value: root.useEdgeDragArea
         }
 
         Binding {
