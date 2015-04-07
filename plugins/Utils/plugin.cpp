@@ -63,8 +63,8 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
-    qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
+    qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
 }
 
