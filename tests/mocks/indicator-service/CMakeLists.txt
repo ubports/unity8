@@ -8,12 +8,8 @@ include_directories(
     ${GIO_INCLUDE_DIRS}
 )
 
-set(MOCK_INDICATOR_SERVICE_SRC
-    mock-indicator-service.c
-)
-
 add_executable(${MOCK_INDICATOR_SERVICE_APP}
-    ${MOCK_INDICATOR_SERVICE_SRC}
+    mock-indicator-service.c
 )
 
 target_link_libraries(${MOCK_INDICATOR_SERVICE_APP} ${GIO_LDFLAGS})

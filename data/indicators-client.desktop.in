@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=Indicators Client
-Comment=An interface for using the Scopes system
+Comment=Application for testing the Indicators system
 Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/indicators-client
 Terminal=false
 Icon=

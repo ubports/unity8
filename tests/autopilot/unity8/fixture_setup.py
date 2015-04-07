@@ -19,6 +19,7 @@
 
 import fixtures
 import subprocess
+import logging
 
 from autopilot import introspection
 
@@ -28,6 +29,7 @@ from unity8 import (
 )
 from unity8.shell import emulators
 
+logger = logging.getLogger(__name__)
 
 class LaunchDashApp(fixtures.Fixture):
 
@@ -104,16 +106,17 @@ class LaunchMockIndicatorService(fixtures.Fixture):
 
     """Fixture to launch the indicator test service."""
 
-    def __init__(self, variables, ensure_not_running=True):
+    def __init__(self, action_delay, ensure_not_running=True):
         """Initialize an instance.
 
-        :param variables: The variables to use when launching the app.
-        :type variables: A dictionary.
+        :param action_delay: The delay to use when activating actions.
+          Measured in milliseconds. Value of -1 will result in infinite delay.
+        :type action_delay: An integer.
         :param boolean ensure_not_running: Make sure service is not running
 
         """
         super(LaunchMockIndicatorService, self).__init__()
-        self.variables = variables
+        self.action_delay = action_delay
         self.ensure_not_running = ensure_not_running
 
     def setUp(self):
@@ -124,16 +127,15 @@ class LaunchMockIndicatorService(fixtures.Fixture):
         self.application_proxy = self.launch_service()
 
     def launch_service(self):
+        logger.info("Starting unity-mock-indicator-service")
         binary_path = get_binary_path('unity-mock-indicator-service')
         binary_arg = 'BINARY={}'.format(binary_path)
-        testability_arg = 'QT_LOAD_TESTABILITY={}'.format(1)
-        env_args = [
-            '{}={}'.format(key, value) for key, value in self.variables.items()
-        ]
-        all_args = [binary_arg, testability_arg] + env_args
+        env_args = 'ARGS=-t {}'.format(self.action_delay)
+        all_args = [binary_arg, env_args]
         process_helpers.start_job('unity-mock-indicator-service', *all_args)
 
     def stop_service(self):
+        logger.info("Stopping unity-mock-indicator-service")
         process_helpers.stop_job('unity-mock-indicator-service')
 
     def ensure_service_not_running(self):

@@ -38,10 +38,7 @@ class TestIndicatorBaseTestCase(tests.IndicatorTestCase):
     def setUp(self):
         super(TestIndicatorBaseTestCase, self).setUp()
 
-        environment = {}
-        environment['ARGS'] = '-t {0}'\
-            .format(self.action_delay)
-        self.launch_indicator_service(environment)
+        self.launch_indicator_service()
 
         # wait for the indicator to appear in unity
         self.indicator = indicators.TestIndicator(self.main_window)
@@ -51,8 +48,8 @@ class TestIndicatorBaseTestCase(tests.IndicatorTestCase):
         )
         self.indicator_page = self.indicator.open()
 
-    def launch_indicator_service(self, variables):
-        launch_service_fixture = fixture_setup.LaunchMockIndicatorService(variables)
+    def launch_indicator_service(self):
+        launch_service_fixture = fixture_setup.LaunchMockIndicatorService(self.action_delay)
         self.useFixture(launch_service_fixture)
 
 
@@ -61,9 +58,9 @@ class TestServerValueUpdate(TestIndicatorBaseTestCase):
     """Test that an action causes the server to update"""
 
     time_scenarios = [
-        ('Low', dict(action_delay=0)),
-        ('Medium', dict(action_delay=2500)),
-        ('High', dict(action_delay=8000)),
+        ('Low', {'action_delay': 0}),
+        ('Medium', {'action_delay': 2500}),
+        ('High', {'action_delay': 8000}),
     ]
     scenarios = multiply_scenarios(
         time_scenarios,
@@ -106,7 +103,7 @@ class TestBuffering(TestIndicatorBaseTestCase):
     """
     action_delay = 2500
 
-    def test_buffered_switch(self):
+    def test_switch_buffers_actvations(self):
 
         switch = self.indicator_page.get_switcher()
         switch.change_state()
@@ -142,7 +139,7 @@ class TestBuffering(TestIndicatorBaseTestCase):
             Equals(switch_menu.serverChecked)
         )
 
-    def test_buffered_slider(self):
+    def test_slider_buffers_activations(self):
 
         slider = self.indicator_page.get_slider()
         original_value = slider.value;
