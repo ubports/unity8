@@ -165,12 +165,9 @@ FocusScope {
                             z: index
                         }
                         PropertyChanges {
-                            target: darkenOverlay
-                            opacity: index != appRepeater.highlightedIndex ? 0.4 : 0
-                        }
-                        PropertyChanges {
                             target: decoratedWindow
                             decorationShown: false
+                            highlightShown: index == appRepeater.highlightedIndex
                         }
                         PropertyChanges {
                             target: tileInfo
@@ -217,6 +214,7 @@ FocusScope {
                     anchors.fill: parent
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
+                    highlightScale: 1 / appDelegate.itemScale
 
                     onFocusChanged: {
                         if (focus) {
@@ -241,12 +239,6 @@ FocusScope {
                             angle: appDelegate.angle
                         }
                     ]
-                    Rectangle {
-                        id: darkenOverlay
-                        anchors.fill: parent
-                        color: "black"
-                        opacity: 0
-                    }
                 }
 
 

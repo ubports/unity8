@@ -28,6 +28,8 @@ FocusScope {
     property alias active: decoration.active
 
     property bool decorationShown: true
+    property bool highlightShown: false
+    property real highlightScale: 1
 
     signal close();
     signal maximize();
@@ -41,6 +43,21 @@ FocusScope {
         source: "graphics/dropshadow2gu.sci"
         opacity: .3
         Behavior on opacity { UbuntuNumberAnimation {} }
+    }
+
+    Rectangle {
+        id: selectionHighlight
+        anchors.fill: parent
+        anchors.margins: -units.gu(1) * root.highlightScale
+        color: "white"
+        opacity: highlightShown ? 0.15 : 0
+    }
+
+    Rectangle {
+        anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
+        height: units.dp(2) * root.highlightScale
+        color: UbuntuColors.orange
+        visible: root.highlightShown
     }
 
     WindowDecoration {
