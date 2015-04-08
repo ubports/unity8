@@ -104,7 +104,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !subPageLoader.open && Qt.application.active
+        value: isCurrent && !subPageLoader.open && (Qt.application.state == Qt.ApplicationActive)
     }
 
     UnitySortFilterProxyModel {
