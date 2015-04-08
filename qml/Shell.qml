@@ -182,7 +182,6 @@ Item {
         objectName: "stages"
         width: parent.width
         height: parent.height
-        visible: !ApplicationManager.empty
 
         Connections {
             target: ApplicationManager
