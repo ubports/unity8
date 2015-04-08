@@ -178,7 +178,7 @@ Showable {
         Binding {
             target: scopesList.scope
             property: "isActive"
-            value: bottomEdgeController.progress === 1
+            value: bottomEdgeController.progress === 1 && Qt.application.active
         }
 
         Connections {
