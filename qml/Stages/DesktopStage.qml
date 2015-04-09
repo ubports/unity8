@@ -35,7 +35,7 @@ FocusScope {
     onAltTabPressedChanged: {
         print("Alt+Tab pressed:", altTabPressed)
         if (altTabPressed) {
-            appRepeater.highlightedIndex = 1;
+            appRepeater.highlightedIndex = Math.min(ApplicationManager.count - 1, 1);
         } else {
             print("focusing app", appRepeater.highlightedIndex)
             ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
@@ -292,6 +292,47 @@ FocusScope {
         }
     }
 
+    Rectangle {
+        id: workspaceSelector
+        anchors {
+            left: parent.left
+            top: parent.top
+            right: parent.right
+        }
+        height: root.height / 3
+        color: "#55000000"
+        opacity: 0
+
+        RowLayout {
+            anchors {
+                fill: parent
+                topMargin: units.gu(9)
+                bottomMargin: units.gu(5)
+            }
+            spacing: units.gu(5)
+            Item { Layout.fillWidth: true }
+            Repeater {
+                model: 2 // TODO: should be workspacemodel
+                Image {
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: height * root.width / root.height
+                    source: root.background
+                }
+            }
+            Rectangle {
+                Layout.fillHeight: true
+                Layout.preferredWidth: height * root.width / root.height
+                color: "#22ffffff"
+                Label {
+                    anchors.centerIn: parent
+                    font.pixelSize: parent.height / 2
+                    text: "+"
+                }
+            }
+            Item { Layout.fillWidth: true }
+        }
+    }
+
     Label {
         anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1) }
         text: "Progress: " + (spreadFlickable.contentX / (spreadFlickable.contentWidth -  spreadFlickable.width)).toFixed(3) +
@@ -311,6 +352,7 @@ FocusScope {
         State {
             name: "altTab"; when: root.altTabPressed
             PropertyChanges { target: spreadFlickable; visible: true }
+            PropertyChanges { target: workspaceSelector; opacity: 1 }
         }
     ]
     transitions: [
@@ -318,6 +360,13 @@ FocusScope {
             from: "*"
             to: "altTab"
             PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
+            PropertyAnimation { property: "opacity" }
+        },
+        Transition {
+            from: "*"
+            to: "*"
+            PropertyAnimation { property: "opacity" }
         }
+
     ]
 }
