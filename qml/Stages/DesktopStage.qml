@@ -38,7 +38,7 @@ FocusScope {
             appRepeater.highlightedIndex = 1;
         } else {
             print("focusing app", appRepeater.highlightedIndex)
-            ApplicationManager.focusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
+            ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
         }
     }
 
@@ -46,7 +46,7 @@ FocusScope {
         if (root.altTabPressed) {
             print("should tab next")
             appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count;
-            var newContentX = spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3));
+            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3));
             if (spreadFlickable.contentX < newContentX || appRepeater.highlightedIndex == 0) {
                 spreadFlickable.snapTo(newContentX)
             }
@@ -58,7 +58,7 @@ FocusScope {
         if (root.altTabPressed) {
             var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
             appRepeater.highlightedIndex = newIndex;
-            var newContentX = spreadFlickable.width / 5 * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1));
+            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1));
             if (spreadFlickable.contentX > newContentX || newIndex == ApplicationManager.count -1) {
                 spreadFlickable.snapTo(newContentX)
             }
@@ -157,7 +157,7 @@ FocusScope {
                         name: "altTab"; when: root.state == "altTab"
                         PropertyChanges {
                             target: appDelegate
-                            x: spreadMaths.animatedX
+                            x: spreadMaths.newX
                             y: spreadMaths.animatedY
                             angle: spreadMaths.animatedAngle
                             itemScale: spreadMaths.scale
@@ -218,7 +218,7 @@ FocusScope {
 
                     onFocusChanged: {
                         if (focus) {
-                            ApplicationManager.requestFocusApplication(model.appId);
+                            ApplicationManager.focusApplication(model.appId);
                         }
                     }
 
