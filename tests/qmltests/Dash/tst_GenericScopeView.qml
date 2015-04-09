@@ -206,7 +206,7 @@ Item {
                 var header = findChild(genericScopeView, "dashSectionHeader1");
 
                 spy.target = genericScopeView.scope;
-                spy.signalName = "performQuery";
+                spy.signalName = "queryPerformed";
 
                 mouseClick(header);
 
