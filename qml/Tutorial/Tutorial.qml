@@ -27,8 +27,6 @@ Item {
 
     property Item launcher
     property Item panel
-    property Item stages
-    property Item overlay
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
     readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
@@ -77,18 +75,6 @@ Item {
             target: loader.item
             property: "panel"
             value: root.panel
-        }
-
-        Binding {
-            target: loader.item
-            property: "stages"
-            value: root.stages
-        }
-
-        Binding {
-            target: loader.item
-            property: "overlay"
-            value: root.overlay
         }
 
         Connections {

@@ -988,6 +988,11 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
             compare(wizard.shown, false);
             compare(tutorial.running, false);
+            tryCompare(AccountsService, "demoEdges", false);
+            tryCompare(Wizard.System, "wizardEnabled", false);
+
+            var tutorialLeft = findChild(tutorial, "tutorialLeft");
+            compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {

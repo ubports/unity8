@@ -283,6 +283,31 @@ Item {
                 value: shell.background
             }
         }
+
+        Tutorial {
+            id: tutorial
+            objectName: "tutorial"
+            anchors.fill: parent
+            active: AccountsService.demoEdges
+            paused: LightDM.Greeter.active
+            launcher: launcher
+            panel: panel
+            edgeSize: shell.edgeSize
+
+            // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
+            // we'll tell the tutorial to avoid using them on the Desktop.  The
+            // Desktop doesn't use the same spread design anyway.  The tutorial is
+            // all a bit of a placeholder on non-phone form factors right now.
+            // When the design team gives us more guidance, we can do something
+            // more clever here.
+            // TODO: use DeviceConfiguration instead of checking source
+            useEdgeDragArea: applicationsDisplayLoader.source != Qt.resolvedUrl("Stages/DesktopStage.qml")
+
+            onFinished: {
+                AccountsService.demoEdges = false;
+                active = false; // for immediate response / if AS is having problems
+            }
+        }
     }
 
     InputMethod {
@@ -577,32 +602,6 @@ Item {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
-        }
-    }
-
-    Tutorial {
-        id: tutorial
-        objectName: "tutorial"
-        active: AccountsService.demoEdges
-        paused: LightDM.Greeter.active
-        launcher: launcher
-        panel: panel
-        stages: stages
-        overlay: overlay
-        edgeSize: shell.edgeSize
-
-        // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
-        // we'll tell the tutorial to avoid using them on the Desktop.  The
-        // Desktop doesn't use the same spread design anyway.  The tutorial is
-        // all a bit of a placeholder on non-phone form factors right now.
-        // When the design team gives us more guidance, we can do something
-        // more clever here.
-        // TODO: use DeviceConfiguration instead of checking source
-        useEdgeDragArea: applicationsDisplayLoader.source != Qt.resolvedUrl("Stages/DesktopStage.qml")
-
-        onFinished: {
-            AccountsService.demoEdges = false;
-            active = false; // for immediate response / if AS is having problems
         }
     }
 
