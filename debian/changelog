@@ -1,19 +1,55 @@
-unity8 (8.02+15.04.20150320-0ubuntu1) vivid; urgency=medium
+unity8 (8.02+15.04.20150409.1-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
-  * Fix regression making pan not possible in Zoomable Image (LP:
-    #1433506)
-  * Make sure m_firstVisibleIndex is correctly set after processing
-    changeSet.removes (LP: #1433056)
-  * make pot_file
+  * Focus the shutdown dialog (LP: #1417991)
+  * Make url-dispatching scope activation when the dash is not on the
+    main scopes (LP: #1364306)
+  * We use autopilot3 now
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk. added: po/or.po
 
   [ Daniel d'Andrada ]
-  * Don't show the rotating rect in "make tryFoo".
+  * Make tst_PreviewListView and tst_GenericScopeView work in out-of-
+    source builds
+  * MouseArea that shows the indicators panel should cover the
+    indicators bar only (LP: #1439318)
+  * Surface gets active focus also with mouse clicks
+
+  [ Josh Arenson ]
+  * Add a mode option to unity8 for selecting greeter mode in the future
+  * Remove PkgConfig include from Launcher plugin to fix cross-compile
+    (LP: #1437702)
+
+  [ Leo Arias ]
+  * Fixed the check for string in the lock screen test. (LP: #1434518)
+
+  [ Michael Terry ]
+  * Make sure the edge tutorial is destroyed when we receive a call
+    during the wizard. (LP: #1436349)
+  * Skip parts of the edge tutorial that require a touch device (like
+    spread and bottom edge). (LP: #1434712)
 
   [ Michael Zanetti ]
-  * make pinlockscreen adjust better to larger displays
+  * Don't hide stages just because they're empty (LP: #1439615)
+  * [Launcher] fix bug where an item would disappear even though the app
+    is running (LP: #1438172)
 
- -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 20 Mar 2015 11:56:41 +0000
+  [ Nick Dedekind ]
+  * Fixed autopilot test failures related to udev input failure for
+    power button.
+  * Made improvements for laggy indicator backends (lp#1390136). (LP:
+    #1390136)
+
+  [ Pete Woods ]
+  * GPS only goes active when the Dash is in the foreground (LP:
+    #1434379)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Modified the wrong time format in ScreenGrabber (LP: #1436006)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 09 Apr 2015 14:01:11 +0000
 
 unity8 (8.02+15.04.20150318-0ubuntu1) vivid; urgency=medium
 
