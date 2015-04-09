@@ -1084,11 +1084,11 @@ Rectangle {
             {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
                 var startPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.8,
-                        buttonShowDashHome.height * 0.2);
-                var endPos = buttonShowDashHome.mapToItem(shell,
                         buttonShowDashHome.width * 0.2,
                         buttonShowDashHome.height * 0.8);
+                var endPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.height * 0.2);
                 touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
             }
 
