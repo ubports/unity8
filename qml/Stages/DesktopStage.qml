@@ -157,7 +157,7 @@ FocusScope {
                         name: "altTab"; when: root.state == "altTab"
                         PropertyChanges {
                             target: appDelegate
-                            x: spreadMaths.newX
+                            x: spreadMaths.animatedX
                             y: spreadMaths.animatedY
                             angle: spreadMaths.animatedAngle
                             itemScale: spreadMaths.scale
