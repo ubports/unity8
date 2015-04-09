@@ -230,7 +230,7 @@ Item {
             compare(loader.item.value, data.manualValue, "Slider value does not match manual set value");
 
             menuData.actionState = data.value2;
-            compare(loader.item.value, data.value2, "Value does not match new data");
+            tryCompare(loader.item, "value", data.value2, 10000, "Value does not match new data");
 
             menuData.actionState = undefined;
             compare(loader.item.value, data.value2, "Undefined state should not update slider value");
@@ -818,6 +818,10 @@ Item {
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
+
+            var sync = findInvisibleChild(loader.item, "sync");
+            verify(sync);
+            sync.syncTimeout = 500;
 
             compare(loader.item.checked, false, "Loader did not load check state");
             mouseClick(loader.item,

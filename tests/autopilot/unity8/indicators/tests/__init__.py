@@ -27,6 +27,13 @@ class IndicatorTestCase(tests.UnityTestCase):
     device_emulation_scenarios = tests._get_device_emulation_scenarios()
 
     def setUp(self):
+        super().setUp()
+        self.unity_proxy = self.launch_unity()
+        process_helpers.unlock_unity(self.unity_proxy)
+
+class DeviceIndicatorTestCase(IndicatorTestCase):
+
+    def setUp(self):
         if platform.model() == 'Desktop':
             self.skipTest('Test cannot be run on the desktop.')
         super().setUp()
