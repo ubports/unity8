@@ -26,6 +26,7 @@
 #include "plugin.h"
 
 // local
+#include "inputwatcher.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
 #include "relativetimeformatter.h"
@@ -55,6 +56,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
+    qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
