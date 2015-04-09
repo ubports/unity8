@@ -49,6 +49,15 @@ QVariant AccountsServiceDBusAdaptor::getUserProperty(const QString &user, const 
     return QVariant();
 }
 
+QDBusPendingReply<QDBusVariant> AccountsServiceDBusAdaptor::getUserPropertyAsync(const QString &user, const QString &interface, const QString &property)
+{
+    QDBusInterface *iface = getUserInterface(user);
+    if (iface != nullptr && iface->isValid()) {
+        return iface->asyncCall("Get", interface, property);
+    }
+    return QDBusPendingReply<QVariant>();
+}
+
 void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
 {
     QDBusInterface *iface = getUserInterface(user);
