@@ -55,7 +55,7 @@ QDBusPendingReply<QDBusVariant> AccountsServiceDBusAdaptor::getUserPropertyAsync
     if (iface != nullptr && iface->isValid()) {
         return iface->asyncCall("Get", interface, property);
     }
-    return QDBusPendingReply<QVariant>();
+    return QDBusPendingReply<QVariant>(QDBusMessage::createError(QDBusError::Other, "Invalid Interface"));
 }
 
 void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
@@ -67,13 +67,14 @@ void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QStr
     }
 }
 
-void AccountsServiceDBusAdaptor::setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value)
+QDBusPendingCall AccountsServiceDBusAdaptor::setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value)
 {
     QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
         // The value needs to be carefully wrapped
-        iface->asyncCall("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
+        return iface->asyncCall("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
     }
+    return QDBusPendingCall::fromCompletedCall(QDBusMessage::createError(QDBusError::Other, "Invalid Interface"));
 }
 
 void AccountsServiceDBusAdaptor::propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid)

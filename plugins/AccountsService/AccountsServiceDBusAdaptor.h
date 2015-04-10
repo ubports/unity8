@@ -47,7 +47,7 @@ public:
     }
 
     Q_INVOKABLE void setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value);
-    Q_INVOKABLE void setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
+    Q_INVOKABLE QDBusPendingCall setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
 
 Q_SIGNALS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
