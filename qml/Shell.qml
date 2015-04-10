@@ -233,8 +233,8 @@ Item {
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
             property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
-                        : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            property string stageSource: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml": tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+            source: shellMode != "greeter" ? stageSource : "Stages/ShimStage.qml"
 
             property bool interactive: tutorial.spreadEnabled
                     && !greeter.shown
