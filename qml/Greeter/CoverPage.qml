@@ -129,6 +129,7 @@ Showable {
 
     DragHandle {
         id: dragHandle
+        objectName: "coverPageDragHandle"
         anchors.fill: parent
         anchors.leftMargin: root.dragHandleLeftMargin
         enabled: root.draggable

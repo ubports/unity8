@@ -403,11 +403,8 @@ TestCase {
     function removeTimeConstraintsFromDirectionalDragAreas(item) {
 
         // use duck-typing to identify a DirectionalDragArea
-        if (item.minSpeed != undefined
-                && item.maxSilenceTime != undefined
-                && item.compositionTime != undefined) {
-            item.minSpeed = 0;
-            item.maxSilenceTime = 60 * 60 * 1000;
+        if (item.maxTime != undefined && item.compositionTime != undefined) {
+            item.maxTime = 60 * 60 * 1000;
             item.compositionTime = 0;
         } else {
             for (var i in item.children) {

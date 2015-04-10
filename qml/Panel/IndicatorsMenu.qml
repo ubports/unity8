@@ -182,9 +182,18 @@ Showable {
         enabled: !root.shown && root.available
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
-        distanceThreshold: enableHint ? 0 : minimizedPanelHeight
 
-        onTapped: showTapped(Qt.point(touchSceneX, touchSceneY));
+        onDraggingChanged: {
+            if (dragging) {
+                touchPressTime = new Date().getTime();
+            } else {
+                var touchReleaseTime = new Date().getTime();
+                if (touchReleaseTime - touchPressTime <= 300) {
+                    root.showTapped(Qt.point(touchSceneX, touchSceneY));
+                }
+            }
+        }
+        property var touchPressTime
 
         // using hint regulates minimum to hint displacement, but in fullscreen mode, we need to do it manually.
         overrideStartValue: enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height
@@ -200,6 +209,7 @@ Showable {
 
     DragHandle {
         id: __hideDragHandle
+        objectName: "hideDragHandle"
         anchors.fill: handle
         direction: Direction.Upwards
         enabled: root.shown && root.available
