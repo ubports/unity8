@@ -126,7 +126,9 @@ bool AccountsService::hereLicensePathValid() const
 
 void AccountsService::updateDemoEdges(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.canonical.unity.AccountsService", "demo-edges");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.canonical.unity.AccountsService",
+                                                                    "demo-edges");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -151,7 +153,9 @@ void AccountsService::updateDemoEdges(bool async)
 
 void AccountsService::updateEnableLauncherWhileLocked(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableLauncherWhileLocked");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                                    "EnableLauncherWhileLocked");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -176,7 +180,9 @@ void AccountsService::updateEnableLauncherWhileLocked(bool async)
 
 void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableIndicatorsWhileLocked");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                                    "EnableIndicatorsWhileLocked");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -201,7 +207,9 @@ void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
 
 void AccountsService::updateBackgroundFile(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "org.freedesktop.Accounts.User", "BackgroundFile");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "org.freedesktop.Accounts.User",
+                                                                    "BackgroundFile");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -226,7 +234,9 @@ void AccountsService::updateBackgroundFile(bool async)
 
 void AccountsService::updateStatsWelcomeScreen(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.touch.AccountsService.SecurityPrivacy",
+                                                                    "StatsWelcomeScreen");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -251,7 +261,9 @@ void AccountsService::updateStatsWelcomeScreen(bool async)
 
 void AccountsService::updatePasswordDisplayHint(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.touch.AccountsService.SecurityPrivacy",
+                                                                    "StatsWelcomeScreen");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -276,7 +288,9 @@ void AccountsService::updatePasswordDisplayHint(bool async)
 
 void AccountsService::updateFailedLogins(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.canonical.unity.AccountsService.Private",
+                                                                    "FailedLogins");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -301,7 +315,9 @@ void AccountsService::updateFailedLogins(bool async)
 
 void AccountsService::updateHereEnabled(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.location.providers.here.AccountsService",
+                                                                    "LicenseAccepted");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -326,7 +342,9 @@ void AccountsService::updateHereEnabled(bool async)
 
 void AccountsService::updateHereLicensePath(bool async)
 {
-    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseBasePath");
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.location.providers.here.AccountsService",
+                                                                    "LicenseBasePath");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
