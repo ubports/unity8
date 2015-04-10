@@ -8,43 +8,43 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-03-19 16:03+0100\n"
-"PO-Revision-Date: 2015-03-08 04:40+0000\n"
+"PO-Revision-Date: 2015-04-10 03:18+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-03-25 06:05+0000\n"
+"X-Launchpad-Export-Date: 2015-04-10 05:14+0000\n"
 "X-Generator: Launchpad (build 17413)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/LightDM/Greeter.cpp:130
 msgid "Password: "
 msgstr "گذرواژه: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Pin shortcut"
 msgstr "سنجاق کردن میانبر"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:91
 msgid "Unpin shortcut"
 msgstr "برداشتن سنجاق میانبر"
 
-#: qml/Components/DelayedLockscreen.qml:49
+#: qml/Components/DelayedLockscreen.qml:47
 msgid "Device Locked"
 msgstr "دستگاه قفل شد"
 
-#: qml/Components/DelayedLockscreen.qml:64
+#: qml/Components/DelayedLockscreen.qml:62
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "شما به دلیل تلاش‌های بسیار زیاد شکست خورده برای عبارت‌عبور قفل شده‌اید."
 
-#: qml/Components/DelayedLockscreen.qml:65
+#: qml/Components/DelayedLockscreen.qml:63
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "شما به دلیل تلاش‌های بسیار زیاد شکست خورده برای رمزعبور قفل شده‌اید."
 
-#: qml/Components/DelayedLockscreen.qml:74
+#: qml/Components/DelayedLockscreen.qml:72
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -53,23 +53,22 @@ msgstr[0] "لطفاُ %1 دقیقه صبر نموده و سپس مجدّداً �
 #: qml/Components/Dialogs.qml:67
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "خروج از حساب"
 
-#: qml/Components/Dialogs.qml:68
+#: qml/Components/Dialogs.qml:75
 msgid "Are you sure you want to log out?"
 msgstr "مطمئنید که می‌خواهید از حساب خارج شوید"
 
 #: qml/Components/Dialogs.qml:70
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "قفل"
 
 #: qml/Components/Dialogs.qml:77
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
 #: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr "لغو"
@@ -77,45 +76,47 @@ msgstr "لغو"
 #: qml/Components/Dialogs.qml:96
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "خاموش کردن"
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "مطمئنید که می‌خواهید خاموش کنید؟"
 
 #: qml/Components/Dialogs.qml:99
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "راه‌اندازی دوباره"
 
 #: qml/Components/Dialogs.qml:107
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "خاموش"
 
 #: qml/Components/Dialogs.qml:127
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "راه‌اندازی دوباره"
 
-#: qml/Components/Dialogs.qml:128
+#: qml/Components/Dialogs.qml:124
 msgid "Are you sure you want to reboot?"
 msgstr "مطمئنید که می‌خواهید مجدّداً راه‌اندازی کنسد؟"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:126
 msgid "No"
 msgstr "خیر"
 
-#: qml/Components/Dialogs.qml:136
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:133
 msgid "Yes"
 msgstr "بله"
 
 #: qml/Components/Dialogs.qml:150
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "انرژی"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:149
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -126,58 +127,58 @@ msgstr ""
 #: qml/Components/Dialogs.qml:153
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "خاموش کردن"
 
 #: qml/Components/Dialogs.qml:162
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "راه‌اندازی دوباره"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Return to Call"
 msgstr "بازگشت به تماس"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:223
 msgid "Emergency Call"
 msgstr "تماس اضطراری"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:255
 msgid "OK"
 msgstr "قبول"
 
-#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
+#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
 msgid "See less"
 msgstr "کم‌تر ببینید"
 
-#: qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:434
 msgid "See all"
 msgstr "دیدن همه"
 
 #: qml/Dash/GenericScopeView.qml:595
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "جست‌وجو"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "ذخیره"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "جست‌وجو"
 
 #: qml/Dash/PageHeader.qml:286
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "تنظیمات"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Remove from Favorites"
 msgstr "برداشتن از برگزیده‌ها"
 
-#: qml/Dash/PageHeader.qml:293
+#: qml/Dash/PageHeader.qml:285
 msgid "Add to Favorites"
 msgstr "افزودن به برگزیده‌ها"
 
@@ -213,19 +214,19 @@ msgstr "برای تازه‌سازی رها کنید…"
 msgid "Enable location data"
 msgstr "فعّال کردن داده‌های موقعیّت"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:63
 msgid "Manage"
 msgstr "مدیریت"
 
-#: qml/Dash/ScopesList.qml:112
+#: qml/Dash/ScopesList.qml:107
 msgid "Home"
 msgstr "خانه"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:108
 msgid "Also installed"
 msgstr "هم‌چنین نصب شده"
 
-#: qml/Greeter/CoverPage.qml:107
+#: qml/Greeter/Greeter.qml:174
 msgid "Unlock"
 msgstr "بازکردن قفل"
 
@@ -237,19 +238,19 @@ msgstr "تلاش دوباره"
 msgid "Tap to unlock"
 msgstr "برای باز کردن قفل ضربه بزنید"
 
-#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Shell.qml:444
 msgid "Sorry, incorrect passphrase."
 msgstr "متأسّفیم، عبارت‌عبور نادرست است."
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Shell.qml:445
 msgid "Sorry, incorrect passcode."
 msgstr "متأسّفیم، رمزعبور نادرست است."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Shell.qml:446
 msgid "This will be your last attempt."
 msgstr "این آخرین تلاش شما خواهد بود."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Shell.qml:448
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -257,7 +258,7 @@ msgstr ""
 "اگر عبارت‌عبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
 "اطّلاعات شخصی حذف خواهند شد."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Shell.qml:449
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -265,33 +266,33 @@ msgstr ""
 "اگر رمزعبور نادرست وارد شود، تلفن شما بازنشانی کارخانه خواهد شد و تمامی "
 "اطّلاعات شخصی حذف خواهند شد."
 
-#: qml/Greeter/NarrowView.qml:115
+#: qml/Shell.qml:402
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 را وارد کنید"
 
-#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Shell.qml:394
 msgid "Enter passphrase"
 msgstr "عبارت‌عبور را وارد کنید"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Shell.qml:398
 msgid "Enter passcode"
 msgstr "رمزعبور را وارد کنید"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Shell.qml:403
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "متأسّفیم، %1 نادرست بود"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Shell.qml:395
 msgid "Sorry, incorrect passphrase"
 msgstr "متأسّفیم، عبارت‌عبور نادرست بود"
 
-#: qml/Greeter/NarrowView.qml:120
+#: qml/Shell.qml:396
 msgid "Please re-enter"
 msgstr "لطفاً دوباره وارد کنید"
 
-#: qml/Greeter/NarrowView.qml:121
+#: qml/Shell.qml:399
 msgid "Sorry, incorrect passcode"
 msgstr "متأسّفیم، رمزعبور نادرست بود"
 
@@ -338,7 +339,7 @@ msgstr "شکست خورد، برای تلاش دوباره ضربه بزنید"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "پاسخ دادن"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -403,7 +404,7 @@ msgstr "همه‌ی وظایف در حال اجرایتان را ببینید."
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "بازگشت"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -448,32 +449,32 @@ msgstr "لطفاً برگزینید که می‌خواهید چگونه قفل �
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "لغزش"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "هیچ امنیتی نیست"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "رمزعبور"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "فقط ۴ رقم"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "عبارت‌عبور"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "اعداد و حروف"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
