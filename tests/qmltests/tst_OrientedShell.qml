@@ -262,6 +262,25 @@ Rectangle {
                     app.fullscreen = !app.fullscreen;
                 }
             }
+            RowLayout {
+                Layout.fillWidth: true
+                CheckBox {
+                    checked: false
+                    activeFocusOnPress: false
+                    onCheckedChanged: {
+                        var surface = SurfaceManager.inputMethodSurface();
+                        if (checked) {
+                            surface.setState(MirSurfaceItem.Restored);
+                        } else {
+                            surface.setState(MirSurfaceItem.Minimized);
+                        }
+                    }
+                }
+                Label {
+                    text: "Input Method"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
         }
     }
 

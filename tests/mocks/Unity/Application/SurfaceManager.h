@@ -46,10 +46,6 @@ Q_SIGNALS:
     void surfaceCreated(MirSurfaceItem *surface);
     void surfaceDestroyed(MirSurfaceItem *surface);
 
-private Q_SLOTS:
-    void showInputMethod();
-    void hideInputMethod();
-
 private:
     static SurfaceManager *the_surface_manager;
     VirtualKeyboard *m_virtualKeyboard;

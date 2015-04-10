@@ -42,6 +42,8 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_orientationAngle(Angle0)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
+    , m_touchPressCount(0)
+    , m_touchReleaseCount(0)
 {
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
@@ -167,5 +169,16 @@ void MirSurfaceItem::createQmlContentItem()
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
+    }
+}
+
+void MirSurfaceItem::touchEvent(QTouchEvent * event)
+{
+    if (event->touchPointStates() & Qt::TouchPointPressed) {
+        ++m_touchPressCount;
+        Q_EMIT touchPressCountChanged(m_touchPressCount);
+    } else if (event->touchPointStates() & Qt::TouchPointReleased) {
+        ++m_touchReleaseCount;
+        Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
     }
 }

@@ -103,7 +103,6 @@ int main(int argc, const char *argv[])
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
     if (parser.hasMouseToTouch()) {
         mouseTouchAdaptor = MouseTouchAdaptor::instance();
-        application->installNativeEventFilter(mouseTouchAdaptor);
     }
 
     QUrl source(::qmlDirectory()+"OrientedShell.qml");

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Unity.Application 0.1
 
 Item {
     implicitWidth: units.gu(40)
@@ -37,4 +38,9 @@ Item {
             anchors.fill: parent
         }
     }
+
+    Binding { target: UbuntuKeyboardInfo; property: "x"; value: screenshotImage.x}
+    Binding { target: UbuntuKeyboardInfo; property: "y"; value: screenshotImage.y}
+    Binding { target: UbuntuKeyboardInfo; property: "width"; value: screenshotImage.width}
+    Binding { target: UbuntuKeyboardInfo; property: "height"; value: screenshotImage.height}
 }

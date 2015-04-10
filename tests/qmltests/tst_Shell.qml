@@ -1,9 +1,6 @@
 /*
  * Copyright (C) 2013-2015 Canonical, Ltd.
  *
- * Authors:
- *   Daniel d'Andrada <daniel.dandrada@canonical.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -47,9 +44,6 @@ Rectangle {
         LightDM.Users.mockMode = "single";
         shellLoader.active = true;
     }
-
-    width:  shellLoader.width + controlsRect.width
-    height: shellLoader.height
 
     Item {
         anchors.left: root.left
@@ -772,37 +766,6 @@ Rectangle {
             // DirectionalDragAreas in there won't be easily fooled by
             // fake swipes.
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
-        }
-
-        function test_greeterDoesNotChangeIndicatorProfile() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            var panel = findChild(shell, "panel");
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-
-            showGreeter();
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-
-            LightDM.Greeter.hideGreeter();
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-        }
-
-        function test_shellProfileChangesReachIndicators() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            var panel = findChild(shell, "panel");
-
-            shell.indicatorProfile = "test1";
-            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
-                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
-                verify(properties["menuObjectPath"].substr(-5), "test1");
-            }
-
-            shell.indicatorProfile = "test2";
-            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
-                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
-                verify(properties["menuObjectPath"].substr(-5), "test2");
-            }
         }
 
         function test_focusRequestedHidesGreeter() {
