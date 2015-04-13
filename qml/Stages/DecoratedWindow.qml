@@ -31,9 +31,33 @@ FocusScope {
     property bool highlightShown: false
     property real highlightScale: 1
 
+    property int transformedWidth: width
+    property int transformedHeight: height
+
     signal close();
     signal maximize();
     signal minimize();
+
+    state: "normal"
+    states: [
+        State {
+            name: "normal"
+            PropertyChanges {
+                target: applicationWindow
+            }
+        },
+        State {
+            name: "transformed"
+            PropertyChanges {
+                target: applicationWindow
+                itemScale: root.transformedWidth / root.width / root.highlightScale
+            }
+            PropertyChanges {
+                target: clipper
+                clip: true
+            }
+        }
+    ]
 
     BorderImage {
         anchors {
@@ -72,12 +96,29 @@ FocusScope {
         visible: decorationShown
     }
 
-    ApplicationWindow {
-        id: applicationWindow
-        objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+    Item {
+        id: clipper
         anchors.fill: parent
-        anchors.topMargin: root.decorationShown ? decoration.height : 0
-        interactive: true
-        focus: true
+
+        ApplicationWindow {
+            id: applicationWindow
+            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+            anchors.top: parent.top
+            anchors.topMargin: root.decorationShown ? decoration.height : 0
+            anchors.left: parent.left
+            width: parent.width
+            height: parent.height - (root.decorationShown ? decoration.height : 0)
+            interactive: true
+            focus: true
+
+            property real itemsScale: 1
+            transform: [
+                Scale {
+                    origin.x: 0; origin.y: 0
+                    xScale: applicationWindow.itemScale
+                    yScale: applicationWindow.itemScale
+                }
+            ]
+        }
     }
 }

@@ -168,6 +168,7 @@ FocusScope {
                             target: decoratedWindow
                             decorationShown: false
                             highlightShown: index == appRepeater.highlightedIndex
+                            state: "transformed"
                         }
                         PropertyChanges {
                             target: tileInfo
