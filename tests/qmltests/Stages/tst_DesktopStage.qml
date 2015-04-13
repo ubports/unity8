@@ -26,9 +26,9 @@ import "../../../qml/Stages"
 
 Rectangle {
     id: root
-    color: "grey"
-    width:  units.gu(160)
-    height:  units.gu(80)
+    color: "darkblue"
+    width:  desktopStageLoader.width + controls.width
+    height: desktopStageLoader.height
 
     Binding {
         target: MouseTouchAdaptor
@@ -45,47 +45,44 @@ Rectangle {
         }
     }
 
-    Row {
-        anchors.fill: parent
+    Loader {
+        id: desktopStageLoader
+        x: ((root.width - controls.width) - width) / 2
+        y: (root.height - height) / 2
+        width: units.gu(160*0.9)
+        height: units.gu(100*0.9)
 
-        Loader {
-            id: desktopStageLoader
-            focus: true
+        focus: true
 
-            width: parent.width - controls.width
-            height: parent.height
-
-            property bool itemDestroyed: false
-            sourceComponent: Component {
-                DesktopStage {
-                    anchors.fill: parent
-                    Component.onDestruction: {
-                        desktopStageLoader.itemDestroyed = true;
-                    }
-                    focus: true
+        property bool itemDestroyed: false
+        sourceComponent: Component {
+            DesktopStage {
+                anchors.fill: parent
+                Component.onDestruction: {
+                    desktopStageLoader.itemDestroyed = true;
                 }
+                focus: true
             }
         }
+    }
 
-        Rectangle {
-            id: controls
-            color: "darkgrey"
-            width: units.gu(30)
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-            }
+    Rectangle {
+        id: controls
+        color: "darkgrey"
+        width: units.gu(30)
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            right: parent.right
+        }
 
-            Column {
-                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-                spacing: units.gu(1)
-
-                Repeater {
-                    id: appRepeater
-                    model: ApplicationManager.availableApplications
-                    ApplicationCheckBox {
-                        appId: modelData
-                    }
+        Column {
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+            spacing: units.gu(1)
+            Repeater {
+                model: ApplicationManager.availableApplications
+                ApplicationCheckBox {
+                    appId: modelData
                 }
             }
         }
@@ -99,8 +96,6 @@ Rectangle {
         property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
 
         function init() {
-            desktopStageLoader.active = true;
-            tryCompare(desktopStageLoader, "status", Loader.Ready);
         }
 
         function cleanup() {

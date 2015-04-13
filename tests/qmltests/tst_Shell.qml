@@ -34,6 +34,7 @@ import Powerd 0.1
 import Wizard 0.1 as Wizard
 
 import "../../qml"
+import "Stages"
 
 Rectangle {
     id: root
@@ -102,19 +103,6 @@ Rectangle {
                             GSettingsController.setUsageMode("com.canonical.Unity8", "Staged")
                         }
                     }
-                },
-                State {
-                    name: "desktop"
-                    PropertyChanges {
-                        target: shellLoader
-                        width: units.gu(100)
-                        height: units.gu(71)
-                    }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("com.canonical.Unity8", "Windowed")
-                        }
-                    }
                 }
             ]
 
@@ -143,19 +131,16 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
-                Button {
-                    text: "Show Greeter"
-                    activeFocusOnPress: false
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return;
+            Button {
+                text: "Show Greeter"
+                activeFocusOnPress: false
+                onClicked: {
+                    if (shellLoader.status !== Loader.Ready)
+                        return;
 
-                        var greeter = testCase.findChild(shellLoader.item, "greeter");
-                        if (!greeter.shown) {
-                            LightDM.Greeter.showGreeter();
-                        }
+                    var greeter = testCase.findChild(shellLoader.item, "greeter");
+                    if (!greeter.shown) {
+                        LightDM.Greeter.showGreeter();
                     }
                 }
             }
@@ -175,13 +160,32 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Size"
-                model: ["phone", "tablet", "desktop"]
+                model: ["phone", "tablet"]
                 onSelectedIndexChanged: {
                     shellLoader.active = false;
                     shellLoader.state = model[selectedIndex];
                     shellLoader.active = true;
                 }
-                MouseTouchEmulationCheckbox { color: "white" }
+            }
+            MouseTouchEmulationCheckbox {
+                id: mouseEmulation
+                checked: true
+                color: "white"
+            }
+
+            Column {
+                anchors { left: parent.left; right: parent.right }
+                spacing: units.gu(1)
+
+                Label { text: "Applications"; font.bold: true }
+
+                Repeater {
+                    id: appRepeater
+                    model: ApplicationManager.availableApplications
+                    ApplicationCheckBox {
+                        appId: modelData
+                    }
+                }
             }
         }
     }
@@ -260,6 +264,7 @@ Rectangle {
         }
 
         function cleanup() {
+            mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
         }
@@ -1144,8 +1149,7 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             AccountsService.backgroundFile = data.accounts;
-            var backgroundSettings = findInvisibleChild(shell, "backgroundSettings");
-            backgroundSettings.pictureUri = data.gsettings;
+            GSettingsController.setPictureUri("org.gnome.desktop.background", data.gsettings);
 
             if (data.output === "defaultBackground") {
                 tryCompare(shell, "background", shell.defaultBackground);
@@ -1201,6 +1205,19 @@ Rectangle {
                 var passwordInput = findChild(greeter, "passwordInput")
                 tryCompare(passwordInput, "focus", true)
             }
+        }
+
+        function test_stageLoader_data() {
+            return [
+                {tag: "phone", source: "Stages/PhoneStage.qml"},
+                {tag: "tablet", source: "Stages/TabletStage.qml"}
+            ]
+        }
+
+        function test_stageLoader(data) {
+            loadShell(data.tag);
+            var stageLoader = findChild(shell, "applicationsDisplayLoader");
+            verify(String(stageLoader.source).indexOf(data.source) >= 0);
         }
     }
 }

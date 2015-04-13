@@ -24,7 +24,6 @@ import "../Components"
 
 Rectangle {
     id: root
-    objectName: "phoneShell"
 
     // Controls to be set from outside
     property int dragAreaWidth

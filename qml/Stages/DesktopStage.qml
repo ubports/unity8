@@ -23,7 +23,6 @@ import "../Components/PanelState"
 
 FocusScope {
     id: root
-    objectName: "desktopShell"
 
     anchors.fill: parent
 
