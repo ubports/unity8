@@ -393,7 +393,7 @@ void DirectionalDragAreaPrivate::touchEvent_absent(QTouchEvent *event)
         touchId = newTouchPoint->id();
         dampedScenePos.reset(startScenePos);
         setPublicPos(startPos);
-        
+
         setPublicScenePos(startScenePos);
         updateSceneDirectionVector();
 
@@ -697,7 +697,7 @@ bool DirectionalDragAreaPrivate::isWithinTouchCompositionWindow()
 
 void DirectionalDragArea::itemChange(ItemChange change, const ItemChangeData &value)
 {
-    if (change == QQuickItem::ItemSceneChange) { 
+    if (change == QQuickItem::ItemSceneChange) {
         if (value.window != nullptr) {
             // TODO: Handle window->screen() changes (ie window changing screens)
             qreal pixelsPerMm = value.window->screen()->physicalDotsPerInch() / 25.4;
