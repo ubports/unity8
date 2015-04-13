@@ -174,6 +174,10 @@ FocusScope {
                             visible: true
                             opacity: spreadMaths.tileInfoOpacity
                         }
+                        PropertyChanges {
+                            target: spreadSelectArea
+                            enabled: true
+                        }
                     }
                 ]
                 transitions: [
@@ -239,6 +243,17 @@ FocusScope {
                             angle: appDelegate.angle
                         }
                     ]
+
+                    MouseArea {
+                        id: spreadSelectArea
+                        anchors.fill: parent
+                        enabled: false
+                        onClicked: {
+                            print("clicked")
+                            appDelegate.focusWindow()
+                            root.state = ""
+                        }
+                    }
                 }
 
 
@@ -269,7 +284,7 @@ FocusScope {
         }
     }
 
-    Flickable {
+    SpreadFlickable {
         id: spreadFlickable
         anchors.fill: parent
         contentWidth: Math.max(6, ApplicationManager.count) * width / 5
@@ -359,7 +374,10 @@ FocusScope {
         Transition {
             from: "*"
             to: "altTab"
-            PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
+            PropertyAction { target: spreadFlickable; property: "contentX";
+                value: ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 3, 1));
+
+            }
             PropertyAnimation { property: "opacity" }
         },
         Transition {
@@ -369,4 +387,19 @@ FocusScope {
         }
 
     ]
+
+    MouseArea {
+         anchors {
+             top: parent.top
+             right: parent.right
+             bottom: parent.bottom
+         }
+         width: 1 // yes, we want 1 pixel, regardless of the scaling
+         hoverEnabled: true
+         onContainsMouseChanged: {
+             if (containsMouse) {
+                 root.state = "altTab"
+             }
+         }
+    }
 }
