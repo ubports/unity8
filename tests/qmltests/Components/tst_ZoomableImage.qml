@@ -182,6 +182,13 @@ Rectangle {
                 compare(flickable.contentWidth, Math.max(imageRenderer.width * image.scale, flickable.width));
                 compare(flickable.contentHeight, Math.max(imageRenderer.height * image.scale, flickable.height));
 
+                // try pan it a bit
+                var contentX = flickable.contentX;
+                var contentY = flickable.contentY;
+                touchFlick(zoomableImage, units.gu(1), units.gu(1), units.gu(10), units.gu(10));
+                tryCompare(flickable, "moving", false)
+                tryCompareFunction(function() { return flickable.contentX != contentX && flickable.contentY != contentY; }, zoomableImage.zoomable)
+
                 wait(3000); // have to delay between two consequent pinch event.
                 // pinch zoom-out
                 touchPinch(zoomableImage, x1End, y1End, x1Start, y1Start, x2End, y2End, x2Start, y2Start);

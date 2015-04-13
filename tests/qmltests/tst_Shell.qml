@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * Authors:
  *   Daniel d'Andrada <daniel.dandrada@canonical.com>
@@ -31,12 +31,14 @@ import Unity.Indicators 0.1
 import Unity.Notifications 1.0
 import Unity.Test 0.1
 import Powerd 0.1
+import Wizard 0.1 as Wizard
 
 import "../../qml"
 
-Item {
+Rectangle {
     id: root
-    width: units.gu(70)
+    color: "grey"
+    width: units.gu(100) + controls.width
     height: units.gu(71)
 
     Component.onCompleted: {
@@ -62,11 +64,59 @@ Item {
         }
     }
 
-    Row {
-        anchors.fill: parent
+    Item {
+        anchors.left: root.left
+        anchors.right: controls.left
+        anchors.top: root.top
+        anchors.bottom: root.bottom
         Loader {
             id: shellLoader
             focus: true
+
+            anchors.centerIn: parent
+
+            state: "phone"
+            states: [
+                State {
+                    name: "phone"
+                    PropertyChanges {
+                        target: shellLoader
+                        width: units.gu(40)
+                        height: units.gu(71)
+                    }
+                    StateChangeScript {
+                        script: {
+                            GSettingsController.setUsageMode("com.canonical.Unity8", "Staged")
+                        }
+                    }
+                },
+                State {
+                    name: "tablet"
+                    PropertyChanges {
+                        target: shellLoader
+                        width: units.gu(100)
+                        height: units.gu(71)
+                    }
+                    StateChangeScript {
+                        script: {
+                            GSettingsController.setUsageMode("com.canonical.Unity8", "Staged")
+                        }
+                    }
+                },
+                State {
+                    name: "desktop"
+                    PropertyChanges {
+                        target: shellLoader
+                        width: units.gu(100)
+                        height: units.gu(71)
+                    }
+                    StateChangeScript {
+                        script: {
+                            GSettingsController.setUsageMode("com.canonical.Unity8", "Windowed")
+                        }
+                    }
+                }
+            ]
 
             active: false
             property bool itemDestroyed: false
@@ -80,42 +130,56 @@ Item {
                 }
             }
         }
+    }
 
-        Rectangle {
-            color: "darkgrey"
-            width: units.gu(30)
-            height: shellLoader.height
+    Rectangle {
+        id: controls
+        color: "darkgrey"
+        width: units.gu(30)
+        anchors.top: root.top
+        anchors.bottom: root.bottom
+        anchors.right: root.right
 
-            Column {
-                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-                spacing: units.gu(1)
-                Row {
-                    anchors { left: parent.left; right: parent.right }
-                    Button {
-                        text: "Show Greeter"
-                        activeFocusOnPress: false
-                        onClicked: {
-                            if (shellLoader.status !== Loader.Ready)
-                                return;
+        Column {
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+            spacing: units.gu(1)
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                Button {
+                    text: "Show Greeter"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return;
 
-                            var greeter = testCase.findChild(shellLoader.item, "greeter");
-                            if (!greeter.shown) {
-                                LightDM.Greeter.showGreeter();
-                            }
+                        var greeter = testCase.findChild(shellLoader.item, "greeter");
+                        if (!greeter.shown) {
+                            LightDM.Greeter.showGreeter();
                         }
                     }
                 }
-                ListItem.ItemSelector {
-                    anchors { left: parent.left; right: parent.right }
-                    activeFocusOnPress: false
-                    text: "LightDM mock mode"
-                    model: ["single", "single-passphrase", "single-pin"]
-                    onSelectedIndexChanged: {
-                        shellLoader.active = false;
-                        LightDM.Greeter.mockMode = model[selectedIndex];
-                        LightDM.Users.mockMode = model[selectedIndex];
-                        shellLoader.active = true;
-                    }
+            }
+            ListItem.ItemSelector {
+                anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
+                text: "LightDM mock mode"
+                model: ["single", "single-passphrase", "single-pin", "full"]
+                onSelectedIndexChanged: {
+                    shellLoader.active = false;
+                    LightDM.Greeter.mockMode = model[selectedIndex];
+                    LightDM.Users.mockMode = model[selectedIndex];
+                    shellLoader.active = true;
+                }
+            }
+            ListItem.ItemSelector {
+                anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
+                text: "Size"
+                model: ["phone", "tablet", "desktop"]
+                onSelectedIndexChanged: {
+                    shellLoader.active = false;
+                    shellLoader.state = model[selectedIndex];
+                    shellLoader.active = true;
                 }
                 MouseTouchEmulationCheckbox { color: "white" }
             }
@@ -187,20 +251,49 @@ Item {
         property Item shell: shellLoader.status === Loader.Ready ? shellLoader.item : null
 
         function init() {
-            tryCompare(shell, "enabled", true); // enabled by greeter when ready
-            shell.indicatorProfile = "phone";
+            if (shellLoader.active) {
+                // happens for the very first test function as shell
+                // is loaded by default
+                tearDown();
+            }
 
-            swipeAwayGreeter();
+        }
+
+        function cleanup() {
+            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+            tearDown();
+        }
+
+        function loadShell(formFactor) {
+            shellLoader.state = formFactor;
+            shellLoader.active = true;
+            tryCompare(shellLoader, "status", Loader.Ready);
+            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
 
             var launcher = findChild(shell, "launcher");
             launcherShowDashHomeSpy.target = launcher;
+
+            waitForGreeterToStabilize();
         }
 
-        function cleanup() {
-            tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
+        function waitForGreeterToStabilize() {
+            var greeter = findChild(shell, "greeter");
+            verify(greeter);
+
+            var loginList = findChild(greeter, "loginList");
+            // Only present in WideView
+            if (loginList) {
+                var userList = findChild(loginList, "userList");
+                verify(userList);
+                tryCompare(userList, "movingInternally", false);
+            }
+        }
+
+        function tearDown() {
             launcherShowDashHomeSpy.target = null;
 
             shellLoader.itemDestroyed = false;
@@ -217,17 +310,18 @@ Item {
             // Shell instance gets destroyed.
             tryCompare(shellLoader, "itemDestroyed", true);
 
+            setLightDMMockMode("single"); // back to the default value
+
+            AccountsService.demoEdges = false;
+            Wizard.System.wizardEnabled = false;
+
             // kill all (fake) running apps
             killApps(ApplicationManager);
 
             unlockAllModemsSpy.clear()
             LightDM.Greeter.authenticate(""); // reset greeter
 
-            // reload our test subject to get it in a fresh state once again
-            shellLoader.active = true;
-
-            tryCompare(shellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
+            sessionSpy.clear();
         }
 
         function killApps() {
@@ -239,6 +333,8 @@ Item {
         }
 
         function test_snapDecisionDismissalReturnsFocus() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var notifications = findChild(shell, "notificationList");
             var app = ApplicationManager.startApplication("camera-app");
             var stage = findChild(shell, "stage")
@@ -297,19 +393,41 @@ Item {
             mockNotificationsModel.append(n)
         }
 
-        function test_leftEdgeDrag_data() {
+        function test_phoneLeftEdgeDrag_data() {
             return [
-                {tag: "without launcher", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
-                {tag: "with launcher", revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
-                {tag: "small swipe", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false, greeterShown: false},
-                {tag: "long swipe", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: false},
-                {tag: "small swipe with greeter", revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app", launcherHides: false, greeterShown: true},
-                {tag: "long swipe with greeter", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app", launcherHides: true, greeterShown: true},
-                {tag: "swipe over dash", revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash", launcherHides: false, greeterShown: false},
+                {tag: "without launcher",
+                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: false},
+
+                {tag: "with launcher",
+                 revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: false},
+
+                {tag: "small swipe",
+                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
+                 launcherHides: false, greeterShown: false},
+
+                {tag: "long swipe",
+                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: false},
+
+                {tag: "small swipe with greeter",
+                 revealLauncher: false, swipeLength: units.gu(25), appHides: false, focusedApp: "dialer-app",
+                 launcherHides: false, greeterShown: true},
+
+                {tag: "long swipe with greeter",
+                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 launcherHides: true, greeterShown: true},
+
+                {tag: "swipe over dash",
+                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash",
+                 launcherHides: false, greeterShown: false},
             ];
         }
 
-        function test_leftEdgeDrag(data) {
+        function test_phoneLeftEdgeDrag(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
             dragLauncherIntoView();
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
@@ -342,7 +460,32 @@ Item {
             compare(animateTimer.nextState, "visible");
         }
 
+        function test_tabletLeftEdgeDrag_data() {
+            return [
+                {tag: "without password", user: "no-password", loggedIn: true, demo: false},
+                {tag: "with password", user: "has-password", loggedIn: false, demo: false},
+                {tag: "with demo", user: "has-password", loggedIn: true, demo: true},
+            ]
+        }
+
+        function test_tabletLeftEdgeDrag(data) {
+            setLightDMMockMode("full");
+            loadShell("tablet");
+
+            selectUser(data.user)
+
+            AccountsService.demoEdges = data.demo
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "running", data.demo);
+
+            swipeFromLeftEdge(shell.width * 0.75)
+            wait(500) // to give time to handle dash() signal from Launcher
+            confirmLoggedIn(data.loggedIn)
+        }
+
         function test_suspend() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var greeter = findChild(shell, "greeter");
 
             // Launch an app from the launcher
@@ -402,6 +545,61 @@ Item {
             waitForRendering(greeter);
         }
 
+        function selectUserAtIndex(i) {
+            // We could be anywhere in list; find target index to know which direction
+            var greeter = findChild(shell, "greeter")
+            var userlist = findChild(greeter, "userList")
+            if (userlist.currentIndex == i)
+                keyClick(Qt.Key_Escape) // Reset state if we're not moving
+            while (userlist.currentIndex != i) {
+                var next = userlist.currentIndex + 1
+                if (userlist.currentIndex > i) {
+                    next = userlist.currentIndex - 1
+                }
+                tap(findChild(greeter, "username"+next));
+                tryCompare(userlist, "currentIndex", next)
+                tryCompare(userlist, "movingInternally", false)
+            }
+            tryCompare(shell, "enabled", true); // wait for PAM to settle
+        }
+
+        function selectUser(name) {
+            // Find index of user with the right name
+            for (var i = 0; i < LightDM.Users.count; i++) {
+                if (LightDM.Users.data(i, LightDM.UserRoles.NameRole) == name) {
+                    break
+                }
+            }
+            if (i == LightDM.Users.count) {
+                fail("Didn't find name")
+                return -1
+            }
+            selectUserAtIndex(i)
+            return i
+        }
+
+        function clickPasswordInput(isButton) {
+            var greeter = findChild(shell, "greeter")
+            tryCompare(greeter, "fullyShown", true);
+
+            var passwordMouseArea = findChild(shell, "passwordMouseArea")
+            tryCompare(passwordMouseArea, "enabled", isButton)
+
+            var passwordInput = findChild(shell, "passwordInput")
+            mouseClick(passwordInput)
+        }
+
+        function confirmLoggedIn(loggedIn) {
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "shown", loggedIn ? false : true);
+            verify(loggedIn ? sessionSpy.count > 0 : sessionSpy.count === 0);
+        }
+
+        function setLightDMMockMode(mode) {
+            LightDM.Greeter.mockMode = mode;
+            LightDM.Users.mockMode = mode;
+        }
+
         /*
           Regression test for bug https://bugs.launchpad.net/touch-preview-images/+bug/1193419
 
@@ -414,6 +612,8 @@ Item {
           - verify the setCurrentScope() D-Bus call to the dash has been called for the correct scope id.
          */
         function test_minimizingAppTakesToDashApps() {
+            loadShell("phone");
+            swipeAwayGreeter();
             dragLauncherIntoView();
 
             // Launch an app from the launcher
@@ -434,6 +634,8 @@ Item {
         }
 
         function test_showInputMethod() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var item = findChild(shell, "inputMethod");
             var surface = SurfaceManager.inputMethodSurface();
 
@@ -472,6 +674,8 @@ Item {
         }
 
         function test_surfaceLosesActiveFocusWhilePanelIsOpen() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var app = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app);
 
@@ -502,26 +706,24 @@ Item {
             tryCompare(app.session.surface, "activeFocus", true);
         }
 
-        function test_launchedAppHasActiveFocus() {
-            var dialerApp = ApplicationManager.startApplication("dialer-app");
+        function test_launchedAppHasActiveFocus_data() {
+            return [
+                {tag:"phone", formFactor:"phone"},
+                {tag:"tablet", formFactor:"tablet"},
+            ];
+        }
+
+        function test_launchedAppHasActiveFocus(data) {
+            loadShell(data.formFactor);
+            swipeAwayGreeter();
+
+            var dialerApp = ApplicationManager.startApplication("webbrowser-app");
             verify(dialerApp);
-            waitUntilAppSurfaceShowsUp("dialer-app")
+            waitUntilAppSurfaceShowsUp("webbrowser-app")
 
             verify(dialerApp.session.surface);
 
             tryCompare(dialerApp.session.surface, "activeFocus", true);
-        }
-
-        // Wait for the whole UI to settle down
-        function waitForUIToSettle() {
-            var launcher = findChild(shell, "launcherPanel")
-            tryCompareFunction(function() {return launcher.x === 0 || launcher.x === -launcher.width;}, true);
-            if (launcher.x === 0) {
-                mouseClick(shell)
-            }
-            tryCompare(launcher, "x", -launcher.width)
-
-            waitForRendering(shell)
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -616,6 +818,8 @@ Item {
         }
 
         function test_greeterDoesNotChangeIndicatorProfile() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var panel = findChild(shell, "panel");
             tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
 
@@ -627,6 +831,8 @@ Item {
         }
 
         function test_shellProfileChangesReachIndicators() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var panel = findChild(shell, "panel");
 
             shell.indicatorProfile = "test1";
@@ -643,6 +849,8 @@ Item {
         }
 
         function test_focusRequestedHidesGreeter() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var greeter = findChild(shell, "greeter");
 
             var app = ApplicationManager.startApplication("dialer-app");
@@ -663,6 +871,8 @@ Item {
         }
 
         function test_focusRequestedHidesIndicators() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var indicators = findChild(shell, "indicators");
 
             showIndicators();
@@ -675,6 +885,8 @@ Item {
         }
 
         function test_showAndHideGreeterDBusCalls() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "shown", false)
             waitForRendering(greeter);
@@ -686,6 +898,9 @@ Item {
         }
 
         function test_greeterLoginsAutomaticallyWhenNoPasswordSet() {
+            loadShell("phone");
+            swipeAwayGreeter();
+
             sessionSpy.clear();
             verify(sessionSpy.valid);
 
@@ -695,6 +910,8 @@ Item {
         }
 
         function test_fullscreen() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var panel = findChild(shell, "panel");
             compare(panel.fullscreenMode, false);
             ApplicationManager.startApplication("camera-app");
@@ -708,6 +925,8 @@ Item {
         }
 
         function test_leftEdgeDragFullscreen() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var panel = findChild(shell, "panel");
             tryCompare(panel, "fullscreenMode", false)
 
@@ -729,6 +948,8 @@ Item {
         }
 
         function test_unlockedProperties() {
+            loadShell("phone");
+            swipeAwayGreeter();
             // Confirm that various properties have the correct values when unlocked
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "locked", false);
@@ -741,10 +962,60 @@ Item {
         }
 
         function test_unlockAllModemsOnBoot() {
+            loadShell("phone");
+            swipeAwayGreeter();
             tryCompare(unlockAllModemsSpy, "count", 1)
         }
 
+        function test_unlockAllModemsAfterWizard() {
+            Wizard.System.wizardEnabled = true;
+            loadShell("phone");
+
+            var wizard = findChild(shell, "wizard");
+            compare(wizard.active, true);
+            compare(Wizard.System.wizardEnabled, true);
+            compare(unlockAllModemsSpy.count, 0);
+
+            wizard.hide();
+            tryCompare(wizard, "active", false);
+            compare(Wizard.System.wizardEnabled, false);
+            compare(unlockAllModemsSpy.count, 1);
+        }
+
+        function test_wizardEarlyExit() {
+            Wizard.System.wizardEnabled = true;
+            AccountsService.demoEdges = true;
+            loadShell("phone");
+
+            var wizard = findChild(shell, "wizard");
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(wizard, "active", true);
+            tryCompare(tutorial, "running", true);
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            // Make sure we stay running when nothing focused (can happen for
+            // a moment when we restart the dash after switching language)
+            ApplicationManager.stopApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "");
+            compare(wizard.shown, true);
+            compare(tutorial.running, true);
+
+            // And make sure we stay running when dash focused again
+            ApplicationManager.startApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+            compare(wizard.shown, true);
+            compare(tutorial.running, true);
+
+            // And make sure we stop when something else is focused
+            ApplicationManager.startApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+            compare(wizard.shown, false);
+            compare(tutorial.running, false);
+        }
+
         function test_tapOnRightEdgeReachesApplicationSurface() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
             var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
             var rightEdgeDragArea = findChild(shell, "spreadDragArea");
@@ -767,6 +1038,8 @@ Item {
             by the right-edge drag area)
          */
         function test_rightEdgeDragDoesNotReachApplicationSurface() {
+            loadShell("phone");
+            swipeAwayGreeter();
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
             var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
             var rightEdgeDragArea = findChild(shell, "spreadDragArea");
@@ -811,6 +1084,8 @@ Item {
         }
 
         function test_tapUbuntuIconInLauncherOverAppSpread() {
+            loadShell("phone");
+            swipeAwayGreeter();
 
             waitUntilFocusedApplicationIsShowingItsSurface();
 
@@ -857,18 +1132,75 @@ Item {
         function test_background_data() {
             return [
                 {tag: "color", accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"), gsettings: "", output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
-                {tag: "empty", accounts: "", gsettings: "", output: shell.defaultBackground},
+                {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
                 {tag: "as-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: "", output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
                 {tag: "gs-specified", accounts: "", gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
                 {tag: "both-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
                 {tag: "invalid-as", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
-                {tag: "invalid-both", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"), output: shell.defaultBackground},
+                {tag: "invalid-both", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"), output: "defaultBackground"},
             ]
         }
         function test_background(data) {
+            loadShell("phone");
+            swipeAwayGreeter();
             AccountsService.backgroundFile = data.accounts;
-            GSettingsController.setPictureUri("org.gnome.desktop.background", data.gsettings);
-            tryCompare(shell, "background", data.output);
+            var backgroundSettings = findInvisibleChild(shell, "backgroundSettings");
+            backgroundSettings.pictureUri = data.gsettings;
+
+            if (data.output === "defaultBackground") {
+                tryCompare(shell, "background", shell.defaultBackground);
+            } else {
+                tryCompare(shell, "background", data.output);
+            }
+        }
+
+        function test_tabletLogin_data() {
+            return [
+                {tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
+                {tag: "with password", user: "has-password", loggedIn: true, password: "password"},
+                {tag: "without password", user: "no-password", loggedIn: true, password: ""},
+            ]
+        }
+
+        function test_tabletLogin(data) {
+            setLightDMMockMode("full");
+            loadShell("tablet");
+
+            selectUser(data.user);
+
+            clickPasswordInput(data.password === "" /* isButton */);
+
+            if (data.password !== "") {
+                typeString(data.password);
+                keyClick(Qt.Key_Enter);
+            }
+
+            confirmLoggedIn(data.loggedIn);
+        }
+
+        function test_appLaunchDuringGreeter_data() {
+            return [
+                {tag: "auth error", user: "auth-error", loggedIn: false, passwordFocus: false},
+                {tag: "without password", user: "no-password", loggedIn: true, passwordFocus: false},
+                {tag: "with password", user: "has-password", loggedIn: false, passwordFocus: true},
+            ]
+        }
+
+        function test_appLaunchDuringGreeter(data) {
+            setLightDMMockMode("full");
+            loadShell("tablet");
+
+            selectUser(data.user)
+
+            var greeter = findChild(shell, "greeter")
+            var app = ApplicationManager.startApplication("dialer-app")
+
+            confirmLoggedIn(data.loggedIn)
+
+            if (data.passwordFocus) {
+                var passwordInput = findChild(greeter, "passwordInput")
+                tryCompare(passwordInput, "focus", true)
+            }
         }
     }
 }

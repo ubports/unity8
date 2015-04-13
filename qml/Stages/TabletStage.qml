@@ -23,7 +23,7 @@ import "../Components"
 
 Rectangle {
     id: root
-    objectName: "stages"
+    objectName: "tabletStage"
     anchors.fill: parent
     color: "#111111"
 

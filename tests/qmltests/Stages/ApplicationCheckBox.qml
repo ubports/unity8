@@ -22,19 +22,67 @@ import Unity.Application 0.1
 RowLayout {
     id: root
     property string appId
-    property alias checked: checkbox.checked
+    property bool checked: false
+
+    enabled: appId !== "unity8-dash"
+
+    onCheckedChanged: {
+        if (d.bindGuard) { return; }
+        d.bindGuard = true;
+
+        if (checked) {
+            ApplicationManager.startApplication(root.appId);
+        } else {
+            ApplicationManager.stopApplication(root.appId);
+        }
+        d.bindGuard = false;
+    }
+
+    QtObject {
+        id: d
+        property bool bindGuard: false
+        property var application: null
+        Component.onCompleted: {
+            application = ApplicationManager.findApplication(root.appId);
+        }
+    }
+
+    Connections {
+        target: ApplicationManager
+        onCountChanged: {
+            d.application = ApplicationManager.findApplication(root.appId);
+        }
+    }
 
     Layout.fillWidth: true
     CheckBox {
         id: checkbox
         checked: false
         activeFocusOnPress: false
-        onCheckedChanged: {
+
+        onTriggered: {
+            if (d.bindGuard) { return; }
+            d.bindGuard = true;
+
             if (checked) {
                 ApplicationManager.startApplication(root.appId);
             } else {
                 ApplicationManager.stopApplication(root.appId);
             }
+            d.bindGuard = false;
+        }
+        onCheckedChanged: {
+            if (d.bindGuard) { return; }
+            d.bindGuard = true;
+
+            root.checked = checked;
+
+            d.bindGuard = false;
+        }
+        Binding {
+            target: checkbox
+            property: "checked"
+            value: d.application != null
         }
     }
     Label {

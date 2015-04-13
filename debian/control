@@ -31,10 +31,8 @@ Build-Depends: cmake,
                libusermetricsoutput1-dev,
                libxcb1-dev,
                pkg-config,
-               python-setuptools,
                python3-all:any,
                python3-setuptools,
-               python:any (>= 2.7),
                qml-module-qt-labs-folderlistmodel,
                qml-module-qtquick-layouts,
                qml-module-qtquick-xmllistmodel,
@@ -78,6 +76,9 @@ Depends: unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
+# We do call pkg-config libunity-scopes from the code
+         pkg-config,
+         libunity-scopes-dev,
 Description: Development tool for Unity scopes
  This package contains the development tool for new generation Unity scopes, based
  on Unity8.
@@ -139,20 +140,16 @@ Description: Unity 8 shell (common files)
 
 Package: unity8-autopilot
 Architecture: all
-Depends: gir1.2-glib-2.0,
+Depends: autopilot-qt5 (>= 1.4),
+         gir1.2-glib-2.0,
          gir1.2-notify-0.7,
-         libautopilot-qt (>= 1.4),
          libqt5test5,
          libqt5widgets5,
-         python-autopilot,
-         python-evdev,
-         python-fixtures,
-         python-gi,
-         python-mock,
          python3-autopilot,
          python3-evdev,
          python3-fixtures,
          python3-gi,
+         qttestability-autopilot (>= 1.4),
          ubuntu-ui-toolkit-autopilot,
          unity-scope-click,
          unity8 (= ${source:Version}),
@@ -160,7 +157,6 @@ Depends: gir1.2-glib-2.0,
          url-dispatcher-tools,
          ${misc:Depends},
          ${python3:Depends},
-         ${python:Depends},
          ${shlibs:Depends},
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package

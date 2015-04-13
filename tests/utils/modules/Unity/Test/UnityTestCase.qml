@@ -23,12 +23,24 @@ TestCase {
     id: testCase
     TestUtil {id:util}
 
-    ActivityIndicator {
+    // This is needed for waitForRendering calls to return
+    // if the watched element already got rendered
+    Rectangle {
+        width: units.gu(1)
+        height: width
+        parent: testCase.parent
+        border { width: units.dp(1); color: "black" }
+        opacity: 0.6
+
         visible: testCase.running
-        anchors.centerIn: parent
-        Component.onCompleted: parent = testCase.parent
-        z: 100
-        running: visible
+
+        RotationAnimation on rotation {
+            running: parent.visible
+            from: 0
+            to: 360
+            loops: Animation.Infinite
+            duration: 1000
+        }
     }
 
     // Fake implementation to be provided to items under test
@@ -221,6 +233,19 @@ TestCase {
         }
     }
 
+    function flickToYEnd(item) {
+        var i = 0;
+        var x = item.width / 2;
+        var y = item.height - units.gu(1);
+        var toY = units.gu(1);
+        while (i < 5 && !item.atYEnd) {
+            touchFlick(item, x, y, x, toY);
+            tryCompare(item, "moving", false);
+            ++i;
+        }
+        tryCompare(item, "atYEnd", true);
+    }
+
     function touchEvent(item) {
         return UT.Util.touchEvent(item)
     }
@@ -292,7 +317,7 @@ TestCase {
         event1.press(0, x1Start, y1Start);
         event1.commit();
         // second finger
-        event1.stationary(0);
+        event1.move(0, x1Start, y1Start);
         event1.press(1, x2Start, y2Start);
         event1.commit();
 

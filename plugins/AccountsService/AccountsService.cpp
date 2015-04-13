@@ -152,7 +152,7 @@ void AccountsService::updateEnableIndicatorsWhileLocked()
 
 void AccountsService::updateBackgroundFile()
 {
-    auto backgroundFile = m_service->getUserProperty(m_user, "org.freedesktop.Accounts.User", "BackgroundFile").toString();
+    QString backgroundFile = m_service->getUserProperty(m_user, "org.freedesktop.Accounts.User", "BackgroundFile").toString();
     if (m_backgroundFile != backgroundFile) {
         m_backgroundFile = backgroundFile;
         Q_EMIT backgroundFileChanged();

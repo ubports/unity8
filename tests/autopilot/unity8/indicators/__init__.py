@@ -34,7 +34,7 @@ class IndicatorPage(emulators.UnityEmulatorBase):
         return False
 
 
-class DisplayIndicator(object):
+class DisplayIndicator():
 
     def __init__(self, main_window):
         self._main_window = main_window

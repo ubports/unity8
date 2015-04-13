@@ -61,6 +61,8 @@ private:
 
     QDBusInterface *m_accountsManager;
     QMap<QString, QDBusInterface *> m_users;
+
+    bool m_ignoreNextChanged;
 };
 
 #endif
