@@ -82,6 +82,8 @@ Item {
     // This is _only_ used to expose the property to autopilot tests
     readonly property string testShellMode: shellMode
 
+    readonly property alias greeter: greeterLoader.item
+
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
@@ -348,51 +350,59 @@ Item {
         }
     }
 
-    Greeter {
-        id: greeter
-        objectName: "greeter"
-
-        hides: [launcher, panel.indicators]
-        tabletMode: shell.sideStageEnabled
-        launcherOffset: launcher.progress
-        forcedUnlock: tutorial.running || shellMode == "shell"
-        opacity: shellMode == "shell" ? 0 : 1.0
-        background: shell.background
-
-        anchors.fill: parent
-        anchors.topMargin: panel.panelHeight
-
-        // avoid overlapping with Launcher's edge drag area
-        // FIXME: Fix TouchRegistry & friends and remove this workaround
-        //        Issue involves launcher's DDA getting disabled on a long
-        //        left-edge drag
-        dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
-
-        onSessionStarted: {
-            launcher.hide();
+    Loader {
+        id: greeterLoader
+        sourceComponent: shellMode != "shell" ? integratedGreeter :
+            Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         }
 
-        onTease: {
-            if (!tutorial.running) {
-                launcher.tease();
+    Component {
+        id: integratedGreeter
+        Greeter {
+            objectName: "greeter"
+
+            hides: [launcher, panel.indicators]
+            tabletMode: shell.sideStageEnabled
+            launcherOffset: launcher.progress
+            forcedUnlock: tutorial.running || shellMode == "shell"
+            opacity: shellMode == "shell" ? 0 : 1.0
+            background: shell.background
+
+            height: parent.parent.height; width: parent.parent.width
+            //anchors.topMargin: panel.panelHeight
+
+            // avoid overlapping with Launcher's edge drag area
+            // FIXME: Fix TouchRegistry & friends and remove this workaround
+            //        Issue involves launcher's DDA getting disabled on a long
+            //        left-edge drag
+            dragHandleLeftMargin: launcher.available ? launcher.dragAreaWidth + 1 : 0
+
+            onSessionStarted: {
+                launcher.hide();
             }
-        }
 
-        onEmergencyCall: startLockedApp("dialer-app")
-
-        Timer {
-            // See powerConnection for why this is useful
-            id: showGreeterDelayed
-            interval: 1
-            onTriggered: {
-                greeter.forceShow();
+            onTease: {
+                if (!tutorial.running) {
+                    launcher.tease();
+                }
             }
-        }
 
-        Binding {
-            target: ApplicationManager
-            property: "suspended"
-            value: greeter.shown
+            onEmergencyCall: startLockedApp("dialer-app")
+
+            Timer {
+                // See powerConnection for why this is useful
+                id: showGreeterDelayed
+                interval: 1
+                onTriggered: {
+                    greeter.forceShow();
+                }
+            }
+
+            Binding {
+                target: ApplicationManager
+                property: "suspended"
+                value: greeter.shown
+            }
         }
     }
 
@@ -421,7 +431,7 @@ Item {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    !callManager.hasCalls && !tutorial.running) {
+                    !callManager.hasCalls && !tutorial.running && shellMode != "shell") {
                 // We don't want to simply call greeter.showNow() here, because
                 // that will take too long.  Qt will delay button event
                 // handling until the greeter is done loading and may think the
