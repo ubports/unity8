@@ -164,14 +164,14 @@ Item {
 
         function test_enterSpread_data() {
             return [
-                {tag: "<position1 (linear movement)", positionMarker: "positionMarker1", linear: true, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position1 (non-linear movement)", positionMarker: "positionMarker1", linear: false, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 0 },
-                {tag: ">position1", positionMarker: "positionMarker1", linear: true, offset: +1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position2 (linear)", positionMarker: "positionMarker2", linear: true, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: -1, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: -1, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
-                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +1, endPhase: 1, targetPhase: 2, newFocusedIndex: 2 },
+                {tag: "<position1 (linear movement)", positionMarker: "positionMarker1", linear: true, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position1 (non-linear movement)", positionMarker: "positionMarker1", linear: false, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 0 },
+                {tag: ">position1", positionMarker: "positionMarker1", linear: true, offset: +5, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position2 (linear)", positionMarker: "positionMarker2", linear: true, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position2 (non-linear)", positionMarker: "positionMarker2", linear: false, offset: 0, endPhase: 0, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: ">position2", positionMarker: "positionMarker2", linear: true, offset: +5, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: "<position3", positionMarker: "positionMarker3", linear: true, offset: 0, endPhase: 1, targetPhase: 0, newFocusedIndex: 1 },
+                {tag: ">position3", positionMarker: "positionMarker3", linear: true, offset: +5, endPhase: 1, targetPhase: 2, newFocusedIndex: 2 },
             ];
         }
 
