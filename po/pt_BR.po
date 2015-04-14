@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-13 11:06+0100\n"
-"PO-Revision-Date: 2015-03-21 18:33+0000\n"
-"Last-Translator: Vinicius Almeida <vinicius.algo@gmail.com>\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"PO-Revision-Date: 2015-04-06 19:02+0000\n"
+"Last-Translator: Tiago Hillebrandt <tiagohillebrandt@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-03-22 05:30+0000\n"
-"X-Generator: Launchpad (build 17405)\n"
+"X-Launchpad-Export-Date: 2015-04-07 05:30+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -59,7 +59,7 @@ msgstr "Sair"
 
 #: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
-msgstr "Tem certeza de que deseja sair?"
+msgstr "Você tem certeza que deseja sair?"
 
 #: qml/Components/Dialogs.qml:70
 msgctxt "Button: Lock the system"
@@ -83,7 +83,7 @@ msgstr "Desligar"
 
 #: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
-msgstr "Tem certeza de que deseja desligar?"
+msgstr "Você tem certeza que deseja desligar?"
 
 #: qml/Components/Dialogs.qml:99
 msgctxt "Button: Reboot the system"
@@ -102,7 +102,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
-msgstr "Tem certeza de que deseja reiniciar?"
+msgstr "Você tem certeza que deseja reiniciar?"
 
 #: qml/Components/Dialogs.qml:130
 msgid "No"
@@ -122,7 +122,7 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Tem certeza que você gostaria \n"
+"Você tem certeza que gostaria \n"
 "de desligar?"
 
 #: qml/Components/Dialogs.qml:153
@@ -161,18 +161,19 @@ msgid "Search"
 msgstr "Pesquisar"
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "Button: The Ubuntu Store"
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Loja"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Shown in Page Header Menu"
+msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr "Pesquisar"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Configurações"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
@@ -677,6 +678,9 @@ msgstr "%1  〉"
 
 #~ msgid "Power"
 #~ msgstr "Energia"
+
+#~ msgid "Settings"
+#~ msgstr "Configurações"
 
 #~ msgid "Restart"
 #~ msgstr "Reiniciar"

@@ -135,7 +135,7 @@ class TestLockscreen(UnityTestCase):
         :raises: TypeError if passphrase is not a string.
 
         """
-        if not isinstance(passphrase, basestring):
+        if not isinstance(passphrase, str):
             raise TypeError(
                 "'passphrase' parameter must be a string, not %r."
                 % type(passphrase)

@@ -1,0 +1,10 @@
+[Indicator Service]
+Name=indicator-mock
+ObjectPath=/com/canonical/indicator/mock
+Position=0
+
+[phone]
+ObjectPath=/com/canonical/indicator/mock/desktop
+
+[desktop]
+ObjectPath=/com/canonical/indicator/mock/desktop

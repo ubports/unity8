@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-13 11:06+0100\n"
-"PO-Revision-Date: 2015-03-09 18:21+0000\n"
-"Last-Translator: Jose Luis Tirado <Unknown>\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"PO-Revision-Date: 2015-03-27 21:24+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-20 05:21+0000\n"
-"X-Generator: Launchpad (build 17405)\n"
+"X-Launchpad-Export-Date: 2015-03-28 05:32+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -57,21 +57,21 @@ msgstr[1] "Espere %1 minutos e inténtelo de nuevo..."
 #: qml/Components/Dialogs.qml:67
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "Cerrar la sesión"
 
 #: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
-msgstr "̉¿Está seguro de que quiere cerrar la sesión?"
+msgstr "¿Seguro que quiere cerrar la sesión?"
 
 #: qml/Components/Dialogs.qml:70
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Bloquear"
 
 #: qml/Components/Dialogs.qml:77
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Cerrar la sesión"
 
 #: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
 #: qml/Components/Dialogs.qml:171
@@ -81,7 +81,7 @@ msgstr "Cancelar"
 #: qml/Components/Dialogs.qml:96
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Apagar"
 
 #: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
@@ -90,21 +90,21 @@ msgstr "¿Está seguro de que quiere apagar?"
 #: qml/Components/Dialogs.qml:99
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:107
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Apagar"
 
 #: qml/Components/Dialogs.qml:127
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
-msgstr "¿Esta seguro de que quiere reiniciar?"
+msgstr "¿Seguro que quiere reiniciar?"
 
 #: qml/Components/Dialogs.qml:130
 msgid "No"
@@ -117,25 +117,25 @@ msgstr "Sí"
 #: qml/Components/Dialogs.qml:150
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Apagar"
 
 #: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"¿Está seguro de que quiere\n"
+"¿Seguro que quiere\n"
 "apagar?"
 
 #: qml/Components/Dialogs.qml:153
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Apagar"
 
 #: qml/Components/Dialogs.qml:162
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Reiniciar"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -160,21 +160,22 @@ msgstr "Ver todo"
 #: qml/Dash/GenericScopeView.qml:595
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Búsqueda"
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "Button: The Ubuntu Store"
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Tienda"
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Shown in Page Header Menu"
+msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Configuración"
+msgstr "Ajustes"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
@@ -304,7 +305,7 @@ msgstr "Mostrar contraseña"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Toque para volver a llamar..."
+msgstr "Toque para volver a la llamada…"
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -341,7 +342,7 @@ msgstr "Falló, toque para reintentar"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Responder"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -406,7 +407,7 @@ msgstr "Ver todas las tareas en ejecución."
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -450,32 +451,32 @@ msgstr "Seleccione el método de desbloqueo del teléfono."
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Deslizar"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Sin seguridad"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Código"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "Solo 4 dígitos"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Contraseña"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Números y letras"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -671,6 +672,9 @@ msgstr "%1  〉"
 
 #~ msgid "Shut down"
 #~ msgstr "Apagar"
+
+#~ msgid "Settings"
+#~ msgstr "Configuración"
 
 #~ msgid "Log out"
 #~ msgstr "Cerrar la sesión"

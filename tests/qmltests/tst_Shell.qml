@@ -988,6 +988,11 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
             compare(wizard.shown, false);
             compare(tutorial.running, false);
+            tryCompare(AccountsService, "demoEdges", false);
+            tryCompare(Wizard.System, "wizardEnabled", false);
+
+            var tutorialLeft = findChild(tutorial, "tutorialLeft");
+            compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
@@ -1084,11 +1089,11 @@ Rectangle {
             {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
                 var startPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.8,
-                        buttonShowDashHome.height * 0.2);
-                var endPos = buttonShowDashHome.mapToItem(shell,
                         buttonShowDashHome.width * 0.2,
                         buttonShowDashHome.height * 0.8);
+                var endPos = buttonShowDashHome.mapToItem(shell,
+                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.height * 0.2);
                 touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
             }
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-13 11:06+0100\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
 "PO-Revision-Date: 2015-02-18 20:23+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2015-03-20 05:21+0000\n"
-"X-Generator: Launchpad (build 17405)\n"
+"X-Launchpad-Export-Date: 2015-03-25 06:05+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -164,18 +164,19 @@ msgid "Search"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "Button: The Ubuntu Store"
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Shown in Page Header Menu"
+msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr ""
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Configurări"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
@@ -685,6 +686,9 @@ msgstr "%1  〉"
 
 #~ msgid "Power"
 #~ msgstr "Alimentare"
+
+#~ msgid "Settings"
+#~ msgstr "Configurări"
 
 #~ msgid "Restart"
 #~ msgstr "Repornire"

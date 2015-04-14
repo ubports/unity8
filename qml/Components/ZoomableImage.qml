@@ -107,6 +107,20 @@ Item {
             }
         }
 
+        PinchArea {
+            id: pinchArea
+            objectName: "pinchArea"
+            property real minScale: 1.0
+            anchors.fill: parent
+            enabled: zoomable ? zoomable : false
+
+            pinch.target: image
+            pinch.minimumScale: minScale
+            pinch.maximumScale: 10
+
+            onPinchFinished: flickable.returnToBounds()
+        }
+
         MouseArea {
             id: mouseArea
             objectName: "mouseArea"
@@ -138,19 +152,5 @@ Item {
                 mouse.accepted = false;
             }
         }
-    }
-
-    PinchArea {
-        id: pinchArea
-        objectName: "pinchArea"
-        property real minScale: 1.0
-        anchors.fill: flickable
-        enabled: zoomable ? zoomable : false
-
-        pinch.target: image
-        pinch.minimumScale: minScale
-        pinch.maximumScale: 10
-
-        onPinchFinished: flickable.returnToBounds()
     }
 }

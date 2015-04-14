@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-13 11:06+0100\n"
-"PO-Revision-Date: 2015-03-12 17:56+0000\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"PO-Revision-Date: 2015-03-27 09:50+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-03-20 05:20+0000\n"
-"X-Generator: Launchpad (build 17405)\n"
+"X-Launchpad-Export-Date: 2015-03-28 05:32+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 "Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -61,7 +61,7 @@ msgstr[3] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
 #: qml/Components/Dialogs.qml:67
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "Clàraich a-mach"
 
 #: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
@@ -70,12 +70,12 @@ msgstr "A bheil thu cinnteach gu bheil thu airson clàradh a-mach?"
 #: qml/Components/Dialogs.qml:70
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Glais"
 
 #: qml/Components/Dialogs.qml:77
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Clàraich a-mach"
 
 #: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
 #: qml/Components/Dialogs.qml:171
@@ -85,7 +85,7 @@ msgstr "Sguir dheth"
 #: qml/Components/Dialogs.qml:96
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Dùin sìos"
 
 #: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
@@ -94,17 +94,17 @@ msgstr "A bheil thu cinnteach gu bheil thu airson a dhùnadh sìos?"
 #: qml/Components/Dialogs.qml:99
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Ath-thòisich an siostam"
 
 #: qml/Components/Dialogs.qml:107
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Dùin sìos"
 
 #: qml/Components/Dialogs.qml:127
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Ath-thòisich an siostam"
 
 #: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
@@ -121,7 +121,7 @@ msgstr "Tha"
 #: qml/Components/Dialogs.qml:150
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Cumhachd"
 
 #: qml/Components/Dialogs.qml:151
 msgid ""
@@ -134,12 +134,12 @@ msgstr ""
 #: qml/Components/Dialogs.qml:153
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Cuir a' chumhachd dheth"
 
 #: qml/Components/Dialogs.qml:162
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Ath-thòisich"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -164,19 +164,20 @@ msgstr "Seall na h-uile"
 #: qml/Dash/GenericScopeView.qml:595
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Lorg"
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "Button: The Ubuntu Store"
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "A' bhùth"
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Shown in Page Header Menu"
+msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Lorg"
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Roghainnean"
 
@@ -347,7 +348,7 @@ msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Freagairt"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -412,7 +413,7 @@ msgstr "Seall gach saothair a tha thu a' ruith."
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Air ais"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -456,17 +457,17 @@ msgstr "Tagh an dòigh sa tha thu airson a' ghlas a thoirt far an fhòn agad."
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Grad-shlaighd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Gun tèarainteachd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Còd-faire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
@@ -476,12 +477,12 @@ msgstr ""
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Abairt-fhaire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Àireamhan 's litrichean"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -691,6 +692,9 @@ msgstr "%1  〉"
 
 #~ msgid "Power"
 #~ msgstr "Cumhachd"
+
+#~ msgid "Settings"
+#~ msgstr "Roghainnean"
 
 #~ msgid "Restart"
 #~ msgstr "Ath-thòisich"

@@ -2,21 +2,21 @@
 # Copyright © 2013-2014 Rosetta Contributors and Canonical Ltd 2013-2014
 # This file is distributed under the same license as the unity package.
 # Josef Andersson <josef.andersson@fripost.org>, 2014.
-#
+# clone <josef.andersson@fripost.org>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-13 11:06+0100\n"
-"PO-Revision-Date: 2015-03-21 16:29+0000\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"PO-Revision-Date: 2015-04-03 05:36+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
-"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-22 05:30+0000\n"
-"X-Generator: Launchpad (build 17405)\n"
+"X-Launchpad-Export-Date: 2015-04-04 05:46+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 "Language: sv\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -48,8 +48,8 @@ msgstr "Du har blivit utlåst efter för många misslyckade lösenkodsförsök."
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Vänta %1 minut och prova sedan igen..."
-msgstr[1] "Vänta %1 minuter och prova sedan igen..."
+msgstr[0] "Vänta %1 minut och prova sedan igen…"
+msgstr[1] "Vänta %1 minuter och prova sedan igen…"
 
 #: qml/Components/Dialogs.qml:67
 msgctxt "Title: Lock/Log out dialog"
@@ -144,7 +144,7 @@ msgstr "Nödsamtal"
 
 #: qml/Components/Lockscreen.qml:270
 msgid "OK"
-msgstr "Ok"
+msgstr "OK"
 
 #: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
@@ -160,16 +160,17 @@ msgid "Search"
 msgstr "Sök"
 
 #: qml/Dash/PageHeader.qml:269
-msgctxt "Button: The Ubuntu Store"
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Butik"
+msgstr "Förråd"
 
 #: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Shown in Page Header Menu"
+msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Sök"
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -203,11 +204,11 @@ msgstr "Skicka"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr "Dra för att uppdatera..."
+msgstr "Dra för att uppdatera…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr "Släpp för uppdatera..."
+msgstr "Släpp för att uppdatera…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
@@ -301,7 +302,7 @@ msgstr "Visa lösenord"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Tryck för att återgå till samtal..."
+msgstr "Tryck för att återgå till samtal…"
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -354,7 +355,7 @@ msgstr "Denna åtgärd gör olika saker för olika program"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr "Tryck här för att avsluta"
+msgstr "Tryck här för att avsluta."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -362,7 +363,7 @@ msgstr "Öppna specialmenyer"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr "Svep uppåt från nedre kanten"
+msgstr "Svep uppåt från nedre kanten."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -415,7 +416,7 @@ msgstr "Välkommen till din Ubuntutelefon."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr "Låt oss komma igång"
+msgstr "Låt oss komma igång."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
@@ -431,7 +432,7 @@ msgstr "Lägg till ett SIM-kort och starta om din enhet"
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
-"Utan det kommer du inte att kunnda ringa eller skicka textmeddelanden."
+"Utan det kommer du inte att kunna ringa eller skicka textmeddelanden."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -481,11 +482,11 @@ msgstr "Anslut till Wi-Fi"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr "Tillgängliga nätverk.."
+msgstr "Tillgängliga nätverk…"
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr "Inga tillgängliga nätverk"
+msgstr "Inga tillgängliga nätverk."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
@@ -519,7 +520,7 @@ msgstr "Inte alls"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "Du kan ändra dig senare via <b>Systeminställningar</b."
+msgstr "Du kan ändra dig senare via <b>Systeminställningar</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
@@ -664,6 +665,9 @@ msgstr "%1  〉"
 
 #~ msgid "All"
 #~ msgstr "Alla"
+
+#~ msgid "Settings"
+#~ msgstr "Inställningar"
 
 #~ msgid "Store"
 #~ msgstr "Butik"

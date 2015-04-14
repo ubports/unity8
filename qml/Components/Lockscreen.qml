@@ -60,6 +60,8 @@ Showable {
     // 0: normal background, 1: black background
     property real darkenBackground: 0
 
+    property color foregroundColor: "#f3f3e7"
+
     readonly property string passphrase: (pinPadLoader.item && pinPadLoader.item.passphrase) ? pinPadLoader.item.passphrase : ""
 
     signal entered(string passphrase)
@@ -210,11 +212,16 @@ Showable {
                 property: "delayMinutes"
                 value: root.delayMinutes
             }
-        }
-        Binding {
-            target: pinPadLoader.item
-            property: "showCancelButton"
-            value: root.showCancelButton
+            Binding {
+                target: pinPadLoader.item
+                property: "showCancelButton"
+                value: root.showCancelButton
+            }
+            Binding {
+                target: pinPadLoader.item
+                property: "foregroundColor"
+                value: root.foregroundColor
+            }
         }
     }
 
@@ -236,7 +243,7 @@ Showable {
             anchors.horizontalCenter: parent.horizontalCenter
 
             text: callManager.hasCalls ? i18n.tr("Return to Call") : i18n.tr("Emergency Call")
-            color: "#f3f3e7"
+            color: root.foregroundColor
         }
 
         Icon {
@@ -246,7 +253,7 @@ Showable {
             width: emergencyCallLabel.height
             height: emergencyCallLabel.height
             name: "call-start"
-            color: "#f3f3e7"
+            color: root.foregroundColor
         }
 
         MouseArea {
