@@ -331,7 +331,8 @@ Item {
         hides: [launcher, panel.indicators]
         tabletMode: shell.sideStageEnabled
         launcherOffset: launcher.progress
-        forcedUnlock: tutorial.running
+        forcedUnlock: tutorial.running || shellMode == "shell"
+        opacity: shellMode == "shell" ? 0 : 1.0
         background: shell.background
 
         anchors.fill: parent
