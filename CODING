@@ -186,7 +186,7 @@ $ make install
 
 To see the list of existing autopilot tests you can do
 
-$ PYTHONPATH=../tests/autopilot autopilot list unity8
+$ PYTHONPATH=../tests/autopilot autopilot3 list unity8
 
 And then run a single test with
 

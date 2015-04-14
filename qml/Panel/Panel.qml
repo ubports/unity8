@@ -196,6 +196,7 @@ Item {
 
     QtObject {
         id: d
+        objectName: "panelPriv"
         readonly property real indicatorHeight: indicators.minimizedPanelHeight + indicatorOrangeLine.height
     }
 

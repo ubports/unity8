@@ -31,10 +31,12 @@ public:
     bool hasMouseToTouch() const { return m_hasMouseToTouch; }
     bool hasFullscreen() const { return m_hasFullscreen; }
     QString deviceName() const { return m_deviceName; }
+    QString mode() const { return m_mode; }
 private:
 
     int parsePixelsValue(const QString &str);
     static float getenvFloat(const char* name, float defaultValue);
+    void resolveMode(QCommandLineParser &parser, QCommandLineOption &modeOption);
 
     float m_gridUnit;
 
@@ -44,6 +46,7 @@ private:
     bool m_hasMouseToTouch;
     bool m_hasFullscreen;
     QString m_deviceName;
+    QString m_mode;
 };
 
 #endif // UNITY_COMMAND_LINE_PARSER_H
