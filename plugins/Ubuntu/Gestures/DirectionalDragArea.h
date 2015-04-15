@@ -64,6 +64,9 @@ class UBUNTUGESTURESQML_EXPORT DirectionalDragArea : public QQuickItem {
     // Whether a drag gesture is taking place
     Q_PROPERTY(bool dragging READ dragging NOTIFY draggingChanged)
 
+    // Whether the drag area is pressed.
+    Q_PROPERTY(bool pressed READ pressed NOTIFY pressedChanged)
+
     // Whether a gesture should be Recognized as soon a touch lands on the area.
     // With this property enabled it will work pretty much like a MultiPointTouchArea,
     // just with a different API.
@@ -92,6 +95,8 @@ public:
 
     bool dragging() const;
 
+    bool pressed() const;
+
     bool immediateRecognition() const;
     void setImmediateRecognition(bool enabled);
 
@@ -110,6 +115,7 @@ public:
 Q_SIGNALS:
     void directionChanged(Direction::Type direction);
     void draggingChanged(bool value);
+    void pressedChanged(bool value);
     void distanceChanged(qreal value);
     void sceneDistanceChanged(qreal value);
     void touchXChanged(qreal value);

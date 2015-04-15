@@ -183,8 +183,8 @@ Showable {
         autoCompleteDragThreshold: maxTotalDragDistance / 2
         stretch: true
 
-        onDraggingChanged: {
-            if (dragging) {
+        onPressedChanged: {
+            if (pressed) {
                 touchPressTime = new Date().getTime();
             } else {
                 var touchReleaseTime = new Date().getTime();
