@@ -325,6 +325,7 @@ Item {
         target: SurfaceManager
         onSurfaceCreated: {
             if (surface.type == MirSurfaceItem.InputMethod) {
+    }
                 inputMethod.surface = surface;
             }
         }
@@ -352,6 +353,8 @@ Item {
 
     Loader {
         id: greeterLoader
+        anchors.fill: parent
+        anchors.topMargin: panel.panelHeight
         sourceComponent: shellMode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         }
@@ -368,7 +371,7 @@ Item {
             opacity: shellMode == "shell" ? 0 : 1.0
             background: shell.background
 
-            height: parent.parent.height; width: parent.parent.width
+            //height: parent.parent.height; width: parent.parent.width
             //anchors.topMargin: panel.panelHeight
 
             // avoid overlapping with Launcher's edge drag area
