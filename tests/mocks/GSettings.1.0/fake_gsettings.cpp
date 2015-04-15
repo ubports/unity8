@@ -76,7 +76,7 @@ void GSettingsControllerQml::setUsageMode(const QByteArray &schemaId, const QStr
 
 QString GSettingsControllerQml::usageMode(const QByteArray &schemaId) const
 {
-    return m_usageMode.value(schemaId, "phone");
+    return m_usageMode.value(schemaId, "Staged");
 }
 
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
