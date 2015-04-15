@@ -97,6 +97,16 @@ public:
 
     bool event(QEvent *e) override;
 
+    /*
+      In qmltests, sequences of touch events are sent all at once, unlike in "real life".
+      Also qmltests might run really slowly, e.g. when run from inside virtual machines.
+      Thus to remove a variable that qmltests cannot really control, namely time, this
+      function removes all constraints that are sensible to elapsed time.
+
+      This effectively makes the DirectionalDragArea easier to fool.
+     */
+    Q_INVOKABLE void removeTimeConstraints();
+
 Q_SIGNALS:
     void directionChanged(Direction::Type direction);
     void draggingChanged(bool value);

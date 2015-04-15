@@ -189,6 +189,12 @@ void DirectionalDragArea::setImmediateRecognition(bool enabled)
     }
 }
 
+void DirectionalDragArea::removeTimeConstraints()
+{
+    d->setMaxTime(60 * 60 * 1000);
+    d->compositionTime = 0;
+}
+
 bool DirectionalDragArea::event(QEvent *event)
 {
     if (event->type() == TouchOwnershipEvent::touchOwnershipEventType()) {
