@@ -25,21 +25,29 @@
 
 // local
 #include "inputwatcher.h"
-#include "easingcurve.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
 #include "relativetimeformatter.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
 #include "windowkeysfilter.h"
+#include "easingcurve.h"
 #include "windowstatestorage.h"
 #include "spreadflickable.h"
+#include "constants.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
     return new WindowStateStorage();
+}
+
+static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Constants();
 }
 
 void FakeUtilsPlugin::registerTypes(const char *uri)
@@ -57,6 +65,7 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterType<SpreadFlickable>(uri, 0, 1, "SpreadFlickable");
+    qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
 }
 
 void FakeUtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
