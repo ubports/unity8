@@ -16,16 +16,16 @@ Item {
     property int sceneHeight: units.gu(20)
 
     // Spread properties
-    property real spreadHeight: units.gu(10)
-    property int spreadBottomOffset: units.gu(5)
-    property int foldingAreaWidth: units.gu(20)
+    property real spreadHeight: sceneHeight * 0.35
+    property int spreadBottomOffset: sceneHeight * 0.2
+    property int foldingAreaWidth: flickableWidth * 0.2
     property int maxVisibleItems: 7
-    property int margins: units.gu(5)
+    property int margins: flickableWidth * 0.05
     property real stackScale: 0.04
     property int leftEndFoldedAngle: 70
     property int rightEndFoldedAngle: 65
     property int unfoldedAngle: 30
-    property int stackWidth: units.gu(1)
+    property int stackWidth: flickableWidth * 0.01
 
 
     // Internal

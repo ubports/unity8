@@ -201,8 +201,6 @@ FocusScope {
                     itemIndex: index
                     totalItems: ApplicationManager.count
                     sceneHeight: root.height
-                    spreadHeight: root.height * 0.35
-                    spreadBottomOffset: sceneHeight * 0.2
                     itemHeight: appDelegate.height
                 }
 
@@ -292,7 +290,7 @@ FocusScope {
     SpreadFlickable {
         id: spreadFlickable
         anchors.fill: parent
-        contentWidth: Math.max(6, ApplicationManager.count) * width / 5
+        contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
         visible: false
         //boundsBehavior: Flickable.StopAtBounds
 
