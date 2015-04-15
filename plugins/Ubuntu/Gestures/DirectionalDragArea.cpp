@@ -193,6 +193,7 @@ void DirectionalDragArea::removeTimeConstraints()
 {
     d->setMaxTime(60 * 60 * 1000);
     d->compositionTime = 0;
+    ddaDebug("removed time constraints");
 }
 
 bool DirectionalDragArea::event(QEvent *event)

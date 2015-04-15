@@ -269,7 +269,7 @@ TestCase {
         speed = (speed !== undefined) ? speed : units.gu(10)
 
         // Set a default iterations if not specified
-        var iterations = (iterations !== undefined) ? iterations : 5
+        var iterations = (iterations !== undefined) ? iterations : 10
 
         var distance = Math.sqrt(Math.pow(rootTo.x - rootFrom.x, 2) + Math.pow(rootTo.Y - rootFrom.y, 2))
         var totalTime = (distance / speed) * 1000 /* converting speed to pixels/ms */
