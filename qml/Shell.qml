@@ -325,7 +325,6 @@ Item {
         target: SurfaceManager
         onSurfaceCreated: {
             if (surface.type == MirSurfaceItem.InputMethod) {
-    }
                 inputMethod.surface = surface;
             }
         }
