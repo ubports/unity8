@@ -917,7 +917,7 @@ Rectangle {
 
             compare(panel.fullscreenMode, true);
 
-            touchFlick(shell, units.gu(2), touchStartY, units.gu(10), touchStartY, false, false);
+            touchFlick(shell, units.gu(2), touchStartY, shell.width * 0.5, touchStartY, false, false);
 
             tryCompare(panel, "fullscreenMode", false);
 
