@@ -18,6 +18,7 @@
 #define UBUNTUGESTURES_TIMER_H
 
 #include "UbuntuGesturesGlobal.h"
+#include "TimeSource.h"
 
 #include <QObject>
 #include <QPointer>
@@ -66,17 +67,21 @@ class UBUNTUGESTURES_EXPORT FakeTimer : public AbstractTimer
 {
     Q_OBJECT
 public:
-    FakeTimer(QObject *parent = nullptr);
+    FakeTimer(const SharedTimeSource &timeSource, QObject *parent = nullptr);
 
-    virtual void emitTimeout() { Q_EMIT timeout(); }
+    void update();
+    qint64 nextTimeoutTime() const { return m_nextTimeoutTime; }
 
     int interval() const override;
     void setInterval(int msecs) override;
+    void start() override;
     bool isSingleShot() const override;
     void setSingleShot(bool value) override;
 private:
     int m_interval;
     bool m_singleShot;
+    SharedTimeSource m_timeSource;
+    qint64 m_nextTimeoutTime;
 };
 
 class UBUNTUGESTURES_EXPORT AbstractTimerFactory
@@ -95,9 +100,16 @@ public:
 class UBUNTUGESTURES_EXPORT FakeTimerFactory : public AbstractTimerFactory
 {
 public:
+    FakeTimerFactory();
+    virtual ~FakeTimerFactory();
+
+    void updateTime(qint64 msecsSinceReference);
+    QSharedPointer<TimeSource> timeSource() { return m_timeSource; }
+
     AbstractTimer *createTimer(QObject *parent = nullptr) override;
-    void makeRunningTimersTimeout();
     QList<QPointer<FakeTimer>> timers;
+private:
+    QSharedPointer<FakeTimeSource> m_timeSource;
 };
 
 } // namespace UbuntuGestures
