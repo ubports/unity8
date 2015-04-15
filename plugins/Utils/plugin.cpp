@@ -36,12 +36,20 @@
 #include "easingcurve.h"
 #include "windowstatestorage.h"
 #include "spreadflickable.h"
+#include "constants.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
     return new WindowStateStorage();
+}
+
+static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Constants();
 }
 
 void UtilsPlugin::registerTypes(const char *uri)
@@ -59,6 +67,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterType<SpreadFlickable>(uri, 0, 1, "SpreadFlickable");
+    qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

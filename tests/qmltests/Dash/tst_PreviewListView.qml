@@ -109,7 +109,7 @@ Rectangle {
 
             var image = findChild(header, "titleImage");
             verify(image, "Could not find the title image.");
-            compare(image.source, Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg"), "Title image has the wrong source");
+            compare(image.source, Qt.resolvedUrl("tst_PageHeader/logo-ubuntu-orange.svg"), "Title image has the wrong source");
         }
     }
 }

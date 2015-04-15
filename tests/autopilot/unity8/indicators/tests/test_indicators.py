@@ -23,7 +23,7 @@ from autopilot import platform
 from unity8.indicators import tests
 
 
-class IndicatorExistsTestCase(tests.IndicatorTestCase):
+class IndicatorExistsTestCase(tests.DeviceIndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
@@ -51,7 +51,7 @@ class IndicatorExistsTestCase(tests.IndicatorTestCase):
         )
 
 
-class IndicatorPageTitleMatchesWidgetTestCase(tests.IndicatorTestCase):
+class IndicatorPageTitleMatchesWidgetTestCase(tests.DeviceIndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',

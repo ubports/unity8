@@ -18,14 +18,13 @@
 #define FAKE_GSETTINGS_H
 
 #include <QList>
-#include <QHash>
 #include <QObject>
 
 class GSettingsSchemaQml: public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QByteArray id READ id WRITE setId NOTIFY idChanged)
+    Q_PROPERTY(QByteArray id READ id WRITE setId)
 
 public:
     GSettingsSchemaQml(QObject *parent = nullptr);
@@ -35,9 +34,6 @@ public:
 
     QByteArray path() const;
     void setPath(const QByteArray &path);
-
-Q_SIGNALS:
-    void idChanged(const QByteArray &id);
 
 private:
     QByteArray m_id;
@@ -54,15 +50,13 @@ class GSettingsQml: public QObject
 
 public:
     GSettingsQml(QObject *parent = nullptr);
-    ~GSettingsQml();
 
     GSettingsSchemaQml * schema() const;
+    QString pictureUri() const;
+    QString usageMode() const;
 
     void setPictureUri(const QString &str);
-    QString pictureUri() const;
-
-    void setUsageMode(const QString &str);
-    QString usageMode() const;
+    void setUsageMode(const QString &usageMode);
 
 Q_SIGNALS:
     void schemaChanged();
@@ -71,7 +65,6 @@ Q_SIGNALS:
 
 private:
     GSettingsSchemaQml* m_schema;
-    QString m_pictureUri;
 
     friend class GSettingsSchemaQml;
 };
@@ -84,23 +77,24 @@ public:
     static GSettingsControllerQml* instance();
     ~GSettingsControllerQml();
 
-    void registerSettingsObject(GSettingsQml *obj);
-    void unRegisterSettingsObject(GSettingsQml *obj);
+    QString pictureUri() const;
+    void setPictureUri(const QString &str);
 
-    Q_INVOKABLE void setPictureUri(const QByteArray &id, const QString &str);
-    QString pictureUri(const QByteArray &id) const;
+    QString usageMode() const;
+    void setUsageMode(const QString &usageMode);
 
-    Q_INVOKABLE void setUsageMode(const QByteArray &id, const QString &str);
-    QString usageMode(const QByteArray &id) const;
+Q_SIGNALS:
+    void pictureUriChanged(const QString&);
+    void usageModeChanged(const QString&);
 
 private:
     GSettingsControllerQml();
 
+    QString m_pictureUri;
+    QString m_usageMode;
+
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;
-
-    QHash<QString, QString> m_pictureUri;
-    QHash<QString, QString> m_usageMode;
 };
 
 #endif // FAKE_GSETTINGS_H
