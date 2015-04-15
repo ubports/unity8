@@ -262,8 +262,8 @@ void AccountsService::updateStatsWelcomeScreen(bool async)
 void AccountsService::updatePasswordDisplayHint(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.ubuntu.touch.AccountsService.SecurityPrivacy",
-                                                                    "StatsWelcomeScreen");
+                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                                    "PasswordDisplayHint");
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -271,7 +271,7 @@ void AccountsService::updatePasswordDisplayHint(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'StatsWelcomeScreen' property";
+            qWarning() << "Failed to get 'PasswordDisplayHint' property";
             watcher->deleteLater();
             return;
         }
