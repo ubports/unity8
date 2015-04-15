@@ -158,10 +158,10 @@ FocusScope {
                         PropertyChanges {
                             target: appDelegate
                             x: spreadMaths.animatedX
-                            y: spreadMaths.animatedY
+                            y: spreadMaths.animatedY + (appDelegate.height - decoratedWindow.height)
                             angle: spreadMaths.animatedAngle
-                            itemScale: spreadMaths.scale
-                            itemScaleOriginY: appDelegate.height;
+                            //itemScale: spreadMaths.scale
+                            //itemScaleOriginY: appDelegate.height;
                             z: index
                         }
                         PropertyChanges {
@@ -169,6 +169,8 @@ FocusScope {
                             decorationShown: false
                             highlightShown: index == appRepeater.highlightedIndex
                             state: "transformed"
+                            width: spreadMaths.spreadHeight
+                            height: spreadMaths.spreadHeight
                         }
                         PropertyChanges {
                             target: tileInfo
@@ -216,10 +218,12 @@ FocusScope {
 
                 DecoratedWindow {
                     id: decoratedWindow
-                    anchors.fill: parent
+                    anchors.left: appDelegate.left
+                    anchors.top: appDelegate.top
+                    windowWidth: appDelegate.width
+                    windowHeight: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
-                    highlightScale: 1 / appDelegate.itemScale
 
                     onFocusChanged: {
                         if (focus) {
@@ -239,7 +243,7 @@ FocusScope {
                             yScale: itemScale
                         },
                         Rotation {
-                            origin { x: 0; y: (appDelegate.height - (appDelegate.height * itemScale / 2)) }
+                            origin { x: 0; y: (decoratedWindow.height - (decoratedWindow.height * itemScale / 2)) }
                             axis { x: 0; y: 1; z: 0 }
                             angle: appDelegate.angle
                         }
@@ -261,7 +265,7 @@ FocusScope {
                 ColumnLayout {
                     id: tileInfo
                     width: units.gu(30)
-                    anchors { left: parent.left; top: parent.bottom; topMargin: units.gu(5) }
+                    anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(5) }
                     visible: false
                     spacing: units.gu(1)
 

@@ -29,10 +29,9 @@ FocusScope {
 
     property bool decorationShown: true
     property bool highlightShown: false
-    property real highlightScale: 1
 
-    property int transformedWidth: width
-    property int transformedHeight: height
+    property int windowWidth: width
+    property int windowHeight: height
 
     signal close();
     signal maximize();
@@ -43,14 +42,16 @@ FocusScope {
         State {
             name: "normal"
             PropertyChanges {
-                target: applicationWindow
+                target: root
+                width: windowWidth
+                height: windowHeight
             }
         },
         State {
             name: "transformed"
             PropertyChanges {
                 target: applicationWindow
-                itemScale: root.transformedWidth / root.width / root.highlightScale
+                itemScale: Math.max(root.width / root.windowWidth, root.height / root.windowHeight)
             }
             PropertyChanges {
                 target: clipper
@@ -72,14 +73,14 @@ FocusScope {
     Rectangle {
         id: selectionHighlight
         anchors.fill: parent
-        anchors.margins: -units.gu(1) * root.highlightScale
+        anchors.margins: -units.gu(1)
         color: "white"
         opacity: highlightShown ? 0.15 : 0
     }
 
     Rectangle {
         anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
-        height: units.dp(2) * root.highlightScale
+        height: units.dp(2)
         color: UbuntuColors.orange
         visible: root.highlightShown
     }
@@ -106,12 +107,12 @@ FocusScope {
             anchors.top: parent.top
             anchors.topMargin: root.decorationShown ? decoration.height : 0
             anchors.left: parent.left
-            width: parent.width
-            height: parent.height - (root.decorationShown ? decoration.height : 0)
+            width: root.windowWidth
+            height: root.windowHeight - (root.decorationShown ? decoration.height : 0)
             interactive: true
             focus: true
 
-            property real itemsScale: 1
+            property real itemScale: 1
             transform: [
                 Scale {
                     origin.x: 0; origin.y: 0
