@@ -47,7 +47,7 @@ Build-Depends: cmake,
                qtdeclarative5-dev-tools,
                qtdeclarative5-private-dev (>= 5.2.1),
                qtdeclarative5-qtmultimedia-plugin,
-               qtdeclarative5-ubuntu-settings-components (>= 0.5),
+               qtdeclarative5-ubuntu-settings-components (>= 0.6),
                qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
                qtdeclarative5-ubuntu-web-plugin,
                ttf-ubuntu-font-family,
@@ -119,7 +119,7 @@ Description: Unity 8 shell
 Package: unity8-common
 Architecture: all
 Depends: qml-module-qtquick-layouts,
-         qtdeclarative5-ubuntu-settings-components (>= 0.4),
+         qtdeclarative5-ubuntu-settings-components (>= 0.6),
          qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
          qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,

@@ -390,5 +390,57 @@ IndicatorTest {
             tap(panel, touchPosX, touchPosY);
             compare(backgroundPressedSpy.count, 2);
         }
+
+        /*
+          Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1439318
+          When the panel is in fullscreen mode and the user taps near the top edge,
+          the panel should take no action and the tap should reach the item behind the
+          panel.
+         */
+        function test_tapNearTopEdgeWithPanelInFullscreenMode() {
+            var indicatorArea = findChild(panel, "indicatorArea");
+            verify(indicatorArea);
+            var panelPriv = findInvisibleChild(panel, "panelPriv");
+            verify(panelPriv);
+
+            panel.fullscreenMode = true;
+            // wait until if finishes hiding itself
+            tryCompare(indicatorArea, "y", -panelPriv.indicatorHeight);
+
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+
+            // tap near the very top of the screen
+            tap(itemArea, itemArea.width / 2, 2);
+
+            // the tap should have reached the item behind the panel
+            compare(backgroundPressedSpy.count, 2);
+
+            // give it a couple of event loop iterations for any animations etc to kick in
+            wait(50);
+
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+        }
+
+        function test_openAndClosePanelWithMouseClicks() {
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+
+            mouseClick(panel.indicators,
+                    panel.indicators.width / 2,
+                    panel.indicators.minimizedPanelHeight / 2);
+
+            compare(panel.indicators.shown, true);
+            tryCompare(panel.indicators, "fullyOpened", true);
+
+            var handle = findChild(panel.indicators, "handle");
+            verify(handle);
+
+            mouseClick(handle);
+
+            compare(panel.indicators.shown, false);
+            tryCompare(panel.indicators, "fullyClosed", true);
+        }
     }
 }

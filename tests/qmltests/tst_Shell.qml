@@ -87,7 +87,7 @@ Rectangle {
                     }
                     StateChangeScript {
                         script: {
-                            GSettingsController.setUsageMode("com.canonical.Unity8", "Staged")
+                            GSettingsController.setUsageMode("Staged")
                         }
                     }
                 },
@@ -100,7 +100,7 @@ Rectangle {
                     }
                     StateChangeScript {
                         script: {
-                            GSettingsController.setUsageMode("com.canonical.Unity8", "Staged")
+                            GSettingsController.setUsageMode("Staged")
                         }
                     }
                 },
@@ -117,7 +117,7 @@ Rectangle {
                     }
                     StateChangeScript {
                         script: {
-                            GSettingsController.setUsageMode("com.canonical.Unity8", "Windowed")
+                            GSettingsController.setUsageMode("Windowed")
                         }
                     }
                 }
@@ -1034,6 +1034,11 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
             compare(wizard.shown, false);
             compare(tutorial.running, false);
+            tryCompare(AccountsService, "demoEdges", false);
+            tryCompare(Wizard.System, "wizardEnabled", false);
+
+            var tutorialLeft = findChild(tutorial, "tutorialLeft");
+            compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
@@ -1131,10 +1136,10 @@ Rectangle {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
                 var startPos = buttonShowDashHome.mapToItem(shell,
                         buttonShowDashHome.width * 0.2,
-                        buttonShowDashHome.height * 0.2);
+                        buttonShowDashHome.height * 0.8);
                 var endPos = buttonShowDashHome.mapToItem(shell,
                         buttonShowDashHome.width * 0.8,
-                        buttonShowDashHome.height * 0.8);
+                        buttonShowDashHome.height * 0.2);
                 touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
             }
 
@@ -1167,7 +1172,7 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             AccountsService.backgroundFile = data.accounts;
-            GSettingsController.setPictureUri("org.gnome.desktop.background", data.gsettings);
+            GSettingsController.setPictureUri(data.gsettings);
 
             if (data.output === "defaultBackground") {
                 tryCompare(shell, "background", shell.defaultBackground);

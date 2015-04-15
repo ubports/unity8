@@ -15,35 +15,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2015-04-11 05:50+0000\n"
+"X-Launchpad-Export-Date: 2015-04-14 05:33+0000\n"
 "X-Generator: Launchpad (build 17423)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:91
+#: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr ""
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr ""
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -55,7 +55,7 @@ msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:75
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr ""
 
@@ -69,6 +69,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
 #: qml/Components/Dialogs.qml:171
 msgid "Cancel"
 msgstr ""
@@ -78,7 +79,7 @@ msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr ""
 
@@ -97,17 +98,15 @@ msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:124
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:77 qml/Components/Dialogs.qml:101
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:130
 msgid "No"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:108
-#: qml/Components/Dialogs.qml:133
+#: qml/Components/Dialogs.qml:136
 msgid "Yes"
 msgstr ""
 
@@ -116,7 +115,7 @@ msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:149
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -132,23 +131,23 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:223
+#: qml/Components/Lockscreen.qml:238
 msgid "Emergency Call"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:255
+#: qml/Components/Lockscreen.qml:270
 msgid "OK"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:434 qml/Dash/GenericScopeView.qml:591
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:434
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr ""
 
@@ -172,11 +171,11 @@ msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr ""
 
-#: qml/Dash/PageHeader.qml:285
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr ""
 
@@ -212,19 +211,19 @@ msgstr ""
 msgid "Enable location data"
 msgstr ""
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr ""
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
 msgstr ""
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr ""
 
@@ -236,57 +235,57 @@ msgstr ""
 msgid "Tap to unlock"
 msgstr ""
 
-#: qml/Shell.qml:444
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr ""
 
-#: qml/Shell.qml:445
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr ""
 
-#: qml/Shell.qml:446
+#: qml/Greeter/NarrowView.qml:55
 msgid "This will be your last attempt."
 msgstr ""
 
-#: qml/Shell.qml:448
+#: qml/Greeter/NarrowView.qml:57
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:449
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
 
-#: qml/Shell.qml:402
+#: qml/Greeter/NarrowView.qml:115
 #, qt-format
 msgid "Enter %1"
 msgstr ""
 
-#: qml/Shell.qml:394
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr ""
 
-#: qml/Shell.qml:398
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passcode"
 msgstr ""
 
-#: qml/Shell.qml:403
+#: qml/Greeter/NarrowView.qml:118
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr ""
 
-#: qml/Shell.qml:395
+#: qml/Greeter/NarrowView.qml:119
 msgid "Sorry, incorrect passphrase"
 msgstr ""
 
-#: qml/Shell.qml:396
+#: qml/Greeter/NarrowView.qml:120
 msgid "Please re-enter"
 msgstr ""
 
-#: qml/Shell.qml:399
+#: qml/Greeter/NarrowView.qml:121
 msgid "Sorry, incorrect passcode"
 msgstr ""
 
