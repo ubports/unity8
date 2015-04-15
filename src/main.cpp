@@ -88,6 +88,7 @@ int main(int argc, const char *argv[])
     view->setTitle("Unity8 Shell");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
+    view->rootContext()->setContextProperty("shellMode", parser.mode());
     if (parser.hasFrameless()) {
         view->setFlags(Qt::FramelessWindowHint);
     }

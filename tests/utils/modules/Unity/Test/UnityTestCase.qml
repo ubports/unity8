@@ -32,8 +32,10 @@ TestCase {
         border { width: units.dp(1); color: "black" }
         opacity: 0.6
 
+        visible: testCase.running
+
         RotationAnimation on rotation {
-            running: true
+            running: parent.visible
             from: 0
             to: 360
             loops: Animation.Infinite

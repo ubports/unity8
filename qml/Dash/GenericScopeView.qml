@@ -19,7 +19,6 @@ import Ubuntu.Components 1.1
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
-import Powerd 0.1
 import "../Components"
 import "../Components/ListItems" as ListItems
 
@@ -105,7 +104,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !subPageLoader.open && (Powerd.status === Powerd.On)
+        value: isCurrent && !subPageLoader.open && (Qt.application.state == Qt.ApplicationActive)
     }
 
     UnitySortFilterProxyModel {

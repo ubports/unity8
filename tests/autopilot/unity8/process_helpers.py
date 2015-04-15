@@ -89,20 +89,53 @@ def unlock_unity(unity_proxy_obj=None):
 
 
 def lock_unity(unity_proxy_obj=None):
-    """Helper function that attempts to lock the unity greeter."""
-    import evdev
-    import time
-    uinput = evdev.UInput(name='unity8-autopilot-power-button',
-                          devnode='/dev/autopilot-uinput')
-    # One press and release to turn screen off (locking unity)
-    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
-    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
-    uinput.syn()
-    time.sleep(1)
-    # And another press and release to turn screen back on
-    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 1)
-    uinput.write(evdev.ecodes.EV_KEY, evdev.ecodes.KEY_POWER, 0)
-    uinput.syn()
+    """Helper function that attempts to lock unity greeter.
+
+    If unity_proxy_object is None create a proxy object by querying for the
+    running unity process.
+    Otherwise re-use the passed proxy object.
+
+    :raises RuntimeError: if the greeter attempts and fails to be locked.
+
+    :raises RuntimeWarning: when the greeter is found because it is
+      already locked.
+    :raises CannotAccessUnity: if unity is not introspectable or cannot be
+      found on dbus.
+    :raises CannotAccessUnity: if unity's upstart status is not "start" or the
+      upstart job cannot be found at all.
+
+    """
+    if unity_proxy_obj is None:
+        try:
+            pid = _get_unity_pid()
+            unity = _get_unity_proxy_object(pid)
+            main_window = unity.select_single(main_window_emulator.QQuickView)
+        except ProcessSearchError as e:
+            raise CannotAccessUnity(
+                "Cannot introspect unity, make sure that it has been started "
+                "with testability. Perhaps use the function "
+                "'restart_unity_with_testability' this module provides."
+                "(%s)"
+                % str(e)
+            )
+    else:
+        main_window = unity_proxy_obj.select_single(
+            main_window_emulator.QQuickView)
+
+    greeter = main_window.get_greeter()
+    if greeter.created is True:
+        raise RuntimeWarning("Greeter appears to be already locked.")
+
+    bus = dbus.SessionBus()
+    dbus_proxy = bus.get_object("com.canonical.UnityGreeter", "/")
+    try:
+        dbus_proxy.ShowGreeter()
+    except dbus.DBusException:
+        logger.info("Failed to lock greeter")
+        raise
+    else:
+        greeter.created.wait_for(True)
+        logger.info("Greeter locked, continuing.")
 
 
 def restart_unity_with_testability(*args):

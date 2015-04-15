@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import AccountsService 0.1
+import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
@@ -43,6 +44,11 @@ Item {
         function height() {
             return 0;
         }
+    }
+
+    GSettings {
+        id: unity8Settings
+        schema.id: "com.canonical.Unity8"
     }
 
     Component.onCompleted: {
@@ -112,6 +118,7 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
+            unity8Settings.usageMode = "Staged";
             AccountsService.demoEdges = false;
             AccountsService.demoEdges = true;
             swipeAwayGreeter();
@@ -185,17 +192,19 @@ Item {
         }
 
         function checkRightEdge() {
-            touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
+            if (unity8Settings.usageMode === "Staged") {
+                touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
 
-            var stage = findChild(shell, "stage");
-            var spreadView = findChild(stage, "spreadView");
-            tryCompare(spreadView, "phase", 0);
+                var stage = findChild(shell, "stage");
+                var spreadView = findChild(stage, "spreadView");
+                tryCompare(spreadView, "phase", 0);
+            }
         }
 
         function checkBottomEdge() {
             // Can't actually check effect of swipe, since dash isn't really loaded
             var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader");
-            tryCompare(applicationsDisplayLoader.item, "interactive", false);
+            tryCompare(applicationsDisplayLoader, "interactive", false);
         }
 
         function checkFinished() {
@@ -254,6 +263,14 @@ Item {
 
         function test_walkthrough() {
             goToPage(null);
+        }
+
+        function test_walkthroughOnDesktop() {
+            unity8Settings.usageMode = "Windowed";
+            var page = goToPage("tutorialLeftFinish");
+            var tick = findChild(page, "tick");
+            tap(tick);
+            checkFinished();
         }
 
         function test_launcherShortDrag() {

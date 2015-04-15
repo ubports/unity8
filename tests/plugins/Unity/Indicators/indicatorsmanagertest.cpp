@@ -31,13 +31,11 @@ private Q_SLOTS:
 
     void initTestCase()
     {
-        setenv("UNITY_TEST_ENV", "1", 1);
         setenv("XDG_DATA_DIRS", (sourceDirectory() + "/tests/data").toLatin1().data(), 1);
     }
 
     void cleanupTestCase()
     {
-        unsetenv("UNITY_TEST_ENV");
     }
 
     /*

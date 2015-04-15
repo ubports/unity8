@@ -468,14 +468,14 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         return;
     }
 
-    bool found = false;
-    Q_FOREACH(LauncherItem *item, m_list) {
-        if (app->appId() == item->appId()) {
-            found = true;
-            break;
+    int itemIndex = findApplication(app->appId());
+    if (itemIndex != -1) {
+        LauncherItem *item = m_list.at(itemIndex);
+        if (!item->recent()) {
+            item->setRecent(true);
+            m_asAdapter->syncItems(m_list);
+            Q_EMIT dataChanged(index(itemIndex), index(itemIndex), QVector<int>() << RoleRecent);
         }
-    }
-    if (found) {
         // Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);

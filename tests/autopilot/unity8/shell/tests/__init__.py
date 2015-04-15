@@ -65,7 +65,6 @@ UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
 UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
 
-
 def _get_device_emulation_scenarios(devices='All'):
     nexus4 = ('Desktop Nexus 4',
               dict(app_width=768, app_height=1280, grid_unit_px=18))
@@ -253,8 +252,14 @@ class UnityTestCase(AutopilotTestCase):
                 "%s=%s" % (key, value)
             ], stderr=subprocess.STDOUT)
 
-    def launch_unity(self, **kwargs):
-        """Launch the unity shell, return a proxy object for it."""
+    def launch_unity(self, mode="full-greeter", *args):
+        """
+            Launch the unity shell, return a proxy object for it.
+
+        :param str mode: The type of greeter/shell mode to use
+        :param args: A list of aguments to pass to unity8
+
+        """
         binary_path = get_binary_path()
         lib_path = get_lib_path()
 
@@ -289,9 +294,13 @@ class UnityTestCase(AutopilotTestCase):
         except OSError:
             pass
 
+        unity8_cli_args_list = ["--mode={}".format(mode)]
+        if len(args) != 0:
+            unity8_cli_args_list += args
+
         app_proxy = self._launch_unity_with_upstart(
             binary_path,
-            self.unity_geometry_args,
+            self.unity_geometry_args + unity8_cli_args_list
         )
 
         self._set_proxy(app_proxy)

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -86,14 +86,14 @@ public:
     void setScreenshot(const QUrl& screenshot);
     void setLive(bool live);
 
-    Q_INVOKABLE void setState(State newState);
-    Q_INVOKABLE void release();
-
     int touchPressCount() const { return m_touchPressCount; }
     void setTouchPressCount(int count) { m_touchPressCount = count; Q_EMIT touchPressCountChanged(count); }
 
     int touchReleaseCount() const { return m_touchReleaseCount; }
     void setTouchReleaseCount(int count) { m_touchReleaseCount = count; Q_EMIT touchReleaseCountChanged(count); }
+
+    Q_INVOKABLE void setState(State newState);
+    Q_INVOKABLE void release();
 
 Q_SIGNALS:
     void typeChanged(Type);
