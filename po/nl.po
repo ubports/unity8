@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-12-10 10:55+0100\n"
-"PO-Revision-Date: 2014-11-05 08:19+0000\n"
-"Last-Translator: rob <linuxned@gmail.com>\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"PO-Revision-Date: 2015-03-28 21:07+0000\n"
+"Last-Translator: Sergi <philipsen.sergi@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-12-13 07:11+0000\n"
-"X-Generator: Launchpad (build 17286)\n"
+"X-Launchpad-Export-Date: 2015-03-29 05:46+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Wachtwoord: "
 
@@ -31,68 +31,95 @@ msgstr "Snelkoppeling vastzetten"
 msgid "Unpin shortcut"
 msgstr "Snelkoppeling losmaken"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Apparaat vergrendeld"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "U werd de toegang geweigerd omdat u te vaak een onjuiste wachtwoordzin heeft "
 "ingevoerd."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "U werd de toegang geweigerd omdat u te vaak een onjuiste toegangscode heeft "
 "ingevoerd."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Wacht a.u.b. %1 minuut en probeer het dan opnieuw…"
 msgstr[1] "Wacht a.u.b. %1 minuten en probeer het dan opnieuw…"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Afmelden"
 
-#: qml/Components/Dialogs.qml:71
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "Weet u zeker dat u zich wilt afmelden?"
 
-#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
-#: qml/Components/Dialogs.qml:122
-msgid "No"
-msgstr "Nee"
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
+msgid "Lock"
+msgstr "Vergrendelen"
 
-#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
-#: qml/Components/Dialogs.qml:129
-msgid "Yes"
-msgstr "Ja"
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
+msgid "Log Out"
+msgstr "Afmelden"
 
-#: qml/Components/Dialogs.qml:94
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Uitschakelen"
 
-#: qml/Components/Dialogs.qml:95
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "Weet u zeker dat u het apparaat wilt uitschakelen?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Herstarten"
 
-#: qml/Components/Dialogs.qml:120
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr "Uitschakelen"
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr "Herstarten"
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "Weet u zeker dat u het apparaat wilt herstarten?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:130
+msgid "No"
+msgstr "Nee"
+
+#: qml/Components/Dialogs.qml:136
+msgid "Yes"
+msgstr "Ja"
+
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Energie"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -100,65 +127,15 @@ msgstr ""
 "Weet u zeker dat u het apparaat\n"
 "wilt uitschakelen?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Uitschakelen"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Herstarten"
-
-#: qml/Components/Dialogs.qml:167
-msgid "Cancel"
-msgstr "Annuleren"
-
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Intro overslaan"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Rechterrand"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "Veeg vanuit de rechterrand om het scherm te ontgrendelen"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Bovenrand"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Veeg vanuit de bovenrand om de indicatoren te bekijken"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Sluiten"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Linkerrand"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Goed gedaan"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
-"het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -172,32 +149,39 @@ msgstr "Noodoproep"
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/GenericScopeView.qml:431
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "Alles zien"
 
-#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Zoeken"
 
-#: qml/Dash/PageHeader.qml:260
+#: qml/Dash/PageHeader.qml:269
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Winkel"
 
-#: qml/Dash/PageHeader.qml:277
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "Zoeken"
+
+#: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Instellingen"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Verwijderen uit favorieten"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Toevoegen aan favorieten"
 
@@ -229,21 +213,91 @@ msgstr "Trekken om te verversen…"
 msgid "Release to refresh…"
 msgstr "Loslaten om te verversen…"
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr "Locatiegegevens inschakelen"
+
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Beheren"
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Thuis"
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Ook geïnstalleerd"
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Ontgrendelen"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr "Opnieuw proberen"
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr "Tik om te ontgrendelen"
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "Sorry, onjuiste wachtwoordzin."
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Sorry, onjuiste toegangscode."
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Dit zal uw laatste poging worden."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
+"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Wanneer de toegangscode nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
+"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Voer %1 in"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Voer wachtwoordzin in"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Voer toegangscode in"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Sorry, onjuiste %1"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "Sorry, onjuiste wachtwoordzin"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Herhaal deze a.u.b."
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "Sorry, onjuiste toegangscode"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -285,6 +339,11 @@ msgstr "Klaar"
 msgid "Failed, tap to retry"
 msgstr "Mislukt, tik om het opnieuw te proberen"
 
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
+msgid "Reply"
+msgstr "Beantwoorden"
+
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
 msgstr "Simkaart deblokkeren"
@@ -293,158 +352,162 @@ msgstr "Simkaart deblokkeren"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Shell.qml:367
-#, qt-format
-msgid "Enter %1"
-msgstr "Voer %1 in"
-
-#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Voer wachtwoordzin in"
-
-#: qml/Shell.qml:369
-msgid "Enter passcode"
-msgstr "Voer toegangscode in"
-
-#: qml/Shell.qml:370
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Sorry, onjuiste %1"
-
-#: qml/Shell.qml:371
-msgid "Sorry, incorrect passphrase"
-msgstr "Sorry, onjuiste wachtwoordzin"
-
-#: qml/Shell.qml:372
-msgid "Please re-enter"
-msgstr "Herhaal deze a.u.b."
-
-#: qml/Shell.qml:373
-msgid "Sorry, incorrect passcode"
-msgstr "Sorry, onjuiste toegangscode"
-
-#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Sorry, onjuiste wachtwoordzin."
-
-#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Sorry, onjuiste toegangscode."
-
-#: qml/Shell.qml:469
-msgid "This will be your last attempt."
-msgstr "Dit zal uw laatste poging worden."
-
-#: qml/Shell.qml:471
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
 msgstr ""
-"Wanneer de wachtwoordzin nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
-"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+"Deze actie doet verschillende dingen afhankelijk van de app die gebruikt "
+"wordt"
 
-#: qml/Shell.qml:472
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Wanneer de toegangscode nu opnieuw onjuist wordt ingevoerd, zal uw telefoon "
-"teruggaan naar de fabrieksinstellingen en zal al uw eigen data verloren gaan."
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Tik hier om te stoppen."
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr "Speciale menu's openen"
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr "Veeg omhoog vanaf de onderrand."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Dit zijn de snelkoppelingen van favoriete apps"
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Tik hier om door te gaan."
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr "De Starter openen"
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr "Korte veeg vanaf de linkerrand."
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr "U bent er bijna!"
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr "Probeer het a.u.b. opnieuw."
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr "Geopende apps bekijken"
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr "Lange veeg vanaf de rechterrand."
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr "Alle actieve taken bekijken."
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Terug"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Hallo!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Welkom bij uw Ubuntutelefoon."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Laten we beginnen."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Doorgaan"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Plaats een simkaart en herstart uw apparaat"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Indien u dit niet doet, kunt u niet telefoneren of sms´en."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr ""
+msgstr "Overslaan"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Vergrendelbeveiliging"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Selecteer a.u.b. hoe u uw telefoon wilt ontgrendelen."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Vegen"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Geen beveiliging"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Toegangscode"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "Uitsluitend 4 cijfers"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Wachtwoordzin"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Cijfers en letters"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Verbinden met Wifi"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "Beschikbare netwerken…"
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "Geen netwerken beschikbaar."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Locatie"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Laat de telefoon uw locatie detecteren:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Alleen GPS gebruiken (minder nauwkeurig)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"Met behulp van GPS, geanonimiseerde Wi-Fi en mobiele netwerkinfo (aanbevolen)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -452,81 +515,87 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Door deze optie te selecteren gaat u akkoord met de Nokia HERE <a "
+"href='#'>Algemene Voorwaarden</a>."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Helemaal niet"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "U kunt later van gedachten veranderen in <b>Systeeminstellingen</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "Uw ervaring verbeteren"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Uw telefoon is ingesteld om fouten automatisch te rapporteren aan Canonical "
+"en partners, de makers van het besturingssysteem."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Dit kan uitgeschakeld worden bij de <b>Systeeminstellingen</b> onder "
+"<b>Beveiliging &amp; Privacy</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Alles klaar"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Mooi werk!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Uw telefoon is nu klaar voor gebruik."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Voltooien"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Algemene voorwaarden"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Wachtwoordzin bevestigen"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Toegangscode bevestigen"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Probeer het a.u.b. opnieuw."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Kies uw toegangscode"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "De wachtwoordzin moet 4 tekens lang zijn"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Bevestigen"
@@ -543,14 +612,78 @@ msgstr ""
 #~ msgid "Speaking..."
 #~ msgstr "Inspreken…"
 
+#~ msgid "Search"
+#~ msgstr "Zoeken"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
+
+#~ msgid "Well done"
+#~ msgstr "Goed gedaan"
+
+#~ msgid "Top edge"
+#~ msgstr "Bovenrand"
+
+#~ msgid "Close"
+#~ msgstr "Sluiten"
+
+#~ msgid "Skip intro"
+#~ msgstr "Intro overslaan"
+
+#~ msgid "Left edge"
+#~ msgstr "Linkerrand"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
+
+#~ msgid "Right edge"
+#~ msgstr "Rechterrand"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
+#~ "het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Veeg vanuit de bovenrand om de indicatoren te bekijken"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Veeg vanuit de rechterrand om het scherm te ontgrendelen"
+
 #~ msgid "All"
 #~ msgstr "Alles"
 
 #~ msgid "Favorites"
 #~ msgstr "Favorieten"
 
+#~ msgid "Store"
+#~ msgstr "Winkel"
+
 #~ msgid "Done"
 #~ msgstr "Klaar"
+
+#~ msgid "Power off"
+#~ msgstr "Uitschakelen"
+
+#~ msgid "Log out"
+#~ msgstr "Afmelden"
+
+#~ msgid "Reboot"
+#~ msgstr "Herstarten"
+
+#~ msgid "Shut down"
+#~ msgstr "Uitschakelen"
+
+#~ msgid "Settings"
+#~ msgstr "Instellingen"
+
+#~ msgid "Power"
+#~ msgstr "Energie"
+
+#~ msgid "Restart"
+#~ msgstr "Herstarten"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Scopes-beheer"

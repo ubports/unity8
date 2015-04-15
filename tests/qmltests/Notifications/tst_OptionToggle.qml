@@ -1,17 +1,20 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation; version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
 import QtQuick 2.0
@@ -223,7 +226,7 @@ Row {
             }
 
             // test input does not fall through
-            mouseClick(notification, notification.width / 2, notification.height / 2)
+            mouseClick(notification)
             if(data.type == Notification.Interactive) {
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
@@ -235,8 +238,10 @@ Row {
             compare(bodyLabel.visible, data.bodyVisible, "body-text visibility is incorrect")
             compare(buttonRow.visible, data.buttonRowVisible, "button visibility is incorrect")
 
-            var audioItem = findInvisibleChild(notification, "sound")
-            compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
+            if (data.hasSound) {
+                var audioItem = findInvisibleChild(notification, "sound")
+                compare(audioItem.playbackState, data.hasSound ? Audio.PlayingState : Audio.StoppedState, "Audio has wrong state")
+            }
 
             if(data.buttonRowVisible) {
                 var buttonCancel = findChild(buttonRow, "notify_button1")
@@ -244,7 +249,7 @@ Row {
 
                 // only test the left/cancel-button if two actions have been passed in
                 if (data.actions.length == 2) {
-                    tryCompareFunction(function() { mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    tryCompareFunction(function() { mouseClick(buttonCancel); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                     actionSpy.clear()
                 }
@@ -253,7 +258,7 @@ Row {
                 verify(buttonAccept.color === data.buttonTinted ? "#3fb24f" : "#dddddd", "button has the wrong color-tint")
 
                 // click the positive/right button
-                tryCompareFunction(function() { mouseClick(buttonAccept, buttonAccept.width / 2, buttonAccept.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                tryCompareFunction(function() { mouseClick(buttonAccept); return actionSpy.signalArguments.length > 0; }, true);
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id positive action")
                 actionSpy.clear()
                 waitForRendering(notification)
@@ -264,20 +269,20 @@ Row {
                     tryCompareFunction(function() { return optionToggle.expanded == false; }, true);
 
                     // click to expand
-                    tryCompareFunction(function() { mouseClick(optionToggle, optionToggle.width / 2, optionToggle.height / 2); return optionToggle.expanded == true; }, true);
+                    tryCompareFunction(function() { mouseClick(optionToggle); return optionToggle.expanded == true; }, true);
 
                     // try clicking on choices in expanded comboList
                     var choiceButton1 = findChild(notification, "notify_button3")
-                    tryCompareFunction(function() { mouseClick(choiceButton1, choiceButton1.width / 2, choiceButton1.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    tryCompareFunction(function() { mouseClick(choiceButton1); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[3]["id"], "got wrong id choice action 1")
                     actionSpy.clear()
 
                     var choiceButton2 = findChild(notification, "notify_button4")
-                    tryCompareFunction(function() { mouseClick(choiceButton2, choiceButton2.width / 2, choiceButton2.height / 2); return actionSpy.signalArguments.length > 0; }, true);
+                    tryCompareFunction(function() { mouseClick(choiceButton2); return actionSpy.signalArguments.length > 0; }, true);
                     compare(actionSpy.signalArguments[0][0], data.actions[4]["id"], "got wrong id choice action 2")
                     actionSpy.clear()
                 } else {
-                    mouseClick(buttonCancel, buttonCancel.width / 2, buttonCancel.height / 2)
+                    mouseClick(buttonCancel)
                     compare(actionSpy.signalArguments[0][0], data.actions[1]["id"], "got wrong id for negative action")
                 }
             }

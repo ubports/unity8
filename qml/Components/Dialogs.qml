@@ -19,6 +19,7 @@ import QtQuick 2.0
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Ubuntu.Components 1.1
+import LightDM 0.1 as LightDM
 
 Item {
     id: root
@@ -35,20 +36,11 @@ Item {
         }
     }
 
-    function onPowerKeyPressed() {
-        // FIXME: event.isAutoRepeat is always false on Nexus 4.
-        // So we use powerKeyTimer.running to avoid the PowerOff key repeat
-        // https://launchpad.net/bugs/1349416
-        if (!powerKeyTimer.running) {
-            powerKeyTimer.restart();
-        }
-    }
-
-    function onPowerKeyReleased() {
-        powerKeyTimer.stop();
-    }
-
     signal powerOffClicked();
+
+    function showPowerDialog() {
+        d.showPowerDialog();
+    }
 
     QtObject {
         id: d // private stuff
@@ -59,42 +51,40 @@ Item {
             if (!dialogLoader.active) {
                 dialogLoader.sourceComponent = powerDialogComponent;
                 dialogLoader.active = true;
+                dialogLoader.item.forceActiveFocus();
             }
         }
     }
     Loader {
         id: dialogLoader
+        objectName: "dialogLoader"
         anchors.fill: parent
         active: false
-    }
-
-    Timer {
-        id: powerKeyTimer
-        interval: 2000
-        repeat: false
-        triggeredOnStart: false
-
-        onTriggered: {
-            d.showPowerDialog();
-        }
     }
 
     Component {
         id: logoutDialogComponent
         ShellDialog {
             id: logoutDialog
-            title: i18n.tr("Log out")
+            title: i18n.ctr("Title: Lock/Log out dialog", "Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
-                text: i18n.tr("No")
+                text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
+                    LightDM.Greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }
             Button {
-                text: i18n.tr("Yes")
+                text: i18n.ctr("Button: Log out from the system", "Log Out")
                 onClicked: {
                     unitySessionService.logout();
+                    logoutDialog.hide();
+                }
+            }
+            Button {
+                text: i18n.tr("Cancel")
+                onClicked: {
                     logoutDialog.hide();
                 }
             }
@@ -105,19 +95,27 @@ Item {
         id: shutdownDialogComponent
         ShellDialog {
             id: shutdownDialog
-            title: i18n.tr("Shut down")
+            title: i18n.ctr("Title: Reboot/Shut down dialog", "Shut down")
             text: i18n.tr("Are you sure you want to shut down?")
             Button {
-                text: i18n.tr("No")
+                text: i18n.ctr("Button: Reboot the system", "Reboot")
                 onClicked: {
+                    root.closeAllApps();
+                    unitySessionService.reboot();
                     shutdownDialog.hide();
                 }
             }
             Button {
-                text: i18n.tr("Yes")
+                text: i18n.ctr("Button: Shut down the system", "Shut down")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.shutdown();
+                    shutdownDialog.hide();
+                }
+            }
+            Button {
+                text: i18n.tr("Cancel")
+                onClicked: {
                     shutdownDialog.hide();
                 }
             }
@@ -128,7 +126,7 @@ Item {
         id: rebootDialogComponent
         ShellDialog {
             id: rebootDialog
-            title: i18n.tr("Reboot")
+            title: i18n.ctr("Title: Reboot dialog", "Reboot")
             text: i18n.tr("Are you sure you want to reboot?")
             Button {
                 text: i18n.tr("No")
@@ -151,10 +149,10 @@ Item {
         id: powerDialogComponent
         ShellDialog {
             id: powerDialog
-            title: i18n.tr("Power")
+            title: i18n.ctr("Title: Power off/Restart dialog", "Power")
             text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
-                text: i18n.tr("Power off")
+                text: i18n.ctr("Button: Power off the system", "Power off")
                 onClicked: {
                     root.closeAllApps();
                     powerDialog.hide();
@@ -163,7 +161,7 @@ Item {
                 color: UbuntuColors.red
             }
             Button {
-                text: i18n.tr("Restart")
+                text: i18n.ctr("Button: Restart the system", "Restart")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.reboot();
@@ -211,6 +209,7 @@ Item {
         onLogoutReady: {
             root.closeAllApps();
             Qt.quit();
+            unitySessionService.endSession();
         }
     }
 

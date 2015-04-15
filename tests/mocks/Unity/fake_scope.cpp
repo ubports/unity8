@@ -24,6 +24,8 @@
 #include "fake_scopes.h"
 #include "fake_settingsmodel.h"
 
+#include <paths.h> // from unity8/include
+
 Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
@@ -185,6 +187,7 @@ void Scope::activate(QVariant const& result)
     if (result.toString() == "Result.2.2") {
         Scopes *scopes = dynamic_cast<Scopes*>(parent());
         m_openScope = scopes->getScopeFromAll("MockScope9");
+        scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
     }
 }
@@ -198,7 +201,7 @@ PreviewStack* Scope::preview(QVariant const& result)
     } else {
         // This probably leaks, do we don't care
         // it's a  test after all
-        return new PreviewStack;
+        return new PreviewStack(this, this);
     }
 }
 
@@ -208,11 +211,10 @@ void Scope::cancelActivation()
 
 void Scope::closeScope(unity::shell::scopes::ScopeInterface* scope)
 {
-    if (scope != m_openScope) {
-        qDebug() << scope << m_openScope;
-        qFatal("Scope::closeScope got wrong scope in closeScope");
+    Scopes *scopes = dynamic_cast<Scopes*>(parent());
+    if (scopes) {
+        return scopes->closeScope(scope);
     }
-    m_openScope = nullptr;
 }
 
 QString Scope::currentNavigationId() const
@@ -249,11 +251,11 @@ QVariantMap Scope::customizations() const
         m["foreground-color"] = "blue";
         m["page-header"] = h;
     } else if (m_id == "MockScope4") {
-        h["navigation-background"] = QUrl("../../../tests/qmltests/Dash/artwork/background.png");
+        h["navigation-background"] = QUrl(sourceDirectory() + "tests/qmltests/Dash/artwork/background.png");
         m["page-header"] = h;
     } else if (m_id == "MockScope5") {
         h["background"] = "gradient:///lightgrey/grey";
-        h["logo"] = QUrl("../../../tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
+        h["logo"] = QUrl(sourceDirectory() + "tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
         h["divider-color"] = "red";
         h["navigation-background"] = "color:///black";
         m["page-header"] = h;
@@ -308,5 +310,14 @@ void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation
     } else {
         m_currentNavigationId = navigationId;
         Q_EMIT currentNavigationIdChanged();
+    }
+}
+
+void Scope::performQuery(const QString& query)
+{
+    Q_EMIT queryPerformed(query);
+    if (query.startsWith("scopes://")) {
+        QString scopeId = query.mid(9);
+        Q_EMIT gotoScope(scopeId);
     }
 }

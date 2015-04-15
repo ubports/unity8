@@ -57,7 +57,7 @@ Rectangle {
         }
 
         function test_updated_on_unfocus() {
-            mouseClick(control, control.width / 2, control.height / 2);
+            mouseClick(control);
             control.selectAll();
             control.cut();
             control.insert(0, newNumber);
@@ -67,7 +67,7 @@ Rectangle {
         }
 
         function test_updated_on_accepted() {
-            mouseClick(control, control.width / 2, control.height / 2);
+            mouseClick(control);
             control.selectAll();
             control.cut();
             control.insert(0, newNumber);
@@ -86,7 +86,7 @@ Rectangle {
         }
 
         function test_unacceptable_input() {
-            mouseClick(control, control.width / 2, control.height / 2);
+            mouseClick(control);
             control.selectAll();
             control.cut();
             control.insert(0, "not valid");

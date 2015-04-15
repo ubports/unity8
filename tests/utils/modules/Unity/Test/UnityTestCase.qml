@@ -23,12 +23,24 @@ TestCase {
     id: testCase
     TestUtil {id:util}
 
-    ActivityIndicator {
+    // This is needed for waitForRendering calls to return
+    // if the watched element already got rendered
+    Rectangle {
+        width: units.gu(1)
+        height: width
+        parent: testCase.parent
+        border { width: units.dp(1); color: "black" }
+        opacity: 0.6
+
         visible: testCase.running
-        anchors.centerIn: parent
-        Component.onCompleted: parent = testCase.parent
-        z: 100
-        running: visible
+
+        RotationAnimation on rotation {
+            running: parent.visible
+            from: 0
+            to: 360
+            loops: Animation.Infinite
+            duration: 1000
+        }
     }
 
     // Fake implementation to be provided to items under test
@@ -36,6 +48,71 @@ TestCase {
         this.currentTimeMs = 0
         this.getCurrentTimeMs = function() {return this.currentTimeMs}
     }
+
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    function mouseClick(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseClick(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2);
+    }
+
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    function mouseDoubleClick(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseDoubleClick(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    function mousePress(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mousePress(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    function mouseRelease(item, x, y, button, modifiers, delay) {
+        if (button === undefined)
+            button = Qt.LeftButton;
+        if (modifiers === undefined)
+            modifiers = Qt.NoModifier;
+        if (delay === undefined)
+            delay = -1;
+        if (x === undefined)
+            x = item.width / 2;
+        if (y === undefined)
+            y = item.height / 2;
+        if (!qtest_events.mouseRelease(item, x, y, button, modifiers, delay))
+            qtest_fail("window not shown", 2)
+    }
+
 
     // Flickable won't recognise a single mouse move as dragging the flickable.
     // Use 5 steps because it's what
@@ -109,78 +186,22 @@ TestCase {
         return null;
     }
 
-    // Type a full string instead of keyClick letter by letter
-    // TODO: this is not ugly, this is uber-ugly and does not support
-    // any special character. Remove the keyMap once keyClick(obj, char)
-    // has landed in upstream Qt.
-    function typeString(str) {
-        var keyMap = {
-            "a": Qt.Key_A,
-            "b": Qt.Key_B,
-            "c": Qt.Key_C,
-            "d": Qt.Key_D,
-            "e": Qt.Key_E,
-            "f": Qt.Key_F,
-            "g": Qt.Key_G,
-            "h": Qt.Key_H,
-            "i": Qt.Key_I,
-            "j": Qt.Key_J,
-            "k": Qt.Key_K,
-            "l": Qt.Key_L,
-            "m": Qt.Key_M,
-            "n": Qt.Key_N,
-            "o": Qt.Key_O,
-            "p": Qt.Key_P,
-            "q": Qt.Key_Q,
-            "r": Qt.Key_R,
-            "s": Qt.Key_S,
-            "t": Qt.Key_T,
-            "u": Qt.Key_U,
-            "v": Qt.Key_V,
-            "w": Qt.Key_W,
-            "x": Qt.Key_X,
-            "y": Qt.Key_Y,
-            "z": Qt.Key_Z,
-            "A": Qt.Key_A,
-            "B": Qt.Key_B,
-            "C": Qt.Key_C,
-            "D": Qt.Key_D,
-            "E": Qt.Key_E,
-            "F": Qt.Key_F,
-            "G": Qt.Key_G,
-            "H": Qt.Key_H,
-            "I": Qt.Key_I,
-            "J": Qt.Key_J,
-            "K": Qt.Key_K,
-            "L": Qt.Key_L,
-            "M": Qt.Key_M,
-            "N": Qt.Key_N,
-            "O": Qt.Key_O,
-            "P": Qt.Key_P,
-            "Q": Qt.Key_Q,
-            "R": Qt.Key_R,
-            "S": Qt.Key_S,
-            "T": Qt.Key_T,
-            "U": Qt.Key_U,
-            "V": Qt.Key_V,
-            "W": Qt.Key_W,
-            "X": Qt.Key_X,
-            "Y": Qt.Key_Y,
-            "Z": Qt.Key_Z,
-            "0": Qt.Key_0,
-            "1": Qt.Key_1,
-            "2": Qt.Key_2,
-            "3": Qt.Key_3,
-            "4": Qt.Key_4,
-            "5": Qt.Key_5,
-            "6": Qt.Key_6,
-            "7": Qt.Key_7,
-            "8": Qt.Key_8,
-            "9": Qt.Key_9,
-            " ": Qt.Key_Space,
+    function findChildsByType(obj, typeName) {
+        var res = new Array(0);
+        for (var i in obj.children) {
+            var c = obj.children[i];
+            if (UT.Util.isInstanceOf(c, typeName)) {
+                res.push(c)
+            }
+            res = res.concat(findChildsByType(c, typeName));
         }
+        return res;
+    }
+
+    // Type a full string instead of keyClick letter by letter
+    function typeString(str) {
         for (var i = 0; i < str.length; i++) {
-            keyClick(keyMap[str[i]])
+            keyClick(str[i])
         }
     }
 
@@ -212,8 +233,21 @@ TestCase {
         }
     }
 
-    function touchEvent() {
-        return UT.Util.touchEvent()
+    function flickToYEnd(item) {
+        var i = 0;
+        var x = item.width / 2;
+        var y = item.height - units.gu(1);
+        var toY = units.gu(1);
+        while (i < 5 && !item.atYEnd) {
+            touchFlick(item, x, y, x, toY);
+            tryCompare(item, "moving", false);
+            ++i;
+        }
+        tryCompare(item, "atYEnd", true);
+    }
+
+    function touchEvent(item) {
+        return UT.Util.touchEvent(item)
     }
 
     // speed is in pixels/second
@@ -246,7 +280,7 @@ TestCase {
         if (beginTouch) {
             fakeDateTime.currentTimeMs += timeStep
 
-            var event = touchEvent()
+            var event = touchEvent(item)
             event.press(0 /* touchId */, rootFrom.x, rootFrom.y)
             event.commit()
         }
@@ -256,19 +290,19 @@ TestCase {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
                 wait(iterations / speed)
-                var event = touchEvent()
+                var event = touchEvent(item)
                 event.move(0 /* touchId */, rootTo.x, rootTo.y)
                 event.commit()
             } else {
                 wait(iterations / speed)
-                var event = touchEvent()
+                var event = touchEvent(item)
                 event.move(0 /* touchId */, rootFrom.x + (i + 1) * diffX, rootFrom.y + (i + 1) * diffY)
                 event.commit()
             }
         }
         if (endTouch) {
             fakeDateTime.currentTimeMs += timeStep
-            var event = touchEvent()
+            var event = touchEvent(item)
             event.release(0 /* touchId */, rootTo.x, rootTo.y)
             event.commit()
         }
@@ -278,12 +312,12 @@ TestCase {
         // Make sure the item is rendered
         waitForRendering(item);
 
-        var event1 = touchEvent();
+        var event1 = touchEvent(item);
         // first finger
         event1.press(0, x1Start, y1Start);
         event1.commit();
         // second finger
-        event1.stationary(0);
+        event1.move(0, x1Start, y1Start);
         event1.press(1, x2Start, y2Start);
         event1.commit();
 
@@ -311,7 +345,7 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
@@ -320,7 +354,7 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
@@ -338,11 +372,11 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
 
-        event = touchEvent()
+        event = touchEvent(item)
         event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
@@ -381,4 +415,14 @@ TestCase {
             }
         }
     }
+
+    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    function waitForRendering(item, timeout) {
+        if (timeout === undefined)
+            timeout = 5000;
+        if (!item)
+            qtest_fail("No item given to waitForRendering", 1);
+        return qtest_results.waitForRendering(item, timeout);
+    }
+
 }

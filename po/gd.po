@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-12-10 10:55+0100\n"
-"PO-Revision-Date: 2014-11-09 08:18+0000\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"PO-Revision-Date: 2015-03-27 09:50+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2014-12-13 07:11+0000\n"
-"X-Generator: Launchpad (build 17286)\n"
+"X-Launchpad-Export-Date: 2015-03-28 05:32+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 "Language: gd\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Facal-faire: "
 
@@ -33,23 +33,23 @@ msgstr "Prìnich ath-ghoirid"
 msgid "Unpin shortcut"
 msgstr "Neo-phrìnich an ath-ghoirid"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Tha glas air an uidheam"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Chaidh do glasadh a-mach às an uidheam on a chuir thu abairt-fhaire chearr a-"
 "steach cus tursan."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Chaidh do glasadh a-mach às an uidheam on a chuir thu còd-faire cearr a-"
 "steach cus tursan."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -58,45 +58,72 @@ msgstr[1] "Fuirich ort %1 dhiog 's feuch ris a-rithist an uairsin…"
 msgstr[2] "Fuirich ort %1 diogan 's feuch ris a-rithist an uairsin…"
 msgstr[3] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:71
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "A bheil thu cinnteach gu bheil thu airson clàradh a-mach?"
 
-#: qml/Components/Dialogs.qml:73 qml/Components/Dialogs.qml:97
-#: qml/Components/Dialogs.qml:122
-msgid "No"
-msgstr "Chan eil"
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
+msgid "Lock"
+msgstr "Glais"
 
-#: qml/Components/Dialogs.qml:80 qml/Components/Dialogs.qml:104
-#: qml/Components/Dialogs.qml:129
-msgid "Yes"
-msgstr "Tha"
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
+msgid "Log Out"
+msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:94
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "Sguir dheth"
+
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Dùin sìos"
 
-#: qml/Components/Dialogs.qml:95
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "A bheil thu cinnteach gu bheil thu airson a dhùnadh sìos?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Ath-thòisich an siostam"
 
-#: qml/Components/Dialogs.qml:120
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr "Dùin sìos"
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr "Ath-thòisich an siostam"
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "A bheil thu cinnteach gu bheil thu airson tòiseachadh às ùr?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:130
+msgid "No"
+msgstr "Chan eil"
+
+#: qml/Components/Dialogs.qml:136
+msgid "Yes"
+msgstr "Tha"
+
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Cumhachd"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -104,71 +131,15 @@ msgstr ""
 "A bheil thu cinnteach gu bheil thu\n"
 "airson a' chumhachd a chur dheth?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Cuir a' chumhachd dheth"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ath-thòisich"
-
-#: qml/Components/Dialogs.qml:167
-msgid "Cancel"
-msgstr "Sguir dheth"
-
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Gearr leum thairis air an ro-ràdh"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "An oir dheas"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
-"far an fhòn"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "An oir aig a' bharr"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
-"fhaighinn air na taisbeanairean"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Dùin"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "An oir chlì"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
-"luath air na h-aplacaidean"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Gasta!"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
-"am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -182,32 +153,39 @@ msgstr "Gairm èiginn"
 msgid "OK"
 msgstr "Ceart ma-thà"
 
-#: qml/Dash/GenericScopeView.qml:431 qml/Dash/GenericScopeView.qml:588
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/GenericScopeView.qml:431
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:493 qml/Dash/PageHeader.qml:267
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Lorg"
 
-#: qml/Dash/PageHeader.qml:260
+#: qml/Dash/PageHeader.qml:269
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Am bùth"
+msgstr "A' bhùth"
 
-#: qml/Dash/PageHeader.qml:277
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "Lorg"
+
+#: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Roghainnean"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Thoir air falbh o na h-annsachdan"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Cuir ris na h-annsachdan"
 
@@ -239,21 +217,93 @@ msgstr "Tarraing airson ath-nuadhachadh…"
 msgid "Release to refresh…"
 msgstr "Leig às airson ath-nuadhachadh…"
 
-#: qml/Dash/ScopesList.qml:63
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr "Cuir an comas dàta an ionaid"
+
+#: qml/Dash/ScopesList.qml:66
 msgid "Manage"
-msgstr ""
+msgstr "Stiùirich"
 
-#: qml/Dash/ScopesList.qml:107
+#: qml/Dash/ScopesList.qml:112
 msgid "Home"
-msgstr ""
+msgstr "Dhachaigh"
 
-#: qml/Dash/ScopesList.qml:108
+#: qml/Dash/ScopesList.qml:113
 msgid "Also installed"
-msgstr ""
+msgstr "Air a stàladh cuideachd"
 
-#: qml/Greeter/Greeter.qml:174
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Thoir a' ghlas dheth"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr "Feuch ris a-rithist"
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr "Gnog gus a' ghlas a thoirt fo bharr"
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "Duilich ach tha an abairt-fhaire cearr."
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Duilich ach tha an còd-faire cearr."
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Seo an oidhirp mu dheireadh agad."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn agad a "
+"ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
+"pearsanta a sguabadh às."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
+"shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
+"a sguabadh às."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Cuir a-steach %1"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Cuir abairt-fhaire a-steach"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Cuir còd-faire a-steach"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Duilich ach tha a' %1 cearr"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "Duilich ach tha an abairt-fhaire cearr"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Cuir a-steach e a-rithist"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "Duilich ach tha an còd-faire cearr"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -295,6 +345,11 @@ msgstr "Coileanta"
 msgid "Failed, tap to retry"
 msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
+msgid "Reply"
+msgstr "Freagairt"
+
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
 msgstr "Thoir a' ghlas far an SIM"
@@ -303,160 +358,161 @@ msgstr "Thoir a' ghlas far an SIM"
 msgid "Roaming"
 msgstr "Air fàrsan"
 
-#: qml/Shell.qml:367
-#, qt-format
-msgid "Enter %1"
-msgstr "Cuir a-steach %1"
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Nì seo diofar rudan do dhiofar aplacaidean"
 
-#: qml/Shell.qml:368 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Cuir abairt-fhaire a-steach"
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Thoir gnogag an-seo gus a choileanadh."
 
-#: qml/Shell.qml:369
-msgid "Enter passcode"
-msgstr "Cuir còd-faire a-steach"
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr "Fosgail na clàran-taice sònraichte"
 
-#: qml/Shell.qml:370
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Duilich ach tha a' %1 cearr"
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr "Dèan grad-shlaighdeadh a-nìos on oir."
 
-#: qml/Shell.qml:371
-msgid "Sorry, incorrect passphrase"
-msgstr "Duilich ach tha an abairt-fhaire cearr"
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Seo na h-ath-ghoiridean ris na h-aplacaidean as fhearr leat"
 
-#: qml/Shell.qml:372
-msgid "Please re-enter"
-msgstr "Cuir a-steach e a-rithist"
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Thoir gnogag an-seo gus leantainn air adhart."
 
-#: qml/Shell.qml:373
-msgid "Sorry, incorrect passcode"
-msgstr "Duilich ach tha an còd-faire cearr"
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr "Fosgail an lòinsear"
 
-#: qml/Shell.qml:467 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Duilich ach tha an abairt-fhaire cearr."
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr "Grad-shlaighdeadh goirid on oir chlì."
 
-#: qml/Shell.qml:468 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Duilich ach tha an còd-faire cearr."
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr "Cha mhòr!"
 
-#: qml/Shell.qml:469
-msgid "This will be your last attempt."
-msgstr "Seo an oidhirp mu dheireadh agad."
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr "Feuch ris a-rithist."
 
-#: qml/Shell.qml:471
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Ma thèid an abairt-fhaire a chur a-steach mar bu chòir, thèid an fhòn agad a "
-"ath-shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta "
-"pearsanta a sguabadh às."
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr "Gus aplacaidean fosgailte fhaicinn"
 
-#: qml/Shell.qml:472
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Ma thèid an còd-faire a chur a-steach mar bu chòir, thèid an fhòn agad a ath-"
-"shuidheachadh air roghainnean an fhactaraidh agus thèid gach dàta pearsanta "
-"a sguabadh às."
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr "Grad-shlaighdeadh on oir dheas."
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr "Seall gach saothair a tha thu a' ruith."
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Air ais"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Shin thu!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Fàilte dhan fhòn Ubuntu agad."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Tòisicheamaid."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Lean air adhart"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Cuir cairt SIM ris 's tòisich an uidheam agad às ùr"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Chan urrainn dhut gairm no teachdaireachd a chur às a h-aonais."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr ""
+msgstr "Leum thairis air"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Glas tèarainteachd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Tagh an dòigh sa tha thu airson a' ghlas a thoirt far an fhòn agad."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Grad-shlaighd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Gun tèarainteachd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Còd-faire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Abairt-fhaire"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Àireamhan 's litrichean"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Ceangail ri Wi-Fi"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "Lìonraidhean ri làimh…"
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "Chan eil lìonra ri làimh."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Àite"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Faodaidh am fòn aithneachadh far a bheil thu:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Na cleachd ach GPS (chan eil seo cho pongail)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"A' cleachdadh GPS, WiFi gun urra is fiosrachadh an lìonraidh mobile "
+"(mholamaid seo)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -464,81 +520,126 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Ma thaghas tu an roghainn seo, bidh thu ag aontachadh ri <a "
+"href='#'>teirmichean is cumhaichean</a> an Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Chan fhaod idir"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"'S urrainn dhut a chaochladh a chur romhad às a dhèidh seo ann an "
+"<b>Roghainnean an t-siostaim</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "A' cur piseach air a' ghnàth-eòlas agad"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Chaidh am fòn agad a shuidheachadh gus innse mu mhearachdan gu fèin-"
+"obrachail do Chanonical  's a chom-pàirtichean a rinn an siostam-obrachaidh "
+"seo."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Gabhaidh seo cur à comas ann an <b>Roghainnean an t-siostaim</b> fo "
+"<b>Thèarainteachd ⁊  prìobhaideachd</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Coileanta"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Shin thu!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Gabhaidh am fòn agad cleachdadh a-nis."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Crìochnaich"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Teirmichean ⁊ cumhaichean"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Dearbhaich an abairt-fhaire"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Dearbhaich an còd-faire"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Feuch ris a-rithist."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Tagh an còd-faire agad"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "Feumaidh an abairt-fhaire a bhith 4 caractaran a dh'fhaid"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
+
+#~ msgid "Skip intro"
+#~ msgstr "Gearr leum thairis air an ro-ràdh"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
+#~ "far an fhòn"
+
+#~ msgid "Right edge"
+#~ msgstr "An oir dheas"
+
+#~ msgid "Top edge"
+#~ msgstr "An oir aig a' bharr"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
+#~ "fhaighinn air na taisbeanairean"
+
+#~ msgid "Close"
+#~ msgstr "Dùin"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
+
+#~ msgid "Left edge"
+#~ msgstr "An oir chlì"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
+#~ "luath air na h-aplacaidean"
+
+#~ msgid "Well done"
+#~ msgstr "Gasta!"
 
 #~ msgid "Confirm"
 #~ msgstr "Dearbhaich"
@@ -555,14 +656,48 @@ msgstr ""
 #~ msgid "Speak Now..."
 #~ msgstr "Can rud a-nis..."
 
+#~ msgid "Search"
+#~ msgstr "Lorg"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
+#~ "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
+
 #~ msgid "All"
 #~ msgstr "Na h-uile"
 
 #~ msgid "Favorites"
 #~ msgstr "Annsachdan"
 
+#~ msgid "Store"
+#~ msgstr "Am bùth"
+
+#~ msgid "Power off"
+#~ msgstr "Cuir a' chumhachd dheth"
+
 #~ msgid "Done"
 #~ msgstr "Deiseil"
+
+#~ msgid "Log out"
+#~ msgstr "Clàraich a-mach"
+
+#~ msgid "Reboot"
+#~ msgstr "Ath-thòisich an siostam"
+
+#~ msgid "Shut down"
+#~ msgstr "Dùin sìos"
+
+#~ msgid "Power"
+#~ msgstr "Cumhachd"
+
+#~ msgid "Settings"
+#~ msgstr "Roghainnean"
+
+#~ msgid "Restart"
+#~ msgstr "Ath-thòisich"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Stiùirich na sgòpaichean"

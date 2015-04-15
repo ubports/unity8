@@ -38,6 +38,7 @@ Item {
 
     Connections {
         target: model
+        ignoreUnknownSignals: model === undefined
 
         onDataAboutToAppear: startHideAnimation() // hide "no data" label
         onDataAppeared: startShowAnimation()
@@ -127,7 +128,7 @@ Item {
 
                 index: model.index
                 count: pastCircles.count
-                radius: parent.width / 2
+                radius: dataCircle.width / 2
                 halfSize: pastCircle.width / 2
                 posOffset: 0.0
 
@@ -187,7 +188,7 @@ Item {
 
                 index: model.index
                 count: presentCircles.count
-                radius: parent.width / 2
+                radius: dataCircle.width / 2
                 halfSize: presentCircle.width / 2
                 posOffset: 0.0
 
@@ -255,13 +256,15 @@ Item {
             interval: animDuration * 0.5; running: false; repeat: true
             onTriggered: {
                 if (dotCounter < dots.count) {
-                    var nextDot = dots.itemAt(dotCounter++)
-                    nextDot.unlockAnimation.start()
+                    var nextDot = dots.itemAt(dotCounter);
+                    if (nextDot) {
+                        nextDot.unlockAnimation.start();
+                        if (++dotCounter == Math.round(dots.count / 2)) {
+                            circleChangeAnimTimer.startFromBeginning();
+                        }
+                    }
                 } else {
                     stop()
-                }
-                if (dotCounter == Math.round(dots.count / 2)) {
-                    circleChangeAnimTimer.startFromBeginning()
                 }
             }
 

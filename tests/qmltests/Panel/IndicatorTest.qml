@@ -26,14 +26,8 @@ Rectangle {
     id: root
     color: "white"
 
-    property alias indicatorsModel: __visibleIndicatorsModel
+    property alias indicatorsModel: __indicatorsModel
     property alias originalModelData: __indicatorsModel.originalModelData
-
-    Indicators.VisibleIndicatorsModel {
-        id: __visibleIndicatorsModel
-
-        model: __indicatorsModel
-    }
 
     Indicators.IndicatorsModel {
         id: __indicatorsModel

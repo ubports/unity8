@@ -19,7 +19,6 @@ set(IndicatorsFakeQml_SOURCES
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/sharedunitymenumodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelcache.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/unitymenumodelstack.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Unity/Indicators/visibleindicatorsmodel.cpp
 )
 
 add_library(IndicatorsFakeQml SHARED
@@ -27,10 +26,8 @@ add_library(IndicatorsFakeQml SHARED
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 
-add_dependencies(IndicatorsFakeQml QMenuModelQml)
 target_link_libraries(IndicatorsFakeQml
-    -L${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel
-    -lqmenumodel
+    QMenuModelQml
 )
 
 qt5_use_modules(IndicatorsFakeQml Core Qml Quick)

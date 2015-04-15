@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Indicators Autopilot Test Suite
-# Copyright (C) 2013, 2014 Canonical
+# Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,29 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import
-
 from testscenarios import multiply_scenarios
 
 from autopilot import platform
 
-from unity8.process_helpers import unlock_unity
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+from unity8.indicators import tests
 
 
-class IndicatorTestCase(UnityTestCase):
-
-    device_emulation_scenarios = _get_device_emulation_scenarios()
-
-    def setUp(self):
-        if platform.model() == 'Desktop':
-            self.skipTest('Test cannot be run on the desktop.')
-        super(IndicatorTestCase, self).setUp()
-        self.unity_proxy = self.launch_unity()
-        unlock_unity(self.unity_proxy)
-
-
-class IndicatorExistsTestCase(IndicatorTestCase):
+class IndicatorExistsTestCase(tests.DeviceIndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
@@ -51,11 +36,11 @@ class IndicatorExistsTestCase(IndicatorTestCase):
     ]
     scenarios = multiply_scenarios(
         indicator_scenarios,
-        IndicatorTestCase.device_emulation_scenarios
+        tests.IndicatorTestCase.device_emulation_scenarios
     )
 
     def setUp(self):
-        super(IndicatorExistsTestCase, self).setUp()
+        super().setUp()
         if (platform.model() == 'Nexus 10' and
                 self.indicator_name == 'indicator-bluetooth'):
             self.skipTest('Nexus 10 does not have bluetooth at the moment.')
@@ -66,7 +51,7 @@ class IndicatorExistsTestCase(IndicatorTestCase):
         )
 
 
-class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
+class IndicatorPageTitleMatchesWidgetTestCase(tests.DeviceIndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',
@@ -86,11 +71,11 @@ class IndicatorPageTitleMatchesWidgetTestCase(IndicatorTestCase):
     ]
     scenarios = multiply_scenarios(
         indicator_scenarios,
-        IndicatorTestCase.device_emulation_scenarios
+        tests.IndicatorTestCase.device_emulation_scenarios
     )
 
     def setUp(self):
-        super(IndicatorPageTitleMatchesWidgetTestCase, self).setUp()
+        super().setUp()
         if (platform.model() == 'Nexus 10' and
                 self.indicator_name == 'indicator-bluetooth'):
             self.skipTest('Nexus 10 does not have bluetooth at the moment.')

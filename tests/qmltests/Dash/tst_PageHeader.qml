@@ -157,7 +157,7 @@ Item {
             var recentSearches = findChild(headerContainer.popover, "recentSearches");
             verify(recentSearches, "Could not find recent searches in the popover");
             waitForRendering(recentSearches);
-            mouseClick(recentSearches.itemAt(0), 0, 0);
+            mouseClick(recentSearches.itemAt(0));
 
             compare(pageHeader.searchQuery, "Search2");
             tryCompareFunction(function() { return headerContainer.popover === null; }, true);

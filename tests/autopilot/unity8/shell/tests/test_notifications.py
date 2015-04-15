@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 
 """Tests for Notifications"""
 
-from __future__ import absolute_import
-
 from unity8 import shell
 from unity8.process_helpers import unlock_unity
 from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
@@ -34,14 +32,8 @@ import os
 import logging
 import signal
 import subprocess
-import sys
 
 logger = logging.getLogger(__name__)
-
-# from __future__ import range
-# (python3's range, is same as python2's xrange)
-if sys.version_info < (3,):
-    range = xrange
 
 
 class NotificationsBase(UnityTestCase):
@@ -118,7 +110,7 @@ class InteractiveNotificationBase(NotificationsBase):
     """Collection of test for Interactive tests including snap decisions."""
 
     def setUp(self):
-        super(InteractiveNotificationBase, self).setUp()
+        super().setUp()
         # Need to keep track when we launch the notification script.
         self._notify_proc = None
 
@@ -338,7 +330,7 @@ class InteractiveNotificationBase(NotificationsBase):
             action_string = "%s,%s" % (action_id, action_label)
             script_args.extend(['--action', action_string])
 
-        python_bin = subprocess.check_output(['which', 'python']).strip()
+        python_bin = subprocess.check_output(['which', 'python3']).strip()
         command = [python_bin, self._get_notify_script()] + script_args
         logger.info("Launching snap-decision notification as: %s", command)
         self._notify_proc = subprocess.Popen(
@@ -410,7 +402,7 @@ class EphemeralNotificationsTests(NotificationsBase):
     """Collection of tests for Emphemeral notifications (non-interactive.)"""
 
     def setUp(self):
-        super(EphemeralNotificationsTests, self).setUp()
+        super().setUp()
         # Because we are using the Notify library we need to init and un-init
         # otherwise we get crashes.
         Notify.init("Autopilot Ephemeral Notification Tests")
@@ -701,3 +693,22 @@ class EphemeralNotificationsTests(NotificationsBase):
         self.assertThat(get_notification, Eventually(NotEquals(None)))
         self._assert_notification(
             get_notification(), summary, body, False, False, 1.0)
+
+    def test_notification_helper(self):
+        """ use the create notification script to get a notification dialog.
+        Check that the arguments passed to the script match the fields. """
+
+        unity_proxy = self.launch_unity()
+        unlock_unity(unity_proxy)
+
+        summary = 'Helper summary'
+        body = 'Helper body'
+
+        notification = shell.create_ephemeral_notification(summary, body)
+        notification.show()
+
+        notification_data = self.main_window.wait_for_notification()
+
+        self.assertThat(notification_data['summary'],
+                        Eventually(Equals(summary)))
+        self.assertThat(notification_data['body'], Eventually(Equals(body)))

@@ -45,14 +45,6 @@ IndicatorDelegate {
         onClicked: parent.clicked()
     }
 
-    // FIXME: For now we will enable led indicator support only for messaging indicator
-    // in the future we should export a led API insted of doing that,
-    Loader {
-        id: indicatorLed
-        // only load source Component if the icons contains the new message icon
-        source: (root.icons && (String(root.icons).indexOf("indicator-messages-new") != -1)) ? Qt.resolvedUrl("Indicators/IndicatorsLight.qml") : ""
-    }
-
     Item {
         id: mainItems
         anchors.centerIn: parent
@@ -103,6 +95,8 @@ IndicatorDelegate {
                         id: itemImage
                         objectName: "icon"+index
                         height: iconHeight
+                        // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
+                        width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth;
                         source: modelData
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }

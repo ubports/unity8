@@ -63,10 +63,14 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
 
-#include <MouseTouchAdaptor.h>
-
 // UbuntuGestures lib
 #include <TouchRegistry.h>
+
+#define UQMLSCENE_DEBUG_ACTIVE_FOCUS 0
+
+#if UQMLSCENE_DEBUG_ACTIVE_FOCUS
+  #include "ActiveFocusLogger.h"
+#endif
 
 #ifdef QML_RUNTIME_TESTING
 class RenderStatistics
@@ -378,6 +382,10 @@ int main(int argc, char ** argv)
 {
     Options options;
 
+    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS
+    ActiveFocusLogger activeFocusLogger;
+    #endif
+
     QStringList imports;
     QList<QPair<QString, QString> > bundles;
     for (int i = 1; i < argc; ++i) {
@@ -426,8 +434,6 @@ int main(int argc, char ** argv)
     app.setOrganizationName("Qt Project");
     app.setOrganizationDomain("qt-project.org");
 
-    MouseTouchAdaptor mouseTouchAdaptor;
-    app.installNativeEventFilter(&mouseTouchAdaptor);
     // Create it before loading the module, so that TestUtil
     // doesn't create one with a fake timer factory.
     // When interacting manually with a test we want the real deal.
@@ -503,6 +509,9 @@ int main(int argc, char ** argv)
                 QQuickItem *contentItem = qobject_cast<QQuickItem *>(topLevel);
                 if (contentItem) {
                     qxView = new QQuickView(&engine, nullptr);
+                    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS
+                    activeFocusLogger.setWindow(qxView);
+                    #endif
                     TouchRegistry::instance()->setParent(qxView);
                     qxView->installEventFilter(TouchRegistry::instance());
                     window = qxView;

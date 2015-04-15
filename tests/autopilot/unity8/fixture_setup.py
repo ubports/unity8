@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,11 +18,18 @@
 #
 
 import fixtures
+import subprocess
+import logging
+
 from autopilot import introspection
 
-from unity8 import process_helpers
+from unity8 import (
+    get_binary_path,
+    process_helpers
+)
 from unity8.shell import emulators
 
+logger = logging.getLogger(__name__)
 
 class LaunchDashApp(fixtures.Fixture):
 
@@ -36,13 +43,13 @@ class LaunchDashApp(fixtures.Fixture):
         :type variables: A dictionary.
 
         """
-        super(LaunchDashApp, self).__init__()
+        super().__init__()
         self.binary_path = binary_path
         self.variables = variables
 
     def setUp(self):
         """Launch the dash app when the fixture is used."""
-        super(LaunchDashApp, self).setUp()
+        super().setUp()
         self.addCleanup(self.stop_application)
         self.application_proxy = self.launch_application()
 
@@ -62,3 +69,75 @@ class LaunchDashApp(fixtures.Fixture):
 
     def stop_application(self):
         process_helpers.stop_job('unity8-dash')
+
+
+class DisplayRotationLock(fixtures.Fixture):
+
+    def __init__(self, enable):
+        super().__init__()
+        self.enable = enable
+
+    def setUp(self):
+        super().setUp()
+        original_state = self._is_rotation_lock_enabled()
+        if self.enable != original_state:
+            self.addCleanup(self._set_rotation_lock, original_state)
+            self._set_rotation_lock(self.enable)
+
+    def _is_rotation_lock_enabled(self):
+        command = [
+            'gsettings', 'get',
+            'com.ubuntu.touch.system',
+            'rotation-lock'
+        ]
+        output = subprocess.check_output(command, universal_newlines=True)
+        return True if output.count('true') else False
+
+    def _set_rotation_lock(self, value):
+        value_string = 'true' if value else 'false'
+        command = [
+            'gsettings', 'set',
+            'com.ubuntu.touch.system',
+            'rotation-lock', value_string
+        ]
+        subprocess.check_output(command)
+
+class LaunchMockIndicatorService(fixtures.Fixture):
+
+    """Fixture to launch the indicator test service."""
+
+    def __init__(self, action_delay, ensure_not_running=True):
+        """Initialize an instance.
+
+        :param action_delay: The delay to use when activating actions.
+          Measured in milliseconds. Value of -1 will result in infinite delay.
+        :type action_delay: An integer.
+        :param boolean ensure_not_running: Make sure service is not running
+
+        """
+        super(LaunchMockIndicatorService, self).__init__()
+        self.action_delay = action_delay
+        self.ensure_not_running = ensure_not_running
+
+    def setUp(self):
+        super(LaunchMockIndicatorService, self).setUp()
+        if self.ensure_not_running:
+            self.ensure_service_not_running()
+        self.addCleanup(self.stop_service)
+        self.application_proxy = self.launch_service()
+
+    def launch_service(self):
+        logger.info("Starting unity-mock-indicator-service")
+        binary_path = get_binary_path('unity-mock-indicator-service')
+        binary_arg = 'BINARY={}'.format(binary_path)
+        env_args = 'ARGS=-t {}'.format(self.action_delay)
+        all_args = [binary_arg, env_args]
+        process_helpers.start_job('unity-mock-indicator-service', *all_args)
+
+    def stop_service(self):
+        logger.info("Stopping unity-mock-indicator-service")
+        process_helpers.stop_job('unity-mock-indicator-service')
+
+    def ensure_service_not_running(self):
+        if process_helpers.is_job_running('unity-mock-indicator-service'):
+            self.stop_service()

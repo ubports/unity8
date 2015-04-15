@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2012-2014 Canonical, Ltd.
- *
- * Authors:
- *  Gerry Boland <gerry.boland@canonical.com>
+ * Copyright (C) 2012-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,6 +70,11 @@ int main(int argc, const char *argv[])
 Load the testability driver");
     parser.addOption(testabilityOption);
 
+    QCommandLineOption modeOption("mode",
+        "Whether to run greeter and/or shell [full-greeter, full-shell, greeter, shell]",
+        "mode", "full-greeter");
+    parser.addOption(modeOption);
+
     application = new QGuiApplication(argc, (char**)argv);
 
     // Treat args with single dashes the same as arguments with two dashes
@@ -91,6 +93,26 @@ Load the testability driver");
     {
         QStringList geom = parser.value(windowGeometryOption).split('x');
         qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
+    }
+
+    // If an invalid option was specified, set it to the default
+    // If no default was provided in the QCommandLineOption constructor, abort.
+    QString shellMode;
+    if(!parser.isSet(modeOption) ||
+        (parser.value(modeOption) != "full-greeter" &&
+         parser.value(modeOption) != "full-shell" &&
+         parser.value(modeOption) != "greeter" &&
+         parser.value(modeOption) != "shell"))
+    {
+        if (modeOption.defaultValues().first() != nullptr) {
+            shellMode = modeOption.defaultValues().first();
+            qWarning() << "Mode argument was not provided or was set to an illegal value. Using default value of --mode=" << shellMode;
+        } else {
+            qFatal("Shell mode argument was not provided and there is no default mode,");
+        }
+
+    } else {
+        shellMode = parser.value(modeOption);
     }
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
@@ -120,6 +142,7 @@ Load the testability driver");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
+    view->rootContext()->setContextProperty("shellMode", shellMode);
     if (parser.isSet(framelessOption)) {
         view->setFlags(Qt::FramelessWindowHint);
     }
@@ -130,8 +153,7 @@ Load the testability driver");
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
     if (parser.isSet(mousetouchOption)) {
-        mouseTouchAdaptor = new MouseTouchAdaptor;
-        application->installNativeEventFilter(mouseTouchAdaptor);
+        mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
     QUrl source(::qmlDirectory()+"Shell.qml");
@@ -146,12 +168,6 @@ Load the testability driver");
 
     view->setSource(source);
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
-
-    if (!isMirServer && qEnvironmentVariableIsSet("UNITY_MIR_EMITS_SIGSTOP")) {
-        // Emit SIGSTOP as expected by upstart, under Mir it's qtmir that will raise it.
-        // see http://upstart.ubuntu.com/cookbook/#expect-stop
-        raise(SIGSTOP);
-    }
 
     if (isMirServer || parser.isSet(fullscreenOption)) {
         view->showFullScreen();

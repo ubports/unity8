@@ -74,8 +74,7 @@ public:
     enum Roles {
         Identifier = 0,
         Position,
-        IndicatorProperties,
-        IsVisible
+        IndicatorProperties
     };
 
     IndicatorsModelRole(QObject*parent=0):QObject(parent) {}

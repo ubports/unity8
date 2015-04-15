@@ -1,8 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012, 2013, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

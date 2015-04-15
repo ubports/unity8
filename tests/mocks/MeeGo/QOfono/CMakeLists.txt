@@ -1,6 +1,7 @@
 set(MOCK_QOFONO_SOURCES
     plugin.cpp
     MockQOfono.cpp
+    MockQOfonoManager.cpp
 )
 
 add_library(MockQOfono MODULE ${MOCK_QOFONO_SOURCES})

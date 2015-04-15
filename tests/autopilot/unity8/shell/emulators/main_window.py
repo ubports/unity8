@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,12 +34,6 @@ class QQuickView(emulators.UnityEmulatorBase):
 
     def get_greeter(self):
         return self.select_single(Greeter)
-
-    def get_greeter_content_loader(self):
-        return self.wait_select_single(
-            "QQuickLoader",
-            objectName="greeterContentLoader"
-        )
 
     def get_login_loader(self):
         return self.select_single("QQuickLoader", objectName="loginLoader")
@@ -87,6 +81,16 @@ class QQuickView(emulators.UnityEmulatorBase):
         self.pointing_device.drag(start_x, start_y, end_x, end_y)
         self.wait_select_single('IndicatorsMenu', fullyOpened=True)
         return self._get_indicator_page(indicator_name)
+
+    @autopilot_logging.log_action(logger.info)
+    def close_indicator_page(self):
+        """Swipe to close the opened indicator, wait until it's closed."""
+        indicators_menu = self.wait_select_single('IndicatorsMenu')
+        end_x, end_y = input.get_center_point(indicators_menu)
+        start_x = end_x
+        start_y = self.height
+        self.pointing_device.drag(start_x, start_y, end_x, end_y)
+        indicators_menu.fullyClosed.wait_for(True)
 
     @autopilot_logging.log_action(logger.info)
     def show_dash_swiping(self):
@@ -164,3 +168,20 @@ class QQuickView(emulators.UnityEmulatorBase):
             'PinPadButton',
             objectName='pinPadButton{}'.format(button_id)
         )
+
+    @autopilot_logging.log_action(logger.info)
+    def wait_for_notification(self):
+        """Wait for a notification dialog to appear.
+
+        :return: An object for the notification dialog data.
+        :raise StateNotFoundError: if the timeout expires when the
+        notification has not appeared.
+
+        """
+        notify_list = self.select_single('Notifications',
+                                         objectName='notificationList')
+        visible_notification = notify_list.wait_select_single('Notification',
+                                                              visible=True)
+        return {'summary': visible_notification.summary,
+                'body': visible_notification.body,
+                'iconSource': visible_notification.iconSource}

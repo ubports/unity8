@@ -33,6 +33,13 @@ Item {
     width: contentRow.width
     height: contentRow.height
 
+    Component.onCompleted: {
+        // must set the mock mode before loading the Shell
+        LightDM.Greeter.mockMode = "single-pin";
+        LightDM.Users.mockMode = "single-pin";
+        shellLoader.active = true;
+    }
+
     QtObject {
         id: applicationArguments
 
@@ -54,6 +61,7 @@ Item {
 
         Loader {
             id: shellLoader
+            active: false
 
             width: units.gu(40)
             height: units.gu(71)
@@ -66,7 +74,6 @@ Item {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true
                     }
-                    maxFailedLogins: maxRetriesTextField.text
                 }
             }
         }
@@ -82,15 +89,7 @@ Item {
                 Button {
                     anchors { left: parent.left; right: parent.right }
                     text: "Show Greeter"
-                    onClicked: {
-                        if (shellLoader.status !== Loader.Ready)
-                            return
-
-                        var greeter = testCase.findChild(shellLoader.item, "greeter")
-                        if (!greeter.shown) {
-                            greeter.show()
-                        }
-                    }
+                    onClicked: LightDM.Greeter.showGreeter()
                 }
 
                 Label {
@@ -100,6 +99,10 @@ Item {
                 TextField {
                     id: maxRetriesTextField
                     text: "-1"
+                    onTextChanged: {
+                        var greeter = testCase.findChild(shellLoader.item, "greeter");
+                        greeter.maxFailedLogins = text;
+                    }
                 }
             }
         }
@@ -116,6 +119,12 @@ Item {
         signalName: "resettingDevice"
     }
 
+    SignalSpy {
+        id: promptSpy
+        target: LightDM.Greeter
+        signalName: "showPrompt"
+    }
+
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
@@ -130,11 +139,12 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // will be enabled when greeter is all ready
-            sessionSpy.target = findChild(shell, "greeter")
-            swipeAwayGreeter()
+            var greeter = findChild(shell, "greeter");
+            sessionSpy.target = greeter;
+            swipeAwayGreeter(true);
             waitForLockscreen()
-            shell.failedLoginsDelayAttempts = -1
-            maxRetriesTextField.text = "-1"
+            greeter.failedLoginsDelayAttempts = -1;
+            greeter.maxFailedLogins = -1;
         }
 
         function cleanup() {
@@ -178,17 +188,21 @@ Item {
             compare(ApplicationManager.count, 1)
         }
 
-        function swipeAwayGreeter() {
+        function swipeAwayGreeter(waitForCoverPage) {
             var greeter = findChild(shell, "greeter");
             waitForRendering(greeter)
-            tryCompare(greeter, "showProgress", 1);
+            var coverPage = findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 1);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
-            // wait until the animation has finished
-            tryCompare(greeter, "showProgress", 0);
+            if (waitForCoverPage) {
+                // wait until the animation has finished
+                var coverPage = findChild(shell, "coverPage");
+                tryCompare(coverPage, "showProgress", 0);
+            }
         }
 
         function waitForLockscreen() {
@@ -199,23 +213,37 @@ Item {
         }
 
         function enterPin(pin) {
-            var inputField = findChild(shell, "pinentryField")
             for (var i = 0; i < pin.length; ++i) {
                 var character = pin.charAt(i)
                 var button = findChild(shell, "pinPadButton" + character)
+                tryCompare(button, "enabled", true);
                 tap(button)
             }
         }
 
         function confirmLockedApp(app) {
             var greeter = findChild(shell, "greeter")
-            var lockscreen = findChild(shell, "lockscreen")
             tryCompare(greeter, "shown", false)
-            tryCompare(lockscreen, "shown", false)
             tryCompare(greeter, "hasLockedApp", true)
             tryCompare(greeter, "lockedApp", app)
             tryCompare(LightDM.Greeter, "active", true)
             tryCompare(ApplicationManager, "focusedApplicationId", app)
+        }
+
+        function test_greeterChangesIndicatorProfile() {
+            skip("Not supported yet, waiting on design for new settings panel");
+
+            var panel = findChild(shell, "panel");
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
+
+            LightDM.Greeter.showGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile + "_greeter");
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
         }
 
         function test_login() {
@@ -234,13 +262,16 @@ Item {
             AccountsService.demoEdges = true
             tryCompare(lockscreen, "shown", false)
 
-            swipeAwayGreeter()
+            var greeter = findChild(shell, "greeter");
+            swipeAwayGreeter(false);
+            tryCompare(greeter, "shown", false);
             tryCompare(sessionSpy, "count", 1)
 
             // Lockscreen is only hidden by the edge demo, so if we turn that
             // off and show greeter again, lockscreen should appear
             AccountsService.demoEdges = false
             LightDM.Greeter.showGreeter()
+            lockscreen = findChild(shell, "lockscreen");
             tryCompare(lockscreen, "shown", true)
         }
 
@@ -258,18 +289,16 @@ Item {
 
         function test_emergencyCall() {
             var greeter = findChild(shell, "greeter")
-            var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
             var panel = findChild(shell, "panel")
             var indicators = findChild(shell, "indicators")
             var launcher = findChild(shell, "launcher")
             var stage = findChild(shell, "stage")
 
-            tap(emergencyButton)
+            tap(findChild(greeter, "emergencyCallLabel"));
 
             tryCompare(greeter, "lockedApp", "dialer-app")
             tryCompare(greeter, "hasLockedApp", true)
-            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "shown", false);
             tryCompare(panel, "fullscreenMode", true)
             tryCompare(indicators, "available", false)
             tryCompare(launcher, "available", false)
@@ -282,7 +311,7 @@ Item {
             tryCompare(greeter, "shown", true)
             tryCompare(greeter, "lockedApp", "")
             tryCompare(greeter, "hasLockedApp", false)
-            tryCompare(lockscreen, "shown", true)
+            tryCompare(greeter, "fullyShown", true);
             tryCompare(panel, "fullscreenMode", false)
             tryCompare(indicators, "available", true)
             tryCompare(launcher, "available", true)
@@ -290,23 +319,25 @@ Item {
         }
 
         function test_emergencyCallCrash() {
-            var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
+            var greeter = findChild(shell, "greeter");
+            var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
 
-            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "shown", false);
             killApps() // kill dialer-app, as if it crashed
-            tryCompare(lockscreen, "shown", true)
+            tryCompare(greeter, "shown", true);
+            tryCompare(findChild(greeter, "lockscreen"), "shown", true);
+            tryCompare(findChild(greeter, "coverPage"), "shown", false);
         }
 
         function test_emergencyCallAppLaunch() {
-            var lockscreen = findChild(shell, "lockscreen")
-            var emergencyButton = findChild(lockscreen, "emergencyCallLabel")
+            var greeter = findChild(shell, "greeter");
+            var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
 
-            tryCompare(lockscreen, "shown", false)
+            tryCompare(greeter, "shown", false);
             ApplicationManager.startApplication("gallery-app", ApplicationManager.NoFlag)
-            tryCompare(lockscreen, "shown", true)
+            tryCompare(greeter, "shown", true);
         }
 
         function test_failedLoginsCount() {
@@ -320,7 +351,8 @@ Item {
         }
 
         function test_wrongEntries() {
-            shell.failedLoginsDelayAttempts = 3
+            var greeter = findChild(shell, "greeter");
+            greeter.failedLoginsDelayAttempts = 3;
 
             var placeHolder = findChild(shell, "wrongNoticeLabel")
             tryCompare(placeHolder, "text", "")
@@ -334,7 +366,7 @@ Item {
             var lockscreen = findChild(shell, "lockscreen")
             tryCompare(lockscreen, "delayMinutes", 0)
             enterPin("1111")
-            tryCompare(lockscreen, "delayMinutes", shell.failedLoginsDelayMinutes)
+            tryCompare(lockscreen, "delayMinutes", greeter.failedLoginsDelayMinutes);
         }
 
         function test_factoryReset() {
@@ -380,7 +412,7 @@ Item {
             // And when we kill the app, we go back to locked tablet mode
             killApps()
             var greeter = findChild(shell, "greeter")
-            tryCompare(greeter, "showProgress", 1)
+            tryCompare(greeter, "fullyShown", true)
             tryCompare(shell, "sideStageEnabled", true)
             tryCompare(applicationsDisplayLoader, "tabletMode", true)
         }
@@ -423,11 +455,11 @@ Item {
             // - Should be back in normal dialer
             // (we've had a bug where we locked screen in this case)
 
-            var lockscreen = findChild(shell, "lockscreen");
+            var greeter = findChild(shell, "greeter");
             var panel = findChild(shell, "panel");
 
             enterPin("1234");
-            tryCompare(lockscreen, "shown", false);
+            tryCompare(greeter, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
 
             ApplicationManager.startApplication("dialer-app", ApplicationManager.NoFlag);
@@ -442,8 +474,30 @@ Item {
             ApplicationManager.requestFocusApplication("dialer-app");
 
             tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
-            tryCompare(lockscreen, "shown", false);
+            tryCompare(greeter, "shown", false);
             tryCompare(LightDM.Greeter, "active", false);
+        }
+
+        function test_focusRequestedHidesCoverPage() {
+            LightDM.Greeter.showGreeter();
+
+            var app = ApplicationManager.startApplication("gallery-app");
+            // wait until the app is fully loaded (ie, real surface replaces splash screen)
+            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
+
+            // New app hides coverPage?
+            var greeter = findChild(shell, "greeter");
+            var coverPage = testCase.findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 0);
+            tryCompare(greeter, "fullyShown", true);
+
+            LightDM.Greeter.showGreeter();
+            tryCompare(coverPage, "showProgress", 1);
+
+            // Make sure focusing same app triggers same behavior
+            ApplicationManager.requestFocusApplication("gallery-app");
+            tryCompare(coverPage, "showProgress", 0);
+            tryCompare(greeter, "fullyShown", true);
         }
 
         function test_suspend() {
@@ -457,10 +511,10 @@ Item {
 
             // And wake up
             Powerd.status = Powerd.On;
-            tryCompare(greeter, "showProgress", 1);
+            tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
-            swipeAwayGreeter();
+            swipeAwayGreeter(true);
 
             // We have a lockscreen, make sure we're still suspended
             tryCompare(ApplicationManager, "suspended", true);
@@ -472,5 +526,103 @@ Item {
 
         }
 
+        /* We had a bug (1395075) where if a user kept swiping as the greeter
+           loaded, they would be able to get into the session before the
+           lockscreen appeared. Make sure that doesn't happen. */
+        function test_earlyDisable() {
+            // Kill current shell
+            shellLoader.itemDestroyed = false;
+            shellLoader.active = false;
+            tryCompare(shellLoader, "itemDestroyed", true);
+            LightDM.Greeter.authenticate(""); // reset greeter
+
+            // Create new shell
+            promptSpy.clear();
+            shellLoader.active = true;
+            tryCompareFunction(function() {return shell !== null}, true);
+
+            // Confirm that we start disabled
+            compare(promptSpy.count, 0);
+            verify(!shell.enabled);
+
+            // And that we only become enabled once the lockscreen is up
+            tryCompare(shell, "enabled", true);
+            verify(promptSpy.count > 0);
+            var lockscreen = findChild(shell, "lockscreen");
+            verify(lockscreen.shown);
+        }
+
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1393447
+
+            Do a left edge drag that is long enough to start displacing the greeter
+            but short engough so that the greeter comes back into place once the
+            finger is lifted.
+
+            In this situation the launcher should remaing fully shown and hide itself
+            only after its idle timeout is triggered.
+         */
+        function test_shortLeftEdgeSwipeMakesLauncherStayVisible() {
+            LightDM.Greeter.showGreeter();
+            var coverPage = testCase.findChild(shell, "coverPage");
+            tryCompare(coverPage, "showProgress", 1);
+
+            var launcher = testCase.findChild(shell, "launcher")
+            {
+                var dismissTimer = testCase.findInvisibleChild(launcher, "dismissTimer");
+                // effectively disable the dismiss timer
+                dismissTimer.interval = 24 * 60 * 60 * 1000 // 24 hours
+            }
+            var launcherPanel = testCase.findChild(launcher, "launcherPanel");
+
+            var toX = shell.width * 0.45;
+            touchFlick(shell,
+                    1 /* fromX */, shell.height * 0.5 /* fromY */,
+                    toX /* toX */, shell.height * 0.5 /* toY */,
+                    true /* beginTouch */, false /* endTouch */,
+                    50, 100);
+
+            // Launcher must be fully shown by now
+            tryCompare(launcherPanel, "x", 0);
+
+            // Greeter should be displaced
+            tryCompareFunction(function() { return coverPage.mapToItem(shell, 0, 0).x > shell.width*0.2; }, true);
+
+            touchRelease(shell, toX, shell.height * 0.5);
+
+            // Upon release the greeter should have slid back into full view
+            tryCompareFunction(function() { return coverPage.mapToItem(shell, 0, 0).x === 0; }, true);
+
+            // And the launcher should stay fully shown
+            for (var i = 0; i < 10; ++i) {
+                wait(50);
+                compare(launcherPanel.x, 0);
+            }
+        }
+
+        function test_longLeftEdgeDrags() {
+            var coverPage = findChild(shell, "coverPage");
+            var lockscreen = findChild(shell, "lockscreen");
+            var launcher = findChild(shell, "launcherPanel");
+            ApplicationManager.startApplication("gallery-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+
+            // Show greeter
+            LightDM.Greeter.showGreeter();
+            tryCompare(coverPage, "showProgress", 1);
+
+            // Swipe cover page away
+            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            tryCompare(launcher, "x", -launcher.width);
+            tryCompare(coverPage, "showProgress", 0);
+            compare(lockscreen.shown, true);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+
+            // Now attempt a swipe on lockscreen
+            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            tryCompare(launcher, "x", 0);
+            compare(lockscreen.shown, true);
+            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+        }
     }
 }

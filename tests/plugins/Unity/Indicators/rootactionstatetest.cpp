@@ -17,7 +17,7 @@
  *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-#include "rootactionstate.h"
+#include "modelactionrootstate.h"
 
 #include <unitymenumodel.h>
 #include <QtTest>
@@ -32,7 +32,7 @@ private Q_SLOTS:
     {
         UnityMenuModel* menuModel = new UnityMenuModel();
         ActionStateParser* originalParser = menuModel->actionStateParser();
-        RootActionState* rootState = new RootActionState();
+        ModelActionRootState* rootState = new ModelActionRootState();
 
         rootState->setMenu(menuModel);
 
@@ -44,7 +44,7 @@ private Q_SLOTS:
     void testDeleteUnityMenuModel()
     {
         UnityMenuModel* menuModel = new UnityMenuModel();
-        RootActionState* rootState = new RootActionState();
+        ModelActionRootState* rootState = new ModelActionRootState();
 
         rootState->setMenu(menuModel);
 
@@ -77,7 +77,7 @@ private Q_SLOTS:
 
         GVariant* params = g_variant_builder_end (&builderParams);
 
-        RootActionState rootState;
+        RootStateParser rootState;
         QVariant result = rootState.toQVariant(params);
         g_variant_unref(params);
 

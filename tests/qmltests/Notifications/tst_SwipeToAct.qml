@@ -218,6 +218,10 @@ Item {
                 // populate model with some mock notifications
                 mockModel.append(data)
 
+                // add actions to action-model to test against
+                myActionModel.append("ok_id", "Ok")
+                myActionModel.append("cancel_id", "Cancel")
+
                 // make sure the view is properly updated before going on
                 notifications.forceLayout();
                 waitForRendering(notifications);
@@ -240,7 +244,7 @@ Item {
                 }
 
                 // test input does not fall through
-                mouseClick(notification, notification.width / 2, notification.height / 2)
+                mouseClick(notification)
                 if(data.type == Notification.Interactive) {
                     actionSpy.wait()
                     compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")

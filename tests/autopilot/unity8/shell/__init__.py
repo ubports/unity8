@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,18 +28,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def with_lightdm_mock(mock_type):
-    """A simple decorator that sets up the LightDM mock for a single test."""
-    def with_lightdm_mock_internal(fn):
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            tests_self = args[0]
-            tests_self.patch_lightdm_mock(mock_type)
-            return fn(*args, **kwargs)
-        return wrapper
-    return with_lightdm_mock_internal
-
-
 def disable_qml_mocking(fn):
     """Simple decorator that disables the QML mocks from being loaded."""
     @wraps(fn)
@@ -50,7 +38,7 @@ def disable_qml_mocking(fn):
     return wrapper
 
 
-class DragMixin(object):
+class DragMixin():
     def _drag(self, x1, y1, x2, y2):
         # XXX This ugly code is here just temporarily, waiting for drag
         # improvements to land on autopilot so we don't have to access device

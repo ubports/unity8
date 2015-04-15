@@ -85,7 +85,7 @@ Rectangle {
 
         function test_expand_collapse() {
             var expandButton = findChild(previewExpandable, "expandButton")
-            mouseClick(expandButton, expandButton.width / 2, expandButton.height / 2);
+            mouseClick(expandButton);
 
             var repeater = findChild(previewExpandable, "repeater")
             compare(repeater.count, 4)
@@ -99,7 +99,7 @@ Rectangle {
             compare (repeater.itemAt(2).expanded, true);
             compare (repeater.itemAt(3).expanded, true);
 
-            mouseClick(expandButton, expandButton.width / 2, expandButton.height / 2);
+            mouseClick(expandButton);
 
             checkInitialState();
         }

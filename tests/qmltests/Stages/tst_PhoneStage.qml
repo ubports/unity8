@@ -29,6 +29,7 @@ Item {
     PhoneStage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
+        focus: true
         dragAreaWidth: units.gu(2)
         maximizedAppTopMargin: units.gu(3) + units.dp(2)
         interactive: true
@@ -51,6 +52,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Add App"
+                activeFocusOnPress: false
                 onClicked: {
                     testCase.addApps();
                 }
@@ -58,6 +60,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Remove Selected"
+                activeFocusOnPress: false
                 onClicked: {
                     ApplicationManager.stopApplication(ApplicationManager.get(appList.selectedAppIndex).appId);
                 }
@@ -65,6 +68,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Stop Selected"
+                activeFocusOnPress: false
                 onClicked: {
                     ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
                 }
@@ -112,7 +116,7 @@ Item {
         function addApps(count) {
             if (count == undefined) count = 1;
             for (var i = 0; i < count; i++) {
-                var app = ApplicationManager.startApplication(ApplicationManager.availableApplications()[ApplicationManager.count])
+                var app = ApplicationManager.startApplication(ApplicationManager.availableApplications[ApplicationManager.count])
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
                 var spreadView = findChild(phoneStage, "spreadView");
                 tryCompare(spreadView, "contentX", -spreadView.shift);
@@ -205,6 +209,7 @@ Item {
 
             if (data.targetPhase == 2) {
                 var app2 = findChild(spreadView, "appDelegate2");
+                tryCompare(app2, "swipeToCloseEnabled", true);
                 mouseClick(app2, units.gu(1), units.gu(1));
             }
 
@@ -249,6 +254,7 @@ Item {
             }
 
             console.log("clicking app", data.index, "(", appId, ")")
+            tryCompare(tile, "swipeToCloseEnabled", true);
             mouseClick(spreadView, tile.mapToItem(spreadView).x + units.gu(1), spreadView.height / 2)
             tryCompare(ApplicationManager, "focusedApplicationId", appId);
             tryCompare(spreadView, "phase", 0);
@@ -391,6 +397,30 @@ Item {
             compare(dragArea2.enabled, false);
 
             tryCompare(spreadView, "contentX", -spreadView.shift)
+        }
+
+        function test_leftEdge_data() {
+            return [
+                { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(5), shouldMoveApp: true },
+                { tag: "inSpread", inSpread: true, leftEdgeDragWidth: units.gu(5), shouldMoveApp: false }
+            ]
+        }
+
+        function test_leftEdge(data) {
+            addApps(2);
+
+            if (data.inSpread) {
+                goToSpread();
+            }
+
+            var focusedDelegate = findChild(phoneStage, "appDelegate0");
+            phoneStage.inverseProgress = data.leftEdgeDragWidth;
+
+            tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : 0);
+
+            phoneStage.inverseProgress = 0;
+
+            tryCompare(focusedDelegate, "x", 0);
         }
     }
 }

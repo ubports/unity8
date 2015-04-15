@@ -56,6 +56,7 @@ IndicatorsModel::IndicatorsModel(QObject *parent)
     m_manager = new IndicatorsManager(this);
     QObject::connect(m_manager, SIGNAL(indicatorLoaded(const QString&)), this, SLOT(onIndicatorLoaded(const QString&)));
     QObject::connect(m_manager, SIGNAL(indicatorAboutToBeUnloaded(const QString&)), this, SLOT(onIndicatorAboutToBeUnloaded(const QString&)));
+    QObject::connect(m_manager, SIGNAL(profileChanged(const QString&)), this, SIGNAL(profileChanged()));
 
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
@@ -81,14 +82,36 @@ int IndicatorsModel::count() const
 }
 
 /*!
+    \qmlproperty IndicatorsModel::profile
+    The indicator profile to use for the model.
+
+    \b Note: methods should only be called after the Component has completed.
+*/
+QString IndicatorsModel::profile() const
+{
+    return m_manager->profile();
+}
+
+/*!
+    \qmlproperty IndicatorsModel::setProfile
+    Set the indicator profile to use for the model.
+
+    \b Note: methods should only be called after the Component has completed.
+*/
+void IndicatorsModel::setProfile(const QString &profile)
+{
+    m_manager->setProfile(profile);
+}
+
+/*!
     \qmlmethod IndicatorsModel::unload()
 
     Load all indicators.
 */
-void IndicatorsModel::load(const QString& profile)
+void IndicatorsModel::load()
 {
     m_indicators.clear();
-    m_manager->load(profile);
+    m_manager->load();
 }
 
 /*!

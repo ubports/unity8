@@ -31,19 +31,10 @@ using namespace unity::shell::application;
 
 class ApplicationManager : public ApplicationManagerInterface {
     Q_OBJECT
-    Q_ENUMS(Role)
-    Q_ENUMS(StageHint)
-    Q_ENUMS(FormFactorHint)
-    Q_ENUMS(FavoriteApplication)
     Q_FLAGS(ExecFlags)
 
     Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
-
-    Q_PROPERTY(int sideStageWidth READ sideStageWidth)
-    Q_PROPERTY(StageHint stageHint READ stageHint)
-    Q_PROPERTY(FormFactorHint formFactorHint READ formFactorHint)
-
-    Q_PROPERTY(bool fake READ fake CONSTANT)
+    Q_PROPERTY(QStringList availableApplications READ availableApplications NOTIFY availableApplicationsChanged)
 
  public:
     ApplicationManager(QObject *parent = nullptr);
@@ -55,32 +46,11 @@ class ApplicationManager : public ApplicationManagerInterface {
         RoleSession = RoleFocused+1,
         RoleFullscreen,
     };
-    enum Role {
-        Dash, Default, Indicators, Notifications, Greeter, Launcher, OnScreenKeyboard,
-        ShutdownDialog
-    };
-    enum StageHint {
-        MainStage, IntegrationStage, ShareStage, ContentPickingStage,
-        SideStage, ConfigurationStage
-    };
-    enum FormFactorHint {
-        DesktopFormFactor, PhoneFormFactor, TabletFormFactor
-    };
-    enum FavoriteApplication {
-        CameraApplication, GalleryApplication, BrowserApplication, ShareApplication,
-        PhoneApplication, DialerApplication, MessagingApplication, AddressbookApplication
-    };
     enum Flag {
         NoFlag = 0x0,
         ForceMainStage = 0x1,
     };
     Q_DECLARE_FLAGS(ExecFlags, Flag)
-
-    int sideStageWidth() const;
-    StageHint stageHint() const;
-    FormFactorHint formFactorHint() const;
-
-    bool fake() { return true; }
 
     // QAbstractItemModel methods.
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -106,7 +76,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     void setForceDashActive(bool forceDashActive) override;
 
     // Only for testing
-    Q_INVOKABLE QStringList availableApplications();
+    QStringList availableApplications();
     Q_INVOKABLE ApplicationInfo* add(QString appId);
 
     QModelIndex findIndex(ApplicationInfo* application);
@@ -114,9 +84,9 @@ class ApplicationManager : public ApplicationManagerInterface {
     bool isEmpty() const;
 
  Q_SIGNALS:
-    void focusRequested(FavoriteApplication favoriteApplication);
     void focusRequested(const QString &appId);
     void emptyChanged(bool empty);
+    void availableApplicationsChanged(QStringList list);
 
  private Q_SLOTS:
     void onWindowCreatedTimerTimeout();

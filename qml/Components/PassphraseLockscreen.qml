@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@ import "../Components"
 
 Item {
     id: root
-    anchors.top: parent.top
-    anchors.topMargin: units.gu(4)
+    y: units.gu(4)
     height: shakeContainer.height
 
     property string infoText
     property string errorText
     property bool entryEnabled: true
+    property color foregroundColor: "#000000"
 
     readonly property string passphrase: pinentryField.text
 
@@ -54,7 +54,7 @@ Item {
             id: infoField
             objectName: "infoTextLabel"
             fontSize: "x-large"
-            color: "#f3f3e7"
+            color: root.foregroundColor
             anchors.horizontalCenter: parent.horizontalCenter
             text: root.infoText
         }
@@ -80,7 +80,7 @@ Item {
                 echoMode: TextInput.Password
                 inputMethodHints: Qt.ImhHiddenText | Qt.ImhSensitiveData |
                                   Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                color: "#f3f3e7"
+                color: root.foregroundColor
                 cursorDelegate: Item {} // disable cursor
                 onCursorPositionChanged: {
                     // And because we don't show the cursor, always position the
@@ -120,7 +120,7 @@ Item {
                 Repeater {
                     model: pinentryField.length
                     delegate: Rectangle {
-                        color: "#f3f3e7"
+                        color: root.foregroundColor
                         width: dotRow.dotSize
                         height: width
                         radius: width / 2
@@ -132,7 +132,7 @@ Item {
                 id: wrongNoticeLabel
                 objectName: "wrongNoticeLabel"
                 fontSize: "large"
-                color: "#f3f3e7"
+                color: root.foregroundColor
                 anchors.horizontalCenter: parent.horizontalCenter
                 horizontalAlignment: Text.AlignHCenter
                 text: root.errorText

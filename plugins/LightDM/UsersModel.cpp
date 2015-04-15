@@ -58,7 +58,7 @@ QVariant MangleModel::data(const QModelIndex &index, int role) const
 // **** Now we continue with actual UsersModel class ****
 
 UsersModel::UsersModel(QObject* parent)
-  : QSortFilterProxyModelQML(parent)
+  : UnitySortFilterProxyModelQML(parent)
 {
     setModel(new MangleModel(this));
     setSortCaseSensitivity(Qt::CaseInsensitive);

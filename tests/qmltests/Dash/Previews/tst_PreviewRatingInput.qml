@@ -139,7 +139,7 @@ Rectangle {
                 verify(reviewTextArea.visible === true);
 
                 reviewTextArea.text = data.inputText;
-                mouseClick(submitButton, submitButton.width / 2, submitButton.height / 2);
+                mouseClick(submitButton);
                 switch (data.widgetData["required"]) {
                     case "rating": {
                         if (rating.visible === false || data.inputRating < 0) {
@@ -187,7 +187,7 @@ Rectangle {
             if (data.inputRating > 0) rating.value = data.inputRating;
             if (data.inputText !== "") {
                 reviewTextArea.text = data.inputText;
-                mouseClick(submitButton, submitButton.width / 2, submitButton.height / 2);
+                mouseClick(submitButton);
             }
 
             compare(spy.count, 1);
@@ -196,7 +196,7 @@ Rectangle {
             compare(args[1], "rated");
             compare(args[2]["rating"], data.triggeredData["rating"]);
             compare(args[2]["review"], data.triggeredData["review"]);
-            verify(args[2]["author"]); // Just verifying it exists now
+            verify(args[2]["author"] !== undefined); // Just verifying it exists now
         }
     }
 }

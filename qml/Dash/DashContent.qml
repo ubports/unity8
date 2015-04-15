@@ -63,11 +63,6 @@ Item {
         }
     }
 
-    Connections {
-        target: UriHandler
-        onOpened: dashContentList.currentItem.theScope.performQuery(uris[0])
-    }
-
     function setCurrentScopeAtIndex(index, animate, reset) {
         // if the scopes haven't loaded yet, then wait until they are.
         if (!scopes.loaded) {
@@ -84,8 +79,7 @@ Item {
 
         set_current_index = undefined;
 
-        if (dashContentList.count > index)
-        {
+        if (dashContentList.count > index) {
             dashContentList.currentIndex = index
 
             if (reset) {
@@ -113,7 +107,7 @@ Item {
             objectName: "dashContentList"
 
             interactive: !dashContent.forceNonInteractive && dashContent.scopes.loaded && currentItem
-                      && !currentItem.moving && !currentItem.navigationShown && !currentItem.subPageShown
+                      && !currentItem.moving && !currentItem.navigationDisableParentInteractive && !currentItem.subPageShown
             anchors.fill: parent
             orientation: ListView.Horizontal
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -175,7 +169,7 @@ Item {
                     objectName: "scopeLoader" + index
 
                     readonly property bool moving: item ? item.moving : false
-                    readonly property bool navigationShown: item ? item.navigationShown : false
+                    readonly property bool navigationDisableParentInteractive: item ? item.navigationDisableParentInteractive : false
                     readonly property bool subPageShown: item ? item.subPageShown : false
                     readonly property var categoryView: item ? item.categoryView : null
                     readonly property var theScope: scope

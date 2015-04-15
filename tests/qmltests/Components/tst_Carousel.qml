@@ -274,20 +274,20 @@ Item {
 
             spy.signalName = "clicked";
             spy.target = carouselItem;
-            mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            mouseClick(carouselItem);
             tryCompare(carouselList, "moving", false);
             tryCompare(carouselItem, "explicitlyScaled", true);
-            mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            mouseClick(carouselItem);
             spy.wait();
 
             spy.signalName = "pressAndHold";
             spy.target = carouselItem;
-            mouseClick(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            mouseClick(carouselItem);
             tryCompare(carouselList, "moving", false);
             tryCompare(carouselItem, "explicitlyScaled", true);
-            mousePress(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            mousePress(carouselItem);
             spy.wait();
-            mouseRelease(carouselItem, carouselItem.width / 2, carouselItem.height / 2);
+            mouseRelease(carouselItem);
         }
     }
 }

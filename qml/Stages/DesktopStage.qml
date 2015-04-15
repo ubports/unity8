@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,13 +20,16 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components/PanelState"
+import Utils 0.1
 
-Item {
+FocusScope {
     id: root
 
     anchors.fill: parent
 
     property alias background: wallpaper.source
+
+    property var windowStateStorage: WindowStateStorage
 
     CrossFadeImage {
         id: wallpaper
@@ -38,8 +41,6 @@ Item {
     Connections {
         target: ApplicationManager
         onApplicationAdded: {
-            // Initial placement to avoid having the window decoration behind the panel
-            appRepeater.itemAt(ApplicationManager.count-1).y = units.gu(3)
             ApplicationManager.requestFocusApplication(ApplicationManager.get(ApplicationManager.count-1).appId)
         }
 
@@ -91,9 +92,12 @@ Item {
         delegate: Item {
             id: appDelegate
             z: ApplicationManager.count - index
+            y: units.gu(3)
             width: units.gu(60)
             height: units.gu(50)
 
+            readonly property int minWidth: units.gu(10)
+            readonly property int minHeight: units.gu(10)
 
             states: [
                 State {
@@ -114,57 +118,29 @@ Item {
                 }
             ]
 
-            MouseArea {
-                anchors.fill: parent
-                anchors.margins: -units.gu(0.5)
+            WindowMoveResizeArea {
+                windowStateStorage: root.windowStateStorage
+                target: appDelegate
+                minWidth: appDelegate.minWidth
+                minHeight: appDelegate.minHeight
+                resizeHandleWidth: units.gu(0.5)
+                windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                property bool resizeWidth: false
-                property bool resizeHeight: false
-
-                property int startX: 0
-                property int startWidth: 0
-                property int startY: 0
-                property int startHeight: 0
-
-                onPressed: {
-                    ApplicationManager.requestFocusApplication(model.appId)
-                    if (mouseX > width - units.gu(1)) {
-                        resizeWidth = true;
-                        startX = mouseX;
-                        startWidth = appDelegate.width;
-                    }
-                    if (mouseY > height - units.gu(1)) {
-                        resizeHeight = true;
-                        startY = mouseY;
-                        startHeight = appDelegate.height;
-                    }
-                    if (!resizeHeight && !resizeWidth) {
-                        drag.target = appDelegate;
-                    }
-                }
-
-                onMouseXChanged: {
-                    if (resizeWidth) {
-                        appDelegate.width = startWidth + (mouseX - startX)
-                    }
-                }
-                onMouseYChanged: {
-                    if (resizeHeight) {
-                        appDelegate.height = startHeight + (mouseY - startY)
-                    }
-                }
-
-                onReleased: {
-                    resizeWidth = false;
-                    resizeHeight = false;
-                    drag.target = undefined;
-                }
+                onPressed: decoratedWindow.focus = true;
             }
 
             DecoratedWindow {
+                id: decoratedWindow
+                objectName: "decoratedWindow_" + appId
                 anchors.fill: parent
                 application: ApplicationManager.get(index)
                 active: ApplicationManager.focusedApplicationId === model.appId
+
+                onFocusChanged: {
+                    if (focus) {
+                        ApplicationManager.requestFocusApplication(model.appId);
+                    }
+                }
 
                 onClose: ApplicationManager.stopApplication(model.appId)
                 onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")

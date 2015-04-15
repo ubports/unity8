@@ -111,7 +111,7 @@ IndicatorTest {
                 var menuIndex = i%menuCount;
 
                 activate_content(menuIndex);
-                testItemObjectName = indicatorsModel.model.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
+                testItemObjectName = indicatorsModel.data(menuIndex, Indicators.IndicatorsModelRole.Identifier);
                 compare(listView.currentIndex, menuIndex, "Current tab index does not match selected tab index");
                 tryCompareFunction(current_item_equals_test_item, true);
             }

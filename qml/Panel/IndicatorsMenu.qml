@@ -18,6 +18,7 @@ import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Ubuntu.Gestures 0.1
 import "../Components"
+import "Indicators"
 
 Showable {
     id: root
@@ -60,6 +61,10 @@ Showable {
     onUnitProgressChanged: d.updateState()
     clip: root.partiallyOpened
 
+    IndicatorsLight {
+        id: indicatorLights
+    }
+
     // eater
     MouseArea {
         anchors.fill: parent
@@ -83,6 +88,7 @@ Showable {
 
     Handle {
         id: handle
+        objectName: "handle"
         anchors {
             left: parent.left
             right: parent.right
@@ -157,8 +163,21 @@ Showable {
         onScroll: bar.addScrollOffset(scrollAmount);
     }
 
+    MouseArea {
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: minimizedPanelHeight
+        enabled: __showDragHandle.enabled
+        onClicked: {
+            bar.selectItemAt(mouseX)
+            root.show()
+        }
+    }
+
     DragHandle {
         id: __showDragHandle
+        objectName: "showDragHandle"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -175,6 +194,12 @@ Showable {
         overrideStartValue: enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height
         maxTotalDragDistance: openedHeight - (enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height)
         hintDisplacement: enableHint ? expandedPanelHeight - minimizedPanelHeight + handle.height : 0
+    }
+
+    MouseArea {
+        anchors.fill: __hideDragHandle
+        enabled: __hideDragHandle.enabled
+        onClicked: root.hide()
     }
 
     DragHandle {

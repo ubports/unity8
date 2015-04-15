@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -64,7 +64,6 @@ UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
 UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
 UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
-
 
 def _get_device_emulation_scenarios(devices='All'):
     nexus4 = ('Desktop Nexus 4',
@@ -148,12 +147,11 @@ class UnityTestCase(AutopilotTestCase):
             sys.exit(2)
 
     def setUp(self):
-        super(UnityTestCase, self).setUp()
+        super().setUp()
         if is_unity7_running():
             self.useFixture(toolkit_fixtures.HideUnity7Launcher())
 
         self._proxy = None
-        self._lightdm_mock_type = None
         self._qml_mock_enabled = True
         self._data_dirs_mock_enabled = True
         self._environment = {}
@@ -254,8 +252,14 @@ class UnityTestCase(AutopilotTestCase):
                 "%s=%s" % (key, value)
             ], stderr=subprocess.STDOUT)
 
-    def launch_unity(self, **kwargs):
-        """Launch the unity shell, return a proxy object for it."""
+    def launch_unity(self, mode="full-greeter", *args):
+        """
+            Launch the unity shell, return a proxy object for it.
+
+        :param str mode: The type of greeter/shell mode to use
+        :param args: A list of aguments to pass to unity8
+
+        """
         binary_path = get_binary_path()
         lib_path = get_lib_path()
 
@@ -265,8 +269,7 @@ class UnityTestCase(AutopilotTestCase):
             binary_path
         )
 
-        if self._lightdm_mock_type is None:
-            self.patch_lightdm_mock()
+        self.patch_lightdm_mock()
 
         if self._qml_mock_enabled:
             self._environment['QML2_IMPORT_PATH'] = (
@@ -291,9 +294,13 @@ class UnityTestCase(AutopilotTestCase):
         except OSError:
             pass
 
+        unity8_cli_args_list = ["--mode={}".format(mode)]
+        if len(args) != 0:
+            unity8_cli_args_list += args
+
         app_proxy = self._launch_unity_with_upstart(
             binary_path,
-            self.unity_geometry_args,
+            self.unity_geometry_args + unity8_cli_args_list
         )
 
         self._set_proxy(app_proxy)
@@ -338,12 +345,11 @@ class UnityTestCase(AutopilotTestCase):
         if data_dirs is not None:
             self._environment['XDG_DATA_DIRS'] = data_dirs
 
-    def patch_lightdm_mock(self, mock_type='single'):
-        self._lightdm_mock_type = mock_type
-        logger.info("Setting up LightDM mock type '%s'", mock_type)
+    def patch_lightdm_mock(self):
+        logger.info("Setting up LightDM mock lib")
         new_ld_library_path = [
             get_default_extra_mock_libraries(),
-            self._get_lightdm_mock_path(mock_type)
+            self._get_lightdm_mock_path()
         ]
         if os.getenv('LD_LIBRARY_PATH') is not None:
             new_ld_library_path.append(os.getenv('LD_LIBRARY_PATH'))
@@ -353,16 +359,16 @@ class UnityTestCase(AutopilotTestCase):
 
         self._environment['LD_LIBRARY_PATH'] = new_ld_library_path
 
-    def _get_lightdm_mock_path(self, mock_type):
+    def _get_lightdm_mock_path(self):
         lib_path = get_mocks_library_path()
         lightdm_mock_path = os.path.abspath(
-            os.path.join(lib_path, "LightDM", mock_type)
+            os.path.join(lib_path, "LightDM", "liblightdm")
         )
 
         if not os.path.exists(lightdm_mock_path):
             raise RuntimeError(
-                "LightDM mock '%s' does not exist at path '%s'."
-                % (mock_type, lightdm_mock_path)
+                "LightDM mock does not exist at path '%s'."
+                % (lightdm_mock_path)
             )
         return lightdm_mock_path
 
@@ -378,9 +384,8 @@ class UnityTestCase(AutopilotTestCase):
         self._proxy = None
 
     def wait_for_unity(self):
-        greeter_content_loader = self.main_window.wait_select_single(
-            objectName='greeterContentLoader')
-        greeter_content_loader.progress.wait_for(1)
+        greeter = self.main_window.wait_select_single(objectName='greeter')
+        greeter.waiting.wait_for(False)
 
     def get_dash(self):
         pid = process_helpers.get_job_pid('unity8-dash')
@@ -403,7 +408,7 @@ class DashBaseTestCase(AutopilotTestCase):
     environment = {}
 
     def setUp(self):
-        super(DashBaseTestCase, self).setUp()
+        super().setUp()
 
         if is_unity7_running():
             self.useFixture(toolkit_fixtures.HideUnity7Launcher())

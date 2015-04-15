@@ -18,7 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 
-Item {
+FocusScope {
     id: root
 
     // to be read from outside
@@ -43,6 +43,7 @@ Item {
         readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
         readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
         readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
+        readonly property url defaultScreenshot: (root.application && root.application.defaultScreenshot !== undefined) ? root.application.defaultScreenshot : ""
 
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
@@ -72,7 +73,7 @@ Item {
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
-        source: ""
+        source: d.defaultScreenshot
         anchors.fill: parent
         antialiasing: !root.interactive
 
@@ -109,7 +110,8 @@ Item {
 
     SessionContainer {
         id: sessionContainer
-        session: application ? application.session : null
+        // A fake application might not even have a session property.
+        session: application && application.session ? application.session : null
         anchors.fill: parent
         orientation: root.orientation
 
@@ -120,9 +122,12 @@ Item {
                 d.surfaceInitialized = false;
             }
         }
+
+        focus: true
     }
 
     StateGroup {
+        id: stateGroup
         objectName: "applicationWindowStateGroup"
         states: [
             State {
@@ -213,6 +218,17 @@ Item {
                                             duration: UbuntuAnimation.BriskDuration }
                     PropertyAction { target: screenshotImage; property: "visible"; value: false }
                     PropertyAction { target: screenshotImage; property: "source"; value: "" }
+                }
+            },
+            Transition {
+                from: "splashScreen"; to: "screenshot"
+                SequentialAnimation {
+                    PropertyAction { target: screenshotImage
+                                     property: "visible"; value: true }
+                    UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
+                                            from: 0.0; to: 1.0
+                                            duration: UbuntuAnimation.BriskDuration }
+                    PropertyAction { target: splashLoader; property: "active"; value: false }
                 }
             },
             Transition {

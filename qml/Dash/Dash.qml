@@ -28,27 +28,39 @@ Showable {
 
     visible: shown
 
+    Connections {
+        target: UriHandler
+        onOpened: {
+            backToDashContent()
+            dashContent.currentScope.performQuery(uris[0])
+        }
+    }
+
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
             if (!isSwipe || !window.active || bottomEdgeController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
                 if (bottomEdgeController.progress != 0 && window.active) animate = false;
                 dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
-                // Close dash overview and nested temp scopes in it
-                if (bottomEdgeController.progress != 0) {
-                    bottomEdgeController.enableAnimation = window.active && !scopesOverview.showingNonFavoriteScope;
-                    bottomEdgeController.progress = 0;
-                    scopesOverview.closeTempScope();
-                }
-                // Close normal temp scopes (e.g. App Store)
-                if (scopeItem.scope) {
-                    scopeItem.backClicked();
-                }
-                // Close previews
-                if (dashContent.subPageShown) {
-                    dashContent.closePreview();
-                }
+                backToDashContent()
             }
+        }
+    }
+
+    function backToDashContent()
+    {
+        // Close dash overview and nested temp scopes in it
+        if (bottomEdgeController.progress != 0) {
+            bottomEdgeController.enableAnimation = window.active;
+            bottomEdgeController.progress = 0;
+        }
+        // Close normal temp scopes (e.g. App Store)
+        if (scopeItem.scope) {
+            scopeItem.backClicked();
+        }
+        // Close previews
+        if (dashContent.subPageShown) {
+            dashContent.closePreview();
         }
     }
 
@@ -123,7 +135,6 @@ Showable {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
-            scopeItem.scopeThatOpenedScope = currentScope;
             scopeItem.scope = scope;
             x = -width;
         }
@@ -131,7 +142,7 @@ Showable {
             UbuntuNumberAnimation {
                 onRunningChanged: {
                     if (!running && dashContent.x == 0) {
-                        scopeItem.scopeThatOpenedScope.closeScope(scopeItem.scope);
+                        scopes.closeScope(scopeItem.scope);
                         scopeItem.scope = null;
                     }
                 }
@@ -180,7 +191,7 @@ Showable {
         Binding {
             target: scopesList.scope
             property: "isActive"
-            value: bottomEdgeController.progress === 1
+            value: bottomEdgeController.progress === 1 && (Qt.application.state == Qt.ApplicationActive)
         }
 
         Connections {
@@ -188,7 +199,6 @@ Showable {
             onOpenScope: {
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = 0;
-                scopeItem.scopeThatOpenedScope = scopesList.scope;
                 scopeItem.scope = scope;
                 dashContent.x = -dashContent.width;
             }
@@ -200,8 +210,7 @@ Showable {
         }
     }
 
-    DashBackground
-    {
+    DashBackground {
         anchors.fill: scopeItem
         visible: scopeItem.visible
     }
@@ -209,8 +218,6 @@ Showable {
     GenericScopeView {
         id: scopeItem
         objectName: "dashTempScopeItem"
-
-        property var scopeThatOpenedScope: null
 
         x: dashContent.x + width
         y: dashContent.y
@@ -230,7 +237,10 @@ Showable {
                 dashContent.gotoScope(scopeId);
             }
             onOpenScope: {
-                dashContent.openScope(scope);
+                scopeItem.closePreview();
+                var oldScope = scopeItem.scope;
+                scopeItem.scope = scope;
+                scopes.closeScope(oldScope);
             }
         }
     }
@@ -303,9 +313,10 @@ Showable {
     }
 
     Image {
+        objectName: "overviewHint"
         source: "graphics/overview_hint.png"
         anchors.horizontalCenter: parent.horizontalCenter
-        opacity: (scopeItem.scope ? scopeItem.pageHeaderTotallyVisible : scopes.count == 0 || dashContent.pageHeaderTotallyVisible) &&
+        opacity: !scopeItem.scope && (scopes.count == 0 || dashContent.pageHeaderTotallyVisible) &&
                  (overviewDragHandle.enabled || bottomEdgeController.progress != 0) ? 1 : 0
         Behavior on opacity {
             enabled: bottomEdgeController.progress == 0
@@ -335,28 +346,23 @@ Showable {
         height: units.gu(2)
 
         onSceneDistanceChanged: {
-            if (status == DirectionalDragArea.Recognized && initialSceneDistance != -1) {
+            if (status == DirectionalDragArea.Recognized) {
                 bottomEdgeController.enableAnimation = false;
-                var deltaDistance = sceneDistance - initialSceneDistance;
-                bottomEdgeController.progress = Math.max(0, Math.min(1, deltaDistance / fullMovement));
+                bottomEdgeController.progress = Math.max(0, Math.min(1, sceneDistance / fullMovement));
             }
         }
 
         property int previousStatus: -1
         property int currentStatus: DirectionalDragArea.WaitingForTouch
-        property real initialSceneDistance: -1
 
         onStatusChanged: {
             previousStatus = currentStatus;
             currentStatus = status;
 
-            if (status == DirectionalDragArea.Recognized) {
-                initialSceneDistance = sceneDistance;
-            } else if (status == DirectionalDragArea.WaitingForTouch &&
+            if (status == DirectionalDragArea.WaitingForTouch &&
                     previousStatus == DirectionalDragArea.Recognized) {
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = (bottomEdgeController.progress > 0.2)  ? 1 : 0;
-                initialSceneDistance = -1;
             }
         }
     }

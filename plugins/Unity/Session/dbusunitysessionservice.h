@@ -17,7 +17,12 @@
 #ifndef DBUSUNITYSESSIONSERVICE_H
 #define DBUSUNITYSESSIONSERVICE_H
 
+#include <QDBusObjectPath>
+
 #include "unitydbusobject.h"
+
+typedef QList<QDBusObjectPath> QDbusList;
+Q_DECLARE_METATYPE(QList<QDBusObjectPath>)
 
 /**
  * DBusUnitySessionService provides com.canonical.Unity.Session dbus
@@ -39,6 +44,7 @@ public:
     Q_INVOKABLE void logout() { Logout(); }
     Q_INVOKABLE void reboot() { Reboot(); }
     Q_INVOKABLE void shutdown() { Shutdown(); }
+    Q_INVOKABLE void endSession() { EndSession(); }
 
 Q_SIGNALS:
     /**
@@ -49,7 +55,7 @@ Q_SIGNALS:
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the logout.
      */
-    void logoutRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void logoutRequested(bool have_inhibitors);
 
     /**
      * rebootRequested signal
@@ -59,7 +65,7 @@ Q_SIGNALS:
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the reboot.
      */
-    void rebootRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void rebootRequested(bool have_inhibitors);
 
     /**
      * shutdownRequested signal
@@ -69,7 +75,7 @@ Q_SIGNALS:
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the shutdown.
      */
-    void shutdownRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void shutdownRequested(bool have_inhibitors);
 
 
     /**
@@ -139,6 +145,25 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void RequestShutdown();
 
+    /**
+     * Issue an EndSession request.
+     *
+     * This method calls the EndSession() Upstart DBus method on the
+     * current DBus session bus.
+     */
+    Q_SCRIPTABLE void EndSession();
 };
 
+class DBusGnomeSessionManagerWrapper : public UnityDBusObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.gnome.SessionManager.EndSessionDialog")
+
+public:
+    DBusGnomeSessionManagerWrapper();
+    ~DBusGnomeSessionManagerWrapper();
+
+public Q_SLOTS:
+    Q_SCRIPTABLE void Open(const unsigned int type, const unsigned int arg_1, const unsigned int max_wait, const QList<QDBusObjectPath> &inhibitors);
+};
 #endif // DBUSUNITYSESSIONSERVICE_H

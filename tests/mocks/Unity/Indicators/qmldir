@@ -2,5 +2,6 @@ module Unity.Indicators
 plugin IndicatorsFakeQml
 typeinfo Indicators.qmltypes
 
+ActionRootState 0.1 ActionRootState.qml
 IndicatorsModel 0.1 IndicatorsModel.qml
-RootActionState 0.1 RootActionState.qml
+ModelActionRootState 0.1 ModelActionRootState.qml
