@@ -103,6 +103,23 @@ Rectangle {
                             GSettingsController.setUsageMode("com.canonical.Unity8", "Staged")
                         }
                     }
+                },
+                State {
+                    name: "desktop"
+                    PropertyChanges {
+                        target: shellLoader
+                        width: units.gu(100)
+                        height: units.gu(71)
+                    }
+                    PropertyChanges {
+                        target: mouseEmulation
+                        checked: false
+                    }
+                    StateChangeScript {
+                        script: {
+                            GSettingsController.setUsageMode("com.canonical.Unity8", "Windowed")
+                        }
+                    }
                 }
             ]
 
@@ -160,7 +177,7 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Size"
-                model: ["phone", "tablet"]
+                model: ["phone", "tablet", "desktop"]
                 onSelectedIndexChanged: {
                     shellLoader.active = false;
                     shellLoader.state = model[selectedIndex];
@@ -713,8 +730,9 @@ Rectangle {
 
         function test_launchedAppHasActiveFocus_data() {
             return [
-                {tag:"phone", formFactor:"phone"},
-                {tag:"tablet", formFactor:"tablet"},
+                {tag: "phone", formFactor: "phone"},
+                {tag: "tablet", formFactor: "tablet"},
+                {tag: "desktop", formFactor: "desktop"}
             ];
         }
 
@@ -1210,7 +1228,8 @@ Rectangle {
         function test_stageLoader_data() {
             return [
                 {tag: "phone", source: "Stages/PhoneStage.qml"},
-                {tag: "tablet", source: "Stages/TabletStage.qml"}
+                {tag: "tablet", source: "Stages/TabletStage.qml"},
+                {tag: "desktop", source: "Stages/DesktopStage.qml"}
             ]
         }
 
