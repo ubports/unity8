@@ -1130,10 +1130,10 @@ Rectangle {
             {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
                 var startPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.8,
+                        buttonShowDashHome.width * 0.2,
                         buttonShowDashHome.height * 0.2);
                 var endPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.2,
+                        buttonShowDashHome.width * 0.8,
                         buttonShowDashHome.height * 0.8);
                 touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
             }
@@ -1237,6 +1237,21 @@ Rectangle {
             loadShell(data.tag);
             var stageLoader = findChild(shell, "applicationsDisplayLoader");
             verify(String(stageLoader.source).indexOf(data.source) >= 0);
+        }
+
+        function test_launcherInverted_data() {
+            return [
+                {tag: "phone", formFactor: "phone"},
+                {tag: "tablet", formFactor: "tablet"},
+                {tag: "desktop", formFactor: "desktop"}
+            ];
+        }
+
+        function test_launcherInverted(data) {
+            loadShell(data.formFactor);
+
+            var launcher = findChild(shell, "launcher");
+            compare(launcher.inverted, data.formFactor !== "desktop");
         }
     }
 }
