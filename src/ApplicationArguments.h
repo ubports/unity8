@@ -29,9 +29,8 @@ class ApplicationArguments : public QObject
     Q_OBJECT
 public:
     // Not exposed to the app as setSize isn't invokable
-    void setSize(int width, int height) {
-        m_size.rwidth()  = width;
-        m_size.rheight() = height;
+    void setSize(const QSize &size) {
+        m_size = size;
     }
 
     Q_INVOKABLE bool hasGeometry() const { return m_size.isValid(); }

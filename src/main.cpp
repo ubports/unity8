@@ -56,6 +56,7 @@ int main(int argc, const char *argv[])
     }
 
     ApplicationArguments qmlArgs;
+    qmlArgs.setSize(parser.windowGeometry());
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
@@ -90,10 +91,6 @@ int main(int argc, const char *argv[])
     }
     TouchRegistry touchRegistry;
     view->installEventFilter(&touchRegistry);
-    if (parser.windowGeometry().isValid()) {
-        view->setWidth(parser.windowGeometry().width());
-        view->setHeight(parser.windowGeometry().height());
-    }
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
