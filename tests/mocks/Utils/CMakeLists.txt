@@ -9,6 +9,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qlimitproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/relativetimeformatter.cpp
@@ -16,8 +17,9 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitymenumodelpaths.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowkeysfilter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
-    windowstatestorage.cpp
+    constants.cpp
     plugin.cpp
+    windowstatestorage.cpp
     )
 
 add_library(FakeUtils-qml SHARED

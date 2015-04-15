@@ -24,14 +24,16 @@
 #include "plugin.h"
 
 // local
-#include "easingcurve.h"
+#include "inputwatcher.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
 #include "relativetimeformatter.h"
 #include "timeformatter.h"
 #include "unitymenumodelpaths.h"
 #include "windowkeysfilter.h"
+#include "easingcurve.h"
 #include "windowstatestorage.h"
+#include "constants.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -40,9 +42,16 @@ static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEn
     return new WindowStateStorage();
 }
 
+static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new Constants();
+}
+
 void FakeUtilsPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("Utils"));
+    Q_ASSERT(uri == QLatin1String("Utils"));;
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");
@@ -53,6 +62,8 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
+    qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
+    qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
 }
 
 void FakeUtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
