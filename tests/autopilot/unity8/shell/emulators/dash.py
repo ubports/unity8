@@ -1,3 +1,4 @@
+
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
@@ -211,7 +212,8 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         self.get_root_instance().select_single(
             objectName='processingIndicator').visible.wait_for(False)
         return preview_list.select_single(
-            Preview, objectName='preview{}'.format(preview_list.currentIndex))
+            'Preview', objectName='preview{}'.format(
+                preview_list.initialIndex))
 
     @autopilot_logging.log_action(logger.debug)
     def click_scope_item(self, category, title, press_duration=0.10):
