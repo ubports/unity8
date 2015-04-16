@@ -22,6 +22,7 @@ import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components/PanelState"
 import Utils 0.1
+import Ubuntu.Gestures 0.1
 
 FocusScope {
     id: root
@@ -37,8 +38,10 @@ FocusScope {
         if (altTabPressed) {
             appRepeater.highlightedIndex = Math.min(ApplicationManager.count - 1, 1);
         } else {
-            print("focusing app", appRepeater.highlightedIndex)
-            ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
+            if (root.state == "altTab") {
+                print("focusing app", appRepeater.highlightedIndex)
+                ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
+            }
         }
     }
 
@@ -181,6 +184,10 @@ FocusScope {
                             target: spreadSelectArea
                             enabled: true
                         }
+                        PropertyChanges {
+                            target: windowMoveResizeArea
+                            enabled: false
+                        }
                     }
                 ]
                 transitions: [
@@ -205,6 +212,7 @@ FocusScope {
                 }
 
                 WindowMoveResizeArea {
+                    id: windowMoveResizeArea
                     target: appDelegate
                     minWidth: appDelegate.minWidth
                     minHeight: appDelegate.minHeight
@@ -287,12 +295,15 @@ FocusScope {
         }
     }
 
-    SpreadFlickable {
+    FloatingFlickable {
         id: spreadFlickable
         anchors.fill: parent
         contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
-        visible: false
+
+        //visible: false
         //boundsBehavior: Flickable.StopAtBounds
+
+        onContentXChanged: print("contentXChanged", contentX)
 
         function ensureVisible(index) {
 

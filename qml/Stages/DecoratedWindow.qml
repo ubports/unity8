@@ -52,6 +52,7 @@ FocusScope {
             PropertyChanges {
                 target: applicationWindow
                 itemScale: Math.max(root.width / root.windowWidth, root.height / root.windowHeight)
+                interactive: false
             }
             PropertyChanges {
                 target: clipper
