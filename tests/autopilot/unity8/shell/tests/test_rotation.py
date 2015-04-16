@@ -48,10 +48,8 @@ class RotationBase(tests.UnityTestCase):
         self._data_dirs_mock_enabled = False
 
     def _assert_change_of_orientation_and_angle(self):
-        tmp_o = self.shell_proxy.orientation
-        tmp_a = self.shell_proxy.orientationAngle
-        self.assertThat(self.orientation, Equals(tmp_o))
-        self.assertThat(self.angle, Equals(tmp_a))
+        self.assertThat(self.shell_proxy.orientation, Eventually(Equals(self.orientation)))
+        self.assertThat(self.shell_proxy.orientationAngle, Eventually(Equals(self.angle)))
 
     def test_fake_sensor(self):
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
