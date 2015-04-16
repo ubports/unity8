@@ -363,6 +363,9 @@ Item {
         Greeter {
             objectName: "greeter"
 
+            // Needed to expose the timer to outside objects
+            property alias showGreeterDelayed: showGreeterDelayed
+
             hides: [launcher, panel.indicators]
             tabletMode: shell.sideStageEnabled
             launcherOffset: launcher.progress
@@ -443,7 +446,7 @@ Item {
                 // make the greeter load asynchronously instead, but that
                 // introduces a whole host of timing issues, especially with
                 // its animations.  So this is simpler.
-                showGreeterDelayed.start();
+                greeter.showGreeterDelayed.start();
             }
         }
     }
