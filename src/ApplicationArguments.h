@@ -31,9 +31,9 @@ public:
     ApplicationArguments(QObject *parent = nullptr);
 
     void setDeviceName(QString deviceName) { m_deviceName = deviceName; }
-    void setSize(int width, int height) {
-        m_size.rwidth()  = width;
-        m_size.rheight() = height;
+
+    void setSize(const QSize &size) {
+        m_size = size;
     }
 
     Q_INVOKABLE int width() const { return m_size.width(); }

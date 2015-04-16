@@ -30,7 +30,6 @@ public:
     bool hasFrameless() const { return m_hasFrameless; }
     bool hasMouseToTouch() const { return m_hasMouseToTouch; }
     bool hasFullscreen() const { return m_hasFullscreen; }
-    QString deviceName() const { return m_deviceName; }
     QString mode() const { return m_mode; }
 private:
 
@@ -45,7 +44,6 @@ private:
     bool m_hasFrameless;
     bool m_hasMouseToTouch;
     bool m_hasFullscreen;
-    QString m_deviceName;
     QString m_mode;
 };
 
