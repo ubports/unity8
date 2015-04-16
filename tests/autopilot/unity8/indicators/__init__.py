@@ -19,7 +19,6 @@ import ubuntuuitoolkit
 from autopilot import introspection
 
 from unity8.shell import emulators
-from unity8 import fixture_setup
 
 
 class IndicatorPage(emulators.UnityEmulatorBase):
@@ -33,6 +32,7 @@ class IndicatorPage(emulators.UnityEmulatorBase):
     @classmethod
     def validate_dbus_object(cls, path, state):
         return False
+
 
 class Indicator():
 
@@ -98,7 +98,8 @@ class Indicator():
 class DisplayIndicator(Indicator):
 
     def __init__(self, main_window):
-        super(DisplayIndicator, self).__init__(main_window, 'indicator-rotation-lock')
+        super(DisplayIndicator, self).__init__(main_window,
+                                               'indicator-rotation-lock')
         self._main_window = main_window
 
 
@@ -189,7 +190,7 @@ class Slider(emulators.UnityEmulatorBase):
         stop_x = x
 
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
-        self.value.wait_for(self.minimumValue, timeout);
+        self.value.wait_for(self.minimumValue, timeout)
 
     def slide_right(self, timeout=10):
         x, y, width, height = self.globalRect
@@ -200,4 +201,4 @@ class Slider(emulators.UnityEmulatorBase):
         stop_x = x + width
 
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
-        self.value.wait_for(self.maximumValue, timeout);
+        self.value.wait_for(self.maximumValue, timeout)

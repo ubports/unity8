@@ -21,19 +21,16 @@ from testscenarios import multiply_scenarios
 from unity8 import (
     fixture_setup,
     indicators,
-    process_helpers
 )
-from unity8.shell import tests
 from unity8.indicators import tests
 
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals, NotEquals
-import time
 
 
 class TestIndicatorBaseTestCase(tests.IndicatorTestCase):
 
-    scenarios = [ tests.IndicatorTestCase.device_emulation_scenarios[0] ]
+    scenarios = [tests.IndicatorTestCase.device_emulation_scenarios[0]]
 
     def setUp(self):
         super(TestIndicatorBaseTestCase, self).setUp()
@@ -49,7 +46,8 @@ class TestIndicatorBaseTestCase(tests.IndicatorTestCase):
         self.indicator_page = self.indicator.open()
 
     def launch_indicator_service(self):
-        launch_service_fixture = fixture_setup.LaunchMockIndicatorService(self.action_delay)
+        launch_service_fixture = \
+            fixture_setup.LaunchMockIndicatorService(self.action_delay)
         self.useFixture(launch_service_fixture)
 
 
@@ -95,6 +93,7 @@ class TestServerValueUpdate(TestIndicatorBaseTestCase):
             Eventually(Equals(slider.value), timeout=20)
         )
 
+
 class TestBuffering(TestIndicatorBaseTestCase):
 
     """Test that switching multiple times will buffer activations
@@ -107,11 +106,11 @@ class TestBuffering(TestIndicatorBaseTestCase):
 
         switch = self.indicator_page.get_switcher()
         switch.change_state()
-        intermediate_value = switch.checked;
+        intermediate_value = switch.checked
 
         # will buffer change until it receives the change from server
         switch.change_state()
-        final_value = switch.checked;
+        final_value = switch.checked
 
         # backend will respond to first switch.
         switch_menu = self.indicator_page.get_switch_menu()
@@ -121,7 +120,8 @@ class TestBuffering(TestIndicatorBaseTestCase):
         )
         # The buffered activation should have gone to server now.
 
-        # front-end should not change as a result of server update while it is buffered
+        # front-end should not change as a result of server update
+        # while it is buffered
         self.assertThat(
             switch.checked,
             Equals(final_value)
@@ -142,15 +142,15 @@ class TestBuffering(TestIndicatorBaseTestCase):
     def test_slider_buffers_activations(self):
 
         slider = self.indicator_page.get_slider()
-        original_value = slider.value;
+        original_value = slider.value
         slider.slide_left()
 
         # will buffer change until it receives the change from server
         slider.slide_right()
-        final_value = slider.value;
+        final_value = slider.value
 
-        # backend will respond to first slider. Since it's a live slider it'll probably
-        # be a random value along the slide.
+        # backend will respond to first slider. Since it's a live slider
+        # it'll probably be a random value along the slide.
         slider_menu = self.indicator_page.get_slider_menu()
         self.assertThat(
             slider_menu.serverValue,
@@ -163,7 +163,8 @@ class TestBuffering(TestIndicatorBaseTestCase):
             NotEquals(final_value)
         )
 
-        # front-end should not change as a result of server update while it is buffered
+        # front-end should not change as a result of server update
+        # while it is buffered
         self.assertThat(
             slider.value,
             Equals(final_value)
@@ -189,17 +190,18 @@ class TestClientRevertsToServerValue(TestIndicatorBaseTestCase):
 
     See https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1390136 .
     """
-    action_delay = -1 # never action.
+    action_delay = -1  # never action.
 
     def test_switch_reverts_on_late_response(self):
 
         switch = self.indicator_page.get_switcher()
         switch_menu = self.indicator_page.get_switch_menu()
 
-        original_value = switch.checked;
+        original_value = switch.checked
         switch.change_state()
 
-        # switch should revert to original value after 5 seconds (30 seconds in real usage)
+        # switch should revert to original value after 5 seconds
+        # (30 seconds in real usage)
         self.assertThat(
             switch.checked,
             Eventually(Equals(original_value), timeout=20)
@@ -216,10 +218,11 @@ class TestClientRevertsToServerValue(TestIndicatorBaseTestCase):
         slider = self.indicator_page.get_slider()
         slider_menu = self.indicator_page.get_slider_menu()
 
-        original_value = slider.value;
+        original_value = slider.value
         slider.slide_left()
 
-        # slider should revert to original value after 5 seconds (30 seconds in real usage)
+        # slider should revert to original value after 5 seconds
+        # (30 seconds in real usage)
         self.assertThat(
             slider.value,
             Eventually(Equals(original_value), timeout=20)
