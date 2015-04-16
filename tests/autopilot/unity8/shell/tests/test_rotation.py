@@ -104,7 +104,7 @@ class RotationBase(tests.UnityTestCase):
         if (self.orientation & oriented_shell_proxy.supportedOrientations):
             self._assert_change_of_orientation_and_angle()
         else:
-            print("unsupported orientation TOP-UP. skipped.")
+            logger.info("unsupported orientation TOP-UP. skipped.")
 
         fake_sensors.set_orientation_right_up()
         self.orientation = 8
@@ -113,7 +113,7 @@ class RotationBase(tests.UnityTestCase):
         if (self.orientation & oriented_shell_proxy.supportedOrientations):
             self._assert_change_of_orientation_and_angle()
         else:
-            print("unsupported orientation RIGHT-UP. skipped.")
+            logger.info("unsupported orientation RIGHT-UP. skipped.")
 
         fake_sensors.set_orientation_top_down()
         self.orientation = 4
@@ -122,7 +122,7 @@ class RotationBase(tests.UnityTestCase):
         if (self.orientation & oriented_shell_proxy.supportedOrientations):
             self._assert_change_of_orientation_and_angle()
         else:
-            print("unsupported orientation TOP-DOWN. skipped.")
+            logger.info("unsupported orientation TOP-DOWN. skipped.")
 
         fake_sensors.set_orientation_left_up()
         self.orientation = 2
@@ -131,4 +131,4 @@ class RotationBase(tests.UnityTestCase):
         if (self.orientation & oriented_shell_proxy.supportedOrientations):
             self._assert_change_of_orientation_and_angle()
         else:
-            print("unsupported orientation LEFT-UP. skipped.")
+            logger.info("unsupported orientation LEFT-UP. skipped.")
