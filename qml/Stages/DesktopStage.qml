@@ -328,17 +328,17 @@ FocusScope {
             top: parent.top
             right: parent.right
         }
-        height: root.height / 3
+        height: root.height * 0.3
         color: "#55000000"
         opacity: 0
 
         RowLayout {
             anchors {
                 fill: parent
-                topMargin: units.gu(9)
-                bottomMargin: units.gu(5)
+                topMargin: units.gu(5)
+                bottomMargin: units.gu(2)
             }
-            spacing: units.gu(5)
+            spacing: units.gu(1)
             Item { Layout.fillWidth: true }
             Repeater {
                 model: 2 // TODO: should be workspacemodel
