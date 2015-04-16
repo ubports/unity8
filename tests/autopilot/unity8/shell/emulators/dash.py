@@ -183,9 +183,7 @@ class Dash(emulators.UnityEmulatorBase):
 
 class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
 
-    # Overriden because the margin to start the swipe is bigger than in the
-    # other apps. --elopio - 2014-12-11
-    margin_to_swipe_from_bottom = 50
+    margin_to_swipe_from_bottom = ubuntuuitoolkit.units.gu(4)
 
 
 class GenericScopeView(emulators.UnityEmulatorBase):
