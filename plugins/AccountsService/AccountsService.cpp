@@ -136,7 +136,7 @@ void AccountsService::updateDemoEdges(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'demo-edges' property";
+            qWarning() << "Failed to get 'demo-edges' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -148,7 +148,10 @@ void AccountsService::updateDemoEdges(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updateEnableLauncherWhileLocked(bool async)
@@ -163,7 +166,7 @@ void AccountsService::updateEnableLauncherWhileLocked(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'EnableLauncherWhileLocked' property";
+            qWarning() << "Failed to get 'EnableLauncherWhileLocked' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -175,7 +178,10 @@ void AccountsService::updateEnableLauncherWhileLocked(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
@@ -190,7 +196,7 @@ void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'EnableIndicatorsWhileLocked' property";
+            qWarning() << "Failed to get 'EnableIndicatorsWhileLocked' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -202,7 +208,10 @@ void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updateBackgroundFile(bool async)
@@ -217,7 +226,7 @@ void AccountsService::updateBackgroundFile(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'BackgroundFile' property";
+            qWarning() << "Failed to get 'BackgroundFile' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -229,7 +238,10 @@ void AccountsService::updateBackgroundFile(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updateStatsWelcomeScreen(bool async)
@@ -244,7 +256,7 @@ void AccountsService::updateStatsWelcomeScreen(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'StatsWelcomeScreen' property";
+            qWarning() << "Failed to get 'StatsWelcomeScreen' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -256,7 +268,10 @@ void AccountsService::updateStatsWelcomeScreen(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updatePasswordDisplayHint(bool async)
@@ -271,7 +286,7 @@ void AccountsService::updatePasswordDisplayHint(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'PasswordDisplayHint' property";
+            qWarning() << "Failed to get 'PasswordDisplayHint' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -283,7 +298,10 @@ void AccountsService::updatePasswordDisplayHint(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updateFailedLogins(bool async)
@@ -298,7 +316,7 @@ void AccountsService::updateFailedLogins(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'FailedLogins' property";
+            qWarning() << "Failed to get 'FailedLogins' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -310,7 +328,10 @@ void AccountsService::updateFailedLogins(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updateHereEnabled(bool async)
@@ -325,7 +346,7 @@ void AccountsService::updateHereEnabled(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'LicenseAccepted' property";
+            qWarning() << "Failed to get 'LicenseAccepted' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -337,7 +358,10 @@ void AccountsService::updateHereEnabled(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 void AccountsService::updateHereLicensePath(bool async)
@@ -352,7 +376,7 @@ void AccountsService::updateHereLicensePath(bool async)
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
         if (reply.isError()) {
-            qWarning() << "Failed to get 'LicenseBasePath' property";
+            qWarning() << "Failed to get 'LicenseBasePath' property - " << reply.error().message();
             watcher->deleteLater();
             return;
         }
@@ -367,7 +391,10 @@ void AccountsService::updateHereLicensePath(bool async)
         }
         watcher->deleteLater();
     });
-    if (!async) watcher->waitForFinished();
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
 }
 
 uint AccountsService::failedLogins() const
