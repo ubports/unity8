@@ -210,7 +210,7 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         self.get_root_instance().select_single(
             objectName='processingIndicator').visible.wait_for(False)
         return preview_list.select_single(
-            'Preview', objectName='preview{}'.format(
+            Preview, objectName='preview{}'.format(
                 preview_list.initialIndex))
 
     @autopilot_logging.log_action(logger.debug)
