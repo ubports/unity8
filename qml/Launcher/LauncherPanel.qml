@@ -338,7 +338,11 @@ Rectangle {
                         }
 
                         onCanceled: {
+                            if (selectedItem) {
+                                selectedItem.dragging = false;
+                            }
                             selectedItem = undefined;
+                            draggedIndex = -1;
                             preDragging = false;
                             postDragging = false;
                         }
