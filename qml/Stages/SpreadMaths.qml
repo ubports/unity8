@@ -86,9 +86,9 @@ Item {
 
 
     readonly property int animatedAngle: limitedLeftProgress > 0 ?
-                                             linearAnimation(0, 1, unfoldedAngle, leftEndFoldedAngle, leftEasing.value)
+                                             linearAnimation(0, 2, unfoldedAngle, leftEndFoldedAngle, Math.min(2, leftFoldingAreaProgress))
                                            : limitedRightProgress > 0 ?
-                                                 linearAnimation(0, 1, unfoldedAngle, rightEndFoldedAngle, rightEasing.value)
+                                                 linearAnimation(0, 2, unfoldedAngle, rightEndFoldedAngle, Math.min(2, rightFoldingAreaProgress))
                                                : unfoldedAngle
 
 
