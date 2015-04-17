@@ -75,8 +75,12 @@ bool AccountsService::demoEdges() const
 
 void AccountsService::setDemoEdges(bool demoEdges)
 {
-    m_demoEdges = demoEdges;
-    m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+    if (m_demoEdges != demoEdges) {
+        m_demoEdges = demoEdges;
+        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+
+        Q_EMIT demoEdgesChanged();
+    }
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
@@ -111,7 +115,12 @@ bool AccountsService::hereEnabled() const
 
 void AccountsService::setHereEnabled(bool enabled)
 {
-    m_service->setUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted", enabled);
+    if (m_hereEnabled != enabled) {
+        m_hereEnabled = enabled;
+        m_service->setUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted", enabled);
+
+        Q_EMIT hereEnabledChanged();
+    }
 }
 
 QString AccountsService::hereLicensePath() const
@@ -404,8 +413,12 @@ uint AccountsService::failedLogins() const
 
 void AccountsService::setFailedLogins(uint failedLogins)
 {
-    m_failedLogins = failedLogins;
-    m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins", failedLogins);
+    if (m_failedLogins != failedLogins) {
+        m_failedLogins = failedLogins;
+        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins", failedLogins);
+
+        Q_EMIT failedLoginsChanged();
+    }
 }
 
 void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
