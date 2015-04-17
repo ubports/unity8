@@ -29,10 +29,11 @@ import fixtures
 from testtools.matchers import Equals, MismatchError
 from autopilot.matchers import Eventually
 from autopilot.introspection import get_proxy_object_for_existing_process
+from ubuntuuitoolkit import ubuntu_scenarios
 
 from unity8 import get_binary_path
 from unity8.shell.emulators import UnityEmulatorBase
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+from unity8.shell.tests import UnityTestCase
 
 import logging
 
@@ -41,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 class UpstartIntegrationTests(UnityTestCase):
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     def _get_status(self):
         pid, status = os.waitpid(
