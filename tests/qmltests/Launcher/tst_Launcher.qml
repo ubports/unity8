@@ -488,6 +488,7 @@ Item {
             // Make sure the dnd operation has been stopped
             tryCompare(draggedItem, "dragging", false)
             tryCompare(dndArea, "draggedIndex", -1)
+            tryCompare(dndArea, "drag.target", undefined)
         }
 
         function test_quicklist_dismiss() {

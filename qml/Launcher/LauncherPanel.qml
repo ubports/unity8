@@ -345,6 +345,7 @@ Rectangle {
                             draggedIndex = -1;
                             preDragging = false;
                             postDragging = false;
+                            drag.target = undefined;
                         }
 
                         onReleased: {
