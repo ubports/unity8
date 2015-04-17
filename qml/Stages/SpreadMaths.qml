@@ -16,12 +16,12 @@ Item {
     property int sceneHeight: units.gu(20)
 
     // Spread properties
-    property real spreadHeight: sceneHeight * 0.35
+    property real spreadHeight: sceneHeight * 0.4
     property int spreadBottomOffset: sceneHeight * 0.2
     property int foldingAreaWidth: flickableWidth * 0.2
     property int maxVisibleItems: 7
     property int margins: flickableWidth * 0.05
-    property real stackScale: 0.04
+    property real stackScale: 0.1
     property int leftEndFoldedAngle: 70
     property int rightEndFoldedAngle: 65
     property int unfoldedAngle: 30
@@ -78,27 +78,27 @@ Item {
 
     readonly property int animatedY: sceneHeight - itemHeight - spreadBottomOffset +
                                      (limitedLeftProgress > 0 ?
-                                         linearAnimation(0, 1, yOffset, 0, leftEasing.value)
+                                          0
+//                                         linearAnimation(0, 1, yOffset, 0, leftEasing.value)
                                        : limitedRightProgress > 0 ?
-                                             linearAnimation(0, 1, yOffset, 0, rightEasing.value)
-                                           : yOffset)
+                                              0
+//                                             linearAnimation(0, 1, yOffset, 0, rightEasing.value)
+                                           : 0)
 
 
 
     readonly property int animatedAngle: limitedLeftProgress > 0 ?
-                                             linearAnimation(0, 2, unfoldedAngle, leftEndFoldedAngle, Math.min(2, leftFoldingAreaProgress))
+                                             linearAnimation(0, 2, unfoldedAngle, leftEndFoldedAngle, limitedLeftProgress)
                                            : limitedRightProgress > 0 ?
-                                                 linearAnimation(0, 2, unfoldedAngle, rightEndFoldedAngle, Math.min(2, rightFoldingAreaProgress))
+                                                 linearAnimation(0, 2, unfoldedAngle, rightEndFoldedAngle, limitedRightProgress)
                                                : unfoldedAngle
 
 
-    readonly property real scale: (limitedLeftProgress > 0 ?
-                                      linearAnimation(0, 1, spreadHeight * (1 - stackScale), spreadHeight, leftEasing.value)
-                                    : limitedRightProgress > 0 ?
-                                          linearAnimation(0, 1, spreadHeight * (1 - stackScale), spreadHeight, rightEasing.value)
-                                        : spreadHeight * (1 - stackScale)
-                                   ) / itemHeight
-
+    readonly property real scale: limitedLeftProgress > 0 ?
+                                     linearAnimation(0, 1, 1, 1 + stackScale, leftEasing.value)
+                                   : limitedRightProgress > 0 ?
+                                          linearAnimation(0, 1, 1, 1 + stackScale, rightEasing.value)
+                                        : 1
 
     readonly property real tileInfoOpacity: leftFoldingAreaProgress > 0 ?
                                                       linearAnimation(1, 2, 1, 0, leftFoldingAreaProgress)

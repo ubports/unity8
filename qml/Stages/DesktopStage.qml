@@ -163,8 +163,8 @@ FocusScope {
                             x: spreadMaths.animatedX
                             y: spreadMaths.animatedY + (appDelegate.height - decoratedWindow.height)
                             angle: spreadMaths.animatedAngle
-                            //itemScale: spreadMaths.scale
-                            //itemScaleOriginY: appDelegate.height;
+                            itemScale: spreadMaths.scale
+                            itemScaleOriginY: decoratedWindow.height / 2;
                             z: index
                         }
                         PropertyChanges {
@@ -327,35 +327,56 @@ FocusScope {
             left: parent.left
             top: parent.top
             right: parent.right
+            topMargin: units.gu(3.5) // TODO: should be root.panelHeight
         }
-        height: root.height * 0.3
+        height: root.height * 0.25
         color: "#55000000"
         opacity: 0
 
         RowLayout {
-            anchors {
-                fill: parent
-                topMargin: units.gu(5)
-                bottomMargin: units.gu(2)
-            }
+            anchors.fill: parent
             spacing: units.gu(1)
             Item { Layout.fillWidth: true }
             Repeater {
                 model: 2 // TODO: should be workspacemodel
-                Image {
+                Item {
                     Layout.fillHeight: true
-                    Layout.preferredWidth: height * root.width / root.height
-                    source: root.background
+                    Layout.preferredWidth: ((height - units.gu(6)) * root.width / root.height)
+
+                    Image {
+                        anchors {
+                            fill: parent;
+                            topMargin: units.gu(2);
+                            bottomMargin: units.gu(2);
+                        }
+                        source: root.background
+                    }
+
+                    Rectangle {
+                        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+                        height: units.dp(2)
+                        color: UbuntuColors.orange
+                        visible: index == 0 // TODO: should be active workspace index
+                    }
                 }
+
             }
-            Rectangle {
+            Item {
                 Layout.fillHeight: true
-                Layout.preferredWidth: height * root.width / root.height
-                color: "#22ffffff"
-                Label {
-                    anchors.centerIn: parent
-                    font.pixelSize: parent.height / 2
-                    text: "+"
+                Layout.preferredWidth: ((height - units.gu(6)) * root.width / root.height)
+                Rectangle {
+                    anchors {
+                        fill: parent;
+                        topMargin: units.gu(2);
+                        bottomMargin: units.gu(2);
+                    }
+                    color: "#22ffffff"
+
+                    Label {
+                        anchors.centerIn: parent
+                        font.pixelSize: parent.height / 2
+                        text: "+"
+                    }
                 }
             }
             Item { Layout.fillWidth: true }
