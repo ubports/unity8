@@ -116,7 +116,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.demoEdges(), false);
-        ASSERT_DBUS_CALL(m_userInterface->call("Set", "com.canonical.unity.AccountsService", "demo-edges", dbusVariant(true)));
+        ASSERT_DBUS_CALL(m_userInterface->call("Set",
+                                               "com.canonical.unity.AccountsService",
+                                               "demo-edges",
+                                               dbusVariant(true)));
         QTRY_COMPARE(session.demoEdges(), true);
     }
 
@@ -126,7 +129,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.failedLogins(), (uint)0);
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "com.canonical.unity.AccountsService.Private", "FailedLogins", dbusVariant(5)));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.canonical.unity.AccountsService.Private",
+                                                    "FailedLogins",
+                                                    dbusVariant(5)));
         QTRY_COMPARE(session.failedLogins(), (uint)5);
     }
 
@@ -136,7 +142,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.statsWelcomeScreen(), true);
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen", dbusVariant(false)));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.touch.AccountsService.SecurityPrivacy",
+                                                    "StatsWelcomeScreen",
+                                                    dbusVariant(false)));
         QTRY_COMPARE(session.statsWelcomeScreen(), false);
     }
 
@@ -146,7 +155,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.enableLauncherWhileLocked(), true);
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "com.ubuntu.AccountsService.SecurityPrivacy", "EnableLauncherWhileLocked", dbusVariant(false)));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "EnableLauncherWhileLocked",
+                                                    dbusVariant(false)));
         QTRY_COMPARE(session.enableLauncherWhileLocked(), false);
     }
 
@@ -156,7 +168,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.enableIndicatorsWhileLocked(), true);
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "com.ubuntu.AccountsService.SecurityPrivacy", "EnableIndicatorsWhileLocked", dbusVariant(false)));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "EnableIndicatorsWhileLocked",
+                                                    dbusVariant(false)));
         QTRY_COMPARE(session.enableIndicatorsWhileLocked(), false);
     }
 
@@ -166,7 +181,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.passwordDisplayHint(), AccountsService::Keyboard);
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "com.ubuntu.AccountsService.SecurityPrivacy", "PasswordDisplayHint", dbusVariant(AccountsService::Numeric)));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                    "PasswordDisplayHint",
+                                                    dbusVariant(AccountsService::Numeric)));
         QTRY_COMPARE(session.passwordDisplayHint(), AccountsService::Numeric);
     }
 
@@ -176,7 +194,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.hereEnabled(), false);
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted", dbusVariant(true)));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.location.providers.here.AccountsService",
+                                                    "LicenseAccepted",
+                                                    dbusVariant(true)));
         QTRY_COMPARE(session.hereEnabled(), true);
     }
 
@@ -186,7 +207,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.hereLicensePath(), QString());
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "com.ubuntu.location.providers.here.AccountsService", "LicenseBasePath", dbusVariant("/")));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.location.providers.here.AccountsService",
+                                                    "LicenseBasePath",
+                                                    dbusVariant("/")));
         QTRY_COMPARE(session.hereLicensePath(), QString("/"));
     }
 
@@ -196,7 +220,10 @@ private Q_SLOTS:
         session.setUser(QTest::currentTestFunction());
 
         QCOMPARE(session.backgroundFile(), QString());
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set", "org.freedesktop.Accounts.User", "BackgroundFile", dbusVariant("/test/BackgroundFile")));
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                   "org.freedesktop.Accounts.User",
+                                                    "BackgroundFile",
+                                                    dbusVariant("/test/BackgroundFile")));
         QTRY_COMPARE(session.backgroundFile(), QString("/test/BackgroundFile"));
     }
 
