@@ -57,7 +57,7 @@ public:
 
 Q_SIGNALS:
     // Emitted when the home key has been intentionally tapped
-    void activated();    
+    void activated();
 
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
