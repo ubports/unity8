@@ -338,7 +338,7 @@ Rectangle {
                         }
 
                         onCanceled: {
-                            endDrag()
+                            endDrag();
                         }
 
                         onReleased: {
