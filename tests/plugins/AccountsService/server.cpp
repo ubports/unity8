@@ -21,23 +21,28 @@
 #include "AccountsServer.h"
 #include "PropertiesAdaptor.h"
 #include "PropertiesServer.h"
+#include "SecurityPrivacyAdaptor.h"
+#include "LocationAdaptor.h"
+#include "AccountsUserAdaptor.h"
+#include "AccountsPrivateAdaptor.h"
 #include <QCoreApplication>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    auto accounts = new AccountsServer();
-    new AccountsAdaptor(accounts);
-
-    auto props = new PropertiesServer();
+    auto props = new PropertiesServer(&a);
     new PropertiesAdaptor(props);
+    new AccountsUserAdaptor(props);
 
+    auto accounts = new AccountsServer(props, &a);
+    new AccountsAdaptor(accounts);
+    new SecurityPrivacyAdaptor(accounts);
+    new LocationAdaptor(accounts);
+    new AccountsPrivateAdaptor(accounts);
     // We use the session bus for testing.  The real plugin uses the system bus
     auto connection = QDBusConnection::sessionBus();
     if (!connection.registerObject("/org/freedesktop/Accounts", accounts))
-        return 1;
-    if (!connection.registerObject("/user", props))
         return 1;
     if (!connection.registerService("org.freedesktop.Accounts"))
         return 1;
