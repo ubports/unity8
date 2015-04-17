@@ -180,6 +180,10 @@ Item {
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
     }
 
+    HomeKeyWatcher {
+        onActivated: shell.showHome()
+    }
+
     Item {
         id: stages
         objectName: "stages"
