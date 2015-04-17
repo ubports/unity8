@@ -104,10 +104,9 @@ void tst_TouchGate::cleanupTestCase()
 
 void tst_TouchGate::init()
 {
-    touchRegistry = new TouchRegistry;
+    touchRegistry = TouchRegistry::instance();
 
     view = createView();
-    view->installEventFilter(touchRegistry);
     view->setSource(QUrl::fromLocalFile("touchGateExample.qml"));
     view->show();
     QVERIFY(QTest::qWaitForWindowExposed(view));

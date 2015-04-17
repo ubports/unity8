@@ -712,6 +712,8 @@ void DirectionalDragArea::itemChange(ItemChange change, const ItemChangeData &va
 {
     if (change == QQuickItem::ItemSceneChange) {
         if (value.window != nullptr) {
+            value.window->installEventFilter(TouchRegistry::instance());
+
             // TODO: Handle window->screen() changes (ie window changing screens)
             qreal pixelsPerMm = value.window->screen()->physicalDotsPerInch() / 25.4;
             d->setPixelsPerMm(pixelsPerMm);

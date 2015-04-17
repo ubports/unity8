@@ -712,7 +712,8 @@ void tst_TouchRegistry::rejectingTouchfterItsEnd()
 void tst_TouchRegistry::removeOldUndecidedCandidates()
 {
     FakeTimerFactory *fakeTimerFactory = new FakeTimerFactory;
-    TouchRegistry *touchRegistry = new TouchRegistry(nullptr, fakeTimerFactory);
+    TouchRegistry *touchRegistry = new TouchRegistry;
+    touchRegistry->setTimerFactory(fakeTimerFactory);
 
     DummyCandidate undecidedCandidate;
     undecidedCandidate.setObjectName("undecided");
@@ -762,7 +763,8 @@ void tst_TouchRegistry::removeOldUndecidedCandidates()
 void tst_TouchRegistry::interimOwnerWontGetUnownedTouchEvents()
 {
     FakeTimerFactory *fakeTimerFactory = new FakeTimerFactory;
-    TouchRegistry *touchRegistry = new TouchRegistry(nullptr, fakeTimerFactory);
+    TouchRegistry *touchRegistry = new TouchRegistry;
+    touchRegistry->setTimerFactory(fakeTimerFactory);
 
     DummyCandidate undecidedCandidate;
     undecidedCandidate.setObjectName("undecided");
