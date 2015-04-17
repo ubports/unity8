@@ -338,17 +338,14 @@ Rectangle {
                         }
 
                         onCanceled: {
-                            if (selectedItem) {
-                                selectedItem.dragging = false;
-                            }
-                            selectedItem = undefined;
-                            draggedIndex = -1;
-                            preDragging = false;
-                            postDragging = false;
-                            drag.target = undefined;
+                            endDrag()
                         }
 
                         onReleased: {
+                            endDrag();
+                        }
+
+                        function endDrag() {
                             var droppedIndex = draggedIndex;
                             if (dragging) {
                                 postDragging = true;
