@@ -61,7 +61,7 @@ private Q_SLOTS:
         QVERIFY(resetReply.isValid());
 
         QVERIFY(QObject::connect(m_userInterface, SIGNAL(PropertiesChanged(QString, QVariantMap, QStringList)),
-                           this, SIGNAL(propertiesChanged(QString, QVariantMap, QStringList))));
+                                 this, SIGNAL(propertiesChanged(QString, QVariantMap, QStringList))));
     }
 
     void cleanup() {
