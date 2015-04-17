@@ -203,13 +203,6 @@ private Q_SLOTS:
 Q_SIGNALS:
     void propertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
 
-//public Q_SLOTS:
-//    void propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid) {
-//        QDBusInterface* pInterface = qobject_cast<QDBusInterface*>(sender());
-//        qDebug() << "propertiesChangedSlot" << pInterface->path() << QTest::currentTestFunction() << changed;
-//        Q_EMIT propertiesChanged(interface, changed, invalid);
-//    }
-
 private:
     QDBusInterface* m_userInterface;
     QSignalSpy m_spy;
