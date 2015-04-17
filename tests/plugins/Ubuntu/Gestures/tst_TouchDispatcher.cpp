@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -81,8 +81,7 @@ void tst_TouchDispatcher::sendMouseEventIfTouchIgnored()
         event->accept();
     };
 
-    touchDispatcher.dispatch(QEvent::TouchBegin, m_device, Qt::NoModifier, touchPoints, m_view,
-                             12345 /* timestamp */);
+    touchDispatcher.dispatch(m_device, Qt::NoModifier, touchPoints, m_view, 12345 /* timestamp */);
 
     QVERIFY(gotTouchEvent);
     QCOMPARE(gotMousePressEvent, shouldGetMousePress);
@@ -128,18 +127,18 @@ void tst_TouchDispatcher::mouseDoubleClick()
     }
     ulong timestamp = 12345;
 
-    touchDispatcher.dispatch(QEvent::TouchBegin, m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
+    touchDispatcher.dispatch(m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
 
     touchPoints[0].setState(Qt::TouchPointReleased);
     timestamp += doubleClickInterval / 10;
 
-    touchDispatcher.dispatch(QEvent::TouchEnd, m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
+    touchDispatcher.dispatch(m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
 
     touchPoints[0].setId(1);
     touchPoints[0].setState(Qt::TouchPointPressed);
     timestamp += timeBetweenClicks;
 
-    touchDispatcher.dispatch(QEvent::TouchBegin, m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
+    touchDispatcher.dispatch(m_device, Qt::NoModifier, touchPoints, m_view, timestamp);
 
     QCOMPARE(gotDoubleClickEvent, shouldSendDoubleClick);
 }

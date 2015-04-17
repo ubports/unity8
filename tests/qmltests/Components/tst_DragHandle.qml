@@ -19,6 +19,7 @@ import "../../../qml/Components"
 import "tst_DragHandle"
 import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
+import Unity.Test 0.1
 
 /*
   Two blue fullscreen Showables (a vertical and a horizontal one) with red handles you
@@ -32,6 +33,12 @@ Rectangle {
     color: "darkblue"
     width: units.gu(70)
     height: units.gu(70)
+
+    Binding {
+        target: MouseTouchAdaptor
+        property: "enabled"
+        value: true
+    }
 
     property var dragHandle
 
