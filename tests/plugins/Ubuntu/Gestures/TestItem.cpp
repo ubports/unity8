@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,26 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Direction.h"
+#include "TestItem.h"
 
-bool Direction::isHorizontal(Direction::Type type)
-{
-    return type == Direction::Leftwards
-        || type == Direction::Rightwards
-        || type == Direction::Horizontal;
-}
+#include <QTouchEvent>
 
-bool Direction::isVertical(Direction::Type type)
+void TestItem::touchEvent(QTouchEvent *event)
 {
-    return type == Direction::Upwards
-        || type == Direction::Downwards
-        || type == Direction::Vertical;
-}
+    QTouchEvent *clonedEvent = new QTouchEvent(event->type(),
+            event->device(),
+            event->modifiers(),
+            event->touchPointStates(),
+            event->touchPoints());
 
-bool Direction::isPositive(Direction::Type type)
-{
-    return type == Rightwards
-        || type == Downwards
-        || type == Horizontal
-        || type == Vertical;
+    touchEventsReceived.append(QSharedPointer<QTouchEvent>(clonedEvent));
 }
