@@ -163,6 +163,30 @@ Rectangle {
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
 
+        function test_tappingOnWindowChangesFocusedApp_data() {
+            return [
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+            ]
+        }
+
+        function test_tappingOnWindowChangesFocusedApp(data) {
+            var i;
+            for (i = 0; i < data.apps.length; i++) {
+                startApplication(data.apps[i]);
+            }
+
+            var fromAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusfrom]);
+            verify(fromAppWindow);
+            tap(fromAppWindow);
+            compare(fromAppWindow.application.session.surface.activeFocus, true);
+
+            var toAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusTo]);
+            verify(toAppWindow);
+            tap(toAppWindow);
+            compare(toAppWindow.application.session.surface.activeFocus, true);
+        }
+
         function test_decorationPressFocusesApplication_data() {
             return [
                 {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
