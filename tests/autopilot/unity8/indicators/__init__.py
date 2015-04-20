@@ -67,9 +67,9 @@ class Indicator():
             objectName=self._name+'-page')
 
     def _make_indicator_icon_visible(self):
-        indicators_bar_flickable = self._main_window.select_single(
-            'IndicatorsBar').select_single(
-                ubuntuuitoolkit.QQuickFlickable, objectName='flickable')
+        indicators_bar = self._main_window.select_single('IndicatorsBar')
+        indicators_bar_flickable = indicators_bar.select_single(
+            ubuntuuitoolkit.QQuickFlickable, objectName='flickable')
         self._swipe_flickable_to_x_end(indicators_bar_flickable)
 
     def _swipe_flickable_to_x_end(self, flickable):
