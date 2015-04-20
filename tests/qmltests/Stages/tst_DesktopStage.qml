@@ -202,12 +202,12 @@ Rectangle {
 
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
-            mouseClick(fromAppDecoration);
+            tap(fromAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
 
             var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
             verify(toAppDecoration);
-            mouseClick(toAppDecoration);
+            tap(toAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
     }
