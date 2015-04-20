@@ -25,6 +25,7 @@ from unity8.shell import (
     tests
 )
 # unused import to load the tutorial emulators custom proxy objects.
+from unity8.shell.emulators import tutorial as tutorial_emulator  # NOQA
 
 
 class TutorialTestCase(tests.UnityTestCase):

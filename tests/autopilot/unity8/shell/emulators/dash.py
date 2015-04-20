@@ -168,8 +168,8 @@ class Dash(emulators.UnityEmulatorBase):
         headerContainer.contentY.wait_for(0)
         search_text_field = self._get_search_text_field()
         search_text_field.write(query)
-        self.select_single(objectName="processingIndicator")\
-            .visible.wait_for(False)
+        self.select_single(
+            objectName="processingIndicator").visible.wait_for(False)
 
     def _get_search_text_field(self):
         page_header = self._get_current_page_header()

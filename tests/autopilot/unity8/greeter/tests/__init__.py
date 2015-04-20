@@ -23,6 +23,6 @@ from unity8.shell.tests import UnityTestCase
 
 class GreeterTestCase(UnityTestCase):
     def get_shell(self, unity_proxy):
-        main_window = \
-            unity_proxy.select_single(main_window_emulator.QQuickView)
+        main_window = (
+            unity_proxy.select_single(main_window_emulator.QQuickView))
         return main_window.select_single('Shell')
