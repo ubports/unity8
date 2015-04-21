@@ -369,12 +369,8 @@ Item {
             hides: [launcher, panel.indicators]
             tabletMode: shell.sideStageEnabled
             launcherOffset: launcher.progress
-            forcedUnlock: tutorial.running || shellMode == "shell"
-            opacity: shellMode == "shell" ? 0 : 1.0
+            forcedUnlock: tutorial.running
             background: shell.background
-
-            //height: parent.parent.height; width: parent.parent.width
-            //anchors.topMargin: panel.panelHeight
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
