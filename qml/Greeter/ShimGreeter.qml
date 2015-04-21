@@ -34,6 +34,7 @@ QtObject {
     property string lockedApp: ""
 
     // Since ShimGreeter is never active, these can just return
+    property var forceShow: (function() { return; })
     property var notifyAboutToFocusApp: (function(appId) { return; })
     property var notifyAppFocused: (function(appId) { return; })
     property var notifyShowingDashFromDrag: (function(appId) { return false; })
