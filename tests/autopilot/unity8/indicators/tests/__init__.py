@@ -31,6 +31,7 @@ class IndicatorTestCase(tests.UnityTestCase):
         self.unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(self.unity_proxy)
 
+
 class DeviceIndicatorTestCase(IndicatorTestCase):
 
     def setUp(self):

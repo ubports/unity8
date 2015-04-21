@@ -41,7 +41,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self.main_window.enter_pin_code("1234")
         else:
             self._enter_prompt_passphrase("1234\n")
@@ -56,7 +56,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self._enter_pin_passphrase("password")
         else:
             self._enter_prompt_passphrase("password")
@@ -70,7 +70,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self.main_window.enter_pin_code("4321")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))
@@ -88,7 +88,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self._enter_pin_passphrase("foobar")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))

@@ -22,9 +22,7 @@
 import logging
 import os
 
-from autopilot.matchers import Eventually
 from autopilot.platform import model
-from testtools.matchers import Equals
 
 from unity8 import process_helpers
 from unity8.application_lifecycle import tests

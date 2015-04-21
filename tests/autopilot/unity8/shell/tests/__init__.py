@@ -65,6 +65,7 @@ UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
 UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
 
+
 def _get_device_emulation_scenarios(devices='All'):
     nexus4 = ('Desktop Nexus 4',
               dict(app_width=768, app_height=1280, grid_unit_px=18))
