@@ -124,6 +124,8 @@ FocusScope {
     }
 
     Item {
+        id: appContainer
+        anchors.fill: parent
         Repeater {
             id: appRepeater
             model: ApplicationManager
@@ -157,7 +159,7 @@ FocusScope {
                         PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
                     },
                     State {
-                        name: "altTab"; when: root.state == "altTab"
+                        name: "altTab"; when: root.state == "altTab" && root.workspacesUpdated
                         PropertyChanges {
                             target: appDelegate
                             x: spreadMaths.animatedX
@@ -351,7 +353,8 @@ FocusScope {
         }
         height: root.height * 0.25
         color: "#55000000"
-        opacity: 0
+//        opacity: 0
+        visible: false
 
         RowLayout {
             anchors.fill: parent
@@ -362,14 +365,33 @@ FocusScope {
                 Item {
                     Layout.fillHeight: true
                     Layout.preferredWidth: ((height - units.gu(6)) * root.width / root.height)
-
                     Image {
+                        source: root.background
                         anchors {
                             fill: parent;
                             topMargin: units.gu(2);
                             bottomMargin: units.gu(2);
                         }
-                        source: root.background
+
+                        ShaderEffect {
+                            anchors.fill: parent
+
+                            property var source: ShaderEffectSource {
+                                id: shaderEffectSource
+                                live: false
+                                sourceItem: appContainer
+                                Connections { target: root; onUpdateWorkspaces: shaderEffectSource.scheduleUpdate() }
+                            }
+
+                            fragmentShader: "
+                                varying highp vec2 qt_TexCoord0;
+                                uniform sampler2D source;
+                                void main(void)
+                                {
+                                    highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
+                                    gl_FragColor = sourceColor;
+                                }"
+                        }
                     }
 
                     Rectangle {
@@ -421,24 +443,33 @@ FocusScope {
         },
         State {
             name: "altTab"; when: root.altTabPressed
+            PropertyChanges { target: workspaceSelector; visible: true }
             PropertyChanges { target: spreadFlickable; visible: true }
-            PropertyChanges { target: workspaceSelector; opacity: 1 }
         }
     ]
+    signal updateWorkspaces();
+    property bool workspacesUpdated: false
     transitions: [
         Transition {
             from: "*"
             to: "altTab"
-            PropertyAction { target: spreadFlickable; property: "contentX";
-                value: ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 3, 1));
+            SequentialAnimation {
+                PropertyAction { target: workspaceSelector; property: "visible" }
+                ScriptAction { script: root.updateWorkspaces() }
+                PauseAnimation { duration: 50 }
+                PropertyAction { target: root; property: "workspacesUpdated"; value: true }
+                PropertyAction { target: spreadFlickable; property: "visible" }
+                PropertyAction { target: spreadFlickable; property: "contentX";
+                    value: ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 3, 1));
 
+                }
             }
-            PropertyAnimation { property: "opacity" }
         },
         Transition {
             from: "*"
             to: "*"
             PropertyAnimation { property: "opacity" }
+            PropertyAction { target: root; property: "workspacesUpdated"; value: false }
         }
 
     ]
