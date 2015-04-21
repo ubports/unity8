@@ -378,8 +378,6 @@ class UnityTestCase(AutopilotTestCase):
 
         """
         self._proxy = proxy
-        print("main_window/proxy - # of children: ", len(proxy.get_children()))
-        print("main_window/proxy - properties: ", proxy.get_properties())
         self.addCleanup(self._clear_proxy)
 
     def _clear_proxy(self):

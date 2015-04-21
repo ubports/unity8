@@ -63,7 +63,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
     def setUp(self):
         """Restart Unity8 with testability and create sensors."""
-        super(LaunchUnityWithFakeSensors, self).setUp()
+        super().setUp()
         self.useFixture(
             fixture_setup.InitctlEnvironmentVariable(
                 UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
@@ -86,8 +86,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
         if not os.path.exists(lightdm_mock_path):
             raise RuntimeError(
-                "LightDM mock does not exist at path '%s'."
-                % (lightdm_mock_path)
+                "LightDM mock does not exist at path {}.".format(lightdm_mock_path)
             )
         return lightdm_mock_path
 
@@ -248,7 +247,7 @@ class LaunchMockIndicatorService(fixtures.Fixture):
         self.ensure_not_running = ensure_not_running
 
     def setUp(self):
-        super(LaunchMockIndicatorService, self).setUp()
+        super().setUp()
         if self.ensure_not_running:
             self.ensure_service_not_running()
         self.addCleanup(self.stop_service)

@@ -42,7 +42,7 @@ class DisplayIndicatorTestCase(tests.DeviceIndicatorTestCase):
 
         self.assertTrue(display_indicator.is_indicator_icon_visible())
 
-        self.fake_sensors.set_orientation_top_down()
+        self.fake_sensors.set_orientation('top_down')
         # TODO how to get the shell orientation?
 
     def test_indicator_icon_must_not_be_visible_after_rotation_unlocked(self):

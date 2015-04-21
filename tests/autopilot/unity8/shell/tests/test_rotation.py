@@ -43,7 +43,7 @@ class RotationBase(tests.UnityTestCase):
     def setUp(self):
         if model() == 'Desktop':
             self.skipTest('Test cannot be run on the desktop.')
-        super(RotationBase, self).setUp()
+        super().setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
 
