@@ -32,6 +32,7 @@ import ubuntuuitoolkit
 import logging
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
+from testscenarios.scenarios import multiply_scenarios
 
 logger = logging.getLogger(__name__)
 
