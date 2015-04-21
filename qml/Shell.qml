@@ -390,15 +390,6 @@ Item {
 
             onEmergencyCall: startLockedApp("dialer-app")
 
-            Timer {
-                // See powerConnection for why this is useful
-                id: showGreeterDelayed
-                interval: 1
-                onTriggered: {
-                    greeter.forceShow();
-                }
-            }
-
             Binding {
                 target: ApplicationManager
                 property: "suspended"
@@ -432,7 +423,7 @@ Item {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    !callManager.hasCalls && !tutorial.running && shellMode != "shell") {
+                    !callManager.hasCalls && !tutorial.running) {
                 // We don't want to simply call greeter.showNow() here, because
                 // that will take too long.  Qt will delay button event
                 // handling until the greeter is done loading and may think the
@@ -443,6 +434,14 @@ Item {
                 // introduces a whole host of timing issues, especially with
                 // its animations.  So this is simpler.
                 greeter.showGreeterDelayed.start();
+            }
+        }
+
+        Timer {
+            id: showGreeterDelayed
+            interval: 1
+            onTriggered: {
+                greeter.forceShow();
             }
         }
     }
