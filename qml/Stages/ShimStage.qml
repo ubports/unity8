@@ -31,7 +31,7 @@ Rectangle {
         anchors.topMargin: units.gu(10)
         font.bold: true
         horizontalAlignment: Text.AlignHCenter
-        text: "Shel is in \"greeter\" mode"
+        text: "Shell is in \"greeter\" mode"
     }
 
     Text {
