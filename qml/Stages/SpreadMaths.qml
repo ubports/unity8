@@ -35,11 +35,8 @@ Item {
 
     readonly property int contentWidth: flickableWidth - root.margins * 2
 
-    // The y offset we need to add because of scaled tiles in the stacks
-    readonly property int yOffset: -spreadHeight * stackScale / 2
-
-    readonly property int distance: (flickableContentWidth - (margins * 2) - (foldingAreaWidth * 2)) / totalItems
-    readonly property int startPos: margins + foldingAreaWidth + itemIndex * distance
+    readonly property int distance: (flickableContentWidth - (margins * 2) - (foldingAreaWidth * 2)) / (totalItems - 2)
+    readonly property int startPos: margins + foldingAreaWidth + (itemIndex - 1) * distance
     readonly property int linearX: startPos - flickableProgress * (flickableContentWidth - flickableWidth)
 
     readonly property int leftFoldingAreaX: margins + foldingAreaWidth
@@ -51,17 +48,33 @@ Item {
     readonly property real limitedLeftProgress: Math.min(2, leftFoldingAreaProgress)
     readonly property real limitedRightProgress: Math.min(2, rightFoldingAreaProgress)
 
+//    Label {
+//        anchors { left: parent.left; top: parent.top; topMargin: - 100 }
+//        text: leftFoldingAreaProgress.toFixed(2)
+//        color: "green"
+//        fontSize: "x-large"
+//    }
+
     // Output
     readonly property int animatedX: {
-        if (leftFoldingAreaProgress > 4) {
+        if (leftFoldingAreaProgress > 4) { // Stop it at the edge
             return margins;
         }
-        if (leftFoldingAreaProgress > 2) {
+        if (leftFoldingAreaProgress > 2) { // move it slowly through the stack
             return linearAnimation(2, 4, margins + stackWidth, margins, leftFoldingAreaProgress)
         }
-        if (leftFoldingAreaProgress > 0) {
+        if (leftFoldingAreaProgress > 1 && itemIndex == 0) {
+            // The leftmost runs faster... make it stop before the stack and wait for others
+            return margins + stackWidth;
+        }
+
+        if (leftFoldingAreaProgress > 0) { // slow it down in a curve
+            if (itemIndex == 0) { // except if it's the leftmost. that one goes straigt
+                return linearAnimation(0, 1, leftFoldingAreaX, margins + stackWidth, leftFoldingAreaProgress)
+            }
             return linearAnimation(0, 1, leftFoldingAreaX, margins + stackWidth, leftEasing.value)
         }
+        // same for the right side stack... mostly... don't need to treat the rightmost special...
         if (rightFoldingAreaProgress > 4) {
             return flickableWidth - margins
         }
@@ -76,23 +89,25 @@ Item {
         return linearX;
     }
 
-    readonly property int animatedY: sceneHeight - itemHeight - spreadBottomOffset +
-                                     (limitedLeftProgress > 0 ?
-                                          0
-//                                         linearAnimation(0, 1, yOffset, 0, leftEasing.value)
-                                       : limitedRightProgress > 0 ?
-                                              0
-//                                             linearAnimation(0, 1, yOffset, 0, rightEasing.value)
-                                           : 0)
+    readonly property int animatedY: sceneHeight - itemHeight - spreadBottomOffset
 
-
-
-    readonly property int animatedAngle: limitedLeftProgress > 0 ?
-                                             linearAnimation(0, 2, unfoldedAngle, leftEndFoldedAngle, limitedLeftProgress)
-                                           : limitedRightProgress > 0 ?
-                                                 linearAnimation(0, 2, unfoldedAngle, rightEndFoldedAngle, limitedRightProgress)
-                                               : unfoldedAngle
-
+    readonly property int animatedAngle: {
+        if (limitedLeftProgress > 0) {
+            // Leftmost is special...
+            if (index == 0) {
+                if (limitedLeftProgress < 1) {
+                    return unfoldedAngle;
+                } else {
+                    return linearAnimation(1, 2, unfoldedAngle, leftEndFoldedAngle, limitedLeftProgress)
+                }
+            }
+            return linearAnimation(0, 2, unfoldedAngle, leftEndFoldedAngle, limitedLeftProgress)
+        } else if (limitedRightProgress > 0) {
+            return linearAnimation(0, 2, unfoldedAngle, rightEndFoldedAngle, limitedRightProgress)
+        } else {
+            return unfoldedAngle
+        }
+    }
 
     readonly property real scale: limitedLeftProgress > 0 ?
                                      linearAnimation(0, 1, 1, 1 + stackScale, leftEasing.value)
