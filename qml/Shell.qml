@@ -363,9 +363,6 @@ Item {
         Greeter {
             objectName: "greeter"
 
-            // Needed to expose the timer to outside objects
-            property alias showGreeterDelayed: showGreeterDelayed
-
             hides: [launcher, panel.indicators]
             tabletMode: shell.sideStageEnabled
             launcherOffset: launcher.progress
@@ -395,6 +392,15 @@ Item {
                 property: "suspended"
                 value: greeter.shown
             }
+        }
+    }
+
+    Timer {
+        // See powerConnection for why this is useful
+        id: showGreeterDelayed
+        interval: 1
+        onTriggered: {
+            greeter.forceShow();
         }
     }
 
@@ -433,15 +439,7 @@ Item {
                 // make the greeter load asynchronously instead, but that
                 // introduces a whole host of timing issues, especially with
                 // its animations.  So this is simpler.
-                greeter.showGreeterDelayed.start();
-            }
-        }
-
-        Timer {
-            id: showGreeterDelayed
-            interval: 1
-            onTriggered: {
-                greeter.forceShow();
+                showGreeterDelayed.start();
             }
         }
     }
