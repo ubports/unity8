@@ -51,6 +51,17 @@ class RotationBase(tests.UnityTestCase):
         self.assertThat(self.shell_proxy.orientation, Eventually(Equals(self.orientation)))
         self.assertThat(self.shell_proxy.orientationAngle, Eventually(Equals(self.angle)))
 
+class TestFakeSensor(RotationBase):
+    fake_sensor_scenarios = [('top up',   {'action': 'top_up',   'orientation': 1}),
+                             ('right up', {'action': 'right_up', 'orientation': 8}),
+                             ('top down', {'action': 'top_down', 'orientation': 4}),
+                             ('left up',  {'action': 'left_up',  'orientation': 2})]
+
+    scenarios = multiply_scenarios(
+        fake_sensor_scenarios,
+        RotationBase.scenarios
+    )
+
     def test_fake_sensor(self):
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
         self.useFixture(unity_with_sensors)
@@ -58,21 +69,19 @@ class RotationBase(tests.UnityTestCase):
         fake_sensors = unity_with_sensors.fake_sensors
         oriented_shell_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
 
-        fake_sensors.set_orientation_top_up()
-        target_orientation = 1
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(target_orientation), timeout=15))
+        fake_sensors.set_orientation(self.action)
+        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(self.orientation), timeout=15))
 
-        fake_sensors.set_orientation_right_up()
-        target_orientation = 8
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(target_orientation), timeout=15))
+class TestRotationWithApp(RotationBase):
+    with_app_scenarios = [('top up, angle 0',     {'action': 'top_up',   'orientation': 1, 'angle': 0}),
+                          ('right up, angle 90',  {'action': 'right_up', 'orientation': 8, 'angle': 90}),
+                          ('top down, angle 180', {'action': 'top_down', 'orientation': 4, 'angle': 180}),
+                          ('left up, angle 270',  {'action': 'left_up',  'orientation': 2, 'angle': 270})]
 
-        fake_sensors.set_orientation_top_down()
-        target_orientation = 4
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(target_orientation), timeout=15))
-
-        fake_sensors.set_orientation_left_up()
-        target_orientation = 2
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(target_orientation), timeout=15))
+    scenarios = multiply_scenarios(
+        with_app_scenarios,
+        RotationBase.scenarios
+    )
 
     def test_rotation_with_webbrowser_app(self):
         """Do an orientation-change and verify that an app and the shell adapted correctly"""
@@ -95,38 +104,9 @@ class RotationBase(tests.UnityTestCase):
         self.angle = self.shell_proxy.orientationAngle
 
         # check if fake sensors affect orientation and angle
-        fake_sensors.set_orientation_top_up()
-        self.orientation = 1
-        self.angle = 0
+        fake_sensors.set_orientation(self.action)
         self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(self.orientation), timeout=15))
         if (self.orientation & oriented_shell_proxy.supportedOrientations):
             self._assert_change_of_orientation_and_angle()
         else:
-            logger.info("unsupported orientation TOP-UP. skipped.")
-
-        fake_sensors.set_orientation_right_up()
-        self.orientation = 8
-        self.angle = 90
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(self.orientation), timeout=15))
-        if (self.orientation & oriented_shell_proxy.supportedOrientations):
-            self._assert_change_of_orientation_and_angle()
-        else:
-            logger.info("unsupported orientation RIGHT-UP. skipped.")
-
-        fake_sensors.set_orientation_top_down()
-        self.orientation = 4
-        self.angle = 180
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(self.orientation), timeout=15))
-        if (self.orientation & oriented_shell_proxy.supportedOrientations):
-            self._assert_change_of_orientation_and_angle()
-        else:
-            logger.info("unsupported orientation TOP-DOWN. skipped.")
-
-        fake_sensors.set_orientation_left_up()
-        self.orientation = 2
-        self.angle = 270
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(self.orientation), timeout=15))
-        if (self.orientation & oriented_shell_proxy.supportedOrientations):
-            self._assert_change_of_orientation_and_angle()
-        else:
-            logger.info("unsupported orientation LEFT-UP. skipped.")
+            logger.info('unsupported orientation ' + self.action + ' skipped.')
