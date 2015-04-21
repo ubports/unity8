@@ -21,25 +21,19 @@
 
 from autopilot.platform import model
 from unity8 import (
-    shell,
     fixture_setup,
-    indicators,
     process_helpers
 )
-import os
 from unity8.shell import tests
-import ubuntuuitoolkit
 import logging
-from testtools.matchers import Equals, NotEquals
+from testtools.matchers import Equals
 from autopilot.matchers import Eventually
-from testscenarios.scenarios import multiply_scenarios
 
 logger = logging.getLogger(__name__)
 
+
 class RotationBase(tests.UnityTestCase):
     """Base class for all shell-rotation tests that provides helper methods."""
-
-    scenarios = tests._get_device_emulation_scenarios()
 
     def setUp(self):
         if model() == 'Desktop':
@@ -49,56 +43,59 @@ class RotationBase(tests.UnityTestCase):
         self._data_dirs_mock_enabled = False
 
     def _assert_change_of_orientation_and_angle(self):
-        self.assertThat(self.shell_proxy.orientation, Eventually(Equals(self.orientation)))
-        self.assertThat(self.shell_proxy.orientationAngle, Eventually(Equals(self.angle)))
+        self.assertThat(self.shell_proxy.orientation,
+                        Eventually(Equals(self.orientation)))
+        self.assertThat(self.shell_proxy.orientationAngle,
+                        Eventually(Equals(self.angle)))
+
 
 class TestFakeSensor(RotationBase):
-    fake_sensor_scenarios = [('top up',   {'action': 'top_up',   'orientation': 1}),
-                             ('right up', {'action': 'right_up', 'orientation': 8}),
-                             ('top down', {'action': 'top_down', 'orientation': 4}),
-                             ('left up',  {'action': 'left_up',  'orientation': 2})]
-
-    scenarios = multiply_scenarios(
-        fake_sensor_scenarios,
-        RotationBase.scenarios
-    )
+    scenarios = [('top up', {'action': 'top_up', 'orientation': 1}),
+                 ('right up', {'action': 'right_up', 'orientation': 8}),
+                 ('top down', {'action': 'top_down', 'orientation': 4}),
+                 ('left up', {'action': 'left_up', 'orientation': 2})]
 
     def test_fake_sensor(self):
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
         self.useFixture(unity_with_sensors)
         process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
         fake_sensors = unity_with_sensors.fake_sensors
-        oriented_shell_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
+        o_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
 
         fake_sensors.set_orientation(self.action)
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(self.orientation), timeout=15))
+        self.assertThat(o_proxy.physicalOrientation,
+                        Eventually(Equals(self.orientation), timeout=15))
+
 
 class TestRotationWithApp(RotationBase):
-    with_app_scenarios = [('top up, angle 0',     {'action': 'top_up',   'orientation': 1, 'angle': 0}),
-                          ('right up, angle 90',  {'action': 'right_up', 'orientation': 8, 'angle': 90}),
-                          ('top down, angle 180', {'action': 'top_down', 'orientation': 4, 'angle': 180}),
-                          ('left up, angle 270',  {'action': 'left_up',  'orientation': 2, 'angle': 270})]
-
-    scenarios = multiply_scenarios(
-        with_app_scenarios,
-        RotationBase.scenarios
-    )
+    scenarios = [
+        ('top up, angle 0',
+            {'action': 'top_up', 'orientation': 1, 'angle': 0}),
+        ('right up, angle 90',
+            {'action': 'right_up', 'orientation': 8, 'angle': 90}),
+        ('top down, angle 180',
+            {'action': 'top_down', 'orientation': 4, 'angle': 180}),
+        ('left up, angle 270',
+            {'action': 'left_up', 'orientation': 2, 'angle': 270})]
 
     def test_rotation_with_webbrowser_app(self):
-        """Do an orientation-change and verify that an app and the shell adapted correctly"""
+        """Do an orientation-change and verify that an app and the shell
+        adapted correctly"""
 
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
         self.useFixture(unity_with_sensors)
         process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
         fake_sensors = unity_with_sensors.fake_sensors
-        oriented_shell_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
+        o_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
         self.shell_proxy = unity_with_sensors.main_win.select_single('Shell')
 
         # launch an application
         self.launch_upstart_application('webbrowser-app')
         unity_with_sensors.main_win.show_dash_from_launcher()
         unity_with_sensors.main_win.launch_application('webbrowser-app')
-        self.assertThat(unity_with_sensors.main_win.get_current_focused_app_id(), Eventually(Equals('webbrowser-app')))
+        self.assertThat(
+            unity_with_sensors.main_win.get_current_focused_app_id(),
+            Eventually(Equals('webbrowser-app')))
 
         # get default orientation and angle
         self.orientation = self.shell_proxy.orientation
@@ -106,8 +103,9 @@ class TestRotationWithApp(RotationBase):
 
         # check if fake sensors affect orientation and angle
         fake_sensors.set_orientation(self.action)
-        self.assertThat(oriented_shell_proxy.physicalOrientation, Eventually(Equals(self.orientation), timeout=15))
-        if (self.orientation & oriented_shell_proxy.supportedOrientations):
+        self.assertThat(o_proxy.physicalOrientation,
+                        Eventually(Equals(self.orientation), timeout=15))
+        if (self.orientation & o_proxy.supportedOrientations):
             self._assert_change_of_orientation_and_angle()
         else:
             logger.info('unsupported orientation ' + self.action + ' skipped.')
