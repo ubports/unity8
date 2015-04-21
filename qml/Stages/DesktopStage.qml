@@ -259,11 +259,31 @@ FocusScope {
                         id: spreadSelectArea
                         anchors.fill: parent
                         enabled: false
+                        hoverEnabled: true
+                        property bool upperThirdContainsMouse: containsMouse && mouseY < height / 3
                         onClicked: {
                             print("clicked")
                             appDelegate.focusWindow()
                             root.state = ""
                         }
+                    }
+                }
+
+                Image {
+                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 }
+                    source: "graphics/window-close.svg"
+                    visible: spreadSelectArea.upperThirdContainsMouse || closeMouseArea.containsMouse
+                    height: units.gu(1.5)
+                    width: height
+                    sourceSize.width: width
+                    sourceSize.height: height
+
+                    MouseArea {
+                        id: closeMouseArea
+                        anchors.fill: parent
+                        anchors.margins: -units.gu(1)
+                        hoverEnabled: true
+                        onClicked: ApplicationManager.stopApplication(model.appId)
                     }
                 }
 

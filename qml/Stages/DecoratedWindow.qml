@@ -123,24 +123,4 @@ FocusScope {
             ]
         }
     }
-
-    Rectangle {
-        color: "white"
-        anchors { left: parent.left; top: parent.top; margins: -height/2 }
-        height: units.gu(2)
-        width: units.gu(2)
-        radius: height / 2
-        visible: root.highlightShown
-        Label {
-            anchors.centerIn: parent
-            text: "X"
-            color: "red"
-        }
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                ApplicationManager.stopApplication(appId)
-            }
-        }
-    }
 }
