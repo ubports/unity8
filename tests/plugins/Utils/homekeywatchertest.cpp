@@ -148,7 +148,7 @@ void HomeKeyWatcherTest::touchTapTouch()
     passTime(silenceBeforeTap);
 
     {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Home, Qt::NoModifier);
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
     }
     int tapTime = 0;
@@ -156,10 +156,10 @@ void HomeKeyWatcherTest::touchTapTouch()
         passTime(10);
         tapTime += 10;
         if (tapTime + 10 >= tapDuration) {
-            QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Home, Qt::NoModifier);
+            QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
             homeKeyWatcher.update(&keyEvent);
         } else {
-            QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Home, Qt::NoModifier, QString(), true /*autorepeat*/);
+            QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier, QString(), true /*autorepeat*/);
             homeKeyWatcher.update(&keyEvent);
         }
     }
@@ -197,12 +197,12 @@ void HomeKeyWatcherTest::tapWhileTouching()
     }
     passTime(1000);
     {
-        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Home, Qt::NoModifier);
+        QKeyEvent keyEvent(QEvent::KeyPress, Qt::Key_Super_L, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
     }
     passTime(100);
     {
-        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Home, Qt::NoModifier);
+        QKeyEvent keyEvent(QEvent::KeyRelease, Qt::Key_Super_L, Qt::NoModifier);
         homeKeyWatcher.update(&keyEvent);
     }
     passTime(1000);
