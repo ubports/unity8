@@ -22,6 +22,7 @@
 #include <QDBusArgument>
 #include <QDBusContext>
 #include <QDBusInterface>
+#include <QDBusPendingReply>
 #include <QMap>
 #include <QObject>
 #include <QString>
@@ -34,6 +35,7 @@ public:
     explicit AccountsServiceDBusAdaptor(QObject *parent = 0);
 
     Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &interface, const QString &property);
+    Q_INVOKABLE QDBusPendingReply<QDBusVariant> getUserPropertyAsync(const QString &user, const QString &interface, const QString &property);
 
     template <typename T>
     inline T getUserProperty(const QString &user, const QString &interface, const QString &property) {
@@ -45,7 +47,7 @@ public:
     }
 
     Q_INVOKABLE void setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value);
-    Q_INVOKABLE void setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
+    Q_INVOKABLE QDBusPendingCall setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
 
 Q_SIGNALS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);

@@ -37,8 +37,15 @@ public Q_SLOTS:
     QDBusVariant Get(const QString &interface, const QString &property);
     void Set(const QString &interface, const QString &property, const QDBusVariant &variant);
 
+    // mock only.
+    void Reset();
+
+Q_SIGNALS:
+    void PropertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
+    void Changed();
+
 private:
-    bool edge_demo;
+    QHash<QString, QVariantMap> m_properties;
 };
 
 #endif
