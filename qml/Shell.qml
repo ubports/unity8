@@ -182,7 +182,6 @@ Item {
 
     HomeKeyWatcher {
         onActivated: { launcher.fadeOut(); shell.showHome(); }
-            
     }
 
     Item {
