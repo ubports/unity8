@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,28 +17,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
-from __future__ import absolute_import
-
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
-
-from autopilot.matchers import Eventually
-import sys
-from testtools.matchers import Equals
 import logging
 
-logger = logging.getLogger(__name__)
+from autopilot.matchers import Eventually
+from testtools.matchers import Equals
+from ubuntuuitoolkit import ubuntu_scenarios
 
-# py2 compatible alias for py3
-if sys.version >= '3':
-    basestring = str
+from unity8.shell.tests import UnityTestCase
+
+
+logger = logging.getLogger(__name__)
 
 
 class TestLockscreen(UnityTestCase):
 
     """Tests for the lock screen."""
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     def test_can_unlock_pin_screen(self):
         """Must be able to unlock the PIN entry lock screen."""
@@ -49,7 +44,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self.main_window.enter_pin_code("1234")
         else:
             self._enter_prompt_passphrase("1234\n")
@@ -64,7 +59,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self._enter_pin_passphrase("password")
         else:
             self._enter_prompt_passphrase("password")
@@ -78,7 +73,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self.main_window.enter_pin_code("4321")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))
@@ -96,7 +91,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self._enter_pin_passphrase("foobar")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))
@@ -143,7 +138,7 @@ class TestLockscreen(UnityTestCase):
         :raises: TypeError if passphrase is not a string.
 
         """
-        if not isinstance(passphrase, basestring):
+        if not isinstance(passphrase, str):
             raise TypeError(
                 "'passphrase' parameter must be a string, not %r."
                 % type(passphrase)

@@ -400,6 +400,63 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(index)->count(), 55);
     }
 
+    void testCountEmblemAddsRemovesItem_data() {
+        QTest::addColumn<bool>("isPinned");
+        QTest::addColumn<bool>("isRunning");
+        QTest::addColumn<bool>("startWhenVisible");
+        QTest::newRow("not pinned, not running") << false << false << false;
+        QTest::newRow("pinned, not running") << true << false << false;
+        QTest::newRow("not pinned, not running, starting from notification") << false << false << true;
+        QTest::newRow("pinned, not running, starting from notification") << true << false << true;
+        QTest::newRow("not pinned, running") << false << true << false;
+        QTest::newRow("pinned, running") << true << true << false;
+    }
+
+    void testCountEmblemAddsRemovesItem() {
+        QFETCH(bool, isPinned);
+        QFETCH(bool, isRunning);
+        QFETCH(bool, startWhenVisible);
+
+        // Make sure item is here as expected after init() and that count is not visible
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index == -1, false);
+        QCOMPARE(launcherModel->get(index)->countVisible(), false);
+
+        // Pin if we need to
+        if (isPinned) {
+            launcherModel->pin("abs-icon");
+        }
+        QCOMPARE(launcherModel->get(0)->pinned(), isPinned);
+
+        // Stop it if we need to
+        if (!isRunning) {
+            appManager->stopApplication("abs-icon");
+        }
+        QCOMPARE(launcherModel->findApplication("abs-icon") >= 0, isRunning || isPinned);
+
+
+        // set the count emblem to visible
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "count", QVariant::fromValue(QDBusVariant(55)));
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(true)));
+
+        // Make sure item is here and that count is visible
+        index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index == -1, false);
+        QCOMPARE(launcherModel->get(index)->countVisible(), true);
+
+        if (!isRunning && startWhenVisible) {
+            appManager->addApplication(new MockApp("abs-icon"));
+        }
+
+        // Hide count emblem again
+        interface.call("Set", "com.canonical.Unity.Launcher.Item", "countVisible", QVariant::fromValue(QDBusVariant(false)));
+
+        // Make sure item is shown/hidden as expected
+        index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index == -1, !isRunning && !isPinned && !startWhenVisible);
+    }
+
     void testRefreshAfterDeletedDesktopFiles_data() {
         QTest::addColumn<bool>("deleted");
         QTest::newRow("have .desktop files") << false;

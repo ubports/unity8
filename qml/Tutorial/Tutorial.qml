@@ -23,11 +23,10 @@ Item {
     property alias active: loader.active
     property bool paused
     property real edgeSize
+    property bool useEdgeDragArea
 
     property Item launcher
     property Item panel
-    property Item stages
-    property Item overlay
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
     readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
@@ -62,6 +61,12 @@ Item {
 
         Binding {
             target: loader.item
+            property: "useEdgeDragArea"
+            value: root.useEdgeDragArea
+        }
+
+        Binding {
+            target: loader.item
             property: "launcher"
             value: root.launcher
         }
@@ -70,18 +75,6 @@ Item {
             target: loader.item
             property: "panel"
             value: root.panel
-        }
-
-        Binding {
-            target: loader.item
-            property: "stages"
-            value: root.stages
-        }
-
-        Binding {
-            target: loader.item
-            property: "overlay"
-            value: root.overlay
         }
 
         Connections {

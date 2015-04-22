@@ -72,7 +72,7 @@ public:
     Q_INVOKABLE unity::shell::scopes::NavigationInterface* getNavigation(QString const& navigationId) override;
     Q_INVOKABLE unity::shell::scopes::NavigationInterface* getAltNavigation(QString const& altNavigationId) override;
     Q_INVOKABLE void setNavigationState(const QString &navigationId, bool isAltNavigation) override;
-    Q_SIGNAL void performQuery(const QString& query) override;
+    void performQuery(const QString& query) override;
 
     Status status() const override;
     QVariantMap customizations() const override;
@@ -80,7 +80,9 @@ public:
     Q_INVOKABLE void refresh() override;
 
 Q_SIGNALS:
-    void refreshed(); // This is not in the Interface, here for testing benefits
+    // These are not in the Interface, here for testing benefits
+    void refreshed();
+    void queryPerformed(const QString& query);
 
 protected:
 

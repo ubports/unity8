@@ -104,6 +104,11 @@ Q_SIGNALS:
 protected:
     void touchEvent(QTouchEvent * event) override;
 
+    // becaue the default implementation ignores the events
+    void mousePressEvent(QMouseEvent *) override {}
+    void mouseMoveEvent(QMouseEvent *) override {}
+    void mouseReleaseEvent(QMouseEvent *) override {}
+
 private Q_SLOTS:
     void onFocusChanged();
     void onComponentStatusChanged(QQmlComponent::Status status);

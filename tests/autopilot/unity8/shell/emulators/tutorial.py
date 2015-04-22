@@ -18,7 +18,6 @@
 #
 
 import logging
-import time
 
 import ubuntuuitoolkit
 

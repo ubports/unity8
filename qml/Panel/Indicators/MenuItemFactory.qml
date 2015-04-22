@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Settings.Menus 0.1 as Menus
+import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
@@ -84,6 +85,7 @@ Item {
         id: sliderMenu;
 
         Menus.SliderMenu {
+            id: sliderItem
             objectName: "sliderMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -113,15 +115,6 @@ Item {
             onMenuIndexChanged: {
                 loadAttributes();
             }
-            onServerValueChanged: {
-                // value can be changed by slider, so a binding won't work.
-                if (serverValue !== undefined) {
-                    value = serverValue;
-                }
-            }
-            onUpdated: {
-                menuModel.changeState(menuIndex, value);
-            }
 
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
@@ -129,6 +122,20 @@ Item {
                                                              'max-value': 'double',
                                                              'min-icon': 'icon',
                                                              'max-icon': 'icon'});
+            }
+
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
+                bufferedSyncTimeout: true
+                maximumWaitBufferInterval: 16
+
+                serverTarget: sliderItem
+                serverProperty: "serverValue"
+                userTarget: sliderItem
+                userProperty: "value"
+
+                onSyncTriggered: menuModel.changeState(menuIndex, value)
             }
         }
     }
@@ -280,6 +287,7 @@ Item {
         id: checkableMenu;
 
         Menus.CheckableMenu {
+            id: checkItem
             objectName: "checkableMenu"
             property QtObject menuData: null
             property int menuIndex: -1
@@ -290,26 +298,16 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            onServerCheckedChanged: updateFromServer()
-            onTriggered: {
-                menuModel.activate(menuIndex);
-                resyncTimer.restart();
-            }
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
 
-            // value can be changed by menu, so a binding won't work.
-            function updateFromServer() {
-                resyncTimer.stop();
-                if (checked != serverChecked) {
-                    checked = serverChecked;
-                }
-            }
+                serverTarget: checkItem
+                serverProperty: "serverChecked"
+                userTarget: checkItem
+                userProperty: "checked"
 
-            // Server value is not guaranteed to change to what we expect from an activation.
-            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
-            Timer {
-                id: resyncTimer
-                interval: 1500
-                onTriggered: updateFromServer()
+                onSyncTriggered: menuModel.activate(checkItem.menuIndex)
             }
         }
     }
@@ -318,6 +316,7 @@ Item {
         id: switchMenu;
 
         Menus.SwitchMenu {
+            id: switchItem
             objectName: "switchMenu"
             property QtObject menuData: null
             property int menuIndex: -1
@@ -329,26 +328,16 @@ Item {
             checked: serverChecked
             highlightWhenPressed: false
 
-            onServerCheckedChanged: updateFromServer()
-            onTriggered: {
-                menuModel.activate(menuIndex);
-                resyncTimer.restart();
-            }
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
 
-            // value can be changed by menu, so a binding won't work.
-            function updateFromServer() {
-                resyncTimer.stop();
-                if (checked != serverChecked) {
-                    checked = serverChecked;
-                }
-            }
+                serverTarget: switchItem
+                serverProperty: "serverChecked"
+                userTarget: switchItem
+                userProperty: "checked"
 
-            // Server value is not guaranteed to change to what we expect from an activation.
-            // In this case, we need to re-assert that we are presenting the UI with the set backend value.
-            Timer {
-                id: resyncTimer
-                interval: 1500
-                onTriggered: updateFromServer()
+                onSyncTriggered: menuModel.activate(switchItem.menuIndex);
             }
         }
     }
@@ -464,6 +453,7 @@ Item {
         id: accessPoint;
 
         Menus.AccessPointMenu {
+            id: apItem
             objectName: "accessPoint"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -485,18 +475,11 @@ Item {
             signalStrength: strengthAction.valid ? strengthAction.state : 0
             highlightWhenPressed: false
 
-            onServerCheckedChanged: {
-                // value can be changed by menu, so a binding won't work.
-                active = serverChecked;
-            }
             onMenuModelChanged: {
                 loadAttributes();
             }
             onMenuIndexChanged: {
                 loadAttributes();
-            }
-            onTriggered: {
-                menuModel.activate(menuIndex);
             }
 
             function loadAttributes() {
@@ -504,6 +487,19 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
                                                              'x-canonical-wifi-ap-is-secure': 'bool',
                                                              'x-canonical-wifi-ap-strength-action': 'string'});
+            }
+
+            ServerPropertySynchroniser {
+                objectName: "sync"
+                syncTimeout: Utils.Constants.indicatorValueTimeout
+
+                serverTarget: apItem
+                serverProperty: "serverChecked"
+                userTarget: apItem
+                userProperty: "active"
+                userTrigger: "onTriggered"
+
+                onSyncTriggered: menuModel.activate(apItem.menuIndex)
             }
         }
     }

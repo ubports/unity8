@@ -973,14 +973,13 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
             }
             if (growDown) {
                 adjustMinYExtent();
-            } else if (remove.index <= m_firstVisibleIndex) {
-                if (!m_visibleItems.isEmpty()) {
-                    // We removed the first item that is the one that positions the rest
-                    // position the new first item correctly
-                    m_visibleItems.first()->setY(oldFirstValidIndexPos);
-                } else {
-                    m_firstVisibleIndex = -1;
-                }
+            } else if (remove.index <= m_firstVisibleIndex && !m_visibleItems.isEmpty()) {
+                m_visibleItems.first()->setY(oldFirstValidIndexPos);
+            }
+            if (m_visibleItems.isEmpty()) {
+                m_firstVisibleIndex = -1;
+            } else {
+                m_firstVisibleIndex -= qMax(0, m_firstVisibleIndex - remove.index);
             }
         } else if (remove.index + remove.count <= m_firstVisibleIndex) {
             m_firstVisibleIndex -= remove.count;

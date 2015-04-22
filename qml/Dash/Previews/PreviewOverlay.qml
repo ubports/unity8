@@ -22,48 +22,99 @@ Rectangle {
     id: overlay
     objectName: "overlay"
 
-    readonly property real scaleProgress: (scale - initialScale) / (1.0 - initialScale)
+    readonly property real aspectRatio: width / height
+    readonly property real initialAspectRatio: initialWidth / initialHeight
+    readonly property real initialXScale: initialWidth / width
+    readonly property real initialYScale: initialHeight / height
 
     property alias delegate: loader.sourceComponent
     property alias delegateItem: loader.item
     property alias headerShown: overlayHeader.shown
-    property bool shown: false
-    property bool opening: false
     property real initialX: 0
     property real initialY: 0
-    property real initialScale: 0
+    property real initialWidth: 1
+    property real initialHeight: 1
 
-    visible: scale > initialScale
-    clip: visible && scale < 1.0
-    scale: shown ? 1.0 : initialScale
+    property real xScale: initialXScale
+    property real yScale: initialYScale
+    property real progress: 0
+
+    implicitWidth: 1
+    implicitHeight: 1
+    visible: progress > 0
+    clip: progress > 0 && progress < 1
+    color: Qt.rgba(0, 0, 0, progress)
     transformOrigin: Item.TopLeft
-    transform: Translate {
-        x: overlay.initialX - overlay.initialX * overlay.scaleProgress
-        y: overlay.initialY - overlay.initialY * overlay.scaleProgress
-    }
-    color: Qt.rgba(0, 0, 0, scaleProgress)
-    radius: units.gu(1) - units.gu(1) * scaleProgress
+    transform: [
+        Scale {
+            origin.x: 0
+            origin.y: 0
+            xScale: overlay.xScale
+            yScale: overlay.yScale
+        },
+        Translate {
+            x: overlay.initialX - overlay.initialX * overlay.progress
+            y: overlay.initialY - overlay.initialY * overlay.progress
+        }
+    ]
+    state: "hidden"
+    states: [
+        State {
+            name: "shown"
+            PropertyChanges { target: overlay; progress: 1; xScale: 1; yScale: 1 }
+        },
+        State {
+            name: "hidden"
+            PropertyChanges { target: overlay; progress: 0; xScale: initialXScale; yScale: initialYScale }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "hidden"
+            to: "shown"
+            UbuntuNumberAnimation {
+                target: overlay
+                properties: "progress,xScale,yScale"
+                duration: UbuntuAnimation.FastDuration
+            }
+        },
+        Transition {
+            from: "shown"
+            to: "hidden"
+            UbuntuNumberAnimation {
+                target: overlay
+                properties: "progress,xScale,yScale"
+                duration: UbuntuAnimation.FastDuration / 2
+            }
+        }
+    ]
 
     function show() {
-        opening = true;
-        shown = true;
+        state = "shown"
     }
 
     function hide() {
-        opening = false;
-        shown = false;
-    }
-
-    Behavior on scale {
-        UbuntuNumberAnimation {
-            duration: overlay.opening ? UbuntuAnimation.FastDuration :
-                                        UbuntuAnimation.FastDuration / 2
-        }
+        state = "hidden"
     }
 
     Loader {
         id: loader
         anchors.fill: parent
+
+        readonly property bool verticalScaling: initialAspectRatio / aspectRatio >= 1
+        readonly property real initialXScale: verticalScaling ? 1 : aspectRatio / initialAspectRatio
+        readonly property real initialYScale: verticalScaling ? initialAspectRatio / aspectRatio : 1
+        readonly property real xScale: verticalScaling ? loader.initialXScale - loader.initialXScale * overlay.progress + overlay.progress :
+                                                         loader.yScale * overlay.yScale / overlay.xScale
+        readonly property real yScale: verticalScaling ? loader.xScale * overlay.xScale / overlay.yScale :
+                                                         loader.initialYScale - loader.initialYScale * overlay.progress + overlay.progress
+
+        transform: Scale {
+            origin.x: parent.width / 2
+            origin.y: parent.height / 2
+            xScale: loader.xScale
+            yScale: loader.yScale
+        }
     }
 
     Rectangle {
@@ -77,7 +128,7 @@ Rectangle {
         }
         height: units.gu(7)
         visible: opacity > 0
-        opacity: overlay.scaleProgress > 0.6 && shown ? 0.8 : 0
+        opacity: overlay.state == "shown" && overlay.progress > 0.8 && shown ? 0.8 : 0
         color: "black"
 
         Behavior on opacity {

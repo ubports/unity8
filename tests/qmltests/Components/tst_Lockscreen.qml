@@ -173,6 +173,10 @@ Rectangle {
         function cleanup() {
             lockscreen.clear(false);
             delayMinutesTextField.text = "0"
+
+            // Reset sizing
+            root.width = units.gu(80)
+            root.height = units.gu(76)
         }
 
         function waitForLockscreenReady() {
@@ -449,6 +453,28 @@ Rectangle {
             waitForLockscreenReady()
             var label = findChild(lockscreen, "deviceLockedLabel")
             compare(label.text, "Device Locked")
+        }
+
+        function test_resize_data() {
+            return [
+                { tag: "small", width: units.gu(40), height: units.gu(76) },
+                { tag: "medium", width: units.gu(50), height: units.gu(86) },
+                { tag: "large", width: units.gu(60), height: units.gu(96) },
+                { tag: "x-large", width: units.gu(80), height: units.gu(116) },
+            ]
+        }
+
+        function test_resize(data) {
+            var controlsAreaWidth = lockscreen.anchors.rightMargin;
+            root.width = data.width + controlsAreaWidth;
+            root.height = data.height;
+            waitForRendering(root);
+
+            var numbersGrid = findChild(lockscreen, "numbersGrid");
+            // Make sure the numbers pad keeps a 4gu margin on left/right but doesn't grow larger than 50 gu's width.
+            // For rounding reasons it might be off 1 pixel. Let's make sure it's within +/- 1 pixel of what we expect
+            verify(numbersGrid.width >= Math.min(units.gu(50), data.width - units.gu(8)) - 1);
+            verify(numbersGrid.width <= Math.min(units.gu(50), data.width - units.gu(8)) + 1);
         }
     }
 

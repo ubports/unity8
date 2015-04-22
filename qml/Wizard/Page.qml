@@ -86,7 +86,7 @@ Item {
             bottomMargin: buttonMargin
         }
         z: 1
-        text: i18n.tr("Back")
+        text: i18n.ctr("Button: Go back one page in the Wizard", "Back")
         visible: pageStack.depth > 1 && hasBackButton
         backArrow: true
 

@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2012-2014 Canonical, Ltd.
- *
- * Authors:
- *  Gerry Boland <gerry.boland@canonical.com>
+ * Copyright (C) 2012-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +30,7 @@
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
 #include "CachingNetworkManagerFactory.h"
+#include "UnityCommandLineParser.h"
 
 // Ubuntu Gestures
 #include <TouchRegistry.h>
@@ -48,37 +46,9 @@ int main(int argc, const char *argv[])
     QGuiApplication::setApplicationName("unity8");
     QGuiApplication *application;
 
-    QCommandLineParser parser;
-    parser.setApplicationDescription("Description: Unity 8 Shell");
-    parser.addHelpOption();
-
-    QCommandLineOption fullscreenOption("fullscreen",
-        "Run in fullscreen");
-    parser.addOption(fullscreenOption);
-
-    QCommandLineOption framelessOption("frameless",
-        "Run without window borders");
-    parser.addOption(framelessOption);
-
-    QCommandLineOption mousetouchOption("mousetouch",
-        "Allow the mouse to provide touch input");
-    parser.addOption(mousetouchOption);
-
-    QCommandLineOption windowGeometryOption(QStringList() << "windowgeometry",
-            "Specify the window geometry as [<width>x<height>]", "windowgeometry", "1");
-    parser.addOption(windowGeometryOption);
-
-    QCommandLineOption testabilityOption("testability",
-        "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead. \n \
-Load the testability driver");
-    parser.addOption(testabilityOption);
-
     application = new QGuiApplication(argc, (char**)argv);
 
-    // Treat args with single dashes the same as arguments with two dashes
-    // Ex: -fullscreen == --fullscreen
-    parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
-    parser.process(*application);
+    UnityCommandLineParser parser(*application);
 
     QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
     if (indicatorProfile.isEmpty()) {
@@ -86,16 +56,11 @@ Load the testability driver");
     }
 
     ApplicationArguments qmlArgs;
-    if (parser.isSet(windowGeometryOption) &&
-        parser.value(windowGeometryOption).split('x').size() == 2)
-    {
-        QStringList geom = parser.value(windowGeometryOption).split('x');
-        qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
-    }
+    qmlArgs.setSize(parser.windowGeometry());
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
-    if (parser.isSet(testabilityOption) || getenv("QT_LOAD_TESTABILITY")) {
+    if (parser.hasTestability() || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
@@ -120,7 +85,8 @@ Load the testability driver");
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
-    if (parser.isSet(framelessOption)) {
+    view->rootContext()->setContextProperty("shellMode", parser.mode());
+    if (parser.hasFrameless()) {
         view->setFlags(Qt::FramelessWindowHint);
     }
     TouchRegistry touchRegistry;
@@ -129,9 +95,8 @@ Load the testability driver");
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
-    if (parser.isSet(mousetouchOption)) {
-        mouseTouchAdaptor = new MouseTouchAdaptor;
-        application->installNativeEventFilter(mouseTouchAdaptor);
+    if (parser.hasMouseToTouch()) {
+        mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
     QUrl source(::qmlDirectory()+"Shell.qml");
@@ -147,7 +112,7 @@ Load the testability driver");
     view->setSource(source);
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
-    if (isMirServer || parser.isSet(fullscreenOption)) {
+    if (isMirServer || parser.hasFullscreen()) {
         view->showFullScreen();
     } else {
         view->show();

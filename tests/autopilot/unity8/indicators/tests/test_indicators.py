@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import
-
 from testscenarios import multiply_scenarios
 
 from autopilot import platform
@@ -25,7 +23,7 @@ from autopilot import platform
 from unity8.indicators import tests
 
 
-class IndicatorExistsTestCase(tests.IndicatorTestCase):
+class IndicatorExistsTestCase(tests.DeviceIndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth')),
@@ -42,7 +40,7 @@ class IndicatorExistsTestCase(tests.IndicatorTestCase):
     )
 
     def setUp(self):
-        super(IndicatorExistsTestCase, self).setUp()
+        super().setUp()
         if (platform.model() == 'Nexus 10' and
                 self.indicator_name == 'indicator-bluetooth'):
             self.skipTest('Nexus 10 does not have bluetooth at the moment.')
@@ -53,7 +51,7 @@ class IndicatorExistsTestCase(tests.IndicatorTestCase):
         )
 
 
-class IndicatorPageTitleMatchesWidgetTestCase(tests.IndicatorTestCase):
+class IndicatorPageTitleMatchesWidgetTestCase(tests.DeviceIndicatorTestCase):
 
     indicator_scenarios = [
         ('Bluetooth', dict(indicator_name='indicator-bluetooth',
@@ -77,7 +75,7 @@ class IndicatorPageTitleMatchesWidgetTestCase(tests.IndicatorTestCase):
     )
 
     def setUp(self):
-        super(IndicatorPageTitleMatchesWidgetTestCase, self).setUp()
+        super().setUp()
         if (platform.model() == 'Nexus 10' and
                 self.indicator_name == 'indicator-bluetooth'):
             self.skipTest('Nexus 10 does not have bluetooth at the moment.')

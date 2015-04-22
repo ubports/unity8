@@ -21,6 +21,7 @@
 
 #include <QFile>
 #include <QStringList>
+#include <QDebug>
 
 AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
@@ -56,15 +57,15 @@ void AccountsService::setUser(const QString &user)
     m_user = user;
     Q_EMIT userChanged();
 
-    updateDemoEdges();
-    updateEnableLauncherWhileLocked();
-    updateEnableIndicatorsWhileLocked();
-    updateBackgroundFile();
-    updateStatsWelcomeScreen();
-    updatePasswordDisplayHint();
-    updateFailedLogins();
-    updateHereEnabled();
-    updateHereLicensePath();
+    updateDemoEdges(false);
+    updateEnableLauncherWhileLocked(false);
+    updateEnableIndicatorsWhileLocked(false);
+    updateBackgroundFile(false);
+    updateStatsWelcomeScreen(false);
+    updatePasswordDisplayHint(false);
+    updateFailedLogins(false);
+    updateHereEnabled(false);
+    updateHereLicensePath(false);
 }
 
 bool AccountsService::demoEdges() const
@@ -74,8 +75,12 @@ bool AccountsService::demoEdges() const
 
 void AccountsService::setDemoEdges(bool demoEdges)
 {
-    m_demoEdges = demoEdges;
-    m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+    if (m_demoEdges != demoEdges) {
+        m_demoEdges = demoEdges;
+        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+
+        Q_EMIT demoEdgesChanged();
+    }
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
@@ -110,7 +115,12 @@ bool AccountsService::hereEnabled() const
 
 void AccountsService::setHereEnabled(bool enabled)
 {
-    m_service->setUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted", enabled);
+    if (m_hereEnabled != enabled) {
+        m_hereEnabled = enabled;
+        m_service->setUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted", enabled);
+
+        Q_EMIT hereEnabledChanged();
+    }
 }
 
 QString AccountsService::hereLicensePath() const
@@ -123,88 +133,276 @@ bool AccountsService::hereLicensePathValid() const
     return !m_hereLicensePath.isNull();
 }
 
-void AccountsService::updateDemoEdges()
+void AccountsService::updateDemoEdges(bool async)
 {
-    auto demoEdges = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges").toBool();
-    if (m_demoEdges != demoEdges) {
-        m_demoEdges = demoEdges;
-        Q_EMIT demoEdgesChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.canonical.unity.AccountsService",
+                                                                    "demo-edges");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'demo-edges' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        auto demoEdges = reply.value().variant().toBool();
+        if (m_demoEdges != demoEdges) {
+            m_demoEdges = demoEdges;
+            Q_EMIT demoEdgesChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updateEnableLauncherWhileLocked()
+void AccountsService::updateEnableLauncherWhileLocked(bool async)
 {
-    auto enableLauncherWhileLocked = m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableLauncherWhileLocked").toBool();
-    if (m_enableLauncherWhileLocked != enableLauncherWhileLocked) {
-        m_enableLauncherWhileLocked = enableLauncherWhileLocked;
-        Q_EMIT enableLauncherWhileLockedChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                                    "EnableLauncherWhileLocked");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'EnableLauncherWhileLocked' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        auto enableLauncherWhileLocked = reply.value().variant().toBool();
+        if (m_enableLauncherWhileLocked != enableLauncherWhileLocked) {
+            m_enableLauncherWhileLocked = enableLauncherWhileLocked;
+            Q_EMIT enableLauncherWhileLockedChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updateEnableIndicatorsWhileLocked()
+void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
 {
-    auto enableIndicatorsWhileLocked = m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "EnableIndicatorsWhileLocked").toBool();
-    if (m_enableIndicatorsWhileLocked != enableIndicatorsWhileLocked) {
-        m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
-        Q_EMIT enableIndicatorsWhileLockedChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                                    "EnableIndicatorsWhileLocked");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'EnableIndicatorsWhileLocked' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        auto enableIndicatorsWhileLocked = reply.value().variant().toBool();
+        if (m_enableIndicatorsWhileLocked != enableIndicatorsWhileLocked) {
+            m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
+            Q_EMIT enableIndicatorsWhileLockedChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updateBackgroundFile()
+void AccountsService::updateBackgroundFile(bool async)
 {
-    auto backgroundFile = m_service->getUserProperty(m_user, "org.freedesktop.Accounts.User", "BackgroundFile").toString();
-    if (m_backgroundFile != backgroundFile) {
-        m_backgroundFile = backgroundFile;
-        Q_EMIT backgroundFileChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "org.freedesktop.Accounts.User",
+                                                                    "BackgroundFile");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'BackgroundFile' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        auto backgroundFile = reply.value().variant().toString();
+        if (m_backgroundFile != backgroundFile) {
+            m_backgroundFile = backgroundFile;
+            Q_EMIT backgroundFileChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updateStatsWelcomeScreen()
+void AccountsService::updateStatsWelcomeScreen(bool async)
 {
-    bool statsWelcomeScreen = m_service->getUserProperty(m_user, "com.ubuntu.touch.AccountsService.SecurityPrivacy", "StatsWelcomeScreen").toBool();
-    if (m_statsWelcomeScreen != statsWelcomeScreen) {
-        m_statsWelcomeScreen = statsWelcomeScreen;
-        Q_EMIT statsWelcomeScreenChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.touch.AccountsService.SecurityPrivacy",
+                                                                    "StatsWelcomeScreen");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'StatsWelcomeScreen' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        auto statsWelcomeScreen = reply.value().variant().toBool();
+        if (m_statsWelcomeScreen != statsWelcomeScreen) {
+            m_statsWelcomeScreen = statsWelcomeScreen;
+            Q_EMIT statsWelcomeScreenChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updatePasswordDisplayHint()
+void AccountsService::updatePasswordDisplayHint(bool async)
 {
-    PasswordDisplayHint passwordDisplayHint = (PasswordDisplayHint)m_service->getUserProperty(m_user, "com.ubuntu.AccountsService.SecurityPrivacy", "PasswordDisplayHint").toInt();
-    if (m_passwordDisplayHint != passwordDisplayHint) {
-        m_passwordDisplayHint = passwordDisplayHint;
-        Q_EMIT passwordDisplayHintChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
+                                                                    "PasswordDisplayHint");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'PasswordDisplayHint' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        PasswordDisplayHint passwordDisplayHint = (PasswordDisplayHint)reply.value().variant().toInt();
+        if (m_passwordDisplayHint != passwordDisplayHint) {
+            m_passwordDisplayHint = passwordDisplayHint;
+            Q_EMIT passwordDisplayHintChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updateFailedLogins()
+void AccountsService::updateFailedLogins(bool async)
 {
-    uint failedLogins = m_service->getUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins").toUInt();
-    if (m_failedLogins != failedLogins) {
-        m_failedLogins = failedLogins;
-        Q_EMIT failedLoginsChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.canonical.unity.AccountsService.Private",
+                                                                    "FailedLogins");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'FailedLogins' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        uint failedLogins = reply.value().variant().toUInt();
+        if (m_failedLogins != failedLogins) {
+            m_failedLogins = failedLogins;
+            Q_EMIT failedLoginsChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updateHereEnabled()
+void AccountsService::updateHereEnabled(bool async)
 {
-    bool hereEnabled = m_service->getUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted").toBool();
-    if (m_hereEnabled != hereEnabled) {
-        m_hereEnabled = hereEnabled;
-        Q_EMIT hereEnabledChanged();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.location.providers.here.AccountsService",
+                                                                    "LicenseAccepted");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'LicenseAccepted' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        auto hereEnabled = reply.value().variant().toBool();
+        if (m_hereEnabled != hereEnabled) {
+            m_hereEnabled = hereEnabled;
+            Q_EMIT hereEnabledChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
-void AccountsService::updateHereLicensePath()
+void AccountsService::updateHereLicensePath(bool async)
 {
-    QString hereLicensePath = m_service->getUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseBasePath").toString();
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.ubuntu.location.providers.here.AccountsService",
+                                                                    "LicenseBasePath");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
-    if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
-        hereLicensePath = "";
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
 
-    if (m_hereLicensePath.isNull() || m_hereLicensePath != hereLicensePath) {
-        m_hereLicensePath = hereLicensePath;
-        Q_EMIT hereLicensePathChanged();
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'LicenseBasePath' property - " << reply.error().message();
+            watcher->deleteLater();
+            return;
+        }
+
+        auto hereLicensePath = reply.value().variant().toString();
+        if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
+            hereLicensePath = "";
+
+        if (m_hereLicensePath.isNull() || m_hereLicensePath != hereLicensePath) {
+            m_hereLicensePath = hereLicensePath;
+            Q_EMIT hereLicensePathChanged();
+        }
+        watcher->deleteLater();
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
     }
 }
 
@@ -215,8 +413,12 @@ uint AccountsService::failedLogins() const
 
 void AccountsService::setFailedLogins(uint failedLogins)
 {
-    m_failedLogins = failedLogins;
-    m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins", failedLogins);
+    if (m_failedLogins != failedLogins) {
+        m_failedLogins = failedLogins;
+        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins", failedLogins);
+
+        Q_EMIT failedLoginsChanged();
+    }
 }
 
 void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)

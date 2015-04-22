@@ -88,6 +88,7 @@ Showable {
 
     Handle {
         id: handle
+        objectName: "handle"
         anchors {
             left: parent.left
             right: parent.right
@@ -162,8 +163,21 @@ Showable {
         onScroll: bar.addScrollOffset(scrollAmount);
     }
 
+    MouseArea {
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: minimizedPanelHeight
+        enabled: __showDragHandle.enabled
+        onClicked: {
+            bar.selectItemAt(mouseX)
+            root.show()
+        }
+    }
+
     DragHandle {
         id: __showDragHandle
+        objectName: "showDragHandle"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -180,6 +194,12 @@ Showable {
         overrideStartValue: enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height
         maxTotalDragDistance: openedHeight - (enableHint ? minimizedPanelHeight : expandedPanelHeight + handle.height)
         hintDisplacement: enableHint ? expandedPanelHeight - minimizedPanelHeight + handle.height : 0
+    }
+
+    MouseArea {
+        anchors.fill: __hideDragHandle
+        enabled: __hideDragHandle.enabled
+        onClicked: root.hide()
     }
 
     DragHandle {
