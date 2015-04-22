@@ -169,6 +169,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,
           unity-application-impl-4,
+Replaces: unity8-autopilot (<< 8.02+15.04.20150422-0ubuntu1)
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
