@@ -115,9 +115,8 @@ FocusScope {
                 backgroundColor: d.splashColor
                 headerColor: d.splashColorHeader
                 footerColor: d.splashColorFooter
-                // TODO show .desktop file splash screen also if
-                // we do not have a screenshot but obviously without spinner
-                activeSpinner: true
+                activeSpinner: d.applicationState === ApplicationInfoInterface.Starting ||
+                               d.applicationState === ApplicationInfoInterface.Running
             }
         }
     }
