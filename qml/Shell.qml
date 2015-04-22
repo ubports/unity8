@@ -356,7 +356,7 @@ Item {
         anchors.topMargin: panel.panelHeight
         sourceComponent: shellMode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
-        }
+    }
 
     Component {
         id: integratedGreeter
