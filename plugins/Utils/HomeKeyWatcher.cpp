@@ -31,22 +31,22 @@ HomeKeyWatcher::HomeKeyWatcher(UnityUtil::AbstractTimer *timer,
     : QQuickItem(parent)
     , m_windowBeingTouched(false)
     , m_windowLastTouchedTimer(elapsedTimer)
-    , m_emitActivatedIfNoTouchesAroundTimer(timer)
+    , m_activationTimer(timer)
 {
     m_windowLastTouchedTimer->start();
 
     connect(this, &QQuickItem::windowChanged,
             this, &HomeKeyWatcher::setupFilterOnWindow);
 
-    connect(m_emitActivatedIfNoTouchesAroundTimer, &UnityUtil::AbstractTimer::timeout,
+    connect(m_activationTimer, &UnityUtil::AbstractTimer::timeout,
         this, &HomeKeyWatcher::emitActivatedIfNoTouchesAround);
-    m_emitActivatedIfNoTouchesAroundTimer->setInterval(msecsWithoutTouches);
+    m_activationTimer->setInterval(msecsWithoutTouches);
 }
 
 HomeKeyWatcher::~HomeKeyWatcher()
 {
     delete m_windowLastTouchedTimer;
-    delete m_emitActivatedIfNoTouchesAroundTimer;
+    delete m_activationTimer;
 }
 
 bool HomeKeyWatcher::eventFilter(QObject *watched, QEvent *event)
@@ -69,12 +69,12 @@ void HomeKeyWatcher::update(QEvent *event)
         if (keyEvent->key() == Qt::Key_Super_L && !keyEvent->isAutoRepeat()
                 && !m_windowBeingTouched
                 && m_windowLastTouchedTimer->elapsed() >= msecsWithoutTouches) {
-            m_emitActivatedIfNoTouchesAroundTimer->start();
+            m_activationTimer->start();
         }
 
     } else if (event->type() == QEvent::TouchBegin) {
 
-        m_emitActivatedIfNoTouchesAroundTimer->stop();
+        m_activationTimer->stop();
         m_windowBeingTouched = true;
 
     } else if (event->type() == QEvent::TouchEnd) {

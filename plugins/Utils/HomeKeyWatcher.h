@@ -67,7 +67,7 @@ private:
     QPointer<QQuickWindow> m_filteredWindow;
     bool m_windowBeingTouched;
     UnityUtil::AbstractElapsedTimer *m_windowLastTouchedTimer;
-    UnityUtil::AbstractTimer *m_emitActivatedIfNoTouchesAroundTimer;
+    UnityUtil::AbstractTimer *m_activationTimer;
 };
 
 #endif // UNITY_HOMEKEYWATCHER_H
