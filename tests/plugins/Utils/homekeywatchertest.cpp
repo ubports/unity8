@@ -14,10 +14,60 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "homekeywatcher.h"
+#include "HomeKeyWatcher.h"
 
 #include <QTest>
 #include <QSignalSpy>
+
+
+namespace UnityUtil {
+class FakeElapsedTimer : public AbstractElapsedTimer {
+public:
+    static qint64 msecsSinceEpoch;
+
+    FakeElapsedTimer() { start(); }
+
+    void start() override { m_msecsSinceReference = msecsSinceEpoch; }
+    qint64 msecsSinceReference() const override { return m_msecsSinceReference; }
+    qint64 elapsed() const override { return msecsSinceEpoch - m_msecsSinceReference; }
+
+private:
+    qint64 m_msecsSinceReference;
+};
+qint64 FakeElapsedTimer::msecsSinceEpoch = 0;
+
+class FakeTimer : public AbstractTimer
+{
+    Q_OBJECT
+public:
+    FakeTimer(QObject *parent = nullptr);
+
+    void update();
+    qint64 nextTimeoutTime() const { return m_nextTimeoutTime; }
+
+    int interval() const override;
+    void setInterval(int msecs) override;
+    void start() override;
+    bool isSingleShot() const override;
+    void setSingleShot(bool value) override;
+private:
+    int m_interval;
+    bool m_singleShot;
+    qint64 m_nextTimeoutTime;
+};
+
+class FakeTimerFactory : public AbstractTimerFactory
+{
+public:
+    FakeTimerFactory();
+    virtual ~FakeTimerFactory();
+
+    void updateTime(qint64 targetTime);
+
+    AbstractTimer *create(QObject *parent = nullptr) override;
+    QList<QPointer<FakeTimer>> timers;
+};
+} // namespace UnityUtil
 
 using namespace UnityUtil;
 
@@ -164,6 +214,107 @@ void HomeKeyWatcherTest::tapWhileTouching()
 
 
     QCOMPARE(activatedSpy.count(), 0);
+}
+
+/////////////////////////////////// FakeTimer //////////////////////////////////
+
+FakeTimer::FakeTimer(QObject *parent)
+    : UnityUtil::AbstractTimer(parent)
+    , m_interval(0)
+    , m_singleShot(true)
+{
+}
+
+void FakeTimer::update()
+{
+    if (!isRunning()) {
+        return;
+    }
+
+    if (m_nextTimeoutTime <= FakeElapsedTimer::msecsSinceEpoch) {
+        if (isSingleShot()) {
+            stop();
+        } else {
+            m_nextTimeoutTime += interval();
+        }
+        Q_EMIT timeout();
+    }
+}
+
+void FakeTimer::start()
+{
+    AbstractTimer::start();
+    m_nextTimeoutTime = FakeElapsedTimer::msecsSinceEpoch + (qint64)interval();
+}
+
+int FakeTimer::interval() const
+{
+    return m_interval;
+}
+
+void FakeTimer::setInterval(int msecs)
+{
+    m_interval = msecs;
+}
+
+bool FakeTimer::isSingleShot() const
+{
+    return m_singleShot;
+}
+
+void FakeTimer::setSingleShot(bool value)
+{
+    m_singleShot = value;
+}
+
+/////////////////////////////////// FakeTimerFactory //////////////////////////////////
+
+FakeTimerFactory::FakeTimerFactory()
+{
+}
+
+FakeTimerFactory::~FakeTimerFactory()
+{
+    for (int i = 0; i < timers.count(); ++i) {
+        FakeTimer *timer = timers[i].data();
+        if (timer) {
+            delete timer;
+        }
+    }
+}
+
+void FakeTimerFactory::updateTime(qint64 targetTime)
+{
+    qint64 minTimeoutTime = targetTime;
+
+    for (int i = 0; i < timers.count(); ++i) {
+        FakeTimer *timer = timers[i].data();
+        if (timer && timer->isRunning() && timer->nextTimeoutTime() < minTimeoutTime) {
+            minTimeoutTime = timer->nextTimeoutTime();
+        }
+    }
+
+    FakeElapsedTimer::msecsSinceEpoch = minTimeoutTime;
+
+    for (int i = 0; i < timers.count(); ++i) {
+        FakeTimer *timer = timers[i].data();
+        if (timer) {
+            timer->update();
+        }
+    }
+
+    if (FakeElapsedTimer::msecsSinceEpoch < targetTime) {
+        updateTime(targetTime);
+    }
+}
+
+AbstractTimer *FakeTimerFactory::create(QObject *parent)
+{
+    FakeTimer *fakeTimer = new FakeTimer(parent);
+
+    timers.append(fakeTimer);
+
+    return fakeTimer;
 }
 
 QTEST_GUILESS_MAIN(HomeKeyWatcherTest)

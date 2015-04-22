@@ -25,7 +25,7 @@
 
 namespace UnityUtil {
 
-/* Defines an interface for a Timer. Useful for tests. */
+/** Defines an interface for a Timer. Useful for tests. */
 class AbstractTimer : public QObject
 {
     Q_OBJECT
@@ -44,7 +44,7 @@ private:
     bool m_isRunning;
 };
 
-/* Essentially a QTimer wrapper */
+/** A QTimer wrapper */
 class Timer : public AbstractTimer
 {
     Q_OBJECT
@@ -61,27 +61,6 @@ private:
     QTimer m_timer;
 };
 
-/* For tests */
-class FakeTimer : public AbstractTimer
-{
-    Q_OBJECT
-public:
-    FakeTimer(QObject *parent = nullptr);
-
-    void update();
-    qint64 nextTimeoutTime() const { return m_nextTimeoutTime; }
-
-    int interval() const override;
-    void setInterval(int msecs) override;
-    void start() override;
-    bool isSingleShot() const override;
-    void setSingleShot(bool value) override;
-private:
-    int m_interval;
-    bool m_singleShot;
-    qint64 m_nextTimeoutTime;
-};
-
 class AbstractTimerFactory
 {
 public:
@@ -93,18 +72,6 @@ class TimerFactory : public AbstractTimerFactory
 {
 public:
     AbstractTimer *create(QObject *parent = nullptr) override { return new Timer(parent); }
-};
-
-class FakeTimerFactory : public AbstractTimerFactory
-{
-public:
-    FakeTimerFactory();
-    virtual ~FakeTimerFactory();
-
-    void updateTime(qint64 targetTime);
-
-    AbstractTimer *create(QObject *parent = nullptr) override;
-    QList<QPointer<FakeTimer>> timers;
 };
 
 } // namespace UnityUtil

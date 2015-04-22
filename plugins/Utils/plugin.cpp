@@ -23,7 +23,7 @@
 #include "plugin.h"
 
 // local
-#include "homekeywatcher.h"
+#include "HomeKeyWatcher.h"
 #include "inputwatcher.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"

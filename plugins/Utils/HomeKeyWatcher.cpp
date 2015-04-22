@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "homekeywatcher.h"
+#include "HomeKeyWatcher.h"
 
 #include <QQuickWindow>
 
@@ -33,6 +33,8 @@ HomeKeyWatcher::HomeKeyWatcher(UnityUtil::AbstractTimer *timer,
     , m_windowLastTouchedTimer(elapsedTimer)
     , m_emitActivatedIfNoTouchesAroundTimer(timer)
 {
+    m_windowLastTouchedTimer->start();
+
     connect(this, &QQuickItem::windowChanged,
             this, &HomeKeyWatcher::setupFilterOnWindow);
 
@@ -64,7 +66,7 @@ void HomeKeyWatcher::update(QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        if (keyEvent->key() == Qt::Key_Home && !keyEvent->isAutoRepeat()
+        if (keyEvent->key() == Qt::Key_Super_L && !keyEvent->isAutoRepeat()
                 && !m_windowBeingTouched
                 && m_windowLastTouchedTimer->elapsed() >= msecsWithoutTouches) {
             m_emitActivatedIfNoTouchesAroundTimer->start();
@@ -101,5 +103,3 @@ void HomeKeyWatcher::emitActivatedIfNoTouchesAround()
         Q_EMIT activated();
     }
 }
-
-#include "homekeywatcher.moc"

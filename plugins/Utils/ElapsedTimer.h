@@ -23,6 +23,9 @@
 
 namespace UnityUtil {
 
+/**
+   Interface for ElapsedTimer implementations
+ */
 class AbstractElapsedTimer {
 public:
     virtual ~AbstractElapsedTimer() {}
@@ -31,7 +34,7 @@ public:
     virtual qint64 elapsed() const = 0;
 };
 
-/*
+/**
     A QElapsedTimer wrapper
  */
 class ElapsedTimer : public AbstractElapsedTimer {
@@ -41,23 +44,6 @@ public:
     qint64 elapsed() const override { return m_timer.elapsed(); }
 private:
     QElapsedTimer m_timer;
-};
-
-/*
-    A fake ElapsedTimer, useful for tests
- */
-class FakeElapsedTimer : public AbstractElapsedTimer {
-public:
-    static qint64 msecsSinceEpoch;
-
-    FakeElapsedTimer() { start(); }
-
-    void start() override { m_msecsSinceReference = msecsSinceEpoch; }
-    qint64 msecsSinceReference() const override { return m_msecsSinceReference; }
-    qint64 elapsed() const override { return msecsSinceEpoch - m_msecsSinceReference; }
-
-private:
-    qint64 m_msecsSinceReference;
 };
 
 } // namespace UnityUtil
