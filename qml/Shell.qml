@@ -356,12 +356,14 @@ Item {
         anchors.topMargin: panel.panelHeight
         sourceComponent: shellMode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
+        onLoaded: {
+                item.objectName = "greeter"
+        }
     }
 
     Component {
         id: integratedGreeter
         Greeter {
-            objectName: "greeter"
 
             hides: [launcher, panel.indicators]
             tabletMode: shell.sideStageEnabled
