@@ -30,6 +30,7 @@ FocusScope {
     signal clicked()
     signal closed()
     readonly property alias appWindowOrientationAngle: appWindowWithShadow.orientationAngle
+    readonly property alias appWindowRotation: appWindowWithShadow.rotation
     readonly property alias orientationChangesEnabled: appWindow.orientationChangesEnabled
 
     // to be set from outside
