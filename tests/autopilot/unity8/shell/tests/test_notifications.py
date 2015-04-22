@@ -19,19 +19,21 @@
 
 """Tests for Notifications"""
 
-from unity8 import shell
-from unity8.process_helpers import unlock_unity
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
-
-from testtools.matchers import Equals, NotEquals
-from autopilot.matchers import Eventually
-
-from gi.repository import Notify
 import time
 import os
 import logging
 import signal
 import subprocess
+
+from autopilot.matchers import Eventually
+from gi.repository import Notify
+from testtools.matchers import Equals, NotEquals
+from ubuntuuitoolkit import ubuntu_scenarios
+
+from unity8 import shell
+from unity8.process_helpers import unlock_unity
+from unity8.shell.tests import UnityTestCase
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +41,8 @@ logger = logging.getLogger(__name__)
 class NotificationsBase(UnityTestCase):
     """Base class for all notification tests that provides helper methods."""
 
-    scenarios = _get_device_emulation_scenarios('Nexus4')
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios(
+        ubuntu_scenarios.NEXUS4_DEVICE)
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or

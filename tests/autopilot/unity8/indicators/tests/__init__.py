@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from autopilot import platform
+from ubuntuuitoolkit import ubuntu_scenarios
 
 from unity8 import process_helpers
 from unity8.shell import tests
@@ -24,7 +25,8 @@ from unity8.shell import tests
 
 class IndicatorTestCase(tests.UnityTestCase):
 
-    device_emulation_scenarios = tests._get_device_emulation_scenarios()
+    device_emulation_scenarios = (
+        ubuntu_scenarios.get_device_simulation_scenarios())
 
     def setUp(self):
         super().setUp()
