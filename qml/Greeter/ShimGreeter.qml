@@ -22,7 +22,10 @@ import QtQuick 2.3
  *
  */
 
-QtObject {
+/* FIXME: this shuld be fine as a QtObject, but bug lp:1447391
+ * dictates wrapping as an item instead
+ */
+Item {
     id: shimGreeter
 
     readonly property bool active: false
