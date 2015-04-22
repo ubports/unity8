@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
+import SessionScreenshoter 0.1
 
 FocusScope {
     id: root
@@ -29,11 +30,16 @@ FocusScope {
     property QtObject application
     property int orientation
 
+    function removeScreenshot() {
+        screenshoter.removeScreenshot();
+    }
+
     QtObject {
         id: d
 
         // helpers so that we don't have to check for the existence of an application everywhere
         // (in order to avoid breaking qml binding due to a javascript exception)
+        readonly property string appId: root.application ? root.application.appId : ""
         readonly property string name: root.application ? root.application.name : ""
         readonly property url icon: root.application ? root.application.icon : ""
         readonly property int applicationState: root.application ? root.application.state : -1
@@ -49,11 +55,10 @@ FocusScope {
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
         property bool needToTakeScreenshot:
-            sessionContainer.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
-            && d.applicationState === ApplicationInfoInterface.Stopped
+            sessionContainer.surface && d.surfaceInitialized && (d.applicationState === ApplicationInfoInterface.Stopped || d.applicationState === ApplicationInfoInterface.Suspended)
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
-                screenshotImage.take();
+                screenshoter.take();
             }
         }
 
@@ -73,20 +78,26 @@ FocusScope {
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
-        source: d.defaultScreenshot
+        source: screenshoter.path != "" ? screenshoter.path : d.defaultScreenshot
         anchors.fill: parent
         antialiasing: !root.interactive
-
-        function take() {
-            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
-            // eg: "image://application/calculator-app/123456"
-            var timeMs = new Date().getTime();
-            source = "image://application/" + root.application.appId + "/" + timeMs;
-        }
+        cache: false
+        asynchronous: true
 
         // Save memory by using a half-resolution (thus quarter size) screenshot
         sourceSize.width: root.width / 2
         sourceSize.height: root.height / 2
+    }
+
+    SessionScreenshoter {
+        id: screenshoter
+        appId: d.appId
+        target: root
+
+        onScreenshotTaken: {
+            screenshotImage.source = "";
+            screenshotImage.source = screenshoter.path;
+        }
     }
 
     Loader {
@@ -104,6 +115,9 @@ FocusScope {
                 backgroundColor: d.splashColor
                 headerColor: d.splashColorHeader
                 footerColor: d.splashColorFooter
+                // TODO show .desktop file splash screen also if
+                // we do not have a screenshot but obviously without spinner
+                activeSpinner: true
             }
         }
     }
