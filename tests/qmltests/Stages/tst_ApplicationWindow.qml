@@ -343,6 +343,40 @@ Rectangle {
             tryCompare(screenshotImage, "status", Image.Null);
         }
 
+        function test_suspendrestartApp() {
+            var screenshotImage = findChild(applicationWindowLoader.item, "screenshotImage");
+
+            initSession();
+            setApplicationState(appRunning);
+            tryCompare(stateGroup, "state", "surface");
+            waitUntilTransitionsEnd();
+
+            setApplicationState(appSuspended);
+
+            cleanupSession();
+
+            tryCompare(stateGroup, "state", "screenshot");
+            waitUntilTransitionsEnd();
+            tryCompare(fakeApplication, "session", null);
+
+            // and restart it
+            setApplicationState(appStarting);
+
+            waitUntilTransitionsEnd();
+            verify(stateGroup.state === "screenshot");
+            verify(fakeSession === null);
+
+            setApplicationState(appRunning);
+
+            waitUntilTransitionsEnd();
+            verify(stateGroup.state === "screenshot");
+
+            initSession();
+
+            tryCompare(stateGroup, "state", "surface");
+            tryCompare(screenshotImage, "status", Image.Null);
+        }
+
         function test_appCrashed() {
             initSession();
             setApplicationState(appRunning);

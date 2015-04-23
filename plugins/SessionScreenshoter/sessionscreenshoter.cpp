@@ -31,7 +31,6 @@ SessionScreenshoter::SessionScreenshoter(QObject *parent)
     : QObject(parent),
       m_target(nullptr)
 {
-    // TODO tests
 }
 
 QString SessionScreenshoter::appId() const
