@@ -1,3 +1,22 @@
+unity8 (8.02+15.04.20150423-0ubuntu1) vivid; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Daniel d'Andrada ]
+  * Tapping home key shows unity8-dash home added:
+    plugins/Utils/ElapsedTimer.h plugins/Utils/HomeKeyWatcher.cpp
+    plugins/Utils/HomeKeyWatcher.h plugins/Utils/Timer.cpp
+    plugins/Utils/Timer.h tests/plugins/Utils/homekeywatchertest.cpp
+
+  [ Michał Sawicz ]
+  * Tapping home key shows unity8-dash home added:
+    plugins/Utils/ElapsedTimer.h plugins/Utils/HomeKeyWatcher.cpp
+    plugins/Utils/HomeKeyWatcher.h plugins/Utils/Timer.cpp
+    plugins/Utils/Timer.h tests/plugins/Utils/homekeywatchertest.cpp
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 23 Apr 2015 12:52:51 +0000
+
 unity8 (8.02+15.04.20150422-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
