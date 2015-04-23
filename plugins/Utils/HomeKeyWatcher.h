@@ -66,6 +66,7 @@ private Q_SLOTS:
 private:
     QPointer<QQuickWindow> m_filteredWindow;
     bool m_windowBeingTouched;
+    bool m_homeKeyPressed;
     UnityUtil::AbstractElapsedTimer *m_windowLastTouchedTimer;
     UnityUtil::AbstractTimer *m_activationTimer;
 };

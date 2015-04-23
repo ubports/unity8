@@ -118,6 +118,7 @@ void HomeKeyWatcherTest::touchTapTouch_data()
     QTest::newRow("touch followed by tap") << 10 << 50 << 2000 << 0;
     QTest::newRow("touch followed by long tap") << 10 << 500 << 2000 << 0;
     QTest::newRow("isolated tap") << 1000 << 50 << 1000 << 1;
+    QTest::newRow("isolated long press") << 1000 << 200 << 1000 << 0;
 }
 
 void HomeKeyWatcherTest::touchTapTouch()
