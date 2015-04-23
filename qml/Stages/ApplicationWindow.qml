@@ -55,7 +55,8 @@ FocusScope {
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
         property bool needToTakeScreenshot:
-            sessionContainer.surface && d.surfaceInitialized && (d.applicationState === ApplicationInfoInterface.Stopped || d.applicationState === ApplicationInfoInterface.Suspended)
+            sessionContainer.surface && d.surfaceInitialized
+            && (d.applicationState === ApplicationInfoInterface.Stopped || d.applicationState === ApplicationInfoInterface.Suspended)
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
                 screenshoter.take();
