@@ -23,7 +23,7 @@ QtObject {
     property Item spreadDelegate
     property Item background
     property Item window
-    property Image screenshot
+    property Item screenshot
 
     function start() {
         if (window.orientationAngle === 0) {
@@ -77,9 +77,6 @@ QtObject {
 
     property int duration: 450
     property int easingType: Easing.InOutCubic
-    // Those values are good for debugging/development
-    //property int duration: 6000
-    //property int easingType: Easing.Linear
 
     property int shortestDimension: spreadDelegate.width < spreadDelegate.height
                                     ? spreadDelegate.width : spreadDelegate.height
@@ -92,23 +89,24 @@ QtObject {
     function setup90Animation() {
         background.visible = true;
 
-        screenshot.width = window.width
-        screenshot.height = window.height
+        screenshot.width = window.width;
+        screenshot.height = window.height;
+        screenshot.window.anchors.topMargin = window.window.anchors.topMargin;
         screenshot.take();
-        screenshot.transformOriginX = root.shortestDimension / 2
-        screenshot.transformOriginY = root.shortestDimension / 2
+        screenshot.transformOriginX = root.shortestDimension / 2;
+        screenshot.transformOriginY = root.shortestDimension / 2;
         screenshot.visible = true;
 
         window.rotation = 0;
         window.width = spreadDelegate.width;
         window.height = spreadDelegate.height;
-        window.transformOriginX = root.shortestDimension / 2
-        window.transformOriginY = root.shortestDimension / 2
+        window.transformOriginX = root.shortestDimension / 2;
+        window.transformOriginY = root.shortestDimension / 2;
     }
 
     function tearDown90Animation() {
         window.orientationAngle = spreadDelegate.shellOrientationAngle;
-        screenshot.source = "";
+        screenshot.discard();
         screenshot.visible = false;
         background.visible = false;
     }

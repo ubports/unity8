@@ -68,7 +68,7 @@ FocusScope {
         spreadDelegate: root
         background: background
         window: appWindowWithShadow
-        screenshot: appWindowScreenshot
+        screenshot: appWindowScreenshotWithShadow
     }
 
     QtObject {
@@ -109,6 +109,8 @@ FocusScope {
             property real transformRotationAngle: 0
             property real transformOriginX
             property real transformOriginY
+
+            property var window: appWindow
 
             transform: Rotation {
                 origin.x: appWindowWithShadow.transformOriginX
@@ -267,9 +269,10 @@ FocusScope {
         }
     }
 
-    Image {
-        id: appWindowScreenshot
-        source: ""
+    Item {
+        // mimics appWindowWithShadow. Do the positioning of screenshots of non-fullscreen
+        // app windows
+        id: appWindowScreenshotWithShadow
         visible: false
 
         property real transformRotationAngle: 0
@@ -277,21 +280,33 @@ FocusScope {
         property real transformOriginY
 
         transform: Rotation {
-            origin.x: appWindowScreenshot.transformOriginX
-            origin.y: appWindowScreenshot.transformOriginY
+            origin.x: appWindowScreenshotWithShadow.transformOriginX
+            origin.y: appWindowScreenshotWithShadow.transformOriginY
             axis { x: 0; y: 0; z: 1 }
-            angle: appWindowScreenshot.transformRotationAngle
+            angle: appWindowScreenshotWithShadow.transformRotationAngle
         }
+
+        property var window: appWindowScreenshot
 
         function take() {
             // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
             // eg: "image://application/calculator-app/123456"
             var timeMs = new Date().getTime();
-            source = "image://application/" + root.application.appId + "/" + timeMs;
+            appWindowScreenshot.source = "image://application/" + root.application.appId + "/" + timeMs;
+        }
+        function discard() {
+            appWindowScreenshot.source = "";
         }
 
-        sourceSize.width: width
-        sourceSize.height: height
+        Image {
+            id: appWindowScreenshot
+            source: ""
+
+            anchors.fill: parent
+
+            sourceSize.width: width
+            sourceSize.height: height
+        }
     }
 
     DraggingArea {
