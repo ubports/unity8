@@ -35,6 +35,9 @@ Rectangle {
         root.fakeApplication.manualSurfaceCreation = true;
         root.fakeApplication.setState(ApplicationInfoInterface.Starting);
     }
+    Component.onDestruction: {
+        applicationWindowLoader.item.removeScreenshot();
+    }
     property QtObject fakeApplication: null
     readonly property var fakeSession: fakeApplication ? fakeApplication.session : null
 
