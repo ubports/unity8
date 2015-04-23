@@ -2,5 +2,6 @@
 import QtQuick 2.4
 
 Rectangle {
-    anchors.fill: parent
+    width: 100
+    height: 100
 }
