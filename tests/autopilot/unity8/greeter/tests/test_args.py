@@ -19,6 +19,7 @@
 
 from unity8.greeter.tests import GreeterTestCase
 
+
 class GreeterArgsTest(GreeterTestCase):
 
     DEFAULT_SHELL_MODE = 'full-greeter'
@@ -43,8 +44,9 @@ class GreeterArgsTest(GreeterTestCase):
         unity_proxy = self.launch_unity(mode=self.NONEXISTENT_MODE)
         shell = self.get_shell(unity_proxy)
         self.assertTrue(shell.testShellMode == self.DEFAULT_SHELL_MODE,
-            "Shell mode was {} but should have been {}".format(
-            shell.testShellMode, self.DEFAULT_SHELL_MODE))
+                        "Shell mode was {} but should have been {}"
+                        .format(shell.testShellMode,
+                                self.DEFAULT_SHELL_MODE))
 
     def test_shell_mode(self):
         unity_proxy = self.launch_unity(mode='shell')

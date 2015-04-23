@@ -6,8 +6,6 @@ Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
                doxyqml,
-               graphviz,
-               gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
 # We rely on C++11 features, and to prevent from ABI breaks
 # in libstdc++ causing us issues, we explicitly select a G++
 # version. To allow cross-compiling to work, we also must
@@ -15,6 +13,8 @@ Build-Depends: cmake,
 # on an x86 CPU for eaxmple, when cross-compiling.
                g++-4.9:native,
                libandroid-properties-dev,
+               graphviz,
+               gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
                libconnectivity-qt1-dev,
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
@@ -169,7 +169,12 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,
+<<<<<<< TREE
           unity-application-impl-6,
+=======
+          unity-application-impl-4,
+Replaces: unity8-autopilot (<< 8.02+15.04.20150422-0ubuntu1)
+>>>>>>> MERGE-SOURCE
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
@@ -181,8 +186,8 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: accountsservice-ubuntu-schemas (>= 0.0.3),
          gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
-         unity-schemas (>= 7.3.1+14.10.20140915),
          pay-service,
+         unity-schemas (>= 7.3.1+14.10.20140915),
          ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,

@@ -18,18 +18,34 @@
  */
 
 #include "AccountsServer.h"
+#include "PropertiesServer.h"
+#include <QDBusConnection>
+#include <QDebug>
 
-AccountsServer::AccountsServer(QObject *parent)
+AccountsServer::AccountsServer(PropertiesServer* propServer, QObject *parent)
     : QObject(parent)
+    , m_propServer(propServer)
 {
 }
 
 QDBusObjectPath AccountsServer::FindUserByName(const QString &user)
 {
-    if (user == "testuser") {
-        return QDBusObjectPath("/user");
-    } else {
-        sendErrorReply(QDBusError::InvalidArgs, "Bad user");
-        return QDBusObjectPath("/");
-    }
+    return QDBusObjectPath(QString("/%1").arg(user));
+}
+
+bool AccountsServer::AddUser(const QString &user)
+{
+    QString path(QString("/%1").arg(user));
+    if (QDBusConnection::sessionBus().objectRegisteredAt(path) == m_propServer)
+        return true;
+    return QDBusConnection::sessionBus().registerObject(path, m_propServer);
+}
+
+bool AccountsServer::RemoveUser(const QString &user)
+{
+    QString path(QString("/%1").arg(user));
+    if (QDBusConnection::sessionBus().objectRegisteredAt(path) != m_propServer)
+        return false;
+    QDBusConnection::sessionBus().unregisterObject(path);
+    return true;
 }
