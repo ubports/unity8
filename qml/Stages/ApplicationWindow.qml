@@ -103,6 +103,7 @@ FocusScope {
 
     Loader {
         id: splashLoader
+        objectName: "splashLoader"
         visible: active
         active: false
         anchors.fill: parent

@@ -420,5 +420,12 @@ Rectangle {
             applicationWindowLoader.item.interactive = true;
             compare(fakeSession.surface.activeFocus, true);
         }
+
+        function test_no_spinner_if_stopped() {
+            setApplicationState(appStopped);
+            tryCompare(stateGroup, "state", "splashScreen");
+            var splashLoader = findChild(applicationWindowLoader.item, "splashLoader");
+            verify(!splashLoader.item.activeSpinner);
+        }
     }
 }
