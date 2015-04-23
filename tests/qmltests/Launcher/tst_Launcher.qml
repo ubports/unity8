@@ -15,8 +15,9 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import Ubuntu.Components 1.1
 import ".."
 import "../../../qml/Launcher"
@@ -74,10 +75,24 @@ Item {
         }
     }
 
-    Button {
+    ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
-        text: "emit hinting signal"
-        onClicked: LauncherModel.emitHint()
+        spacing: units.gu(1)
+        width: childrenRect.width
+
+        MouseTouchEmulationCheckbox {}
+
+        Button {
+            text: "emit hinting signal"
+            onClicked: LauncherModel.emitHint()
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: "rotate"
+            onClicked: launcherLoader.item.inverted = !launcherLoader.item.inverted
+            Layout.fillWidth: true
+        }
     }
 
     SignalSpy {
@@ -85,7 +100,7 @@ Item {
         target: LauncherModel
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         id: testCase
         name: "Launcher"
         when: windowShown
@@ -103,6 +118,9 @@ Item {
             launcherLoader.active = true;
         }
         function init() {
+            // Make sure we don't start the test with the mouse hovering the launcher
+            mouseMove(root, root.width, root.height / 2);
+
             var listView = findChild(launcher, "launcherListView");
             // wait for it to settle before doing the flick. Otherwise the flick
             // might fail.
@@ -135,9 +153,32 @@ Item {
             tryCompare(launcher, "state", "visible");
         }
 
+        function revealByHover() {
+            mouseMove(root, 1, root.height / 2);
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel != undefined);
+
+            // wait until it gets fully extended
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visibleTemporary");
+        }
+
         function waitUntilLauncherDisappears() {
             var panel = findChild(launcher, "launcherPanel");
             tryCompare(panel, "x", -panel.width, 1000);
+        }
+
+        function positionLauncherListAtBeginning() {
+            var listView = testCase.findChild(launcherLoader.item, "launcherListView");
+            listView.contentY = -listView.topMargin;
+        }
+        function positionLauncherListAtEnd() {
+            var listView = testCase.findChild(launcherLoader.item, "launcherListView");
+            if ((listView.contentHeight + listView.topMargin + listView.bottomMargin) > listView.height) {
+                listView.contentY = listView.topMargin + listView.contentHeight
+                    - listView.height;
+            }
         }
 
         // Drag from the left edge of the screen rightwards and check that the launcher
@@ -164,24 +205,39 @@ Item {
            Launcher::launcherApplicationSelected signal should be emitted with the
            corresponding desktop file. E.g. clicking on phone icon should yield
            launcherApplicationSelected("[...]dialer-app.desktop") */
-        function test_clickingOnAppIconCausesSignalEmission() {
-            dragLauncherIntoView();
-            launcher.lastSelectedApplication = ""
+        function test_clickingOnAppIconCausesSignalEmission_data() {
+            return [
+                {tag: "by mouse", mouse: true},
+                {tag: "by touch", mouse: false}
+            ]
+        }
 
-            var listView = findChild(launcher, "launcherListView");
-            listView.positionViewAtEnd();
+        function test_clickingOnAppIconCausesSignalEmission(data) {
+            if (data.mouse) {
+                revealByHover();
+            } else {
+                dragLauncherIntoView();
+            }
+            launcher.lastSelectedApplication = "";
+            launcher.inverted = false;
 
-            var appIcon = findChild(launcher, "launcherDelegate0")
+            positionLauncherListAtBeginning();
 
-            verify(appIcon != undefined)
+            var appIcon = findChild(launcher, "launcherDelegate0");
 
-            mouseClick(appIcon)
+            verify(appIcon != undefined);
+
+            if (data.mouse) {
+                mouseClick(appIcon);
+            } else {
+                tap(appIcon);
+            }
 
             tryCompare(launcher, "lastSelectedApplication",
-                       "dialer-app")
+                       appIcon.appId);
 
             // Tapping on an application icon also dismisses the launcher
-            waitUntilLauncherDisappears()
+            waitUntilLauncherDisappears();
         }
 
         /* If I click on the dash icon on the launcher
@@ -277,25 +333,26 @@ Item {
         function test_clickFlick_data() {
             var listView = findChild(launcher, "launcherListView");
             return [
-                {tag: "unfolded top", positionViewAtBeginning: false,
+                {tag: "unfolded top", positionViewAtBeginning: true,
                                       clickY: listView.topMargin + units.gu(2),
                                       expectFlick: false},
 
-                {tag: "folded top", positionViewAtBeginning: true,
+                {tag: "folded top", positionViewAtBeginning: false,
                                     clickY: listView.topMargin + units.gu(2),
                                     expectFlick: true},
 
-                {tag: "unfolded bottom", positionViewAtBeginning: true,
+                {tag: "unfolded bottom", positionViewAtBeginning: false,
                                          clickY: listView.height - listView.topMargin - units.gu(1),
                                          expectFlick: false},
 
-                {tag: "folded bottom", positionViewAtBeginning: false,
+                {tag: "folded bottom", positionViewAtBeginning: true,
                                        clickY: listView.height - listView.topMargin - units.gu(1),
                                        expectFlick: true},
             ];
         }
 
         function test_clickFlick(data) {
+            launcher.inverted = false;
             launcher.lastSelectedApplication = "";
             dragLauncherIntoView();
             var listView = findChild(launcher, "launcherListView");
@@ -305,9 +362,9 @@ Item {
             // So for stability's sake we just put the listView in the position
             // we want to to actually start doing what this tests intends to check.
             if (data.positionViewAtBeginning) {
-                listView.positionViewAtBeginning();
+                positionLauncherListAtBeginning();
             } else {
-                listView.positionViewAtEnd();
+                positionLauncherListAtEnd();
             }
             tryCompare(listView, "flicking", false);
 
@@ -402,6 +459,38 @@ Item {
             waitUntilLauncherDisappears();
         }
 
+        function test_dragndrop_cancel() {
+            dragLauncherIntoView();
+            var draggedItem = findChild(launcher, "launcherDelegate4")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+
+            // Doing longpress
+            var currentMouseX = draggedItem.width / 2
+            var currentMouseY = draggedItem.height / 2
+            mousePress(draggedItem, currentMouseX, currentMouseY)
+            // DraggedItem needs to hide and fakeDragItem become visible
+            tryCompare(draggedItem, "itemOpacity", 0)
+            tryCompare(fakeDragItem, "visible", true)
+
+            // Dragging
+            currentMouseX -= units.gu(20)
+            mouseMove(draggedItem, currentMouseX, currentMouseY)
+
+            // Make sure we're in the dragging state
+            var dndArea = findChild(launcher, "dndArea");
+            tryCompare(draggedItem, "dragging", true)
+            tryCompare(dndArea, "draggedIndex", 4)
+
+            // Tap somewhere in the middle of the screen to close/hide the launcher
+            tap(root)
+
+            // Make sure the dnd operation has been stopped
+            tryCompare(draggedItem, "dragging", false)
+            tryCompare(dndArea, "draggedIndex", -1)
+            tryCompare(dndArea, "drag.target", undefined)
+        }
+
         function test_quicklist_dismiss() {
             dragLauncherIntoView();
             var draggedItem = findChild(launcher, "launcherDelegate5")
@@ -442,9 +531,9 @@ Item {
             // Position launcher to where we need it
             var listView = findChild(launcher, "launcherListView");
             if (data.flickTo == "top") {
-                listView.positionViewAtEnd();
+                positionLauncherListAtBeginning();
             } else {
-                listView.positionViewAtBeginning();
+                positionLauncherListAtEnd();
             }
 
             // Doing longpress
@@ -454,6 +543,7 @@ Item {
 
             verify(quickList.y >= units.gu(1));
             verify(quickList.y + quickList.height + units.gu(1) <= launcher.height);
+            compare(quickList.width, units.gu(30));
 
             // Click somewhere in the empty space to dismiss the quicklist
             mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
@@ -531,6 +621,20 @@ Item {
             launcher.hide();
 
             tryCompare(quickList, "state", "");
+        }
+
+        function test_revealByHover() {
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel != undefined);
+
+            revealByHover();
+            tryCompare(launcher, "state", "visibleTemporary");
+
+            // Now move the mouse away and make sure it hides in less than a second
+            mouseMove(root, root.width, root.height / 2)
+
+            tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
+            waitUntilLauncherDisappears();
         }
     }
 }

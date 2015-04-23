@@ -315,7 +315,7 @@ Item {
 
             var scopesList = findChild(dash, "scopesList");
             spy.target = scopesList.scope;
-            spy.signalName = "performQuery";
+            spy.signalName = "queryPerformed";
 
             // Click on the store
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
@@ -427,6 +427,143 @@ Item {
 
             tryCompare(bottomEdgeController, "progress", 0);
             tryCompare(dashContentList, "currentIndex", 1)
+        }
+
+        function test_preview_no_show_manage_dash_hint() {
+            var dashContentList = findChild(dash, "dashContentList");
+            compare(dashContentList.currentIndex, 0);
+            compare(dashContentList.currentItem.scopeId, "MockScope1");
+
+            tryCompareFunction(function() {
+                var cardGrid = findChild(dashContentList, "dashCategory0");
+                if (cardGrid != null) {
+                    var tile = findChild(cardGrid, "delegate0");
+                    return tile != null;
+                }
+                return false;
+            },
+            true);
+            var tile = findChild(findChild(dashContentList, "dashCategory0"), "delegate0");
+            waitForRendering(tile);
+            mouseClick(tile);
+
+            var overviewHint = findChild(dash, "overviewHint");
+            tryCompare(overviewHint, "opacity", 0);
+        }
+
+        function test_close_temp_scope_preview_opening_scope() {
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            // Make sure stuff is loaded
+            var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
+            var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
+
+            // Click on a non favorite scope
+            mouseClick(nonfavScopesListCategoryList.currentItem);
+
+            // Check the bottom edge (manage dash) is disabled from temp scope
+            var overviewDragHandle = findChild(dash, "overviewDragHandle");
+            compare(overviewDragHandle.enabled, false);
+
+            // Check temp scope is there
+            var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
+            tryCompare(dashTempScopeItem, "x", 0);
+            tryCompare(dashTempScopeItem, "visible", true);
+
+            // Check the manage dash is gone
+            tryCompare(bottomEdgeController, "progress", 0);
+
+            // Open preview
+            var categoryListView = findChild(dashTempScopeItem, "categoryListView");
+            categoryListView.positionAtBeginning();
+            tryCompareFunction(function() {
+                                    var cardGrid = findChild(dashTempScopeItem, "dashCategory0");
+                                    if (cardGrid != null) {
+                                        var tile = findChild(cardGrid, "delegate0");
+                                        return tile != null;
+                                    }
+                                    return false;
+                                },
+                                true);
+            var tile = findChild(findChild(dashTempScopeItem, "dashCategory0"), "delegate0");
+            waitForRendering(tile);
+            mouseClick(tile);
+            var subPageLoader = findChild(dashTempScopeItem, "subPageLoader");
+            tryCompare(subPageLoader, "open", true);
+            tryCompare(subPageLoader, "x", 0);
+            tryCompare(findChild(dashTempScopeItem, "categoryListView"), "visible", false);
+            var previewListRow0 = findChild(subPageLoader, "previewListRow0");
+            flickToYEnd(previewListRow0);
+            var widget = findChild(subPageLoader, "widget-21");
+            var initialWidgetHeight = widget.height;
+            var openButton = findChild(widget, "buttonopen_click");
+            mouseClick(openButton);
+
+            tryCompare(subPageLoader, "open", false);
+            tryCompare(subPageLoader, "x", subPageLoader.width);
+
+            compare(dashTempScopeItem.scope.id, "MockScope9");
+
+            // Go back
+            var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
+            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
+            mouseClick(backButton);
+
+            // Check temp scope is gone
+            tryCompare(dashTempScopeItem, "x", dash.width);
+            tryCompare(dashTempScopeItem, "visible", false);
+        }
+
+        function test_UriDispatcher()
+        {
+            var dashContentList = findChild(dash, "dashContentList");
+
+            UriHandler.opened("scopes://clickscope");
+            tryCompare(dashContentList, "currentIndex", 1);
+
+            // Show the manage dash
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+
+            // UriHandler changes to a scope and closes the manage scopes
+            UriHandler.opened("scopes://MockScope1");
+            tryCompare(dashContentList, "currentIndex", 0);
+            tryCompare(bottomEdgeController, "progress", 0);
+
+            // Show a preview
+            var scopeLoader0 = findChild(dashContent, "scopeLoader0");
+            var dashCategory0 = findChild(scopeLoader0, "dashCategory0");
+            var delegate0 = findChild(dashCategory0, "delegate0");
+            mouseClick(delegate0);
+            tryCompare(dashContent, "subPageShown", true)
+
+            // UriHandler changes to a scope and closes the manage scopes
+            UriHandler.opened("scopes://clickscope");
+            tryCompare(dashContentList, "currentIndex", 1);
+            tryCompare(dashContent, "subPageShown", false);
+
+            // Go to a temp scope
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+            var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
+            var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
+            mouseClick(nonfavScopesListCategoryList.currentItem);
+            var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
+            tryCompare(dashTempScopeItem, "x", 0);
+            tryCompare(dashTempScopeItem, "visible", true);
+
+            // UriHandler changes to a scope and closes the temp scope
+            UriHandler.opened("scopes://MockScope1");
+            tryCompare(dashContentList, "currentIndex", 0);
+            tryCompare(dashTempScopeItem, "x", dashTempScopeItem.width);
+            tryCompare(dashTempScopeItem, "visible", false);
         }
     }
 }

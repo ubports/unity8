@@ -23,12 +23,24 @@ TestCase {
     id: testCase
     TestUtil {id:util}
 
-    ActivityIndicator {
+    // This is needed for waitForRendering calls to return
+    // if the watched element already got rendered
+    Rectangle {
+        width: units.gu(1)
+        height: width
+        parent: testCase.parent
+        border { width: units.dp(1); color: "black" }
+        opacity: 0.6
+
         visible: testCase.running
-        anchors.centerIn: parent
-        Component.onCompleted: parent = testCase.parent
-        z: 100
-        running: visible
+
+        RotationAnimation on rotation {
+            running: parent.visible
+            from: 0
+            to: 360
+            loops: Animation.Infinite
+            duration: 1000
+        }
     }
 
     // Fake implementation to be provided to items under test
@@ -221,8 +233,21 @@ TestCase {
         }
     }
 
-    function touchEvent() {
-        return UT.Util.touchEvent()
+    function flickToYEnd(item) {
+        var i = 0;
+        var x = item.width / 2;
+        var y = item.height - units.gu(1);
+        var toY = units.gu(1);
+        while (i < 5 && !item.atYEnd) {
+            touchFlick(item, x, y, x, toY);
+            tryCompare(item, "moving", false);
+            ++i;
+        }
+        tryCompare(item, "atYEnd", true);
+    }
+
+    function touchEvent(item) {
+        return UT.Util.touchEvent(item)
     }
 
     // speed is in pixels/second
@@ -255,7 +280,7 @@ TestCase {
         if (beginTouch) {
             fakeDateTime.currentTimeMs += timeStep
 
-            var event = touchEvent()
+            var event = touchEvent(item)
             event.press(0 /* touchId */, rootFrom.x, rootFrom.y)
             event.commit()
         }
@@ -265,19 +290,19 @@ TestCase {
                 // Avoid any rounding errors by making the last move be at precisely
                 // the point specified
                 wait(iterations / speed)
-                var event = touchEvent()
+                var event = touchEvent(item)
                 event.move(0 /* touchId */, rootTo.x, rootTo.y)
                 event.commit()
             } else {
                 wait(iterations / speed)
-                var event = touchEvent()
+                var event = touchEvent(item)
                 event.move(0 /* touchId */, rootFrom.x + (i + 1) * diffX, rootFrom.y + (i + 1) * diffY)
                 event.commit()
             }
         }
         if (endTouch) {
             fakeDateTime.currentTimeMs += timeStep
-            var event = touchEvent()
+            var event = touchEvent(item)
             event.release(0 /* touchId */, rootTo.x, rootTo.y)
             event.commit()
         }
@@ -287,12 +312,12 @@ TestCase {
         // Make sure the item is rendered
         waitForRendering(item);
 
-        var event1 = touchEvent();
+        var event1 = touchEvent(item);
         // first finger
         event1.press(0, x1Start, y1Start);
         event1.commit();
         // second finger
-        event1.stationary(0);
+        event1.move(0, x1Start, y1Start);
         event1.press(1, x2Start, y2Start);
         event1.commit();
 
@@ -320,7 +345,7 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
@@ -329,7 +354,7 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }
@@ -347,11 +372,11 @@ TestCase {
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
-        var event = touchEvent()
+        var event = touchEvent(item)
         event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
 
-        event = touchEvent()
+        event = touchEvent(item)
         event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
         event.commit()
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,8 +73,9 @@ Item {
         AccountsService.hereEnabled = false;
         AccountsService.hereLicensePath = Qt.resolvedUrl("licenses");
         i18n.language = "en";
-        MockQOfono.setModems(["sim1"], [false]);
+        MockQOfono.setModems(["sim1"], [false], []);
         MockQOfono.available = true;
+        MockQOfono.ready = true;
         System.wizardEnabled = true;
 
         updateSessionLanguageSpy.clear();
@@ -140,6 +141,19 @@ Item {
             tryCompareFunction(function() { return stack.currentPage.objectName; }, name);
             tryCompare(stack.currentPage, "opacity", 1.0);
             tryCompare(stack.currentPage, "enabled", true);
+            tryCompare(stack.currentPage, "skipValid", true);
+            tryCompare(stack.currentPage, "skip", false);
+            waitForRendering(stack.currentPage);
+            return stack.currentPage;
+        }
+
+        function verifyPageIsBlocked(name) {
+            var pages = findChild(wizard, "wizardPages");
+            var stack = findChild(pages, "pageStack");
+            // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
+            tryCompareFunction(function() { return stack.currentPage.objectName; }, name);
+            tryCompare(stack.currentPage, "enabled", false);
+            tryCompare(stack.currentPage, "skipValid", false);
             waitForRendering(stack.currentPage);
             return stack.currentPage;
         }
@@ -223,23 +237,69 @@ Item {
         }
 
         function test_simNoModemsSkip() {
-            MockQOfono.setModems([], []);
+            MockQOfono.setModems([], [], []);
             goToPage("passwdPage", true);
         }
 
         function test_simFirstSkip() {
-            MockQOfono.setModems(["a", "b"], [true, false]);
+            MockQOfono.setModems(["a", "b"], [true, false], []);
             goToPage("passwdPage", true);
         }
 
         function test_simSecondSkip() {
-            MockQOfono.setModems(["a", "b"], [false, true]);
+            MockQOfono.setModems(["a", "b"], [false, true], []);
             goToPage("passwdPage", true);
         }
 
         function test_simBothSkip() {
-            MockQOfono.setModems(["a", "b"], [true, true]);
+            MockQOfono.setModems(["a", "b"], [true, true], []);
             goToPage("passwdPage", true);
+        }
+
+        function test_simWaitOnManagerAsync() {
+            MockQOfono.ready = false;
+            MockQOfono.setModems(["a"], [false], []);
+
+            // Go to SIM page, which will be waiting for skip to be valid
+            var page = goToPage("languagePage");
+            tap(findChild(page, "forwardButton"));
+            verifyPageIsBlocked("simPage");
+
+            // Now release QOfono from blocking the page
+            MockQOfono.ready = true;
+
+            waitForPage("simPage");
+        }
+
+        function test_simWaitOnCardAsync() {
+            MockQOfono.setModems(["a"], [false], [false]);
+
+            // Go to SIM page, which will be waiting for skip to be valid
+            var page = goToPage("languagePage");
+            tap(findChild(page, "forwardButton"));
+            verifyPageIsBlocked("simPage");
+
+            // Now release QOfono from blocking the page
+            MockQOfono.setModems(["a"], [false], [true]);
+
+            waitForPage("simPage");
+        }
+
+        function test_simWaitTimeout() {
+            MockQOfono.setModems(["a"], [false], [false]);
+
+            // Go to SIM page, which will be waiting for skip to be valid
+            var page = goToPage("languagePage");
+            tap(findChild(page, "forwardButton"));
+            verifyPageIsBlocked("simPage");
+
+            var timeout = findInvisibleChild(wizard, "timeout");
+            timeout.interval = 100; // reduce our delay
+
+            // Now just wait for timeout
+            compare(timeout.running, true);
+            waitForPage("passwdPage");
+            compare(timeout.running, false);
         }
 
         function enterPasscode(passcode) {

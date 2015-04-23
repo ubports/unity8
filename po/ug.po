@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
 "PO-Revision-Date: 2014-10-07 09:00+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:31+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-03-25 06:05+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "ئىم: "
 
@@ -31,63 +31,90 @@ msgstr "تېزلەتمىنى قوي"
 msgid "Unpin shortcut"
 msgstr "تېزلەتمىنى ئېلىۋەت"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "ئۈسكۈنە قۇلۇپلانغان"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "خاتا ئىم جۈملىسى كۆپ قېتىم كىرگۈزۈلگەنلىكى ئۈچۈن قۇلۇپلاندى."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "خاتا ئىم كودى(passcode) كۆپ قېتىم كىرگۈزۈلگەنلىكى ئۈچۈن قۇلۇپلاندى."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1 مىنۇت كۈتۈپ ئاندىن قايتا سىناڭ…"
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "تىزىمدىن چىق"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "راستلا چىقىپ كېتەمسىز؟"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "ياق"
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "ھەئە"
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "ئەمەلدىن قالدۇر"
+
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "تاقا"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "راستلا تاقامسىز؟"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr "قايتا قوزغات"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "راستلا قايتا قوزغىتامسىز؟"
 
-#: qml/Components/Dialogs.qml:154
-msgid "Power"
-msgstr "توك مەنبە"
+#: qml/Components/Dialogs.qml:130
+msgid "No"
+msgstr "ياق"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:136
+msgid "Yes"
+msgstr "ھەئە"
+
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -95,65 +122,15 @@ msgstr ""
 "راستلا\n"
 "توكنى ئۈزەمسىز؟"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "توكنى ئۈز"
-
-#: qml/Components/Dialogs.qml:166
-msgid "Restart"
-msgstr "قايتا قوزغات"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "ئەمەلدىن قالدۇر"
-
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "قىسقىچە تونۇشتۇرۇشتىن ئاتلاش"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "ئوڭ گىرۋەك"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "تېلېفوننى قۇلۇپتىن ئېچىش ئۈچۈن ئوڭ گىرۋەكتىن سىيرىڭ"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "ئۈستى گىرۋەك"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "كۆرسەتكۈچلەرنى زىيارەت قىلىش ئۈچۈن ئۈستى گىرۋەكتىن سىيرىڭ"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "ياپ"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "تەڭشەش ئېكرانىنى يېپىش ئۈچۈن ئۈستىگە قايتا سىيرىڭ"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "سول گىرۋەك"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "قوللىنىشلارنى تىز زىيارەت قىلىش ئۈچۈن سولدىن سىيرىپ ئىجراچىنى ئېچىڭ"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "ياخشى بولدى"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
 msgstr ""
-"ئېكراننى چېكىپ باشلاڭ<br><br>سىز ھازىر گىرۋەك بارماق ئىشارەتلىرىنى ئىگىلەپ "
-"بولدىڭىز،ئەمدى تېلېفوننى ئىشلىتىشنى باشلىسىڭىز بولىدۇ"
+
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
+msgid "Restart"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -167,32 +144,39 @@ msgstr "جىددىي تېلېفون"
 msgid "OK"
 msgstr "تامام"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "ئازراق كۆرۈش"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "ھەممىنى كۆرۈش…"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "ئىزدە"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "ساقلا"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "تەڭشەكلەر"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "يىغقۇچتىن چىقىرىۋەت"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "يىغقۇچقا قوش"
 
@@ -224,6 +208,10 @@ msgstr "تارتسا يېڭىلىنىدۇ…"
 msgid "Release to refresh…"
 msgstr "قويۇۋەتسە يېڭىلىنىدۇ…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr ""
@@ -236,9 +224,75 @@ msgstr ""
 msgid "Also installed"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "قۇلۇپسىزلا"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "كەچۈرۈڭ، ئىم كودى ئەمەس"
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "بۇ سىزنىڭ ئەڭ ئاخىرقى پۇرسىتىڭىز"
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"ئەگەر ئىم توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن چىققان "
+"ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"ئەگەر ئىم كودى توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن "
+"چىققان ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "%1 نى كىرگۈزۈڭ"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "ئىم كىرگۈزۈڭ"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "ئىم كودى(passcode)نى كىرگۈزۈڭ"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "كەچۈرۈڭ، %1 توغرا ئەمەس"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "قايتا كىرگۈزۈڭ"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -281,6 +335,7 @@ msgid "Failed, tap to retry"
 msgstr "مەغلۇپ بولدى، چېكىپ قايتا سىناڭ"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr ""
 
@@ -292,65 +347,60 @@ msgstr "SIM نى قۇلۇپسىزلاش"
 msgid "Roaming"
 msgstr "كەزمە"
 
-#: qml/Shell.qml:390
-#, qt-format
-msgid "Enter %1"
-msgstr "%1 نى كىرگۈزۈڭ"
-
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "ئىم كىرگۈزۈڭ"
-
-#: qml/Shell.qml:392
-msgid "Enter passcode"
-msgstr "ئىم كودى(passcode)نى كىرگۈزۈڭ"
-
-#: qml/Shell.qml:393
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "كەچۈرۈڭ، %1 توغرا ئەمەس"
-
-#: qml/Shell.qml:394
-msgid "Sorry, incorrect passphrase"
-msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
-
-#: qml/Shell.qml:395
-msgid "Please re-enter"
-msgstr "قايتا كىرگۈزۈڭ"
-
-#: qml/Shell.qml:396
-msgid "Sorry, incorrect passcode"
-msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
-
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "كەچۈرۈڭ، ئىم توغرا ئەمەس"
-
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "كەچۈرۈڭ، ئىم كودى ئەمەس"
-
-#: qml/Shell.qml:492
-msgid "This will be your last attempt."
-msgstr "بۇ سىزنىڭ ئەڭ ئاخىرقى پۇرسىتىڭىز"
-
-#: qml/Shell.qml:494
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
 msgstr ""
-"ئەگەر ئىم توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن چىققان "
-"ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
 
-#: qml/Shell.qml:495
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
 msgstr ""
-"ئەگەر ئىم كودى توغرا بولمىسا، تېلېفونىڭىز ئەسلىگە قايتۇرۇلۇپ، زاۋۇتتىن "
-"چىققان ھالەتكە كېلىپ قالىدۇ. بارلىق مەزمۇنلار يوقىلىدۇ."
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr ""
 
@@ -367,7 +417,7 @@ msgid "Let’s get started."
 msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -377,11 +427,11 @@ msgstr ""
 msgid "Add a SIM card and restart your device"
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr ""
 
@@ -394,38 +444,44 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr ""
 
@@ -542,14 +598,78 @@ msgstr ""
 #~ msgid "Speaking..."
 #~ msgstr "سۆزلەۋاتىسىز…"
 
+#~ msgid "Search"
+#~ msgstr "ئىزدە"
+
+#~ msgid "Top edge"
+#~ msgstr "ئۈستى گىرۋەك"
+
+#~ msgid "Close"
+#~ msgstr "ياپ"
+
+#~ msgid "Left edge"
+#~ msgstr "سول گىرۋەك"
+
+#~ msgid "Right edge"
+#~ msgstr "ئوڭ گىرۋەك"
+
+#~ msgid "Well done"
+#~ msgstr "ياخشى بولدى"
+
+#~ msgid "Skip intro"
+#~ msgstr "قىسقىچە تونۇشتۇرۇشتىن ئاتلاش"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "تېلېفوننى قۇلۇپتىن ئېچىش ئۈچۈن ئوڭ گىرۋەكتىن سىيرىڭ"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "كۆرسەتكۈچلەرنى زىيارەت قىلىش ئۈچۈن ئۈستى گىرۋەكتىن سىيرىڭ"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "تەڭشەش ئېكرانىنى يېپىش ئۈچۈن ئۈستىگە قايتا سىيرىڭ"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "قوللىنىشلارنى تىز زىيارەت قىلىش ئۈچۈن سولدىن سىيرىپ ئىجراچىنى ئېچىڭ"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "ئېكراننى چېكىپ باشلاڭ<br><br>سىز ھازىر گىرۋەك بارماق ئىشارەتلىرىنى ئىگىلەپ "
+#~ "بولدىڭىز،ئەمدى تېلېفوننى ئىشلىتىشنى باشلىسىڭىز بولىدۇ"
+
+#~ msgid "Log out"
+#~ msgstr "تىزىمدىن چىق"
+
+#~ msgid "Shut down"
+#~ msgstr "تاقا"
+
+#~ msgid "Reboot"
+#~ msgstr "قايتا قوزغات"
+
+#~ msgid "Power"
+#~ msgstr "توك مەنبە"
+
+#~ msgid "Power off"
+#~ msgstr "توكنى ئۈز"
+
+#~ msgid "Settings"
+#~ msgstr "تەڭشەكلەر"
+
 #~ msgid "Done"
 #~ msgstr "تامام"
+
+#~ msgid "Store"
+#~ msgstr "ساقلا"
 
 #~ msgid "Favorites"
 #~ msgstr "يىغقۇچ"
 
 #~ msgid "All"
 #~ msgstr "ھەممىسى"
+
+#~ msgid "Restart"
+#~ msgstr "قايتا قوزغات"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "دائىرە باشقۇرۇش"

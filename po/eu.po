@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
 "PO-Revision-Date: 2015-01-22 21:40+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-03-25 06:04+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Pasahitza: "
 
@@ -31,134 +31,108 @@ msgstr "Ainguratu lasterbidea"
 msgid "Unpin shortcut"
 msgstr "Askatu lasterbidea"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Gailua blokeatuta"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Gailua blokeatu da, pasaesaldia sartzeko saiakera gehiegi hutsegin "
 "dituzulako."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Gailua blokeatu da, pasakodea sartzeko saiakera gehiegi hutsegin dituzulako."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Itxaron minutu %1ez eta saiatu berriro…"
 msgstr[1] "Itxaron %1 minutuz eta saiatu berriro…"
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Amaitu saioa"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "Ziur saioa amaitu nahi duzula?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "Ez"
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "Bai"
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "Utzi"
+
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "Itzali"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "Ziur itzali nahi duzula?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr "Berrabiarazi"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "Ziur berrabiarazi nahi duzula?"
 
-#: qml/Components/Dialogs.qml:154
-msgid "Power"
-msgstr "Piztu/itzali"
+#: qml/Components/Dialogs.qml:130
+msgid "No"
+msgstr "Ez"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:136
+msgid "Yes"
+msgstr "Bai"
+
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Ziur itzali nahi duzula?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "Itzali"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Berrabiarazi"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "Utzi"
-
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Saltatu aurkezpena"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Eskuineko ertza"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
 msgstr ""
-"Pasatu hatza eskuineko ertzetik ezkerrerantz telefonoa desblokeatzeko"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Goiko ertza"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "Pasatu hatza goiko ertzetik beherantz adierazleak ikusteko"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Itxi"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Pasatu hatza berriro gora ezarpenen leihoa ixteko"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Ezkerreko ertza"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Pasatu hatza ezkerretik abiarazlea erakutsi eta aplikazioak berehala eskura "
-"izateko"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Bikain"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
-"zaitezke<br><br>Sakatu pantailan hasteko"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -172,32 +146,39 @@ msgstr "Larrialdi-deia"
 msgid "OK"
 msgstr "Ados"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "Ikusi gutxiago"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "Ikusi guztiak"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "Bilatu"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Denda"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Ezarpenak"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Kendu gogokoetatik"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Gehitu gogokoetara"
 
@@ -229,6 +210,10 @@ msgstr "Tiratu freskatzeko…"
 msgid "Release to refresh…"
 msgstr "Askatu freskatzeko…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Kudeatu"
@@ -241,9 +226,75 @@ msgstr "Hasiera"
 msgid "Also installed"
 msgstr "Hau ere instalatuta"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Desblokeatu"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "Sentitzen dugu, pasaesaldia okerra da."
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Sentitzen dugu, pasakodea okerra da."
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Hau duzu azken saiakera."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Okerreko pasaesaldia sartzen baduzu, telefonoaren jatorrizko ezarpenak "
+"berrezarri eta datu pertsonal guztiak ezabatuko dira."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
+"berrezarri eta datu pertsonal guztiak ezabatuko dira."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Sartu %1"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Sartu pasaesaldia"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Sartu pasakodea"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Sentitzen dugu, %1 okerra da"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "Sentitzen dugu, pasaesaldia okerrekoa da"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Errepikatu"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "Sentitzen dugu, pasakodea okerra da"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -286,6 +337,7 @@ msgid "Failed, tap to retry"
 msgstr "Huts egin du, sakatu berriro saiatzeko"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr ""
 
@@ -297,67 +349,62 @@ msgstr "Desblokeatu SIMa"
 msgid "Roaming"
 msgstr "Ibiltaritza"
 
-#: qml/Shell.qml:390
-#, qt-format
-msgid "Enter %1"
-msgstr "Sartu %1"
-
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Sartu pasaesaldia"
-
-#: qml/Shell.qml:392
-msgid "Enter passcode"
-msgstr "Sartu pasakodea"
-
-#: qml/Shell.qml:393
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Sentitzen dugu, %1 okerra da"
-
-#: qml/Shell.qml:394
-msgid "Sorry, incorrect passphrase"
-msgstr "Sentitzen dugu, pasaesaldia okerrekoa da"
-
-#: qml/Shell.qml:395
-msgid "Please re-enter"
-msgstr "Errepikatu"
-
-#: qml/Shell.qml:396
-msgid "Sorry, incorrect passcode"
-msgstr "Sentitzen dugu, pasakodea okerra da"
-
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Sentitzen dugu, pasaesaldia okerra da."
-
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Sentitzen dugu, pasakodea okerra da."
-
-#: qml/Shell.qml:492
-msgid "This will be your last attempt."
-msgstr "Hau duzu azken saiakera."
-
-#: qml/Shell.qml:494
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
 msgstr ""
-"Okerreko pasaesaldia sartzen baduzu, telefonoaren jatorrizko ezarpenak "
-"berrezarri eta datu pertsonal guztiak ezabatuko dira."
 
-#: qml/Shell.qml:495
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
 msgstr ""
-"Okerreko pasakodea sartzen baduzu, telefonoaren jatorrizko ezarpenak "
-"berrezarri eta datu pertsonal guztiak ezabatuko dira."
+
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
+
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Atzera"
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -372,7 +419,7 @@ msgid "Let’s get started."
 msgstr "Has gaitezen."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -382,11 +429,11 @@ msgstr "Jarraitu"
 msgid "Add a SIM card and restart your device"
 msgstr "Gehitu SIM txartel bat eta berrabiarazi zure gailua"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "Hura gabe, ezingo duzu deirik egin edo testu-mezularitza erabili."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Saltatu"
 
@@ -399,38 +446,44 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr "Aukeratu telefonoa nola desblokeatu nahi duzun."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr "Pasatu hatza"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr "Segurtasunik gabe"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr "Pasakodea"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr "4 digitu soilik"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Pasaesaldia"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr "Zenbakiak eta hizkiak"
+msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Konektatu wifira"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "Sare erabilgarriak…"
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "Ez dago sare erabilgarririk."
 
@@ -540,6 +593,24 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Top edge"
+#~ msgstr "Goiko ertza"
+
+#~ msgid "Close"
+#~ msgstr "Itxi"
+
+#~ msgid "Left edge"
+#~ msgstr "Ezkerreko ertza"
+
+#~ msgid "Well done"
+#~ msgstr "Bikain"
+
+#~ msgid "Skip intro"
+#~ msgstr "Saltatu aurkezpena"
+
+#~ msgid "Right edge"
+#~ msgstr "Eskuineko ertza"
+
 #~ msgid "Type or say a command"
 #~ msgstr "Idatzi edo esan agindu bat"
 
@@ -552,6 +623,41 @@ msgstr "%1  〉"
 #~ msgid "Speaking..."
 #~ msgstr "Hitz egiten..."
 
+#~ msgid "Search"
+#~ msgstr "Bilatu"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Jadanik ezagutzen dituzu ertzetako keinuak, eta mugikorra erabiltzen has "
+#~ "zaitezke<br><br>Sakatu pantailan hasteko"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Pasatu hatza goiko ertzetik beherantz adierazleak ikusteko"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Pasatu hatza berriro gora ezarpenen leihoa ixteko"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Pasatu hatza eskuineko ertzetik ezkerrerantz telefonoa desblokeatzeko"
+
+#~ msgid "Log out"
+#~ msgstr "Amaitu saioa"
+
+#~ msgid "Reboot"
+#~ msgstr "Berrabiarazi"
+
+#~ msgid "Shut down"
+#~ msgstr "Itzali"
+
+#~ msgid "Settings"
+#~ msgstr "Ezarpenak"
+
+#~ msgid "Power off"
+#~ msgstr "Itzali"
+
 #~ msgid "Done"
 #~ msgstr "Eginda"
 
@@ -560,6 +666,20 @@ msgstr "%1  〉"
 
 #~ msgid "Favorites"
 #~ msgstr "Gogokoak"
+
+#~ msgid "Store"
+#~ msgstr "Denda"
+
+#~ msgid "Restart"
+#~ msgstr "Berrabiarazi"
+
+#~ msgid "Power"
+#~ msgstr "Piztu/itzali"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Pasatu hatza ezkerretik abiarazlea erakutsi eta aplikazioak berehala eskura "
+#~ "izateko"
 
 #~ msgid "Confirm"
 #~ msgstr "Berretsi"

@@ -19,14 +19,8 @@
 
 #include <QtQml/qqml.h>
 
-static QObject* controllerProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
-{
-    return GSettingsControllerQml::instance();
-}
-
 void FakeGSettingsQmlPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterSingletonType<GSettingsControllerQml>(uri, 1, 0, "GSettingsController", controllerProvider);
     qmlRegisterType<GSettingsQml>(uri, 1, 0, "GSettings");
     qmlRegisterUncreatableType<GSettingsSchemaQml>(uri, 1, 0, "GSettingsSchema",
                                                    "GSettingsSchema can only be used inside of a GSettings component");

@@ -1,10 +1,10 @@
 pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=5)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=6)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
 
 include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
     ${GSETTINGS_QT_INCLUDE_DIRS}
     ${libunity8-private_SOURCE_DIR}
@@ -23,7 +23,9 @@ add_custom_target(launchermodeltest ${testModelCommand})
 add_executable(launchermodeltestExec
     launchermodeltest.cpp
     gsettings.cpp
+    AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launchermodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/asadapter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/quicklistmodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher/dbusinterface.cpp

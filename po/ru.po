@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
-"PO-Revision-Date: 2015-01-29 08:02+0000\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"PO-Revision-Date: 2015-03-30 09:44+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-01-30 07:08+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-03-31 05:58+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Пароль: "
 
@@ -32,23 +32,23 @@ msgstr "Закрепить ярлык"
 msgid "Unpin shortcut"
 msgstr "Открепить ярлык"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Устройство заблокировано"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Вы были заблокированы из-за большого количества неудачных попыток ввода "
 "кодовой фразы."
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Вы были заблокированы из-за большого количества неудачных попыток ввода "
 "секретного кода."
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
@@ -56,114 +56,86 @@ msgstr[0] "Подождите %1 минуту и попытайтесь снов
 msgstr[1] "Подождите %1 минуты и попытайтесь снова…"
 msgstr[2] "Подождите %1 минут и попытайтесь снова…"
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Завершение сеанса"
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "Завершить сеанс?"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "Нет"
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
+msgid "Lock"
+msgstr "Заблокировать"
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "Да"
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
+msgid "Log Out"
+msgstr "Выйти из системы"
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "Отменить"
+
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Выключение"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "Выключить?"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
+msgid "Reboot"
+msgstr "Перезагрузить"
+
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr "Выключить"
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Перезагрузка"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "Перезагрузить систему?"
 
-#: qml/Components/Dialogs.qml:154
+#: qml/Components/Dialogs.qml:130
+msgid "No"
+msgstr "Нет"
+
+#: qml/Components/Dialogs.qml:136
+msgid "Yes"
+msgstr "Да"
+
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Питание"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Отключить питание?"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Отключить"
 
-#: qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Перезагрузить"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "Отменить"
-
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "Пропустить обучение"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "Правый край"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr ""
-"Попробуйте переместить палец от правого края к левому для разблокировки "
-"устройства"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "Верхний край"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr ""
-"Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "Закрыть"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "Снова переместите палец вверх для закрытия экрана настроек"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "Левый край"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr ""
-"Переместите палец от левого края вправо для открытия лаунчера для быстрого "
-"доступа к приложениям"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "Великолепно"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
-msgstr ""
-"Вы научились пользоваться Ubuntu и можете начать использовать свой "
-"телефон<br><br>Нажмите на экран"
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -177,32 +149,39 @@ msgstr "Экстренный вызов"
 msgid "OK"
 msgstr "ОК"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "Вкратце"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "Показать всё"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Поиск"
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Магазин"
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "Найти"
+
+#: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Настройки"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "Удалить из избранного"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "Добавить в избранное"
 
@@ -234,6 +213,10 @@ msgstr "Потяните для обновления…"
 msgid "Release to refresh…"
 msgstr "Отпустите для обновления…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr "Включить данные о местоположении"
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr "Настройка"
@@ -246,9 +229,75 @@ msgstr "Домой"
 msgid "Also installed"
 msgstr "Также установлено"
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Разблокировать"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr "Повторить"
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr "Нажмите для разблокировки"
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "Неверная ключевая фраза."
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "Неверный секретный код."
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "Осталась последняя попытка."
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr ""
+"Если ключевая фраза будет введена неверно, то телефон вернётся к заводским "
+"настройкам, а все личные данные будут удалены."
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr ""
+"Если секретный код будет введен неверно, то телефон вернётся к заводским "
+"настройкам, а все личные данные будут удалены."
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "Введите %1"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "Введите кодовую фразу"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "Введите секретный код"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "Некорректный ввод %1"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "Введена неверная кодовая фраза"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "Повторите ввод"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "Секретный код введён неверно"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -291,6 +340,7 @@ msgid "Failed, tap to retry"
 msgstr "Сбой, коснитесь для повтора"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Ответить"
 
@@ -302,65 +352,60 @@ msgstr "Разблокировать SIM-карту"
 msgid "Roaming"
 msgstr "Роуминг"
 
-#: qml/Shell.qml:390
-#, qt-format
-msgid "Enter %1"
-msgstr "Введите %1"
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Это действие имеет разные функции в зависимости от приложения"
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "Введите кодовую фразу"
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Нажмите здесь для завершения."
 
-#: qml/Shell.qml:392
-msgid "Enter passcode"
-msgstr "Введите секретный код"
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr "Открытие специальных меню"
 
-#: qml/Shell.qml:393
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "Некорректный ввод %1"
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr "Проведите вверх от нижнего края."
 
-#: qml/Shell.qml:394
-msgid "Sorry, incorrect passphrase"
-msgstr "Введена неверная кодовая фраза"
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Это ярлыки избранных приложений"
 
-#: qml/Shell.qml:395
-msgid "Please re-enter"
-msgstr "Повторите ввод"
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Нажмите здесь для продолжения."
 
-#: qml/Shell.qml:396
-msgid "Sorry, incorrect passcode"
-msgstr "Секретный код введён неверно"
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr "Открытие панели запуска"
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "Неверная ключевая фраза."
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr "Короткое смахивание от левого края."
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "Неверный секретный код."
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr "Почти получилось!"
 
-#: qml/Shell.qml:492
-msgid "This will be your last attempt."
-msgstr "Осталась последняя попытка."
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr "Попробуйте ещё раз."
 
-#: qml/Shell.qml:494
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr ""
-"Если ключевая фраза будет введена неверно, то телефон вернётся к заводским "
-"настройкам, а все личные данные будут удалены."
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr "Просмотр открытых приложений"
 
-#: qml/Shell.qml:495
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr ""
-"Если секретный код будет введен неверно, то телефон вернётся к заводским "
-"настройкам, а все личные данные будут удалены."
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr "Длинное смахивание от правого края."
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr "Просмотр всех запущенных задач."
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Назад"
 
@@ -377,7 +422,7 @@ msgid "Let’s get started."
 msgstr "Приступим."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -387,12 +432,12 @@ msgstr "Продолжить"
 msgid "Add a SIM card and restart your device"
 msgstr "Вставьте SIM-карту и перезагрузите устройство"
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 "Без нее вы не сможете совершать звонки или отправлять текстовые сообщения."
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr "Пропустить"
 
@@ -405,38 +450,44 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr "Выберите способ разблокировки телефона."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr "Смахивание"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr "Без пароля"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr "Секретный код"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr "Всего 4 цифры"
+msgstr "4 цифры"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr "Кодовая фраза"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "Цифры и буквы"
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Подключение к Wi‑Fi"
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr "Доступные сети..."
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr "Доступные сети отсутствуют."
 
@@ -558,8 +609,56 @@ msgstr "%1  〉"
 #~ msgid "Speaking..."
 #~ msgstr "Говорите..."
 
+#~ msgid "Search"
+#~ msgstr "Поиск"
+
+#~ msgid "Right edge"
+#~ msgstr "Правый край"
+
+#~ msgid "Skip intro"
+#~ msgstr "Пропустить обучение"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Попробуйте переместить палец от правого края к левому для разблокировки "
+#~ "устройства"
+
+#~ msgid "Top edge"
+#~ msgstr "Верхний край"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
+
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Снова переместите палец вверх для закрытия экрана настроек"
+
+#~ msgid "Left edge"
+#~ msgstr "Левый край"
+
+#~ msgid "Well done"
+#~ msgstr "Великолепно"
+
 #~ msgid "Confirm"
 #~ msgstr "Подтвердить"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Переместите палец от левого края вправо для открытия лаунчера для быстрого "
+#~ "доступа к приложениям"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Вы научились пользоваться Ubuntu и можете начать использовать свой "
+#~ "телефон<br><br>Нажмите на экран"
+
+#~ msgid "Power off"
+#~ msgstr "Отключить"
 
 #~ msgid "All"
 #~ msgstr "Все"
@@ -569,6 +668,27 @@ msgstr "%1  〉"
 
 #~ msgid "Done"
 #~ msgstr "Готово"
+
+#~ msgid "Log out"
+#~ msgstr "Завершение сеанса"
+
+#~ msgid "Reboot"
+#~ msgstr "Перезагрузка"
+
+#~ msgid "Shut down"
+#~ msgstr "Выключение"
+
+#~ msgid "Power"
+#~ msgstr "Питание"
+
+#~ msgid "Settings"
+#~ msgstr "Настройки"
+
+#~ msgid "Store"
+#~ msgstr "Магазин"
+
+#~ msgid "Restart"
+#~ msgstr "Перезагрузить"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Настройки поиска"

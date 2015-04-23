@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 import QtQuick 2.1
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import Ubuntu.Components 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
@@ -41,7 +41,12 @@ IndicatorTest {
             Layout.fillHeight: true
 
             id: itemArea
-            color: "blue"
+            color: backgroundMouseArea.pressed ? "red" : "blue"
+
+            MouseArea {
+                id: backgroundMouseArea
+                anchors.fill: parent
+            }
 
             Panel {
                 id: panel
@@ -116,6 +121,14 @@ IndicatorTest {
                     }
                 }
             }
+
+            Rectangle {
+                Layout.preferredHeight: units.dp(1);
+                Layout.fillWidth: true;
+                color: "black"
+            }
+
+            MouseTouchEmulationCheckbox {}
         }
     }
 
@@ -124,9 +137,15 @@ IndicatorTest {
         phoneNumber: "+447812221111"
     }
 
-    UT.UnityTestCase {
+    UnityTestCase {
         name: "Panel"
         when: windowShown
+
+        SignalSpy {
+            id: backgroundPressedSpy
+            target: backgroundMouseArea
+            signalName: "pressedChanged"
+        }
 
         function init() {
             panel.fullscreenMode = false;
@@ -140,6 +159,9 @@ IndicatorTest {
             // (switches between normal and fullscreen modes are animated)
             var indicatorArea = findChild(panel, "indicatorArea");
             tryCompare(indicatorArea, "y", 0);
+
+            backgroundPressedSpy.clear();
+            compare(backgroundPressedSpy.valid, true);
         }
 
         function get_indicator_item(index) {
@@ -147,6 +169,16 @@ IndicatorTest {
             verify(indicatorItem !== null);
 
             return indicatorItem;
+        }
+
+        function pullDownIndicatorsMenu() {
+            var showDragHandle = findChild(panel, "showDragHandle");
+            touchFlick(showDragHandle,
+                       showDragHandle.width / 2,
+                       showDragHandle.height / 2,
+                       showDragHandle.width / 2,
+                       showDragHandle.height / 2 + (showDragHandle.autoCompleteDragThreshold * 1.1));
+            tryCompare(panel.indicators, "fullyOpened", true);
         }
 
         function test_drag_show_data() {
@@ -298,6 +330,117 @@ IndicatorTest {
             compare(panel.indicators.fullyOpened, false, "Indicator should not be fully opened");
 
             touchRelease(panel, mappedPosition.x, panel.minimizedPanelHeight / 2);
+        }
+
+        /* Checks that no input reaches items behind the indicator bar.
+           Ie., the indicator bar should eat all input events that hit it.
+         */
+        function test_indicatorBarEatsAllEvents() {
+            // Perform several taps throughout the length of the indicator bar to ensure
+            // that it doesn't have a "weak spot" from where taps pass through.
+            var numTaps = 5;
+            var stepLength = (panel.width / (numTaps + 1));
+            var tapY = panel.indicators.minimizedPanelHeight / 2;
+            for (var i = 1; i <= numTaps; ++i) {
+                tap(panel, stepLength * i, tapY);
+                tryCompare(panel.indicators, "fullyClosed", true);
+            }
+
+            compare(backgroundPressedSpy.count, 0);
+        }
+
+        function test_darkenedAreaEatsAllEvents() {
+
+            // The center of the area not covered by the indicators menu
+            // Ie, the visible darkened area behind the menu
+            var touchPosX = (panel.width - panel.indicators.width) / 2
+            var touchPosY = panel.indicators.minimizedPanelHeight +
+                    ((panel.height - panel.indicators.minimizedPanelHeight) / 2)
+
+            // input goes through while the indicators menu is closed
+            tryCompare(panel.indicators, "fullyClosed", true);
+            compare(backgroundPressedSpy.count, 0);
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+
+            pullDownIndicatorsMenu();
+
+            // Darkened area eats input when the indicators menu is fully opened
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+            backgroundPressedSpy.clear();
+
+            // And should continue to eat inpunt until the indicators menu is fully closed
+            wait(10);
+            while (!panel.indicators.fullyClosed) {
+                tap(panel, touchPosX, touchPosY);
+
+                // it could have got fully closed during the tap
+                // so we have to double check here
+                if (!panel.indicators.fullyClosed) {
+                    compare(backgroundPressedSpy.count, 0);
+                }
+
+                // let the animation go a bit further
+                wait(50);
+            }
+
+            // Now that's fully closed, input should go through again
+            backgroundPressedSpy.clear();
+            tap(panel, touchPosX, touchPosY);
+            compare(backgroundPressedSpy.count, 2);
+        }
+
+        /*
+          Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1439318
+          When the panel is in fullscreen mode and the user taps near the top edge,
+          the panel should take no action and the tap should reach the item behind the
+          panel.
+         */
+        function test_tapNearTopEdgeWithPanelInFullscreenMode() {
+            var indicatorArea = findChild(panel, "indicatorArea");
+            verify(indicatorArea);
+            var panelPriv = findInvisibleChild(panel, "panelPriv");
+            verify(panelPriv);
+
+            panel.fullscreenMode = true;
+            // wait until if finishes hiding itself
+            tryCompare(indicatorArea, "y", -panelPriv.indicatorHeight);
+
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+
+            // tap near the very top of the screen
+            tap(itemArea, itemArea.width / 2, 2);
+
+            // the tap should have reached the item behind the panel
+            compare(backgroundPressedSpy.count, 2);
+
+            // give it a couple of event loop iterations for any animations etc to kick in
+            wait(50);
+
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+        }
+
+        function test_openAndClosePanelWithMouseClicks() {
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+
+            mouseClick(panel.indicators,
+                    panel.indicators.width / 2,
+                    panel.indicators.minimizedPanelHeight / 2);
+
+            compare(panel.indicators.shown, true);
+            tryCompare(panel.indicators, "fullyOpened", true);
+
+            var handle = findChild(panel.indicators, "handle");
+            verify(handle);
+
+            mouseClick(handle);
+
+            compare(panel.indicators.shown, false);
+            tryCompare(panel.indicators, "fullyClosed", true);
         }
     }
 }

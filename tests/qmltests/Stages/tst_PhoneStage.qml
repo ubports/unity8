@@ -29,6 +29,7 @@ Item {
     PhoneStage {
         id: phoneStage
         anchors { fill: parent; rightMargin: units.gu(30) }
+        focus: true
         dragAreaWidth: units.gu(2)
         maximizedAppTopMargin: units.gu(3) + units.dp(2)
         interactive: true
@@ -51,6 +52,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Add App"
+                activeFocusOnPress: false
                 onClicked: {
                     testCase.addApps();
                 }
@@ -58,6 +60,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Remove Selected"
+                activeFocusOnPress: false
                 onClicked: {
                     ApplicationManager.stopApplication(ApplicationManager.get(appList.selectedAppIndex).appId);
                 }
@@ -65,6 +68,7 @@ Item {
             Button {
                 anchors { left: parent.left; right: parent.right }
                 text: "Stop Selected"
+                activeFocusOnPress: false
                 onClicked: {
                     ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
                 }
@@ -112,7 +116,7 @@ Item {
         function addApps(count) {
             if (count == undefined) count = 1;
             for (var i = 0; i < count; i++) {
-                var app = ApplicationManager.startApplication(ApplicationManager.availableApplications()[ApplicationManager.count])
+                var app = ApplicationManager.startApplication(ApplicationManager.availableApplications[ApplicationManager.count])
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
                 var spreadView = findChild(phoneStage, "spreadView");
                 tryCompare(spreadView, "contentX", -spreadView.shift);

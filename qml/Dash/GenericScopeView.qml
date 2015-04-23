@@ -109,7 +109,7 @@ FocusScope {
     Binding {
         target: scope
         property: "isActive"
-        value: isCurrent && !subPageLoader.open
+        value: isCurrent && !subPageLoader.open && (Qt.application.state == Qt.ApplicationActive)
     }
 
     UnitySortFilterProxyModel {
@@ -406,6 +406,12 @@ FocusScope {
                     }
 
                     if (item && item.hasOwnProperty("displayMarginBeginning")) {
+                        var buffer = wasCurrentOnMoveStart ? categoryView.height * 1.5 : 0;
+                        var onViewport = baseItem.y + baseItem.height > 0 &&
+                                         baseItem.y < categoryView.height;
+                        var onBufferViewport = baseItem.y + baseItem.height > -buffer &&
+                                               baseItem.y < categoryView.height + buffer;
+
                         if (item.growsVertically) {
                             // A item view creates its delegates synchronously from
                             //     -displayMarginBeginning
@@ -433,7 +439,7 @@ FocusScope {
                             displayMarginEnd = -Math.min(-displayMarginEnd, baseItem.height);
                             displayMarginEnd = Math.round(displayMarginEnd);
 
-                            if (scopeView.isCurrent || scopeView.visibleToParent) {
+                            if (onBufferViewport && (scopeView.isCurrent || scopeView.visibleToParent)) {
                                 item.displayMarginBeginning = displayMarginBeginning;
                                 item.displayMarginEnd = displayMarginEnd;
                                 if (holdingList && holdingList.moving) {
@@ -446,7 +452,10 @@ FocusScope {
                                         item.cacheBuffer = 0;
                                     }
                                 } else {
-                                    item.cacheBuffer = categoryView.height * 1.5;
+                                    // Protect us against cases where the item hasn't yet been positioned
+                                    if (!(categoryView.contentY === 0 && baseItem.y === 0 && index !== 0)) {
+                                        item.cacheBuffer = categoryView.height * 1.5;
+                                    }
                                 }
                             } else {
                                 var visibleRange = baseItem.height + displayMarginEnd + displayMarginBeginning;
@@ -464,11 +473,6 @@ FocusScope {
                                 }
                             }
                         } else {
-                            var buffer = wasCurrentOnMoveStart ? categoryView.height * 1.5 : 0;
-                            var onViewport = baseItem.y + baseItem.height > 0 &&
-                                             baseItem.y < categoryView.height;
-                            var onBufferViewport = baseItem.y + baseItem.height > -buffer &&
-                                                   baseItem.y < categoryView.height + buffer;
                             if (!onBufferViewport) {
                                 // If not on the buffered viewport, don't load anything
                                 item.displayMarginBeginning = 0;
@@ -592,7 +596,7 @@ FocusScope {
                     objectName: "scopePageHeader"
                     width: parent.width
                     title: scopeView.scope ? scopeView.scope.name : ""
-                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.tr("Search")
+                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
                     showBackButton: scopeView.hasBackAction
                     searchEntryEnabled: true
                     settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
@@ -613,6 +617,7 @@ FocusScope {
                     onBackClicked: scopeView.backClicked()
                     onSettingsClicked: subPageLoader.openSubPage("settings")
                     onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
+                    onSearchTextFieldFocused: scopeView.showHeader()
                 }
             }
         }

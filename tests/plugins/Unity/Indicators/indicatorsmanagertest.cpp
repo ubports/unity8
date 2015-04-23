@@ -31,13 +31,11 @@ private Q_SLOTS:
 
     void initTestCase()
     {
-        setenv("UNITY_TEST_ENV", "1", 1);
         setenv("XDG_DATA_DIRS", (sourceDirectory() + "/tests/data").toLatin1().data(), 1);
     }
 
     void cleanupTestCase()
     {
-        unsetenv("UNITY_TEST_ENV");
     }
 
     /*
@@ -50,7 +48,8 @@ private Q_SLOTS:
         QVERIFY(!manager.isLoaded());
         QCOMPARE(manager.indicators().count(), 0);
 
-        manager.load("test1");
+        manager.setProfile("test1");
+        manager.load();
 
         QVERIFY(manager.isLoaded());
         QCOMPARE(manager.indicators().count(), 4);
@@ -67,7 +66,8 @@ private Q_SLOTS:
     void testPluginInterfaceProfile1()
     {
         IndicatorsManager manager;
-        manager.load("test1");
+        manager.setProfile("test1");
+        manager.load();
 
         Indicator::Ptr indicator = manager.indicator("indicator-fake1");
         QVERIFY(indicator ? true : false);
@@ -90,7 +90,8 @@ private Q_SLOTS:
     void testPluginInterfaceProfile2()
     {
         IndicatorsManager manager;
-        manager.load("test2");
+        manager.setProfile("test2");
+        manager.load();
 
         Indicator::Ptr indicator = manager.indicator("indicator-fake1");
         QVERIFY(indicator ? true : false);
@@ -108,12 +109,33 @@ private Q_SLOTS:
     }
 
     /*
+     * Test switching the indicator profile data
+     */
+    void testPluginInterfaceProfileSwitch()
+    {
+        IndicatorsManager manager;
+        manager.setProfile("test1");
+        manager.load();
+
+        Indicator::Ptr indicator = manager.indicator("indicator-fake1");
+        QVERIFY(indicator ? true : false);
+
+        QVariantMap props = indicator->indicatorProperties().toMap();
+        QCOMPARE(props["menuObjectPath"].toString(), QString("/com/canonical/indicator/fake1/test1"));
+
+        manager.setProfile("test2");
+        props = indicator->indicatorProperties().toMap();
+        QCOMPARE(props["menuObjectPath"].toString(), QString("/com/canonical/indicator/fake1/test2"));
+    }
+
+    /*
      * Test if a new plugin object is create for each different plugin
      */
     void testPluginInstance()
     {
         IndicatorsManager manager;
-        manager.load("test2");
+        manager.setProfile("test2");
+        manager.load();
 
         Indicator::Ptr i0 = manager.indicator("indicator-fake1");
         Indicator::Ptr i1 = manager.indicator("indicator-fake1");
@@ -133,7 +155,8 @@ private Q_SLOTS:
     void testPluginInitAndShutdown()
     {
         IndicatorsManager manager;
-        manager.load("test1");
+        manager.setProfile("test1");
+        manager.load();
 
         QWeakPointer<Indicator> wp0;
         QWeakPointer<Indicator> wp1;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-01-22 11:09+0100\n"
+"POT-Creation-Date: 2015-03-19 16:03+0100\n"
 "PO-Revision-Date: 2014-11-20 05:08+0000\n"
 "Last-Translator: Kentaro Kazuhama <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-01-28 06:30+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-03-25 06:05+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
-#: plugins/LightDM/Greeter.cpp:130
+#: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "パスワード： "
 
@@ -31,126 +31,104 @@ msgstr "ショートカットを追加する"
 msgid "Unpin shortcut"
 msgstr "ショートカットを削除する"
 
-#: qml/Components/DelayedLockscreen.qml:47
+#: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "デバイスをロックしました"
 
-#: qml/Components/DelayedLockscreen.qml:62
+#: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr "パスフレーズの入力失敗が多すぎたため、デバイスをロックしました。"
 
-#: qml/Components/DelayedLockscreen.qml:63
+#: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr "パスコードの入力失敗が多すぎたため、デバイスをロックしました。"
 
-#: qml/Components/DelayedLockscreen.qml:72
+#: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1 分待ってからやり直してください…"
 
-#: qml/Components/Dialogs.qml:86
+#: qml/Components/Dialogs.qml:67
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "ログアウト"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:68
 msgid "Are you sure you want to log out?"
 msgstr "本当にログアウトしますか？"
 
-#: qml/Components/Dialogs.qml:89 qml/Components/Dialogs.qml:111
-#: qml/Components/Dialogs.qml:134
-msgid "No"
-msgstr "いいえ"
+#: qml/Components/Dialogs.qml:70
+msgctxt "Button: Lock the system"
+msgid "Lock"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:95 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:140
-msgid "Yes"
-msgstr "はい"
+#: qml/Components/Dialogs.qml:77
+msgctxt "Button: Log out from the system"
+msgid "Log Out"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:108
+#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:171
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: qml/Components/Dialogs.qml:96
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "シャットダウン"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:97
 msgid "Are you sure you want to shut down?"
 msgstr "本当にシャットダウンしますか？"
 
-#: qml/Components/Dialogs.qml:131
+#: qml/Components/Dialogs.qml:99
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr "再起動"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:107
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:127
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:128
 msgid "Are you sure you want to reboot?"
 msgstr "本当に再起動しますか？"
 
-#: qml/Components/Dialogs.qml:154
-msgid "Power"
-msgstr "電源"
+#: qml/Components/Dialogs.qml:130
+msgid "No"
+msgstr "いいえ"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:136
+msgid "Yes"
+msgstr "はい"
+
+#: qml/Components/Dialogs.qml:150
+msgctxt "Title: Power off/Restart dialog"
+msgid "Power"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:151
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "本当に電源を切りますか？"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:153
+msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "電源を切る"
-
-#: qml/Components/Dialogs.qml:166
-msgid "Restart"
-msgstr "再起動"
-
-#: qml/Components/Dialogs.qml:175
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: qml/Components/EdgeDemoOverlay.qml:151
-msgid "Skip intro"
-msgstr "導入ガイドをスキップ"
-
-#: qml/Components/EdgeDemo.qml:125
-msgid "Right edge"
-msgstr "右端"
-
-#: qml/Components/EdgeDemo.qml:126
-msgid "Try swiping from the right edge to unlock the phone"
-msgstr "アンロックするには右端からスワイプしてみてください"
-
-#: qml/Components/EdgeDemo.qml:157
-msgid "Top edge"
-msgstr "上端"
-
-#: qml/Components/EdgeDemo.qml:158
-msgid "Try swiping from the top edge to access the indicators"
-msgstr "インジケーターにアクセスするには上端からスワイプしてみてください"
-
-#: qml/Components/EdgeDemo.qml:183
-msgid "Close"
-msgstr "閉じる"
-
-#: qml/Components/EdgeDemo.qml:184
-msgid "Swipe up again to close the settings screen"
-msgstr "設定画面を閉じるにはもう一度上にスワイプしてください"
-
-#: qml/Components/EdgeDemo.qml:214
-msgid "Left edge"
-msgstr "左端"
-
-#: qml/Components/EdgeDemo.qml:215
-msgid "Swipe from the left to reveal the launcher for quick access to apps"
-msgstr "アプリに素早くアクセスできるLauncherを表示するには左からスワイプしてください"
-
-#: qml/Components/EdgeDemo.qml:242
-msgid "Well done"
-msgstr "よくできました！"
-
-#: qml/Components/EdgeDemo.qml:243
-msgid ""
-"You have now mastered the edge gestures and can start using the "
-"phone<br><br>Tap on the screen to start"
 msgstr ""
-"これでスマートフォンの操作に必要な、画面端を用いたジェスチャーを習得できました。<br><br>利用を開始するなら画面をタップしてください"
+
+#: qml/Components/Dialogs.qml:162
+msgctxt "Button: Restart the system"
+msgid "Restart"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:238
 msgid "Return to Call"
@@ -164,32 +142,39 @@ msgstr "緊急通報"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:485 qml/Dash/GenericScopeView.qml:642
+#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
 msgid "See less"
 msgstr "隠す"
 
-#: qml/Dash/GenericScopeView.qml:485
+#: qml/Dash/GenericScopeView.qml:533
 msgid "See all"
 msgstr "すべて表示する"
 
-#: qml/Dash/GenericScopeView.qml:547 qml/Dash/PageHeader.qml:274
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:595
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "検索"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:267
+#: qml/Dash/PageHeader.qml:269
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "保存"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:284
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "設定"
+msgstr ""
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
 msgstr "お気に入りから削除する"
 
-#: qml/Dash/PageHeader.qml:291
+#: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
 msgstr "お気に入りに追加する"
 
@@ -221,6 +206,10 @@ msgstr "引いて更新…"
 msgid "Release to refresh…"
 msgstr "指を離して更新…"
 
+#: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
+msgid "Enable location data"
+msgstr ""
+
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
 msgstr ""
@@ -233,9 +222,71 @@ msgstr ""
 msgid "Also installed"
 msgstr ""
 
-#: qml/Greeter/Greeter.qml:133
+#: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "ロックの解除"
+
+#: qml/Greeter/LoginList.qml:236
+msgid "Retry"
+msgstr ""
+
+#: qml/Greeter/LoginList.qml:237
+msgid "Tap to unlock"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+msgid "Sorry, incorrect passphrase."
+msgstr "パスフレーズが間違っています。"
+
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Sorry, incorrect passcode."
+msgstr "パスコードが間違っています。"
+
+#: qml/Greeter/NarrowView.qml:55
+msgid "This will be your last attempt."
+msgstr "これが最後のチャンスです。"
+
+#: qml/Greeter/NarrowView.qml:57
+msgid ""
+"If passphrase is entered incorrectly, your phone will conduct a factory "
+"reset and all personal data will be deleted."
+msgstr "パスフレーズが間違っている場合、ファクトリーリセットを実施し、すべての個人データは削除されます。"
+
+#: qml/Greeter/NarrowView.qml:58
+msgid ""
+"If passcode is entered incorrectly, your phone will conduct a factory reset "
+"and all personal data will be deleted."
+msgstr "パスコードが間違っている場合、ファクトリーリセットを実施し、すべての個人データは削除されます。"
+
+#: qml/Greeter/NarrowView.qml:115
+#, qt-format
+msgid "Enter %1"
+msgstr "%1 を入力"
+
+#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+msgid "Enter passphrase"
+msgstr "パスフレーズを入力"
+
+#: qml/Greeter/NarrowView.qml:117
+msgid "Enter passcode"
+msgstr "パスコードを入力"
+
+#: qml/Greeter/NarrowView.qml:118
+#, qt-format
+msgid "Sorry, incorrect %1"
+msgstr "%1が違います"
+
+#: qml/Greeter/NarrowView.qml:119
+msgid "Sorry, incorrect passphrase"
+msgstr "パスフレーズが違います"
+
+#: qml/Greeter/NarrowView.qml:120
+msgid "Please re-enter"
+msgstr "再入力してください"
+
+#: qml/Greeter/NarrowView.qml:121
+msgid "Sorry, incorrect passcode"
+msgstr "パスコードが違います"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -278,6 +329,7 @@ msgid "Failed, tap to retry"
 msgstr "失敗しました、再試行するにはタップしてください"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr ""
 
@@ -289,61 +341,60 @@ msgstr "SIMのアンロック"
 msgid "Roaming"
 msgstr "ローミング"
 
-#: qml/Shell.qml:390
-#, qt-format
-msgid "Enter %1"
-msgstr "%1 を入力"
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
 
-#: qml/Shell.qml:391 qml/Wizard/Pages/passwd-set.qml:60
-msgid "Enter passphrase"
-msgstr "パスフレーズを入力"
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
 
-#: qml/Shell.qml:392
-msgid "Enter passcode"
-msgstr "パスコードを入力"
+#: qml/Tutorial/TutorialBottom.qml:28
+msgid "Open special menus"
+msgstr ""
 
-#: qml/Shell.qml:393
-#, qt-format
-msgid "Sorry, incorrect %1"
-msgstr "%1が違います"
+#: qml/Tutorial/TutorialBottom.qml:29
+msgid "Swipe up from the bottom edge."
+msgstr ""
 
-#: qml/Shell.qml:394
-msgid "Sorry, incorrect passphrase"
-msgstr "パスフレーズが違います"
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr ""
 
-#: qml/Shell.qml:395
-msgid "Please re-enter"
-msgstr "再入力してください"
+#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr ""
 
-#: qml/Shell.qml:396
-msgid "Sorry, incorrect passcode"
-msgstr "パスコードが違います"
+#: qml/Tutorial/TutorialLeft.qml:26
+msgid "Open the launcher"
+msgstr ""
 
-#: qml/Shell.qml:490 qml/Wizard/Pages/passwd-confirm.qml:53
-msgid "Sorry, incorrect passphrase."
-msgstr "パスフレーズが間違っています。"
+#: qml/Tutorial/TutorialLeft.qml:27
+msgid "Short swipe from the left edge."
+msgstr ""
 
-#: qml/Shell.qml:491 qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Sorry, incorrect passcode."
-msgstr "パスコードが間違っています。"
+#: qml/Tutorial/TutorialPage.qml:178
+msgid "You almost got it!"
+msgstr ""
 
-#: qml/Shell.qml:492
-msgid "This will be your last attempt."
-msgstr "これが最後のチャンスです。"
+#: qml/Tutorial/TutorialPage.qml:195
+msgid "Try again."
+msgstr ""
 
-#: qml/Shell.qml:494
-msgid ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
-msgstr "パスフレーズが間違っている場合、ファクトリーリセットを実施し、すべての個人データは削除されます。"
+#: qml/Tutorial/TutorialRight.qml:31
+msgid "To view open apps"
+msgstr ""
 
-#: qml/Shell.qml:495
-msgid ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
-msgstr "パスコードが間違っている場合、ファクトリーリセットを実施し、すべての個人データは削除されます。"
+#: qml/Tutorial/TutorialRight.qml:32
+msgid "Long swipe from the right edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:122
+msgid "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr ""
 
@@ -360,7 +411,7 @@ msgid "Let’s get started."
 msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:197 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
@@ -370,11 +421,11 @@ msgstr ""
 msgid "Add a SIM card and restart your device"
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:55
+#: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:69 qml/Wizard/Pages/40-wifi.qml:197
+#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
 msgstr ""
 
@@ -387,38 +438,44 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:28
+#: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:147
+#: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
 msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:148
+#: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
 msgstr ""
 
@@ -520,6 +577,30 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
+#~ msgid "Close"
+#~ msgstr "閉じる"
+
+#~ msgid "Top edge"
+#~ msgstr "上端"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "インジケーターにアクセスするには上端からスワイプしてみてください"
+
+#~ msgid "Left edge"
+#~ msgstr "左端"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "アプリに素早くアクセスできるLauncherを表示するには左からスワイプしてください"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "設定画面を閉じるにはもう一度上にスワイプしてください"
+
+#~ msgid "Skip intro"
+#~ msgstr "導入ガイドをスキップ"
+
+#~ msgid "Right edge"
+#~ msgstr "右端"
+
 #~ msgid "Speaking..."
 #~ msgstr "入力中..."
 
@@ -532,6 +613,24 @@ msgstr ""
 #~ msgid "Confirm"
 #~ msgstr "確認"
 
+#~ msgid "Search"
+#~ msgstr "検索"
+
+#~ msgid "Well done"
+#~ msgstr "よくできました！"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "アンロックするには右端からスワイプしてみてください"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "これでスマートフォンの操作に必要な、画面端を用いたジェスチャーを習得できました。<br><br>利用を開始するなら画面をタップしてください"
+
+#~ msgid "Power off"
+#~ msgstr "電源を切る"
+
 #~ msgid "All"
 #~ msgstr "すべて"
 
@@ -541,8 +640,29 @@ msgstr ""
 #~ msgid "Done"
 #~ msgstr "完了"
 
+#~ msgid "Store"
+#~ msgstr "保存"
+
 #~ msgid "Type or say a command"
 #~ msgstr "コマンドを音声かキーボードから入力"
+
+#~ msgid "Log out"
+#~ msgstr "ログアウト"
+
+#~ msgid "Reboot"
+#~ msgstr "再起動"
+
+#~ msgid "Shut down"
+#~ msgstr "シャットダウン"
+
+#~ msgid "Settings"
+#~ msgstr "設定"
+
+#~ msgid "Power"
+#~ msgstr "電源"
+
+#~ msgid "Restart"
+#~ msgstr "再起動"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Scopeの管理"

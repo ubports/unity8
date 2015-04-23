@@ -1938,6 +1938,17 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
     }
 
+    void testFirstVisibleIndexRemove()
+    {
+        changeContentY(520);
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 4);
+        QCOMPARE(lvwph->m_firstVisibleIndex, 1);
+
+        // Remove 0 and 1, the previously visible index 2 will be 0 and visible
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 2));
+        QCOMPARE(lvwph->m_firstVisibleIndex, 0);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;

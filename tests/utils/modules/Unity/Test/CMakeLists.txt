@@ -4,13 +4,16 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
+    ${CMAKE_SOURCE_DIR}/src
 )
 
 set(UnityTestQML_SOURCES
     testutil.cpp
     plugin.cpp
     TouchEventSequenceWrapper.cpp
+    ${CMAKE_SOURCE_DIR}/src/MouseTouchAdaptor.cpp
 )
 
 add_library(UnityTestQml MODULE ${UnityTestQML_SOURCES})

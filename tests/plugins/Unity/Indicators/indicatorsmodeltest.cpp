@@ -32,13 +32,11 @@ private Q_SLOTS:
 
     void initTestCase()
     {
-        setenv("UNITY_TEST_ENV", "1", 1);
         setenv("XDG_DATA_DIRS", (sourceDirectory() + "/tests/data").toLatin1().data(), 1);
     }
 
     void cleanupTestCase()
     {
-        unsetenv("UNITY_TEST_ENV");
     }
 
     /*
@@ -47,10 +45,11 @@ private Q_SLOTS:
     void testLoad()
     {
         IndicatorsModel model;
+        model.setProfile("test1");
 
         QCOMPARE(model.property("count").toInt(), 0);
 
-        model.load("test1");
+        model.load();
 
         QCOMPARE(model.property("count").toInt(), 4);
 
@@ -67,7 +66,8 @@ private Q_SLOTS:
     {
         // Priority order. (2, 1, 4, 3)
         IndicatorsModel model;
-        model.load("test1");
+        model.setProfile("test1");
+        model.load();
 
         // should be in order:
         // fake3, fake4, fake1, fake2
@@ -104,7 +104,8 @@ private Q_SLOTS:
     {
         // Priority order. (2, 1, 4, 3)
         IndicatorsModel model;
-        model.load("test2");
+        model.setProfile("test2");
+        model.load();
 
         // should be in order:
         // fake3, fake4, fake1, fake2

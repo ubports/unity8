@@ -1,10 +1,11 @@
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=5)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=6)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 set(MockLauncherModel_SOURCES
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherItemInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/LauncherModelInterface.h
     ${LAUNCHER_API_INCLUDEDIR}/unity/shell/launcher/QuickListModelInterface.h
