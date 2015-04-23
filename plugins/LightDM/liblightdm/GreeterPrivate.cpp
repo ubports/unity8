@@ -69,6 +69,13 @@ public:
     {
         // Clear out any existing PAM interactions first
         cancelPam();
+        if (pamHandle != nullptr) {
+            // While we were cancelling pam above, we processed Qt events.
+            // Which may have allowed someone to call start() on us again.
+            // In which case, we'll bail on our current start() call.
+            // This isn't racy because it's all in the same thread.
+            return;
+        }
 
         AppData *appData = new AppData();
         appData->impl = this;
@@ -244,13 +251,21 @@ private:
     void cancelPam()
     {
         if (pamHandle != nullptr) {
+            QFuture<int> pamFuture = futureWatcher.future();
             pam_handle *handle = pamHandle;
             pamHandle = nullptr; // to disable normal finishPam() handling
-            futureWatcher.cancel();
-            while (!futureWatcher.isFinished()) {
-                QCoreApplication::processEvents(); // let signal/slot handling happen
-                respond(QString());
+            pamFuture.cancel();
+
+            // Note the empty loop, we just want to clear the futures queue.
+            // Any further prompts from the pam thread will be immediately
+            // responded to/dismissed in handlePrompt().
+            while (respond(QString()));
+
+            // Now let signal/slot handling happen so the thread can finish
+            while (!pamFuture.isFinished()) {
+                QCoreApplication::processEvents();
             }
+
             pam_end(handle, PAM_CONV_ERR);
         }
     }
