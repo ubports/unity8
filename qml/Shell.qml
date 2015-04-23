@@ -444,10 +444,13 @@ Item {
 
         var animate = !LightDM.Greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
+        dash.resetAll()
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
     function showDash() {
+        dash.setCurrentScope(0, false, true);
+        dash.resetAll();
         if (greeter.notifyShowingDashFromDrag()) {
             launcher.fadeOut();
         }
@@ -516,12 +519,6 @@ Item {
 
             onShowDashHome: showHome()
             onDash: showDash()
-            onDashSwipeChanged: {
-                if (dashSwipe) {
-                    dash.setCurrentScope(0, false, true)
-                    dash.resetAll()
-                }
-            }
             onLauncherApplicationSelected: {
                 if (!tutorial.running) {
                     greeter.notifyAboutToFocusApp(appId);

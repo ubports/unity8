@@ -18,11 +18,17 @@ Module {
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "reset"; type: "bool" }
         }
+        Signal {
+            name: "resetAllCalled"
+        }
         Method {
             name: "setCurrentScope"
             Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "reset"; type: "bool" }
+        }
+        Method {
+            name: "resetAll"
         }
     }
     Component {
@@ -36,11 +42,17 @@ Module {
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "isSwipe"; type: "bool" }
         }
+        Signal {
+            name: "resetAllRequested"
+        }
         Method {
             name: "mockSetCurrentScope"
             Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "isSwipe"; type: "bool" }
+        }
+        Method {
+            name: "mockResetAll"
         }
     }
 }

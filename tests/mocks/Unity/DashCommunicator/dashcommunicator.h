@@ -30,10 +30,12 @@ public:
 
 public Q_SLOTS:
     void setCurrentScope(int index, bool animate, bool reset);
+    void resetAll();
 
 Q_SIGNALS:
     // This mock just emits calls back to the QML api for the plugin to verify calls
     void setCurrentScopeCalled(int index, bool animate, bool reset);
+    void resetAllCalled();
 };
 
 #endif
