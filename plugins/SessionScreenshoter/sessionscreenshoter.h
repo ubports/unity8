@@ -25,12 +25,22 @@
 class QQuickItem;
 class QQuickItemGrabResult;
 
+/**
+ * SessionScreenshoter saves to disk screenshots of the given item.
+ * Images are saved into $HOME/.cache/app_shots/appId.png
+ * It also handles giving back the screenshot path if it already exists (e.g. because a reboot)
+ */
 class SessionScreenshoter : public QObject
 {
     Q_OBJECT
 
+    /// appId is the key of the screenshot name.
     Q_PROPERTY(QString appId READ appId WRITE setAppdId NOTIFY appdIdChanged)
+
+    /// path where the screenshot is saved, can be empty if no screenshot has been taken yet.
     Q_PROPERTY(QString path READ path NOTIFY pathChanged)
+
+    /// target item for the screenshot taking.
     Q_PROPERTY(QQuickItem *target READ target WRITE setTarget NOTIFY targetChanged)
 
 public:
@@ -44,13 +54,18 @@ public:
 
     QString path() const;
 
+    /// Starts taking a screenshot. Emits screenshotTaken when ready.
     Q_INVOKABLE void take();
+
+    /// Removes the existing screenshot
     Q_INVOKABLE void removeScreenshot();
 
 Q_SIGNALS:
     void appdIdChanged();
     void targetChanged();
     void pathChanged();
+
+    /// Signals screenshot taking has finished.
     void screenshotTaken();
 
 private Q_SLOTS:
