@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012-2013 Canonical
+# Copyright (C) 2012-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ def disable_qml_mocking(fn):
     return wrapper
 
 
-class DragMixin(object):
+class DragMixin():
     def _drag(self, x1, y1, x2, y2):
         # XXX This ugly code is here just temporarily, waiting for drag
         # improvements to land on autopilot so we don't have to access device

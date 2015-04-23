@@ -17,12 +17,14 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QMutex>
+#include <QFuture>
 
 class WindowStateStorage: public QObject
 {
     Q_OBJECT
 public:
     WindowStateStorage(QObject *parent = 0);
+    virtual ~WindowStateStorage();
 
     Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect &rect);
     Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue);
@@ -35,4 +37,6 @@ private:
 
     // NB: This is accessed from threads. Make sure to mutex it.
     QSqlDatabase m_db;
+
+    QList< QFuture<void> > m_asyncQueries;
 };

@@ -31,8 +31,8 @@ Page {
 
     Indicators.IndicatorsModel {
         id: indicatorsModel
-
-        Component.onCompleted: load(profile)
+        profile: page.profile
+        Component.onCompleted: load()
     }
 
     ListView {

@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-02-25 08:57-0500\n"
-"PO-Revision-Date: 2015-02-27 13:29+0000\n"
+"POT-Creation-Date: 2015-04-14 16:13+0200\n"
+"PO-Revision-Date: 2015-03-06 14:24+0000\n"
 "Last-Translator: Niklas Wenzel <nikwen.developer@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-04 05:56+0000\n"
-"X-Generator: Launchpad (build 17361)\n"
+"X-Launchpad-Export-Date: 2015-04-23 06:48+0000\n"
+"X-Generator: Launchpad (build 17430)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -54,60 +54,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Bitte warten Sie %1 Minute und versuchen Sie es dann erneut..."
 msgstr[1] "Bitte warten Sie %1 Minuten und versuchen Sie es dann erneut..."
 
-#: qml/Components/Dialogs.qml:87
+#: qml/Components/Dialogs.qml:69
+msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Abmelden"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:88
+#: qml/Components/Dialogs.qml:70
 msgid "Are you sure you want to log out?"
 msgstr "Sind Sie sicher, dass Sie sich abmelden wollen?"
 
-#: qml/Components/Dialogs.qml:90
+#: qml/Components/Dialogs.qml:72
+msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:79
+msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:104 qml/Components/Dialogs.qml:135
-#: qml/Components/Dialogs.qml:191
+#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:173
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:98
+msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "Herunterfahren"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "Sind Sie sicher, dass Sie herunterfahren wollen?"
 
-#: qml/Components/Dialogs.qml:119 qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:101
+msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr "Neustart"
-
-#: qml/Components/Dialogs.qml:127
-msgid "Shutdown"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:109
+msgctxt "Button: Shut down the system"
+msgid "Shut down"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:129
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr ""
+
+#: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
 msgstr "Sind Sie sicher, dass Sie neu starten wollen?"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:132
 msgid "No"
 msgstr "Nein"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:138
 msgid "Yes"
 msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:170
+#: qml/Components/Dialogs.qml:152
+msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Energie"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:153
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -115,46 +127,55 @@ msgstr ""
 "Sind Sie sicher, dass Sie das\n"
 "Gerät ausschalten wollen?"
 
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:155
+msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "Ausschalten"
+msgstr ""
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:164
+msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Neustarten"
+msgstr ""
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
 msgstr "Zu Anruf zurückkehren"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Notruf"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:528 qml/Dash/GenericScopeView.qml:686
+#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
 msgid "See less"
 msgstr "Weniger ansehen"
 
-#: qml/Dash/GenericScopeView.qml:528
+#: qml/Dash/GenericScopeView.qml:532
 msgid "See all"
 msgstr "Alle anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:590 qml/Dash/PageHeader.qml:276
-#: qml/Panel/SearchIndicator.qml:27
+#: qml/Dash/GenericScopeView.qml:594
+msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "Suchen"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:269
+msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Store"
+msgstr ""
+
+#: qml/Dash/PageHeader.qml:276
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:286
+msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Einstellungen"
+msgstr ""
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
@@ -214,11 +235,11 @@ msgstr "Entsperren"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Erneut versuchen"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Zum Entsperren tippen"
 
 #: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
@@ -290,37 +311,38 @@ msgstr "Tippen um zum Anruf zurückzugehen"
 msgid "Conference"
 msgstr "Konferenz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
 msgstr "Nichts wird abgespielt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:787
 msgid "In queue…"
 msgstr "In Warteschlange …"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "Downloading"
 msgstr "Wird heruntergeladen"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:793
 msgid "Paused, tap to resume"
 msgstr "Pausiert, tippen Sie zum fortsetzen"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Canceled"
 msgstr "Abgebrochen"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Finished"
 msgstr "Erledigt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Failed, tap to retry"
 msgstr "Fehlgeschlagen, tippen Sie zum Wiederholen"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr "Antworten"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -337,35 +359,40 @@ msgstr ""
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Zum Beenden hier tippen."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Spezielle Menüs öffnen"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
+msgstr "Wischen Sie von der unteren Bildschirmkante nach oben."
+
+#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Zum Fortfahren hier tippen."
+
+#: qml/Tutorial/TutorialContent.qml:81
+msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
-
-#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
-msgstr ""
+msgstr "Dies sind die Verknüpfungen zu Ihren favorisierten Anwendungen."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "Öffnen Sie den Starter."
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Kurzer Wisch von der linken Bildschirmkante."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Fast geschafft!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
@@ -373,19 +400,20 @@ msgstr "Versuchen Sie es noch einmal."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Zum Ansehen offener Anwendungen"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Langer Wisch von der rechten Bildschirmkante."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
 msgstr "Sehen Sie alle Ihre laufenden Anwendungen."
 
 #: qml/Wizard/Page.qml:89
+msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Zurück"
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -427,28 +455,34 @@ msgid "Please select how you’d like to unlock your phone."
 msgstr "Bitte wählen Sie aus, wie Sie Ihr Telefon entsperren wollen."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
+msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr "Wischgeste"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
+msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr "Keine Sicherheitssperre"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
+msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr "PIN"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
+msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr "Nur 4 Ziffern"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
+msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Passwort"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
+msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr "Ziffern und Buchstaben"
+msgstr ""
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -577,6 +611,9 @@ msgstr "%1  〉"
 #~ msgid "Speak Now..."
 #~ msgstr "Sprechen Sie jetzt …"
 
+#~ msgid "Search"
+#~ msgstr "Suchen"
+
 #~ msgid "Close"
 #~ msgstr "Schließen"
 
@@ -623,6 +660,9 @@ msgstr "%1  〉"
 #~ msgid "Right edge"
 #~ msgstr "Rechter Bildschirmrand"
 
+#~ msgid "Power off"
+#~ msgstr "Ausschalten"
+
 #~ msgid "All"
 #~ msgstr "Alle"
 
@@ -631,6 +671,27 @@ msgstr "%1  〉"
 
 #~ msgid "Favorites"
 #~ msgstr "Favoriten"
+
+#~ msgid "Store"
+#~ msgstr "Store"
+
+#~ msgid "Log out"
+#~ msgstr "Abmelden"
+
+#~ msgid "Reboot"
+#~ msgstr "Neustart"
+
+#~ msgid "Shut down"
+#~ msgstr "Herunterfahren"
+
+#~ msgid "Power"
+#~ msgstr "Energie"
+
+#~ msgid "Settings"
+#~ msgstr "Einstellungen"
+
+#~ msgid "Restart"
+#~ msgstr "Neustarten"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Filter verwalten"

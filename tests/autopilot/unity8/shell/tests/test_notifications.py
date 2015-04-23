@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,35 +19,30 @@
 
 """Tests for Notifications"""
 
-from __future__ import absolute_import
-
-from unity8 import shell
-from unity8.process_helpers import unlock_unity
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
-
-from testtools.matchers import Equals, NotEquals
-from autopilot.matchers import Eventually
-
-from gi.repository import Notify
 import time
 import os
 import logging
 import signal
 import subprocess
-import sys
+
+from autopilot.matchers import Eventually
+from gi.repository import Notify
+from testtools.matchers import Equals, NotEquals
+from ubuntuuitoolkit import ubuntu_scenarios
+
+from unity8 import shell
+from unity8.process_helpers import unlock_unity
+from unity8.shell.tests import UnityTestCase
+
 
 logger = logging.getLogger(__name__)
-
-# from __future__ import range
-# (python3's range, is same as python2's xrange)
-if sys.version_info < (3,):
-    range = xrange
 
 
 class NotificationsBase(UnityTestCase):
     """Base class for all notification tests that provides helper methods."""
 
-    scenarios = _get_device_emulation_scenarios('Nexus4')
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios(
+        ubuntu_scenarios.NEXUS4_DEVICE)
 
     def _get_icon_path(self, icon_name):
         """Given an icons file name returns the full path (either system or
@@ -118,7 +113,7 @@ class InteractiveNotificationBase(NotificationsBase):
     """Collection of test for Interactive tests including snap decisions."""
 
     def setUp(self):
-        super(InteractiveNotificationBase, self).setUp()
+        super().setUp()
         # Need to keep track when we launch the notification script.
         self._notify_proc = None
 
@@ -135,7 +130,7 @@ class InteractiveNotificationBase(NotificationsBase):
         actions = [("action_id", "dummy")]
         hints = [
             ("x-canonical-switch-to-application", "true"),
-            ("x-canonical-secondary-icon","dialer")
+            ("x-canonical-secondary-icon", "dialer")
         ]
 
         self._create_interactive_notification(
@@ -158,7 +153,9 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called('action_id')
 
     def test_sd_one_over_two_layout(self):
-        """Snap-decision with three actions should use one-over two button layout."""
+        """Snap-decision with three actions should use
+           one-over two button layout.
+        """
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
@@ -197,7 +194,9 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_without_greeter(self):
-        """Snap-decision should block input to shell without greeter/lockscreen."""
+        """Snap-decision should block input to shell
+           without greeter/lockscreen.
+        """
         unity_proxy = self.launch_unity()
         unlock_unity(unity_proxy)
 
@@ -244,7 +243,9 @@ class InteractiveNotificationBase(NotificationsBase):
         self.assert_notification_action_id_was_called("action_accept")
 
     def test_modal_sd_with_greeter(self):
-        """A snap-decision should block input to the greeter/lockscreen beneath it."""
+        """A snap-decision should block input to the
+           greeter/lockscreen beneath it.
+        """
         self.launch_unity()
 
         summary = "Incoming file"
@@ -338,7 +339,7 @@ class InteractiveNotificationBase(NotificationsBase):
             action_string = "%s,%s" % (action_id, action_label)
             script_args.extend(['--action', action_string])
 
-        python_bin = subprocess.check_output(['which', 'python']).strip()
+        python_bin = subprocess.check_output(['which', 'python3']).strip()
         command = [python_bin, self._get_notify_script()] + script_args
         logger.info("Launching snap-decision notification as: %s", command)
         self._notify_proc = subprocess.Popen(
@@ -358,7 +359,9 @@ class InteractiveNotificationBase(NotificationsBase):
             raise RuntimeError("Call to script failed with: %s" % error_output)
 
     def _get_notify_script(self):
-        """Returns the path to the interactive notification creation script."""
+        """Returns the path to the interactive notification
+           creation script.
+        """
         file_path = "../../emulators/create_interactive_notification.py"
 
         the_path = os.path.abspath(
@@ -410,7 +413,7 @@ class EphemeralNotificationsTests(NotificationsBase):
     """Collection of tests for Emphemeral notifications (non-interactive.)"""
 
     def setUp(self):
-        super(EphemeralNotificationsTests, self).setUp()
+        super().setUp()
         # Because we are using the Notify library we need to init and un-init
         # otherwise we get crashes.
         Notify.init("Autopilot Ephemeral Notification Tests")
@@ -462,7 +465,7 @@ class EphemeralNotificationsTests(NotificationsBase):
 
         summary = "Upload of image completed"
         icon_path = self._get_icon_path('applicationIcons/facebook.png')
-        hints=[]
+        hints = []
 
         notification = shell.create_ephemeral_notification(
             summary,

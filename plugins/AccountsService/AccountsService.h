@@ -107,15 +107,15 @@ private Q_SLOTS:
     void maybeChanged(const QString &user);
 
 private:
-    void updateDemoEdges();
-    void updateEnableLauncherWhileLocked();
-    void updateEnableIndicatorsWhileLocked();
-    void updateBackgroundFile();
-    void updateStatsWelcomeScreen();
-    void updatePasswordDisplayHint();
-    void updateFailedLogins();
-    void updateHereEnabled();
-    void updateHereLicensePath();
+    void updateDemoEdges(bool async = true);
+    void updateEnableLauncherWhileLocked(bool async = true);
+    void updateEnableIndicatorsWhileLocked(bool async = true);
+    void updateBackgroundFile(bool async = true);
+    void updateStatsWelcomeScreen(bool async = true);
+    void updatePasswordDisplayHint(bool async = true);
+    void updateFailedLogins(bool async = true);
+    void updateHereEnabled(bool async = true);
+    void updateHereLicensePath(bool async = true);
 
     AccountsServiceDBusAdaptor *m_service;
     QString m_user;

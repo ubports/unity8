@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from unity8.shell.emulators.dash import ListViewWithPageHeader
 
 """Tests for the Dash autopilot emulators.
 
@@ -28,17 +27,20 @@ don't break them for those external projects.
 
 """
 
+from ubuntuuitoolkit import ubuntu_scenarios
+
 from unity8 import process_helpers
 from unity8.shell import fixture_setup, tests
 from unity8.shell.emulators import dash as dash_emulators
+from unity8.shell.emulators.dash import ListViewWithPageHeader
 
 
 class MainWindowTestCase(tests.UnityTestCase):
 
-    scenarios = tests._get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     def setUp(self):
-        super(MainWindowTestCase, self).setUp()
+        super().setUp()
         unity_proxy = self.launch_unity()
         process_helpers.unlock_unity(unity_proxy)
 
@@ -110,7 +112,7 @@ class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
     def setUp(self):
         # Set up the fake scopes before launching unity.
         self.useFixture(fixture_setup.FakeScopes())
-        super(GenericScopeViewEmulatorTestCase, self).setUp()
+        super().setUp()
         self.generic_scope = self.dash.open_scope('MockScope1')
 
     def test_open_preview(self):
@@ -129,7 +131,7 @@ class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
     def setUp(self):
         # Set up the fake scopes before launching unity.
         self.useFixture(fixture_setup.FakeScopes())
-        super(DashAppsEmulatorTestCase, self).setUp()
+        super().setUp()
         self.applications_scope = self.dash.open_scope('clickscope')
 
     def test_get_applications_should_return_correct_applications(self):

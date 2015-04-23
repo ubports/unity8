@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,10 @@ class MirSurfaceItem : public QQuickItem
     Q_PROPERTY(bool live READ live NOTIFY liveChanged)
     Q_PROPERTY(OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
                NOTIFY orientationAngleChanged DESIGNABLE false)
+    Q_PROPERTY(int touchPressCount READ touchPressCount WRITE setTouchPressCount
+                                   NOTIFY touchPressCountChanged DESIGNABLE false)
+    Q_PROPERTY(int touchReleaseCount READ touchReleaseCount WRITE setTouchReleaseCount
+                                     NOTIFY touchReleaseCountChanged DESIGNABLE false)
 
 public:
     enum Type {
@@ -82,6 +86,12 @@ public:
     void setScreenshot(const QUrl& screenshot);
     void setLive(bool live);
 
+    int touchPressCount() const { return m_touchPressCount; }
+    void setTouchPressCount(int count) { m_touchPressCount = count; Q_EMIT touchPressCountChanged(count); }
+
+    int touchReleaseCount() const { return m_touchReleaseCount; }
+    void setTouchReleaseCount(int count) { m_touchReleaseCount = count; Q_EMIT touchReleaseCountChanged(count); }
+
     Q_INVOKABLE void setState(State newState);
     Q_INVOKABLE void release();
 
@@ -90,6 +100,8 @@ Q_SIGNALS:
     void stateChanged(State);
     void liveChanged(bool live);
     void orientationAngleChanged(OrientationAngle angle);
+    void touchPressCountChanged(int count);
+    void touchReleaseCountChanged(int count);
 
     // internal mock use
     void deregister();
@@ -101,6 +113,8 @@ protected:
                             const QUrl& screenshot,
                             const QString &qmlFilePath = QString(),
                             QQuickItem *parent = 0);
+
+    void touchEvent(QTouchEvent * event) override;
 
 private Q_SLOTS:
     void onComponentStatusChanged(QQmlComponent::Status status);
@@ -119,6 +133,9 @@ private:
     QQmlComponent *m_qmlContentComponent;
     QQuickItem *m_qmlItem;
     QUrl m_screenshotUrl;
+
+    int m_touchPressCount;
+    int m_touchReleaseCount;
 
     friend class SurfaceManager;
 };

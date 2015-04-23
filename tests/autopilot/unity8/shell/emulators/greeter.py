@@ -42,7 +42,6 @@ class Greeter(UnityEmulatorBase):
 
         raise AssertionError("Greeter cover page still up after 10s")
 
-
     def swipe(self):
         """Swipe the greeter screen away."""
         self.waiting.wait_for(False)

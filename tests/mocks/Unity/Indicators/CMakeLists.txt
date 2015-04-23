@@ -26,10 +26,8 @@ add_library(IndicatorsFakeQml SHARED
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 
-add_dependencies(IndicatorsFakeQml QMenuModelQml)
 target_link_libraries(IndicatorsFakeQml
-    -L${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel
-    -lqmenumodel
+    QMenuModelQml
 )
 
 qt5_use_modules(IndicatorsFakeQml Core Qml Quick)

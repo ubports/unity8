@@ -51,11 +51,13 @@ Item {
             if (!dialogLoader.active) {
                 dialogLoader.sourceComponent = powerDialogComponent;
                 dialogLoader.active = true;
+                dialogLoader.item.forceActiveFocus();
             }
         }
     }
     Loader {
         id: dialogLoader
+        objectName: "dialogLoader"
         anchors.fill: parent
         active: false
     }
@@ -64,17 +66,17 @@ Item {
         id: logoutDialogComponent
         ShellDialog {
             id: logoutDialog
-            title: i18n.tr("Log out")
+            title: i18n.ctr("Title: Lock/Log out dialog", "Log out")
             text: i18n.tr("Are you sure you want to log out?")
             Button {
-                text: i18n.tr("Lock")
+                text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
                     LightDM.Greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }
             Button {
-                text: i18n.tr("Log Out")
+                text: i18n.ctr("Button: Log out from the system", "Log Out")
                 onClicked: {
                     unitySessionService.logout();
                     logoutDialog.hide();
@@ -93,10 +95,10 @@ Item {
         id: shutdownDialogComponent
         ShellDialog {
             id: shutdownDialog
-            title: i18n.tr("Shut down")
+            title: i18n.ctr("Title: Reboot/Shut down dialog", "Shut down")
             text: i18n.tr("Are you sure you want to shut down?")
             Button {
-                text: i18n.tr("Reboot")
+                text: i18n.ctr("Button: Reboot the system", "Reboot")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.reboot();
@@ -104,7 +106,7 @@ Item {
                 }
             }
             Button {
-                text: i18n.tr("Shutdown")
+                text: i18n.ctr("Button: Shut down the system", "Shut down")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.shutdown();
@@ -124,7 +126,7 @@ Item {
         id: rebootDialogComponent
         ShellDialog {
             id: rebootDialog
-            title: i18n.tr("Reboot")
+            title: i18n.ctr("Title: Reboot dialog", "Reboot")
             text: i18n.tr("Are you sure you want to reboot?")
             Button {
                 text: i18n.tr("No")
@@ -147,10 +149,10 @@ Item {
         id: powerDialogComponent
         ShellDialog {
             id: powerDialog
-            title: i18n.tr("Power")
+            title: i18n.ctr("Title: Power off/Restart dialog", "Power")
             text: i18n.tr("Are you sure you would like\nto power off?")
             Button {
-                text: i18n.tr("Power off")
+                text: i18n.ctr("Button: Power off the system", "Power off")
                 onClicked: {
                     root.closeAllApps();
                     powerDialog.hide();
@@ -159,7 +161,7 @@ Item {
                 color: UbuntuColors.red
             }
             Button {
-                text: i18n.tr("Restart")
+                text: i18n.ctr("Button: Restart the system", "Restart")
                 onClicked: {
                     root.closeAllApps();
                     unitySessionService.reboot();

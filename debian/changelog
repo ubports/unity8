@@ -1,3 +1,192 @@
+unity8 (8.10-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Implement full-shell rotation (LP: #1210199)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 15 Apr 2015 14:47:17 +0200
+
+unity8 (8.02+15.04.20150422-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Compile with Qt 5.5 (LP: #1437238)
+  * Different way of top aligning labels when the other one in the row
+    is multiline (LP: #1442085)
+  * make pot_file
+
+  [ Andrea Cimitan ]
+  * Set sourceSize for DashBackground.qml Image
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk. added: po/sk.po
+
+  [ Daniel d'Andrada ]
+  * Move handling of command line options to a separate class
+  * Refactor tst_PhysicalKeysMapper.qml
+
+  [ Leo Arias ]
+  * For autopilot tests, use the device simulation scenarios from the
+    toolkit.
+
+  [ Leonardo Arias Fonseca ]
+  * For autopilot tests, use the device simulation scenarios from the
+    toolkit.
+
+  [ Michael Zanetti ]
+  * Make sure dnd mode is ended properly when drag gesture is cancelled
+    (LP: #1444949)
+
+  [ Michał Sawicz ]
+  * Fix flake8 warnings (LP: #1444170)
+  * Move mock indicator service to unity8-fake-env, as it's a binary-
+    dependent package.
+
+  [ Nick Dedekind ]
+  * Use asynchronous dbus requests for property updates. (LP: #1436982)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 22 Apr 2015 14:46:31 +0000
+
+unity8 (8.02+15.04.20150409.1-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Focus the shutdown dialog (LP: #1417991)
+  * Make url-dispatching scope activation when the dash is not on the
+    main scopes (LP: #1364306)
+  * We use autopilot3 now
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk. added: po/or.po
+
+  [ Daniel d'Andrada ]
+  * Make tst_PreviewListView and tst_GenericScopeView work in out-of-
+    source builds
+  * MouseArea that shows the indicators panel should cover the
+    indicators bar only (LP: #1439318)
+  * Surface gets active focus also with mouse clicks
+
+  [ Josh Arenson ]
+  * Add a mode option to unity8 for selecting greeter mode in the future
+  * Remove PkgConfig include from Launcher plugin to fix cross-compile
+    (LP: #1437702)
+
+  [ Leo Arias ]
+  * Fixed the check for string in the lock screen test. (LP: #1434518)
+
+  [ Michael Terry ]
+  * Make sure the edge tutorial is destroyed when we receive a call
+    during the wizard. (LP: #1436349)
+  * Skip parts of the edge tutorial that require a touch device (like
+    spread and bottom edge). (LP: #1434712)
+
+  [ Michael Zanetti ]
+  * Don't hide stages just because they're empty (LP: #1439615)
+  * [Launcher] fix bug where an item would disappear even though the app
+    is running (LP: #1438172)
+
+  [ Nick Dedekind ]
+  * Fixed autopilot test failures related to udev input failure for
+    power button.
+  * Made improvements for laggy indicator backends (lp#1390136). (LP:
+    #1390136)
+
+  [ Pete Woods ]
+  * GPS only goes active when the Dash is in the foreground (LP:
+    #1434379)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Modified the wrong time format in ScreenGrabber (LP: #1436006)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 09 Apr 2015 14:01:11 +0000
+
+unity8 (8.02+15.04.20150320-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix regression making pan not possible in Zoomable Image (LP:
+    #1433506)
+  * Make sure m_firstVisibleIndex is correctly set after processing
+    changeSet.removes (LP: #1433056)
+  * make pot_file
+
+  [ Daniel d'Andrada ]
+  * Don't show the rotating rect in "make tryFoo".
+
+  [ Michael Zanetti ]
+  * make pinlockscreen adjust better to larger displays
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 20 Mar 2015 11:56:41 +0000
+
+unity8 (8.02+15.04.20150318-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add some context to tr calls (LP: #1431497)
+  * Require binaries and .pc files we call from code
+  * Test: More stubborn flick to the end
+
+  [ Andrea Cimitan ]
+  * Refactor PreviewOverlay to fix weird zoom out/in animations when
+    previewing images from the Previews
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Charles Kerr ]
+  * Re-enable a rotation lock test now that the bug that broke that test
+    has been fixed. (LP: #1410915)
+
+  [ Daniel d'Andrada ]
+  * Darkened area behind indicators menu should eat input until it fully
+    disappears (LP: #1417967)
+  * DesktopStage - fix focus switch when user taps on window (LP:
+    #1431325)
+  * Fix warnings when launching tutorial
+  * Make MouseTouchAdaptor controllable from within QML
+  * Make tst_Shell absorb tst_TabletShell
+
+  [ Leo Arias ]
+  * Changed the autopilot dependencies so they do not require qt4. (LP:
+    #1429158)
+  * Drop the support for python2 in autopilot tests. (LP: #1429163)
+  * Stop using the deprecated toolkit emulators namespace in autopilot
+    tests. (LP: #1341681)
+
+  [ Michael Terry ]
+  * Don't close wizard & edge tutorial when the unity8-dash closes (LP:
+    #1425484)
+  * Don't let the wizard sit indefinitely, waiting for a wizard page to
+    finish preparing itself. (LP: #1425737)
+  * Fix two broken qmluitest files by waiting for everything to settle
+    before starting the tests.
+  * Only call unlockAllModems once the wizard is done. (LP: #1425161)
+    (LP: #1425161)
+  * When we are locking the user out from too many login failures,
+    notice when time passes even if the device is suspended. (LP:
+    #1396817) (LP: #1396817)
+
+  [ Michael Zanetti ]
+  * Add a mouse area to the indicators panel so we can open them by
+    clicking. (LP: #1417650)
+  * fix launcher not reacting to first click when revealed by mouse
+    hover, add tests
+  * performance improvements (LP: #1430233, #1425087)
+
+  [ Michał Sawicz ]
+  * Remove the activity indicator from tests
+  * Use targets instead of custom ld arguments for linking
+
+  [ Mirco Müller ]
+  * Updated the visuals of the SwipeToAct-widget for incoming-call snap-
+    decision notifications according to new design-spec.
+  * Updated the visuals of the SwipeToAct-widget for incoming-call snap-
+    decision notifications according to new design-spec.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 18 Mar 2015 10:19:06 +0000
+
+unity8 (8.02+15.04.20150302-0ubuntu2) vivid; urgency=medium
+
+  * No-change rebuild against Qt 5.4.1.
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Wed, 11 Mar 2015 10:27:23 +0200
+
 unity8 (8.02+15.04.20150302-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals ]

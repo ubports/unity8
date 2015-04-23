@@ -16,7 +16,6 @@
 
 #include "SurfaceManager.h"
 
-#include "GenericApp.h"
 #include "VirtualKeyboard.h"
 
 #include <paths.h>
@@ -42,10 +41,7 @@ MirSurfaceItem *SurfaceManager::createSurface(const QString& name,
                                               MirSurfaceItem::State state,
                                               const QUrl& screenshot)
 {
-    MirSurfaceItem* surface = new GenericApp(name,
-                                       type,
-                                       state,
-                                       screenshot);
+    MirSurfaceItem* surface = new MirSurfaceItem(name, type, state, screenshot);
     Q_EMIT surfaceCreated(surface);
     return surface;
 }
@@ -59,26 +55,6 @@ void SurfaceManager::registerSurface(MirSurfaceItem *surface)
         surface->setLive(false);
         Q_EMIT surfaceDestroyed(surface);
     });
-
-    GenericApp *genericApp = qobject_cast<GenericApp*>(surface);
-    if (genericApp) {
-        connect(genericApp, &GenericApp::inputMethodRequested,
-                this, &SurfaceManager::showInputMethod, Qt::QueuedConnection);
-        connect(genericApp, &GenericApp::inputMethodDismissed,
-                this, &SurfaceManager::hideInputMethod, Qt::QueuedConnection);
-    }
-}
-
-void SurfaceManager::showInputMethod()
-{
-    inputMethodSurface()->setState(MirSurfaceItem::Restored);
-}
-
-void SurfaceManager::hideInputMethod()
-{
-    if (m_virtualKeyboard) {
-        m_virtualKeyboard->setState(MirSurfaceItem::Minimized);
-    }
 }
 
 MirSurfaceItem *SurfaceManager::inputMethodSurface()

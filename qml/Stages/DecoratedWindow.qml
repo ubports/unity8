@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,13 +20,12 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 
-Item {
+FocusScope {
     id: root
 
     property alias application: applicationWindow.application
     property alias active: decoration.active
 
-    signal requestFocus();
     signal close();
     signal maximize();
     signal minimize();
@@ -53,8 +52,10 @@ Item {
 
     ApplicationWindow {
         id: applicationWindow
+        objectName: application ? "appWindow_" + application.appId : "appWindow_null"
         anchors.fill: parent
         anchors.topMargin: units.gu(3)
-        interactive: index == 0
+        interactive: true
+        focus: true
     }
 }

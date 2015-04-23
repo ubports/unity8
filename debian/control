@@ -6,8 +6,6 @@ Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
                doxyqml,
-               graphviz,
-               gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
 # We rely on C++11 features, and to prevent from ABI breaks
 # in libstdc++ causing us issues, we explicitly select a G++
 # version. To allow cross-compiling to work, we also must
@@ -15,6 +13,8 @@ Build-Depends: cmake,
 # on an x86 CPU for eaxmple, when cross-compiling.
                g++-4.9:native,
                libandroid-properties-dev,
+               graphviz,
+               gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
                libconnectivity-qt1-dev,
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
@@ -28,14 +28,12 @@ Build-Depends: cmake,
                libqmenumodel-dev (>= 0.2.9),
                libqt5xmlpatterns5-dev,
                libsystemsettings-dev,
-               libunity-api-dev (>= 7.96),
+               libunity-api-dev (>= 7.97),
                libusermetricsoutput1-dev,
                libxcb1-dev,
                pkg-config,
-               python-setuptools,
                python3-all:any,
                python3-setuptools,
-               python:any (>= 2.7),
                qml-module-qt-labs-folderlistmodel,
                qml-module-qtquick-layouts,
                qml-module-qtquick-xmllistmodel,
@@ -50,7 +48,7 @@ Build-Depends: cmake,
                qtdeclarative5-dev-tools,
                qtdeclarative5-private-dev (>= 5.2.1),
                qtdeclarative5-qtmultimedia-plugin,
-               qtdeclarative5-ubuntu-settings-components (>= 0.5),
+               qtdeclarative5-ubuntu-settings-components (>= 0.6),
                qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
                qtdeclarative5-ubuntu-web-plugin,
                ttf-ubuntu-font-family,
@@ -79,6 +77,9 @@ Depends: unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
+# We do call pkg-config libunity-scopes from the code
+         pkg-config,
+         libunity-scopes-dev,
 Description: Development tool for Unity scopes
  This package contains the development tool for new generation Unity scopes, based
  on Unity8.
@@ -119,12 +120,12 @@ Description: Unity 8 shell
 Package: unity8-common
 Architecture: all
 Depends: qml-module-qtquick-layouts,
-         qtdeclarative5-ubuntu-settings-components (>= 0.4),
+         qtdeclarative5-ubuntu-settings-components (>= 0.6),
          qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
          qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
          qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
          ubuntu-thumbnailer-impl-0,
-         unity-application-impl-5,
+         unity-application-impl-6,
          unity-notifications-impl-3,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-6,
@@ -140,20 +141,16 @@ Description: Unity 8 shell (common files)
 
 Package: unity8-autopilot
 Architecture: all
-Depends: gir1.2-glib-2.0,
+Depends: autopilot-qt5 (>= 1.4),
+         gir1.2-glib-2.0,
          gir1.2-notify-0.7,
-         libautopilot-qt (>= 1.4),
          libqt5test5,
          libqt5widgets5,
-         python-autopilot,
-         python-evdev,
-         python-fixtures,
-         python-gi,
-         python-mock,
          python3-autopilot,
          python3-evdev,
          python3-fixtures,
          python3-gi,
+         qttestability-autopilot (>= 1.4),
          ubuntu-ui-toolkit-autopilot,
          unity-scope-click,
          unity8 (= ${source:Version}),
@@ -161,7 +158,6 @@ Depends: gir1.2-glib-2.0,
          url-dispatcher-tools,
          ${misc:Depends},
          ${python3:Depends},
-         ${python:Depends},
          ${shlibs:Depends},
 Description: Test package for Unity 8 shell
  Autopilot tests for the unity8 package
@@ -173,7 +169,12 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,
-          unity-application-impl-5,
+<<<<<<< TREE
+          unity-application-impl-6,
+=======
+          unity-application-impl-4,
+Replaces: unity8-autopilot (<< 8.02+15.04.20150422-0ubuntu1)
+>>>>>>> MERGE-SOURCE
 Description: Fake environment for running Unity 8 shell
  Provides fake implementations of some QML modules used by Unity 8 shell
  (e.g Ubuntu.Application) so that you can run it in a sandboxed environment.
@@ -185,8 +186,8 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: accountsservice-ubuntu-schemas (>= 0.0.3),
          gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
-         unity-schemas (>= 7.3.1+14.10.20140915),
          pay-service,
+         unity-schemas (>= 7.3.1+14.10.20140915),
          ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,

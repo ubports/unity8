@@ -34,6 +34,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_FLAGS(ExecFlags)
 
     Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
+    Q_PROPERTY(QStringList availableApplications READ availableApplications NOTIFY availableApplicationsChanged)
 
  public:
     ApplicationManager(QObject *parent = nullptr);
@@ -75,7 +76,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     void setForceDashActive(bool forceDashActive) override;
 
     // Only for testing
-    Q_INVOKABLE QStringList availableApplications();
+    QStringList availableApplications();
     Q_INVOKABLE ApplicationInfo* add(QString appId);
 
     QModelIndex findIndex(ApplicationInfo* application);
@@ -85,6 +86,7 @@ class ApplicationManager : public ApplicationManagerInterface {
  Q_SIGNALS:
     void focusRequested(const QString &appId);
     void emptyChanged(bool empty);
+    void availableApplicationsChanged(QStringList list);
 
  private Q_SLOTS:
     void onWindowCreatedTimerTimeout();

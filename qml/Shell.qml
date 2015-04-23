@@ -23,6 +23,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
+import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
 import LightDM 0.1 as LightDM
@@ -105,6 +106,9 @@ Item {
     property url background: asImageTester.status == Image.Ready ? asImageTester.source
                              : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
     readonly property real panelHeight: panel.panelHeight
+
+    // This is _only_ used to expose the property to autopilot tests
+    readonly property string testShellMode: shellMode
 
     function activateApplication(appId) {
         if (ApplicationManager.findApplication(appId)) {
@@ -203,7 +207,6 @@ Item {
         objectName: "stages"
         width: parent.width
         height: parent.height
-        visible: !ApplicationManager.empty
 
         Connections {
             target: ApplicationManager
@@ -213,7 +216,7 @@ Item {
             onFocusedApplicationIdChanged: {
                 var appId = ApplicationManager.focusedApplicationId;
 
-                if (tutorial.running && appId != "unity8-dash") {
+                if (tutorial.running && appId != "" && appId != "unity8-dash") {
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call
                     // is more important than wizard so just bail out of those.
@@ -342,6 +345,31 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "beingResized"
                 value: shell.beingResized
+            }
+        }
+
+        Tutorial {
+            id: tutorial
+            objectName: "tutorial"
+            anchors.fill: parent
+            active: AccountsService.demoEdges
+            paused: LightDM.Greeter.active
+            launcher: launcher
+            panel: panel
+            edgeSize: shell.edgeSize
+
+            // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
+            // we'll tell the tutorial to avoid using them on the Desktop.  The
+            // Desktop doesn't use the same spread design anyway.  The tutorial is
+            // all a bit of a placeholder on non-phone form factors right now.
+            // When the design team gives us more guidance, we can do something
+            // more clever here.
+            // TODO: use DeviceConfiguration instead of checking source
+            useEdgeDragArea: applicationsDisplayLoader.source != Qt.resolvedUrl("Stages/DesktopStage.qml")
+
+            onFinished: {
+                AccountsService.demoEdges = false;
+                active = false; // for immediate response / if AS is having problems
             }
         }
     }
@@ -568,8 +596,18 @@ Item {
 
         Wizard {
             id: wizard
+            objectName: "wizard"
             anchors.fill: parent
             background: shell.background
+
+            function unlockWhenDoneWithWizard() {
+                if (!active) {
+                    Connectivity.unlockAllModems();
+                }
+            }
+
+            Component.onCompleted: unlockWhenDoneWithWizard()
+            onActiveChanged: unlockWhenDoneWithWizard()
         }
 
         Rectangle {
@@ -627,23 +665,6 @@ Item {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
-        }
-    }
-
-    Tutorial {
-        id: tutorial
-        objectName: "tutorial"
-        active: AccountsService.demoEdges
-        paused: LightDM.Greeter.active
-        launcher: launcher
-        panel: panel
-        stages: stages
-        overlay: overlay
-        edgeSize: shell.edgeSize
-
-        onFinished: {
-            AccountsService.demoEdges = false;
-            active = false; // for immediate response / if AS is having problems
         }
     }
 

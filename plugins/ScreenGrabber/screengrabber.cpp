@@ -81,7 +81,7 @@ void ScreenGrabber::captureAndSave()
 QString ScreenGrabber::makeFileName()
 {
     QString fileName(fileNamePrefix);
-    fileName.append(QDateTime::currentDateTime().toString("yyyymmdd_hhmmsszzz"));
+    fileName.append(QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz"));
     fileName.append(".");
     fileName.append(getFormat());
     return fileName;

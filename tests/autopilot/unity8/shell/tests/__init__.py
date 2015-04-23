@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -66,29 +66,6 @@ UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
 UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
 
 
-def _get_device_emulation_scenarios(devices='All'):
-    nexus4 = ('Desktop Nexus 4',
-              dict(app_width=768, app_height=1280, grid_unit_px=18))
-    nexus10 = ('Desktop Nexus 10',
-               dict(app_width=2560, app_height=1600, grid_unit_px=20))
-    native = ('Native Device',
-              dict(app_width=0, app_height=0, grid_unit_px=0))
-
-    if model() == 'Desktop':
-        if devices == 'All':
-            return [nexus4, nexus10]
-        elif devices == 'Nexus4':
-            return [nexus4]
-        elif devices == 'Nexus10':
-            return [nexus10]
-        else:
-            raise RuntimeError(
-                'Unrecognized device-option "%s" passed.' % devices
-            )
-    else:
-        return [native]
-
-
 def is_unity7_running():
     """Return True if Unity7 is running. Otherwise, return False."""
     return (
@@ -148,7 +125,7 @@ class UnityTestCase(AutopilotTestCase):
             sys.exit(2)
 
     def setUp(self):
-        super(UnityTestCase, self).setUp()
+        super().setUp()
         if is_unity7_running():
             self.useFixture(toolkit_fixtures.HideUnity7Launcher())
 
@@ -253,8 +230,14 @@ class UnityTestCase(AutopilotTestCase):
                 "%s=%s" % (key, value)
             ], stderr=subprocess.STDOUT)
 
-    def launch_unity(self, **kwargs):
-        """Launch the unity shell, return a proxy object for it."""
+    def launch_unity(self, mode="full-greeter", *args):
+        """
+            Launch the unity shell, return a proxy object for it.
+
+        :param str mode: The type of greeter/shell mode to use
+        :param args: A list of aguments to pass to unity8
+
+        """
         binary_path = get_binary_path()
         lib_path = get_lib_path()
 
@@ -289,9 +272,13 @@ class UnityTestCase(AutopilotTestCase):
         except OSError:
             pass
 
+        unity8_cli_args_list = ["--mode={}".format(mode)]
+        if len(args) != 0:
+            unity8_cli_args_list += args
+
         app_proxy = self._launch_unity_with_upstart(
             binary_path,
-            self.unity_geometry_args,
+            self.unity_geometry_args + unity8_cli_args_list
         )
 
         self._set_proxy(app_proxy)
@@ -399,7 +386,7 @@ class DashBaseTestCase(AutopilotTestCase):
     environment = {}
 
     def setUp(self):
-        super(DashBaseTestCase, self).setUp()
+        super().setUp()
 
         if is_unity7_running():
             self.useFixture(toolkit_fixtures.HideUnity7Launcher())

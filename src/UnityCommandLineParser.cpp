@@ -16,6 +16,8 @@
 
 #include "UnityCommandLineParser.h"
 
+#include <QDebug>
+
 #define ENV_GRID_UNIT_PX "GRID_UNIT_PX"
 #define DEFAULT_GRID_UNIT_PX 8
 
@@ -51,6 +53,11 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
             "Specify the device name instead of letting Unity 8 find it out", "devicename", "");
     parser.addOption(devicenameOption);
 
+    QCommandLineOption modeOption("mode",
+        "Whether to run greeter and/or shell [full-greeter, full-shell, greeter, shell]",
+        "mode", "full-greeter");
+    parser.addOption(modeOption);
+
     // Treat args with single dashes the same as arguments with two dashes
     // Ex: -fullscreen == --fullscreen
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
@@ -71,6 +78,7 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
     m_hasMouseToTouch = parser.isSet(mousetouchOption);
     m_hasFullscreen = parser.isSet(fullscreenOption);
     m_deviceName = parser.value(devicenameOption);
+    resolveMode(parser, modeOption);
 }
 
 int UnityCommandLineParser::parsePixelsValue(const QString &str)
@@ -90,4 +98,26 @@ float UnityCommandLineParser::getenvFloat(const char* name, float defaultValue)
     bool ok;
     float value = stringValue.toFloat(&ok);
     return ok ? value : defaultValue;
+}
+
+void UnityCommandLineParser::resolveMode(QCommandLineParser &parser, QCommandLineOption &modeOption)
+{
+    // If an invalid option was specified, set it to the default
+    // If no default was provided in the QCommandLineOption constructor, abort.
+    if (!parser.isSet(modeOption) ||
+        (parser.value(modeOption) != "full-greeter" &&
+         parser.value(modeOption) != "full-shell" &&
+         parser.value(modeOption) != "greeter" &&
+         parser.value(modeOption) != "shell")) {
+
+        if (modeOption.defaultValues().first() != nullptr) {
+            m_mode = modeOption.defaultValues().first();
+            qWarning() << "Mode argument was not provided or was set to an illegal value."
+                " Using default value of --mode=" << m_mode;
+        } else {
+            qFatal("Shell mode argument was not provided and there is no default mode.");
+        }
+    } else {
+        m_mode = parser.value(modeOption);
+    }
 }

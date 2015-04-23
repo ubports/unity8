@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,15 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_orientationAngle(Angle0)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
+    , m_touchPressCount(0)
+    , m_touchReleaseCount(0)
 {
+    setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
+        Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
+        Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
+        Qt::ExtraButton9 | Qt::ExtraButton10 | Qt::ExtraButton11 |
+        Qt::ExtraButton12 | Qt::ExtraButton13);
+
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
     // The assumptions I make here really should hold.
@@ -167,5 +175,16 @@ void MirSurfaceItem::createQmlContentItem()
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
         screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
+    }
+}
+
+void MirSurfaceItem::touchEvent(QTouchEvent * event)
+{
+    if (event->touchPointStates() & Qt::TouchPointPressed) {
+        ++m_touchPressCount;
+        Q_EMIT touchPressCountChanged(m_touchPressCount);
+    } else if (event->touchPointStates() & Qt::TouchPointReleased) {
+        ++m_touchReleaseCount;
+        Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
     }
 }

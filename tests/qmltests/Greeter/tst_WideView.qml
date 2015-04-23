@@ -313,7 +313,7 @@ Item {
         property Item view: loader.status === Loader.Ready ? loader.item : null
 
         function init() {
-            view.currentIndex = 0; // break binding with text field
+            selectIndex(0); // break binding with text field
             selectedSpy.clear();
             respondedSpy.clear();
             teaseSpy.clear();
@@ -343,9 +343,15 @@ Item {
             return -1;
         }
 
+        function selectIndex(i) {
+            view.currentIndex = i;
+            var userList = findChild(view, "userList");
+            tryCompare(userList, "movingInternally", false);
+        }
+
         function selectUser(name) {
             var i = getIndexOf(name);
-            view.currentIndex = i;
+            selectIndex(i);
             return i;
         }
 
@@ -441,7 +447,8 @@ Item {
 
         // Escape is used to reset the authentication, especially if PAM is unresponsive
         function test_escape() {
-            view.currentIndex = 1;
+            selectIndex(1);
+            selectedSpy.clear();
             view.locked = true;
             view.showPrompt("Prompt", true, true);
             var passwordInput = findChild(view, "passwordInput");
