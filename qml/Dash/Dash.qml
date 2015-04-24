@@ -187,6 +187,11 @@ Showable {
         onRequestFavoriteMoveTo: {
             scopes.moveFavoriteTo(scopeId, index);
         }
+        onRequestRestore: {
+            bottomEdgeController.enableAnimation = true;
+            bottomEdgeController.progress = 0;
+            dash.setCurrentScope(scopeId, false, false);
+        }
 
         Binding {
             target: scopesList.scope
