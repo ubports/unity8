@@ -23,7 +23,6 @@ import Unity.Application 0.1
 FocusScope {
     id: root
 
-    property alias window: applicationWindow
     property alias application: applicationWindow.application
     property alias active: decoration.active
 
