@@ -70,6 +70,8 @@ Item {
             && (applicationsDisplayLoader.item && applicationsDisplayLoader.item.orientationChangesEnabled)
             && !greeter.animating
 
+    readonly property bool showingGreeter: greeter.shown
+
     property bool startingUp: true
     Timer { id: finishStartUpTimer; interval: 500; onTriggered: startingUp = false }
 

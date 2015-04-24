@@ -22,6 +22,7 @@ import Ubuntu.Components.ListItems 1.0 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import LightDM 0.1 as LightDM
+import Powerd 0.1
 
 import "../../qml"
 
@@ -161,8 +162,16 @@ Rectangle {
     }
 
     Rectangle {
-        id: controls
+        width: controls.width
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            right: parent.right
+        }
         color: "darkgrey"
+    }
+    Flickable {
+        id: controls
         width: units.gu(30)
         anchors {
             top: parent.top
@@ -170,7 +179,11 @@ Rectangle {
             right: parent.right
         }
 
+        boundsBehavior: Flickable.StopAtBounds
+        contentHeight: controlsColumn.height
+
         Column {
+            id: controlsColumn
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
             Button {
@@ -279,6 +292,17 @@ Rectangle {
                 Label {
                     text: "Input Method"
                     anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+            Button {
+                text: Powerd.status === Powerd.On ? "Display ON" : "Display OFF"
+                activeFocusOnPress: false
+                onClicked: {
+                    if (Powerd.status === Powerd.On) {
+                        Powerd.status = Powerd.Off;
+                    } else {
+                        Powerd.status = Powerd.On;
+                    }
                 }
             }
         }
