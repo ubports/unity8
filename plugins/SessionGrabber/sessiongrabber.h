@@ -15,8 +15,8 @@
  *
  */
 
-#ifndef SESSIONSCREENSHOTER_H
-#define SESSIONSCREENSHOTER_H
+#ifndef SESSIONGRABBER_H
+#define SESSIONGRABBER_H
 
 #include <QObject>
 #include <QSharedPointer>
@@ -26,11 +26,11 @@ class QQuickItem;
 class QQuickItemGrabResult;
 
 /**
- * SessionScreenshoter saves to disk screenshots of the given item.
+ * SessionGrabber saves to disk screenshots of the given item.
  * Images are saved into $HOME/.cache/app_shots/appId.png
  * It also handles giving back the screenshot path if it already exists (e.g. because a reboot)
  */
-class SessionScreenshoter : public QObject
+class SessionGrabber : public QObject
 {
     Q_OBJECT
 
@@ -44,7 +44,7 @@ class SessionScreenshoter : public QObject
     Q_PROPERTY(QQuickItem *target READ target WRITE setTarget NOTIFY targetChanged)
 
 public:
-    explicit SessionScreenshoter(QObject *parent = 0);
+    explicit SessionGrabber(QObject *parent = 0);
 
     QString appId() const;
     void setAppdId(const QString &appId);

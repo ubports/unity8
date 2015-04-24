@@ -15,12 +15,12 @@
  *
  */
 
-#ifndef SESSIONSCREENSHOTER_PLUGIN_H
-#define SESSIONSCREENSHOTER_PLUGIN_H
+#ifndef SESSIONGRABBER_PLUGIN_H
+#define SESSIONGRABBER_PLUGIN_H
 
 #include <QtQml/QQmlExtensionPlugin>
 
-class SessionScreenshoterPlugin : public QQmlExtensionPlugin
+class SessionGrabberPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

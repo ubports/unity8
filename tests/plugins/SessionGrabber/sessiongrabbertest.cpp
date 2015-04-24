@@ -19,9 +19,9 @@
 #include <QQuickView>
 #include <QSignalSpy>
 
-#include "sessionscreenshoter.h"
+#include "sessiongrabber.h"
 
-class SessionScreenshoterTest : public QObject
+class SessionGrabberTest : public QObject
 {
     Q_OBJECT
 
@@ -30,17 +30,17 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(CURRENT_SOURCE_DIR "/sessionscreenshotertest.qml"));
+        view->setSource(QUrl::fromLocalFile(CURRENT_SOURCE_DIR "/sessiongrabbertest.qml"));
         view->show();
         QTest::qWaitForWindowExposed(view);
     }
 
-    void testSessionScreenshoter()
+    void testSessionGrabber()
     {
-        SessionScreenshoter s;
+        SessionGrabber s;
         s.setAppdId("test-app-id");
         s.setTarget(view->rootObject());
-        QSignalSpy spy(&s, &SessionScreenshoter::screenshotTaken);
+        QSignalSpy spy(&s, &SessionGrabber::screenshotTaken);
 
         QVERIFY(!QFile::exists(s.path()));
 
@@ -74,6 +74,6 @@ private:
     QQuickView *view;
 };
 
-QTEST_MAIN(SessionScreenshoterTest)
+QTEST_MAIN(SessionGrabberTest)
 
-#include "sessionscreenshotertest.moc"
+#include "sessiongrabbertest.moc"

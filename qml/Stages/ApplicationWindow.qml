@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
-import SessionScreenshoter 0.1
+import SessionGrabber 0.1
 
 FocusScope {
     id: root
@@ -31,7 +31,7 @@ FocusScope {
     property int orientation
 
     function removeScreenshot() {
-        screenshoter.removeScreenshot();
+        sessionGrabber.removeScreenshot();
     }
 
     QtObject {
@@ -59,7 +59,7 @@ FocusScope {
             && (d.applicationState === ApplicationInfoInterface.Stopped || d.applicationState === ApplicationInfoInterface.Suspended)
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
-                screenshoter.take();
+                sessionGrabber.take();
             }
         }
 
@@ -79,7 +79,7 @@ FocusScope {
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
-        source: screenshoter.path != "" ? screenshoter.path : d.defaultScreenshot
+        source: sessionGrabber.path != "" ? sessionGrabber.path : d.defaultScreenshot
         anchors.fill: parent
         antialiasing: !root.interactive
         cache: false
@@ -90,14 +90,14 @@ FocusScope {
         sourceSize.height: root.height / 2
     }
 
-    SessionScreenshoter {
-        id: screenshoter
+    SessionGrabber {
+        id: sessionGrabber
         appId: d.appId
         target: root
 
         onScreenshotTaken: {
             screenshotImage.source = "";
-            screenshotImage.source = screenshoter.path;
+            screenshotImage.source = sessionGrabber.path;
         }
     }
 

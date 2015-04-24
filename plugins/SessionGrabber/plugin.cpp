@@ -16,12 +16,12 @@
  */
 
 #include "plugin.h"
-#include "sessionscreenshoter.h"
+#include "sessiongrabber.h"
 
 #include <QtQml/qqml.h>
 
-void SessionScreenshoterPlugin::registerTypes(const char *uri)
+void SessionGrabberPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("SessionScreenshoter"));
-    qmlRegisterType<SessionScreenshoter>(uri, 0, 1, "SessionScreenshoter");
+    Q_ASSERT(uri == QLatin1String("SessionGrabber"));
+    qmlRegisterType<SessionGrabber>(uri, 0, 1, "SessionGrabber");
 }
