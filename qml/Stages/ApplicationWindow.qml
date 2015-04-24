@@ -88,6 +88,14 @@ FocusScope {
         // Save memory by using a half-resolution (thus quarter size) screenshot
         sourceSize.width: root.width / 2
         sourceSize.height: root.height / 2
+
+        ActivityIndicator {
+            id: activityIndicator
+            anchors.centerIn: parent
+            visible: running
+            running: stateGroup.state == "screenshot" &&
+                     (d.applicationState === ApplicationInfoInterface.Starting || d.applicationState === ApplicationInfoInterface.Running)
+        }
     }
 
     SessionGrabber {
