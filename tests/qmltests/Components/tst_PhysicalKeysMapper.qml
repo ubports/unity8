@@ -21,6 +21,8 @@ import "../../../qml/Components"
 TestCase {
     name: "PhysicalKeysMapper"
 
+    property var physicalKeysMapper: loader.item
+
     Loader {
         // Using a Loader here to make sure mapper state is coherent
         // regardless of unmatched KeyPress and KeyRelease events
@@ -31,25 +33,25 @@ TestCase {
 
     SignalSpy {
         id: powerSpy
-        target: loader.item
+        target: physicalKeysMapper
         signalName: "powerKeyLongPressed"
     }
 
     SignalSpy {
         id: volumeDownSpy
-        target: loader.item
+        target: physicalKeysMapper
         signalName: "volumeDownTriggered"
     }
 
     SignalSpy {
         id: volumeUpSpy
-        target: loader.item
+        target: physicalKeysMapper
         signalName: "volumeUpTriggered"
     }
 
     SignalSpy {
         id: screenshotSpy
-        target: loader.item
+        target: physicalKeysMapper
         signalName: "screenshotTriggered"
     }
 
@@ -66,54 +68,64 @@ TestCase {
         screenshotSpy.clear();
     }
 
-    function test_LongPressPowerButton() {
-        loader.item.onKeyPressed({ key: Qt.Key_PowerDown });
+    function test_powerKeyLongPressed() {
+        physicalKeysMapper.powerKeyLongPressTime = 500;
 
-        expectFailContinue("", "Power signal should not be emitted within a second");
-        powerSpy.wait(1000);
-        powerSpy.clear();
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
 
-        loader.item.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true });
-        powerSpy.wait(1500);
+        for (var i = 0; i < 3; ++i) {
+            wait(10);
+            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
+        }
+
+        // powerKeyLongPressed should not have been emitted yet.
+        compare(powerSpy.count, 0);
+
+        for (var i = 0; i < 10; ++i) {
+            wait(50);
+            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
+        }
+
+        compare(powerSpy.count, 1);
     }
 
-    function test_ScreenshotButtons_data() {
+    function test_screenshotButtons_data() {
         return [
             { tag: "UpFirst", first: Qt.Key_VolumeUp, second: Qt.Key_VolumeDown },
             { tag: "DownFirst", first: Qt.Key_VolumeDown, second: Qt.Key_VolumeUp },
         ];
     }
 
-    function test_ScreenshotButtons(data) {
-        loader.item.onKeyPressed({ key: data.first });
-        loader.item.onKeyPressed({ key: data.second });
+    function test_screenshotButtons(data) {
+        physicalKeysMapper.onKeyPressed({ key: data.first });
+        physicalKeysMapper.onKeyPressed({ key: data.second });
         screenshotSpy.wait();
-        loader.item.onKeyReleased({ key: data.first });
-        loader.item.onKeyReleased({ key: data.second });
-        expectFailContinue("", "VolumeUp signal should not fire");
-        volumeUpSpy.wait(100);
-        expectFailContinue("", "VolumeDown signal should not fire");
-        volumeDownSpy.wait(100);
+        physicalKeysMapper.onKeyReleased({ key: data.first });
+        physicalKeysMapper.onKeyReleased({ key: data.second });
+
+        wait(100);
+        compare(volumeUpSpy.count, 0);
+        compare(volumeDownSpy.count, 0);
     }
 
-    function test_VolumeButton_data() {
+    function test_volumeButton_data() {
         return [
             { tag: "Down", key: Qt.Key_VolumeDown, spy: volumeDownSpy },
             { tag: "Up", key: Qt.Key_VolumeUp, spy: volumeUpSpy },
         ];
     }
 
-    function test_VolumeButton(data) {
-        loader.item.onKeyPressed({ key: data.key });
-        expectFailContinue("", "Signal should not fire on press");
-        data.spy.wait(100);
-        data.spy.clear();
+    function test_volumeButton(data) {
+        physicalKeysMapper.onKeyPressed({ key: data.key });
 
-        loader.item.onKeyReleased({ key: data.key });
+        wait(100);
+        compare(data.spy.count, 0);
+
+        physicalKeysMapper.onKeyReleased({ key: data.key });
         data.spy.wait();
 
-        loader.item.onKeyPressed({ key: data.key });
-        loader.item.onKeyPressed({ key: data.key, isAutoRepeat: true });
+        physicalKeysMapper.onKeyPressed({ key: data.key });
+        physicalKeysMapper.onKeyPressed({ key: data.key, isAutoRepeat: true });
         data.spy.wait();
     }
 }

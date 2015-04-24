@@ -74,9 +74,8 @@ PreviewWidget {
                         visible: root.expanded || rowIndex < maximumCollapsedRowCount
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
                         font.bold: index == 0
-                        verticalAlignment: Text.AlignTop
-                        wrapMode: Text.WordWrap
-                        Layout.fillHeight: true
+                        wrapMode: Text.Wrap
+                        Layout.alignment: Qt.AlignTop
                         Layout.maximumWidth: column.width - x
                     }
                 }

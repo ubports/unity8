@@ -54,6 +54,8 @@ int main(int argc, const char *argv[])
     UnityCommandLineParser parser(*application);
 
     ApplicationArguments qmlArgs;
+    qmlArgs.setSize(parser.windowGeometry());
+
     if (!parser.deviceName().isEmpty()) {
         qmlArgs.setDeviceName(parser.deviceName());
     } else {
@@ -94,10 +96,6 @@ int main(int argc, const char *argv[])
     }
     TouchRegistry touchRegistry;
     view->installEventFilter(&touchRegistry);
-    if (parser.windowGeometry().isValid()) {
-        view->setWidth(parser.windowGeometry().width());
-        view->setHeight(parser.windowGeometry().height());
-    }
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.

@@ -1,3 +1,69 @@
+unity8 (8.10-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Implement full-shell rotation (LP: #1210199)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 15 Apr 2015 14:47:17 +0200
+
+unity8 (8.02+15.04.20150423-0ubuntu1) vivid; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Daniel d'Andrada ]
+  * Tapping home key shows unity8-dash home added:
+    plugins/Utils/ElapsedTimer.h plugins/Utils/HomeKeyWatcher.cpp
+    plugins/Utils/HomeKeyWatcher.h plugins/Utils/Timer.cpp
+    plugins/Utils/Timer.h tests/plugins/Utils/homekeywatchertest.cpp
+
+  [ Michał Sawicz ]
+  * Tapping home key shows unity8-dash home added:
+    plugins/Utils/ElapsedTimer.h plugins/Utils/HomeKeyWatcher.cpp
+    plugins/Utils/HomeKeyWatcher.h plugins/Utils/Timer.cpp
+    plugins/Utils/Timer.h tests/plugins/Utils/homekeywatchertest.cpp
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 23 Apr 2015 12:52:51 +0000
+
+unity8 (8.02+15.04.20150422-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Compile with Qt 5.5 (LP: #1437238)
+  * Different way of top aligning labels when the other one in the row
+    is multiline (LP: #1442085)
+  * make pot_file
+
+  [ Andrea Cimitan ]
+  * Set sourceSize for DashBackground.qml Image
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk. added: po/sk.po
+
+  [ Daniel d'Andrada ]
+  * Move handling of command line options to a separate class
+  * Refactor tst_PhysicalKeysMapper.qml
+
+  [ Leo Arias ]
+  * For autopilot tests, use the device simulation scenarios from the
+    toolkit.
+
+  [ Leonardo Arias Fonseca ]
+  * For autopilot tests, use the device simulation scenarios from the
+    toolkit.
+
+  [ Michael Zanetti ]
+  * Make sure dnd mode is ended properly when drag gesture is cancelled
+    (LP: #1444949)
+
+  [ Michał Sawicz ]
+  * Fix flake8 warnings (LP: #1444170)
+  * Move mock indicator service to unity8-fake-env, as it's a binary-
+    dependent package.
+
+  [ Nick Dedekind ]
+  * Use asynchronous dbus requests for property updates. (LP: #1436982)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 22 Apr 2015 14:46:31 +0000
+
 unity8 (8.02+15.04.20150409.1-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
