@@ -25,7 +25,14 @@ class DirectionalDragArea;
 class QQuickFlickable;
 
 /*
-    A Flickable that doesn't require the item being flicked to be its child.
+    A Flickable that can be put in front of the item to be flicked and
+    still have the item-to-be-flicked receive input events that are not flicks.
+
+    Ie, it's a Flickable that, input-wise, is transparent to non-flick gestures.
+
+    With a regular Flickable you would have to make the item-to-be-flicked a child
+    of Flicakble to achieve the same result. FloatingFlickable has no such requirement
+    or limitation.
  */
 class UBUNTUGESTURESQML_EXPORT FloatingFlickable : public QQuickItem {
     Q_OBJECT
