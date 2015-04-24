@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,12 +23,14 @@ import subprocess
 import unittest
 
 from autopilot import platform
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+from ubuntuuitoolkit import ubuntu_scenarios
+
+from unity8.shell.tests import UnityTestCase
 
 
 class SystemIntegrationTests(UnityTestCase):
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     @unittest.skipIf(
         platform.model() == "Desktop",

@@ -65,7 +65,7 @@ int main(int argc, const char *argv[])
         parser.value(windowGeometryOption).split('x').size() == 2)
     {
         QStringList geom = parser.value(windowGeometryOption).split('x');
-        qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
+        qmlArgs.setSize(QSize(geom.at(0).toInt(), geom.at(1).toInt()));
     }
 
     if (getenv("QT_LOAD_TESTABILITY")) {

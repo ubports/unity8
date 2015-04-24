@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-19 16:03+0100\n"
+"POT-Creation-Date: 2015-04-14 16:13+0200\n"
 "PO-Revision-Date: 2014-11-13 09:32+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-25 06:05+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Launchpad-Export-Date: 2015-04-23 06:48+0000\n"
+"X-Generator: Launchpad (build 17430)\n"
 "Language: is\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -57,72 +57,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Bíddu í %1 mínútu og reyndu svo aftur"
 msgstr[1] "Bíddu í %1 mínútur og reyndu svo aftur"
 
-#: qml/Components/Dialogs.qml:67
+#: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:68
+#: qml/Components/Dialogs.qml:70
 msgid "Are you sure you want to log out?"
 msgstr "Ertu viss um að þú viljir skrá þig út?"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:72
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:77
+#: qml/Components/Dialogs.qml:79
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:173
 msgid "Cancel"
 msgstr "Hætta við"
 
-#: qml/Components/Dialogs.qml:96
+#: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "Ertu viss um að þú viljir slökkva á símanum?"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:107
+#: qml/Components/Dialogs.qml:109
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:127
+#: qml/Components/Dialogs.qml:129
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:128
+#: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
 msgstr "Ertu viss að þú viljir enduræsa?"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:132
 msgid "No"
 msgstr "Nei"
 
-#: qml/Components/Dialogs.qml:136
+#: qml/Components/Dialogs.qml:138
 msgid "Yes"
 msgstr "Já"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:153
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -130,37 +130,37 @@ msgstr ""
 "Ertu viss um að þú viljir\n"
 "slökkva á símanum?"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
 msgstr "Snúa aftur í símtal"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Neyðarsímtal"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "Í lagi"
 
-#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
+#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
 msgid "See less"
 msgstr "Sjá minna"
 
-#: qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:532
 msgid "See all"
 msgstr "Sjá allt"
 
-#: qml/Dash/GenericScopeView.qml:595
+#: qml/Dash/GenericScopeView.qml:594
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -314,31 +314,31 @@ msgstr "Slá til að svara símtali..."
 msgid "Conference"
 msgstr "Ráðstefna"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
 msgstr "Ekkert er í afspilun"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:787
 msgid "In queue…"
 msgstr "Í biðröð..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "Downloading"
 msgstr "Sæki"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:793
 msgid "Paused, tap to resume"
 msgstr "Í bið, sláðu létt til að halda áfram"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Canceled"
 msgstr "Hætt við"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Finished"
 msgstr "Lokið"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Failed, tap to retry"
 msgstr "Mistókst, sláðu létt til að reyna aftur"
 
@@ -371,12 +371,17 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
+#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
 msgstr ""
 
-#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
+#: qml/Tutorial/TutorialContent.qml:81
+msgid "Click here to finish."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
 msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:26

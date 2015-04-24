@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-19 16:03+0100\n"
-"PO-Revision-Date: 2015-03-29 23:41+0000\n"
+"POT-Creation-Date: 2015-04-14 16:13+0200\n"
+"PO-Revision-Date: 2015-04-18 02:15+0000\n"
 "Last-Translator: António Miranda <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-30 05:45+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Launchpad-Export-Date: 2015-04-23 06:48+0000\n"
+"X-Generator: Launchpad (build 17430)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -37,11 +37,11 @@ msgstr "Dispositivo bloqueado"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Foi bloqueado devido a muitas tentativas falhadas da frase-senha."
+msgstr "Foi bloqueado devido a muitas tentativas falhadas da palavra-chave."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "Foi bloqueado devido a muitas tentativas falhadas da senha."
+msgstr "Bloqueado devido a muitas tentativas sem sucesso do código."
 
 #: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
@@ -50,72 +50,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Por favor, aguarde %1 minuto e tente novamente…"
 msgstr[1] "Por favor, aguarde %1 minutos e tente novamente…"
 
-#: qml/Components/Dialogs.qml:67
+#: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Terminar sessão"
 
-#: qml/Components/Dialogs.qml:68
+#: qml/Components/Dialogs.qml:70
 msgid "Are you sure you want to log out?"
 msgstr "Tem a certeza de que quer sair?"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:72
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Bloquear"
 
-#: qml/Components/Dialogs.qml:77
+#: qml/Components/Dialogs.qml:79
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Terminar sessão"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:173
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: qml/Components/Dialogs.qml:96
+#: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Encerrar"
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "Tem a certeza de que quer encerrar?"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Reiniciar"
 
-#: qml/Components/Dialogs.qml:107
+#: qml/Components/Dialogs.qml:109
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Encerrar"
 
-#: qml/Components/Dialogs.qml:127
+#: qml/Components/Dialogs.qml:129
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Reiniciar"
 
-#: qml/Components/Dialogs.qml:128
+#: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
 msgstr "Tem a certeza de que quer reiniciar?"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:132
 msgid "No"
 msgstr "Não"
 
-#: qml/Components/Dialogs.qml:136
+#: qml/Components/Dialogs.qml:138
 msgid "Yes"
 msgstr "Sim"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Energia"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:153
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -123,37 +123,37 @@ msgstr ""
 "Tem a certeza de quer\n"
 "desligar?"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Desligar"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reiniciar"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
 msgstr "Retorne para chamar"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Chamada de emergência"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
+#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:532
 msgid "See all"
 msgstr "Ver todos"
 
-#: qml/Dash/GenericScopeView.qml:595
+#: qml/Dash/GenericScopeView.qml:594
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Procurar"
@@ -243,7 +243,7 @@ msgstr "Desculpe, frase de acesso incorreta."
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr "Desculpe, senha incorreta."
+msgstr "Código incorreto."
 
 #: qml/Greeter/NarrowView.qml:55
 msgid "This will be your last attempt."
@@ -262,8 +262,8 @@ msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Se a senha for introduzida incorretamente, o seu telemóvel vai apagar todos "
-"os seus dados pessoais."
+"Se o código seja introduzido incorretamente, todos os dados pessoais do seu "
+"telemóvel serão apagados."
 
 #: qml/Greeter/NarrowView.qml:115
 #, qt-format
@@ -272,11 +272,11 @@ msgstr "Introduziu %1"
 
 #: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr "Indique a frase-senha"
+msgstr "Indique a palavra-passe"
 
 #: qml/Greeter/NarrowView.qml:117
 msgid "Enter passcode"
-msgstr "Introduza senha"
+msgstr "Introduza código"
 
 #: qml/Greeter/NarrowView.qml:118
 #, qt-format
@@ -285,7 +285,7 @@ msgstr "Desculpe, incorreto %1"
 
 #: qml/Greeter/NarrowView.qml:119
 msgid "Sorry, incorrect passphrase"
-msgstr "Desculpe, frase-senha incorreta"
+msgstr "Palavra-passe incorreta"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Please re-enter"
@@ -293,7 +293,7 @@ msgstr "Por favor, volte a introduzir"
 
 #: qml/Greeter/NarrowView.qml:121
 msgid "Sorry, incorrect passcode"
-msgstr "Desculpe, senha incorreta"
+msgstr "Código incorreta"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -307,31 +307,31 @@ msgstr "Toque para voltar a chamar..."
 msgid "Conference"
 msgstr "Conferência"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
 msgstr "Nada está a ser tocado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:787
 msgid "In queue…"
 msgstr "Em fila..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "Downloading"
 msgstr "A transferir"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:793
 msgid "Paused, tap to resume"
 msgstr "Parado, toque para continuar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Finished"
 msgstr "Concluído"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Failed, tap to retry"
 msgstr "Falhou, toque para repetir"
 
@@ -364,13 +364,18 @@ msgstr "Abrir menus especiais"
 msgid "Swipe up from the bottom edge."
 msgstr "Deslize para cima a partir da margem inferior."
 
+#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Toque aqui para continuar."
+
+#: qml/Tutorial/TutorialContent.qml:81
+msgid "Click here to finish."
+msgstr ""
+
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
 msgstr "Estes são os atalhos para as suas apps favoritas"
-
-#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
-msgstr "Toque aqui para continuar."
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -468,7 +473,7 @@ msgstr "4 dígitos apenas"
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Frase-senha"
+msgstr "Palavra-passe"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
@@ -562,11 +567,11 @@ msgstr "Termos e Condições"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr "Confirme a frase-senha"
+msgstr "Confirmar a palavra-passe"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr "Confirmar senha"
+msgstr "Confirmar código"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
@@ -575,11 +580,11 @@ msgstr "Por favor, tente novamente."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr "Escolha a sua senha"
+msgstr "Escolha o seu código"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr "A frase-senha tem de ter no mínimo 4 caracteres"
+msgstr "A palavra-passe tem de conter no mínimo 4 caracteres"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
