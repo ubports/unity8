@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,8 +28,11 @@
 #define TOUCHDISPATCHER_DEBUG 0
 
 #if TOUCHDISPATCHER_DEBUG
+#define ugDebug(params) qDebug().nospace() << "[TouchDispatcher(" << this << ")] " << params
 #include <DebugHelpers.h>
-#endif
+#else // TOUCHDISPATCHER_DEBUG
+#define ugDebug(params) ((void)0)
+#endif // TOUCHDISPATCHER_DEBUG
 
 TouchDispatcher::TouchDispatcher()
     : m_status(NoActiveTouch)
@@ -44,13 +47,12 @@ void TouchDispatcher::setTargetItem(QQuickItem *target)
         m_targetItem = target;
         if (m_status != NoActiveTouch) {
             qWarning("[TouchDispatcher] Changing target item in the middle of a touch stream");
-            m_status = TargetRejectedTouches;
+            setStatus(TargetRejectedTouches);
         }
     }
 }
 
-void TouchDispatcher::dispatch(QEvent::Type eventType,
-                               QTouchDevice *device,
+void TouchDispatcher::dispatch(QTouchDevice *device,
                                Qt::KeyboardModifiers modifiers,
                                const QList<QTouchEvent::TouchPoint> &touchPoints,
                                QWindow *window,
@@ -60,6 +62,8 @@ void TouchDispatcher::dispatch(QEvent::Type eventType,
         qWarning("[TouchDispatcher] Cannot dispatch touch event because target item is null");
         return;
     }
+
+    QEvent::Type eventType = resolveEventType(touchPoints);
 
     if (eventType == QEvent::TouchBegin) {
         dispatchTouchBegin(device, modifiers, touchPoints, window, timestamp);
@@ -72,15 +76,13 @@ void TouchDispatcher::dispatch(QEvent::Type eventType,
             dispatchAsMouse(device, modifiers, touchPoints, timestamp);
         } else {
             Q_ASSERT(m_status == TargetRejectedTouches);
-            #if TOUCHDISPATCHER_DEBUG
-            qDebug() << "[TouchDispatcher] Not dispatching touch event to" << m_targetItem.data()
-                << "because it already rejected the touch stream.";
-            #endif
+            ugDebug("Not dispatching touch event to " << m_targetItem.data()
+                << "because it already rejected the touch stream.");
             // Do nothing
         }
 
         if (eventType == QEvent::TouchEnd) {
-            m_status = NoActiveTouch;
+            setStatus(NoActiveTouch);
             m_touchMouseId = -1;
         }
 
@@ -103,10 +105,7 @@ void TouchDispatcher::dispatchTouchBegin(
     QQuickItem *targetItem = m_targetItem.data();
 
     if (!targetItem->isEnabled() || !targetItem->isVisible()) {
-        #if TOUCHDISPATCHER_DEBUG
-        qDebug() << "[TouchDispatcher] Cannot dispatch touch event to" << targetItem
-            << "because it's disabled or invisible.";
-        #endif
+        ugDebug("Cannot dispatch touch event to " << targetItem << " because it's disabled or invisible.");
         return;
     }
 
@@ -118,62 +117,46 @@ void TouchDispatcher::dispatchTouchBegin(
             createQTouchEvent(QEvent::TouchBegin, device, modifiers, targetTouchPoints, window, timestamp));
 
 
-    #if TOUCHDISPATCHER_DEBUG
-    qDebug() << "[TouchDispatcher] dispatching" << qPrintable(touchEventToString(touchEvent.data()))
-            << "to" << targetItem;
-    #endif
+    ugDebug("dispatching " << qPrintable(touchEventToString(touchEvent.data()))
+            << " to " << targetItem);
     QCoreApplication::sendEvent(targetItem, touchEvent.data());
 
 
     if (touchEvent->isAccepted()) {
-        #if TOUCHDISPATCHER_DEBUG
-        qDebug() << "[TouchDispatcher] Item accepted the touch event.";
-        #endif
-        m_status = DeliveringTouchEvents;
+        ugDebug("Item accepted the touch event.");
+        setStatus(DeliveringTouchEvents);
     } else if (targetItem->acceptedMouseButtons() & Qt::LeftButton) {
-        #if TOUCHDISPATCHER_DEBUG
-        qDebug() << "[TouchDispatcher] Item rejected the touch event. Trying a QMouseEvent";
-        #endif
+        ugDebug("Item rejected the touch event. Trying a QMouseEvent");
         // NB: Arbitrarily chose the first touch point to emulate the mouse pointer
         QScopedPointer<QMouseEvent> mouseEvent(
                 touchToMouseEvent(QEvent::MouseButtonPress, targetTouchPoints.at(0), timestamp,
                                   modifiers, false /* transformNeeded */));
         Q_ASSERT(targetTouchPoints.at(0).state() == Qt::TouchPointPressed);
 
-        #if TOUCHDISPATCHER_DEBUG
-        qDebug() << "[TouchDispatcher] dispatching" << qPrintable(mouseEventToString(mouseEvent.data()))
-                << "to" << m_targetItem.data();
-        #endif
+        ugDebug("dispatching " << qPrintable(mouseEventToString(mouseEvent.data()))
+                << " to " << m_targetItem.data());
         QCoreApplication::sendEvent(targetItem, mouseEvent.data());
         if (mouseEvent->isAccepted()) {
-            #if TOUCHDISPATCHER_DEBUG
-            qDebug() << "[TouchDispatcher] Item accepted the QMouseEvent.";
-            #endif
-            m_status = DeliveringMouseEvents;
+            ugDebug("Item accepted the QMouseEvent.");
+            setStatus(DeliveringMouseEvents);
             m_touchMouseId = targetTouchPoints.at(0).id();
 
             if (checkIfDoubleClicked(timestamp)) {
                 QScopedPointer<QMouseEvent> doubleClickEvent(
                         touchToMouseEvent(QEvent::MouseButtonDblClick, targetTouchPoints.at(0), timestamp,
                                           modifiers, false /* transformNeeded */));
-                #if TOUCHDISPATCHER_DEBUG
-                qDebug() << "[TouchDispatcher] dispatching" << qPrintable(mouseEventToString(doubleClickEvent.data()))
-                        << "to" << m_targetItem.data();
-                #endif
+                ugDebug("dispatching " << qPrintable(mouseEventToString(doubleClickEvent.data()))
+                        << " to " << m_targetItem.data());
                 QCoreApplication::sendEvent(targetItem, doubleClickEvent.data());
             }
 
         } else {
-            #if TOUCHDISPATCHER_DEBUG
-            qDebug() << "[TouchDispatcher] Item rejected the QMouseEvent.";
-            #endif
-            m_status = TargetRejectedTouches;
+            ugDebug("Item rejected the QMouseEvent.");
+            setStatus(TargetRejectedTouches);
         }
     } else {
-        #if TOUCHDISPATCHER_DEBUG
-        qDebug() << "[TouchDispatcher] Item rejected the touch event and does not accept mouse buttons.";
-        #endif
-        m_status = TargetRejectedTouches;
+        ugDebug("Item rejected the touch event and does not accept mouse buttons.");
+        setStatus(TargetRejectedTouches);
     }
 }
 
@@ -194,10 +177,8 @@ void TouchDispatcher::dispatchAsTouch(QEvent::Type eventType,
             createQTouchEvent(eventType, device, modifiers, targetTouchPoints, window, timestamp));
 
 
-    #if TOUCHDISPATCHER_DEBUG
-    qDebug() << "[TouchDispatcher] dispatching" << qPrintable(touchEventToString(eventForTargetItem.data()))
-            << "to" << targetItem;
-    #endif
+    ugDebug("dispatching " << qPrintable(touchEventToString(eventForTargetItem.data()))
+            << " to " << targetItem);
     QCoreApplication::sendEvent(targetItem, eventForTargetItem.data());
 }
 
@@ -254,10 +235,8 @@ void TouchDispatcher::dispatchAsMouse(
         QScopedPointer<QMouseEvent> mouseEvent(touchToMouseEvent(eventType, *touchMouse, timestamp, modifiers,
                     true /* transformNeeded */));
 
-        #if TOUCHDISPATCHER_DEBUG
-        qDebug() << "[TouchDispatcher] dispatching" << qPrintable(mouseEventToString(mouseEvent.data()))
-                << "to" << m_targetItem.data();
-        #endif
+        ugDebug("dispatching " << qPrintable(mouseEventToString(mouseEvent.data()))
+                << " to " << m_targetItem.data());
         QCoreApplication::sendEvent(m_targetItem.data(), mouseEvent.data());
     }
 }
@@ -364,4 +343,60 @@ bool TouchDispatcher::checkIfDoubleClicked(ulong newPressEventTimestamp)
     }
 
     return doubleClicked;
+}
+
+void TouchDispatcher::setStatus(Status status)
+{
+    if (status != m_status) {
+        #if TOUCHDISPATCHER_DEBUG
+        switch (status) {
+        case NoActiveTouch:
+            ugDebug("status = NoActiveTouch");
+            break;
+        case DeliveringTouchEvents:
+            ugDebug("status = DeliveringTouchEvents");
+            break;
+        case DeliveringMouseEvents:
+            ugDebug("status = DeliveringMouseEvents");
+            break;
+        case TargetRejectedTouches:
+            ugDebug("status = TargetRejectedTouches");
+            break;
+        default:
+            ugDebug("status = " << status);
+            break;
+        }
+        #endif
+        m_status = status;
+    }
+}
+
+void TouchDispatcher::reset()
+{
+    setStatus(NoActiveTouch);
+    m_touchMouseId = -1;
+    m_touchMousePressTimestamp =0;
+}
+
+QEvent::Type TouchDispatcher::resolveEventType(const QList<QTouchEvent::TouchPoint> &touchPoints)
+{
+    QEvent::Type eventType;
+
+    Qt::TouchPointStates eventStates = 0;
+    for (int i = 0; i < touchPoints.count(); i++)
+        eventStates |= touchPoints[i].state();
+
+    switch (eventStates) {
+        case Qt::TouchPointPressed:
+            eventType = QEvent::TouchBegin;
+            break;
+        case Qt::TouchPointReleased:
+            eventType = QEvent::TouchEnd;
+            break;
+        default:
+            eventType = QEvent::TouchUpdate;
+            break;
+    }
+
+    return eventType;
 }
