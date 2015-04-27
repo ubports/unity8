@@ -163,4 +163,3 @@ void tst_EdgeDragEvaluator::horizontalDirection_data()
 QTEST_MAIN(tst_EdgeDragEvaluator)
 
 #include "tst_EdgeDragEvaluator.moc"
-
