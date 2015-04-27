@@ -16,12 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from autopilot import platform
-
 from unity8 import (
     fixture_setup,
-    indicators,
-    process_helpers
+    indicators
 )
 from unity8.indicators import tests
 
@@ -41,7 +38,6 @@ class DisplayIndicatorTestCase(tests.DeviceIndicatorTestCase):
         display_indicator.close()
 
         self.assertTrue(display_indicator.is_indicator_icon_visible())
-
 
     def test_indicator_icon_must_not_be_visible_after_rotation_unlocked(self):
         rotation_locked = fixture_setup.DisplayRotationLock(True)

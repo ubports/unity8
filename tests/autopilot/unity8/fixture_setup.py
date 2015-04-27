@@ -41,14 +41,13 @@ from unity8.shell.emulators import (
 )
 
 from unity8 import (
-    get_lib_path,
-    get_binary_path,
     get_mocks_library_path,
     get_default_extra_mock_libraries,
     get_data_dirs
 )
 
 logger = logging.getLogger(__name__)
+
 
 class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
@@ -86,7 +85,8 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
         if not os.path.exists(lightdm_mock_path):
             raise RuntimeError(
-                "LightDM mock does not exist at path {}.".format(lightdm_mock_path)
+                "LightDM mock does not exist at path {}.".
+                format(lightdm_mock_path)
             )
         return lightdm_mock_path
 
@@ -137,8 +137,10 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         binary_arg = "BINARY=%s" % get_binary_path()
         env_args = ["%s=%s" % (k, v) for k, v in _environment.items()]
         args = [binary_arg] + env_args
-        self.unity_proxy = process_helpers.restart_unity_with_testability(*args)
-        self.main_win = self.unity_proxy.select_single(main_window_emulator.QQuickView)
+        self.unity_proxy = process_helpers.restart_unity_with_testability(
+            *args)
+        self.main_win = self.unity_proxy.select_single(
+            main_window_emulator.QQuickView)
 
     def _create_sensors(self):
         # Wait for unity to start running.
