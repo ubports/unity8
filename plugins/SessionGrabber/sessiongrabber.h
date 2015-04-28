@@ -35,38 +35,38 @@ class SessionGrabber : public QObject
     Q_OBJECT
 
     /// appId is the key of the screenshot name.
-    Q_PROPERTY(QString appId READ appId WRITE setAppdId NOTIFY appdIdChanged)
+    Q_PROPERTY(QString appId READ appId WRITE setAppId NOTIFY appIdChanged)
 
-    /// path where the screenshot is saved, can be empty if no screenshot has been taken yet.
+    /// path where the screenshot is saved, can be empty if no screenshot has been grabbed yet.
     Q_PROPERTY(QString path READ path NOTIFY pathChanged)
 
-    /// target item for the screenshot taking.
+    /// target item for the screenshot grabbing.
     Q_PROPERTY(QQuickItem *target READ target WRITE setTarget NOTIFY targetChanged)
 
 public:
     explicit SessionGrabber(QObject *parent = 0);
 
     QString appId() const;
-    void setAppdId(const QString &appId);
+    void setAppId(const QString &appId);
 
     QQuickItem *target() const;
     void setTarget(QQuickItem *target);
 
     QString path() const;
 
-    /// Starts taking a screenshot. Emits screenshotTaken when ready.
-    Q_INVOKABLE void take();
+    /// Starts grabbing a screenshot. Emits screenshotGrabbed when ready.
+    Q_INVOKABLE void grab();
 
     /// Removes the existing screenshot
     Q_INVOKABLE void removeScreenshot();
 
 Q_SIGNALS:
-    void appdIdChanged();
+    void appIdChanged();
     void targetChanged();
     void pathChanged();
 
-    /// Signals screenshot taking has finished.
-    void screenshotTaken();
+    /// Signals screenshot grabbing has finished.
+    void screenshotGrabbed();
 
 private Q_SLOTS:
     void grabReady();

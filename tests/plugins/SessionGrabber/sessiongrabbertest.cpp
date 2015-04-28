@@ -38,14 +38,14 @@ private Q_SLOTS:
     void testSessionGrabber()
     {
         SessionGrabber s;
-        s.setAppdId("test-app-id");
+        s.setAppId("test-app-id");
         s.setTarget(view->rootObject());
-        QSignalSpy spy(&s, &SessionGrabber::screenshotTaken);
+        QSignalSpy spy(&s, &SessionGrabber::screenshotGrabbed);
 
         QVERIFY(!QFile::exists(s.path()));
 
         view->rootObject()->setProperty("color", "red");
-        s.take();
+        s.grab();
         spy.wait();
 
         QVERIFY(QFile::exists(s.path()));
@@ -53,7 +53,7 @@ private Q_SLOTS:
         QCOMPARE(image.pixel(0, 0), qRgb(255, 0, 0));
 
         view->rootObject()->setProperty("color", "blue");
-        s.take();
+        s.grab();
         spy.wait();
 
         QVERIFY(QFile::exists(s.path()));

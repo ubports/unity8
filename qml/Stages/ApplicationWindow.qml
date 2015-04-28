@@ -59,7 +59,7 @@ FocusScope {
             && (d.applicationState === ApplicationInfoInterface.Stopped || d.applicationState === ApplicationInfoInterface.Suspended)
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
-                sessionGrabber.take();
+                sessionGrabber.grab();
             }
         }
 
@@ -79,7 +79,7 @@ FocusScope {
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
-        source: sessionGrabber.path != "" ? sessionGrabber.path : d.defaultScreenshot
+        source: sessionGrabber.path || d.defaultScreenshot
         anchors.fill: parent
         antialiasing: !root.interactive
         cache: false
@@ -103,7 +103,8 @@ FocusScope {
         appId: d.appId
         target: root
 
-        onScreenshotTaken: {
+        onScreenshotGrabbed: {
+            // Need to reset to "" and back since it may be the same path with new content
             screenshotImage.source = "";
             screenshotImage.source = sessionGrabber.path;
         }

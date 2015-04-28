@@ -15,7 +15,7 @@ Module {
         Property { name: "appId"; type: "string" }
         Property { name: "path"; type: "string"; isReadonly: true }
         Property { name: "target"; type: "QQuickItem"; isPointer: true }
-        Signal { name: "appdIdChanged" }
+        Signal { name: "appIdChanged" }
         Signal { name: "screenshotTaken" }
         Method { name: "take" }
         Method { name: "removeScreenshot" }

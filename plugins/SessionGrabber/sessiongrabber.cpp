@@ -22,14 +22,19 @@
 #include <QQuickItemGrabResult>
 #include <QtConcurrent>
 
-static QString cachePath()
+static QString cacheFolder()
 {
     return QDir::homePath() + "/.cache/app_shots/";
 }
 
+static QString cachePath(const QString &appId)
+{
+    return cacheFolder() + appId + ".png";
+}
+
 SessionGrabber::SessionGrabber(QObject *parent)
-    : QObject(parent),
-      m_target(nullptr)
+    : QObject(parent)
+    , m_target(nullptr)
 {
 }
 
@@ -38,11 +43,11 @@ QString SessionGrabber::appId() const
     return m_appId;
 }
 
-void SessionGrabber::setAppdId(const QString &appId)
+void SessionGrabber::setAppId(const QString &appId)
 {
     if (appId != m_appId) {
         m_appId = appId;
-        const QString path = cachePath() + appId + ".png";
+        const QString path = cachePath(appId);
         if (QFile::exists(path)) {
             setPath(path);
         }
@@ -78,22 +83,21 @@ void SessionGrabber::setPath(const QString &path)
 static QString saveScreenshot(const QString &appId, const QSharedPointer<QQuickItemGrabResult> grabResult)
 {
     const QImage image = grabResult->image();
-    const QString cPath = cachePath();
+    const QString cPath = cacheFolder();
     QDir d;
     d.mkpath(cPath);
-    const QString path = cPath + appId + ".png";
-    bool b = image.save(path);
-    if (b) {
+    const QString path = cachePath(appId);
+    if (image.save(path)) {
         return path;
     } else {
         return QString();
     }
 }
 
-void SessionGrabber::take()
+void SessionGrabber::grab()
 {
     if (!m_grabResult.isNull()) {
-        qWarning() << "Asked to take a screenshot when there's one already being taken, ignoring";
+        qWarning() << "Asked to grab a screenshot when there's one already being grabbed, ignoring";
         return;
     }
 
@@ -102,13 +106,13 @@ void SessionGrabber::take()
         m_grabResult = m_target->grabToImage();
         connect(m_grabResult.data(), &QQuickItemGrabResult::ready, this, &SessionGrabber::grabReady);
     } else {
-        qWarning() << "Can't take screnshot: appId:" << m_appId << " target:" << m_target;
+        qWarning() << "Can't grab screnshot: appId:" << m_appId << " target:" << m_target;
     }
 }
 
 void SessionGrabber::removeScreenshot()
 {
-    const QString path = cachePath() + m_appId + ".png";
+    const QString path = cachePath(m_appId);
     QFile::remove(path);
 }
 
@@ -125,5 +129,5 @@ void SessionGrabber::saveFinished()
     setPath(m_watcher->future().result());
     m_watcher.clear();
     m_grabResult.clear();
-    Q_EMIT screenshotTaken();
+    Q_EMIT screenshotGrabbed();
 }
