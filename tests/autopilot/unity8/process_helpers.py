@@ -21,6 +21,7 @@ import logging
 import subprocess
 import dbus
 
+import ubuntuuitoolkit
 from autopilot.exceptions import ProcessSearchError
 from autopilot.introspection import get_proxy_object_for_existing_process
 
@@ -271,5 +272,5 @@ def _get_unity_pid():
 def _get_unity_proxy_object(pid):
     return get_proxy_object_for_existing_process(
         pid=pid,
-        emulator_base=emulators.UnityEmulatorBase,
+        emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
     )
