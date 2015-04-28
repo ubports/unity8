@@ -67,8 +67,8 @@ FocusScope {
         subPageLoader.closeSubPage()
     }
 
-    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount) {
-        if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope") {
+    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
+        if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope" || (scope.id === "videoaggregator" && categoryId === "myvideos-getstarted")) {
             // TODO Technically it is possible that calling activate() will make the scope emit
             // previewRequested so that we show a preview but there's no scope that does that yet
             // so it's not implemented
@@ -80,8 +80,8 @@ FocusScope {
         }
     }
 
-    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount) {
-        if (itemModel.uri.indexOf("scope://") !== 0) {
+    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
+        if (itemModel.uri.indexOf("scope://") !== 0 && !(scope.id === "videoaggregator" && categoryId === "myvideos-getstarted")) {
             if (scope.preview(result)) {
                 openPreview(index, resultsModel, limitedCategoryItemCount);
             }
@@ -346,11 +346,11 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: {
-                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount());
+                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount(), baseItem.category);
                     }
 
                     onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount());
+                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount(), baseItem.category);
                     }
 
                     function categoryItemCount() {
