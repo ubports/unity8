@@ -47,8 +47,8 @@ FocusScope {
             if (appDelegate.state === "minimized") {
                 appDelegate.state = "normal"
             }
-            appDelegate.focusWindow();
             ApplicationManager.focusApplication(appId);
+            appDelegate.focus = true;
         }
     }
 
@@ -87,19 +87,21 @@ FocusScope {
         id: appRepeater
         model: ApplicationManager
 
-        delegate: Item {
+        delegate: FocusScope {
             id: appDelegate
             z: ApplicationManager.count - index
             y: units.gu(3)
             width: units.gu(60)
             height: units.gu(50)
 
+            onFocusChanged: {
+                if (focus) {
+                    ApplicationManager.requestFocusApplication(model.appId);
+                }
+            }
+
             readonly property int minWidth: units.gu(10)
             readonly property int minHeight: units.gu(10)
-
-            function focusWindow() {
-                decoratedWindow.window.forceActiveFocus();
-            }
 
             states: [
                 State {
@@ -127,7 +129,7 @@ FocusScope {
                 resizeHandleWidth: units.gu(0.5)
                 windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                onPressed: decoratedWindow.focus = true;
+                onPressed: appDelegate.focus = true;
             }
 
             DecoratedWindow {
@@ -136,12 +138,7 @@ FocusScope {
                 anchors.fill: parent
                 application: ApplicationManager.get(index)
                 active: ApplicationManager.focusedApplicationId === model.appId
-
-                onFocusChanged: {
-                    if (focus) {
-                        ApplicationManager.requestFocusApplication(model.appId);
-                    }
-                }
+                focus: true
 
                 onClose: ApplicationManager.stopApplication(model.appId)
                 onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
