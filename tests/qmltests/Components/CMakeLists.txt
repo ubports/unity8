@@ -25,7 +25,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
 
 add_executable(EdgeDragEvaluatorTestExec tst_EdgeDragEvaluator.cpp)
