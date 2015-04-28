@@ -131,6 +131,14 @@ FocusScope {
                 }
             }
 
+            // Ensures the given angle is in the form (0,90,180,270)
+            function normalizeAngle(angle) {
+                while (angle < 0) {
+                    angle += 360;
+                }
+                return angle % 360;
+            }
+
             states: [
                 // Sets the initial orientationAngle of the window, when it first slides into view
                 // (with the splash screen likely being displayed). At that point we just try to
@@ -172,16 +180,16 @@ FocusScope {
                             return Screen.angleBetween(root.nativeOrientation, chosenOrientation);
                         }
 
-                        rotation: appWindowWithShadow.orientationAngle - root.shellOrientationAngle
+                        rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)
                         width: {
-                            if (rotation == 0 || Math.abs(rotation) == 180) {
+                            if (rotation == 0 || rotation == 180) {
                                 return root.width;
                             } else {
                                 return root.height;
                             }
                         }
                         height: {
-                            if (rotation == 0 || Math.abs(rotation) == 180)
+                            if (rotation == 0 || rotation == 180)
                                 return root.height;
                             else
                                 return root.width;
@@ -201,16 +209,16 @@ FocusScope {
                     PropertyChanges {
                         target: appWindowWithShadow
                         restoreEntryValues: false
-                        rotation: appWindowWithShadow.orientationAngle - root.shellOrientationAngle
+                        rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)
                         width: {
-                            if (rotation == 0 || Math.abs(rotation) == 180) {
+                            if (rotation == 0 || rotation == 180) {
                                 return root.width;
                             } else {
                                 return root.height;
                             }
                         }
                         height: {
-                            if (rotation == 0 || Math.abs(rotation) == 180)
+                            if (rotation == 0 || rotation == 180)
                                 return root.height;
                             else
                                 return root.width;
@@ -229,7 +237,7 @@ FocusScope {
                         target: appWindowWithShadow
                         width: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.width : root.height
                         height: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.height : root.width
-                        rotation: -root.shellOrientationAngle
+                        rotation: normalizeAngle(-root.shellOrientationAngle)
                     }
                     PropertyChanges {
                         target: appWindow

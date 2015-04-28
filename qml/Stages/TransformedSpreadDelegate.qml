@@ -312,27 +312,13 @@ SpreadDelegate {
         // non-fullscreen window when they're stacked on top of each other on the
         // far left of the spread.
         Translate {
-            y: !fullscreen && Math.abs(appWindowRotation) === 180
+            y: !fullscreen && appWindowRotation === 180
                    ? priv.topMarginProgress * maximizedAppTopMargin
                    : 0
         },
         Scale {
             origin {
-                x: {
-                    switch (appWindowRotation) {
-                    case 0:
-                        return 0;
-                    break;
-                    case 90:
-                        return 0;
-                    break;
-                    case 270:
-                        return spreadView.width;
-                    break;
-                    default: // 180
-                        return 0;
-                    }
-                }
+                x: appWindowRotation === 270 ? spreadView.width : 0
                 y: spreadView.height
             }
 
