@@ -129,6 +129,7 @@ add_subdirectory(tools)
 add_subdirectory(qml)
 
 # Tests
+set(NO_TESTS OFF CACHE BOOL "Disable tests.")
 if (NOT NO_TESTS)
     include(CTest)
     enable_testing()
