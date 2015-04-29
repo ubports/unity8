@@ -35,8 +35,3 @@ void DashCommunicator::setCurrentScope(int index, bool animate, bool reset)
 {
     Q_EMIT setCurrentScopeCalled(index, animate, reset);
 }
-
-void DashCommunicator::resetAll()
-{
-    Q_EMIT resetAllCalled();
-}
