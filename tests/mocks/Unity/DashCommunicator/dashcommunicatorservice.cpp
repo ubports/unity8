@@ -31,8 +31,3 @@ void DashCommunicatorService::mockSetCurrentScope(int index, bool animate, bool 
 {
     Q_EMIT setCurrentScopeRequested(index, animate, isSwipe);
 }
-
-void DashCommunicatorService::mockResetAll()
-{
-    Q_EMIT resetAllRequested();
-}

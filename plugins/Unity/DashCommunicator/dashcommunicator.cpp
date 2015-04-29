@@ -39,15 +39,6 @@ void DashCommunicator::setCurrentScope(int index, bool animate, bool isSwipe)
     m_mutex.unlock();
 }
 
-void DashCommunicator::resetAll()
-{
-    m_mutex.lock();
-    if(m_created) {
-        QMetaObject::invokeMethod(m_dashConnection, "resetAll");
-    }
-    m_mutex.unlock();
-}
-
 void DashCommunicator::run()
 {
     m_dashConnection = new DashConnection("com.canonical.UnityDash",

@@ -204,11 +204,6 @@ Rectangle {
     }
 
     SignalSpy {
-        id: resetAllSpy
-        signalName: "resetAllCalled"
-    }
-
-    SignalSpy {
         id: unlockAllModemsSpy
         target: Connectivity
         signalName: "unlockingAllModems"
@@ -255,7 +250,6 @@ Rectangle {
 
             sessionSpy.target = findChild(shell, "greeter")
             dashCommunicatorSpy.target = findInvisibleChild(shell, "dashCommunicator");
-            resetAllSpy.target = findInvisibleChild(shell, "dashCommunicator");
 
             var launcher = findChild(shell, "launcher");
             launcherShowDashHomeSpy.target = launcher;
@@ -404,7 +398,7 @@ Rectangle {
 
                 {tag: "swipe over dash",
                  revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash",
-                 launcherHides: false, greeterShown: false},
+                 launcherHides: true, greeterShown: false},
             ];
         }
 
@@ -614,34 +608,6 @@ Rectangle {
 
             compare(dashCommunicatorSpy.count, 1);
             compare(dashCommunicatorSpy.signalArguments[0][0], 0);
-        }
-
-        function test_leftSwipeOrBFBCausesResetAllEmission() {
-            loadShell("phone");
-            swipeAwayGreeter();
-
-            resetAllSpy.clear();
-
-            //Only long left edge swipe or BFB click on the launcher causes the signal emission
-            dragLauncherIntoView();
-            compare(resetAllSpy.count, 0);
-
-            //Click the dash icon on the launcher
-            var launcher = findChild(shell, "launcher");
-            var dashIcon = findChild(launcher, "dashItem");
-            verify(dashIcon != undefined);
-            mouseClick(dashIcon);
-
-            compare(resetAllSpy.count, 1);
-
-            resetAllSpy.clear();
-
-            //Long left edge swipe
-            swipeFromLeftEdge(units.gu(27));
-
-            compare(resetAllSpy.count, 1);
-
-            resetAllSpy.clear();
         }
 
         function test_showInputMethod() {
@@ -1112,8 +1078,6 @@ Rectangle {
             // ensure the launcher dimissal timer never gets triggered during the test run
             var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
             dismissTimer.interval = 60 * 60 * 1000;
-
-            launcherShowDashHomeSpy.clear();
 
             dragLauncherIntoView();
 

@@ -32,7 +32,6 @@ public:
 
 public Q_SLOTS:
     void setCurrentScope(int index, bool animate, bool isSwipe);
-    void resetAll();
 
 protected:
     void run() override;

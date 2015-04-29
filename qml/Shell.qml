@@ -443,20 +443,18 @@ Item {
         greeter.notifyAboutToFocusApp("unity8-dash");
 
         var animate = !LightDM.Greeter.active && !stages.shown
-        dash.setCurrentScope(0, animate, false)
-        dash.resetAll()
+        dash.setCurrentScope(0, animate, true)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
     function showDash() {
-        dash.setCurrentScope(0, false, true);
-        dash.resetAll();
         if (greeter.notifyShowingDashFromDrag()) {
             launcher.fadeOut();
         }
 
-        if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
-            ApplicationManager.requestFocusApplication("unity8-dash")
+        if (!greeter.locked) {
+            dash.setCurrentScope(0, false, true);
+            ApplicationManager.requestFocusApplication("unity8-dash");
             launcher.fadeOut();
         }
     }

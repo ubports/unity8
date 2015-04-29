@@ -28,11 +28,9 @@ public:
 
 Q_SIGNALS:
     void setCurrentScopeRequested(int index, bool animate, bool isSwipe);
-    void resetAllRequested();
 
 public Q_SLOTS:
     void mockSetCurrentScope(int index, bool animate, bool isSwipe);
-    void mockResetAll();
 };
 
 #endif // DBUSUNITYSESSIONSERVICE_H

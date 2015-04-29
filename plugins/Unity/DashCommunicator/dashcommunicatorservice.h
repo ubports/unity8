@@ -30,7 +30,6 @@ public:
 
 Q_SIGNALS:
     void setCurrentScopeRequested(int index, bool animate, bool isSwipe);
-    void resetAllRequested();
 
 private:
     DBusDashCommunicatorService *m_dbusService;

@@ -45,9 +45,6 @@ Showable {
                 backToDashContent()
             }
         }
-        onResetAllRequested:{
-           dashContent.resetSearch();
-        }
     }
 
     function backToDashContent()

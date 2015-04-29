@@ -18,9 +18,6 @@ Module {
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "isSwipe"; type: "bool" }
         }
-        Method {
-            name: "resetAll"
-        }
     }
     Component {
         name: "DashCommunicatorService"
@@ -32,9 +29,6 @@ Module {
             Parameter { name: "index"; type: "int" }
             Parameter { name: "animate"; type: "bool" }
             Parameter { name: "isSwipe"; type: "bool" }
-        }
-        Signal {
-            name: "resetAllRequested"
         }
     }
     Component {
