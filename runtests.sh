@@ -41,7 +41,7 @@ sleep 1
 
 cd -
 
-make -k qmltests
+make -k xvfballtests
 makeresult=$?
 
 cd -
