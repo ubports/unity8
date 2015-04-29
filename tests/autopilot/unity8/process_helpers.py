@@ -25,8 +25,7 @@ import ubuntuuitoolkit
 from autopilot.exceptions import ProcessSearchError
 from autopilot.introspection import get_proxy_object_for_existing_process
 
-from unity8.shell import emulators
-from unity8.shell.emulators import main_window as main_window_emulator
+from unity8 import shell
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +59,7 @@ def unlock_unity(unity_proxy_obj=None):
         try:
             pid = _get_unity_pid()
             unity = _get_unity_proxy_object(pid)
-            main_window = unity.select_single(main_window_emulator.QQuickView)
+            main_window = unity.select_single(shell.QQuickView)
         except ProcessSearchError as e:
             raise CannotAccessUnity(
                 "Cannot introspect unity, make sure that it has been started "
@@ -71,7 +70,7 @@ def unlock_unity(unity_proxy_obj=None):
             )
     else:
         main_window = unity_proxy_obj.select_single(
-            main_window_emulator.QQuickView)
+            shell.QQuickView)
 
     greeter = main_window.get_greeter()
     if greeter.created is False:
@@ -110,7 +109,7 @@ def lock_unity(unity_proxy_obj=None):
         try:
             pid = _get_unity_pid()
             unity = _get_unity_proxy_object(pid)
-            main_window = unity.select_single(main_window_emulator.QQuickView)
+            main_window = unity.select_single(shell.QQuickView)
         except ProcessSearchError as e:
             raise CannotAccessUnity(
                 "Cannot introspect unity, make sure that it has been started "
@@ -121,7 +120,7 @@ def lock_unity(unity_proxy_obj=None):
             )
     else:
         main_window = unity_proxy_obj.select_single(
-            main_window_emulator.QQuickView)
+            shell.QQuickView)
 
     greeter = main_window.get_greeter()
     if greeter.created is True:
