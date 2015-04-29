@@ -42,6 +42,7 @@ sleep 1
 cd -
 
 make -k qmltests
+makeresult=$?
 
 cd -
 
@@ -134,3 +135,5 @@ echo "      </classes>" >> $coveragefile
 echo "    </package>"  >> $coveragefile
 echo "  </packages>" >> $coveragefile
 echo "</coverage>" >> $coveragefile
+
+exit $makeresult
