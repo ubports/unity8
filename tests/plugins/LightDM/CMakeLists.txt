@@ -28,6 +28,12 @@ target_link_libraries(GreeterUsersModelTestExec
 
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_binary_qml_test(GreeterDBus "${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm" MockLightDM "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks")
-
-add_binary_qml_test(GreeterUsersModel "${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm" MockLightDM "LIBLIGHTDM_MOCK_MODE=full")
+add_unity8_uitest(GreeterDBus GreeterDBusTestExec
+    ENVIRONMENT LD_LIBRARY_PATH="${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm"
+    IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks
+    DEPENDS MockLightDM
+    )
+add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
+    ENVIRONMENT LD_LIBRARY_PATH="${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm" LIBLIGHTDM_MOCK_MODE=full
+    DEPENDS MockLightDM
+    )

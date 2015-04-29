@@ -152,4 +152,4 @@ private Q_SLOTS:
 
 QTEST_GUILESS_MAIN(TimeFormatterTest)
 
-#include "timeformattertest.moc"
+#include "TimeFormatterTest.moc"
