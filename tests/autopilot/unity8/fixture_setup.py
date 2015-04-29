@@ -22,13 +22,13 @@ import logging
 import os
 import subprocess
 
+import ubuntuuitoolkit
 from autopilot import introspection
 
 from unity8 import (
     get_binary_path,
     process_helpers
 )
-from unity8.shell import emulators
 
 
 logger = logging.getLogger(__name__)
@@ -131,7 +131,7 @@ class LaunchDashApp(fixtures.Fixture):
         pid = process_helpers.start_job('unity8-dash', *all_args)
         return introspection.get_proxy_object_for_existing_process(
             pid=pid,
-            emulator_base=emulators.UnityEmulatorBase,
+            emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
         )
 
     def stop_application(self):
