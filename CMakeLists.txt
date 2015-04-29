@@ -113,6 +113,14 @@ include_directories(
     ${CMAKE_BINARY_DIR}/include
 )
 
+set(ARTIFACTS_DIR "" CACHE PATH "Store test artifacts in this directory.")
+
+# Quiet logger
+set(QUIET_LOGGER OFF CACHE BOOL "Disable test output on stdout.")
+if(NOT QUIET_LOGGER)
+    set(STDOUT_LOGGER "-o" "-,txt")
+endif()
+
 # add subdirectories to build
 add_subdirectory(include)
 add_subdirectory(libs)
