@@ -21,6 +21,7 @@ add_executable(${SHELL_APP}
     main.cpp
     MouseTouchAdaptor.cpp
     CachingNetworkManagerFactory.cpp
+    UnityCommandLineParser.cpp
     ${QML_FILES} # This is to make qml and image files appear in the IDE's project tree
 )
 
