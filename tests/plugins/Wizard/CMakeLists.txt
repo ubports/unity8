@@ -8,7 +8,7 @@ add_executable(tst-wizard-pagelist
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/PageList.cpp
 )
 qt5_use_modules(tst-wizard-pagelist Core Qml Test)
-add_unity8_unittest(WizardPageList tst-wizard-pagelist)
+add_unity8_unittest(WizardPageList tst-wizard-pagelist ENVIRONMENT WIZARD_TESTING=1)
 
 add_executable(tst-wizard-system
     tst_system.cpp
