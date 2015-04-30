@@ -47,7 +47,7 @@ public:
         m_nextTimeoutTime = m_timeSource->msecsSinceReference() + (qint64)interval();
     }
 
-    void emitTimeout() {
+    void emitTimeout() override {
         m_nextTimeoutTime += interval();
         Q_EMIT timeout();
     }
@@ -63,7 +63,7 @@ class FakeTimeSource : public UbuntuGestures::TimeSource
 {
 public:
     FakeTimeSource() { m_msecsSinceReference = 0; }
-    virtual qint64 msecsSinceReference() {return m_msecsSinceReference;}
+    qint64 msecsSinceReference() override {return m_msecsSinceReference;}
     qint64 m_msecsSinceReference;
 };
 
@@ -97,8 +97,8 @@ class tst_DirectionalDragArea: public GestureTest
 public:
     tst_DirectionalDragArea();
 private Q_SLOTS:
-    void init(); // called right before each and every test function is executed
-    void cleanup(); // called right after each and every test function is executed
+    void init() override; // called right before each and every test function is executed
+    void cleanup() override; // called right after each and every test function is executed
 
     void edgeDrag();
     void edgeDrag_data();

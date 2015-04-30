@@ -214,7 +214,7 @@ Q_SIGNALS:
     void tapped();
 
 protected:
-    virtual void touchEvent(QTouchEvent *event);
+    void touchEvent(QTouchEvent *event) override;
 
 private Q_SLOTS:
     void checkSpeed();

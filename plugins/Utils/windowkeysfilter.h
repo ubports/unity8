@@ -39,7 +39,7 @@ class WindowKeysFilter : public QQuickItem
 public:
     WindowKeysFilter(QQuickItem *parent = 0);
 
-    bool eventFilter(QObject *watched, QEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
