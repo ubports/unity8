@@ -57,7 +57,7 @@ def unlock_unity(unity_proxy_obj=None):
     """
     if unity_proxy_obj is None:
         try:
-            pid = _get_unity_pid()
+            pid = get_unity_pid()
             unity = _get_unity_proxy_object(pid)
             main_window = unity.select_single(main_window_emulator.QQuickView)
         except ProcessSearchError as e:
@@ -107,7 +107,7 @@ def lock_unity(unity_proxy_obj=None):
     """
     if unity_proxy_obj is None:
         try:
-            pid = _get_unity_pid()
+            pid = get_unity_pid()
             unity = _get_unity_proxy_object(pid)
             main_window = unity.select_single(main_window_emulator.QQuickView)
         except ProcessSearchError as e:
@@ -261,7 +261,7 @@ def _get_unity_status():
         raise CannotAccessUnity(str(error))
 
 
-def _get_unity_pid():
+def get_unity_pid():
     try:
         return get_job_pid('unity8')
     except JobError as error:
