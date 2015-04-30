@@ -125,7 +125,6 @@ private Q_SLOTS:
     {
         view = new QQuickView();
         view->setResizeMode(QQuickView::SizeRootObjectToView);
-        view->engine()->addImportPath(BUILT_PLUGINS_DIR);
 
         model = new HeightModel();
         QStringList heightList;
