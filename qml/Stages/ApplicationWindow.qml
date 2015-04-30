@@ -76,6 +76,28 @@ FocusScope {
         onTriggered: { if (sessionContainer.surface) {d.surfaceInitialized = true;} }
     }
 
+    Loader {
+        id: splashLoader
+        objectName: "splashLoader"
+        visible: active
+        active: false
+        anchors.fill: parent
+        sourceComponent: Component {
+            Splash {
+                id: splash
+                title: d.splashTitle ? d.splashTitle : d.name
+                imageSource: d.splashImage
+                icon: d.icon
+                showHeader: d.splashShowHeader
+                backgroundColor: d.splashColor
+                headerColor: d.splashColorHeader
+                footerColor: d.splashColorFooter
+                activeSpinner: d.applicationState === ApplicationInfoInterface.Starting ||
+                               d.applicationState === ApplicationInfoInterface.Running
+            }
+        }
+    }
+
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
@@ -107,28 +129,6 @@ FocusScope {
             // Need to reset to "" and back since it may be the same path with new content
             screenshotImage.source = "";
             screenshotImage.source = sessionGrabber.path;
-        }
-    }
-
-    Loader {
-        id: splashLoader
-        objectName: "splashLoader"
-        visible: active
-        active: false
-        anchors.fill: parent
-        sourceComponent: Component {
-            Splash {
-                id: splash
-                title: d.splashTitle ? d.splashTitle : d.name
-                imageSource: d.splashImage
-                icon: d.icon
-                showHeader: d.splashShowHeader
-                backgroundColor: d.splashColor
-                headerColor: d.splashColorHeader
-                footerColor: d.splashColorFooter
-                activeSpinner: d.applicationState === ApplicationInfoInterface.Starting ||
-                               d.applicationState === ApplicationInfoInterface.Running
-            }
         }
     }
 
