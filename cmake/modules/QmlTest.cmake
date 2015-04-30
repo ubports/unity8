@@ -15,22 +15,28 @@ set(QMLTEST_OPTIONS ADD_TEST CACHE INTERNAL "")
 set(QMLTEST_SINGLE ITERATIONS ARG_PREFIX CACHE INTERNAL "")
 set(QMLTEST_MULTI ARGS ENVIRONMENT DEPENDS IMPORT_PATHS TARGETS CACHE INTERNAL "")
 
-# import_executables(name1 [name2 [...]])
+# import_executables(name1 [name2 [...]]
+#    [OPTIONAL]                           # continue when not found
+# )
 #
 # This will find the named executables and import them
 # to an imported target of the same name.
 
 function(import_executables)
-    foreach(NAME ${ARGN})
+    cmake_parse_arguments(QMLTEST "OPTIONAL" "" "" ${ARGN})
+
+    foreach(NAME ${QMLTEST_UNPARSED_ARGUMENTS})
         if(NOT TARGET ${NAME})
+            add_executable(${NAME} IMPORTED GLOBAL)
             find_program(${NAME}_exe ${NAME})
 
-            if(NOT ${NAME}_exe)
+            if(NOT QMLTEST_OPTIONAL AND NOT ${NAME}_exe)
                 message(FATAL_ERROR "Could not locate ${NAME}.")
+            elseif(NOT ${NAME}_exe)
+                message(STATUS "Could not locate ${NAME}, skipping.")
+            else()
+                set_target_properties(${NAME} PROPERTIES IMPORTED_LOCATION ${${NAME}_exe})
             endif()
-
-            add_executable(${NAME} IMPORTED)
-            set_target_properties(${NAME} PROPERTIES IMPORTED_LOCATION ${${NAME}_exe})
         endif()
     endforeach()
 endfunction()
@@ -117,7 +123,7 @@ endfunction()
 #   - gdbtest${component_name} - Runs the test under gdb
 
 function(add_executable_test COMPONENT_NAME TARGET)
-    import_executables(gdb xvfb-run)
+    import_executables(gdb xvfb-run OPTIONAL)
 
     cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     mangle_arguments()
@@ -146,18 +152,22 @@ function(add_executable_test COMPONENT_NAME TARGET)
         ${targets}
     )
 
-    add_qmltest_target(xvfbtest${COMPONENT_NAME} ${TARGET}
-        COMMAND $<TARGET_FILE:xvfb-run> --server-args "-screen 0 1024x768x24" --auto-servernum ${qmltest_command}
-        ${depends}
-        ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT} LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1
-        TARGETS ${xvfb_targets}
-    )
+    if(TARGET xvfb-run)
+        add_qmltest_target(xvfbtest${COMPONENT_NAME} ${TARGET}
+            COMMAND $<TARGET_FILE:xvfb-run> --server-args "-screen 0 1024x768x24" --auto-servernum ${qmltest_command}
+            ${depends}
+            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT} LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1
+            TARGETS ${xvfb_targets}
+        )
+    endif()
 
-    add_qmltest_target(gdbtest${COMPONENT_NAME} ${TARGET}
-        COMMAND $<TARGET_FILE:gdb> -ex run -args ${qmltest_command}
-        ${depends}
-        ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
-    )
+    if(TARGET gdb)
+        add_qmltest_target(gdbtest${COMPONENT_NAME} ${TARGET}
+            COMMAND $<TARGET_FILE:gdb> -ex run -args ${qmltest_command}
+            ${depends}
+            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
+        )
+    endif()
 endfunction()
 
 
@@ -173,7 +183,7 @@ endfunction()
 #   - gdbtry${component_name} - Runs the test under gdb
 
 function(add_manual_test COMPONENT_NAME TARGET)
-    import_executables(gdb)
+    import_executables(gdb OPTIONAL)
 
     cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     mangle_arguments()
@@ -192,11 +202,13 @@ function(add_manual_test COMPONENT_NAME TARGET)
         ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
     )
 
-    add_qmltest_target(gdbtry${COMPONENT_NAME} ${TARGET}
-        COMMAND $<TARGET_FILE:gdb> -ex run -args ${qmltry_command}
-        ${depends}
-        ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
-    )
+    if(TARGET gdb)
+        add_qmltest_target(gdbtry${COMPONENT_NAME} ${TARGET}
+            COMMAND $<TARGET_FILE:gdb> -ex run -args ${qmltry_command}
+            ${depends}
+            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
+        )
+    endif()
 endfunction()
 
 
