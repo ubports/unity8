@@ -28,7 +28,9 @@ target_link_libraries(GreeterUsersModelTestExec
 
 add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_unity8_uitest(GreeterDBus GreeterDBusTestExec
+add_unity8_uitest(GreeterDBus dbus-test-runner
+    ARG_PREFIX "--parameter"
+    ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
     ENVIRONMENT LD_LIBRARY_PATH="${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm"
     IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks
     DEPENDS MockLightDM
