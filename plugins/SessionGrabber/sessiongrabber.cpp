@@ -24,7 +24,7 @@
 
 static QString cacheFolder()
 {
-    return QDir::homePath() + "/.cache/app_shots/";
+    return QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/app_shots/";
 }
 
 static QString cachePath(const QString &appId)
