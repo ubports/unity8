@@ -79,7 +79,7 @@ endfunction()
 function(add_unity8_qmltest PATH COMPONENT_NAME)
     cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     add_qml_test(${PATH} ${COMPONENT_NAME}
-        IMPORT_PATHS "${import_paths}"
+        IMPORT_PATHS ${import_paths}
         TARGETS uitests
         ${ARGN}
         ENVIRONMENT ${base_environment}
