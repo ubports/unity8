@@ -35,6 +35,7 @@ static QString cachePath(const QString &appId)
 SessionGrabber::SessionGrabber(QObject *parent)
     : QObject(parent)
     , m_target(nullptr)
+    , m_watcher(nullptr)
 {
 }
 
@@ -119,15 +120,16 @@ void SessionGrabber::removeScreenshot()
 void SessionGrabber::grabReady()
 {
     QFuture<QString> f = QtConcurrent::run(saveScreenshot, m_appId, m_grabResult);
-    m_watcher.reset(new QFutureWatcher<QString>(this));
+    m_watcher = new QFutureWatcher<QString>(this);
     m_watcher->setFuture(f);
-    connect(m_watcher.data(), &QFutureWatcher<QString>::finished, this, &SessionGrabber::saveFinished);
+    connect(m_watcher, &QFutureWatcher<QString>::finished, this, &SessionGrabber::saveFinished);
 }
 
 void SessionGrabber::saveFinished()
 {
     setPath(m_watcher->future().result());
-    m_watcher.clear();
+    delete m_watcher;
+    m_watcher = 0;
     m_grabResult.clear();
     Q_EMIT screenshotGrabbed();
 }

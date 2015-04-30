@@ -78,8 +78,8 @@ private:
     QString m_appId;
     QString m_path;
     QQuickItem *m_target;
+    QFutureWatcher<QString> *m_watcher;
     QSharedPointer<QQuickItemGrabResult> m_grabResult;
-    QSharedPointer<QFutureWatcher<QString>> m_watcher;
 };
 
 #endif
