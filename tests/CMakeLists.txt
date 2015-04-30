@@ -22,19 +22,46 @@ add_subdirectory(uqmlscene)
 add_executable(qmlscene ALIAS uqmlscene)
 import_executables(dbus-test-runner)
 
+set(UNITY_PLUGINPATH "" CACHE PATH "Path to pre-built unity8 plugin dir.")
+set(UNITY_MOCKPATH "" CACHE PATH "Path to pre-built unity8 mock dir.")
+
+# Pre-built mocks have preference, pre-built plugins replace local build
+set(import_paths "")
+if(UNITY_MOCKPATH)
+    list(APPEND import_paths ${UNITY_MOCKPATH})
+endif()
+list(APPEND import_paths
+    ${CMAKE_BINARY_DIR}/tests/mocks
+    ${CMAKE_BINARY_DIR}/tests/utils/modules
+)
+if(UNITY_PLUGINPATH)
+    list(APPEND import_paths ${UNITY_PLUGINPATH})
+else()
+    list(APPEND import_paths ${CMAKE_BINARY_DIR}/plugins)
+endif()
+
+# Pre-built mocks replace local build
+if(UNITY_MOCKPATH)
+    set(ld_paths
+        ${UNITY_MOCKPATH}/libusermetrics
+        ${UNITY_MOCKPATH}/LightDM/liblightdm
+    )
+else()
+    set(ld_paths
+        ${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
+        ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
+    )
+endif()
+list(APPEND ld_paths ${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel)
+string(REPLACE ";" ":" ld_library_path "${ld_paths}")
+
 # Base/default values
 set(base_environment
     UNITY_TESTING=1
     LANGUAGE=C
     LC_ALL=C.UTF-8
+    LD_LIBRARY_PATH=${ld_library_path}
 )
-
-set(import_paths
-    ${CMAKE_BINARY_DIR}/tests/mocks
-    ${CMAKE_BINARY_DIR}/tests/utils/modules
-    ${CMAKE_BINARY_DIR}/plugins
-)
-
 
 # add a non-graphical unit test
 # see QmlTest.cmake for additional options
@@ -42,6 +69,7 @@ function(add_unity8_unittest COMPONENT_NAME TARGET)
     cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
         ADD_TEST
+        IMPORT_PATHS ${import_paths}
         TARGETS unittests
         ${ARGN}
         ENVIRONMENT ${base_environment}
@@ -54,6 +82,7 @@ endfunction()
 function(add_unity8_uitest COMPONENT_NAME TARGET)
     cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
+        IMPORT_PATHS ${import_paths}
         TARGETS uitests
         ${ARGN}
         ENVIRONMENT ${base_environment}
@@ -83,7 +112,6 @@ function(add_unity8_qmltest PATH COMPONENT_NAME)
         TARGETS uitests
         ${ARGN}
         ENVIRONMENT ${base_environment}
-                    LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel
                     ${U8TEST_ENVIRONMENT}
     )
 endfunction()

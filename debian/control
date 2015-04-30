@@ -52,6 +52,7 @@ Build-Depends: cmake,
                qtdeclarative5-ubuntu-web-plugin,
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
+XS-Testsuite: autopkgtest
 Homepage: http://launchpad.net/unity
 # If you aren't a member of ~unity-team but need to upload
 # packaging changes, just go ahead. ~unity-team will notice

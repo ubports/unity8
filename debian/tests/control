@@ -1,0 +1,4 @@
+Tests: qmluitests.sh
+Depends: @,
+         @builddeps@,
+         xvfb,
