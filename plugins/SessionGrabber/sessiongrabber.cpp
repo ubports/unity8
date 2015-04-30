@@ -129,7 +129,7 @@ void SessionGrabber::saveFinished()
 {
     setPath(m_watcher->future().result());
     delete m_watcher;
-    m_watcher = 0;
+    m_watcher = nullptr;
     m_grabResult.clear();
     Q_EMIT screenshotGrabbed();
 }
