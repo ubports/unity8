@@ -17,4 +17,4 @@ foreach(util_test
 endforeach()
 
 # plain qml test
-add_unity8_qmltest(. UtilsStyle)
+add_unity8_qmlunittest(. UtilsStyle)

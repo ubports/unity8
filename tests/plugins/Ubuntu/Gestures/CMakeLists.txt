@@ -16,12 +16,15 @@ export_qmlfiles(UbuntuGesturesTest .)
 
 add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
 
-macro(add_gesture_test CLASSNAME)
+macro(build_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml UbuntuGestures)
+endmacro()
 
-    add_executable_test(${CLASSNAME} ${CLASSNAME}TestExec
+macro(add_gesture_unit_test CLASSNAME)
+    build_gesture_test(${CLASSNAME})
+    add_unity8_unittest(${CLASSNAME} ${CLASSNAME}TestExec
         ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures
         DEPENDS UbuntuGesturesTest-qmlfiles
         ${ARGN}
@@ -29,7 +32,12 @@ macro(add_gesture_test CLASSNAME)
 endmacro()
 
 macro(add_gesture_ui_test CLASSNAME)
-    add_gesture_test(${CLASSNAME})
+    build_gesture_test(${CLASSNAME})
+    add_unity8_uitest(${CLASSNAME} ${CLASSNAME}TestExec
+        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures
+        DEPENDS UbuntuGesturesTest-qmlfiles
+        ${ARGN}
+    )
     add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
 endmacro()
 
@@ -37,5 +45,5 @@ add_gesture_ui_test(DirectionalDragArea)
 add_gesture_ui_test(PressedOutsideNotifier)
 add_gesture_ui_test(TouchDispatcher)
 add_gesture_ui_test(TouchGate)
-add_gesture_test(Damper ADD_TEST)
-add_gesture_test(AxisVelocityCalculator ADD_TEST)
+add_gesture_unit_test(Damper)
+add_gesture_unit_test(AxisVelocityCalculator)

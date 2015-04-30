@@ -15,4 +15,4 @@ add_executable(tst-wizard-system
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/System.cpp
 )
 qt5_use_modules(tst-wizard-system Core DBus Qml Test)
-add_test(NAME wizardsystemtest COMMAND ${CMAKE_CURRENT_BINARY_DIR}/tst-wizard-system)
+add_unity8_unittest(WizardSystem tst-wizard-system)
