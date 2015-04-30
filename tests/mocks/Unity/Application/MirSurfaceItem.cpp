@@ -31,7 +31,7 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
                                MirSurfaceItem::Type type,
                                MirSurfaceItem::State state,
                                const QUrl& screenshot,
-                               const QString &qmlFilePath,
+                               const QUrl& qmlFileUrl,
                                QQuickItem *parent)
     : QQuickItem(parent)
     , m_session(nullptr)
@@ -62,15 +62,7 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     QQuickView *quickView =
         qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
 
-    QString qmlComponentFilePath;
-    if (!qmlFilePath.isEmpty()) {
-        qmlComponentFilePath.append(qmlFilePath);
-    } else {
-        qmlComponentFilePath = QString("%1/Unity/Application/MirSurfaceItem.qml")
-            .arg(mockPluginsDir());
-    }
-
-    m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);
+    m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlFileUrl);
 
     switch (m_qmlContentComponent->status()) {
         case QQmlComponent::Ready:

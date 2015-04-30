@@ -118,7 +118,7 @@ private:
                             Type type,
                             State state,
                             const QUrl& screenshot,
-                            const QString &qmlFilePath = QString(),
+                            const QUrl& qmlFilePath = QUrl("qrc:///Unity/Application/MirSurfaceItem.qml"),
                             QQuickItem *parent = 0);
 
     void createQmlContentItem();

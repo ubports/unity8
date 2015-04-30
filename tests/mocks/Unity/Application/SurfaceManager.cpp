@@ -79,18 +79,12 @@ MirSurfaceItem *SurfaceManager::inputMethodSurface()
 {
     if (!m_virtualKeyboard) {
 
-        QString screenshotPath = QString("file://%1/Dash/graphics/phone/screenshots/vkb_portrait.png")
-            .arg(qmlDirectory());
-
-        QString qmlFilePath = QString("%1/Unity/Application/VirtualKeyboard.qml")
-            .arg(mockPluginsDir());
-
         m_virtualKeyboard = new MirSurfaceItem(
                 "input-method",
                 MirSurfaceItem::InputMethod,
                 MirSurfaceItem::Minimized,
-                screenshotPath,
-                qmlFilePath);
+                QUrl("qrc:///Unity/Application/vkb_portrait.png"),
+                QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"));
         Q_EMIT surfaceCreated(m_virtualKeyboard);
     }
     return m_virtualKeyboard;

@@ -16,6 +16,7 @@ set(FakeUnityApplicationQml_SOURCES
     UbuntuKeyboardInfo.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    resources/surfaces.qrc
 )
 
 add_library(FakeUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})
