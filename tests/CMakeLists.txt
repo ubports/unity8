@@ -22,29 +22,60 @@ add_subdirectory(uqmlscene)
 add_executable(qmlscene ALIAS uqmlscene)
 import_executables(dbus-test-runner)
 
-# Base/default values
-set(base_environment
-    UNITY_TESTING=1
-    LANGUAGE=C
-    LC_ALL=C.UTF-8
-)
-
-set(import_paths
+set(UNITY_IMPORT_PATHS
     ${CMAKE_BINARY_DIR}/tests/mocks
     ${CMAKE_BINARY_DIR}/tests/utils/modules
     ${CMAKE_BINARY_DIR}/plugins
 )
+set(UNITY_IMPORT_PATHS ${UNITY_IMPORT_PATHS} CACHE INTERNAL "")
+
+macro(unity8_parse_arguments)
+    cmake_parse_arguments(U8TEST
+        "${QMLTEST_OPTIONS};QMENUMODEL;LIGHTDM"
+        "${QMLTEST_SINGLE}"
+        "${QMLTEST_MULTI}"
+        ${ARGN}
+    )
+
+    set(ld_paths)
+    if(U8TEST_LIGHTDM)
+        list(APPEND ld_paths
+            ${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
+            ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
+        )
+    endif()
+
+    if(U8TEST_QMENUMODEL)
+        list(APPEND ld_paths ${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel)
+    endif()
+
+    if(ld_paths)
+        string(REPLACE ";" ":" ld_library_path "${ld_paths}")
+        set(ld_library_path LD_LIBRARY_PATH=${ld_library_path})
+    endif()
+
+    set(U8TEST_ARGN "${ARGN}")
+    list(REMOVE_ITEM U8TEST_ARGN QMENUMODEL LIGHTDM)
+
+    set(environment
+        UNITY_TESTING=1
+        LANGUAGE=C
+        LC_ALL=C.UTF-8
+        ${ld_library_path}
+    )
+endmacro()
 
 
 # add a non-graphical unit test
 # see QmlTest.cmake for additional options
 function(add_unity8_unittest COMPONENT_NAME TARGET)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
         ADD_TEST
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS unittests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
     )
@@ -52,24 +83,25 @@ endfunction()
 
 # add a graphical unit test
 function(add_unity8_uitest COMPONENT_NAME TARGET)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS uitests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
     )
 endfunction()
 
 # add a non-graphical qml unit test
 function(add_unity8_qmlunittest PATH COMPONENT_NAME)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_qml_unittest(${PATH} ${COMPONENT_NAME}
         ADD_TEST
-        IMPORT_PATHS ${import_paths}
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGET unittests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
     )
@@ -77,20 +109,19 @@ endfunction()
 
 # add a graphical qml test
 function(add_unity8_qmltest PATH COMPONENT_NAME)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_qml_test(${PATH} ${COMPONENT_NAME}
-        IMPORT_PATHS ${import_paths}
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS uitests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
-                    LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics:${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm:${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
     )
 endfunction()
 
 # add a graphical qml benchmark
 function(add_unity8_qmlbenchmark PATH COMPONENT_NAME ITERATIONS)
-    add_unity8_qmltest(${PATH} ${COMPONENT_NAME} ${ARGN} ITERATIONS ${ITERATIONS})
+    add_unity8_qmltest(${PATH} ${COMPONENT_NAME} ITERATIONS ${ITERATIONS} ${ARGN})
 endfunction()
 
 
