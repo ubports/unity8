@@ -53,7 +53,6 @@ endfunction()
 # see below for available arguments.
 
 function(add_qml_test PATH COMPONENT_NAME)
-    import_executables(qmltestrunner)
     cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     mangle_arguments()
 
@@ -62,16 +61,17 @@ function(add_qml_test PATH COMPONENT_NAME)
 endfunction()
 
 
-# add_manual_qml_test(path component_name
+# add_qml_unittest(path component_name
 #     [...]
 # )
 #
-# Add manual test targets for ${component_name} under ${path}. It's assumed
+# Add test targets for ${component_name} under ${path}. It's assumed
 # that the test file is named ${path}/tst_${component_name}.qml.
 #
-# This function wraps add_manual_test, see below for available arguments.
+# This function wraps add_executable_test, see below for available arguments.
+
 function(add_qml_unittest PATH COMPONENT_NAME)
-    import_executables(qmlscene)
+    import_executables(qmltestrunner)
 
     add_executable_test(${COMPONENT_NAME} qmltestrunner
         ${ARGN}
