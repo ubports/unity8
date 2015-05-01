@@ -53,7 +53,6 @@ endfunction()
 # see below for available arguments.
 
 function(add_qml_test PATH COMPONENT_NAME)
-    import_executables(qmltestrunner)
     cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     mangle_arguments()
 
