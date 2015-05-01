@@ -7,11 +7,11 @@ dh_auto_configure -- -DCMAKE_INSTALL_LOCALSTATEDIR="/var" \
                      -DUNITY_PLUGINPATH=${SHELL_QML_PATH} \
                      -DUNITY_MOCKPATH=${SHELL_QML_PATH}/mocks \
                      -DQUIET_LOGGER=ON
-dh_auto_build --parallel -- -C tests/mocks 2>&1
-dh_auto_build --parallel -- -C tests/plugins 2>&1
-dh_auto_build --parallel -- -C tests/qmltests 2>&1
-dh_auto_build --parallel -- -C tests/uqmlscene 2>&1
-dh_auto_build --parallel -- -C tests/utils 2>&1
+dh_auto_build --parallel -- -C tests/mocks
+dh_auto_build --parallel -- -C tests/plugins
+dh_auto_build --parallel -- -C tests/qmltests
+dh_auto_build --parallel -- -C tests/uqmlscene
+dh_auto_build --parallel -- -C tests/utils
 
 # FIXME: --parallel here causes some failures
 dh_auto_build -- -k test xvfbuitests
