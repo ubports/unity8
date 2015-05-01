@@ -53,8 +53,10 @@ Rectangle {
         id: priv
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
-        readonly property int focusedAppIndex: indexOf(focusedAppId)
-        readonly property var focusedAppDelegate: focusedAppId && spreadRepeater.count > focusedAppIndex ? spreadRepeater.itemAt(focusedAppIndex) : null
+        readonly property var focusedAppDelegate: {
+            var index = indexOf(focusedAppId);
+            return index >= 0 && index < spreadRepeater.count ? spreadRepeater.itemAt(index) : null
+        }
 
         property string oldFocusedAppId: ""
 

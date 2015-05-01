@@ -117,8 +117,10 @@ Rectangle {
 
         readonly property int firstSpreadIndex: root.focusFirstApp ? 1 : 0
         property string focusedAppId: applicationManager.focusedApplicationId
-        readonly property int focusedAppIndex: indexOf(focusedAppId)
-        readonly property var focusedAppDelegate: focusedAppId && spreadRepeater.count > focusedAppIndex ? spreadRepeater.itemAt(focusedAppIndex) : null
+        readonly property var focusedAppDelegate: {
+            var index = indexOf(focusedAppId);
+            return index >= 0 && index < spreadRepeater.count ? spreadRepeater.itemAt(index) : null
+        }
 
         property real oldInverseProgress: 0
         property bool animateX: false
