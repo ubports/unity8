@@ -22,57 +22,66 @@ add_subdirectory(uqmlscene)
 add_executable(qmlscene ALIAS uqmlscene)
 import_executables(dbus-test-runner)
 
-set(UNITY_PLUGINPATH "" CACHE PATH "Path to pre-built unity8 plugin dir.")
-set(UNITY_MOCKPATH "" CACHE PATH "Path to pre-built unity8 mock dir.")
+set(UNITY_PLUGINPATH "${CMAKE_BINARY_DIR}/plugins" CACHE PATH "Path to pre-built unity8 plugin dir.")
+set(UNITY_MOCKPATH "${CMAKE_BINARY_DIR}/tests/mocks" CACHE PATH "Path to pre-built unity8 mock dir.")
 
 # Pre-built mocks have preference, pre-built plugins replace local build
-set(import_paths "")
-if(UNITY_MOCKPATH)
-    list(APPEND import_paths ${UNITY_MOCKPATH})
-endif()
-list(APPEND import_paths
+set(UNITY_IMPORT_PATHS
+    ${UNITY_MOCKPATH}
     ${CMAKE_BINARY_DIR}/tests/mocks
     ${CMAKE_BINARY_DIR}/tests/utils/modules
+    ${UNITY_PLUGINPATH}
 )
-if(UNITY_PLUGINPATH)
-    list(APPEND import_paths ${UNITY_PLUGINPATH})
-else()
-    list(APPEND import_paths ${CMAKE_BINARY_DIR}/plugins)
-endif()
+list(REMOVE_DUPLICATES UNITY_IMPORT_PATHS)
+set(UNITY_IMPORT_PATHS ${UNITY_IMPORT_PATHS} CACHE INTERNAL "")
 
-# Pre-built mocks replace local build
-if(UNITY_MOCKPATH)
-    set(ld_paths
-        ${UNITY_MOCKPATH}/libusermetrics
-        ${UNITY_MOCKPATH}/LightDM/liblightdm
+macro(unity8_parse_arguments)
+    cmake_parse_arguments(U8TEST
+        "${QMLTEST_OPTIONS};QMENUMODEL;LIGHTDM"
+        "${QMLTEST_SINGLE}"
+        "${QMLTEST_MULTI}"
+        ${ARGN}
     )
-else()
-    set(ld_paths
-        ${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
-        ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
-    )
-endif()
-list(APPEND ld_paths ${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel)
-string(REPLACE ";" ":" ld_library_path "${ld_paths}")
 
-# Base/default values
-set(base_environment
-    UNITY_TESTING=1
-    LANGUAGE=C
-    LC_ALL=C.UTF-8
-    LD_LIBRARY_PATH=${ld_library_path}
-)
+    set(ld_paths)
+    if(U8TEST_LIGHTDM)
+        list(APPEND ld_paths
+            ${UNITY_MOCKPATH}/libusermetrics
+            ${UNITY_MOCKPATH}/LightDM/liblightdm
+        )
+    endif()
+
+    if(U8TEST_QMENUMODEL)
+        list(APPEND ld_paths ${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel)
+    endif()
+
+    if(ld_paths)
+        string(REPLACE ";" ":" ld_library_path "${ld_paths}")
+        set(ld_library_path LD_LIBRARY_PATH=${ld_library_path})
+    endif()
+
+    set(U8TEST_ARGN "${ARGN}")
+    list(REMOVE_ITEM U8TEST_ARGN QMENUMODEL LIGHTDM)
+
+    set(environment
+        UNITY_TESTING=1
+        LANGUAGE=C
+        LC_ALL=C.UTF-8
+        ${ld_library_path}
+    )
+endmacro()
+
 
 # add a non-graphical unit test
 # see QmlTest.cmake for additional options
 function(add_unity8_unittest COMPONENT_NAME TARGET)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
         ADD_TEST
-        IMPORT_PATHS ${import_paths}
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS unittests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
     )
@@ -80,25 +89,25 @@ endfunction()
 
 # add a graphical unit test
 function(add_unity8_uitest COMPONENT_NAME TARGET)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_executable_test(${COMPONENT_NAME} ${TARGET}
-        IMPORT_PATHS ${import_paths}
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS uitests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
     )
 endfunction()
 
 # add a non-graphical qml unit test
 function(add_unity8_qmlunittest PATH COMPONENT_NAME)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_qml_unittest(${PATH} ${COMPONENT_NAME}
         ADD_TEST
-        IMPORT_PATHS ${import_paths}
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGET unittests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     QT_QPA_PLATFORM=minimal
                     ${U8TEST_ENVIRONMENT}
     )
@@ -106,19 +115,19 @@ endfunction()
 
 # add a graphical qml test
 function(add_unity8_qmltest PATH COMPONENT_NAME)
-    cmake_parse_arguments(U8TEST "${QMLTEST_OPTIONS}" "${QMLTESTS_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    unity8_parse_arguments(${ARGN})
     add_qml_test(${PATH} ${COMPONENT_NAME}
-        IMPORT_PATHS ${import_paths}
+        IMPORT_PATHS ${UNITY_IMPORT_PATHS}
         TARGETS uitests
-        ${ARGN}
-        ENVIRONMENT ${base_environment}
+        ${U8TEST_ARGN}
+        ENVIRONMENT ${environment}
                     ${U8TEST_ENVIRONMENT}
     )
 endfunction()
 
 # add a graphical qml benchmark
 function(add_unity8_qmlbenchmark PATH COMPONENT_NAME ITERATIONS)
-    add_unity8_qmltest(${PATH} ${COMPONENT_NAME} ${ARGN} ITERATIONS ${ITERATIONS})
+    add_unity8_qmltest(${PATH} ${COMPONENT_NAME} ITERATIONS ${ITERATIONS} ${ARGN})
 endfunction()
 
 

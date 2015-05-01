@@ -31,11 +31,12 @@ add_definitions(-DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
-    ENVIRONMENT LD_LIBRARY_PATH="${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm"
-    IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks
     DEPENDS MockLightDM
+    IMPORT_PATHS ${UNITY_MOCKPATH}
+    LIGHTDM
     )
 add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
-    ENVIRONMENT LD_LIBRARY_PATH="${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm" LIBLIGHTDM_MOCK_MODE=full
+    ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     DEPENDS MockLightDM
+    LIGHTDM
     )
