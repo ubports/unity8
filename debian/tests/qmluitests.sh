@@ -12,4 +12,6 @@ dh_auto_build --parallel -- -C tests/plugins 2>&1
 dh_auto_build --parallel -- -C tests/qmltests 2>&1
 dh_auto_build --parallel -- -C tests/uqmlscene 2>&1
 dh_auto_build --parallel -- -C tests/utils 2>&1
-dh_auto_build -- -k xvfballtests
+
+# FIXME: --parallel here causes some failures
+dh_auto_build -- -k test xvfbuitests
