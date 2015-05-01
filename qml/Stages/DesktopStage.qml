@@ -21,7 +21,7 @@ import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components/PanelState"
 
-FocusScope {
+Rectangle {
     id: root
 
     anchors.fill: parent
@@ -48,7 +48,6 @@ FocusScope {
                 appDelegate.state = "normal"
             }
             ApplicationManager.focusApplication(appId);
-            appDelegate.focus = true;
         }
     }
 
@@ -56,7 +55,14 @@ FocusScope {
         id: priv
 
         readonly property string focusedAppId: ApplicationManager.focusedApplicationId
-        readonly property var focusedAppDelegate: focusedAppId ? appRepeater.itemAt(indexOf(focusedAppId)) : null
+        readonly property int focusedAppIndex: indexOf(focusedAppId)
+        readonly property var focusedAppDelegate: focusedAppId && appRepeater.count > focusedAppIndex ? appRepeater.itemAt(focusedAppIndex) : null
+
+        onFocusedAppDelegateChanged: {
+            if (focusedAppDelegate) {
+                focusedAppDelegate.focus = true;
+            }
+        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {

@@ -117,13 +117,11 @@ Rectangle {
 
         readonly property int firstSpreadIndex: root.focusFirstApp ? 1 : 0
         property string focusedAppId: applicationManager.focusedApplicationId
-        property var focusedApplication: applicationManager.findApplication(focusedAppId)
-        property var focusedAppDelegate: null
+        readonly property int focusedAppIndex: indexOf(focusedAppId)
+        readonly property var focusedAppDelegate: focusedAppId && spreadRepeater.count > focusedAppIndex ? spreadRepeater.itemAt(focusedAppIndex) : null
 
         property real oldInverseProgress: 0
         property bool animateX: false
-
-        onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
         onFocusedAppDelegateChanged: {
             if (focusedAppDelegate) {

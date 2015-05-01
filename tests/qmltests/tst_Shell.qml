@@ -740,13 +740,40 @@ Rectangle {
             loadShell(data.formFactor);
             swipeAwayGreeter();
 
-            var dialerApp = ApplicationManager.startApplication("webbrowser-app");
-            verify(dialerApp);
+            var webApp = ApplicationManager.startApplication("webbrowser-app");
+            verify(webApp);
             waitUntilAppSurfaceShowsUp("webbrowser-app")
 
-            verify(dialerApp.session.surface);
+            verify(webApp.session.surface);
 
-            tryCompare(dialerApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.surface, "activeFocus", true);
+        }
+
+        function test_launchedAppHasActiveFocusWhenFormFactorSwitched_data() {
+            return [
+                {tag: "phone->tablet", from: "phone", to: "tablet"},
+                {tag: "phone->desktop", from: "phone", to: "desktop"},
+                {tag: "tablet->phone", from: "tablet", to: "phone"},
+                {tag: "tablet->desktop", from: "tablet", to: "desktop"},
+                {tag: "desktop->phone", from: "desktop", to: "phone"},
+                {tag: "desktop->tablet", from: "desktop", to: "tablet"},
+            ];
+        }
+
+        function test_launchedAppHasActiveFocusWhenFormFactorSwitched(data) {
+            loadShell(data.from);
+            swipeAwayGreeter();
+
+            var webApp = ApplicationManager.startApplication("webbrowser-app");
+            verify(webApp);
+            waitUntilAppSurfaceShowsUp("webbrowser-app")
+
+            verify(webApp.session.surface);
+
+            tryCompare(webApp.session.surface, "activeFocus", true);
+
+            loadShell(data.to);
+            tryCompare(webApp.session.surface, "activeFocus", true);
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
