@@ -31,7 +31,9 @@ System::System()
     // Register the argument needed for UpdateActivationEnvironment below
     qDBusRegisterMetaType<QMap<QString,QString>>();
 
-    m_fsWatcher.addPath(wizardEnabledPath());
+    if(!wizardEnabled()) {
+        m_fsWatcher.addPath(wizardEnabledPath());
+    }
     connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
             this, SIGNAL(wizardEnabledChanged()));
 }
