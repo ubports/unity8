@@ -137,62 +137,66 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Flickable {
         id: controls
-        color: "darkgrey"
-        width: units.gu(30)
+        contentHeight: controlRect.height
+
         anchors.top: root.top
         anchors.bottom: root.bottom
         anchors.right: root.right
+        width: units.gu(30)
 
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Button {
-                text: "Show Greeter"
-                activeFocusOnPress: false
-                onClicked: {
-                    if (shellLoader.status !== Loader.Ready)
-                        return;
-
-                    var greeter = testCase.findChild(shellLoader.item, "greeter");
-                    if (!greeter.shown) {
-                        LightDM.Greeter.showGreeter();
-                    }
-                }
-            }
-            ListItem.ItemSelector {
-                anchors { left: parent.left; right: parent.right }
-                activeFocusOnPress: false
-                text: "LightDM mock mode"
-                model: ["single", "single-passphrase", "single-pin", "full"]
-                onSelectedIndexChanged: {
-                    shellLoader.active = false;
-                    LightDM.Greeter.mockMode = model[selectedIndex];
-                    LightDM.Users.mockMode = model[selectedIndex];
-                    shellLoader.active = true;
-                }
-            }
-            ListItem.ItemSelector {
-                anchors { left: parent.left; right: parent.right }
-                activeFocusOnPress: false
-                text: "Size"
-                model: ["phone", "tablet", "desktop"]
-                onSelectedIndexChanged: {
-                    shellLoader.active = false;
-                    shellLoader.state = model[selectedIndex];
-                    shellLoader.active = true;
-                }
-            }
-            MouseTouchEmulationCheckbox {
-                id: mouseEmulation
-                checked: true
-                color: "white"
-            }
+        Rectangle {
+            id: controlRect
+            anchors { left: parent.left; right: parent.right }
+            color: "darkgrey"
+            height: childrenRect.height + units.gu(2)
 
             Column {
-                anchors { left: parent.left; right: parent.right }
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
+
+                Button {
+                    text: "Show Greeter"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return;
+
+                        var greeter = testCase.findChild(shellLoader.item, "greeter");
+                        if (!greeter.shown) {
+                            LightDM.Greeter.showGreeter();
+                        }
+                    }
+                }
+                ListItem.ItemSelector {
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "LightDM mock mode"
+                    model: ["single", "single-passphrase", "single-pin", "full"]
+                    onSelectedIndexChanged: {
+                        shellLoader.active = false;
+                        LightDM.Greeter.mockMode = model[selectedIndex];
+                        LightDM.Users.mockMode = model[selectedIndex];
+                        shellLoader.active = true;
+                    }
+                }
+                ListItem.ItemSelector {
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "Size"
+                    model: ["phone", "tablet", "desktop"]
+                    onSelectedIndexChanged: {
+                        shellLoader.active = false;
+                        shellLoader.state = model[selectedIndex];
+                        shellLoader.active = true;
+                    }
+                }
+                MouseTouchEmulationCheckbox {
+                    id: mouseEmulation
+                    checked: true
+                    color: "white"
+                }
 
                 Label { text: "Applications"; font.bold: true }
 
@@ -281,7 +285,6 @@ Rectangle {
         }
 
         function cleanup() {
-            mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
         }

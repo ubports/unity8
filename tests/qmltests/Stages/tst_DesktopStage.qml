@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,9 +94,6 @@ Rectangle {
         when: windowShown
 
         property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
-
-        function init() {
-        }
 
         function cleanup() {
             desktopStageLoader.itemDestroyed = false;
