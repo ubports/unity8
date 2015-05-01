@@ -20,6 +20,8 @@ import QtTest 1.0
 import Unity.Test 0.1
 
 TestCase {
+    name: "UnityTest"
+
     Rectangle {
         id: rect
     }
