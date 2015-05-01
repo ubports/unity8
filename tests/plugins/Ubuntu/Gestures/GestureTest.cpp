@@ -41,7 +41,6 @@ void GestureTest::init()
 {
     m_view = new QQuickView;
     m_view->setResizeMode(QQuickView::SizeViewToRootObject);
-    m_view->engine()->addImportPath(QStringLiteral(UBUNTU_GESTURES_PLUGIN_DIR));
     m_view->setSource(QUrl::fromLocalFile(m_qmlFilename));
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
