@@ -14,4 +14,4 @@ dh_auto_build --parallel -- -C tests/uqmlscene
 dh_auto_build --parallel -- -C tests/utils
 
 # FIXME: --parallel here causes some failures
-CTEST_OUTPUT_ON_FAILURE=1 dh_auto_build -- -k test xvfbuitests
+CTEST_OUTPUT_ON_FAILURE=1 dh_auto_build -- -k unittests xvfbuitests
