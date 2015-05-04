@@ -398,7 +398,7 @@ Rectangle {
 
                 {tag: "swipe over dash",
                  revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash",
-                 launcherHides: true, greeterShown: false},
+                 launcherHides: false, greeterShown: false},
             ];
         }
 
@@ -608,6 +608,8 @@ Rectangle {
 
             compare(dashCommunicatorSpy.count, 1);
             compare(dashCommunicatorSpy.signalArguments[0][0], 0);
+
+            dashCommunicatorSpy.clear();
         }
 
         function test_showInputMethod() {
@@ -1109,6 +1111,8 @@ Rectangle {
             // check that the launcher got dismissed
             var launcherPanel = findChild(shell, "launcherPanel");
             tryCompare(launcherPanel, "x", -launcherPanel.width);
+
+            launcherShowDashHomeSpy.clear();
         }
 
         function test_background_data() {

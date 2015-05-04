@@ -39,7 +39,7 @@ INOTIFYPID=`echo $!`
 
 sleep 1
 
-cd -
+cd builddir
 
 make -k qmltests
 
