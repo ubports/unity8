@@ -89,14 +89,15 @@ class TestRotationWithApp(RotationBase):
         o_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
         self.shell_proxy = unity_with_sensors.main_win.select_single('Shell')
 
-        # skip test, if device doesn't support a certain orientation
-        if not (self.orientation & o_proxy.supportedOrientations):
-            self.skipTest('unsupported orientation ' + self.action)
-
         # launch an application
         self.launch_upstart_application('webbrowser-app')
         unity_with_sensors.main_win.show_dash_from_launcher()
         unity_with_sensors.main_win.launch_application('webbrowser-app')
+
+        # skip test early, if device doesn't support a certain orientation
+        if not (self.shell_proxy.orientation & o_proxy.supportedOrientations):
+            self.skipTest('unsupported orientation ' + self.action)
+
         self.assertThat(
             unity_with_sensors.main_win.get_current_focused_app_id(),
             Eventually(Equals('webbrowser-app')))
