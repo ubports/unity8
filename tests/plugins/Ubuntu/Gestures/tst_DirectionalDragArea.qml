@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +16,18 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Unity.Test 0.1
 
 Rectangle {
     width: units.gu(60)
     height: units.gu(60)
     color: "white"
+
+    Binding {
+        target: MouseTouchAdaptor
+        property: "enabled"
+        value: true
+    }
 
     MouseArea {
         id: mouseArea

@@ -38,7 +38,8 @@ Item {
 
     Rectangle {
         id: dragAreaRect
-        opacity: 0.0
+        opacity: dragArea.dragging ? 0.5 : 0.0
+        color: "green"
         anchors.fill: dragArea
     }
 
@@ -52,25 +53,10 @@ Item {
         width: units.gu(5)
 
         direction: Direction.Rightwards
-        maxDeviation: units.gu(2)
-        wideningAngle: 10
-        distanceThreshold: units.gu(4)
-        minSpeed: 50
 
-        onStatusChanged: {
-            switch (status) {
-                case DirectionalDragArea.WaitingForTouch:
-                    dragAreaRect.opacity = 0.0
-                    break;
-                case DirectionalDragArea.Undecided:
-                    dragAreaRect.color = "yellow"
-                    dragAreaRect.opacity = 0.3
-                    launcher.x = Qt.binding(launcher.followDragArea)
-                    break;
-                default: //case DirectionalDragArea.Recognized:
-                    dragAreaRect.color = "green"
-                    dragAreaRect.opacity = 0.5
-                    break;
+        onDraggingChanged: {
+            if (dragging) {
+                launcher.x = Qt.binding(launcher.followDragArea)
             }
         }
 

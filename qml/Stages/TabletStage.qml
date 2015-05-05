@@ -170,8 +170,7 @@ Rectangle {
     Flickable {
         id: spreadView
         anchors.fill: parent
-        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
-                     && draggedDelegateCount === 0
+        interactive: (spreadDragArea.dragging || phase > 1) && draggedDelegateCount === 0
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
@@ -598,7 +597,7 @@ Rectangle {
         }
     }
 
-    EdgeDragArea {
+    DirectionalDragArea {
         id: spreadDragArea
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
@@ -624,26 +623,25 @@ Rectangle {
             if (dragging) {
                 // Gesture recognized. Start recording this gesture
                 gesturePoints = [];
-                return;
-            }
+            } else {
+                // Ok. The user released. Find out if it was a one-way movement.
+                var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
+                gesturePoints = [];
 
-            // Ok. The user released. Find out if it was a one-way movement.
-            var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
-            gesturePoints = [];
-
-            if (oneWayFlick && spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
-                // If it was a short one-way movement, do the Alt+Tab switch
-                // no matter if we didn't cross positionMarker1 yet.
-                spreadView.snapTo(spreadView.nextInStack);
-            } else if (!dragging) {
-                if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker1) {
-                    spreadView.snap();
-                } else if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker2) {
+                if (oneWayFlick && spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
+                    // If it was a short one-way movement, do the Alt+Tab switch
+                    // no matter if we didn't cross positionMarker1 yet.
                     spreadView.snapTo(spreadView.nextInStack);
                 } else {
-                    // otherwise snap to the closest snap position we can find
-                    // (might be back to start, to app 1 or to spread)
-                    spreadView.snap();
+                    if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker1) {
+                        spreadView.snap();
+                    } else if (spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker2) {
+                        spreadView.snapTo(spreadView.nextInStack);
+                    } else {
+                        // otherwise snap to the closest snap position we can find
+                        // (might be back to start, to app 1 or to spread)
+                        spreadView.snap();
+                    }
                 }
             }
         }
