@@ -33,6 +33,8 @@ from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
 from autopilot.display import Display
 from testtools.matchers import Equals
+
+import ubuntuuitoolkit
 from ubuntuuitoolkit import (
     fixture_setup as toolkit_fixtures,
     ubuntu_scenarios
@@ -49,7 +51,6 @@ from unity8 import (
     fixture_setup,
     process_helpers
 )
-from unity8.shell import emulators
 from unity8.shell.emulators import (
     dash as dash_helpers,
     main_window as main_window_emulator,
@@ -289,7 +290,7 @@ class UnityTestCase(AutopilotTestCase):
         pid = process_helpers.get_job_pid('unity8-dash')
         dash_proxy = introspection.get_proxy_object_for_existing_process(
             pid=pid,
-            emulator_base=emulators.UnityEmulatorBase,
+            emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
         )
         dash_app = dash_helpers.DashApp(dash_proxy)
         return dash_app.dash
