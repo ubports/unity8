@@ -76,17 +76,7 @@ def unlock_unity(unity_proxy_obj=None):
     if greeter.created is False:
         raise RuntimeWarning("Greeter appears to be already unlocked.")
 
-    bus = dbus.SessionBus()
-    dbus_proxy = bus.get_object("com.canonical.UnityGreeter", "/")
-    try:
-        dbus_proxy.HideGreeter()
-    except dbus.DBusException:
-        logger.info("Failed to unlock greeter")
-        raise
-    else:
-        greeter.created.wait_for(False)
-        logger.info("Greeter unlocked, continuing.")
-
+    greeter.hide_greeter_with_dbus()
 
 def lock_unity(unity_proxy_obj=None):
     """Helper function that attempts to lock unity greeter.
