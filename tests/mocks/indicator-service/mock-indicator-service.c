@@ -106,7 +106,7 @@ actual_switch (gpointer user_data)
     g_simple_action_set_state(action, new_state);
 
     g_variant_unref (v);
-    g_message ("switching");
+    g_message ("switching %d", state);
     return FALSE;
 }
 
@@ -130,9 +130,9 @@ actual_slide (gpointer user_data)
     Action *slide_action = user_data;
 
     g_simple_action_set_state(G_SIMPLE_ACTION(slide_action->action), slide_action->value);
+    g_message ("sliding %f", g_variant_get_double(slide_action->value));
     free(slide_action);
 
-    g_message ("sliding");
     return FALSE;
 }
 
@@ -147,7 +147,7 @@ void change_slider (GSimpleAction *action,
     slide_action->value = g_variant_ref(value);
 
     g_timeout_add(indicator->action_delay, actual_slide, slide_action);
-    g_message ("slide delay %.03f", g_variant_get_double(value));
+    g_message ("slide delay %f", g_variant_get_double(value));
 }
 
 static gboolean
