@@ -28,23 +28,26 @@ Rectangle {
 
     property var widgetDataComplete: {
         "title": "Title here longa long long long long long long long long long long",
-        "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
+        "values": [ [ "Long Label 1", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
     property var widgetDataNoTitle: {
-        "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
+        "values": [ [ "Long Label 1", "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 2", "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
     PreviewWidgetFactory {
         id: previewTable
         anchors { left: parent.left; right: parent.right }
         widgetType: "table"
-        widgetData: widgetDataComplete
 
         Rectangle {
             color: "red"
             anchors.fill: parent
             opacity: 0.5
+        }
+
+        Component.onCompleted: {
+            previewTable.widgetData = widgetDataComplete
         }
     }
 
@@ -56,9 +59,17 @@ Rectangle {
             previewTable.widgetData = widgetDataComplete;
         }
 
+        function test_label_heights() {
+            verify(findChild(previewTable, "label00").height == findChild(previewTable, "label10").height);
+            verify(findChild(previewTable, "label01").height == findChild(previewTable, "label11").height);
+            verify(findChild(previewTable, "label01").height > findChild(previewTable, "label00").height * 3);
+            verify(findChild(previewTable, "label00").height == findChild(previewTable, "label20").height);
+            verify(findChild(previewTable, "label20").height == findChild(previewTable, "label21").height);
+        }
+
         function test_values() {
             compare(findChild(previewTable, "label00").text, "Long Label 1");
-            compare(findChild(previewTable, "label01").text, "Value 1");
+            compare(findChild(previewTable, "label01").text, "Long Value 1 Long Value 2 Long Value 3 Long Value 4 Long Value 5 Long Value 6 Long Value 2 Long Value 2 Long Value 2 Long Value 2");
             compare(findChild(previewTable, "label10").text, "Label 2");
             compare(findChild(previewTable, "label11").text, "Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2 Long Value 2");
             compare(findChild(previewTable, "label20").text, "Label 3");

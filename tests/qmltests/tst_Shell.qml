@@ -85,11 +85,6 @@ Rectangle {
                         width: units.gu(40)
                         height: units.gu(71)
                     }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Staged")
-                        }
-                    }
                 },
                 State {
                     name: "tablet"
@@ -97,28 +92,6 @@ Rectangle {
                         target: shellLoader
                         width: units.gu(100)
                         height: units.gu(71)
-                    }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Staged")
-                        }
-                    }
-                },
-                State {
-                    name: "desktop"
-                    PropertyChanges {
-                        target: shellLoader
-                        width: units.gu(100)
-                        height: units.gu(71)
-                    }
-                    PropertyChanges {
-                        target: mouseEmulation
-                        checked: false
-                    }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Windowed")
-                        }
                     }
                 }
             ]
@@ -185,11 +158,21 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
                     text: "Size"
-                    model: ["phone", "tablet", "desktop"]
+                    model: ["phone", "tablet"]
                     onSelectedIndexChanged: {
                         shellLoader.active = false;
                         shellLoader.state = model[selectedIndex];
                         shellLoader.active = true;
+                    }
+                }
+                ListItem.ItemSelector {
+                    id: usageModeSelector
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "Usage mode"
+                    model: ["Staged", "Windowed"]
+                    onSelectedIndexChanged: {
+                            GSettingsController.setUsageMode(model[selectedIndex]);
                     }
                 }
                 MouseTouchEmulationCheckbox {
@@ -287,6 +270,7 @@ Rectangle {
         function cleanup() {
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
+            GSettingsController.setUsageMode("Staged");
         }
 
         function loadShell(formFactor) {
@@ -733,13 +717,14 @@ Rectangle {
 
         function test_launchedAppHasActiveFocus_data() {
             return [
-                {tag: "phone", formFactor: "phone"},
-                {tag: "tablet", formFactor: "tablet"},
-                {tag: "desktop", formFactor: "desktop"}
-            ];
+                {tag: "phone", formFactor: "phone", usageMode: "Staged"},
+                {tag: "tablet", formFactor: "tablet", usageMode: "Staged"},
+                {tag: "desktop", formFactor: "tablet", usageMode: "Windowed"}
+            ]
         }
 
         function test_launchedAppHasActiveFocus(data) {
+            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
             swipeAwayGreeter();
 
@@ -752,19 +737,8 @@ Rectangle {
             tryCompare(webApp.session.surface, "activeFocus", true);
         }
 
-        function test_launchedAppHasActiveFocusWhenFormFactorSwitched_data() {
-            return [
-                {tag: "phone->tablet", from: "phone", to: "tablet"},
-                {tag: "phone->desktop", from: "phone", to: "desktop"},
-                {tag: "tablet->phone", from: "tablet", to: "phone"},
-                {tag: "tablet->desktop", from: "tablet", to: "desktop"},
-                {tag: "desktop->phone", from: "desktop", to: "phone"},
-                {tag: "desktop->tablet", from: "desktop", to: "tablet"},
-            ];
-        }
-
-        function test_launchedAppHasActiveFocusWhenFormFactorSwitched(data) {
-            loadShell(data.from);
+        function test_launchedAppKeepsActiveFocusOnUsageModeChange() {
+            loadShell("tablet");
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
@@ -775,7 +749,24 @@ Rectangle {
 
             tryCompare(webApp.session.surface, "activeFocus", true);
 
-            loadShell(data.to);
+            GSettingsController.setUsageMode("Windowed");
+
+            // check that the desktop stage and window have been loaded
+            {
+                var desktopWindow = findChild(shell, "decoratedWindow_webbrowser-app");
+                verify(desktopWindow);
+            }
+
+            tryCompare(webApp.session.surface, "activeFocus", true);
+
+            GSettingsController.setUsageMode("Staged");
+
+            // check that the tablet stage and app surface delegate have been loaded
+            {
+                var desktopWindow = findChild(shell, "tabletSpreadDelegate_webbrowser-app");
+                verify(desktopWindow);
+            }
+
             tryCompare(webApp.session.surface, "activeFocus", true);
         }
 
@@ -1262,31 +1253,33 @@ Rectangle {
 
         function test_stageLoader_data() {
             return [
-                {tag: "phone", source: "Stages/PhoneStage.qml"},
-                {tag: "tablet", source: "Stages/TabletStage.qml"},
-                {tag: "desktop", source: "Stages/DesktopStage.qml"}
+                {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageMode: "Staged"},
+                {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageMode: "Staged"},
+                {tag: "desktop", source: "Stages/DesktopStage.qml", formFactor: "tablet", usageMode: "Windowed"}
             ]
         }
 
         function test_stageLoader(data) {
-            loadShell(data.tag);
+            GSettingsController.setUsageMode(data.usageMode);
+            loadShell(data.formFactor);
             var stageLoader = findChild(shell, "applicationsDisplayLoader");
             verify(String(stageLoader.source).indexOf(data.source) >= 0);
         }
 
         function test_launcherInverted_data() {
             return [
-                {tag: "phone", formFactor: "phone"},
-                {tag: "tablet", formFactor: "tablet"},
-                {tag: "desktop", formFactor: "desktop"}
-            ];
+                {tag: "phone", formFactor: "phone", usageMode: "Staged", launcherInverted: true},
+                {tag: "tablet", formFactor: "tablet", usageMode: "Staged", launcherInverted: true},
+                {tag: "desktop", formFactor: "tablet", usageMode: "Windowed", launcherInverted: false}
+            ]
         }
 
         function test_launcherInverted(data) {
+            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
 
             var launcher = findChild(shell, "launcher");
-            compare(launcher.inverted, data.formFactor !== "desktop");
+            compare(launcher.inverted, data.launcherInverted);
         }
     }
 }

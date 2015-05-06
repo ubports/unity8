@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from unity8.shell.emulators.dash import ListViewWithPageHeader
 
 """Tests for the Dash autopilot emulators.
 
@@ -28,14 +27,17 @@ don't break them for those external projects.
 
 """
 
+from ubuntuuitoolkit import ubuntu_scenarios
+
 from unity8 import process_helpers
 from unity8.shell import fixture_setup, tests
 from unity8.shell.emulators import dash as dash_emulators
+from unity8.shell.emulators.dash import ListViewWithPageHeader
 
 
 class MainWindowTestCase(tests.UnityTestCase):
 
-    scenarios = tests._get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     def setUp(self):
         super().setUp()

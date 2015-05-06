@@ -21,4 +21,6 @@ Image {
     fillMode: Image.PreserveAspectCrop
     horizontalAlignment: Image.AlignRight
     verticalAlignment: Image.AlignTop
+    sourceSize.width: anchors.fill.width
+    sourceSize.height: 0
 }

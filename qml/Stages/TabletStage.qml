@@ -493,6 +493,8 @@ Rectangle {
 
                 delegate: TransformedTabletSpreadDelegate {
                     id: spreadTile
+                    objectName: model.appId ? "tabletSpreadDelegate_" + model.appId
+                                            : "tabletSpreadDelegate_null";
                     height: spreadView.height
                     width: model.stage == ApplicationInfoInterface.MainStage ? spreadView.width : spreadView.sideStageWidth
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
