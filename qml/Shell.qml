@@ -179,6 +179,10 @@ Item {
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
     }
 
+    HomeKeyWatcher {
+        onActivated: { launcher.fadeOut(); shell.showHome(); }
+    }
+
     Item {
         id: stages
         objectName: "stages"
