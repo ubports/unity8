@@ -17,11 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+import logging
 
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-import logging
+from ubuntuuitoolkit import ubuntu_scenarios
+
+from unity8.shell.tests import UnityTestCase
+
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +33,7 @@ class TestLockscreen(UnityTestCase):
 
     """Tests for the lock screen."""
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     def test_can_unlock_pin_screen(self):
         """Must be able to unlock the PIN entry lock screen."""
@@ -41,7 +44,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self.main_window.enter_pin_code("1234")
         else:
             self._enter_prompt_passphrase("1234\n")
@@ -56,7 +59,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self._enter_pin_passphrase("password")
         else:
             self._enter_prompt_passphrase("password")
@@ -70,7 +73,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self.main_window.enter_pin_code("4321")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))
@@ -88,7 +91,7 @@ class TestLockscreen(UnityTestCase):
 
         if not greeter.tabletMode:
             greeter.swipe()
-            lockscreen = self._wait_for_lockscreen()
+            self._wait_for_lockscreen()
             self._enter_pin_passphrase("foobar")
             pinentryField = self.main_window.get_pinentryField()
             self.assertThat(pinentryField.text, Eventually(Equals("")))

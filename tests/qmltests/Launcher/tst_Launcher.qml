@@ -459,6 +459,38 @@ Item {
             waitUntilLauncherDisappears();
         }
 
+        function test_dragndrop_cancel() {
+            dragLauncherIntoView();
+            var draggedItem = findChild(launcher, "launcherDelegate4")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+
+            // Doing longpress
+            var currentMouseX = draggedItem.width / 2
+            var currentMouseY = draggedItem.height / 2
+            mousePress(draggedItem, currentMouseX, currentMouseY)
+            // DraggedItem needs to hide and fakeDragItem become visible
+            tryCompare(draggedItem, "itemOpacity", 0)
+            tryCompare(fakeDragItem, "visible", true)
+
+            // Dragging
+            currentMouseX -= units.gu(20)
+            mouseMove(draggedItem, currentMouseX, currentMouseY)
+
+            // Make sure we're in the dragging state
+            var dndArea = findChild(launcher, "dndArea");
+            tryCompare(draggedItem, "dragging", true)
+            tryCompare(dndArea, "draggedIndex", 4)
+
+            // Tap somewhere in the middle of the screen to close/hide the launcher
+            tap(root)
+
+            // Make sure the dnd operation has been stopped
+            tryCompare(draggedItem, "dragging", false)
+            tryCompare(dndArea, "draggedIndex", -1)
+            tryCompare(dndArea, "drag.target", undefined)
+        }
+
         function test_quicklist_dismiss() {
             dragLauncherIntoView();
             var draggedItem = findChild(launcher, "launcherDelegate5")

@@ -45,6 +45,8 @@ Item {
     signal altTabPrevious();
     readonly property bool altTabPressed: d.altTabPressed
 
+    property int powerKeyLongPressTime: 2000
+
     QtObject {
         id: d
 
@@ -58,11 +60,9 @@ Item {
 
     Timer {
         id: powerKeyLongPressTimer
-
-        interval: 2000
+        interval: root.powerKeyLongPressTime
         onTriggered: root.powerKeyLongPressed();
     }
-
 
     function onKeyPressed(event) {
         if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)

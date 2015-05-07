@@ -3,8 +3,8 @@ pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=6)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
 
 include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
     ${GSETTINGS_QT_INCLUDE_DIRS}
     ${libunity8-private_SOURCE_DIR}

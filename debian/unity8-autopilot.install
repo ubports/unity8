@@ -1,4 +1,2 @@
-data/unity-mock-indicator-service.conf usr/share/upstart/sessions/
-usr/bin/unity-mock-indicator-service
 usr/lib/python*/*/unity*
 usr/share/unity8/unlock-device

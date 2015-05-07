@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-19 16:03+0100\n"
-"PO-Revision-Date: 2015-03-26 04:53+0000\n"
+"POT-Creation-Date: 2015-04-14 16:13+0200\n"
+"PO-Revision-Date: 2015-04-24 04:29+0000\n"
 "Last-Translator: Gursharnjit_Singh <ubuntuser13@gmail.com>\n"
 "Language-Team: Punjabi <pa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-03-27 05:36+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Launchpad-Export-Date: 2015-04-25 05:38+0000\n"
+"X-Generator: Launchpad (build 17430)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -50,72 +50,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1 ਮਿੰਟ ਲਈ ਉਡੀਕੋ ਤੇ ਫੇਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ..."
 msgstr[1] "%1 ਮਿੰਟਾਂ ਲਈ ਉਡੀਕੋ ਤੇ ਫੇਰ ਕੋਸ਼ਿਸ਼ ਕਰੋ..."
 
-#: qml/Components/Dialogs.qml:67
+#: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "ਲਾਗ ਆਉਟ"
 
-#: qml/Components/Dialogs.qml:68
+#: qml/Components/Dialogs.qml:70
 msgid "Are you sure you want to log out?"
 msgstr "ਕੀ ਤੁਸੀਂ ਲਾਗ ਆਉਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:72
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "ਲਾਕ"
 
-#: qml/Components/Dialogs.qml:77
+#: qml/Components/Dialogs.qml:79
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "ਲਾਗ ਆਉਟ"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:173
 msgid "Cancel"
 msgstr "ਰੱਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:96
+#: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "ਕੀ ਤੁਸੀਂ ਬੰਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "ਮੁਡ਼-ਚਾਲੂ"
 
-#: qml/Components/Dialogs.qml:107
+#: qml/Components/Dialogs.qml:109
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:127
+#: qml/Components/Dialogs.qml:129
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "ਮੁਡ਼-ਚਾਲੂ"
 
-#: qml/Components/Dialogs.qml:128
+#: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
 msgstr "ਕੀ ਤੁਸੀਂ ਮੁੜ-ਚਾਲੂ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:132
 msgid "No"
 msgstr "ਨਹੀਂ"
 
-#: qml/Components/Dialogs.qml:136
+#: qml/Components/Dialogs.qml:138
 msgid "Yes"
 msgstr "ਹਾਂ"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "ਪਾਵਰ"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:153
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -123,37 +123,37 @@ msgstr ""
 "ਕੀ ਤੁਸੀਂ ਪਾਵਰ-ਆਫ਼ ਕਰਨਾ\n"
 "ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "ਬੰਦ ਕਰੋ"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "ਮੁੜ ਚਾਲੂ"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
 msgstr "ਕਾਲ ਤੇ ਵਾਪਸ"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "ਅਪਾਤਕਾਲੀਨ ਕਾਲ"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "ਠੀਕ"
 
-#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
+#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
 msgid "See less"
 msgstr "ਘੱਟ ਵੇਖੋ"
 
-#: qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:532
 msgid "See all"
 msgstr "ਸਾਰਾ ਵੇਖੋ"
 
-#: qml/Dash/GenericScopeView.qml:595
+#: qml/Dash/GenericScopeView.qml:594
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "ਖੋਜ"
@@ -307,31 +307,31 @@ msgstr "ਕਾਲ ਤੇ ਵਾਪਸ ਜਾਣ ਲਈ ਛੁਹੋ..."
 msgid "Conference"
 msgstr "ਕਨਫਰੰਸ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
 msgstr "ਕੁੱਝ ਨਹੀਂ ਚੱਲ ਰਿਹਾ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:787
 msgid "In queue…"
 msgstr "ਕਤਾਰ ਵਿੱਚ..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "Downloading"
 msgstr "ਡਾਊਨਲੋਡ ਕਰ ਰਿਹਾ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:793
 msgid "Paused, tap to resume"
 msgstr "ਵਿਰਾਮ, ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਛੂਹੋ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Canceled"
 msgstr "ਰੱਦ ਕੀਤਾ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Finished"
 msgstr "ਮੁਕੰਮਲ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Failed, tap to retry"
 msgstr "ਫ਼ੇਲ੍ਹ ਹੋਇਆ, ਮੁੜ-ਕੋਸ਼ਿਸ ਲਈ ਛੂਹੋ"
 
@@ -364,13 +364,18 @@ msgstr "ਖਾਸ਼ ਮੀਨੂੰ ਖੋਲ੍ਹੋ"
 msgid "Swipe up from the bottom edge."
 msgstr "ਹੇਠਲੇ ਕਿਨਾਰੇ ਤੋਂ ਉੱਪਰ ਵੱਲੋਂ ਖਿੱਚੋ।"
 
+#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "ਜਾਰੀ ਰੱਖਣ ਲਈ ਇੱਥੇ ਛੂਹੋ।"
+
+#: qml/Tutorial/TutorialContent.qml:81
+msgid "Click here to finish."
+msgstr "ਸਮਾਪਤੀ ਲਈ ਇੱਥੇ ਕਲਿੱਕ ਕਰੋ।"
+
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
 msgstr "ਇੱਥੇ ਤੁਹਾਡੀ ਪਸੰਦੀਦਾ ਐਪਾਂ ਲਈ ਸ਼ਾਰਟਕੱਟ ਹਨ"
-
-#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
-msgstr "ਜਾਰੀ ਰੱਖਣ ਲਈ ਇੱਥੇ ਛੂਹੋ।"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"

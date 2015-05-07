@@ -31,6 +31,7 @@ from unity8.shell import emulators
 
 logger = logging.getLogger(__name__)
 
+
 class LaunchDashApp(fixtures.Fixture):
 
     """Fixture to launch the Dash app."""
@@ -101,6 +102,7 @@ class DisplayRotationLock(fixtures.Fixture):
             'rotation-lock', value_string
         ]
         subprocess.check_output(command)
+
 
 class LaunchMockIndicatorService(fixtures.Fixture):
 

@@ -65,28 +65,6 @@ UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
 UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
 
-def _get_device_emulation_scenarios(devices='All'):
-    nexus4 = ('Desktop Nexus 4',
-              dict(app_width=768, app_height=1280, grid_unit_px=18))
-    nexus10 = ('Desktop Nexus 10',
-               dict(app_width=2560, app_height=1600, grid_unit_px=20))
-    native = ('Native Device',
-              dict(app_width=0, app_height=0, grid_unit_px=0))
-
-    if model() == 'Desktop':
-        if devices == 'All':
-            return [nexus4, nexus10]
-        elif devices == 'Nexus4':
-            return [nexus4]
-        elif devices == 'Nexus10':
-            return [nexus10]
-        else:
-            raise RuntimeError(
-                'Unrecognized device-option "%s" passed.' % devices
-            )
-    else:
-        return [native]
-
 
 def is_unity7_running():
     """Return True if Unity7 is running. Otherwise, return False."""
