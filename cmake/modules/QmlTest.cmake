@@ -3,12 +3,6 @@
 
 # These functions respect the global STDOUT_LOGGER and ARTIFACTS_DIR variables.
 
-execute_process(
-    COMMAND gcc -dumpmachine
-    OUTPUT_VARIABLE ARCH_TRIPLET
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
 # You can use those with cmake_parse_arguments
 # if you need to wrap and mangle arguments.
 set(QMLTEST_OPTIONS ADD_TEST CACHE INTERNAL "")
@@ -156,7 +150,7 @@ function(add_executable_test COMPONENT_NAME TARGET)
         add_qmltest_target(xvfbtest${COMPONENT_NAME} ${TARGET}
             COMMAND $<TARGET_FILE:xvfb-run> --server-args "-screen 0 1024x768x24" --auto-servernum ${qmltest_command}
             ${depends}
-            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT} LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1
+            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT} LD_PRELOAD=/usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/mesa/libGL.so.1
             TARGETS ${xvfb_targets}
         )
     endif()
