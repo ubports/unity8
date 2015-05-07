@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,9 +95,6 @@ Rectangle {
 
         property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
 
-        function init() {
-        }
-
         function cleanup() {
             desktopStageLoader.itemDestroyed = false;
             desktopStageLoader.active = false;
@@ -163,14 +160,38 @@ Rectangle {
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
 
-        function test_decorationPressFocusesApplication_data() {
+        function test_tappingOnWindowChangesFocusedApp_data() {
             return [
                 {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
                 {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
             ]
         }
 
-        function test_decorationPressFocusesApplication(data) {
+        function test_tappingOnWindowChangesFocusedApp(data) {
+            var i;
+            for (i = 0; i < data.apps.length; i++) {
+                startApplication(data.apps[i]);
+            }
+
+            var fromAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusfrom]);
+            verify(fromAppWindow);
+            tap(fromAppWindow);
+            compare(fromAppWindow.application.session.surface.activeFocus, true);
+
+            var toAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusTo]);
+            verify(toAppWindow);
+            tap(toAppWindow);
+            compare(toAppWindow.application.session.surface.activeFocus, true);
+        }
+
+        function test_tappingOnDecorationFocusesApplication_data() {
+            return [
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+            ]
+        }
+
+        function test_tappingOnDecorationFocusesApplication(data) {
             var i;
             for (i = 0; i < data.apps.length; i++) {
                 startApplication(data.apps[i]);
@@ -178,12 +199,12 @@ Rectangle {
 
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
-            mouseClick(fromAppDecoration);
+            tap(fromAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
 
             var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
             verify(toAppDecoration);
-            mouseClick(toAppDecoration);
+            tap(toAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
     }

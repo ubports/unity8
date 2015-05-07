@@ -1,5 +1,9 @@
 /*
+<<<<<<< TREE
  * Copyright (C) 2012 Canonical, Ltd.
+=======
+ * Copyright (C) 2015 Canonical, Ltd.
+>>>>>>> MERGE-SOURCE
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +24,9 @@
 #include <QQmlContext>
 #include <QtQuick/QQuickWindow>
 #include <QDebug>
-// self
-#include "plugin.h"
 
 // local
+#include "plugin.h"
 #include "inputwatcher.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
@@ -35,6 +38,16 @@
 #include "windowstatestorage.h"
 #include "spreadflickable.h"
 #include "constants.h"
+
+// plugin
+#include <inputwatcher.h>
+#include <qlimitproxymodelqml.h>
+#include <unitysortfilterproxymodelqml.h>
+#include <relativetimeformatter.h>
+#include <timeformatter.h>
+#include <unitymenumodelpaths.h>
+#include <windowkeysfilter.h>
+#include <easingcurve.h>
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {

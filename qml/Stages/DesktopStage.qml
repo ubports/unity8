@@ -24,13 +24,12 @@ import "../Components/PanelState"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
-FocusScope {
+Rectangle {
     id: root
 
     anchors.fill: parent
 
     property alias background: wallpaper.source
-    property var windowStateStorage: WindowStateStorage
     property bool altTabPressed: false
 
     onAltTabPressedChanged: {
@@ -96,7 +95,16 @@ FocusScope {
         id: priv
 
         readonly property string focusedAppId: ApplicationManager.focusedApplicationId
-        readonly property var focusedAppDelegate: focusedAppId ? appRepeater.itemAt(indexOf(focusedAppId)) : null
+        readonly property var focusedAppDelegate: {
+            var index = indexOf(focusedAppId);
+            return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
+        }
+
+        onFocusedAppDelegateChanged: {
+            if (focusedAppDelegate) {
+                focusedAppDelegate.focus = true;
+            }
+        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -221,7 +229,7 @@ FocusScope {
                     resizeHandleWidth: units.gu(0.5)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                    onPressed: decoratedWindow.focus = true;
+                    onPressed: appDelegate.focus = true;
                 }
 
                 DecoratedWindow {
@@ -232,12 +240,7 @@ FocusScope {
                     windowHeight: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
-
-                    onFocusChanged: {
-                        if (focus) {
-                            ApplicationManager.focusApplication(model.appId);
-                        }
-                    }
+                    focus: false
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
