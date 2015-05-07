@@ -33,7 +33,7 @@ typedef struct
 typedef struct
 {
     GSimpleAction *action;
-    GVariant* value;    
+    GVariant* value;
 } Action;
 
 static void
