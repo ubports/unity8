@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014, 2015 Canonical
+# Copyright (C) 2012, 2013, 2014 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import dbus
 import ubuntuuitoolkit
 
 from autopilot.utilities import sleep
@@ -58,25 +57,6 @@ class Greeter(UnityEmulatorBase):
 
         self.wait_swiped_away()
 
-    def hide_greeter_with_dbus(self):
-        dbus_proxy = self._get_greeter_dbus_proxy()
-        if self._is_greeter_active():
-            dbus_proxy.HideGreeter()
-
     def get_prompt(self):
         return self.select_single(
             ubuntuuitoolkit.TextField, objectName='passwordInput')
-
-    def wait_for_greeter(self):
-        Eventually(Equals(True), timeout=300).match(self._is_greeter_active())
-
-    def _get_greeter_dbus_proxy(self):
-        bus = dbus.SessionBus()
-        return bus.get_object('com.canonical.UnityGreeter', '/')
-
-    def _is_greeter_active(self):
-        try:
-            dbus_proxy = self._get_greeter_dbus_proxy()
-            return dbus_proxy.Get('com.canonical.UnityGreeter', 'IsActive')
-        except:
-            return False
