@@ -142,7 +142,7 @@ Item {
 
             var startX = dashContentList.width/2;
             var startY = dashContentList.height/2;
-            touchFlick(dashContentList, startX - units.gu(2), startY, startX, startY);
+            touchFlick(dashContentList, startX - units.gu(4), startY, startX, startY);
             tryCompare(categoryListView, "contentY", units.gu(15) - categoryListView.pageHeader.height);
         }
 
