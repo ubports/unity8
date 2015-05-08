@@ -36,7 +36,7 @@ class CannotAccessUnity(Exception):
     pass
 
 
-def unlock_unity(unity_proxy_obj=None):
+def unlock_unity():
     """Helper function that attempts to unlock the unity greeter.
 
     """
@@ -45,7 +45,7 @@ def unlock_unity(unity_proxy_obj=None):
     greeter.hide_greeter_with_dbus()
 
 
-def lock_unity(unity_proxy_obj=None):
+def lock_unity():
     """Helper function that attempts to lock unity greeter.
 
     """
