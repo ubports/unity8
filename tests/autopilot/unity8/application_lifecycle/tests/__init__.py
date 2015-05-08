@@ -31,7 +31,7 @@ class ApplicationLifeCycleTestCase(tests.UnityTestCase):
         super().setUp()
         self._qml_mock_enabled = False
         self._data_dirs_mock_enabled = False
-        unity_proxy = self.launch_unity()
+        self.launch_unity()
         process_helpers.unlock_unity()
 
     def create_test_application(self):
