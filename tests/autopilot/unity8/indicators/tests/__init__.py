@@ -31,7 +31,7 @@ class IndicatorTestCase(tests.UnityTestCase):
     def setUp(self):
         super().setUp()
         self.unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(self.unity_proxy)
+        process_helpers.unlock_unity()
 
 
 class DeviceIndicatorTestCase(IndicatorTestCase):
@@ -41,4 +41,4 @@ class DeviceIndicatorTestCase(IndicatorTestCase):
             self.skipTest('Test cannot be run on the desktop.')
         super().setUp()
         self.unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(self.unity_proxy)
+        process_helpers.unlock_unity()
