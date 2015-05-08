@@ -19,14 +19,11 @@
 
 import logging
 import subprocess
-import dbus
 
-from autopilot.exceptions import ProcessSearchError
 from autopilot.introspection import get_proxy_object_for_existing_process
 
 from unity8 import greeter
 from unity8.shell import emulators
-from unity8.shell.emulators import main_window as main_window_emulator
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +44,7 @@ def unlock_unity(unity_proxy_obj=None):
     greeter.wait_for_greeter()
     greeter.hide_greeter_with_dbus()
 
+
 def lock_unity(unity_proxy_obj=None):
     """Helper function that attempts to lock unity greeter.
 
@@ -54,6 +52,7 @@ def lock_unity(unity_proxy_obj=None):
 
     greeter.show_greeter_with_dbus()
     greeter.wait_for_greeter()
+
 
 def restart_unity_with_testability(*args):
     """Restarts (or starts) unity with testability enabled.

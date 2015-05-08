@@ -22,6 +22,7 @@ import dbus
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
 
+
 def hide_greeter_with_dbus():
     dbus_proxy = _get_greeter_dbus_proxy()
     if _is_greeter_active():
@@ -33,8 +34,10 @@ def show_greeter_with_dbus():
     if not _is_greeter_active():
         dbus_proxy.ShowGreeter()
 
+
 def wait_for_greeter():
     Eventually(Equals(True), timeout=300).match(_is_greeter_active)
+
 
 def _get_greeter_dbus_proxy():
     bus = dbus.SessionBus()
