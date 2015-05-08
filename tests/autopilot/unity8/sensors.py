@@ -77,12 +77,17 @@ class FakePlatformSensors:
         elif action == 'right_up':
             with open("/tmp/sensor-fifo-{0}".format(self.pid), "w") as fifo:
                 fifo.write("70 accel -10.050858 -0.598550 0.756568\n")
+                fifo.write("70 accel -4.550858 -0.598550 0.856568\n")
                 fifo.write("70 accel -0.799663 9.988609 1.197101\n")
+                fifo.write("70 accel -0.861913 9.864111 1.066701\n")
                 fifo.write("70 accel -0.861913 9.864111 0.866701\n")
                 fifo.write("70 accel -1.776498 9.830592 1.273715\n")
+                fifo.write("70 accel -2.376498 9.830592 1.273715\n")
                 fifo.write("70 accel -13.158532 2.217031 1.091756\n")
                 fifo.write("70 accel 5.056554 1.067814 0.799663\n")
+                fifo.write("70 accel 5.056554 1.767814 0.799663\n")
                 fifo.write("70 accel 14.882358 2.896984 1.221043\n")
                 fifo.write("70 accel 9.466674 -0.363919 -1.029507\n")
+                fifo.write("70 accel 11.253524 -0.186748 -0.311246\n")
                 fifo.write("70 accel 12.253524 -0.186748 -0.311246\n")
                 fifo.flush()
