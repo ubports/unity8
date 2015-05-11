@@ -608,8 +608,6 @@ Rectangle {
 
             compare(dashCommunicatorSpy.count, 1);
             compare(dashCommunicatorSpy.signalArguments[0][0], 0);
-
-            dashCommunicatorSpy.clear();
         }
 
         function test_showInputMethod() {
@@ -1111,8 +1109,6 @@ Rectangle {
             // check that the launcher got dismissed
             var launcherPanel = findChild(shell, "launcherPanel");
             tryCompare(launcherPanel, "x", -launcherPanel.width);
-
-            launcherShowDashHomeSpy.clear();
         }
 
         function test_background_data() {
