@@ -51,7 +51,7 @@ PreviewWidget {
 
             delegate: PreviewRatingSingleDisplay {
                 objectName: "reviewItem" + index
-                
+
                 anchors { left: parent.left; right: parent.right; }
 
                 rating: modelData["rating"] || -1
