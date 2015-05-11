@@ -728,6 +728,7 @@ Rectangle {
 
     DirectionalDragArea {
         id: spreadDragArea
+        objectName: "spreadDragArea"
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
         direction: Direction.Leftwards
