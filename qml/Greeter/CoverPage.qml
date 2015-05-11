@@ -135,8 +135,8 @@ Showable {
         enabled: root.draggable
         direction: Direction.Horizontal
 
-        onDraggingChanged: {
-            if (dragging) {
+        onPressedChanged: {
+            if (pressed) {
                 root.tease();
                 showLabelAnimation.start();
             }

@@ -176,6 +176,11 @@ bool DirectionalDragArea::dragging() const
     return d->status == DirectionalDragAreaPrivate::Recognized;
 }
 
+bool DirectionalDragArea::pressed() const
+{
+    return d->status != DirectionalDragAreaPrivate::WaitingForTouch;
+}
+
 bool DirectionalDragArea::immediateRecognition() const
 {
     return d->immediateRecognition;
@@ -187,6 +192,13 @@ void DirectionalDragArea::setImmediateRecognition(bool enabled)
         d->immediateRecognition = enabled;
         Q_EMIT immediateRecognitionChanged(enabled);
     }
+}
+
+void DirectionalDragArea::removeTimeConstraints()
+{
+    d->setMaxTime(60 * 60 * 1000);
+    d->compositionTime = 0;
+    ddaDebug("removed time constraints");
 }
 
 bool DirectionalDragArea::event(QEvent *event)
@@ -371,7 +383,6 @@ void DirectionalDragAreaPrivate::touchEvent_absent(QTouchEvent *event)
                 allGood = false;
             } else {
                 // that's our candidate
-                touchId = touchPoint.id();
                 newTouchPoint = &touchPoint;
             }
         }
@@ -588,9 +599,11 @@ void DirectionalDragAreaPrivate::setStatus(Status newStatus)
             if (oldStatus == Recognized) {
                 Q_EMIT q->draggingChanged(false);
             }
+            Q_EMIT q->pressedChanged(false);
             break;
         case Undecided:
             recognitionTimer->start();
+            Q_EMIT q->pressedChanged(true);
             break;
         case Recognized:
             Q_EMIT q->draggingChanged(true);

@@ -210,7 +210,7 @@ Item {
             bottom: parent.bottom
         }
         x: -width
-        visible: root.x > 0 || x > -width
+        visible: root.x > 0 || x > -width || dragArea.pressed
         model: LauncherModel
 
         property bool animate: true
@@ -283,11 +283,11 @@ Item {
         width: root.dragAreaWidth
         height: root.height
 
-        onTouchXChanged: {
+        onDistanceChanged: {
             if (!dragging || launcher.state == "visible")
                 return;
 
-            panel.x = Math.min(0, touchX - panel.width) - root.x
+            panel.x = -panel.width + Math.min(Math.max(0, distance), panel.width);
         }
 
         onDraggingChanged: {
