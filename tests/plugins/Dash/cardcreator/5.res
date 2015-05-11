@@ -150,5 +150,5 @@ UbuntuShape {
     radius: "medium"; 
     borderSource: "radius_pressed.sci" 
 }
-implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
+implicitHeight: artShapeHolder.height;
 }
