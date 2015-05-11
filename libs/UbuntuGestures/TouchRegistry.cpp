@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,10 +95,6 @@ void TouchRegistry::deliverTouchUpdatesToUndecidedCandidatesAndWatchers(const QT
     //       for each point and there should not be many active points at any given moment.
     //       But having three nested for-loops does scare.
 
-    // TODO: Don't send it to the object that is already receiving the regular event
-    // because QQuickWindow is sending it to him (i.e., he's the touch owner from Qt's point of view)
-    // Problem is, we cannnot easily get this information.
-
     const QList<QTouchEvent::TouchPoint> &updatedTouchPoints = event->touchPoints();
 
     // Maps an item to the touches in this event he should be informed about.
@@ -118,7 +114,9 @@ void TouchRegistry::deliverTouchUpdatesToUndecidedCandidatesAndWatchers(const QT
                     for (int i = 0; i < touchInfo->candidates.count(); ++i) {
                         CandidateInfo &candidate = touchInfo->candidates[i];
                         Q_ASSERT(!candidate.item.isNull());
-                        touchIdsForItems[candidate.item.data()].append(touchInfo->id);
+                        if (candidate.state != CandidateInfo::InterimOwner) {
+                            touchIdsForItems[candidate.item.data()].append(touchInfo->id);
+                        }
                     }
                 }
 
@@ -260,7 +258,7 @@ void TouchRegistry::addCandidateOwnerForTouch(int id, QQuickItem *candidate)
     // TODO: Check if candidate already exists
 
     CandidateInfo candidateInfo;
-    candidateInfo.undecided = true;
+    candidateInfo.state = CandidateInfo::Undecided;
     candidateInfo.item = candidate;
     candidateInfo.inactivityTimer = new CandidateInactivityTimer(id, candidate,
                                                                  *m_timerFactory,
@@ -301,8 +299,8 @@ void TouchRegistry::removeCandidateOwnerForTouch(int id, QQuickItem *candidate)
     for (int i = 0; i < touchInfo->candidates.count() && indexRemoved == -1; ++i) {
         CandidateInfo &candidateInfo = touchInfo->candidates[i];
         if (candidateInfo.item == candidate) {
-            Q_ASSERT(i > 0 || candidateInfo.undecided);
-            if (i == 0 && !candidateInfo.undecided) {
+            Q_ASSERT(i > 0 || candidateInfo.state == CandidateInfo::Undecided);
+            if (i == 0 && candidateInfo.state != CandidateInfo::Undecided) {
                 qCritical("TouchRegistry: touch owner is being removed.");
             }
             delete candidateInfo.inactivityTimer;
@@ -340,7 +338,7 @@ void TouchRegistry::requestTouchOwnership(int id, QQuickItem *candidate)
     for (int i = 0; i < touchInfo->candidates.count(); ++i) {
         CandidateInfo &candidateInfo = touchInfo->candidates[i];
         if (candidateInfo.item == candidate) {
-            candidateInfo.undecided = false;
+            candidateInfo.state = CandidateInfo::Requested;
             delete candidateInfo.inactivityTimer;
             candidateInfo.inactivityTimer = nullptr;
             candidateIndex = i;
@@ -351,7 +349,7 @@ void TouchRegistry::requestTouchOwnership(int id, QQuickItem *candidate)
     // add it as a candidate if not present yet
     if (candidateIndex < 0) {
         CandidateInfo candidateInfo;
-        candidateInfo.undecided = false;
+        candidateInfo.state = CandidateInfo::InterimOwner;
         candidateInfo.item = candidate;
         candidateInfo.inactivityTimer = nullptr;
         touchInfo->candidates.append(candidateInfo);
@@ -407,8 +405,8 @@ void TouchRegistry::rejectCandidateOwnerForTouch(int id, QQuickItem *candidate)
     for (int i = 0; i < touchInfo->candidates.count() && rejectedCandidateIndex == -1; ++i) {
         CandidateInfo &candidateInfo = touchInfo->candidates[i];
         if (candidateInfo.item == candidate) {
-            Q_ASSERT(i > 0 || candidateInfo.undecided);
-            if (i == 0 && !candidateInfo.undecided) {
+            Q_ASSERT(i > 0 || candidateInfo.state == CandidateInfo::Undecided);
+            if (i == 0 && candidateInfo.state != CandidateInfo::Undecided) {
                 qCritical() << "TouchRegistry: Can't reject item (" << (void*)candidate
                     << ") as it already owns touch" << id;
                 return;
@@ -467,7 +465,7 @@ void TouchRegistry::TouchInfo::init(int id)
 
 bool TouchRegistry::TouchInfo::isOwned() const
 {
-    return !candidates.isEmpty() && !candidates.first().undecided;
+    return !candidates.isEmpty() && candidates.first().state != CandidateInfo::Undecided;
 }
 
 bool TouchRegistry::TouchInfo::ended() const

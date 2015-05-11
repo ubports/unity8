@@ -35,6 +35,7 @@ Item {
     signal requestEditMode()
     signal requestScopeMoveTo(string scopeId, int index)
     signal requestActivate(var result)
+    signal requestRestore(string scopeId)
 
     implicitHeight: visible ? childrenRect.height : 0
 
@@ -93,7 +94,10 @@ Item {
 
                 onClicked: {
                     if (!editMode) {
-                        root.requestActivate(result);
+                        if (root.isFavoritesFeed)
+                            root.requestRestore(model.scopeId);
+                        else
+                            root.requestActivate(result);
                     }
                 }
                 onPressAndHold: {

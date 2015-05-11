@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,12 +36,20 @@ public:
     void setTargetItem(QQuickItem *target);
     QQuickItem *targetItem() { return m_targetItem; }
 
-    void dispatch(QEvent::Type eventType,
-            QTouchDevice *device,
+    void dispatch(QTouchDevice *device,
             Qt::KeyboardModifiers modifiers,
             const QList<QTouchEvent::TouchPoint> &touchPoints,
             QWindow *window,
             ulong timestamp);
+
+    void reset();
+
+    enum Status {
+        NoActiveTouch,
+        DeliveringTouchEvents,
+        DeliveringMouseEvents,
+        TargetRejectedTouches
+    };
 private:
     void dispatchTouchBegin(
             QTouchDevice *device,
@@ -73,14 +81,13 @@ private:
 
     bool checkIfDoubleClicked(ulong newPressEventTimestamp);
 
+    void setStatus(Status status);
+
+    static QEvent::Type resolveEventType(const QList<QTouchEvent::TouchPoint> &touchPoints);
+
     QPointer<QQuickItem> m_targetItem;
 
-    enum {
-        NoActiveTouch,
-        DeliveringTouchEvents,
-        DeliveringMouseEvents,
-        TargetRejectedTouches
-    } m_status;
+    Status m_status;
 
     int m_touchMouseId;
     ulong m_touchMousePressTimestamp;

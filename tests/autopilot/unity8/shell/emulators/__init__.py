@@ -17,12 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import ubuntuuitoolkit
-
-
-class UnityEmulatorBase(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
-    """A base class for all unity emulators."""
-
 
 class UnityEmulatorException(Exception):
     """Exception raised when there is an error with the Unity emulators."""

@@ -32,7 +32,7 @@ public:
                              AbstractTimerFactory &timerFactory,
                              QObject *parent = nullptr);
 
-    const int durationMs = 350;
+    const int durationMs = 1000;
 
 Q_SIGNALS:
     void candidateDefaulted(int touchId, QQuickItem *candidate);

@@ -61,18 +61,12 @@ AxisVelocityCalculator {
         }
 
         velocity = calculate();
+        minVelocity = __calculateMinimumVelocityForAutoCompletion();
 
-        if (direction == Direction.Horizontal) {
-            minVelocity = __calculateMinimumVelocityForAutoCompletion(Math.abs(deltaPos));
-            return Math.abs(velocity) >= minVelocity;
+        if (_dragDirectionIsPositive()) {
+            return velocity >= minVelocity;
         } else {
-            minVelocity = __calculateMinimumVelocityForAutoCompletion(deltaPos);
-            if (Direction.isPositive(direction) && (velocity >= minVelocity)
-                   || !Direction.isPositive(direction) && (velocity <= minVelocity)) {
-                return true;
-            } else {
-                return false;
-            }
+            return velocity <= minVelocity;
         }
     }
 
@@ -81,11 +75,20 @@ AxisVelocityCalculator {
     // speedThreshold in pixels per millisecond
     property real __speedThresholdMs: speedThreshold / 1000.0
 
-    // Minimum velocity when a drag total distance is zero
-    property real __v0: Direction.isPositive(direction) ? __speedThresholdMs : - __speedThresholdMs
+    function _dragDirectionIsPositive() {
+        if (direction === Direction.Horizontal) {
+            return (trackedPosition - __startPosition) > 0;
+        } else {
+            return Direction.isPositive(direction);
+        }
+    }
 
-    function __calculateMinimumVelocityForAutoCompletion(distance) {
-        return __v0 - ((__speedThresholdMs / dragThreshold) * distance);
+    function __calculateMinimumVelocityForAutoCompletion() {
+        // Minimum velocity when a drag total distance is zero
+        var v0 = _dragDirectionIsPositive() ? __speedThresholdMs : - __speedThresholdMs;
+        var deltaPos = trackedPosition - __startPosition;
+
+        return v0 - ((__speedThresholdMs / dragThreshold) * deltaPos);
     }
 
     function reset() {
