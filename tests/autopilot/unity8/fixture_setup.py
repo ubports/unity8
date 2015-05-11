@@ -18,18 +18,85 @@
 #
 
 import fixtures
-import subprocess
 import logging
+import os
+import subprocess
 
+import ubuntuuitoolkit
 from autopilot import introspection
 
 from unity8 import (
     get_binary_path,
     process_helpers
 )
-from unity8.shell import emulators
+
 
 logger = logging.getLogger(__name__)
+
+
+class RestartUnityWithTestability(fixtures.Fixture):
+
+    """Fixture to launch Unity8 with testability.
+
+    :ivar unity_proxy: The Autopilot proxy object for the Unity shell.
+
+    """
+
+    unity_proxy = None
+
+    def __init__(self, binary_path, variables):
+        """Initialize the fixture instance.
+
+        :param str binary_path: The path to the Dash app binary.
+        :param cli_arguments: The arguments to pass when launching the
+        :param variables: The variables to use when launching the app.
+        :type variables: A dictionary.
+
+        """
+        super().__init__()
+        self.binary_path = binary_path
+        self.variables = variables
+
+    def setUp(self):
+        """Restart unity with testability when the fixture is used."""
+        super().setUp()
+        self.addCleanup(self.stop_unity)
+        self.restart_unity()
+
+    def restart_unity(self):
+        self.restart_unity_with_testability()
+
+    def restart_unity_with_testability(self):
+        self._unlink_mir_socket()
+
+        binary_arg = 'BINARY={}'.format(self.binary_path)
+        variable_args = [
+            '{}={}'.format(key, value) for key, value in self.variables.items()
+        ]
+        all_args = [binary_arg] + variable_args
+
+        self.unity_proxy = process_helpers.restart_unity_with_testability(
+            *all_args)
+
+    def _unlink_mir_socket(self):
+        # FIXME: we shouldn't be doing this
+        # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
+        # /tmp/mir_socket as last resort
+        try:
+            os.unlink(
+                os.getenv('MIR_SOCKET',
+                          os.path.join(os.getenv('XDG_RUNTIME_DIR', "/tmp"),
+                                       "mir_socket")))
+        except OSError:
+            pass
+        try:
+            os.unlink("/tmp/mir_socket")
+        except OSError:
+            pass
+
+    def stop_unity(self):
+        process_helpers.stop_job('unity8')
+
 
 class LaunchDashApp(fixtures.Fixture):
 
@@ -64,7 +131,7 @@ class LaunchDashApp(fixtures.Fixture):
         pid = process_helpers.start_job('unity8-dash', *all_args)
         return introspection.get_proxy_object_for_existing_process(
             pid=pid,
-            emulator_base=emulators.UnityEmulatorBase,
+            emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
         )
 
     def stop_application(self):
@@ -101,6 +168,7 @@ class DisplayRotationLock(fixtures.Fixture):
             'rotation-lock', value_string
         ]
         subprocess.check_output(command)
+
 
 class LaunchMockIndicatorService(fixtures.Fixture):
 

@@ -22,9 +22,7 @@
 import logging
 import os
 
-from autopilot.matchers import Eventually
 from autopilot.platform import model
-from testtools.matchers import Equals
 
 from unity8 import process_helpers
 from unity8.application_lifecycle import tests
@@ -49,7 +47,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         end_y = start_y
 
         logger.info("Swiping screen from the right edge")
-        self.touch.drag(start_x, start_y, end_x, end_y)
+        self.main_window.pointing_device.drag(start_x, start_y, end_x, end_y)
 
     def launch_fake_app(self):
         _, desktop_file_path = self.create_test_application()

@@ -18,11 +18,8 @@
 import ubuntuuitoolkit
 from autopilot import introspection
 
-from unity8.shell import emulators
-from unity8 import fixture_setup
 
-
-class IndicatorPage(emulators.UnityEmulatorBase):
+class IndicatorPage(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     """Autopilot helper for the IndicatorPage component."""
 
@@ -33,6 +30,7 @@ class IndicatorPage(emulators.UnityEmulatorBase):
     @classmethod
     def validate_dbus_object(cls, path, state):
         return False
+
 
 class Indicator():
 
@@ -67,9 +65,9 @@ class Indicator():
             objectName=self._name+'-page')
 
     def _make_indicator_icon_visible(self):
-        indicators_bar_flickable = self._main_window.select_single(
-            'IndicatorsBar').select_single(
-                ubuntuuitoolkit.QQuickFlickable, objectName='flickable')
+        indicators_bar = self._main_window.select_single('IndicatorsBar')
+        indicators_bar_flickable = indicators_bar.select_single(
+            ubuntuuitoolkit.QQuickFlickable, objectName='flickable')
         self._swipe_flickable_to_x_end(indicators_bar_flickable)
 
     def _swipe_flickable_to_x_end(self, flickable):
@@ -98,7 +96,8 @@ class Indicator():
 class DisplayIndicator(Indicator):
 
     def __init__(self, main_window):
-        super(DisplayIndicator, self).__init__(main_window, 'indicator-rotation-lock')
+        super(DisplayIndicator, self).__init__(main_window,
+                                               'indicator-rotation-lock')
         self._main_window = main_window
 
 
@@ -165,7 +164,7 @@ class TestIndicatorPage(IndicatorPage):
         return self.select_single(objectName='indicator.action.slider')
 
 
-class Slider(emulators.UnityEmulatorBase):
+class Slider(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     """Autopilot helper for the Slider component."""
 
@@ -189,7 +188,7 @@ class Slider(emulators.UnityEmulatorBase):
         stop_x = x
 
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
-        self.value.wait_for(self.minimumValue, timeout);
+        self.value.wait_for(self.minimumValue, timeout)
 
     def slide_right(self, timeout=10):
         x, y, width, height = self.globalRect
@@ -200,4 +199,4 @@ class Slider(emulators.UnityEmulatorBase):
         stop_x = x + width
 
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
-        self.value.wait_for(self.maximumValue, timeout);
+        self.value.wait_for(self.maximumValue, timeout)

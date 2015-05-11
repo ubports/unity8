@@ -25,6 +25,7 @@ run_tests(
     qlimitproxymodeltest
     unitysortfilterproxymodeltest
     timeformattertest
+    homekeywatchertest
     )
 
 # plain qml test
