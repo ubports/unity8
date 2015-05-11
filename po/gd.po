@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-14 16:13+0200\n"
-"PO-Revision-Date: 2015-03-27 09:50+0000\n"
+"PO-Revision-Date: 2015-05-01 16:39+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-04-23 06:48+0000\n"
-"X-Generator: Launchpad (build 17430)\n"
+"X-Launchpad-Export-Date: 2015-05-02 05:29+0000\n"
+"X-Generator: Launchpad (build 17474)\n"
 "Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -169,7 +169,7 @@ msgstr "Lorg"
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "A' bhùth"
+msgstr "Am bùth"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"

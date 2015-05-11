@@ -60,8 +60,8 @@ Item {
         maxTotalDragDistance: root.parent.width
         autoCompleteDragThreshold: parent.width / 3
 
-        onStatusChanged: {
-            if (status === DirectionalDragArea.Recognized) {
+        onDraggingChanged: {
+            if (dragging) {
                 dragHandleRecognizedGesture(dragHandle);
             }
         }
