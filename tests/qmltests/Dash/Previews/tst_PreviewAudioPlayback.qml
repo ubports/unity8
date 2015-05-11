@@ -18,6 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Ubuntu.Components 0.1
 import "../../../../qml/Dash/Previews"
+import "../../../../qml/Dash/DashAudioPlayer"
 import Unity.Test 0.1 as UT
 import QtMultimedia 5.0
 
@@ -67,8 +68,7 @@ Rectangle {
         }
 
         function test_time_formatter(data) {
-            var audio = findInvisibleChild(previewAudioPlayback, "audio");
-            compare(audio.lengthToString(data.value), data.result)
+            compare(DashAudioPlayer.lengthToString(data.value), data.result)
         }
 
         function test_tracks_data() {
@@ -102,7 +102,7 @@ Rectangle {
 
         function checkPlayerSource(index) {
             var modelFilename = previewAudioPlayback.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
-            var playerFilename = findInvisibleChild(previewAudioPlayback, "audio").source.toString().replace(/^.*[\\\/]/, '');
+            var playerFilename = DashAudioPlayer.source.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
         }
@@ -123,7 +123,7 @@ Rectangle {
             var track1PlayButton = findChild(track1Item, "playButton");
             var track2PlayButton = findChild(track2Item, "playButton");
 
-            var audio = findInvisibleChild(previewAudioPlayback, "audio");
+            var audio = DashAudioPlayer.d;
 
             // All progress bars must be hidden in the beginning
             compare(track0ProgressBar.visible, false);
@@ -170,10 +170,6 @@ Rectangle {
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", false);
             tryCompare(track2ProgressBar, "visible", true);
-
-            // Changing preview should make all players shut up!
-            previewAudioPlayback.isCurrentPreview = false
-            tryCompare(audio, "playbackState", Audio.StoppedState);
         }
     }
 }
