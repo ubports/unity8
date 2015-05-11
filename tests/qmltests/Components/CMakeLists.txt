@@ -1,3 +1,7 @@
+add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
+add_definitions(-DTEST_DIR="${CMAKE_CURRENT_LIST_DIR}")
+add_definitions(-DTESTS_UTILS_MODULES_DIR="${CMAKE_BINARY_DIR}/tests/utils/modules")
+
 ########## tst_DragHandle
 
 include_directories(
@@ -5,6 +9,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     )
 
 add_executable(DragHandleTestExec tst_DragHandle.cpp)
@@ -12,7 +17,18 @@ qt5_use_modules(DragHandleTestExec Test Core Qml Gui Quick)
 target_link_libraries(DragHandleTestExec UbuntuGesturesQml UbuntuGestures)
 
 add_binary_qml_test(DragHandle ${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures "" "")
-add_manual_qml_test(. DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+add_manual_qml_test(. DragHandle IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins ${CMAKE_BINARY_DIR}/tests/utils/modules)
 
-add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
-add_definitions(-DTEST_DIR="${CMAKE_CURRENT_LIST_DIR}")
+########## tst_EdgeDragEvaluator
+
+include_directories(
+    ${CMAKE_SOURCE_DIR}/plugins/Ubuntu/Gestures
+    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
+    ${CMAKE_CURRENT_BINARY_DIR}
+    )
+
+add_executable(EdgeDragEvaluatorTestExec tst_EdgeDragEvaluator.cpp)
+qt5_use_modules(EdgeDragEvaluatorTestExec Test Core Qml Gui Quick)
+target_link_libraries(EdgeDragEvaluatorTestExec UbuntuGesturesQml UbuntuGestures)
+
+add_binary_qml_test(EdgeDragEvaluator ${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures "" "")

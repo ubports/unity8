@@ -18,12 +18,12 @@
 #
 
 import logging
+
 import ubuntuuitoolkit
-
-from unity8.shell import emulators
-
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+
+from unity8.shell import emulators
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ class DashApp():
         self.dash = self.main_view.select_single(Dash)
 
 
-class Dash(emulators.UnityEmulatorBase):
+class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """An emulator that understands the Dash."""
 
     def __init__(self, *args):
@@ -188,7 +188,7 @@ class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
     pass
 
 
-class GenericScopeView(emulators.UnityEmulatorBase):
+class GenericScopeView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """Autopilot emulator for generic scopes."""
 
     @autopilot_logging.log_action(logger.info)
@@ -255,5 +255,5 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         return result
 
 
-class Preview(emulators.UnityEmulatorBase):
+class Preview(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """Autopilot custom proxy object for generic previews."""

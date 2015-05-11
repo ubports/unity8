@@ -4,24 +4,42 @@ unity8 (8.10-0ubuntu1) UNRELEASED; urgency=medium
 
  -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 15 Apr 2015 14:47:17 +0200
 
-unity8 (8.02+15.04.20150423-0ubuntu1) vivid; urgency=medium
+unity8 (8.02+15.04.20150505-0ubuntu1) vivid; urgency=medium
 
-  [ CI Train Bot ]
-  * New rebuild forced.
+  [ Albert Astals Cid ]
+  * Make runtests fake a test error if make fails
+  * Make the test more stable
+  * Use dbus-test-runner instead of dbus-launch
 
   [ Daniel d'Andrada ]
-  * Tapping home key shows unity8-dash home added:
-    plugins/Utils/ElapsedTimer.h plugins/Utils/HomeKeyWatcher.cpp
-    plugins/Utils/HomeKeyWatcher.h plugins/Utils/Timer.cpp
-    plugins/Utils/Timer.h tests/plugins/Utils/homekeywatchertest.cpp
+  * DirectionalDragArea: improvements & API grooming (LP: #1417920)
+  * Fix EdgeDragEvaluator when a drag can happen both ways
+    (Direction.Horizontal)
+
+  [ Josh Arenson ]
+  * Remove panelHeight property as it is unused.
+
+  [ Leo Arias ]
+  * Initial clean up of the autopilot tests set up. Removed the touch
+    device from the test case. Moved the restart of unity to a fixture.
+    Removed the unused DragMixin. Updated the setUpClass to use
+    process_helpers. Removed the workaround for bug #1238417, already
+    fixed. Use the toolkit helper to set the testability environment
+    variable. Fixed the indicators base class that was restarting unity
+    twice. (LP: #1238417, #1447206)
+  * Use the base class from the toolkit in autopilot tests.
+
+  [ Michael Zanetti ]
+  * emit application-stop when we're going down (LP: #1326513)
 
   [ Michał Sawicz ]
-  * Tapping home key shows unity8-dash home added:
-    plugins/Utils/ElapsedTimer.h plugins/Utils/HomeKeyWatcher.cpp
-    plugins/Utils/HomeKeyWatcher.h plugins/Utils/Timer.cpp
-    plugins/Utils/Timer.h tests/plugins/Utils/homekeywatchertest.cpp
+  * UNITY_SCOPES_LIST is no more
 
- -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 23 Apr 2015 12:52:51 +0000
+  [ handsome_feng<445865575@qq.com> ]
+  * When click the favorite scope in Dash Manager , it just return to
+    the corresponding scope page. (LP: #1447056)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 05 May 2015 14:47:24 +0000
 
 unity8 (8.02+15.04.20150422-0ubuntu1) vivid; urgency=medium
 
