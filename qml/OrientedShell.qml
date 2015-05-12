@@ -25,6 +25,9 @@ Rectangle {
     id: root
     color: "black"
 
+    implicitWidth: units.gu(40)
+    implicitHeight: units.gu(71)
+
     // NB: native and primary orientations here don't map exactly to their QScreen counterparts
     readonly property int nativeOrientation: width > height ? Qt.LandscapeOrientation : Qt.PortraitOrientation
 
