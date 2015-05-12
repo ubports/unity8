@@ -70,6 +70,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     property bool doShapeItem: components["art"]["conciergeMode"] !== true; \n\
                                     visible: image.status == Image.Ready; \n\
                                     readonly property alias image: artImage.image; \n\
+                                    property alias borderSource: artShapeShape.borderSource; \n\
                                     ShaderEffectSource { \n\
                                         id: artShapeSource; \n\
                                         sourceItem: artImage; \n\
@@ -79,6 +80,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                         hideSource: doShapeItem; \n\
                                     } \n\
                                     Shape { \n\
+                                        id: artShapeShape; \n\
                                         image: artShapeSource; \n\
                                         anchors.fill: parent; \n\
                                         visible: doShapeItem; \n\
