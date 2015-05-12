@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2012-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michał Sawicz <michal.sawicz@canonical.com>
  */
 
 // Qt
@@ -21,11 +19,11 @@
 #include <QDBusConnection>
 #include <QQmlContext>
 #include <QtQuick/QQuickWindow>
-#include <QDebug>
 // self
 #include "plugin.h"
 
 // local
+#include "HomeKeyWatcher.h"
 #include "inputwatcher.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
@@ -54,6 +52,7 @@ static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
 void UtilsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Utils"));
+    qmlRegisterType<HomeKeyWatcher>(uri, 0, 1, "HomeKeyWatcher");
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");

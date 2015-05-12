@@ -1,3 +1,51 @@
+unity8 (8.02+15.04.20150511-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Workarounds for concierge mode.
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 11 May 2015 08:29:58 +0000
+
+unity8 (8.02+15.04.20150505-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make runtests fake a test error if make fails
+  * Make the test more stable
+  * Use dbus-test-runner instead of dbus-launch
+
+  [ Daniel d'Andrada ]
+  * DirectionalDragArea: improvements & API grooming (LP: #1417920)
+  * Fix EdgeDragEvaluator when a drag can happen both ways
+    (Direction.Horizontal)
+
+  [ Josh Arenson ]
+  * Remove panelHeight property as it is unused.
+
+  [ Leo Arias ]
+  * Initial clean up of the autopilot tests set up. Removed the touch
+    device from the test case. Moved the restart of unity to a fixture.
+    Removed the unused DragMixin. Updated the setUpClass to use
+    process_helpers. Removed the workaround for bug #1238417, already
+    fixed. Use the toolkit helper to set the testability environment
+    variable. Fixed the indicators base class that was restarting unity
+    twice. (LP: #1238417, #1447206)
+  * Use the base class from the toolkit in autopilot tests.
+
+  [ Michael Zanetti ]
+  * emit application-stop when we're going down (LP: #1326513)
+
+  [ Michał Sawicz ]
+  * UNITY_SCOPES_LIST is no more
+
+  [ handsome_feng<445865575@qq.com> ]
+  * When click the favorite scope in Dash Manager , it just return to
+    the corresponding scope page. (LP: #1447056)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 05 May 2015 14:47:24 +0000
+
 unity8 (8.02+15.04.20150422-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
