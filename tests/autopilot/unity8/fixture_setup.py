@@ -27,7 +27,10 @@ import ubuntuuitoolkit
 from autopilot import introspection
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-from ubuntuuitoolkit import fixture_setup
+from ubuntuuitoolkit import (
+    fixture_setup,
+    environment
+)
 
 from unity8 import (
     get_binary_path,
@@ -69,6 +72,12 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
                 UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
 
         self.addCleanup(process_helpers.stop_job, 'unity8')
+
+        # FIXME: because of LP #1444937 unity8 can crash too easily
+        # when the QML-cache gets stale, thus temporarily disable it
+        # for the test-runs
+        environment.unset_initctl_env_var('QV4_ENABLE_JIT_CACHE', global_=True)
+
         restart_thread = threading.Thread(
             target=self._restart_unity_with_testability)
         restart_thread.start()
