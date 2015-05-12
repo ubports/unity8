@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@ private Q_SLOTS:
     void candidatesAndWatchers_2();
     void rejectingTouchfterItsEnd();
     void removeOldUndecidedCandidates();
+    void interimOwnerWontGetUnownedTouchEvents();
 };
 
 void tst_TouchRegistry::requestWithNoCandidates()
@@ -742,12 +743,77 @@ void tst_TouchRegistry::removeOldUndecidedCandidates()
 
     // Simulate that enough time has passed to cause the CandidateInactivityTimer to timeout,
     // making TouchRegistry consider that undecidedCantidate defaulted.
-    fakeTimerFactory->makeRunningTimersTimeout();
+    fakeTimerFactory->updateTime(10000);
 
     QVERIFY(undecidedCandidate.ownedTouches.isEmpty());
     QVERIFY(undecidedCandidate.lostTouches.contains(0));
     QVERIFY(candidateThatWantsTouch.ownedTouches.contains(0));
     QVERIFY(candidateThatWantsTouch.lostTouches.isEmpty());
+
+    delete touchRegistry;
+}
+
+/*
+    An item that calls requestTouchOwnership() without first having called addCandidateOwnerForTouch()
+    is assumed to be the interim owner of the touch point, thus there's no point in sending
+    UnownedTouchEvents to him as he already gets proper QTouchEvents from QQuickWindow because
+    he didn't ignore the first QTouchEvent with that touch point.
+ */
+void tst_TouchRegistry::interimOwnerWontGetUnownedTouchEvents()
+{
+    FakeTimerFactory *fakeTimerFactory = new FakeTimerFactory;
+    TouchRegistry *touchRegistry = new TouchRegistry(nullptr, fakeTimerFactory);
+
+    DummyCandidate undecidedCandidate;
+    undecidedCandidate.setObjectName("undecided");
+
+    DummyCandidate interimOwner;
+    interimOwner.setObjectName("interimOwner");
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointPressed);
+        QTouchEvent touchEvent(QEvent::TouchBegin,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointPressed,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    touchRegistry->addCandidateOwnerForTouch(0, &undecidedCandidate);
+    touchRegistry->requestTouchOwnership(0, &interimOwner);
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointMoved);
+        QTouchEvent touchEvent(QEvent::TouchUpdate,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointMoved,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    QCOMPARE(undecidedCandidate.unownedTouchEvents.count(), 1);
+    QCOMPARE(interimOwner.unownedTouchEvents.count(), 0);
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointMoved);
+        QTouchEvent touchEvent(QEvent::TouchUpdate,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointMoved,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    QCOMPARE(undecidedCandidate.unownedTouchEvents.count(), 2);
+    QCOMPARE(interimOwner.unownedTouchEvents.count(), 0);
 
     delete touchRegistry;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,18 @@
 #include <TouchRegistry.h>
 
 #if TOUCHGATE_DEBUG
+#define ugDebug(params) qDebug().nospace() << "[TouchGate(" << (void*)this << ")] " << params
 #include <DebugHelpers.h>
-#endif
+#else // TOUCHGATE_DEBUG
+#define ugDebug(params) ((void)0)
+#endif // TOUCHGATE_DEBUG
+
+TouchGate::TouchGate(QQuickItem *parent)
+    : QQuickItem(parent)
+{
+    connect(this, &QQuickItem::enabledChanged,
+            this, &TouchGate::onEnabledChanged);
+}
 
 bool TouchGate::event(QEvent *e)
 {
@@ -38,13 +48,12 @@ bool TouchGate::event(QEvent *e)
 
 void TouchGate::touchEvent(QTouchEvent *event)
 {
-    #if TOUCHGATE_DEBUG
-    qDebug() << "[TouchGate] got touch event" << qPrintable(touchEventToString(event));
-    #endif
+    ugDebug("got touch event" << qPrintable(touchEventToString(event)));
     event->accept();
 
     const QList<QTouchEvent::TouchPoint> &touchPoints = event->touchPoints();
-    bool goodToGo = true;
+    QList<QTouchEvent::TouchPoint> validTouchPoints;
+    bool ownsAllTouches = true;
     for (int i = 0; i < touchPoints.count(); ++i) {
         const QTouchEvent::TouchPoint &touchPoint = touchPoints[i];
 
@@ -55,31 +64,41 @@ void TouchGate::touchEvent(QTouchEvent *event)
             TouchRegistry::instance()->requestTouchOwnership(touchPoint.id(), this);
         }
 
-        goodToGo &= m_touchInfoMap.contains(touchPoint.id())
-            && m_touchInfoMap[touchPoint.id()].ownership == OwnershipGranted;
+        if (m_touchInfoMap.contains(touchPoint.id())) {
+            validTouchPoints.append(touchPoint);
 
-        if (touchPoint.state() == Qt::TouchPointReleased && m_touchInfoMap.contains(touchPoint.id())) {
-            m_touchInfoMap[touchPoint.id()].ended = true;
+            ownsAllTouches &= m_touchInfoMap[touchPoint.id()].ownership == OwnershipGranted;
+
+            if (touchPoint.state() == Qt::TouchPointReleased) {
+                m_touchInfoMap[touchPoint.id()].ended = true;
+            }
         }
 
     }
 
-    if (goodToGo) {
+    if (validTouchPoints.isEmpty()) {
+        // nothing to do.
+        return;
+    }
+
+    if (ownsAllTouches) {
         if (m_storedEvents.isEmpty()) {
             // let it pass through
-            dispatchTouchEventToTarget(event);
+            removeTouchInfoForEndedTouches(validTouchPoints);
+            m_dispatcher.dispatch(event->device(), event->modifiers(), validTouchPoints,
+                    event->window(), event->timestamp());
         } else {
             // Retain the event to ensure TouchGate dispatches them in order.
             // Otherwise the current event would come before the stored ones, which are older.
-            #if TOUCHGATE_DEBUG
-            qDebug("[TouchGate] Storing event because thouches %s are still pending ownership.",
-                qPrintable(oldestPendingTouchIdsString()));
-            #endif
-            storeTouchEvent(event);
+            ugDebug("Storing event because thouches " << qPrintable(oldestPendingTouchIdsString())
+                    << " are still pending ownership.");
+            storeTouchEvent(event->device(), event->modifiers(), validTouchPoints,
+                    event->window(), event->timestamp());
         }
     } else {
         // Retain events that have unowned touches
-        storeTouchEvent(event);
+        storeTouchEvent(event->device(), event->modifiers(), validTouchPoints,
+                event->window(), event->timestamp());
     }
 }
 
@@ -88,24 +107,23 @@ void TouchGate::touchOwnershipEvent(TouchOwnershipEvent *event)
     // TODO: Optimization: batch those actions as TouchOwnershipEvents
     //       might come one right after the other.
 
-    Q_ASSERT(m_touchInfoMap.contains(event->touchId()));
+    if (m_touchInfoMap.contains(event->touchId())) {
+        TouchInfo &touchInfo = m_touchInfoMap[event->touchId()];
 
-    TouchInfo &touchInfo = m_touchInfoMap[event->touchId()];
+        if (event->gained()) {
+            ugDebug("Got ownership of touch " << event->touchId());
+            touchInfo.ownership = OwnershipGranted;
+        } else {
+            ugDebug("Lost ownership of touch " << event->touchId());
+            m_touchInfoMap.remove(event->touchId());
+            removeTouchFromStoredEvents(event->touchId());
+        }
 
-    if (event->gained()) {
-        #if TOUCHGATE_DEBUG
-        qDebug() << "[TouchGate] Got ownership of touch " << event->touchId();
-        #endif
-        touchInfo.ownership = OwnershipGranted;
+        dispatchFullyOwnedEvents();
     } else {
-        #if TOUCHGATE_DEBUG
-        qDebug() << "[TouchGate] Lost ownership of touch " << event->touchId();
-        #endif
-        m_touchInfoMap.remove(event->touchId());
-        removeTouchFromStoredEvents(event->touchId());
+        // Ignore it. It probably happened because the TouchGate got disabled
+        // between the time it requested ownership and the time it got it.
     }
-
-    dispatchFullyOwnedEvents();
 }
 
 bool TouchGate::isTouchPointOwned(int touchId) const
@@ -113,14 +131,15 @@ bool TouchGate::isTouchPointOwned(int touchId) const
     return m_touchInfoMap[touchId].ownership == OwnershipGranted;
 }
 
-void TouchGate::storeTouchEvent(const QTouchEvent *event)
+void TouchGate::storeTouchEvent(QTouchDevice *device,
+            Qt::KeyboardModifiers modifiers,
+            const QList<QTouchEvent::TouchPoint> &touchPoints,
+            QWindow *window,
+            ulong timestamp)
 {
-    #if TOUCHGATE_DEBUG
-    qDebug() << "[TouchGate] Storing" << qPrintable(touchEventToString(event));
-    #endif
-
-    TouchEvent clonedEvent(event);
-    m_storedEvents.append(std::move(clonedEvent));
+    ugDebug("Storing" << touchPoints);
+    TouchEvent event(device, modifiers, touchPoints, window, timestamp);
+    m_storedEvents.append(std::move(event));
 }
 
 void TouchGate::removeTouchFromStoredEvents(int touchId)
@@ -193,23 +212,11 @@ void TouchGate::setTargetItem(QQuickItem *item)
 void TouchGate::dispatchTouchEventToTarget(const TouchEvent &event)
 {
     removeTouchInfoForEndedTouches(event.touchPoints);
-    m_dispatcher.dispatch(event.eventType,
-            event.device,
+    m_dispatcher.dispatch(event.device,
             event.modifiers,
             event.touchPoints,
             event.window,
             event.timestamp);
-}
-
-void TouchGate::dispatchTouchEventToTarget(QTouchEvent* event)
-{
-    removeTouchInfoForEndedTouches(event->touchPoints());
-    m_dispatcher.dispatch(event->type(),
-            event->device(),
-            event->modifiers(),
-            event->touchPoints(),
-            event->window(),
-            event->timestamp());
 }
 
 void TouchGate::removeTouchInfoForEndedTouches(const QList<QTouchEvent::TouchPoint> &touchPoints)
@@ -226,14 +233,31 @@ void TouchGate::removeTouchInfoForEndedTouches(const QList<QTouchEvent::TouchPoi
     }
 }
 
-TouchGate::TouchEvent::TouchEvent(const QTouchEvent *event)
-    : eventType(event->type())
-    , device(event->device())
-    , modifiers(event->modifiers())
-    , touchPoints(event->touchPoints())
-    , target(qobject_cast<QQuickItem*>(event->target()))
-    , window(event->window())
-    , timestamp(event->timestamp())
+void TouchGate::onEnabledChanged()
+{
+    ugDebug(" enabled = " << isEnabled());
+    if (!isEnabled()) {
+        reset();
+    }
+}
+
+void TouchGate::reset()
+{
+    m_storedEvents.clear();
+    m_touchInfoMap.clear();
+    m_dispatcher.reset();
+}
+
+TouchGate::TouchEvent::TouchEvent(QTouchDevice *device,
+            Qt::KeyboardModifiers modifiers,
+            const QList<QTouchEvent::TouchPoint> &touchPoints,
+            QWindow *window,
+            ulong timestamp)
+    : device(device)
+    , modifiers(modifiers)
+    , touchPoints(touchPoints)
+    , window(window)
+    , timestamp(timestamp)
 {
 }
 

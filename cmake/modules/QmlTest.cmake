@@ -155,10 +155,11 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS ENVVAR)
     set(testCommand
           ${ENVVAR}
           LD_LIBRARY_PATH=${LD_PATH}
-          dbus-launch
-          ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
-          -o ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
-          -o -,txt)
+          dbus-test-runner
+          -m 300
+          -t ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
+          -p -o -p ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
+          -p -o -p -,txt)
 
     add_qmltest_target(test${CLASS_NAME} "${testCommand}" FALSE TRUE)
     add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
@@ -173,10 +174,11 @@ macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS ENVVAR)
           ${ENVVAR}
           LD_LIBRARY_PATH=${LD_PATH}
           xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
-          dbus-launch
-          ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
-          -o ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
-          -o -,txt)
+          dbus-test-runner
+          -m 300
+          -t ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
+          -p -o -p ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
+          -p -o -p -,txt)
 
     add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)
     add_dependencies(qmluitests xvfbtest${CLASS_NAME})

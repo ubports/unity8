@@ -20,10 +20,10 @@
 import logging
 import subprocess
 
+import ubuntuuitoolkit
 from autopilot.introspection import get_proxy_object_for_existing_process
 
 from unity8 import greeter
-from unity8.shell import emulators
 
 logger = logging.getLogger(__name__)
 
@@ -187,5 +187,5 @@ def _get_unity_pid():
 def _get_unity_proxy_object(pid):
     return get_proxy_object_for_existing_process(
         pid=pid,
-        emulator_base=emulators.UnityEmulatorBase,
+        emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
     )
