@@ -18,7 +18,7 @@
 
 // %1 is the template["card-background"] string
 // %2 is the template["card-background"]["elements"][0]
-// %3 is the template["card-background"]["elements"][0]
+// %3 is the template["card-background"]["elements"][1]
 var kBackgroundLoaderCode = 'Loader {\n\
                                 id: backgroundLoader; \n\
                                 objectName: "backgroundLoader"; \n\
