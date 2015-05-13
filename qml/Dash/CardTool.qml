@@ -211,7 +211,6 @@ Item {
         onLoaded: {
             item.objectName = "cardToolCard";
             item.asynchronous = false;
-            item.template = Qt.binding(function() { return cardTool.template; });
             item.components = Qt.binding(function() { return cardTool.components; });
             item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });

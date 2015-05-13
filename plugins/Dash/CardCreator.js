@@ -16,6 +16,9 @@
 
 .pragma library
 
+// %1 is the template["card-background"] string
+// %2 is the template["card-background"]["elements"][0]
+// %3 is the template["card-background"]["elements"][0]
 var kBackgroundLoaderCode = 'Loader {\n\
                                 id: backgroundLoader; \n\
                                 objectName: "backgroundLoader"; \n\
@@ -34,18 +37,14 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                         objectName: "backgroundImage"; \n\
                                         source: { \n\
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; \n\
-                                            else if (template && typeof template["card-background"] === "string") return template["card-background"]; \n\
-                                            else return ""; \n\
+                                            else return "%1"; \n\
                                         } \n\
                                     } \n\
                                     function getColor(index) { \n\
                                         if (cardData && typeof cardData["background"] === "object" \n\
                                             && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { \n\
                                             return cardData["background"]["elements"][index]; \n\
-                                        } else if (template && typeof template["card-background"] === "object" \n\
-                                                && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  { \n\
-                                            return template["card-background"]["elements"][index]; \n\
-                                        } else return undefined; \n\
+                                        } else return index === 0 ? %2 : %3; \n\
                                     } \n\
                                 } \n\
                             }\n';
@@ -315,9 +314,11 @@ var kSummaryLabelCode = 'Label { \n\
 
 function cardString(template, components) {
     var code;
+
+    var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
+
     code = 'AbstractButton { \n\
                 id: root; \n\
-                property var template; \n\
                 property var components; \n\
                 property var cardData; \n\
                 property var artShapeBorderSource: undefined; \n\
@@ -330,8 +331,8 @@ function cardString(template, components) {
                 property bool asynchronous: true; \n\
                 property bool showHeader: true; \n\
                 implicitWidth: childrenRect.width; \n\
-                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true); \n\
-                \n';
+                enabled: %1; \n\
+                \n'.arg(templateInteractive);
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
@@ -348,7 +349,18 @@ function cardString(template, components) {
     var hasAttributes = hasTitle && components["attributes"]["field"] || false;
 
     if (hasBackground) {
-        code += kBackgroundLoaderCode;
+        var templateCardBackground = (template && typeof template["card-background"] === "string") ? template["card-background"] :  "";
+        var backgroundElements0 = undefined;
+        var backgroundElements1 = undefined;
+        if (template && typeof template["card-background"] === "object"&& (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
+            if (template["card-background"]["elements"][0] !== undefined) {
+                backgroundElements0 = '"%1"'.arg(template["card-background"]["elements"][0]);
+            }
+            if (template["card-background"]["elements"][1] !== undefined) {
+                backgroundElements1 = '"%1"'.arg(template["card-background"]["elements"][1]);
+            }
+        }
+        code += kBackgroundLoaderCode.arg(templateCardBackground).arg(backgroundElements0).arg(backgroundElements1);
     }
 
     if (hasArt) {
