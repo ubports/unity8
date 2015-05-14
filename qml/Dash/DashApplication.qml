@@ -18,13 +18,25 @@ import QtQuick 2.2
 import Ubuntu.Components 1.0
 import Ubuntu.Thumbnailer 0.1 // Register support for image://thumbnailer/ and image://albumart/
 
-MainView {
+ MainView {
+    id: mainView
     width: applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
     height: applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(68)
 
     useDeprecatedToolbar: false
 
-    Dash {
+    function pushPage(page) { pageStack.push(page); }
+    function popPage(page) { pageStack.pop(); }
+
+    PageStack {
+        id: pageStack
         anchors.fill: parent
+    }
+
+    Dash {
+        id: dash
+        anchors.fill: parent
+
+        Component.onCompleted: pushPage(dash)
     }
 }

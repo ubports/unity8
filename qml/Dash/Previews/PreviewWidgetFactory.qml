@@ -60,7 +60,7 @@ Loader {
             case "reviews": return "PreviewRatingDisplay.qml";
             case "table": return "PreviewTable.qml";
             case "text": return "PreviewTextSummary.qml";
-            case "video": return "PreviewVideoPlayback.qml";
+            case "video": return "PreviewInlineVideo.qml";
             default: return "";
         }
     }
