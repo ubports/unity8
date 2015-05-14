@@ -345,7 +345,7 @@ Item {
             compare(launcher.x, teaseAnimation.bounce);
 
             // Continue drag, make sure we don't create a gap on the left hand side
-            touchFlick(shell, units.gu(1), halfHeight, shell.width, halfHeight, false, false);
+            touchFlick(shell, units.gu(3), halfHeight, shell.width, halfHeight, false, false);
             verify(!teaseAnimation.running);
             compare(launcher.visibleWidth, launcher.panelWidth);
             compare(launcher.x, 0);
