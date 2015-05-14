@@ -49,19 +49,26 @@ TutorialPage {
         paused: running && root.paused
         running: !slider.active && root.launcher.visibleWidth === 0 && root.shown
         loops: Animation.Infinite
+        property real bounce: 0
 
         UbuntuNumberAnimation {
-            target: root.launcher
-            property: "x"
+            target: teaseAnimation
+            property: "bounce"
             to: units.gu(2)
             duration: UbuntuAnimation.SleepyDuration
         }
         UbuntuNumberAnimation {
-            target: root.launcher
-            property: "x"
+            target: teaseAnimation
+            property: "bounce"
             to: 0
             duration: UbuntuAnimation.SleepyDuration
         }
+    }
+
+    Binding {
+        target: root.launcher
+        property: "x"
+        value: Math.min(root.launcher.panelWidth - root.launcher.visibleWidth, teaseAnimation.bounce)
     }
 
     Timer {
