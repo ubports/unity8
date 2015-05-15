@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "../DashAudioPlayer"
+import Dash 0.1
 
 /*! \brief Preview widget for audio tracks.
 
@@ -45,20 +45,12 @@ PreviewWidget {
             objectName: "trackRepeater"
             model: root.widgetData["tracks"]
 
-            function play(item, source) {
-                DashAudioPlayer.stop();
-                // Make sure we change the source, even if two items point to the same uri location
-                DashAudioPlayer.source = "";
-                DashAudioPlayer.source = source;
-                DashAudioPlayer.play();
-            }
-
             delegate: Item {
                 id: trackItem
                 objectName: "trackItem" + index
 
                 readonly property url sourceUrl: modelData["source"]
-                readonly property bool isPlayingItem: DashAudioPlayer.source == sourceUrl
+                readonly property bool isPlayingItem: DashAudioPlayer.isCurrentSource(sourceUrl)
 
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(5)
@@ -92,7 +84,7 @@ PreviewWidget {
                                     DashAudioPlayer.play();
                                 }
                             } else {
-                                trackRepeater.play(trackItem, sourceUrl);
+                                DashAudioPlayer.playSource(sourceUrl);
                             }
                         }
                     }
@@ -128,30 +120,10 @@ PreviewWidget {
                             elide: Text.ElideRight
                         }
 
-                        UbuntuShape {
-                            id: progressBarFill
-                            objectName: "progressBarFill"
-
-                            readonly property int maxWidth: progressBarImage.width - units.dp(4)
-
-                            anchors {
-                                left: progressBarImage.left
-                                right: progressBarImage.right
-                                verticalCenter: progressBarImage.verticalCenter
-                                margins: units.dp(2)
-                                rightMargin: maxWidth - (maxWidth * DashAudioPlayer.progress) + units.dp(2)
-                            }
-                            height: units.dp(2)
-                            visible: progressBarImage.visible
-                            color: UbuntuColors.orange
-                        }
-
-                        Image {
-                            id: progressBarImage
+                        AudioProgressBar {
                             anchors { left: parent.left; top: parent.bottom; right: parent.right }
-                            height: units.dp(6)
                             visible: !DashAudioPlayer.stopped && trackItem.isPlayingItem && modelData["length"] > 0
-                            source: "graphics/music_progress_bg.png"
+                            source: sourceUrl
                         }
                     }
 

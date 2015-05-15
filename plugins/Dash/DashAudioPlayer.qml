@@ -24,8 +24,19 @@ QtObject {
     readonly property bool playing: audio.playbackState === Audio.PlayingState
     readonly property bool paused: audio.playbackState === Audio.PausedState
     readonly property bool stopped: audio.playbackState === Audio.StoppedState
+    readonly property alias position: audio.position
 
-    property alias source: audio.source
+    function isCurrentSource(source) {
+        return source === audio.source && source != "";
+    }
+
+    function playSource(newSource) {
+        stop();
+        // Make sure we change the source, even if two items point to the same uri location
+        audio.source = "";
+        audio.source = newSource;
+        play();
+    }
 
     function stop() {
         audio.stop();
@@ -47,7 +58,7 @@ QtObject {
     }
 
     function lengthToString(s) {
-        if (typeof(s) !== "number" || s <= 0) return "";
+        if (typeof(s) !== "number" || s < 0) return "";
 
         var sec = "" + s % 60;
         if (sec.length == 1) sec = "0" + sec;

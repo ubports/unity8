@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import Ubuntu.Components 0.1
 import "../../../../qml/Dash/Previews"
-import "../../../../qml/Dash/DashAudioPlayer"
+import Dash 0.1
 import Unity.Test 0.1 as UT
 import QtMultimedia 5.0
 
@@ -59,8 +59,8 @@ Rectangle {
         function test_time_formatter_data() {
             return [
                     { tag: "NaN", value: "not a number", result: "" },
-                    { tag: "0", value: 0, result: "" },
                     { tag: "-1", value: -1, result: "" },
+                    { tag: "0", value: 0, result: "0:00" },
                     { tag: "30", value: 30, result: "0:30" },
                     { tag: "60", value: 60, result: "1:00" },
                     { tag: "3600", value: 3600, result: "1:00:00" }
