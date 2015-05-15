@@ -399,6 +399,34 @@ Item {
             tryCompare(spreadView, "contentX", -spreadView.shift)
         }
 
+        function test_cantCloseAppWhileRightEdgeGesture() {
+            addApps(2)
+
+            var spreadView = findChild(phoneStage, "spreadView");
+
+            var app0 = findChild(spreadView, "appDelegate0");
+            var app1 = findChild(spreadView, "appDelegate1");
+            var app2 = findChild(spreadView, "appDelegate2");
+
+            var startX = phoneStage.width - 2;
+            var startY = phoneStage.height / 2;
+            var endY = startY;
+            var endX = phoneStage.width / 2;
+
+            touchFlick(phoneStage, startX, startY, endX, endY,
+                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
+
+            tryCompare(app0, "swipeToCloseEnabled", false);
+            tryCompare(app1, "swipeToCloseEnabled", false);
+            tryCompare(app2, "swipeToCloseEnabled", false);
+
+            touchRelease(phoneStage, endX, endY);
+
+            tryCompare(app0,"swipeToCloseEnabled", true);
+            tryCompare(app1, "swipeToCloseEnabled", true);
+            tryCompare(app2, "swipeToCloseEnabled", true);
+        }
+
         function test_leftEdge_data() {
             return [
                 { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(5), shouldMoveApp: true },
