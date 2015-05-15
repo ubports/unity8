@@ -17,8 +17,41 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import dbus
+
 import ubuntuuitoolkit
+from autopilot.matchers import Eventually
+from testtools.matchers import Equals
 from autopilot.utilities import sleep
+
+
+def hide_greeter_with_dbus():
+    dbus_proxy = _get_greeter_dbus_proxy()
+    if _is_greeter_active():
+        dbus_proxy.HideGreeter()
+
+
+def show_greeter_with_dbus():
+    dbus_proxy = _get_greeter_dbus_proxy()
+    if not _is_greeter_active():
+        dbus_proxy.ShowGreeter()
+
+
+def wait_for_greeter():
+    Eventually(Equals(True), timeout=300).match(_is_greeter_active)
+
+
+def _get_greeter_dbus_proxy():
+    bus = dbus.SessionBus()
+    return bus.get_object('com.canonical.UnityGreeter', '/')
+
+
+def _is_greeter_active():
+    try:
+        dbus_proxy = _get_greeter_dbus_proxy()
+        return dbus_proxy.Get('com.canonical.UnityGreeter', 'IsActive')
+    except:
+        return False
 
 
 class Greeter(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):

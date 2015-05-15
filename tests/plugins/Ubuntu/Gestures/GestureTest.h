@@ -23,6 +23,9 @@
 class QQuickView;
 class QTouchDevice;
 
+namespace UbuntuGestures {
+    class FakeTimerFactory;
+}
 class TouchRegistry;
 
 // C++ std lib
@@ -81,6 +84,7 @@ protected:
     QTouchDevice *m_device;
     QQuickView *m_view;
     TouchRegistry *m_touchRegistry;
+    UbuntuGestures::FakeTimerFactory *m_fakeTimerFactory;
     QString m_qmlFilename;
 };
 
