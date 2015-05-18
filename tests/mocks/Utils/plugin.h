@@ -14,31 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.1
-import Unity.Test 0.1
+#ifndef FAKE_UTILS_PLUGIN_H
+#define FAKE_UTILS_PLUGIN_H
 
-RowLayout {
-    id: root
-    property alias color: label.color
-    property alias checked: checkbox.checked
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-    Binding {
-        target: MouseTouchAdaptor
-        property: "enabled"
-        value: checkbox.checked
-    }
+class FakeUtilsPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    Layout.fillWidth: true
-    CheckBox {
-        id: checkbox
-        checked: true
-        activeFocusOnPress: false
-    }
-    Label {
-        id: label
-        text: "Mouse emulates touch"
-        anchors.verticalCenter: parent.verticalCenter
-    }
-}
+public:
+    void registerTypes(const char *uri);
+    void initializeEngine(QQmlEngine *engine, const char *uri);
+};
+
+#endif

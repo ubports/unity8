@@ -15,30 +15,7 @@
  */
 
 import QtQuick 2.0
-import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.1
-import Unity.Test 0.1
 
-RowLayout {
-    id: root
-    property alias color: label.color
-    property alias checked: checkbox.checked
-
-    Binding {
-        target: MouseTouchAdaptor
-        property: "enabled"
-        value: checkbox.checked
-    }
-
-    Layout.fillWidth: true
-    CheckBox {
-        id: checkbox
-        checked: true
-        activeFocusOnPress: false
-    }
-    Label {
-        id: label
-        text: "Mouse emulates touch"
-        anchors.verticalCenter: parent.verticalCenter
-    }
+QtObject {
+    signal activated()
 }
