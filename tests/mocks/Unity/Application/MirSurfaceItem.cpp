@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,14 +39,12 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     , m_type(type)
     , m_state(state)
     , m_live(true)
-    , m_orientation(Qt::PortraitOrientation)
-    , m_touchPressCount(0)
-    , m_touchReleaseCount(0)
+    , m_orientationAngle(Angle0)
     , m_qmlItem(nullptr)
     , m_screenshotUrl(screenshot)
+    , m_touchPressCount(0)
+    , m_touchReleaseCount(0)
 {
-    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << this->name();
-
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
         Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
         Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
@@ -54,9 +52,6 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
         Qt::ExtraButton12 | Qt::ExtraButton13);
 
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
-
-    connect(this, &QQuickItem::focusChanged,
-            this, &MirSurfaceItem::onFocusChanged);
 
     // The assumptions I make here really should hold.
     QQuickView *quickView =
@@ -117,17 +112,17 @@ void MirSurfaceItem::release()
     }
 }
 
-void MirSurfaceItem::setOrientation(const Qt::ScreenOrientation orientation)
+void MirSurfaceItem::setOrientationAngle(OrientationAngle angle)
 {
-    if (m_orientation == orientation)
+    if (m_orientationAngle == angle)
         return;
 
-    m_orientation = orientation;
+    m_orientationAngle = angle;
 
-    QQmlProperty orientationProp(m_qmlItem, "orientation");
-    orientationProp.write(QVariant::fromValue(orientation));
+    QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
+    orientationProp.write(QVariant::fromValue(m_orientationAngle));
 
-    Q_EMIT orientationChanged();
+    Q_EMIT orientationAngleChanged(m_orientationAngle);
 }
 
 void MirSurfaceItem::setSession(Session* session)
@@ -149,15 +144,6 @@ void MirSurfaceItem::setLive(bool live)
     if (m_live != live) {
         m_live = live;
         Q_EMIT liveChanged(m_live);
-    }
-}
-
-void MirSurfaceItem::onFocusChanged()
-{
-    if (!hasFocus()) {
-        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
-        // Didn't have time to debug yet.
-        //Q_EMIT inputMethodDismissed();
     }
 }
 
@@ -197,9 +183,6 @@ void MirSurfaceItem::touchEvent(QTouchEvent * event)
     if (event->touchPointStates() & Qt::TouchPointPressed) {
         ++m_touchPressCount;
         Q_EMIT touchPressCountChanged(m_touchPressCount);
-        // Causes a crash in tst_Shell.qml, inside the mock Unity.Application itself.
-        // Didn't have time to debug yet.
-        // Q_EMIT inputMethodRequested();
     } else if (event->touchPointStates() & Qt::TouchPointReleased) {
         ++m_touchReleaseCount;
         Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);

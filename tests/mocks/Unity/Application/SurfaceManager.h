@@ -20,6 +20,7 @@
 #include <QObject>
 
 #include "MirSurfaceItem.h"
+#include "VirtualKeyboard.h"
 
 class SurfaceManager : public QObject
 {
@@ -45,13 +46,9 @@ Q_SIGNALS:
     void surfaceCreated(MirSurfaceItem *surface);
     void surfaceDestroyed(MirSurfaceItem *surface);
 
-private Q_SLOTS:
-    void showInputMethod();
-    void hideInputMethod();
-
 private:
     static SurfaceManager *the_surface_manager;
-    MirSurfaceItem *m_virtualKeyboard;
+    VirtualKeyboard *m_virtualKeyboard;
 };
 
 #endif // SURFACEMANAGER_H

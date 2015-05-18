@@ -1,4 +1,6 @@
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
+include_directories(
+  ${APPLICATION_API_INCLUDE_DIRS}
+)
 
 set(FakeUnityApplicationQml_SOURCES
     plugin.cpp
@@ -14,6 +16,7 @@ set(FakeUnityApplicationQml_SOURCES
     SurfaceManager.cpp
     SessionModel.h
     UbuntuKeyboardInfo.cpp
+    VirtualKeyboard.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
 )
