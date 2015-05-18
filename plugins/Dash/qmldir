@@ -7,3 +7,4 @@ ScopeStyle 0.1 ScopeStyle.qml
 CardAttributes 0.1 CardAttributes.qml
 CroppedImageMinimumSourceSize 0.1 CroppedImageMinimumSourceSize.qml
 AudioProgressBar 0.1 AudioProgressBar.qml
+CardAudioProgress 0.1 CardAudioProgress.qml
