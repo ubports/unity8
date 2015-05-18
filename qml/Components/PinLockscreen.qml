@@ -154,10 +154,6 @@ Item {
             }
         }
 
-        ThinDivider {
-            anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
-        }
-
         Grid {
             id: numbersGrid
             objectName: "numbersGrid"
