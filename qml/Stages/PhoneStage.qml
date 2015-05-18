@@ -146,14 +146,13 @@ Rectangle {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
-        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
-                     && draggedDelegateCount === 0
+        interactive: (spreadDragArea.dragging || phase > 1) && draggedDelegateCount === 0
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
-        readonly property bool active: shiftedContentX > 0 || spreadDragArea.status === DirectionalDragArea.Recognized || !root.focusFirstApp
+        readonly property bool active: shiftedContentX > 0 || spreadDragArea.dragging || !root.focusFirstApp
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
@@ -450,7 +449,7 @@ Rectangle {
         }
     }
 
-    EdgeDragArea {
+    DirectionalDragArea {
         id: spreadDragArea
         objectName: "spreadDragArea"
         direction: Direction.Leftwards
@@ -462,59 +461,50 @@ Rectangle {
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
-            if (!dragging) {
-                // Initial touch. Let's reset the spreadView to the starting position.
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-            }
-            if (dragging && status == DirectionalDragArea.Recognized) {
+            if (dragging) {
                 // Gesture recognized. Let's move the spreadView with the finger
                 var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
                 dragX = -dragX + spreadDragArea.width - spreadView.shift;
                 // Don't allow dragging further than the animation crossing with phase2's animation
                 var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
+
                 spreadView.contentX = Math.min(dragX, maxMovement);
+            } else {
+                // Initial touch. Let's reset the spreadView to the starting position.
+                spreadView.phase = 0;
+                spreadView.contentX = -spreadView.shift;
             }
+
             gesturePoints.push(touchX);
-        }
-
-        property int previousStatus: -1
-        property int currentStatus: DirectionalDragArea.WaitingForTouch
-
-        onStatusChanged: {
-            previousStatus = currentStatus;
-            currentStatus = status;
         }
 
         onDraggingChanged: {
             if (dragging) {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
-                return;
-            }
-
-            // Ok. The user released. Find out if it was a one-way movement.
-            var oneWayFlick = true;
-            var smallestX = spreadDragArea.width;
-            for (var i = 0; i < gesturePoints.length; i++) {
-                if (gesturePoints[i] >= smallestX) {
-                    oneWayFlick = false;
-                    break;
+            } else {
+                // Ok. The user released. Find out if it was a one-way movement.
+                var oneWayFlick = true;
+                var smallestX = spreadDragArea.width;
+                for (var i = 0; i < gesturePoints.length; i++) {
+                    if (gesturePoints[i] >= smallestX) {
+                        oneWayFlick = false;
+                        break;
+                    }
+                    smallestX = gesturePoints[i];
                 }
-                smallestX = gesturePoints[i];
-            }
-            gesturePoints = [];
+                gesturePoints = [];
 
-            if (previousStatus == DirectionalDragArea.Recognized &&
-                oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
-                    spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
-                // If it was a short one-way movement, do the Alt+Tab switch
-                // no matter if we didn't cross positionMarker1 yet.
-                spreadView.snapTo(1);
-            } else if (!dragging) {
-                // otherwise snap to the closest snap position we can find
-                // (might be back to start, to app 1 or to spread)
-                spreadView.snap();
+                if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
+                        spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
+                    // If it was a short one-way movement, do the Alt+Tab switch
+                    // no matter if we didn't cross positionMarker1 yet.
+                    spreadView.snapTo(1);
+                } else if (!dragging) {
+                    // otherwise snap to the closest snap position we can find
+                    // (might be back to start, to app 1 or to spread)
+                    spreadView.snap();
+                }
             }
         }
     }
