@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.1
+import Powerd 0.1
 
 // Why the state machine is done that way:
 // We cannot use regular PropertyChanges{} inside the State elements as steps in the
@@ -120,6 +121,12 @@ StateGroup {
             if (d.startingUp) {
                 // During start up, inital property values are still settling while we're still
                 // to render the very first frame
+                d.animationType = d.noAnimation;
+            } else if (Powerd.status === Powerd.Off) {
+                // There's no point in animating if the user can't see it (display is off).
+                d.animationType = d.noAnimation;
+            } else if (root.shell.showingGreeter) {
+                // A rotating greeter looks weird.
                 d.animationType = d.noAnimation;
             } else {
                 if (!root.shell.mainApp) {

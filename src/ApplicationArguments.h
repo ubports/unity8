@@ -31,18 +31,9 @@ public:
     ApplicationArguments(QObject *parent = nullptr);
 
     void setDeviceName(QString deviceName) { m_deviceName = deviceName; }
-
-    void setSize(const QSize &size) {
-        m_size = size;
-    }
-
-    Q_INVOKABLE int width() const { return m_size.width(); }
-    Q_INVOKABLE int height() const { return m_size.height(); }
-
     QString deviceName() const { return m_deviceName; }
 
 private:
-    QSize m_size;
     QString m_deviceName;
 };
 

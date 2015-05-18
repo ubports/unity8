@@ -54,7 +54,6 @@ int main(int argc, const char *argv[])
     UnityCommandLineParser parser(*application);
 
     ApplicationArguments qmlArgs;
-    qmlArgs.setSize(parser.windowGeometry());
 
     if (!parser.deviceName().isEmpty()) {
         qmlArgs.setDeviceName(parser.deviceName());
@@ -88,6 +87,12 @@ int main(int argc, const char *argv[])
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setColor("black");
     view->setTitle("Unity8 Shell");
+
+    if (parser.windowGeometry().isValid()) {
+        view->setWidth(parser.windowGeometry().width());
+        view->setHeight(parser.windowGeometry().height());
+    }
+
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
     view->rootContext()->setContextProperty("shellMode", parser.mode());
