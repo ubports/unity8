@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-14 16:13+0200\n"
-"PO-Revision-Date: 2015-03-25 20:55+0000\n"
+"PO-Revision-Date: 2015-05-04 18:02+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-04-23 06:48+0000\n"
-"X-Generator: Launchpad (build 17430)\n"
+"X-Launchpad-Export-Date: 2015-05-05 05:47+0000\n"
+"X-Generator: Launchpad (build 17474)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -239,11 +239,11 @@ msgstr "Koppintson a feloldáshoz"
 
 #: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr "Sajnálom, helytelen jelmondat."
+msgstr "Elnézést, helytelen jelmondat."
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr "Sajnálom, helytelen jelkód."
+msgstr "Elnézést, helytelen jelkód."
 
 #: qml/Greeter/NarrowView.qml:55
 msgid "This will be your last attempt."
@@ -281,11 +281,11 @@ msgstr "Jelkód megadása"
 #: qml/Greeter/NarrowView.qml:118
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "Sajnálom, helytelen %1"
+msgstr "Elnézést, helytelen %1"
 
 #: qml/Greeter/NarrowView.qml:119
 msgid "Sorry, incorrect passphrase"
-msgstr "Sajnálom, helytelen jelmondat"
+msgstr "Elnézést, helytelen jelmondat"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Please re-enter"
@@ -293,7 +293,7 @@ msgstr "Próbálja újra"
 
 #: qml/Greeter/NarrowView.qml:121
 msgid "Sorry, incorrect passcode"
-msgstr "Sajnálom, helytelen jelkód"
+msgstr "Elnézést, helytelen jelkód"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -354,7 +354,7 @@ msgstr "Ez a művelet másként viselkedhet a különböző alkalmazásoknál"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr "Koppintson a befejezéshez."
+msgstr "Koppintson ide a befejezéshez."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -371,11 +371,11 @@ msgstr "Koppintson ide a folytatáshoz."
 
 #: qml/Tutorial/TutorialContent.qml:81
 msgid "Click here to finish."
-msgstr ""
+msgstr "Kattintson ide a befejezéshez."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr "Ezek a kedvenc alkalmazások gyorsít-indítói"
+msgstr "Ezek a kedvenc alkalmazások gyorsindítói"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -395,7 +395,7 @@ msgstr "Próbálja újra."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr "Nyitott alkalmazások megtekintéséhez"
+msgstr "A nyitott alkalmazások megtekintéséhez"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
@@ -403,7 +403,7 @@ msgstr "Húzza az ujját hosszan a kijelző jobboldalától indulva."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr "Minden futó feladat megtekintése."
+msgstr "Az összes futó alkalmazás megtekinthető."
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"

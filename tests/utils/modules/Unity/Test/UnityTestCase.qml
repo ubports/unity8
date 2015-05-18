@@ -269,7 +269,7 @@ TestCase {
         speed = (speed !== undefined) ? speed : units.gu(10)
 
         // Set a default iterations if not specified
-        var iterations = (iterations !== undefined) ? iterations : 5
+        var iterations = (iterations !== undefined) ? iterations : 10
 
         var distance = Math.sqrt(Math.pow(rootTo.x - rootFrom.x, 2) + Math.pow(rootTo.Y - rootFrom.y, 2))
         var totalTime = (distance / speed) * 1000 /* converting speed to pixels/ms */
@@ -403,12 +403,8 @@ TestCase {
     function removeTimeConstraintsFromDirectionalDragAreas(item) {
 
         // use duck-typing to identify a DirectionalDragArea
-        if (item.minSpeed != undefined
-                && item.maxSilenceTime != undefined
-                && item.compositionTime != undefined) {
-            item.minSpeed = 0;
-            item.maxSilenceTime = 60 * 60 * 1000;
-            item.compositionTime = 0;
+        if (item.removeTimeConstraints != undefined) {
+            item.removeTimeConstraints();
         } else {
             for (var i in item.children) {
                 removeTimeConstraintsFromDirectionalDragAreas(item.children[i]);
