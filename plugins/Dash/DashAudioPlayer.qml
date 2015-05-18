@@ -16,8 +16,8 @@
 
 pragma Singleton
 import QtQuick 2.4
-
 import QtMultimedia 5.0
+import Dash 0.1
 
 QtObject {
     readonly property real progress: audio.position / audio.duration
@@ -27,7 +27,7 @@ QtObject {
     readonly property alias position: audio.position
 
     function isCurrentSource(source) {
-        return source === audio.source && source != "";
+        return source != "" && AudioUrlComparer.compare(source, audio.source);
     }
 
     function playSource(newSource) {
