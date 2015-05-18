@@ -18,10 +18,8 @@
 import ubuntuuitoolkit
 from autopilot import introspection
 
-from unity8.shell import emulators
 
-
-class IndicatorPage(emulators.UnityEmulatorBase):
+class IndicatorPage(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     """Autopilot helper for the IndicatorPage component."""
 
@@ -166,7 +164,7 @@ class TestIndicatorPage(IndicatorPage):
         return self.select_single(objectName='indicator.action.slider')
 
 
-class Slider(emulators.UnityEmulatorBase):
+class Slider(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
     """Autopilot helper for the Slider component."""
 
