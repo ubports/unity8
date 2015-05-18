@@ -1,10 +1,15 @@
+import os
+import sysconfig
 
 from unity8.settings_wizard import fixture_setup
 from unity8.settings_wizard.emulators.settings_wizard import Wizard
+from unity8.settings_wizard.phonesim_manager import PhonesimManager
 from unity8.shell import tests
 
 DEFAULT_LANGUAGE = 'English (United States)'
 DEFAULT_SECURITY_METHOD = 'Passcode'
+
+import pdb
 
 
 class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
@@ -12,10 +17,27 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
 
     def setUp(self):
         super().setUp()
+        phonesim_datadir = os.getenv('INDICATOR_NETWORK_PHONESIM_DATA')
+        if phonesim_datadir is None:
+            phonesim_datadir = sysconfig.get_config_var('datarootdir') + \
+                '/indicator-network/phonesim'
+
+        sims = [('sim1',
+                 23456,
+                 phonesim_datadir + '/pin-unlock.xml')]
+        self.phonesim_manager = PhonesimManager(sims)
         self.wizard_helper = self.useFixture(
             fixture_setup.SettingsWizard(True))
+        self.phonesim_manager.start_phonesim_processes()
+        self.phonesim_manager.remove_all_ofono()
+        self.phonesim_manager.add_ofono('sim1')
+        self.phonesim_manager.power_on('sim1')
+        pdb.set_trace()
         self.unity = self.launch_unity()
         self.wizard = self._get_settings_wizard()
+
+    def tearDown(self):
+        self.phonesim_manager.shutdown()
 
     def _get_settings_wizard(self):
         return self.unity.wait_select_single(Wizard)

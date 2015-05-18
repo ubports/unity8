@@ -30,6 +30,14 @@ LocalComponents.Page {
                               && (manager.modems.length < 2 || simManager1.ready))
     skip: !manager.available || manager.modems.length === 0 || simManager0.present || simManager1.present
 
+    Component.onCompleted: {
+        console.log("----- JOSH skip status -----")
+        console.log("JOSH nmanager.available:" + manager.available)
+        console.log("JOSH nmanager.modems.length:"+ manager.modems.length)
+        console.log("JOSH simManager0.ready:" + simManager0.ready)
+        console.log("JOSH simManager1.ready:" + simManager1.ready)
+    }
+
     OfonoManager {
         id: manager
         property bool ready: false
