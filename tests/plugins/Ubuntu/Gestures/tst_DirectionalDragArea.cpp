@@ -84,7 +84,7 @@ class tst_DirectionalDragArea: public GestureTest
 public:
     tst_DirectionalDragArea();
 private Q_SLOTS:
-    void init(); // called right before each and every test function is executed
+    void init() override; // called right before each and every test function is executed
 
     void dragWithShortDirectionChange();
     void recognitionTimerUsage();
