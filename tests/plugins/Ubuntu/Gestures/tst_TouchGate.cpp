@@ -29,16 +29,7 @@
 #include <TouchGate.h>
 #include <TouchRegistry.h>
 
-class TestItem : public QQuickItem
-{
-    Q_OBJECT
-
-public:
-    QList<QSharedPointer<QTouchEvent>> touchEventsReceived;
-
-protected:
-    void touchEvent(QTouchEvent *event) override;
-};
+#include "TestItem.h"
 
 class CandidateItem : public QQuickItem
 {
@@ -379,19 +370,6 @@ void tst_TouchGate::disabledWhileHoldingTouch()
         QCOMPARE(touchEvent->touchPoints().count(), 1);
         QCOMPARE(touchEvent->touchPoints()[0].id(), 1);
     }
-}
-
-///////////// TestItem /////////////////////////////////////////////////////////////
-
-void TestItem::touchEvent(QTouchEvent *event)
-{
-    QTouchEvent *clonedEvent = new QTouchEvent(event->type(),
-            event->device(),
-            event->modifiers(),
-            event->touchPointStates(),
-            event->touchPoints());
-
-    touchEventsReceived.append(QSharedPointer<QTouchEvent>(clonedEvent));
 }
 
 ///////////// CandidateItem /////////////////////////////////////////////////////////////
