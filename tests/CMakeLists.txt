@@ -31,7 +31,7 @@ set(UNITY_IMPORT_PATHS ${UNITY_IMPORT_PATHS} CACHE INTERNAL "")
 
 macro(unity8_parse_arguments)
     cmake_parse_arguments(U8TEST
-        "${QMLTEST_OPTIONS};QMENUMODEL;LIGHTDM"
+        "${QMLTEST_OPTIONS};LIGHTDM"
         "${QMLTEST_SINGLE}"
         "${QMLTEST_MULTI}"
         ${ARGN}
@@ -45,17 +45,13 @@ macro(unity8_parse_arguments)
         )
     endif()
 
-    if(U8TEST_QMENUMODEL)
-        list(APPEND ld_paths ${CMAKE_BINARY_DIR}/tests/mocks/QMenuModel)
-    endif()
-
     if(ld_paths)
         string(REPLACE ";" ":" ld_library_path "${ld_paths}")
         set(ld_library_path LD_LIBRARY_PATH=${ld_library_path})
     endif()
 
     set(U8TEST_ARGN "${ARGN}")
-    list(REMOVE_ITEM U8TEST_ARGN QMENUMODEL LIGHTDM)
+    list(REMOVE_ITEM U8TEST_ARGN LIGHTDM)
 
     set(environment
         UNITY_TESTING=1
