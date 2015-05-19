@@ -43,16 +43,8 @@ import Ubuntu.Gestures 0.1
   }
 
  */
-EdgeDragArea {
+DirectionalDragArea {
     id: dragArea
-    objectName: "dragHandle"
-
-    // Disable gesture recognition by default when hinting is used as
-    // it conflicts with the hinting idea.
-    distanceThreshold: hintDisplacement > 0 ? 0 : defaultDistanceThreshold
-    maxSilenceTime: hintDisplacement > 0 ? 60*60*1000 : defaultMaxSilenceTime
-    maxDeviation: hintDisplacement > 0 ? 999999 : defaultMaxDeviation
-    compositionTime: hintDisplacement > 0 ? 0 : defaultCompositionTime
 
     property bool stretch: false
 
@@ -68,6 +60,9 @@ EdgeDragArea {
     }
 
     property real hintDisplacement: 0
+
+    immediateRecognition: hintDisplacement > 0
+
     property var overrideStartValue: undefined
     SmoothedAnimation {
         id: hintingAnimation
@@ -98,7 +93,6 @@ EdgeDragArea {
     // Private stuff
     QtObject {
         id: d
-        property var previousStatus: DirectionalDragArea.WaitingForTouch
         property real startValue
         property real minValue: {
             if (direction == Direction.Horizontal) {
@@ -183,7 +177,7 @@ EdgeDragArea {
     }
 
     onDistanceChanged: {
-        if (status === DirectionalDragArea.Recognized) {
+        if (dragging) {
             // don't go the whole distance in order to smooth out the movement
             var step = distance * 0.3;
 
@@ -193,31 +187,22 @@ EdgeDragArea {
         }
     }
 
-    onStatusChanged: {
-        if (status === DirectionalDragArea.WaitingForTouch) {
+    onDraggingChanged: {
+        if (dragging) {
+            dragEvaluator.reset();
+            if (overrideStartValue !== undefined) {
+                d.startValue = overrideStartValue;
+            } else {
+                d.startValue = parent[d.targetProp];
+            }
+
+            if (hintDisplacement > 0) {
+                hintingAnimation.targetValue = d.startValue;
+                hintingAnimation.start();
+            }
+        } else {
             hintingAnimation.stop();
-            if (d.previousStatus === DirectionalDragArea.Recognized) {
-                d.onFinishedRecognizedGesture();
-            } else /* d.previousStatus === DirectionalDragArea.Undecided */ {
-                // Gesture was rejected.
-                d.rollbackDrag();
-            }
-        } else /* Undecided || Recognized */ {
-            if (d.previousStatus === DirectionalDragArea.WaitingForTouch) {
-                dragEvaluator.reset();
-                if (overrideStartValue !== undefined) {
-                    d.startValue = overrideStartValue;
-                } else {
-                    d.startValue = parent[d.targetProp];
-                }
-
-                if (hintDisplacement > 0) {
-                    hintingAnimation.targetValue = d.startValue;
-                    hintingAnimation.start();
-                }
-            }
+            d.onFinishedRecognizedGesture();
         }
-
-        d.previousStatus = status;
     }
 }

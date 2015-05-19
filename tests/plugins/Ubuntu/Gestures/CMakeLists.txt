@@ -15,6 +15,7 @@ include_directories(
 export_qmlfiles(UbuntuGesturesTest .)
 
 add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
+add_definitions(-DTESTS_UTILS_MODULES_DIR="${CMAKE_BINARY_DIR}/tests/utils/modules")
 
 macro(build_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp)
@@ -38,7 +39,8 @@ macro(add_gesture_ui_test CLASSNAME)
         DEPENDS UbuntuGesturesTest-qmlfiles
         ${ARGN}
     )
-    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins)
+    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins
+                                                    ${CMAKE_BINARY_DIR}/tests/utils/modules)
 endmacro()
 
 add_gesture_ui_test(DirectionalDragArea)

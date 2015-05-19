@@ -5,6 +5,7 @@ set(UbuntuGestures_SOURCES
     CandidateInactivityTimer.cpp
     DebugHelpers.cpp
     Timer.cpp
+    TimeSource.cpp
     TouchOwnershipEvent.cpp
     TouchRegistry.cpp
     UnownedTouchEvent.cpp

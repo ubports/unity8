@@ -65,8 +65,8 @@ Showable {
         maxTotalDragDistance: showable.parent.height
         hintDisplacement: showable.hintDisplacement
 
-        onStatusChanged: {
-            if (status === DirectionalDragArea.Recognized) {
+        onDraggingChanged: {
+            if (dragging) {
                 dragHandleRecognizedGesture(upwardsDragHandle);
             }
         }
@@ -88,8 +88,8 @@ Showable {
         maxTotalDragDistance: showable.parent.height
         hintDisplacement: showable.hintDisplacement
 
-        onStatusChanged: {
-            if (status === DirectionalDragArea.Recognized) {
+        onDraggingChanged: {
+            if (dragging) {
                 dragHandleRecognizedGesture(downwardsDragHandle);
             }
         }

@@ -612,14 +612,14 @@ Item {
             tryCompare(coverPage, "showProgress", 1);
 
             // Swipe cover page away
-            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
             tryCompare(launcher, "x", -launcher.width);
             tryCompare(coverPage, "showProgress", 0);
             compare(lockscreen.shown, true);
             compare(ApplicationManager.focusedApplicationId, "gallery-app");
 
             // Now attempt a swipe on lockscreen
-            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
             tryCompare(launcher, "x", 0);
             compare(lockscreen.shown, true);
             compare(ApplicationManager.focusedApplicationId, "gallery-app");

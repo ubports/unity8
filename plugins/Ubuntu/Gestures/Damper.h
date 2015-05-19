@@ -84,4 +84,6 @@ private:
     Damper<qreal> m_y;
 };
 
+QDebug operator<<(QDebug dbg, const DampedPointF &p);
+
 #endif // UBUNTU_GESTURES_DAMPER_H

@@ -373,11 +373,11 @@ Rectangle {
         function test_phoneLeftEdgeDrag_data() {
             return [
                 {tag: "without launcher",
-                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
                  launcherHides: true, greeterShown: false},
 
                 {tag: "with launcher",
-                 revealLauncher: true, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 revealLauncher: true, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
                  launcherHides: true, greeterShown: false},
 
                 {tag: "small swipe",
@@ -385,7 +385,7 @@ Rectangle {
                  launcherHides: false, greeterShown: false},
 
                 {tag: "long swipe",
-                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
                  launcherHides: true, greeterShown: false},
 
                 {tag: "small swipe with greeter",
@@ -393,11 +393,11 @@ Rectangle {
                  launcherHides: false, greeterShown: true},
 
                 {tag: "long swipe with greeter",
-                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "dialer-app",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
                  launcherHides: true, greeterShown: true},
 
                 {tag: "swipe over dash",
-                 revealLauncher: false, swipeLength: units.gu(27), appHides: true, focusedApp: "unity8-dash",
+                 revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "unity8-dash",
                  launcherHides: false, greeterShown: false},
             ];
         }
@@ -602,7 +602,7 @@ Rectangle {
 
             dashCommunicatorSpy.clear();
             // Minimize the application we just launched
-            swipeFromLeftEdge(units.gu(27));
+            swipeFromLeftEdge(shell.width * 0.75);
 
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
@@ -724,7 +724,8 @@ Rectangle {
         }
 
         function dragLauncherIntoView() {
-            var launcherPanel = findChild(shell, "launcherPanel");
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
             verify(launcherPanel.x = - launcherPanel.width);
 
             var touchStartX = 2;
@@ -732,6 +733,7 @@ Rectangle {
             touchFlick(shell, touchStartX, touchStartY, launcherPanel.width + units.gu(1), touchStartY);
 
             tryCompare(launcherPanel, "x", 0);
+            tryCompare(launcher, "state", "visible");
         }
 
         function tapOnAppIconInLauncher() {
@@ -768,7 +770,9 @@ Rectangle {
         function swipeFromLeftEdge(swipeLength) {
             var touchStartX = 2;
             var touchStartY = shell.height / 2;
-            touchFlick(shell, touchStartX, touchStartY, swipeLength, touchStartY);
+            touchFlick(shell,
+                    touchStartX              , touchStartY,
+                    touchStartX + swipeLength, touchStartY);
         }
 
         function itemIsOnScreen(item) {
@@ -835,7 +839,7 @@ Rectangle {
             tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
 
             // Minimize the application we just launched
-            swipeFromLeftEdge(units.gu(26) + 1);
+            swipeFromLeftEdge(shell.width * 0.75);
 
             waitUntilDashIsFocused();
 
@@ -917,7 +921,7 @@ Rectangle {
 
             compare(panel.fullscreenMode, true);
 
-            touchFlick(shell, units.gu(2), touchStartY, units.gu(10), touchStartY, false, false);
+            touchFlick(shell, units.gu(2), touchStartY, shell.width * 0.5, touchStartY, false, false);
 
             tryCompare(panel, "fullscreenMode", false);
 

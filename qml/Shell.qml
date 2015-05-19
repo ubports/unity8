@@ -58,7 +58,6 @@ Item {
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background: asImageTester.status == Image.Ready ? asImageTester.source
                              : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
-    readonly property real panelHeight: panel.panelHeight
 
     property bool sideStageEnabled: shell.width >= units.gu(100)
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
