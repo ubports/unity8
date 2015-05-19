@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,51 +20,38 @@
 #include <QtQml/QQmlEngine>
 #include <QPointer>
 #include <private/qquickmousearea_p.h>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-    #include <private/qquickwindow_p.h>
-#endif
+#include <private/qquickwindow_p.h>
 
 
 #include <DirectionalDragArea.h>
+#include <DirectionalDragArea_p.h>
 #include <TouchRegistry.h>
 
 #include "GestureTest.h"
 
 using namespace UbuntuGestures;
 
-
-class ComplexFakeTimer : public FakeTimer
-{
+// Because QSignalSpy(directionalDragArea, SIGNAL(DirectionalDragArea::Status)) simply
+// doesn't work
+class StatusSpy : public QObject {
     Q_OBJECT
 public:
-    ComplexFakeTimer(const SharedTimeSource &timeSource, QObject *parent = 0)
-        : FakeTimer(parent),
-          m_timeSource(timeSource)
-    {}
-
-    void start() override {
-        AbstractTimer::start();
-        m_nextTimeoutTime = m_timeSource->msecsSinceReference() + (qint64)interval();
+    StatusSpy(DirectionalDragArea *edgeDragArea) {
+        m_recognized = false;
+        connect(edgeDragArea->d, &DirectionalDragAreaPrivate::statusChanged,
+                this, &StatusSpy::onStatusChanged);
+    }
+    bool recognized() {
+        return m_recognized;
     }
 
-    void emitTimeout() {
-        m_nextTimeoutTime += interval();
-        Q_EMIT timeout();
+private Q_SLOTS:
+    void onStatusChanged(DirectionalDragAreaPrivate::Status status) {
+        m_recognized |= status == DirectionalDragAreaPrivate::Recognized;
     }
-
-    qint64 nextTimeoutTime() const { return m_nextTimeoutTime; }
 
 private:
-    SharedTimeSource m_timeSource;
-    qint64 m_nextTimeoutTime;
-};
-
-class FakeTimeSource : public UbuntuGestures::TimeSource
-{
-public:
-    FakeTimeSource() { m_msecsSinceReference = 0; }
-    virtual qint64 msecsSinceReference() {return m_msecsSinceReference;}
-    qint64 m_msecsSinceReference;
+    bool m_recognized;
 };
 
 /*
@@ -98,15 +85,9 @@ public:
     tst_DirectionalDragArea();
 private Q_SLOTS:
     void init(); // called right before each and every test function is executed
-    void cleanup(); // called right after each and every test function is executed
 
-    void edgeDrag();
-    void edgeDrag_data();
     void dragWithShortDirectionChange();
-    void minSpeed();
-    void minSpeed_data();
     void recognitionTimerUsage();
-    void maxSilenceTime();
     void sceneXAndX();
     void sceneYAndY();
     void twoFingerTap();
@@ -122,14 +103,24 @@ private Q_SLOTS:
     void immediateRecognitionWhenConstraintsDisabled();
     void withdrawTouchOwnershipCandidacyIfDisabledDuringRecognition();
     void withdrawTouchOwnershipCandidacyIfDisabledDuringRecognition_data();
-    void tappedSignal();
-    void tappedSignal_data();
     void gettingTouchOwnershipMakesMouseAreaBehindGetCanceled();
+    void interleavedTouches();
+    void makoRightEdgeDrag();
+    void makoRightEdgeDrag_verticalDownwards();
+    void makoLeftEdgeDrag_slowStart();
+    void makoLeftEdgeDrag_movesSlightlyBackwardsOnStart();
 
 private:
+    // QTest::touchEvent takes QPoint instead of QPointF and I don't want to
+    // lose precision due to rounding.
+    // Besides, those helper functions lead to more compact code.
+    void sendTouchPress(qint64 timestamp, int id, QPointF pos);
+    void sendTouchUpdate(qint64 timestamp, int id, QPointF pos);
+    void sendTouchRelease(qint64 timestamp, int id, QPointF pos);
+    void sendTouch(qint64 timestamp, int id, QPointF pos,
+            Qt::TouchPointState pointState, QEvent::Type eventType);
+
     void passTime(qint64 timeSpanMs);
-    ComplexFakeTimer *fakeTimer;
-    QSharedPointer<FakeTimeSource> fakeTimeSource;
 };
 
 tst_DirectionalDragArea::tst_DirectionalDragArea()
@@ -148,36 +139,49 @@ void tst_DirectionalDragArea::init()
     m_view->resize(m_view->rootObject()->width(), m_view->rootObject()->height());
     QTRY_COMPARE(m_view->width(), (int)m_view->rootObject()->width());
     QTRY_COMPARE(m_view->height(), (int)m_view->rootObject()->height());
-
-    fakeTimeSource.reset(new FakeTimeSource);
-    fakeTimer = new ComplexFakeTimer(fakeTimeSource);
 }
 
-void tst_DirectionalDragArea::cleanup()
+void tst_DirectionalDragArea::sendTouchPress(qint64 timestamp, int id, QPointF pos)
 {
-    delete fakeTimer;
-    fakeTimer = 0;
+    sendTouch(timestamp, id, pos, Qt::TouchPointPressed, QEvent::TouchBegin);
+}
 
-    fakeTimeSource.reset();
+void tst_DirectionalDragArea::sendTouchUpdate(qint64 timestamp, int id, QPointF pos)
+{
+    sendTouch(timestamp, id, pos, Qt::TouchPointMoved, QEvent::TouchUpdate);
+}
 
-    GestureTest::cleanup();
+void tst_DirectionalDragArea::sendTouchRelease(qint64 timestamp, int id, QPointF pos)
+{
+    sendTouch(timestamp, id, pos, Qt::TouchPointReleased, QEvent::TouchEnd);
+}
+
+void tst_DirectionalDragArea::sendTouch(qint64 timestamp, int id, QPointF pos,
+                                 Qt::TouchPointState pointState, QEvent::Type eventType)
+{
+    m_fakeTimerFactory->updateTime(timestamp);
+
+    QTouchEvent::TouchPoint point;
+
+    point.setState(pointState);
+    point.setId(id);
+    point.setScenePos(pos);
+    point.setPos(pos);
+
+    QList<QTouchEvent::TouchPoint> points;
+    points << point;
+
+    QTouchEvent touchEvent(eventType, m_device, Qt::NoModifier, Qt::TouchPointPressed, points);
+    QCoreApplication::sendEvent(m_view, &touchEvent);
+
+    QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
+    windowPrivate->flushDelayedTouchEvent();
 }
 
 void tst_DirectionalDragArea::passTime(qint64 timeSpanMs)
 {
-    qint64 finalTime = fakeTimeSource->m_msecsSinceReference + timeSpanMs;
-
-    if (fakeTimer->isRunning() && finalTime >= fakeTimer->nextTimeoutTime()) {
-        fakeTimeSource->m_msecsSinceReference = fakeTimer->nextTimeoutTime();
-        fakeTimer->emitTimeout();
-
-        qint64 timeSpanRemainder = finalTime - fakeTimeSource->m_msecsSinceReference;
-        if (timeSpanRemainder > 0) {
-            passTime(timeSpanRemainder);
-        }
-    } else {
-        fakeTimeSource->m_msecsSinceReference = finalTime;
-    }
+    qint64 finalTime = m_fakeTimerFactory->timeSource()->msecsSinceReference() + timeSpanMs;
+    m_fakeTimerFactory->updateTime(finalTime);
 }
 
 namespace {
@@ -186,147 +190,6 @@ QPointF calculateInitialTouchPos(DirectionalDragArea *edgeDragArea)
     QPointF localCenter(edgeDragArea->width() / 2., edgeDragArea->height() / 2.);
     return edgeDragArea->mapToScene(localCenter);
 }
-
-QPointF calculateDirectionVector(DirectionalDragArea *edgeDragArea,
-                                 qreal wideningAngleMultiplier)
-{
-    qreal angleRadians = edgeDragArea->wideningAngle() * wideningAngleMultiplier
-        * M_PI / 180.0;
-
-    qreal angleCos = qCos(angleRadians);
-    qreal angleSin = qSin(angleRadians);
-
-    switch (edgeDragArea->direction()) {
-        case Direction::Upwards:
-            return QPointF(angleSin, -angleCos);
-        case Direction::Downwards:
-            return QPointF(angleSin, angleCos);
-        case Direction::Leftwards:
-            return QPointF(-angleCos, angleSin);
-        default: // Direction::Rightwards:
-            return QPointF(angleCos, angleSin);
-    }
-}
-
-QPointF createTouchDeviation(DirectionalDragArea *edgeDragArea)
-{
-    qreal deviation = edgeDragArea->maxDeviation() * 0.8;
-
-    if (Direction::isHorizontal(edgeDragArea->direction())) {
-        return QPointF(0, deviation);
-    } else {
-        return QPointF(deviation, 0);
-    }
-}
-}
-
-void tst_DirectionalDragArea::edgeDrag()
-{
-    QFETCH(QString, dragAreaObjectName);
-    QFETCH(qreal, wideningAngleMultiplier);
-    QFETCH(qreal, dragDistanceFactor);
-    QFETCH(bool, expectGestureRecognition);
-
-    DirectionalDragArea *edgeDragArea =
-        m_view->rootObject()->findChild<DirectionalDragArea*>(dragAreaObjectName);
-    QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
-
-    QSignalSpy draggingSpy(edgeDragArea, SIGNAL(draggingChanged(bool)));
-
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
-    QPointF touchPoint = initialTouchPos;
-
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*dragDistanceFactor;
-    QPointF dragDirectionVector = calculateDirectionVector(edgeDragArea,
-                                                           wideningAngleMultiplier);
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
-    QPointF touchMovement = dragDirectionVector * movementStepDistance;
-    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
-
-    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
-
-    QCOMPARE(draggingSpy.count(), 1);
-    QCOMPARE(edgeDragArea->dragging(), true);
-
-    if (wideningAngleMultiplier > 0) {
-        // go close to the border of the valid area for this touch point
-        // in order to make it easier to leave it by dragging at an angle
-        // slightly bigger than the widening angle
-        touchPoint += createTouchDeviation(edgeDragArea);
-        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
-    }
-
-    for (int i = 0; i < totalMovementSteps; ++i) {
-        touchPoint += touchMovement;
-        passTime(movementTimeStepMs);
-        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
-    }
-
-    if (expectGestureRecognition)
-        QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
-
-    if (edgeDragArea->status() == DirectionalDragArea::WaitingForTouch) {
-        QCOMPARE(edgeDragArea->dragging(), false);
-        QCOMPARE(draggingSpy.count(), 2);
-    }
-
-    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
-
-    QCOMPARE(draggingSpy.count(), 2);
-    QCOMPARE(edgeDragArea->dragging(), false);
-}
-
-void tst_DirectionalDragArea::edgeDrag_data()
-{
-    QTest::addColumn<QString>("dragAreaObjectName");
-    QTest::addColumn<qreal>("wideningAngleMultiplier");
-    QTest::addColumn<qreal>("dragDistanceFactor");
-    QTest::addColumn<bool>("expectGestureRecognition");
-
-    QTest::newRow("rightwards, tiny drag")
-        << "hpDragArea" << 0.0 << 0.2 << false;
-
-    QTest::newRow("rightwards, straight drag")
-        << "hpDragArea" << 0.0 << 3.0 << true;
-
-    QTest::newRow("rightwards, diagonal drag")
-        << "hpDragArea" << 0.9 << 3.0 << true;
-
-    QTest::newRow("rightwards, overly diagonal drag")
-        << "hpDragArea" << 2.0 << 3.0 << false;
-
-    QTest::newRow("leftwards, tiny drag")
-        << "hnDragArea" << 0.0 << 0.2 << false;
-
-    QTest::newRow("leftwards, straight drag")
-        << "hnDragArea" << 0.0 << 3.0 << true;
-
-    QTest::newRow("leftwards, diagonal drag")
-        << "hnDragArea" << 0.9 << 3.0 << true;
-
-    QTest::newRow("downwards, tiny drag")
-        << "vpDragArea" << 0.0 << 0.2 << false;
-
-    QTest::newRow("downwards, straight drag")
-        << "vpDragArea" << 0.0 << 3.0 << true;
-
-    QTest::newRow("downwards, diagonal drag")
-        << "vpDragArea" << 0.9 << 3.0 << true;
-
-    QTest::newRow("upwards, tiny drag")
-        << "vnDragArea" << 0.0 << 0.2 << false;
-
-    QTest::newRow("upwards, straight drag")
-        << "vnDragArea" << 0.0 << 3.0 << true;
-
-    QTest::newRow("upwards, diagonal drag")
-        << "vnDragArea" << 0.9 << 3.0 << true;
-
-    QTest::newRow("upwards, overly diagonal drag")
-        << "vnDragArea" << 2.0 << 3.0 << false;
 }
 
 /*
@@ -339,17 +202,17 @@ void tst_DirectionalDragArea::dragWithShortDirectionChange()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2.0;
     QPointF dragDirectionVector(1.0, 0.0);
-    qreal touchStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
-    // make sure we are above minimum speed
-    int touchStepTimeMs = (touchStepDistance / (edgeDragArea->minSpeed() * 5.0f)) * 1000.0f;
+    qreal touchStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
+    // make sure we are above maximum time
+    int touchStepTimeMs = edgeDragArea->d->maxTime / 20. ;
     QPointF touchMovement = dragDirectionVector * touchStepDistance;
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
@@ -373,63 +236,11 @@ void tst_DirectionalDragArea::dragWithShortDirectionChange()
         passTime(touchStepTimeMs);
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
     } while ((touchPoint - initialTouchPos).manhattanLength() < desiredDragDistance
-            || fakeTimeSource->m_msecsSinceReference < (edgeDragArea->compositionTime() * 1.5f));
+            || m_fakeTimerFactory->timeSource()->msecsSinceReference() < (edgeDragArea->d->compositionTime * 1.5f));
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
-}
-
-/*
-   Checks that a gesture will be rejected if it's slower than minSpeed while
-   status is Undecided.
- */
-void tst_DirectionalDragArea::minSpeed()
-{
-    QFETCH(qreal, minSpeed);
-    QFETCH(qreal, speed);
-    QFETCH(int, expectedStatusAfterSpeedCheck);
-
-    DirectionalDragArea *edgeDragArea =
-        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
-    QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
-
-    // A really long, unattainable, number. We don't want it getting recognized before
-    // the speed checks we want have been performed
-    edgeDragArea->setDistanceThreshold(500000);
-
-    edgeDragArea->setMinSpeed(minSpeed);
-
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
-    QPointF touchPoint = initialTouchPos;
-
-    QPointF dragDirectionVector(1.0, 0.0);
-    qint64 timeStepMsecs = 10;
-    qreal distanceStep = (speed / 1000.0f) * timeStepMsecs;
-    QPointF touchMovement = dragDirectionVector * distanceStep;
-
-    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
-
-    // Move for a while to ensure our speed check is performed a couple of times
-    for (int i=0; i < 20; ++i) {
-        touchPoint += touchMovement;
-        passTime(timeStepMsecs);
-        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
-    }
-
-    QCOMPARE((int)edgeDragArea->status(), expectedStatusAfterSpeedCheck);
-}
-
-void tst_DirectionalDragArea::minSpeed_data()
-{
-    QTest::addColumn<qreal>("minSpeed");
-    QTest::addColumn<qreal>("speed");
-    QTest::addColumn<int>("expectedStatusAfterSpeedCheck");
-
-    QTest::newRow("slower than minSpeed") << 100.0 << 50.0 << (int)DirectionalDragArea::WaitingForTouch;
-    QTest::newRow("faster than minSpeed") << 100.0 << 150.0 << (int)DirectionalDragArea::Undecided;
 }
 
 /*
@@ -442,11 +253,9 @@ void tst_DirectionalDragArea::recognitionTimerUsage()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
-
-    // don't let it interfere with our test
-    edgeDragArea->setMinSpeed(0.0);
+    AbstractTimer *fakeTimer = m_fakeTimerFactory->createTimer();
+    edgeDragArea->d->setRecognitionTimer(fakeTimer);
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     int timeStepMs = 5; // some arbitrary small value.
 
@@ -454,60 +263,29 @@ void tst_DirectionalDragArea::recognitionTimerUsage()
     QPointF touchPoint = initialTouchPos;
 
     QPointF dragDirectionVector(1.0, 0.0);
-    QPointF touchMovement = dragDirectionVector * (edgeDragArea->distanceThreshold() * 0.2f);
+    QPointF touchMovement = dragDirectionVector * (edgeDragArea->d->distanceThreshold * 0.2f);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
     QVERIFY(!fakeTimer->isRunning());
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
     QVERIFY(fakeTimer->isRunning());
 
     // Move beyond distance threshold and composition time to ensure recognition
-    while (fakeTimeSource->m_msecsSinceReference <= edgeDragArea->compositionTime() ||
-           (touchPoint - initialTouchPos).manhattanLength() <= edgeDragArea->distanceThreshold()) {
+    while (m_fakeTimerFactory->timeSource()->msecsSinceReference() <= edgeDragArea->d->compositionTime ||
+           (touchPoint - initialTouchPos).manhattanLength() <= edgeDragArea->d->distanceThreshold) {
 
-        QCOMPARE(edgeDragArea->status() == DirectionalDragArea::Undecided, fakeTimer->isRunning());
+        QCOMPARE(edgeDragArea->d->status == DirectionalDragAreaPrivate::Undecided, fakeTimer->isRunning());
 
         touchPoint += touchMovement;
         passTime(timeStepMs);
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
     }
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
     QVERIFY(!fakeTimer->isRunning());
-}
-
-/*
-    A gesture should be rejected if too much time has passed without any new input
-    events from it.
- */
-void tst_DirectionalDragArea::maxSilenceTime()
-{
-    DirectionalDragArea *edgeDragArea =
-        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
-    QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
-
-    // Make sure this property is not disabled
-    edgeDragArea->setMaxSilenceTime(100);
-
-    QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
-    QPointF touchPoint = initialTouchPos;
-
-    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
-
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
-    QVERIFY(fakeTimer->isRunning());
-
-    // Force timer to timeout until after maxSilenceTime has been reached
-    while (fakeTimeSource->m_msecsSinceReference < edgeDragArea->maxSilenceTime()) {
-        passTime(fakeTimer->interval());
-    }
-
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
 }
 
 /*
@@ -519,18 +297,19 @@ void tst_DirectionalDragArea::sceneXAndX()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hnDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+    edgeDragArea->setImmediateRecognition(true);
 
     QPointF touchScenePos(m_view->width() - (edgeDragArea->width()/2.0f), m_view->height()/2.0f);
 
-    QTest::touchEvent(m_view, m_device).press(0, touchScenePos.toPoint());
+    sendTouchPress(0 /* timestamp */, 0 /* id */, touchScenePos);
 
     QSignalSpy touchXSpy(edgeDragArea, SIGNAL(touchXChanged(qreal)));
     QSignalSpy touchSceneXSpy(edgeDragArea, SIGNAL(touchSceneXChanged(qreal)));
 
     touchScenePos.rx() = m_view->width() / 2;
-    QTest::touchEvent(m_view, m_device).move(0, touchScenePos.toPoint());
+    sendTouchUpdate(50 /* timestamp */, 0 /* id */, touchScenePos);
 
     QCOMPARE(touchXSpy.count(), 1);
     QCOMPARE(touchSceneXSpy.count(), 1);
@@ -547,18 +326,19 @@ void tst_DirectionalDragArea::sceneYAndY()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("vnDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+    edgeDragArea->setImmediateRecognition(true);
 
     QPointF touchScenePos(m_view->width()/2.0f, m_view->height() - (edgeDragArea->height()/2.0f));
 
-    QTest::touchEvent(m_view, m_device).press(0, touchScenePos.toPoint());
+    sendTouchPress(0 /* timestamp */, 0 /* id */, touchScenePos);
 
     QSignalSpy touchYSpy(edgeDragArea, SIGNAL(touchYChanged(qreal)));
     QSignalSpy touchSceneYSpy(edgeDragArea, SIGNAL(touchSceneYChanged(qreal)));
 
     touchScenePos.ry() = m_view->height() / 2;
-    QTest::touchEvent(m_view, m_device).move(0, touchScenePos.toPoint());
+    sendTouchUpdate(50 /* timestamp */, 0 /* id */, touchScenePos);
 
     QCOMPARE(touchYSpy.count(), 1);
     QCOMPARE(touchSceneYSpy.count(), 1);
@@ -577,8 +357,8 @@ void tst_DirectionalDragArea::twoFingerTap()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Make touches evenly spaced along the edgeDragArea
     QPoint touchAPos(edgeDragArea->width()/2.0f, m_view->height()*0.33f);
@@ -592,7 +372,7 @@ void tst_DirectionalDragArea::twoFingerTap()
     QTest::touchEvent(m_view, m_device)
         .press(0, touchAPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     passTime(timeStepMsecs);
     QTest::touchEvent(m_view, m_device)
@@ -601,20 +381,20 @@ void tst_DirectionalDragArea::twoFingerTap()
 
     // A second touch point appeared during recognition, reject immediately as this
     // can't be a single-touch gesture anymore.
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     passTime(timeStepMsecs);
     QTest::touchEvent(m_view, m_device)
         .release(0, touchAPos)
         .move(1, touchBPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     passTime(timeStepMsecs);
     QTest::touchEvent(m_view, m_device)
         .release(1, touchBPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     // Perform the second two-finger tap
 
@@ -622,27 +402,27 @@ void tst_DirectionalDragArea::twoFingerTap()
     QTest::touchEvent(m_view, m_device)
         .press(0, touchAPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     passTime(timeStepMsecs);
     QTest::touchEvent(m_view, m_device)
         .move(0, touchAPos)
         .press(1, touchBPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     passTime(timeStepMsecs);
     QTest::touchEvent(m_view, m_device)
         .release(0, touchAPos)
         .move(1, touchBPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     passTime(timeStepMsecs);
     QTest::touchEvent(m_view, m_device)
         .release(1, touchBPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 }
 
 /*
@@ -659,25 +439,25 @@ void tst_DirectionalDragArea::movingDDA()
     DirectionalDragArea *edgeDragArea =
         rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2.0f;
     QPointF dragDirectionVector(1.0f, 0.0f);
 
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
     QPointF touchMovement = dragDirectionVector * movementStepDistance;
     int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+    int movementTimeStepMs = (edgeDragArea->d->compositionTime * 1.5f) / totalMovementSteps;
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
     // Move it far ahead along the direction of the gesture
     // rightwardsLauncher is a parent of our DirectionalDragArea. So moving it will move our DDA
-    rightwardsLauncher->setX(rightwardsLauncher->x() + edgeDragArea->distanceThreshold() * 5.0f);
+    rightwardsLauncher->setX(rightwardsLauncher->x() + edgeDragArea->d->distanceThreshold * 5.0f);
 
     for (int i = 0; i < totalMovementSteps; ++i) {
         touchPoint += touchMovement;
@@ -685,7 +465,7 @@ void tst_DirectionalDragArea::movingDDA()
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
     }
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 }
@@ -699,8 +479,8 @@ void tst_DirectionalDragArea::ignoreOldFinger()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Make touches evenly spaced along the edgeDragArea
     QPoint touch0Pos(edgeDragArea->width()/2.0f, m_view->height()*0.33f);
@@ -708,26 +488,26 @@ void tst_DirectionalDragArea::ignoreOldFinger()
 
     QTest::touchEvent(m_view, m_device).press(0, touch0Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     // leave it lying around for some time
-    passTime(qMax(edgeDragArea->maxSilenceTime(), edgeDragArea->compositionTime()) * 10);
+    passTime(edgeDragArea->d->maxTime * 10);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2.0f;
     QPointF dragDirectionVector(1.0f, 0.0f);
 
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
     QPointF touchMovement = dragDirectionVector * movementStepDistance;
     int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+    int movementTimeStepMs = (edgeDragArea->d->compositionTime * 1.5f) / totalMovementSteps;
 
     QTest::touchEvent(m_view, m_device)
         .move(0, touch0Pos)
         .press(1, touch1Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     for (int i = 0; i < totalMovementSteps; ++i) {
         touch1Pos += touchMovement.toPoint();
@@ -737,13 +517,13 @@ void tst_DirectionalDragArea::ignoreOldFinger()
             .move(1, touch1Pos);
     }
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
 
     QTest::touchEvent(m_view, m_device)
         .move(0, touch0Pos)
         .release(1, touch1Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 }
 
 /*
@@ -762,19 +542,19 @@ void tst_DirectionalDragArea::rotated()
     DirectionalDragArea *edgeDragArea =
         rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2.0f;
     QPointF dragDirectionVector(0.0f, 1.0f);
 
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
     QPointF touchMovement = dragDirectionVector * movementStepDistance;
     int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+    int movementTimeStepMs = (edgeDragArea->d->compositionTime * 1.5f) / totalMovementSteps;
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
@@ -784,7 +564,7 @@ void tst_DirectionalDragArea::rotated()
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
     }
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 }
@@ -802,31 +582,30 @@ void tst_DirectionalDragArea::sceneDistance()
     DirectionalDragArea *edgeDragArea =
         rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+
+    // to disable the position smoothing so that we can more easily check sceneDistance values
+    edgeDragArea->setImmediateRecognition(true);
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2.0f;
 
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
     QPointF touchMovement = dragDirectionVector * movementStepDistance;
     int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+    int movementTimeStepMs = (edgeDragArea->d->compositionTime * 1.5f) / totalMovementSteps;
 
-    QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
+    qint64 timestamp = 0;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-    QQuickWindowPrivate *wp = QQuickWindowPrivate::get(m_view);
-#endif
+    sendTouchPress(timestamp, 0, touchPoint);
+
     for (int i = 0; i < totalMovementSteps; ++i) {
         touchPoint += touchMovement;
-        passTime(movementTimeStepMs);
-        QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-        wp->flushDelayedTouchEvent();
-#endif
+        timestamp += movementTimeStepMs;
+        sendTouchUpdate(timestamp, 0, touchPoint);
     }
 
     qreal actualDragDistance = ((qreal)totalMovementSteps) * movementStepDistance;
@@ -836,7 +615,8 @@ void tst_DirectionalDragArea::sceneDistance()
     // NB: qFuzzyCompare(), used internally by QCOMPARE(), is broken.
     QVERIFY(qAbs(edgeDragArea->sceneDistance() - actualDragDistance) < 0.001);
 
-    QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+    timestamp += movementTimeStepMs;
+    sendTouchRelease(timestamp, 0, touchPoint);
 }
 
 void tst_DirectionalDragArea::sceneDistance_data()
@@ -860,18 +640,18 @@ void tst_DirectionalDragArea::disabledWhileDragging()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF touchPoint = calculateInitialTouchPos(edgeDragArea);
 
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2.0f;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2.0f;
     QPointF dragDirectionVector(1., 0.); // horizontal positive
 
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
     QPointF touchMovement = dragDirectionVector * movementStepDistance;
     int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+    int movementTimeStepMs = (edgeDragArea->d->compositionTime * 1.5f) / totalMovementSteps;
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
@@ -881,13 +661,13 @@ void tst_DirectionalDragArea::disabledWhileDragging()
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
     }
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
     QCOMPARE(edgeDragArea->dragging(), true);
 
     // disable the dragArea while it's being dragged.
     edgeDragArea->setEnabled(false);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
     QCOMPARE(edgeDragArea->dragging(), false);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
@@ -898,15 +678,14 @@ void tst_DirectionalDragArea::oneFingerDownFollowedByLateSecondFingerDown()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable some constraints we're not interested in
-    edgeDragArea->setMaxSilenceTime(60 * 1000);
-    edgeDragArea->setMinSpeed(0);
+    edgeDragArea->d->setMaxTime(60 * 1000);
 
     // And ensure others have the values we want
-    edgeDragArea->setCompositionTime(60);
+    edgeDragArea->d->compositionTime = 60;
 
     // Put an item right behind edgeDragArea to receive the touches ignored by it
     DummyItem *dummyItem = new DummyItem;
@@ -923,10 +702,10 @@ void tst_DirectionalDragArea::oneFingerDownFollowedByLateSecondFingerDown()
 
     QTest::touchEvent(m_view, m_device).press(0, touch0Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     // We are now going to be way beyond compositionTime
-    passTime(edgeDragArea->compositionTime()*3);
+    passTime(edgeDragArea->d->compositionTime*3);
 
     QTest::touchEvent(m_view, m_device)
         .move(0, touch0Pos)
@@ -948,7 +727,7 @@ void tst_DirectionalDragArea::oneFingerDownFollowedByLateSecondFingerDown()
         .move(0, touch0Pos)
         .move(1, touch1Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     passTime(5);
 
@@ -956,7 +735,7 @@ void tst_DirectionalDragArea::oneFingerDownFollowedByLateSecondFingerDown()
         .release(0, touch0Pos)
         .move(1, touch1Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     passTime(5);
 
@@ -964,7 +743,7 @@ void tst_DirectionalDragArea::oneFingerDownFollowedByLateSecondFingerDown()
         .release(1, touch1Pos);
 
     // Shouldn't be keepping info about touches that no longer exist or interest us
-    QVERIFY(edgeDragArea->m_activeTouches.isEmpty());
+    QVERIFY(edgeDragArea->d->activeTouches.isEmpty());
 
     delete dummyItem;
 }
@@ -974,12 +753,11 @@ void tst_DirectionalDragArea::givesUpWhenLosesTouch()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable some constraints we're not interested in
-    edgeDragArea->setMaxSilenceTime(60 * 1000);
-    edgeDragArea->setMinSpeed(0);
+    edgeDragArea->d->setMaxTime(60 * 1000);
 
     // Put an item right in front of edgeDragArea
     DummyItem *dummyItem = new DummyItem(edgeDragArea->parentItem());
@@ -998,11 +776,11 @@ void tst_DirectionalDragArea::givesUpWhenLosesTouch()
 
     QTest::touchEvent(m_view, m_device).press(0, touchPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     m_touchRegistry->requestTouchOwnership(0, dummyItem);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     dummyItem->grabTouchPoints({0});
     dummyItem->touchEventHandler = [&](QTouchEvent *event) { event->accept(); };
@@ -1010,9 +788,9 @@ void tst_DirectionalDragArea::givesUpWhenLosesTouch()
     passTime(5);
     QTest::touchEvent(m_view, m_device).release(0, touchPos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
-    QVERIFY(edgeDragArea->m_activeTouches.isEmpty());
+    QVERIFY(edgeDragArea->d->activeTouches.isEmpty());
 }
 
 void tst_DirectionalDragArea::threeFingerDrag()
@@ -1020,15 +798,14 @@ void tst_DirectionalDragArea::threeFingerDrag()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable some constraints we're not interested in
-    edgeDragArea->setMaxSilenceTime(60 * 1000);
-    edgeDragArea->setMinSpeed(0);
+    edgeDragArea->d->setMaxTime(60 * 1000);
 
     // And ensure others have the values we want
-    edgeDragArea->setCompositionTime(60);
+    edgeDragArea->d->compositionTime = 60;
 
     // Make touches evenly spaced along the edgeDragArea
     QPoint touch0Pos(edgeDragArea->width()/2.0f, m_view->height()*0.25f);
@@ -1038,14 +815,14 @@ void tst_DirectionalDragArea::threeFingerDrag()
     QTest::touchEvent(m_view, m_device)
         .press(0, touch0Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     passTime(5);
     QTest::touchEvent(m_view, m_device)
         .move(0, touch0Pos)
         .press(1, touch1Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     passTime(5);
     QTest::touchEvent(m_view, m_device)
@@ -1053,7 +830,7 @@ void tst_DirectionalDragArea::threeFingerDrag()
         .move(1, touch1Pos)
         .press(2, touch2Pos);
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     passTime(10);
     QTest::touchEvent(m_view, m_device)
@@ -1077,7 +854,7 @@ void tst_DirectionalDragArea::threeFingerDrag()
         .release(0, touch0Pos);
 
     // Shouldn't be keepping info about touches that no longer exist or interest us
-    QVERIFY(edgeDragArea->m_activeTouches.isEmpty());
+    QVERIFY(edgeDragArea->d->activeTouches.isEmpty());
 }
 
 /*
@@ -1090,12 +867,12 @@ void tst_DirectionalDragArea::immediateRecognitionWhenConstraintsDisabled()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable the minimum amount of constraints to ensure immediate recognition
-    edgeDragArea->setDistanceThreshold(0);
-    edgeDragArea->setCompositionTime(0);
+    edgeDragArea->d->setDistanceThreshold(0);
+    edgeDragArea->d->compositionTime = 0;
 
     // Put an item right behind edgeDragArea to receive the touches ignored by it
     DummyItem *dummyItem = new DummyItem;
@@ -1111,7 +888,7 @@ void tst_DirectionalDragArea::immediateRecognitionWhenConstraintsDisabled()
     QTest::touchEvent(m_view, m_device).press(0, touch0Pos);
 
     // check for immediate recognition
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
 
     // and therefore it should have immediately grabbed the touch point,
     // not letting it leak to items behind him.
@@ -1123,19 +900,19 @@ void tst_DirectionalDragArea::withdrawTouchOwnershipCandidacyIfDisabledDuringRec
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF touchPoint = calculateInitialTouchPos(edgeDragArea);
 
     // Move less than the minimum needed for the drag gesture recognition
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*0.5f;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 0.5f;
     QPointF dragDirectionVector(1., 0.); // horizontal positive
 
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
     QPointF touchMovement = dragDirectionVector * movementStepDistance;
     int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 0.8f) / totalMovementSteps;
+    int movementTimeStepMs = (edgeDragArea->d->compositionTime * 0.8f) / totalMovementSteps;
 
     QTest::touchEvent(m_view, m_device).press(0, touchPoint.toPoint());
 
@@ -1145,14 +922,14 @@ void tst_DirectionalDragArea::withdrawTouchOwnershipCandidacyIfDisabledDuringRec
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
     }
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Undecided);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
 
     // edgeDragArea should be an undecided candidate
     {
         auto touchInfo = m_touchRegistry->findTouchInfo(0);
         QCOMPARE(touchInfo->candidates.size(), 1);
         QCOMPARE(touchInfo->candidates.at(0).item.data(), edgeDragArea);
-        QCOMPARE(touchInfo->candidates.at(0).undecided, true);
+        QCOMPARE(touchInfo->candidates.at(0).state, TouchRegistry::CandidateInfo::Undecided);
     }
 
     // disable the dragArea while it's still recognizing a possible drag gesture.
@@ -1169,7 +946,7 @@ void tst_DirectionalDragArea::withdrawTouchOwnershipCandidacyIfDisabledDuringRec
         QCOMPARE(touchInfo->candidates.size(), 0);
     }
 
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::WaitingForTouch);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
 }
@@ -1182,47 +959,13 @@ void tst_DirectionalDragArea::withdrawTouchOwnershipCandidacyIfDisabledDuringRec
     QTest::newRow("invisible") << false;
 }
 
-void tst_DirectionalDragArea::tappedSignal()
-{
-    DirectionalDragArea *edgeDragArea =
-        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
-    QVERIFY(edgeDragArea != 0);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
-
-    QFETCH(bool, immediateGestureRecognition);
-    if (immediateGestureRecognition) {
-        // Disable the minimum amount of constraints to ensure immediate recognition
-        edgeDragArea->setDistanceThreshold(0);
-        edgeDragArea->setCompositionTime(0);
-    }
-
-    QPoint touch0Pos(edgeDragArea->width()/2.0f, m_view->height()/2.0f);
-
-    QSignalSpy tappedSpy(edgeDragArea, SIGNAL(tapped()));
-
-    QTest::touchEvent(m_view, m_device).press(0, touch0Pos);
-    passTime(edgeDragArea->maxTapDuration() / 2);
-    QTest::touchEvent(m_view, m_device).release(0, touch0Pos);
-
-    QCOMPARE(tappedSpy.count(), 1);
-}
-
-void tst_DirectionalDragArea::tappedSignal_data()
-{
-    QTest::addColumn<bool>("immediateGestureRecognition");
-
-    QTest::newRow("immediate gesture recognition") << true;
-    QTest::newRow("default gesture recognition") << false;
-}
-
 void tst_DirectionalDragArea::gettingTouchOwnershipMakesMouseAreaBehindGetCanceled()
 {
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != nullptr);
-    edgeDragArea->setRecognitionTimer(fakeTimer);
-    edgeDragArea->setTimeSource(fakeTimeSource);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QQuickMouseArea *mouseArea =
         m_view->rootObject()->findChild<QQuickMouseArea*>("mouseArea");
@@ -1233,12 +976,12 @@ void tst_DirectionalDragArea::gettingTouchOwnershipMakesMouseAreaBehindGetCancel
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
     QPointF touchPoint = initialTouchPos;
 
-    qreal desiredDragDistance = edgeDragArea->distanceThreshold()*2;
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2;
     QPointF dragDirectionVector(1.0f, 0.0f); // rightwards
-    qreal movementStepDistance = edgeDragArea->distanceThreshold() * 0.1f;
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
     QPointF touchMovement = dragDirectionVector * movementStepDistance;
     int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
-    int movementTimeStepMs = (edgeDragArea->compositionTime() * 1.5f) / totalMovementSteps;
+    int movementTimeStepMs = (edgeDragArea->d->compositionTime * 1.5f) / totalMovementSteps;
 
     QCOMPARE(mouseArea->pressed(), false);
 
@@ -1259,11 +1002,303 @@ void tst_DirectionalDragArea::gettingTouchOwnershipMakesMouseAreaBehindGetCancel
     // As the DirectionalDragArea recognizes the gesture, it grabs the touch from the MouseArea,
     // which should make the MouseArea get a cancelation event, which will then cause it to
     // reset its state (going back to "unpressed"/"released").
-    QCOMPARE((int)edgeDragArea->status(), (int)DirectionalDragArea::Recognized);
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
     QCOMPARE(mouseArea->pressed(), false);
     QCOMPARE(mouseAreaSpy.canceledCount, 1);
 
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+}
+
+void tst_DirectionalDragArea::interleavedTouches()
+{
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != 0);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+
+    QPointF touch0 = edgeDragArea->mapToScene(
+            QPointF(edgeDragArea->width()*0.5, edgeDragArea->height()*0.3));
+
+    qreal desiredDragDistance = edgeDragArea->d->distanceThreshold * 2;
+    QPointF dragDirectionVector(1.0f, 0.0f); // rightwards
+    qreal movementStepDistance = edgeDragArea->d->distanceThreshold * 0.1f;
+    QPointF touchMovement = dragDirectionVector * movementStepDistance;
+    int totalMovementSteps = qCeil(desiredDragDistance / movementStepDistance);
+    int movementTimeStepMs = (edgeDragArea->d->maxTime * 0.4f) / totalMovementSteps;
+
+    QTest::touchEvent(m_view, m_device).press(0, touch0.toPoint());
+    for (int i = 0; i < totalMovementSteps; ++i) {
+        touch0 += touchMovement;
+        passTime(movementTimeStepMs);
+        QTest::touchEvent(m_view, m_device).move(0, touch0.toPoint());
+    }
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
+
+    QPointF touch1 = edgeDragArea->mapToScene(
+            QPointF(edgeDragArea->width()*0.5, edgeDragArea->height()*0.6));
+
+    QTest::touchEvent(m_view, m_device)
+        .move(0, touch0.toPoint())
+        .press(1, touch1.toPoint());
+
+    touch1 += touchMovement;
+    passTime(movementTimeStepMs);
+    QTest::touchEvent(m_view, m_device)
+        .move(0, touch0.toPoint())
+        .move(1, touch1.toPoint());
+
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Recognized);
+
+    QTest::touchEvent(m_view, m_device)
+        .release(0, touch0.toPoint())
+        .move(1, touch1.toPoint());
+
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
+
+    touch1 += touchMovement;
+    passTime(movementTimeStepMs);
+    QTest::touchEvent(m_view, m_device)
+        .move(1, touch1.toPoint());
+
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
+
+    QPointF touch2 = edgeDragArea->mapToScene(
+            QPointF(edgeDragArea->width()*0.5, edgeDragArea->height()*0.9));
+
+    passTime(edgeDragArea->d->compositionTime + movementTimeStepMs);
+    QTest::touchEvent(m_view, m_device)
+        .move(1, touch1.toPoint())
+        .press(2, touch2.toPoint());
+
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::Undecided);
+    QCOMPARE(edgeDragArea->d->touchId, 2);
+
+    touch2 += touchMovement;
+    passTime(movementTimeStepMs);
+    QTest::touchEvent(m_view, m_device)
+        .move(1, touch1.toPoint())
+        .move(2, touch2.toPoint());
+
+    touch1 += touchMovement;
+    passTime(movementTimeStepMs);
+    QTest::touchEvent(m_view, m_device)
+        .move(1, touch1.toPoint())
+        .move(2, touch2.toPoint());
+
+    passTime(movementTimeStepMs);
+    QTest::touchEvent(m_view, m_device)
+        .release(1, touch1.toPoint())
+        .move(2, touch2.toPoint());
+
+    passTime(movementTimeStepMs);
+    QTest::touchEvent(m_view, m_device)
+        .release(2, touch2.toPoint());
+
+    QCOMPARE((int)edgeDragArea->d->status, (int)DirectionalDragAreaPrivate::WaitingForTouch);
+}
+
+/*
+  A valid right-edge drag performed on mako
+ */
+void tst_DirectionalDragArea::makoRightEdgeDrag()
+{
+    m_view->resize(768, 1280);
+    QTest::qWait(300);
+
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hnDragArea");
+    QVERIFY(edgeDragArea != nullptr);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+
+    StatusSpy *statusSpy = new StatusSpy(edgeDragArea);
+
+    edgeDragArea->d->setPixelsPerMm(320.0 /*mako ppi*/ * 0.03937 /* inches per mm*/);
+
+    sendTouchPress(319744, 0, QPointF(767.001, 719.719));
+    sendTouchUpdate(319765, 0, QPointF(765.744,729.973));
+    sendTouchUpdate(319784, 0, QPointF(740.879,752.182));
+    sendTouchUpdate(319803, 0, QPointF(689.698,795.795));
+    sendTouchUpdate(319826, 0, QPointF(616.978,856.212));
+    sendTouchUpdate(319845, 0, QPointF(558.769,906.157));
+    sendTouchUpdate(319859, 0, QPointF(513.219,945.266));
+    sendTouchUpdate(319878, 0, QPointF(481.31,975.496));
+    sendTouchUpdate(319902, 0, QPointF(460.016,997.439));
+    sendTouchUpdate(319920, 0, QPointF(449.761,1008.6));
+    sendTouchUpdate(319929, 0, QPointF(445.891,1012.42));
+    sendTouchUpdate(319947, 0, QPointF(444.884,1013.93));
+    sendTouchUpdate(319965, 0, QPointF(444.461,1014.35));
+    sendTouchUpdate(320057, 0, QPointF(444.71,1013.56));
+    sendTouchUpdate(320138, 0, QPointF(445.434,1013.6));
+    sendTouchUpdate(320154, 0, QPointF(446.338,1012.98));
+    sendTouchUpdate(320171, 0, QPointF(447.232,1012.08));
+    sendTouchRelease(320171, 0, QPointF(447.232,1012.08));
+
+    QCOMPARE(statusSpy->recognized(), true);
+
+    delete statusSpy;
+}
+
+/*
+   A vertical, downwards swipe performed on mako near its right edge.
+
+   The DirectionalDragArea on the right edge must not recognize this
+   gesture.
+ */
+void tst_DirectionalDragArea::makoRightEdgeDrag_verticalDownwards()
+{
+    m_view->resize(768, 1280);
+    QTest::qWait(300);
+
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hnDragArea");
+    QVERIFY(edgeDragArea != nullptr);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+
+    edgeDragArea->d->setPixelsPerMm(320.0 /*mako ppi*/ * 0.03937 /* inches per mm*/);
+
+    StatusSpy *statusSpy = new StatusSpy(edgeDragArea);
+
+    sendTouchPress(12012445, 26, QPointF(767.001,461.82));
+    sendTouchUpdate(12012472, 26, QPointF(767.001,462.569));
+    sendTouchUpdate(12012528, 26, QPointF(767.001,463.334));
+    sendTouchUpdate(12012546, 26, QPointF(767.001,466.856));
+    sendTouchUpdate(12012571, 26, QPointF(767.001,473.291));
+    sendTouchUpdate(12012587, 26, QPointF(767.001,487.31));
+    sendTouchUpdate(12012604, 26, QPointF(765.364,507.521));
+    sendTouchUpdate(12012618, 26, QPointF(765.364,507.521));
+    sendTouchUpdate(12012627, 26, QPointF(762.642,534.317));
+    sendTouchUpdate(12012655, 26, QPointF(760.846,573.406));
+    sendTouchUpdate(12012667, 26, QPointF(759.838,625.295));
+    sendTouchUpdate(12012675, 26, QPointF(758.875,703.207));
+    sendTouchUpdate(12012696, 26, QPointF(761.52,777.015));
+    sendTouchUpdate(12012713, 26, QPointF(765.659,835.591));
+    sendTouchUpdate(12012731, 26, QPointF(766.778,883.206));
+    sendTouchUpdate(12012748, 26, QPointF(767.001,922.937));
+    sendTouchUpdate(12012779, 26, QPointF(767.001,967.558));
+    sendTouchUpdate(12012798, 26, QPointF(767.001,1006.12));
+    sendTouchUpdate(12012809, 26, QPointF(767.001,1033.1));
+    sendTouchRelease(12012810, 26, QPointF(767.001,1033.1));
+
+    QCOMPARE(statusSpy->recognized(), false);
+
+    delete statusSpy;
+}
+
+/*
+   A valid left-edge drag performed on mako. This one starts a bit slow than speeds up
+ */
+void tst_DirectionalDragArea::makoLeftEdgeDrag_slowStart()
+{
+    m_view->resize(768, 1280);
+    QTest::qWait(300);
+
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != nullptr);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+
+    edgeDragArea->d->setPixelsPerMm(320.0 /*mako ppi*/ * 0.03937 /* inches per mm*/);
+
+    StatusSpy *statusSpy = new StatusSpy(edgeDragArea);
+
+    sendTouchPress(4002267, 77, QPointF(0,885.154));
+    sendTouchUpdate(4002275, 77, QPointF(0,886.214));
+    sendTouchUpdate(4002311, 77, QPointF(1.09568,887.75));
+    sendTouchUpdate(4002329, 77, QPointF(3.53647,890.191));
+    sendTouchUpdate(4002347, 77, QPointF(7.87434,892.879));
+    sendTouchUpdate(4002366, 77, QPointF(12.3036,895.075));
+    sendTouchUpdate(4002384, 77, QPointF(15.8885,896.849));
+    sendTouchUpdate(4002406, 77, QPointF(18.4504,897.88));
+    sendTouchUpdate(4002420, 77, QPointF(20.2429,898.149));
+    sendTouchUpdate(4002439, 77, QPointF(20.9945,898.149));
+    sendTouchUpdate(4002457, 77, QPointF(21.8819,898.149));
+    sendTouchUpdate(4002480, 77, QPointF(22.7454,897.389));
+    sendTouchUpdate(4002493, 77, QPointF(23.5456,896.589));
+    sendTouchUpdate(4002511, 77, QPointF(24.5435,895.031));
+    sendTouchUpdate(4002529, 77, QPointF(25.4271,892.32));
+    sendTouchUpdate(4002548, 77, QPointF(26.3145,889.658));
+    sendTouchUpdate(4002566, 77, QPointF(27.2004,886.999));
+    sendTouchUpdate(4002584, 77, QPointF(28.035,885.048));
+    sendTouchUpdate(4002603, 77, QPointF(29.9684,883.167));
+    sendTouchUpdate(4002620, 77, QPointF(33.3591,881.403));
+    sendTouchUpdate(4002639, 77, QPointF(44.1017,879.642));
+    sendTouchUpdate(4002657, 77, QPointF(64.828,878.502));
+    sendTouchUpdate(4002675, 77, QPointF(87.9486,878.157));
+    sendTouchUpdate(4002693, 77, QPointF(112.96,877.742));
+    sendTouchUpdate(4002711, 77, QPointF(138.903,877.157));
+    sendTouchUpdate(4002729, 77, QPointF(163.204,877.157));
+    sendTouchUpdate(4002747, 77, QPointF(182.127,877.157));
+    sendTouchUpdate(4002765, 77, QPointF(194.478,877.657));
+    sendTouchUpdate(4002785, 77, QPointF(201.474,878.508));
+    sendTouchUpdate(4002803, 77, QPointF(204.855,879.401));
+    sendTouchUpdate(4002822, 77, QPointF(206.616,880.281));
+    sendTouchUpdate(4002839, 77, QPointF(207.115,880.906));
+    sendTouchUpdate(4002894, 77, QPointF(206.865,881.184));
+    sendTouchUpdate(4002912, 77, QPointF(206.865,882.143));
+    sendTouchUpdate(4002930, 77, QPointF(206.865,883.106));
+    sendTouchUpdate(4002949, 77, QPointF(206.526,883.994));
+    sendTouchUpdate(4002967, 77, QPointF(205.866,884.88));
+    sendTouchUpdate(4002985, 77, QPointF(205.866,885.766));
+    sendTouchUpdate(4003005, 77, QPointF(205.866,886.654));
+    sendTouchUpdate(4003021, 77, QPointF(205.366,887.537));
+    sendTouchUpdate(4003039, 77, QPointF(204.592,888.428));
+    sendTouchUpdate(4003050, 77, QPointF(204.367,888.653));
+    sendTouchRelease(4003050, 77, QPointF(204.367,888.653));
+
+    QCOMPARE(statusSpy->recognized(), true);
+
+    delete statusSpy;
+}
+
+void tst_DirectionalDragArea::makoLeftEdgeDrag_movesSlightlyBackwardsOnStart()
+{
+    m_view->resize(768, 1280);
+    QTest::qWait(300);
+
+    DirectionalDragArea *edgeDragArea =
+        m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
+    QVERIFY(edgeDragArea != nullptr);
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
+
+    edgeDragArea->d->setPixelsPerMm(320.0 /*mako ppi*/ * 0.03937 /* inches per mm*/);
+
+    StatusSpy *statusSpy = new StatusSpy(edgeDragArea);
+
+    sendTouchPress(41097, 24, QPointF(13.9909,827.177));
+    sendTouchUpdate(41120, 24, QPointF(19.2375,825.677));
+    sendTouchUpdate(41138, 24, QPointF(18.4057,826.177));
+    sendTouchUpdate(41161, 24, QPointF(20.1067,825.867));
+    sendTouchUpdate(41177, 24, QPointF(21.8869,824.977));
+    sendTouchUpdate(41193, 24, QPointF(24.7603,823.494));
+    sendTouchUpdate(41211, 24, QPointF(28.3889,821.725));
+    sendTouchUpdate(41229, 24, QPointF(32.2909,819.955));
+    sendTouchUpdate(41247, 24, QPointF(38.2251,817.431));
+    sendTouchUpdate(41266, 24, QPointF(52.4182,814.223));
+    sendTouchUpdate(41284, 24, QPointF(85.8465,809.483));
+    sendTouchUpdate(41302, 24, QPointF(126.091,802.741));
+    sendTouchUpdate(41320, 24, QPointF(153.171,797.977));
+    sendTouchUpdate(41338, 24, QPointF(170.565,795.077));
+    sendTouchUpdate(41356, 24, QPointF(178.685,794.101));
+    sendTouchUpdate(41375, 24, QPointF(183.706,793.225));
+    sendTouchUpdate(41393, 24, QPointF(186.112,793.19));
+    sendTouchUpdate(41411, 24, QPointF(187.634,793.19));
+    sendTouchUpdate(41429, 24, QPointF(188.505,793.19));
+    sendTouchUpdate(41532, 24, QPointF(187.816,793.19));
+    sendTouchUpdate(41538, 24, QPointF(186.902,793.19));
+    sendTouchUpdate(41557, 24, QPointF(186.01,793.19));
+    sendTouchUpdate(41575, 24, QPointF(185.125,793.444));
+    sendTouchUpdate(41593, 24, QPointF(184.229,793.69));
+    sendTouchUpdate(41605, 24, QPointF(183.88,793.69));
+    sendTouchRelease(41607, 24, QPointF(183.88,793.69));
+
+    QCOMPARE(statusSpy->recognized(), true);
+
+    delete statusSpy;
 }
 
 QTEST_MAIN(tst_DirectionalDragArea)
