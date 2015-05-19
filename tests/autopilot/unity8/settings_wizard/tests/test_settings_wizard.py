@@ -36,6 +36,9 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
         password_page.select_security_option('Swipe')
         return password_page.continue_()
 
+    def _test_reporting_page(self, reporting_page):
+        return reporting_page.continue_()
+
     def _test_wifi_connect_page(self, wifi_connect_page):
         return wifi_connect_page.advance_page()
 
@@ -47,8 +50,8 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
         else:
             password_page = next_page.skip()
         wifi_connect_page = self._test_password_page(password_page)
-        # FIXME This _will_ not work without a mock as the behavior is
-        # dependent on weather or not there is a connection to a wifi network
         reporting_page = self._test_wifi_connect_page(wifi_connect_page)
-        finish_page = reporting_page.continue_()
+        finish_page = self._test_reporting_page(reporting_page)
         finish_page.finish()
+        self.assertFalse(
+            self.wizard_helper.is_settings_wizard_enabled())
