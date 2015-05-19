@@ -48,12 +48,14 @@ Item {
     readonly property real limitedLeftProgress: Math.min(2, leftFoldingAreaProgress)
     readonly property real limitedRightProgress: Math.min(2, rightFoldingAreaProgress)
 
-//    Label {
-//        anchors { left: parent.left; top: parent.top; topMargin: - 100 }
-//        text: leftFoldingAreaProgress.toFixed(2)
-//        color: "green"
-//        fontSize: "x-large"
-//    }
+    readonly property real middleSectionProgress: (linearX - margins - foldingAreaWidth) / (flickableWidth - (margins + foldingAreaWidth) * 2)
+
+    Label {
+        anchors { left: parent.left; top: parent.top; topMargin: - 100 }
+        text: middleSectionProgress.toFixed(2)
+        color: "green"
+        fontSize: "x-large"
+    }
 
     // Output
     readonly property int animatedX: {
@@ -113,7 +115,8 @@ Item {
                                      linearAnimation(0, 1, 1, 1 + stackScale, leftEasing.value)
                                    : limitedRightProgress > 0 ?
                                           linearAnimation(0, 1, 1, 1 + stackScale, rightEasing.value)
-                                        : 1
+                                          // 0.5 :
+                                        : 0.95 + Math.abs(middleSectionProgress - 0.5) * 0.1
 
     readonly property real tileInfoOpacity: leftFoldingAreaProgress > 0 ?
                                                       linearAnimation(1, 2, 1, 0, leftFoldingAreaProgress)
