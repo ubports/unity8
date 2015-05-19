@@ -7,6 +7,7 @@ from unity8.settings_wizard.phonesim_manager import PhonesimManager
 from unity8.shell import tests
 
 DEFAULT_LANGUAGE = 'English (United States)'
+DEFAULT_PHONESIM_CONFIG_FILE = '/usr/share/phonesim/default.xml'
 DEFAULT_SECURITY_METHOD = 'Passcode'
 
 import pdb
@@ -28,10 +29,12 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
         self.phonesim_manager = PhonesimManager(sims)
         self.wizard_helper = self.useFixture(
             fixture_setup.SettingsWizard(True))
+        pdb.set_trace()
         self.phonesim_manager.start_phonesim_processes()
         self.phonesim_manager.remove_all_ofono()
         self.phonesim_manager.add_ofono('sim1')
         self.phonesim_manager.power_on('sim1')
+        self.phonesim_manager.power_off('sim1')
         pdb.set_trace()
         self.unity = self.launch_unity()
         self.wizard = self._get_settings_wizard()

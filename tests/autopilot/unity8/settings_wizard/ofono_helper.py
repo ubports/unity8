@@ -3,7 +3,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Indicators Autopilot Test Suite
-# Copyright (C) 2014 Canonical
+# Copyright (C) 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,6 +26,29 @@ import subprocess
 from time import sleep
 
 
+class OfonoManager(object):
+
+    def __init__(self):
+        self.system_bus = dbus.SystemBus()
+        self.ofono = self.system_bus.get_object('org.ofono', '/')
+
+        self.real_manager = dbus.Interface(
+            self.ofono,
+            'org.ofono.Manager'
+        )
+
+    def _get_sim_manager(self):
+        modems = self.real_manager.GetModems()
+        path = modems[0][0]
+        return dbus.Interface(self.system_bus.get_object('org.ofono', path),
+                              'org.ofono.SimManager')
+
+    def physical_sim_is_present(self):
+        sim_manager = self._get_sim_manager()
+        properties = sim_manager.GetProperties()
+        return properties["Present"] == 1
+
+
 class PhonesimManager(object):
 
     def __init__(self, sims, exe=None):
@@ -37,6 +60,7 @@ class PhonesimManager(object):
         self.sim_processes = {}
         self.system_bus = dbus.SystemBus()
         self.ofono = self.system_bus.get_object('org.ofono', '/')
+
         self.phonesim_manager = dbus.Interface(
             self.ofono,
             'org.ofono.phonesim.Manager'
@@ -44,11 +68,17 @@ class PhonesimManager(object):
 
     def start_phonesim_processes(self):
         for simname, simport, conffile in self.sims:
-            cmd = ['/usr/bin/xvfb-run', '-a', self.phonesim_exe, '-p', str(simport), conffile]
+            cmd = ['/usr/bin/xvfb-run',
+                   '-a',
+                   self.phonesim_exe,
+                   '-p',
+                   str(simport),
+                   conffile]
+
             p = subprocess.Popen(cmd)
             self.sim_processes[simname] = p
         # give the processes some time to start
-        sleep(1)
+        sleep(3)
 
     def shutdown(self):
         for p in self.sim_processes.values():
@@ -84,13 +114,3 @@ class PhonesimManager(object):
         sim = self.system_bus.get_object('org.ofono', '/'+sim_name)
         interface = dbus.Interface(sim, dbus_interface='org.ofono.SimManager')
         return str(interface.GetProperties()['PinRequired'])
-
-
-if __name__ == '__main__':
-    sims = [('sim1', 12345, '/usr/share/phonesim/default.xml'),
-            ('sim2', 12346, '/usr/share/phonesim/default.xml')]
-    m = PhonesimManager(sims)
-    m.start_phonesim_processes()
-    import pdb
-    pdb.set_trace()
-    m.shutdown()
