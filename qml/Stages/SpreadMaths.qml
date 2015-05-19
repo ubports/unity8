@@ -115,7 +115,6 @@ Item {
                                      linearAnimation(0, 1, 1, 1 + stackScale, leftEasing.value)
                                    : limitedRightProgress > 0 ?
                                           linearAnimation(0, 1, 1, 1 + stackScale, rightEasing.value)
-                                          // 0.5 :
                                         : 0.95 + Math.abs(middleSectionProgress - 0.5) * 0.1
 
     readonly property real tileInfoOpacity: leftFoldingAreaProgress > 0 ?
