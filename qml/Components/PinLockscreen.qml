@@ -154,6 +154,11 @@ Item {
             }
         }
 
+        Item {
+            height: units.dp(2)
+            width: parent.width
+        }
+
         Grid {
             id: numbersGrid
             objectName: "numbersGrid"
