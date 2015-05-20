@@ -460,6 +460,46 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
         }
 
+        function test_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
+            loadShell("phone");
+            swipeAwayGreeter();
+
+            dashCommunicatorSpy.clear();
+
+            //Small left swipe
+            swipeFromLeftEdge(units.gu(25));
+
+            compare(dashCommunicatorSpy.count, 0);
+
+            //Long left swipe
+            swipeFromLeftEdge(units.gu(30));
+
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(dashCommunicatorSpy.count, 1);
+            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
+            compare(dashCommunicatorSpy.signalArguments[0][2], true)
+        }
+
+        function test_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
+            loadShell("phone");
+            swipeAwayGreeter();
+            dragLauncherIntoView();
+
+            dashCommunicatorSpy.clear();
+
+            var launcher = findChild(shell, "launcher");
+            var dashIcon = findChild(launcher, "dashItem");
+            verify(dashIcon != undefined);
+            mouseClick(dashIcon);
+
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(dashCommunicatorSpy.count, 1);
+            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
+            compare(dashCommunicatorSpy.signalArguments[0][2], true)
+        }
+
         function test_suspend() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1082,6 +1122,8 @@ Rectangle {
             // ensure the launcher dimissal timer never gets triggered during the test run
             var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
             dismissTimer.interval = 60 * 60 * 1000;
+
+            launcherShowDashHomeSpy.clear();
 
             dragLauncherIntoView();
 

@@ -456,7 +456,7 @@ Item {
         }
 
         if (!greeter.locked) {
-            dash.setCurrentScope(0, false, true);
+            dash.setCurrentScope(0, true, true);
             if (ApplicationManager.focusedApplicationId != "unity8-dash") {
                 ApplicationManager.requestFocusApplication("unity8-dash");
                 launcher.fadeOut();
