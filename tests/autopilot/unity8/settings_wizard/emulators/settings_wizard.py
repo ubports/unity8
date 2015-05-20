@@ -60,6 +60,10 @@ class Wizard(UbuntuUIToolkitCustomProxyObjectBase):
         return self.wait_select_single(
             objectName='wifiPage', visible='True')
 
+    def get_location_page(self):
+        return self.wait_select_single(
+            objectName='locationPage', visible='True')
+
     def get_reporting_page(self):
         return self.wait_select_single(
             objectName='reportingPage', visible='True')
@@ -372,6 +376,17 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
                 return button
         raise introspection.dbus.StateNotFoundError
 
+    def _get_next_page(self):
+        wizard = get_wizard(self)
+        next_page = wizard.get_current_page()
+        locationPageEnabled = True
+        if next_page.objectName == 'locationPage':
+            next_page = wizard.get_location_page()
+        else:
+            locationPageEnabled = False
+            next_page = wizard.get_reporting_page()
+        return locationPageEnabled, next_page
+
     def is_network_checked(self, ssid):
         return self._get_network_checkbox(ssid).get_properties()['checked']
 
@@ -390,12 +405,40 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
     @autopilot.logging.log_action(logger.info)
     def back(self):
         self.pointing_device.click_object(self._get_back_button())
-        return get_wizard(self).get_password_page()
+        return self._get_next_page()
 
     @autopilot.logging.log_action(logger.info)
     def skip(self):
         self.pointing_device.click_object(self._get_skip_button())
-        return get_wizard(self).get_reporting_page()
+        return self._get_next_page()
+
+    @autopilot.logging.log_action(logger.info)
+    def continue_(self):
+        self.pointing_device.click_object(self._get_continue_button())
+        return self._get_next_page()
+
+
+class LocationPage(UbuntuUIToolkitCustomProxyObjectBase):
+    """Helper class to interact with the LocationPage"""
+
+    @classmethod
+    def validate_dbus_object(cls, path, state):
+        name = introspection.get_classname_from_path(path)
+        if name == b'Page':
+            if state['objectName'][1] == 'locationPage':
+                return True
+        return False
+
+    def _get_back_button(self):
+        return self.select_single('StackButton', text='Back')
+
+    def _get_continue_button(self):
+        return self.select_single('StackButton', text='Continue')
+
+    @autopilot.logging.log_action(logger.info)
+    def back(self):
+        self.pointing_device.click_object(self._get_back_button())
+        return get_wizard(self).get_wifi_connect_page()
 
     @autopilot.logging.log_action(logger.info)
     def continue_(self):
