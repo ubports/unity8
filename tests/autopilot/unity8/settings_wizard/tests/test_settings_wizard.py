@@ -85,6 +85,7 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
         else:
             reporting_page = next_page
         finish_page = self._test_reporting_page(reporting_page)
+
         finish_page.finish()
         self.assertFalse(
             self.wizard_helper.is_settings_wizard_enabled())
