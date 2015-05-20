@@ -29,7 +29,8 @@ LocalComponents.Page {
 
     property bool pathSet: AccountsService.hereLicensePathValid
     skipValid: pathSet && (AccountsService.hereLicensePath === "" || termsModel.count > 0)
-    skip: skipValid && (AccountsService.hereLicensePath === "" || termsModel.count === 2) // no files but . and ..
+    skip: false
+    //skip: skipValid && (AccountsService.hereLicensePath === "" || termsModel.count === 2) // no files but . and ..
 
     FolderListModel {
         id: termsModel

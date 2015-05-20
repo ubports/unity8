@@ -397,15 +397,14 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
 
     @autopilot.logging.log_action(logger.info)
     def advance_page(self):
-        """ Advance the wizard regardless of weather or not
-        continue||skip button is present """
+        """ Advance the wizard regardless via skip || continue"""
         self.pointing_device.click_object(self._get_next_button())
-        return get_wizard(self).get_reporting_page()
+        return self._get_next_page()
 
     @autopilot.logging.log_action(logger.info)
     def back(self):
         self.pointing_device.click_object(self._get_back_button())
-        return self._get_next_page()
+        return get_wizard(self).get_password_page()
 
     @autopilot.logging.log_action(logger.info)
     def skip(self):
