@@ -65,7 +65,7 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
         return sim_page.skip()
 
     def _test_wifi_connect_page(self, wifi_connect_page):
-        return wifi_connect_page.advance_page()
+        return wifi_connect_page.skip_or_continue()
 
     def test_skipping_through_wizard(self):
         """ Most basic test of the settings wizard. Skip all skipable pages """

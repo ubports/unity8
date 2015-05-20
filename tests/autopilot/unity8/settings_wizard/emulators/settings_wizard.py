@@ -396,12 +396,6 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
         return PasswordNotification(self._get_notification(unity))
 
     @autopilot.logging.log_action(logger.info)
-    def advance_page(self):
-        """ Advance the wizard regardless via skip || continue"""
-        self.pointing_device.click_object(self._get_next_button())
-        return self._get_next_page()
-
-    @autopilot.logging.log_action(logger.info)
     def back(self):
         self.pointing_device.click_object(self._get_back_button())
         return get_wizard(self).get_password_page()
@@ -414,6 +408,12 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
     @autopilot.logging.log_action(logger.info)
     def continue_(self):
         self.pointing_device.click_object(self._get_continue_button())
+        return self._get_next_page()
+
+    @autopilot.logging.log_action(logger.info)
+    def skip_or_continue(self):
+        """ Advance the wizard regardless via skip || continue"""
+        self.pointing_device.click_object(self._get_next_button())
         return self._get_next_page()
 
 
