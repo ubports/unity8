@@ -350,9 +350,9 @@ function cardString(template, components) {
 
     if (hasBackground) {
         var templateCardBackground = (template && typeof template["card-background"] === "string") ? template["card-background"] :  "";
-        var backgroundElements0 = undefined;
-        var backgroundElements1 = undefined;
-        if (template && typeof template["card-background"] === "object"&& (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
+        var backgroundElements0;
+        var backgroundElements1;
+        if (template && typeof template["card-background"] === "object" && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
             if (template["card-background"]["elements"][0] !== undefined) {
                 backgroundElements0 = '"%1"'.arg(template["card-background"]["elements"][0]);
             }
