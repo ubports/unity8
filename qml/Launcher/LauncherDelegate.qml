@@ -40,6 +40,72 @@ Item {
     property real itemOpacity: 1
     property real brightness: 0
 
+    SequentialAnimation {
+        id: wiggleAnim
+
+        readonly property double angle: 5.0
+        readonly property int duration: UbuntuAnimation.SnapDuration
+
+        running: false
+        loops: Animation.Infinite
+
+        NumberAnimation {
+            target: root
+            property: "rotation"
+            from: 0
+            to: wiggleAnim.angle
+            duration: wiggleAnim.duration
+            easing.type: Easing.InQuad
+        }
+
+        NumberAnimation {
+            target: root
+            property: "rotation"
+            from: wiggleAnim.angle
+            to: -wiggleAnim.angle
+            duration: wiggleAnim.duration
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            target: root
+            property: "rotation"
+            from: -wiggleAnim.angle
+            to: wiggleAnim.angle
+            duration: wiggleAnim.duration
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            target: root
+            property: "rotation"
+            from: -wiggleAnim.angle
+            to: wiggleAnim.angle
+            duration: wiggleAnim.duration
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            target: root
+            property: "rotation"
+            from: wiggleAnim.angle
+            to: -wiggleAnim.angle
+            duration: wiggleAnim.duration
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            target: root
+            property: "rotation"
+            from: -wiggleAnim.angle
+            to: 0
+            duration: wiggleAnim.duration
+            easing.type: Easing.OutQuad
+        }
+
+        PauseAnimation {}
+    }
+
     Item {
         id: iconItem
         width: parent.itemWidth + units.gu(1)
