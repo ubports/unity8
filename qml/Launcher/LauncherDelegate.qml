@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 Item {
     id: root
@@ -75,7 +75,7 @@ Item {
             objectName: "countEmblem"
             anchors {
                 right: parent.right
-                top: parent.top
+                bottom: parent.bottom
                 margins: units.dp(3)
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
@@ -100,20 +100,20 @@ Item {
             }
         }
 
-        BorderImage {
+        UbuntuShape {
             id: progressOverlay
             objectName: "progressOverlay"
             anchors {
                 left: iconItem.left
                 right: iconItem.right
-                bottom: iconItem.bottom
-                leftMargin: units.gu(1)
-                rightMargin: units.gu(1)
-                bottomMargin: units.gu(1)
+                verticalCenter: parent.verticalCenter
+                leftMargin: units.gu(1.5)
+                rightMargin: units.gu(1.5)
             }
-            height: units.gu(1.5)
+            height: units.gu(1)
             visible: root.progress > -1
-            source: "graphics/progressbar-trough.sci"
+            color: UbuntuColors.darkGrey
+            borderSource: "none"
 
             // For fill calculation we need to remove the 2 units of border defined in .sci file
             property int adjustedWidth: width - units.gu(2)
@@ -127,14 +127,15 @@ Item {
                 width: Math.min(100, root.progress) / 100 * parent.adjustedWidth + units.gu(1)
                 clip: true
 
-                BorderImage {
+                UbuntuShape {
                     anchors {
                         left: parent.left
                         top: parent.top
                         bottom: parent.bottom
                     }
+                    color: "white"
+                    borderSource: "none"
                     width: progressOverlay.width
-                    source: "graphics/progressbar-fill.sci"
                 }
             }
         }
