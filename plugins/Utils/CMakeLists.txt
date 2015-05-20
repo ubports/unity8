@@ -9,11 +9,13 @@ include_directories(
 
 set(QMLPLUGIN_SRC
     constants.cpp
+    HomeKeyWatcher.cpp
     inputwatcher.cpp
     qlimitproxymodelqml.cpp
     unitysortfilterproxymodelqml.cpp
     relativetimeformatter.cpp
     timeformatter.cpp
+    Timer.cpp
     unitymenumodelpaths.cpp
     windowkeysfilter.cpp
     easingcurve.cpp

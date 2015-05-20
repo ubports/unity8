@@ -25,15 +25,25 @@
 #include <QObject>
 #include <QString>
 
+class PropertiesServer;
+
 class AccountsServer: public QObject, protected QDBusContext
 {
     Q_OBJECT
 
 public:
-    explicit AccountsServer(QObject *parent = 0);
+    explicit AccountsServer(PropertiesServer *propServer, QObject *parent = 0);
 
 public Q_SLOTS:
+
     QDBusObjectPath FindUserByName(const QString &user);
+
+    // mock only.
+    bool AddUser(const QString &user);
+    bool RemoveUser(const QString &user);
+
+private:
+    PropertiesServer* m_propServer;
 };
 
 #endif

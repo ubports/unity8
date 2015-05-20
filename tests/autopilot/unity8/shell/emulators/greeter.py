@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,12 +18,10 @@
 #
 
 import ubuntuuitoolkit
-
 from autopilot.utilities import sleep
-from unity8.shell.emulators import UnityEmulatorBase
 
 
-class Greeter(UnityEmulatorBase):
+class Greeter(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """An emulator that understands the greeter screen."""
 
     def wait_swiped_away(self):

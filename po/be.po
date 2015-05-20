@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-03-19 16:03+0100\n"
-"PO-Revision-Date: 2015-02-07 19:04+0000\n"
-"Last-Translator: Mikhail_SaTuRn <mikhail_saturn@tut.by>\n"
+"POT-Creation-Date: 2015-04-14 16:13+0200\n"
+"PO-Revision-Date: 2015-04-27 14:34+0000\n"
+"Last-Translator: Arsień Šachalevič <semen.shah@gmail.com>\n"
 "Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2015-03-25 06:04+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Launchpad-Export-Date: 2015-04-28 05:33+0000\n"
+"X-Generator: Launchpad (build 17453)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -26,11 +26,11 @@ msgstr "Пароль: "
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
-msgstr "Заблакаваць кнопку"
+msgstr "Замацаваць кнопку"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
-msgstr "Разблакаваць кнопку"
+msgstr "Адмацаваць кнопку"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -55,72 +55,72 @@ msgstr[0] "Пачакайце %1 хвіліну і паўтарыце спроб
 msgstr[1] "Пачакайце %1 хвіліны і паўтарыце спробу…"
 msgstr[2] "Пачакайце %1 хвілінаў і паўтарыце спробу…"
 
-#: qml/Components/Dialogs.qml:67
+#: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:68
-msgid "Are you sure you want to log out?"
-msgstr "Вы насамрэч хочаце выйсці?"
+msgstr "Выйсці"
 
 #: qml/Components/Dialogs.qml:70
+msgid "Are you sure you want to log out?"
+msgstr "Вы ўпэўнены, што хочаце выйсці?"
+
+#: qml/Components/Dialogs.qml:72
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Заблакаваць"
 
-#: qml/Components/Dialogs.qml:77
+#: qml/Components/Dialogs.qml:79
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Выйсці"
 
-#: qml/Components/Dialogs.qml:84 qml/Components/Dialogs.qml:115
-#: qml/Components/Dialogs.qml:171
+#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:173
 msgid "Cancel"
 msgstr "Скасаваць"
 
-#: qml/Components/Dialogs.qml:96
+#: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:97
+#: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
 msgstr "Вы ўпэўненыя, што жадаеце выключыць прыладу?"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Перазагрузіць"
 
-#: qml/Components/Dialogs.qml:107
+#: qml/Components/Dialogs.qml:109
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:127
+#: qml/Components/Dialogs.qml:129
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Перазагрузіць"
 
-#: qml/Components/Dialogs.qml:128
+#: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
 msgstr "Вы ўпэўнены, што жадаеце перазагрузіць?"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:132
 msgid "No"
 msgstr "Не"
 
-#: qml/Components/Dialogs.qml:136
+#: qml/Components/Dialogs.qml:138
 msgid "Yes"
 msgstr "Так"
 
-#: qml/Components/Dialogs.qml:150
+#: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Сілкаванне"
 
-#: qml/Components/Dialogs.qml:151
+#: qml/Components/Dialogs.qml:153
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -128,55 +128,55 @@ msgstr ""
 "Вы сапраўды хочаце выключыць\n"
 "сілкаванне?"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Выключыць"
 
-#: qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Перазапуск"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
 msgstr "Вярнуцца да выкліку"
 
-#: qml/Components/Lockscreen.qml:238
+#: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
 msgstr "Терміновы выклік"
 
-#: qml/Components/Lockscreen.qml:270
+#: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "Добра"
 
-#: qml/Dash/GenericScopeView.qml:533 qml/Dash/GenericScopeView.qml:691
+#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
 msgid "See less"
 msgstr "Карацей"
 
-#: qml/Dash/GenericScopeView.qml:533
+#: qml/Dash/GenericScopeView.qml:532
 msgid "See all"
 msgstr "Больш падрабязна"
 
-#: qml/Dash/GenericScopeView.qml:595
+#: qml/Dash/GenericScopeView.qml:594
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Крама"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: qml/Dash/PageHeader.qml:286
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "Налады"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
@@ -216,7 +216,7 @@ msgstr "Адпусціце для абнаўлення ..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Уключыць дадзеныя аб месцазнаходжанні"
 
 #: qml/Dash/ScopesList.qml:66
 msgid "Manage"
@@ -236,11 +236,11 @@ msgstr "Разблакаваць"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Паспрабаваць ізноў"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Націсніце, каб разблакаваць"
 
 #: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
@@ -312,38 +312,38 @@ msgstr "Націсніце, каб вярнуцца да выкліку..."
 msgid "Conference"
 msgstr "Канферэнцыя"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:643
+#: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
 msgstr "Анічога не прайграецца"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:787
 msgid "In queue…"
 msgstr "У чарзе..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:791
 msgid "Downloading"
 msgstr "Запампоўка"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:793
 msgid "Paused, tap to resume"
 msgstr "Прыпынена, націсніце для працягу"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:795
 msgid "Canceled"
 msgstr "Скасавана"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:801
+#: qml/Panel/Indicators/MenuItemFactory.qml:797
 msgid "Finished"
 msgstr "Скончана"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:799
 msgid "Failed, tap to retry"
 msgstr "Памылка, націсніце для паўтору"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Адказаць"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -355,60 +355,65 @@ msgstr "Роўмінг"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Гэта дзеянне мае розныя наступствы для розных праграм"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Націсніце тут, каб завяршыць."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Адкрыць спецыяльныя меню"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Правесці уверх ад ніжняга краю."
+
+#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialRight.qml:144
+msgid "Tap here to continue."
+msgstr "Націсніце тут, каб працягнуць."
+
+#: qml/Tutorial/TutorialContent.qml:81
+msgid "Click here to finish."
+msgstr "Націсніце тут для завяршэння."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
-
-#: qml/Tutorial/TutorialLeftFinish.qml:25 qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
-msgstr ""
+msgstr "Гэта скарачэнні для абраных праграм"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "Адкрыць панэль запуску"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Кароткі рух з левага краю."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Амаль усё!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "Паспрабуйце яшчэ."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Паглядзець адкрытыя праграмы"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Доўгі рух ад правага краю."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Паказаць усе запушчаныя задачы."
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Вярнуцца"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -452,32 +457,32 @@ msgstr "Калі ласка, абярыце спосаб разблакаван�
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Рух"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Без бяспекі"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Пароль"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "Толькі 4 лічбы"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Пароль"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Літары і лічбы"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"

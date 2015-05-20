@@ -17,11 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+import logging
 
 from autopilot.matchers import Eventually
 from testtools.matchers import Equals
-import logging
+from ubuntuuitoolkit import ubuntu_scenarios
+
+from unity8.shell.tests import UnityTestCase
+
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +33,7 @@ class TestLockscreen(UnityTestCase):
 
     """Tests for the lock screen."""
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     def test_can_unlock_pin_screen(self):
         """Must be able to unlock the PIN entry lock screen."""
