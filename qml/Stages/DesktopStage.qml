@@ -20,16 +20,13 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components/PanelState"
-import Utils 0.1
 
-FocusScope {
+Rectangle {
     id: root
 
     anchors.fill: parent
 
     property alias background: wallpaper.source
-
-    property var windowStateStorage: WindowStateStorage
 
     CrossFadeImage {
         id: wallpaper
@@ -58,7 +55,16 @@ FocusScope {
         id: priv
 
         readonly property string focusedAppId: ApplicationManager.focusedApplicationId
-        readonly property var focusedAppDelegate: focusedAppId ? appRepeater.itemAt(indexOf(focusedAppId)) : null
+        readonly property var focusedAppDelegate: {
+            var index = indexOf(focusedAppId);
+            return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
+        }
+
+        onFocusedAppDelegateChanged: {
+            if (focusedAppDelegate) {
+                focusedAppDelegate.focus = true;
+            }
+        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -89,12 +95,18 @@ FocusScope {
         id: appRepeater
         model: ApplicationManager
 
-        delegate: Item {
+        delegate: FocusScope {
             id: appDelegate
             z: ApplicationManager.count - index
             y: units.gu(3)
             width: units.gu(60)
             height: units.gu(50)
+
+            onFocusChanged: {
+                if (focus) {
+                    ApplicationManager.requestFocusApplication(model.appId);
+                }
+            }
 
             readonly property int minWidth: units.gu(10)
             readonly property int minHeight: units.gu(10)
@@ -119,14 +131,13 @@ FocusScope {
             ]
 
             WindowMoveResizeArea {
-                windowStateStorage: root.windowStateStorage
                 target: appDelegate
                 minWidth: appDelegate.minWidth
                 minHeight: appDelegate.minHeight
                 resizeHandleWidth: units.gu(0.5)
                 windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                onPressed: decoratedWindow.focus = true;
+                onPressed: appDelegate.focus = true;
             }
 
             DecoratedWindow {
@@ -135,12 +146,7 @@ FocusScope {
                 anchors.fill: parent
                 application: ApplicationManager.get(index)
                 active: ApplicationManager.focusedApplicationId === model.appId
-
-                onFocusChanged: {
-                    if (focus) {
-                        ApplicationManager.requestFocusApplication(model.appId);
-                    }
-                }
+                focus: true
 
                 onClose: ApplicationManager.stopApplication(model.appId)
                 onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")

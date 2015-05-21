@@ -1,3 +1,33 @@
+unity8 (8.02+15.10.20150518.1-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add overrides to override functions
+  * Implement "rating-edit" preview widget (LP: #1318144)
+  * Make the DashContent::test_mainNavigation test more stable (LP:
+    #1450809)
+  * Use art height as implicitHeight when the header is overlayed and
+    there's no summary
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Introducing FloatingFlickable
+  * Make Ubuntu.Gestures components install TouchRegistry by themselves
+
+  [ Michael Terry ]
+  * Fix a possible crash in our PAM threading code. (LP: #1425362) (LP:
+    #1425362)
+  * Fix the lockscreen becoming unresponsive after testing an app on the
+    device from QtCreator. (LP: #1435364)
+
+  [ Nick Dedekind ]
+  * Fixed desktop stage app focus.
+  * Fixed issue in laggy indicator autpilot tests (LP: #1446846)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 18 May 2015 23:04:39 +0000
+
 unity8 (8.02+15.04.20150511-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]

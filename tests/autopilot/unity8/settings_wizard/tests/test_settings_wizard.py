@@ -17,8 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from unity8.settings_wizard import fixture_setup
-from unity8.settings_wizard.emulators.settings_wizard import Wizard
+from unity8.settings_wizard import fixture_setup, Wizard
 from unity8.shell import tests
 
 DEFAULT_LANGUAGE = 'English (United States)'
@@ -65,7 +64,11 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
         return sim_page.skip()
 
     def _test_wifi_connect_page(self, wifi_connect_page):
-        return wifi_connect_page.skip_or_continue()
+        if wifi_connect_page.is_any_network_checked() or not \
+           wifi_connect_page.is_any_network_found():
+            return wifi_connect_page.continue_()
+        else:
+            return wifi_connect_page.skip()
 
     def test_skipping_through_wizard(self):
         """ Most basic test of the settings wizard. Skip all skipable pages """

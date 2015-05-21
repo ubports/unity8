@@ -53,7 +53,7 @@ Q_SIGNALS:
     void elapsedTimerRunningChanged();
 
 protected:
-    void timerEvent(QTimerEvent * event);
+    void timerEvent(QTimerEvent * event) override;
 
 private:
     QString m_phoneNumber;
