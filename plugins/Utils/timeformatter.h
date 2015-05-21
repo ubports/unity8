@@ -62,7 +62,7 @@ public:
     GDateTimeFormatter(QObject *parent = 0);
 
 protected:
-    virtual QString formatTime() const;
+    QString formatTime() const override;
 };
 
 #endif

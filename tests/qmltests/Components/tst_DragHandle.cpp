@@ -26,7 +26,6 @@
 #include <DirectionalDragArea.h>
 #include <DirectionalDragArea_p.h>
 #include <Timer.h>
-#include <TouchRegistry.h>
 
 using namespace UbuntuGestures;
 
@@ -61,7 +60,6 @@ private:
 
     QQuickView *createView();
     QQuickView *m_view;
-    TouchRegistry *m_touchRegistry;
     QTouchDevice *m_device;
     FakeTimer *m_fakeTimer;
     QSharedPointer<FakeTimeSource> m_fakeTimeSource;
@@ -85,10 +83,7 @@ void tst_DragHandle::cleanupTestCase()
 
 void tst_DragHandle::init()
 {
-    m_touchRegistry = new TouchRegistry;
-
     m_view = createView();
-    m_view->installEventFilter(m_touchRegistry);
     m_view->setSource(QUrl::fromLocalFile(TEST_DIR"/tst_DragHandle.qml"));
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
@@ -107,9 +102,6 @@ void tst_DragHandle::cleanup()
 {
     delete m_view;
     m_view = 0;
-
-    delete m_touchRegistry;
-    m_touchRegistry = 0;
 
     delete m_fakeTimer;
     m_fakeTimer = 0;

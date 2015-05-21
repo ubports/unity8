@@ -32,19 +32,19 @@
 
 class HeightModel : public QAbstractListModel {
 public:
-    QHash<int, QByteArray> roleNames() const
+    QHash<int, QByteArray> roleNames() const override
     {
         QHash<int, QByteArray> roles;
         roles.insert(Qt::DisplayRole, "modelHeight");
         return roles;
     }
 
-    int rowCount(const QModelIndex & /*parent*/) const
+    int rowCount(const QModelIndex & /*parent*/) const override
     {
         return m_list.count();
     }
 
-    QVariant data(const QModelIndex &index, int /*role*/) const
+    QVariant data(const QModelIndex &index, int /*role*/) const override
     {
         return m_list[index.row()];
     }

@@ -37,7 +37,7 @@ public:
         list << "A" << "B" << "C" << "D" << "E" << "F" << "G" << "H";
     }
 
-    int rowCount(const QModelIndex &parent) const
+    int rowCount(const QModelIndex &parent) const override
     {
         if (parent.isValid())
             return 0;
@@ -45,14 +45,14 @@ public:
             return list.count();
     }
 
-    QVariant data(const QModelIndex &index, int role) const
+    QVariant data(const QModelIndex &index, int role) const override
     {
         if (role == Qt::SizeHintRole) return 50;
         else if (role == Qt::DisplayRole) return list[index.row()];
         return QVariant();
     }
 
-    QHash<int, QByteArray> roleNames() const
+    QHash<int, QByteArray> roleNames() const override
     {
         QHash<int, QByteArray> hash;
         hash.insert(Qt::DisplayRole, "type");

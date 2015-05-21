@@ -78,10 +78,10 @@ public:
     ~GSettingsControllerQml();
 
     QString pictureUri() const;
-    void setPictureUri(const QString &str);
+    Q_INVOKABLE void setPictureUri(const QString &str);
 
     QString usageMode() const;
-    void setUsageMode(const QString &usageMode);
+    Q_INVOKABLE void setUsageMode(const QString &usageMode);
 
 Q_SIGNALS:
     void pictureUriChanged(const QString&);
