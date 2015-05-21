@@ -6,7 +6,7 @@ import Ubuntu.Components.Themes 1.0
 
 MediaServicesControls {
     id: root
-    property alias mediaPlayer: _mediaPlayer
+    readonly property alias mediaPlayer: _mediaPlayer
     property bool interacting: false
 
     QtObject {
@@ -35,7 +35,7 @@ MediaServicesControls {
                 slider.value = mediaPlayer.position;
                 slider.valueGuard = false;
                 if (!slider.pressed) {
-                    positionLabel.text = priv.formatTime(_mediaPlayer.position);
+                    positionLabel.text = priv.formatTime(mediaPlayer.position);
                 }
             }
         }
@@ -57,7 +57,7 @@ MediaServicesControls {
             fontSize: "x-small"
             color: "#F3F3E7"
 
-            text: priv.formatTime(_mediaPlayer.position)
+            text: priv.formatTime(mediaPlayer.position)
         }
 
         Slider {
@@ -96,7 +96,7 @@ MediaServicesControls {
                     mediaPlayer.pause();
                 } else {
 
-                    positionLabel.text = priv.formatTime(_mediaPlayer.position);
+                    positionLabel.text = priv.formatTime(mediaPlayer.position);
                     if (wasPlaying) {
                         mediaPlayer.play();
                     }
@@ -118,44 +118,12 @@ MediaServicesControls {
             fontSize: "x-small"
             color: "#F3F3E7"
 
-            text: {
-                var pos = (mediaPlayer.duration/1000).toFixed(0)
-
-                var m = Math.floor(pos/60);
-                var ss = pos % 60;
-                if (ss >= 10) {
-                    return m + ":" + ss;
-                } else {
-                    return m + ":0" + ss;
-                }
-            }
+            text: priv.formatTime(mediaPlayer.duration)
         }
-    }
-
-    function getPlaybackState(playbackState) {
-        if (playbackState === MediaPlayer.PlayingState) return "PlayingState";
-        else if (playbackState === MediaPlayer.PausedState) return "PausedState";
-        else if (playbackState === MediaPlayer.StoppedState) return "StoppedState";
-        return "";
-    }
-
-    function getPlayerStatus(status) {
-        if (status === MediaPlayer.NoMedia) return "NoMedia";
-        else if (status === MediaPlayer.Loading) return "Loading";
-        else if (status === MediaPlayer.Loaded) return "Loaded";
-        else if (status === MediaPlayer.Buffering) return "Buffering";
-        else if (status === MediaPlayer.Stalled) return "Stalled";
-        else if (status === MediaPlayer.Buffered) return "Buffered";
-        else if (status === MediaPlayer.EndOfMedia) return "EndOfMedia";
-        else if (status === MediaPlayer.InvalidMedia) return "InvalidMedia";
-        else if (status === MediaPlayer.UnknownStatus) return "UnknownStatus";
-        return "";
     }
 
     MediaPlayer {
         id: _mediaPlayer
-
-        onPlaybackStateChanged: console.log("PLAYBACK STATE", getPlaybackState(playbackState));
-        onStatusChanged: console.log("PLAYER STATUS", getPlayerStatus(status));
+        objectName: "mediaPlayer"
     }
 }

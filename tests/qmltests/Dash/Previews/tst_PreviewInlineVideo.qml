@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,36 +19,67 @@ import QtTest 1.0
 import "../../../../qml/Dash/Previews"
 import Unity.Test 0.1 as UT
 import Ubuntu.Components 1.3
+import QtMultimedia 5.0
 
 Rectangle {
-    id: mainView
-    width: units.gu(40)
+    width: units.gu(70)
     height: units.gu(80)
     color: "lightgrey"
 
     property var widgetData0: {
-        "source": "video:///home/nick/Videos/test-mpeg.ogv",
-        "screenshot": "/home/nick/Pictures/malta.jpg"
-//        "screenshot": "image://thumbnailer/https://dl.dropboxusercontent.com/u/85539674/team11.ogg"
+        "source": "file:///test-video1",
+        "screenshot": "file:///home/nick/Pictures/IMG_20150513_132759.jpg"
     }
 
     property var widgetData1: {
-//        "source": "https://dl.dropboxusercontent.com/u/85539674/test-mpeg.ogv",
-//        "screenshot": "/home/nick/Pictures/malta.jpg"
+        "source": "file:///test-video2",
+        "screenshot": "file:///test-video2-screenshot"
     }
 
-    function pushPage(page) { pageStack.push(page); }
-    function popPage(page) { pageStack.pop(); }
+    MediaDataSource {
+        source: "file:///home/nick/Videos/test-mpeg.ogv"
+        duration: 60000
+        metaData: {
+            "title" : "TEST MPEG",
+            "resolution" : { "width": 100, "height": 150 }
+        }
+    }
 
-    PageStack {
-        id: pageStack
+    Item {
         anchors.fill: parent
-        anchors.margins: units.gu(5)
 
-        PreviewInlineVideo {
-            id: videoPlayback
-            width: parent.width
-            widgetData: widgetData0
+        Rectangle {
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                left: parent.left
+                right: controls.left
+            }
+
+            PreviewInlineVideo {
+                id: videoPlayback
+                width: parent.width
+                widgetData: widgetData0
+
+                rootItem: parent
+            }
+        }
+
+        Rectangle {
+            id: controls
+            color: "darkgrey"
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                right: parent.right
+            }
+            width: units.gu(30)
+
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+
+                UT.MouseTouchEmulationCheckbox {}
+            }
         }
     }
 
@@ -58,10 +89,11 @@ Rectangle {
 
         function test_loadScreenshot() {
             var screenshot = findChild(videoPlayback, "screenshot");
+            verify(screenshot !== null);
 
             videoPlayback.widgetData = widgetData1;
             var screenshotSource = screenshot.source
-            verify(screenshotSource.toString().indexOf("image://thumbnailer/") === 0)
+            compare(screenshotSource.toString(), "file:///test-video2-screenshot");
         }
     }
 }

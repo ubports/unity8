@@ -32,7 +32,7 @@ PreviewWidget {
     implicitWidth: units.gu(35)
     implicitHeight: services.height
 
-    property Item rootItem: QuickUtils.rootItem(root)
+    property alias rootItem: services.rootItem
 
     MediaServices {
         id: services
@@ -42,30 +42,15 @@ PreviewWidget {
         sourceData: widgetData
         fullscreen: false
 
+        onClose: fullscreen = false
+
         actions: [
             Action {
                 text: i18n.tr("Share")
                 iconSource: "image://theme/share"
-                onTriggered: {
-                    console.log("ACTION Share")
-                    sharePicker.visible = true
-                }
+                onTriggered: sharePicker.visible = true
             }
         ]
-
-        states: [
-            State {
-                name: "fullscreen"
-                when: services.fullscreen
-                ParentChange { target: services; parent: rootItem; x: 0; y: 0; width: rootItem.width; height: rootItem.height}
-            }
-        ]
-
-        transitions: Transition {
-            ParentAnimation {
-                UbuntuNumberAnimation { properties: "x,y,width,height" }
-            }
-        }
     }
 
     Component {

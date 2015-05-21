@@ -22,21 +22,30 @@ FocusScope {
     id: root
     property var sourceData
     property string context: ""
-    property bool fullscreen: false
     property list<Action> actions
+    property Item rootItem: QuickUtils.rootItem(root)
 
     property alias header: headerContent.item
     property alias content: contentLoader.item
     property alias footer: footerContent.item
+    property alias fullscreen: priv.fullscreen
+
+    signal close();
 
     implicitHeight: {
         if (fullscreen && parent) {
             return parent.height;
         }
-        console.log(contentLoader.height, fullscreen, parent)
         return contentLoader.height
     }
-    height: implicitHeight
+    Behavior on implicitHeight {
+        enabled: fullscreen
+        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+    }
+
+    onFullscreenChanged: {
+        if (!fullscreen) rotationAction.checked = false;
+    }
 
     OrientationHelper {
         id: orientationHelper
@@ -57,6 +66,12 @@ FocusScope {
             }
         ]
 
+        Rectangle {
+            anchors.fill: contentLoader
+            color: "#1B1B1B"
+            opacity: 0.85
+        }
+
         Loader {
             id: contentLoader
 
@@ -72,8 +87,15 @@ FocusScope {
                 id: videoComponent
                 VideoPlayer {
                     id: player
+                    objectName: "videoPlayer"
+
                     width: orientationHelper.width
                     height: fullscreen ? orientationHelper.height : implicitHeight
+                    Behavior on height {
+                        enabled: !fullscreen
+                        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                    }
+
                     fixedHeight: fullscreen
                     orientation: orientationHelper.state == "portrait" ?  Qt.PortraitOrientation : Qt.LandscapeOrientation
 
@@ -115,7 +137,7 @@ FocusScope {
         Loader {
             id: headerContent
             anchors {
-                top: parent.top
+                top: contentLoader.top
                 left: parent.left
                 right: parent.right
                 topMargin: -units.gu(6)
@@ -136,7 +158,7 @@ FocusScope {
                 MediaServicesHeader {
                     onGoPrevious: {
                         rotationAction.checked = false;
-                        fullscreen = false;
+                        root.close();
                     }
 
                     component: {
@@ -151,7 +173,6 @@ FocusScope {
 
             // If we interact with the bar, reset the hide timer.
             MouseArea {
-                z: 1
                 anchors.fill: parent
                 onPressed: {
                     mouse.accepted = false
@@ -165,7 +186,7 @@ FocusScope {
             anchors {
                 left: parent.left
                 right: parent.right
-                bottom: parent.bottom
+                bottom: contentLoader.bottom
                 bottomMargin: -units.gu(7)
             }
             height: units.gu(7)
@@ -187,6 +208,7 @@ FocusScope {
                 id: videoControlsComponent
                 VideoPlayerControls {
                     id: controls
+                    objectName: "videoControls"
 
                     viewAction: rotationAction.enabled ? rotationAction : fullscreenAction
                     userActions: root.actions
@@ -203,7 +225,7 @@ FocusScope {
                     }
 
                     Binding {
-                        target: controlStates
+                        target: priv
                         property: "forceControlsShown"
 
                         value: (fullscreen && mediaPlayer.playbackState === MediaPlayer.StoppedState) ||
@@ -218,7 +240,9 @@ FocusScope {
                     Binding {
                         target: header
                         property: "title"
-                        value: controls.mediaPlayer.metaData.title
+                        value: controls.mediaPlayer.metaData.title !== undefined ?
+                                   controls.mediaPlayer.metaData.title :
+                                   controls.mediaPlayer.source.toString().replace(/^.*[\\\/]/, '')
                         when: header != null
                     }
                 }
@@ -237,14 +261,10 @@ FocusScope {
     }
 
     StateGroup {
-        id: controlStates
-        property bool controlTimerActive: false
-        property bool forceControlsShown: false
-
         states: [
             State {
                 name: "controlsShown"
-                when: controlStates.forceControlsShown || controlStates.controlTimerActive
+                when: priv.forceControlsShown || priv.controlTimerActive
                 PropertyChanges {
                     target: footerContent
                     anchors.bottomMargin: 0
@@ -286,32 +306,45 @@ FocusScope {
         ]
     }
 
+    StateGroup {
+        states: [
+            State {
+                name: "fullscreen"
+                when: priv.fullscreen
+                PropertyChanges { target: root; parent: rootItem }
+                PropertyChanges { target: fullscreenAction; iconName: "view-restore" }
+            }
+        ]
+    }
+
+    QtObject {
+        id: priv
+
+        property bool fullscreen: false
+        property bool controlTimerActive: false
+        property bool forceControlsShown: false
+    }
+
     Timer {
         id: controlHideTimer
+        objectName: "controlHideTimer"
         interval: 4000
         running: false
 
         onRunningChanged: {
             if (running) {
-                controlStates.controlTimerActive = true;
+                priv.controlTimerActive = true;
             }
         }
-        onTriggered: controlStates.controlTimerActive = false;
+        onTriggered: priv.controlTimerActive = false;
     }
 
     Action {
         id: fullscreenAction
         enabled: rotationAction.enabled === false
-        iconName: root.fullscreen ? "view-restore" : "view-fullscreen"
+        iconName: "view-fullscreen"
 
-        onTriggered: {
-            root.fullscreen = !root.fullscreen
-            if (root.fullscreen) {
-                console.log("fullscreen: fullscreen")
-            } else {
-                console.log("fullscreen: windowed")
-            }
-        }
+        onTriggered: priv.fullscreen = !priv.fullscreen
     }
 
     Action {
@@ -320,13 +353,6 @@ FocusScope {
         iconName: "orientation-lock"
 
         property bool checked: false
-        onTriggered: {
-            checked = !checked;
-            if (checked) {
-                console.log("rotation: landscape")
-            } else {
-                console.log("rotation: portrait")
-            }
-        }
+        onTriggered: checked = !checked
     }
 }

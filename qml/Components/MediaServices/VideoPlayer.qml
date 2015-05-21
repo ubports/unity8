@@ -23,7 +23,7 @@ import "../../Components"
 Item {
     id: root
 
-    property url screenshot: image.source
+    property alias screenshot: image.source
     property alias mediaPlayer: videoOutput.source
     property int orientation: Qt.PortraitOrientation
     property bool fixedHeight: false
@@ -38,15 +38,6 @@ Item {
     signal clicked
     signal positionChanged
 
-    Rectangle {
-        anchors.fill: root
-//        anchors.leftMargin: units.gu(2)
-//        anchors.rightMargin: units.gu(2)
-        color: "#1B1B1B"
-        opacity: 0.85
-        visible: mediaPlayer.playbackState !== MediaPlayer.StoppedState
-    }
-
     Item {
         id: content
         anchors {
@@ -54,7 +45,7 @@ Item {
             right: parent.right
             verticalCenter: parent.verticalCenter
         }
-        height: root.orientation == Qt.LandscapeOrientation || fixedHeight ? root.height : childrenRect.height;
+        height: root.orientation == Qt.LandscapeOrientation || fixedHeight ? root.height : Math.max(image.height, videoOutput.height);
 
         LazyImage {
             id: image
@@ -66,25 +57,25 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             scaleTo: "width"
             initialHeight: width * 10 / 16
-            visible: mediaPlayer.playbackState === MediaPlayer.StoppedState
+            visible: !mediaPlayer || mediaPlayer.playbackState === MediaPlayer.StoppedState
         }
 
         VideoOutput {
             id: videoOutput
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.centerIn: parent
+
+            width: root.width
             height: {
-                if (root.orientation == Qt.LandscapeOrientation || fixedHeight) {
+                if (fixedHeight) {
                     return root.height;
                 }
-                return (mediaPlayer.metaData.resolution.height / mediaPlayer.metaData.resolution.width ) * width;
+                return mediaPlayer && mediaPlayer.metaData.resolution !== undefined ?
+                            (mediaPlayer.metaData.resolution.height / mediaPlayer.metaData.resolution.width ) * width :
+                            image.height;
             }
 
             source: mediaPlayer
-            visible: mediaPlayer.playbackState !== MediaPlayer.StoppedState
+            visible: mediaPlayer && mediaPlayer.playbackState !== MediaPlayer.StoppedState || false
         }
 
 //        Loader {
@@ -196,7 +187,7 @@ Item {
         anchors.centerIn: content
         width: bigButton ? units.gu(10) : units.gu(8)
         height: width
-        visible: mediaPlayer.playbackState !== MediaPlayer.PlayingState
+        visible: mediaPlayer && mediaPlayer.playbackState !== MediaPlayer.PlayingState || false
         color: "#1B1B1B"
         opacity: 0.85
         radius: width/2
@@ -213,14 +204,17 @@ Item {
 
     ActivityIndicator {
         anchors.centerIn: content
-        running: mediaPlayer.status === MediaPlayer.Stalled ||
-                 (mediaPlayer.playbackState === MediaPlayer.PlayingState && (mediaPlayer.status === MediaPlayer.Loading || mediaPlayer.status === MediaPlayer.Loaded))
+        running: {
+            if (!mediaPlayer) return false;
+            return mediaPlayer.status === MediaPlayer.Stalled ||
+                 (mediaPlayer.playbackState === MediaPlayer.PlayingState && mediaPlayer.status === MediaPlayer.Loading);
+        }
     }
 
     MouseArea {
         id: contentMouseArea
         anchors.fill: content
-        hoverEnabled: mediaPlayer.playbackState !== MediaPlayer.StoppedState
+        hoverEnabled: mediaPlayer && mediaPlayer.playbackState !== MediaPlayer.StoppedState || false
 
         onClicked: root.clicked()
         onPositionChanged: root.positionChanged()

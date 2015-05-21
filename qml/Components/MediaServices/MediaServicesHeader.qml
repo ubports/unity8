@@ -29,6 +29,7 @@ Item {
         // eater
         AbstractButton {
             id: navigationButton
+            objectName: "navigationButton"
             Layout.preferredWidth: units.gu(3)
             Layout.preferredHeight: units.gu(3)
             Layout.alignment: Qt.AlignVCenter
