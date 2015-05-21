@@ -102,7 +102,7 @@ Rectangle {
 
         function checkPlayerSource(index) {
             var modelFilename = previewAudioPlayback.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
-            var playerFilename = DashAudioPlayer.source.toString().replace(/^.*[\\\/]/, '');
+            var playerFilename = DashAudioPlayer.d.source.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
         }
