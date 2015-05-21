@@ -337,6 +337,14 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
                 return True
         return False
 
+    def _get_all_networks(self):
+        try:
+            networks = self.select_many('Standard', objectName='accessPoint',
+                                        visible='True')
+        except:
+            networks = []
+        return networks
+
     def _get_network(self, ssid):
         return self.wait_select_single(
             'Standard', objectName='accessPoint', text=ssid, visible='True')
@@ -371,6 +379,18 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
             if button.text == "Continue" or button.text == "Skip":
                 return button
         raise introspection.dbus.StateNotFoundError
+
+    def is_any_network_checked(self):
+        networks = self._get_all_networks()
+        for network in networks:
+            checkbox = network.select_single('CheckBox', visible='True')
+            if checkbox.get_properties()['checked']:
+                return True
+        return False
+
+    def is_any_network_found(self):
+        num_neworks = len(self._get_all_networks())
+        return True if num_neworks > 0 else False
 
     def is_network_checked(self, ssid):
         return self._get_network_checkbox(ssid).get_properties()['checked']
