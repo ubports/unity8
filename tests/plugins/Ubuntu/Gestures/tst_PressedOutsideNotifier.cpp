@@ -28,7 +28,7 @@ class tst_PressedOutsideNotifier: public GestureTest
 public:
     tst_PressedOutsideNotifier();
 private Q_SLOTS:
-    void init(); // called right before each and every test function is executed
+    void init() override; // called right before each and every test function is executed
 
     void touchOutsideAreaTriggersSignal();
     void touchInsideAreaHasNoEffect();

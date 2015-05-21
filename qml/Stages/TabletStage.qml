@@ -53,6 +53,11 @@ Rectangle {
         id: priv
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
+        readonly property var focusedAppDelegate: {
+            var index = indexOf(focusedAppId);
+            return index >= 0 && index < spreadRepeater.count ? spreadRepeater.itemAt(index) : null
+        }
+
         property string oldFocusedAppId: ""
 
         property string mainStageAppId
@@ -76,19 +81,11 @@ Rectangle {
 
             appId0 = ApplicationManager.count >= 1 ? ApplicationManager.get(0).appId : "";
             appId1 = ApplicationManager.count > 1 ? ApplicationManager.get(1).appId : "";
-
-            // Update the QML focus accordingly
-            updateSpreadDelegateFocus();
         }
 
-        function updateSpreadDelegateFocus() {
-            if (priv.focusedAppId) {
-                var focusedAppIndex = priv.indexOf(priv.focusedAppId);
-                if (focusedAppIndex !== -1) {
-                    spreadRepeater.itemAt(focusedAppIndex).focus = true;
-                } else {
-                    console.warn("TabletStage: Failed to find the SpreadDelegate for appID=" + priv.focusedAppId);
-                }
+        onFocusedAppDelegateChanged: {
+            if (focusedAppDelegate) {
+                focusedAppDelegate.focus = true;
             }
         }
 
@@ -495,6 +492,8 @@ Rectangle {
 
                 delegate: TransformedTabletSpreadDelegate {
                     id: spreadTile
+                    objectName: model.appId ? "tabletSpreadDelegate_" + model.appId
+                                            : "tabletSpreadDelegate_null";
                     height: spreadView.height
                     width: model.stage == ApplicationInfoInterface.MainStage ? spreadView.width : spreadView.sideStageWidth
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
