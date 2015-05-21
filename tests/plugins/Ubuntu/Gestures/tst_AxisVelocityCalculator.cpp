@@ -24,7 +24,7 @@ class FakeTimeSource : public UbuntuGestures::TimeSource {
 public:
     FakeTimeSource() : m_value(0) {}
 
-    virtual qint64 msecsSinceReference() {
+    qint64 msecsSinceReference() override {
         return m_value;
     }
 

@@ -32,9 +32,9 @@ public:
     ActionModel(QObject *parent=nullptr);
     virtual ~ActionModel();
 
-    virtual int rowCount(const QModelIndex &index) const;
-    virtual QVariant data(const QModelIndex &index, int role) const;
-    virtual QHash<int, QByteArray> roleNames() const;
+    int rowCount(const QModelIndex &index) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     Q_ENUMS(ActionsRoles)
     enum ActionsRoles {

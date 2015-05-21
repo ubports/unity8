@@ -746,6 +746,8 @@ function cardString(template, components) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
     } else if (isAudio) {
         implicitHeight += 'audioButton.height;\n';
+    } else if (headerAsOverlay) {
+        implicitHeight += 'artShapeHolder.height;\n';
     } else if (hasHeaderRow) {
         implicitHeight += 'row.y + row.height + units.gu(1);\n';
     } else if (hasMascot) {

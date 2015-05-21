@@ -42,6 +42,7 @@ FocusScope {
 
     WindowDecoration {
         id: decoration
+        objectName: application ? "appWindowDecoration_" + application.appId : "appWindowDecoration_null"
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
         title: model.name
