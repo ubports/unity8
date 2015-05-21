@@ -17,8 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from unity8.settings_wizard import fixture_setup
-from unity8.settings_wizard.emulators.settings_wizard import Wizard
+from unity8.settings_wizard import fixture_setup, Wizard
 from unity8.shell import tests
 
 DEFAULT_LANGUAGE = 'English (United States)'
