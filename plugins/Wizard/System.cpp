@@ -35,7 +35,7 @@ System::System()
         m_fsWatcher.addPath(wizardEnabledPath());
     }
     connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-            this, SIGNAL(wizardEnabledChanged()));
+            this, SLOT(watcherFileChanged()));
 }
 
 QString System::wizardEnabledPath()
@@ -60,8 +60,14 @@ void System::setWizardEnabled(bool enabled)
         QDir(wizardEnabledPath()).mkpath("..");
         QFile(wizardEnabledPath()).open(QIODevice::WriteOnly);
         m_fsWatcher.addPath(wizardEnabledPath());
-        wizardEnabledChanged();
+        Q_EMIT wizardEnabledChanged();
     }
+}
+
+void System::watcherFileChanged()
+{
+    Q_EMIT wizardEnabledChanged();
+    m_fsWatcher.removePath(wizardEnabledPath());
 }
 
 void System::setSessionVariable(const QString &variable, const QString &value)
