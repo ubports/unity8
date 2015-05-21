@@ -162,7 +162,7 @@ Rectangle {
 
             performEdgeSwipeToShowAppSpread();
 
-            var appDelegate = findChild(tabletStage, "spreadDelegate_" + dialerCheckBox.appId);
+            var appDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + dialerCheckBox.appId);
             verify(appDelegate);
             tryCompare(appDelegate, "swipeToCloseEnabled", true);
 

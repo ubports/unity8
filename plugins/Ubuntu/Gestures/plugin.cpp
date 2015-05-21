@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 #include "AxisVelocityCalculator.h"
 #include "Direction.h"
 #include "DirectionalDragArea.h"
+#include "FloatingFlickable.h"
 #include "PressedOutsideNotifier.h"
 #include "TouchGate.h"
 
@@ -34,6 +35,7 @@ void UbuntuGesturesQmlPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<Direction>(uri, 0, 1, "Direction", directionSingleton);
     qmlRegisterType<DirectionalDragArea>(uri, 0, 1, "DirectionalDragArea");
     qmlRegisterType<AxisVelocityCalculator>(uri, 0, 1, "AxisVelocityCalculator");
+    qmlRegisterType<FloatingFlickable>(uri, 0, 1, "FloatingFlickable");
     qmlRegisterType<PressedOutsideNotifier>(uri, 0, 1, "PressedOutsideNotifier");
     qmlRegisterType<TouchGate>(uri, 0, 1, "TouchGate");
 }

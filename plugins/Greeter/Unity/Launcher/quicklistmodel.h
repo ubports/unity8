@@ -45,8 +45,8 @@ public:
 
     QuickListEntry get(int index) const;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
 private:
     QList<QuickListEntry> m_list;
