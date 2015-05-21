@@ -28,10 +28,10 @@ public:
         connect(&m_timer, &QTimer::timeout,
                 this, &UnityIndicators::AbstractTimer::timeout);
     }
-    virtual int interval() const { return m_timer.interval(); }
-    virtual void setInterval(int msecs) { m_timer.setInterval(msecs); }
-    virtual void start() { m_timer.start(); UnityIndicators::AbstractTimer::start(); }
-    virtual void stop() { m_timer.stop(); UnityIndicators::AbstractTimer::stop(); }
+    int interval() const override { return m_timer.interval(); }
+    void setInterval(int msecs) override { m_timer.setInterval(msecs); }
+    void start() override { m_timer.start(); UnityIndicators::AbstractTimer::start(); }
+    void stop() override { m_timer.stop(); UnityIndicators::AbstractTimer::stop(); }
 private:
     QTimer m_timer;
 };
