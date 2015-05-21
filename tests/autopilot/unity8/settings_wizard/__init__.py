@@ -385,15 +385,6 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
         return self.wait_select_single(
             'StackButton', text='Continue', visible='True')
 
-    def _get_next_button(self):
-        # Since the phone state is unknown, this returns skip||continue
-        # depending on which one is visible
-        buttons = self.select_many('StackButton')
-        for button in buttons:
-            if button.text == "Continue" or button.text == "Skip":
-                return button
-        raise introspection.dbus.StateNotFoundError
-
     def is_any_network_checked(self):
         networks = self._get_all_networks()
         for network in networks:
@@ -413,13 +404,6 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
     def select_network(self, unity, ssid):
         self.pointing_device.click_object(self._get_network_checkbox(ssid))
         return PasswordNotification(self._get_notification(unity))
-
-    @autopilot.logging.log_action(logger.info)
-    def advance_page(self):
-        """ Advance the wizard regardless of weather or not
-        continue||skip button is present """
-        self.pointing_device.click_object(self._get_next_button())
-        return get_wizard(self).get_reporting_page()
 
     @autopilot.logging.log_action(logger.info)
     def back(self):
