@@ -26,7 +26,6 @@ import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import Utils 0.1
-import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
 import "Greeter"
@@ -293,7 +292,7 @@ Item {
             objectName: "tutorial"
             anchors.fill: parent
             active: AccountsService.demoEdges
-            paused: LightDM.Greeter.active
+            paused: lightDMGreeterAPI.active
             launcher: launcher
             panel: panel
             edgeSize: shell.edgeSize
@@ -350,6 +349,7 @@ Item {
         }
     }
 
+    LightDMGreeterAPI{id:lightDMGreeterAPI} /* expose lightdm backend */
     Greeter {
         id: greeter
         objectName: "greeter"
@@ -444,7 +444,7 @@ Item {
 
         greeter.notifyAboutToFocusApp("unity8-dash");
 
-        var animate = !LightDM.Greeter.active && !stages.shown
+        var animate = !lightDMGreeterAPI.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -495,7 +495,7 @@ Item {
                 ApplicationManager.focusedApplicationId &&
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
-            fullscreenMode: (topmostApplicationIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+            fullscreenMode: (topmostApplicationIsFullscreen && !lightDMGreeterAPI.active && launcher.progress == 0)
                             || greeter.hasLockedApp
         }
 
