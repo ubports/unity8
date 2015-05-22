@@ -28,8 +28,8 @@ class QmlConnectivityNetworkingPlugin : public QQmlExtensionPlugin {
     Q_INTERFACES(QQmlExtensionInterface)
 
 public:
-    void registerTypes(const char *uri);
-    void initializeEngine(QQmlEngine *engine, const char *uri);
+    void registerTypes(const char *uri) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri) override;
 };
 
 #endif // QML_CONNECTIVITY_PLUGIN_H

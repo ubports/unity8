@@ -57,6 +57,7 @@ Q_SIGNALS:
 
 protected:
     void touchEvent(QTouchEvent *event) override;
+    void itemChange(ItemChange change, const ItemChangeData &value) override;
 
 private Q_SLOTS:
     void onEnabledChanged();

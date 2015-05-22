@@ -101,7 +101,7 @@ class UBUNTUGESTURES_EXPORT FakeTimerFactory : public AbstractTimerFactory
 {
 public:
     FakeTimerFactory();
-    virtual ~FakeTimerFactory();
+    virtual ~FakeTimerFactory() {}
 
     void updateTime(qint64 msecsSinceReference);
     QSharedPointer<TimeSource> timeSource() { return m_timeSource; }

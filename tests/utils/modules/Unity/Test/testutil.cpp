@@ -31,6 +31,7 @@ TestUtil::TestUtil(QObject *parent)
     : QObject(parent)
     , m_targetWindow(0)
     , m_touchDevice(0)
+    , m_putFakeTimerFactoryInTouchRegistry(false)
 {
 }
 
@@ -59,7 +60,13 @@ TouchEventSequenceWrapper *TestUtil::touchEvent(QQuickItem *item)
 {
     ensureTargetWindow();
     ensureTouchDevice();
-    ensureTouchRegistryInstalled();
+
+    // Tests can be *very* slow to run and we don't want things timing out because
+    // of that. So give it fake timers to use (they will never time out)
+    if (!m_putFakeTimerFactoryInTouchRegistry) {
+        TouchRegistry::instance()->setTimerFactory(new FakeTimerFactory);
+        m_putFakeTimerFactoryInTouchRegistry = true;
+    }
 
     return new TouchEventSequenceWrapper(
             QTest::touchEvent(m_targetWindow, m_touchDevice, /* autoCommit */ false), item);
@@ -77,24 +84,5 @@ void TestUtil::ensureTouchDevice()
         m_touchDevice = new QTouchDevice;
         m_touchDevice->setType(QTouchDevice::TouchScreen);
         QWindowSystemInterface::registerTouchDevice(m_touchDevice);
-    }
-}
-
-void TestUtil::ensureTouchRegistryInstalled()
-{
-    if (TouchRegistry::instance())
-        return;
-
-    if (!m_targetWindow)
-        return;
-
-    // Tests can be *very* slow to run and we don't want things timing out because
-    // of that. So give it fake timers to use (they will never time out)
-    TouchRegistry *touchRegistry = new TouchRegistry(this, new FakeTimerFactory);
-
-    QQuickView *view = qobject_cast<QQuickView*>(m_targetWindow);
-    if (view) {
-        view->installEventFilter(touchRegistry);
-        touchRegistry->setParent(view);
     }
 }
