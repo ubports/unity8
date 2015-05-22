@@ -93,6 +93,34 @@ Item {
             onClicked: launcherLoader.item.inverted = !launcherLoader.item.inverted
             Layout.fillWidth: true
         }
+
+        Row {
+            spacing: units.gu(1)
+
+            CheckBox {
+                anchors.verticalCenter: parent.verticalCenter
+                checked: false
+                onClicked: {
+                    var panel = testCase.findChild(launcherLoader, "launcherPanel")
+                    panel.alertIndex = checked ? parseInt(iconIndex.displayText) : -1
+                }
+            }
+
+            Label {
+                anchors.verticalCenter: parent.verticalCenter
+                text: "wiggle of icon"
+            }
+
+            TextArea {
+                id: iconIndex
+                anchors.verticalCenter: parent.verticalCenter
+                width: units.gu(4)
+                height: units.gu(4)
+                autoSize: true
+                text: "2"
+                maximumLineCount: 1
+            }
+        }
     }
 
     SignalSpy {

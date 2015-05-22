@@ -44,6 +44,8 @@ LauncherModel::LauncherModel(QObject *parent):
 
     connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
 
+    m_alertIndex = -1;
+
     refresh();
 }
 
@@ -85,6 +87,14 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+void LauncherModel::alert(const QString &appId) const {
+    int index = findApplication(appId);
+    if (index >= 0) {
+        m_alertIndex = index;
+        Q_EMIT alerting(m_alertIndex);
+    }
 }
 
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const

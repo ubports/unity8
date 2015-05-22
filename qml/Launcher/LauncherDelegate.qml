@@ -27,6 +27,7 @@ Item {
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
+    property bool alerting: false
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -46,7 +47,7 @@ Item {
         readonly property double angle: 5.0
         readonly property int duration: UbuntuAnimation.SnapDuration
 
-        running: false
+        running: alerting
         loops: Animation.Infinite
 
         NumberAnimation {

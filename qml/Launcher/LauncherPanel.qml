@@ -34,6 +34,7 @@ Rectangle {
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
     property int highlightIndex: -1
+    property int alertIndex: -1
 
     signal applicationSelected(string appId)
     signal showDashHome()
@@ -41,6 +42,38 @@ Rectangle {
     onXChanged: {
         if (quickList.state == "open") {
             quickList.state = ""
+        }
+    }
+
+    onAlertIndexChanged: {
+        if (alertIndex !== -1) {
+            //unfold
+
+            panel.visible = true
+            fakeAlertingItem.index = alertIndex
+            fakeAlertingItem.iconName = launcherListView.model.get(alertIndex).icon
+            fakeAlertingItem.y = alertIndex * fakeAlertingItem.itemHeight + launcherListView.anchors.topMargin + launcherListView.topMargin
+            fakeAlertingItem.count = LauncherModel.get(alertIndex).count
+            fakeAlertingItem.progress = LauncherModel.get(alertIndex).progress
+            fakeAlertingItem.alerting = true
+            fakeAlertingItem.visible = true
+            if (launcher.state !== "visible") {
+                fakeAlertingItem.reveal()
+            }
+            print("y = ", fakeAlertingItem.y)
+            print("index = ", fakeAlertingItem.index)
+        } else {
+            // set real icon back to visible
+
+            // fold
+
+            // hide fake-alerting-icon
+            fakeAlertingItem.alerting = false
+
+            if (launcher.state !== "visible") {
+                fakeAlertingItem.hide()
+            }
+            //fakeAlertingItem.visible = false
         }
     }
 
@@ -499,6 +532,65 @@ Rectangle {
                     target: fakeDragItem;
                     properties: "angle,offset";
                     to: 0
+                }
+            }
+
+            LauncherDelegate {
+                id: fakeAlertingItem
+
+                property int index
+
+                objectName: "fakeAlertingItem"
+                visible: false
+                itemWidth: launcherListView.itemWidth
+                itemHeight: launcherListView.itemHeight
+                height: itemHeight
+                width: itemWidth
+                rotation: root.rotation
+                alerting: false
+
+                function reveal() {
+                    fakeAlertingItemReveal.start();
+                }
+
+                function hide() {
+                    fakeAlertingItemHide.start();
+                }
+
+                ParallelAnimation {
+                    id: fakeAlertingItemReveal
+
+                    UbuntuNumberAnimation {
+                        target: fakeAlertingItem;
+                        properties: "angle, offset";
+                        to: 0
+                    }
+
+                    UbuntuNumberAnimation {
+                        target: fakeAlertingItem;
+                        properties: "x";
+                        from: 0
+                        to: units.gu(1) + launcherListView.width * .5
+                        duration: UbuntuAnimation.BriskDuration
+                    }
+                }
+
+                SequentialAnimation {
+                    id: fakeAlertingItemHide
+
+                    UbuntuNumberAnimation {
+                        target: fakeAlertingItem;
+                        properties: "x";
+                        from: units.gu(1) + launcherListView.width * .5
+                        to: 0
+                        duration: UbuntuAnimation.BriskDuration
+                    }
+
+                    PropertyAction {
+                        target: fakeAlertingItem
+                        properties: "visible"
+                        value: false
+                    }
                 }
             }
         }
