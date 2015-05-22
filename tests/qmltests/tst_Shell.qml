@@ -463,6 +463,11 @@ Rectangle {
         function test_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
             loadShell("phone");
             swipeAwayGreeter();
+            dragLauncherIntoView();
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            verify(ApplicationManager.focusedApplicationId !== "unity8-dash")
 
             dashCommunicatorSpy.clear();
 

@@ -455,12 +455,10 @@ Item {
             launcher.fadeOut();
         }
 
-        if (!greeter.locked) {
-            dash.setCurrentScope(0, true, true);
-            if (ApplicationManager.focusedApplicationId != "unity8-dash") {
-                ApplicationManager.requestFocusApplication("unity8-dash");
-                launcher.fadeOut();
-            }
+        if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
+            dash.setCurrentScope(0, false, true);
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            launcher.fadeOut();
         }
     }
 
