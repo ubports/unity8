@@ -105,7 +105,7 @@ Item {
             }
             return linearAnimation(0, 2, unfoldedAngle, leftEndFoldedAngle, limitedLeftProgress)
         } else if (limitedRightProgress > 0) {
-            return linearAnimation(0, 2, unfoldedAngle, rightEndFoldedAngle, limitedRightProgress)
+            return linearAnimation(0, 1, unfoldedAngle, rightEndFoldedAngle, rightEasing.value)
         } else {
             return unfoldedAngle
         }
