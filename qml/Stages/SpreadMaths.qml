@@ -17,7 +17,7 @@ Item {
 
     // Spread properties
     property real spreadHeight: sceneHeight * 0.4
-    property int spreadBottomOffset: sceneHeight * 0.2
+    property int spreadBottomOffset: sceneHeight * 0.18
     property int foldingAreaWidth: flickableWidth * 0.2
     property int maxVisibleItems: 7
     property int margins: flickableWidth * 0.05
@@ -49,13 +49,6 @@ Item {
     readonly property real limitedRightProgress: Math.min(2, rightFoldingAreaProgress)
 
     readonly property real middleSectionProgress: (linearX - margins - foldingAreaWidth) / (flickableWidth - (margins + foldingAreaWidth) * 2)
-
-    Label {
-        anchors { left: parent.left; top: parent.top; topMargin: - 100 }
-        text: middleSectionProgress.toFixed(2)
-        color: "green"
-        fontSize: "x-large"
-    }
 
     // Output
     readonly property int animatedX: {

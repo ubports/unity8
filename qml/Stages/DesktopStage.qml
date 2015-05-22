@@ -138,7 +138,7 @@ Rectangle {
             id: appRepeater
             model: ApplicationManager
 
-            property int highlightedIndex: 1
+            property int highlightedIndex: -1
 
             delegate: Item {
                 id: appDelegate
@@ -365,17 +365,18 @@ Rectangle {
             spacing: units.gu(1)
             Item { Layout.fillWidth: true }
             Repeater {
-                model: 2 // TODO: should be workspacemodel
+                model: 1 // TODO: will be a workspacemodel in the future
                 Item {
                     Layout.fillHeight: true
                     Layout.preferredWidth: ((height - units.gu(6)) * root.width / root.height)
                     Image {
                         source: root.background
                         anchors {
-                            fill: parent;
-                            topMargin: units.gu(2);
-                            bottomMargin: units.gu(2);
+                            left: parent.left
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
                         }
+                        height: parent.height * 0.75
 
                         ShaderEffect {
                             anchors.fill: parent
@@ -412,10 +413,11 @@ Rectangle {
                 Layout.preferredWidth: ((height - units.gu(6)) * root.width / root.height)
                 Rectangle {
                     anchors {
-                        fill: parent;
-                        topMargin: units.gu(2);
-                        bottomMargin: units.gu(2);
+                        left: parent.left
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
                     }
+                    height: parent.height * 0.75
                     color: "#22ffffff"
 
                     Label {
@@ -427,6 +429,13 @@ Rectangle {
             }
             Item { Layout.fillWidth: true }
         }
+    }
+
+    Label {
+        id: currentSelectedLabel
+        anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
+        text: ApplicationManager.get(appRepeater.highlightedIndex).name
+        visible: false
     }
 
     Label {
@@ -449,6 +458,7 @@ Rectangle {
             name: "altTab"; when: root.altTabPressed
             PropertyChanges { target: workspaceSelector; visible: true }
             PropertyChanges { target: spreadFlickable; enabled: true }
+            PropertyChanges { target: currentSelectedLabel; visible: true }
         }
     ]
     signal updateWorkspaces();
@@ -465,8 +475,8 @@ Rectangle {
                 PropertyAction { target: spreadFlickable; property: "visible" }
                 PropertyAction { target: spreadFlickable; property: "contentX";
                     value: ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 3, 1));
-
                 }
+                PropertyAction { target: appRepeater; property: "highlightedIndex"; value: 1 }
             }
         },
         Transition {
@@ -474,6 +484,7 @@ Rectangle {
             to: "*"
             PropertyAnimation { property: "opacity" }
             PropertyAction { target: root; property: "workspacesUpdated"; value: false }
+            PropertyAction { target: appRepeater; property: "highlightedIndex"; value: -1 }
         }
 
     ]
