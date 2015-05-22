@@ -283,23 +283,23 @@ Rectangle {
                 }
 
                 Image {
-                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 }
+                    id: closeImage
+                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     source: "graphics/window-close.svg"
                     visible: spreadSelectArea.upperThirdContainsMouse || closeMouseArea.containsMouse
                     height: units.gu(1.5)
                     width: height
                     sourceSize.width: width
                     sourceSize.height: height
-
-                    MouseArea {
-                        id: closeMouseArea
-                        anchors.fill: parent
-                        anchors.margins: -units.gu(1)
-                        hoverEnabled: true
-                        onClicked: ApplicationManager.stopApplication(model.appId)
-                    }
                 }
 
+                MouseArea {
+                    id: closeMouseArea
+                    anchors.fill: closeImage
+                    anchors.margins: -units.gu(1)
+                    hoverEnabled: true
+                    onClicked: ApplicationManager.stopApplication(model.appId)
+                }
 
                 ColumnLayout {
                     id: tileInfo
@@ -334,16 +334,10 @@ Rectangle {
         contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
         enabled: false
 
-        //visible: false
-        //boundsBehavior: Flickable.StopAtBounds
-
         onContentXChanged: print("contentXChanged", contentX)
 
-        function ensureVisible(index) {
-
-        }
-
         function snapTo(contentX) {
+            snapAnimation.stop();
             snapAnimation.to = contentX
             snapAnimation.start();
         }
@@ -444,18 +438,6 @@ Rectangle {
         anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
         text: appRepeater.highlightedIndex >= 0 ? ApplicationManager.get(appRepeater.highlightedIndex).name : ""
         visible: false
-    }
-
-    Label {
-        anchors { left: parent.left; bottom: parent.bottom; margins: units.gu(1) }
-        text: "Progress: " + (spreadFlickable.contentX / (spreadFlickable.contentWidth -  spreadFlickable.width)).toFixed(3) +
-              ", ContentX: " + spreadFlickable.contentX +
-              ", Width: " + spreadFlickable.width +
-              ", ContentWidth: " + spreadFlickable.contentWidth
-
-        color: "red"
-        fontSize: "x-large"
-        z: 100
     }
 
     states: [

@@ -110,6 +110,12 @@ Item {
                                           linearAnimation(0, 1, 1, 1 + stackScale, rightEasing.value)
                                         : 0.95 + Math.abs(middleSectionProgress - 0.5) * 0.1
 
+    readonly property real closeIconOffset: limitedLeftProgress > 0 ?
+                                                linearAnimation(0, 1, 0, - itemHeight * stackScale * 0.5, leftEasing.value)
+                                              :  limitedRightProgress > 0 ?
+                                                    linearAnimation(0, 1, 0, - itemHeight * stackScale * 0.5, rightEasing.value)
+                                                  : 0
+
     readonly property real tileInfoOpacity: leftFoldingAreaProgress > 0 ?
                                                       linearAnimation(1, 2, 1, 0, leftFoldingAreaProgress)
                                                     : rightFoldingAreaProgress > 0 ?
