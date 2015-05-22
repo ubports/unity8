@@ -38,7 +38,7 @@ Loader {
     }
 
     function getUser(uid) {
-        if (valid) item.getUser(uid);
+        if (valid) return item.getUser(uid);
     }
 
     function infographicReadyForDataChange() {
