@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,12 +25,15 @@ bool Direction::isHorizontal(Direction::Type type)
 
 bool Direction::isVertical(Direction::Type type)
 {
-    return type == Direction::Upwards || type == Direction::Downwards;
+    return type == Direction::Upwards
+        || type == Direction::Downwards
+        || type == Direction::Vertical;
 }
 
 bool Direction::isPositive(Direction::Type type)
 {
     return type == Rightwards
         || type == Downwards
-        || type == Horizontal;
+        || type == Horizontal
+        || type == Vertical;
 }

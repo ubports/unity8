@@ -50,8 +50,8 @@ public:
     Q_INVOKABLE void clearFavorites();
     Q_INVOKABLE void load();
 
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    QModelIndex parent ( const QModelIndex & index ) const;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    QModelIndex parent ( const QModelIndex & index ) const override;
 
     bool loaded() const override;
     int count() const override;

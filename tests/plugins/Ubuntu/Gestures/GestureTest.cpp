@@ -53,7 +53,8 @@ void GestureTest::init()
 
     m_fakeTimerFactory = new FakeTimerFactory;
 
-    m_touchRegistry = new TouchRegistry(nullptr, m_fakeTimerFactory);
+    m_touchRegistry = TouchRegistry::instance();
+    m_touchRegistry->setTimerFactory(m_fakeTimerFactory);
     m_view->installEventFilter(m_touchRegistry);
 
     qApp->processEvents();
