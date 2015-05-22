@@ -24,6 +24,8 @@ import QtQuick 2.3
 
 Loader {
     id: loader
+
+    // TODO: Conditionally load RealLightDMImpl if shellMode dictates it
     source: "IntegratedLightDMImpl.qml"
 
     QtObject {
@@ -42,27 +44,39 @@ Loader {
     property var userModel: d.valid ? item.userModel : null
 
     function authenticate(user) {
-        if (d.valid) item.authenticate(user);
+        if (d.valid) {
+            item.authenticate(user);
+        }
     }
 
     function getUser(uid) {
-        if (d.valid) return item.getUser(uid);
+        if (d.valid) {
+            return item.getUser(uid);
+        }
     }
 
     function infographicReadyForDataChange() {
-        if (d.valid) return item.infographicReadyForDataChange();
+        if (d.valid) {
+            return item.infographicReadyForDataChange();
+        }
     }
 
     function respond(response) {
-        if (d.valid) item.respond(response);
+        if (d.valid) {
+            item.respond(response);
+        }
     }
 
     function showGreeter() {
-        if (d.valid) item.showGreeter();
+        if (d.valid) {
+            item.showGreeter();
+        }
     }
 
     function startSessionSync() {
-        if (d.valid) item.startSessionSync();
+        if (d.valid) {
+            item.startSessionSync();
+        }
     }
 }
 
