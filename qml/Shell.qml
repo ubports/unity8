@@ -159,8 +159,8 @@ Item {
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
-        onAltTabNext: applicationsDisplayLoader.item.altTabNext()
-        onAltTabPrevious: applicationsDisplayLoader.item.altTabPrevious();
+        onAltTabNext: applicationsDisplayLoader.item.altTabNext(isAutoRepeat)
+        onAltTabPrevious: applicationsDisplayLoader.item.altTabPrevious(isAutoRepeat);
     }
 
     ScreenGrabber {

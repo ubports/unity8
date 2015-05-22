@@ -44,9 +44,13 @@ Rectangle {
         }
     }
 
-    function altTabNext() {
+    function altTabNext(isAutoRepeat) {
         if (root.altTabPressed) {
             print("should tab next")
+            if (isAutoRepeat && appRepeater.highlightedIndex >= ApplicationManager.count -1) {
+                return; // AutoRepeat is not allowed to wrap around
+            }
+
             appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count;
             var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3));
             if (spreadFlickable.contentX < newContentX || appRepeater.highlightedIndex == 0) {
@@ -55,9 +59,13 @@ Rectangle {
         }
     }
 
-    function altTabPrevious() {
+    function altTabPrevious(isAutoRepeat) {
         print("alttabprevious pressed")
         if (root.altTabPressed) {
+            if (isAutoRepeat && appRepeater.highlightedIndex == 0) {
+                return; // AutoRepeat is not allowed to wrap around
+            }
+
             var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
             appRepeater.highlightedIndex = newIndex;
             var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1));
