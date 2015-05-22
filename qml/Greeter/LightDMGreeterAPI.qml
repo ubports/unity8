@@ -24,14 +24,14 @@ Loader {
     source: "IntegratedLightDMImpl.qml"
     property bool valid: item !== null
 
-    property bool active: item.active
-    property bool authenticated: item.authenticated
-    property bool promptless: item.promptless
-    property real userCount: item.userCount
+    property bool active: valid ? item.active : null
+    property bool authenticated: valid ? item.authenticated : null
+    property bool promptless: valid ? item.promptless : null
+    property real userCount: valid ? item.userCount : null
 
-    property var theGreeter: item.theGreeter
-    property var infographicModel: item.infographicModel
-    property var userModel: item.userModel
+    property var theGreeter: valid ? item.theGreeter : null
+    property var infographicModel: valid ? item.infographicModel : null
+    property var userModel: valid ? item.userModel : null
 
     function authenticate(user) {
         if (valid) item.authenticate(user);
