@@ -442,7 +442,7 @@ Rectangle {
     Label {
         id: currentSelectedLabel
         anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
-        text: ApplicationManager.get(appRepeater.highlightedIndex).name
+        text: appRepeater.highlightedIndex >= 0 ? ApplicationManager.get(appRepeater.highlightedIndex).name : ""
         visible: false
     }
 
