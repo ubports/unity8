@@ -324,6 +324,7 @@ Rectangle {
         id: spreadFlickable
         anchors.fill: parent
         contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
+        enabled: false
 
         //visible: false
         //boundsBehavior: Flickable.StopAtBounds
@@ -447,7 +448,7 @@ Rectangle {
         State {
             name: "altTab"; when: root.altTabPressed
             PropertyChanges { target: workspaceSelector; visible: true }
-            PropertyChanges { target: spreadFlickable; visible: true }
+            PropertyChanges { target: spreadFlickable; enabled: true }
         }
     ]
     signal updateWorkspaces();
