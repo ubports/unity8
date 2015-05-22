@@ -16,45 +16,53 @@
 
 /**
  *  Expose an API that allows interaction with the
- *  integrated LightDM or real LightDM depending on shell mode
+ *  integrated LightDM or real LightDM depending on shell mode.
+ *  This is a hack to essentially support conditional imports
  */
+
 import QtQuick 2.3
 
 Loader {
+    id: loader
     source: "IntegratedLightDMImpl.qml"
-    property bool valid: item !== null
 
-    property bool active: valid ? item.active : null
-    property bool authenticated: valid ? item.authenticated : null
-    property bool promptless: valid ? item.promptless : null
-    property real userCount: valid ? item.userCount : null
+    QtObject {
+        id: d
 
-    property var theGreeter: valid ? item.theGreeter : null
-    property var infographicModel: valid ? item.infographicModel : null
-    property var userModel: valid ? item.userModel : null
+        property bool valid: loader.item !== null
+    }
+
+    property bool active: d.valid ? item.active : null
+    property bool authenticated: d.valid ? item.authenticated : null
+    property bool promptless: d.valid ? item.promptless : null
+    property real userCount: d.valid ? item.userCount : null
+
+    property var theGreeter: d.valid ? item.theGreeter : null
+    property var infographicModel: d.valid ? item.infographicModel : null
+    property var userModel: d.valid ? item.userModel : null
 
     function authenticate(user) {
-        if (valid) item.authenticate(user);
+        if (d.valid) item.authenticate(user);
     }
 
     function getUser(uid) {
-        if (valid) return item.getUser(uid);
+        if (d.valid) return item.getUser(uid);
     }
 
     function infographicReadyForDataChange() {
-        if (valid) return item.infographicReadyForDataChange();
+        if (d.valid) return item.infographicReadyForDataChange();
     }
 
     function respond(response) {
-        if (valid) item.respond(response);
+        if (d.valid) item.respond(response);
     }
 
     function showGreeter() {
-        if (valid) item.showGreeter();
+        if (d.valid) item.showGreeter();
     }
 
     function startSessionSync() {
-        if (valid) item.startSessionSync();
+        if (d.valid) item.startSessionSync();
     }
 }
 
