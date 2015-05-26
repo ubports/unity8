@@ -503,7 +503,7 @@ Rectangle {
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     isInSideStage: priv.sideStageAppId == model.appId
                     interactive: !spreadView.interactive && spreadView.phase === 0 && root.interactive
-                    swipeToCloseEnabled: !spreadDragArea.dragging && spreadView.interactive && !snapAnimation.running
+                    swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 && spreadView.phase === 0 ? root.inverseProgress : 0
                     application: ApplicationManager.get(index)
@@ -595,6 +595,12 @@ Rectangle {
                 }
             }
         }
+    }
+
+    //eat touch events during the right edge gesture
+    MouseArea {
+        anchors.fill: parent
+        enabled: spreadDragArea.dragging
     }
 
     DirectionalDragArea {

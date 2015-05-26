@@ -399,14 +399,9 @@ Item {
             tryCompare(spreadView, "contentX", -spreadView.shift)
         }
 
-        function test_cantCloseAppWhileRightEdgeGesture() {
-            addApps(2)
-
+        function test_cantAccessPhoneStageWhileRightEdgeGesture() {
             var spreadView = findChild(phoneStage, "spreadView");
-
-            var app0 = findChild(spreadView, "appDelegate0");
-            var app1 = findChild(spreadView, "appDelegate1");
-            var app2 = findChild(spreadView, "appDelegate2");
+            var mouseArea = findChild(phoneStage, "MouseArea")
 
             var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
@@ -416,15 +411,11 @@ Item {
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
-            tryCompare(app0, "swipeToCloseEnabled", false);
-            tryCompare(app1, "swipeToCloseEnabled", false);
-            tryCompare(app2, "swipeToCloseEnabled", false);
+            compare(mouseArea.enabled, true);
 
             touchRelease(phoneStage, endX, endY);
 
-            tryCompare(app0,"swipeToCloseEnabled", true);
-            tryCompare(app1, "swipeToCloseEnabled", true);
-            tryCompare(app2, "swipeToCloseEnabled", true);
+            compare(mouseArea.enabled, false);
         }
 
         function test_leftEdge_data() {
