@@ -755,6 +755,7 @@ FocusScope {
                 item.open = Qt.binding(function() { return subPageLoader.open; } )
                 item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
                 item.model = Qt.binding(function() { return subPageLoader.model; } )
+                item.currentIndex = subPageLoader.initialIndex;
             }
             open = true;
         }

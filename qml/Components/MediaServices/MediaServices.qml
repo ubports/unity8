@@ -36,11 +36,7 @@ FocusScope {
         if (fullscreen && parent) {
             return parent.height;
         }
-        return contentLoader.height
-    }
-    Behavior on implicitHeight {
-        enabled: fullscreen
-        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+        return content ? content.implicitHeight : parent.height
     }
 
     onFullscreenChanged: {
@@ -90,11 +86,7 @@ FocusScope {
                     objectName: "videoPlayer"
 
                     width: orientationHelper.width
-                    height: fullscreen ? orientationHelper.height : implicitHeight
-                    Behavior on height {
-                        enabled: !fullscreen
-                        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
-                    }
+                    height: orientationHelper.height
 
                     fixedHeight: fullscreen
                     orientation: orientationHelper.state == "portrait" ?  Qt.PortraitOrientation : Qt.LandscapeOrientation
@@ -214,6 +206,8 @@ FocusScope {
                     userActions: root.actions
 
                     mediaPlayer.source: {
+                        if (!root.sourceData) return "";
+
                         var x = root.sourceData["source"];
                         if (x.toString().indexOf("video://") === 0) {
                             return x.toString().substr(6);
@@ -309,12 +303,23 @@ FocusScope {
     StateGroup {
         states: [
             State {
+                name: "minimized"
+                when: !priv.fullscreen
+            },
+            State {
                 name: "fullscreen"
                 when: priv.fullscreen
-                PropertyChanges { target: root; parent: rootItem }
+                ParentChange { target: root; parent: rootItem; x: 0; y: 0; width: parent.width; height: parent.height }
                 PropertyChanges { target: fullscreenAction; iconName: "view-restore" }
             }
         ]
+
+        transitions: Transition {
+            ParentAnimation {
+                UbuntuNumberAnimation { properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
+            }
+        }
+
     }
 
     QtObject {

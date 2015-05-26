@@ -29,18 +29,23 @@ Rectangle {
 
     GridView {
         anchors.fill: parent
-        model: (parent.width * parent.height) / units.gu(10)
+        model: (parent.width / units.gu(5)) * ((parent.height / units.gu(5) + 1))
         clip: true
 
+        cellHeight: units.gu(5)
+        cellWidth: units.gu(5)
+
+        onModelChanged: console.log("COUNT", model)
+
         delegate: Item {
-            width: units.gu(10)
-            height: units.gu(10)
+            width: units.gu(5)
+            height: units.gu(5)
 
             Rectangle {
                 id: rect
                 color: "red"
                 anchors.fill: parent
-                anchors.margins: units.gu(2)
+                anchors.margins: units.gu(1)
 
                 Connections {
                     target: root

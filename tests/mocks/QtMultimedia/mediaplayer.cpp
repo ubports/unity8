@@ -34,7 +34,7 @@ public:
     }
 
     QVariant title() const { return getProperty("title"); }
-    QVariant resolution() const { return getProperty("resolution", QSize(160, 90)); }
+    QVariant resolution() const { return getProperty("resolution", QSize(640, 640)); }
 
     QVariant getProperty(const QString& property, QVariant defaultValue = QVariant()) const {
         MediaDataSource* sourceData = MediaPlayerDataController::instance()->dataForSource(m_source->source());

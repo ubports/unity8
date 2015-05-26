@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 import Ubuntu.Components 0.1
 import Ubuntu.Thumbnailer 0.1
-import Ubuntu.Content 0.1
+//import Ubuntu.Content 0.1
 import "../../Components/MediaServices"
 
 /*! \brief Preview widget for video.
@@ -39,51 +39,50 @@ PreviewWidget {
         width: parent.width
 
         context: "video"
-        sourceData: widgetData
+        sourceData: root.isCurrentPreview ? widgetData : undefined
         fullscreen: false
 
         onClose: fullscreen = false
 
-        actions: [
-            Action {
-                text: i18n.tr("Share")
-                iconSource: "image://theme/share"
-                onTriggered: sharePicker.visible = true
-            }
-        ]
+//        actions: [
+//            Action {
+//                text: i18n.tr("Share")
+//                iconSource: "image://theme/share"
+//                onTriggered: sharePicker.visible = true
+//            }
+//        ]
     }
 
-    Component {
-        id: contentItemComp
-        ContentItem {
-            url: widgetData["source"]
-        }
-    }
+//    Component {
+//        id: contentItemComp
+//        ContentItem {
+//            url: widgetData["source"]
+//        }
+//    }
+//    ContentPeerPicker {
+//        id: sharePicker
+//        objectName: "sharePickerEvents"
+//        anchors.fill: parent
+//        showTitle: false
+//        visible: false
+//        parent: rootItem
+//        z: 100
 
-    ContentPeerPicker {
-        id: sharePicker
-        objectName: "sharePickerEvents"
-        anchors.fill: parent
-        showTitle: false
-        visible: false
-        parent: rootItem
-        z: 100
+//        contentType: ContentType.Videos
+//        handler: ContentHandler.Share
 
-        contentType: ContentType.Videos
-        handler: ContentHandler.Share
+//        onPeerSelected: {
+//            visible = false;
 
-        onPeerSelected: {
-            visible = false;
-
-            var curTransfer = peer.request();
-            if (curTransfer.state === ContentTransfer.InProgress)
-            {
-                var medias = [ contentItemComp.createObject(parent) ]
-                curTransfer.state = ContentTransfer.Charged;
-            }
-        }
-        onCancelPressed: {
-            visible = false;
-        }
-    }
+//            var curTransfer = peer.request();
+//            if (curTransfer.state === ContentTransfer.InProgress)
+//            {
+//                var medias = [ contentItemComp.createObject(parent) ]
+//                curTransfer.state = ContentTransfer.Charged;
+//            }
+//        }
+//        onCancelPressed: {
+//            visible = false;
+//        }
+//    }
 }

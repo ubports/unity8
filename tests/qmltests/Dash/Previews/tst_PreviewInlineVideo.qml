@@ -37,18 +37,19 @@ Rectangle {
     }
 
     MediaDataSource {
-        source: "file:///home/nick/Videos/test-mpeg.ogv"
-        duration: 60000
+        source: "file:///test-video1"
+        duration: 6000000
         metaData: {
             "title" : "TEST MPEG",
-            "resolution" : { "width": 100, "height": 150 }
+            "resolution" : { "width": 1920, "height": 1080 }
         }
     }
 
     Item {
         anchors.fill: parent
 
-        Rectangle {
+        Item {
+            id: inner
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -56,13 +57,19 @@ Rectangle {
                 right: controls.left
             }
 
-            PreviewInlineVideo {
-                id: videoPlayback
-                width: parent.width
-                widgetData: widgetData0
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: units.gu(2)
 
-                rootItem: parent
+                PreviewInlineVideo {
+                    id: videoPlayback
+                    width: parent.width
+                    widgetData: widgetData0
+
+                    rootItem: inner
+                }
             }
+
         }
 
         Rectangle {

@@ -12,15 +12,26 @@ MediaServicesControls {
     QtObject {
         id: priv
 
-        function formatTime(position) {
-            var pos = (position/1000).toFixed(0)
+        function formatProgress(time) {
+            time = Math.floor(time / 1000);
 
-            var m = Math.floor(pos/60);
-            var ss = pos % 60;
-            if (ss >= 10) {
-                return m + ":" + ss;
+            var secs = time % 60;
+            time = Math.floor(time / 60);
+            var min = time % 60;
+            var hour = Math.floor(time / 60);
+
+            if (secs < 10) secs = "0%1".arg(secs);
+            if (min < 10) min = "0%1".arg(min);
+            if (hour > 0) {
+                // TRANSLATORS: this refers to a duration/remaining time of the video in hours, minutes and seconds,
+                // of which you can change the order.
+                // %1 refers to hours, %2 refers to minutes and %3 refers to seconds.
+                return  i18n.tr("%1:%2:%3").arg(hour).arg(min).arg(secs);
             } else {
-                return m + ":0" + ss;
+                // TRANSLATORS: this refers to a duration/remaining time of the video in minutes and seconds,
+                // of which you can change the order.
+                // %1 refers to minutes and %2 refers to seconds.
+                return  i18n.tr("%1:%2").arg(min).arg(secs);
             }
         }
     }
@@ -35,7 +46,7 @@ MediaServicesControls {
                 slider.value = mediaPlayer.position;
                 slider.valueGuard = false;
                 if (!slider.pressed) {
-                    positionLabel.text = priv.formatTime(mediaPlayer.position);
+                    positionLabel.text = priv.formatProgress(mediaPlayer.position);
                 }
             }
         }
@@ -57,7 +68,7 @@ MediaServicesControls {
             fontSize: "x-small"
             color: "#F3F3E7"
 
-            text: priv.formatTime(mediaPlayer.position)
+            text: priv.formatProgress(mediaPlayer.position)
         }
 
         Slider {
@@ -96,7 +107,7 @@ MediaServicesControls {
                     mediaPlayer.pause();
                 } else {
 
-                    positionLabel.text = priv.formatTime(mediaPlayer.position);
+                    positionLabel.text = priv.formatProgress(mediaPlayer.position);
                     if (wasPlaying) {
                         mediaPlayer.play();
                     }
@@ -104,7 +115,7 @@ MediaServicesControls {
             }
 
             function formatValue(value) {
-                return priv.formatTime(value);
+                return priv.formatProgress(value);
             }
         }
 
@@ -118,7 +129,7 @@ MediaServicesControls {
             fontSize: "x-small"
             color: "#F3F3E7"
 
-            text: priv.formatTime(mediaPlayer.duration)
+            text: priv.formatProgress(mediaPlayer.duration)
         }
     }
 
