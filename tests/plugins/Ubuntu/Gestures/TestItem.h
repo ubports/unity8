@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,26 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Direction.h"
+#ifndef UBUNTUGESTURES_TEST_ITEM_H
+#define UBUNTUGESTURES_TEST_ITEM_H
 
-bool Direction::isHorizontal(Direction::Type type)
-{
-    return type == Direction::Leftwards
-        || type == Direction::Rightwards
-        || type == Direction::Horizontal;
-}
+#include <QQuickItem>
 
-bool Direction::isVertical(Direction::Type type)
+class TestItem : public QQuickItem
 {
-    return type == Direction::Upwards
-        || type == Direction::Downwards
-        || type == Direction::Vertical;
-}
+    Q_OBJECT
 
-bool Direction::isPositive(Direction::Type type)
-{
-    return type == Rightwards
-        || type == Downwards
-        || type == Horizontal
-        || type == Vertical;
-}
+public:
+    QList<QSharedPointer<QTouchEvent>> touchEventsReceived;
+
+protected:
+    void touchEvent(QTouchEvent *event) override;
+};
+
+#endif // UBUNTUGESTURES_TEST_ITEM_H

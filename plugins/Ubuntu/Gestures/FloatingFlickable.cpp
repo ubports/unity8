@@ -30,18 +30,21 @@ FloatingFlickable::FloatingFlickable(QQuickItem *parent)
     m_dragArea->setHeight(height());
     m_dragArea->setDirection(Direction::Horizontal);
     connect(m_dragArea, &DirectionalDragArea::touchXChanged,
-        this, &FloatingFlickable::onDragAreaTouchXChanged);
+        this, &FloatingFlickable::onDragAreaTouchPosChanged);
+    connect(m_dragArea, &DirectionalDragArea::touchYChanged,
+        this, &FloatingFlickable::onDragAreaTouchPosChanged);
     connect(m_dragArea, &DirectionalDragArea::draggingChanged,
         this, &FloatingFlickable::onDragAreaDraggingChanged);
+    connect(m_dragArea, &DirectionalDragArea::directionChanged, this, &FloatingFlickable::directionChanged);
 
     m_flickable = new QQuickFlickable(this);
     m_flickable->setEnabled(false);
     m_flickable->setWidth(width());
     m_flickable->setHeight(height());
-    connect(m_flickable, &QQuickFlickable::contentWidthChanged,
-            this, &FloatingFlickable::contentWidthChanged);
-    connect(m_flickable, &QQuickFlickable::contentXChanged,
-            this, &FloatingFlickable::contentXChanged);
+    connect(m_flickable, &QQuickFlickable::contentWidthChanged, this, &FloatingFlickable::contentWidthChanged);
+    connect(m_flickable, &QQuickFlickable::contentHeightChanged, this, &FloatingFlickable::contentHeightChanged);
+    connect(m_flickable, &QQuickFlickable::contentXChanged, this, &FloatingFlickable::contentXChanged);
+    connect(m_flickable, &QQuickFlickable::contentYChanged, this, &FloatingFlickable::contentYChanged);
 
     connect(this, &QQuickItem::widthChanged, this, &FloatingFlickable::updateChildrenWidth);
     connect(this, &QQuickItem::heightChanged, this, &FloatingFlickable::updateChildrenHeight);
@@ -57,6 +60,16 @@ void FloatingFlickable::setContentWidth(qreal contentWidth)
     m_flickable->setContentWidth(contentWidth);
 }
 
+qreal FloatingFlickable::contentHeight() const
+{
+    return m_flickable->contentHeight();
+}
+
+void FloatingFlickable::setContentHeight(qreal contentHeight)
+{
+    m_flickable->setContentHeight(contentHeight);
+}
+
 qreal FloatingFlickable::contentX() const
 {
     return m_flickable->contentX();
@@ -65,6 +78,31 @@ qreal FloatingFlickable::contentX() const
 void FloatingFlickable::setContentX(qreal contentX)
 {
     m_flickable->setContentX(contentX);
+}
+
+qreal FloatingFlickable::contentY() const
+{
+    return m_flickable->contentY();
+}
+
+void FloatingFlickable::setContentY(qreal contentY)
+{
+    m_flickable->setContentY(contentY);
+}
+
+Direction::Type FloatingFlickable::direction() const
+{
+    return m_dragArea->direction();
+}
+
+void FloatingFlickable::setDirection(Direction::Type direction)
+{
+    m_dragArea->setDirection(direction);
+    if (Direction::isHorizontal(direction)) {
+        m_flickable->setFlickableDirection(QQuickFlickable::HorizontalFlick);
+    } else {
+        m_flickable->setFlickableDirection(QQuickFlickable::VerticalFlick);
+    }
 }
 
 void FloatingFlickable::updateChildrenWidth()
@@ -79,7 +117,7 @@ void FloatingFlickable::updateChildrenHeight()
     m_flickable->setHeight(height());
 }
 
-void FloatingFlickable::onDragAreaTouchXChanged(qreal /*touchX*/)
+void FloatingFlickable::onDragAreaTouchPosChanged(qreal)
 {
     if (m_mousePressed) {
         QMouseEvent mouseEvent(QEvent::MouseMove,

@@ -22,7 +22,7 @@ add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
 add_definitions(-DTESTS_UTILS_MODULES_DIR="${CMAKE_BINARY_DIR}/tests/utils/modules")
 
 macro(add_gesture_ui_test CLASSNAME)
-    add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp)
+    add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp TestItem.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml UbuntuGestures)
 

@@ -3,7 +3,7 @@ pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
-    /usr/include/connectivity-qt/
+    ${CONNECTIVITY_INCLUDE_DIRS}
 )
 
 file(GLOB_RECURSE QML_FILES

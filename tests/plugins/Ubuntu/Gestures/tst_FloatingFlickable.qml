@@ -32,13 +32,17 @@ Rectangle {
     }
 
     Grid {
-        x: -floatingFlickable.contentX
-        rows: 1
+        id: colorGrid
+        readonly property bool horizontal: floatingFlickable.direction === Direction.Horizontal
+        x: horizontal ? -floatingFlickable.contentX : 0
+        y: horizontal ? 0 : -floatingFlickable.contentY
+        rows: horizontal ? 1 : 100
+        columns: horizontal ? 100 : 1
         Repeater {
             model: 100
             Rectangle {
-                width: 100
-                height: root.height
+                width: colorGrid.horizontal ? units.gu(12) : root.width
+                height: colorGrid.horizontal ? root.height : units.gu(12)
                 color: mouseArea.pressed ? "red"
                                          : Qt.rgba(Math.random(), Math.random(), Math.random(), 1)
                 MouseArea {
@@ -51,8 +55,26 @@ Rectangle {
 
     FloatingFlickable {
         id: floatingFlickable
+        objectName: "floatingFlickable"
         anchors.fill: parent
-        contentWidth: 100 * 100
-        onContentXChanged: console.log(contentX);
+        contentWidth: colorGrid.width
+        contentHeight: colorGrid.height
+    }
+
+    Button {
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        anchors.margins: units.gu(1)
+
+        text: floatingFlickable.direction === Direction.Horizontal ? "Horizontal" : "Vertical"
+        activeFocusOnPress: false
+
+        onClicked: {
+            if (floatingFlickable.direction === Direction.Horizontal) {
+                floatingFlickable.direction = Direction.Vertical;
+            } else {
+                floatingFlickable.direction = Direction.Horizontal;
+            }
+        }
     }
 }

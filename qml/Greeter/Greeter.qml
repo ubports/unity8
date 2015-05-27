@@ -141,8 +141,10 @@ Showable {
             enabled = false;
             if (LightDM.Greeter.startSessionSync()) {
                 sessionStarted();
-                loader.item.notifyAuthenticationSucceeded();
-            } else {
+                if (loader.item) {
+                    loader.item.notifyAuthenticationSucceeded();
+                }
+            } else if (loader.item) {
                 loader.item.notifyAuthenticationFailed();
             }
             enabled = true;

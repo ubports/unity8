@@ -27,7 +27,14 @@ typedef struct
     guint actions_export_id;
     guint menu_export_id;
     int action_delay;
+    int change_interval;
 } IndicatorTestService;
+
+typedef struct
+{
+    GSimpleAction *action;
+    GVariant* value;
+} Action;
 
 static void
 bus_acquired (GDBusConnection *connection,
@@ -96,10 +103,10 @@ actual_switch (gpointer user_data)
     gboolean state = g_variant_get_boolean (v);
     GVariant *new_state = g_variant_new_boolean (state == TRUE ? FALSE : TRUE);
 
-    g_simple_action_set_state(G_SIMPLE_ACTION(action), new_state);
+    g_simple_action_set_state(action, new_state);
 
     g_variant_unref (v);
-    g_message ("switching");
+    g_message ("switching %d", state);
     return FALSE;
 }
 
@@ -120,13 +127,12 @@ activate_switch (GSimpleAction *action,
 static gboolean
 actual_slide (gpointer user_data)
 {
-    GSimpleAction *action = user_data;
+    Action *slide_action = user_data;
 
-    GVariant* new_state = g_object_get_qdata (G_OBJECT (action), slider_value_quark ());
+    g_simple_action_set_state(G_SIMPLE_ACTION(slide_action->action), slide_action->value);
+    g_message ("sliding %f", g_variant_get_double(slide_action->value));
+    free(slide_action);
 
-    g_simple_action_set_state(G_SIMPLE_ACTION(action), new_state);
-
-    g_message ("switching");
     return FALSE;
 }
 
@@ -136,10 +142,40 @@ void change_slider (GSimpleAction *action,
 {
     IndicatorTestService *indicator = user_data;
 
-    g_object_set_qdata (G_OBJECT (action), slider_value_quark (), g_variant_ref(value));
+    Action* slide_action = malloc(sizeof(Action));
+    slide_action->action = action;
+    slide_action->value = g_variant_ref(value);
 
-    g_timeout_add(indicator->action_delay, actual_slide, action);
-    g_message ("slide delay %.03f", g_variant_get_double(value));
+    g_timeout_add(indicator->action_delay, actual_slide, slide_action);
+    g_message ("slide delay %f", g_variant_get_double(value));
+}
+
+static gboolean
+change_interval (gpointer user_data)
+{
+    g_message ("change interval");
+
+    IndicatorTestService *indicator = user_data;
+
+    GAction* action_switch = g_action_map_lookup_action(G_ACTION_MAP(indicator->actions), "action.switch");
+    actual_switch(G_SIMPLE_ACTION(action_switch));
+
+    GAction* action_checkbox = g_action_map_lookup_action(G_ACTION_MAP(indicator->actions), "action.checkbox");
+    actual_switch(G_SIMPLE_ACTION(action_checkbox));
+
+    GAction* action_accessPoint = g_action_map_lookup_action(G_ACTION_MAP(indicator->actions), "action.accessPoint");
+    actual_switch(G_SIMPLE_ACTION(action_accessPoint));
+
+    GAction* action_slider = g_action_map_lookup_action(G_ACTION_MAP(indicator->actions), "action.slider");
+    static double old_value = 0.25;
+    double new_value = old_value == 0.25 ? 0.75 : 0.25;
+    old_value = new_value;
+    Action* slide_action = malloc(sizeof(Action));
+    slide_action->action = G_SIMPLE_ACTION(action_slider);
+    slide_action->value = g_variant_new_double(new_value);
+    actual_slide(slide_action);
+
+    return TRUE;
 }
 
 int
@@ -147,6 +183,7 @@ main (int argc, char **argv)
 {
     IndicatorTestService indicator = { 0 };
     indicator.action_delay = -1;
+    indicator.change_interval = -1;
     GMenuItem *item;
     GMenu *submenu;
     GActionEntry entries[] = {
@@ -191,6 +228,27 @@ main (int argc, char **argv)
                         }
                         break;
                     }
+
+                    case 'c':
+                    {
+                        arg += 2;
+                        if (!arg[0] && i < argc-1) {
+                            i++;
+                            int interval = -1;
+
+                            if (sscanf(argv[i], "%d", &interval) == 1) {
+                                indicator.change_interval = interval;
+                            } else {
+                                printf("Invalid change interval value: %s\n", argv[i]);
+                                help = 1;
+                            }
+                        } else {
+                            printf("Invalid change interval value: %s\n", argv[i]);
+                            help = 1;
+                        }
+                        break;
+                    }
+
                     case 'h':
                         help = 1;
                         break;
@@ -201,8 +259,9 @@ main (int argc, char **argv)
 
     if (help) {
         printf("Usage: %s [<options>]\n"
-               "  -t DELAY         Action activation delay\n"
-               "  -h               Show this help text\n"
+               "  -t DELAY               Action activation delay\n"
+               "  -c CHANGE_INTERVAL     Interval to change action values\n"
+               "  -h                     Show this help text\n"
                , argv[0]);
         return 0;
     }
@@ -249,6 +308,11 @@ main (int argc, char **argv)
                     NULL);
 
     loop = g_main_loop_new (NULL, FALSE);
+
+    if (indicator.change_interval != -1) {
+        g_timeout_add(indicator.change_interval, change_interval,  &indicator);
+    }
+
     g_main_loop_run (loop);
 
     g_object_unref (submenu);

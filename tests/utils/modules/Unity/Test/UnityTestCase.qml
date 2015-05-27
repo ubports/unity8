@@ -382,8 +382,6 @@ TestCase {
     }
 
     Component.onCompleted: {
-        UT.Util.ensureTouchRegistryInstalled();
-
         var rootItem = parent;
         while (rootItem.parent != undefined) {
             rootItem = rootItem.parent;
