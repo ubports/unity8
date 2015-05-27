@@ -148,7 +148,7 @@ Rectangle {
 
             property int highlightedIndex: -1
 
-            delegate: Item {
+            delegate: FocusScope {
                 id: appDelegate
                 z: ApplicationManager.count - index
                 y: units.gu(3)
@@ -159,7 +159,7 @@ Rectangle {
                 readonly property int minHeight: units.gu(10)
 
                 function focusWindow() {
-                    decoratedWindow.window.forceActiveFocus();
+                    ApplicationManager.requestFocusApplication(model.appId);
                 }
 
                 states: [

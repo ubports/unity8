@@ -21,7 +21,6 @@ set(QMLPLUGIN_SRC
     windowkeysfilter.cpp
     easingcurve.cpp
     windowstatestorage.cpp
-    spreadflickable.cpp
     plugin.cpp
     )
 

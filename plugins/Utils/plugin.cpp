@@ -33,7 +33,6 @@
 #include "windowkeysfilter.h"
 #include "easingcurve.h"
 #include "windowstatestorage.h"
-#include "spreadflickable.h"
 #include "constants.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -65,7 +64,6 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
-    qmlRegisterType<SpreadFlickable>(uri, 0, 1, "SpreadFlickable");
     qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
 }
 
