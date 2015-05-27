@@ -57,14 +57,14 @@ Rectangle {
 
         transform: Translate { x: -2; y: -2 }
     }
-    Text {
-        id: surfaceText
-        anchors.fill: parent
-        text: "SURFACE"
-        color: root.parent && root.parent.activeFocus ? "yellow" : "blue"
-        font.bold: true
-        fontSizeMode: Text.Fit
-        minimumPixelSize: 10; font.pixelSize: 200
-        verticalAlignment: Text.AlignVCenter
-    }
+//    Text {
+//        id: surfaceText
+//        anchors.fill: parent
+//        text: "SURFACE"
+//        color: root.parent && root.parent.activeFocus ? "yellow" : "blue"
+//        font.bold: true
+//        fontSizeMode: Text.Fit
+//        minimumPixelSize: 10; font.pixelSize: 200
+//        verticalAlignment: Text.AlignVCenter
+//    }
 }

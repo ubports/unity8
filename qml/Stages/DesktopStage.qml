@@ -235,7 +235,7 @@ Rectangle {
                     target: appDelegate
                     minWidth: appDelegate.minWidth
                     minHeight: appDelegate.minHeight
-                    resizeHandleWidth: units.gu(0.5)
+                    resizeHandleWidth: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
                     onPressed: appDelegate.focus = true;
