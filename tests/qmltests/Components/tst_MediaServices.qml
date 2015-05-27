@@ -29,17 +29,17 @@ Rectangle {
 
     property var sourceData: {
         "source": "file:///home/nick/Videos/test-mpeg.ogv",
-        "screenshot": "/home/nick/Pictures/malta.jpg"
+        "screenshot": Qt.resolvedUrl("../Dash/artwork/avatar.png")
     }
 
-//    MediaDataSource {
-//        source: root.sourceData["source"]
-//        duration: 60000
-//        metaData: {
-//            "title" : "TEST MPEG",
-//            "resolution" : { "width": 160, "height": 90 }
-//        }
-//    }
+    MediaDataSource {
+        source: root.sourceData["source"]
+        duration: 60000
+        metaData: {
+            "title" : "TEST MPEG",
+            "resolution" : { "width": 160, "height": 90 }
+        }
+    }
 
     Item {
         anchors.fill: parent

@@ -186,7 +186,7 @@ public:
 
 Q_SIGNALS:
     void sourceAdded(const QUrl& source);
-    void sourceRemoved(const QUrl& source);
+    void sourceAboutToBeRemoved(const QUrl& source);
 
 public:
     QHash<QUrl, MediaDataSource*> m_dataSources;

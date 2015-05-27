@@ -28,7 +28,7 @@ Rectangle {
 
     property var widgetData0: {
         "source": "file:///test-video1",
-        "screenshot": "file:///home/nick/Pictures/IMG_20150513_132759.jpg"
+        "screenshot": Qt.resolvedUrl("../artwork/avatar.png")
     }
 
     property var widgetData1: {

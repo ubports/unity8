@@ -35,8 +35,6 @@ Rectangle {
         cellHeight: units.gu(5)
         cellWidth: units.gu(5)
 
-        onModelChanged: console.log("COUNT", model)
-
         delegate: Item {
             width: units.gu(5)
             height: units.gu(5)

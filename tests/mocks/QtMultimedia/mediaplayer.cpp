@@ -59,11 +59,14 @@ MediaPlayer::MediaPlayer(QObject* parent)
     m_timer.setInterval(100);
     connect(&m_timer, SIGNAL(timeout()), SLOT(timerEvent()));
 
-    connect(MediaPlayerDataController::instance(), &MediaPlayerDataController::sourceRemoved,
-            this, [this](const QUrl&) {
-        disconnect(0, &MediaDataSource::durationChanged, this, &MediaPlayer::durationChanged);
-        disconnect(0, &MediaDataSource::seekableChanged, this, &MediaPlayer::seekableChanged);
-        disconnect(0, &MediaDataSource::availabilityChanged, this, &MediaPlayer::availabilityChanged);
+    connect(MediaPlayerDataController::instance(), &MediaPlayerDataController::sourceAboutToBeRemoved,
+            this, [this](const QUrl& source) {
+        MediaDataSource* dataSource = MediaPlayerDataController::instance()->dataForSource(source);
+        if (!dataSource) return;
+
+        disconnect(dataSource, &MediaDataSource::durationChanged, this, &MediaPlayer::durationChanged);
+        disconnect(dataSource, &MediaDataSource::seekableChanged, this, &MediaPlayer::seekableChanged);
+        disconnect(dataSource, &MediaDataSource::availabilityChanged, this, &MediaPlayer::availabilityChanged);
     });
 
     connect(MediaPlayerDataController::instance(), &MediaPlayerDataController::sourceAdded,
@@ -271,8 +274,8 @@ void MediaPlayerDataController::unregisterDataSource(MediaDataSource *dataSource
 {
     QList<QUrl> keys = m_dataSources.keys(dataSource);
     Q_FOREACH(const QUrl& key, keys) {
+        Q_EMIT sourceAboutToBeRemoved(key);
         m_dataSources.remove(key);
-        Q_EMIT sourceRemoved(key);
     }
 }
 
