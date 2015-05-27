@@ -401,7 +401,7 @@ Item {
 
         function test_cantAccessPhoneStageWhileRightEdgeGesture() {
             var spreadView = findChild(phoneStage, "spreadView");
-            var mouseArea = findChild(phoneStage, "MouseArea")
+            var eventEaterArea = findChild(phoneStage, "eventEaterArea")
 
             var startX = phoneStage.width - 2;
             var startY = phoneStage.height / 2;
@@ -411,11 +411,11 @@ Item {
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
 
-            compare(mouseArea.enabled, true);
+            compare(eventEaterArea.enabled, true);
 
             touchRelease(phoneStage, endX, endY);
 
-            compare(mouseArea.enabled, false);
+            compare(eventEaterArea.enabled, false);
         }
 
         function test_leftEdge_data() {
