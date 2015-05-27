@@ -1,4 +1,4 @@
-pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt)
+pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
 
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
