@@ -94,7 +94,6 @@ Rectangle {
             if (appDelegate.state === "minimized") {
                 appDelegate.state = "normal"
             }
-            appDelegate.focusWindow();
             ApplicationManager.focusApplication(appId);
         }
     }
@@ -158,8 +157,10 @@ Rectangle {
                 readonly property int minWidth: units.gu(10)
                 readonly property int minHeight: units.gu(10)
 
-                function focusWindow() {
-                    ApplicationManager.requestFocusApplication(model.appId);
+                onFocusChanged: {
+                    if (focus) {
+                        ApplicationManager.requestFocusApplication(model.appId);
+                    }
                 }
 
                 states: [
@@ -276,7 +277,7 @@ Rectangle {
                         property bool upperThirdContainsMouse: containsMouse && mouseY < height / 3
                         onClicked: {
                             print("clicked")
-                            appDelegate.focusWindow()
+                            appDelegate.focus = true
                             root.state = ""
                         }
                     }
