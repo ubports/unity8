@@ -471,11 +471,6 @@ Rectangle {
 
             dashCommunicatorSpy.clear();
 
-            //Small left swipe
-            swipeFromLeftEdge(units.gu(25));
-
-            compare(dashCommunicatorSpy.count, 0);
-
             //Long left swipe
             swipeFromLeftEdge(units.gu(30));
 

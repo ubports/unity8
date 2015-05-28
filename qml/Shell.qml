@@ -456,8 +456,7 @@ Item {
         }
 
         if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
-            dash.setCurrentScope(0, false, true);
-            ApplicationManager.requestFocusApplication("unity8-dash");
+            ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
         }
     }
@@ -520,6 +519,11 @@ Item {
 
             onShowDashHome: showHome()
             onDash: showDash()
+            onDashSwipeChanged: {
+                if (dashSwipe) {
+                    dash.setCurrentScope(0, false, true)
+                }
+            }
             onLauncherApplicationSelected: {
                 if (!tutorial.running) {
                     greeter.notifyAboutToFocusApp(appId);
