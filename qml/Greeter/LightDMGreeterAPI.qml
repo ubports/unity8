@@ -75,7 +75,7 @@ Loader {
 
     function startSessionSync() {
         if (d.valid) {
-            item.startSessionSync();
+            return item.startSessionSync();
         }
     }
 }
