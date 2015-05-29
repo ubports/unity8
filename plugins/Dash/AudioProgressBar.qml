@@ -43,7 +43,8 @@ Item {
             left: progressBarImage.left
             right: progressBarImage.right
             verticalCenter: progressBarImage.verticalCenter
-            rightMargin: maxWidth - (maxWidth * root.progress)
+            margins: units.dp(2)
+            rightMargin: maxWidth - (maxWidth * root.progress) - units.dp(2)
         }
         height: units.dp(2)
         color: UbuntuColors.orange
