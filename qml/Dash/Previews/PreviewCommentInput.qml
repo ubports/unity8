@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import "../../Components"
 
 /*! \brief Preview widget for commenting.
@@ -33,9 +33,6 @@ PreviewWidget {
     property alias commentText: commentTextArea.text
 
     function submit() {
-        // checks if comment text area actually contains something
-        if (commentTextArea.text === "") return;
-
         var data = { "comment": commentTextArea.text };
         triggered(root.widgetId, "commented", data);
     }
@@ -78,7 +75,7 @@ PreviewWidget {
                 id: submitButton
                 objectName: "submitButton"
 
-                readonly property bool readyToSubmit: commentTextArea.text.length > 0
+                readonly property bool readyToSubmit: commentTextArea.text.trim().length > 0
 
                 anchors {
                     top: parent.top
