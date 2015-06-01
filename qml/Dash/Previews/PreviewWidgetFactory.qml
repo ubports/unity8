@@ -62,6 +62,7 @@ Loader {
             case "table": return "PreviewTable.qml";
             case "text": return "PreviewTextSummary.qml";
             case "video": return "PreviewVideoPlayback.qml";
+            case "comment": return "PreviewCommentInput.qml";
             default: return "";
         }
     }
