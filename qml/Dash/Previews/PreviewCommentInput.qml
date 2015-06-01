@@ -52,12 +52,7 @@ PreviewWidget {
 
         Item {
             id: commentSubmitContainer
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-            }
+            anchors.fill: parent
             implicitHeight: commentTextArea.implicitHeight + anchors.topMargin
 
             TextField {
