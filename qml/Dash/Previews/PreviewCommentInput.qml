@@ -18,20 +18,12 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Components"
 
-/*! \brief Preview widget for rating.
+/*! \brief Preview widget for commenting.
 
-    The widget can show a rating widget and a field to enter a comment.
-    The visibility of the two widgets is specified by widgetData["visible"],
-    accepting "both", "rating" or "review".
-    The requirement of the review is specified by widgetData["visible"],
-    accepting "both", "rating" or "review".
-    It is possible to customise labels, widgetData["rating-label"] for the rating,
-    widgetData["rewiew-label"] for the comment field and widgetData["submit-label"]
-    for the submit button.
-    The icons used in the rating widget can be customised with
-    widgetData["rating-icon-empty"] and widgetData["rating-icon-full"].
-    The successeful submit emits triggered(widgetId, widgetData["required"], data),
-    with data being {"rating": rating value, "review": review comment, "author": null (for now)}.
+    The widget can show a field to enter a comment.
+    It is possible to customise the submit button's label by setting widgetData["submit-label"]
+    The successeful submit emits triggered(widgetId, "commented", data),
+    with data being {"comment": comment}.
 */
 
 PreviewWidget {
