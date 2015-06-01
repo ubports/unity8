@@ -43,12 +43,7 @@ PreviewWidget {
 
         readonly property real innerMargin: units.gu(1)
 
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: parent.top
-            bottom: parent.bottom
-        }
+        anchors.fill: parent
 
         Item {
             id: commentSubmitContainer
