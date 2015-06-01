@@ -131,7 +131,7 @@ Showable {
                 loader.item.reset();
             }
             currentIndex = uid;
-            var user = lightDMGreeterAPI.getUser(uid);
+            var user = lightDMGreeterAPI.getUsername(uid);
             AccountsService.user = user;
             LauncherModel.setUser(user);
             lightDMGreeterAPI.authenticate(user); // always resets auth state
@@ -391,7 +391,7 @@ Showable {
         onRequestAuthenticationUser: {
             // Find index for requested user, if it exists
             for (var i = 0; i < lightDMGreeterAPI.userCount; i++) {
-                if (user === lightDMGreeterAPI.getUser(i)) {
+                if (user === lightDMGreeterAPI.getUsername(i)) {
                     d.selectUser(i, true);
                     return;
                 }
@@ -408,7 +408,7 @@ Showable {
     Binding {
         target: lightDMGreeterAPI.infographicModel
         property: "username"
-        value: AccountsService.statsWelcomeScreen ? lightDMGreeterAPI.getUser(d.currentIndex) : ""
+        value: AccountsService.statsWelcomeScreen ? lightDMGreeterAPI.getUsername(d.currentIndex) : ""
     }
 
     Connections {

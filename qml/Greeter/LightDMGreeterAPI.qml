@@ -49,9 +49,9 @@ Loader {
         }
     }
 
-    function getUser(uid) {
+    function getUsername(uid) {
         if (d.valid) {
-            return item.getUser(uid);
+            return item.getUsername(uid);
         }
     }
 

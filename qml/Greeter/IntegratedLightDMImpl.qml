@@ -31,7 +31,7 @@ QtObject {
         LightDM.Greeter.authenticate(user);
     }
 
-    function getUser(uid) {
+    function getUsername(uid) {
         return LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
     }
 
