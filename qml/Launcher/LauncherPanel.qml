@@ -43,6 +43,10 @@ Rectangle {
         if (quickList.state == "open") {
             quickList.state = ""
         }
+
+        if (fakeAlertingItem.visible && fakeAlertingItem.x > units.gu(.5)) {
+            fakeAlertingItem.x = 72 - parent.visibleWidth
+        }
     }
 
     onAlertIndexChanged: {
@@ -53,27 +57,14 @@ Rectangle {
             fakeAlertingItem.index = alertIndex
             fakeAlertingItem.iconName = launcherListView.model.get(alertIndex).icon
             fakeAlertingItem.y = alertIndex * fakeAlertingItem.itemHeight + launcherListView.anchors.topMargin + launcherListView.topMargin
-            fakeAlertingItem.count = LauncherModel.get(alertIndex).count
-            fakeAlertingItem.progress = LauncherModel.get(alertIndex).progress
+            fakeAlertingItem.progress = launcherListView.model.get(alertIndex).progress
             fakeAlertingItem.alerting = true
             fakeAlertingItem.visible = true
-            if (launcher.state !== "visible") {
-                fakeAlertingItem.reveal()
-            }
-            print("y = ", fakeAlertingItem.y)
-            print("index = ", fakeAlertingItem.index)
         } else {
-            // set real icon back to visible
-
             // fold
 
             // hide fake-alerting-icon
             fakeAlertingItem.alerting = false
-
-            if (launcher.state !== "visible") {
-                fakeAlertingItem.hide()
-            }
-            //fakeAlertingItem.visible = false
         }
     }
 
@@ -216,6 +207,7 @@ Rectangle {
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
+                        itemOpacity: index === alertIndex ? 0 : 1
 
                         ThinDivider {
                             id: dropIndicator
@@ -546,15 +538,19 @@ Rectangle {
                 itemHeight: launcherListView.itemHeight
                 height: itemHeight
                 width: itemWidth
-                rotation: root.rotation
+                rotation: root.rotation1G
                 alerting: false
 
-                function reveal() {
-                    fakeAlertingItemReveal.start();
-                }
-
-                function hide() {
-                    fakeAlertingItemHide.start();
+                onAlertingChanged: {
+                    if (alerting) {
+                        if (launcher.state !== "visible") {
+                            fakeAlertingItemReveal.start();
+                        }
+                    } else {
+                        if (launcher.state !== "visible") {
+                            fakeAlertingItemHide.start();
+                        }
+                    }
                 }
 
                 ParallelAnimation {
@@ -569,7 +565,7 @@ Rectangle {
                     UbuntuNumberAnimation {
                         target: fakeAlertingItem;
                         properties: "x";
-                        from: 0
+                        from: units.gu(.5)
                         to: units.gu(1) + launcherListView.width * .5
                         duration: UbuntuAnimation.BriskDuration
                     }
@@ -582,14 +578,8 @@ Rectangle {
                         target: fakeAlertingItem;
                         properties: "x";
                         from: units.gu(1) + launcherListView.width * .5
-                        to: 0
+                        to: units.gu(.5)
                         duration: UbuntuAnimation.BriskDuration
-                    }
-
-                    PropertyAction {
-                        target: fakeAlertingItem
-                        properties: "visible"
-                        value: false
                     }
                 }
             }

@@ -44,8 +44,6 @@ LauncherModel::LauncherModel(QObject *parent):
 
     connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
 
-    m_alertIndex = -1;
-
     refresh();
 }
 
@@ -84,16 +82,18 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->progress();
         case RoleFocused:
             return item->focused();
+        case RoleAlerting:
+            return item->alerting();
     }
 
     return QVariant();
 }
 
-void LauncherModel::alert(const QString &appId) const {
+void LauncherModel::alert(const QString &appId) {
     int index = findApplication(appId);
     if (index >= 0) {
-        m_alertIndex = index;
-        Q_EMIT alerting(m_alertIndex);
+        LauncherItem *item = m_list.at(index);
+        item->setAlerting(true);
     }
 }
 

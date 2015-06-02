@@ -45,7 +45,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const;
 
-    Q_INVOKABLE void alert(const QString &appId) const;
+    Q_INVOKABLE void alert(const QString &appId);
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface* get(int index) const;
     Q_INVOKABLE void move(int oldIndex, int newIndex);
     Q_INVOKABLE void pin(const QString &appId, int index = -1);
@@ -85,8 +85,6 @@ private:
     GSettings *m_settings;
     DBusInterface *m_dbusIface;
     ASAdapter *m_asAdapter;
-
-    int m_alertIndex;
 
     ApplicationManagerInterface *m_appManager;
 

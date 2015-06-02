@@ -44,6 +44,7 @@ public:
     int count() const override;
     bool countVisible() const override;
     bool focused() const;
+    bool alerting() const;
 
     unity::shell::launcher::QuickListModelInterface *quickList() const;
 
@@ -55,6 +56,7 @@ private:
     void setCount(int count);
     void setCountVisible(bool countVisible);
     void setFocused(bool focused);
+    void setAlerting(bool alerting);
 
     QString m_appId;
     QString m_desktopFile;
@@ -67,6 +69,7 @@ private:
     int m_count;
     bool m_countVisible;
     bool m_focused;
+    bool m_alerting;
     MockQuickListModel *m_quickList;
 
     friend class MockLauncherModel;

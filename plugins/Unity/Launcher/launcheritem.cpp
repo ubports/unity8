@@ -34,6 +34,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_count(0),
     m_countVisible(false),
     m_focused(false),
+    m_alerting(false),
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
@@ -175,7 +176,23 @@ void LauncherItem::setFocused(bool focused)
 {
     if (m_focused != focused) {
         m_focused = focused;
+        if (!focused) {
+            setAlerting(false);
+        }
         Q_EMIT focusedChanged(focused);
+    }
+}
+
+bool LauncherItem::alerting() const
+{
+    return m_alerting;
+}
+
+void LauncherItem::setAlerting(bool alerting)
+{
+    if (m_alerting != alerting) {
+        m_alerting = alerting;
+        Q_EMIT alertingChanged(alerting);
     }
 }
 
