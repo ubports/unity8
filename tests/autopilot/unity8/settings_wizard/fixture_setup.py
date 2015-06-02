@@ -22,9 +22,12 @@
 import fixtures
 import os
 
+from os.path import expanduser
+
 
 class SettingsWizard(fixtures.Fixture):
-    WIZARD_FILE = '/home/phablet/.config/ubuntu-system-settings/wizard-has-run'
+    WIZARD_FILE = expanduser("~") + \
+        '/.config/ubuntu-system-settings/wizard-has-run'
 
     def __init__(self, enable):
         super().__init__()
