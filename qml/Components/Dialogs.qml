@@ -62,7 +62,7 @@ Item {
         active: false
     }
 
-    LightDMGreeterAPI{id:lightDMGreeterAPI} /* expose lightdm backend */
+    LightDM{id: lightDM} // Provide backend access
     Component {
         id: logoutDialogComponent
         ShellDialog {
@@ -72,7 +72,7 @@ Item {
             Button {
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
-                    lightDMGreeterAPI.showGreeter()
+                    lightDM.greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }

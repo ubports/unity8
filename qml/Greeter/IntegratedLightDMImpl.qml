@@ -17,37 +17,55 @@
 import QtQuick 2.3
 import IntegratedLightDM 0.1 as LightDM
 
-QtObject {
-    property bool active: LightDM.Greeter.active
-    property bool authenticated: LightDM.Greeter.authenticated
-    property bool promptless: LightDM.Greeter.promptless
-    property real userCount: LightDM.Users.count
+Item{
+    id: implementation
+    property alias greeter: _greeter
+    property alias infographic: _infographic
+    property alias users: _users
 
-    property var theGreeter: LightDM.Greeter
-    property var infographicModel: LightDM.Infographic
-    property var userModel: LightDM.Users
+    QtObject {
+        id: _greeter
 
-    function authenticate(user) {
-        LightDM.Greeter.authenticate(user);
+        property bool active: LightDM.Greeter.active
+        property bool authenticated: LightDM.Greeter.authenticated
+        property bool promptless: LightDM.Greeter.promptless
+        property var singelton: LightDM.Greeter
+
+        function authenticate(user) {
+            LightDM.Greeter.authenticate(user);
+        }
+
+        function respond(response) {
+            LightDM.Greeter.respond(response);
+        }
+
+        function showGreeter() {
+            LightDM.Greeter.showGreeter();
+        }
+
+        function startSessionSync() {
+            return LightDM.Greeter.startSessionSync();
+        }
     }
 
-    function getUsername(uid) {
-        return LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+    QtObject {
+        id: _infographic
+
+        property var model: LightDM.Infographic
+
+        function readyForDataChange() {
+            return LightDM.Infographic.readyForDataChange();
+        }
     }
 
-    function infographicReadyForDataChange() {
-        LightDM.Infographic.readyForDataChange();
-    }
+    QtObject {
+        id: _users
 
-    function respond(response) {
-        LightDM.Greeter.respond(response);
-    }
+        property real count: LightDM.Users.count
+        property var model: LightDM.Users
 
-    function showGreeter() {
-        LightDM.Greeter.showGreeter();
-    }
-
-    function startSessionSync() {
-        return LightDM.Greeter.startSessionSync();
+        function data(uid) {
+            return LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
+        }
     }
 }

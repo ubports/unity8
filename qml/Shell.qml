@@ -142,6 +142,7 @@ Item {
         }
     }
 
+    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
     }
@@ -292,7 +293,7 @@ Item {
             objectName: "tutorial"
             anchors.fill: parent
             active: AccountsService.demoEdges
-            paused: lightDMGreeterAPI.active
+            paused: lightDM.greeter.active
             launcher: launcher
             panel: panel
             edgeSize: shell.edgeSize
@@ -349,7 +350,6 @@ Item {
         }
     }
 
-    LightDMGreeterAPI{id:lightDMGreeterAPI} /* expose lightdm backend */
     Greeter {
         id: greeter
         objectName: "greeter"
@@ -444,7 +444,7 @@ Item {
 
         greeter.notifyAboutToFocusApp("unity8-dash");
 
-        var animate = !lightDMGreeterAPI.active && !stages.shown
+        var animate = !lightDM.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -495,7 +495,7 @@ Item {
                 ApplicationManager.focusedApplicationId &&
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
-            fullscreenMode: (topmostApplicationIsFullscreen && !lightDMGreeterAPI.active && launcher.progress == 0)
+            fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
         }
 
