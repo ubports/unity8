@@ -547,9 +547,7 @@ Rectangle {
                             fakeAlertingItemReveal.start();
                         }
                     } else {
-                        if (launcher.state !== "visible") {
-                            fakeAlertingItemHide.start();
-                        }
+                        fakeAlertingItemHide.start();
                     }
                 }
 
@@ -577,9 +575,14 @@ Rectangle {
                     UbuntuNumberAnimation {
                         target: fakeAlertingItem;
                         properties: "x";
-                        from: units.gu(1) + launcherListView.width * .5
                         to: units.gu(.5)
                         duration: UbuntuAnimation.BriskDuration
+                    }
+
+                    PropertyAction {
+                        target: fakeAlertingItem
+                        properties: "visible"
+                        value: false
                     }
                 }
             }
