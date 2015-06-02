@@ -3,8 +3,8 @@ import QtQuick.Layouts 1.1
 import QtMultimedia 5.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.0 as ListItem
-import Ubuntu.Components.Themes 1.0
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.Themes 1.3
+import Ubuntu.Components.Popups 1.3
 
 Item {
     id: root

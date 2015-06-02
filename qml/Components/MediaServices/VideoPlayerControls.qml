@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtMultimedia 5.0
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Themes 1.0
+import Ubuntu.Components.Themes 1.3
 
 MediaServicesControls {
     id: root
@@ -133,8 +133,32 @@ MediaServicesControls {
         }
     }
 
+    function getPlaybackState(playbackState) {
+        if (playbackState === MediaPlayer.PlayingState) return "PlayingState";
+        else if (playbackState === MediaPlayer.PausedState) return "PausedState";
+        else if (playbackState === MediaPlayer.StoppedState) return "StoppedState";
+        return "";
+    }
+
+    function getPlayerStatus(status) {
+        if (status === MediaPlayer.NoMedia) return "NoMedia";
+        else if (status === MediaPlayer.Loading) return "Loading";
+        else if (status === MediaPlayer.Loaded) return "Loaded";
+        else if (status === MediaPlayer.Buffering) return "Buffering";
+        else if (status === MediaPlayer.Stalled) return "Stalled";
+        else if (status === MediaPlayer.Buffered) return "Buffered";
+        else if (status === MediaPlayer.EndOfMedia) return "EndOfMedia";
+        else if (status === MediaPlayer.InvalidMedia) return "InvalidMedia";
+        else if (status === MediaPlayer.UnknownStatus) return "UnknownStatus";
+        return "";
+    }
+
     MediaPlayer {
         id: _mediaPlayer
         objectName: "mediaPlayer"
+
+        onPlaybackStateChanged: console.log("PLAYBACK STATE CHANGED", getPlaybackState(playbackState));
+        onStatusChanged: console.log("PLAYER STATUS CHANGED", getPlayerStatus(status));
+        onError: stop()
     }
 }
