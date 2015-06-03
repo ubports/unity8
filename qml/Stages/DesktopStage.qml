@@ -158,7 +158,7 @@ Rectangle {
                 readonly property int minHeight: units.gu(10)
 
                 onFocusChanged: {
-                    if (focus && !ApplicationManager.focusedApplicationId === model.appId) {
+                    if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.requestFocusApplication(model.appId);
                     }
                 }
@@ -274,10 +274,28 @@ Rectangle {
                         id: spreadSelectArea
                         anchors.fill: parent
                         enabled: false
-                        hoverEnabled: true
-                        property bool upperThirdContainsMouse: containsMouse && mouseY < height / 3
+                        hoverEnabled: enabled
+
+                        // There is a bug in MouseArea where containsMouse doesn't
+                        // return to false if the MouseArea is disabled while
+                        // containing the mouse. Let's manage the property our own.
+                        property bool upperThirdContainsMouse: false
+                        onContainsMouseChanged: evaluateUpperThirdContainsMouse()
+                        onMouseYChanged: evaluateUpperThirdContainsMouse()
+                        function evaluateUpperThirdContainsMouse() {
+                            if (containsMouse && mouseY < height / 3) {
+                                spreadSelectArea.upperThirdContainsMouse = true
+                            } else {
+                                spreadSelectArea.upperThirdContainsMouse = false;
+                            }
+                        }
+                        onEnabledChanged: {
+                            if (!enabled) {
+                                spreadSelectArea.upperThirdContainsMouse = false
+                            }
+                        }
+
                         onClicked: {
-                            print("clicked")
                             appDelegate.focus = true
                             root.state = ""
                         }
