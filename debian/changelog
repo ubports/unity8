@@ -1,3 +1,14 @@
+unity8 (8.02+15.10.20150603.1-0ubuntu1) wily; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk.
+
+  [ Renato Araujo Oliveira Filho ]
+  * Set the device led color to green. (LP: #1450894)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 03 Jun 2015 21:42:35 +0000
+
 unity8 (8.02+15.10.20150518.1-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]
