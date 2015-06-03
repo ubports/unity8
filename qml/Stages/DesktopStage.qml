@@ -85,7 +85,7 @@ Rectangle {
     Connections {
         target: ApplicationManager
         onApplicationAdded: {
-            ApplicationManager.requestFocusApplication(ApplicationManager.get(ApplicationManager.count-1).appId)
+            ApplicationManager.requestFocusApplication(appId)
         }
 
         onFocusRequested: {
@@ -158,7 +158,7 @@ Rectangle {
                 readonly property int minHeight: units.gu(10)
 
                 onFocusChanged: {
-                    if (focus) {
+                    if (focus && !ApplicationManager.focusedApplicationId === model.appId) {
                         ApplicationManager.requestFocusApplication(model.appId);
                     }
                 }
