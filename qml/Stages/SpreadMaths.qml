@@ -117,9 +117,9 @@ Item {
                                                   : ((root.itemHeight - root.itemHeight * scale) / 2)
 
     readonly property real tileInfoOpacity: leftFoldingAreaProgress > 0 ?
-                                                      linearAnimation(1, 2, 1, 0, leftFoldingAreaProgress)
+                                                      linearAnimation(1, 1.5, 1, 0, leftFoldingAreaProgress)
                                                     : rightFoldingAreaProgress > 0 ?
-                                                          linearAnimation(1 ,2, 1, 0, rightFoldingAreaProgress)
+                                                          linearAnimation(1, 1.5, 1, 0, rightFoldingAreaProgress)
                                                         : 1
 
 
