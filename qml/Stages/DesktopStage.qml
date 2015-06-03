@@ -281,9 +281,13 @@ Rectangle {
                         // return to false if the MouseArea is disabled while
                         // containing the mouse. Let's manage the property our own.
                         property bool upperThirdContainsMouse: false
-                        onContainsMouseChanged: evaluateUpperThirdContainsMouse()
-                        onMouseYChanged: evaluateUpperThirdContainsMouse()
-                        function evaluateUpperThirdContainsMouse() {
+                        onContainsMouseChanged: evaluateContainsMouse()
+                        onMouseYChanged: evaluateContainsMouse()
+                        function evaluateContainsMouse() {
+                            if (containsMouse) {
+                                appRepeater.highlightedIndex = index
+                            }
+
                             if (containsMouse && mouseY < height / 3) {
                                 spreadSelectArea.upperThirdContainsMouse = true
                             } else {
