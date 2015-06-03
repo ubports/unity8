@@ -45,7 +45,7 @@ Rectangle {
         }
 
         if (fakeAlertingItem.visible && fakeAlertingItem.x > units.gu(.5)) {
-            fakeAlertingItem.x = Math.max(72 - parent.visibleWidth, units.gu(.5))
+            fakeAlertingItem.x = Math.max(units.gu(4.5) - parent.visibleWidth, units.gu(.5))
         }
     }
 
