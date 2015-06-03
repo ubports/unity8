@@ -225,7 +225,7 @@ Rectangle {
                     id: spreadMaths
                     flickable: spreadFlickable
                     itemIndex: index
-                    totalItems: ApplicationManager.count
+                    totalItems: Math.max(6, ApplicationManager.count)
                     sceneHeight: root.height
                     itemHeight: appDelegate.height
                 }
@@ -360,7 +360,6 @@ Rectangle {
         }
         height: root.height * 0.25
         color: "#55000000"
-//        opacity: 0
         visible: false
 
         RowLayout {
@@ -464,9 +463,7 @@ Rectangle {
                 PauseAnimation { duration: 50 }
                 PropertyAction { target: root; property: "workspacesUpdated"; value: true }
                 PropertyAction { target: spreadFlickable; property: "visible" }
-                PropertyAction { target: spreadFlickable; property: "contentX";
-                    value: ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 3, 1));
-                }
+                PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
                 PropertyAction { target: appRepeater; property: "highlightedIndex"; value: 1 }
             }
         },
