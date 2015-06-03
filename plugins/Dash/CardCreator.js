@@ -396,7 +396,7 @@ function cardString(template, components) {
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
-    var isAudio = template["quickPreviewType"] === "audio";
+    var isAudio = template["quick-preview-type"] === "audio";
 
     if (isAudio) {
         // For now we only support audio cards with [optional] art, title, subtitle

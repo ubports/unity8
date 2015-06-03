@@ -109,7 +109,7 @@ Rectangle {
         },
         {
             "name": "Art, title, subtitle - Audio",
-            "layout": { "template": { "card-layout": "horizontal", "quickPreviewType": "audio" },
+            "layout": { "template": { "card-layout": "horizontal", "quick-preview-type": "audio" },
                         "components": { "art": "art", "title": "title", "subtitle": "subtitle", "quickPreviewData": "quickPreviewData" } }
         },
     ]
