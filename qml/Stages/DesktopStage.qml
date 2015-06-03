@@ -355,8 +355,6 @@ Rectangle {
         contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
         enabled: false
 
-        onContentXChanged: print("contentXChanged", contentX)
-
         function snapTo(contentX) {
             snapAnimation.stop();
             snapAnimation.to = contentX
