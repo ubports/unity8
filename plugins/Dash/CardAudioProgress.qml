@@ -22,6 +22,7 @@ Item {
     id: root
 
     implicitHeight: positionLabel.y + positionLabel.height
+    visible: DashAudioPlayer.isCurrentSource(source)
 
     property int duration: 0
     property url source
