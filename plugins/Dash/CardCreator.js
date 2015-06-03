@@ -141,6 +141,9 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                     DashAudioPlayer.playSource(source); \n\
                                 } \n\
                             } \n\
+                            onPressAndHold: { \n\
+                                root.pressAndHold(); \n\
+                            } \n\
                         }';
 
 var kOverlayLoaderCode = 'Loader { \n\

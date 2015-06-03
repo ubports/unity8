@@ -97,6 +97,9 @@ CardAudioProgress {
                                     DashAudioPlayer.playSource(source); 
                                 } 
                             } 
+                            onPressAndHold: { 
+                                root.pressAndHold(); 
+                            } 
                         }UbuntuShape { 
                         id: touchdown; 
                         objectName: "touchdown"; 
