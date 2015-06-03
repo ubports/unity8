@@ -273,6 +273,7 @@ Rectangle {
                     MouseArea {
                         id: spreadSelectArea
                         anchors.fill: parent
+                        anchors.margins: -units.gu(2)
                         enabled: false
                         hoverEnabled: enabled
 
@@ -306,7 +307,7 @@ Rectangle {
                     id: closeImage
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
                     source: "graphics/window-close.svg"
-                    visible: spreadSelectArea.upperThirdContainsMouse || closeMouseArea.containsMouse
+                    visible: spreadSelectArea.upperThirdContainsMouse
                     height: units.gu(1.5)
                     width: height
                     sourceSize.width: width
@@ -317,7 +318,7 @@ Rectangle {
                     id: closeMouseArea
                     anchors.fill: closeImage
                     anchors.margins: -units.gu(1)
-                    hoverEnabled: true
+                    enabled: spreadSelectArea.enabled
                     onClicked: ApplicationManager.stopApplication(model.appId)
                 }
 
