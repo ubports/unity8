@@ -26,7 +26,7 @@ import Unity.Indicators 0.1 as Indicators
 QtObject {
     id: root
 
-    property var color: UbuntuColors.green
+    property color color: "darkgreen"
 
     property var _actionGroup: QMenuModel.QDBusActionGroup {
         busType: 1
@@ -53,7 +53,6 @@ QtObject {
         }
     }
 
-    // we can not create alias for Lights.color 
     property var _colorBinding: Binding {
         target: Lights
         property: "color"
