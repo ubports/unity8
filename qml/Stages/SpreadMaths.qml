@@ -122,6 +122,7 @@ Item {
                                                           linearAnimation(1, 1.5, 1, 0, rightFoldingAreaProgress)
                                                         : 1
 
+    readonly property bool itemVisible: itemIndex == totalItems - 1 ? true : leftFoldingAreaProgress < 5 && rightFoldingAreaProgress < 5
 
     // Helpers
     function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {

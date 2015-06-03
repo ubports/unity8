@@ -185,6 +185,7 @@ Rectangle {
                             itemScale: spreadMaths.scale
                             itemScaleOriginY: decoratedWindow.height / 2;
                             z: index
+                            visible: spreadMaths.itemVisible
                         }
                         PropertyChanges {
                             target: decoratedWindow
