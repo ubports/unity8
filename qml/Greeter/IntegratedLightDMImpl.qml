@@ -19,53 +19,9 @@ import IntegratedLightDM 0.1 as LightDM
 
 Item{
     id: implementation
-    property alias greeter: _greeter
-    property alias infographic: _infographic
-    property alias users: _users
+    property var greeter: LightDM.Greeter
+    property var infographic: LightDM.Infographic
+    property var users: LightDM.Users
+    property var userRoles: LightDM.UserRoles
 
-    QtObject {
-        id: _greeter
-
-        property bool active: LightDM.Greeter.active
-        property bool authenticated: LightDM.Greeter.authenticated
-        property bool promptless: LightDM.Greeter.promptless
-        property var singelton: LightDM.Greeter
-
-        function authenticate(user) {
-            LightDM.Greeter.authenticate(user);
-        }
-
-        function respond(response) {
-            LightDM.Greeter.respond(response);
-        }
-
-        function showGreeter() {
-            LightDM.Greeter.showGreeter();
-        }
-
-        function startSessionSync() {
-            return LightDM.Greeter.startSessionSync();
-        }
-    }
-
-    QtObject {
-        id: _infographic
-
-        property var model: LightDM.Infographic
-
-        function readyForDataChange() {
-            return LightDM.Infographic.readyForDataChange();
-        }
-    }
-
-    QtObject {
-        id: _users
-
-        property real count: LightDM.Users.count
-        property var model: LightDM.Users
-
-        function data(uid) {
-            return LightDM.Users.data(uid, LightDM.UserRoles.NameRole);
-        }
-    }
 }

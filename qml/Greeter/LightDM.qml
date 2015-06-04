@@ -24,9 +24,10 @@ import QtQuick 2.3
 
 Loader {
     id: loader
-    property alias greeter: _greeter
-    property alias infographic: _infographic
-    property alias users: _users
+    property var greeter: d.valid ? loader.item.greeter : null
+    property var infographic: d.valid ? loader.item.infographic : null
+    property var users: d.valid ? loader.item.users : null
+    property var userRoles: d.valid ? loader.item.userRoles : null
 
     // TODO: Conditionally load RealLightDMImpl if shellMode dictates it
     source: "./IntegratedLightDMImpl.qml"
@@ -35,62 +36,6 @@ Loader {
         id: d
 
         property bool valid: loader.item !== null
-    }
-
-    QtObject {
-        id: _greeter
-
-        property bool active: d.valid ? loader.item.greeter.active : null
-        property bool authenticated: d.valid ? loader.item.greeter.authenticated : null
-        property bool promptless: d.valid ? loader.item.greeter.promptless : null
-        property var singelton: d.valid ? loader.item.greeter.singelton : null
-
-        function authenticate(user) {
-            if (d.valid) {
-                loader.item.greeter.authenticate(user);
-            }
-        }
-
-        function respond(response) {
-            if (d.valid) {
-                loader.item.greeter.respond(response);
-            }
-        }
-
-        function showGreeter() {
-            if (d.valid) {
-                loader.item.greeter.showGreeter();
-            }
-        }
-
-        function startSessionSync() {
-            if (d.valid) {
-                return loader.item.greeter.startSessionSync();
-            }
-        }
-    }
-
-    QtObject {
-        id: _infographic
-
-        property var model: d.valid ? loader.item.infographic.model : null
-
-        function readyForDataChange() {
-            if (d.valid) {
-                return loader.item.infographic.readyForDataChange();
-            }
-        }
-    }
-
-    QtObject {
-        id: _users
-
-        property real count: d.valid ? loader.item.users.count : null
-        property var model: d.valid ? loader.item.users.model : null
-
-        function data(uid) {
-            return loader.item.users.data(uid);
-        }
     }
 
 }
