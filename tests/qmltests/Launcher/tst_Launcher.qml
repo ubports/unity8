@@ -97,28 +97,32 @@ Item {
         Row {
             spacing: units.gu(1)
 
-            CheckBox {
-                anchors.verticalCenter: parent.verticalCenter
-                checked: false
+            Button {
+                text: "set alert"
                 onClicked: {
-                    var panel = testCase.findChild(launcherLoader, "launcherPanel")
-                    panel.alertIndex = checked ? parseInt(iconIndex.displayText) : -1
-                }
-            }
+                    print(appIdEntry.displayText)
+                    LauncherModel.alert(appIdEntry.displayText, true)
 
-            Label {
-                anchors.verticalCenter: parent.verticalCenter
-                text: "wiggle of icon"
+                }
+                Layout.fillWidth: true
             }
 
             TextArea {
-                id: iconIndex
+                id: appIdEntry
                 anchors.verticalCenter: parent.verticalCenter
                 width: units.gu(4)
                 height: units.gu(4)
                 autoSize: true
-                text: "2"
+                text: "gallery-app"
                 maximumLineCount: 1
+            }
+
+            Button {
+                text: "unset alert"
+                onClicked: {
+                    LauncherModel.alert(appIdEntry.displayText, false)
+                }
+                Layout.fillWidth: true
             }
         }
     }

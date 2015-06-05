@@ -89,11 +89,11 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void LauncherModel::alert(const QString &appId) {
+void LauncherModel::alert(const QString &appId, bool alerting) {
     int index = findApplication(appId);
     if (index >= 0) {
         LauncherItem *item = m_list.at(index);
-        item->setAlerting(true);
+        item->setAlerting(alerting);
     }
 }
 

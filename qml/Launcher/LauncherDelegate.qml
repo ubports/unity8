@@ -41,6 +41,10 @@ Item {
     property real itemOpacity: 1
     property real brightness: 0
 
+    onAlertingChanged: {
+        print("alerting changed for ", iconName)
+    }
+
     SequentialAnimation {
         id: wiggleAnim
 

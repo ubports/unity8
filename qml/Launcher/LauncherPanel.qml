@@ -204,6 +204,7 @@ Rectangle {
                         progress: model.progress
                         itemFocused: model.focused
                         inverted: root.inverted
+                        alerting: model.alerting
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
@@ -429,6 +430,7 @@ Rectangle {
                         }
 
                         onPositionChanged: {
+                            print("position:", mouseX, "/", mouseY)
                             if (draggedIndex >= 0) {
                                 if (!selectedItem.dragging) {
                                     var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
@@ -554,11 +556,11 @@ Rectangle {
                 ParallelAnimation {
                     id: fakeAlertingItemReveal
 
-                    UbuntuNumberAnimation {
+                    /*UbuntuNumberAnimation {
                         target: fakeAlertingItem;
                         properties: "angle, offset";
                         to: 0
-                    }
+                    }*/
 
                     UbuntuNumberAnimation {
                         target: fakeAlertingItem;

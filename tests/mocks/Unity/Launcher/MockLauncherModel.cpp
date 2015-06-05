@@ -20,6 +20,8 @@
 #include "MockLauncherModel.h"
 #include "MockLauncherItem.h"
 
+#include <iostream>
+
 MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(parent)
 {
     MockLauncherItem *item = new MockLauncherItem("dialer-app", "/usr/share/applications/dialer-app.desktop", "Dialer", "dialer-app", this);
@@ -103,6 +105,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
         return item->countVisible();
     case RoleFocused:
         return item->focused();
+    case RoleAlerting:
+        return item->alerting();
     }
 
     return QVariant();
@@ -115,6 +119,15 @@ unity::shell::launcher::LauncherItemInterface *MockLauncherModel::get(int index)
         return 0;
     }
     return m_list.at(index);
+}
+
+void MockLauncherModel::alert(const QString &appId, bool alerting) {
+    int index = findApp(appId);
+    if (index >= 0) {
+        std::cout << "MockLauncherModel::alert()" << std::endl;
+        MockLauncherItem *item = m_list.at(index);
+        item->setAlerting(alerting);
+    }
 }
 
 void MockLauncherModel::move(int oldIndex, int newIndex)
