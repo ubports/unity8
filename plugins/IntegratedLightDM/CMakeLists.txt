@@ -1,6 +1,4 @@
 pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
-# TODO: Once we split out a separate greeter process, uncomment these lines
-#pkg_check_modules(LIBLIGHTDM REQUIRED liblightdm-qt5-2)
 
 add_subdirectory(liblightdm)
 
@@ -9,7 +7,6 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/IntegratedLightDM
-    #${LIBLIGHTDM_INCLUDE_DIRS}
     ${libunity8-private_SOURCE_DIR}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
 )
@@ -30,8 +27,6 @@ add_library(IntegratedLightDM-qml MODULE
 target_link_libraries(IntegratedLightDM-qml
     integratedLightDM
     unity8-private
-# TODO: Once we split out a separate greeter process, uncomment these lines
-#    ${LIBLIGHTDM_LDFLAGS}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     )
 

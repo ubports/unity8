@@ -11,7 +11,7 @@ Build-Depends: cmake,
 # version. To allow cross-compiling to work, we also must
 # append :native to g++-4.9 so we don't try to run armhf g++
 # on an x86 CPU for eaxmple, when cross-compiling.
-               g++-4.9:native,
+#               g++-4.9:native,
                graphviz,
                gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
                libconnectivity-qt1-dev,
@@ -21,6 +21,7 @@ Build-Depends: cmake,
                libglib2.0-dev,
                libgsettings-qt-dev,
                libhardware-dev,
+               liblightdm-qt5-3-dev,
                libpam0g-dev,
                libpay2-dev,
                libpulse-dev,
