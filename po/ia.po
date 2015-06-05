@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-14 16:13+0200\n"
-"PO-Revision-Date: 2015-05-27 15:03+0000\n"
+"PO-Revision-Date: 2015-06-04 18:36+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-05-28 05:34+0000\n"
-"X-Generator: Launchpad (build 17528)\n"
+"X-Launchpad-Export-Date: 2015-06-05 05:58+0000\n"
+"X-Generator: Launchpad (build 17540)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -352,7 +352,7 @@ msgstr "Roaming"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Iste action ha effectos differente pro applicationes differente"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
@@ -364,7 +364,7 @@ msgstr "Aperi le menus special"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Stria in alto ex le bordo basse."
 
 #: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
@@ -377,7 +377,7 @@ msgstr "Clicca ci pro finir"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Iste es le vias breve al applicationes favorite"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -385,11 +385,11 @@ msgstr "Aperi le lanceator"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Stria curte ex le bordo sinistre."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Tu ha quasi obtenite lo!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
@@ -397,11 +397,11 @@ msgstr "Prova de novo"
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Aperi le applicationes pro vider"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Stria longemente ex le bordo dextre."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
@@ -509,6 +509,8 @@ msgstr "Usar sol le GPS (minus accurate)"
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"Usar le GPS, le Wi-Fi in modo anonyme e le informationes del rete cellular "
+"(recommendate)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -524,6 +526,8 @@ msgstr "No, del toto"
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
+"Tu pote cambiar tu desiderata plus tarde in <b>Configurationes del "
+"systema</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
@@ -542,6 +546,8 @@ msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Isto pote esser impedite in <b>Preparationes del systema</b> sub "
+"<b>Securitate &amp; Confidentialitate</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
@@ -582,17 +588,17 @@ msgstr "Selige tu codice-contrasigno"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "Le phrase-contrasigno debe esser longe 4 characteres"
 
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Log out"
 #~ msgstr "Clauder le Session"
