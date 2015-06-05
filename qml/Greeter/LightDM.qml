@@ -15,9 +15,8 @@
  */
 
 /**
- *  Expose an API that allows interaction with the
- *  integrated LightDM or real LightDM depending on shell mode.
- *  This is a hack to essentially support conditional imports
+ * Lightweight wrapper that allows for loading integrated/real LightDM
+ * plugin
  */
 
 import QtQuick 2.3

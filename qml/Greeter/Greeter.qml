@@ -304,13 +304,13 @@ Showable {
         Binding {
             target: loader.item
             property: "userModel"
-            value: lightDM.users.model
+            value: lightDM.users
         }
 
         Binding {
             target: loader.item
             property: "infographicModel"
-            value: lightDM.infographic.model
+            value: lightDM.infographic
         }
     }
 
