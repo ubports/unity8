@@ -19,6 +19,7 @@ import IntegratedLightDM 0.1 as LightDM
 
 Item{
     id: implementation
+
     property var greeter: LightDM.Greeter
     property var infographic: LightDM.Infographic
     property var users: LightDM.Users

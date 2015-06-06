@@ -23,6 +23,7 @@ import QtQuick 2.3
 
 Loader {
     id: loader
+
     property var greeter: d.valid ? loader.item.greeter : null
     property var infographic: d.valid ? loader.item.infographic : null
     property var users: d.valid ? loader.item.users : null
