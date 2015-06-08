@@ -45,28 +45,26 @@ FocusScope {
 
     OrientationHelper {
         id: orientationHelper
-        automaticOrientation: false
+        automaticOrientation: fullscreen && !rotationAction.checked
 
         states: [
             State {
                 name: "portrait"
-                when: !rotationAction.checked
+                when: !orientationHelper.automaticOrientation && !rotationAction.checked
+                PropertyChanges {
+                    target: orientationHelper
+                    orientationAngle: 0
+                }
             },
             State {
                 name: "landscape"
-                when: rotationAction.checked
+                when: !orientationHelper.automaticOrientation && rotationAction.checked
                 PropertyChanges {
                     target: orientationHelper
-                    orientationAngle: 90
+                    orientationAngle: orientationHelper.orientationAngle == 270 ? 270 : 90
                 }
             }
         ]
-
-        Rectangle {
-            anchors.fill: contentLoader
-            color: "#1B1B1B"
-            opacity: 0.85
-        }
 
         Loader {
             id: contentLoader
@@ -77,6 +75,12 @@ FocusScope {
                     return videoComponent;
                 }
                 return undefined;
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: "#1B1B1B"
+                opacity: 0.85
             }
 
             Component {
@@ -142,6 +146,13 @@ FocusScope {
                 anchors.fill: parent
             }
 
+            Rectangle {
+                anchors.fill: parent
+                color: "#1B1B1B"
+                opacity: 0.85
+                visible: headerContent.status === Loader.Ready
+            }
+
             sourceComponent: root.fullscreen ? headerComponent : undefined
 
             Component {
@@ -194,6 +205,13 @@ FocusScope {
             // eater
             MouseArea {
                 anchors.fill: parent
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: "#1B1B1B"
+                opacity: 0.85
+                visible: footerContent.status === Loader.Ready
             }
 
             Component {

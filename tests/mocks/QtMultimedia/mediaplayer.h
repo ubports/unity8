@@ -33,6 +33,7 @@ class MediaPlayer: public QObject
     Q_PROPERTY(PlaybackState playbackState READ playbackState NOTIFY playbackStateChanged)
     Q_PROPERTY(int position READ position NOTIFY positionChanged)
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
+    Q_PROPERTY(Error error READ error NOTIFY errorChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorStringChanged)
     Q_PROPERTY(AudioRole audioRole READ audioRole WRITE setAudioRole)
 
@@ -45,6 +46,7 @@ class MediaPlayer: public QObject
     Q_ENUMS(AudioRole)
     Q_ENUMS(Availability)
     Q_ENUMS(Status)
+    Q_ENUMS(Error)
 public:
     enum PlaybackState {
         PlayingState,
@@ -66,8 +68,7 @@ public:
         ResourceMissing
     };
 
-    enum Status
-    {
+    enum Status {
         UnknownStatus,
         NoMedia,
         Loading,
@@ -77,6 +78,15 @@ public:
         Buffered,
         EndOfMedia,
         InvalidMedia
+    };
+
+    enum Error {
+        NoError,
+        ResourceError,
+        FormatError,
+        NetworkError,
+        AccessDeniedError,
+        ServiceMissingError
     };
 
     explicit MediaPlayer(QObject *parent = 0);
@@ -90,6 +100,7 @@ public:
 
     int duration() const;
 
+    Error error() const;
     QString errorString() const;
 
     AudioRole audioRole() const;
@@ -112,9 +123,12 @@ Q_SIGNALS:
     void positionChanged(int position);
     void durationChanged(int duration);
     void seekableChanged(bool seekable);
+    void errorChanged(Error error);
     void errorStringChanged(const QString &errorString);
     void availabilityChanged(Availability availability);
     void statusChanged();
+
+    void error(Error error, const QString &errorString);
 
 private Q_SLOTS:
     void timerEvent();

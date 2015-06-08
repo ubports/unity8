@@ -157,8 +157,12 @@ MediaServicesControls {
         id: _mediaPlayer
         objectName: "mediaPlayer"
 
-        onPlaybackStateChanged: console.log("PLAYBACK STATE CHANGED", getPlaybackState(playbackState));
-        onStatusChanged: console.log("PLAYER STATUS CHANGED", getPlayerStatus(status));
-        onError: stop()
+        onError: {
+            if (error !== MediaPlayer.NoError) {
+                stop();
+            }
+        }
+//        onPlaybackStateChanged: console.log("PLAYBACK STATE CHANGED", getPlaybackState(playbackState));
+//        onStatusChanged: console.log("PLAYER STATUS CHANGED", getPlayerStatus(status));
     }
 }

@@ -119,6 +119,11 @@ int MediaPlayer::duration() const
     return 0;
 }
 
+MediaPlayer::Error MediaPlayer::error() const
+{
+    return NoError;
+}
+
 QString MediaPlayer::errorString() const
 {
     return QString();

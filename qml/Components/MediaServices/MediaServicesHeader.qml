@@ -10,12 +10,6 @@ Item {
 
     signal goPrevious
 
-    Rectangle {
-        anchors.fill: parent
-        color: "#1B1B1B"
-        opacity: 0.85
-    }
-
     RowLayout {
         id: row
         anchors {

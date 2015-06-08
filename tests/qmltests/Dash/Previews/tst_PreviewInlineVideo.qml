@@ -57,7 +57,7 @@ Rectangle {
                 right: controls.left
             }
 
-            Rectangle {
+            Item {
                 anchors.fill: parent
                 anchors.margins: units.gu(2)
 

@@ -76,109 +76,16 @@ Item {
 
             source: mediaPlayer
             visible: mediaPlayer && mediaPlayer.playbackState !== MediaPlayer.StoppedState || false
+
+            Connections {
+                target: mediaPlayer
+                onError: {
+                    if (error !== MediaPlayer.NoError) {
+                        errorTimer.restart();
+                    }
+                }
+            }
         }
-
-//        Loader {
-//            id: shaderLoader
-//            anchors.fill: videoOutput
-//            sourceComponent: fixedHeight ? shaderComponent : undefined
-
-//            Component {
-//                id: shaderComponent
-
-//                Item {
-//                    ShaderEffect {
-//                        id: leftVideo
-//                        property variant source: ShaderEffectSource {
-//                            sourceItem: videoOutput
-//                            hideSource: true
-//                            sourceRect: Qt.rect(0, 0, units.gu(2), videoOutput.height)
-//                        }
-//                        anchors {
-//                            top: parent.top
-//                            bottom: parent.bottom
-//                            left: parent.left
-//                        }
-//                        width: units.gu(2)
-//                        visible: mediaPlayer.playbackState !== MediaPlayer.StoppedState
-
-//                        property real itemOpacity: 0.5
-
-//                        fragmentShader: "
-//                            varying highp vec2 qt_TexCoord0;
-//                            uniform sampler2D source;
-//                            uniform lowp float itemOpacity;
-//                            void main(void)
-//                            {
-//                                highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-//                                sourceColor *= itemOpacity;
-//                                gl_FragColor = sourceColor;
-//                            }
-//                        "
-//                    }
-
-//                    ShaderEffect {
-//                        id: middleVideo
-//                        property variant source: ShaderEffectSource {
-//                            sourceItem: videoOutput
-//                            hideSource: true
-//                            sourceRect: Qt.rect(units.gu(2), 0, videoOutput.width - units.gu(4), videoOutput.height)
-//                        }
-//                        anchors {
-//                            top: parent.top
-//                            bottom: parent.bottom
-//                            left: leftVideo.right
-//                            right: rightVideo.left
-//                        }
-//                        visible: mediaPlayer.playbackState !== MediaPlayer.StoppedState
-
-//                        property real itemOpacity: 1
-
-//                        fragmentShader: "
-//                            varying highp vec2 qt_TexCoord0;
-//                            uniform sampler2D source;
-//                            uniform lowp float itemOpacity;
-//                            void main(void)
-//                            {
-//                                highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-//                                sourceColor *= itemOpacity;
-//                                gl_FragColor = sourceColor;
-//                            }
-//                        "
-//                    }
-
-//                    ShaderEffect {
-//                        id: rightVideo
-//                        property variant source: ShaderEffectSource {
-//                            sourceItem: videoOutput
-//                            hideSource: true
-//                            sourceRect: Qt.rect(videoOutput.width - units.gu(2), 0, units.gu(2), videoOutput.height)
-//                        }
-//                        anchors {
-//                            top: parent.top
-//                            bottom: parent.bottom
-//                            right: parent.right
-//                        }
-//                        width: units.gu(2)
-//                        visible: mediaPlayer.playbackState !== MediaPlayer.StoppedState
-
-//                        property real itemOpacity: 0.5
-
-//                        fragmentShader: "
-//                            varying highp vec2 qt_TexCoord0;
-//                            uniform sampler2D source;
-//                            uniform lowp float itemOpacity;
-//                            void main(void)
-//                            {
-//                                highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
-//                                sourceColor *= itemOpacity;
-//                                gl_FragColor = sourceColor;
-//                            }
-//                        "
-//                    }
-//                }
-//            }
-//        }
     }
 
     Rectangle {
@@ -195,9 +102,9 @@ Item {
         Behavior on width { UbuntuNumberAnimation {} }
 
         Icon {
-            name: "media-playback-start"
             anchors.fill: parent
             anchors.margins: units.gu(1)
+            name: errorTimer.running ? "dialog-warning-symbolic" : "media-playback-start"
             color: "#F3F3E7"
         }
     }
@@ -214,9 +121,15 @@ Item {
     MouseArea {
         id: contentMouseArea
         anchors.fill: content
+        enabled: !errorTimer.running
         hoverEnabled: mediaPlayer && mediaPlayer.playbackState !== MediaPlayer.StoppedState || false
 
         onClicked: root.clicked()
         onPositionChanged: root.positionChanged()
+    }
+
+    Timer {
+        id: errorTimer
+        interval: 2000
     }
 }
