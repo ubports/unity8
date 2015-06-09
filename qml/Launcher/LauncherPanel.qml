@@ -286,6 +286,7 @@ Rectangle {
                     MouseArea {
                         id: dndArea
                         objectName: "dndArea"
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         anchors {
                             fill: parent
                             topMargin: launcherListView.topMargin
@@ -313,6 +314,15 @@ Rectangle {
                             // Check if we actually clicked an item or only at the spacing in between
                             if (clickedItem === null) {
                                 return;
+                            }
+
+                            if (mouse.button & Qt.RightButton) { // context menu
+                                // Opening QuickList
+                                quickList.item = clickedItem;
+                                quickList.model = launcherListView.model.get(index).quickList;
+                                quickList.appId = launcherListView.model.get(index).appId;
+                                quickList.state = "open";
+                                return
                             }
 
                             // First/last item do the scrolling at more than 12 degrees
