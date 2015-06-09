@@ -29,7 +29,7 @@ public:
     ASAdapter();
     ~ASAdapter();
 
-    void syncItems(QList<LauncherItem*> m_list);
+    void syncItems(const QList<LauncherItem*> &list);
 
 private:
     QVariantMap itemToVariant(LauncherItem *item) const;

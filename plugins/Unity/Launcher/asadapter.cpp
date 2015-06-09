@@ -34,12 +34,12 @@ ASAdapter::~ASAdapter()
     m_accounts->deleteLater();
 }
 
-void ASAdapter::syncItems(QList<LauncherItem *> m_list)
+void ASAdapter::syncItems(const QList<LauncherItem*> &list)
 {
     if (m_accounts && !m_user.isEmpty()) {
         QList<QVariantMap> items;
 
-        Q_FOREACH(LauncherItem *item, m_list) {
+        Q_FOREACH(LauncherItem *item, list) {
             items << itemToVariant(item);
         }
 
