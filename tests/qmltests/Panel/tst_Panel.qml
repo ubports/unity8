@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
 import Ubuntu.Components 0.1
+import Unity.Application 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
 import "../../../qml/Panel"
@@ -421,6 +422,18 @@ IndicatorTest {
 
             compare(panel.indicators.shown, false);
             verify(panel.indicators.fullyClosed);
+        }
+
+        function test_tapToReturnCallDontExpendIndicators() {
+            callManager.foregroundCall = phoneCall;
+
+            ApplicationManager.focusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            var showDragArea = findChild(panel.indicators, "showDragArea");
+            verify(showDragArea !== null);
+
+            compare(showDragArea.enabled, false);
         }
 
         function test_openAndClosePanelWithMouseClicks() {
