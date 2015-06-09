@@ -146,7 +146,7 @@ Item {
                        startX+units.gu(8), startY);
 
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
@@ -157,7 +157,7 @@ Item {
             mouseMove(root, 1, root.height / 2);
 
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
@@ -187,7 +187,7 @@ Item {
             waitUntilLauncherDisappears();
 
             var panel = findChild(launcher, "launcherPanel")
-            verify(panel != undefined)
+            verify(!!panel)
 
             // it starts out hidden just left of the left launcher edge
             compare(panel.x, -panel.width)
@@ -225,7 +225,7 @@ Item {
 
             var appIcon = findChild(launcher, "launcherDelegate0");
 
-            verify(appIcon != undefined);
+            verify(!!appIcon);
 
             if (data.mouse) {
                 mouseClick(appIcon);
@@ -248,7 +248,7 @@ Item {
             dragLauncherIntoView()
 
             var dashIcon = findChild(launcher, "dashItem")
-            verify(dashIcon != undefined)
+            verify(!!dashIcon)
 
             mouseClick(dashIcon)
 
@@ -625,7 +625,7 @@ Item {
 
         function test_revealByHover() {
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             revealByHover();
             tryCompare(launcher, "state", "visibleTemporary");
