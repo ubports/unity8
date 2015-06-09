@@ -28,10 +28,12 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setProgress(0);
     item->setPinned(true);
     item->setFocused(true);
+    item->setAlerting(true);
     m_list.append(item);
     item = new MockLauncherItem("camera-app", "/usr/share/applications/camera-app.desktop", "Camera", "camera", this);
     item->setProgress(10);
     item->setPinned(true);
+    item->setAlerting(true);
     m_list.append(item);
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
     item->setProgress(50);

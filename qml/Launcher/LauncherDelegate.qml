@@ -42,7 +42,11 @@ Item {
     property real brightness: 0
 
     onAlertingChanged: {
-        print("alerting changed for ", iconName)
+        print("alerting changed for ", appId)
+    }
+
+    onInvertedChanged: {
+        print("inverted changed for ", appId)
     }
 
     SequentialAnimation {

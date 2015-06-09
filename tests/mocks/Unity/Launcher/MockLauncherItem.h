@@ -44,7 +44,7 @@ public:
     int count() const override;
     bool countVisible() const override;
     bool focused() const;
-    bool alerting() const;
+    bool alerting() const override;
 
     unity::shell::launcher::QuickListModelInterface *quickList() const;
 
