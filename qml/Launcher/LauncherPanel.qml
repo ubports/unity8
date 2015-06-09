@@ -518,7 +518,7 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.96 : 0
+        opacity: quickList.state === "open" ? 0.8 : 0
         visible: opacity > 0
         rotation: root.rotation
 
@@ -530,15 +530,15 @@ Rectangle {
 
         Image {
             anchors {
-                left: parent.left
-                leftMargin: (quickList.item.width - units.gu(1)) / 2 - width / 2
+                right: parent.left
+                rightMargin: -units.dp(4)
                 verticalCenter: parent.verticalCenter
-                verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1) * (root.inverted ? 1 : -1)
+                verticalCenterOffset: -quickList.offset * (root.inverted ? 1 : -1)
             }
             height: units.gu(1)
             width: units.gu(2)
             source: "graphics/quicklist_tooltip.png"
-            rotation: (quickList.offset > 0 ? 0 : 180) + (root.inverted ? 0 : 180)
+            rotation: root.inverted ? 90 : 270
         }
 
         InverseMouseArea {
@@ -554,18 +554,18 @@ Rectangle {
     Rectangle {
         id: quickList
         objectName: "quickList"
-        color: "#f5f5f5"
+        color: "#221e1c"
         // Because we're setting left/right anchors depending on orientation, it will break the
         // width setting after rotating twice. This makes sure we also re-apply width on rotation
         width: root.inverted ? units.gu(30) : units.gu(30)
         height: quickListColumn.height
         visible: quickListShape.visible
         anchors {
-            left: root.inverted ? undefined : parent.left
-            right: root.inverted ? parent.right : undefined
+            left: root.inverted ? undefined : parent.right
+            right: root.inverted ? parent.left : undefined
             margins: units.gu(1)
         }
-        y: itemCenter + offset
+        y: itemCenter - (height / 2) + offset
         rotation: root.rotation
 
         property var model
@@ -574,9 +574,8 @@ Rectangle {
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
-        property int offset: itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
-                                 -(item.height/2) - height - units.gu(.5) :
-                                 (item.height/2) + units.gu(.5)
+        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
+                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 
         Column {
             id: quickListColumn
@@ -595,7 +594,7 @@ Rectangle {
                     // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
                     // ListItems don't know that they are sitting in a themed Popover where the color
                     // needs to be inverted.
-                    __foregroundColor: "black"
+                    __foregroundColor: Theme.palette.selected.backgroundText
 
                     onClicked: {
                         if (!model.clickable) {

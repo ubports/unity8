@@ -538,7 +538,7 @@ Item {
 
             // Doing longpress
             mousePress(draggedItem);
-            tryCompare(quickListShape, "opacity", 0.96);
+            tryCompare(quickListShape, "opacity", 0.8);
             mouseRelease(draggedItem);
 
             verify(quickList.y >= units.gu(1));
