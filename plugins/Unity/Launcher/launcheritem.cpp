@@ -40,10 +40,15 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     nameAction.setActionId("launch_item");
     nameAction.setText(m_name);
     m_quickList->appendAction(nameAction);
+
     QuickListEntry pinningAction;
     pinningAction.setActionId("pin_item");
     pinningAction.setText(gettext("Pin shortcut"));
     m_quickList->appendAction(pinningAction);
+
+    m_quitAction.setActionId("stop_item");
+    m_quitAction.setIcon("application-exit");
+    m_quitAction.setText(gettext("Quit"));
 }
 
 QString LauncherItem::appId() const
@@ -110,6 +115,11 @@ void LauncherItem::setRunning(bool running)
 {
     if (m_running != running) {
         m_running = running;
+        if (m_running) { // add the quit action
+            m_quickList->appendAction(m_quitAction);
+        } else { // remove the quit action
+            m_quickList->removeAction(m_quitAction);
+        }
         Q_EMIT runningChanged(running);
     }
 }

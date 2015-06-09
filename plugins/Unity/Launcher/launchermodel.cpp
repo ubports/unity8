@@ -82,9 +82,14 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->progress();
         case RoleFocused:
             return item->focused();
+        case RoleRunning:
+            return item->running();
+        default:
+            qWarning() << Q_FUNC_INFO << "missing role, implement me";
+            return QVariant();
     }
 
-    return QVariant();
+    return LauncherModelInterface::data(index, role);
 }
 
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
@@ -134,7 +139,7 @@ void LauncherModel::pin(const QString &appId, int index)
         if (index == -1 || index == currentIndex) {
             m_list.at(currentIndex)->setPinned(true);
             QModelIndex modelIndex = this->index(currentIndex);
-            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+            Q_EMIT dataChanged(modelIndex, modelIndex, {RolePinned});
         } else {
             move(currentIndex, index);
             // move() will store the list to the backend itself, so just exit at this point.
@@ -147,7 +152,7 @@ void LauncherModel::pin(const QString &appId, int index)
 
         DesktopFileHandler desktopFile(appId);
         if (!desktopFile.isValid()) {
-            qWarning() << "Can't pin this application, there is no .destkop file available.";
+            qWarning() << "Can't pin this application, there is no .desktop file available.";
             return;
         }
 
@@ -172,7 +177,7 @@ void LauncherModel::requestRemove(const QString &appId)
 
 void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex)
 {
-    int index = findApplication(appId);
+    const int index = findApplication(appId);
     if (index < 0) {
         return;
     }
@@ -273,6 +278,7 @@ bool LauncherModel::onlyPinned() const
 
 void LauncherModel::setOnlyPinned(bool onlyPinned) {
     Q_UNUSED(onlyPinned);
+    // FIXME implement showing only pinned apps
     qWarning() << "This launcher implementation does not support showing only pinned apps";
 }
 
@@ -299,7 +305,7 @@ void LauncherModel::unpin(const QString &appId)
         if (m_list.at(index)->pinned()) {
             m_list.at(index)->setPinned(false);
             QModelIndex modelIndex = this->index(index);
-            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RolePinned);
+            Q_EMIT dataChanged(modelIndex, modelIndex, {RolePinned});
         }
     } else {
         beginRemoveRows(QModelIndex(), index, index);
@@ -325,7 +331,7 @@ void LauncherModel::progressChanged(const QString &appId, int progress)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setProgress(progress);
-        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleProgress);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleProgress});
     }
 }
 
@@ -335,7 +341,7 @@ void LauncherModel::countChanged(const QString &appId, int count)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
-        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleCount});
         m_asAdapter->syncItems(m_list);
     }
 }
@@ -346,7 +352,7 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCountVisible(countVisible);
-        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCountVisible);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleCountVisible});
 
         // If countVisible goes to false, and the item is neither pinned nor recent we can drop it
         if (!countVisible && !item->pinned() && !item->recent()) {
@@ -388,7 +394,7 @@ void LauncherModel::refresh()
             item->setName(desktopFile.displayName());
             item->setIcon(desktopFile.icon());
             item->setPinned(item->pinned()); // update pinned text if needed
-            Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+            Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon});
         }
     }
 
@@ -475,12 +481,13 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         if (!item->recent()) {
             item->setRecent(true);
             m_asAdapter->syncItems(m_list);
-            Q_EMIT dataChanged(index(itemIndex), index(itemIndex), QVector<int>() << RoleRecent);
+            Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
-        // Shall we paint some running/recent app highlight? If yes, do it here.
+        // TODO Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
+        item->setRunning(true);
         item->setFocused(app->focused());
 
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
@@ -502,7 +509,15 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         }
     }
 
-    if (appIndex > -1 && !m_list.at(appIndex)->pinned()) {
+    if (appIndex < 0) {
+        qWarning() << Q_FUNC_INFO << "appIndex not found";
+        return;
+    }
+
+    LauncherItem * item = m_list.at(appIndex);
+    item->setRunning(false);
+
+    if (!item->pinned()) {
         beginRemoveRows(QModelIndex(), appIndex, appIndex);
         m_list.takeAt(appIndex)->deleteLater();
         endRemoveRows();
@@ -517,10 +532,10 @@ void LauncherModel::focusedAppIdChanged()
         LauncherItem *item = m_list.at(i);
         if (!item->focused() && item->appId() == appId) {
             item->setFocused(true);
-            Q_EMIT dataChanged(index(i), index(i), QVector<int>() << RoleFocused);
+            Q_EMIT dataChanged(index(i), index(i), {RoleFocused});
         } else if (item->focused() && item->appId() != appId) {
             item->setFocused(false);
-            Q_EMIT dataChanged(index(i), index(i), QVector<int>() << RoleFocused);
+            Q_EMIT dataChanged(index(i), index(i), {RoleFocused});
         }
     }
 }

@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 Canonical, Ltd.
+/* Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * Authors:
  *  Michael Zanetti <michael.zanetti@canonical.com>
@@ -36,6 +36,8 @@ public:
     void setIcon(const QString &icon);
 
     bool clickable() const;
+
+    bool operator==(const QuickListEntry & other);
 
 private:
     QString m_actionId;

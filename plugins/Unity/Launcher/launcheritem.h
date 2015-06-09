@@ -70,6 +70,7 @@ private:
     bool m_countVisible;
     bool m_focused;
     QuickListModel *m_quickList;
+    QuickListEntry m_quitAction;
 
     friend class LauncherModel;
 };
