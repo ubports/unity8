@@ -180,7 +180,7 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
     LauncherItem *item = m_list.at(index);
     QuickListModel *model = qobject_cast<QuickListModel*>(item->quickList());
     if (model) {
-        QString actionId = model->get(actionIndex).actionId();
+        const QString actionId = model->get(actionIndex).actionId();
 
         // Check if this is one of the launcher actions we handle ourselves
         if (actionId == "pin_item") {
@@ -191,7 +191,8 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
             }
         } else if (actionId == "launch_item") {
             QDesktopServices::openUrl(getUrlForAppId(appId));
-
+        } else if (actionId == "stop_item") { // Quit
+            m_appManager->stopApplication(appId);
         // Nope, we don't know this action, let the backend forward it to the application
         } else {
             // TODO: forward quicklist action to app, possibly via m_dbusIface
@@ -289,7 +290,7 @@ void LauncherModel::storeAppList()
 
 void LauncherModel::unpin(const QString &appId)
 {
-    int index = findApplication(appId);
+    const int index = findApplication(appId);
     if (index < 0) {
         return;
     }
@@ -320,7 +321,7 @@ int LauncherModel::findApplication(const QString &appId)
 
 void LauncherModel::progressChanged(const QString &appId, int progress)
 {
-    int idx = findApplication(appId);
+    const int idx = findApplication(appId);
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setProgress(progress);
@@ -330,7 +331,7 @@ void LauncherModel::progressChanged(const QString &appId, int progress)
 
 void LauncherModel::countChanged(const QString &appId, int count)
 {
-    int idx = findApplication(appId);
+    const int idx = findApplication(appId);
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
@@ -405,7 +406,7 @@ void LauncherModel::refresh()
 
     // Now walk through settings and see if we need to add something
     for (int settingsIndex = 0; settingsIndex < m_settings->storedApplications().count(); ++settingsIndex) {
-        QString entry = m_settings->storedApplications().at(settingsIndex);
+        const QString entry = m_settings->storedApplications().at(settingsIndex);
         int itemIndex = -1;
         for (int i = 0; i < m_list.count(); ++i) {
             if (m_list.at(i)->appId() == entry) {
@@ -468,7 +469,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         return;
     }
 
-    int itemIndex = findApplication(app->appId());
+    const int itemIndex = findApplication(app->appId());
     if (itemIndex != -1) {
         LauncherItem *item = m_list.at(itemIndex);
         if (!item->recent()) {
@@ -511,7 +512,7 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
 
 void LauncherModel::focusedAppIdChanged()
 {
-    QString appId = m_appManager->focusedApplicationId();
+    const QString appId = m_appManager->focusedApplicationId();
     for (int i = 0; i < m_list.count(); ++i) {
         LauncherItem *item = m_list.at(i);
         if (!item->focused() && item->appId() == appId) {
