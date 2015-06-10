@@ -41,6 +41,12 @@ Item {
     property real itemOpacity: 1
     property real brightness: 0
 
+    onAngleChanged: {
+        if (index === 1) {
+            print("angle:", angle)
+        }
+    }
+
     QtObject {
         id: privWiggleAnim
 
