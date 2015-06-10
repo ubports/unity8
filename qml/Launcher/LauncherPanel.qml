@@ -298,7 +298,7 @@ Rectangle {
                         property int draggedIndex: -1
                         property var selectedItem
                         property bool preDragging: false
-                        property bool dragging: selectedItem !== undefined && selectedItem !== null && selectedItem.dragging
+                        property bool dragging: !!selectedItem && selectedItem.dragging
                         property bool postDragging: false
                         property int startX
                         property int startY

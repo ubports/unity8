@@ -623,6 +623,28 @@ Item {
             tryCompare(quickList, "state", "");
         }
 
+        function test_quickListMenuOnRMB() {
+            dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var quickList = findChild(launcher, "quickList")
+            var quickListShape = findChild(launcher, "quickListShape")
+            var dndArea = findChild(launcher, "dndArea");
+
+            // Initial state
+            tryCompare(quickListShape, "visible", false)
+
+            // Doing RMB click
+            mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
+            tryCompare(quickListShape, "visible", true)
+            verify(quickList, "state", "open")
+            verify(dndArea, "dragging", false)
+
+            // Click somewhere in the empty space to dismiss the quicklist
+            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+            tryCompare(quickListShape, "visible", false);
+            verify(quickList, "state", "")
+        }
+
         function test_revealByHover() {
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
