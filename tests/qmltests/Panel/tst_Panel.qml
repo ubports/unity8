@@ -424,7 +424,7 @@ IndicatorTest {
             verify(panel.indicators.fullyClosed);
         }
 
-        function test_tapToReturnCallDontExpendIndicators() {
+        function test_tapToReturnCallDoesntExpandIndicators() {
             callManager.foregroundCall = phoneCall;
 
             ApplicationManager.focusApplication("unity8-dash");
