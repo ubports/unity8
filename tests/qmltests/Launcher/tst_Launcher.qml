@@ -128,24 +128,7 @@ Item {
             Button {
                 text: "set alert"
                 onClicked: {
-                    print(appIdEntry.displayText)
-
-                    var launcherListView = testCase.findChild(launcherLoader.item, "launcherListView")
-                    for (var i = 0; i < launcherListView.count; ++i) {
-                        if (LauncherModel.get(i).appId === appIdEntry.displayText) {
-                            print(LauncherModel.get(i).alerting)
-                        }
-                    }
-
                     LauncherModel.alert(appIdEntry.displayText, true)
-
-
-                    for (var i = 0; i < launcherListView.count; ++i) {
-                        if (LauncherModel.get(i).appId === appIdEntry.displayText) {
-                            print(LauncherModel.get(i).alerting)
-                        }
-                    }
-
                 }
                 Layout.fillWidth: true
             }
@@ -163,21 +146,7 @@ Item {
             Button {
                 text: "unset alert"
                 onClicked: {
-                    var launcherListView = testCase.findChild(launcherLoader.item, "launcherListView")
-                    for (var i = 0; i < launcherListView.count; ++i) {
-                        if (LauncherModel.get(i).appId === appIdEntry.displayText) {
-                            print(LauncherModel.get(i).alerting)
-                        }
-                    }
-
                     LauncherModel.alert(appIdEntry.displayText, false)
-
-                    for (var i = 0; i < launcherListView.count; ++i) {
-                        if (LauncherModel.get(i).appId === appIdEntry.displayText) {
-                            print(LauncherModel.get(i).alerting)
-                        }
-                    }
-
                 }
                 Layout.fillWidth: true
             }

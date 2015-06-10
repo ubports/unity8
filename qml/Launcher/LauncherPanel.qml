@@ -59,6 +59,7 @@ Rectangle {
             fakeAlertingItem.y = alertIndex * fakeAlertingItem.itemHeight + launcherListView.anchors.topMargin + launcherListView.topMargin
             fakeAlertingItem.progress = launcherListView.model.get(alertIndex).progress
             fakeAlertingItem.alerting = true
+            fakeAlertingItem.countVisible = launcherListView.model.get(alertIndex).countVisible
             fakeAlertingItem.visible = true
         } else {
             // fold

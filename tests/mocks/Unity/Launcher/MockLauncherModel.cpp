@@ -20,20 +20,16 @@
 #include "MockLauncherModel.h"
 #include "MockLauncherItem.h"
 
-#include <iostream>
-
 MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(parent)
 {
     MockLauncherItem *item = new MockLauncherItem("dialer-app", "/usr/share/applications/dialer-app.desktop", "Dialer", "dialer-app", this);
     item->setProgress(0);
     item->setPinned(true);
     item->setFocused(true);
-    item->setAlerting(true);
     m_list.append(item);
     item = new MockLauncherItem("camera-app", "/usr/share/applications/camera-app.desktop", "Camera", "camera", this);
     item->setProgress(10);
     item->setPinned(true);
-    item->setAlerting(true);
     m_list.append(item);
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
     item->setProgress(50);
@@ -126,9 +122,10 @@ unity::shell::launcher::LauncherItemInterface *MockLauncherModel::get(int index)
 void MockLauncherModel::alert(const QString &appId, bool alerting) {
     int index = findApp(appId);
     if (index >= 0) {
-        std::cout << "MockLauncherModel::alert()" << std::endl;
+        QModelIndex modelIndex = this->index(index);
         MockLauncherItem *item = m_list.at(index);
         item->setAlerting(alerting);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleAlerting);
     }
 }
 

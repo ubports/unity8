@@ -21,7 +21,6 @@
 #include "MockQuickListModel.h"
 
 #include <paths.h>
-#include <iostream>
 
 using namespace unity::shell::launcher;
 
@@ -170,7 +169,6 @@ void MockLauncherItem::setAlerting(bool alerting)
 {
     if (m_alerting != alerting)
     {
-        std::cout << "MockLauncherItem::setAlerting()" << std::endl;
         m_alerting = alerting;
         Q_EMIT alertingChanged(alerting);
     }

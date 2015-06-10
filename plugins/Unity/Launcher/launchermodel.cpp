@@ -92,8 +92,10 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
 void LauncherModel::alert(const QString &appId, bool alerting) {
     int index = findApplication(appId);
     if (index >= 0) {
+        QModelIndex modelIndex = this->index(index);
         LauncherItem *item = m_list.at(index);
         item->setAlerting(alerting);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleAlerting);
     }
 }
 

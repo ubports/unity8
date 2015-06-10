@@ -41,74 +41,71 @@ Item {
     property real itemOpacity: 1
     property real brightness: 0
 
-    onAlertingChanged: {
-        print("alerting changed for ", appId)
-    }
+    QtObject {
+        id: privWiggleAnim
 
-    onInvertedChanged: {
-        print("inverted changed for ", appId)
+        readonly property double angle: 5.0
+        readonly property int duration: UbuntuAnimation.SnapDuration
+        readonly property var target: root
     }
 
     SequentialAnimation {
         id: wiggleAnim
 
-        readonly property double angle: 5.0
-        readonly property int duration: UbuntuAnimation.SnapDuration
-
         running: alerting
         loops: Animation.Infinite
 
         NumberAnimation {
-            target: root
+            target: privWiggleAnim.target
             property: "rotation"
             from: 0
-            to: wiggleAnim.angle
-            duration: wiggleAnim.duration
+            to: privWiggleAnim.angle
+            duration: privWiggleAnim.duration
             easing.type: Easing.InQuad
         }
 
         NumberAnimation {
-            target: root
+            target: privWiggleAnim.target
             property: "rotation"
-            from: wiggleAnim.angle
-            to: -wiggleAnim.angle
-            duration: wiggleAnim.duration
+            from: privWiggleAnim.angle
+            to: -privWiggleAnim.angle
+            duration: privWiggleAnim.duration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: root
+            target: privWiggleAnim.target
             property: "rotation"
-            from: -wiggleAnim.angle
-            to: wiggleAnim.angle
-            duration: wiggleAnim.duration
+            from: -privWiggleAnim.angle
+            to: privWiggleAnim.angle
+            duration: privWiggleAnim.duration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: root
+            target: privWiggleAnim.target
             property: "rotation"
-            from: -wiggleAnim.angle
-            to: wiggleAnim.angle
-            duration: wiggleAnim.duration
+            from: -privWiggleAnim.angle
+            to: privWiggleAnim.angle
+            duration: privWiggleAnim.duration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: root
+            target: privWiggleAnim.target
             property: "rotation"
-            from: wiggleAnim.angle
-            to: -wiggleAnim.angle
-            duration: wiggleAnim.duration
+            from: privWiggleAnim.angle
+            to: -privWiggleAnim.angle
+            duration: privWiggleAnim.duration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: root
+            target: privWiggleAnim.target
             property: "rotation"
-            from: -wiggleAnim.angle
+            from: -privWiggleAnim.angle
             to: 0
-            duration: wiggleAnim.duration
+            duration: privWiggleAnim.duration
             easing.type: Easing.OutQuad
         }
 
@@ -214,6 +211,7 @@ Item {
                 }
             }
         }
+
         Image {
             objectName: "focusedHighlight"
             anchors {
