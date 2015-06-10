@@ -431,7 +431,6 @@ Rectangle {
                         }
 
                         onPositionChanged: {
-                            print("position:", mouseX, "/", mouseY)
                             if (draggedIndex >= 0) {
                                 if (!selectedItem.dragging) {
                                     var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))

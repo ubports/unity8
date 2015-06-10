@@ -94,8 +94,10 @@ void LauncherModel::alert(const QString &appId, bool alerting) {
     if (index >= 0) {
         QModelIndex modelIndex = this->index(index);
         LauncherItem *item = m_list.at(index);
-        item->setAlerting(alerting);
-        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleAlerting);
+        if (!item->focused()) {
+            item->setAlerting(alerting);
+            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleAlerting);
+        }
     }
 }
 
