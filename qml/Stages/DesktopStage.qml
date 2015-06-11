@@ -460,6 +460,7 @@ Rectangle {
         anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
         text: appRepeater.highlightedIndex >= 0 ? ApplicationManager.get(appRepeater.highlightedIndex).name : ""
         visible: false
+        fontSize: "large"
     }
 
     states: [
