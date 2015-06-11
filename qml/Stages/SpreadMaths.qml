@@ -81,7 +81,7 @@ Item {
             return linearAnimation(0, 1, rightFoldingAreaX, flickableWidth - margins - stackWidth, rightEasing.value);
         }
 
-        return linearX//margins + foldingAreaWidth + centerEasing.value * (linearX - margins - foldingAreaWidth);
+        return linearX
     }
 
     readonly property int animatedY: sceneHeight - itemHeight - spreadBottomOffset
@@ -136,13 +136,6 @@ Item {
     function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
         // progress : progressDiff = value : valueDiff => value = progress * valueDiff / progressDiff
         return (progress - startProgress) * (endValue - startValue) / (endProgress - startProgress) + startValue;
-    }
-
-    EasingCurve {
-        id: centerEasing
-        type: EasingCurve.InOutSine
-        property int totalDistance: flickableWidth - foldingAreaWidth * 2 - margins * 2
-        progress: (linearX - margins - foldingAreaWidth) / totalDistance
     }
 
     EasingCurve {
