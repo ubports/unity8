@@ -403,6 +403,7 @@ Rectangle {
                         }
                         height: parent.height * 0.75
 
+                        // FIXME: This is temporary until we can have multiple Items per surface
                         ShaderEffect {
                             anchors.fill: parent
 
@@ -482,11 +483,14 @@ Rectangle {
             from: "*"
             to: "altTab"
             SequentialAnimation {
+                PauseAnimation { duration: 50 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 ScriptAction { script: root.updateWorkspaces() }
-                PauseAnimation { duration: 50 }
+                // FIXME: Updating of shaderEffectSource take a bit of time. This is temporary until we can paint multiple items per surface
+                PauseAnimation { duration: 10 }
                 PropertyAction { target: root; property: "workspacesUpdated"; value: true }
                 PropertyAction { target: spreadFlickable; property: "visible" }
+                PropertyAction { target: currentSelectedLabel; property: "visible" }
                 PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
                 PropertyAction { target: appRepeater; property: "highlightedIndex"; value: 1 }
             }
