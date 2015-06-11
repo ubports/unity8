@@ -18,54 +18,49 @@
 
 #include "Powerd.h"
 #include <QDBusPendingCall>
+#include <QDBusConnection>
 
-void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+void autoBrightnessChanged(GSettings *settings, const gchar *key, Powerd * instance)
 {
-    bool value = g_settings_get_boolean(settings, key);
-    unityScreen->asyncCall("userAutobrightnessEnable", QVariant(value));
+    const bool value = g_settings_get_boolean(settings, key);
+    instance->performAsyncCall("userAutobrightnessEnable", {value});
 }
 
-void activityTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+void activityTimeoutChanged(GSettings *settings, const gchar *key, Powerd * instance)
 {
-    int value = g_settings_get_uint(settings, key);
-    unityScreen->asyncCall("setInactivityTimeouts", QVariant(value), QVariant(-1));
+    const int value = g_settings_get_int(settings, key);
+    instance->performAsyncCall("setInactivityTimeouts", {value, -1});
 }
 
-void dimTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
+void dimTimeoutChanged(GSettings *settings, const gchar *key, Powerd * instance)
 {
-    int value = g_settings_get_uint(settings, key);
-    unityScreen->asyncCall("setInactivityTimeouts", QVariant(-1), QVariant(value));
+    const int value = g_settings_get_int(settings, key);
+    instance->performAsyncCall("setInactivityTimeouts", {-1, value});
 }
 
 Powerd::Powerd(QObject* parent)
   : QObject(parent),
-    unityScreen(nullptr),
     cachedStatus(Status::On)
 {
-    unityScreen = new QDBusInterface("com.canonical.Unity.Screen",
-                                     "/com/canonical/Unity/Screen",
-                                     "com.canonical.Unity.Screen",
-                                     QDBusConnection::SM_BUSNAME(), this);
-
-    unityScreen->connection().connect("com.canonical.Unity.Screen",
-                                      "/com/canonical/Unity/Screen",
-                                      "com.canonical.Unity.Screen",
-                                      "DisplayPowerStateChange",
-                                      this,
-                                      SLOT(handleDisplayPowerStateChange(int, int)));
+    QDBusConnection::SM_BUSNAME().connect("com.canonical.Unity.Screen",
+                                          "/com/canonical/Unity/Screen",
+                                          "com.canonical.Unity.Screen",
+                                          "DisplayPowerStateChange",
+                                          this,
+                                          SLOT(handleDisplayPowerStateChange(int, int)));
 
     systemSettings = g_settings_new("com.ubuntu.touch.system");
-    g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), unityScreen);
-    g_signal_connect(systemSettings, "changed::activity-timeout", G_CALLBACK(activityTimeoutChanged), unityScreen);
-    g_signal_connect(systemSettings, "changed::dim-timeout", G_CALLBACK(dimTimeoutChanged), unityScreen);
-    autoBrightnessChanged(systemSettings, "auto-brightness", unityScreen);
-    activityTimeoutChanged(systemSettings, "activity-timeout", unityScreen);
-    dimTimeoutChanged(systemSettings, "dim-timeout", unityScreen);
+    g_signal_connect(systemSettings, "changed::auto-brightness", G_CALLBACK(autoBrightnessChanged), this);
+    g_signal_connect(systemSettings, "changed::activity-timeout", G_CALLBACK(activityTimeoutChanged), this);
+    g_signal_connect(systemSettings, "changed::dim-timeout", G_CALLBACK(dimTimeoutChanged), this);
+    autoBrightnessChanged(systemSettings, "auto-brightness", this);
+    activityTimeoutChanged(systemSettings, "activity-timeout", this);
+    dimTimeoutChanged(systemSettings, "dim-timeout", this);
 }
 
 Powerd::~Powerd()
 {
-    g_signal_handlers_disconnect_by_data(systemSettings, unityScreen);
+    g_signal_handlers_disconnect_by_data(systemSettings, this);
     g_object_unref(systemSettings);
 }
 
@@ -80,4 +75,14 @@ void Powerd::handleDisplayPowerStateChange(int status, int reason)
         cachedStatus = (Status)status;
         Q_EMIT statusChanged((DisplayStateChangeReason)reason);
     }
+}
+
+void Powerd::performAsyncCall(const QString &method, const QVariantList &args)
+{
+    QDBusMessage msg = QDBusMessage::createMethodCall("com.canonical.Unity.Screen",
+                                                      "/com/canonical/Unity/Screen",
+                                                      "com.canonical.Unity.Screen",
+                                                      method);
+    msg.setArguments(args);
+    QDBusConnection::SM_BUSNAME().asyncCall(msg);
 }

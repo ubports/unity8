@@ -94,8 +94,7 @@ private Q_SLOTS:
 
     void testGetSetService()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.demoEdges(), false);
         session.setDemoEdges(true);
@@ -112,8 +111,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForDemoEdges()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.demoEdges(), false);
         ASSERT_DBUS_CALL(m_userInterface->call("Set",
@@ -125,8 +123,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForFailedLogins()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.failedLogins(), (uint)0);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -138,8 +135,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsWelcomeScreen()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.statsWelcomeScreen(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -151,8 +147,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsEnableLauncherWhileLocked()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.enableLauncherWhileLocked(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -164,8 +159,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsEnableIndicatorsWhileLocked()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.enableIndicatorsWhileLocked(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -177,8 +171,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsPasswordDisplayHint()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.passwordDisplayHint(), AccountsService::Keyboard);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -190,8 +183,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsLicenseAccepted()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.hereEnabled(), false);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -203,8 +195,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForLicenseBasePath()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.hereLicensePath(), QString());
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -216,8 +207,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsBackgroundFile()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.backgroundFile(), QString());
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",

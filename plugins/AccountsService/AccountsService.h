@@ -72,7 +72,8 @@ public:
         Numeric,
     };
 
-    explicit AccountsService(QObject *parent = 0);
+    explicit AccountsService(QObject *parent = 0, const QString & user = QString());
+    ~AccountsService() = default;
 
     QString user() const;
     void setUser(const QString &user);
@@ -103,8 +104,8 @@ Q_SIGNALS:
     void hereLicensePathChanged();
 
 private Q_SLOTS:
-    void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
-    void maybeChanged(const QString &user);
+    void onPropertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
+    void onMaybeChanged(const QString &user);
 
 private:
     void updateDemoEdges(bool async = true);
