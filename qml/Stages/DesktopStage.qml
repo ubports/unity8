@@ -194,6 +194,7 @@ Rectangle {
                             state: "transformed"
                             width: spreadMaths.spreadHeight
                             height: spreadMaths.spreadHeight
+                            shadowOpacity: spreadMaths.shadowOpacity
                         }
                         PropertyChanges {
                             target: tileInfo

@@ -29,6 +29,7 @@ FocusScope {
 
     property bool decorationShown: true
     property bool highlightShown: false
+    property real shadowOpacity: 1
 
     property int windowWidth: width
     property int windowHeight: height
@@ -67,8 +68,7 @@ FocusScope {
             margins: -units.gu(2)
         }
         source: "graphics/dropshadow2gu.sci"
-        opacity: .3
-        Behavior on opacity { UbuntuNumberAnimation {} }
+        opacity: root.shadowOpacity * .3
     }
 
     Rectangle {

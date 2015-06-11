@@ -123,6 +123,14 @@ Item {
                                                         : 1
 
     readonly property bool itemVisible: itemIndex == totalItems - 1 ? true : leftFoldingAreaProgress < 5 && rightFoldingAreaProgress < 5
+    readonly property real shadowOpacity: itemIndex == totalItems -1 ?
+                                              1
+                                            : leftFoldingAreaProgress > 3 ?
+                                                  linearAnimation(3, 3.5, 1, 0, leftFoldingAreaProgress)
+                                                : rightFoldingAreaProgress > 3 ?
+                                                      linearAnimation(3, 3.5, 1, 0, rightFoldingAreaProgress)
+                                                    : 1
+
 
     // Helpers
     function linearAnimation(startProgress, endProgress, startValue, endValue, progress) {
