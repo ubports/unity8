@@ -1,3 +1,9 @@
+unity8 (8.10-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Implement full-shell rotation (LP: #1210199)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 15 Apr 2015 14:47:17 +0200
+
 unity8 (8.02+15.10.20150603.1-0ubuntu1) wily; urgency=medium
 
   [ CI Train Bot ]
