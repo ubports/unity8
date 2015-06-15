@@ -28,6 +28,8 @@ Item {
     property real maxAngle: 0
     property bool inverted: false
     property bool alerting: false
+    property bool revealing: false
+    property bool hiding: false
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -41,10 +43,45 @@ Item {
     property real itemOpacity: 1
     property real brightness: 0
 
-    onAngleChanged: {
-        if (index === 1) {
-            print("angle:", angle)
+    Connections {
+        target: mainColumn.parent
+        onPanelMoved: {
+            if (alerting) {
+                x = Math.max(units.gu(4.5) - mainColumn.parent.parent.visibleWidth, 0)
+            }
         }
+    }
+
+    onAlertingChanged: {
+        if (alerting && launcher.state !== "visible") {
+            launcherListView.peeking(index)
+            revealing = true
+        } else {
+            launcherListView.unpeeking(index)
+            revealing = false
+            hiding = true
+        }
+    }
+
+    UbuntuNumberAnimation {
+        running: revealing
+        alwaysRunToEnd: true
+        loops: 1
+        target: root
+        properties: "x"
+        from: 0
+        to: units.gu(.5) + launcherListView.width * .5
+        duration: UbuntuAnimation.BriskDuration
+    }
+
+    UbuntuNumberAnimation {
+        running: hiding
+        alwaysRunToEnd: true
+        loops: 1
+        target: root
+        properties: "x"
+        to: 0
+        duration: UbuntuAnimation.BriskDuration
     }
 
     QtObject {
@@ -60,6 +97,7 @@ Item {
 
         running: alerting
         loops: Animation.Infinite
+        alwaysRunToEnd: true
 
         NumberAnimation {
             target: privWiggleAnim.target

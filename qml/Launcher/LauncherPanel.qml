@@ -34,38 +34,18 @@ Rectangle {
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
     property int highlightIndex: -1
-    property int alertIndex: -1
 
     signal applicationSelected(string appId)
     signal showDashHome()
+    signal panelMoved()
 
     onXChanged: {
         if (quickList.state == "open") {
             quickList.state = ""
         }
 
-        if (fakeAlertingItem.visible && fakeAlertingItem.x > units.gu(.5)) {
-            fakeAlertingItem.x = Math.max(units.gu(4.5) - parent.visibleWidth, units.gu(.5))
-        }
-    }
-
-    onAlertIndexChanged: {
-        if (alertIndex !== -1) {
-            //unfold
-
-            panel.visible = true
-            fakeAlertingItem.index = alertIndex
-            fakeAlertingItem.iconName = launcherListView.model.get(alertIndex).icon
-            fakeAlertingItem.y = alertIndex * fakeAlertingItem.itemHeight + launcherListView.anchors.topMargin + launcherListView.topMargin
-            fakeAlertingItem.progress = launcherListView.model.get(alertIndex).progress
-            fakeAlertingItem.alerting = true
-            fakeAlertingItem.countVisible = launcherListView.model.get(alertIndex).countVisible
-            fakeAlertingItem.visible = true
-        } else {
-            // fold
-
-            // hide fake-alerting-icon
-            fakeAlertingItem.alerting = false
+        if (launcherListView.peekingIndex !== -1) {
+            panelMoved()
         }
     }
 
@@ -111,6 +91,7 @@ Rectangle {
             height: parent.height - dashItem.height - parent.spacing*2
 
             Item {
+                id: launcherListViewItem
                 anchors.fill: parent
                 clip: true
 
@@ -134,6 +115,9 @@ Rectangle {
                     preferredHighlightBegin: (height - itemHeight) / 2
                     preferredHighlightEnd: (height + itemHeight) / 2
 
+                    // for the single peeking icon, when alert-state is set on delegate
+                    property int peekingIndex: -1
+
                     // The size of the area the ListView is extended to make sure items are not
                     // destroyed when dragging them outside the list. This needs to be at least
                     // itemHeight to prevent folded items from disappearing and DragArea limits
@@ -151,6 +135,28 @@ Rectangle {
                     Component.onCompleted: {
                         extensionSize = itemHeight * 3
                         flick(0, clickFlickSpeed)
+                    }
+
+                    function peeking(peek) {
+                        if (peekingIndex === -1) {
+                            peekingIndex = peek
+                        }
+                    }
+
+                    function unpeeking(peek) {
+                        if (peekingIndex === peek) {
+                            peekingIndex = -1
+                        }
+                    }
+
+                    onPeekingIndexChanged: {
+                        if (peekingIndex !== -1) {
+                            panel.visible = true
+                            launcherListViewItem.clip = false
+                            positionViewAtIndex(peekingIndex, ListView.Center)
+                        } else {
+                            launcherListViewItem.clip = true
+                        }
                     }
 
                     // The height of the area where icons start getting folded
@@ -209,7 +215,6 @@ Rectangle {
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
-                        itemOpacity: index === alertIndex ? 0 : 1
 
                         ThinDivider {
                             id: dropIndicator
@@ -526,66 +531,6 @@ Rectangle {
                     target: fakeDragItem;
                     properties: "angle,offset";
                     to: 0
-                }
-            }
-
-            LauncherDelegate {
-                id: fakeAlertingItem
-
-                property int index
-
-                objectName: "fakeAlertingItem"
-                visible: false
-                itemWidth: launcherListView.itemWidth
-                itemHeight: launcherListView.itemHeight
-                height: itemHeight
-                width: itemWidth
-                rotation: root.rotation1G
-                alerting: false
-
-                onAlertingChanged: {
-                    if (alerting) {
-                        if (launcher.state !== "visible") {
-                            fakeAlertingItemReveal.start();
-                        }
-                    } else {
-                        fakeAlertingItemHide.start();
-                    }
-                }
-
-                ParallelAnimation {
-                    id: fakeAlertingItemReveal
-
-                    /*UbuntuNumberAnimation {
-                        target: fakeAlertingItem;
-                        properties: "angle, offset";
-                        to: 0
-                    }*/
-
-                    UbuntuNumberAnimation {
-                        target: fakeAlertingItem;
-                        properties: "x";
-                        from: units.gu(.5)
-                        to: units.gu(1) + launcherListView.width * .5
-                        duration: UbuntuAnimation.BriskDuration
-                    }
-                }
-
-                SequentialAnimation {
-                    id: fakeAlertingItemHide
-
-                    UbuntuNumberAnimation {
-                        target: fakeAlertingItem;
-                        properties: "x";
-                        to: units.gu(.5)
-                        duration: UbuntuAnimation.BriskDuration
-                    }
-
-                    PropertyAction {
-                        target: fakeAlertingItem
-                        properties: "visible"
-                        value: false
-                    }
                 }
             }
         }

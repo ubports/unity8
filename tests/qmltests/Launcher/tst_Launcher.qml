@@ -97,39 +97,9 @@ Item {
         Row {
             spacing: units.gu(1)
 
-            CheckBox {
-                anchors.verticalCenter: parent.verticalCenter
-                onClicked: {
-                    var panel = testCase.findChild(launcherLoader, "launcherPanel")
-                    panel.alertIndex = checked ? parseInt(iconIndex.displayText) : -1
-                }
-                Layout.fillWidth: true
-            }
-
-            Label {
-                anchors.verticalCenter: parent.verticalCenter
-                text:"wiggle of icon"
-            }
-
-            TextArea {
-                id: iconIndex
-                anchors.verticalCenter: parent.verticalCenter
-                width: units.gu(4)
-                height: units.gu(4)
-                autoSize: true
-                text: "2"
-                maximumLineCount: 1
-            }
-        }
-
-        Row {
-            spacing: units.gu(1)
-
             Button {
                 text: "set alert"
-                onClicked: {
-                    LauncherModel.alert(appIdEntry.displayText, true)
-                }
+                onClicked: LauncherModel.alert(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, true)
                 Layout.fillWidth: true
             }
 
@@ -139,15 +109,13 @@ Item {
                 width: units.gu(4)
                 height: units.gu(4)
                 autoSize: true
-                text: "dialer-app"
+                text: "2"
                 maximumLineCount: 1
             }
 
             Button {
                 text: "unset alert"
-                onClicked: {
-                    LauncherModel.alert(appIdEntry.displayText, false)
-                }
+                onClicked: LauncherModel.alert(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, false)
                 Layout.fillWidth: true
             }
         }
