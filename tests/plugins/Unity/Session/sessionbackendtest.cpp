@@ -157,13 +157,12 @@ private Q_SLOTS:
         QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
     }
 
-    void testLock() {
-        DBusUnitySessionService dbusUnitySessionService;
-        QCoreApplication::processEvents(); // to let the service register on DBus
-
-        qDebug() << "Locking up...";
-        dbusUnitySessionService.Lock();
-    }
+//    void testLock() {
+//        DBusUnitySessionService dbusUnitySessionService;
+//        QCoreApplication::processEvents(); // to let the service register on DBus
+//        qDebug() << "Locking up...";
+//        dbusUnitySessionService.Lock();
+//    }
 
 private:
     QDBusInterface *dbusUnitySession;
