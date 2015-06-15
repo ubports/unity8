@@ -138,6 +138,13 @@ Rectangle {
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
 
+    Rectangle {
+        id: spreadBackground
+        anchors.fill: parent
+        color: "#55000000"
+        visible: false
+    }
+
     Item {
         id: appContainer
         anchors.fill: parent
@@ -373,7 +380,7 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Item {
         id: workspaceSelector
         anchors {
             left: parent.left
@@ -382,7 +389,6 @@ Rectangle {
             topMargin: units.gu(3.5) // TODO: should be root.panelHeight
         }
         height: root.height * 0.25
-        color: "#55000000"
         visible: false
 
         RowLayout {
@@ -474,6 +480,7 @@ Rectangle {
             PropertyChanges { target: workspaceSelector; visible: true }
             PropertyChanges { target: spreadFlickable; enabled: true }
             PropertyChanges { target: currentSelectedLabel; visible: true }
+            PropertyChanges { target: spreadBackground; visible: true }
         }
     ]
     signal updateWorkspaces();
