@@ -115,16 +115,6 @@ FakeTimerFactory::FakeTimerFactory()
     m_timeSource.reset(new FakeTimeSource);
 }
 
-FakeTimerFactory::~FakeTimerFactory()
-{
-    for (int i = 0; i < timers.count(); ++i) {
-        FakeTimer *timer = timers[i].data();
-        if (timer) {
-            delete timer;
-        }
-    }
-}
-
 void FakeTimerFactory::updateTime(qint64 targetTime)
 {
     qint64 minTimeoutTime = targetTime;

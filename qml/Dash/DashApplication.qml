@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +18,13 @@ import QtQuick 2.2
 import Ubuntu.Components 1.0
 import Ubuntu.Thumbnailer 0.1 // Register support for image://thumbnailer/ and image://albumart/
 
- MainView {
-    id: mainView
-    width: applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
-    height: applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(68)
+MainView {
+    implicitWidth: units.gu(40)
+    implicitHeight: units.gu(68)
 
     useDeprecatedToolbar: false
 
-    function pushPage(page) { pageStack.push(page); }
-    function popPage(page) { pageStack.pop(); }
-
-    PageStack {
-        id: pageStack
-        anchors.fill: parent
-    }
-
     Dash {
-        id: dash
         anchors.fill: parent
-
-        Component.onCompleted: pushPage(dash)
     }
 }

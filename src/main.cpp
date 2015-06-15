@@ -25,15 +25,15 @@
 #include <csignal>
 #include <libintl.h>
 
+// libandroid-properties
+#include <hybris/properties/properties.h>
+
 // local
 #include <paths.h>
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
-
-// Ubuntu Gestures
-#include <TouchRegistry.h>
 
 int main(int argc, const char *argv[])
 {
@@ -50,13 +50,15 @@ int main(int argc, const char *argv[])
 
     UnityCommandLineParser parser(*application);
 
-    QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
-    if (indicatorProfile.isEmpty()) {
-        indicatorProfile = "phone";
-    }
-
     ApplicationArguments qmlArgs;
-    qmlArgs.setSize(parser.windowGeometry());
+
+    if (!parser.deviceName().isEmpty()) {
+        qmlArgs.setDeviceName(parser.deviceName());
+    } else {
+        char buffer[200];
+        property_get("ro.product.device", buffer /* value */, "desktop" /* default_value*/);
+        qmlArgs.setDeviceName(QString(buffer));
+    }
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
@@ -82,15 +84,18 @@ int main(int argc, const char *argv[])
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setColor("black");
     view->setTitle("Unity8 Shell");
+
+    if (parser.windowGeometry().isValid()) {
+        view->setWidth(parser.windowGeometry().width());
+        view->setHeight(parser.windowGeometry().height());
+    }
+
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
-    view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
     view->rootContext()->setContextProperty("shellMode", parser.mode());
     if (parser.hasFrameless()) {
         view->setFlags(Qt::FramelessWindowHint);
     }
-    TouchRegistry touchRegistry;
-    view->installEventFilter(&touchRegistry);
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
@@ -99,7 +104,7 @@ int main(int argc, const char *argv[])
         mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
-    QUrl source(::qmlDirectory()+"Shell.qml");
+    QUrl source(::qmlDirectory()+"OrientedShell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     if (!isMirServer) {
         prependImportPaths(view->engine(), ::nonMirImportPaths());

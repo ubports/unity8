@@ -125,8 +125,8 @@ Q_SIGNALS:
     void immediateRecognitionChanged(bool value);
 
 protected:
-    virtual void touchEvent(QTouchEvent *event);
-    virtual void itemChange(ItemChange change, const ItemChangeData &value);
+    void touchEvent(QTouchEvent *event) override;
+    void itemChange(ItemChange change, const ItemChangeData &value) override;
 
 public: // so tests can access it
     DirectionalDragAreaPrivate *d;

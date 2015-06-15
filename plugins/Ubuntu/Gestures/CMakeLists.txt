@@ -7,6 +7,7 @@ set(UbuntuGesturesQml_SOURCES
     Damper.cpp
     Direction.cpp
     DirectionalDragArea.cpp
+    FloatingFlickable.cpp
     PressedOutsideNotifier.cpp
     TouchDispatcher.cpp
     TouchGate.cpp

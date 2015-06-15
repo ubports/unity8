@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,17 +29,18 @@ class MirSurfaceItem : public QQuickItem
     Q_OBJECT
     Q_ENUMS(Type)
     Q_ENUMS(State)
+    Q_ENUMS(OrientationAngle)
 
     Q_PROPERTY(Type type READ type NOTIFY typeChanged)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(bool live READ live NOTIFY liveChanged)
-    Q_PROPERTY(Qt::ScreenOrientation orientation READ orientation WRITE setOrientation NOTIFY orientationChanged DESIGNABLE false)
-
-    Q_PROPERTY(int touchPressCount READ touchPressCount WRITE setTouchPressCount NOTIFY touchPressCountChanged
-                                   DESIGNABLE false)
-    Q_PROPERTY(int touchReleaseCount READ touchReleaseCount WRITE setTouchReleaseCount NOTIFY touchReleaseCountChanged
-                                     DESIGNABLE false)
+    Q_PROPERTY(OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
+               NOTIFY orientationAngleChanged DESIGNABLE false)
+    Q_PROPERTY(int touchPressCount READ touchPressCount WRITE setTouchPressCount
+                                   NOTIFY touchPressCountChanged DESIGNABLE false)
+    Q_PROPERTY(int touchReleaseCount READ touchReleaseCount WRITE setTouchReleaseCount
+                                     NOTIFY touchReleaseCountChanged DESIGNABLE false)
 
 public:
     enum Type {
@@ -62,6 +63,13 @@ public:
         Fullscreen,
     };
 
+    enum OrientationAngle {
+        Angle0 = 0,
+        Angle90 = 90,
+        Angle180 = 180,
+        Angle270 = 270
+    };
+
     ~MirSurfaceItem();
 
     //getters
@@ -70,9 +78,9 @@ public:
     State state() const { return m_state; }
     QString name() const { return m_name; }
     bool live() const { return m_live; }
-    Qt::ScreenOrientation orientation() const { return m_orientation; }
+    OrientationAngle orientationAngle() const { return m_orientationAngle; }
 
-    void setOrientation(const Qt::ScreenOrientation orientation);
+    void setOrientationAngle(OrientationAngle angle);
 
     void setSession(Session* item);
     void setScreenshot(const QUrl& screenshot);
@@ -91,29 +99,14 @@ Q_SIGNALS:
     void typeChanged(Type);
     void stateChanged(State);
     void liveChanged(bool live);
-    void orientationChanged();
+    void orientationAngleChanged(OrientationAngle angle);
     void touchPressCountChanged(int count);
     void touchReleaseCountChanged(int count);
-
-    void inputMethodRequested();
-    void inputMethodDismissed();
 
     // internal mock use
     void deregister();
 
 protected:
-    void touchEvent(QTouchEvent * event) override;
-
-    // becaue the default implementation ignores the events
-    void mousePressEvent(QMouseEvent *) override {}
-    void mouseMoveEvent(QMouseEvent *) override {}
-    void mouseReleaseEvent(QMouseEvent *) override {}
-
-private Q_SLOTS:
-    void onFocusChanged();
-    void onComponentStatusChanged(QQmlComponent::Status status);
-
-private:
     explicit MirSurfaceItem(const QString& name,
                             Type type,
                             State state,
@@ -121,6 +114,12 @@ private:
                             const QString &qmlFilePath = QString(),
                             QQuickItem *parent = 0);
 
+    void touchEvent(QTouchEvent * event) override;
+
+private Q_SLOTS:
+    void onComponentStatusChanged(QQmlComponent::Status status);
+
+private:
     void createQmlContentItem();
     void printComponentErrors();
 
@@ -129,19 +128,20 @@ private:
     const Type m_type;
     State m_state;
     bool m_live;
-    Qt::ScreenOrientation m_orientation;
-    int m_touchPressCount;
-    int m_touchReleaseCount;
+    OrientationAngle  m_orientationAngle;
 
     QQmlComponent *m_qmlContentComponent;
     QQuickItem *m_qmlItem;
     QUrl m_screenshotUrl;
+
+    int m_touchPressCount;
+    int m_touchReleaseCount;
 
     friend class SurfaceManager;
 };
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
 Q_DECLARE_METATYPE(QList<MirSurfaceItem*>)
-Q_DECLARE_METATYPE(Qt::ScreenOrientation)
+Q_DECLARE_METATYPE(MirSurfaceItem::OrientationAngle)
 
 #endif // MIRSURFACEITEM_H

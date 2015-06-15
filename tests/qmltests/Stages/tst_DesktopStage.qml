@@ -20,6 +20,7 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.ListItems 1.0 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
+import Utils 0.1
 
 import "../../../qml/Stages"
 
@@ -29,31 +30,18 @@ Rectangle {
     width:  desktopStageLoader.width + controls.width
     height: desktopStageLoader.height
 
-    QtObject {
-        id: fakeWindowStateStorage
+    Binding {
+        target: MouseTouchAdaptor
+        property: "enabled"
+        value: false
+    }
 
-        property var storedGeom: [
-            ["unity8-dash", Qt.rect(units.gu(2), units.gu(2), units.gu(50), units.gu(50))],
-            ["webbrowser-app", Qt.rect(units.gu(60), units.gu(2), units.gu(50), units.gu(50))]
-        ]
-
-        function saveGeometry(windowId, geometry) {
-            for (var i = 0; i < storedGeom.length; ++i) {
-                if (storedGeom[i][0] === windowId) {
-                    storedGeom[i][1] = geometry;
-                    return;
-                }
-            }
-            // if new
-            storedGeom[storedGeom.length] = [windowId, geometry];
-        }
-        function getGeometry(windowId, defaultGeometry) {
-            for (var i = 0; i < storedGeom.length; ++i) {
-                if (storedGeom[i][0] === windowId) {
-                    return storedGeom[i][1];
-                }
-            }
-            return defaultGeometry;
+    Component.onCompleted: {
+        // ensures apps which are tested decorations are in view.
+        WindowStateStorage.geometry = {
+            'unity8-dash': Qt.rect(0, units.gu(3), units.gu(50), units.gu(40)),
+            'dialer-app': Qt.rect(units.gu(51), units.gu(3), units.gu(50), units.gu(40)),
+            'camera-app': Qt.rect(0, units.gu(44), units.gu(50), units.gu(40)),
         }
     }
 
@@ -70,7 +58,6 @@ Rectangle {
         sourceComponent: Component {
             DesktopStage {
                 anchors.fill: parent
-                windowStateStorage: fakeWindowStateStorage
                 Component.onDestruction: {
                     desktopStageLoader.itemDestroyed = true;
                 }
@@ -108,9 +95,6 @@ Rectangle {
 
         property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
 
-        function init() {
-        }
-
         function cleanup() {
             desktopStageLoader.itemDestroyed = false;
             desktopStageLoader.active = false;
@@ -145,57 +129,83 @@ Rectangle {
             tryCompare(appWindowStates, "state", "surface");
         }
 
-        function rectsIntersect(aLocal, bLocal) {
-
-            var a = aLocal.mapToItem(null, 0, 0, aLocal.width, aLocal.height);
-            var b = bLocal.mapToItem(null, 0, 0, bLocal.width, bLocal.height);
-
-            return !((a.y+a.height) < b.y
-                   || a.y > (b.y+b.height)
-                   || (a.x+a.width) < b.x
-                   || a.x > (b.x+b.width));
+        function startApplication(appId) {
+            var app = ApplicationManager.findApplication(appId);
+            if (!app) {
+                app = ApplicationManager.startApplication(appId);
+            }
+            verify(app);
+            waitUntilAppSurfaceShowsUp(appId);
+            verify(app.session.surface);
+            return app;
         }
 
-        function test_tappingOnWindowChangesFocusedApp() {
-            ApplicationManager.startApplication("webbrowser-app");
-            waitUntilAppSurfaceShowsUp("webbrowser-app");
-
-            var webbrowserWindow = findChild(desktopStage, "appWindow_webbrowser-app");
-            verify(webbrowserWindow);
-            var dashWindow = findChild(desktopStage, "appWindow_unity8-dash");
-            verify(dashWindow);
-
-            // some sanity check
-            compare(rectsIntersect(dashWindow, webbrowserWindow), false);
-
-            tap(dashWindow);
-            compare(dashWindow.application.session.surface.activeFocus, true);
-
-            tap(webbrowserWindow);
-            compare(webbrowserWindow.application.session.surface.activeFocus, true);
+        function test_appFocusSwitch_data() {
+            return [
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+            ]
         }
 
-        function test_tappingOnWindowTitleChangesFocusedApp() {
-            ApplicationManager.startApplication("webbrowser-app");
-            waitUntilAppSurfaceShowsUp("webbrowser-app");
+        function test_appFocusSwitch(data) {
+            var i;
+            for (i = 0; i < data.apps.length; i++) {
+                startApplication(data.apps[i]);
+            }
 
-            var webbrowserWindow = findChild(desktopStage, "decoratedWindow_webbrowser-app");
-            verify(webbrowserWindow);
-            var webbrowserWindowTitle = findChild(webbrowserWindow, "windowDecorationTitle");
-            verify(webbrowserWindowTitle);
-            var dashWindow = findChild(desktopStage, "decoratedWindow_unity8-dash");
-            verify(dashWindow);
-            var dashWindowTitle = findChild(dashWindow, "windowDecorationTitle");
-            verify(dashWindowTitle);
+            ApplicationManager.requestFocusApplication(data.apps[data.focusfrom]);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
 
-            // some sanity check
-            compare(rectsIntersect(dashWindow, webbrowserWindow), false);
+            ApplicationManager.requestFocusApplication(data.apps[data.focusTo]);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+        }
 
-            tap(dashWindowTitle);
-            compare(dashWindow.application.session.surface.activeFocus, true);
+        function test_tappingOnWindowChangesFocusedApp_data() {
+            return [
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+            ]
+        }
 
-            tap(webbrowserWindowTitle);
-            compare(webbrowserWindow.application.session.surface.activeFocus, true);
+        function test_tappingOnWindowChangesFocusedApp(data) {
+            var i;
+            for (i = 0; i < data.apps.length; i++) {
+                startApplication(data.apps[i]);
+            }
+
+            var fromAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusfrom]);
+            verify(fromAppWindow);
+            tap(fromAppWindow);
+            compare(fromAppWindow.application.session.surface.activeFocus, true);
+
+            var toAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusTo]);
+            verify(toAppWindow);
+            tap(toAppWindow);
+            compare(toAppWindow.application.session.surface.activeFocus, true);
+        }
+
+        function test_tappingOnDecorationFocusesApplication_data() {
+            return [
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+            ]
+        }
+
+        function test_tappingOnDecorationFocusesApplication(data) {
+            var i;
+            for (i = 0; i < data.apps.length; i++) {
+                startApplication(data.apps[i]);
+            }
+
+            var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
+            verify(fromAppDecoration);
+            tap(fromAppDecoration);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+
+            var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
+            verify(toAppDecoration);
+            tap(toAppDecoration);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
     }
 }

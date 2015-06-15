@@ -36,12 +36,12 @@ public:
     {
     }
 
-    int rowCount(const QModelIndex& /* parent */ = QModelIndex()) const
+    int rowCount(const QModelIndex& /* parent */ = QModelIndex()) const override
     {
         return m_list.size();
     }
 
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override
     {
         if (!index.isValid() || index.row() < 0 || index.row() >= m_list.size() || role != Qt::DisplayRole) {
            return QVariant();
@@ -49,7 +49,7 @@ public:
         return QVariant(m_list[index.row()]);
     }
 
-    QHash<int, QByteArray> roleNames() const
+    QHash<int, QByteArray> roleNames() const override
     {
         return m_roles;
     }
@@ -65,7 +65,7 @@ public:
         endRemoveRows();
     }
 
-    bool insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) {
+    bool insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override {
         beginInsertRows(parent, row, row+count-1);
         for (int i=0; i<count; i++) {
             m_list.insert(i+row, QString::number(i));
@@ -81,7 +81,7 @@ public:
         return true;
     }
 
-    bool removeRows(int row, int count, const QModelIndex &parent=QModelIndex()) {
+    bool removeRows(int row, int count, const QModelIndex &parent=QModelIndex()) override {
         beginRemoveRows(parent, row, row+count-1);
         for (int i=0; i<count; i++) {
             m_list.removeAt(row);

@@ -57,6 +57,7 @@ Loader {
             case "progress": return "PreviewProgress.qml";
             case "payments": return "PreviewPayments.qml";
             case "rating-input": return "PreviewRatingInput.qml";
+            case "rating-edit": return "PreviewRatingEdit.qml";
             case "reviews": return "PreviewRatingDisplay.qml";
             case "table": return "PreviewTable.qml";
             case "text": return "PreviewTextSummary.qml";

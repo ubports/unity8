@@ -18,7 +18,7 @@
 
 from unity8 import (
     fixture_setup,
-    indicators,
+    indicators
 )
 from unity8.indicators import tests
 

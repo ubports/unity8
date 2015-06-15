@@ -25,6 +25,7 @@
 
 #include "UbuntuGesturesGlobal.h"
 #include "CandidateInactivityTimer.h"
+#include "Timer.h"
 #include "Pool.h"
 
 namespace UbuntuGestures {
@@ -93,15 +94,10 @@ class UBUNTUGESTURES_EXPORT TouchRegistry : public QObject
 {
     Q_OBJECT
 public:
-    TouchRegistry(QObject *parent = nullptr);
-    // Useful for tests, where you should feed a fake timer
-    TouchRegistry(QObject *parent, UbuntuGestures::AbstractTimerFactory *timerFactory);
-
     virtual ~TouchRegistry();
 
     // Returns a pointer to the application's TouchRegistry instance.
-    // If no instance has been allocated, null is returned.
-    static TouchRegistry *instance() { return m_instance; }
+    static TouchRegistry *instance();
 
     void update(const QTouchEvent *event);
 
@@ -128,10 +124,16 @@ public:
     // but would nonetheless like to be kept up-to-date on its state.
     void addTouchWatcher(int touchId, QQuickItem *watcherItem);
 
+    // Useful for tests, where you should use fake timers
+    void setTimerFactory(UbuntuGestures::AbstractTimerFactory *timerFactory);
+
 private Q_SLOTS:
     void rejectCandidateOwnerForTouch(int id, QQuickItem *candidate);
 
 private:
+    // Only instance() can cronstruct one
+    TouchRegistry(QObject *parent = nullptr);
+
     class CandidateInfo {
     public:
         enum {

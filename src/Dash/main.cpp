@@ -31,9 +31,6 @@
 #include "../ApplicationArguments.h"
 #include "../CachingNetworkManagerFactory.h"
 
-// Ubuntu Gestures
-#include <TouchRegistry.h>
-
 int main(int argc, const char *argv[])
 {
     QGuiApplication *application = new QGuiApplication(argc, (char**)argv);
@@ -61,12 +58,6 @@ int main(int argc, const char *argv[])
     parser.process(*application);
 
     ApplicationArguments qmlArgs;
-    if (parser.isSet(windowGeometryOption) &&
-        parser.value(windowGeometryOption).split('x').size() == 2)
-    {
-        QStringList geom = parser.value(windowGeometryOption).split('x');
-        qmlArgs.setSize(QSize(geom.at(0).toInt(), geom.at(1).toInt()));
-    }
 
     if (getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
@@ -88,11 +79,20 @@ int main(int argc, const char *argv[])
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
+
+    if (parser.isSet(windowGeometryOption) &&
+        parser.value(windowGeometryOption).split('x').size() == 2)
+    {
+        QStringList geom = parser.value(windowGeometryOption).split('x');
+        QSize windowSize(geom.at(0).toInt(), geom.at(1).toInt());
+        if (windowSize.isValid()) {
+            view->setWidth(windowSize.width());
+            view->setHeight(windowSize.height());
+        }
+    }
+
     view->setTitle("Scopes");
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
-
-    TouchRegistry touchRegistry;
-    view->installEventFilter(&touchRegistry);
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
