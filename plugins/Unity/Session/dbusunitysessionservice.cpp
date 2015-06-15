@@ -17,8 +17,38 @@
 // local
 #include "dbusunitysessionservice.h"
 
+// system
+#include <sys/types.h>
+#include <unistd.h>
+#include <pwd.h>
+
 // Qt
+#include <QDebug>
 #include <QDBusPendingCall>
+#include <QDBusReply>
+
+#define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
+#define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
+#define LOGIN1_IFACE QStringLiteral("org.freedesktop.login1.Manager")
+#define LOGIN1_SESSION_IFACE QStringLiteral("org.freedesktop.login1.Session")
+
+bool checkLogin1Call(const QString &method)
+{
+    QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, method);
+    QDBusReply<QString> reply = QDBusConnection::systemBus().asyncCall(msg);
+    const QString retval = reply.value();
+    return (retval == QStringLiteral("yes") || retval == QStringLiteral("challenge"));
+}
+
+void makeLogin1Call(const QString &method, const QVariantList &args)
+{
+    QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                      LOGIN1_PATH,
+                                                      LOGIN1_IFACE,
+                                                      method);
+    msg.setArguments(args);
+    QDBusConnection::systemBus().asyncCall(msg);
+}
 
 DBusUnitySessionService::DBusUnitySessionService()
     : UnityDBusObject("/com/canonical/Unity/Session", "com.canonical.Unity")
@@ -28,7 +58,7 @@ DBusUnitySessionService::DBusUnitySessionService()
 void DBusUnitySessionService::Logout()
 {
     // TODO ask the apps to quit and then emit the signal
-    Q_EMIT logoutReady();
+    Q_EMIT LogoutReady();
 }
 
 void DBusUnitySessionService::EndSession()
@@ -40,39 +70,127 @@ void DBusUnitySessionService::EndSession()
     QDBusConnection::sessionBus().asyncCall(msg);
 }
 
+bool DBusUnitySessionService::CanHibernate() const
+{
+    return checkLogin1Call("CanHibernate");
+}
+
+bool DBusUnitySessionService::CanSuspend() const
+{
+    return checkLogin1Call("CanSuspend");
+}
+
+bool DBusUnitySessionService::CanHybridSleep() const
+{
+    return checkLogin1Call("CanHybridSleep");
+}
+
+bool DBusUnitySessionService::CanReboot() const
+{
+    return checkLogin1Call("CanReboot");
+}
+
+bool DBusUnitySessionService::CanShutdown() const
+{
+    return checkLogin1Call("CanPowerOff");
+}
+
+bool DBusUnitySessionService::CanLock() const
+{
+    return true; // FIXME
+}
+
+QString DBusUnitySessionService::UserName() const
+{
+    struct passwd *p = getpwuid(getuid());
+    if (p) {
+        return QString::fromUtf8(p->pw_name);
+    }
+
+    return QString();
+}
+
+QString DBusUnitySessionService::RealName() const
+{
+    struct passwd *p = getpwuid(getuid());
+    if (p) {
+        const QString gecos = QString::fromLocal8Bit(p->pw_gecos);
+        if (!gecos.isEmpty()) {
+            return gecos.split(QLatin1Char(',')).first();
+        }
+    }
+
+    return QString();
+}
+
+QString DBusUnitySessionService::HostName() const
+{
+    char hostName[512];
+    if (gethostname(hostName, sizeof(hostName)) == -1) {
+        qWarning() << "Could not determine local hostname";
+        return QString();
+    }
+    hostName[sizeof(hostName) - 1] = '\0';
+    return QString::fromLocal8Bit(hostName);
+}
+
+void DBusUnitySessionService::PromptLock()
+{
+    Q_EMIT LockRequested();
+}
+
+void DBusUnitySessionService::Lock()
+{
+    const QString sessionId = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
+    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.DisplayManager",
+                                                      sessionId,
+                                                      "org.freedesktop.DisplayManager.Session",
+                                                      "Lock");
+    qDebug() << "Locking session" << msg.path();
+    QDBusReply<void> reply = QDBusConnection::systemBus().asyncCall(msg);
+    if (!reply.isValid()) {
+        qWarning() << "Lock call failed" << reply.error().message();
+    }
+}
+
 void DBusUnitySessionService::RequestLogout()
 {
-    Q_EMIT logoutRequested(false);
+    Q_EMIT LogoutRequested(false);
 }
 
 void DBusUnitySessionService::Reboot()
 {
-    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.login1",
-                                                      "/org/freedesktop/login1",
-                                                      "org.freedesktop.login1.Manager",
-                                                      "Reboot");
-    msg << false;
-    QDBusConnection::systemBus().asyncCall(msg);
+    makeLogin1Call("Reboot", {false});
 }
 
 void DBusUnitySessionService::RequestReboot()
 {
-    Q_EMIT rebootRequested(false);
+    Q_EMIT RebootRequested(false);
 }
 
 void DBusUnitySessionService::Shutdown()
 {
-    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.login1",
-                                                      "/org/freedesktop/login1",
-                                                      "org.freedesktop.login1.Manager",
-                                                      "PowerOff");
-    msg << false;
-    QDBusConnection::systemBus().asyncCall(msg);
+    makeLogin1Call("PowerOff", {false});
+}
+
+void DBusUnitySessionService::Suspend()
+{
+    makeLogin1Call("Suspend", {false});
+}
+
+void DBusUnitySessionService::Hibernate()
+{
+    makeLogin1Call("Hibernate", {false});
+}
+
+void DBusUnitySessionService::HybridSleep()
+{
+    makeLogin1Call("HybridSleep", {false});
 }
 
 void DBusUnitySessionService::RequestShutdown()
 {
-    Q_EMIT shutdownRequested(false);
+    Q_EMIT ShutdownRequested(false);
 }
 
 enum class Action : unsigned

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -48,43 +48,44 @@ public:
 
 Q_SIGNALS:
     /**
-     * logoutRequested signal
+     * LogoutRequested signal
      *
      * This signal is emitted when some applications request the system to
      * logout.
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the logout.
      */
-    Q_SCRIPTABLE void logoutRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void LogoutRequested(bool have_inhibitors);
 
     /**
-     * rebootRequested signal
+     * RebootRequested signal
      *
      * This signal is emitted when some applications request the system to
      * reboot.
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the reboot.
      */
-    Q_SCRIPTABLE void rebootRequested(bool have_inhibitors);
+    Q_SCRIPTABLE void RebootRequested(bool have_inhibitors);
 
     /**
-     * shutdownRequested signal
+     * ShutdownRequested signal
      *
      * This signal is emitted when some applications request the system to
      * shutdown.
      * @param have_inhibitors if there are any special running applications
      *        which inhibit the shutdown.
      */
-    Q_SCRIPTABLE void shutdownRequested(bool have_inhibitors);
-
+    Q_SCRIPTABLE void ShutdownRequested(bool have_inhibitors);
 
     /**
-     * logoutReady signal
+     * LogoutReady signal
      *
      * This signal is emitted when all the apps are closed. And the system
      * is safe to logout.
      */
-    void logoutReady();
+    Q_SCRIPTABLE void LogoutReady();
+
+    Q_SCRIPTABLE void LockRequested();
 
 public Q_SLOTS:
     /**
@@ -114,10 +115,19 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void Shutdown();
 
+    Q_SCRIPTABLE void Suspend();
+
+    Q_SCRIPTABLE void Hibernate();
+
+    /**
+     * @since unity8
+     */
+    Q_SCRIPTABLE void HybridSleep();
+
     /**
      * Issue a logout request.
      *
-     * This method emits the logoutRequested signal to the shell with a boolean
+     * This method emits the LogoutRequested signal to the shell with a boolean
      * which indicates if there's any inhibitors. The shell should receive
      * this signal and display a dialog to ask the user to confirm the logout
      * action. If confirmed, shell can call Logout() method to logout.
@@ -127,21 +137,21 @@ public Q_SLOTS:
     /**
      * Issue a reboot request.
      *
-     * This method emist the rebootRequested signal to the shell with a boolean
+     * This method emits the RebootRequested signal to the shell with a boolean
      * which indicates if there's any inhibitors. The shell should receive
      * this signal and display a dialog to ask the user to confirm the reboot
-     * action. If confirmed, shell can call Reboot() method to reboot
+     * action. If confirmed, shell can call Reboot() method to reboot.
      */
     Q_SCRIPTABLE void RequestReboot();
 
     /**
      * Issue a shutdown request.
      *
-     * This method emits the shutdownRequested signal to the shell with a
+     * This method emits the ShutdownRequested signal to the shell with a
      * boolean which indicates if there's any inhibitors.
      * The shell should receive
      * this signal and display a dialog to ask the user to confirm the reboot
-     * action. If confirmed, shell can call Shutdown() method to reboot
+     * action. If confirmed, shell can call Shutdown() method to shutdown.
      */
     Q_SCRIPTABLE void RequestShutdown();
 
@@ -152,6 +162,34 @@ public Q_SLOTS:
      * current DBus session bus.
      */
     Q_SCRIPTABLE void EndSession();
+
+    Q_SCRIPTABLE bool CanHibernate() const;
+
+    Q_SCRIPTABLE bool CanSuspend() const;
+
+    /**
+     * @since unity8
+     */
+    Q_SCRIPTABLE bool CanHybridSleep() const;
+
+    /**
+     * @since unity8
+     */
+    Q_SCRIPTABLE bool CanReboot() const;
+
+    Q_SCRIPTABLE bool CanShutdown() const;
+
+    Q_SCRIPTABLE bool CanLock() const;
+
+    Q_SCRIPTABLE QString UserName() const;
+
+    Q_SCRIPTABLE QString RealName() const;
+
+    Q_SCRIPTABLE QString HostName() const;
+
+    Q_SCRIPTABLE void PromptLock();
+
+    Q_SCRIPTABLE void Lock();
 };
 
 class DBusGnomeSessionManagerWrapper : public UnityDBusObject
