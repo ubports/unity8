@@ -73,7 +73,7 @@ TutorialPage {
         ]
     }
 
-    EdgeDragArea {
+    DirectionalDragArea {
         id: dragArea
         direction: Direction.Upwards
         anchors {

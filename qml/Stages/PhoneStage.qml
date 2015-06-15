@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,12 +31,64 @@ Rectangle {
     property bool interactive
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
-    property int orientation: Qt.PortraitOrientation
     property QtObject applicationManager: ApplicationManager
     property bool focusFirstApp: true // If false, focused app will appear on right edge like other apps
     property bool altTabEnabled: true
     property real startScale: 1.1
     property real endScale: 0.7
+    property int shellOrientationAngle: 0
+    property int shellOrientation
+    property int shellPrimaryOrientation
+    property int nativeOrientation
+    property real nativeWidth
+    property real nativeHeight
+    property bool beingResized: false
+    onBeingResizedChanged: {
+        if (beingResized) {
+            // Brace yourselves for impact!
+            spreadView.selectedIndex = -1;
+            spreadView.phase = 0;
+            spreadView.contentX = -spreadView.shift;
+        }
+    }
+    function updateFocusedAppOrientation() {
+        if (spreadRepeater.count > 0) {
+            spreadRepeater.itemAt(0).matchShellOrientation();
+        }
+
+        for (var i = 1; i < spreadRepeater.count; ++i) {
+
+            var spreadDelegate = spreadRepeater.itemAt(i);
+
+            var delta = spreadDelegate.appWindowOrientationAngle - root.shellOrientationAngle;
+            if (delta < 0) { delta += 360; }
+            delta = delta % 360;
+
+            var supportedOrientations = spreadDelegate.application.supportedOrientations;
+            if (supportedOrientations === Qt.PrimaryOrientation) {
+                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+            }
+
+            if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
+                spreadDelegate.matchShellOrientation();
+            }
+        }
+    }
+    function updateFocusedAppOrientationAnimated() {
+        if (spreadRepeater.count > 0) {
+            spreadRepeater.itemAt(0).animateToShellOrientation();
+        }
+    }
+
+    // To be read from outside
+    readonly property var mainApp: applicationManager.focusedApplicationId
+            ? applicationManager.findApplication(applicationManager.focusedApplicationId)
+            : null
+    property int mainAppWindowOrientationAngle: 0
+    readonly property bool orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
+                                                   && !priv.focusedAppDelegateIsDislocated
+                                                   && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
+                                                   && spreadView.phase === 0
 
     // How far left the stage has been dragged
     readonly property real dragProgress: spreadRepeater.count > 0 ? -spreadRepeater.itemAt(0).xTranslate : 0
@@ -54,12 +106,6 @@ Rectangle {
         spreadView.snapTo(priv.indexOf(appId));
     }
 
-    onWidthChanged: {
-        spreadView.selectedIndex = -1;
-        spreadView.phase = 0;
-        spreadView.contentX = -spreadView.shift;
-    }
-
     onInverseProgressChanged: {
         // This can't be a simple binding because that would be triggered after this handler
         // while we need it active before doing the anition left/right
@@ -71,6 +117,20 @@ Rectangle {
             }
         }
         priv.oldInverseProgress = inverseProgress;
+    }
+
+    // <FIXME-contentX> See rationale in the next comment with this tag
+    onWidthChanged: {
+        if (!root.beingResized) {
+            // we're being resized without a warning (ie, the corresponding property wasn't set
+            root.beingResized = true;
+            beingResizedTimer.start();
+        }
+    }
+    Timer {
+        id: beingResizedTimer
+        interval: 100
+        onTriggered: { root.beingResized = false; }
     }
 
     Connections {
@@ -115,15 +175,16 @@ Rectangle {
     QtObject {
         id: priv
 
+        property string focusedAppId: root.applicationManager.focusedApplicationId
+        property bool focusedAppOrientationChangesEnabled: false
         readonly property int firstSpreadIndex: root.focusFirstApp ? 1 : 0
-        property string focusedAppId: applicationManager.focusedApplicationId
-        property var focusedApplication: applicationManager.findApplication(focusedAppId)
-        property var focusedAppDelegate: null
+        readonly property var focusedAppDelegate: {
+            var index = indexOf(focusedAppId);
+            return index >= 0 && index < spreadRepeater.count ? spreadRepeater.itemAt(index) : null
+        }
 
         property real oldInverseProgress: 0
         property bool animateX: false
-
-        onFocusedAppIdChanged: focusedAppDelegate = spreadRepeater.itemAt(0);
 
         onFocusedAppDelegateChanged: {
             if (focusedAppDelegate) {
@@ -131,29 +192,40 @@ Rectangle {
             }
         }
 
+        property bool focusedAppDelegateIsDislocated: focusedAppDelegate && focusedAppDelegate.x !== 0
+
         function indexOf(appId) {
-            for (var i = 0; i < applicationManager.count; i++) {
-                if (applicationManager.get(i).appId == appId) {
+            for (var i = 0; i < root.applicationManager.count; i++) {
+                if (root.applicationManager.get(i).appId == appId) {
                     return i;
                 }
             }
             return -1;
         }
 
+        // Is more stable than "spreadView.shiftedContentX === 0" as it filters out noise caused by
+        // Flickable.contentX changing due to resizes.
+        property bool fullyShowingFocusedApp: true
+    }
+    Timer {
+        id: fullyShowingFocusedAppUpdateTimer
+        interval: 100
+        onTriggered: {
+            priv.fullyShowingFocusedApp = spreadView.shiftedContentX === 0;
+        }
     }
 
     Flickable {
         id: spreadView
         objectName: "spreadView"
         anchors.fill: parent
-        interactive: (spreadDragArea.status == DirectionalDragArea.Recognized || phase > 1)
-                     && draggedDelegateCount === 0
+        interactive: (spreadDragArea.dragging || phase > 1) && draggedDelegateCount === 0
         contentWidth: spreadRow.width - shift
         contentX: -shift
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
-        readonly property bool active: shiftedContentX > 0 || spreadDragArea.status === DirectionalDragArea.Recognized || !root.focusFirstApp
+        readonly property bool active: shiftedContentX > 0 || spreadDragArea.dragging || !root.focusFirstApp
 
         // The flickable needs to fill the screen in order to get touch events all over.
         // However, we don't want to the user to be able to scroll back all the way. For
@@ -188,9 +260,25 @@ Rectangle {
         property int draggedDelegateCount: 0
         property int closingIndex: -1
 
-        property bool focusChanging: false
+        // <FIXME-contentX> Workaround Flickable's behavior of bringing contentX back between valid boundaries
+        // when resized. The proper way to fix this is refactoring PhoneStage so that it doesn't
+        // rely on having Flickable.contentX keeping an out-of-bounds value when it's set programatically
+        // (as opposed to having contentX reaching an out-of-bounds value through dragging, which will trigger
+        // the Flickable.boundsBehavior upon release).
+        onContentXChanged: { forceItToRemainStillIfBeingResized(); }
+        onShiftChanged: { forceItToRemainStillIfBeingResized(); }
+        function forceItToRemainStillIfBeingResized() {
+            if (root.beingResized && contentX != -spreadView.shift) {
+                contentX = -spreadView.shift;
+            }
+        }
 
         onShiftedContentXChanged: {
+            if (root.beingResized) {
+                // Flickabe.contentX wiggles during resizes. Don't react to it.
+                return;
+            }
+
             switch (phase) {
             case 0:
                 if (shiftedContentX > width * positionMarker2) {
@@ -205,6 +293,7 @@ Rectangle {
                 }
                 break;
             }
+            fullyShowingFocusedAppUpdateTimer.restart();
         }
 
         function snap() {
@@ -229,7 +318,7 @@ Rectangle {
                 snapAnimation.start();
                 return;
             }
-            if (applicationManager.count <= index) {
+            if (root.applicationManager.count <= index) {
                 // In case we're trying to snap to some non existing app, lets snap back to the first one
                 index = 0;
             }
@@ -266,7 +355,7 @@ Rectangle {
             ScriptAction {
                 script: {
                     if (spreadView.selectedIndex >= 0) {
-                        applicationManager.focusApplication(applicationManager.get(spreadView.selectedIndex).appId);
+                        root.applicationManager.focusApplication(root.applicationManager.get(spreadView.selectedIndex).appId);
 
                         spreadView.selectedIndex = -1;
                         spreadView.phase = 0;
@@ -281,7 +370,7 @@ Rectangle {
             // This width controls how much the spread can be flicked left/right. It's composed of:
             //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
             //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
-            width: Math.max(3, applicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
+            width: Math.max(3, root.applicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
             height: parent.height
             Behavior on width {
                 enabled: spreadView.closingIndex >= 0
@@ -304,7 +393,7 @@ Rectangle {
             Repeater {
                 id: spreadRepeater
                 objectName: "spreadRepeater"
-                model: applicationManager
+                model: root.applicationManager
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
                     objectName: "appDelegate" + index
@@ -319,11 +408,10 @@ Rectangle {
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     interactive: !spreadView.interactive && spreadView.phase === 0
-                            && spreadView.shiftedContentX === 0 && root.interactive && isFocused
+                            && priv.fullyShowingFocusedApp && root.interactive && isFocused
                     swipeToCloseEnabled: spreadView.interactive && root.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
-                    dropShadow: spreadView.active ||
-                                (priv.focusedAppDelegate && priv.focusedAppDelegate.x !== 0)
+                    dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
                     focusFirstApp: root.focusFirstApp
 
                     readonly property bool isDash: model.appId == "unity8-dash"
@@ -346,7 +434,7 @@ Rectangle {
                         return spreadView.width + spreadIndex * spreadView.tileDistance;
                     }
 
-                    application: applicationManager.get(index)
+                    application: root.applicationManager.get(index)
                     closeable: !isDash
 
                     property real behavioredIndex: index
@@ -362,18 +450,16 @@ Rectangle {
                         }
                     }
 
+                    property var xBehavior: xBehavior
                     Behavior on x {
+                        id: xBehavior
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
                                  !snapAnimation.running &&
-                                 priv.animateX
+                                 priv.animateX &&
+                                 !root.beingResized
                         UbuntuNumberAnimation {
                             duration: UbuntuAnimation.BriskDuration
-                            onRunningChanged: {
-                                if (!running && root.inverseProgress == 0) {
-                                    spreadView.focusChanging = false;
-                                }
-                            }
                         }
                     }
 
@@ -413,22 +499,21 @@ Rectangle {
                     }
 
                     // Hiding tiles when their progress is negative or reached the maximum
-                    visible: (progress >= 0 && progress < 1.7) ||
-                             (isDash && priv.focusedAppDelegate.x !== 0)
+                    visible: (progress >= 0 && progress < 1.7)
+                            || (isDash && priv.focusedAppDelegateIsDislocated)
 
-                    Binding {
-                        target: appDelegate
-                        property: "orientation"
-                        when: appDelegate.interactive
-                        value: root.orientation
-                    }
+
+                    shellOrientationAngle: root.shellOrientationAngle
+                    shellOrientation: root.shellOrientation
+                    shellPrimaryOrientation: root.shellPrimaryOrientation
+                    nativeOrientation: root.nativeOrientation
 
                     onClicked: {
                         if (root.altTabEnabled && spreadView.phase == 2) {
-                            if (applicationManager.focusedApplicationId == applicationManager.get(index).appId) {
+                            if (root.applicationManager.focusedApplicationId == root.applicationManager.get(index).appId) {
                                 spreadView.snapTo(index);
                             } else {
-                                applicationManager.requestFocusApplication(applicationManager.get(index).appId);
+                                root.applicationManager.requestFocusApplication(root.applicationManager.get(index).appId);
                             }
                         }
                     }
@@ -443,14 +528,27 @@ Rectangle {
 
                     onClosed: {
                         spreadView.closingIndex = index;
-                        applicationManager.stopApplication(applicationManager.get(index).appId);
+                        root.applicationManager.stopApplication(root.applicationManager.get(index).appId);
+                    }
+
+                    Binding {
+                        target: root
+                        when: index == 0
+                        property: "mainAppWindowOrientationAngle"
+                        value: appWindowOrientationAngle
+                    }
+                    Binding {
+                        target: priv
+                        when: index == 0
+                        property: "focusedAppOrientationChangesEnabled"
+                        value: orientationChangesEnabled
                     }
                 }
             }
         }
     }
 
-    EdgeDragArea {
+    DirectionalDragArea {
         id: spreadDragArea
         objectName: "spreadDragArea"
         direction: Direction.Leftwards
@@ -462,59 +560,50 @@ Rectangle {
         property var gesturePoints: new Array()
 
         onTouchXChanged: {
-            if (!dragging) {
-                // Initial touch. Let's reset the spreadView to the starting position.
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-            }
-            if (dragging && status == DirectionalDragArea.Recognized) {
+            if (dragging) {
                 // Gesture recognized. Let's move the spreadView with the finger
                 var dragX = Math.min(touchX + width, width); // Prevent dragging rightwards
                 dragX = -dragX + spreadDragArea.width - spreadView.shift;
                 // Don't allow dragging further than the animation crossing with phase2's animation
                 var maxMovement =  spreadView.width * spreadView.positionMarker4 - spreadView.shift;
+
                 spreadView.contentX = Math.min(dragX, maxMovement);
+            } else {
+                // Initial touch. Let's reset the spreadView to the starting position.
+                spreadView.phase = 0;
+                spreadView.contentX = -spreadView.shift;
             }
+
             gesturePoints.push(touchX);
-        }
-
-        property int previousStatus: -1
-        property int currentStatus: DirectionalDragArea.WaitingForTouch
-
-        onStatusChanged: {
-            previousStatus = currentStatus;
-            currentStatus = status;
         }
 
         onDraggingChanged: {
             if (dragging) {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
-                return;
-            }
-
-            // Ok. The user released. Find out if it was a one-way movement.
-            var oneWayFlick = true;
-            var smallestX = spreadDragArea.width;
-            for (var i = 0; i < gesturePoints.length; i++) {
-                if (gesturePoints[i] >= smallestX) {
-                    oneWayFlick = false;
-                    break;
+            } else {
+                // Ok. The user released. Find out if it was a one-way movement.
+                var oneWayFlick = true;
+                var smallestX = spreadDragArea.width;
+                for (var i = 0; i < gesturePoints.length; i++) {
+                    if (gesturePoints[i] >= smallestX) {
+                        oneWayFlick = false;
+                        break;
+                    }
+                    smallestX = gesturePoints[i];
                 }
-                smallestX = gesturePoints[i];
-            }
-            gesturePoints = [];
+                gesturePoints = [];
 
-            if (previousStatus == DirectionalDragArea.Recognized &&
-                oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
-                    spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
-                // If it was a short one-way movement, do the Alt+Tab switch
-                // no matter if we didn't cross positionMarker1 yet.
-                spreadView.snapTo(1);
-            } else if (!dragging) {
-                // otherwise snap to the closest snap position we can find
-                // (might be back to start, to app 1 or to spread)
-                spreadView.snap();
+                if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
+                        spreadView.shiftedContentX < spreadView.positionMarker1 * spreadView.width) {
+                    // If it was a short one-way movement, do the Alt+Tab switch
+                    // no matter if we didn't cross positionMarker1 yet.
+                    spreadView.snapTo(1);
+                } else if (!dragging) {
+                    // otherwise snap to the closest snap position we can find
+                    // (might be back to start, to app 1 or to spread)
+                    spreadView.snap();
+                }
             }
         }
     }

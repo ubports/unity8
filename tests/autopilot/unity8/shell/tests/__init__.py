@@ -24,17 +24,17 @@ try:
 except ImportError:
     Gio = None
 
+import logging
+import os
+
 from autopilot import introspection
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.matchers import Eventually
-from autopilot.input import Touch
 from autopilot.display import Display
-import logging
-import os.path
-import subprocess
-import sys
 from testtools.matchers import Equals
+
+import ubuntuuitoolkit
 from ubuntuuitoolkit import (
     fixture_setup as toolkit_fixtures,
     ubuntu_scenarios
@@ -51,7 +51,6 @@ from unity8 import (
     fixture_setup,
     process_helpers
 )
-from unity8.shell import emulators
 from unity8.shell.emulators import (
     dash as dash_helpers,
     main_window as main_window_emulator,
@@ -64,28 +63,6 @@ UNITYSHELL_GSETTINGS_SCHEMA = "org.compiz.unityshell"
 UNITYSHELL_GSETTINGS_PATH = "/org/compiz/profiles/unity/plugins/unityshell/"
 UNITYSHELL_LAUNCHER_KEY = "launcher-hide-mode"
 UNITYSHELL_LAUNCHER_MODE = 1  # launcher hidden
-
-def _get_device_emulation_scenarios(devices='All'):
-    nexus4 = ('Desktop Nexus 4',
-              dict(app_width=768, app_height=1280, grid_unit_px=18))
-    nexus10 = ('Desktop Nexus 10',
-               dict(app_width=2560, app_height=1600, grid_unit_px=20))
-    native = ('Native Device',
-              dict(app_width=0, app_height=0, grid_unit_px=0))
-
-    if model() == 'Desktop':
-        if devices == 'All':
-            return [nexus4, nexus10]
-        elif devices == 'Nexus4':
-            return [nexus4]
-        elif devices == 'Nexus10':
-            return [nexus10]
-        else:
-            raise RuntimeError(
-                'Unrecognized device-option "%s" passed.' % devices
-            )
-    else:
-        return [native]
 
 
 def is_unity7_running():
@@ -115,36 +92,25 @@ class UnityTestCase(AutopilotTestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            output = subprocess.check_output(
-                ["/sbin/initctl", "status", "unity8"],
-                stderr=subprocess.STDOUT,
-                universal_newlines=True,
+            is_unity_running = process_helpers.is_job_running('unity8')
+        except process_helpers.JobError as e:
+            xdg_config_home = os.getenv(
+                'XDG_CONFIG_HOME', os.path.join(os.getenv('HOME'), '.config'))
+            upstart_config_path = os.path.join(xdg_config_home, 'upstart')
+            logger.error(
+                '`initctl status unity8` failed, most probably the '
+                'unity8 session could not be found:\n\n'
+                '{0}\n'
+                'Please install unity8 or copy data/unity8.conf to '
+                '{1}\n'.format(e.output, upstart_config_path)
             )
-        except subprocess.CalledProcessError as e:
-            sys.stderr.write(
-                "Error: `initctl status unity8` failed, most probably the "
-                "unity8 session could not be found:\n\n"
-                "{0}\n"
-                "Please install unity8 or copy data/unity8.conf to "
-                "{1}\n".format(
-                    e.output,
-                    os.path.join(os.getenv("XDG_CONFIG_HOME",
-                                           os.path.join(os.getenv("HOME"),
-                                                        ".config")
-                                           ),
-                                 "upstart")
-                    )
-            )
-            sys.exit(1)
-
-        if "start/" in output:
-            sys.stderr.write(
-                "Error: Unity is currently running, these tests require it to "
-                "be 'stopped'.\n"
-                "Please run this command before running these tests: \n"
-                "initctl stop unity8\n"
-            )
-            sys.exit(2)
+            raise e
+        else:
+            assert not is_unity_running, (
+                'Unity is currently running, these tests require it to be '
+                'stopped.\n'
+                'Please run this command before running these tests: \n'
+                'initctl stop unity8\n')
 
     def setUp(self):
         super().setUp()
@@ -156,13 +122,6 @@ class UnityTestCase(AutopilotTestCase):
         self._data_dirs_mock_enabled = True
         self._environment = {}
 
-        # FIXME: This is a work around re: lp:1238417
-        if model() != "Desktop":
-            from autopilot.input import _uinput
-            _uinput._touch_device = _uinput.create_touch_device()
-            self.addCleanup(_uinput._touch_device.close)
-
-        self.touch = Touch.create()
         self._setup_display_details()
 
     def _setup_display_details(self):
@@ -218,40 +177,6 @@ class UnityTestCase(AutopilotTestCase):
             divisor = divisor * 2
         return divisor
 
-    def _patch_environment(self, key, value):
-        """Wrapper for patching env for upstart environment."""
-        try:
-            current_value = subprocess.check_output(
-                ["/sbin/initctl", "get-env", "--global", key],
-                stderr=subprocess.STDOUT,
-                universal_newlines=True,
-            ).rstrip()
-        except subprocess.CalledProcessError:
-            current_value = None
-
-        subprocess.call([
-            "/sbin/initctl",
-            "set-env",
-            "--global",
-            "%s=%s" % (key, value)
-        ], stderr=subprocess.STDOUT)
-        self.addCleanup(self._upstart_reset_env, key, current_value)
-
-    def _upstart_reset_env(self, key, value):
-        logger.info("Resetting upstart env %s to %s", key, value)
-        if value is None:
-            subprocess.call(
-                ["/sbin/initctl", "unset-env", key],
-                stderr=subprocess.STDOUT,
-            )
-        else:
-            subprocess.call([
-                "/sbin/initctl",
-                "set-env",
-                "--global",
-                "%s=%s" % (key, value)
-            ], stderr=subprocess.STDOUT)
-
     def launch_unity(self, mode="full-greeter", *args):
         """
             Launch the unity shell, return a proxy object for it.
@@ -279,21 +204,6 @@ class UnityTestCase(AutopilotTestCase):
         if self._data_dirs_mock_enabled:
             self._patch_data_dirs()
 
-        # FIXME: we shouldn't be doing this
-        # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
-        # /tmp/mir_socket as last resort
-        try:
-            os.unlink(
-                os.getenv('MIR_SOCKET',
-                          os.path.join(os.getenv('XDG_RUNTIME_DIR', "/tmp"),
-                                       "mir_socket")))
-        except OSError:
-            pass
-        try:
-            os.unlink("/tmp/mir_socket")
-        except OSError:
-            pass
-
         unity8_cli_args_list = ["--mode={}".format(mode)]
         if len(args) != 0:
             unity8_cli_args_list += args
@@ -319,26 +229,15 @@ class UnityTestCase(AutopilotTestCase):
 
     def _launch_unity_with_upstart(self, binary_path, args):
         logger.info("Starting unity")
-        self._patch_environment("QT_LOAD_TESTABILITY", 1)
+        self.useFixture(toolkit_fixtures.InitctlEnvironmentVariable(
+            global_=True, QT_LOAD_TESTABILITY=1))
 
-        binary_arg = "BINARY=%s" % binary_path
-        extra_args = "ARGS=%s" % " ".join(args)
-        env_args = ["%s=%s" % (k, v) for k, v in self._environment.items()]
-        all_args = [binary_arg, extra_args] + env_args
-
-        self.addCleanup(self._cleanup_launching_upstart_unity)
-
-        return process_helpers.restart_unity_with_testability(*all_args)
-
-    def _cleanup_launching_upstart_unity(self):
-        logger.info("Stopping unity")
-        try:
-            subprocess.check_output(
-                ["/sbin/initctl", "stop", "unity8"],
-                stderr=subprocess.STDOUT
-            )
-        except subprocess.CalledProcessError:
-            logger.warning("Appears unity was already stopped!")
+        variables = self._environment
+        variables['ARGS'] = " ".join(args)
+        launch_unity_fixture = fixture_setup.RestartUnityWithTestability(
+            binary_path, variables)
+        self.useFixture(launch_unity_fixture)
+        return launch_unity_fixture.unity_proxy
 
     def _patch_data_dirs(self):
         data_dirs = get_data_dirs(self._data_dirs_mock_enabled)
@@ -391,7 +290,7 @@ class UnityTestCase(AutopilotTestCase):
         pid = process_helpers.get_job_pid('unity8-dash')
         dash_proxy = introspection.get_proxy_object_for_existing_process(
             pid=pid,
-            emulator_base=emulators.UnityEmulatorBase,
+            emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
         )
         dash_app = dash_helpers.DashApp(dash_proxy)
         return dash_app.dash

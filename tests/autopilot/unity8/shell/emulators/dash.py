@@ -18,12 +18,12 @@
 #
 
 import logging
+
 import ubuntuuitoolkit
-
-from unity8.shell import emulators
-
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+
+from unity8.shell import emulators
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ class DashApp():
         self.dash = self.main_view.select_single(Dash)
 
 
-class Dash(emulators.UnityEmulatorBase):
+class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """An emulator that understands the Dash."""
 
     def __init__(self, *args):
@@ -92,7 +92,7 @@ class Dash(emulators.UnityEmulatorBase):
             aux = self.dash_content_list.get_children_by_type('QQuickItem')[0]
             for l in aux.get_children_by_type('QQuickLoader'):
                 if (l.scopeId == scope_id):
-                    return l;
+                    return l
             raise emulators.UnityEmulatorException(
                 'No scope found with id {0}'.format(scope_id))
         except dbus.StateNotFoundError:
@@ -100,7 +100,7 @@ class Dash(emulators.UnityEmulatorBase):
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
-        return loader.wait_select_single('GenericScopeView');
+        return loader.wait_select_single('GenericScopeView')
 
     def _open_scope_scrolling(self, scope_loader):
         scroll = self._get_scroll_direction(scope_loader)
@@ -132,7 +132,7 @@ class Dash(emulators.UnityEmulatorBase):
         # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
         rate = 10
         divisions = 5
-        jump = ( width / divisions ) // rate * rate
+        jump = (width / divisions) // rate * rate
         start_x = x + jump
         stop_x = x + jump * (divisions - 1)
         start_y = stop_y = y + 1
@@ -148,7 +148,7 @@ class Dash(emulators.UnityEmulatorBase):
         # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
         rate = 10
         divisions = 5
-        jump = ( width / divisions ) // rate * rate
+        jump = (width / divisions) // rate * rate
         start_x = x + jump * (divisions - 1)
         stop_x = x + jump
         start_y = stop_y = y + 1
@@ -157,16 +157,19 @@ class Dash(emulators.UnityEmulatorBase):
 
     def enter_search_query(self, query):
         current_header = self._get_current_page_header()
-        search_button = current_header.select_single(objectName="search_header_button")
-        self.pointing_device.move(search_button.globalRect.x + search_button.width / 2,
-                                  search_button.globalRect.y + search_button.height / 2)
+        search_button = \
+            current_header.select_single(objectName="search_header_button")
+        self.pointing_device.move(
+            search_button.globalRect.x + search_button.width / 2,
+            search_button.globalRect.y + search_button.height / 2)
         self.pointing_device.click()
         headerContainer = current_header.select_single(
             objectName="headerContainer")
         headerContainer.contentY.wait_for(0)
         search_text_field = self._get_search_text_field()
         search_text_field.write(query)
-        self.select_single(objectName="processingIndicator").visible.wait_for(False)
+        self.select_single(
+            objectName="processingIndicator").visible.wait_for(False)
 
     def _get_search_text_field(self):
         page_header = self._get_current_page_header()
@@ -185,7 +188,7 @@ class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
     pass
 
 
-class GenericScopeView(emulators.UnityEmulatorBase):
+class GenericScopeView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """Autopilot emulator for generic scopes."""
 
     @autopilot_logging.log_action(logger.info)
@@ -217,13 +220,15 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         """
         category_element = self._get_category_element(category)
-        icon = category_element.wait_select_single('AbstractButton', title=title)
+        icon = category_element.wait_select_single('AbstractButton',
+                                                   title=title)
         self.pointing_device.click_object(icon)
 
     def _get_category_element(self, category):
         try:
             return self.wait_select_single(
-                'DashCategoryBase', objectName='dashCategory{}'.format(category))
+                'DashCategoryBase',
+                objectName='dashCategory{}'.format(category))
         except dbus.StateNotFoundError:
             raise emulators.UnityEmulatorException(
                 'No category found with name {}'.format(category))
@@ -250,5 +255,5 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         return result
 
 
-class Preview(emulators.UnityEmulatorBase):
+class Preview(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """Autopilot custom proxy object for generic previews."""

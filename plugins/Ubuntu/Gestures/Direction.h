@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,8 @@ public:
         Leftwards, // Along the negative direction of the X axis
         Downwards, // Along the positive direction of the Y axis
         Upwards, // Along the negative direction of the Y axis
-        Horizontal // Along the X axis, in any direction
+        Horizontal, // Along the X axis, in any direction
+        Vertical // Along the Y axis, in any direction
     };
 
     Q_INVOKABLE static bool isHorizontal(Direction::Type type);

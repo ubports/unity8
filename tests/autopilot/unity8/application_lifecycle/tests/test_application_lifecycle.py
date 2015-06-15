@@ -21,10 +21,9 @@
 
 import logging
 import os
+import threading
 
-from autopilot.matchers import Eventually
 from autopilot.platform import model
-from testtools.matchers import Equals
 
 from unity8 import process_helpers
 from unity8.application_lifecycle import tests
@@ -49,7 +48,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         end_y = start_y
 
         logger.info("Swiping screen from the right edge")
-        self.touch.drag(start_x, start_y, end_x, end_y)
+        self.main_window.pointing_device.drag(start_x, start_y, end_x, end_y)
 
     def launch_fake_app(self):
         _, desktop_file_path = self.create_test_application()
@@ -92,10 +91,19 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         """Greeter should hide when an app is opened"""
         process_helpers.lock_unity()
 
-        application_name = self.launch_fake_app()
+        # FIXME - this is because the device greeter uses a password.
+        # Need to be able to selectively enable mocks so that we can use the fake greeter.
+        def unlock_thread_worker(greeter):
+            greeter.wait_swiped_away()
+            process_helpers.unlock_unity()
+            greeter.created.wait_for(False)
+
         greeter = self.main_window.get_greeter()
-        greeter.wait_swiped_away()
-        process_helpers.unlock_unity()
+        unlock_thread = threading.Thread(target=unlock_thread_worker, args=(greeter,))
+        unlock_thread.start()
+        application_name = self.launch_fake_app()
+        unlock_thread.join(10)
+
         self.assert_current_focused_application(application_name)
 
     def test_greeter_hides_on_app_focus(self):

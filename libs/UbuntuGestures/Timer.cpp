@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,11 +58,34 @@ void Timer::setSingleShot(bool value)
 
 /////////////////////////////////// FakeTimer //////////////////////////////////
 
-FakeTimer::FakeTimer(QObject *parent)
+FakeTimer::FakeTimer(const SharedTimeSource &timeSource, QObject *parent)
     : UbuntuGestures::AbstractTimer(parent)
     , m_interval(0)
     , m_singleShot(false)
+    , m_timeSource(timeSource)
 {
+}
+
+void FakeTimer::update()
+{
+    if (!isRunning()) {
+        return;
+    }
+
+    if (m_nextTimeoutTime <= m_timeSource->msecsSinceReference()) {
+        if (isSingleShot()) {
+            stop();
+        } else {
+            m_nextTimeoutTime += interval();
+        }
+        Q_EMIT timeout();
+    }
+}
+
+void FakeTimer::start()
+{
+    AbstractTimer::start();
+    m_nextTimeoutTime = m_timeSource->msecsSinceReference() + (qint64)interval();
 }
 
 int FakeTimer::interval() const
@@ -87,23 +110,43 @@ void FakeTimer::setSingleShot(bool value)
 
 /////////////////////////////////// FakeTimerFactory //////////////////////////////////
 
+FakeTimerFactory::FakeTimerFactory()
+{
+    m_timeSource.reset(new FakeTimeSource);
+}
+
+void FakeTimerFactory::updateTime(qint64 targetTime)
+{
+    qint64 minTimeoutTime = targetTime;
+
+    for (int i = 0; i < timers.count(); ++i) {
+        FakeTimer *timer = timers[i].data();
+        if (timer && timer->isRunning() && timer->nextTimeoutTime() < minTimeoutTime) {
+            minTimeoutTime = timer->nextTimeoutTime();
+        }
+    }
+
+    m_timeSource->m_msecsSinceReference = minTimeoutTime;
+
+    for (int i = 0; i < timers.count(); ++i) {
+        FakeTimer *timer = timers[i].data();
+        if (timer) {
+            timer->update();
+        }
+    }
+
+    if (m_timeSource->msecsSinceReference() < targetTime) {
+        updateTime(targetTime);
+    }
+}
+
 AbstractTimer *FakeTimerFactory::createTimer(QObject *parent)
 {
-    FakeTimer *fakeTimer = new FakeTimer(parent);
+    FakeTimer *fakeTimer = new FakeTimer(m_timeSource, parent);
 
     timers.append(fakeTimer);
 
     return fakeTimer;
-}
-
-void FakeTimerFactory::makeRunningTimersTimeout()
-{
-    for (int i = 0; i < timers.count(); ++i) {
-        FakeTimer *timer = timers[i].data();
-        if (timer && timer->isRunning()) {
-            timer->emitTimeout();
-        }
-    }
 }
 
 } // namespace UbuntuGestures

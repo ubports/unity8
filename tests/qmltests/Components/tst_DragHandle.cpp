@@ -20,20 +20,14 @@
 #include <qpa/qwindowsysteminterface.h>
 #include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>
+#include <private/qquickwindow_p.h>
 
+#include <AxisVelocityCalculator.h>
 #include <DirectionalDragArea.h>
+#include <DirectionalDragArea_p.h>
 #include <Timer.h>
-#include <TouchRegistry.h>
 
 using namespace UbuntuGestures;
-
-class FakeTimeSource : public TimeSource
-{
-public:
-    FakeTimeSource() { m_msecsSinceReference = 0; }
-    qint64 msecsSinceReference() override {return m_msecsSinceReference;}
-    qint64 m_msecsSinceReference;
-};
 
 class tst_DragHandle: public QObject
 {
@@ -56,7 +50,6 @@ private Q_SLOTS:
     void hintingAnimation();
     void hintingAnimation_dontRestartAfterFinishedAndStillPressed();
 
-
 private:
     void flickAndHold(DirectionalDragArea *dragHandle, qreal distance);
     void drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
@@ -67,7 +60,6 @@ private:
 
     QQuickView *createView();
     QQuickView *m_view;
-    TouchRegistry *m_touchRegistry;
     QTouchDevice *m_device;
     FakeTimer *m_fakeTimer;
     QSharedPointer<FakeTimeSource> m_fakeTimeSource;
@@ -91,10 +83,7 @@ void tst_DragHandle::cleanupTestCase()
 
 void tst_DragHandle::init()
 {
-    m_touchRegistry = new TouchRegistry;
-
     m_view = createView();
-    m_view->installEventFilter(m_touchRegistry);
     m_view->setSource(QUrl::fromLocalFile(TEST_DIR"/tst_DragHandle.qml"));
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
@@ -105,17 +94,14 @@ void tst_DragHandle::init()
     QQuickItem *controls =  m_view->rootObject()->findChild<QQuickItem*>("controls");
     controls->setVisible(false);
 
-    m_fakeTimer = new FakeTimer;
     m_fakeTimeSource.reset(new FakeTimeSource);
+    m_fakeTimer = new FakeTimer(m_fakeTimeSource);
 }
 
 void tst_DragHandle::cleanup()
 {
     delete m_view;
     m_view = 0;
-
-    delete m_touchRegistry;
-    m_touchRegistry = 0;
 
     delete m_fakeTimer;
     m_fakeTimer = 0;
@@ -129,6 +115,7 @@ QQuickView *tst_DragHandle::createView()
     window->setResizeMode(QQuickView::SizeRootObjectToView);
     window->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
     window->engine()->addImportPath(QLatin1String(TEST_DIR));
+    window->engine()->addImportPath(QStringLiteral(TESTS_UTILS_MODULES_DIR));
 
     return window;
 }
@@ -190,17 +177,24 @@ void tst_DragHandle::flickAndHold(DirectionalDragArea *dragHandle,
     // speed.
     m_fakeTimeSource->m_msecsSinceReference += 5000;
     QTest::touchEvent(m_view, m_device).release(0, touchPoint.toPoint());
+
+    QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
+    windowPrivate->flushDelayedTouchEvent();
 }
 
 void tst_DragHandle::drag(QPointF &touchPoint, const QPointF& direction, qreal distance,
                           int numSteps, qint64 timeMs)
 {
+    QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
+
     qint64 timeStep = timeMs / numSteps;
     QPointF touchMovement = direction * (distance / (qreal)numSteps);
     for (int i = 0; i < numSteps; ++i) {
         touchPoint += touchMovement;
         m_fakeTimeSource->m_msecsSinceReference += timeStep;
         QTest::touchEvent(m_view, m_device).move(0, touchPoint.toPoint());
+
+        windowPrivate->flushDelayedTouchEvent();
     }
 }
 
@@ -209,8 +203,8 @@ DirectionalDragArea *tst_DragHandle::fetchAndSetupDragHandle(const char *objectN
     DirectionalDragArea *dragHandle =
         m_view->rootObject()->findChild<DirectionalDragArea*>(objectName);
     Q_ASSERT(dragHandle != 0);
-    dragHandle->setRecognitionTimer(m_fakeTimer);
-    dragHandle->setTimeSource(m_fakeTimeSource);
+    dragHandle->d->setRecognitionTimer(m_fakeTimer);
+    dragHandle->d->setTimeSource(m_fakeTimeSource);
 
     AxisVelocityCalculator *edgeDragEvaluator =
         dragHandle->findChild<AxisVelocityCalculator*>("edgeDragEvaluator");
@@ -242,6 +236,7 @@ void tst_DragHandle::dragThreshold_horizontal()
     baseItem->setRotation(rotation);
 
     DirectionalDragArea *dragHandle = fetchAndSetupDragHandle("rightwardsDragHandle");
+    QQuickItem *parentItem = dragHandle->parentItem();
 
     qreal dragThreshold = fetchDragThreshold(dragHandle);
 
@@ -249,7 +244,6 @@ void tst_DragHandle::dragThreshold_horizontal()
     flickAndHold(dragHandle, dragThreshold * 0.7);
 
     // should rollback
-    QQuickItem *parentItem = dragHandle->parentItem();
     tryCompare([&](){ return parentItem->x(); }, -parentItem->width());
     QCOMPARE(parentItem->property("shown").toBool(), false);
 

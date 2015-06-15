@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,10 @@
 #include <QQuickView>
 #include <QtTest>
 
+#include <Timer.h>
 #include <TouchRegistry.h>
+
+using namespace UbuntuGestures;
 
 GestureTest::GestureTest(const QString &qmlFilename)
     : QObject(), m_device(nullptr), m_view(nullptr), m_qmlFilename(qmlFilename)
@@ -40,14 +43,18 @@ void GestureTest::initTestCase()
 void GestureTest::init()
 {
     m_view = new QQuickView;
-    m_view->setResizeMode(QQuickView::SizeViewToRootObject);
+    m_view->setResizeMode(QQuickView::SizeRootObjectToView);
     m_view->engine()->addImportPath(QStringLiteral(UBUNTU_GESTURES_PLUGIN_DIR));
+    m_view->engine()->addImportPath(QStringLiteral(TESTS_UTILS_MODULES_DIR));
     m_view->setSource(QUrl::fromLocalFile(m_qmlFilename));
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
     QVERIFY(m_view->rootObject() != 0);
 
-    m_touchRegistry = new TouchRegistry;
+    m_fakeTimerFactory = new FakeTimerFactory;
+
+    m_touchRegistry = TouchRegistry::instance();
+    m_touchRegistry->setTimerFactory(m_fakeTimerFactory);
     m_view->installEventFilter(m_touchRegistry);
 
     qApp->processEvents();
@@ -58,6 +65,10 @@ void GestureTest::cleanup()
     m_view->removeEventFilter(m_touchRegistry);
     delete m_touchRegistry;
     m_touchRegistry = nullptr;
+
+    // TouchRegistry will take down the timer factory along with him
+    // delete m_fakeTimerFactory;
+    m_fakeTimerFactory = nullptr;
 
     delete m_view;
     m_view = nullptr;

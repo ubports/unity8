@@ -30,8 +30,8 @@ public:
         : UnityIndicators::AbstractTimer(parent)
     {}
 
-    virtual int interval() const { return m_duration; }
-    virtual void setInterval(int msecs) { m_duration = msecs; }
+    int interval() const override { return m_duration; }
+    void setInterval(int msecs) override { m_duration = msecs; }
 
     void emitTimeout() {
         if (isRunning()) {

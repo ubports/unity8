@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,7 +69,6 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string indicatorProfile: "phone"
                     property string shellMode: "full-greeter" /* default */
 
                     Component.onDestruction: {
@@ -398,24 +397,22 @@ Item {
             var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader")
 
             // We start in phone mode
-            tryCompare(shell, "sideStageEnabled", false)
-            tryCompare(applicationsDisplayLoader, "tabletMode", false)
+            compare(shell.usageScenario, "phone");
+            compare(applicationsDisplayLoader.usageScenario, "phone");
 
             var lockscreen = findChild(shell, "lockscreen")
             lockscreen.emergencyCall()
             confirmLockedApp("dialer-app")
 
             // OK, we're in. Now try (but fail) to switch to tablet mode
-            shell.tablet = true
-            tryCompare(shell, "sideStageEnabled", true)
-            tryCompare(applicationsDisplayLoader, "tabletMode", false)
+            shell.usageScenario = "tablet";
+            compare(applicationsDisplayLoader.usageScenario, "phone");
 
             // And when we kill the app, we go back to locked tablet mode
             killApps()
             var greeter = findChild(shell, "greeter")
             tryCompare(greeter, "fullyShown", true)
-            tryCompare(shell, "sideStageEnabled", true)
-            tryCompare(applicationsDisplayLoader, "tabletMode", true)
+            compare(applicationsDisplayLoader.usageScenario, "tablet");
         }
 
         function test_emergencyDialerIncoming() {
@@ -613,14 +610,14 @@ Item {
             tryCompare(coverPage, "showProgress", 1);
 
             // Swipe cover page away
-            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
             tryCompare(launcher, "x", -launcher.width);
             tryCompare(coverPage, "showProgress", 0);
             compare(lockscreen.shown, true);
             compare(ApplicationManager.focusedApplicationId, "gallery-app");
 
             // Now attempt a swipe on lockscreen
-            touchFlick(shell, 2, shell.height / 2, units.gu(27), shell.height / 2);
+            touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
             tryCompare(launcher, "x", 0);
             compare(lockscreen.shown, true);
             compare(ApplicationManager.focusedApplicationId, "gallery-app");

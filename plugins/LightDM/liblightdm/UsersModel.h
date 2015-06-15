@@ -53,8 +53,8 @@ public:
                          BackgroundPathRole
     };
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
 private:
     UsersModelPrivate * const d_ptr;

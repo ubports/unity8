@@ -10,11 +10,32 @@
       <arg name="property" type="s" direction="in" />
       <arg name="value" type="v" direction="in" />
     </method>
+    <method name="Reset" />
+    <signal name="PropertiesChanged">
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="QVariantMap"/>
+      <arg name="interface" type="s" direction="out" />
+      <arg name="changed" type="a{sv}" direction="out" />
+      <arg name="invalid" type="as" direction="out" />
+    </signal>
   </interface>
   <interface name="org.freedesktop.Accounts">
     <method name="FindUserByName">
       <arg name="user" type="s" direction="in" />
       <arg name="path" type="o" direction="out" />
     </method>
+    <method name="AddUser">
+      <arg name="user" type="s" direction="in" />
+      <arg name="success" type="b" direction="out" />
+    </method>
+    <method name="RemoveUser">
+      <arg name="user" type="s" direction="in" />
+      <arg name="success" type="b" direction="out" />
+    </method>
   </interface>
+  <interface name="com.ubuntu.touch.AccountsService.SecurityPrivacy" />
+  <interface name="com.ubuntu.location.providers.here.AccountsService" />
+  <interface name="org.freedesktop.Accounts.User">
+    <signal name="Changed" />
+  </interface>
+  <interface name="com.canonical.unity.AccountsService.Private" />
 </node>

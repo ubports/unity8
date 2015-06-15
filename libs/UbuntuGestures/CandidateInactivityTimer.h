@@ -29,10 +29,12 @@ class UBUNTUGESTURES_EXPORT CandidateInactivityTimer : public QObject {
     Q_OBJECT
 public:
     CandidateInactivityTimer(int touchId, QQuickItem *candidate,
-                             AbstractTimerFactory &timerFactory,
+                             AbstractTimer *timer,
                              QObject *parent = nullptr);
 
-    const int durationMs = 350;
+    virtual ~CandidateInactivityTimer();
+
+    const int durationMs = 1000;
 
 Q_SIGNALS:
     void candidateDefaulted(int touchId, QQuickItem *candidate);

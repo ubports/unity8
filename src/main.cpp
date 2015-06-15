@@ -25,14 +25,15 @@
 #include <csignal>
 #include <libintl.h>
 
+// libandroid-properties
+#include <hybris/properties/properties.h>
+
 // local
 #include <paths.h>
 #include "MouseTouchAdaptor.h"
 #include "ApplicationArguments.h"
 #include "CachingNetworkManagerFactory.h"
-
-// Ubuntu Gestures
-#include <TouchRegistry.h>
+#include "UnityCommandLineParser.h"
 
 int main(int argc, const char *argv[])
 {
@@ -45,79 +46,23 @@ int main(int argc, const char *argv[])
     QGuiApplication::setApplicationName("unity8");
     QGuiApplication *application;
 
-    QCommandLineParser parser;
-    parser.setApplicationDescription("Description: Unity 8 Shell");
-    parser.addHelpOption();
-
-    QCommandLineOption fullscreenOption("fullscreen",
-        "Run in fullscreen");
-    parser.addOption(fullscreenOption);
-
-    QCommandLineOption framelessOption("frameless",
-        "Run without window borders");
-    parser.addOption(framelessOption);
-
-    QCommandLineOption mousetouchOption("mousetouch",
-        "Allow the mouse to provide touch input");
-    parser.addOption(mousetouchOption);
-
-    QCommandLineOption windowGeometryOption(QStringList() << "windowgeometry",
-            "Specify the window geometry as [<width>x<height>]", "windowgeometry", "1");
-    parser.addOption(windowGeometryOption);
-
-    QCommandLineOption testabilityOption("testability",
-        "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead. \n \
-Load the testability driver");
-    parser.addOption(testabilityOption);
-
-    QCommandLineOption modeOption("mode",
-        "Whether to run greeter and/or shell [full-greeter, full-shell, greeter, shell]",
-        "mode", "full-greeter");
-    parser.addOption(modeOption);
-
     application = new QGuiApplication(argc, (char**)argv);
 
-    // Treat args with single dashes the same as arguments with two dashes
-    // Ex: -fullscreen == --fullscreen
-    parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
-    parser.process(*application);
-
-    QString indicatorProfile = qgetenv("UNITY_INDICATOR_PROFILE");
-    if (indicatorProfile.isEmpty()) {
-        indicatorProfile = "phone";
-    }
+    UnityCommandLineParser parser(*application);
 
     ApplicationArguments qmlArgs;
-    if (parser.isSet(windowGeometryOption) &&
-        parser.value(windowGeometryOption).split('x').size() == 2)
-    {
-        QStringList geom = parser.value(windowGeometryOption).split('x');
-        qmlArgs.setSize(geom.at(0).toInt(), geom.at(1).toInt());
-    }
 
-    // If an invalid option was specified, set it to the default
-    // If no default was provided in the QCommandLineOption constructor, abort.
-    QString shellMode;
-    if(!parser.isSet(modeOption) ||
-        (parser.value(modeOption) != "full-greeter" &&
-         parser.value(modeOption) != "full-shell" &&
-         parser.value(modeOption) != "greeter" &&
-         parser.value(modeOption) != "shell"))
-    {
-        if (modeOption.defaultValues().first() != nullptr) {
-            shellMode = modeOption.defaultValues().first();
-            qWarning() << "Mode argument was not provided or was set to an illegal value. Using default value of --mode=" << shellMode;
-        } else {
-            qFatal("Shell mode argument was not provided and there is no default mode,");
-        }
-
+    if (!parser.deviceName().isEmpty()) {
+        qmlArgs.setDeviceName(parser.deviceName());
     } else {
-        shellMode = parser.value(modeOption);
+        char buffer[200];
+        property_get("ro.product.device", buffer /* value */, "desktop" /* default_value*/);
+        qmlArgs.setDeviceName(QString(buffer));
     }
 
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
-    if (parser.isSet(testabilityOption) || getenv("QT_LOAD_TESTABILITY")) {
+    if (parser.hasTestability() || getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
@@ -139,24 +84,27 @@ Load the testability driver");
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setColor("black");
     view->setTitle("Unity8 Shell");
+
+    if (parser.windowGeometry().isValid()) {
+        view->setWidth(parser.windowGeometry().width());
+        view->setHeight(parser.windowGeometry().height());
+    }
+
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
-    view->rootContext()->setContextProperty("indicatorProfile", indicatorProfile);
-    view->rootContext()->setContextProperty("shellMode", shellMode);
-    if (parser.isSet(framelessOption)) {
+    view->rootContext()->setContextProperty("shellMode", parser.mode());
+    if (parser.hasFrameless()) {
         view->setFlags(Qt::FramelessWindowHint);
     }
-    TouchRegistry touchRegistry;
-    view->installEventFilter(&touchRegistry);
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
-    if (parser.isSet(mousetouchOption)) {
+    if (parser.hasMouseToTouch()) {
         mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
-    QUrl source(::qmlDirectory()+"Shell.qml");
+    QUrl source(::qmlDirectory()+"OrientedShell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     if (!isMirServer) {
         prependImportPaths(view->engine(), ::nonMirImportPaths());
@@ -169,7 +117,7 @@ Load the testability driver");
     view->setSource(source);
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
-    if (isMirServer || parser.isSet(fullscreenOption)) {
+    if (isMirServer || parser.hasFullscreen()) {
         view->showFullScreen();
     } else {
         view->show();

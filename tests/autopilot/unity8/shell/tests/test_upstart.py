@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2013, 2014 Canonical
+# Copyright (C) 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,13 +26,14 @@ import subprocess
 import time
 
 import fixtures
-from testtools.matchers import Equals, MismatchError
+import ubuntuuitoolkit
 from autopilot.matchers import Eventually
 from autopilot.introspection import get_proxy_object_for_existing_process
+from testtools.matchers import Equals, MismatchError
+from ubuntuuitoolkit import ubuntu_scenarios
 
 from unity8 import get_binary_path
-from unity8.shell.emulators import UnityEmulatorBase
-from unity8.shell.tests import UnityTestCase, _get_device_emulation_scenarios
+from unity8.shell.tests import UnityTestCase
 
 import logging
 
@@ -41,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 class UpstartIntegrationTests(UnityTestCase):
 
-    scenarios = _get_device_emulation_scenarios()
+    scenarios = ubuntu_scenarios.get_device_simulation_scenarios()
 
     def _get_status(self):
         pid, status = os.waitpid(
@@ -89,10 +90,11 @@ class UpstartIntegrationTests(UnityTestCase):
         self.addCleanup(ensure_stopped)
 
     def _set_proxy(self):
+        proxy_base = ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase
         super()._set_proxy(
             get_proxy_object_for_existing_process(
                 pid=self.process.pid,
-                emulator_base=UnityEmulatorBase,))
+                emulator_base=proxy_base))
 
     def test_no_sigstop(self):
         self.useFixture(

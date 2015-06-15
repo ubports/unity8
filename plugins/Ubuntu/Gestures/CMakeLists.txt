@@ -4,10 +4,11 @@ remove_definitions(-DQT_NO_KEYWORDS)
 set(UbuntuGesturesQml_SOURCES
     plugin.cpp
     AxisVelocityCalculator.cpp
+    Damper.cpp
     Direction.cpp
     DirectionalDragArea.cpp
+    FloatingFlickable.cpp
     PressedOutsideNotifier.cpp
-    TimeSource.cpp
     TouchDispatcher.cpp
     TouchGate.cpp
 )

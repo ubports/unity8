@@ -64,11 +64,26 @@ var kArtShapeHolderCode = 'Item  { \n\
                                 active: cardData && cardData["art"] || false; \n\
                                 asynchronous: root.asynchronous; \n\
                                 visible: status == Loader.Ready; \n\
-                                sourceComponent: UbuntuShape { \n\
+                                sourceComponent: Item { \n\
                                     id: artShape; \n\
                                     objectName: "artShape"; \n\
-                                    radius: "medium"; \n\
+                                    property bool doShapeItem: components["art"]["conciergeMode"] !== true; \n\
                                     visible: image.status == Image.Ready; \n\
+                                    readonly property alias image: artImage.image; \n\
+                                    ShaderEffectSource { \n\
+                                        id: artShapeSource; \n\
+                                        sourceItem: artImage; \n\
+                                        anchors.centerIn: parent; \n\
+                                        width: 1; \n\
+                                        height: 1; \n\
+                                        hideSource: doShapeItem; \n\
+                                    } \n\
+                                    Shape { \n\
+                                        image: artShapeSource; \n\
+                                        anchors.fill: parent; \n\
+                                        visible: doShapeItem; \n\
+                                        radius: "medium"; \n\
+                                    } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } \n\
@@ -87,11 +102,9 @@ var kArtShapeHolderCode = 'Item  { \n\
                                         objectName: "artImage"; \n\
                                         source: cardData && cardData["art"] || ""; \n\
                                         asynchronous: root.asynchronous; \n\
-                                        visible: false; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                     } \n\
-                                    image: artImage.image; \n\
                                 } \n\
                             } \n\
                         }\n';
@@ -322,7 +335,7 @@ function cardString(template, components) {
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
-    var artAndSummary = hasArt && hasSummary;
+    var artAndSummary = hasArt && hasSummary && components["art"]["conciergeMode"] !== true;
     var isHorizontal = template["card-layout"] === "horizontal";
     var hasBackground = (!isHorizontal && (template["card-background"] || components["background"] || artAndSummary)) ||
                         (hasSummary && (template["card-background"] || components["background"]));
@@ -631,6 +644,8 @@ function cardString(template, components) {
     var implicitHeight = 'implicitHeight: ';
     if (hasSummary) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
+    } else if (headerAsOverlay) {
+        implicitHeight += 'artShapeHolder.height;\n';
     } else if (hasHeaderRow) {
         implicitHeight += 'row.y + row.height + units.gu(1);\n';
     } else if (hasMascot) {
