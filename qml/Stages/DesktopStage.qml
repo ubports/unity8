@@ -431,34 +431,37 @@ Rectangle {
                         }
                     }
 
-                    Rectangle {
-                        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-                        height: units.dp(2)
-                        color: UbuntuColors.orange
-                        visible: index == 0 // TODO: should be active workspace index
-                    }
+                    // TODO: This is the bar for the currently selected workspace
+                    // Enable this once the workspace stuff is implemented
+//                    Rectangle {
+//                        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+//                        height: units.dp(2)
+//                        color: UbuntuColors.orange
+//                        visible: index == 0 // TODO: should be active workspace index
+//                    }
                 }
 
             }
-            Item {
-                Layout.fillHeight: true
-                Layout.preferredWidth: ((height - units.gu(6)) * root.width / root.height)
-                Rectangle {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        verticalCenter: parent.verticalCenter
-                    }
-                    height: parent.height * 0.75
-                    color: "#22ffffff"
+            // TODO: This is the "new workspace" button. Enable this once workspaces are implemented
+//            Item {
+//                Layout.fillHeight: true
+//                Layout.preferredWidth: ((height - units.gu(6)) * root.width / root.height)
+//                Rectangle {
+//                    anchors {
+//                        left: parent.left
+//                        right: parent.right
+//                        verticalCenter: parent.verticalCenter
+//                    }
+//                    height: parent.height * 0.75
+//                    color: "#22ffffff"
 
-                    Label {
-                        anchors.centerIn: parent
-                        font.pixelSize: parent.height / 2
-                        text: "+"
-                    }
-                }
-            }
+//                    Label {
+//                        anchors.centerIn: parent
+//                        font.pixelSize: parent.height / 2
+//                        text: "+"
+//                    }
+//                }
+//            }
             Item { Layout.fillWidth: true }
         }
     }
