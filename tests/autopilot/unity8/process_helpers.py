@@ -40,7 +40,6 @@ def unlock_unity():
     """Helper function that attempts to unlock the unity greeter.
 
     """
-
     greeter.wait_for_greeter()
     greeter.hide_greeter_with_dbus()
 
@@ -49,7 +48,6 @@ def lock_unity():
     """Helper function that attempts to lock unity greeter.
 
     """
-
     greeter.show_greeter_with_dbus()
     greeter.wait_for_greeter()
 
@@ -177,7 +175,7 @@ def _get_unity_status():
         raise CannotAccessUnity(str(error))
 
 
-def _get_unity_pid():
+def get_unity_pid():
     try:
         return get_job_pid('unity8')
     except JobError as error:

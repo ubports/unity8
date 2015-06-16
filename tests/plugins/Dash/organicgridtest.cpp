@@ -34,12 +34,12 @@ class DummyModel : public QAbstractListModel {
 public:
     DummyModel() : m_count(0) {}
 
-    int rowCount(const QModelIndex & /*parent*/) const
+    int rowCount(const QModelIndex & /*parent*/) const override
     {
         return m_count;
     }
 
-    QVariant data(const QModelIndex & /*index*/, int /*role*/) const
+    QVariant data(const QModelIndex & /*index*/, int /*role*/) const override
     {
         return QVariant();
     }

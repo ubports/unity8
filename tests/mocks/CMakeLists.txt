@@ -41,6 +41,7 @@ add_subdirectory(Ubuntu)
 add_subdirectory(Unity)
 add_subdirectory(QtMultimedia)
 add_subdirectory(Wizard)
+add_subdirectory(Utils)
 
 install(
   DIRECTORY data

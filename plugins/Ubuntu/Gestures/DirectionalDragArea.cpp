@@ -506,7 +506,7 @@ const QTouchEvent::TouchPoint *DirectionalDragAreaPrivate::fetchTargetTouchPoint
 
 bool DirectionalDragAreaPrivate::movingInRightDirection() const
 {
-    if (direction == Direction::Horizontal) {
+    if (direction == Direction::Horizontal || direction == Direction::Vertical) {
         return true;
     } else {
         QPointF movementVector(dampedScenePos.x() - previousDampedScenePos.x(),
@@ -532,7 +532,7 @@ bool DirectionalDragAreaPrivate::movedFarEnoughAlongGestureAxis() const
         ddaDebug(" movedFarEnoughAlongGestureAxis: scalarProjection=" << scalarProjection
             << ", distanceThreshold=" << distanceThreshold);
 
-        if (direction == Direction::Horizontal) {
+        if (direction == Direction::Horizontal || direction == Direction::Vertical) {
             return qAbs(scalarProjection) > distanceThreshold;
         } else {
             return scalarProjection > distanceThreshold;
@@ -712,6 +712,8 @@ void DirectionalDragArea::itemChange(ItemChange change, const ItemChangeData &va
 {
     if (change == QQuickItem::ItemSceneChange) {
         if (value.window != nullptr) {
+            value.window->installEventFilter(TouchRegistry::instance());
+
             // TODO: Handle window->screen() changes (ie window changing screens)
             qreal pixelsPerMm = value.window->screen()->physicalDotsPerInch() / 25.4;
             d->setPixelsPerMm(pixelsPerMm);
@@ -843,6 +845,7 @@ void DirectionalDragAreaPrivate::updateSceneDirectionVector()
             localDirection.ry() = -1.;
             break;
         case Direction::Downwards:
+        case Direction::Vertical:
             localDirection.rx() = 0.;
             localDirection.ry() = 1;
             break;

@@ -41,20 +41,10 @@ using namespace UbuntuGestures;
 TouchRegistry *TouchRegistry::m_instance = nullptr;
 
 TouchRegistry::TouchRegistry(QObject *parent)
-    : TouchRegistry(parent, new TimerFactory)
-{
-}
-
-TouchRegistry::TouchRegistry(QObject *parent, AbstractTimerFactory *timerFactory)
     : QObject(parent)
     , m_inDispatchLoop(false)
-    , m_timerFactory(timerFactory)
+    , m_timerFactory(new TimerFactory)
 {
-    if (m_instance == nullptr) {
-        m_instance = this;
-    } else {
-        qFatal("Cannot have more than one instance of TouchRegistry. It must be a singleton.");
-    }
 }
 
 TouchRegistry::~TouchRegistry()
@@ -62,6 +52,20 @@ TouchRegistry::~TouchRegistry()
     Q_ASSERT(m_instance != nullptr);
     m_instance = nullptr;
     delete m_timerFactory;
+}
+
+TouchRegistry *TouchRegistry::instance()
+{
+    if (m_instance == nullptr) {
+        m_instance = new TouchRegistry;
+    }
+    return m_instance;
+}
+
+void TouchRegistry::setTimerFactory(AbstractTimerFactory *timerFactory)
+{
+    delete m_timerFactory;
+    m_timerFactory = timerFactory;
 }
 
 void TouchRegistry::update(const QTouchEvent *event)
@@ -261,7 +265,7 @@ void TouchRegistry::addCandidateOwnerForTouch(int id, QQuickItem *candidate)
     candidateInfo.state = CandidateInfo::Undecided;
     candidateInfo.item = candidate;
     candidateInfo.inactivityTimer = new CandidateInactivityTimer(id, candidate,
-                                                                 *m_timerFactory,
+                                                                 m_timerFactory->createTimer(),
                                                                  this);
     connect(candidateInfo.inactivityTimer, &CandidateInactivityTimer::candidateDefaulted,
             this, &TouchRegistry::rejectCandidateOwnerForTouch);

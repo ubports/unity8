@@ -84,7 +84,7 @@ class tst_DirectionalDragArea: public GestureTest
 public:
     tst_DirectionalDragArea();
 private Q_SLOTS:
-    void init(); // called right before each and every test function is executed
+    void init() override; // called right before each and every test function is executed
 
     void dragWithShortDirectionChange();
     void recognitionTimerUsage();
@@ -202,7 +202,7 @@ void tst_DirectionalDragArea::dragWithShortDirectionChange()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
@@ -297,7 +297,7 @@ void tst_DirectionalDragArea::sceneXAndX()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hnDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
     edgeDragArea->setImmediateRecognition(true);
 
@@ -326,7 +326,7 @@ void tst_DirectionalDragArea::sceneYAndY()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("vnDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
     edgeDragArea->setImmediateRecognition(true);
 
@@ -357,7 +357,7 @@ void tst_DirectionalDragArea::twoFingerTap()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Make touches evenly spaced along the edgeDragArea
@@ -439,7 +439,7 @@ void tst_DirectionalDragArea::movingDDA()
     DirectionalDragArea *edgeDragArea =
         rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
@@ -479,7 +479,7 @@ void tst_DirectionalDragArea::ignoreOldFinger()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Make touches evenly spaced along the edgeDragArea
@@ -542,7 +542,7 @@ void tst_DirectionalDragArea::rotated()
     DirectionalDragArea *edgeDragArea =
         rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF initialTouchPos = calculateInitialTouchPos(edgeDragArea);
@@ -582,7 +582,7 @@ void tst_DirectionalDragArea::sceneDistance()
     DirectionalDragArea *edgeDragArea =
         rightwardsLauncher->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // to disable the position smoothing so that we can more easily check sceneDistance values
@@ -640,7 +640,7 @@ void tst_DirectionalDragArea::disabledWhileDragging()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF touchPoint = calculateInitialTouchPos(edgeDragArea);
@@ -678,7 +678,7 @@ void tst_DirectionalDragArea::oneFingerDownFollowedByLateSecondFingerDown()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable some constraints we're not interested in
@@ -753,7 +753,7 @@ void tst_DirectionalDragArea::givesUpWhenLosesTouch()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable some constraints we're not interested in
@@ -798,7 +798,7 @@ void tst_DirectionalDragArea::threeFingerDrag()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable some constraints we're not interested in
@@ -867,7 +867,7 @@ void tst_DirectionalDragArea::immediateRecognitionWhenConstraintsDisabled()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     // Disable the minimum amount of constraints to ensure immediate recognition
@@ -900,7 +900,7 @@ void tst_DirectionalDragArea::withdrawTouchOwnershipCandidacyIfDisabledDuringRec
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     Q_ASSERT(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF touchPoint = calculateInitialTouchPos(edgeDragArea);
@@ -964,7 +964,7 @@ void tst_DirectionalDragArea::gettingTouchOwnershipMakesMouseAreaBehindGetCancel
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != nullptr);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QQuickMouseArea *mouseArea =
@@ -1014,7 +1014,7 @@ void tst_DirectionalDragArea::interleavedTouches()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != 0);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     QPointF touch0 = edgeDragArea->mapToScene(
@@ -1109,7 +1109,7 @@ void tst_DirectionalDragArea::makoRightEdgeDrag()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hnDragArea");
     QVERIFY(edgeDragArea != nullptr);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     StatusSpy *statusSpy = new StatusSpy(edgeDragArea);
@@ -1154,7 +1154,7 @@ void tst_DirectionalDragArea::makoRightEdgeDrag_verticalDownwards()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hnDragArea");
     QVERIFY(edgeDragArea != nullptr);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     edgeDragArea->d->setPixelsPerMm(320.0 /*mako ppi*/ * 0.03937 /* inches per mm*/);
@@ -1198,7 +1198,7 @@ void tst_DirectionalDragArea::makoLeftEdgeDrag_slowStart()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != nullptr);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     edgeDragArea->d->setPixelsPerMm(320.0 /*mako ppi*/ * 0.03937 /* inches per mm*/);
@@ -1262,7 +1262,7 @@ void tst_DirectionalDragArea::makoLeftEdgeDrag_movesSlightlyBackwardsOnStart()
     DirectionalDragArea *edgeDragArea =
         m_view->rootObject()->findChild<DirectionalDragArea*>("hpDragArea");
     QVERIFY(edgeDragArea != nullptr);
-    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer());
+    edgeDragArea->d->setRecognitionTimer(m_fakeTimerFactory->createTimer(edgeDragArea));
     edgeDragArea->d->setTimeSource(m_fakeTimerFactory->timeSource());
 
     edgeDragArea->d->setPixelsPerMm(320.0 /*mako ppi*/ * 0.03937 /* inches per mm*/);

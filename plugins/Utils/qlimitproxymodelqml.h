@@ -32,8 +32,8 @@ public:
 
     /* getters */
     int limit() const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QHash<int, QByteArray> roleNames() const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     /* setters */
     void setModel(QAbstractItemModel *model);

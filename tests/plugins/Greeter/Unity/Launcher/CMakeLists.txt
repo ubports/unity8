@@ -1,5 +1,5 @@
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=6)
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=6)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}

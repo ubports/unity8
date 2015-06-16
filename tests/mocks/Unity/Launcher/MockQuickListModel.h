@@ -30,9 +30,9 @@ class MockQuickListModel: public QuickListModelInterface
 public:
     MockQuickListModel(QObject *parent = 0);
 
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex &index, int role) const override;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 };
 
 #endif // MOCKQUICKLISTMODEL_H

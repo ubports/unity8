@@ -36,12 +36,12 @@ public:
     Q_INVOKABLE int count();
     Q_INVOKABLE int findFirst(int role, const QVariant& value) const;
     Q_INVOKABLE int mapRowToSource(int row);
-    virtual bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
     /* getters */
     int totalCount() const;
     bool invertMatch() const;
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const override;
 
     /* setters */
     void setModel(QAbstractItemModel *model);
