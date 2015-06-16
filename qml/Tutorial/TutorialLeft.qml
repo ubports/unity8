@@ -69,6 +69,7 @@ TutorialPage {
 
     Binding {
         target: root.launcher
+        when: root.shown
         property: "x"
         value: Math.min(root.launcher.panelWidth - root.launcher.visibleWidth, teaseAnimation.bounce)
     }
