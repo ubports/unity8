@@ -69,6 +69,8 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
+                    property string shellMode: "full-greeter" /* default */
+
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true
                     }
