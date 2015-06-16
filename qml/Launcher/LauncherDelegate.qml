@@ -53,9 +53,11 @@ Item {
     }
 
     onAlertingChanged: {
-        if (alerting && launcher.state !== "visible") {
+        if (alerting) {
             launcherListView.peeking(index)
-            revealing = true
+            if (launcher.state !== "visible") {
+                revealing = true
+            }
         } else {
             launcherListView.unpeeking(index)
             revealing = false
