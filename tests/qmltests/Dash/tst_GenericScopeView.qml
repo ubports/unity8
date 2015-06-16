@@ -652,6 +652,15 @@ Item {
                 compare(touchdown.visible, false);
                 closePreview();
             }
+
+            function test_carousel_borderSource() {
+                var category = scrollToCategory("dashCategory1");
+                var tile = findChild(category, "carouselDelegate0");
+                tryCompareFunction(function() { return findChild(tile, "artShapeLoader") !== null; }, true);
+                var artShapeLoader = findChild(tile, "artShapeLoader");
+                var shape = findChildsByType(artShapeLoader, "UCUbuntuShape");
+                compare(shape.borderSource, undefined);
+            }
         }
     }
 }

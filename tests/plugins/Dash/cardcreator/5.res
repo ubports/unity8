@@ -33,6 +33,7 @@ Item  {
                                     property bool doShapeItem: components["art"]["conciergeMode"] !== true;
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage.image;
+                                    property alias borderSource: artShapeShape.borderSource;
                                     ShaderEffectSource {
                                         id: artShapeSource;
                                         sourceItem: artImage;
@@ -42,6 +43,7 @@ Item  {
                                         hideSource: doShapeItem;
                                     }
                                     Shape {
+                                        id: artShapeShape;
                                         image: artShapeSource;
                                         anchors.fill: parent;
                                         visible: doShapeItem;
