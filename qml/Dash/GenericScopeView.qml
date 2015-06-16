@@ -425,7 +425,7 @@ FocusScope {
                             //     to the next, we set the visible range to the viewport so
                             //     items are not culled (invisible) but still use no cacheBuffer
                             //     (it will be set once the scope is the current one)
-                            var displayMarginBeginning = baseItem.y;
+                            var displayMarginBeginning = baseItem.y + rendererLoader.anchors.topMargin;
                             displayMarginBeginning = -Math.max(-displayMarginBeginning, 0);
                             displayMarginBeginning = -Math.min(-displayMarginBeginning, baseItem.height);
                             displayMarginBeginning = Math.round(displayMarginBeginning);
