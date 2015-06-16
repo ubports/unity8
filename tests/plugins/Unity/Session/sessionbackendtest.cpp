@@ -158,9 +158,15 @@ private Q_SLOTS:
 
 //    void testLock() {
 //        DBusUnitySessionService dbusUnitySessionService;
+//        QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
 //        QCoreApplication::processEvents(); // to let the service register on DBus
 //        qDebug() << "Locking up...";
 //        dbusUnitySessionService.Lock();
+//        qDebug() << "Unlocking...";
+//        QDBusReply<void> unlockReply = login1face.call("UnlockSessions");
+//        if (!unlockReply.isValid()) {
+//            qWarning() << "Failed to unlock sessions" << unlockReply.error().message();
+//        }
 //    }
 
 private:

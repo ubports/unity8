@@ -29,7 +29,7 @@ Q_DECLARE_METATYPE(QList<QDBusObjectPath>)
  * interface.
  *
  * com.canonical.Unity.Session interface provides public methods
- * and signals to handle Logout/Reboot/Shutdown.
+ * and signals to handle eg. Logout/Reboot/Shutdown.
  */
 class DBusUnitySessionService : public UnityDBusObject
 {
@@ -85,7 +85,20 @@ Q_SIGNALS:
      */
     Q_SCRIPTABLE void LogoutReady();
 
+    /**
+     * Emitted as a result of calling PromptLock()
+     */
     Q_SCRIPTABLE void LockRequested();
+
+    /**
+     * Emitted after the session has been locked.
+     */
+    Q_SCRIPTABLE void Locked();
+
+    /**
+     * Emitted after the session has been unlocked.
+     */
+    Q_SCRIPTABLE void Unlocked();
 
 public Q_SLOTS:
     /**
@@ -209,6 +222,9 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE bool CanLock() const;
 
+    /**
+     * @return the login name of the current user
+     */
     Q_SCRIPTABLE QString UserName() const;
 
     /**
@@ -230,6 +246,8 @@ public Q_SLOTS:
      * Locks the session immediately
      */
     Q_SCRIPTABLE void Lock();
+
+    Q_SCRIPTABLE bool IsLocked() const;
 };
 
 class DBusGnomeSessionManagerWrapper : public UnityDBusObject

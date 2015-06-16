@@ -32,27 +32,87 @@
 #define LOGIN1_IFACE QStringLiteral("org.freedesktop.login1.Manager")
 #define LOGIN1_SESSION_IFACE QStringLiteral("org.freedesktop.login1.Session")
 
-bool checkLogin1Call(const QString &method)
+class DBusUnitySessionServicePrivate: public QObject
 {
-    QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, method);
-    QDBusReply<QString> reply = QDBusConnection::systemBus().asyncCall(msg);
-    const QString retval = reply.value();
-    return (retval == QStringLiteral("yes") || retval == QStringLiteral("challenge"));
-}
+public:
+    QString logindSessionPath;
 
-void makeLogin1Call(const QString &method, const QVariantList &args)
-{
-    QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
-                                                      LOGIN1_PATH,
-                                                      LOGIN1_IFACE,
-                                                      method);
-    msg.setArguments(args);
-    QDBusConnection::systemBus().asyncCall(msg);
-}
+    DBusUnitySessionServicePrivate(): QObject() { init(); }
+
+    void init()
+    {
+        // get our logind session path
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          LOGIN1_PATH,
+                                                          LOGIN1_IFACE,
+                                                          "GetSessionByPID");
+        msg << (quint32) getpid();
+
+        QDBusReply<QDBusObjectPath> reply = QDBusConnection::systemBus().asyncCall(msg);
+        if (reply.isValid()) {
+            logindSessionPath = reply.value().path();
+            qDebug() << "session path" << logindSessionPath;
+        } else {
+            qWarning() << "Failed to get logind session path" << reply.error().message();
+        }
+    }
+
+    bool checkLogin1Call(const QString &method) const
+    {
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, method);
+        QDBusReply<QString> reply = QDBusConnection::systemBus().asyncCall(msg);
+        return reply.isValid() && (reply == QStringLiteral("yes") || reply == QStringLiteral("challenge"));
+    }
+
+    void makeLogin1Call(const QString &method, const QVariantList &args)
+    {
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          LOGIN1_PATH,
+                                                          LOGIN1_IFACE,
+                                                          method);
+        msg.setArguments(args);
+        QDBusConnection::systemBus().asyncCall(msg);
+    }
+
+    bool isActive() const
+    {
+        if (logindSessionPath.isEmpty()) {
+            qWarning() << "Invalid session path";
+            return true; //assume active
+        }
+
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          logindSessionPath,
+                                                          "org.freedesktop.DBus.Properties",
+                                                          "Get");
+        msg << LOGIN1_SESSION_IFACE;
+        msg << QStringLiteral("Active");
+
+        QDBusReply<bool> reply = QDBusConnection::systemBus().asyncCall(msg);
+        if (reply.isValid()) {
+            return reply;
+        } else {
+            qWarning() << "Failed to get Active property" << reply.error().message();
+        }
+
+        return true; // assume active
+    }
+};
+
+Q_GLOBAL_STATIC(DBusUnitySessionServicePrivate, d)
 
 DBusUnitySessionService::DBusUnitySessionService()
     : UnityDBusObject("/com/canonical/Unity/Session", "com.canonical.Unity")
 {
+    if (!d->logindSessionPath.isEmpty()) {
+        // connect our Lock() slot to the logind's session Lock() signal
+        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, "Lock", this, SLOT(Lock()));
+        // ... and our Unlocked() signal to the logind's session Unlock() signal
+        // (lightdm handles the unlocking by calling logind's Unlock method which in turn emits this signal we connect to)
+        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, "Unlock", this, SIGNAL(Unlocked()));
+    } else {
+        qWarning() << "Failed to connect to logind's session Lock/Unlock signals";
+    }
 }
 
 void DBusUnitySessionService::Logout()
@@ -72,27 +132,27 @@ void DBusUnitySessionService::EndSession()
 
 bool DBusUnitySessionService::CanHibernate() const
 {
-    return checkLogin1Call("CanHibernate");
+    return d->checkLogin1Call("CanHibernate");
 }
 
 bool DBusUnitySessionService::CanSuspend() const
 {
-    return checkLogin1Call("CanSuspend");
+    return d->checkLogin1Call("CanSuspend");
 }
 
 bool DBusUnitySessionService::CanHybridSleep() const
 {
-    return checkLogin1Call("CanHybridSleep");
+    return d->checkLogin1Call("CanHybridSleep");
 }
 
 bool DBusUnitySessionService::CanReboot() const
 {
-    return checkLogin1Call("CanReboot");
+    return d->checkLogin1Call("CanReboot");
 }
 
 bool DBusUnitySessionService::CanShutdown() const
 {
-    return checkLogin1Call("CanPowerOff");
+    return d->checkLogin1Call("CanPowerOff");
 }
 
 bool DBusUnitySessionService::CanLock() const
@@ -141,16 +201,25 @@ void DBusUnitySessionService::PromptLock()
 
 void DBusUnitySessionService::Lock()
 {
-    const QString sessionId = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
+    // lock the session using the org.freedesktop.DisplayManager system DBUS service
+    const QString sessionPath = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
     QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.DisplayManager",
-                                                      sessionId,
+                                                      sessionPath,
                                                       "org.freedesktop.DisplayManager.Session",
                                                       "Lock");
     qDebug() << "Locking session" << msg.path();
     QDBusReply<void> reply = QDBusConnection::systemBus().asyncCall(msg);
     if (!reply.isValid()) {
         qWarning() << "Lock call failed" << reply.error().message();
+    } else {
+        // emit Locked when the call succeeds
+        Q_EMIT Locked();
     }
+}
+
+bool DBusUnitySessionService::IsLocked() const
+{
+    return !d->isActive();
 }
 
 void DBusUnitySessionService::RequestLogout()
@@ -160,7 +229,7 @@ void DBusUnitySessionService::RequestLogout()
 
 void DBusUnitySessionService::Reboot()
 {
-    makeLogin1Call("Reboot", {false});
+    d->makeLogin1Call("Reboot", {false});
 }
 
 void DBusUnitySessionService::RequestReboot()
@@ -170,22 +239,22 @@ void DBusUnitySessionService::RequestReboot()
 
 void DBusUnitySessionService::Shutdown()
 {
-    makeLogin1Call("PowerOff", {false});
+    d->makeLogin1Call("PowerOff", {false});
 }
 
 void DBusUnitySessionService::Suspend()
 {
-    makeLogin1Call("Suspend", {false});
+    d->makeLogin1Call("Suspend", {false});
 }
 
 void DBusUnitySessionService::Hibernate()
 {
-    makeLogin1Call("Hibernate", {false});
+    d->makeLogin1Call("Hibernate", {false});
 }
 
 void DBusUnitySessionService::HybridSleep()
 {
-    makeLogin1Call("HybridSleep", {false});
+    d->makeLogin1Call("HybridSleep", {false});
 }
 
 void DBusUnitySessionService::RequestShutdown()
