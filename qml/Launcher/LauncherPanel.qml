@@ -124,6 +124,12 @@ Rectangle {
                     // need to be smaller than this size to avoid breakage.
                     property int extensionSize: 0
 
+                    QtObject {
+                        id: priv
+                        property real moveToIndexYFrom
+                        property real moveToIndexYTo
+                    }
+
                     // Setting extensionSize after the list has been populated because it has
                     // the potential to mess up with the intial positioning in combination
                     // with snapping to the center of the list. This catches all the cases
@@ -135,6 +141,14 @@ Rectangle {
                     Component.onCompleted: {
                         extensionSize = itemHeight * 3
                         flick(0, clickFlickSpeed)
+                    }
+
+                    UbuntuNumberAnimation {
+                        id: moveToIndexAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        from: priv.moveToIndexYFrom
+                        to: priv.moveToIndexYTo
                     }
 
                     function peeking(peek) {
@@ -153,7 +167,12 @@ Rectangle {
                         if (peekingIndex !== -1) {
                             panel.visible = true
                             launcherListViewItem.clip = false
-                            positionViewAtIndex(peekingIndex, ListView.Center)
+                            if (!dragging) {
+                                priv.moveToIndexYFrom = contentY
+                                positionViewAtIndex(peekingIndex, ListView.Center)
+                                priv.moveToIndexYTo = contentY
+                                moveToIndexAnimation.start()
+                            }
                         } else {
                             launcherListViewItem.clip = true
                         }
