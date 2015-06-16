@@ -115,11 +115,25 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void Shutdown();
 
+    /**
+     * Suspend the system
+     *
+     * This method puts the system into sleep without user's confirmation.
+     */
     Q_SCRIPTABLE void Suspend();
 
+    /**
+     * Hibernate the system
+     *
+     * This method puts the system into hibernation without user's confirmation.
+     */
     Q_SCRIPTABLE void Hibernate();
 
     /**
+     * Hybrid sleep
+     *
+     * This method puts the system into hybrid sleep without user's confirmation.
+     *
      * @since unity8
      */
     Q_SCRIPTABLE void HybridSleep();
@@ -163,32 +177,58 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void EndSession();
 
+    /**
+     * @return whether the system is capable of hibernating
+     */
     Q_SCRIPTABLE bool CanHibernate() const;
 
+    /**
+     * @return whether the system is capable of suspending
+     */
     Q_SCRIPTABLE bool CanSuspend() const;
 
     /**
+     * @return whether the system is capable of hybrid sleep
      * @since unity8
      */
     Q_SCRIPTABLE bool CanHybridSleep() const;
 
     /**
+     * @return whether the system is capable of rebooting
      * @since unity8
      */
     Q_SCRIPTABLE bool CanReboot() const;
 
+    /**
+     * @return whether the system is capable of shutting down
+     */
     Q_SCRIPTABLE bool CanShutdown() const;
 
+    /**
+     * @return whether the system is capable of locking the session
+     */
     Q_SCRIPTABLE bool CanLock() const;
 
     Q_SCRIPTABLE QString UserName() const;
 
+    /**
+     * @return the real name of the current user
+     */
     Q_SCRIPTABLE QString RealName() const;
 
+    /**
+     * @return the local hostname
+     */
     Q_SCRIPTABLE QString HostName() const;
 
+    /**
+     * Request that the session get locked, emits signal LockRequested()
+     */
     Q_SCRIPTABLE void PromptLock();
 
+    /**
+     * Locks the session immediately
+     */
     Q_SCRIPTABLE void Lock();
 };
 

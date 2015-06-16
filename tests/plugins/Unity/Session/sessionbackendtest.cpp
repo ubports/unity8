@@ -31,7 +31,6 @@
 #include <sys/types.h>
 
 #include "dbusunitysessionservice.h"
-#include "../../AccountsService/AccountsServiceDBusAdaptor.h"
 
 enum class Action : unsigned
 {
