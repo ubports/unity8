@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2012,2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +16,54 @@
  */
 
 #include "plugin.h"
+#include "DBusGreeter.h"
+#include "DBusGreeterList.h"
+#include "Greeter.h"
+#include "UsersModel.h"
+#include <libusermetricsoutput/ColorTheme.h>
+#include <libusermetricsoutput/UserMetrics.h>
+#include <QLightDM/UsersModel>
 
+#include <QAbstractItemModel>
+#include <QDBusConnection>
 #include <QtQml/qqml.h>
+
+static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    Greeter *greeter = new Greeter();
+    new DBusGreeter(greeter, "/");
+    new DBusGreeterList(greeter, "/list");
+
+    return greeter;
+}
+
+static QObject *users_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new UsersModel();
+}
+
+static QObject *infographic_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return UserMetricsOutput::UserMetrics::getInstance();
+}
 
 void FullLightDMPlugin::registerTypes(const char *uri)
 {
+    qmlRegisterType<QAbstractItemModel>();
+    qmlRegisterType<UserMetricsOutput::ColorTheme>();
 
     Q_ASSERT(uri == QLatin1String("FullLightDM"));
+    qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
+    qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
+    qmlRegisterSingletonType<QLightDM::Greeter>(uri, 0, 1, "Greeter", greeter_provider);
+    qmlRegisterSingletonType<UsersModel>(uri, 0, 1, "Users", users_provider);
+    qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", "Type is not instantiable");
+    qmlRegisterSingletonType<UserMetricsOutput::UserMetrics>(uri, 0, 1, "Infographic", infographic_provider);
 }

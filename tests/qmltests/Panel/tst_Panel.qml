@@ -29,8 +29,6 @@ IndicatorTest {
     height: units.gu(71)
     color: "white"
 
-    property string indicatorProfile: "phone"
-
     RowLayout {
         anchors.fill: parent
         anchors.margins: units.gu(1)
