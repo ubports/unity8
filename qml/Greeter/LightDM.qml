@@ -30,7 +30,8 @@ Loader {
     property var userRoles: d.valid ? loader.item.userRoles : null
 
     // TODO: Conditionally load RealLightDMImpl if shellMode dictates it
-    source: "./FullLightDMImpl.qml"
+    source:  shellMode === "greeter" ?
+        "./FullLightDMImpl.qml" : "./IntegratedLightDMImpl.qml"
 
     QtObject {
         id: d
