@@ -48,6 +48,9 @@ PreviewWidget {
             }
     }
 
+    property alias ratingValue: rating.value
+    property alias reviewText: reviewTextArea.text
+
     function submit() {
         // checks rating-input requirements
         if (((widgetData["required"] === "both" ||

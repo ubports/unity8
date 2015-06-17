@@ -35,9 +35,6 @@
 #include "CachingNetworkManagerFactory.h"
 #include "UnityCommandLineParser.h"
 
-// Ubuntu Gestures
-#include <TouchRegistry.h>
-
 int main(int argc, const char *argv[])
 {
     bool isMirServer = false;
@@ -99,8 +96,6 @@ int main(int argc, const char *argv[])
     if (parser.hasFrameless()) {
         view->setFlags(Qt::FramelessWindowHint);
     }
-    TouchRegistry touchRegistry;
-    view->installEventFilter(&touchRegistry);
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.

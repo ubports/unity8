@@ -19,17 +19,22 @@
 namespace UbuntuGestures {
 
 CandidateInactivityTimer::CandidateInactivityTimer(int touchId, QQuickItem *candidate,
-        AbstractTimerFactory &timerFactory, QObject *parent)
+        AbstractTimer *timer, QObject *parent)
     : QObject(parent)
+    , m_timer(timer)
     , m_touchId(touchId)
     , m_candidate(candidate)
 {
-    m_timer = timerFactory.createTimer(this);
     connect(m_timer, &AbstractTimer::timeout,
             this, &CandidateInactivityTimer::onTimeout);
     m_timer->setInterval(durationMs);
     m_timer->setSingleShot(true);
     m_timer->start();
+}
+
+CandidateInactivityTimer::~CandidateInactivityTimer()
+{
+    delete m_timer;
 }
 
 void CandidateInactivityTimer::onTimeout()

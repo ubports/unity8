@@ -31,9 +31,6 @@
 #include "../ApplicationArguments.h"
 #include "../CachingNetworkManagerFactory.h"
 
-// Ubuntu Gestures
-#include <TouchRegistry.h>
-
 int main(int argc, const char *argv[])
 {
     QGuiApplication *application = new QGuiApplication(argc, (char**)argv);
@@ -96,9 +93,6 @@ int main(int argc, const char *argv[])
 
     view->setTitle("Scopes");
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
-
-    TouchRegistry touchRegistry;
-    view->installEventFilter(&touchRegistry);
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.

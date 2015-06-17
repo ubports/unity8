@@ -49,7 +49,7 @@ public:
 
     virtual ~HomeKeyWatcher();
 
-    bool eventFilter(QObject *watched, QEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
     void update(QEvent *event);
 

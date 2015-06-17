@@ -34,7 +34,6 @@ public:
 
     Q_INVOKABLE bool isInstanceOf(QObject*, QString);
     Q_INVOKABLE TouchEventSequenceWrapper *touchEvent(QQuickItem *item);
-    Q_INVOKABLE void ensureTouchRegistryInstalled();
 
 private:
     void ensureTargetWindow();
@@ -42,6 +41,7 @@ private:
 
     QWindow *m_targetWindow;
     QTouchDevice *m_touchDevice;
+    bool m_putFakeTimerFactoryInTouchRegistry;
 };
 
 QML_DECLARE_TYPE(TestUtil)

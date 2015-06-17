@@ -2,7 +2,6 @@ pkg_check_modules(GSETTINGS_QT REQUIRED gsettings-qt)
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=6)
 
 include_directories(
-    ${APPLICATION_API_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Launcher
