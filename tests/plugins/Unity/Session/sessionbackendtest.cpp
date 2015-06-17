@@ -84,8 +84,8 @@ private Q_SLOTS:
         QTest::addColumn<QString>("signal");
 
         QTest::newRow("Logout") << (uint)Action::LOGOUT << "LogoutRequested(bool)";
-        QTest::newRow("Shutdown") << (unsigned)Action::SHUTDOWN << "ShutdownRequested(bool)";
-        QTest::newRow("Reboot") << (unsigned)Action::REBOOT << "RebootRequested(bool)";
+        QTest::newRow("Shutdown") << (uint)Action::SHUTDOWN << "ShutdownRequested(bool)";
+        QTest::newRow("Reboot") << (uint)Action::REBOOT << "RebootRequested(bool)";
     }
 
     void testGnomeSessionWrapper() {
@@ -158,15 +158,18 @@ private Q_SLOTS:
 
 //    void testLock() {
 //        DBusUnitySessionService dbusUnitySessionService;
-//        QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
+//        DBusScreensaverWrapper saverIface;
+//        QSignalSpy spy(&saverIface, &DBusScreensaverWrapper::ActiveChanged);
 //        QCoreApplication::processEvents(); // to let the service register on DBus
 //        qDebug() << "Locking up...";
 //        dbusUnitySessionService.Lock();
-//        qDebug() << "Unlocking...";
-//        QDBusReply<void> unlockReply = login1face.call("UnlockSessions");
-//        if (!unlockReply.isValid()) {
-//            qWarning() << "Failed to unlock sessions" << unlockReply.error().message();
-//        }
+
+//        QTRY_COMPARE(spy.count(), 1);
+//        QList<QVariant> arguments = spy.takeFirst(); // take the first signal
+//        QVERIFY(arguments.at(0).toBool() == true); // verify the first argument
+
+//        // verify the session is locked
+//        QCOMPARE(saverIface.GetActive(), true);
 //    }
 
 private:

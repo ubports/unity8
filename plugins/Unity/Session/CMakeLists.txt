@@ -9,6 +9,7 @@ include_directories(
 set(QMLSESSIONPLUGIN_SRC
     plugin.cpp
     dbusunitysessionservice.cpp
+    dbusunitysessionservice_p.cpp
     orientationlock.cpp
     )
 

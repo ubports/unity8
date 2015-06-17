@@ -17,6 +17,7 @@ add_custom_target(sessionbackendtest ${testBackendCommand})
 add_executable(sessionbackendtestExec
     sessionbackendtest.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/Session/dbusunitysessionservice.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Session/dbusunitysessionservice_p.cpp
 )
 target_link_libraries(sessionbackendtestExec
     unity8-private

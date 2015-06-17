@@ -300,4 +300,38 @@ Q_SIGNALS:
     void ActiveChanged(bool active);
 };
 
+class DBusScreensaverWrapper: public UnityDBusObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.ScreenSaver")
+
+public:
+    DBusScreensaverWrapper();
+    ~DBusScreensaverWrapper() = default;
+
+public Q_SLOTS:
+    /**
+     * @return whether the session is currently locked (screensaver is on)
+     */
+    Q_SCRIPTABLE bool GetActive() const;
+
+    /**
+     * Locks the session immediately if @p lock is true
+     */
+    Q_SCRIPTABLE bool SetActive(bool lock);
+
+    /**
+     * Locks the session immediately
+     */
+    Q_SCRIPTABLE void Lock();
+
+    /**
+     * @return the number of seconds elapsed since the screensaver had been active
+     */
+    Q_SCRIPTABLE quint32 GetActiveTime() const;
+
+Q_SIGNALS:
+    void ActiveChanged(bool active);
+};
+
 #endif // DBUSUNITYSESSIONSERVICE_H
