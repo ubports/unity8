@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authored by: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 
@@ -22,23 +21,20 @@
 
 #include <QObject>
 #include <QSize>
-#include <QStringList>
+#include <QString>
 
 class ApplicationArguments : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString deviceName READ deviceName CONSTANT)
 public:
-    // Not exposed to the app as setSize isn't invokable
-    void setSize(const QSize &size) {
-        m_size = size;
-    }
+    ApplicationArguments(QObject *parent = nullptr);
 
-    Q_INVOKABLE bool hasGeometry() const { return m_size.isValid(); }
-    Q_INVOKABLE int width() const { return m_size.width(); }
-    Q_INVOKABLE int height() const { return m_size.height(); }
+    void setDeviceName(QString deviceName) { m_deviceName = deviceName; }
+    QString deviceName() const { return m_deviceName; }
 
 private:
-  QSize m_size;
+    QString m_deviceName;
 };
 
 #endif // APPLICATION_ARGUMENTS_H
