@@ -18,6 +18,7 @@ set(QMLPLUGIN_SRC
     Timer.cpp
     unitymenumodelpaths.cpp
     windowkeysfilter.cpp
+    windowscreenshotprovider.cpp
     easingcurve.cpp
     windowstatestorage.cpp
     plugin.cpp

@@ -13,6 +13,7 @@ set(QML_DIRS
     Notifications
     Panel
     Stages
+    Rotation
     Tutorial
     Wizard
     )

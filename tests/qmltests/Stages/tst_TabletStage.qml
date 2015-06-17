@@ -49,6 +49,11 @@ Rectangle {
                 dragAreaWidth: units.gu(2)
                 maximizedAppTopMargin: units.gu(3) + units.dp(2)
                 interactive: true
+                shellOrientation: Qt.LandscapeOrientation
+                shellPrimaryOrientation: Qt.LandscapeOrientation
+                nativeOrientation: Qt.LandscapeOrientation
+                nativeWidth: width
+                nativeHeight: height
                 focus: true
             }
         }
@@ -148,6 +153,52 @@ Rectangle {
 
             tryCompare(dialerApp.session.surface, "activeFocus", true);
             tryCompare(webbrowserApp.session.surface, "activeFocus", false);
+        }
+
+
+        function test_closeAppInSideStage() {
+            dialerCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(dialerCheckBox.appId);
+
+            performEdgeSwipeToShowAppSpread();
+
+            var appDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + dialerCheckBox.appId);
+            verify(appDelegate);
+            tryCompare(appDelegate, "swipeToCloseEnabled", true);
+
+            swipeAppUpwards(dialerCheckBox.appId);
+
+            // Check that dialer-app has been closed
+
+            tryCompareFunction(function() {
+                return findChild(tabletStage, "appWindow_" + dialerCheckBox.appId);
+            }, null);
+
+            tryCompareFunction(function() {
+                return ApplicationManager.findApplication(dialerCheckBox.appId);
+            }, null);
+        }
+
+        function performEdgeSwipeToShowAppSpread() {
+            var touchStartY = tabletStage.height / 2;
+            touchFlick(tabletStage,
+                       tabletStage.width - 1, touchStartY,
+                       0, touchStartY);
+
+            var spreadView = findChild(tabletStage, "spreadView");
+            verify(spreadView);
+            tryCompare(spreadView, "phase", 2);
+            tryCompare(spreadView, "flicking", false);
+            tryCompare(spreadView, "moving", false);
+        }
+
+        function swipeAppUpwards(appId) {
+            var appWindow = findChild(tabletStage, "appWindow_" + appId);
+            verify(appWindow);
+
+            touchFlick(appWindow,
+                    appWindow.width / 2, appWindow.height / 2,
+                    appWindow.width / 2, -appWindow.height / 2);
         }
     }
 
