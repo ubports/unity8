@@ -247,6 +247,9 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE void Lock();
 
+    /**
+     * @return whether the session is currently locked
+     */
     Q_SCRIPTABLE bool IsLocked() const;
 };
 
