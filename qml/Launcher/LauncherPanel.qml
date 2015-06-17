@@ -152,6 +152,13 @@ Rectangle {
                     }
 
                     function peeking(peek) {
+                        if (!dragging && panel.visible) {
+                            priv.moveToIndexYFrom = contentY
+                            positionViewAtIndex(peek, ListView.Center)
+                            priv.moveToIndexYTo = contentY
+                            moveToIndexAnimation.start()
+                        }
+
                         if (peekingIndex === -1) {
                             peekingIndex = peek
                         }
@@ -167,12 +174,6 @@ Rectangle {
                         if (peekingIndex !== -1) {
                             panel.visible = true
                             launcherListViewItem.clip = false
-                            if (!dragging) {
-                                priv.moveToIndexYFrom = contentY
-                                positionViewAtIndex(peekingIndex, ListView.Center)
-                                priv.moveToIndexYTo = contentY
-                                moveToIndexAnimation.start()
-                            }
                         } else {
                             launcherListViewItem.clip = true
                         }
