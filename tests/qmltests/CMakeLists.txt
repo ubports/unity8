@@ -1,6 +1,7 @@
 
 add_subdirectory(Components)
 
+add_units8_qmltest(. OrientedShell)
 add_unity8_qmltest(. Shell LIGHTDM)
 add_unity8_qmltest(. ShellWithPin LIGHTDM)
 add_unity8_qmltest(Components Background)
