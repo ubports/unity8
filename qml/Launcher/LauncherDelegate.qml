@@ -42,6 +42,7 @@ Item {
     property real offset: 0
     property real itemOpacity: 1
     property real brightness: 0
+    property real wiggleAngle: 0
 
     Connections {
         target: mainColumn.parent
@@ -103,7 +104,7 @@ Item {
 
         NumberAnimation {
             target: privWiggleAnim.target
-            property: "rotation"
+            property: "wiggleAngle"
             from: 0
             to: privWiggleAnim.angle
             duration: privWiggleAnim.duration
@@ -112,7 +113,7 @@ Item {
 
         NumberAnimation {
             target: privWiggleAnim.target
-            property: "rotation"
+            property: "wiggleAngle"
             from: privWiggleAnim.angle
             to: -privWiggleAnim.angle
             duration: privWiggleAnim.duration
@@ -121,7 +122,7 @@ Item {
 
         NumberAnimation {
             target: privWiggleAnim.target
-            property: "rotation"
+            property: "wiggleAngle"
             from: -privWiggleAnim.angle
             to: privWiggleAnim.angle
             duration: privWiggleAnim.duration
@@ -130,7 +131,7 @@ Item {
 
         NumberAnimation {
             target: privWiggleAnim.target
-            property: "rotation"
+            property: "wiggleAngle"
             from: -privWiggleAnim.angle
             to: privWiggleAnim.angle
             duration: privWiggleAnim.duration
@@ -139,7 +140,7 @@ Item {
 
         NumberAnimation {
             target: privWiggleAnim.target
-            property: "rotation"
+            property: "wiggleAngle"
             from: privWiggleAnim.angle
             to: -privWiggleAnim.angle
             duration: privWiggleAnim.duration
@@ -148,7 +149,7 @@ Item {
 
         NumberAnimation {
             target: privWiggleAnim.target
-            property: "rotation"
+            property: "wiggleAngle"
             from: -privWiggleAnim.angle
             to: 0
             duration: privWiggleAnim.duration
@@ -287,6 +288,14 @@ Item {
         }
 
         transform: [
+            // The rotation about the icon's center/z-axis for the wiggle
+            // needs to happen here too, because there's no other way to
+            // align the wiggle with the icon-folding otherwise
+            Rotation {
+                axis { x: 0; y: 0; z: 1 }
+                origin { x: iconItem.width / 2; y: iconItem.height / 2; z: 0 }
+                angle: root.wiggleAngle
+            },
             // Rotating 3 times at top/bottom because that increases the perspective.
             // This is a hack, but as QML does not support real 3D coordinates
             // getting a higher perspective can only be done by a hack. This is the most
