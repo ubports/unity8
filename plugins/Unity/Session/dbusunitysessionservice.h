@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014, 2015 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -264,8 +264,40 @@ public:
 
 public Q_SLOTS:
     Q_SCRIPTABLE void Open(const unsigned int type, const unsigned int arg_1, const unsigned int max_wait, const QList<QDBusObjectPath> &inhibitors);
-
-private:
-    void performAsyncCall(const QString &method);
 };
+
+class DBusGnomeScreensaverWrapper: public UnityDBusObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.gnome.ScreenSaver")
+
+public:
+    DBusGnomeScreensaverWrapper();
+    ~DBusGnomeScreensaverWrapper() = default;
+
+public Q_SLOTS:
+    /**
+     * @return whether the session is currently locked (screensaver is on)
+     */
+    Q_SCRIPTABLE bool GetActive() const;
+
+    /**
+     * Locks the session immediately if @p lock is true
+     */
+    Q_SCRIPTABLE void SetActive(bool lock);
+
+    /**
+     * Locks the session immediately
+     */
+    Q_SCRIPTABLE void Lock();
+
+    /**
+     * @return the number of seconds elapsed since the screensaver had been active
+     */
+    Q_SCRIPTABLE quint32 GetActiveTime() const;
+
+Q_SIGNALS:
+    void ActiveChanged(bool active);
+};
+
 #endif // DBUSUNITYSESSIONSERVICE_H
