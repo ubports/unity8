@@ -127,7 +127,7 @@ public Q_SLOTS:
     /**
      * Issue a reboot request.
      *
-     * This method emist the rebootRequested signal to the shell with a boolean
+     * This method emits the rebootRequested signal to the shell with a boolean
      * which indicates if there's any inhibitors. The shell should receive
      * this signal and display a dialog to ask the user to confirm the reboot
      * action. If confirmed, shell can call Reboot() method to reboot
