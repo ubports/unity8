@@ -30,6 +30,7 @@ Item {
     property bool alerting: false
     property bool revealing: false
     property bool hiding: false
+    readonly property alias wiggling: wiggleAnim.running
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight

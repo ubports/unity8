@@ -195,6 +195,16 @@ Item {
             tryCompare(panel, "x", -panel.width, 1000);
         }
 
+        function waitForWiggleToStart(appIcon) {
+            verify(appIcon != undefined)
+            tryCompare(appIcon, "wiggling", true, 1000, "wiggle-anim should not be in stopped state")
+        }
+
+        function waitForWiggleToStop(appIcon) {
+            verify(appIcon != undefined)
+            tryCompare(appIcon, "wiggling", false, 1000, "wiggle-anim should not be in running state")
+        }
+
         function positionLauncherListAtBeginning() {
             var listView = testCase.findChild(launcherLoader.item, "launcherListView");
             listView.contentY = -listView.topMargin;
@@ -673,20 +683,20 @@ Item {
         }
 
         function test_alertHidingIcon() {
-            var appIcon6 = findChild(launcher, "launcherDelegate6");
+            var appIcon6 = findChild(launcher, "launcherDelegate6")
+            verify(appIcon6 != undefined)
             LauncherModel.alert(LauncherModel.get(6).appId, true)
-            wait(500)
-            verify(appIcon6.x > 0)
+            waitForWiggleToStart(appIcon6)
             LauncherModel.alert(LauncherModel.get(6).appId, false)
             tryCompare(appIcon6, "x", 0, 1000, "x-value of appId #6 should not be non-zero")
         }
 
         function test_alertImplicitHidingIcon() {
-            var appIcon4 = findChild(launcher, "launcherDelegate4");
+            var appIcon4 = findChild(launcher, "launcherDelegate4")
             LauncherModel.alert(LauncherModel.get(4).appId, true)
             wait(500)
             verify(appIcon4.x > 0)
-            dragLauncherIntoView();
+            dragLauncherIntoView()
             tryCompare(appIcon4, "x", 0, 1000, "x-value of appId #4 should not be non-zero")
             LauncherModel.alert(LauncherModel.get(4).appId, false)
         }
@@ -734,10 +744,14 @@ Item {
             var appIcon7 = findChild(launcher, "launcherDelegate7");
             LauncherModel.alert(LauncherModel.get(1).appId, true)
             tryCompare(appIcon1, "angle", 0, 1000, "angle of appId #1 should not be non-zero")
+            waitForWiggleToStart(appIcon1)
             LauncherModel.alert(LauncherModel.get(7).appId, true)
             tryCompare(appIcon7, "angle", 0, 1000, "angle of appId #7 should not be non-zero")
+            waitForWiggleToStart(appIcon7)
             LauncherModel.alert(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
             LauncherModel.alert(LauncherModel.get(7).appId, false)
+            waitForWiggleToStop(appIcon7)
         }
     }
 }
