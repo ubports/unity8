@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Dash 0.1
 import "../"
 
@@ -38,7 +38,7 @@ PreviewWidget {
         readonly property string title: root.widgetData["title"] || ""
         readonly property string subtitle: root.widgetData["subtitle"] || ""
         readonly property var attributes: root.widgetData["attributes"] || null
-        readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+        readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
 
         implicitHeight: row.height + row.margins * 2
         width: parent.width

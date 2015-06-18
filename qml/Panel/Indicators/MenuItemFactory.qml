@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -23,7 +23,7 @@ import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 
 Item {
     id: menuFactory
@@ -245,7 +245,7 @@ Item {
                     name: "settings"
                     height: units.gu(3)
                     width: height
-                    color: Theme.palette.selected.backgroundText
+                    color: theme.palette.selected.backgroundText
                 }
             }
         }
@@ -277,7 +277,7 @@ Item {
                     source: menuData.icon
                     height: units.gu(3)
                     width: height
-                    color: Theme.palette.selected.backgroundText
+                    color: theme.palette.selected.backgroundText
                 }
             }
         }
@@ -835,7 +835,7 @@ Item {
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
             text: menuData && menuData.label || ""
-            foregroundColor: Theme.palette.normal.backgroundText
+            foregroundColor: theme.palette.normal.backgroundText
 
             onMenuModelChanged: {
                 loadAttributes();

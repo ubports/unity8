@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import QtTest 1.0
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import "../../../qml/Dash"
 import Unity.Test 0.1 as UT
 import Unity 0.2 as Unity
@@ -26,7 +26,7 @@ Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(60)
-    color: Theme.palette.selected.background
+    color: theme.palette.selected.background
 
     Unity.MockScope {
         id: mockScope

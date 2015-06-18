@@ -86,7 +86,7 @@ Label {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                        color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                         visible: showHeader ; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 

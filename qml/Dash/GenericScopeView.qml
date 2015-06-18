@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
@@ -536,7 +536,7 @@ FocusScope {
                     }
                     fontSize: "small"
                     font.weight: Font.Bold
-                    color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
+                    color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
                 }
             }
 
@@ -573,7 +573,7 @@ FocusScope {
             width: categoryView.width
             height: section != "" ? units.gu(5) : 0
             text: section
-            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
+            color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
             iconName: delegate && delegate.headerLink ? "go-next" : ""
             onClicked: {
                 if (delegate.headerLink) scopeView.scope.performQuery(delegate.headerLink);
@@ -694,7 +694,7 @@ FocusScope {
             }
             fontSize: "small"
             font.weight: Font.Bold
-            color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
+            color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
         }
 
         Connections {
