@@ -673,11 +673,22 @@ Item {
         }
 
         function test_alertHidingIcon() {
-
+            var appIcon6 = findChild(launcher, "launcherDelegate6");
+            LauncherModel.alert(LauncherModel.get(6).appId, true)
+            wait(500)
+            verify(appIcon6.x > 0)
+            LauncherModel.alert(LauncherModel.get(6).appId, false)
+            tryCompare(appIcon6, "x", 0, 1000, "x-value of appId #6 should not be non-zero")
         }
 
         function test_alertImplicitHidingIcon() {
-
+            var appIcon4 = findChild(launcher, "launcherDelegate4");
+            LauncherModel.alert(LauncherModel.get(4).appId, true)
+            wait(500)
+            verify(appIcon4.x > 0)
+            dragLauncherIntoView();
+            tryCompare(appIcon4, "x", 0, 1000, "x-value of appId #4 should not be non-zero")
+            LauncherModel.alert(LauncherModel.get(4).appId, false)
         }
 
         function test_alertIgnoreFocusedApp() {
