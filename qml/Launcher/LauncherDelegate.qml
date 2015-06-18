@@ -80,14 +80,23 @@ Item {
         duration: UbuntuAnimation.BriskDuration
     }
 
-    UbuntuNumberAnimation {
+    SequentialAnimation {
         running: hiding
-        alwaysRunToEnd: true
-        loops: 1
-        target: root
-        properties: "x"
-        to: 0
-        duration: UbuntuAnimation.BriskDuration
+
+        UbuntuNumberAnimation {
+            alwaysRunToEnd: true
+            loops: 1
+            target: root
+            properties: "x"
+            to: 0
+            duration: UbuntuAnimation.BriskDuration
+        }
+
+        UbuntuNumberAnimation {
+            target: launcherListViewItem
+            property: "clip"
+            to: 1
+        }
     }
 
     QtObject {

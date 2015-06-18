@@ -152,7 +152,7 @@ Rectangle {
                     }
 
                     function peeking(peek) {
-                        if (!dragging && launcher.visibleWidth > 0) {
+                        if (!dragging && (peekingIndex === -1 || launcher.visibleWidth > 0)) {
                             priv.moveToIndexYFrom = contentY
                             positionViewAtIndex(peek, ListView.Center)
                             priv.moveToIndexYTo = contentY
@@ -174,8 +174,6 @@ Rectangle {
                         if (peekingIndex !== -1) {
                             panel.visible = true
                             launcherListViewItem.clip = false
-                        } else {
-                            //launcherListViewItem.clip = true
                         }
                     }
 
