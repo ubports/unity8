@@ -31,6 +31,7 @@
 #include <QDBusPendingCall>
 #include <QDBusReply>
 #include <QElapsedTimer>
+#include <QDateTime>
 
 #define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
 #define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
@@ -38,6 +39,7 @@
 #define LOGIN1_SESSION_IFACE QStringLiteral("org.freedesktop.login1.Session")
 
 #define ACTIVE_KEY QStringLiteral("Active")
+#define IDLE_SINCE_KEY QStringLiteral("IdleSinceHint")
 
 class DBusUnitySessionServicePrivate: public QObject
 {
@@ -114,10 +116,29 @@ public:
         }
     }
 
-    quint32 activeTime() const
+    quint32 screensaverActiveTime() const
     {
         if (!isSessionActive && screensaverActiveTimer.isValid()) {
             return screensaverActiveTimer.elapsed() / 1000;
+        }
+
+        return 0;
+    }
+
+    quint64 idleSinceUSecTimestamp() const
+    {
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          logindSessionPath,
+                                                          "org.freedesktop.DBus.Properties",
+                                                          "Get");
+        msg << LOGIN1_SESSION_IFACE;
+        msg << IDLE_SINCE_KEY;
+
+        QDBusReply<QVariant> reply = QDBusConnection::systemBus().asyncCall(msg);
+        if (reply.isValid()) {
+            return reply.value().value<quint64>();
+        } else {
+            qWarning() << "Failed to get IdleSinceHint property" << reply.error().message();
         }
 
         return 0;
@@ -128,19 +149,33 @@ private Q_SLOTS:
     {
         Q_UNUSED(iface)
 
-        if (changedProps.contains(ACTIVE_KEY)) {
-            isSessionActive = changedProps.value(ACTIVE_KEY).toBool();
-        } else if (invalidatedProps.contains(ACTIVE_KEY)) {
-            checkActive();
-        }
+        if (changedProps.contains(ACTIVE_KEY) || invalidatedProps.contains(ACTIVE_KEY)) {
+            if (changedProps.value(ACTIVE_KEY).isValid()) {
+                isSessionActive = changedProps.value(ACTIVE_KEY).toBool();
+            } else {
+                checkActive();
+            }
 
-        Q_EMIT screensaverActiveChanged(!isSessionActive);
+            Q_EMIT screensaverActiveChanged(!isSessionActive);
 
-        if (isSessionActive) {
-            screensaverActiveTimer.invalidate();
-        } else {
-            screensaverActiveTimer.start();
+            if (isSessionActive) {
+                screensaverActiveTimer.invalidate();
+                setIdleHint(false);
+            } else {
+                screensaverActiveTimer.start();
+                setIdleHint(true);
+            }
         }
+    }
+
+    void setIdleHint(bool idle)
+    {
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          logindSessionPath,
+                                                          LOGIN1_SESSION_IFACE,
+                                                          "SetIdleHint");
+        msg << idle;
+        QDBusConnection::systemBus().asyncCall(msg);
     }
 
 Q_SIGNALS:
@@ -385,7 +420,7 @@ void DBusGnomeScreensaverWrapper::Lock()
 
 quint32 DBusGnomeScreensaverWrapper::GetActiveTime() const
 {
-    return d->activeTime();
+    return d->screensaverActiveTime();
 }
 
 
@@ -416,7 +451,12 @@ void DBusScreensaverWrapper::Lock()
 
 quint32 DBusScreensaverWrapper::GetActiveTime() const
 {
-    return d->activeTime();
+    return d->screensaverActiveTime();
+}
+
+quint32 DBusScreensaverWrapper::GetSessionIdleTime() const
+{
+    return QDateTime::fromMSecsSinceEpoch(d->idleSinceUSecTimestamp()/1000).secsTo(QDateTime::currentDateTime());
 }
 
 #include "dbusunitysessionservice.moc"
