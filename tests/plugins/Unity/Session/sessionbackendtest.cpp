@@ -159,8 +159,12 @@ private Q_SLOTS:
 //    void testLock() {
 //        DBusUnitySessionService dbusUnitySessionService;
 //        DBusScreensaverWrapper saverIface;
+//        QDBusInterface saverCompatIface("org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver", QDBusConnection::sessionBus());
 //        QSignalSpy spy(&saverIface, &DBusScreensaverWrapper::ActiveChanged);
 //        QCoreApplication::processEvents(); // to let the service register on DBus
+
+//        QTRY_COMPARE(saverCompatIface.isValid(), true);
+
 //        qDebug() << "Locking up...";
 //        dbusUnitySessionService.Lock();
 
@@ -174,7 +178,7 @@ private Q_SLOTS:
 //        sleep(5);
 //        qDebug() << "Screensaver has been active for" << saverIface.GetActiveTime() << "seconds";
 //        qDebug() << "Session has been idle for" << saverIface.GetSessionIdleTime() << "seconds";
-//    }
+    }
 
 private:
     QDBusInterface *dbusUnitySession;

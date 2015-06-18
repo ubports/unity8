@@ -432,6 +432,7 @@ void DBusGnomeScreensaverWrapper::SimulateUserActivity()
 DBusScreensaverWrapper::DBusScreensaverWrapper()
     : UnityDBusObject("/org/freedesktop/ScreenSaver", "org.freedesktop.ScreenSaver")
 {
+    QDBusConnection::sessionBus().registerObject("/ScreenSaver", this, QDBusConnection::ExportScriptableContents); // compat path, also register here
     connect(d, &DBusUnitySessionServicePrivate::screensaverActiveChanged, this, &DBusScreensaverWrapper::ActiveChanged);
 }
 
