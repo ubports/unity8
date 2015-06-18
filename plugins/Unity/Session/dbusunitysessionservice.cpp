@@ -20,7 +20,132 @@
 
 // local
 #include "dbusunitysessionservice.h"
-#include "dbusunitysessionservice_p.h"
+
+// system
+#include <sys/types.h>
+#include <unistd.h>
+#include <pwd.h>
+
+// Qt
+#include <QDebug>
+#include <QDBusPendingCall>
+#include <QDBusReply>
+#include <QElapsedTimer>
+
+#define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
+#define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
+#define LOGIN1_IFACE QStringLiteral("org.freedesktop.login1.Manager")
+#define LOGIN1_SESSION_IFACE QStringLiteral("org.freedesktop.login1.Session")
+
+#define ACTIVE_KEY QStringLiteral("Active")
+
+class DBusUnitySessionServicePrivate: public QObject
+{
+    Q_OBJECT
+public:
+    QString logindSessionPath;
+    bool isSessionActive = true;
+    QElapsedTimer screensaverActiveTimer;
+
+    DBusUnitySessionServicePrivate(): QObject() {
+        init();
+        checkActive();
+    }
+
+    void init()
+    {
+        // get our logind session path
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          LOGIN1_PATH,
+                                                          LOGIN1_IFACE,
+                                                          "GetSessionByPID");
+        msg << (quint32) getpid();
+
+        QDBusReply<QDBusObjectPath> reply = QDBusConnection::systemBus().asyncCall(msg);
+        if (reply.isValid()) {
+            logindSessionPath = reply.value().path();
+            //qDebug() << "session path" << logindSessionPath;
+
+            // start watching the Active property
+            QDBusConnection::systemBus().connect(LOGIN1_SERVICE, logindSessionPath, "org.freedesktop.DBus.Properties", "PropertiesChanged",
+                                                 this, SLOT(onPropertiesChanged(QString,QVariantMap,QStringList)));
+        } else {
+            qWarning() << "Failed to get logind session path" << reply.error().message();
+        }
+    }
+
+    bool checkLogin1Call(const QString &method) const
+    {
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, method);
+        QDBusReply<QString> reply = QDBusConnection::systemBus().asyncCall(msg);
+        return reply.isValid() && (reply == QStringLiteral("yes") || reply == QStringLiteral("challenge"));
+    }
+
+    void makeLogin1Call(const QString &method, const QVariantList &args)
+    {
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          LOGIN1_PATH,
+                                                          LOGIN1_IFACE,
+                                                          method);
+        msg.setArguments(args);
+        QDBusConnection::systemBus().asyncCall(msg);
+    }
+
+    void checkActive()
+    {
+        if (logindSessionPath.isEmpty()) {
+            qWarning() << "Invalid session path";
+            return;
+        }
+
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          logindSessionPath,
+                                                          "org.freedesktop.DBus.Properties",
+                                                          "Get");
+        msg << LOGIN1_SESSION_IFACE;
+        msg << ACTIVE_KEY;
+
+        QDBusReply<QVariant> reply = QDBusConnection::systemBus().asyncCall(msg);
+        if (reply.isValid()) {
+            isSessionActive = reply.value().toBool();
+            qDebug() << "Session" << logindSessionPath << "is active:" << isSessionActive;
+        } else {
+            qWarning() << "Failed to get Active property" << reply.error().message();
+        }
+    }
+
+    quint32 activeTime() const
+    {
+        if (!isSessionActive && screensaverActiveTimer.isValid()) {
+            return screensaverActiveTimer.elapsed() / 1000;
+        }
+
+        return 0;
+    }
+
+private Q_SLOTS:
+    void onPropertiesChanged(const QString &iface, const QVariantMap &changedProps, const QStringList &invalidatedProps)
+    {
+        Q_UNUSED(iface)
+
+        if (changedProps.contains(ACTIVE_KEY)) {
+            isSessionActive = changedProps.value(ACTIVE_KEY).toBool();
+        } else if (invalidatedProps.contains(ACTIVE_KEY)) {
+            checkActive();
+        }
+
+        Q_EMIT screensaverActiveChanged(!isSessionActive);
+
+        if (isSessionActive) {
+            screensaverActiveTimer.invalidate();
+        } else {
+            screensaverActiveTimer.start();
+        }
+    }
+
+Q_SIGNALS:
+    void screensaverActiveChanged(bool active);
+};
 
 Q_GLOBAL_STATIC(DBusUnitySessionServicePrivate, d)
 
@@ -293,3 +418,5 @@ quint32 DBusScreensaverWrapper::GetActiveTime() const
 {
     return d->activeTime();
 }
+
+#include "dbusunitysessionservice.moc"

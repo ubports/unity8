@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,38 +45,68 @@ import Unity.Indicators 0.1 as Indicators
 Item {
     id: shell
 
+    // to be set from outside
+    property int orientationAngle: 0
+    property int orientation
+    property int primaryOrientation
+    property int nativeOrientation
+    property real nativeWidth
+    property real nativeHeight
+    property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
+    property bool beingResized
+    property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
+    function updateFocusedAppOrientation() {
+        applicationsDisplayLoader.item.updateFocusedAppOrientation();
+    }
+    function updateFocusedAppOrientationAnimated() {
+        applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
+    }
+
+    // to be read from outside
+    readonly property int mainAppWindowOrientationAngle:
+            applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainAppWindowOrientationAngle : 0
+
+    readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
+            && (applicationsDisplayLoader.item && applicationsDisplayLoader.item.orientationChangesEnabled)
+            && !greeter.animating
+
+    readonly property bool showingGreeter: greeter.shown
+
+    property bool startingUp: true
+    Timer { id: finishStartUpTimer; interval: 500; onTriggered: startingUp = false }
+
+    property int supportedOrientations: {
+        if (startingUp) {
+            // Ensure we don't rotate during start up
+            return Qt.PrimaryOrientation;
+        } else if (greeter.shown) {
+            return Qt.PrimaryOrientation;
+        } else if (mainApp) {
+            return mainApp.supportedOrientations;
+        } else {
+            // we just don't care
+            return Qt.PortraitOrientation
+                 | Qt.LandscapeOrientation
+                 | Qt.InvertedPortraitOrientation
+                 | Qt.InvertedLandscapeOrientation;
+        }
+    }
+
+    // For autopilot consumption
+    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
+
+    // internal props from here onwards
+    readonly property var mainApp:
+            applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
+
     // Disable everything while greeter is waiting, so that the user can't swipe
     // the greeter or launcher until we know whether the session is locked.
     enabled: !greeter.waiting
-
-    // this is only here to select the width / height of the window if not running fullscreen
-    property bool tablet: false
-    width: tablet ? units.gu(160) : applicationArguments.hasGeometry() ? applicationArguments.width() : units.gu(40)
-    height: tablet ? units.gu(100) : applicationArguments.hasGeometry() ? applicationArguments.height() : units.gu(71)
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background: asImageTester.status == Image.Ready ? asImageTester.source
                              : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
-
-    property bool sideStageEnabled: shell.width >= units.gu(100)
-    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
-
-    property int orientation
-    readonly property int deviceOrientationAngle: Screen.angleBetween(Screen.primaryOrientation, Screen.orientation)
-    onDeviceOrientationAngleChanged: {
-        if (!OrientationLock.enabled) {
-            orientation = Screen.orientation;
-        }
-    }
-    readonly property bool orientationLockEnabled: OrientationLock.enabled
-    onOrientationLockEnabledChanged: {
-        if (orientationLockEnabled) {
-            OrientationLock.savedOrientation = Screen.orientation;
-        } else {
-            orientation = Screen.orientation;
-        }
-    }
 
     // This is _only_ used to expose the property to autopilot tests
     readonly property string testShellMode: shellMode
@@ -85,7 +115,8 @@ Item {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
-            var execFlags = shell.sideStageEnabled ? ApplicationManager.NoFlag : ApplicationManager.ForceMainStage;
+            var execFlags = shell.usageScenario === "phone" ? ApplicationManager.ForceMainStage
+                                                            : ApplicationManager.NoFlag;
             ApplicationManager.startApplication(appId, execFlags);
         }
     }
@@ -122,11 +153,6 @@ Item {
         sourceSize.width: 0
     }
 
-    GSettings {
-        id: usageModeSettings
-        schema.id: "com.canonical.Unity8"
-    }
-
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -138,9 +164,7 @@ Item {
         if (ApplicationManager.count > 0) {
             ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
         }
-        if (orientationLockEnabled) {
-            orientation = OrientationLock.savedOrientation;
-        }
+        finishStartUpTimer.start();
     }
 
     VolumeControl {
@@ -233,9 +257,19 @@ Item {
             // theoretical attack where user enters lockedApp mode, then makes
             // the screen larger (maybe connects to monitor) and tries to enter
             // tablet mode.
-            property bool tabletMode: shell.sideStageEnabled && !greeter.hasLockedApp
-            source: usageModeSettings.usageMode === "Windowed" ? "Stages/DesktopStage.qml"
-                        : tabletMode ? "Stages/TabletStage.qml" : "Stages/PhoneStage.qml"
+
+            property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
+                                           ? "phone"
+                                           : shell.usageScenario
+            source: {
+                if (applicationsDisplayLoader.usageScenario === "phone") {
+                    return "Stages/PhoneStage.qml";
+                } else if (applicationsDisplayLoader.usageScenario === "tablet") {
+                    return "Stages/TabletStage.qml";
+                } else {
+                    return "Stages/DesktopStage.qml";
+                }
+            }
 
             property bool interactive: tutorial.spreadEnabled
                     && !greeter.shown
@@ -278,13 +312,43 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
-                property: "orientation"
+                property: "shellOrientationAngle"
+                value: shell.orientationAngle
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "shellOrientation"
                 value: shell.orientation
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "background"
                 value: shell.background
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "shellPrimaryOrientation"
+                value: shell.primaryOrientation
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "nativeOrientation"
+                value: shell.nativeOrientation
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "nativeWidth"
+                value: shell.nativeWidth
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "nativeHeight"
+                value: shell.nativeHeight
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "beingResized"
+                value: shell.beingResized
             }
         }
 
@@ -355,7 +419,7 @@ Item {
         objectName: "greeter"
 
         hides: [launcher, panel.indicators]
-        tabletMode: shell.sideStageEnabled
+        tabletMode: shell.usageScenario !== "phone"
         launcherOffset: launcher.progress
         forcedUnlock: tutorial.running
         background: shell.background
@@ -482,20 +546,18 @@ Item {
                 expandedPanelHeight: units.gu(7)
 
                 indicatorsModel: Indicators.IndicatorsModel {
-                    // TODO: This should be sourced by device type (e.g. "desktop", "tablet", "phone"...)
-                    profile: indicatorProfile
-                    Component.onCompleted: load()
+                    // tablet and phone both use the same profile
+                    profile: shell.usageScenario === "desktop" ? "desktop" : "phone"
+                    Component.onCompleted: load();
                 }
             }
+
             callHint {
                 greeterShown: greeter.shown
             }
 
-            property bool topmostApplicationIsFullscreen:
-                ApplicationManager.focusedApplicationId &&
-                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
-
-            fullscreenMode: (topmostApplicationIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+            property bool mainAppIsFullscreen: shell.mainApp && shell.mainApp.fullscreen
+            fullscreenMode: (mainAppIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
         }
 
@@ -513,7 +575,7 @@ Item {
             available: tutorial.launcherEnabled
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
-            inverted: usageModeSettings.usageMode === "Staged"
+            inverted: shell.usageScenario !== "desktop"
             shadeBackground: !tutorial.running
 
             onShowDashHome: showHome()
@@ -555,7 +617,7 @@ Item {
         Rectangle {
             id: modalNotificationBackground
 
-            visible: notifications.useModal && (notifications.state == "narrow")
+            visible: notifications.useModal
             color: "#000000"
             anchors.fill: parent
             opacity: 0.9
@@ -600,6 +662,7 @@ Item {
 
     Dialogs {
         id: dialogs
+        objectName: "dialogs"
         anchors.fill: parent
         z: overlay.z + 10
         onPowerOffClicked: {

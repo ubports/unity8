@@ -2,6 +2,7 @@ pkg_search_module(GIO REQUIRED gio-2.0)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${GIO_INCLUDE_DIRS}
     ${libunity8-private_SOURCE_DIR}
 )
@@ -9,7 +10,6 @@ include_directories(
 set(QMLSESSIONPLUGIN_SRC
     plugin.cpp
     dbusunitysessionservice.cpp
-    dbusunitysessionservice_p.cpp
     orientationlock.cpp
     )
 

@@ -17,7 +17,7 @@ file(GLOB_RECURSE QML_FILES
 )
 
 add_executable(${SHELL_APP}
-    ApplicationArguments.h
+    ApplicationArguments.cpp
     main.cpp
     MouseTouchAdaptor.cpp
     CachingNetworkManagerFactory.cpp
@@ -26,13 +26,12 @@ add_executable(${SHELL_APP}
 )
 
 qt5_use_modules(${SHELL_APP} Gui Qml Quick Test)
-pkg_check_modules(XCB REQUIRED xcb)
 
-if (NOT "${XCB_INCLUDE_DIRS}" STREQUAL "")
-    set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${XCB_INCLUDE_DIRS})
-
-    target_link_libraries(${SHELL_APP} ${XCB_LDFLAGS})
+pkg_check_modules(NEEDED_LIBS REQUIRED xcb libandroid-properties)
+if (NOT "${NEEDED_LIBS_INCLUDE_DIRS}" STREQUAL "")
+    set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${NEEDED_LIBS_INCLUDE_DIRS})
 endif()
+target_link_libraries(${SHELL_APP} ${NEEDED_LIBS_LDFLAGS})
 
 target_link_libraries(${SHELL_APP} UbuntuGestures connectivity-qt1)
 
