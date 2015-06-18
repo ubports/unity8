@@ -96,7 +96,7 @@ Item {
     }
 
     Component.onCompleted: {
-        Theme.name = "Ubuntu.Components.Themes.SuruGradient";
+        theme.name = "Ubuntu.Components.Themes.SuruGradient";
         setup();
     }
 
