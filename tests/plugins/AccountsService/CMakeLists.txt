@@ -43,12 +43,13 @@ add_executable(test-accountsservice
     )
 qt5_use_modules(test-accountsservice Core DBus Test)
 
-add_test(NAME test-accountsservice
-    COMMAND dbus-test-runner
-        --task ${CMAKE_CURRENT_BINARY_DIR}/mock-server
+add_unity8_unittest(AccountsService dbus-test-runner
+    ARG_PREFIX "--parameter"
+    ARGS
+        --task $<TARGET_FILE:mock-server>
         --task-name server
         --ignore-return
-        --task ${CMAKE_CURRENT_BINARY_DIR}/test-accountsservice
+        --task $<TARGET_FILE:test-accountsservice>
         --task-name client
         --wait-for org.freedesktop.Accounts
     )

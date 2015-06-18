@@ -299,4 +299,4 @@ private:
 };
 
 QTEST_GUILESS_MAIN(MenuConentActivatorTest)
-#include "menucontentactivatortest.moc"
+#include "MenuContentActivatorTest.moc"
