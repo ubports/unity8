@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 
 /* FIXME: This component is duplicating the UbuntuShape from the SDK, but shapes more
  * general (Item-based) components. This ability should be incorporated into the SDK's

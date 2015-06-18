@@ -19,7 +19,7 @@ import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
 import LightDM 0.1 as LightDM
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.0 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
