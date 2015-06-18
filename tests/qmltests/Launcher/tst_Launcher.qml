@@ -662,5 +662,71 @@ Item {
             tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
             waitUntilLauncherDisappears();
         }
+
+        function test_alertPeekingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.alert(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
+            LauncherModel.alert(LauncherModel.get(5).appId, false)
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+        }
+
+        function test_alertHidingIcon() {
+
+        }
+
+        function test_alertImplicitHidingIcon() {
+
+        }
+
+        function test_alertIgnoreFocusedApp() {
+            LauncherModel.alert(LauncherModel.get(0).appId, true)
+            compare(LauncherModel.get(0).alerting, false, "Focused app should not have the alert-state set")
+        }
+
+        function test_alertOnlyOnePeekingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.alert(LauncherModel.get(3).appId, true)
+            LauncherModel.alert(LauncherModel.get(1).appId, true)
+            LauncherModel.alert(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 3, 1000, "Wrong appId set as peeking-index")
+            LauncherModel.alert(LauncherModel.get(1).appId, false)
+            LauncherModel.alert(LauncherModel.get(3).appId, false)
+            LauncherModel.alert(LauncherModel.get(5).appId, false)
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+        }
+
+        function test_alertMultipleApps() {
+            LauncherModel.alert(LauncherModel.get(1).appId, true)
+            LauncherModel.alert(LauncherModel.get(3).appId, true)
+            LauncherModel.alert(LauncherModel.get(5).appId, true)
+            LauncherModel.alert(LauncherModel.get(7).appId, true)
+            compare(LauncherModel.get(1).alerting, true, "Alert-state of appId #1 should not be false")
+            compare(LauncherModel.get(3).alerting, true, "Alert-state of appId #3 should not be false")
+            compare(LauncherModel.get(5).alerting, true, "Alert-state of appId #5 should not be false")
+            compare(LauncherModel.get(7).alerting, true, "Alert-state of appId #7 should not be false")
+            LauncherModel.alert(LauncherModel.get(1).appId, false)
+            LauncherModel.alert(LauncherModel.get(3).appId, false)
+            LauncherModel.alert(LauncherModel.get(5).appId, false)
+            LauncherModel.alert(LauncherModel.get(7).appId, false)
+            compare(LauncherModel.get(1).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(3).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(5).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(7).alerting, false, "Alert-state of appId #1 should not be true")
+        }
+
+        function test_alertMoveIconIntoView() {
+            dragLauncherIntoView();
+            var appIcon1 = findChild(launcher, "launcherDelegate1");
+            var appIcon7 = findChild(launcher, "launcherDelegate7");
+            LauncherModel.alert(LauncherModel.get(1).appId, true)
+            tryCompare(appIcon1, "angle", 0, 1000, "angle of appId #1 should not be non-zero")
+            LauncherModel.alert(LauncherModel.get(7).appId, true)
+            tryCompare(appIcon7, "angle", 0, 1000, "angle of appId #7 should not be non-zero")
+            LauncherModel.alert(LauncherModel.get(1).appId, false)
+            LauncherModel.alert(LauncherModel.get(7).appId, false)
+        }
     }
 }
