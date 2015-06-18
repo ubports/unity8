@@ -47,8 +47,11 @@ Item {
     Connections {
         target: mainColumn.parent
         onPanelMoved: {
-            if (alerting) {
+            if (alerting && launcherListView.peekingIndex === index) {
                 x = Math.max(units.gu(4.5) - mainColumn.parent.parent.visibleWidth, 0)
+                if (x === 0) {
+                    launcherListView.unpeeking(index)
+                }
             }
         }
     }
@@ -56,8 +59,9 @@ Item {
     onAlertingChanged: {
         if (alerting) {
             launcherListView.peeking(index)
-            if (launcher.state !== "visible") {
+            if (launcher.state !== "visible" && launcherListView.peekingIndex === index) {
                 revealing = true
+                hiding = false
             }
         } else {
             launcherListView.unpeeking(index)
@@ -72,7 +76,6 @@ Item {
         loops: 1
         target: root
         properties: "x"
-        from: 0
         to: units.gu(.5) + launcherListView.width * .5
         duration: UbuntuAnimation.BriskDuration
     }
