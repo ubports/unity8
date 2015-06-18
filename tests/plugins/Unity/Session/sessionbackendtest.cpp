@@ -170,6 +170,9 @@ private Q_SLOTS:
 
 //        // verify the session is locked
 //        QCOMPARE(saverIface.GetActive(), true);
+
+//        sleep(5);
+//        qDebug() << "Screensaver has been active for" << saverIface.GetActiveTime() << "seconds";
 //    }
 
 private:
