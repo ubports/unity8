@@ -178,7 +178,7 @@ private Q_SLOTS:
 //        sleep(5);
 //        qDebug() << "Screensaver has been active for" << saverIface.GetActiveTime() << "seconds";
 //        qDebug() << "Session has been idle for" << saverIface.GetSessionIdleTime() << "seconds";
-    }
+//    }
 
 private:
     QDBusInterface *dbusUnitySession;
