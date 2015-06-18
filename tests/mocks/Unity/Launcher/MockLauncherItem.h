@@ -43,10 +43,10 @@ public:
     int progress() const override;
     int count() const override;
     bool countVisible() const override;
-    bool focused() const;
+    bool focused() const override;
     bool alerting() const override;
 
-    unity::shell::launcher::QuickListModelInterface *quickList() const;
+    unity::shell::launcher::QuickListModelInterface *quickList() const override;
 
 private:
     void setPinned(bool pinned);

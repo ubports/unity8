@@ -49,53 +49,18 @@ PreviewWidget {
             objectName: "reviewsRepeater"
             model: root.widgetData["reviews"]
 
-            delegate: Column {
-                id: reviewItem
+            delegate: PreviewRatingSingleDisplay {
                 objectName: "reviewItem" + index
-                anchors { left: parent.left; right: parent.right;}
-                spacing: units.gu(1)
 
-                Rating {
-                    id: rating
-                    objectName: "rating"
-                    size: 5
-                    value: modelData["rating"] || -1
-                    visible: value >= 0
-                    interactive: false
+                anchors { left: parent.left; right: parent.right; }
 
-                    property var urlIconEmpty: widgetData["rating-icon-empty"]
-                    property var urlIconFull: widgetData["rating-icon-full"]
-                    property var urlIconHalf: widgetData["rating-icon-half"]
-                }
-
-                Label {
-                    id: authorLabel
-                    objectName: "authorLabel"
-                    anchors { left: parent.left; right: parent.right }
-                    color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
-                    opacity: .8
-                    text: modelData["author"] || ""
-                    visible: text !== ""
-                    wrapMode: Text.Wrap
-                }
-
-                Label {
-                    id: reviewLabel
-                    objectName: "reviewLabel"
-                    anchors { left: parent.left; right: parent.right }
-                    color: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
-                    opacity: .8
-                    text: modelData["review"] || ""
-                    visible: text !== ""
-                    wrapMode: Text.Wrap
-                }
-
-                Item {
-                    id: spacing
-                    anchors { left: parent.left; right: parent.right }
-                    height: units.gu(2)
-                    visible: rating.visible || authorLabel.visible || reviewLabel.visible
-                }
+                rating: modelData["rating"] || -1
+                author: modelData["author"] || ""
+                review: modelData["review"] || ""
+                urlIconEmpty: widgetData["rating-icon-empty"]
+                urlIconFull: widgetData["rating-icon-full"]
+                urlIconHalf: widgetData["rating-icon-half"]
+                labelColor: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
             }
         }
     }

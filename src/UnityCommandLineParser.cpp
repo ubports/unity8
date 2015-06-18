@@ -49,6 +49,10 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
         "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead.\nLoad the testability driver");
     parser.addOption(testabilityOption);
 
+    QCommandLineOption devicenameOption(QStringList() << "devicename",
+            "Specify the device name instead of letting Unity 8 find it out", "devicename", "");
+    parser.addOption(devicenameOption);
+
     QCommandLineOption modeOption("mode",
         "Whether to run greeter and/or shell [full-greeter, full-shell, greeter, shell]",
         "mode", "full-greeter");
@@ -73,6 +77,7 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
     m_hasFrameless = parser.isSet(framelessOption);
     m_hasMouseToTouch = parser.isSet(mousetouchOption);
     m_hasFullscreen = parser.isSet(fullscreenOption);
+    m_deviceName = parser.value(devicenameOption);
     resolveMode(parser, modeOption);
 }
 
