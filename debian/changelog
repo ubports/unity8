@@ -1,3 +1,48 @@
+unity8 (8.10+15.10.20150616.1-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Bind running to the proper object.visible
+  * Do not use template in generated card creator code
+  * Fix regression introduced by the concierge change
+  * Take into account the extra margin on top when calculating the
+    display margin
+  * workaround oxide 1.7 issue (LP: #1459142)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Federico Gimenez ]
+  * On the autopilot helpers, swipe if the item to open from the dash is
+    not visible. unity8-autopilot dependencies now require ubuntu-ui-
+    toolkit-autopilot (>= 1.2.1485+15.04.20150417.1-0ubuntu1)
+
+  [ Florian Boucault ]
+  * Notifications: shaped icon was stretching the icon instead of
+    respecting its aspect ratio and filling the whole shape. (LP:
+    #1450229)
+
+  [ Josh Arenson ]
+  * Implement bare-bones shellMode=greeter and shellMode=shell
+
+  [ Leo Arias ]
+  * On the autopilot helpers, swipe if the item to open from the dash is
+    not visible. unity8-autopilot dependencies now require ubuntu-ui-
+    toolkit-autopilot (>= 1.2.1485+15.04.20150417.1-0ubuntu1)
+
+  [ Leonardo Arias Fonseca ]
+  * On the autopilot helpers, swipe if the item to open from the dash is
+    not visible. unity8-autopilot dependencies now require ubuntu-ui-
+    toolkit-autopilot (>= 1.2.1485+15.04.20150417.1-0ubuntu1)
+
+  [ Michael Zanetti ]
+  * add info on how to run a single function in make test
+
+  [ Richard Huddie ]
+  * Slow down the speed of autopilot helpers used to swipe to a
+    different scope to improve the reliability. (LP: #1461059, #1457047)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 16 Jun 2015 15:12:59 +0000
+
 unity8 (8.10+15.10.20150612-0ubuntu2) wily; urgency=medium
 
   * No-change rebuild against Qt 5.4.2.
