@@ -1,47 +1,40 @@
-unity8 (8.10+15.10.20150616.1-0ubuntu1) wily; urgency=medium
+unity8 (8.10+15.10.20150618-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]
-  * Bind running to the proper object.visible
-  * Do not use template in generated card creator code
-  * Fix regression introduced by the concierge change
-  * Take into account the extra margin on top when calculating the
-    display margin
-  * workaround oxide 1.7 issue (LP: #1459142)
+  * Refactor QmlTest.cmake module so that all tests can go through it.
+    Also a bit of cleanup around tests.
+  * Support fallback images for dash card and preview widgets (LP:
+    #1324142)
 
   [ CI Train Bot ]
   * New rebuild forced.
+  * Resync trunk.
 
-  [ Federico Gimenez ]
-  * On the autopilot helpers, swipe if the item to open from the dash is
-    not visible. unity8-autopilot dependencies now require ubuntu-ui-
-    toolkit-autopilot (>= 1.2.1485+15.04.20150417.1-0ubuntu1)
-
-  [ Florian Boucault ]
-  * Notifications: shaped icon was stretching the icon instead of
-    respecting its aspect ratio and filling the whole shape. (LP:
-    #1450229)
+  [ Daniel d'Andrada ]
+  * Fix Shell tests
 
   [ Josh Arenson ]
-  * Implement bare-bones shellMode=greeter and shellMode=shell
+  * Refactor greeter emulator to unlock the greeter via dbus
 
-  [ Leo Arias ]
-  * On the autopilot helpers, swipe if the item to open from the dash is
-    not visible. unity8-autopilot dependencies now require ubuntu-ui-
-    toolkit-autopilot (>= 1.2.1485+15.04.20150417.1-0ubuntu1)
-
-  [ Leonardo Arias Fonseca ]
-  * On the autopilot helpers, swipe if the item to open from the dash is
-    not visible. unity8-autopilot dependencies now require ubuntu-ui-
-    toolkit-autopilot (>= 1.2.1485+15.04.20150417.1-0ubuntu1)
+  [ Lukáš Tinkl ]
+  * respect target window's devicePixelRatio in MouseTouchAdaptor
 
   [ Michael Zanetti ]
-  * add info on how to run a single function in make test
+  * Refactor QmlTest.cmake module so that all tests can go through it.
+    Also a bit of cleanup around tests.
 
-  [ Richard Huddie ]
-  * Slow down the speed of autopilot helpers used to swipe to a
-    different scope to improve the reliability. (LP: #1461059, #1457047)
+  [ Michał Sawicz ]
+  * Refactor QmlTest.cmake module so that all tests can go through it.
+    Also a bit of cleanup around tests.
 
- -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 16 Jun 2015 15:12:59 +0000
+  [ handsome_feng ]
+  * Forbid closing apps during the edge gesture. (LP: #1445572)
+  * Removed the horizonal rule on pin unlock screen. (LP: #1368798)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Forbid closing apps during the edge gesture. (LP: #1445572)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 18 Jun 2015 19:40:06 +0000
 
 unity8 (8.10+15.10.20150612-0ubuntu2) wily; urgency=medium
 
