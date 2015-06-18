@@ -296,6 +296,8 @@ public Q_SLOTS:
      */
     Q_SCRIPTABLE quint32 GetActiveTime() const;
 
+    Q_SCRIPTABLE void SimulateUserActivity();
+
 Q_SIGNALS:
     void ActiveChanged(bool active);
 };
@@ -334,6 +336,8 @@ public Q_SLOTS:
      * @return the number of seconds that this session has been idle
      */
     Q_SCRIPTABLE quint32 GetSessionIdleTime() const;
+
+    Q_SCRIPTABLE void SimulateUserActivity();
 
 Q_SIGNALS:
     void ActiveChanged(bool active);

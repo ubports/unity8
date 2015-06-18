@@ -144,6 +144,16 @@ public:
         return 0;
     }
 
+    void setIdleHint(bool idle)
+    {
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                                          logindSessionPath,
+                                                          LOGIN1_SESSION_IFACE,
+                                                          "SetIdleHint");
+        msg << idle;
+        QDBusConnection::systemBus().asyncCall(msg);
+    }
+
 private Q_SLOTS:
     void onPropertiesChanged(const QString &iface, const QVariantMap &changedProps, const QStringList &invalidatedProps)
     {
@@ -166,16 +176,6 @@ private Q_SLOTS:
                 setIdleHint(true);
             }
         }
-    }
-
-    void setIdleHint(bool idle)
-    {
-        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
-                                                          logindSessionPath,
-                                                          LOGIN1_SESSION_IFACE,
-                                                          "SetIdleHint");
-        msg << idle;
-        QDBusConnection::systemBus().asyncCall(msg);
     }
 
 Q_SIGNALS:
@@ -423,6 +423,11 @@ quint32 DBusGnomeScreensaverWrapper::GetActiveTime() const
     return d->screensaverActiveTime();
 }
 
+void DBusGnomeScreensaverWrapper::SimulateUserActivity()
+{
+    d->setIdleHint(false);
+}
+
 
 DBusScreensaverWrapper::DBusScreensaverWrapper()
     : UnityDBusObject("/org/freedesktop/ScreenSaver", "org.freedesktop.ScreenSaver")
@@ -457,6 +462,11 @@ quint32 DBusScreensaverWrapper::GetActiveTime() const
 quint32 DBusScreensaverWrapper::GetSessionIdleTime() const
 {
     return QDateTime::fromMSecsSinceEpoch(d->idleSinceUSecTimestamp()/1000).secsTo(QDateTime::currentDateTime());
+}
+
+void DBusScreensaverWrapper::SimulateUserActivity()
+{
+    d->setIdleHint(false);
 }
 
 #include "dbusunitysessionservice.moc"
