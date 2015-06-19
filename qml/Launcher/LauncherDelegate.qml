@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 
 Item {
     id: root
@@ -30,6 +30,7 @@ Item {
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
+    readonly property bool progressVisible: progressOverlay.visible
 
     property int itemWidth
     property int itemHeight
@@ -100,23 +101,19 @@ Item {
             }
         }
 
-        BorderImage {
+        UbuntuShape {
             id: progressOverlay
-            objectName: "progressOverlay"
             anchors {
                 left: iconItem.left
                 right: iconItem.right
-                bottom: iconItem.bottom
-                leftMargin: units.gu(1)
-                rightMargin: units.gu(1)
-                bottomMargin: units.gu(1)
+                verticalCenter: parent.verticalCenter
+                leftMargin: units.gu(1.5)
+                rightMargin: units.gu(1.5)
             }
-            height: units.gu(1.5)
+            height: units.gu(1)
             visible: root.progress > -1
-            source: "graphics/progressbar-trough.sci"
-
-            // For fill calculation we need to remove the 2 units of border defined in .sci file
-            property int adjustedWidth: width - units.gu(2)
+            color: UbuntuColors.darkGrey
+            borderSource: "none"
 
             Item {
                 anchors {
@@ -124,20 +121,22 @@ Item {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                width: Math.min(100, root.progress) / 100 * parent.adjustedWidth + units.gu(1)
+                width: Math.min(100, root.progress) / 100 * parent.width + units.gu(1)
                 clip: true
 
-                BorderImage {
+                UbuntuShape {
                     anchors {
                         left: parent.left
                         top: parent.top
                         bottom: parent.bottom
                     }
+                    color: "white"
+                    borderSource: "none"
                     width: progressOverlay.width
-                    source: "graphics/progressbar-fill.sci"
                 }
             }
         }
+
         Image {
             objectName: "focusedHighlight"
             anchors {

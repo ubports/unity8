@@ -93,6 +93,32 @@ Item {
             onClicked: launcherLoader.item.inverted = !launcherLoader.item.inverted
             Layout.fillWidth: true
         }
+
+        Row {
+           spacing: units.gu(1)
+
+           Button {
+               text: "35% bar"
+               onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, 35)
+               Layout.fillWidth: true
+           }
+
+           TextArea {
+               id: appIdEntry
+               anchors.verticalCenter: parent.verticalCenter
+               width: units.gu(4)
+               height: units.gu(4)
+               autoSize: true
+               text: "2"
+               maximumLineCount: 1
+           }
+
+           Button {
+               text: "no bar"
+               onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, -1)
+               Layout.fillWidth: true
+           }
+       }
     }
 
     SignalSpy {
@@ -635,6 +661,17 @@ Item {
 
             tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
             waitUntilLauncherDisappears();
+        }
+
+        function test_progressChangeViaModel() {
+            dragLauncherIntoView();
+            var item = findChild(launcher, "launcherDelegate0")
+            verify(item != undefined)
+            LauncherModel.setProgress(LauncherModel.get(0).appId, -1)
+            tryCompare(item, "progressVisible", false, 1000, "progress-overlay of item #1 should not be visible")
+            LauncherModel.setProgress(LauncherModel.get(0).appId, 20)
+            tryCompare(item, "progressVisible", true, 1000, "progress-overlay of item #1 should not be invisible")
+            LauncherModel.setProgress(LauncherModel.get(0).appId, 0)
         }
     }
 }

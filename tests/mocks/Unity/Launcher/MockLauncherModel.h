@@ -43,6 +43,7 @@ public:
     Q_INVOKABLE void pin(const QString &appId, int index = -1) override;
     Q_INVOKABLE void requestRemove(const QString &appId) override;
     Q_INVOKABLE void quickListActionInvoked(const QString &appId, int actionIndex) override;
+    Q_INVOKABLE void setProgress(const QString &appId, int progress) override;
     Q_INVOKABLE void setUser(const QString &username) override;
     Q_INVOKABLE QString getUrlForAppId(const QString &appId) const;
 

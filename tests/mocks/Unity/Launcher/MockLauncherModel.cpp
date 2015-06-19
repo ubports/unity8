@@ -195,6 +195,16 @@ int MockLauncherModel::findApp(const QString &appId)
     return -1;
 }
 
+void MockLauncherModel::setProgress(const QString &appId, int progress)
+{
+    int index = findApp(appId);
+    if (index >= 0) {
+        m_list.at(index)->setProgress(progress);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+    }
+}
+
 void MockLauncherModel::setUser(const QString &username)
 {
     Q_UNUSED(username)
