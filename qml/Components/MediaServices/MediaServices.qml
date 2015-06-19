@@ -24,6 +24,7 @@ FocusScope {
     property string context: ""
     property list<Action> actions
     property Item rootItem: QuickUtils.rootItem(root)
+    property var maximumEmbeddedHeight
 
     property alias header: headerContent.item
     property alias content: contentLoader.item
@@ -32,39 +33,47 @@ FocusScope {
 
     signal close();
 
-    implicitHeight: {
-        if (fullscreen && parent) {
-            return parent.height;
-        }
-        return content ? content.implicitHeight : parent.height
-    }
-
     onFullscreenChanged: {
         if (!fullscreen) rotationAction.checked = false;
     }
 
     OrientationHelper {
         id: orientationHelper
-        automaticOrientation: fullscreen && !rotationAction.checked
+        automaticOrientation: fullscreen
 
-        states: [
-            State {
-                name: "portrait"
-                when: !orientationHelper.automaticOrientation && !rotationAction.checked
-                PropertyChanges {
-                    target: orientationHelper
-                    orientationAngle: 0
+        StateGroup {
+            id: orientationState
+
+            states: [
+                State {
+                    name: "portrait"
+                    when: !rotationAction.checked
+                },
+                State {
+                    name: "landscape"
+                    when: rotationAction.checked
                 }
-            },
-            State {
-                name: "landscape"
-                when: !orientationHelper.automaticOrientation && rotationAction.checked
-                PropertyChanges {
-                    target: orientationHelper
-                    orientationAngle: orientationHelper.orientationAngle == 270 ? 270 : 90
+            ]
+
+            transitions: [
+                Transition {
+                    to: "landscape"
+                    SequentialAnimation {
+                        PropertyAction { target: orientationHelper; property: "automaticOrientation"; value: false }
+                        PropertyAction { target: orientationHelper; property: "orientationAngle"; value: 90 }
+                        PropertyAction { target: orientationHelper; property: "automaticOrientation"; value: false }
+                    }
+                },
+                Transition {
+                    to: "portrait"
+                    SequentialAnimation {
+                        PropertyAction { target: orientationHelper; property: "automaticOrientation"; value: false }
+                        PropertyAction { target: orientationHelper; property: "orientationAngle"; value: 0 }
+                        PropertyAction { target: orientationHelper; property: "automaticOrientation"; value: fullscreen }
+                    }
                 }
-            }
-        ]
+            ]
+        }
 
         Loader {
             id: contentLoader
@@ -91,9 +100,9 @@ FocusScope {
 
                     width: orientationHelper.width
                     height: orientationHelper.height
-
+                    maximumEmbeddedHeight: root.maximumEmbeddedHeight
                     fixedHeight: fullscreen
-                    orientation: orientationHelper.state == "portrait" ?  Qt.PortraitOrientation : Qt.LandscapeOrientation
+                    orientation: orientationState.state == "landscape" ? Qt.LandscapeOrientation : Qt.PortraitOrientation
 
                     screenshot: {
                         var screenshot = root.sourceData["screenshot"];
@@ -323,21 +332,22 @@ FocusScope {
             State {
                 name: "minimized"
                 when: !priv.fullscreen
+                PropertyChanges { target: root; implicitHeight: content ? content.implicitHeight : 0; }
             },
             State {
                 name: "fullscreen"
                 when: priv.fullscreen
-                ParentChange { target: root; parent: rootItem; x: 0; y: 0; width: parent.width; height: parent.height }
+                ParentChange { target: root; parent: rootItem; x: 0; y: 0; width: parent.width; }
+                PropertyChanges { target: root; implicitHeight: root.parent ? root.parent.height : 0; }
                 PropertyChanges { target: fullscreenAction; iconName: "view-restore" }
             }
         ]
 
         transitions: Transition {
             ParentAnimation {
-                UbuntuNumberAnimation { properties: "x,y,width,height"; duration: UbuntuAnimation.FastDuration }
+                UbuntuNumberAnimation { properties: "x,y,width,implicitHeight"; duration: UbuntuAnimation.FastDuration }
             }
         }
-
     }
 
     QtObject {

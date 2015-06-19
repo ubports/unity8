@@ -32,12 +32,26 @@ Rectangle {
         "screenshot": Qt.resolvedUrl("../Dash/artwork/avatar.png")
     }
 
+    property var sourceData2: {
+        "source": "file:///home/nick/Videos/test-mpeg2.ogv",
+        "screenshot": Qt.resolvedUrl("../Dash/artwork/checkers.png")
+    }
+
     MediaDataSource {
         source: root.sourceData["source"]
         duration: 60000
         metaData: {
             "title" : "TEST MPEG",
             "resolution" : { "width": 160, "height": 90 }
+        }
+    }
+
+    MediaDataSource {
+        source: root.sourceData2["source"]
+        duration: 30000
+        metaData: {
+            "title" : "TEST MPEG",
+            "resolution" : { "width": 90, "height": 240 }
         }
     }
 
@@ -61,6 +75,7 @@ Rectangle {
                 context: "video"
 
                 rootItem: parent
+                maximumEmbeddedHeight: undefined
             }
         }
 
@@ -99,6 +114,7 @@ Rectangle {
         property int oldControlTimerInterval: 0;
 
         function init() {
+            services.sourceData = root.sourceData
             services.context = "video";
 
             var controlHideTimer = findInvisibleChild(services, "controlHideTimer");
@@ -110,6 +126,7 @@ Rectangle {
             serviceCloseSpy.clear();
             services.context = "";
             services.fullscreen = false;
+            services.maximumEmbeddedHeight = undefined;
             tryCompareFunction(function() { return services.header ? services.header.visible : false }, false);
             tryCompareFunction(function() { return services.footer ? services.footer.visible : false }, false);
 
@@ -199,6 +216,13 @@ Rectangle {
 
             tap(navigationButton);
             compare(serviceCloseSpy.count, 1, "close was not called");
+        }
+
+        function test_maximumVideoSize() {
+            services.maximumEmbeddedHeight = root.height / 2
+            services.sourceData = root.sourceData2
+            verify(services.content !== null);
+            tryCompare(services.content, "height", root.height/2);
         }
     }
 }

@@ -41,6 +41,7 @@ PreviewWidget {
         context: "video"
         sourceData: root.isCurrentPreview ? widgetData : undefined
         fullscreen: false
+        maximumEmbeddedHeight: rootItem.height / 2
 
         onClose: fullscreen = false
 

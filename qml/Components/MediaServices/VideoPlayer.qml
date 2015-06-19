@@ -27,6 +27,7 @@ Item {
     property alias mediaPlayer: videoOutput.source
     property int orientation: Qt.PortraitOrientation
     property bool fixedHeight: false
+    property var maximumEmbeddedHeight
 
     implicitHeight: {
         if (parent && orientation == Qt.LandscapeOrientation) {
@@ -45,7 +46,17 @@ Item {
             right: parent.right
             verticalCenter: parent.verticalCenter
         }
-        height: root.orientation == Qt.LandscapeOrientation || fixedHeight ? root.height : Math.max(image.height, videoOutput.height);
+        height: {
+            if (root.orientation == Qt.LandscapeOrientation || fixedHeight) {
+                return root.height;
+            }
+            var proposedHeight = videoOutput.height;
+            if (maximumEmbeddedHeight !== undefined && maximumEmbeddedHeight < proposedHeight) {
+                return maximumEmbeddedHeight;
+            }
+            return proposedHeight;
+        }
+        clip: image.height > videoOutput.height
 
         LazyImage {
             id: image
@@ -69,9 +80,13 @@ Item {
                 if (fixedHeight) {
                     return root.height;
                 }
-                return mediaPlayer && mediaPlayer.metaData.resolution !== undefined ?
+                var proposedHeight = mediaPlayer && mediaPlayer.metaData.resolution !== undefined ?
                             (mediaPlayer.metaData.resolution.height / mediaPlayer.metaData.resolution.width ) * width :
                             image.height;
+                if (maximumEmbeddedHeight !== undefined && maximumEmbeddedHeight < proposedHeight) {
+                    return maximumEmbeddedHeight;
+                }
+                return proposedHeight;
             }
 
             source: mediaPlayer

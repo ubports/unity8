@@ -67,6 +67,7 @@ MediaPlayer::MediaPlayer(QObject* parent)
         disconnect(dataSource, &MediaDataSource::durationChanged, this, &MediaPlayer::durationChanged);
         disconnect(dataSource, &MediaDataSource::seekableChanged, this, &MediaPlayer::seekableChanged);
         disconnect(dataSource, &MediaDataSource::availabilityChanged, this, &MediaPlayer::availabilityChanged);
+        disconnect(dataSource, &MediaDataSource::metaDataChanged, m_metaData, &MetaDataObject::metaDataChanged);
     });
 
     connect(MediaPlayerDataController::instance(), &MediaPlayerDataController::sourceAdded,
@@ -77,6 +78,7 @@ MediaPlayer::MediaPlayer(QObject* parent)
         connect(dataSource, &MediaDataSource::durationChanged, this, &MediaPlayer::durationChanged);
         connect(dataSource, &MediaDataSource::seekableChanged,this, &MediaPlayer::seekableChanged);
         connect(dataSource, &MediaDataSource::availabilityChanged,this, &MediaPlayer::availabilityChanged);
+        connect(dataSource, &MediaDataSource::metaDataChanged, m_metaData, &MetaDataObject::metaDataChanged);
     });
 }
 
@@ -96,6 +98,7 @@ void MediaPlayer::setSource(const QUrl &source)
 
         m_position = 0;
         Q_EMIT positionChanged(m_position);
+        Q_EMIT m_metaData->metaDataChanged();
 
         m_status = availability()==Available ? Loaded : InvalidMedia;
         Q_EMIT statusChanged();
@@ -202,6 +205,11 @@ MediaPlayer::Availability MediaPlayer::availability() const
     MediaDataSource* dataSource = MediaPlayerDataController::instance()->dataForSource(source());
     if (dataSource) return dataSource->availability();
     return Available;
+}
+
+QObject *MediaPlayer::metaData() const
+{
+    return m_metaData;
 }
 
 

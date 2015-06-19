@@ -25,6 +25,8 @@
 #include <QHash>
 #include <QVariant>
 
+class MetaDataObject;
+
 class MediaPlayer: public QObject
 {
     Q_OBJECT
@@ -109,7 +111,7 @@ public:
     bool isSeekable() const;
     MediaPlayer::Availability availability() const;
     Status status() const { return m_status; }
-    QObject *metaData() const { return m_metaData; }
+    QObject *metaData() const;
 
 public Q_SLOTS:
     void pause();
@@ -139,7 +141,7 @@ private:
     QTimer m_timer;
     int m_position;
     Status m_status;
-    QObject *m_metaData;
+    MetaDataObject *m_metaData;
 };
 
 class MediaDataSource : public QObject
