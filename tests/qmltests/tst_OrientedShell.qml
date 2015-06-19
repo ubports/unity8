@@ -34,19 +34,8 @@ Rectangle {
 
     QtObject {
         id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
         property string deviceName: "mako"
+        property string mode: "full-greeter"
     }
 
     QtObject {
@@ -55,7 +44,7 @@ Rectangle {
     }
 
     QtObject {
-        id: mockUsageModeSettings
+        id: mockUnity8Settings
         property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
     }
 
@@ -129,7 +118,7 @@ Rectangle {
         sourceComponent: Component {
             OrientedShell {
                 anchors.fill: parent
-                usageModeSettings: mockUsageModeSettings
+                unity8Settings: mockUnity8Settings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
                 orientationLock: mockOrientationLock

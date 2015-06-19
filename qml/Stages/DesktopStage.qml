@@ -37,6 +37,8 @@ Rectangle {
     property int shellPrimaryOrientation
     property int nativeOrientation
     property bool beingResized: false
+    property bool keepDashRunning: true
+    property bool suspended: false
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
@@ -129,6 +131,17 @@ Rectangle {
                 if (focus) {
                     ApplicationManager.requestFocusApplication(model.appId);
                 }
+            }
+
+            Binding {
+                target: ApplicationManager.get(index)
+                property: "requestedState"
+                // TODO: figure out some lifecycle policy, like suspending minimized apps
+                //       if running on a tablet or something.
+                // TODO: If the device has a dozen suspended apps because it was running
+                //       in staged mode, when it switches to Windowed mode it will suddenly
+                //       resume all those apps at once. We might want to avoid that.
+                value: ApplicationInfoInterface.RequestedRunning // Always running for now
             }
 
             readonly property int minWidth: units.gu(10)

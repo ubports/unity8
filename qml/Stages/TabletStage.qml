@@ -36,6 +36,8 @@ Rectangle {
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
 
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
+    property bool keepDashRunning: true
+    property bool suspended: false
     property int shellOrientationAngle: 0
     property int shellOrientation
     property int shellPrimaryOrientation
@@ -117,6 +119,7 @@ Rectangle {
 
     QtObject {
         id: priv
+        objectName: "stagesPriv"
 
         property string focusedAppId: ApplicationManager.focusedApplicationId
         readonly property var focusedAppDelegate: {
@@ -625,6 +628,17 @@ Rectangle {
                     readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
                     readonly property bool isDash: model.appId == "unity8-dash"
+
+                    Binding {
+                        target: spreadTile.application
+                        property: "requestedState"
+                        value: (spreadTile.isDash && root.keepDashRunning)
+                            ||
+                            (!root.suspended && (model.appId == priv.mainStageAppId
+                                                 || model.appId == priv.sideStageAppId))
+                            ? ApplicationInfoInterface.RequestedRunning
+                            : ApplicationInfoInterface.RequestedSuspended
+                    }
 
                     // FIXME: A regular binding doesn't update any more after closing an app.
                     // Using a Binding for now.

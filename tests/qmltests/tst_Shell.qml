@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtTest 1.0
 import AccountsService 0.1
-import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.Components.ListItems 1.0 as ListItem
@@ -81,9 +80,7 @@ Rectangle {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string shellMode: "full-greeter" /* default */
-
-                    usageScenario: "phone"
+                    usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
                     primaryOrientation: Qt.PortraitOrientation
                     nativeOrientation: Qt.PortraitOrientation
@@ -151,14 +148,11 @@ Rectangle {
                     }
                 }
                 ListItem.ItemSelector {
-                    id: usageModeSelector
+                    id: usageScenarioSelector
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
-                    text: "Usage mode"
-                    model: ["Staged", "Windowed"]
-                    onSelectedIndexChanged: {
-                            GSettingsController.setUsageMode(model[selectedIndex]);
-                    }
+                    text: "Usage scenario"
+                    model: ["phone", "tablet", "desktop"]
                 }
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
@@ -255,7 +249,6 @@ Rectangle {
         function cleanup() {
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
-            GSettingsController.setUsageMode("Staged");
         }
 
         function loadShell(formFactor) {
@@ -491,9 +484,9 @@ Rectangle {
             verify(mainAppId != "");
             var mainApp = ApplicationManager.findApplication(mainAppId);
             verify(mainApp);
-            tryCompare(mainApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(mainApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
 
-            // Suspend while call is active...
+            // Display off while call is active...
             callManager.foregroundCall = phoneCall;
             Powerd.status = Powerd.Off;
             tryCompare(greeter, "shown", false);
@@ -504,8 +497,7 @@ Rectangle {
             Powerd.status = Powerd.Off;
             tryCompare(greeter, "fullyShown", true);
 
-            tryCompare(ApplicationManager, "suspended", true);
-            compare(mainApp.state, ApplicationInfoInterface.Suspended);
+            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
             // And wake up
             Powerd.status = Powerd.On;
@@ -521,8 +513,7 @@ Rectangle {
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
             swipeAwayGreeter();
 
-            tryCompare(ApplicationManager, "suspended", false);
-            compare(mainApp.state, ApplicationInfoInterface.Running);
+            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
@@ -693,15 +684,15 @@ Rectangle {
 
         function test_launchedAppHasActiveFocus_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageMode: "Staged"},
-                {tag: "tablet", formFactor: "tablet", usageMode: "Staged"},
-                {tag: "desktop", formFactor: "tablet", usageMode: "Windowed"}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"},
+                {tag: "desktop", formFactor: "tablet", usageScenario: "desktop"}
             ]
         }
 
         function test_launchedAppHasActiveFocus(data) {
-            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
@@ -725,7 +716,7 @@ Rectangle {
 
             tryCompare(webApp.session.surface, "activeFocus", true);
 
-            GSettingsController.setUsageMode("Windowed");
+            shell.usageScenario = "desktop";
 
             // check that the desktop stage and window have been loaded
             {
@@ -735,7 +726,7 @@ Rectangle {
 
             tryCompare(webApp.session.surface, "activeFocus", true);
 
-            GSettingsController.setUsageMode("Staged");
+            shell.usageScenario = "tablet";
 
             // check that the tablet stage and app surface delegate have been loaded
             {
@@ -1205,33 +1196,77 @@ Rectangle {
 
         function test_stageLoader_data() {
             return [
-                {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageMode: "Staged"},
-                {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageMode: "Staged"},
-                {tag: "desktop", source: "Stages/DesktopStage.qml", formFactor: "tablet", usageMode: "Windowed"}
+                {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageScenario: "tablet"},
+                {tag: "desktop", source: "Stages/DesktopStage.qml", formFactor: "tablet", usageScenario: "desktop"}
             ]
         }
 
         function test_stageLoader(data) {
-            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
             var stageLoader = findChild(shell, "applicationsDisplayLoader");
             verify(String(stageLoader.source).indexOf(data.source) >= 0);
         }
 
         function test_launcherInverted_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageMode: "Staged", launcherInverted: true},
-                {tag: "tablet", formFactor: "tablet", usageMode: "Staged", launcherInverted: true},
-                {tag: "desktop", formFactor: "tablet", usageMode: "Windowed", launcherInverted: false}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", launcherInverted: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", launcherInverted: true},
+                {tag: "desktop", formFactor: "tablet", usageScenario: "desktop", launcherInverted: false}
             ]
         }
 
         function test_launcherInverted(data) {
-            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
 
             var launcher = findChild(shell, "launcher");
             compare(launcher.inverted, data.launcherInverted);
+        }
+
+        function test_unfocusedAppsGetSuspendedAfterEnteringStagedMode() {
+            loadShell("tablet");
+            shell.usageScenario = "desktop";
+
+            var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppWindowIsFullyLoaded(webBrowserApp);
+
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(galleryApp);
+
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedRunning);
+            compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedRunning);
+
+            shell.usageScenario = "tablet";
+
+            tryCompare(webBrowserApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+            tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+        }
+
+        function test_unfocusedAppsAreResumedWhenEnteringWindowedMode() {
+            loadShell("tablet");
+            shell.usageScenario = "tablet";
+
+            var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppWindowIsFullyLoaded(webBrowserApp);
+
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(galleryApp);
+
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
+            compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
+
+            shell.usageScenario = "desktop";
+
+            tryCompare(webBrowserApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
+            tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
     }
 }
