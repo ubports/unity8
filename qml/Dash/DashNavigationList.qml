@@ -16,6 +16,7 @@
 
 import QtQuick 2.2
 import Ubuntu.Components 1.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Components"
 
 Item {
@@ -154,10 +155,17 @@ Item {
             Repeater {
                 model: navigation && navigation.loaded ? navigation : null
                 clip: true
-                delegate: AbstractButton {
+                delegate: ListItem.Standard {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
-                    width: root.width
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
+                    }
+                    showDivider: false
+                    selected: isActive
 
                     onClicked: root.enterNavigation(navigationId, hasChildren)
 
@@ -165,9 +173,8 @@ Item {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
-                            leftMargin: units.gu(2)
                             right: rightIcon.visible ? rightIcon.left : parent.right
-                            rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
+                            rightMargin: rightIcon.visible ? units.gu(0.5) : 0
                         }
                         text: label
                         color: root.foregroundColor
@@ -181,7 +188,6 @@ Item {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
-                            rightMargin: units.gu(2)
                         }
                         height: units.gu(2)
                         width: height
@@ -195,8 +201,6 @@ Item {
                             bottom: parent.bottom
                             left: parent.left
                             right: parent.right
-                            leftMargin: units.gu(2)
-                            rightMargin: units.gu(2)
                         }
                         color: root.foregroundColor
                         opacity: 0.1
