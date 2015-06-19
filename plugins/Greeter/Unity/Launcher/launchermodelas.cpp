@@ -72,7 +72,7 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void LauncherModel::alert(const QString &appId, bool alerting)
+void LauncherModel::setAlerting(const QString &appId, bool alerting)
 {
     Q_UNUSED(appId)
     Q_UNUSED(alerting)

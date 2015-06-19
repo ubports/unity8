@@ -121,7 +121,7 @@ unity::shell::launcher::LauncherItemInterface *MockLauncherModel::get(int index)
     return m_list.at(index);
 }
 
-void MockLauncherModel::alert(const QString &appId, bool alerting) {
+void MockLauncherModel::setAlerting(const QString &appId, bool alerting) {
     int index = findApp(appId);
     if (index >= 0) {
         QModelIndex modelIndex = this->index(index);
