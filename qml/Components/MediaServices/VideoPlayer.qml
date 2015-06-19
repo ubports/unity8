@@ -67,7 +67,8 @@ Item {
             }
             anchors.verticalCenter: parent.verticalCenter
             scaleTo: "width"
-            initialHeight: width * 10 / 16
+            initialHeight: lastScaledDimension
+
             visible: !mediaPlayer || mediaPlayer.playbackState === MediaPlayer.StoppedState
         }
 
@@ -81,7 +82,7 @@ Item {
                     return root.height;
                 }
                 var proposedHeight = mediaPlayer && mediaPlayer.metaData.resolution !== undefined ?
-                            (mediaPlayer.metaData.resolution.height / mediaPlayer.metaData.resolution.width ) * width :
+                            (mediaPlayer.metaData.resolution.height / mediaPlayer.metaData.resolution.width) * width :
                             image.height;
                 if (maximumEmbeddedHeight !== undefined && maximumEmbeddedHeight < proposedHeight) {
                     return maximumEmbeddedHeight;

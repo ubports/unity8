@@ -29,6 +29,7 @@ Item {
 
     property real initialWidth: scaleTo == "width" || scaleTo == "fit" ? width : units.gu(10)
     property real initialHeight: scaleTo == "height" || scaleTo == "fit" ? height : units.gu(10)
+    property real lastScaledDimension: scaleTo == "height" || scaleTo == "fit" ? width : height
 
     property alias sourceSize: image.sourceSize
     property alias fillMode: image.fillMode
@@ -157,6 +158,7 @@ Item {
                         easing.type: Easing.Linear; duration: UbuntuAnimation.SnapDuration
                     }
                 }
+                ScriptAction { script: { lastScaledDimension = scaleTo == "height" || scaleTo == "fit" ? root.width : root.height } }
             }
         },
 
