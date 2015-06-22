@@ -11,8 +11,6 @@ find_package(Qt5Quick REQUIRED)
 pkg_check_modules(LIBUDEV REQUIRED libudev)
 pkg_check_modules(LIBEVDEV REQUIRED libevdev)
 
-message("blabla ${LIBUDEV_INCLUDE_DIRS}  ${LIBEVDEV_INCLUDE_DIRS}   ${LIBUDEV_LDFLAGS}    ${LIBEVDEV_LDFLAGS}")
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
