@@ -61,13 +61,13 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
 
         switch (role) {
         case IdRole:
-            return tz.id();
+            return QString(tz.id()); // to let QML compare it effortlessly with a QString
         case Abbreviation:
             return tz.abbreviation(QDateTime::currentDateTime());
         case Country:
             return QLocale::countryToString(tz.country());
         case City: {
-            const QString cityName = QString::fromUtf8(tzid.split('/').last());
+            const QString cityName = QString::fromUtf8(tzid.split('/').last().replace("_", " "));
             return cityName;
         }
         case Comment:

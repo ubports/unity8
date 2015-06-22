@@ -45,24 +45,44 @@ LocalComponents.Page {
             id: tz
             objectName: "tz"
             property QtObject tzData: null
+            readonly property bool currentTz: !!tzData ? selectedTimeZone === tzData.id : false
 
             Label {
                 id: cityLabel
                 text: !!tzData ? tzData.city : ""
                 anchors.left: parent.left
                 anchors.top: parent.top
+                font.bold: tz.currentTz ? true : false
             }
             Label {
                 id: timeLabel
                 text: !!tzData ? tzData.time : ""
                 anchors.right: parent.right
                 anchors.top: parent.top
+                font.bold: tz.currentTz ? true : false
             }
+            Label {
+                id: countryLabel
+                text: !!tzData ? tzData.country : ""
+                anchors.left: parent.left
+                anchors.top: cityLabel.bottom
+                fontSize: "x-small"
+            }
+
             Label {
                 id: abbrevLabel
                 text: !!tzData ? tzData.abbreviation : ""
                 anchors.right: parent.right
                 anchors.top: timeLabel.bottom
+                fontSize: "x-small"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    tzModel.selectedZoneId = tzData.id
+                    print("Selected tz: " + selectedTimeZone)
+                }
             }
         }
     }
@@ -100,10 +120,9 @@ LocalComponents.Page {
                 anchors.right: parent.right
 
                 Repeater {
-                    id: mainMenu
-
+                    id: tzList
                     model: tzFilterModel
-
+                    property int selectedIndex
                     delegate: Loader {
                         id: loader
                         anchors.left: !!parent ? parent.left : undefined
@@ -125,6 +144,7 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
+            enabled: selectedTimeZone != ""
             onClicked: pageStack.next()
         }
     }
