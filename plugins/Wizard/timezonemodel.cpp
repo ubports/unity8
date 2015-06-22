@@ -73,7 +73,7 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
         case Comment:
             return tz.comment();
         case Time:
-            return QDateTime::currentDateTime().toTimeZone(tz).toString("H:mm");
+            return QDateTime::currentDateTime().toTimeZone(tz).toString("h:mm");
         default:
             qWarning() << Q_FUNC_INFO << "Unsupported data role" << role;
             break;
