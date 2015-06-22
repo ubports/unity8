@@ -1,7 +1,3 @@
-include_directories(
-  ${APPLICATION_API_INCLUDE_DIRS}
-)
-
 set(FakeUnityApplicationQml_SOURCES
     plugin.cpp
     ApplicationInfo.cpp

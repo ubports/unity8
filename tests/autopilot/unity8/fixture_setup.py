@@ -17,19 +17,147 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import fixtures
-import logging
 import os
 import subprocess
+import threading
+import fixtures
+import logging
 
 import ubuntuuitoolkit
 from autopilot import introspection
+from autopilot.matchers import Eventually
+from testtools.matchers import Equals
+from ubuntuuitoolkit import fixture_setup
 
 from unity8 import (
     get_binary_path,
+    sensors,
     process_helpers
 )
 
+from unity8.shell import emulators
+
+from unity8.shell.emulators import (
+    main_window as main_window_emulator
+)
+
+from unity8 import (
+    get_mocks_library_path,
+    get_default_extra_mock_libraries,
+    get_data_dirs
+)
+
+logger = logging.getLogger(__name__)
+
+
+class LaunchUnityWithFakeSensors(fixtures.Fixture):
+
+    """Fixture to launch Unity8 with an injectable sensors backend.
+
+    :ivar unity_proxy: The Autopilot proxy object for the Unity shell.
+
+    """
+
+    unity_proxy = None
+    main_win = None
+
+    def setUp(self):
+        """Restart Unity8 with testability and create sensors."""
+        super().setUp()
+        self.useFixture(
+            fixture_setup.InitctlEnvironmentVariable(
+                UBUNTU_PLATFORM_API_TEST_OVERRIDE='sensors'))
+
+        self.addCleanup(process_helpers.stop_job, 'unity8')
+        restart_thread = threading.Thread(
+            target=self._restart_unity_with_testability)
+        restart_thread.start()
+
+        self._create_sensors()
+
+        restart_thread.join()
+        self.fake_sensors = sensors.FakePlatformSensors()
+
+    def _get_lightdm_mock_path(self):
+        lib_path = get_mocks_library_path()
+        lightdm_mock_path = os.path.abspath(
+            os.path.join(lib_path, "LightDM", "liblightdm")
+        )
+
+        if not os.path.exists(lightdm_mock_path):
+            raise RuntimeError(
+                "LightDM mock does not exist at path {}.".
+                format(lightdm_mock_path)
+            )
+        return lightdm_mock_path
+
+    def _get_qml_import_path_with_mock(self):
+        """Return the QML2_IMPORT_PATH value with the mock path prepended."""
+        qml_import_path = [get_mocks_library_path()]
+        if os.getenv('QML2_IMPORT_PATH') is not None:
+            qml_import_path.append(os.getenv('QML2_IMPORT_PATH'))
+
+        qml_import_path = ':'.join(qml_import_path)
+        return qml_import_path
+
+    def _restart_unity_with_testability(self):
+        _environment = {}
+
+        data_dirs = get_data_dirs(True)
+        if data_dirs is not None:
+            _environment['XDG_DATA_DIRS'] = data_dirs
+
+        _environment['QML2_IMPORT_PATH'] = (
+            self._get_qml_import_path_with_mock()
+        )
+
+        new_ld_library_path = [
+            get_default_extra_mock_libraries(),
+            self._get_lightdm_mock_path()
+        ]
+        if os.getenv('LD_LIBRARY_PATH') is not None:
+            new_ld_library_path.append(os.getenv('LD_LIBRARY_PATH'))
+        new_ld_library_path = ':'.join(new_ld_library_path)
+        _environment['LD_LIBRARY_PATH'] = new_ld_library_path
+
+        # FIXME: we shouldn't be doing this
+        # $MIR_SOCKET, fallback to $XDG_RUNTIME_DIR/mir_socket and
+        # /tmp/mir_socket as last resort
+        try:
+            os.unlink(
+                os.getenv('MIR_SOCKET',
+                          os.path.join(os.getenv('XDG_RUNTIME_DIR', "/tmp"),
+                                       "mir_socket")))
+        except OSError:
+            pass
+        try:
+            os.unlink("/tmp/mir_socket")
+        except OSError:
+            pass
+
+        binary_arg = "BINARY=%s" % get_binary_path()
+        env_args = ["%s=%s" % (k, v) for k, v in _environment.items()]
+        args = [binary_arg] + env_args
+        self.unity_proxy = process_helpers.restart_unity_with_testability(
+            *args)
+        self.main_win = self.unity_proxy.select_single(
+            main_window_emulator.QQuickView)
+
+    def _create_sensors(self):
+        # Wait for unity to start running.
+        Eventually(Equals(True)).match(
+            lambda: process_helpers.is_job_running('unity8'))
+
+        # Wait for the sensors fifo file to be created.
+        fifo_path = '/tmp/sensor-fifo-{0}'.format(
+            process_helpers.get_unity_pid())
+        Eventually(Equals(True)).match(
+            lambda: os.path.exists(fifo_path))
+
+        with open(fifo_path, 'w') as fifo:
+            fifo.write('create accel 0 1000 0.1\n')
+            fifo.write('create light 0 10 1\n')
+            fifo.write('create proximity\n')
 
 logger = logging.getLogger(__name__)
 
@@ -188,7 +316,7 @@ class LaunchMockIndicatorService(fixtures.Fixture):
         self.ensure_not_running = ensure_not_running
 
     def setUp(self):
-        super(LaunchMockIndicatorService, self).setUp()
+        super().setUp()
         if self.ensure_not_running:
             self.ensure_service_not_running()
         self.addCleanup(self.stop_service)

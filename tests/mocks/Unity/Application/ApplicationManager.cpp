@@ -143,7 +143,7 @@ QModelIndex ApplicationManager::findIndex(ApplicationInfo* application)
 }
 
 void ApplicationManager::add(ApplicationInfo *application) {
-    if (!application) {
+    if (!application || m_runningApplications.contains(application)) {
         return;
     }
 

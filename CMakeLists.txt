@@ -113,6 +113,7 @@ set(MOCK_INDICATOR_SERVICE_APP unity-mock-indicator-service)
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_BINARY_DIR}/include
+    ${APPLICATION_API_INCLUDE_DIRS}
 )
 
 # add subdirectories to build

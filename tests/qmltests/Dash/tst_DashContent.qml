@@ -142,7 +142,7 @@ Item {
 
             var startX = dashContentList.width/2;
             var startY = dashContentList.height/2;
-            touchFlick(dashContentList, startX - units.gu(2), startY, startX, startY);
+            touchFlick(dashContentList, startX - units.gu(4), startY, startX, startY);
             tryCompare(categoryListView, "contentY", units.gu(15) - categoryListView.pageHeader.height);
         }
 
@@ -153,7 +153,7 @@ Item {
 
             tryCompare(scope, "status", Loader.Ready);
 
-            var categoryListView = findChild(dashContentList, "categoryListView");
+            var categoryListView = findChild(scope, "categoryListView");
             categoryListView.contentY = units.gu(10);
 
             compare(dashContentList.currentItem.item.objectName,  "MockScope1")
@@ -353,6 +353,8 @@ Item {
             compare(backButton.visible, true);
 
             tryCompare(navigationList1.navigation, "loaded", true);
+            tryCompare(navigationList1, "implicitHeight", navigationList1.itemHeight * 10);
+            tryCompare(navigationList1, "height", navigationList1.implicitHeight);
             navigation = findChild(dashNavigationButton, "navigation1child2");
             mouseClick(navigation);
             compare(dashNavigationButton.showList, false);
@@ -386,6 +388,9 @@ Item {
             mouseClick(dashNavigationButton);
             compare(dashNavigationButton.showList, true);
             tryCompare(navigationListView.currentItem.navigation, "loaded", true);
+            var navigationList0 = findChild(dashNavigationButton, "navigation0");
+            tryCompare(navigationList0, "implicitHeight", navigationList0.itemHeight * 8);
+            tryCompare(navigationList0, "height", navigationList0.implicitHeight);
             navigation = findChild(dashNavigationButton, "navigation0child2");
             mouseClick(navigation);
             compare(dashNavigationButton.showList, true);

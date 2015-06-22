@@ -26,6 +26,7 @@ TestCase {
     // This is needed for waitForRendering calls to return
     // if the watched element already got rendered
     Rectangle {
+        id: rotatingRectangle
         width: units.gu(1)
         height: width
         parent: testCase.parent
@@ -35,7 +36,7 @@ TestCase {
         visible: testCase.running
 
         RotationAnimation on rotation {
-            running: parent.visible
+            running: rotatingRectangle.visible
             from: 0
             to: 360
             loops: Animation.Infinite
@@ -424,8 +425,6 @@ TestCase {
     }
 
     Component.onCompleted: {
-        UT.Util.ensureTouchRegistryInstalled();
-
         var rootItem = parent;
         while (rootItem.parent != undefined) {
             rootItem = rootItem.parent;
