@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-14 16:13+0200\n"
-"PO-Revision-Date: 2015-05-14 15:49+0000\n"
-"Last-Translator: Tobias Bannert <Unknown>\n"
+"PO-Revision-Date: 2015-06-17 14:05+0000\n"
+"Last-Translator: JkB <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-05-15 05:31+0000\n"
-"X-Generator: Launchpad (build 17493)\n"
+"X-Launchpad-Export-Date: 2015-06-19 05:01+0000\n"
+"X-Generator: Launchpad (build 17570)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -117,7 +117,7 @@ msgstr "Ja"
 #: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Leistung"
+msgstr "Ausschalten"
 
 #: qml/Components/Dialogs.qml:153
 msgid ""
@@ -276,7 +276,7 @@ msgstr "%1 eingeben"
 
 #: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr "Passwort eingeben"
+msgstr "Passphrase eingeben"
 
 #: qml/Greeter/NarrowView.qml:117
 msgid "Enter passcode"
