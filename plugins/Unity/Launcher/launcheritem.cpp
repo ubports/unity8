@@ -21,7 +21,6 @@
 #include "quicklistmodel.h"
 
 #include <libintl.h>
-#include <iostream>
 
 LauncherItem::LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent) :
     LauncherItemInterface(parent),
@@ -191,7 +190,6 @@ bool LauncherItem::alerting() const
 
 void LauncherItem::setAlerting(bool alerting)
 {
-    std::cout << "LauncherItem::setAlerting()" << std::endl;
     if (m_alerting != alerting) {
         m_alerting = alerting;
         Q_EMIT alertingChanged(alerting);
