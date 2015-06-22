@@ -16,6 +16,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/timeformatter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitymenumodelpaths.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowkeysfilter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/windowscreenshotprovider.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
     constants.cpp
     plugin.cpp

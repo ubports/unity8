@@ -16,8 +16,9 @@
 
 #include "SurfaceManager.h"
 
+#include "VirtualKeyboard.h"
+
 #include <paths.h>
-#include "MirSurfaceItem.h"
 
 SurfaceManager *SurfaceManager::the_surface_manager = nullptr;
 
@@ -40,10 +41,7 @@ MirSurfaceItem *SurfaceManager::createSurface(const QString& name,
                                               MirSurfaceItem::State state,
                                               const QUrl& screenshot)
 {
-    MirSurfaceItem* surface = new MirSurfaceItem(name,
-                                       type,
-                                       state,
-                                       screenshot);
+    MirSurfaceItem* surface = new MirSurfaceItem(name, type, state, screenshot);
     Q_EMIT surfaceCreated(surface);
     return surface;
 }
@@ -57,34 +55,12 @@ void SurfaceManager::registerSurface(MirSurfaceItem *surface)
         surface->setLive(false);
         Q_EMIT surfaceDestroyed(surface);
     });
-    connect(surface, &MirSurfaceItem::inputMethodRequested,
-            this, &SurfaceManager::showInputMethod);
-    connect(surface, &MirSurfaceItem::inputMethodDismissed,
-            this, &SurfaceManager::hideInputMethod);
-}
-
-void SurfaceManager::showInputMethod()
-{
-    inputMethodSurface()->setState(MirSurfaceItem::Restored);
-}
-
-void SurfaceManager::hideInputMethod()
-{
-    if (m_virtualKeyboard) {
-        m_virtualKeyboard->setState(MirSurfaceItem::Minimized);
-    }
 }
 
 MirSurfaceItem *SurfaceManager::inputMethodSurface()
 {
     if (!m_virtualKeyboard) {
-
-        m_virtualKeyboard = new MirSurfaceItem(
-                "input-method",
-                MirSurfaceItem::InputMethod,
-                MirSurfaceItem::Minimized,
-                QUrl("qrc:///Unity/Application/vkb_portrait.png"),
-                QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"));
+        m_virtualKeyboard = new VirtualKeyboard;
         Q_EMIT surfaceCreated(m_virtualKeyboard);
     }
     return m_virtualKeyboard;

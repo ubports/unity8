@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import Ubuntu.Components 1.1
 import "../Components"
 
@@ -28,6 +29,9 @@ FocusScope {
     readonly property bool dragged: dragArea.moving
     signal clicked()
     signal closed()
+    readonly property alias appWindowOrientationAngle: appWindowWithShadow.orientationAngle
+    readonly property alias appWindowRotation: appWindowWithShadow.rotation
+    readonly property alias orientationChangesEnabled: appWindow.orientationChangesEnabled
 
     // to be set from outside
     property bool interactive: true
@@ -36,10 +40,54 @@ FocusScope {
     property alias swipeToCloseEnabled: dragArea.enabled
     property bool closeable
     property alias application: appWindow.application
-    property int orientation
+    property int shellOrientationAngle
+    property int shellOrientation
+    property int shellPrimaryOrientation
+    property int nativeOrientation
+
+    function matchShellOrientation() {
+        if (!root.application)
+            return;
+        appWindowWithShadow.orientationAngle = root.shellOrientationAngle;
+    }
+
+    function animateToShellOrientation() {
+        if (!root.application)
+            return;
+
+        if (root.application.rotatesWindowContents) {
+            appWindowWithShadow.orientationAngle = root.shellOrientationAngle;
+        } else {
+            orientationChangeAnimation.start();
+        }
+    }
+
+    OrientationChangeAnimation {
+        id: orientationChangeAnimation
+        objectName: "orientationChangeAnimation"
+        spreadDelegate: root
+        background: background
+        window: appWindowWithShadow
+        screenshot: appWindowScreenshotWithShadow
+    }
+
+    QtObject {
+        id: priv
+        property bool startingUp: true
+    }
+
+    Component.onCompleted: { finishStartUpTimer.start(); }
+    Timer { id: finishStartUpTimer; interval: 400; onTriggered: priv.startingUp = false }
+
+    Rectangle {
+        id: background
+        color: "black"
+        anchors.fill: parent
+        visible: false
+    }
 
     Item {
-        objectName: "appWindowWithShadow"
+        objectName: "displacedAppWindowWithShadow"
 
         readonly property real limit: root.height / 4
 
@@ -52,27 +100,220 @@ FocusScope {
             return k * (1 - Math.pow((k - 1) / k, distance))
         }
 
-        BorderImage {
-            anchors {
-                fill: appWindow
-                margins: -units.gu(2)
+        Item {
+            id: appWindowWithShadow
+            objectName: "appWindowWithShadow"
+
+            property int orientationAngle
+
+            property real transformRotationAngle: 0
+            property real transformOriginX
+            property real transformOriginY
+
+            property var window: appWindow
+
+            transform: Rotation {
+                origin.x: appWindowWithShadow.transformOriginX
+                origin.y: appWindowWithShadow.transformOriginY
+                axis { x: 0; y: 0; z: 1 }
+                angle: appWindowWithShadow.transformRotationAngle
             }
-            source: "graphics/dropshadow2gu.sci"
-            opacity: root.dropShadow ? .3 : 0
-            Behavior on opacity { UbuntuNumberAnimation {} }
+
+            state: {
+                if (priv.startingUp) {
+                    return "startingUp";
+                } else if (root.application && root.application.rotatesWindowContents) {
+                    return "counterRotate";
+                } else if (orientationChangeAnimation.running) {
+                    return "animatingRotation";
+                } else  {
+                    return "keepSceneRotation";
+                }
+            }
+
+            // Ensures the given angle is in the form (0,90,180,270)
+            function normalizeAngle(angle) {
+                while (angle < 0) {
+                    angle += 360;
+                }
+                return angle % 360;
+            }
+
+            states: [
+                // Sets the initial orientationAngle of the window, when it first slides into view
+                // (with the splash screen likely being displayed). At that point we just try to
+                // match shell's current orientation. We need a bit of time in this state as the
+                // information we need to decide orientationAngle may take a few cycles to
+                // be set.
+                State {
+                    name: "startingUp"
+                    PropertyChanges {
+                        target: appWindowWithShadow
+                        restoreEntryValues: false
+                        orientationAngle: {
+                            if (!root.application || root.application.rotatesWindowContents) {
+                                return 0;
+                            }
+                            var supportedOrientations = root.application.supportedOrientations;
+
+                            if (supportedOrientations === Qt.PrimaryOrientation) {
+                                supportedOrientations = root.shellPrimaryOrientation;
+                            }
+
+                            // If it doesn't support shell's current orientation
+                            // then simply pick some arbitraty one that it does support
+                            var chosenOrientation = 0;
+                            if (supportedOrientations & root.shellOrientation) {
+                                chosenOrientation = root.shellOrientation;
+                            } else if (supportedOrientations & Qt.PortraitOrientation) {
+                                chosenOrientation = Qt.PortraitOrientation;
+                            } else if (supportedOrientations & Qt.LandscapeOrientation) {
+                                chosenOrientation = Qt.LandscapeOrientation;
+                            } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
+                                chosenOrientation = Qt.InvertedPortraitOrientation;
+                            } else if (supportedOrientations & Qt.InvertedLandscapeOrientation) {
+                                chosenOrientation = Qt.InvertedLandscapeOrientation;
+                            } else {
+                                chosenOrientation = root.shellPrimaryOrientation;
+                            }
+
+                            return Screen.angleBetween(root.nativeOrientation, chosenOrientation);
+                        }
+
+                        rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)
+                        width: {
+                            if (rotation == 0 || rotation == 180) {
+                                return root.width;
+                            } else {
+                                return root.height;
+                            }
+                        }
+                        height: {
+                            if (rotation == 0 || rotation == 180)
+                                return root.height;
+                            else
+                                return root.width;
+                        }
+                    }
+                },
+                // In this state we stick to our currently set orientationAngle, which may change only due
+                // to calls made to matchShellOrientation() or animateToShellOrientation()
+                State {
+                    id: keepSceneRotationState
+                    name: "keepSceneRotation"
+
+                    StateChangeScript { script: {
+                        // break binding
+                        appWindowWithShadow.orientationAngle = appWindowWithShadow.orientationAngle;
+                    } }
+                    PropertyChanges {
+                        target: appWindowWithShadow
+                        restoreEntryValues: false
+                        rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)
+                        width: {
+                            if (rotation == 0 || rotation == 180) {
+                                return root.width;
+                            } else {
+                                return root.height;
+                            }
+                        }
+                        height: {
+                            if (rotation == 0 || rotation == 180)
+                                return root.height;
+                            else
+                                return root.width;
+                        }
+                    }
+                },
+                // In this state we counteract any shell rotation so that the window, in scene coordinates,
+                // remains unrotated.
+                State {
+                    name: "counterRotate"
+                    StateChangeScript { script: {
+                        // break binding
+                        appWindowWithShadow.orientationAngle = appWindowWithShadow.orientationAngle;
+                    } }
+                    PropertyChanges {
+                        target: appWindowWithShadow
+                        width: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.width : root.height
+                        height: root.shellOrientationAngle == 0 || root.shellOrientationAngle == 180 ? root.height : root.width
+                        rotation: normalizeAngle(-root.shellOrientationAngle)
+                    }
+                    PropertyChanges {
+                        target: appWindow
+                        surfaceOrientationAngle: orientationAngle
+                    }
+                },
+                State {
+                    name: "animatingRotation"
+                }
+            ]
+
+            x: (parent.width - width) / 2
+            y: (parent.height - height) / 2
+
+            BorderImage {
+                anchors {
+                    fill: appWindow
+                    margins: -units.gu(2)
+                }
+                source: "graphics/dropshadow2gu.sci"
+                opacity: root.dropShadow ? .3 : 0
+                Behavior on opacity { UbuntuNumberAnimation {} }
+            }
+
+            ApplicationWindow {
+                id: appWindow
+                objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+                focus: true
+                anchors {
+                    fill: parent
+                    topMargin: appWindow.fullscreen || application.rotatesWindowContents
+                                   ? 0 : maximizedAppTopMargin
+                }
+
+                interactive: root.interactive
+            }
+        }
+    }
+
+    Item {
+        // mimics appWindowWithShadow. Do the positioning of screenshots of non-fullscreen
+        // app windows
+        id: appWindowScreenshotWithShadow
+        visible: false
+
+        property real transformRotationAngle: 0
+        property real transformOriginX
+        property real transformOriginY
+
+        transform: Rotation {
+            origin.x: appWindowScreenshotWithShadow.transformOriginX
+            origin.y: appWindowScreenshotWithShadow.transformOriginY
+            axis { x: 0; y: 0; z: 1 }
+            angle: appWindowScreenshotWithShadow.transformRotationAngle
         }
 
-        ApplicationWindow {
-            id: appWindow
-            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
-            focus: true
-            anchors {
-                fill: parent
-                topMargin: appWindow.fullscreen ? 0 : maximizedAppTopMargin
-            }
+        property var window: appWindowScreenshot
 
-            interactive: root.interactive
-            orientation: root.orientation
+        function take() {
+            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
+            // eg: "image://application/calculator-app/123456"
+            var timeMs = new Date().getTime();
+            appWindowScreenshot.source = "image://application/" + root.application.appId + "/" + timeMs;
+        }
+        function discard() {
+            appWindowScreenshot.source = "";
+        }
+
+        Image {
+            id: appWindowScreenshot
+            source: ""
+
+            anchors.fill: parent
+
+            sourceSize.width: width
+            sourceSize.height: height
         }
     }
 

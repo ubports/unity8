@@ -57,6 +57,8 @@ find_package(Qt5DBus 5.2 REQUIRED)
 find_package(Qt5Concurrent 5.2 REQUIRED)
 find_package(Qt5Sql 5.2 REQUIRED)
 
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=6)
+
 # Standard install paths
 include(GNUInstallDirs)
 
@@ -112,6 +114,7 @@ set(MOCK_INDICATOR_SERVICE_APP unity-mock-indicator-service)
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_BINARY_DIR}/include
+    ${APPLICATION_API_INCLUDE_DIRS}
 )
 
 set(ARTIFACTS_DIR "" CACHE PATH "Store test artifacts in this directory.")

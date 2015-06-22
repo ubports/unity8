@@ -1,6 +1,7 @@
 
 add_subdirectory(Components)
 
+add_unity8_qmltest(. OrientedShell)
 add_unity8_qmltest(. Shell LIGHTDM)
 add_unity8_qmltest(. ShellWithPin LIGHTDM)
 add_unity8_qmltest(Components Background)
@@ -75,5 +76,5 @@ add_unity8_qmltest(Stages TabletStage)
 add_unity8_qmltest(Stages WindowMoveResizeArea)
 add_unity8_qmltest(Stages Splash)
 add_unity8_qmltest(Tutorial Tutorial LIGHTDM)
-add_unity8_qmltest(Wizard Wizard)
+add_unity8_qmltest(Wizard Wizard ENVIRONMENT "OXIDE_NO_SANDBOX=1")
 add_unity8_qmlunittest(utils/Unity/Test UnityTest)

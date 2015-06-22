@@ -26,6 +26,8 @@ import Unity.Indicators 0.1 as Indicators
 QtObject {
     id: root
 
+    property color color: "darkgreen"
+
     property var _actionGroup: QMenuModel.QDBusActionGroup {
         busType: 1
         busName: "com.canonical.indicator.messages"
@@ -49,5 +51,11 @@ QtObject {
         value: {
             return (Powerd.status === Powerd.Off && _rootState.hasMessages) ? Lights.On : Lights.Off
         }
+    }
+
+    property var _colorBinding: Binding {
+        target: Lights
+        property: "color"
+        value: root.color
     }
 }

@@ -124,7 +124,6 @@ Rectangle {
         sourceComponent: cardTool.cardComponent
         clip: true
         onLoaded: {
-            item.template = Qt.binding(function() { return cardTool.template; });
             item.components = Qt.binding(function() { return cardTool.components; });
             item.cardData = Qt.binding(function() { return Helpers.mapData(dataArea.text, cardTool.components, dataError); });
             item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
