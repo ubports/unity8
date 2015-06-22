@@ -25,7 +25,7 @@
 TimeZoneModel::TimeZoneModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    QMetaObject::invokeMethod(this, "init");
+    init();
 }
 
 QString TimeZoneModel::selectedZoneId() const
@@ -72,8 +72,10 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
         }
         case Comment:
             return tz.comment();
+        case Time:
+            return QDateTime::currentDateTime().toTimeZone(tz).toString("H:mm");
         default:
-            qWarning() << Q_FUNC_INFO << "Unsupported data role";
+            qWarning() << Q_FUNC_INFO << "Unsupported data role" << role;
             break;
         }
     }
@@ -83,7 +85,7 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> TimeZoneModel::roleNames() const
 {
-    return {{IdRole, "id"}, {Abbreviation, "abbreviation"}, {Country, "country"}, {City, "city"}, {Comment, "comment"}};
+    return {{IdRole, "id"}, {Abbreviation, "abbreviation"}, {Country, "country"}, {City, "city"}, {Comment, "comment"}, {Time, "time"}};
 }
 
 void TimeZoneModel::init()
@@ -91,4 +93,40 @@ void TimeZoneModel::init()
     beginResetModel();
     m_zoneIds = QTimeZone::availableTimeZoneIds();
     endResetModel();
+}
+
+
+TimeZoneFilterModel::TimeZoneFilterModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
+{
+    m_stringMatcher.setCaseSensitivity(Qt::CaseInsensitive);
+}
+
+bool TimeZoneFilterModel::filterAcceptsRow(int row, const QModelIndex &parentIndex) const
+{
+    if (!sourceModel() || m_filter.isEmpty()) {
+        return true;
+    }
+
+    const QString city = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::City).toString();
+    const QString country = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::Country).toString();
+
+    if (m_stringMatcher.indexIn(city) != -1 || m_stringMatcher.indexIn(country) != -1) {
+        return true;
+    }
+
+    return false;
+}
+
+QString TimeZoneFilterModel::filter() const
+{
+    return m_filter;
+}
+
+void TimeZoneFilterModel::setFilter(const QString &filter)
+{
+    m_filter = filter;
+    m_stringMatcher.setPattern(m_filter);
+    Q_EMIT filterChanged();
+    invalidate();
 }

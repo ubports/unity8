@@ -18,18 +18,42 @@
 #define TIMEZONEMODEL_H
 
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
+
+class TimeZoneFilterModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+    Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
+
+public:
+    explicit TimeZoneFilterModel(QObject *parent = 0);
+    ~TimeZoneFilterModel() = default;
+    bool filterAcceptsRow(int row, const QModelIndex &parentIndex) const override;
+
+    QString filter() const;
+    void setFilter(const QString &filter);
+
+Q_SIGNALS:
+    void filterChanged();
+
+private:
+    QString m_filter;
+    QStringMatcher m_stringMatcher;
+};
 
 class TimeZoneModel: public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(QString selectedZoneId READ selectedZoneId WRITE setSelectedZoneId NOTIFY selectedZoneIdChanged)
+    Q_ENUMS(Roles)
 public:
     enum Roles {
         IdRole = Qt::UserRole + 1,
         Abbreviation,
         Country,
         City,
-        Comment
+        Comment,
+        Time
     };
 
     explicit TimeZoneModel(QObject *parent = nullptr);

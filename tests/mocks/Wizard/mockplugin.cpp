@@ -17,6 +17,7 @@
 #include "mockplugin.h"
 #include "MockSystem.h"
 #include "PageList.h"
+#include "timezonemodel.h"
 
 #include <QtQml/qqml.h>
 
@@ -32,4 +33,6 @@ void MockWizardPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("Wizard"));
     qmlRegisterType<PageList>(uri, 0, 1, "PageList");
     qmlRegisterSingletonType<MockSystem>(uri, 0, 1, "System", system_provider);
+    qmlRegisterType<TimeZoneModel>(uri, 0, 1, "TimeZoneModel");
+    qmlRegisterType<TimeZoneFilterModel>(uri, 0, 1, "TimeZoneFilterModel");
 }

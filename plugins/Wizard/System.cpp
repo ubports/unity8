@@ -25,8 +25,7 @@
 #include <QProcess>
 
 System::System()
-    : QObject(),
-      m_fsWatcher()
+    : QObject()
 {
     // Register the argument needed for UpdateActivationEnvironment below
     qDBusRegisterMetaType<QMap<QString,QString>>();
