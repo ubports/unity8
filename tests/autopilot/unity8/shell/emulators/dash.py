@@ -18,12 +18,12 @@
 #
 
 import logging
+
 import ubuntuuitoolkit
-
-from unity8.shell import emulators
-
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
+
+from unity8.shell import emulators
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ class DashApp():
         self.dash = self.main_view.select_single(Dash)
 
 
-class Dash(emulators.UnityEmulatorBase):
+class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """An emulator that understands the Dash."""
 
     def __init__(self, *args):
@@ -130,7 +130,7 @@ class Dash(emulators.UnityEmulatorBase):
         x, y, width, height = dash_content.globalRect
         # Make the drag range be a multiple of the drag "rate" value.
         # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
-        rate = 10
+        rate = 5
         divisions = 5
         jump = (width / divisions) // rate * rate
         start_x = x + jump
@@ -146,7 +146,7 @@ class Dash(emulators.UnityEmulatorBase):
         x, y, width, height = dash_content.globalRect
         # Make the drag range be a multiple of the drag "rate" value.
         # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
-        rate = 10
+        rate = 5
         divisions = 5
         jump = (width / divisions) // rate * rate
         start_x = x + jump * (divisions - 1)
@@ -185,14 +185,15 @@ class Dash(emulators.UnityEmulatorBase):
 
 
 class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
-    pass
+
+    margin_to_swipe_from_bottom = ubuntuuitoolkit.units.gu(4)
 
 
-class GenericScopeView(emulators.UnityEmulatorBase):
+class GenericScopeView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """Autopilot emulator for generic scopes."""
 
     @autopilot_logging.log_action(logger.info)
-    def open_preview(self, category, app_name):
+    def open_preview(self, category, app_name, press_duration=0.10):
         """Open the preview of an application.
 
         :parameter category: The name of the category where the application is.
@@ -203,16 +204,19 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         # FIXME some categories need a long press in order to see the preview.
         # Some categories do not show previews, like recent apps.
         # --elopio - 2014-1-14
-        self.click_scope_item(category, app_name)
+        self.click_scope_item(category, app_name, press_duration)
         preview_list = self.wait_select_single(
             'QQuickLoader', objectName='subPageLoader')
         preview_list.subPageShown.wait_for(True)
         preview_list.x.wait_for(0)
+        self.get_root_instance().select_single(
+            objectName='processingIndicator').visible.wait_for(False)
         return preview_list.select_single(
-            Preview, objectName='preview{}'.format(preview_list.currentIndex))
+            Preview, objectName='preview{}'.format(
+                preview_list.initialIndex))
 
     @autopilot_logging.log_action(logger.debug)
-    def click_scope_item(self, category, title):
+    def click_scope_item(self, category, title, press_duration=0.10):
         """Click an item from the scope.
 
         :parameter category: The name of the category where the item is.
@@ -220,9 +224,12 @@ class GenericScopeView(emulators.UnityEmulatorBase):
 
         """
         category_element = self._get_category_element(category)
-        icon = category_element.wait_select_single('AbstractButton',
-                                                   title=title)
-        self.pointing_device.click_object(icon)
+        icon = category_element.wait_select_single(
+            'AbstractButton', title=title)
+        list_view = self.select_single(
+            ListViewWithPageHeader, objectName='categoryListView')
+        list_view.swipe_child_into_view(icon)
+        self.pointing_device.click_object(icon, press_duration=press_duration)
 
     def _get_category_element(self, category):
         try:
@@ -255,5 +262,5 @@ class GenericScopeView(emulators.UnityEmulatorBase):
         return result
 
 
-class Preview(emulators.UnityEmulatorBase):
+class Preview(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """Autopilot custom proxy object for generic previews."""

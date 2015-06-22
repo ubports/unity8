@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,8 +53,8 @@ private Q_SLOTS:
     void initTestCase() {} // will be called before the first test function is executed
     void cleanupTestCase() {} // will be called after the last test function was executed.
 
-    void init() {} // called right before each and every test function is executed
-    void cleanup() {} // called right after each and every test function is executed
+    void init(); // called right before each and every test function is executed
+    void cleanup(); // called right after each and every test function is executed
 
     void requestWithNoCandidates();
     void lateCandidateRequestGetsNothing();
@@ -66,11 +66,24 @@ private Q_SLOTS:
     void candidatesAndWatchers_2();
     void rejectingTouchfterItsEnd();
     void removeOldUndecidedCandidates();
+    void interimOwnerWontGetUnownedTouchEvents();
+
+private:
+    TouchRegistry *touchRegistry;
 };
+
+void tst_TouchRegistry::init()
+{
+    touchRegistry = TouchRegistry::instance();
+}
+
+void tst_TouchRegistry::cleanup()
+{
+    delete touchRegistry;
+}
 
 void tst_TouchRegistry::requestWithNoCandidates()
 {
-    TouchRegistry touchRegistry;
     DummyCandidate candidate;
 
     {
@@ -82,17 +95,16 @@ void tst_TouchRegistry::requestWithNoCandidates()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.requestTouchOwnership(0, &candidate);
+    touchRegistry->requestTouchOwnership(0, &candidate);
 
     QVERIFY(candidate.ownedTouches.contains(0));
 }
 
 void tst_TouchRegistry::lateCandidateRequestGetsNothing()
 {
-    TouchRegistry touchRegistry;
     DummyCandidate earlyCandidate;
     earlyCandidate.setObjectName("early");
     DummyCandidate lateCandidate;
@@ -107,21 +119,21 @@ void tst_TouchRegistry::lateCandidateRequestGetsNothing()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addCandidateOwnerForTouch(0, &earlyCandidate);
-    touchRegistry.addCandidateOwnerForTouch(0, &lateCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, &earlyCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, &lateCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
 
-    touchRegistry.requestTouchOwnership(0, &lateCandidate);
+    touchRegistry->requestTouchOwnership(0, &lateCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
 
-    touchRegistry.requestTouchOwnership(0, &earlyCandidate);
+    touchRegistry->requestTouchOwnership(0, &earlyCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.contains(0));
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
@@ -129,7 +141,6 @@ void tst_TouchRegistry::lateCandidateRequestGetsNothing()
 
 void tst_TouchRegistry::lateCandidateGestOwnershipOnceEarlyCandidateQuits()
 {
-    TouchRegistry touchRegistry;
     DummyCandidate earlyCandidate;
     DummyCandidate lateCandidate;
 
@@ -142,21 +153,21 @@ void tst_TouchRegistry::lateCandidateGestOwnershipOnceEarlyCandidateQuits()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addCandidateOwnerForTouch(0, &earlyCandidate);
-    touchRegistry.addCandidateOwnerForTouch(0, &lateCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, &earlyCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, &lateCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
 
-    touchRegistry.requestTouchOwnership(0, &lateCandidate);
+    touchRegistry->requestTouchOwnership(0, &lateCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
 
-    touchRegistry.removeCandidateOwnerForTouch(0, &earlyCandidate);
+    touchRegistry->removeCandidateOwnerForTouch(0, &earlyCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.contains(0));
@@ -164,7 +175,6 @@ void tst_TouchRegistry::lateCandidateGestOwnershipOnceEarlyCandidateQuits()
 
 void tst_TouchRegistry::dispatchesTouchEventsToCandidates()
 {
-    TouchRegistry touchRegistry;
     QQuickItem rootItem;
 
     DummyCandidate candidate0;
@@ -189,10 +199,10 @@ void tst_TouchRegistry::dispatchesTouchEventsToCandidates()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addCandidateOwnerForTouch(0, &candidate0);
+    touchRegistry->addCandidateOwnerForTouch(0, &candidate0);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -207,7 +217,7 @@ void tst_TouchRegistry::dispatchesTouchEventsToCandidates()
                                Qt::NoModifier,
                                Qt::TouchPointPressed | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     // candidate0 should have received an update on the touch he's interested on.
@@ -219,7 +229,7 @@ void tst_TouchRegistry::dispatchesTouchEventsToCandidates()
     QCOMPARE(candidate0.unownedTouchEvents[0].touchPoints[0].rect().x(), 11 - candidate0.x());
     QCOMPARE(candidate0.unownedTouchEvents[0].touchPoints[0].rect().y(), 11 - candidate0.y());
 
-    touchRegistry.addCandidateOwnerForTouch(1, &candidate1);
+    touchRegistry->addCandidateOwnerForTouch(1, &candidate1);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -234,7 +244,7 @@ void tst_TouchRegistry::dispatchesTouchEventsToCandidates()
                                Qt::NoModifier,
                                Qt::TouchPointPressed | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     // candidate0 gets updates only for touch 0 and
@@ -251,7 +261,6 @@ void tst_TouchRegistry::dispatchesTouchEventsToCandidates()
 
 void tst_TouchRegistry::dispatchesTouchEventsToWatchers()
 {
-    TouchRegistry touchRegistry;
     QQuickItem rootItem;
 
     DummyCandidate watcher;
@@ -270,10 +279,10 @@ void tst_TouchRegistry::dispatchesTouchEventsToWatchers()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addTouchWatcher(0, &watcher);
+    touchRegistry->addTouchWatcher(0, &watcher);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -288,7 +297,7 @@ void tst_TouchRegistry::dispatchesTouchEventsToWatchers()
                                Qt::NoModifier,
                                Qt::TouchPointPressed | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     // watcher should have received an update on the touch he's interested on.
@@ -313,7 +322,7 @@ void tst_TouchRegistry::dispatchesTouchEventsToWatchers()
                                Qt::NoModifier,
                                Qt::TouchPointPressed | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     // watcher gets updates only for touch 0
@@ -325,7 +334,6 @@ void tst_TouchRegistry::dispatchesTouchEventsToWatchers()
 
 void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
 {
-    TouchRegistry touchRegistry;
     DummyCandidate item;
 
     {
@@ -337,10 +345,10 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addCandidateOwnerForTouch(0, &item);
+    touchRegistry->addCandidateOwnerForTouch(0, &item);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -353,7 +361,7 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
                                Qt::NoModifier,
                                Qt::TouchPointPressed | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     QCOMPARE(item.unownedTouchEvents.count(), 1);
@@ -361,7 +369,7 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
     QCOMPARE(item.unownedTouchEvents[0].touchPoints[0].id(), 0);
     item.unownedTouchEvents.clear();
 
-    touchRegistry.addTouchWatcher(1, &item);
+    touchRegistry->addTouchWatcher(1, &item);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -374,7 +382,7 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
                                Qt::NoModifier,
                                Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     QCOMPARE(item.unownedTouchEvents.count(), 1);
@@ -394,7 +402,7 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
                                Qt::NoModifier,
                                Qt::TouchPointReleased | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     QCOMPARE(item.unownedTouchEvents.count(), 1);
@@ -403,7 +411,7 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
     QVERIFY(item.unownedTouchEvents[0].containsTouchWithId(1));
     item.unownedTouchEvents.clear();
 
-    touchRegistry.removeCandidateOwnerForTouch(0, &item);
+    touchRegistry->removeCandidateOwnerForTouch(0, &item);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -414,7 +422,7 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
                                Qt::NoModifier,
                                Qt::TouchPointReleased,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     QCOMPARE(item.unownedTouchEvents.count(), 1);
@@ -422,7 +430,7 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
     QVERIFY(item.unownedTouchEvents[0].containsTouchWithId(1));
     item.unownedTouchEvents.clear();
 
-    QVERIFY(touchRegistry.m_touchInfoPool.isEmpty());
+    QVERIFY(touchRegistry->m_touchInfoPool.isEmpty());
 }
 
 /*
@@ -431,7 +439,6 @@ void tst_TouchRegistry::keepDispatchingToWatchersAfterLastCandidateGivesUp()
  */
 void tst_TouchRegistry::candidatesAndWatchers_1()
 {
-    TouchRegistry touchRegistry;
     DummyCandidate item;
 
     {
@@ -443,10 +450,10 @@ void tst_TouchRegistry::candidatesAndWatchers_1()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addCandidateOwnerForTouch(0, &item);
+    touchRegistry->addCandidateOwnerForTouch(0, &item);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -459,14 +466,14 @@ void tst_TouchRegistry::candidatesAndWatchers_1()
                                Qt::NoModifier,
                                Qt::TouchPointPressed | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addTouchWatcher(1, &item);
+    touchRegistry->addTouchWatcher(1, &item);
 
-    touchRegistry.removeCandidateOwnerForTouch(0, &item);
+    touchRegistry->removeCandidateOwnerForTouch(0, &item);
 
-    touchRegistry.addTouchWatcher(0, &item);
+    touchRegistry->addTouchWatcher(0, &item);
 
     {
         QList<QTouchEvent::TouchPoint> touchPoints;
@@ -479,7 +486,7 @@ void tst_TouchRegistry::candidatesAndWatchers_1()
                                Qt::NoModifier,
                                Qt::TouchPointReleased | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     {
@@ -491,10 +498,10 @@ void tst_TouchRegistry::candidatesAndWatchers_1()
                                Qt::NoModifier,
                                Qt::TouchPointReleased,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    QVERIFY(touchRegistry.m_touchInfoPool.isEmpty());
+    QVERIFY(touchRegistry->m_touchInfoPool.isEmpty());
 
     item.unownedTouchEvents.clear();
 
@@ -507,7 +514,7 @@ void tst_TouchRegistry::candidatesAndWatchers_1()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     // Haven't made any subscription for that new touch 0.
@@ -520,8 +527,6 @@ void tst_TouchRegistry::candidatesAndWatchers_1()
  */
 void tst_TouchRegistry::candidatesAndWatchers_2()
 {
-    TouchRegistry touchRegistry;
-
     DummyCandidate directionalDragArea;
     directionalDragArea.setObjectName("DirectionalDragArea");
 
@@ -538,14 +543,14 @@ void tst_TouchRegistry::candidatesAndWatchers_2()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     // [TouchRegistry] addCandidateOwnerForTouch id 0 candidate DirectionalDragArea
-    touchRegistry.addCandidateOwnerForTouch(0, &directionalDragArea);
+    touchRegistry->addCandidateOwnerForTouch(0, &directionalDragArea);
 
     // [TouchRegistry] requestTouchOwnership id  0 candidate TouchGate
-    touchRegistry.requestTouchOwnership(0, &touchGate);
+    touchRegistry->requestTouchOwnership(0, &touchGate);
 
     //[TouchRegistry] got TouchUpdate (id:0, state:moved, scenePos:(147,1023)) (id:1, state:pressed, scenePos:(327,792))
     {
@@ -559,24 +564,24 @@ void tst_TouchRegistry::candidatesAndWatchers_2()
                                Qt::NoModifier,
                                Qt::TouchPointPressed | Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     // [TouchRegistry] addTouchWatcher id 1 watcher DirectionalDragArea
-    touchRegistry.addTouchWatcher(1, &directionalDragArea);
+    touchRegistry->addTouchWatcher(1, &directionalDragArea);
 
     // [TouchRegistry] removeCandidateOwnerForTouch id 0 candidate DirectionalDragArea
-    touchRegistry.removeCandidateOwnerForTouch(0, &directionalDragArea);
+    touchRegistry->removeCandidateOwnerForTouch(0, &directionalDragArea);
 
     //[TouchRegistry] sending TouchWonershipEvent(id = 0  gained) to candidate TouchGate
     QCOMPARE(touchGate.ownedTouches.count(), 1);
     QVERIFY(touchGate.ownedTouches.contains(0));
 
     // [TouchRegistry] addTouchWatcher id 0 watcher DirectionalDragArea
-    touchRegistry.addTouchWatcher(0, &directionalDragArea);
+    touchRegistry->addTouchWatcher(0, &directionalDragArea);
 
     // [TouchRegistry] requestTouchOwnership id  1 candidate TouchGate
-    touchRegistry.requestTouchOwnership(1, &touchGate);
+    touchRegistry->requestTouchOwnership(1, &touchGate);
 
     //[TouchRegistry] sending TouchWonershipEvent(id = 1  gained) to candidate TouchGate
     QCOMPARE(touchGate.ownedTouches.count(), 2);
@@ -597,7 +602,7 @@ void tst_TouchRegistry::candidatesAndWatchers_2()
                                Qt::NoModifier,
                                Qt::TouchPointMoved,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     //vvvvv  DDA Watchers are being ignored from now on vvvvvvv
@@ -623,7 +628,7 @@ void tst_TouchRegistry::candidatesAndWatchers_2()
                                Qt::NoModifier,
                                Qt::TouchPointMoved | Qt::TouchPointReleased,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     QCOMPARE(directionalDragArea.unownedTouchEvents.count(), 1);
@@ -645,7 +650,7 @@ void tst_TouchRegistry::candidatesAndWatchers_2()
                                Qt::NoModifier,
                                Qt::TouchPointReleased,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     QCOMPARE(directionalDragArea.unownedTouchEvents.count(), 1);
@@ -657,7 +662,6 @@ void tst_TouchRegistry::candidatesAndWatchers_2()
 
 void tst_TouchRegistry::rejectingTouchfterItsEnd()
 {
-    TouchRegistry touchRegistry;
     DummyCandidate earlyCandidate;
     DummyCandidate lateCandidate;
 
@@ -670,16 +674,16 @@ void tst_TouchRegistry::rejectingTouchfterItsEnd()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
-    touchRegistry.addCandidateOwnerForTouch(0, &earlyCandidate);
-    touchRegistry.addCandidateOwnerForTouch(0, &lateCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, &earlyCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, &lateCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
 
-    touchRegistry.requestTouchOwnership(0, &lateCandidate);
+    touchRegistry->requestTouchOwnership(0, &lateCandidate);
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
@@ -693,25 +697,25 @@ void tst_TouchRegistry::rejectingTouchfterItsEnd()
                                Qt::NoModifier,
                                Qt::TouchPointPressed,
                                touchPoints);
-        touchRegistry.update(&touchEvent);
+        touchRegistry->update(&touchEvent);
     }
 
     QVERIFY(earlyCandidate.ownedTouches.isEmpty());
     QVERIFY(lateCandidate.ownedTouches.isEmpty());
 
-    touchRegistry.removeCandidateOwnerForTouch(0, &earlyCandidate);
+    touchRegistry->removeCandidateOwnerForTouch(0, &earlyCandidate);
 
     QCOMPARE(lateCandidate.ownedTouches.count(), 1);
     QCOMPARE(lateCandidate.ownedTouches.contains(0), 1);
 
     // Check that there's no trace left of touch 0 as we no longer need to keep tabs on it.
-    QVERIFY(!touchRegistry.findTouchInfo(0));
+    QVERIFY(!touchRegistry->findTouchInfo(0));
 }
 
 void tst_TouchRegistry::removeOldUndecidedCandidates()
 {
     FakeTimerFactory *fakeTimerFactory = new FakeTimerFactory;
-    TouchRegistry *touchRegistry = new TouchRegistry(nullptr, fakeTimerFactory);
+    touchRegistry->setTimerFactory(fakeTimerFactory);
 
     DummyCandidate undecidedCandidate;
     undecidedCandidate.setObjectName("undecided");
@@ -742,14 +746,75 @@ void tst_TouchRegistry::removeOldUndecidedCandidates()
 
     // Simulate that enough time has passed to cause the CandidateInactivityTimer to timeout,
     // making TouchRegistry consider that undecidedCantidate defaulted.
-    fakeTimerFactory->makeRunningTimersTimeout();
+    fakeTimerFactory->updateTime(10000);
 
     QVERIFY(undecidedCandidate.ownedTouches.isEmpty());
     QVERIFY(undecidedCandidate.lostTouches.contains(0));
     QVERIFY(candidateThatWantsTouch.ownedTouches.contains(0));
     QVERIFY(candidateThatWantsTouch.lostTouches.isEmpty());
+}
 
-    delete touchRegistry;
+/*
+    An item that calls requestTouchOwnership() without first having called addCandidateOwnerForTouch()
+    is assumed to be the interim owner of the touch point, thus there's no point in sending
+    UnownedTouchEvents to him as he already gets proper QTouchEvents from QQuickWindow because
+    he didn't ignore the first QTouchEvent with that touch point.
+ */
+void tst_TouchRegistry::interimOwnerWontGetUnownedTouchEvents()
+{
+    FakeTimerFactory *fakeTimerFactory = new FakeTimerFactory;
+    touchRegistry->setTimerFactory(fakeTimerFactory);
+
+    DummyCandidate undecidedCandidate;
+    undecidedCandidate.setObjectName("undecided");
+
+    DummyCandidate interimOwner;
+    interimOwner.setObjectName("interimOwner");
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointPressed);
+        QTouchEvent touchEvent(QEvent::TouchBegin,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointPressed,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    touchRegistry->addCandidateOwnerForTouch(0, &undecidedCandidate);
+    touchRegistry->requestTouchOwnership(0, &interimOwner);
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointMoved);
+        QTouchEvent touchEvent(QEvent::TouchUpdate,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointMoved,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    QCOMPARE(undecidedCandidate.unownedTouchEvents.count(), 1);
+    QCOMPARE(interimOwner.unownedTouchEvents.count(), 0);
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointMoved);
+        QTouchEvent touchEvent(QEvent::TouchUpdate,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointMoved,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    QCOMPARE(undecidedCandidate.unownedTouchEvents.count(), 2);
+    QCOMPARE(interimOwner.unownedTouchEvents.count(), 0);
 }
 
 ////////////// TouchMemento //////////

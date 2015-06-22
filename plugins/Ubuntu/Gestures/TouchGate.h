@@ -45,6 +45,8 @@ class UBUNTUGESTURESQML_EXPORT TouchGate : public QQuickItem {
     Q_PROPERTY(QQuickItem* targetItem READ targetItem WRITE setTargetItem NOTIFY targetItemChanged)
 
 public:
+    TouchGate(QQuickItem *parent = nullptr);
+
     bool event(QEvent *e) override;
 
     QQuickItem *targetItem() { return m_dispatcher.targetItem(); }
@@ -55,31 +57,43 @@ Q_SIGNALS:
 
 protected:
     void touchEvent(QTouchEvent *event) override;
+    void itemChange(ItemChange change, const ItemChangeData &value) override;
+
+private Q_SLOTS:
+    void onEnabledChanged();
+
 private:
+    void reset();
+
     class TouchEvent {
     public:
-        TouchEvent(const QTouchEvent *event);
+        TouchEvent(QTouchDevice *device,
+            Qt::KeyboardModifiers modifiers,
+            const QList<QTouchEvent::TouchPoint> &touchPoints,
+            QWindow *window,
+            ulong timestamp);
 
         bool removeTouch(int touchId);
 
-        QEvent::Type eventType;
         QTouchDevice *device;
         Qt::KeyboardModifiers modifiers;
         QList<QTouchEvent::TouchPoint> touchPoints;
-        QQuickItem *target;
         QWindow *window;
         ulong timestamp;
     };
 
     void touchOwnershipEvent(TouchOwnershipEvent *event);
     bool isTouchPointOwned(int touchId) const;
-    void storeTouchEvent(const QTouchEvent *event);
+    void storeTouchEvent(QTouchDevice *device,
+            Qt::KeyboardModifiers modifiers,
+            const QList<QTouchEvent::TouchPoint> &touchPoints,
+            QWindow *window,
+            ulong timestamp);
     void removeTouchFromStoredEvents(int touchId);
     void dispatchFullyOwnedEvents();
     bool eventIsFullyOwned(const TouchEvent &event) const;
 
     void dispatchTouchEventToTarget(const TouchEvent &event);
-    void dispatchTouchEventToTarget(QTouchEvent* event);
 
     void removeTouchInfoForEndedTouches(const QList<QTouchEvent::TouchPoint> &touchPoints);
 

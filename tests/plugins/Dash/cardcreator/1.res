@@ -1,6 +1,5 @@
 AbstractButton { 
                 id: root; 
-                property var template; 
                 property var components; 
                 property var cardData; 
                 property var artShapeBorderSource: undefined; 
@@ -13,7 +12,7 @@ AbstractButton {
                 property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
-                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true);
+                enabled: true;
 
 onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } 
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
@@ -28,12 +27,29 @@ Item  {
                                 active: cardData && cardData["art"] || false; 
                                 asynchronous: root.asynchronous; 
                                 visible: status == Loader.Ready; 
-                                sourceComponent: UbuntuShape { 
-                                    id: artShape; 
-                                    objectName: "artShape"; 
-                                    radius: "medium"; 
-                                    visible: image.status == Image.Ready; 
-                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; 
+                                sourceComponent: Item {
+                                    id: artShape;
+                                    objectName: "artShape";
+                                    property bool doShapeItem: components["art"]["conciergeMode"] !== true;
+                                    visible: image.status == Image.Ready;
+                                    readonly property alias image: artImage.image;
+                                    property alias borderSource: artShapeShape.borderSource;
+                                    ShaderEffectSource {
+                                        id: artShapeSource;
+                                        sourceItem: artImage;
+                                        anchors.centerIn: parent;
+                                        width: 1;
+                                        height: 1;
+                                        hideSource: doShapeItem;
+                                    }
+                                    Shape {
+                                        id: artShapeShape;
+                                        image: artShapeSource;
+                                        anchors.fill: parent;
+                                        visible: doShapeItem;
+                                        radius: "medium";
+                                    }
+                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; 
                                     Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
@@ -51,11 +67,9 @@ Item  {
                                         objectName: "artImage"; 
                                         source: cardData && cardData["art"] || ""; 
                                         asynchronous: root.asynchronous; 
-                                        visible: false; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 
-                                    image: artImage.image; 
                                 } 
                             } 
                         }

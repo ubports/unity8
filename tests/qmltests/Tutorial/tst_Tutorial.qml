@@ -73,6 +73,7 @@ Item {
             sourceComponent: Component {
                 Shell {
                     property string indicatorProfile: "phone"
+                    property string shellMode: "full-greeter" /* default */
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
@@ -235,7 +236,11 @@ Item {
             checkLeftEdge();
             checkBottomEdge();
             if (name === "tutorialRight") return page;
-            touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
+            touchFlick(shell,
+                shell.width, halfHeight,
+                halfWidth, halfHeight,
+                true /* beginTouch */, true /* endTouch */,
+                20 /* speed */, 50 /* iterations */);
             var overlay = findChild(page, "overlay");
             tryCompare(overlay, "shown", true);
             var tick = findChild(page, "tick");

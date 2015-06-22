@@ -52,6 +52,8 @@ Showable {
     property int failedLoginsDelayAttempts: 7 // number of failed logins
     property real failedLoginsDelayMinutes: 5 // minutes of forced waiting
 
+    readonly property bool animating: loader.item ? loader.item.animating : false
+
     signal tease()
     signal sessionStarted()
     signal emergencyCall()
@@ -141,8 +143,10 @@ Showable {
             enabled = false;
             if (LightDM.Greeter.startSessionSync()) {
                 sessionStarted();
-                loader.item.notifyAuthenticationSucceeded();
-            } else {
+                if (loader.item) {
+                    loader.item.notifyAuthenticationSucceeded();
+                }
+            } else if (loader.item) {
                 loader.item.notifyAuthenticationFailed();
             }
             enabled = true;

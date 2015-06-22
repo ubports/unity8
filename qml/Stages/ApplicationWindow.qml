@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,10 +25,11 @@ FocusScope {
     // to be read from outside
     readonly property bool fullscreen: application ? application.fullscreen : false
     property alias interactive: sessionContainer.interactive
+    property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
 
     // to be set from outside
     property QtObject application
-    property int orientation
+    property int surfaceOrientationAngle
 
     function removeScreenshot() {
         sessionGrabber.removeScreenshot();
@@ -68,12 +69,27 @@ FocusScope {
         // Remove this when possible
         property bool surfaceInitialized: false
 
+        property bool supportsSurfaceResize:
+                application &&
+                ((application.supportedOrientations & Qt.PortraitOrientation)
+                  || (application.supportedOrientations & Qt.InvertedPortraitOrientation))
+                &&
+                ((application.supportedOrientations & Qt.LandscapeOrientation)
+                 || (application.supportedOrientations & Qt.InvertedLandscapeOrientation))
+
+        property bool surfaceOldEnoughToBeResized: false
     }
 
     Timer {
         id: surfaceInitTimer
         interval: 100
         onTriggered: { if (sessionContainer.surface) {d.surfaceInitialized = true;} }
+    }
+
+    Timer {
+        id: surfaceIsOldTimer
+        interval: 1000
+        onTriggered: { if (stateGroup.state === "surface") { d.surfaceOldEnoughToBeResized = true; } }
     }
 
     Loader {
@@ -137,7 +153,8 @@ FocusScope {
         // A fake application might not even have a session property.
         session: application && application.session ? application.session : null
         anchors.fill: parent
-        orientation: root.orientation
+
+        surfaceOrientationAngle: application && application.rotatesWindowContents ? root.surfaceOrientationAngle : 0
 
         onSurfaceChanged: {
             if (sessionContainer.surface) {
@@ -203,15 +220,21 @@ FocusScope {
                     UbuntuNumberAnimation { target: sessionContainer.surfaceContainer; property: "opacity";
                                             from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: splashLoader; property: "active"; value: false }
+                    ScriptAction { script: {
+                        splashLoader.active = false;
+                        surfaceIsOldTimer.start();
+                    } }
                 }
             },
             Transition {
                 from: "surface"; to: "splashScreen"
                 SequentialAnimation {
-                    PropertyAction { target: splashLoader; property: "active"; value: true }
-                    PropertyAction { target: sessionContainer.surfaceContainer
-                                     property: "visible"; value: true }
+                    ScriptAction { script: {
+                        surfaceIsOldTimer.stop();
+                        d.surfaceOldEnoughToBeResized = false;
+                        splashLoader.active = true;
+                        sessionContainer.surfaceContainer.visible = true;
+                    } }
                     UbuntuNumberAnimation { target: splashLoader; property: "opacity";
                                             from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
@@ -222,14 +245,18 @@ FocusScope {
             Transition {
                 from: "surface"; to: "screenshot"
                 SequentialAnimation {
-                    PropertyAction { target: screenshotImage
-                                     property: "visible"; value: true }
+                    ScriptAction { script: {
+                        surfaceIsOldTimer.stop();
+                        d.surfaceOldEnoughToBeResized = false;
+                        screenshotImage.visible = true;
+                    } }
                     UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
                                             from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: sessionContainer.surfaceContainer
-                                     property: "visible"; value: false }
-                    ScriptAction { script: { if (sessionContainer.session) { sessionContainer.session.release(); } } }
+                    ScriptAction { script: {
+                        sessionContainer.surfaceContainer.visible = false;
+                        if (sessionContainer.session) { sessionContainer.session.release(); }
+                    } }
                 }
             },
             Transition {
@@ -240,8 +267,11 @@ FocusScope {
                     UbuntuNumberAnimation { target: screenshotImage; property: "opacity";
                                             from: 1.0; to: 0.0
                                             duration: UbuntuAnimation.BriskDuration }
-                    PropertyAction { target: screenshotImage; property: "visible"; value: false }
-                    PropertyAction { target: screenshotImage; property: "source"; value: "" }
+                    ScriptAction { script: {
+                        screenshotImage.visible = false;
+                        screenshotImage.source = "";
+                        surfaceIsOldTimer.start();
+                    } }
                 }
             },
             Transition {
@@ -257,10 +287,12 @@ FocusScope {
             },
             Transition {
                 from: "surface"; to: "void"
-                SequentialAnimation {
-                    PropertyAction { target: sessionContainer.surfaceContainer; property: "visible"; value: false }
-                    ScriptAction { script: { if (sessionContainer.session) { sessionContainer.session.release(); } } }
-                }
+                ScriptAction { script: {
+                    surfaceIsOldTimer.stop();
+                    d.surfaceOldEnoughToBeResized = false;
+                    sessionContainer.surfaceContainer.visible = false;
+                    if (sessionContainer.session) { sessionContainer.session.release(); }
+                } }
             },
             Transition {
                 from: "void"; to: "surface"
@@ -270,6 +302,9 @@ FocusScope {
                     UbuntuNumberAnimation { target: sessionContainer.surfaceContainer; property: "opacity";
                                             from: 0.0; to: 1.0
                                             duration: UbuntuAnimation.BriskDuration }
+                    ScriptAction { script: {
+                        surfaceIsOldTimer.start();
+                    } }
                 }
             }
         ]

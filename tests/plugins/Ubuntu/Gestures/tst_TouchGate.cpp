@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,16 +29,7 @@
 #include <TouchGate.h>
 #include <TouchRegistry.h>
 
-class TestItem : public QQuickItem
-{
-    Q_OBJECT
-
-public:
-    QList<QSharedPointer<QTouchEvent>> touchEventsReceived;
-
-protected:
-    void touchEvent(QTouchEvent *event) override;
-};
+#include "TestItem.h"
 
 class CandidateItem : public QQuickItem
 {
@@ -63,12 +54,16 @@ private Q_SLOTS:
     void init(); // called right before each and every test function is executed
     void cleanup(); // called right after each and every test function is executed
 
+private:
     void onlyCandidate_passThrough();
     void holdsEventsUntilGainsOwnership();
     void holdsEventsUntilGainsOwnership_data();
     void holdsEventsUntilGainsOwnership_repeatingTouchId();
     void dontDispacthToDisabledOrInvisibleTarget();
     void dontDispacthToDisabledOrInvisibleTarget_data();
+
+private Q_SLOTS:
+    void disabledWhileHoldingTouch();
 
 private:
     QQuickView *createView();
@@ -100,10 +95,9 @@ void tst_TouchGate::cleanupTestCase()
 
 void tst_TouchGate::init()
 {
-    touchRegistry = new TouchRegistry;
+    touchRegistry = TouchRegistry::instance();
 
     view = createView();
-    view->installEventFilter(touchRegistry);
     view->setSource(QUrl::fromLocalFile("touchGateExample.qml"));
     view->show();
     QVERIFY(QTest::qWaitForWindowExposed(view));
@@ -326,17 +320,55 @@ void tst_TouchGate::dontDispacthToDisabledOrInvisibleTarget_data()
     QTest::newRow("disabled invisible") << false << false;
 }
 
-///////////// TestItem /////////////////////////////////////////////////////////////
-
-void TestItem::touchEvent(QTouchEvent *event)
+void tst_TouchGate::disabledWhileHoldingTouch()
 {
-    QTouchEvent *clonedEvent = new QTouchEvent(event->type(),
-            event->device(),
-            event->modifiers(),
-            event->touchPointStates(),
-            event->touchPoints());
+    TouchGate *touchGate = view->rootObject()->findChild<TouchGate*>("touchGate");
+    Q_ASSERT(touchGate);
 
-    touchEventsReceived.append(QSharedPointer<QTouchEvent>(clonedEvent));
+    TestItem *testItem = new TestItem;
+    testItem->setWidth(touchGate->width());
+    testItem->setHeight(touchGate->height());
+    testItem->setParentItem(view->rootObject());
+    testItem->setZ(0.0);
+
+    touchGate->setZ(1.0);
+    touchGate->setTargetItem(testItem);
+
+    QTest::touchEvent(view, device)
+        .press(0, QPoint(100,100));
+
+    QCOMPARE(testItem->touchEventsReceived.count(), 1);
+    testItem->touchEventsReceived.clear();
+
+    touchGate->setEnabled(false);
+
+    QTest::touchEvent(view, device)
+        .move(0, QPoint(101,101));
+
+    // Nothing new came as TouchGate didn't even get it because it's disabled
+    QCOMPARE(testItem->touchEventsReceived.count(), 0);
+
+    touchGate->setEnabled(true);
+
+    QTest::touchEvent(view, device)
+        .move(0, QPoint(102,102));
+
+    QTest::touchEvent(view, device)
+        .release(0, QPoint(102,102));
+
+    // Nothing new came because TouchGate has already discarded touch 0
+    QCOMPARE(testItem->touchEventsReceived.count(), 0);
+
+    QTest::touchEvent(view, device)
+        .press(1, QPoint(200,200));
+
+    QCOMPARE(testItem->touchEventsReceived.count(), 1);
+    {
+        // it got only the new touch point.
+        QSharedPointer<QTouchEvent> touchEvent = testItem->touchEventsReceived[0];
+        QCOMPARE(touchEvent->touchPoints().count(), 1);
+        QCOMPARE(touchEvent->touchPoints()[0].id(), 1);
+    }
 }
 
 ///////////// CandidateItem /////////////////////////////////////////////////////////////

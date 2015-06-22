@@ -25,6 +25,7 @@
 
 #include "UbuntuGesturesGlobal.h"
 #include "CandidateInactivityTimer.h"
+#include "Timer.h"
 #include "Pool.h"
 
 namespace UbuntuGestures {
@@ -79,9 +80,11 @@ namespace UbuntuGestures {
   If an item wants ownership over touches as soon as he receives the TouchBegin for them, his step 1
   would be instead:
         TouchRegistry::instance()->requestTouchOwnership(touchId, this);
-        return true;
-  He would then be notified once ownership has been granted to him, from which point onwards he could
-  safely assume other TouchRegistry users wouldn't snatch this touch away from him.
+        touchEvent->accept();
+  He won't get any UnownedTouchEvent for that touch as he is already the interim owner (ie, QQuickWindow
+  will keep sending touch updates to him already). Eventually he will be notified once ownership has
+  been granted to him (from TouchRegistry perspective), from which point onwards he could safely assume
+  other TouchRegistry users wouldn't snatch this touch away from him.
 
   Items oblivious to TouchRegistry will lose their touch points without warning, just like in plain Qt.
 
@@ -91,15 +94,10 @@ class UBUNTUGESTURES_EXPORT TouchRegistry : public QObject
 {
     Q_OBJECT
 public:
-    TouchRegistry(QObject *parent = nullptr);
-    // Useful for tests, where you should feed a fake timer
-    TouchRegistry(QObject *parent, UbuntuGestures::AbstractTimerFactory *timerFactory);
-
     virtual ~TouchRegistry();
 
     // Returns a pointer to the application's TouchRegistry instance.
-    // If no instance has been allocated, null is returned.
-    static TouchRegistry *instance() { return m_instance; }
+    static TouchRegistry *instance();
 
     void update(const QTouchEvent *event);
 
@@ -126,13 +124,31 @@ public:
     // but would nonetheless like to be kept up-to-date on its state.
     void addTouchWatcher(int touchId, QQuickItem *watcherItem);
 
+    // Useful for tests, where you should use fake timers
+    void setTimerFactory(UbuntuGestures::AbstractTimerFactory *timerFactory);
+
 private Q_SLOTS:
     void rejectCandidateOwnerForTouch(int id, QQuickItem *candidate);
 
 private:
+    // Only instance() can cronstruct one
+    TouchRegistry(QObject *parent = nullptr);
+
     class CandidateInfo {
     public:
-        bool undecided;
+        enum {
+            // A candidate owner that doesn't yet know for sure whether he wants the touch point
+            // (gesture recognition is stilll going on)
+            Undecided = 0,
+            // A candidate owner that wants the touch but hasn't been granted it yet,
+            // most likely because there's an undecided candidate with higher priority
+            Requested = 1,
+            // An item that is the interim owner of the touch, receiving QTouchEvents of it
+            // from QQuickWindow. Ie, it's the actual touch owner from Qt's point of view.
+            // It wants to keep its touch ownership but hasn't been granted it by TouchRegistry
+            // yet because of undecided candidates higher up.
+            InterimOwner = 2
+        } state;
         // TODO: Prune candidates that become null and resolve ownership accordingly.
         QPointer<QQuickItem> item;
         QPointer<UbuntuGestures::CandidateInactivityTimer> inactivityTimer;
