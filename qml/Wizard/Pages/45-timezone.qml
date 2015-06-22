@@ -48,19 +48,19 @@ LocalComponents.Page {
 
             Label {
                 id: cityLabel
-                text: tzData.city
+                text: !!tzData ? tzData.city : ""
                 anchors.left: parent.left
                 anchors.top: parent.top
             }
             Label {
                 id: timeLabel
-                text: tzData.time
+                text: !!tzData ? tzData.time : ""
                 anchors.right: parent.right
                 anchors.top: parent.top
             }
             Label {
                 id: abbrevLabel
-                text: tzData.abbreviation
+                text: !!tzData ? tzData.abbreviation : ""
                 anchors.right: parent.right
                 anchors.top: timeLabel.bottom
             }
@@ -106,8 +106,8 @@ LocalComponents.Page {
 
                     delegate: Loader {
                         id: loader
-                        anchors.left: parent.left
-                        anchors.right: parent.right
+                        anchors.left: !!parent ? parent.left : undefined
+                        anchors.right: !!parent ? parent.right : undefined
                         height: units.gu(6)
                         asynchronous: true
                         sourceComponent: tzComponent
