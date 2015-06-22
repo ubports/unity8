@@ -87,6 +87,12 @@ LocalComponents.Page {
         }
     }
 
+    ActivityIndicator {
+        id: busyIndicator
+        anchors.centerIn: parent
+        running: true
+    }
+
     Column {
         id: column
         spacing: units.gu(2)
@@ -133,7 +139,11 @@ LocalComponents.Page {
 
                         onLoaded: {
                             item.tzData = Qt.binding(function() { return model; });
+                            busyIndicator.running = false
                         }
+                    }
+                    onCountChanged: {
+                        print("Displaying " + tzList.count + " items")
                     }
                 }
             }

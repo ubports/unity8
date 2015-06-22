@@ -20,7 +20,7 @@
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
 
-class TimeZoneFilterModel : public QSortFilterProxyModel
+class TimeZoneFilterModel: public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
