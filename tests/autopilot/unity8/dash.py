@@ -130,7 +130,7 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         x, y, width, height = dash_content.globalRect
         # Make the drag range be a multiple of the drag "rate" value.
         # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
-        rate = 10
+        rate = 5
         divisions = 5
         jump = (width / divisions) // rate * rate
         start_x = x + jump
@@ -146,7 +146,7 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         x, y, width, height = dash_content.globalRect
         # Make the drag range be a multiple of the drag "rate" value.
         # Workarounds https://bugs.launchpad.net/mir/+bug/1399690
-        rate = 10
+        rate = 5
         divisions = 5
         jump = (width / divisions) // rate * rate
         start_x = x + jump * (divisions - 1)
