@@ -100,23 +100,22 @@ Item {
             Button {
                 text: "set alert"
                 onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, true)
-                Layout.fillWidth: true
             }
 
             TextArea {
                 id: appIdEntry
                 anchors.verticalCenter: parent.verticalCenter
-                width: units.gu(4)
+                width: units.gu(5)
                 height: units.gu(4)
                 autoSize: true
                 text: "2"
                 maximumLineCount: 1
+                Layout.fillWidth: true
             }
 
             Button {
                 text: "unset alert"
                 onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, false)
-                Layout.fillWidth: true
             }
         }
     }
