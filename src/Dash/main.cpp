@@ -58,12 +58,6 @@ int main(int argc, const char *argv[])
     parser.process(*application);
 
     ApplicationArguments qmlArgs;
-    if (parser.isSet(windowGeometryOption) &&
-        parser.value(windowGeometryOption).split('x').size() == 2)
-    {
-        QStringList geom = parser.value(windowGeometryOption).split('x');
-        qmlArgs.setSize(QSize(geom.at(0).toInt(), geom.at(1).toInt()));
-    }
 
     if (getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QLatin1String("qttestability"));
@@ -85,6 +79,18 @@ int main(int argc, const char *argv[])
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
+
+    if (parser.isSet(windowGeometryOption) &&
+        parser.value(windowGeometryOption).split('x').size() == 2)
+    {
+        QStringList geom = parser.value(windowGeometryOption).split('x');
+        QSize windowSize(geom.at(0).toInt(), geom.at(1).toInt());
+        if (windowSize.isValid()) {
+            view->setWidth(windowSize.width());
+            view->setHeight(windowSize.height());
+        }
+    }
+
     view->setTitle("Scopes");
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
 
