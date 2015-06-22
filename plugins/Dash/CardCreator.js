@@ -537,7 +537,7 @@ function cardString(template, components) {
                 attributesAnchors = subtitleAnchors + 'top: titleLabel.bottom;\n';
             }
         } else if (hasMascot) {
-            // Using row + titleContainer
+            // Using row without titleContainer
             titleAnchors = 'verticalCenter: parent.verticalCenter;\n';
             titleWidth = "parent.width - x";
         } else {
