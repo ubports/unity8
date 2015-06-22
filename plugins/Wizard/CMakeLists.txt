@@ -2,6 +2,7 @@ add_library(Wizard-qml MODULE
     plugin.cpp
     PageList.cpp
     System.cpp
+    timezonemodel.cpp
 )
 
 qt5_use_modules(Wizard-qml DBus Qml)
