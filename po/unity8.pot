@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-13 13:25+0200\n"
+"POT-Creation-Date: 2015-06-22 12:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -637,6 +637,7 @@ msgstr ""
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
 
+#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "

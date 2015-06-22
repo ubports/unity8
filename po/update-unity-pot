@@ -19,7 +19,6 @@ xgettext \
     --from-code=UTF-8 \
     --files-from $GETTEXT_FILES \
     --qt --c++ \
-    --add-comments=TRANSLATORS \
     --add-comments=Translators \
     --keyword=tr \
     --keyword=tr:1,2 \
