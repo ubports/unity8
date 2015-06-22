@@ -99,7 +99,11 @@ void TimeZoneModel::init()
 TimeZoneFilterModel::TimeZoneFilterModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
+    setDynamicSortFilter(false);
+    setSortLocaleAware(true);
+    setSortRole(TimeZoneModel::City);
     m_stringMatcher.setCaseSensitivity(Qt::CaseInsensitive);
+    sort(0);
 }
 
 bool TimeZoneFilterModel::filterAcceptsRow(int row, const QModelIndex &parentIndex) const
