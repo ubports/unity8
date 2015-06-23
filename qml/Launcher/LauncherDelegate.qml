@@ -112,6 +112,7 @@ Item {
             }
             height: units.gu(1)
             visible: root.progress > -1
+            property int adjustedWidth: width - units.gu(2)
             color: UbuntuColors.darkGrey
             borderSource: "none"
 
@@ -121,7 +122,7 @@ Item {
                     top: parent.top
                     bottom: parent.bottom
                 }
-                width: Math.min(100, root.progress) / 100 * parent.width + units.gu(1)
+                width: Math.min(100, root.progress) / 100 * parent.adjustedWidth + units.gu(1)
                 clip: true
 
                 UbuntuShape {
