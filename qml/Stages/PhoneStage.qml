@@ -548,6 +548,13 @@ Rectangle {
         }
     }
 
+    //eat touch events during the right edge gesture
+    MouseArea {
+        objectName: "eventEaterArea"
+        anchors.fill: parent
+        enabled: spreadDragArea.dragging
+    }
+
     DirectionalDragArea {
         id: spreadDragArea
         objectName: "spreadDragArea"

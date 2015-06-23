@@ -18,7 +18,13 @@ target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
     )
-add_binary_qml_test(GreeterDBus "${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm" MockLightDM "QML2_IMPORT_PATH=${CMAKE_BINARY_DIR}/tests/mocks")
+add_unity8_uitest(GreeterDBus dbus-test-runner
+    ARG_PREFIX "--parameter"
+    ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
+    DEPENDS MockLightDM
+    IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks
+    LIGHTDM
+    )
 
 add_executable(GreeterPamTestExec
     pam.cpp
@@ -31,8 +37,7 @@ target_link_libraries(GreeterPamTestExec
 target_include_directories(GreeterPamTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/liblightdm
     )
-add_qmltest_target(testGreeterPam "${CMAKE_CURRENT_BINARY_DIR}/GreeterPamTestExec" TRUE FALSE)
-add_dependencies(testGreeterPam GreeterPamTestExec)
+add_qmltest_target(testGreeterPam GreeterPamTestExec COMMAND $<TARGET_FILE:GreeterPamTestExec>)
 
 add_executable(GreeterUsersModelTestExec
     usersmodel.cpp
@@ -49,4 +54,8 @@ target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
     )
-add_binary_qml_test(GreeterUsersModel "${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm" MockLightDM "LIBLIGHTDM_MOCK_MODE=full")
+add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
+    ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
+    DEPENDS MockLightDM
+    LIGHTDM
+    )
