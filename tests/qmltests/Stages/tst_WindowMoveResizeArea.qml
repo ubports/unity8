@@ -70,6 +70,7 @@ Item {
     }
 
     UT.UnityTestCase {
+        name: "WindowMoveResizeArea"
         when: windowShown
 
         function init() {
