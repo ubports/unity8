@@ -39,7 +39,7 @@ INOTIFYPID=`echo $!`
 
 sleep 1
 
-cd builddir
+cd -
 
 make -k xvfballtests
 if [ $? -ne 0 ]; then
