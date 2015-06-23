@@ -73,7 +73,6 @@ Item {
             sourceComponent: Component {
                 Shell {
                     property string indicatorProfile: "phone"
-                    property string shellMode: "full-greeter" /* default */
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
