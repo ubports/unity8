@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-14 16:13+0200\n"
-"PO-Revision-Date: 2015-04-22 09:03+0000\n"
+"PO-Revision-Date: 2015-06-18 19:05+0000\n"
 "Last-Translator: Simos Xenitellis <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-04-23 06:48+0000\n"
-"X-Generator: Launchpad (build 17430)\n"
+"X-Launchpad-Export-Date: 2015-06-23 05:33+0000\n"
+"X-Generator: Launchpad (build 17572)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -117,7 +117,7 @@ msgstr "Ναι"
 #: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Τερματισμός"
 
 #: qml/Components/Dialogs.qml:153
 msgid ""
@@ -165,17 +165,17 @@ msgstr "Αναζήτηση"
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Κατάστημα"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Αναζήτηση"
 
 #: qml/Dash/PageHeader.qml:286
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "Ρυθμίσεις"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
@@ -378,7 +378,7 @@ msgstr "Πατήστε εδώ για συνέχεια."
 
 #: qml/Tutorial/TutorialContent.qml:81
 msgid "Click here to finish."
-msgstr ""
+msgstr "Πατήστε εδώ για τέλος."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -510,12 +510,12 @@ msgstr "Επιτρέψετε το τηλέφωνο να εντοπίσει τη�
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr "Χρήση μόνο GPS (λιγότερο ακριβή)"
+msgstr "Χρήση μόνο GPS (λιγότερο ακριβής)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
-"Χρήση GPS, ανωνυνοποιημένα δίκτυα Wi-Fi και πληροφορίες δικτύων κινητής "
+"Χρήση GPS, ανωνυμοποιημένων δικτύων Wi-Fi και πληροφορίες δικτύων κινητής "
 "τηλεφωνίας (συνιστάται)"
 
 #. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
@@ -546,7 +546,7 @@ msgid ""
 "partners, the makers of the operating system."
 msgstr ""
 "Το τηλέφωνό σας είναι ρυθμισμένο να στέλνει αυτόματα αναφορές σφαλμάτων στην "
-"Canonical και τους συνεργάτες της, τους δημιουργούς τους λειτουργικού "
+"Canonical και τους συνεργάτες της, τους δημιουργούς του λειτουργικού "
 "συστήματος."
 
 #: qml/Wizard/Pages/60-reporting.qml:43

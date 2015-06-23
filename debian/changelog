@@ -1,3 +1,47 @@
+unity8 (8.10+15.10.20150618-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Refactor QmlTest.cmake module so that all tests can go through it.
+    Also a bit of cleanup around tests.
+  * Support fallback images for dash card and preview widgets (LP:
+    #1324142)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Fix Shell tests
+
+  [ Josh Arenson ]
+  * Refactor greeter emulator to unlock the greeter via dbus
+
+  [ Lukáš Tinkl ]
+  * respect target window's devicePixelRatio in MouseTouchAdaptor
+
+  [ Michael Zanetti ]
+  * Refactor QmlTest.cmake module so that all tests can go through it.
+    Also a bit of cleanup around tests.
+
+  [ Michał Sawicz ]
+  * Refactor QmlTest.cmake module so that all tests can go through it.
+    Also a bit of cleanup around tests.
+
+  [ handsome_feng ]
+  * Forbid closing apps during the edge gesture. (LP: #1445572)
+  * Removed the horizonal rule on pin unlock screen. (LP: #1368798)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Forbid closing apps during the edge gesture. (LP: #1445572)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 18 Jun 2015 19:40:06 +0000
+
+unity8 (8.10+15.10.20150612-0ubuntu2) wily; urgency=medium
+
+  * No-change rebuild against Qt 5.4.2.
+
+ -- Timo Jyrinki <timo-jyrinki@ubuntu.com>  Mon, 15 Jun 2015 12:33:07 +0300
+
 unity8 (8.10+15.10.20150612-0ubuntu1) wily; urgency=medium
 
   [ Michał Sawicz ]

@@ -198,8 +198,8 @@ Item {
 
     Loader {
         id: cardLoader
-        property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
-        property var maxData: {
+        readonly property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
+        readonly property var maxData: {
             "art": Qt.resolvedUrl("graphics/pixel.png"),
             "mascot": Qt.resolvedUrl("graphics/pixel.png"),
             "title": "—\n—",
@@ -211,26 +211,27 @@ Item {
         onLoaded: {
             item.objectName = "cardToolCard";
             item.asynchronous = false;
-            item.template = Qt.binding(function() { return cardTool.template; });
             item.components = Qt.binding(function() { return cardTool.components; });
             item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
         }
         Connections {
-            target: cardLoader.item
-            onComponentsChanged: {
-                var data = {};
-                for (var k in cardLoader.fields) {
-                    var component = cardLoader.item.components[cardLoader.fields[k]];
-                    var key = cardLoader.fields[k];
-                    if ((typeof component === "string" && component.length > 0) ||
-                        (typeof component === "object" && component !== null
-                        && typeof component["field"] === "string" && component["field"].length > 0)) {
-                        data[key] = cardLoader.maxData[key];
-                    }
+            target: cardTool
+            onTemplateChanged: cardLoader.updateCardData();
+            onComponentsChanged: cardLoader.updateCardData();
+        }
+        function updateCardData() {
+            var data = {};
+            for (var k in fields) {
+                var component = cardTool.components[fields[k]];
+                var key = fields[k];
+                if ((typeof component === "string" && component.length > 0) ||
+                    (typeof component === "object" && component !== null
+                    && typeof component["field"] === "string" && component["field"].length > 0)) {
+                    data[key] = maxData[key];
                 }
-                cardLoader.item.cardData = data;
             }
+            item.cardData = data;
         }
     }
 }
