@@ -475,7 +475,6 @@ Rectangle {
         }
 
         function test_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
-            dashCommunicatorSpy.clear();
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
