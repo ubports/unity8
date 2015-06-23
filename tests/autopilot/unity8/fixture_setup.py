@@ -150,7 +150,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
         # Wait for the sensors fifo file to be created.
         fifo_path = '/tmp/sensor-fifo-{0}'.format(
-            process_helpers.get_unity_pid())
+            process_helpers._get_unity_pid())
         Eventually(Equals(True)).match(
             lambda: os.path.exists(fifo_path))
 
