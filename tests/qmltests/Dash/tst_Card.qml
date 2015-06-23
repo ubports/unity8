@@ -223,6 +223,7 @@ Rectangle {
         property Item mascotImage: findChild(card, "mascotImage");
 
         function init() {
+            cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
             loader.visible = true;
         }
 
@@ -423,6 +424,7 @@ Rectangle {
             ];
         }
 
+
         function test_background(data) {
             selector.selectedIndex = data.index;
             waitForRendering(selector);
@@ -451,6 +453,34 @@ Rectangle {
             if (data.hasOwnProperty("image")) {
                 tryCompare(backgroundImage, "source", data.image);
             }
+        }
+
+        function test_fallback() {
+            selector.selectedIndex = 0;
+            waitForRendering(card);
+
+            card.cardData["art"] = "somethingbroken";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", false);
+
+            cardTool.components["art"]["fallback"] = Qt.resolvedUrl("artwork/emblem.png");
+            cardTool.componentsChanged();
+            card.cardData["art"] = "somethingbroken";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+
+            card.cardData["mascot"] = "somethingbroken2";
+            card.cardDataChanged();
+            compare(mascotImage.image.status, Image.Error);
+
+            cardTool.components["mascot"] = {"fallback": Qt.resolvedUrl("artwork/emblem.png")};
+            cardTool.componentsChanged();
+            card.cardData["mascot"] = "somethingbroken2";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(mascotImage.image, "status", Image.Ready);
         }
 
         function test_font_weights_data() {
