@@ -20,6 +20,7 @@ import "../../Components"
 
 /*! This preview widget shows a horizontal list of images.
  *  The URIs for the images should be an array in widgetData["sources"].
+ *  Images fall back to widgetData["fallback"] if loading fails
  */
 
 PreviewWidget {
@@ -72,6 +73,14 @@ PreviewWidget {
                     overlay.show();
                 }
             }
+
+            Connections {
+                target: sourceImage
+                // If modelData would change after failing to load it would not be
+                // reloaded since the source binding is destroyed by the source = fallback
+                // But at the moment the model never changes
+                onStatusChanged: if (sourceImage.status === Image.Error) sourceImage.source = widgetData["fallback"];
+            }
         }
     }
 
@@ -122,6 +131,11 @@ PreviewWidget {
                 source: modelData ? modelData : ""
                 fillMode: Image.PreserveAspectFit
                 sourceSize { width: screenshot.width; height: screenshot.height }
+
+                // If modelData would change after failing to load it would not be
+                // reloaded since the source binding is destroyed by the source = fallback
+                // But at the moment the model never changes
+                onStatusChanged: if (status === Image.Error) source = widgetData["fallback"];
             }
 
             MouseArea {

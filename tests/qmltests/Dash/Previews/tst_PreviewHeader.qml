@@ -38,6 +38,22 @@ Rectangle {
         "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
     }
 
+    property var brokenheaderjson: {
+        "title": "THE TITLE",
+        "subtitle": "Something catchy",
+        "mascot": "bad_path",
+        "fallback": "",
+        "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
+    }
+
+    property var fallbackheaderjson: {
+        "title": "THE TITLE",
+        "subtitle": "Something catchy",
+        "mascot": "bad_path2",
+        "fallback": "../graphics/play_button.png",
+        "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
+    }
+
     PreviewHeader {
         id: previewHeader
         widgetData: headerjson
@@ -120,6 +136,20 @@ Rectangle {
             compare(innerPreviewHeader.title, "THE TITLE");
             compare(innerPreviewHeader.subtitle, "Something catchy");
             compare(innerPreviewHeader.mascot.toString().slice(-24), "graphics/play_button.png");
+        }
+
+        function test_fallback() {
+            previewHeader.widgetData = brokenheaderjson;
+            tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
+            var mascot = findChild(previewHeader, "mascotShape");
+            compare(mascot.visible, false);
+
+            previewHeader.widgetData = {};
+            previewHeader.widgetData = fallbackheaderjson;
+            tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
+            var mascot = findChild(previewHeader, "mascotShape");
+            tryCompare(mascot, "visible", true);
+            tryCompare(mascot.image, "status", Image.Ready);
         }
     }
 }

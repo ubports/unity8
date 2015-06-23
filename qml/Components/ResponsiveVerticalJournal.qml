@@ -39,6 +39,8 @@ import Dash 0.1
     +-----+
 */
 Item {
+    id: root
+
     property real minimumColumnSpacing: units.gu(1)
 
     property alias columnWidth: verticalJournalView.columnWidth
@@ -46,8 +48,8 @@ Item {
     property alias model: verticalJournalView.model
     property alias delegate: verticalJournalView.delegate
     property alias cacheBuffer: verticalJournalView.cacheBuffer
-    property alias displayMarginBeginning: verticalJournalView.displayMarginBeginning
-    property alias displayMarginEnd: verticalJournalView.displayMarginEnd
+    property real displayMarginBeginning: 0
+    property real displayMarginEnd: 0
 
     implicitHeight: verticalJournalView.implicitHeight + rowSpacing
     clip: height < implicitHeight
@@ -62,6 +64,9 @@ Item {
             topMargin: rowSpacing / 2
             bottomMargin: rowSpacing / 2
         }
+
+        displayMarginBeginning: -Math.max(-root.displayMarginBeginning - anchors.topMargin, 0)
+        displayMarginEnd:-Math.max(-root.displayMarginEnd - anchors.topMargin, 0)
 
         function px2gu(pixels) {
             return Math.floor(pixels / units.gu(1))

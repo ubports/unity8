@@ -30,6 +30,7 @@ Item {
     property var zoomable: false
     property alias imageStatus: imageRenderer.status
     property alias asynchronous: imageRenderer.asynchronous
+    readonly property alias status: imageRenderer.status
 
     Flickable {
         id: flickable
