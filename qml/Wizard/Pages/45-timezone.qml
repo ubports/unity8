@@ -128,7 +128,6 @@ LocalComponents.Page {
                 Repeater {
                     id: tzList
                     model: tzFilterModel
-                    property int selectedIndex
                     delegate: Loader {
                         id: loader
                         anchors.left: !!parent ? parent.left : undefined
