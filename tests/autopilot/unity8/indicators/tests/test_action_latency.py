@@ -70,10 +70,11 @@ class TestServerValueUpdate(TestIndicatorBaseTestCase):
         switch_menu = self.indicator_page.get_switch_menu()
 
         switch.change_state()
+        final_value = switch.checked
 
         self.assertThat(
             switch_menu.serverChecked,
-            Eventually(Equals(switch.checked), timeout=20)
+            Eventually(Equals(final_value), timeout=20)
         )
 
     def test_slider_reaches_server_value(self):
@@ -82,6 +83,7 @@ class TestServerValueUpdate(TestIndicatorBaseTestCase):
 
         old_value = slider.value
         slider.slide_left()
+        final_value = slider.value
 
         self.assertThat(
             slider_menu.serverValue,
@@ -90,7 +92,7 @@ class TestServerValueUpdate(TestIndicatorBaseTestCase):
 
         self.assertThat(
             slider_menu.serverValue,
-            Eventually(Equals(slider.value), timeout=20)
+            Eventually(Equals(final_value), timeout=20)
         )
 
 

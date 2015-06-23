@@ -30,7 +30,7 @@ class GreeterPrivate
 {
 public:
     explicit GreeterPrivate(Greeter* parent=0);
-    virtual ~GreeterPrivate() = default;
+    virtual ~GreeterPrivate();
 
     // These variables may not be used by all subclasses, that's no problem
     bool authenticated;

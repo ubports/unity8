@@ -18,6 +18,7 @@
 
 #include <QCoreApplication>
 #include <QDebug>
+#include <QQuickWindow>
 
 #include <TouchOwnershipEvent.h>
 #include <TouchRegistry.h>
@@ -99,6 +100,15 @@ void TouchGate::touchEvent(QTouchEvent *event)
         // Retain events that have unowned touches
         storeTouchEvent(event->device(), event->modifiers(), validTouchPoints,
                 event->window(), event->timestamp());
+    }
+}
+
+void TouchGate::itemChange(ItemChange change, const ItemChangeData &value)
+{
+    if (change == QQuickItem::ItemSceneChange) {
+        if (value.window != nullptr) {
+            value.window->installEventFilter(TouchRegistry::instance());
+        }
     }
 }
 

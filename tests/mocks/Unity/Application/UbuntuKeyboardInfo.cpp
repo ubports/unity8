@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -25,4 +25,36 @@ UbuntuKeyboardInfo::UbuntuKeyboardInfo(QObject *parent)
     m_width(200),
     m_height(200)
 {
+}
+
+void UbuntuKeyboardInfo::setX(qreal value)
+{
+    if (value != m_x) {
+        m_x = value;
+        Q_EMIT xChanged(m_x);
+    }
+}
+
+void UbuntuKeyboardInfo::setY(qreal value)
+{
+    if (value != m_y) {
+        m_y = value;
+        Q_EMIT yChanged(m_y);
+    }
+}
+
+void UbuntuKeyboardInfo::setWidth(qreal value)
+{
+    if (value != m_width) {
+        m_width = value;
+        Q_EMIT widthChanged(m_width);
+    }
+}
+
+void UbuntuKeyboardInfo::setHeight(qreal value)
+{
+    if (value != m_height) {
+        m_height = value;
+        Q_EMIT heightChanged(m_height);
+    }
 }

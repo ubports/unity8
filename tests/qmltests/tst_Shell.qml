@@ -1,9 +1,6 @@
 /*
  * Copyright (C) 2013-2015 Canonical, Ltd.
  *
- * Authors:
- *   Daniel d'Andrada <daniel.dandrada@canonical.com>
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -34,6 +31,7 @@ import Powerd 0.1
 import Wizard 0.1 as Wizard
 
 import "../../qml"
+import "Stages"
 
 Rectangle {
     id: root
@@ -46,22 +44,6 @@ Rectangle {
         LightDM.Greeter.mockMode = "single";
         LightDM.Users.mockMode = "single";
         shellLoader.active = true;
-    }
-
-    QtObject {
-        id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
     }
 
     Item {
@@ -99,8 +81,12 @@ Rectangle {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string indicatorProfile: "phone"
+                    property string shellMode: "full-greeter" /* default */
 
+                    usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
+                    orientation: Qt.PortraitOrientation
+                    primaryOrientation: Qt.PortraitOrientation
+                    nativeOrientation: Qt.PortraitOrientation
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -109,19 +95,25 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    Flickable {
         id: controls
-        color: "darkgrey"
-        width: units.gu(30)
+        contentHeight: controlRect.height
+
         anchors.top: root.top
         anchors.bottom: root.bottom
         anchors.right: root.right
+        width: units.gu(30)
 
-        Column {
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Row {
-                anchors { left: parent.left; right: parent.right }
+        Rectangle {
+            id: controlRect
+            anchors { left: parent.left; right: parent.right }
+            color: "darkgrey"
+            height: childrenRect.height + units.gu(2)
+
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+
                 Button {
                     text: "Show Greeter"
                     activeFocusOnPress: false
@@ -135,30 +127,51 @@ Rectangle {
                         }
                     }
                 }
-            }
-            ListItem.ItemSelector {
-                anchors { left: parent.left; right: parent.right }
-                activeFocusOnPress: false
-                text: "LightDM mock mode"
-                model: ["single", "single-passphrase", "single-pin", "full"]
-                onSelectedIndexChanged: {
-                    shellLoader.active = false;
-                    LightDM.Greeter.mockMode = model[selectedIndex];
-                    LightDM.Users.mockMode = model[selectedIndex];
-                    shellLoader.active = true;
+                ListItem.ItemSelector {
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "LightDM mock mode"
+                    model: ["single", "single-passphrase", "single-pin", "full"]
+                    onSelectedIndexChanged: {
+                        shellLoader.active = false;
+                        LightDM.Greeter.mockMode = model[selectedIndex];
+                        LightDM.Users.mockMode = model[selectedIndex];
+                        shellLoader.active = true;
+                    }
                 }
-            }
-            ListItem.ItemSelector {
-                anchors { left: parent.left; right: parent.right }
-                activeFocusOnPress: false
-                text: "Size"
-                model: ["phone", "tablet"]
-                onSelectedIndexChanged: {
-                    shellLoader.active = false;
-                    shellLoader.state = model[selectedIndex];
-                    shellLoader.active = true;
+                ListItem.ItemSelector {
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "Size"
+                    model: ["phone", "tablet"]
+                    onSelectedIndexChanged: {
+                        shellLoader.active = false;
+                        shellLoader.state = model[selectedIndex];
+                        shellLoader.active = true;
+                    }
                 }
-                MouseTouchEmulationCheckbox { color: "white" }
+                ListItem.ItemSelector {
+                    id: usageScenarioSelector
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "Usage scenario"
+                    model: ["phone", "tablet", "desktop"]
+                }
+                MouseTouchEmulationCheckbox {
+                    id: mouseEmulation
+                    checked: true
+                    color: "white"
+                }
+
+                Label { text: "Applications"; font.bold: true }
+
+                Repeater {
+                    id: appRepeater
+                    model: ApplicationManager.availableApplications
+                    ApplicationCheckBox {
+                        appId: modelData
+                    }
+                }
             }
         }
     }
@@ -239,6 +252,7 @@ Rectangle {
         function cleanup() {
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
+            GSettingsController.setUsageMode("Staged");
         }
 
         function loadShell(formFactor) {
@@ -461,15 +475,16 @@ Rectangle {
         }
 
         function test_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
+            dashCommunicatorSpy.clear();
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
+            dashCommunicatorSpy.clear();
+
             tapOnAppIconInLauncher();
             waitUntilApplicationWindowIsFullyVisible();
 
             verify(ApplicationManager.focusedApplicationId !== "unity8-dash")
-
-            dashCommunicatorSpy.clear();
 
             //Long left swipe
             swipeFromLeftEdge(units.gu(30));
@@ -485,7 +500,6 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
-
             dashCommunicatorSpy.clear();
 
             var launcher = findChild(shell, "launcher");
@@ -672,15 +686,6 @@ Rectangle {
             tryCompare(item, "visible", false);
         }
 
-        // wait until any transition animation has finished
-        function waitUntilTransitionsEnd(stateGroup) {
-            var transitions = stateGroup.transitions;
-            for (var i = 0; i < transitions.length; ++i) {
-                var transition = transitions[i];
-                tryCompare(transition, "running", false, 2000);
-            }
-        }
-
         // Wait until the ApplicationWindow for the given Application object is fully loaded
         // (ie, the real surface has replaced the splash screen)
         function waitUntilAppWindowIsFullyLoaded(app) {
@@ -725,22 +730,57 @@ Rectangle {
 
         function test_launchedAppHasActiveFocus_data() {
             return [
-                {tag:"phone", formFactor:"phone"},
-                {tag:"tablet", formFactor:"tablet"},
-            ];
+                {tag: "phone", formFactor: "phone", usageMode: "Staged"},
+                {tag: "tablet", formFactor: "tablet", usageMode: "Staged"},
+                {tag: "desktop", formFactor: "tablet", usageMode: "Windowed"}
+            ]
         }
 
         function test_launchedAppHasActiveFocus(data) {
+            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
             swipeAwayGreeter();
 
-            var dialerApp = ApplicationManager.startApplication("webbrowser-app");
-            verify(dialerApp);
+            var webApp = ApplicationManager.startApplication("webbrowser-app");
+            verify(webApp);
             waitUntilAppSurfaceShowsUp("webbrowser-app")
 
-            verify(dialerApp.session.surface);
+            verify(webApp.session.surface);
 
-            tryCompare(dialerApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.surface, "activeFocus", true);
+        }
+
+        function test_launchedAppKeepsActiveFocusOnUsageModeChange() {
+            loadShell("tablet");
+            swipeAwayGreeter();
+
+            var webApp = ApplicationManager.startApplication("webbrowser-app");
+            verify(webApp);
+            waitUntilAppSurfaceShowsUp("webbrowser-app")
+
+            verify(webApp.session.surface);
+
+            tryCompare(webApp.session.surface, "activeFocus", true);
+
+            shell.usageScenario = "desktop";
+
+            // check that the desktop stage and window have been loaded
+            {
+                var desktopWindow = findChild(shell, "decoratedWindow_webbrowser-app");
+                verify(desktopWindow);
+            }
+
+            tryCompare(webApp.session.surface, "activeFocus", true);
+
+            shell.usageScenario = "tablet";
+
+            // check that the tablet stage and app surface delegate have been loaded
+            {
+                var desktopWindow = findChild(shell, "tabletSpreadDelegate_webbrowser-app");
+                verify(desktopWindow);
+            }
+
+            tryCompare(webApp.session.surface, "activeFocus", true);
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -836,37 +876,6 @@ Rectangle {
             // DirectionalDragAreas in there won't be easily fooled by
             // fake swipes.
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
-        }
-
-        function test_greeterDoesNotChangeIndicatorProfile() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            var panel = findChild(shell, "panel");
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-
-            showGreeter();
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-
-            LightDM.Greeter.hideGreeter();
-            tryCompare(panel.indicators.indicatorsModel, "profile", shell.indicatorProfile);
-        }
-
-        function test_shellProfileChangesReachIndicators() {
-            loadShell("phone");
-            swipeAwayGreeter();
-            var panel = findChild(shell, "panel");
-
-            shell.indicatorProfile = "test1";
-            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
-                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
-                verify(properties["menuObjectPath"].substr(-5), "test1");
-            }
-
-            shell.indicatorProfile = "test2";
-            for (var i = 0; i < panel.indicators.indicatorsModel.count; ++i) {
-                var properties = panel.indicators.indicatorsModel.data(i, IndicatorsModelRole.IndicatorProperties);
-                verify(properties["menuObjectPath"].substr(-5), "test2");
-            }
         }
 
         function test_focusRequestedHidesGreeter() {
@@ -1043,9 +1052,14 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
-            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
-            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
+            verify(topmostSpreadDelegate);
 
+            waitUntilFocusedApplicationIsShowingItsSurface();
+
+            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            verify(topmostSurface);
+
+            var rightEdgeDragArea = findChild(shell, "spreadDragArea");
             topmostSurface.touchPressCount = 0;
             topmostSurface.touchReleaseCount = 0;
 
@@ -1110,6 +1124,8 @@ Rectangle {
         }
 
         function test_tapUbuntuIconInLauncherOverAppSpread() {
+            launcherShowDashHomeSpy.clear();
+
             loadShell("phone");
             swipeAwayGreeter();
 
@@ -1123,8 +1139,6 @@ Rectangle {
             var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
             dismissTimer.interval = 60 * 60 * 1000;
 
-            launcherShowDashHomeSpy.clear();
-
             dragLauncherIntoView();
 
             // Emulate a tap with a finger, where the touch position drifts during the tap.
@@ -1134,13 +1148,11 @@ Rectangle {
             // left edge drag area.
             {
                 var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
-                var startPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.2,
-                        buttonShowDashHome.height * 0.8);
-                var endPos = buttonShowDashHome.mapToItem(shell,
-                        buttonShowDashHome.width * 0.8,
-                        buttonShowDashHome.height * 0.2);
-                touchFlick(shell, startPos.x, startPos.y, endPos.x, endPos.y);
+                touchFlick(buttonShowDashHome,
+                    buttonShowDashHome.width * 0.2,  /* startPos.x */
+                    buttonShowDashHome.height * 0.8, /* startPos.y */
+                    buttonShowDashHome.width * 0.8,  /* endPos.x */
+                    buttonShowDashHome.height * 0.2  /* endPos.y */);
             }
 
             compare(launcherShowDashHomeSpy.count, 1);
@@ -1172,8 +1184,7 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             AccountsService.backgroundFile = data.accounts;
-            var backgroundSettings = findInvisibleChild(shell, "backgroundSettings");
-            backgroundSettings.pictureUri = data.gsettings;
+            GSettingsController.setPictureUri(data.gsettings);
 
             if (data.output === "defaultBackground") {
                 tryCompare(shell, "background", shell.defaultBackground);
@@ -1229,6 +1240,37 @@ Rectangle {
                 var passwordInput = findChild(greeter, "passwordInput")
                 tryCompare(passwordInput, "focus", true)
             }
+        }
+
+        function test_stageLoader_data() {
+            return [
+                {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageScenario: "tablet"},
+                {tag: "desktop", source: "Stages/DesktopStage.qml", formFactor: "tablet", usageScenario: "desktop"}
+            ]
+        }
+
+        function test_stageLoader(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+            var stageLoader = findChild(shell, "applicationsDisplayLoader");
+            verify(String(stageLoader.source).indexOf(data.source) >= 0);
+        }
+
+        function test_launcherInverted_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", launcherInverted: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", launcherInverted: true},
+                {tag: "desktop", formFactor: "tablet", usageScenario: "desktop", launcherInverted: false}
+            ]
+        }
+
+        function test_launcherInverted(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            var launcher = findChild(shell, "launcher");
+            compare(launcher.inverted, data.launcherInverted);
         }
     }
 }

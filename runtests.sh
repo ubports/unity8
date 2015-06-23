@@ -39,9 +39,9 @@ INOTIFYPID=`echo $!`
 
 sleep 1
 
-cd -
+cd builddir
 
-make -k qmltests
+make -k xvfballtests
 if [ $? -ne 0 ]; then
     echo '<?xml version="1.0" encoding="UTF-8" ?><testsuite errors="0" failures="1" tests="1" name="makeExitStatusTest"><properties/><testcase result="fail" name="makeExitStatus"><failure message="Make test did not suceed" result="fail"/></testcase><system-err/></testsuite>' > testMakeExitStatus.xml
 fi
