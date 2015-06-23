@@ -1,6 +1,7 @@
 /****************************************************************************
 **
 ** Copyright (C) 2015 Jolla.
+** Copyright (C) 2015 Canoncal Ltd.
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -68,14 +69,18 @@ public:
 
     Q_INVOKABLE QInputDevice *get(int index) const;
 
+    // For testing
+    Q_INVOKABLE void addMockMouse();
+    Q_INVOKABLE void addMockKeyboard();
+    Q_INVOKABLE void removeMockMouse();
+    Q_INVOKABLE void removeMockKeyboard();
+
 Q_SIGNALS:
     void newDevice(const QString &devicePath);
     void deviceRemoved(const QString &devicePath);
 
 public Q_SLOTS:
     void updateDeviceList();
-
-
 
 private:
     QInputDeviceInfo *deviceInfo;

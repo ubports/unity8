@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Canonical, Ltd. and/or its subsidiary(-ies).
+** Copyright (C) 2015 Canonical, Ltd. and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -59,7 +59,12 @@ void QInputDevice::setName(const QString &name)
 
 QString QInputDevice::devicePath() const
 {
-    return "/mock/device/path";
+    return m_devicePath;
+}
+
+void QInputDevice::setDevicePath(const QString &path)
+{
+    m_devicePath = path;
 }
 
 QList <int> QInputDevice::buttons() const
@@ -112,6 +117,7 @@ void QInputDeviceInfo::removeMockDevice(int index)
 void QInputDeviceInfo::addMockDevice(QInputDeviceInfo::InputType inputType)
 {
     QInputDevice *device = new QInputDevice(this);
+    device->setDevicePath("/mock/device/" + QString::number(m_counter++));
     device->setTypes({inputType});
     m_list.append(device);
     Q_EMIT deviceAdded(device->devicePath());

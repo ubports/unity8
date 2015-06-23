@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2014 Canonical, Ltd. and/or its subsidiary(-ies).
+** Copyright (C) 2015 Canonical, Ltd. and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -87,6 +87,8 @@ Q_SIGNALS:
 
 private:
     QVector<QInputDevice*> m_list;
+
+    int m_counter = 0;
 };
 
 class QInputDevice : public QObject
@@ -125,6 +127,7 @@ Q_SIGNALS:
 private:
     void setName(const QString &name);
     void setTypes(QInputDeviceInfo::InputTypes types);
+    void setDevicePath(const QString &path);
 
     QString m_name;
     QInputDeviceInfo::InputTypes m_types;

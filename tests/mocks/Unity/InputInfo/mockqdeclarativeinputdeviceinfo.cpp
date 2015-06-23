@@ -1,6 +1,7 @@
 /****************************************************************************
 **
 ** Copyright (C) 2015 Jolla.
+** Copyright (C) 2015 Canonical Ltd.
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -44,6 +45,8 @@ QDeclarativeInputDeviceInfo::QDeclarativeInputDeviceInfo(QObject *parent) :
     QAbstractListModel(parent),
     deviceInfo(new QInputDeviceInfo)
 {
+    connect(deviceInfo, &QInputDeviceInfo::deviceAdded,this,&QDeclarativeInputDeviceInfo::addedDevice);
+    connect(deviceInfo, &QInputDeviceInfo::deviceRemoved,this,&QDeclarativeInputDeviceInfo::removedDevice);
 }
 
 QDeclarativeInputDeviceInfo::~QDeclarativeInputDeviceInfo()
@@ -84,6 +87,36 @@ QInputDevice *QDeclarativeInputDeviceInfo::get(int index) const
     if (index < 0 || index > inputDevices.count())
         return 0;
     return inputDevices.value(index);
+}
+
+void QDeclarativeInputDeviceInfo::addMockMouse()
+{
+    deviceInfo->addMockDevice(QInputDeviceInfo::Mouse);
+}
+
+void QDeclarativeInputDeviceInfo::addMockKeyboard()
+{
+    deviceInfo->addMockDevice(QInputDeviceInfo::Keyboard);
+}
+
+void QDeclarativeInputDeviceInfo::removeMockMouse()
+{
+    for (int i = 0; i < inputDevices.count(); i++) {
+        if (inputDevices.at(i)->types().testFlag(QInputDeviceInfo::Mouse)) {
+            deviceInfo->removeMockDevice(i);
+            return;
+        }
+    }
+}
+
+void QDeclarativeInputDeviceInfo::removeMockKeyboard()
+{
+    for (int i = 0; i < inputDevices.count(); i++) {
+        if (inputDevices.at(i)->types().testFlag(QInputDeviceInfo::Keyboard)) {
+            deviceInfo->removeMockDevice(i);
+            return;
+        }
+    }
 }
 
 void QDeclarativeInputDeviceInfo::updateDeviceList()

@@ -8,6 +8,8 @@ Item {
     readonly property alias mice: priv.miceCount
     readonly property alias keyboards: priv.keyboardCount
 
+    property alias inputInfo: inputInfo
+
     QtObject {
         id: priv
 
@@ -45,6 +47,7 @@ Item {
 
     InputDeviceInfo {
         id: inputInfo
+        objectName: "inputDeviceInfo"
 
         onNewDevice: {
             var device = inputInfo.get(inputInfo.indexOf(devicePath));

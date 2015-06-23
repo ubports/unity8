@@ -27,7 +27,6 @@ void InputInfoPlugin::registerTypes(const char *uri)
 {
     int major = 0;
     int minor = 1;
-    qDebug() << "****************** creating inputplugin";
     qmlRegisterType<QDeclarativeInputDeviceInfo>(uri, major, minor, "InputDeviceInfo");
     qmlRegisterType<QInputDevice>(uri, major, minor, "InputInfo");
 }
