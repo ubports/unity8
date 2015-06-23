@@ -41,7 +41,6 @@ def unlock_unity():
     """Helper function that attempts to unlock the unity greeter.
 
     """
-
     greeter.wait_for_greeter()
     greeter.hide_greeter_with_dbus()
 
@@ -50,7 +49,6 @@ def lock_unity():
     """Helper function that attempts to lock unity greeter.
 
     """
-
     greeter.show_greeter_with_dbus()
     greeter.wait_for_greeter()
 

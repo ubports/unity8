@@ -20,6 +20,8 @@ import QtTest 1.0
 import Unity.Test 0.1
 
 TestCase {
+    name: "UnityTest"
+
     Rectangle {
         id: rect
     }
@@ -28,28 +30,23 @@ TestCase {
         id: testObject
     }
 
-    // Singletons need to be bound to a property and not-named-imported
-    // for them to be able to be properly passed back to C++.
-    // See https://bugreports.qt-project.org/browse/QTBUG-30730
-    property var util: Util
-
     function test_direct() {
         compare(Util.isInstanceOf(rect, "QQuickRectangle"), true, "rect should be an instance of QQuickRectangle");
-        compare(Util.isInstanceOf(util, "TestUtil"), true, "Util should be an instance of TestUtil");
+        compare(Util.isInstanceOf(Util, "TestUtil"), true, "Util should be an instance of TestUtil");
         compare(Util.isInstanceOf(testObject, "MockObjectForInstanceOfTestChild"), true, "testObject should be an instance of MockObjectForInstanceOfTestChild");
     }
 
     function test_inherited() {
         compare(Util.isInstanceOf(rect, "QQuickItem"), true, "rect should be an instance of QQuickItem");
         compare(Util.isInstanceOf(rect, "QObject"), true, "rect should be an instance of QObject");
-        compare(Util.isInstanceOf(util, "QObject"), true, "Util should be an instance of QObject");
+        compare(Util.isInstanceOf(Util, "QObject"), true, "Util should be an instance of QObject");
         compare(Util.isInstanceOf(testObject, "MockObjectForInstanceOfTest"), true, "testObject should be an instance of MockObjectForInstanceOfTest");
         compare(Util.isInstanceOf(testObject, "QQuickRectangle"), true, "testObject should be an instance of QQuickRectangle");
     }
 
     function test_negative() {
         compare(Util.isInstanceOf(rect, "QQuickMouseArea"), false, "rect should not be an instance of MouseArea");
-        compare(Util.isInstanceOf(util, "QQuickItem"), false, "Util should not be an instance of QQuickItem");
+        compare(Util.isInstanceOf(Util, "QQuickItem"), false, "Util should not be an instance of QQuickItem");
     }
 
     function test_undefined() {

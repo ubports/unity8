@@ -389,6 +389,10 @@ function cardString(template, components) {
         }
 
         code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode);
+        var fallback = components["art"] && components["art"]["fallback"] || "";
+        if (fallback !== "") {
+            code += 'Connections { target: artShapeLoader.item ? artShapeLoader.item.image : null; onStatusChanged: if (artShapeLoader.item.image.status === Image.Error) artShapeLoader.item.image.source = "%1"; } \n'.arg(fallback);
+        }
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
@@ -468,6 +472,10 @@ function cardString(template, components) {
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
+        var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
+        if (fallback !== "") {
+            code += 'Connections { target: mascotImage.image; onStatusChanged: if (mascotImage.image.status === Image.Error) mascotImage.source = "%1"; } \n'.arg(fallback);
+        }
     }
 
     var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
