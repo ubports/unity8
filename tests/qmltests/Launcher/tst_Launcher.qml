@@ -687,17 +687,8 @@ Item {
             LauncherModel.setAlerting(LauncherModel.get(6).appId, true)
             waitForWiggleToStart(appIcon6)
             LauncherModel.setAlerting(LauncherModel.get(6).appId, false)
+            waitForWiggleToStop(appIcon6)
             tryCompare(appIcon6, "x", 0, 1000, "x-value of appId #6 should not be non-zero")
-        }
-
-        function test_alertImplicitHidingIcon() {
-            var appIcon4 = findChild(launcher, "launcherDelegate4")
-            LauncherModel.setAlerting(LauncherModel.get(4).appId, true)
-            wait(500)
-            verify(appIcon4.x > 0)
-            dragLauncherIntoView()
-            tryCompare(appIcon4, "x", 0, 1000, "x-value of appId #4 should not be non-zero")
-            LauncherModel.setAlerting(LauncherModel.get(4).appId, false)
         }
 
         function test_alertIgnoreFocusedApp() {
@@ -751,6 +742,22 @@ Item {
             waitForWiggleToStop(appIcon1)
             LauncherModel.setAlerting(LauncherModel.get(7).appId, false)
             waitForWiggleToStop(appIcon7)
+        }
+
+        function test_alertWigglePeekDrag() {
+            var appIcon5 = findChild(launcher, "launcherDelegate5");
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            waitForWiggleToStart(appIcon5)
+            tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
+            tryCompare(appIcon5, "wiggling", true, 1000, "appId #6 should not be still")
+            dragLauncherIntoView();
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+            tryCompare(appIcon5, "wiggling", true, 1000, "appId #1 should not be still")
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            waitForWiggleToStop(appIcon5)
+            tryCompare(appIcon5, "wiggling", false, 1000, "appId #1 should not be wiggling")
         }
     }
 }

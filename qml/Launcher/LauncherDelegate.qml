@@ -28,8 +28,7 @@ Item {
     property real maxAngle: 0
     property bool inverted: false
     property bool alerting: false
-    property bool revealing: false
-    property bool hiding: false
+    property bool peeking: false
     readonly property alias wiggling: wiggleAnim.running
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
@@ -49,7 +48,7 @@ Item {
         target: mainColumn.parent
         onPanelMoved: {
             if (alerting && launcherListView.peekingIndex === index) {
-                x = Math.max(units.gu(4.5) - mainColumn.parent.parent.visibleWidth, 0)
+                x = Math.max(units.gu(4.5) - launcher.visibleWidth, 0)
                 if (x === 0) {
                     launcherListView.unpeeking(index)
                 }
@@ -61,29 +60,36 @@ Item {
         if (alerting) {
             launcherListView.peeking(index)
             if (launcher.state !== "visible" && launcherListView.peekingIndex === index) {
-                revealing = true
-                hiding = false
+                peeking = true
             }
         } else {
             launcherListView.unpeeking(index)
-            revealing = false
-            hiding = true
+            peeking = false
         }
     }
 
-    UbuntuNumberAnimation {
-        running: revealing
-        alwaysRunToEnd: true
-        loops: 1
-        target: root
-        properties: "x"
-        to: units.gu(.5) + launcherListView.width * .5
-        duration: UbuntuAnimation.BriskDuration
-    }
-
     SequentialAnimation {
-        running: hiding
+        running: peeking
 
+        // revealing
+        UbuntuNumberAnimation {
+            target: panel
+            property: "visible"
+            to: (launcher.visibleWidth === 0) ? 1 : 0
+        }
+
+        UbuntuNumberAnimation {
+            alwaysRunToEnd: true
+            loops: 1
+            target: root
+            properties: "x"
+            to: units.gu(.5) + launcherListView.width * .5
+            duration: UbuntuAnimation.BriskDuration
+        }
+
+        PauseAnimation {}
+
+        // hiding
         UbuntuNumberAnimation {
             alwaysRunToEnd: true
             loops: 1
@@ -98,6 +104,13 @@ Item {
             property: "clip"
             to: 1
         }
+
+        UbuntuNumberAnimation {
+            target: panel
+            property: "visible"
+            to: (launcher.visibleWidth === 0) ? 0 : 1
+        }
+
     }
 
     QtObject {
@@ -112,7 +125,7 @@ Item {
         id: wiggleAnim
 
         running: alerting
-        loops: Animation.Infinite
+        loops: 1
         alwaysRunToEnd: true
 
         NumberAnimation {
@@ -168,8 +181,6 @@ Item {
             duration: privWiggleAnim.duration
             easing.type: Easing.OutQuad
         }
-
-        PauseAnimation {}
     }
 
     Item {

@@ -172,7 +172,6 @@ Rectangle {
 
                     onPeekingIndexChanged: {
                         if (peekingIndex !== -1) {
-                            panel.visible = true
                             launcherListViewItem.clip = false
                         }
                     }
