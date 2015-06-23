@@ -107,8 +107,6 @@ macro(export_qmlplugin PLUGIN VERSION PATH)
     set(multi TARGETS)
     cmake_parse_arguments(QMLPLUGIN "${options}" "${single}" "${multi}" ${ARGN})
 
-    get_target_property(qmlplugindump_executable qmlplugindump LOCATION)
-
     if(QMLPLUGIN_BINARY_DIR)
         set(qmlplugin_dir ${QMLPLUGIN_BINARY_DIR}/${PATH})
     else()
@@ -127,7 +125,7 @@ macro(export_qmlplugin PLUGIN VERSION PATH)
         set(qmltypes_path ${CMAKE_CURRENT_SOURCE_DIR}/${plugin_suffix}.qmltypes)
 
         add_custom_target(${target_prefix}-qmltypes
-            COMMAND env ${QMLPLUGIN_ENVIRONMENT} ${qmlplugindump_executable} -notrelocatable
+            COMMAND env ${QMLPLUGIN_ENVIRONMENT} $<TARGET_FILE:qmlplugindump> -notrelocatable
                     ${PLUGIN} ${VERSION} ${QMLPLUGIN_MODULE_DIR} > ${qmltypes_path}
                     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         )

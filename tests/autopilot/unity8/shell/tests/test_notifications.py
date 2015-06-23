@@ -119,8 +119,8 @@ class InteractiveNotificationBase(NotificationsBase):
 
     def test_interactive(self):
         """Interactive notification must react upon click on itself."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -156,8 +156,8 @@ class InteractiveNotificationBase(NotificationsBase):
         """Snap-decision with three actions should use
            one-over two button layout.
         """
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         summary = "Theatre at Ferria Stadium"
         body = "at Ferria Stadium in Bilbao, Spain\n07578545317"
@@ -197,8 +197,8 @@ class InteractiveNotificationBase(NotificationsBase):
         """Snap-decision should block input to shell
            without greeter/lockscreen.
         """
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         summary = "Incoming file"
         body = "Frank would like to send you the file: essay.pdf"
@@ -421,8 +421,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_icon_summary_body(self):
         """Notification must display the expected summary and body text."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -458,8 +458,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_icon_summary(self):
         """Notification must display the expected summary and secondary
         icon."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -491,8 +491,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_urgency_order(self):
         """Notifications must be displayed in order according to their
         urgency."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -578,8 +578,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_summary_and_body(self):
         """Notification must display the expected summary- and body-text."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -603,8 +603,8 @@ class EphemeralNotificationsTests(NotificationsBase):
 
     def test_summary_only(self):
         """Notification must display only the expected summary-text."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -621,8 +621,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_update_notification_same_layout(self):
         """Notification must allow updating its contents while being
         displayed."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -660,8 +660,8 @@ class EphemeralNotificationsTests(NotificationsBase):
     def test_update_notification_layout_change(self):
         """Notification must allow updating its contents and layout while
         being displayed."""
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         notify_list = self._get_notifications_list()
 
@@ -709,8 +709,8 @@ class EphemeralNotificationsTests(NotificationsBase):
         """ use the create notification script to get a notification dialog.
         Check that the arguments passed to the script match the fields. """
 
-        unity_proxy = self.launch_unity()
-        unlock_unity(unity_proxy)
+        self.launch_unity()
+        unlock_unity()
 
         summary = 'Helper summary'
         body = 'Helper body'
