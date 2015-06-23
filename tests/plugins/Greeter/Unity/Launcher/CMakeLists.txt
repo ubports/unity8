@@ -1,4 +1,4 @@
-pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=7)
+pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=8)
 pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=6)
 
 include_directories(
