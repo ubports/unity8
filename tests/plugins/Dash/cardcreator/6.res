@@ -1,6 +1,5 @@
 AbstractButton {
                 id: root;
-                property var template;
                 property var components;
                 property var cardData;
                 property var artShapeBorderSource: undefined;
@@ -13,7 +12,7 @@ AbstractButton {
                 property bool asynchronous: true;
                 property bool showHeader: true;
                 implicitWidth: childrenRect.width;
-                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true);
+                enabled: true;
 
 Loader {
                                 id: backgroundLoader; 
@@ -33,18 +32,14 @@ Loader {
                                         objectName: "backgroundImage"; 
                                         source: { 
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; 
-                                            else if (template && typeof template["card-background"] === "string") return template["card-background"]; 
-                                            else return ""; 
+                                            else return "http://assets.ubuntu.com/sites/ubuntu/latest/u/img/logos/logo-ubuntu-grey.png";
                                         } 
                                     } 
                                     function getColor(index) { 
                                         if (cardData && typeof cardData["background"] === "object" 
                                             && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { 
                                             return cardData["background"]["elements"][index]; 
-                                        } else if (template && typeof template["card-background"] === "object" 
-                                                && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  { 
-                                            return template["card-background"]["elements"][index]; 
-                                        } else return undefined; 
+                                        } else return index === 0 ? undefined : undefined;
                                     } 
                                 } 
                             }

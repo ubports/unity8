@@ -298,7 +298,6 @@ SpreadDelegate {
 
             return easingCurve.value;
         }
-
     }
 
     transform: [
@@ -307,15 +306,60 @@ SpreadDelegate {
             axis { x: 0; y: 1; z: 0 }
             angle: priv.angle
         },
+
+        // The next two transformations are to ensure that fullscreen and rotated
+        // windows all have the same size and position as an unrotated (0 degrees)
+        // non-fullscreen window when they're stacked on top of each other on the
+        // far left of the spread.
+        Translate {
+            y: !fullscreen && appWindowRotation === 180
+                   ? priv.topMarginProgress * maximizedAppTopMargin
+                   : 0
+        },
+        Scale {
+            origin {
+                x: appWindowRotation === 270 ? spreadView.width : 0
+                y: spreadView.height
+            }
+
+            xScale: {
+                switch (appWindowRotation) {
+                case 90:
+                case 270:
+                    if (fullscreen) {
+                        return 1;
+                    } else {
+                        return 1 + priv.topMarginProgress * maximizedAppTopMargin / spreadView.width;
+                    }
+                break;
+                default:
+                    return 1;
+                }
+            }
+
+            yScale: {
+                switch (appWindowRotation) {
+                case 0:
+                    if (fullscreen) {
+                        return 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height;
+                    } else {
+                        return 1;
+                    }
+                break;
+                case 90:
+                case 270:
+                    return 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height;
+                break;
+                default:
+                    return 1;
+                }
+            }
+        },
+
         Scale {
             origin { x: 0; y: spreadView.height / 2 }
             xScale: priv.scale
             yScale: xScale
-        },
-        Scale {
-            origin { x: 0; y: (spreadView.height * priv.scale) + maximizedAppTopMargin * 3 }
-            xScale: 1
-            yScale: fullscreen ? 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height : 1
         },
         Translate {
             x: priv.xTranslate

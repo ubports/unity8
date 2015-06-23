@@ -47,7 +47,7 @@
 
 #include <QtGui/QtGui>
 
-#include "modeltest.h"
+#include "ModelTest.h"
 
 #include <QtTest/QtTest>
 

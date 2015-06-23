@@ -99,4 +99,4 @@ private Q_SLOTS:
 };
 
 QTEST_GUILESS_MAIN(SharedUnityMenuModelTest)
-#include "sharedunitymenumodeltest.moc"
+#include "SharedUnityMenuModelTest.moc"
