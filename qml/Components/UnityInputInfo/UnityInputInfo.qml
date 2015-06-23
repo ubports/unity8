@@ -1,5 +1,7 @@
+pragma Singleton
+
 import QtQuick 2.3
-import QtSystemInfo 5.0
+import Unity.InputInfo 0.1
 
 Item {
     id: root

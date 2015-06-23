@@ -19,6 +19,7 @@ import QtQuick.Window 2.0
 import Unity.Session 0.1
 import GSettings 1.0
 import "Components"
+import "Components/UnityInputInfo"
 import "Rotation"
 
 Rectangle {
@@ -40,32 +41,11 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
-    UnityInputInfo {
-        id: inputInfo
-        Component.onCompleted: {
-            // We need to manually update this on startup as the binding
-            // below doesn't seem to have any effect at that stage
-            oskSettings.stayHidden = keyboards > 0
-            oskSettings.disableHeight = shell.usageScenario == "desktop"
-        }
-    }
-
     GSettings {
         id: oskSettings
         schema.id: "com.canonical.keyboard.maliit"
     }
 
-    Binding {
-        target: oskSettings
-        property: "stayHidden"
-        value: inputInfo.keyboards > 0
-    }
-
-    Binding {
-        target: oskSettings
-        property: "disableHeight"
-        value: shell.usageScenario == "desktop"
-    }
 
     // to be overwritten by tests
     property var usageModeSettings: GSettings { schema.id: "com.canonical.Unity8" }
@@ -90,6 +70,22 @@ Rectangle {
         if (orientationLocked) {
             orientation = orientationLock.savedOrientation;
         }
+        // We need to manually update this on startup as the binding
+        // below doesn't seem to have any effect at that stage
+        oskSettings.stayHidden = UnityInputInfo.keyboards > 0
+        oskSettings.disableHeight = shell.usageScenario == "desktop"
+    }
+
+    Binding {
+        target: oskSettings
+        property: "stayHidden"
+        value: UnityInputInfo.keyboards > 0
+    }
+
+    Binding {
+        target: oskSettings
+        property: "disableHeight"
+        value: shell.usageScenario == "desktop"
     }
 
     readonly property int supportedOrientations: shell.supportedOrientations
@@ -175,7 +171,7 @@ Rectangle {
                     return "tablet";
                 }
             } else { // automatic
-                if (inputInfo.mice > 0) {
+                if (UnityInputInfo.mice > 0) {
                     return "desktop";
                 } else {
                     return deviceConfiguration.category;

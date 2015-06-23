@@ -74,6 +74,9 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void updateDeviceList();
+
+
+
 private:
     QInputDeviceInfo *deviceInfo;
     QVector<QInputDevice *> inputDevices;

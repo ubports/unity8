@@ -92,7 +92,6 @@ void QInputDevice::setTypes(QInputDeviceInfo::InputTypes types)
     m_types = types;
 }
 
-
 QInputDeviceInfo::QInputDeviceInfo(QObject *parent) :
     QObject(parent)
 {
@@ -100,5 +99,20 @@ QInputDeviceInfo::QInputDeviceInfo(QObject *parent) :
 
 QVector <QInputDevice *> QInputDeviceInfo::deviceList()
 {
-    return {};
+    return m_list;
+}
+
+void QInputDeviceInfo::removeMockDevice(int index)
+{
+    QInputDevice *device = m_list.takeAt(index);
+    Q_EMIT deviceRemoved(device->devicePath());
+    device->deleteLater();
+}
+
+void QInputDeviceInfo::addMockDevice(QInputDeviceInfo::InputType inputType)
+{
+    QInputDevice *device = new QInputDevice(this);
+    device->setTypes({inputType});
+    m_list.append(device);
+    Q_EMIT deviceAdded(device->devicePath());
 }

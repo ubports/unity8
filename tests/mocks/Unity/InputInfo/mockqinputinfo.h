@@ -76,11 +76,17 @@ public:
     Q_INVOKABLE QVector <QInputDevice *> deviceList();
 
     int deviceCount() { return deviceList().count(); }
+
+    Q_INVOKABLE void addMockDevice(InputType inputType);
+    Q_INVOKABLE void removeMockDevice(int index);
+
 Q_SIGNALS:
 
     void deviceAdded(const QString & devicePath);
     void deviceRemoved(const QString & devicePath);
 
+private:
+    QVector<QInputDevice*> m_list;
 };
 
 class QInputDevice : public QObject
@@ -122,6 +128,9 @@ private:
 
     QString m_name;
     QInputDeviceInfo::InputTypes m_types;
+    QString m_devicePath;
+
+    friend class QInputDeviceInfo;
 };
 
 #endif // MOCKQINPUTINFO_H
