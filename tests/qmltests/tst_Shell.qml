@@ -782,7 +782,8 @@ Rectangle {
 
             // check that the desktop stage and window have been loaded
             {
-                var desktopWindow = findChild(shell, "decoratedWindow_webbrowser-app");
+                var desktopWindow = findChild(shell, "appWindow_webbrowser-app");
+                print("have desktopWindow", desktopWindow)
                 verify(desktopWindow);
             }
 

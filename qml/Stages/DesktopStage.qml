@@ -192,6 +192,11 @@ Rectangle {
                         ApplicationManager.requestFocusApplication(model.appId);
                     }
                 }
+                Component.onCompleted: {
+                    if (ApplicationManager.focusedApplicationId == model.appId) {
+                        decoratedWindow.forceActiveFocus();
+                    }
+                }
 
                 states: [
                     State {
