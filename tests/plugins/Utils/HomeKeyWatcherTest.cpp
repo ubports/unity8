@@ -320,4 +320,4 @@ AbstractTimer *FakeTimerFactory::create(QObject *parent)
 
 QTEST_GUILESS_MAIN(HomeKeyWatcherTest)
 
-#include "homekeywatchertest.moc"
+#include "HomeKeyWatcherTest.moc"

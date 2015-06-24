@@ -17,13 +17,8 @@ macro(indicator_test TEST)
     set(multi_value_keywords ADDITIONAL_CPPS ADDITIONAL_LIBS)
     cmake_parse_arguments(test "" "" "${multi_value_keywords}" ${ARGN})
 
-    set(testCommand ${CMAKE_CURRENT_BINARY_DIR}/${TEST}Exec
-          -o ${CMAKE_BINARY_DIR}/${TEST}.xml,xunitxml
-          -o -,txt)
-    add_test(NAME ${TEST} COMMAND ${testCommand})
-    add_custom_target(${TEST} ${testCommand})
     add_executable(${TEST}Exec
-            ${TEST}.cpp
+            ${TEST}Test.cpp
             ${test_ADDITIONAL_CPPS}
         )
     qt5_use_modules(${TEST}Exec Test Core Qml)
@@ -33,11 +28,13 @@ macro(indicator_test TEST)
         ${GIO_LIBRARIES}
         ${QMENUMODEL_LDFLAGS}
         )
+
+    add_unity8_unittest(${TEST} ${TEST}Exec)
 endmacro(indicator_test)
 
-indicator_test(indicatorsmanagertest ADDITIONAL_LIBS IndicatorsQml)
-indicator_test(indicatorsmodeltest ADDITIONAL_LIBS IndicatorsQml)
-indicator_test(menucontentactivatortest ADDITIONAL_CPPS ${INDICATORS_DIR}/menucontentactivator.cpp)
-indicator_test(unitymenumodelstacktest ADDITIONAL_CPPS ${TEST_DIR}/mocks/QMenuModel/unitymenumodel.cpp ${INDICATORS_DIR}/unitymenumodelstack.cpp)
-indicator_test(rootactionstatetest ADDITIONAL_LIBS IndicatorsQml)
-indicator_test(sharedunitymenumodeltest ADDITIONAL_LIBS IndicatorsQml)
+indicator_test(IndicatorsManager ADDITIONAL_LIBS IndicatorsQml)
+indicator_test(IndicatorsModel ADDITIONAL_LIBS IndicatorsQml)
+indicator_test(MenuContentActivator ADDITIONAL_CPPS ${INDICATORS_DIR}/menucontentactivator.cpp)
+indicator_test(UnityMenuModelStack ADDITIONAL_CPPS ${TEST_DIR}/mocks/QMenuModel/unitymenumodel.cpp ${INDICATORS_DIR}/unitymenumodelstack.cpp)
+indicator_test(RootActionState ADDITIONAL_LIBS IndicatorsQml)
+indicator_test(SharedUnityMenuModel ADDITIONAL_LIBS IndicatorsQml)

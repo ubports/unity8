@@ -1,5 +1,5 @@
 pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=6)
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=5)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=6)
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -13,11 +13,6 @@ add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelASTest
-set(testModelCommand dbus-test-runner --task ${CMAKE_CURRENT_BINARY_DIR}/launchermodelastestExec
-      --parameter -o --parameter ${CMAKE_BINARY_DIR}/launchermodeltest.xml,xunitxml
-      --parameter -o --parameter -,txt)
-add_test(NAME launchermodelastest COMMAND ${testModelCommand})
-add_custom_target(launchermodelastest ${testModelCommand})
 add_executable(launchermodelastestExec
     launchermodelastest.cpp
     AccountsServiceDBusAdaptor.cpp
@@ -36,6 +31,10 @@ target_link_libraries(launchermodelastestExec
     ${GSETTINGS_QT_LDFLAGS}
     )
 qt5_use_modules(launchermodelastestExec Test Core DBus Gui)
+add_unity8_unittest(LauncherModelAS dbus-test-runner
+    ARG_PREFIX "--parameter"
+    ARGS --task $<TARGET_FILE:launchermodelastestExec>
+)
 
 # copy .desktop files into build directory for shadow builds
 file(GLOB DESKTOP_FILES *.desktop)
