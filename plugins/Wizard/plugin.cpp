@@ -18,6 +18,7 @@
 #include "PageList.h"
 #include "System.h"
 #include "timezonemodel.h"
+#include "LocalePlugin.h"
 
 #include <QtQml/qqml.h>
 
@@ -35,4 +36,5 @@ void WizardPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<System>(uri, 0, 1, "System", system_provider);
     qmlRegisterType<TimeZoneModel>(uri, 0, 1, "TimeZoneModel");
     qmlRegisterType<TimeZoneFilterModel>(uri, 0, 1, "TimeZoneFilterModel");
+    qmlRegisterType<LocalePlugin>(uri, 0, 1, "LocalePlugin");
 }

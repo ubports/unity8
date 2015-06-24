@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.3
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 
 AbstractButton {
     id: stackButton
@@ -33,6 +33,7 @@ AbstractButton {
         anchors.left: parent.left
         anchors.right: parent.right
         color: enabled ? Theme.palette.selected.backgroundText : Qt.darker(Theme.palette.selected.backgroundText, 1.5)
+        font.weight: Font.DemiBold
         text: {
             if (backArrow) {
                 // Translators: This is the arrow for "Back" buttons

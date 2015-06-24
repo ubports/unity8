@@ -2,6 +2,7 @@ add_library(Wizard-qml MODULE
     plugin.cpp
     PageList.cpp
     System.cpp
+    LocalePlugin.cpp
     timezonemodel.cpp
 )
 

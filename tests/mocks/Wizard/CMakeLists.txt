@@ -7,6 +7,7 @@ add_library(MockWizard-qml MODULE
     MockSystem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/PageList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/timezonemodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Wizard/LocalePlugin.cpp
 )
 
 qt5_use_modules(MockWizard-qml Qml)

@@ -18,12 +18,12 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 
 Item {
-    readonly property real buttonMargin: units.gu(2)
+    readonly property real buttonMargin: units.gu(3)
     readonly property real buttonWidth: (width - buttonMargin * 2) / 2 -
                                         buttonMargin / 2
-    readonly property real topMargin: units.gu(8)
-    readonly property real leftMargin: units.gu(2)
-    readonly property real rightMargin: units.gu(2)
+    readonly property real topMargin: units.gu(11)
+    readonly property real leftMargin: units.gu(3)
+    readonly property real rightMargin: units.gu(3)
 
     // If you want to skip a page, mark skipValid false while you figure out
     // whether to skip, then set it to true once you've determined the value
@@ -43,9 +43,7 @@ Item {
     visible: false
     anchors.fill: parent
 
-    // We want larger than even fontSize: "x-large", so we use a Text instead
-    // of a Label.
-    Text {
+    Label {
         id: titleLabel
         anchors {
             top: parent.top
@@ -58,7 +56,7 @@ Item {
         wrapMode: Text.Wrap
         text: title
         color: Theme.palette.normal.baseText
-        font.pixelSize: units.gu(4)
+        fontSize: "x-large"
     }
 
     Item {
@@ -82,7 +80,7 @@ Item {
         anchors {
             left: parent.left
             bottom: parent.bottom
-            leftMargin: buttonMargin
+            leftMargin: leftMargin
             bottomMargin: buttonMargin
         }
         z: 1
