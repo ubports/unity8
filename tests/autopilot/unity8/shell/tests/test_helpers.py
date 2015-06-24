@@ -44,7 +44,7 @@ class MainWindowTestCase(tests.UnityTestCase):
         process_helpers.unlock_unity()
 
 
-class DashEmulatorTestCase(tests.DashBaseTestCase):
+class DashHelperTestCase(tests.DashBaseTestCase):
 
     def test_search(self):
         self.dash.enter_search_query('Test')
@@ -106,7 +106,7 @@ class DashEmulatorTestCase(tests.DashBaseTestCase):
         self.assertIsInstance(scope, dash_helpers.GenericScopeView)
 
 
-class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
+class GenericScopeViewHelperTestCase(tests.DashBaseTestCase):
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
@@ -126,7 +126,7 @@ class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
         self.assertTrue(preview.isCurrent)
 
 
-class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
+class DashAppsHelperTestCase(tests.DashBaseTestCase):
 
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
