@@ -46,6 +46,7 @@
 #include <timeformatter.h>
 #include <unitymenumodelpaths.h>
 #include <windowkeysfilter.h>
+#include <windowscreenshotprovider.h>
 #include <easingcurve.h>
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -82,4 +83,6 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
 void FakeUtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    engine->addImageProvider(QLatin1String("window"), new WindowScreenshotProvider);
 }
