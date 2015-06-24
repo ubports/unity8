@@ -348,6 +348,9 @@ void LauncherModel::countChanged(const QString &appId, int count)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
+        if (item->countVisible()) {
+            item->setAlerting(true);
+        }
         Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCount);
         m_asAdapter->syncItems(m_list);
     }
@@ -359,6 +362,9 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCountVisible(countVisible);
+        if (countVisible) {
+            item->setAlerting(true);
+        }
         Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleCountVisible);
 
         // If countVisible goes to false, and the item is neither pinned nor recent we can drop it

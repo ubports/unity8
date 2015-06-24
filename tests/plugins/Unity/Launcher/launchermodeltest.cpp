@@ -400,6 +400,7 @@ private Q_SLOTS:
         // And make sure values have changed there as well
         QCOMPARE(launcherModel->get(index)->countVisible(), true);
         QCOMPARE(launcherModel->get(index)->count(), 55);
+        QVERIFY(launcherModel->get(index)->alerting() == true);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
