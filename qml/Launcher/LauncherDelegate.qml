@@ -158,15 +158,6 @@ Item {
         NumberAnimation {
             target: privWiggleAnim.target
             property: "wiggleAngle"
-            from: -privWiggleAnim.angle
-            to: privWiggleAnim.angle
-            duration: privWiggleAnim.duration
-            easing.type: Easing.InOutQuad
-        }
-
-        NumberAnimation {
-            target: privWiggleAnim.target
-            property: "wiggleAngle"
             from: privWiggleAnim.angle
             to: -privWiggleAnim.angle
             duration: privWiggleAnim.duration
@@ -177,6 +168,15 @@ Item {
             target: privWiggleAnim.target
             property: "wiggleAngle"
             from: -privWiggleAnim.angle
+            to: privWiggleAnim.angle
+            duration: privWiggleAnim.duration
+            easing.type: Easing.InOutQuad
+        }
+
+        NumberAnimation {
+            target: privWiggleAnim.target
+            property: "wiggleAngle"
+            from: privWiggleAnim.angle
             to: 0
             duration: privWiggleAnim.duration
             easing.type: Easing.OutQuad
