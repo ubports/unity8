@@ -89,7 +89,7 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return QVariant();
     }
 
-    return LauncherModelInterface::data(index, role);
+    return QVariant();
 }
 
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
@@ -278,7 +278,6 @@ bool LauncherModel::onlyPinned() const
 
 void LauncherModel::setOnlyPinned(bool onlyPinned) {
     Q_UNUSED(onlyPinned);
-    // FIXME implement showing only pinned apps
     qWarning() << "This launcher implementation does not support showing only pinned apps";
 }
 
