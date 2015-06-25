@@ -50,7 +50,7 @@ PreviewWidget {
             anchors.fill: parent
             implicitHeight: commentTextArea.implicitHeight + anchors.topMargin
 
-            TextField {
+            TextArea {
                 id: commentTextArea
                 objectName: "commentTextArea"
                 anchors {
@@ -59,6 +59,7 @@ PreviewWidget {
                     right: submitButton.left
                     rightMargin: commentContainer.innerMargin
                 }
+                autoSize: true
             }
 
             Button {
