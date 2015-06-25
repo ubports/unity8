@@ -96,6 +96,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
+            textFormat: Text.RichText
             text: i18n.tr("To proceed with no SIM tap <em>Skip</em>.")
             fontSize: "small"
             font.weight: Font.Light

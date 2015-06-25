@@ -39,6 +39,10 @@ LocalComponents.Page {
         filter: searchField.text
     }
 
+    Component.onCompleted: {
+        theme.palette.normal.backgroundText = UbuntuColors.lightGrey // "fix" the placeholder text in the search field
+    }
+
     Component {
         id: tzComponent
         ListItem {
@@ -52,37 +56,36 @@ LocalComponents.Page {
                 text: !!tzData ? tzData.city : ""
                 anchors.left: parent.left
                 anchors.top: parent.top
-                font.bold: tz.currentTz ? true : false
+                anchors.topMargin: units.gu(3)
+                font.weight: tz.currentTz ? Font.Normal : Font.Light
+                fontSize: "medium"
+                color: "black"
             }
             Label {
                 id: timeLabel
-                text: !!tzData ? tzData.time : ""
-                anchors.right: parent.right
-                anchors.top: parent.top
-                font.bold: tz.currentTz ? true : false
-            }
-            Label {
-                id: countryLabel
-                text: !!tzData ? tzData.country : ""
+                text: !!tzData ? tzData.time + " " + tzData.abbreviation : ""
                 anchors.left: parent.left
-                anchors.top: cityLabel.bottom
-                fontSize: "x-small"
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: units.gu(3)
+                font.weight: tz.currentTz ? Font.Normal : Font.Light
+                fontSize: "medium"
+                color: "black"
             }
-
-            Label {
-                id: abbrevLabel
-                text: !!tzData ? tzData.abbreviation : ""
-                anchors.right: parent.right
-                anchors.top: timeLabel.bottom
-                fontSize: "x-small"
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    tzModel.selectedZoneId = tzData.id
-                    print("Selected tz: " + selectedTimeZone)
+            Image {
+                anchors {
+                    right: parent.right;
+                    verticalCenter: parent.verticalCenter;
                 }
+                fillMode: Image.PreserveAspectFit
+                height: cityLabel.paintedHeight
+
+                source: "data/tick@30.png"
+                visible: tz.currentTz
+            }
+
+            onClicked: {
+                tzModel.selectedZoneId = tzData.id
+                print("Selected tz: " + selectedTimeZone)
             }
         }
     }
@@ -95,25 +98,21 @@ LocalComponents.Page {
 
     Column {
         id: column
-        spacing: units.gu(2)
-        anchors.leftMargin: leftMargin
-        anchors.rightMargin: rightMargin
-        anchors.top: content.top
-        anchors.bottom: content.bottom
-        anchors.left: tzPage.left
-        anchors.right: tzPage.right
+        spacing: units.gu(4)
+        anchors.fill: content
+        anchors.topMargin: units.gu(4)
 
         TextField {
             id: searchField
             anchors.left: parent.left
             anchors.right: parent.right
             placeholderText: i18n.tr("Enter your city")
+            color: UbuntuColors.darkGrey
         }
 
         Flickable {
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.topMargin: topMargin
             height: column.height - searchField.height - column.spacing - topMargin
             contentHeight: contentItem.childrenRect.height
             clip: true
@@ -132,7 +131,7 @@ LocalComponents.Page {
                         id: loader
                         anchors.left: !!parent ? parent.left : undefined
                         anchors.right: !!parent ? parent.right : undefined
-                        height: units.gu(6)
+                        height: units.gu(11)
                         asynchronous: true
                         sourceComponent: tzComponent
 
@@ -154,6 +153,7 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             text: i18n.tr("Next")
             enabled: selectedTimeZone != ""
+            // TODO save the timezone to system
             onClicked: pageStack.next()
         }
     }

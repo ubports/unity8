@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.3
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import ".." as LocalComponents
 import "../../Components" as UnityComponents
@@ -57,8 +57,8 @@ LocalComponents.Page {
         }
 
         infoText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
-                  i18n.tr("Enter passphrase") :
-                  i18n.tr("Choose your passcode")
+                  i18n.tr("Enter password") :
+                  i18n.tr("Choose passcode")
 
         // Note that the number four comes from PAM settings,
         // which we don't have a good way to interrogate.  We
@@ -87,7 +87,7 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             visible: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
             enabled: lockscreen.passphrase.length >= 4
-            text: i18n.tr("Continue")
+            text: i18n.tr("Next")
             onClicked: passwdSetPage.confirm()
         }
     }

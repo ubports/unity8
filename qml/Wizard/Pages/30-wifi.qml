@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QMenuModel 0.1 as QMenuModel
 import QtSystemInfo 5.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.2
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Settings.Menus 0.1 as Menus
 import ".." as LocalComponents
@@ -129,9 +129,9 @@ LocalComponents.Page {
                     accessPoint.activate();
                 }
             }
-            style: Rectangle {
-                color: "#4c000000"
-            }
+//            style: Rectangle {
+//                color: "#4c000000"
+//            }
 
             Component.onCompleted: {
                 loadAttributes();
@@ -153,18 +153,16 @@ LocalComponents.Page {
     Column {
         id: column
         spacing: units.gu(2)
-        anchors.top: content.top
-        anchors.bottom: content.bottom
-        anchors.left: wifiPage.left
-        anchors.right: wifiPage.right
+        anchors.fill: content
+        anchors.topMargin: units.gu(4)
 
         Label {
             id: label
             anchors.left: parent.left
-            anchors.leftMargin: leftMargin
             anchors.right: parent.right
-            anchors.rightMargin: rightMargin
             fontSize: "small"
+            font.weight: Font.Light
+            color: "black"
             text: mainMenu.count > 0 ? i18n.tr("Available networks…")
                                      : i18n.tr("No available networks.")
         }
@@ -212,7 +210,7 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: (connected || mainMenu.count === 0) ? i18n.tr("Continue") : i18n.tr("Skip")
+            text: (connected || mainMenu.count === 0) ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: pageStack.next()
         }
     }

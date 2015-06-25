@@ -46,12 +46,12 @@ LocalComponents.Page {
         }
 
         infoText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
-                  i18n.tr("Confirm passphrase") :
+                  i18n.tr("Confirm password") :
                   i18n.tr("Confirm passcode")
 
         errorText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
-                  i18n.tr("Sorry, incorrect passphrase.") + "\n" + i18n.tr("Please try again.") :
-                  i18n.tr("Sorry, incorrect passcode.") + "\n" + i18n.tr("Please try again.")
+                  i18n.tr("Incorrect password.") + "\n" + i18n.tr("Please re-enter.") :
+                  i18n.tr("Incorrect passcode.") + "\n" + i18n.tr("Please re-enter.")
 
         showEmergencyCallButton: false
         showCancelButton: false
