@@ -177,6 +177,13 @@ Item {
         }
 
     }
+
+    //We need to eat touch events here because of bug lp:1445472
+    MultiPointTouchArea {
+        anchors.fill: parent
+        enabled: root.shadeBackground && root.state == "visible"
+    }
+
     MouseArea {
         id: closeMouseArea
         anchors {
