@@ -41,6 +41,7 @@ LocalComponents.Page {
     }
 
     function defaultCountryForLanguage(lang) {
+        if (lang === "cs") return "CZ"
         if (lang === "da") return "DK"
         if (lang === "en") return "US"
         if (lang === "ko") return "KR"
@@ -102,7 +103,8 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            linkColor: Theme.palette.normal.foregroundText
+            color: "black"
+            linkColor: UbuntuColors.darkGrey
             onLinkActivated: {
                 webview.url = link
                 termsLabel.visible = false

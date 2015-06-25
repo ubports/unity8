@@ -18,13 +18,13 @@ import QtQuick 2.3
 import AccountsService 0.1
 import QMenuModel 0.1 as QMenuModel
 import Qt.labs.folderlistmodel 2.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
     objectName: "locationPage"
 
-    title: i18n.tr("Location")
+    title: i18n.tr("Location Services")
     forwardButtonSourceComponent: forwardButton
 
     property bool pathSet: AccountsService.hereLicensePathValid
@@ -53,37 +53,20 @@ LocalComponents.Page {
     Column {
         id: column
         anchors.fill: content
-        spacing: units.gu(3)
-
-        Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            wrapMode: Text.Wrap
-            text: i18n.tr("Let the phone detect your location:")
-        }
-
-        LocalComponents.CheckableSetting {
-            id: gpsCheck
-            objectName: "gpsCheck"
-            showDivider: false
-            text: i18n.tr("Using GPS only (less accurate)")
-            onTriggered: {
-                gpsCheck.checked = true;
-                hereCheck.checked = false;
-                nopeCheck.checked = false;
-            }
-        }
+        spacing: units.gu(4)
+        anchors.topMargin: units.gu(4)
 
         Column {
             anchors.left: parent.left
             anchors.right: parent.right
             height: childrenRect.height
+            spacing: units.gu(2)
 
             LocalComponents.CheckableSetting {
                 id: hereCheck
                 objectName: "hereCheck"
                 showDivider: false
-                text: i18n.tr("Using GPS, anonymized Wi-Fi and cellular network info (recommended)")
+                text: i18n.tr("Use GPS, Wi-FI hotspots nad mobile network anonymously to detect location (recommended)")
                 checked: true
                 onTriggered: {
                     gpsCheck.checked = false;
@@ -93,12 +76,15 @@ LocalComponents.Page {
             }
 
             Label {
+                id: termsLabel
                 objectName: "hereTermsLink"
                 anchors.left: parent.left
                 anchors.leftMargin: hereCheck.labelOffset
                 anchors.right: parent.right
                 wrapMode: Text.Wrap
-                linkColor: Theme.palette.normal.foregroundText
+                linkColor: UbuntuColors.darkGrey
+                color: "black"
+                fontSize: "small"
                 // TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
                 text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
                 onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
@@ -106,10 +92,22 @@ LocalComponents.Page {
         }
 
         LocalComponents.CheckableSetting {
+            id: gpsCheck
+            objectName: "gpsCheck"
+            showDivider: false
+            text: i18n.tr("GPS only")
+            onTriggered: {
+                gpsCheck.checked = true;
+                hereCheck.checked = false;
+                nopeCheck.checked = false;
+            }
+        }
+
+        LocalComponents.CheckableSetting {
             id: nopeCheck
             objectName: "nopeCheck"
             showDivider: false
-            text: i18n.tr("Not at all")
+            text: i18n.tr("Don't use my location")
             onTriggered: {
                 gpsCheck.checked = false;
                 hereCheck.checked = false;
@@ -121,14 +119,15 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("You can change your mind later in <b>System Settings</b>.")
+            text: i18n.tr("You can change it later in <b>System Settings</b>.")
+            color: "black"
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: i18n.tr("Continue")
+            text: i18n.tr("Next")
             onClicked: {
                 var locationOn = gpsCheck.checked || hereCheck.checked;
                 var gpsOn = gpsCheck.checked || hereCheck.checked;

@@ -98,7 +98,6 @@ LocalComponents.Page {
 
     Column {
         id: column
-        spacing: units.gu(4)
         anchors.fill: content
         anchors.topMargin: units.gu(4)
 
