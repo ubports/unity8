@@ -41,6 +41,7 @@ LocalComponents.Page {
 
     Component.onCompleted: {
         theme.palette.normal.backgroundText = UbuntuColors.lightGrey // "fix" the placeholder text in the search field
+        searchField.forceActiveFocus()
     }
 
     Component {
@@ -68,7 +69,7 @@ LocalComponents.Page {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: units.gu(3)
                 font.weight: tz.currentTz ? Font.Normal : Font.Light
-                fontSize: "medium"
+                fontSize: "small"
                 color: "black"
             }
             Image {
