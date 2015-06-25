@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.3
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 
 Item {
     readonly property real buttonMargin: units.gu(3)

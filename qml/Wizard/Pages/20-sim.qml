@@ -16,13 +16,14 @@
 
 import QtQuick 2.0
 import MeeGo.QOfono 0.2
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.2
+import Ubuntu.Components.Popups 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
     objectName: "simPage"
 
-    title: i18n.tr("Add a SIM card and restart your device")
+    title: i18n.tr("No SIM card installed")
     forwardButtonSourceComponent: forwardButton
 
     skipValid: !manager.available ||
@@ -30,14 +31,42 @@ LocalComponents.Page {
                               && (manager.modems.length < 2 || simManager1.ready))
     skip: !manager.available || manager.modems.length === 0 || simManager0.present || simManager1.present
 
+    property bool hadModem: false
+
+    Component.onCompleted: {
+        hadModem = simManager0.present || simManager1.present
+        print("Had modem: " + hadModem)
+    }
+
+    Dialog {
+        id: restartDialog
+        title: i18n.tr("SIM card added")
+        text: i18n.tr("You must restart the device to access the mobile network.")
+
+        Button {
+            id: restartButton
+            text: i18n.tr("Restart")
+            onClicked: {
+                // TODO reboot for real
+                PopupUtils.close(restartDialog)
+            }
+        }
+    }
+
     OfonoManager {
         id: manager
         property bool ready: false
-        onModemsChanged: ready = true
+        onModemsChanged: {
+            print("Modems changed " + modems)
+            ready = true
+            if (!hadModem && (simManager0.present || simManager1.present)) { // show the restart dialog in case a SIM gets inserted
+                PopupUtils.open(restartDialog)
+            }
+        }
     }
 
     // Ideally we would query the system more cleverly than hardcoding two
-    // modems.  But we don't yet have a more clever way.  :(
+    // sims.  But we don't yet have a more clever way.  :(
     OfonoSimManager {
         id: simManager0
         modemPath: manager.modems.length >= 1 ? manager.modems[0] : ""
@@ -51,19 +80,26 @@ LocalComponents.Page {
     Column {
         anchors.fill: content
         spacing: units.gu(4)
+        anchors.topMargin: units.gu(4)
 
         Label {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Without it, you won’t be able to make calls or use text messaging.")
+            text: i18n.tr("You won’t be able to make calls or use text messaging without a SIM.")
+            fontSize: "small"
+            font.weight: Font.Light
+            color: restartDialog.visible ? Theme.palette.normal.backgroundText : "black"
         }
 
-        Image {
-            id: image
-            source: "data/meet_ubuntu_simcard@30.png"
-            height: units.gu(6.5)
-            width: units.gu(9)
+        Label {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            wrapMode: Text.Wrap
+            text: i18n.tr("To proceed with no SIM tap <em>Skip</em>.")
+            fontSize: "small"
+            font.weight: Font.Light
+            color: restartDialog.visible ? Theme.palette.normal.backgroundText : "black"
         }
     }
 
