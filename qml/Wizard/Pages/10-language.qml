@@ -90,12 +90,8 @@ LocalComponents.Page {
                 property: "dept";
                 criteria: ViewSection.FullString;
                 labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
-                delegate: Component {
-                    Label {
-                        text: section
-                        fontSize: "large"
-                        color: "black"
-                    }
+                delegate: Label {
+                    fontSize: "large"
                 }
             }
 
