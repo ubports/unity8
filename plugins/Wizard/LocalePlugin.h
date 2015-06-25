@@ -30,7 +30,7 @@ protected:
 
 public:
     Q_INVOKABLE QJsonObject languages() const;
-    Q_INVOKABLE QJsonObject localesForLanguage(const QString &code) const;
+    Q_INVOKABLE QJsonObject countriesForLanguage(const QString &code) const;
     Q_INVOKABLE QJsonObject countries() const;
 
     friend class LocalePlugin;

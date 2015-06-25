@@ -16,48 +16,63 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.2
-import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    objectName: "languagePage"
+    objectName: "countryPage"
 
-    title: i18n.tr("Language")
+    title: i18n.tr("Country")
     forwardButtonSourceComponent: forwardButton
 
-    UbuntuLanguagePlugin {
-        id: plugin
-    }
+    property string selectedLocale: ""
+    readonly property var preferedCountries: LocalePlugin.countriesForLanguage(root.language)
 
     Component.onCompleted: {
-        populateModel(["fr", "de"]); // FIXME pass a list of detected languages here
+        populateModel(preferedCountries, "CH"); // FIXME pass the detected country code here
     }
 
-    function populateModel(detectedLangs)
+    function populateModel(preferedCountries, detectedCountry)
     {
-        var langs = LocalePlugin.languages();
-        Object.keys(langs).map(function(code) { // prepare the object
-            //console.log("Got language:" + code);
-            return { "code": code, "language":  langs[code] || code,
-                "dept": detectedLangs.indexOf(code) !== -1 ? i18n.tr("Detected") : i18n.tr("All") };
+        console.log("RegionPage::populateModel: detected country:" + detectedCountry);
+        var index = 0;
+        var countries = LocalePlugin.countries();
+        //console.log("All countries:" + countries);
+        Object.keys(countries).map(function(code) { // prepare the object
+            //console.log("Got country:" + code);
+            return { "code": code, "country":  countries[code] || code,
+                "dept": code === detectedCountry ? i18n.tr("Detected") : Object.keys(preferedCountries).indexOf(code) !== -1 ? i18n.tr("Prefered") : i18n.tr("All") };
         })
-        .sort(function(a, b) { // group by status, sort by language name
+        .sort(function(a, b) { // group by status, sort by country name
             if (a.dept === b.dept) {
-                 return a.language.localeCompare(b.language);
+                 return a.country.localeCompare(b.country);
             } else if (a.dept === i18n.tr("Detected")) {
+                return -1
+            } else if (a.dept === i18n.tr("Prefered") && b.dept === i18n.tr("All")) {
                 return -1
             }
             return 1
         })
-        .forEach(function(lang) { // build the model
-            if (lang.code === "C") {
+        .forEach(function(country) { // build the model
+            //console.debug("Adding country:" + country.code);
+            if (country.code === "C") {
                 return;
             }
-            model.append(lang);
+            model.append(country);
+            if (country.code === detectedCountry) { // preselect the detected country
+                selectCountry(country.code, index)
+                //regionsListView.positionViewAtIndex(index, ListView.Center)
+            }
+            index++;
         });
         busyIndicator.running = false;
         busyIndicator.visible = false;
+    }
+
+    function selectCountry(code, index)
+    {
+        selectedLocale = root.language + "_" + code
+        regionsListView.currentIndex = index
     }
 
     ActivityIndicator {
@@ -72,7 +87,7 @@ LocalComponents.Page {
         anchors.fill: content
 
         ListView {
-            id: languagesListView;
+            id: regionsListView;
 
             boundsBehavior: Flickable.StopAtBounds;
             clip: true;
@@ -109,8 +124,8 @@ LocalComponents.Page {
                 readonly property bool isCurrent: index === ListView.view.currentIndex
 
                 Label {
-                    id: langLabel
-                    text: language;
+                    id: countryLabel
+                    text: country;
 
                     anchors {
                         left: parent.left;
@@ -129,16 +144,15 @@ LocalComponents.Page {
                         verticalCenter: parent.verticalCenter;
                     }
                     fillMode: Image.PreserveAspectFit
-                    height: langLabel.paintedHeight
+                    height: countryLabel.paintedHeight
 
                     source: "image://theme/select"
                     visible: itemDelegate.isCurrent
                 }
 
                 onClicked: {
-                    root.language = code
-                    ListView.view.currentIndex = index
-                    print("Selected language: " + root.language)
+                    selectCountry(code, index)
+                    print("Selected locale: " + selectedLocale)
                     print("Current index: " + ListView.view.currentIndex)
                 }
             }
@@ -149,13 +163,14 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            enabled: root.language !== ""
+            enabled: selectedLocale !== ""
             onClicked: {
-                if (root.language !== plugin.languageCodes[plugin.currentLanguage]) {
-                    //plugin.currentLanguage = listview.currentIndex; // setting system language by some magic index? wtf
-                    //System.updateSessionLanguage(selectedLanguage); // TODO
-                    i18n.language = i18n.language; // re-notify of change after above call (for qlocale change)
-                }
+                //                if (selectedLanguage !== plugin.languageCodes[plugin.currentLanguage]) {
+                //                    //plugin.currentLanguage = listview.currentIndex; // setting system language by some magic index? wtf
+                //                    //System.updateSessionLanguage(selectedLanguage); // TODO
+                //                    i18n.language = i18n.language; // re-notify of change after above call (for qlocale change)
+                //                }
+                // FIXME export the selected locale to the system
                 pageStack.next()
             }
         }

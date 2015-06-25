@@ -32,7 +32,7 @@ AbstractButton {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
-        color: enabled ? Theme.palette.selected.backgroundText : Qt.darker(Theme.palette.selected.backgroundText, 1.5)
+        color: enabled ? "black" : UbuntuColors.lightGrey // FIXME proper colors
         font.weight: Font.DemiBold
         text: {
             if (backArrow) {

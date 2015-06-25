@@ -21,7 +21,10 @@ Item {
     readonly property real buttonMargin: units.gu(3)
     readonly property real buttonWidth: (width - buttonMargin * 2) / 2 -
                                         buttonMargin / 2
+    readonly property real buttonBarHeight: units.gu(5)
+
     readonly property real topMargin: units.gu(11)
+    readonly property real bottomMargin: units.gu(3)
     readonly property real leftMargin: units.gu(3)
     readonly property real rightMargin: units.gu(3)
 
@@ -43,64 +46,87 @@ Item {
     visible: false
     anchors.fill: parent
 
-    Label {
-        id: titleLabel
+    // title
+    Rectangle {
+        id: titleRect
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
-            topMargin: topMargin
-            leftMargin: leftMargin
-            rightMargin: rightMargin
         }
-        wrapMode: Text.Wrap
-        text: title
-        color: Theme.palette.normal.baseText
-        fontSize: "x-large"
+        height: topMargin + bottomMargin
+        color: "#650954"
+
+        Label {
+            id: titleLabel
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                bottomMargin: bottomMargin
+                leftMargin: leftMargin
+                rightMargin: rightMargin
+            }
+            wrapMode: Text.Wrap
+            text: title
+            color: "white"
+            fontSize: "x-large"
+        }
     }
 
+    // content
     Item {
         id: contentHolder
         anchors {
-            top: titleLabel.bottom
+            top: titleRect.bottom
             left: parent.left
             right: parent.right
-            bottom: backButton.top
-            topMargin: units.gu(4)
+            bottom: buttonRect.top
             leftMargin: leftMargin
             rightMargin: rightMargin
-            bottomMargin: buttonMargin
         }
     }
 
-    StackButton {
-        id: backButton
-        objectName: "backButton"
-        width: buttonWidth
+    // button bar
+    Rectangle {
+        id: buttonRect
         anchors {
+            bottom: parent.bottom
             left: parent.left
-            bottom: parent.bottom
-            leftMargin: leftMargin
-            bottomMargin: buttonMargin
-        }
-        z: 1
-        text: i18n.ctr("Button: Go back one page in the Wizard", "Back")
-        visible: pageStack.depth > 1 && hasBackButton
-        backArrow: true
-
-        onClicked: customBack ? backClicked() : pageStack.prev()
-    }
-
-    Loader {
-        id: forwardButton
-        objectName: "forwardButton"
-        width: buttonWidth
-        anchors {
             right: parent.right
-            bottom: parent.bottom
-            rightMargin: buttonMargin
-            bottomMargin: buttonMargin
         }
-        z: 1
+        height: buttonBarHeight
+        color: "#f5f5f5"
+
+        StackButton {
+            id: backButton
+            objectName: "backButton"
+            width: buttonWidth
+            anchors {
+                left: parent.left
+                bottom: parent.bottom
+                leftMargin: leftMargin
+                verticalCenter: parent.verticalCenter
+            }
+            z: 1
+            text: i18n.ctr("Button: Go back one page in the Wizard", "Back")
+            visible: pageStack.depth > 1 && hasBackButton
+            backArrow: true
+
+            onClicked: customBack ? backClicked() : pageStack.prev()
+        }
+
+        Loader {
+            id: forwardButton
+            objectName: "forwardButton"
+            width: buttonWidth
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+                rightMargin: rightMargin
+                verticalCenter: parent.verticalCenter
+            }
+            z: 1
+        }
     }
 }

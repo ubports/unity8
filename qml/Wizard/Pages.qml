@@ -25,15 +25,13 @@ Item {
     objectName: "wizardPages"
     focus: true
 
-    // The background wallpaper to use
-    property string background
-
     signal quit()
 
     // These should be set by a security page and we apply the settings when
     // the user exits the wizard.
     property int passwordMethod: UbuntuSecurityPrivacyPanel.Passcode
     property string password: ""
+    property string language: ""
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
@@ -58,19 +56,10 @@ Item {
         anchors.fill: parent
     }
 
-    Image {
-        id: image
-        // Use x/y/height/width instead of anchors so that we don't adjust
-        // the image when the OSK appears.
-        x: 0
-        y: 0
-        height: root.height
-        width: root.width
-        sourceSize.height: height
-        sourceSize.width: width
-        source: root.background
-        fillMode: Image.PreserveAspectCrop
-        visible: status === Image.Ready
+    Rectangle {
+        id: background
+        anchors.fill: root
+        color: "#fdfdfd"
     }
 
     PageList {
