@@ -17,8 +17,7 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
 import QtMultimedia 5.0
-import Ubuntu.Components 1.3
-import Ubuntu.Components.Themes 1.3
+import Ubuntu.Components 1.2
 
 MediaServicesControls {
     id: root
@@ -101,10 +100,9 @@ MediaServicesControls {
             minimumValue: 0
             maximumValue:  mediaPlayer.duration > 0 ? mediaPlayer.duration : 1
             value: mediaPlayer.position
-            theme: ThemeSettings {
-                palette: Palette {
-                    normal.base: "#F3F3E7"
-                }
+
+            onStyleInstanceChanged: {
+                if (__styleInstance) __styleInstance.backgroundColor = "#F3F3E7";
             }
 
             onValueChanged: {
