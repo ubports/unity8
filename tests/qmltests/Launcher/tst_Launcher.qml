@@ -201,6 +201,33 @@ Item {
             tryCompare(panel, "x", -launcher.panelWidth, 1000)
         }
 
+        function test_cantClickOnDashWhileDraggingALauncherIcon() {
+            dragLauncherIntoView();
+            var eatTouchArea = findChild(launcher, "eatTouchArea")
+            var draggedItem = findChild(launcher, "launcherDelegate4")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+
+            // Doing longpress
+            var currentMouseX = draggedItem.width / 2
+            var currentMouseY = draggedItem.height / 2
+            mousePress(draggedItem, currentMouseX, currentMouseY)
+            // DraggedItem needs to hide and fakeDragItem become visible
+            tryCompare(draggedItem, "itemOpacity", 0)
+            tryCompare(fakeDragItem, "visible", true)
+
+            // Dragging
+            currentMouseX -= units.gu(20)
+            mouseMove(draggedItem, currentMouseX, currentMouseY)
+
+            // Make sure we're in the dragging state
+            var dndArea = findChild(launcher, "dndArea");
+            tryCompare(draggedItem, "dragging", true)
+            tryCompare(dndArea, "draggedIndex", 4)
+
+            compare(eatTouchArea.enabled, true)
+        }
+
         /* If I click on the icon of an application on the launcher
            Launcher::launcherApplicationSelected signal should be emitted with the
            corresponding desktop file. E.g. clicking on phone icon should yield
