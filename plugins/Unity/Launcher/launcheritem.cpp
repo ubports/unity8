@@ -176,7 +176,7 @@ void LauncherItem::setFocused(bool focused)
 {
     if (m_focused != focused) {
         m_focused = focused;
-        if (!focused) {
+        if (focused) {
             setAlerting(false);
         }
         Q_EMIT focusedChanged(focused);

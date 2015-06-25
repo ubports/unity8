@@ -368,6 +368,8 @@ private Q_SLOTS:
     }
 
     void testCountEmblems() {
+        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
+
         // Call GetAll on abs-icon
         QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
         QDBusReply<QVariantMap> reply = interface.call("GetAll");
@@ -398,9 +400,11 @@ private Q_SLOTS:
         QCOMPARE(index >= 0, true);
 
         // And make sure values have changed there as well
+        spy.clear();
         QCOMPARE(launcherModel->get(index)->countVisible(), true);
         QCOMPARE(launcherModel->get(index)->count(), 55);
         QVERIFY(launcherModel->get(index)->alerting() == true);
+        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RoleAlerting);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
