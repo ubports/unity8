@@ -27,7 +27,7 @@ LocalComponents.Page {
     title: i18n.tr("Location Services")
     forwardButtonSourceComponent: forwardButton
 
-    property bool pathSet: AccountsService.hereLicensePathValid
+    readonly property bool pathSet: AccountsService.hereLicensePathValid
     skipValid: pathSet && (AccountsService.hereLicensePath === "" || termsModel.count > 0)
     skip: skipValid && (AccountsService.hereLicensePath === "" || termsModel.count === 2) // no files but . and ..
 
