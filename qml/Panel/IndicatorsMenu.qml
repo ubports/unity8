@@ -36,7 +36,7 @@ Showable {
     readonly property bool fullyClosed: unitProgress == 0
     property bool enableHint: true
     property bool contentEnabled: true
-    property bool showOnClick: false
+    property bool showOnClick: true
     property color panelColor: "black"
 
     signal showTapped(point position)
@@ -170,7 +170,7 @@ Showable {
         anchors.left: parent.left
         anchors.right: parent.right
         height: minimizedPanelHeight
-        enabled: __showDragHandle.enabled && !showOnClick
+        enabled: __showDragHandle.enabled && showOnClick
         onClicked: {
             bar.selectItemAt(mouseX)
             root.show()
