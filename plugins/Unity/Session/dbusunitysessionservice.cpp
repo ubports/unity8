@@ -241,7 +241,7 @@ bool DBusUnitySessionService::CanLock() const
 
 QString DBusUnitySessionService::UserName() const
 {
-    struct passwd *p = getpwuid(getuid());
+    struct passwd *p = getpwuid(geteuid());
     if (p) {
         return QString::fromUtf8(p->pw_name);
     }
@@ -251,7 +251,7 @@ QString DBusUnitySessionService::UserName() const
 
 QString DBusUnitySessionService::RealName() const
 {
-    struct passwd *p = getpwuid(getuid());
+    struct passwd *p = getpwuid(geteuid());
     if (p) {
         const QString gecos = QString::fromLocal8Bit(p->pw_gecos);
         if (!gecos.isEmpty()) {

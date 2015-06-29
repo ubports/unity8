@@ -134,14 +134,12 @@ private Q_SLOTS:
         QCoreApplication::processEvents(); // to let the service register on DBus
 
         QDBusInterface accIface("org.freedesktop.Accounts", "/org/freedesktop/Accounts", "org.freedesktop.Accounts", QDBusConnection::systemBus());
-        QVERIFY(accIface.isValid());
+        QTRY_VERIFY(accIface.isValid());
         QDBusReply<QDBusObjectPath> userPath = accIface.asyncCall("FindUserById", static_cast<qint64>(geteuid()));
-        if (!userPath.isValid()) {
-            QFAIL("Could not get user path in Account Service");
+        if (userPath.isValid()) {
+            QDBusInterface userAccIface("org.freedesktop.Accounts", userPath.value().path(), "org.freedesktop.Accounts.User", QDBusConnection::systemBus());
+            QTRY_COMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
         }
-
-        QDBusInterface userAccIface("org.freedesktop.Accounts", userPath.value().path(), "org.freedesktop.Accounts.User", QDBusConnection::systemBus());
-        QCOMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
     }
 
     void testLogin1Capabilities() {
