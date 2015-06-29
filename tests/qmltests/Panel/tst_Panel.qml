@@ -423,6 +423,9 @@ IndicatorTest {
         }
 
         function test_tapToReturnCallDoesntExpandIndicators() {
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+
             callManager.foregroundCall = phoneCall;
 
             ApplicationManager.focusApplication("unity8-dash");
@@ -433,6 +436,7 @@ IndicatorTest {
                        panel.indicators.minimizedPanelHeight / 2);
 
             compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
         }
 
         function test_openAndClosePanelWithMouseClicks() {
