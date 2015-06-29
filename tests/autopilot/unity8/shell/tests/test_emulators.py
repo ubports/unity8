@@ -41,8 +41,8 @@ class MainWindowTestCase(tests.UnityTestCase):
 
     def setUp(self):
         super().setUp()
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
+        self.launch_unity()
+        process_helpers.unlock_unity()
 
 
 class DashEmulatorTestCase(tests.DashBaseTestCase):
@@ -117,6 +117,12 @@ class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
 
     def test_open_preview(self):
         preview = self.generic_scope.open_preview('0', 'Title.0.0')
+        self.assertIsInstance(preview, dash_emulators.Preview)
+        self.assertTrue(preview.isCurrent)
+
+    def test_open_preview_of_non_visible_item(self):
+        """Open an item that requires swiping to make it visible."""
+        preview = self.generic_scope.open_preview('2', 'Title.2.0')
         self.assertIsInstance(preview, dash_emulators.Preview)
         self.assertTrue(preview.isCurrent)
 

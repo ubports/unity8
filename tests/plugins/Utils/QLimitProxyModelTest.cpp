@@ -16,7 +16,7 @@
 
 // local
 #include "qlimitproxymodelqml.h"
-#include "modeltest.h"
+#include "ModelTest.h"
 
 // Qt
 #include <QTest>
@@ -608,4 +608,4 @@ private Q_SLOTS:
 
 QTEST_GUILESS_MAIN(QLimitProxyModelTest)
 
-#include "qlimitproxymodeltest.moc"
+#include "QLimitProxyModelTest.moc"

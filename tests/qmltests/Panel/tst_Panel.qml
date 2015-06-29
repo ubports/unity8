@@ -30,8 +30,6 @@ IndicatorTest {
     height: units.gu(71)
     color: "white"
 
-    property string indicatorProfile: "phone"
-
     RowLayout {
         anchors.fill: parent
         anchors.margins: units.gu(1)
@@ -430,10 +428,11 @@ IndicatorTest {
             ApplicationManager.focusApplication("unity8-dash");
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
-            var showDragArea = findChild(panel.indicators, "showDragArea");
-            verify(showDragArea !== null);
+            mouseClick(panel.indicators,
+                       panel.indicators.width / 2,
+                       panel.indicators.minimizedPanelHeight / 2);
 
-            compare(showDragArea.enabled, false);
+            compare(panel.indicators.shown, false);
         }
 
         function test_openAndClosePanelWithMouseClicks() {
