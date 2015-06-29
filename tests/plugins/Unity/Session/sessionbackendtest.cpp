@@ -156,30 +156,6 @@ private Q_SLOTS:
         QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
     }
 
-//    void testLock() {
-//        DBusUnitySessionService dbusUnitySessionService;
-//        DBusScreensaverWrapper saverIface;
-//        QDBusInterface saverCompatIface("org.freedesktop.ScreenSaver", "/ScreenSaver", "org.freedesktop.ScreenSaver", QDBusConnection::sessionBus());
-//        QSignalSpy spy(&saverIface, &DBusScreensaverWrapper::ActiveChanged);
-//        QCoreApplication::processEvents(); // to let the service register on DBus
-
-//        QTRY_COMPARE(saverCompatIface.isValid(), true);
-
-//        qDebug() << "Locking up...";
-//        dbusUnitySessionService.Lock();
-
-//        QTRY_COMPARE(spy.count(), 1);
-//        QList<QVariant> arguments = spy.takeFirst(); // take the first signal
-//        QVERIFY(arguments.at(0).toBool() == true); // verify the first argument
-
-//        // verify the session is locked
-//        QCOMPARE(saverIface.GetActive(), true);
-
-//        sleep(5);
-//        qDebug() << "Screensaver has been active for" << saverIface.GetActiveTime() << "seconds";
-//        qDebug() << "Session has been idle for" << saverIface.GetSessionIdleTime() << "seconds";
-//    }
-
 private:
     QDBusInterface *dbusUnitySession;
 };

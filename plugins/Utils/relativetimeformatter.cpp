@@ -121,7 +121,7 @@ getDateProximity(GDateTime* now, GDateTime* time)
 const char*
 dgettext_datetime(const char *text)
 {
-    return dgettext("unity8", text);
+    return dgettext("indicator-datetime", text);
 }
 
 /**
