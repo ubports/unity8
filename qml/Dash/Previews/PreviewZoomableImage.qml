@@ -21,6 +21,7 @@ import "../../Components"
 /*! \brief Preview widget for image.
 
     This widget shows image contained in widgetData["source"],
+    and falls back to widgetData["fallback"] if loading fails
     can be zoomable accordingly with widgetData["zoomable"].
  */
 
@@ -53,6 +54,14 @@ PreviewWidget {
                 overlay.show();
             }
         }
+
+        Connections {
+            target: lazyImage.sourceImage
+            // If modelData would change after failing to load it would not be
+            // reloaded since the source binding is destroyed by the source = fallback
+            // But at the moment the model never changes
+            onStatusChanged: if (lazyImage.sourceImage.status === Image.Error) lazyImage.sourceImage.source = widgetData["fallback"];
+        }
     }
 
     PreviewOverlay {
@@ -67,6 +76,10 @@ PreviewWidget {
             anchors.fill: parent
             source: widgetData["source"]
             zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
+            // If modelData would change after failing to load it would not be
+            // reloaded since the source binding is destroyed by the source = fallback
+            // But at the moment the model never changes
+            onStatusChanged: if (status === Image.Error) source = widgetData["fallback"];
         }
     }
 }

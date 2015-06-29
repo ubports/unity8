@@ -81,7 +81,9 @@ Rectangle {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    usageScenario: "phone"
+                    property string shellMode: "full-greeter" /* default */
+
+                    usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
                     primaryOrientation: Qt.PortraitOrientation
                     nativeOrientation: Qt.PortraitOrientation
@@ -149,14 +151,11 @@ Rectangle {
                     }
                 }
                 ListItem.ItemSelector {
-                    id: usageModeSelector
+                    id: usageScenarioSelector
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
-                    text: "Usage mode"
-                    model: ["Staged", "Windowed"]
-                    onSelectedIndexChanged: {
-                            GSettingsController.setUsageMode(model[selectedIndex]);
-                    }
+                    text: "Usage scenario"
+                    model: ["phone", "tablet", "desktop"]
                 }
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
@@ -723,7 +722,7 @@ Rectangle {
 
             tryCompare(webApp.session.surface, "activeFocus", true);
 
-            GSettingsController.setUsageMode("Windowed");
+            shell.usageScenario = "desktop";
 
             // check that the desktop stage and window have been loaded
             {
@@ -733,7 +732,7 @@ Rectangle {
 
             tryCompare(webApp.session.surface, "activeFocus", true);
 
-            GSettingsController.setUsageMode("Staged");
+            shell.usageScenario = "tablet";
 
             // check that the tablet stage and app surface delegate have been loaded
             {
@@ -1203,30 +1202,30 @@ Rectangle {
 
         function test_stageLoader_data() {
             return [
-                {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageMode: "Staged"},
-                {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageMode: "Staged"},
-                {tag: "desktop", source: "Stages/DesktopStage.qml", formFactor: "tablet", usageMode: "Windowed"}
+                {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageScenario: "tablet"},
+                {tag: "desktop", source: "Stages/DesktopStage.qml", formFactor: "tablet", usageScenario: "desktop"}
             ]
         }
 
         function test_stageLoader(data) {
-            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
             var stageLoader = findChild(shell, "applicationsDisplayLoader");
             verify(String(stageLoader.source).indexOf(data.source) >= 0);
         }
 
         function test_launcherInverted_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageMode: "Staged", launcherInverted: true},
-                {tag: "tablet", formFactor: "tablet", usageMode: "Staged", launcherInverted: true},
-                {tag: "desktop", formFactor: "tablet", usageMode: "Windowed", launcherInverted: false}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", launcherInverted: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", launcherInverted: true},
+                {tag: "desktop", formFactor: "tablet", usageScenario: "desktop", launcherInverted: false}
             ]
         }
 
         function test_launcherInverted(data) {
-            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
 
             var launcher = findChild(shell, "launcher");
             compare(launcher.inverted, data.launcherInverted);

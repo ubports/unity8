@@ -45,16 +45,6 @@ private:
     }
 
 private Q_SLOTS:
-    void initTestCase()
-    {
-        setenv("UNITY_TEST_ENV", "1", 1);
-    }
-
-    void cleanupTestCase()
-    {
-        unsetenv("UNITY_TEST_ENV");
-    }
-
     void testTimeFormatter_Format_data() { addTestData(QList<int>() << 0); }
     void testTimeFormatter_Format()
     {
@@ -162,4 +152,4 @@ private Q_SLOTS:
 
 QTEST_GUILESS_MAIN(TimeFormatterTest)
 
-#include "timeformattertest.moc"
+#include "TimeFormatterTest.moc"

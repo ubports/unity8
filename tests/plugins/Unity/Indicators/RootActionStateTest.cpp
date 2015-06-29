@@ -92,4 +92,4 @@ private Q_SLOTS:
 };
 
 QTEST_GUILESS_MAIN(RootActionStateTest)
-#include "rootactionstatetest.moc"
+#include "RootActionStateTest.moc"
