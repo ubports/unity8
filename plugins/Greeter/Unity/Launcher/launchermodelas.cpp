@@ -123,16 +123,6 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
     }
 }
 
-void LauncherModel::setProgress(const QString &appId, int progress)
-{
-    int index = findApplication(appId);
-    if (index >= 0) {
-        m_list.at(index)->setProgress(progress);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex);
-    }
-}
-
 void LauncherModel::setUser(const QString &username)
 {
     if (m_user != username) {
@@ -218,6 +208,7 @@ void LauncherModel::refresh()
                     item->setIcon(asItem.toMap().value("icon").toString());
                     item->setCount(asItem.toMap().value("count").toInt());
                     item->setCountVisible(asItem.toMap().value("countVisible").toBool());
+                    item->setProgress(asItem.toMap().value("progress").toInt());
                     int idx = m_list.indexOf(item);
                     Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
                 }
