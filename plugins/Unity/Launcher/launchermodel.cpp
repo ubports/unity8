@@ -199,16 +199,6 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
     }
 }
 
-void LauncherModel::setProgress(const QString &appId, int progress)
-{
-    int index = findApplication(appId);
-    if (index >= 0) {
-        m_list.at(index)->setProgress(progress);
-        QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex);
-    }
-}
-
 void LauncherModel::setUser(const QString &username)
 {
     Q_UNUSED(username)
