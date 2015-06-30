@@ -22,7 +22,7 @@ Build-Depends: cmake,
                libglib2.0-dev,
                libgsettings-qt-dev,
                libhardware-dev,
-               liblightdm-gobject-1-dev               
+               liblightdm-gobject-1-dev,
                liblightdm-qt5-3-dev,
                libpam0g-dev,
                libpay2-dev,
