@@ -11,4 +11,4 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/SessionGrabber
     )
 
-add_binary_qml_test(SessionGrabber "" "" "")
+add_unity8_uitest(SessionGrabber SessionGrabberTestExec)
