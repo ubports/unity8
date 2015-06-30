@@ -19,7 +19,7 @@
 
 // local
 #include "unitysortfilterproxymodelqml.h"
-#include "modeltest.h"
+#include "ModelTest.h"
 
 // Qt
 #include <QTest>
@@ -287,4 +287,4 @@ private Q_SLOTS:
 
 QTEST_GUILESS_MAIN(UnitySortFilterProxyModelTest)
 
-#include "unitysortfilterproxymodeltest.moc"
+#include "UnitySortFilterProxyModelTest.moc"

@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-06-19 05:01+0000\n"
-"X-Generator: Launchpad (build 17570)\n"
+"X-Launchpad-Export-Date: 2015-06-23 05:33+0000\n"
+"X-Generator: Launchpad (build 17572)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -640,11 +640,6 @@ msgstr "%1  〉"
 #~ msgstr ""
 #~ "Provare a far scorrere dal bordo in alto per accedere agli indicatori"
 
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr ""
-#~ "Far scorrere verso l'alto nuovamente per chiudere la schermata delle "
-#~ "impostazioni"
-
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
 #~ "Far scorrere il bordo sinistro per mostrare il Launcher e avere un rapido "
@@ -698,3 +693,8 @@ msgstr "%1  〉"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Gestisci Scope"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr ""
+#~ "Far scorrere nuovamente verso l'alto per chiudere la schermata delle "
+#~ "impostazioni"

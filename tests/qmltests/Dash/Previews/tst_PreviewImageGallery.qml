@@ -33,8 +33,19 @@ Rectangle {
         "sources": [
                     "../../graphics/phone_background.jpg",
                     "../../graphics/tablet_background.jpg",
-                    "../../graphics/clock@18.png"
+                    "../../graphics/clock@18.png",
+                    "../../graphics/borked"
                    ]
+    }
+
+    property var sourcesModel1WithFallback: {
+        "sources": [
+                    "../../graphics/phone_background.jpg",
+                    "../../graphics/tablet_background.jpg",
+                    "../../graphics/clock@18.png",
+                    "../../graphics/borked"
+                   ]
+        , "fallback": "../../graphics/clock@18.png"
     }
 
     PreviewImageGallery {
@@ -102,6 +113,15 @@ Rectangle {
             tryCompare(overlay, "scale", 1.0);
             tryCompare(overlayListView, "currentIndex", data.index);
             verify(image.source === overlayListView.currentItem.source);
+        }
+
+        function test_fallback() {
+            var image3 = findChild(imageGallery, "previewImage3");
+            tryCompare(image3, "state", "error");
+            imageGallery.widgetData = sourcesModel0;
+            imageGallery.widgetData = sourcesModel1WithFallback;
+            image3 = findChild(imageGallery, "previewImage3");
+            tryCompare(image3, "state", "ready");
         }
     }
 }

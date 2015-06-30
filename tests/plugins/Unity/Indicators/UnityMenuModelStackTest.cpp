@@ -205,4 +205,4 @@ public:
 };
 
 QTEST_GUILESS_MAIN(UnityMenuModelStackTest)
-#include "unitymenumodelstacktest.moc"
+#include "UnityMenuModelStackTest.moc"
