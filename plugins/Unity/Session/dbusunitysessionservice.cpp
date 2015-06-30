@@ -62,7 +62,6 @@ public:
         QDBusReply<QDBusObjectPath> reply = QDBusConnection::systemBus().asyncCall(msg);
         if (reply.isValid()) {
             logindSessionPath = reply.value().path();
-            //qDebug() << "session path" << logindSessionPath;
 
             // start watching the Active property
             QDBusConnection::systemBus().connect(LOGIN1_SERVICE, logindSessionPath, "org.freedesktop.DBus.Properties", "PropertiesChanged",
