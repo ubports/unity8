@@ -43,7 +43,7 @@ Showable {
     Loader {
         id: loader
         anchors.fill: parent
-        active: System.wizardEnabled
+        active: System.wizardEnabled && shell.mode !== "greeter"
         source: "Pages.qml"
 
         Binding {
