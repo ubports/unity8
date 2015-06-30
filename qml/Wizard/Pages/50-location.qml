@@ -120,6 +120,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
+            textFormat: Text.RichText
             text: i18n.tr("You can change it later in <em>System Settings</em>.")
             color: "black"
             fontSize: "small"
