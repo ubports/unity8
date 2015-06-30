@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,44 +14,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.3
+import Ubuntu.Components 1.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    objectName: "finishedPage"
+    objectName: "finishedPage" // careful when renaming the page, see Page.qml
 
-    title: i18n.tr("All done")
-    forwardButtonSourceComponent: forwardButton
     hasBackButton: false
+    customTitle: true
 
     Column {
         id: column
-        anchors.fill: content
-        spacing: units.gu(1)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: units.gu(3)
 
         Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode: Text.Wrap
+            fontSize: "x-large"
+            font.weight: Font.Light
+            color: "black"
+            text: i18n.tr("Welcome to Ubuntu")
+        }
+
+        Label {
+            anchors.horizontalCenter: parent.horizontalCenter
             wrapMode: Text.Wrap
             fontSize: "large"
-            font.bold: true
-            text: i18n.tr("Nice work!")
+            font.weight: Font.Light
+            color: "black"
+            text: i18n.tr("You are ready to use your device now")
         }
 
-        Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            wrapMode: Text.Wrap
-            text: i18n.tr("Your phone is now ready to use.")
-        }
-    }
-
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
-            text: i18n.tr("Finish")
-            onClicked: root.quitWizard()
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: i18n.tr("Get Started")
+            onClicked: {
+                quit()
+            }
         }
     }
 }
