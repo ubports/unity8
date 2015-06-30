@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3, as published by
@@ -22,10 +22,10 @@
 
 class UbuntuKeyboardInfo : public QObject {
     Q_OBJECT
-    Q_PROPERTY(qreal x READ x NOTIFY xChanged)
-    Q_PROPERTY(qreal y READ y NOTIFY yChanged)
-    Q_PROPERTY(qreal width READ width NOTIFY widthChanged)
-    Q_PROPERTY(qreal height READ height NOTIFY heightChanged)
+    Q_PROPERTY(qreal x READ x WRITE setX NOTIFY xChanged)
+    Q_PROPERTY(qreal y READ y WRITE setY NOTIFY yChanged)
+    Q_PROPERTY(qreal width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
 public:
     UbuntuKeyboardInfo(QObject *parent = 0);
     virtual ~UbuntuKeyboardInfo() {}
@@ -33,6 +33,12 @@ public:
     qreal y() const { return m_y; }
     qreal width() const { return m_width; }
     qreal height() const { return m_height; }
+
+    // Just in the fake implementation
+    void setX(qreal value);
+    void setY(qreal value);
+    void setWidth(qreal value);
+    void setHeight(qreal value);
 
     static UbuntuKeyboardInfo *singleton() {
         if (!m_instance) {

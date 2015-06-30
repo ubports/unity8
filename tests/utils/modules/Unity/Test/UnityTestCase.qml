@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ TestCase {
     // This is needed for waitForRendering calls to return
     // if the watched element already got rendered
     Rectangle {
+        id: rotatingRectangle
         width: units.gu(1)
         height: width
         parent: testCase.parent
@@ -35,7 +36,7 @@ TestCase {
         visible: testCase.running
 
         RotationAnimation on rotation {
-            running: parent.visible
+            running: rotatingRectangle.visible
             from: 0
             to: 360
             loops: Animation.Infinite
@@ -308,6 +309,48 @@ TestCase {
         }
     }
 
+    // perform a drag in the given direction until the given condition is true
+    // The condition is a function to be evaluated after every step
+    function touchDragUntil(item, startX, startY, stepX, stepY, condition) {
+
+        var root = fetchRootItem(item);
+        var pos = item.mapToItem(root, startX, startY);
+
+        // convert step to scene coords
+        {
+            var stepStart = item.mapToItem(root, 0, 0);
+            var stepEnd = item.mapToItem(root, stepX, stepY);
+        }
+        stepX = stepEnd.x - stepStart.x;
+        stepY = stepEnd.y - stepStart.y;
+
+        var event = touchEvent(item)
+        event.press(0 /* touchId */, pos.x, pos.y)
+        event.commit()
+
+        // we have to stop at some point
+        var maxSteps = 100;
+        var stepsDone = 0;
+
+        while (!condition() && stepsDone < maxSteps) {
+            wait(25);
+            fakeDateTime.currentTimeMs += 25;
+
+            pos.x += stepX;
+            pos.y += stepY;
+
+            event = touchEvent(item);
+            event.move(0 /* touchId */, pos.x, pos.y);
+            event.commit();
+
+            stepsDone += 1;
+        }
+
+        event = touchEvent(item)
+        event.release(0 /* touchId */, pos.x, pos.y)
+        event.commit()
+    }
+
     function touchPinch(item, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End) {
         // Make sure the item is rendered
         waitForRendering(item);
@@ -419,4 +462,14 @@ TestCase {
         return qtest_results.waitForRendering(item, timeout);
     }
 
+    /*
+      Wait until any transition animation has finished for the given StateGroup or Item
+     */
+    function waitUntilTransitionsEnd(stateGroup) {
+        var transitions = stateGroup.transitions;
+        for (var i = 0; i < transitions.length; ++i) {
+            var transition = transitions[i];
+            tryCompare(transition, "running", false, 2000);
+        }
+    }
 }

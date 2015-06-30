@@ -32,6 +32,7 @@ FocusScope {
     property alias infographicModel: coverPage.infographicModel
     readonly property bool fullyShown: coverPage.showProgress === 1
     readonly property bool required: coverPage.required
+    readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod

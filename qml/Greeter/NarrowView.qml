@@ -33,6 +33,7 @@ FocusScope {
     property alias infographicModel: coverPage.infographicModel
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
     readonly property bool required: coverPage.required || lockscreen.required
+    readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
     signal selected(int index) // unused
     signal responded(string response)
