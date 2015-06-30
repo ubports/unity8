@@ -24,28 +24,35 @@ LocalComponents.Page {
     hasBackButton: false
     customTitle: true
 
+    Image {
+        source: "data/warty-final-ubuntu.png"
+        anchors.fill: parent
+        scale: Image.PreserveAspectCrop
+        clip: true
+    }
+
     Column {
         id: column
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: leftMargin
+        anchors.rightMargin: rightMargin
         spacing: units.gu(3)
 
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
-            wrapMode: Text.Wrap
+            wrapMode: Text.WordWrap
             fontSize: "x-large"
             font.weight: Font.Light
-            color: "black"
             text: i18n.tr("Welcome to Ubuntu")
         }
 
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
-            wrapMode: Text.Wrap
+            wrapMode: Text.WordWrap
             fontSize: "large"
             font.weight: Font.Light
-            color: "black"
             text: i18n.tr("You are ready to use your device now")
         }
 
