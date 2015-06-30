@@ -27,6 +27,7 @@ Item {
     readonly property real bottomMargin: units.gu(3)
     readonly property real leftMargin: units.gu(3)
     readonly property real rightMargin: units.gu(3)
+    readonly property real customMargin: units.gu(4) // margin for the custom (w/o title bar) pages
 
     // If you want to skip a page, mark skipValid false while you figure out
     // whether to skip, then set it to true once you've determined the value
@@ -34,8 +35,12 @@ Item {
     property bool skipValid: true
     property bool skip: false
 
+    property bool mobileOnly: true
+    property bool desktopOnly: false
+
     property bool hasBackButton: true
     property bool customBack: false
+    property bool customTitle: false
     property alias forwardButtonSourceComponent: forwardButton.sourceComponent
     property alias content: contentHolder
 
@@ -54,8 +59,8 @@ Item {
             left: parent.left
             right: parent.right
         }
-        height: topMargin + bottomMargin
-        color: "#650954"
+        height: customTitle ? customMargin + titleLabel.height + customMargin : topMargin + bottomMargin
+        color: customTitle ? "#fdfdfd" : "#650954"
 
         Label {
             id: titleLabel
@@ -69,7 +74,7 @@ Item {
             }
             wrapMode: Text.Wrap
             text: title
-            color: "white"
+            color: customTitle ? "black" : "white"
             fontSize: "x-large"
         }
     }

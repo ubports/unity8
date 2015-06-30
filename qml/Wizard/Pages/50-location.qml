@@ -66,7 +66,7 @@ LocalComponents.Page {
                 id: hereCheck
                 objectName: "hereCheck"
                 showDivider: false
-                text: i18n.tr("Use GPS, Wi-FI hotspots nad mobile network anonymously to detect location (recommended)")
+                text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")
                 checked: true
                 onTriggered: {
                     gpsCheck.checked = false;
@@ -82,9 +82,10 @@ LocalComponents.Page {
                 anchors.leftMargin: hereCheck.labelOffset
                 anchors.right: parent.right
                 wrapMode: Text.Wrap
-                linkColor: UbuntuColors.darkGrey
+                linkColor: "#dd4814"
                 color: "black"
                 fontSize: "small"
+                font.weight: Font.Light
                 // TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
                 text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
                 onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
@@ -119,8 +120,10 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("You can change it later in <b>System Settings</b>.")
+            text: i18n.tr("You can change it later in <em>System Settings</em>.")
             color: "black"
+            fontSize: "small"
+            font.weight: Font.Light
         }
     }
 

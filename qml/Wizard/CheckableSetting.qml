@@ -79,6 +79,7 @@ ListItem.Empty {
             wrapMode: Text.Wrap
             linkColor: Theme.palette.normal.foregroundText
             color: "black"
+            font.weight: Font.Light
             onLinkActivated: listItem.linkActivated(link)
         }
     }

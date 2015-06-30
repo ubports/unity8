@@ -37,6 +37,7 @@ LocalComponents.Page {
 
     title: i18n.tr("Lock security")
     forwardButtonSourceComponent: forwardButton
+    skip: false
 
     function indexToMethod(index) {
         if (index === 0)

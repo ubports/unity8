@@ -15,9 +15,7 @@
  */
 
 import QtQuick 2.3
-import AccountsService 0.1
-import Qt.labs.folderlistmodel 2.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 import Ubuntu.Web 0.2
 import ".." as LocalComponents
 
@@ -26,88 +24,106 @@ LocalComponents.Page {
 
     title: i18n.tr("Terms & Conditions")
     customBack: true
-
-    FolderListModel {
-        id: termsModel
-        folder: AccountsService.hereLicensePath
-        nameFilters: ["*.html"]
-        showDirs: false
-        showOnlyReadable: true
-        onCountChanged: loadFileContent()
-    }
-
-    function makeFileName(lang, country) {
-        return lang + "_" + country + ".html"
-    }
-
-    function defaultCountryForLanguage(lang) {
-        if (lang === "cs") return "CZ"
-        if (lang === "da") return "DK"
-        if (lang === "en") return "US"
-        if (lang === "ko") return "KR"
-        if (lang === "zh") return "CN"
-        return lang.toUpperCase()
-    }
-
-    function determineFileName() {
-        var codes = i18n.language.split(".")[0].split("_")
-        var defaultCountry = defaultCountryForLanguage(codes[0])
-        if (codes.count === 1)
-            codes = [codes[0], defaultCountry]
-        var perfectMatch = makeFileName(codes[0], codes[1])
-        var nearMatch = makeFileName(codes[0], defaultCountry)
-        var nearMatchExists = false
-
-        for (var i = 0; i < termsModel.count; i++) {
-            var fileName = termsModel.get(i, "fileName")
-            if (fileName == perfectMatch) {
-                return perfectMatch
-            } else if (fileName == nearMatch) {
-                nearMatchExists = true
-            }
-        }
-
-        if (nearMatchExists) {
-            return nearMatch
-        } else {
-            return makeFileName("en", "US")
-        }
-    }
-
-    function loadFileContent() {
-        var xhr = new XMLHttpRequest
-        xhr.open("GET", AccountsService.hereLicensePath + "/" + determineFileName())
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
-                termsLabel.text = xhr.responseText
-            }
-        }
-        xhr.send()
-    }
+    customTitle: true
 
     onBackClicked: {
         if (webview.visible) {
-            termsLabel.visible = true
+            showBrowser(false)
         } else {
             pageStack.prev()
+        }
+    }
+
+    function showBrowser(show) {
+        if (show) {
+            label1.visible = false
+            label2.visible = false
+            label3.visible = false
+            label4.visible = false
+            label5.visible = false
+            webview.visible = true
+        } else {
+            webview.visible = false
+            label1.visible = true
+            label2.visible = true
+            label3.visible = true
+            label4.visible = true
+            label5.visible = true
         }
     }
 
     Column {
         id: column
         anchors.fill: content
+        spacing: units.gu(3)
 
         Label {
-            id: termsLabel
-            objectName: "termsLabel"
+            id: label1
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
             color: "black"
-            linkColor: UbuntuColors.darkGrey
+            fontSize: "small"
+            font.weight: Font.Light
+            text: i18n.tr("Your device uses positioning technologies provided by HERE.")
+        }
+
+        Label {
+            id: label2
+            anchors.left: parent.left
+            anchors.right: parent.right
+            wrapMode: Text.Wrap
+            color: "black"
+            fontSize: "small"
+            font.weight: Font.Light
+            text: i18n.tr("To provide you with positioning services and to improve their quality, HERE collects " +
+                          "information about nearby cell towers and Wi-Fi hotspots around your current location " +
+                          "whenever your position is being found.")
+        }
+
+        Label {
+            id: label3
+            anchors.left: parent.left
+            anchors.right: parent.right
+            wrapMode: Text.Wrap
+            color: "black"
+            fontSize: "small"
+            font.weight: Font.Light
+            text: i18n.tr("The information collected is used to analyze the service and to " +
+                          "improve the use of service, but not to identify you personally.")
+        }
+
+        Label {
+            id: label4
+            anchors.left: parent.left
+            anchors.right: parent.right
+            wrapMode: Text.Wrap
+            color: "black"
+            fontSize: "small"
+            font.weight: Font.Light
+            linkColor: "#dd4814"
+            text: i18n.tr("By continuing, you agree to the HERE Platform Service Terms:") +
+                  " <a href=\"http://here.com/terms/service-terms\">http://here.com/terms/service-terms</a>"
             onLinkActivated: {
+                showBrowser(true)
                 webview.url = link
-                termsLabel.visible = false
+            }
+        }
+
+        Label {
+            id: label5
+            anchors.left: parent.left
+            anchors.right: parent.right
+            wrapMode: Text.Wrap
+            color: "black"
+            fontSize: "small"
+            font.weight: Font.Light
+            linkColor: "#dd4814"
+            text: i18n.tr("and Privacy Policy:") +
+                  " <a href=\"http://here.com/privacy/privacy-policy\">http://here.com/privacy/privacy-policy</a>"
+            onLinkActivated: {
+                showBrowser(true)
+                webview.url = link
             }
         }
 
@@ -116,8 +132,10 @@ LocalComponents.Page {
             objectName: "webview"
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.leftMargin: 0
+            anchors.rightMargin: 0
             height: parent.height
-            visible: !termsLabel.visible
+            visible: false
         }
     }
 }

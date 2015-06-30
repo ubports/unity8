@@ -91,6 +91,7 @@ Item {
         }
 
         function load(path) {
+            print("Loading: " + path)
             if (currentPage) {
                 currentPage.enabled = false
             }

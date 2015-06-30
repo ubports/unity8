@@ -25,6 +25,7 @@ LocalComponents.Page {
 
     title: i18n.tr("No SIM card installed")
     forwardButtonSourceComponent: forwardButton
+    customTitle: true
 
     skipValid: !manager.available ||
                (manager.ready && (manager.modems.length < 1 || simManager0.ready)
@@ -80,7 +81,6 @@ LocalComponents.Page {
     Column {
         anchors.fill: content
         spacing: units.gu(4)
-        anchors.topMargin: units.gu(4)
 
         Label {
             anchors.left: parent.left
