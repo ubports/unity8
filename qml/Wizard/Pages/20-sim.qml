@@ -26,6 +26,7 @@ LocalComponents.Page {
     title: i18n.tr("No SIM card installed")
     forwardButtonSourceComponent: forwardButton
     customTitle: true
+    hasBackButton: false
 
     skipValid: !manager.available ||
                (manager.ready && (manager.modems.length < 1 || simManager0.ready)
