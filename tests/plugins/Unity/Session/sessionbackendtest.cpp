@@ -126,7 +126,12 @@ private Q_SLOTS:
         DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        QCOMPARE(dbusUnitySessionService.UserName(), QString::fromUtf8(qgetenv("USER")));
+        QProcess * proc = new QProcess(this);
+        proc->start("id -un", QProcess::ReadOnly);
+        proc->waitForFinished();
+        const QByteArray out = proc->readAll().trimmed();
+
+        QCOMPARE(dbusUnitySessionService.UserName(), QString::fromUtf8(out));
     }
 
     void testRealName() {
@@ -134,11 +139,12 @@ private Q_SLOTS:
         QCoreApplication::processEvents(); // to let the service register on DBus
 
         QDBusInterface accIface("org.freedesktop.Accounts", "/org/freedesktop/Accounts", "org.freedesktop.Accounts", QDBusConnection::systemBus());
-        QTRY_VERIFY(accIface.isValid());
-        QDBusReply<QDBusObjectPath> userPath = accIface.asyncCall("FindUserById", static_cast<qint64>(geteuid()));
-        if (userPath.isValid()) {
-            QDBusInterface userAccIface("org.freedesktop.Accounts", userPath.value().path(), "org.freedesktop.Accounts.User", QDBusConnection::systemBus());
-            QTRY_COMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
+        if (accIface.isValid()) {
+            QDBusReply<QDBusObjectPath> userPath = accIface.asyncCall("FindUserById", static_cast<qint64>(geteuid()));
+            if (userPath.isValid()) {
+                QDBusInterface userAccIface("org.freedesktop.Accounts", userPath.value().path(), "org.freedesktop.Accounts.User", QDBusConnection::systemBus());
+                QCOMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
+            }
         }
     }
 
@@ -147,11 +153,13 @@ private Q_SLOTS:
         QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
         QCoreApplication::processEvents(); // to let the services register on DBus
 
-        QCOMPARE(dbusUnitySessionService.CanHibernate(), (login1face.call("CanHibernate").arguments().first().toString() != "no"));
-        QCOMPARE(dbusUnitySessionService.CanSuspend(), (login1face.call("CanSuspend").arguments().first().toString() != "no"));
-        QCOMPARE(dbusUnitySessionService.CanReboot(), (login1face.call("CanReboot").arguments().first().toString() != "no"));
-        QCOMPARE(dbusUnitySessionService.CanShutdown(), (login1face.call("CanPowerOff").arguments().first().toString() != "no"));
-        QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
+        if (login1face.isValid()) {
+            QCOMPARE(dbusUnitySessionService.CanHibernate(), (login1face.call("CanHibernate").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanSuspend(), (login1face.call("CanSuspend").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanReboot(), (login1face.call("CanReboot").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanShutdown(), (login1face.call("CanPowerOff").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
+        }
     }
 
 private:
