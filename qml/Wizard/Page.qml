@@ -95,6 +95,7 @@ Item {
     // button bar
     Rectangle {
         id: buttonRect
+        visible: pageStack.currentPage.objectName !== "finishedPage" // not visible on last page
         anchors {
             bottom: parent.bottom
             left: parent.left
