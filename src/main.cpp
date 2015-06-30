@@ -22,6 +22,7 @@
 #include <QtQml/QQmlContext>
 #include <QLibrary>
 #include <QDebug>
+#include <QScreen>
 #include <csignal>
 #include <libintl.h>
 
@@ -117,7 +118,14 @@ int main(int argc, const char *argv[])
     view->setSource(source);
     QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
 
-    if (isMirServer || parser.hasFullscreen()) {
+    // FIXME: This is a workaround to make the greeter fullscreen as
+    // view->showFullScreen() doesn't work quite right
+    if (parser.mode().compare("greeter") == 0) {
+        QSize primaryScreenSize = application->primaryScreen()->size();
+        view->setHeight(primaryScreenSize.height());
+        view->setWidth(primaryScreenSize.width());
+        view->show();
+    } else if (isMirServer || parser.hasFullscreen()) {
         view->showFullScreen();
     } else {
         view->show();
