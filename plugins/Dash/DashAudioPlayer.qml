@@ -27,14 +27,44 @@ QtObject {
     readonly property alias position: audio.position
 
     function isCurrentSource(source) {
-        return source != "" && AudioUrlComparer.compare(source, audio.source);
+        if (source != "") {
+            if (audio.playlist) {
+                return AudioUrlComparer.compare(source, audio.playlist.currentSource);
+            } else {
+                return AudioUrlComparer.compare(source, audio.source);
+            }
+        }
+        return false;
     }
 
-    function playSource(newSource) {
+    function playSource(newSource, newPlaylist) {
         stop();
         // Make sure we change the source, even if two items point to the same uri location
         audio.source = "";
-        audio.source = newSource;
+        audio.playlist = null;
+        if (newPlaylist) {
+            playlist.clear();
+            // Look for newSource in newPlaylist
+            var sourceIndex = -1;
+            for (var i in newPlaylist) {
+                if (AudioUrlComparer.compare(newSource, newPlaylist[i])) {
+                    sourceIndex = i;
+                    break;
+                }
+            }
+            if (sourceIndex === -1 && newSource != "") {
+                // If the playing song is not in the playlist, add it
+                playlist.addSource(newSource);
+                sourceIndex = 0;
+            }
+            for (var i in newPlaylist) {
+                playlist.addSource(newPlaylist[i]);
+            }
+            playlist.currentIndex = sourceIndex;
+            audio.playlist = playlist;
+        } else {
+            audio.source = newSource;
+        }
         play();
     }
 
@@ -50,11 +80,15 @@ QtObject {
         audio.pause();
     }
 
-    property QtObject d: Audio {
+    property QtObject audio: Audio {
         id: audio
         objectName: "audio"
 
         onErrorStringChanged: console.warn("Dash Audio player error:", errorString)
+    }
+    property QtObject playlist: Playlist {
+        id: playlist
+        objectName: "playlist"
     }
 
     function lengthToString(s) {

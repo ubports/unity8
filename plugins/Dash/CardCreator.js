@@ -119,6 +119,7 @@ var kAudioButtonCode = 'AbstractButton { \n\
                             width: %2; \n\
                             height: %3; \n\
                             readonly property url source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; \n\
+                            readonly property url playlist: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["playlist"]) || null; \n\
                             UbuntuShape { \n\
                                 anchors.fill: parent; \n\
                                 visible: parent.pressed; \n\
@@ -139,7 +140,7 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                         DashAudioPlayer.play(); \n\
                                     } \n\
                                 } else { \n\
-                                    DashAudioPlayer.playSource(source); \n\
+                                    DashAudioPlayer.playSource(source, playlist); \n\
                                 } \n\
                             } \n\
                             onPressAndHold: { \n\
