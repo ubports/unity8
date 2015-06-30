@@ -358,7 +358,7 @@ Item {
             id: tutorial
             objectName: "tutorial"
             anchors.fill: parent
-            active: AccountsService.demoEdges
+            active: AccountsService.demoEdges && shell.mode !== "greeter"
             paused: lightDM.greeter.active
             launcher: launcher
             panel: panel
