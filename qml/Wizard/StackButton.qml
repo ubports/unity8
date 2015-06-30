@@ -34,15 +34,7 @@ AbstractButton {
         anchors.right: parent.right
         color: enabled ? "black" : UbuntuColors.lightGrey // FIXME proper colors
         font.weight: Font.DemiBold
-        text: {
-            if (backArrow) {
-                // Translators: This is the arrow for "Back" buttons
-                return i18n.tr("〈  %1".arg(stackButton.text))
-            } else {
-                // Translators: This is the arrow for "Forward" buttons
-                return i18n.tr("%1  〉".arg(stackButton.text))
-            }
-        }
+        text: stackButton.text
         horizontalAlignment: backArrow ? Text.AlignLeft : Text.AlignRight
     }
 }
