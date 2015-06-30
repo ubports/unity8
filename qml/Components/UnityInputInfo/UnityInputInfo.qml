@@ -29,8 +29,8 @@ Item {
     QtObject {
         id: priv
 
-        property var mice: new Array()
-        property var keyboards: new Array()
+        property var mice: []
+        property var keyboards: []
 
         property int miceCount: 0
         property int keyboardCount: 0
