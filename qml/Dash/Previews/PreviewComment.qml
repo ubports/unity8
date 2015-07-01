@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.2
 
-/*! \brief Preview widget for social comments.
+/*! \brief Preview widget for comments.
 
     This widget shows an (optional) avatar contained in widgetData["source"]
     along with a label that comes from widgetData["author"],

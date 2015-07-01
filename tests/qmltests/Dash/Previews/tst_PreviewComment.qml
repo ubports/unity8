@@ -46,38 +46,38 @@ Rectangle {
         "source": "../../graphics/avatars/amanda@12.png"
     }
 
-    PreviewSocialComment {
-        id: previewCommentInput
+    PreviewComment {
+        id: previewComment
         anchors.left: parent.left
         anchors.right: parent.right
         widgetData: comment
-        widgetId: "previewSocialComment"
+        widgetId: "previewComment"
     }
 
     UT.UnityTestCase {
-        name: "PreviewSocialCommentTest"
+        name: "PreviewCommentTest"
         when: windowShown
 
         function init() {
-            previewCommentInput.widgetData = comment;
+            previewComment.widgetData = comment;
         }
 
         function test_AnchorsNoAvatar() {
-            var column = findChild(previewCommentInput, "column");
-            var avatar = findChild(previewCommentInput, "avatar");
+            var column = findChild(previewComment, "column");
+            var avatar = findChild(previewComment, "avatar");
 
-            compare(previewCommentInput.widgetData, comment);
+            compare(previewComment.widgetData, comment);
             compare(avatar.visible, true);
             compare(column.anchors.left, avatar.anchors.right);
 
-            previewCommentInput.widgetData = commentNoImage;
+            previewComment.widgetData = commentNoImage;
             tryCompare(avatar, "visible", false);
-            compare(column.anchors.left, previewCommentInput.anchors.left);
+            compare(column.anchors.left, previewComment.anchors.left);
         }
 
         function test_OptionalSubtitle() {
-            var subtitle = findChild(previewCommentInput, "subtitle");
-            previewCommentInput.widgetData = commentNoSubtitle;
+            var subtitle = findChild(previewComment, "subtitle");
+            previewComment.widgetData = commentNoSubtitle;
             tryCompare(subtitle, "visible", false);
         }
     }

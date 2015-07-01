@@ -50,6 +50,7 @@ Loader {
         switch (widgetType) {
             case "actions": return "PreviewActions.qml";
             case "audio": return "PreviewAudioPlayback.qml";
+            case "comment": return "PreviewComment.qml";
             case "comment-input": return "PreviewCommentInput.qml";
             case "expandable": return "PreviewExpandable.qml";
             case "gallery": return "PreviewImageGallery.qml";
@@ -60,7 +61,6 @@ Loader {
             case "rating-input": return "PreviewRatingInput.qml";
             case "rating-edit": return "PreviewRatingEdit.qml";
             case "reviews": return "PreviewRatingDisplay.qml";
-            case "social-comment": return "PreviewSocialComment.qml";
             case "table": return "PreviewTable.qml";
             case "text": return "PreviewTextSummary.qml";
             case "video": return "PreviewVideoPlayback.qml";
