@@ -26,50 +26,61 @@ LocalComponents.Page {
     title: i18n.tr("Language")
     forwardButtonSourceComponent: forwardButton
 
+    property var detectedLangs: []
+
     UbuntuLanguagePlugin {
         id: plugin
     }
 
     Component.onCompleted: {
-        populateModel(["fr", "de"]); // FIXME pass a list of detected languages here
+        detectedLangs = ["fr", "de", "it"] // FIXME pass a list of detected languages here
+        populateModel(detectedLangs.length > 0 ? true : false, detectedLangs.length > 0 ? detectedLangs : ["en"]);
     }
 
-    function populateModel(detectedLangs)
+    function populateModel(onlyDetected, detectedLangs)
     {
+        model.clear()
+        var index = 0;
         var langs = LocalePlugin.languages();
         Object.keys(langs).map(function(code) { // prepare the object
             //console.log("Got language:" + code);
-            return { "code": code, "language":  langs[code] || code,
-                "dept": detectedLangs.indexOf(code) !== -1 ? i18n.tr("Detected") : i18n.tr("All") };
-        })
-        .sort(function(a, b) { // group by status, sort by language name
-            if (a.dept === b.dept) {
-                 return a.language.localeCompare(b.language);
-            } else if (a.dept === i18n.tr("Detected")) {
-                return -1
+
+            if (onlyDetected) {
+                if (!!detectedLangs && detectedLangs.indexOf(code) !== -1) {
+                    return { "code": code, "language": langs[code] || code }
+                }
+            } else {
+                return { "code": code, "language": langs[code] || code }
             }
-            return 1
+            return
+        })
+        .sort(function(a, b) { // sort by language name
+            return a.language.localeCompare(b.language);
         })
         .forEach(function(lang) { // build the model
             if (lang.code === "C") {
                 return;
             }
             model.append(lang);
+            if (!onlyDetected && detectedLangs.length > 0 && lang.code === detectedLangs[0]) { // preselect the first of detected languages
+                selectLanguage(lang.code, index)
+                languagesListView.positionViewAtIndex(index, ListView.Beginning)
+            }
+            index++;
         });
-        busyIndicator.running = false;
-        busyIndicator.visible = false;
     }
 
-    ActivityIndicator {
-        id: busyIndicator;
-
-        anchors.centerIn: column;
-        running: true;
+    function selectLanguage(code, index)
+    {
+        root.language = code
+        languagesListView.currentIndex = index
     }
 
     Column {
         id: column
         anchors.fill: content
+        anchors.bottomMargin: units.gu(1)
+        spacing: units.gu(2)
 
         ListView {
             id: languagesListView;
@@ -84,16 +95,7 @@ LocalComponents.Page {
                 right: parent.right;
             }
 
-            height: column.height
-
-            section {
-                property: "dept";
-                criteria: ViewSection.FullString;
-                labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
-                delegate: Label {
-                    fontSize: "large"
-                }
-            }
+            height: column.height - column.spacing - (showAll.visible ? showAll.height : 0)
 
             model: ListModel {
                 id: model;
@@ -137,6 +139,17 @@ LocalComponents.Page {
                     print("Selected language: " + root.language)
                     print("Current index: " + ListView.view.currentIndex)
                 }
+            }
+        }
+
+        Button {
+            id: showAll
+            //anchors.horizontalCenter: parent.horizontalCenter
+            text: i18n.tr("Show all languages...")
+            visible: detectedLangs.length > 0
+            onClicked: {
+                populateModel(false, root.language !== "" ? [root.language] : ["en"]) // show all langs
+                showAll.visible = false
             }
         }
     }
