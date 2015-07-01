@@ -43,7 +43,7 @@ private Q_SLOTS:
         item.insert("name", "Item 1");
         item.insert("icon", "fake.svg");
         item.insert("count", 0);
-        item.insert("progress", 42);
+        item.insert("progress", 0);
         item.insert("countVisible", false);
         item.insert("pinned", true);
         list.append(item);

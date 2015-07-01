@@ -256,6 +256,7 @@ void LauncherModel::refresh()
             item->setPinned(true);
             item->setCount(entry.toMap().value("count").toInt());
             item->setCountVisible(entry.toMap().value("countVisible").toBool());
+            item->setProgress(entry.toMap().value("progress").toInt());
             beginInsertRows(QModelIndex(), newPosition, newPosition);
             m_list.insert(newPosition, item);
             endInsertRows();
