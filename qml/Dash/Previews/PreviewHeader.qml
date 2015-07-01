@@ -22,6 +22,7 @@ import "../"
 /*! This preview widget shows a header
  *  The title comes in widgetData["title"]
  *  The mascot comes in widgetData["mascot"]
+ *  The mascot fall back image comes in widgetData["fallback"]
  *  The subtitle comes in widgetData["subtitle"]
  *  The attributes comes in widgetData["attributes"]
  */
@@ -35,10 +36,14 @@ PreviewWidget {
         id: headerRoot
         objectName: "innerPreviewHeader"
         readonly property url mascot: root.widgetData["mascot"] || ""
+        readonly property url fallback: root.widgetData["fallback"] || ""
         readonly property string title: root.widgetData["title"] || ""
         readonly property string subtitle: root.widgetData["subtitle"] || ""
         readonly property var attributes: root.widgetData["attributes"] || null
         readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+
+        // Rewire the source since we may have unwired it on onStatusChanged
+        onMascotChanged: if (mascotShapeLoader.item) mascotShapeLoader.item.image.source = mascot;
 
         implicitHeight: row.height + row.margins * 2
         width: parent.width
@@ -82,6 +87,7 @@ PreviewWidget {
                         fillMode: Image.PreserveAspectCrop
                         horizontalAlignment: Image.AlignHCenter
                         verticalAlignment: Image.AlignVCenter
+                        onStatusChanged: if (status === Image.Error) source = headerRoot.fallback;
                     }
                 }
             }

@@ -52,7 +52,7 @@ Item {
             verticalCenter: parent.verticalCenter;
             verticalCenterOffset: Math.max(-units.gu(10), -(root.height - height) / 2) + units.gu(4)
         }
-        spacing: units.gu(2)
+        spacing: units.gu(4)
 
         Column {
             id: shakeContainer
@@ -152,10 +152,6 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: root.retryText || " "
             }
-        }
-
-        ThinDivider {
-            anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
         }
 
         Grid {
