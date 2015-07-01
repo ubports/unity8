@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.3
-import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.2
 import Wizard 0.1
 import ".." as LocalComponents
@@ -80,7 +79,7 @@ LocalComponents.Page {
                 fillMode: Image.PreserveAspectFit
                 height: cityLabel.paintedHeight
 
-                source: "data/tick@30.png"
+                source: "data/Tick.png"
                 visible: tz.currentTz
             }
 

@@ -43,6 +43,7 @@ Item {
     property bool customTitle: false
     property alias forwardButtonSourceComponent: forwardButton.sourceComponent
     property alias content: contentHolder
+    property bool lastPage: false
 
     property string title: ""
 
@@ -52,15 +53,17 @@ Item {
     anchors.fill: parent
 
     // title
-    Rectangle {
+    Image {
         id: titleRect
+        visible: !lastPage
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
         }
+        source: customTitle ? "" : "Pages/data/Phone header bkg.png"
         height: customTitle ? customMargin + titleLabel.height + customMargin : topMargin + bottomMargin
-        color: customTitle ? "#fdfdfd" : "#650954"
+        clip: true
 
         Label {
             id: titleLabel
@@ -95,7 +98,7 @@ Item {
     // button bar
     Rectangle {
         id: buttonRect
-        visible: pageStack.currentPage.objectName !== "finishedPage" // not visible on last page
+        visible: !lastPage
         anchors {
             bottom: parent.bottom
             left: parent.left

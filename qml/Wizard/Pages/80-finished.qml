@@ -19,10 +19,11 @@ import Ubuntu.Components 1.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    objectName: "finishedPage" // careful when renaming the page, see Page.qml
+    objectName: "finishedPage"
 
     hasBackButton: false
     customTitle: true
+    lastPage: true
 
     Image {
         source: "data/warty-final-ubuntu.png"

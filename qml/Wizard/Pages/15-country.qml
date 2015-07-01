@@ -142,7 +142,7 @@ LocalComponents.Page {
                     fillMode: Image.PreserveAspectFit
                     height: countryLabel.paintedHeight
 
-                    source: "data/tick@30.png"
+                    source: "data/Tick.png"
                     visible: itemDelegate.isCurrent
                 }
 
