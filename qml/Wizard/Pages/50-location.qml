@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.3
+import QtQuick.Controls 1.3
 import AccountsService 0.1
 import QMenuModel 0.1 as QMenuModel
 import Qt.labs.folderlistmodel 2.1
@@ -50,81 +51,152 @@ LocalComponents.Page {
         Component.onCompleted: start()
     }
 
-    Column {
+    Component.onCompleted: {
+        group.bindCheckable(hereCheckLabel)
+        group.bindCheckable(gpsCheckLabel)
+        group.bindCheckable(nopeCheckLabel)
+    }
+
+    ExclusiveGroup {
+        id: group
+    }
+
+    Item {
         id: column
         anchors.fill: content
-        spacing: units.gu(4)
         anchors.topMargin: units.gu(4)
 
-        Column {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: childrenRect.height
-            spacing: units.gu(2)
+        Label {
+            id: hereCheckLabel
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: parent.top
+                rightMargin: rightMargin
+            }
 
-            LocalComponents.CheckableSetting {
-                id: hereCheck
-                objectName: "hereCheck"
-                showDivider: false
-                text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")
-                checked: true
-                onTriggered: {
-                    gpsCheck.checked = false;
-                    hereCheck.checked = true;
-                    nopeCheck.checked = false;
+            wrapMode: Text.WordWrap
+            color: "black"
+            font.weight: checked ? Font.Normal : Font.Light
+            text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")
+            property bool checked: true
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    hereCheckLabel.checked = !hereCheckLabel.checked
                 }
-            }
-
-            Label {
-                id: termsLabel
-                objectName: "hereTermsLink"
-                anchors.left: parent.left
-                anchors.leftMargin: hereCheck.labelOffset
-                anchors.right: parent.right
-                wrapMode: Text.Wrap
-                linkColor: "#dd4814"
-                color: "black"
-                fontSize: "small"
-                font.weight: Font.Light
-                // TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
-                text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
-                onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
-            }
-        }
-
-        LocalComponents.CheckableSetting {
-            id: gpsCheck
-            objectName: "gpsCheck"
-            showDivider: false
-            text: i18n.tr("GPS only")
-            onTriggered: {
-                gpsCheck.checked = true;
-                hereCheck.checked = false;
-                nopeCheck.checked = false;
-            }
-        }
-
-        LocalComponents.CheckableSetting {
-            id: nopeCheck
-            objectName: "nopeCheck"
-            showDivider: false
-            text: i18n.tr("Don't use my location")
-            onTriggered: {
-                gpsCheck.checked = false;
-                hereCheck.checked = false;
-                nopeCheck.checked = true;
             }
         }
 
         Label {
-            anchors.left: parent.left
+            id: hereTermsLabel
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: hereCheckLabel.bottom
+                topMargin: units.gu(1)
+                rightMargin: rightMargin
+            }
+
+            wrapMode: Text.WordWrap
+            color: "black"
+            font.weight: Font.Light
+            fontSize: "small"
+            linkColor: "#dd4814"
+            text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
+            onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
+        }
+
+        Image {
+            fillMode: Image.PreserveAspectFit
+            height: hereCheckLabel.height
+            source: "data/Tick.png"
+            opacity: hereCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
+        }
+
+        Label {
+            id: gpsCheckLabel
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: hereTermsLabel.bottom
+                topMargin: units.gu(3)
+                rightMargin: rightMargin
+            }
+            text: i18n.tr("GPS only")
+            wrapMode: Text.WordWrap
+            color: "black"
+            font.weight: checked ? Font.Normal : Font.Light
+            width: content.width
+            property bool checked: false
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    gpsCheckLabel.checked = !gpsCheckLabel.checked
+                }
+            }
+        }
+
+        Image {
+            fillMode: Image.PreserveAspectFit
+            height: gpsCheckLabel.height
+            source: "data/Tick.png"
+            opacity: gpsCheckLabel.checked ? 1 : 0
+            anchors.right: parent.right
+            anchors.verticalCenter: gpsCheckLabel.verticalCenter
+        }
+
+        Label {
+            id: nopeCheckLabel
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: gpsCheckLabel.bottom
+                topMargin: units.gu(3)
+                rightMargin: rightMargin
+            }
+            wrapMode: Text.WordWrap
+            color: "black"
+            font.weight: checked ? Font.Normal : Font.Light
+            width: content.width
+            text: i18n.tr("Don't use my location")
+            property bool checked: false
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    nopeCheckLabel.checked = !nopeCheckLabel.checked
+                }
+            }
+        }
+
+        Image {
+            fillMode: Image.PreserveAspectFit
+            height: nopeCheckLabel.height
+            source: "data/Tick.png"
+            opacity: nopeCheckLabel.checked ? 1 : 0
+            anchors.right: parent.right
+            anchors.verticalCenter: nopeCheckLabel.verticalCenter
+        }
+
+        Label {
+            id: infoLabel
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: nopeCheckLabel.bottom
+                topMargin: units.gu(3)
+            }
             wrapMode: Text.Wrap
             textFormat: Text.RichText
             text: i18n.tr("You can change it later in <em>System Settings</em>.")
             color: "black"
             fontSize: "small"
             font.weight: Font.Light
+            width: content.width
         }
     }
 
@@ -133,9 +205,9 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             text: i18n.tr("Next")
             onClicked: {
-                var locationOn = gpsCheck.checked || hereCheck.checked;
-                var gpsOn = gpsCheck.checked || hereCheck.checked;
-                var hereOn = hereCheck.checked;
+                var locationOn = gpsCheckLabel.checked || hereCheckLabel.checked;
+                var gpsOn = gpsCheckLabel.checked || hereCheckLabel.checked;
+                var hereOn = hereCheckLabel.checked;
 
                 // location service doesn't currently listen to updateState
                 // requests, so we activate the actions if needed.
