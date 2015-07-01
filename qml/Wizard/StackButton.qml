@@ -33,7 +33,7 @@ AbstractButton {
         anchors.left: parent.left
         anchors.right: parent.right
         color: enabled ? "black" : UbuntuColors.lightGrey // FIXME proper colors
-        font.weight: Font.DemiBold
+        font.weight: backArrow ? Font.Normal : Font.DemiBold
         text: stackButton.text
         horizontalAlignment: backArrow ? Text.AlignLeft : Text.AlignRight
     }
