@@ -29,26 +29,22 @@ LocalComponents.Page {
     readonly property var preferedCountries: LocalePlugin.countriesForLanguage(root.language)
 
     Component.onCompleted: {
-        populateModel(preferedCountries, "CH"); // FIXME pass the detected country code here
+        populateModel(preferedCountries);
     }
 
-    function populateModel(preferedCountries, detectedCountry)
+    function populateModel(preferedCountries)
     {
-        console.log("RegionPage::populateModel: detected country:" + detectedCountry);
-        var index = 0;
         var countries = LocalePlugin.countries();
         //console.log("All countries:" + countries);
         Object.keys(countries).map(function(code) { // prepare the object
             //console.log("Got country:" + code);
             return { "code": code, "country":  countries[code] || code,
-                "dept": code === detectedCountry ? i18n.tr("Detected") : Object.keys(preferedCountries).indexOf(code) !== -1 ? i18n.tr("Prefered") : i18n.tr("All") };
+                "dept": Object.keys(preferedCountries).indexOf(code) !== -1 ? i18n.tr("Prefered") : i18n.tr("All") };
         })
         .sort(function(a, b) { // group by status, sort by country name
             if (a.dept === b.dept) {
                  return a.country.localeCompare(b.country);
-            } else if (a.dept === i18n.tr("Detected")) {
-                return -1
-            } else if (a.dept === i18n.tr("Prefered") && b.dept === i18n.tr("All")) {
+            } else if (a.dept === i18n.tr("Prefered")) {
                 return -1
             }
             return 1
@@ -59,11 +55,6 @@ LocalComponents.Page {
                 return;
             }
             model.append(country);
-            if (country.code === detectedCountry) { // preselect the detected country
-                selectCountry(country.code, index)
-                //regionsListView.positionViewAtIndex(index, ListView.Center)
-            }
-            index++;
         });
         busyIndicator.running = false;
         busyIndicator.visible = false;
