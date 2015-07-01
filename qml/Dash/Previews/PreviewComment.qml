@@ -26,7 +26,7 @@ import Ubuntu.Components 1.2
 
 PreviewWidget {
     id: root
-    implicitHeight: column.implicitHeight
+    implicitHeight: Math.max(avatar.height, column.implicitHeight)
 
     UbuntuShape {
         id: avatar
@@ -70,6 +70,7 @@ PreviewWidget {
             text: widgetData["subtitle"] || ""
             fontSize: "xx-small"
             maximumLineCount: 1
+            elide: Text.ElideRight
         }
         Label {
             width: parent.width
