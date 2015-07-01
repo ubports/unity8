@@ -28,16 +28,22 @@ Rectangle {
 
     property var comment: {
         "author": "Claire Thompson",
-        "date": "28/04/2015 3:48pm",
+        "subtitle": "28/04/2015 3:48pm",
         "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "source": "../../graphics/avatars/amanda@12.png"
     }
 
     property var commentNoImage: {
         "author": "Claire Thompson",
-        "date": "28/04/2015 3:48pm",
+        "subtitle": "28/04/2015 3:48pm",
         "comment": "Been quite a while since I really liked one.",
-        "source": "null"
+        "source": ""
+    }
+
+    property var commentNoSubtitle: {
+        "author": "Claire Thompson",
+        "comment": "Been quite a while since I really liked one.",
+        "source": "../../graphics/avatars/amanda@12.png"
     }
 
     PreviewSocialComment {
@@ -52,7 +58,11 @@ Rectangle {
         name: "PreviewSocialCommentTest"
         when: windowShown
 
-        function testAnchorsNoAvatar() {
+        function init() {
+            previewCommentInput.widgetData = comment;
+        }
+
+        function test_AnchorsNoAvatar() {
             var column = findChild(previewCommentInput, "column");
             var avatar = findChild(previewCommentInput, "avatar");
 
@@ -63,6 +73,12 @@ Rectangle {
             previewCommentInput.widgetData = commentNoImage;
             tryCompare(avatar, "visible", false);
             compare(column.anchors.left, previewCommentInput.anchors.left);
+        }
+
+        function test_OptionalSubtitle() {
+            var subtitle = findChild(previewCommentInput, "subtitle");
+            previewCommentInput.widgetData = commentNoSubtitle;
+            tryCompare(subtitle, "visible", false);
         }
     }
 }

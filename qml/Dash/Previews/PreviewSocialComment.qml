@@ -21,7 +21,7 @@ import Ubuntu.Components 1.2
 
     This widget shows an (optional) avatar contained in widgetData["source"]
     along with a label that comes from widgetData["author"],
-    a date date from widgetData["date"] and the comment widgetData["comment"].
+    a (optional) subtitle from widgetData["subtitle"] and the comment widgetData["comment"].
 */
 
 PreviewWidget {
@@ -64,8 +64,10 @@ PreviewWidget {
             elide: Text.ElideRight
         }
         Label {
+            objectName: "subtitle"
             width: parent.width
-            text: widgetData["date"] || ""
+            visible: text !== ""
+            text: widgetData["subtitle"] || ""
             fontSize: "xx-small"
             maximumLineCount: 1
         }
