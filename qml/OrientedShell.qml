@@ -169,7 +169,7 @@ Rectangle {
                     return "tablet";
                 }
             } else { // automatic
-                if (UnityInputInfo.mice > 0) {
+                if (UnityInputInfo.mice > deviceConfiguration.ignoredMice) {
                     return "desktop";
                 } else {
                     return deviceConfiguration.category;
