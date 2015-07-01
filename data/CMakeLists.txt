@@ -14,7 +14,7 @@ install(FILES
 
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/${LIGHTDM_GREETER_APP}.desktop
-    DESTINATION ${CMAKE_INSTALL_DATADIR}/xgreeters
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/greeters
     )
 
 install(FILES com.canonical.Unity8.gschema.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
