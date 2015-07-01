@@ -521,7 +521,7 @@ Rectangle {
         Image {
             anchors {
                 left: parent.left
-                leftMargin: (quickList.item.width - units.gu(1)) / 2 - width / 2
+                leftMargin: quickList.item ? (quickList.item.width - units.gu(1)) / 2 - width / 2 : 0
                 verticalCenter: parent.verticalCenter
                 verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1) * (root.inverted ? 1 : -1)
             }
@@ -564,9 +564,10 @@ Rectangle {
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
-        property int offset: itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
+        property int offset: item ? itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
                                  -(item.height/2) - height - units.gu(.5) :
-                                 (item.height/2) + units.gu(.5)
+                                 (item.height/2) + units.gu(.5) :
+                                    0
 
         Column {
             id: quickListColumn
