@@ -375,6 +375,11 @@ private Q_SLOTS:
         QDBusReply<QVariantMap> reply = interface.call("GetAll");
         QVariantMap map = reply.value();
 
+        // Check that the alerting-status is still false, and the item on the upper side of the API
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+        QVERIFY(launcherModel->get(index)->alerting() == false);
+
         // Make sure GetAll returns a map with count and countVisible props
         QCOMPARE(map.contains("count"), true);
         QCOMPARE(map.contains("countVisible"), true);
@@ -395,16 +400,8 @@ private Q_SLOTS:
         QCOMPARE(map.value("count").toInt(), 55);
         QCOMPARE(map.value("countVisible").toBool(), true);
 
-        // Now the item on the upper side of the API
-        int index = launcherModel->findApplication("abs-icon");
-        QCOMPARE(index >= 0, true);
-
-        // And make sure values have changed there as well
-        spy.clear();
-        QCOMPARE(launcherModel->get(index)->countVisible(), true);
-        QCOMPARE(launcherModel->get(index)->count(), 55);
+        // Finally check, that the change to "count" implicitly also set the alerting-state to true
         QVERIFY(launcherModel->get(index)->alerting() == true);
-        QCOMPARE(spy.at(0).at(2).value<QVector<int>>().first(), (int)LauncherModelInterface::RoleAlerting);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
