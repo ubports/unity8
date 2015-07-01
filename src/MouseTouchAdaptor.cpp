@@ -104,9 +104,9 @@ bool MouseTouchAdaptor::handleButtonPress(xcb_button_press_event_t *pressEvent)
     if (button != Qt::LeftButton)
         return true;
 
-    QPoint windowPos(pressEvent->event_x, pressEvent->event_y);
-
     QWindow *targetWindow = findQWindowWithXWindowID(static_cast<WId>(pressEvent->event));
+
+    QPoint windowPos(pressEvent->event_x / targetWindow->devicePixelRatio(), pressEvent->event_y / targetWindow->devicePixelRatio());
 
     QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
@@ -125,9 +125,9 @@ bool MouseTouchAdaptor::handleButtonRelease(xcb_button_release_event_t *releaseE
     if (button != Qt::LeftButton)
         return true;
 
-    QPoint windowPos(releaseEvent->event_x, releaseEvent->event_y);
-
     QWindow *targetWindow = findQWindowWithXWindowID(static_cast<WId>(releaseEvent->event));
+
+    QPoint windowPos(releaseEvent->event_x / targetWindow->devicePixelRatio(), releaseEvent->event_y / targetWindow->devicePixelRatio());
 
     QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
@@ -144,9 +144,9 @@ bool MouseTouchAdaptor::handleMotionNotify(xcb_motion_notify_event_t *event)
         return true;
     }
 
-    QPoint windowPos(event->event_x, event->event_y);
-
     QWindow *targetWindow = findQWindowWithXWindowID(static_cast<WId>(event->event));
+
+    QPoint windowPos(event->event_x / targetWindow->devicePixelRatio(), event->event_y / targetWindow->devicePixelRatio());
 
     QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);

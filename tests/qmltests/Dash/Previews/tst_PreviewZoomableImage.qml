@@ -26,7 +26,7 @@ Rectangle {
     color: "lightgrey"
 
     property var widgetData0: {
-        "source": Qt.resolvedUrl("../artwork/checkers.png"),
+        "source": "../../graphics/phone_background.jpg",
         "zoomable": false
     }
 
@@ -34,21 +34,35 @@ Rectangle {
         "source": ""
     }
 
-    PreviewZoomableImage {
-        id: zoomableImage
-        anchors.centerIn: parent
-        widgetData: widgetData0
+    property var widgetData2: {
+        "source": "fadsasf",
+        "fallback": "../../graphics/phone_background.jpg"
     }
+
+    Loader {
+        id: loader
+        anchors.centerIn: parent
+        sourceComponent: PreviewZoomableImage {
+            widgetData: widgetData0
+        }
+    }
+
+    property alias zoomableImage: loader.item
 
     UT.UnityTestCase {
         name: "PreviewZoomableImageTest"
         when: windowShown
 
-        property Item lazyImage: findChild(zoomableImage, "lazyImage");
-        property Item overlay: findChild(zoomableImage.rootItem, "overlay");
+        property Item lazyImage
+        property Item overlay
 
         function init() {
+            // Use a loader so we start from scratch each time
+            loader.active = false;
+            loader.active = true;
+            lazyImage = findChild(zoomableImage, "lazyImage");
             waitForRendering(zoomableImage);
+            overlay = findChild(zoomableImage.rootItem, "overlay");
             waitForRendering(overlay);
         }
 
@@ -78,6 +92,13 @@ Rectangle {
             tryCompare(overlayCloseButton, "visible", true);
             mouseClick(overlayCloseButton);
             tryCompare(overlay, "visible", false);
+        }
+
+        function test_fallback() {
+            zoomableImage.widgetData = widgetData2;
+            waitForRendering(zoomableImage);
+            waitForRendering(lazyImage);
+            tryCompare(lazyImage, "state", "ready");
         }
     }
 }

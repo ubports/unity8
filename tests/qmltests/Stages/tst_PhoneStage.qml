@@ -346,6 +346,25 @@ Item {
             tryCompare(spreadView, "contentX", -spreadView.shift)
         }
 
+        function test_cantAccessPhoneStageWhileRightEdgeGesture() {
+            var spreadView = findChild(phoneStage, "spreadView");
+            var eventEaterArea = findChild(phoneStage, "eventEaterArea")
+
+            var startX = phoneStage.width - 2;
+            var startY = phoneStage.height / 2;
+            var endY = startY;
+            var endX = phoneStage.width / 2;
+
+            touchFlick(phoneStage, startX, startY, endX, endY,
+                       true /* beginTouch */, false /* endTouch */, units.gu(10), 50);
+
+            compare(eventEaterArea.enabled, true);
+
+            touchRelease(phoneStage, endX, endY);
+
+            compare(eventEaterArea.enabled, false);
+        }
+
         function test_leftEdge_data() {
             return [
                 { tag: "normal", inSpread: false, leftEdgeDragWidth: units.gu(5), shouldMoveApp: true },
