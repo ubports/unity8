@@ -538,7 +538,7 @@ Rectangle {
             height: units.gu(1)
             width: units.gu(2)
             source: "graphics/quicklist_tooltip.png"
-            rotation: root.inverted ? 90 : 270
+            rotation: 90
         }
 
         InverseMouseArea {
@@ -554,7 +554,7 @@ Rectangle {
     Rectangle {
         id: quickList
         objectName: "quickList"
-        color: "#221e1c"
+        color: "#f5f5f5"
         // Because we're setting left/right anchors depending on orientation, it will break the
         // width setting after rotating twice. This makes sure we also re-apply width on rotation
         width: root.inverted ? units.gu(30) : units.gu(30)
