@@ -246,6 +246,26 @@ void MockLauncherModel::emitHint()
     Q_EMIT hint();
 }
 
+void MockLauncherModel::setCount(const QString &appId, int count)
+{
+    int index = findApp(appId);
+    if (index >= 0) {
+        m_list.at(index)->setCount(count);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+    }
+}
+
+void MockLauncherModel::setCountVisible(const QString &appId, bool countVisible)
+{
+    int index = findApp(appId);
+    if (index >= 0) {
+        m_list.at(index)->setCountVisible(countVisible);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+    }
+}
+
 unity::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const
 {
     return nullptr;

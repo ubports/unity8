@@ -759,5 +759,23 @@ Item {
             waitForWiggleToStop(appIcon5)
             tryCompare(appIcon5, "wiggling", false, 1000, "appId #1 should not be wiggling")
         }
+
+        function test_alertViaCountAndCountVisible() {
+            dragLauncherIntoView();
+            var appIcon1 = findChild(launcher, "launcherDelegate1")
+            var oldCount = LauncherModel.get(1).count
+            LauncherModel.setCount(LauncherModel.get(1).appId, 42)
+            tryCompare(appIcon1, "wiggling", false, 1000, "appId #1 should be still")
+            LauncherModel.setCountVisible(LauncherModel.get(1).appId, 1)
+            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setCount(LauncherModel.get(1).appId, 4711)
+            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setCountVisible(LauncherModel.get(1).appId, 0)
+            LauncherModel.setCount(LauncherModel.get(1).appId, oldCount)
+        }
     }
 }
