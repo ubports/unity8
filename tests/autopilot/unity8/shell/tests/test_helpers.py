@@ -17,13 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""Tests for the Dash autopilot emulators.
+"""Tests for the Dash autopilot custom proxy objects.
 
-The autopilot emulators are helpers for tests that check a user journey that
-involves the dash. The code for some of those tests will not be inside this
-branch, but in projects that depend on unity or that test the whole system
-integration. So, we need to test the helpers in order to make sure that we
-don't break them for those external projects.
+The autopilot custom proxy objects are helpers for tests that check a user
+journey that involves the dash. The code for some of those tests will not be
+inside this branch, but in projects that depend on unity or that test the
+whole system integration. So, we need to test the helpers in order to make
+sure that we don't break them for those external projects.
 
 """
 
@@ -31,8 +31,7 @@ from ubuntuuitoolkit import ubuntu_scenarios
 
 from unity8 import process_helpers
 from unity8.shell import fixture_setup, tests
-from unity8.shell.emulators import dash as dash_emulators
-from unity8.shell.emulators.dash import ListViewWithPageHeader
+from unity8 import dash as dash_helpers
 
 
 class MainWindowTestCase(tests.UnityTestCase):
@@ -45,7 +44,7 @@ class MainWindowTestCase(tests.UnityTestCase):
         process_helpers.unlock_unity()
 
 
-class DashEmulatorTestCase(tests.DashBaseTestCase):
+class DashHelperTestCase(tests.DashBaseTestCase):
 
     def test_search(self):
         self.dash.enter_search_query('Test')
@@ -98,16 +97,16 @@ class DashEmulatorTestCase(tests.DashBaseTestCase):
         scope_id = 'musicaggregator'
         scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
-        self.assertIsInstance(scope, dash_emulators.GenericScopeView)
+        self.assertIsInstance(scope, dash_helpers.GenericScopeView)
 
     def test_open_applications_scope(self):
         scope_id = 'clickscope'
         scope = self.dash.open_scope(scope_id)
         self._assert_scope_is_opened(scope, scope_id)
-        self.assertIsInstance(scope, dash_emulators.GenericScopeView)
+        self.assertIsInstance(scope, dash_helpers.GenericScopeView)
 
 
-class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
+class GenericScopeViewHelperTestCase(tests.DashBaseTestCase):
 
     def setUp(self):
         # Set up the fake scopes before launching unity.
@@ -117,17 +116,17 @@ class GenericScopeViewEmulatorTestCase(tests.DashBaseTestCase):
 
     def test_open_preview(self):
         preview = self.generic_scope.open_preview('0', 'Title.0.0')
-        self.assertIsInstance(preview, dash_emulators.Preview)
+        self.assertIsInstance(preview, dash_helpers.Preview)
         self.assertTrue(preview.isCurrent)
 
     def test_open_preview_of_non_visible_item(self):
         """Open an item that requires swiping to make it visible."""
         preview = self.generic_scope.open_preview('2', 'Title.2.0')
-        self.assertIsInstance(preview, dash_emulators.Preview)
+        self.assertIsInstance(preview, dash_helpers.Preview)
         self.assertTrue(preview.isCurrent)
 
 
-class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
+class DashAppsHelperTestCase(tests.DashBaseTestCase):
 
     available_applications = [
         'Title.2.0', 'Title.2.1', 'Title.2.2',  'Title.2.3', 'Title.2.4',
@@ -145,7 +144,7 @@ class DashAppsEmulatorTestCase(tests.DashBaseTestCase):
         category_element = self.applications_scope._get_category_element(
             category)
         list_view = self.dash.get_scope('clickscope')\
-            .select_single(ListViewWithPageHeader)
+            .select_single(dash_helpers.ListViewWithPageHeader)
         expected_apps_count = self._get_number_of_application_slots(category)
         expected_applications = self.available_applications[
             :expected_apps_count]
