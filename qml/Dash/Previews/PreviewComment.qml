@@ -41,7 +41,7 @@ PreviewWidget {
             source: widgetData["source"]
         }
         radius: "medium"
-        visible: source.status === Image.Ready
+        visible: widgetData["source"] !== ""
     }
 
     Column {
