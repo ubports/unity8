@@ -151,6 +151,9 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
+        if (m_countVisible) {
+            setAlerting(true);
+        }
     }
 }
 
@@ -164,6 +167,9 @@ void LauncherItem::setCountVisible(bool countVisible)
     if (m_countVisible != countVisible) {
         m_countVisible = countVisible;
         Q_EMIT countVisibleChanged(countVisible);
+        if (countVisible) {
+            setAlerting(true);
+        }
     }
 }
 
