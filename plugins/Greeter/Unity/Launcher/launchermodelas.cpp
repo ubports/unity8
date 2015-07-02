@@ -200,15 +200,16 @@ void LauncherModel::refresh()
     Q_FOREACH (LauncherItem* item, m_list) {
         bool found = false;
         Q_FOREACH(const QVariant &asItem, items) {
-            if (asItem.toMap().value("id").toString() == item->appId()) {
+            QMap<QString, QVariant> cachedMap = asItem.toMap();
+            if (cachedMap.value("id").toString() == item->appId()) {
                 // Only keep and update it if we either show unpinned or it is pinned
-                if (!m_onlyPinned || asItem.toMap().value("pinned").toBool()) {
+                if (!m_onlyPinned || cachedMap.value("pinned").toBool()) {
                     found = true;
-                    item->setName(asItem.toMap().value("name").toString());
-                    item->setIcon(asItem.toMap().value("icon").toString());
-                    item->setCount(asItem.toMap().value("count").toInt());
-                    item->setCountVisible(asItem.toMap().value("countVisible").toBool());
-                    item->setProgress(asItem.toMap().value("progress").toInt());
+                    item->setName(cachedMap.value("name").toString());
+                    item->setIcon(cachedMap.value("icon").toString());
+                    item->setCount(cachedMap.value("count").toInt());
+                    item->setCountVisible(cachedMap.value("countVisible").toBool());
+                    item->setProgress(cachedMap.value("progress").toInt());
                     int idx = m_list.indexOf(item);
                     Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
                 }

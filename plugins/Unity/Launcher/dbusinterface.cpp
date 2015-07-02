@@ -160,31 +160,32 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
     LauncherItem *item = static_cast<LauncherItem*>(m_launcherModel->get(index));
 
     QVariantList retval;
+    QString cachedString = message.arguments()[1].toString();
     if (message.member() == "Get") {
         if (!item) {
             return false;
         }
-        if (message.arguments()[1].toString() == "count") {
+        if (cachedString == "count") {
             retval.append(QVariant::fromValue(QDBusVariant(item->count())));
-        } else if (message.arguments()[1].toString() == "countVisible") {
+        } else if (cachedString == "countVisible") {
             retval.append(QVariant::fromValue(QDBusVariant(item->countVisible())));
-        } else if (message.arguments()[1].toString() == "progress") {
+        } else if (cachedString == "progress") {
             retval.append(QVariant::fromValue(QDBusVariant(item->progress())));
         }
     } else if (message.member() == "Set") {
-        if (message.arguments()[1].toString() == "count") {
+        if (cachedString == "count") {
             int newCount = message.arguments()[2].value<QDBusVariant>().variant().toInt();
             if (!item || newCount != item->count()) {
                 Q_EMIT countChanged(appid, newCount);
                 notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "count", QVariant(newCount));
             }
-        } else if (message.arguments()[1].toString() == "countVisible") {
+        } else if (cachedString == "countVisible") {
             bool newVisible = message.arguments()[2].value<QDBusVariant>().variant().toBool();
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
                 notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "countVisible", newVisible);
             }
-        } else if (message.arguments()[1].toString() == "progress") {
+        } else if (cachedString == "progress") {
             int newProgress = message.arguments()[2].value<QDBusVariant>().variant().toInt();
             if (!item || newProgress != item->progress()) {
                 Q_EMIT progressChanged(appid, newProgress);
