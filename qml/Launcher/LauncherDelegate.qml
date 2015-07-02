@@ -103,6 +103,8 @@ Item {
 
         UbuntuShape {
             id: progressOverlay
+            objectName: "progressOverlay"
+
             anchors {
                 left: iconItem.left
                 right: iconItem.right
