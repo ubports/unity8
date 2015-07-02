@@ -246,7 +246,7 @@ var kEmblemIconCode = 'Icon { \n\
                             anchors { \n\
                                 bottom: titleLabel.baseline; \n\
                                 right: parent.right; \n\
-                                %1
+                                %1 \n\
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             color: %2; \n\
