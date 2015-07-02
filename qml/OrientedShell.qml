@@ -135,6 +135,7 @@ Rectangle {
         nativeOrientation: root.nativeOrientation
         nativeWidth: root.width
         nativeHeight: root.height
+        mode: applicationArguments.mode
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
