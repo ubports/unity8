@@ -1,3 +1,40 @@
+unity8 (8.10+15.10.20150702.2-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Save screenshots of suspended apps to disk
+  * Set width of title label when inside the title row (LP: #1461979)
+  * qmluitests was renamed to uitests
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Fix tst_OrientedShell and tst_Tutorial (LP: #1469761, #1466947)
+
+  [ Leo Arias ]
+  * Reorganized the python test helper modules. Deprecated the
+    unity8.shell.emulators namespace. (LP: #1306340)
+
+  [ Leonardo Arias Fonseca ]
+  * Reorganized the python test helper modules. Deprecated the
+    unity8.shell.emulators namespace. (LP: #1306340)
+
+  [ Lukáš Tinkl ]
+  * fix PO files extraction
+
+  [ Michael Zanetti ]
+  * Make use of QInputDeviceInfo in order to automatically switch
+    between usage modes and hide the OSK.
+
+  [ Nick Dedekind ]
+  * Fixed qtmultimedia mock which was generating errors in tests
+
+  [ Richard Huddie ]
+  * Reorganized the python test helper modules. Deprecated the
+    unity8.shell.emulators namespace. (LP: #1306340)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 02 Jul 2015 16:09:57 +0000
+
 unity8 (8.10+15.10.20150618-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]
