@@ -533,7 +533,7 @@ Rectangle {
                 right: parent.left
                 rightMargin: -units.dp(4)
                 verticalCenter: parent.verticalCenter
-                verticalCenterOffset: -quickList.offset * (root.inverted ? 1 : -1)
+                verticalCenterOffset: -quickList.offset * (root.inverted ? -1 : 1)
             }
             height: units.gu(1)
             width: units.gu(2)
