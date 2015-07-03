@@ -18,6 +18,7 @@ import QtQuick 2.3
 import MeeGo.QOfono 0.2
 import Ubuntu.Components 1.2
 import Ubuntu.Components.Popups 1.0
+import Unity.Session 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -49,8 +50,9 @@ LocalComponents.Page {
             id: restartButton
             text: i18n.tr("Restart")
             onClicked: {
-                // TODO reboot for real
                 PopupUtils.close(restartDialog)
+                quit()
+                DBusUnitySessionService.reboot()
             }
         }
     }
