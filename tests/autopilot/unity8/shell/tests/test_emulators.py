@@ -41,8 +41,8 @@ class MainWindowTestCase(tests.UnityTestCase):
 
     def setUp(self):
         super().setUp()
-        unity_proxy = self.launch_unity()
-        process_helpers.unlock_unity(unity_proxy)
+        self.launch_unity()
+        process_helpers.unlock_unity()
 
 
 class DashEmulatorTestCase(tests.DashBaseTestCase):
