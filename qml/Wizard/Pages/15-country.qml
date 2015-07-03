@@ -25,7 +25,7 @@ LocalComponents.Page {
     title: i18n.tr("Country")
     forwardButtonSourceComponent: forwardButton
 
-    property string selectedLocale: ""
+    property string selectedCountry: ""
     readonly property var preferedCountries: LocalePlugin.countriesForLanguage(root.language)
 
     Component.onCompleted: {
@@ -62,7 +62,7 @@ LocalComponents.Page {
 
     function selectCountry(code, index)
     {
-        selectedLocale = root.language + "_" + code
+        selectedCountry = code
         regionsListView.currentIndex = index
     }
 
@@ -139,7 +139,7 @@ LocalComponents.Page {
 
                 onClicked: {
                     selectCountry(code, index)
-                    print("Selected locale: " + selectedLocale)
+                    print("Selected country: " + selectedCountry)
                     print("Current index: " + ListView.view.currentIndex)
                 }
             }
@@ -150,7 +150,7 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            enabled: selectedLocale !== ""
+            enabled: selectedCountry !== ""
             onClicked: {
                 //                if (selectedLanguage !== plugin.languageCodes[plugin.currentLanguage]) {
                 //                    //plugin.currentLanguage = listview.currentIndex; // setting system language by some magic index? wtf
