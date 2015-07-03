@@ -29,10 +29,10 @@ LocalComponents.Page {
     customTitle: true
     hasBackButton: false
 
-    skipValid: !manager.available ||
-               (manager.ready && (manager.modems.length < 1 || simManager0.ready)
-                              && (manager.modems.length < 2 || simManager1.ready))
-    skip: !manager.available || manager.modems.length === 0 || simManager0.present || simManager1.present
+    skipValid: !modemManager.available ||
+               (modemManager.ready && (modemManager.modems.length < 1 || simManager0.ready)
+                              && (modemManager.modems.length < 2 || simManager1.ready))
+    skip: !modemManager.available || modemManager.modems.length === 0 || simManager0.present || simManager1.present
 
     property bool hadModem: false
 
@@ -57,28 +57,13 @@ LocalComponents.Page {
         }
     }
 
-    OfonoManager {
-        id: manager
-        property bool ready: false
+    Connections {
+        target: modemManager
         onModemsChanged: {
-            print("Modems changed " + modems)
-            ready = true
             if (!hadModem && (simManager0.present || simManager1.present)) { // show the restart dialog in case a SIM gets inserted
-                PopupUtils.open(restartDialog)
+                restartDialog.visible = true
             }
         }
-    }
-
-    // Ideally we would query the system more cleverly than hardcoding two
-    // sims.  But we don't yet have a more clever way.  :(
-    OfonoSimManager {
-        id: simManager0
-        modemPath: manager.modems.length >= 1 ? manager.modems[0] : ""
-    }
-
-    OfonoSimManager {
-        id: simManager1
-        modemPath: manager.modems.length >= 2 ? manager.modems[1] : ""
     }
 
     Column {

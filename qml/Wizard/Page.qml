@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.2
+import MeeGo.QOfono 0.2
 
 Item {
     readonly property real buttonMargin: units.gu(3)
@@ -51,6 +52,30 @@ Item {
 
     visible: false
     anchors.fill: parent
+
+    property alias modemManager: modemManager
+    property alias simManager0: simManager0
+    property alias simManager1: simManager1
+
+    OfonoManager { // need it here for the language and country detection
+        id: modemManager
+        property bool ready: false
+        onModemsChanged: {
+            ready = true
+        }
+    }
+
+    // Ideally we would query the system more cleverly than hardcoding two
+    // sims.  But we don't yet have a more clever way.  :(
+    OfonoSimManager {
+        id: simManager0
+        modemPath: modemManager.modems.length >= 1 ? modemManager.modems[0] : ""
+    }
+
+    OfonoSimManager {
+        id: simManager1
+        modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
+    }
 
     // title
     Image {
