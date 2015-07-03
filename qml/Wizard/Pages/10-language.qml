@@ -26,15 +26,28 @@ LocalComponents.Page {
     title: i18n.tr("Language")
     forwardButtonSourceComponent: forwardButton
 
-    property var detectedLangs: []
+    property var detectedLangs: ["en"]
 
     UbuntuLanguagePlugin {
         id: plugin
     }
 
-    Component.onCompleted: {
-        detectedLangs = ["fr", "de", "it"] // FIXME pass a list of detected languages here
-        populateModel(detectedLangs.length > 0 ? true : false, detectedLangs.length > 0 ? detectedLangs : ["en"]);
+    Connections {
+        target: modemManager
+        onModemsChanged: {
+            print("Modems changed")
+            if (simManager0.present && simManager0.preferredLanguages.length > 0) {
+                detectedLangs = simManager0.preferredLanguages
+            } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
+                detectedLangs = simManager1.preferredLanguages
+            } else {
+                //detectedLangs = ["de", "fr", "it"]
+            }
+
+            print("Detected langs: " + detectedLangs)
+
+            populateModel(true, detectedLangs);
+        }
     }
 
     function populateModel(onlyDetected, detectedLangs)

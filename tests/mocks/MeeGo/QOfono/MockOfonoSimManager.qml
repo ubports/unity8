@@ -23,6 +23,7 @@ Item {
     property string modemPath
     readonly property alias present: d.present
     readonly property alias ready: d.ready
+    readonly property var preferredLanguages: ["de", "fr", "it", "en"]
 
     QtObject {
         id: d
@@ -31,6 +32,7 @@ Item {
         property bool ready: false
 
         function updatePresence() {
+            print("Update presence")
             d.present = MockQOfono.isModemPresent(simManager.modemPath)
             d.ready = MockQOfono.isModemReady(simManager.modemPath);
         }
