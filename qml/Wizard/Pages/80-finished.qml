@@ -26,7 +26,7 @@ LocalComponents.Page {
     lastPage: true
 
     Image {
-        source: "data/warty-final-ubuntu.png"
+        source: "data/Phone Splash Screen bkg.png"
         anchors.fill: parent
         scale: Image.PreserveAspectCrop
         clip: true
