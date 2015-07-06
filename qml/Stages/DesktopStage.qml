@@ -57,6 +57,7 @@ Rectangle {
 
     onAltTabPressedChanged: {
         if (!altTabPressed && root.state == "altTab") {
+            print("released", appRepeater.highlightedIndex)
             ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
         }
     }
@@ -173,9 +174,7 @@ Rectangle {
             objectName: "appRepeater"
 
             property int highlightedIndex: -1
-            onHighlightedIndexChanged: {
-                print("****** changed:", highlightedIndex)
-            }
+            property int closingIndex: -1
 
             delegate: FocusScope {
                 id: appDelegate
@@ -195,6 +194,14 @@ Rectangle {
                 Component.onCompleted: {
                     if (ApplicationManager.focusedApplicationId == model.appId) {
                         decoratedWindow.forceActiveFocus();
+                    }
+                }
+
+                Behavior on x {
+                    id: closeBehavior
+                    enabled: appRepeater.closingIndex >= 0
+                    UbuntuNumberAnimation {
+                        onRunningChanged: if (!running) appRepeater.closingIndex = -1
                     }
                 }
 
@@ -321,7 +328,6 @@ Rectangle {
                         onMouseYChanged: evaluateContainsMouse()
                         function evaluateContainsMouse() {
                             if (containsMouse) {
-                                print("setting highlighted to", index)
                                 appRepeater.highlightedIndex = index
                             }
 
@@ -360,7 +366,11 @@ Rectangle {
                     anchors.fill: closeImage
                     anchors.margins: -units.gu(1)
                     enabled: spreadSelectArea.enabled
-                    onClicked: ApplicationManager.stopApplication(model.appId)
+                    onClicked: {
+                        print("enabling clsoeBehaviro")
+                        appRepeater.closingIndex = index;
+                        ApplicationManager.stopApplication(model.appId)
+                    }
                 }
 
                 ColumnLayout {
@@ -519,6 +529,7 @@ Rectangle {
             from: "*"
             to: "altTab"
             SequentialAnimation {
+                PropertyAction { target: appRepeater; property: "highlightedIndex"; value: 1 }
                 PauseAnimation { duration: 50 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 ScriptAction { script: root.updateWorkspaces() }
@@ -526,9 +537,8 @@ Rectangle {
                 PauseAnimation { duration: 10 }
                 PropertyAction { target: root; property: "workspacesUpdated"; value: true }
                 PropertyAction { target: spreadFlickable; property: "visible" }
-                PropertyAction { target: currentSelectedLabel; property: "visible" }
+                PropertyAction { targets: [currentSelectedLabel,spreadBackground]; property: "visible" }
                 PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
-                PropertyAction { target: appRepeater; property: "highlightedIndex"; value: 1 }
             }
         },
         Transition {
