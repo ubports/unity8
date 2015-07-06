@@ -1,0 +1,2 @@
+module Unity.InputInfo
+plugin MockInputInfo

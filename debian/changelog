@@ -1,3 +1,40 @@
+unity8 (8.10+15.10.20150702.2-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Save screenshots of suspended apps to disk
+  * Set width of title label when inside the title row (LP: #1461979)
+  * qmluitests was renamed to uitests
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Fix tst_OrientedShell and tst_Tutorial (LP: #1469761, #1466947)
+
+  [ Leo Arias ]
+  * Reorganized the python test helper modules. Deprecated the
+    unity8.shell.emulators namespace. (LP: #1306340)
+
+  [ Leonardo Arias Fonseca ]
+  * Reorganized the python test helper modules. Deprecated the
+    unity8.shell.emulators namespace. (LP: #1306340)
+
+  [ Lukáš Tinkl ]
+  * fix PO files extraction
+
+  [ Michael Zanetti ]
+  * Make use of QInputDeviceInfo in order to automatically switch
+    between usage modes and hide the OSK.
+
+  [ Nick Dedekind ]
+  * Fixed qtmultimedia mock which was generating errors in tests
+
+  [ Richard Huddie ]
+  * Reorganized the python test helper modules. Deprecated the
+    unity8.shell.emulators namespace. (LP: #1306340)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 02 Jul 2015 16:09:57 +0000
+
 unity8 (8.10+15.10.20150618-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]
@@ -58,6 +95,12 @@ unity8 (8.10+15.10.20150612-0ubuntu1) wily; urgency=medium
   * Implemented autopilot-test and fake-sensors for shell-rotation.
 
  -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 12 Jun 2015 16:07:47 +0000
+
+unity8 (8.10-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Implement full-shell rotation (LP: #1210199)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 15 Apr 2015 14:47:17 +0200
 
 unity8 (8.02+15.10.20150603.1-0ubuntu1) wily; urgency=medium
 

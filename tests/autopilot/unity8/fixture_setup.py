@@ -31,21 +31,14 @@ from ubuntuuitoolkit import fixture_setup
 
 from unity8 import (
     get_binary_path,
+    get_mocks_library_path,
+    get_default_extra_mock_libraries,
+    get_data_dirs,
     sensors,
+    shell,
     process_helpers
 )
 
-from unity8.shell import emulators
-
-from unity8.shell.emulators import (
-    main_window as main_window_emulator
-)
-
-from unity8 import (
-    get_mocks_library_path,
-    get_default_extra_mock_libraries,
-    get_data_dirs
-)
 
 logger = logging.getLogger(__name__)
 
@@ -140,8 +133,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         args = [binary_arg] + env_args
         self.unity_proxy = process_helpers.restart_unity_with_testability(
             *args)
-        self.main_win = self.unity_proxy.select_single(
-            main_window_emulator.QQuickView)
+        self.main_win = self.unity_proxy.select_single(shell.QQuickView)
 
     def _create_sensors(self):
         # Wait for unity to start running.
@@ -150,7 +142,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
 
         # Wait for the sensors fifo file to be created.
         fifo_path = '/tmp/sensor-fifo-{0}'.format(
-            process_helpers.get_unity_pid())
+            process_helpers._get_unity_pid())
         Eventually(Equals(True)).match(
             lambda: os.path.exists(fifo_path))
 
@@ -158,8 +150,6 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
             fifo.write('create accel 0 1000 0.1\n')
             fifo.write('create light 0 10 1\n')
             fifo.write('create proximity\n')
-
-logger = logging.getLogger(__name__)
 
 
 class RestartUnityWithTestability(fixtures.Fixture):

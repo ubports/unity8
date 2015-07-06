@@ -27,14 +27,19 @@ class ApplicationArguments : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString deviceName READ deviceName CONSTANT)
+    Q_PROPERTY(QString mode READ mode CONSTANT)
 public:
     ApplicationArguments(QObject *parent = nullptr);
 
     void setDeviceName(QString deviceName) { m_deviceName = deviceName; }
     QString deviceName() const { return m_deviceName; }
 
+    void setMode(QString mode) { m_mode = mode; }
+    QString mode() const { return m_mode; }
+
 private:
     QString m_deviceName;
+    QString m_mode;
 };
 
 #endif // APPLICATION_ARGUMENTS_H
