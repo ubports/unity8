@@ -110,8 +110,6 @@ Rectangle {
             sourceComponent: Component {
                 Shell {
                     id: __shell
-                    property string shellMode: "full-greeter" /* default */
-
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
                     primaryOrientation: Qt.PortraitOrientation

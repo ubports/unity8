@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
+import SessionGrabber 0.1
 
 FocusScope {
     id: root
@@ -30,11 +31,16 @@ FocusScope {
     property QtObject application
     property int surfaceOrientationAngle
 
+    function removeScreenshot() {
+        sessionGrabber.removeScreenshot();
+    }
+
     QtObject {
         id: d
 
         // helpers so that we don't have to check for the existence of an application everywhere
         // (in order to avoid breaking qml binding due to a javascript exception)
+        readonly property string appId: root.application ? root.application.appId : ""
         readonly property string name: root.application ? root.application.name : ""
         readonly property url icon: root.application ? root.application.icon : ""
         readonly property int applicationState: root.application ? root.application.state : -1
@@ -50,11 +56,11 @@ FocusScope {
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
         property bool needToTakeScreenshot:
-            sessionContainer.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
-            && d.applicationState === ApplicationInfoInterface.Stopped
+            sessionContainer.surface && d.surfaceInitialized
+            && (d.applicationState === ApplicationInfoInterface.Stopped || d.applicationState === ApplicationInfoInterface.Suspended)
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
-                screenshotImage.take();
+                sessionGrabber.grab();
             }
         }
 
@@ -86,27 +92,9 @@ FocusScope {
         onTriggered: { if (stateGroup.state === "surface") { d.surfaceOldEnoughToBeResized = true; } }
     }
 
-    Image {
-        id: screenshotImage
-        objectName: "screenshotImage"
-        source: d.defaultScreenshot
-        anchors.fill: parent
-        antialiasing: !root.interactive
-
-        function take() {
-            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
-            // eg: "image://application/calculator-app/123456"
-            var timeMs = new Date().getTime();
-            source = "image://application/" + root.application.appId + "/" + timeMs;
-        }
-
-        // Save memory by using a half-resolution (thus quarter size) screenshot
-        sourceSize.width: root.width / 2
-        sourceSize.height: root.height / 2
-    }
-
     Loader {
         id: splashLoader
+        objectName: "splashLoader"
         visible: active
         active: false
         anchors.fill: parent
@@ -120,7 +108,43 @@ FocusScope {
                 backgroundColor: d.splashColor
                 headerColor: d.splashColorHeader
                 footerColor: d.splashColorFooter
+                activeSpinner: d.applicationState === ApplicationInfoInterface.Starting ||
+                               d.applicationState === ApplicationInfoInterface.Running
             }
+        }
+    }
+
+    Image {
+        id: screenshotImage
+        objectName: "screenshotImage"
+        source: sessionGrabber.path || d.defaultScreenshot
+        anchors.fill: parent
+        antialiasing: !root.interactive
+        cache: false
+        asynchronous: true
+
+        // Save memory by using a half-resolution (thus quarter size) screenshot
+        sourceSize.width: root.width / 2
+        sourceSize.height: root.height / 2
+
+        ActivityIndicator {
+            id: activityIndicator
+            anchors.centerIn: parent
+            visible: running
+            running: stateGroup.state == "screenshot" &&
+                     (d.applicationState === ApplicationInfoInterface.Starting || d.applicationState === ApplicationInfoInterface.Running)
+        }
+    }
+
+    SessionGrabber {
+        id: sessionGrabber
+        appId: d.appId
+        target: root
+
+        onScreenshotGrabbed: {
+            // Need to reset to "" and back since it may be the same path with new content
+            screenshotImage.source = "";
+            screenshotImage.source = sessionGrabber.path;
         }
     }
 
