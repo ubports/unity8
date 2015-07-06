@@ -382,7 +382,7 @@ Rectangle {
 
                     UbuntuShape {
                         Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
-                        Layout.preferredWidth: height
+                        Layout.preferredWidth: height * 8 / 7.6
                         image: Image {
                             anchors.fill: parent
                             source: model.icon
@@ -391,7 +391,7 @@ Rectangle {
                     Label {
                         Layout.fillWidth: true
                         Layout.preferredHeight: units.gu(6)
-                        text: model.name + " -- " + index + appRepeater.highlightedIndex
+                        text: model.name
                         wrapMode: Text.WordWrap
                         maximumLineCount: 2
                     }

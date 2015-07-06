@@ -86,7 +86,7 @@ Item {
 
     readonly property int animatedY: sceneHeight - itemHeight - spreadBottomOffset
 
-    readonly property int animatedAngle: {
+    readonly property real animatedAngle: {
         if (limitedLeftProgress > 0) {
             // Leftmost is special...
             if (index == 0) {
