@@ -74,6 +74,7 @@ Label {
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                     color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                     visible: showHeader ; 
+                    width: undefined;
                     text: root.title; 
                     font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
                     horizontalAlignment: root.titleAlignment; 

@@ -81,8 +81,6 @@ Rectangle {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string shellMode: "full-greeter" /* default */
-
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
                     primaryOrientation: Qt.PortraitOrientation

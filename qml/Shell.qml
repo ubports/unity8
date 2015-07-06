@@ -55,6 +55,7 @@ Item {
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
+    property string mode: "full-greeter"
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
@@ -68,9 +69,9 @@ Item {
 
     readonly property bool orientationChangesEnabled: panel.indicators.fullyClosed
             && (applicationsDisplayLoader.item && applicationsDisplayLoader.item.orientationChangesEnabled)
-            && !greeter.animating
+            && (!greeter || !greeter.animating)
 
-    readonly property bool showingGreeter: greeter.shown
+    readonly property bool showingGreeter: greeter && greeter.shown
 
     property bool startingUp: true
     Timer { id: finishStartUpTimer; interval: 500; onTriggered: startingUp = false }
@@ -79,7 +80,7 @@ Item {
         if (startingUp) {
             // Ensure we don't rotate during start up
             return Qt.PrimaryOrientation;
-        } else if (greeter.shown) {
+        } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
         } else if (mainApp) {
             return mainApp.supportedOrientations;
@@ -101,15 +102,12 @@ Item {
 
     // Disable everything while greeter is waiting, so that the user can't swipe
     // the greeter or launcher until we know whether the session is locked.
-    enabled: !greeter.waiting
+    enabled: greeter && !greeter.waiting
 
     property real edgeSize: units.gu(2)
     property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
     property url background: asImageTester.status == Image.Ready ? asImageTester.source
                              : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
-
-    // This is _only_ used to expose the property to autopilot tests
-    readonly property string testShellMode: shellMode
 
     readonly property alias greeter: greeterLoader.item
 
@@ -264,7 +262,7 @@ Item {
                                            ? "phone"
                                            : shell.usageScenario
             source: {
-                if(shellMode === "greeter") {
+                if(shell.mode === "greeter") {
                     return "Stages/ShimStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
                     return "Stages/PhoneStage.qml";
@@ -276,7 +274,7 @@ Item {
             }
 
             property bool interactive: tutorial.spreadEnabled
-                    && !greeter.shown
+                    && (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
                     && launcher.progress == 0
                     && !notifications.useModal
@@ -307,12 +305,12 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: tutorial.spreadEnabled && !greeter.hasLockedApp
+                value: tutorial.spreadEnabled && (!greeter || !greeter.hasLockedApp)
             }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
-                value: greeter.locked ? 0 : launcher.progress
+                value: greeter && greeter.locked ? 0 : launcher.progress
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -422,7 +420,7 @@ Item {
         id: greeterLoader
         anchors.fill: parent
         anchors.topMargin: panel.panelHeight
-        sourceComponent: shellMode != "shell" ? integratedGreeter :
+        sourceComponent: shell.mode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         onLoaded: {
                 item.objectName = "greeter"
@@ -434,7 +432,7 @@ Item {
         Greeter {
 
             hides: [launcher, panel.indicators]
-            tabletMode: shell.sideStageEnabled
+            tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: tutorial.running
             background: shell.background
@@ -550,8 +548,8 @@ Item {
             indicators {
                 hides: [launcher]
                 available: tutorial.panelEnabled
-                        && (!greeter.locked || AccountsService.enableIndicatorsWhileLocked)
-                        && !greeter.hasLockedApp
+                        && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
+                        && (!greeter || !greeter.hasLockedApp)
                 contentEnabled: tutorial.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 

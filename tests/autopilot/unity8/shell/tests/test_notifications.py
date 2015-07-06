@@ -362,7 +362,7 @@ class InteractiveNotificationBase(NotificationsBase):
         """Returns the path to the interactive notification
            creation script.
         """
-        file_path = "../../emulators/create_interactive_notification.py"
+        file_path = "../../create_interactive_notification.py"
 
         the_path = os.path.abspath(
             os.path.join(__file__, file_path))

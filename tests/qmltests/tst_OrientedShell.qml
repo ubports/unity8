@@ -23,8 +23,10 @@ import Unity.Application 0.1
 import Unity.Test 0.1
 import LightDM 0.1 as LightDM
 import Powerd 0.1
+import Unity.InputInfo 0.1
 
 import "../../qml"
+import "../../qml/Components/UnityInputInfo"
 
 Rectangle {
     id: root
@@ -34,19 +36,8 @@ Rectangle {
 
     QtObject {
         id: applicationArguments
-
-        function hasGeometry() {
-            return false;
-        }
-
-        function width() {
-            return 0;
-        }
-
-        function height() {
-            return 0;
-        }
         property string deviceName: "mako"
+        property string mode: "full-greeter"
     }
 
     QtObject {
@@ -57,6 +48,11 @@ Rectangle {
     QtObject {
         id: mockUsageModeSettings
         property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
+    }
+
+    QtObject{
+        id: mockOskSettings
+        property bool stayHidden: false;
     }
 
     property int physicalOrientation0
@@ -130,6 +126,7 @@ Rectangle {
             OrientedShell {
                 anchors.fill: parent
                 usageModeSettings: mockUsageModeSettings
+                oskSettings: mockOskSettings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
                 orientationLock: mockOrientationLock
@@ -302,6 +299,35 @@ Rectangle {
                         Powerd.status = Powerd.Off;
                     } else {
                         Powerd.status = Powerd.On;
+                    }
+                }
+            }
+
+            Row {
+                Button {
+                    text: "Add mouse"
+                    onClicked: {
+                        UnityInputInfo.inputInfo.addMockMouse()
+                    }
+                }
+                Button {
+                    text: "Remove mouse"
+                    onClicked: {
+                        UnityInputInfo.inputInfo.removeMockMouse()
+                    }
+                }
+            }
+            Row {
+                Button {
+                    text: "Add kbd"
+                    onClicked: {
+                        UnityInputInfo.inputInfo.addMockKeyboard()
+                    }
+                }
+                Button {
+                    text: "Remove kbd"
+                    onClicked: {
+                        UnityInputInfo.inputInfo.removeMockKeyboard()
                     }
                 }
             }
@@ -898,6 +924,33 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle", 0);
         }
 
+        function test_attachRemoveInputDevices() {
+            usageModeSelector.selectedIndex = 2;
+            tryCompare(mockUsageModeSettings, "usageMode", "Automatic")
+
+            loadShell("mako")
+            var shell = findChild(orientedShell, "shell");
+
+            tryCompare(shell, "usageScenario", "phone");
+            tryCompare(mockOskSettings, "stayHidden", false);
+
+            UnityInputInfo.inputInfo.addMockKeyboard();
+            tryCompare(shell, "usageScenario", "phone");
+            tryCompare(mockOskSettings, "stayHidden", true);
+
+            UnityInputInfo.inputInfo.addMockMouse();
+            tryCompare(shell, "usageScenario", "desktop");
+            tryCompare(mockOskSettings, "stayHidden", true);
+
+            UnityInputInfo.inputInfo.removeMockKeyboard();
+            tryCompare(shell, "usageScenario", "desktop");
+            tryCompare(mockOskSettings, "stayHidden", false);
+
+            UnityInputInfo.inputInfo.removeMockMouse();
+            tryCompare(shell, "usageScenario", "phone");
+            tryCompare(mockOskSettings, "stayHidden", false);
+        }
+
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
         function rotateTo(angle) {
             switch (angle) {
@@ -1147,5 +1200,4 @@ Rectangle {
             return found;
         }
     }
-
 }
