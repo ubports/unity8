@@ -249,15 +249,16 @@ void LauncherModel::refresh()
         }
 
         if (itemIndex == -1) {
+            QMap<QString, QVariant> chachedMap = entry.toMap();
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list in AS.
-            LauncherItem *item = new LauncherItem(entry.toMap().value("id").toString(),
-                                                  entry.toMap().value("name").toString(),
-                                                  entry.toMap().value("icon").toString(),
+            LauncherItem *item = new LauncherItem(chachedMap.value("id").toString(),
+                                                  chachedMap.value("name").toString(),
+                                                  chachedMap.value("icon").toString(),
                                                   this);
             item->setPinned(true);
-            item->setCount(entry.toMap().value("count").toInt());
-            item->setCountVisible(entry.toMap().value("countVisible").toBool());
-            item->setProgress(entry.toMap().value("progress").toInt());
+            item->setCount(chachedMap.value("count").toInt());
+            item->setCountVisible(chachedMap.value("countVisible").toBool());
+            item->setProgress(chachedMap.value("progress").toInt());
             beginInsertRows(QModelIndex(), newPosition, newPosition);
             m_list.insert(newPosition, item);
             endInsertRows();

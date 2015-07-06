@@ -668,9 +668,9 @@ Item {
             var item = findChild(launcher, "launcherDelegate0")
             verify(item != undefined)
             LauncherModel.setProgress(LauncherModel.get(0).appId, -1)
-            tryCompare(item, "progressVisible", false, 1000, "progress-overlay of item #1 should not be visible")
+            compare(findChild(item, "progressOverlay").visible, false)
             LauncherModel.setProgress(LauncherModel.get(0).appId, 20)
-            tryCompare(item, "progressVisible", true, 1000, "progress-overlay of item #1 should not be invisible")
+            compare(findChild(item, "progressOverlay").visible, true)
             LauncherModel.setProgress(LauncherModel.get(0).appId, 0)
         }
     }

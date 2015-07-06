@@ -30,7 +30,6 @@ Item {
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
-    readonly property bool progressVisible: progressOverlay.visible
 
     property int itemWidth
     property int itemHeight
