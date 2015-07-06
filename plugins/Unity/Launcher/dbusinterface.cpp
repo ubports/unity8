@@ -160,8 +160,8 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
     LauncherItem *item = static_cast<LauncherItem*>(m_launcherModel->get(index));
 
     QVariantList retval;
-    QString cachedString = message.arguments()[1].toString();
     if (message.member() == "Get") {
+        QString cachedString = message.arguments()[1].toString();
         if (!item) {
             return false;
         }
@@ -173,6 +173,7 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             retval.append(QVariant::fromValue(QDBusVariant(item->progress())));
         }
     } else if (message.member() == "Set") {
+        QString cachedString = message.arguments()[1].toString();
         if (cachedString == "count") {
             int newCount = message.arguments()[2].value<QDBusVariant>().variant().toInt();
             if (!item || newCount != item->count()) {
