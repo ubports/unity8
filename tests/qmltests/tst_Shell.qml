@@ -109,6 +109,7 @@ Rectangle {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
+                    id: __shell
                     property string shellMode: "full-greeter" /* default */
 
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
@@ -117,6 +118,10 @@ Rectangle {
                     nativeOrientation: Qt.PortraitOrientation
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
+                    }
+                    Component.onCompleted: {
+                        var keyMapper = testCase.findChild(__shell, "physicalKeysMapper");
+                        keyMapper.controlInsteadOfAlt = true;
                     }
                 }
             }
@@ -325,6 +330,20 @@ Rectangle {
             launcherShowDashHomeSpy.target = launcher;
 
             waitForGreeterToStabilize();
+        }
+
+        function loadDesktopShellWithApps() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop"
+            waitForRendering(root)
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            var app2 = ApplicationManager.startApplication("webbrowser-app")
+            var app3 = ApplicationManager.startApplication("camera-app")
+            var app4 = ApplicationManager.startApplication("facebook-webapp")
+            var app5 = ApplicationManager.startApplication("calendar-app")
+            var app6 = ApplicationManager.startApplication("gallery-app")
+            var app7 = ApplicationManager.startApplication("camera-app")
+            waitUntilAppWindowIsFullyLoaded(app7);
         }
 
         function waitForGreeterToStabilize() {
@@ -1286,6 +1305,144 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
             compare(launcher.inverted, data.launcherInverted);
+        }
+
+        function test_altTabSwitchesFocus() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop"
+            waitForRendering(root)
+
+            var desktopStage = findChild(shell, "stage");
+            verify(desktopStage != null)
+
+            var app1 = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("webbrowser-app")
+            waitUntilAppWindowIsFullyLoaded(app2);
+            var app3 = ApplicationManager.startApplication("camera-app")
+            waitUntilAppWindowIsFullyLoaded(app3);
+
+            // Do a quick alt-tab and see if focus changes
+            tryCompare(app3.session.surface, "activeFocus", true)
+            keyClick(Qt.Key_Tab, Qt.ControlModifier)
+            tryCompare(app2.session.surface, "activeFocus", true)
+
+
+            tryCompare(desktopStage, "state", "")
+
+            // Just press Alt, make sure the spread comes up
+            keyPress(Qt.Key_Control);
+            keyClick(Qt.Key_Tab);
+            tryCompare(desktopStage, "state", "altTab")
+
+            // Release control, check if spread disappears
+            keyRelease(Qt.Key_Control)
+            tryCompare(desktopStage, "state", "")
+
+            // Focus should have switched back now
+            tryCompare(app3.session.surface, "activeFocus", true)
+        }
+
+        function test_altTabWrapAround() {
+            loadDesktopShellWithApps();
+
+            var desktopStage = findChild(shell, "stage");
+            verify(desktopStage !== null)
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater")
+            verify(appRepeater !== null)
+
+            // remember the focused appId
+            var focused = ApplicationManager.get(ApplicationManager.findApplication(ApplicationManager.focusedApplicationId));
+
+            tryCompare(desktopStage, "state", "")
+
+            // Just press Alt, make sure the spread comes up
+            keyPress(Qt.Key_Control);
+            keyClick(Qt.Key_Tab);
+            tryCompare(desktopStage, "state", "altTab")
+            tryCompare(appRepeater, "highlightedIndex", 1)
+            waitForRendering(shell)
+
+            // Now press and hold Tab, make sure the highlight moves all the way but stops at the last one
+            // We can't simulate a pressed key with keyPress() currently, so let's inject the events
+            // at API level. Jump for 10 times, verify that it's still at the last one and didn't wrap around.
+            for (var i = 0; i < 10; i++) {
+                desktopStage.altTabNext(true);
+                wait(0); // Trigger the event loop to make sure all the things happen
+            }
+            tryCompare(appRepeater, "highlightedIndex", 6)
+
+            // Now release it once, and verify that it does wrap around with an additional Tab press
+            keyRelease(Qt.Key_Tab);
+            keyClick(Qt.Key_Tab);
+            tryCompare(appRepeater, "highlightedIndex", 0)
+
+            // Release control, check if spread disappears
+            keyRelease(Qt.Key_Control)
+            tryCompare(desktopStage, "state", "")
+
+            // Make sure that after wrapping around once, we have the same one focused as at the beginning
+            tryCompare(focused.session.surface, "activeFocus", true)
+        }
+
+        function test_altBackTabNavigation() {
+            loadDesktopShellWithApps();
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+            tryCompare(appRepeater, "highlightedIndex", 1);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(appRepeater, "highlightedIndex", 2);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(appRepeater, "highlightedIndex", 3);
+
+            keyClick(Qt.Key_Tab);
+            tryCompare(appRepeater, "highlightedIndex", 4);
+
+            keyClick(Qt.Key_Backtab);
+            tryCompare(appRepeater, "highlightedIndex", 3);
+
+            keyClick(Qt.Key_Backtab);
+            tryCompare(appRepeater, "highlightedIndex", 2);
+
+            keyClick(Qt.Key_Backtab);
+            tryCompare(appRepeater, "highlightedIndex", 1);
+
+            keyRelease(Qt.Key_Control);
+        }
+
+        function test_highlightFollowsMouse() {
+            loadDesktopShellWithApps()
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+            tryCompare(appRepeater, "highlightedIndex", 1);
+
+            var x = 0;
+            var y = shell.height * .75;
+            mouseMove(shell, x, y)
+
+            for (var i = 0; i < 7; i++) {
+                while (appRepeater.highlightedIndex != i && x <= 4000) {
+                    x+=10;
+                    mouseMove(shell, x, y)
+                    waitForRendering(shell)
+                }
+            }
+
+            verify(y < 4000);
+
+            keyRelease(Qt.Key_Control);
         }
     }
 }

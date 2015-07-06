@@ -35,6 +35,7 @@ import Powerd 0.1
 
 Item {
     id: root
+    objectName: "physicalKeysMapper"
 
     signal powerKeyLongPressed;
     signal volumeDownTriggered;
@@ -46,6 +47,10 @@ Item {
     readonly property bool altTabPressed: d.altTabPressed
 
     property int powerKeyLongPressTime: 2000
+
+    // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
+    // running desktop, set this to true to use Ctrl+Tab instead.
+    property bool controlInsteadOfAlt: false
 
     QtObject {
         id: d
@@ -100,15 +105,12 @@ Item {
                 }
                 d.volumeUpKeyPressed = true;
             }
-        } else if (event.key == Qt.Key_Control) {
-            print("controll pressed");
+        } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
             d.altPressed = true;
         } else if (event.key == Qt.Key_Tab) {
-            print("tab pressed")
             if (d.altPressed && !d.altTabPressed) {
                 d.altTabPressed = true;
             } else if (d.altTabPressed) {
-                print("alttabnext")
                 root.altTabNext(event.isAutoRepeat);
             }
         } else if (event.key == Qt.Key_Backtab) {
@@ -117,7 +119,6 @@ Item {
             }
         } else if (event.key == Qt.Key_Left) {
             if (d.altTabPressed) {
-                print("alttabprevious")
                 root.altTabPrevious(event.isAutoRepeat);
                 event.accpeted = true;
             }
@@ -141,7 +142,7 @@ Item {
             if (!d.ignoreVolumeEvents) root.volumeUpTriggered();
             d.volumeUpKeyPressed = false;
             if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
-        } else if (event.key == Qt.Key_Control) {
+        } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
             d.altPressed = false;
             if (d.altTabPressed) {
                 d.altTabPressed = false;

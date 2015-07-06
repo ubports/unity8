@@ -56,25 +56,20 @@ Rectangle {
     property bool altTabPressed: false
 
     onAltTabPressedChanged: {
-        print("Alt+Tab pressed:", altTabPressed)
-        if (altTabPressed) {
-            appRepeater.highlightedIndex = Math.min(ApplicationManager.count - 1, 1);
-        } else {
-            if (root.state == "altTab") {
-                print("focusing app", appRepeater.highlightedIndex)
-                ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
-            }
+        if (!altTabPressed && root.state == "altTab") {
+            ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
         }
     }
 
     function altTabNext(isAutoRepeat) {
         if (root.altTabPressed) {
-            print("should tab next")
+            print("should tab next", isAutoRepeat, "highlightedIndex is", appRepeater.highlightedIndex)
             if (isAutoRepeat && appRepeater.highlightedIndex >= ApplicationManager.count -1) {
                 return; // AutoRepeat is not allowed to wrap around
             }
 
             appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count;
+            print("new highlighted index", appRepeater.highlightedIndex)
             var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3));
             if (spreadFlickable.contentX < newContentX || appRepeater.highlightedIndex == 0) {
                 spreadFlickable.snapTo(newContentX)
@@ -90,6 +85,7 @@ Rectangle {
             }
 
             var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
+            print("setting highlighted to", newIndex)
             appRepeater.highlightedIndex = newIndex;
             var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1));
             if (spreadFlickable.contentX > newContentX || newIndex == ApplicationManager.count -1) {
@@ -174,8 +170,12 @@ Rectangle {
         Repeater {
             id: appRepeater
             model: ApplicationManager
+            objectName: "appRepeater"
 
             property int highlightedIndex: -1
+            onHighlightedIndexChanged: {
+                print("****** changed:", highlightedIndex)
+            }
 
             delegate: FocusScope {
                 id: appDelegate
@@ -321,6 +321,7 @@ Rectangle {
                         onMouseYChanged: evaluateContainsMouse()
                         function evaluateContainsMouse() {
                             if (containsMouse) {
+                                print("setting highlighted to", index)
                                 appRepeater.highlightedIndex = index
                             }
 
@@ -370,7 +371,7 @@ Rectangle {
                     spacing: units.gu(1)
 
                     UbuntuShape {
-                        Layout.preferredHeight: units.gu(6)
+                        Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
                         Layout.preferredWidth: height
                         image: Image {
                             anchors.fill: parent
@@ -380,7 +381,7 @@ Rectangle {
                     Label {
                         Layout.fillWidth: true
                         Layout.preferredHeight: units.gu(6)
-                        text: model.name
+                        text: model.name + " -- " + index + appRepeater.highlightedIndex
                         wrapMode: Text.WordWrap
                         maximumLineCount: 2
                     }
@@ -504,9 +505,6 @@ Rectangle {
 
     states: [
         State {
-            name: "windowed"
-        },
-        State {
             name: "altTab"; when: root.altTabPressed
             PropertyChanges { target: workspaceSelector; visible: true }
             PropertyChanges { target: spreadFlickable; enabled: true }
@@ -549,7 +547,9 @@ Rectangle {
              right: parent.right
              bottom: parent.bottom
          }
-         width: 1 // yes, we want 1 pixel, regardless of the scaling
+         // TODO: Make this a push to edge thing like the launcher when we can,
+         // for now, yes, we want 1 pixel, regardless of the scaling
+         width: 1
          hoverEnabled: true
          onContainsMouseChanged: {
              if (containsMouse) {
