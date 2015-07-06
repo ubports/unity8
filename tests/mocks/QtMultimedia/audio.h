@@ -44,10 +44,10 @@ public:
     };
 
     enum AudioRole {
-        AlarmRole,
-        AlertRole,
-        MultimediaRole,
-        PhoneRole
+        alarm,
+        alert,
+        multimedia,
+        phone
     };
 
     explicit Audio(QObject *parent = 0);

@@ -32,7 +32,6 @@ Rectangle {
         id: surfaceContainerComponent
         SurfaceContainer {
             anchors.fill: parent
-            orientation: Qt.PortraitOrientation
             interactive: interactiveCheckbox.checked
         }
     }

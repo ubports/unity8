@@ -119,7 +119,7 @@ void Audio::timerEvent()
 
 Audio::AudioRole Audio::audioRole() const
 {
-    return Audio::MultimediaRole;
+    return Audio::multimedia;
 }
 
 void Audio::setAudioRole(Audio::AudioRole audioRole)

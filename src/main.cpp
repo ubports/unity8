@@ -60,6 +60,8 @@ int main(int argc, const char *argv[])
         qmlArgs.setDeviceName(QString(buffer));
     }
 
+    qmlArgs.setMode(parser.mode());
+
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
     if (parser.hasTestability() || getenv("QT_LOAD_TESTABILITY")) {
@@ -92,7 +94,6 @@ int main(int argc, const char *argv[])
 
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
     view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
-    view->rootContext()->setContextProperty("shellMode", parser.mode());
     if (parser.hasFrameless()) {
         view->setFlags(Qt::FramelessWindowHint);
     }

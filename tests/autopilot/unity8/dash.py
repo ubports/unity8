@@ -23,7 +23,7 @@ import ubuntuuitoolkit
 from autopilot import logging as autopilot_logging
 from autopilot.introspection import dbus
 
-from unity8.shell import emulators
+import unity8
 
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,7 @@ class DashApp():
 
 
 class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
-    """An emulator that understands the Dash."""
+    """A helper that understands the Dash."""
 
     def __init__(self, *args):
         super().__init__(*args)
@@ -93,10 +93,10 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
             for l in aux.get_children_by_type('QQuickLoader'):
                 if (l.scopeId == scope_id):
                     return l
-            raise emulators.UnityEmulatorException(
+            raise unity8.UnityException(
                 'No scope found with id {0}'.format(scope_id))
         except dbus.StateNotFoundError:
-            raise emulators.UnityEmulatorException(
+            raise unity8.UnityException(
                 'No scope found with id {0}'.format(scope_id))
 
     def _get_scope_from_loader(self, loader):
@@ -121,7 +121,7 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         elif scope_loader.globalRect.x > current_scope_loader.globalRect.x:
             return self._scroll_to_right_scope
         else:
-            raise emulators.UnityEmulatorException('The scope is already open')
+            raise unity8.UnityException('The scope is already open')
 
     @autopilot_logging.log_action(logger.info)
     def _scroll_to_left_scope(self):
@@ -190,7 +190,7 @@ class ListViewWithPageHeader(ubuntuuitoolkit.QQuickFlickable):
 
 
 class GenericScopeView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
-    """Autopilot emulator for generic scopes."""
+    """Autopilot helper for generic scopes."""
 
     @autopilot_logging.log_action(logger.info)
     def open_preview(self, category, app_name, press_duration=0.10):
@@ -237,7 +237,7 @@ class GenericScopeView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
                 'DashCategoryBase',
                 objectName='dashCategory{}'.format(category))
         except dbus.StateNotFoundError:
-            raise emulators.UnityEmulatorException(
+            raise unity8.UnityException(
                 'No category found with name {}'.format(category))
 
     def get_applications(self, category):
