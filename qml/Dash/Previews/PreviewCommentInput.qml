@@ -28,56 +28,39 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: commentContainer.implicitHeight
-
-    property alias commentText: commentTextArea.text
+    implicitHeight: commentTextArea.implicitHeight
 
     function submit() {
         var data = { "comment": commentTextArea.text };
         triggered(root.widgetId, "commented", data);
     }
 
-    Item {
-        id: commentContainer
-        implicitHeight: commentSubmitContainer.implicitHeight + anchors.topMargin
+    TextArea {
+        id: commentTextArea
+        objectName: "commentTextArea"
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: submitButton.left
+            rightMargin: units.gu(1)
+        }
+        autoSize: true
+    }
 
-        readonly property real innerMargin: units.gu(1)
+    Button {
+        id: submitButton
+        objectName: "submitButton"
 
-        anchors.fill: parent
+        readonly property bool readyToSubmit: commentTextArea.text.trim().length > 0
 
-        Item {
-            id: commentSubmitContainer
-            anchors.fill: parent
-            implicitHeight: commentTextArea.implicitHeight + anchors.topMargin
-
-            TextArea {
-                id: commentTextArea
-                objectName: "commentTextArea"
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: submitButton.left
-                    rightMargin: commentContainer.innerMargin
-                }
-                autoSize: true
-            }
-
-            Button {
-                id: submitButton
-                objectName: "submitButton"
-
-                readonly property bool readyToSubmit: commentTextArea.text.trim().length > 0
-
-                anchors {
-                    top: parent.top
-                    right: parent.right
-                }
-                color: readyToSubmit ? Theme.palette.selected.base : Theme.palette.normal.base
-                text: widgetData["submit-label"] || i18n.tr("Send")
-                onClicked: {
-                    if (readyToSubmit) root.submit()
-                }
-            }
+        anchors {
+            top: parent.top
+            right: parent.right
+        }
+        color: readyToSubmit ? Theme.palette.selected.base : Theme.palette.normal.base
+        text: widgetData["submit-label"] || i18n.tr("Send")
+        onClicked: {
+            if (readyToSubmit) root.submit()
         }
     }
 }

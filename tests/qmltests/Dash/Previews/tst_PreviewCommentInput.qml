@@ -26,8 +26,6 @@ Rectangle {
     height: units.gu(80)
     color: Theme.palette.selected.background
 
-    property real validInputRating: 1
-    property real invalidInputRating: -1
     property string validInputText: "Great!"
     property string invalidInputText: ""
 
@@ -75,10 +73,12 @@ Rectangle {
 
             commentTextArea.text = data.inputText;
             mouseClick(submitButton);
-            if (data.inputText === "") {
+            if (!data.emitted) {
                 compare(spy.count, 0);
             } else {
                 compare(spy.count, 1);
+                var args = spy.signalArguments[0];
+                compare(args[2]["comment"], data.inputText);
             }
         }
     }
