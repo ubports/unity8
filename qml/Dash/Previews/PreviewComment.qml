@@ -41,6 +41,7 @@ PreviewWidget {
             source: widgetData["source"]
         }
         radius: "medium"
+        opacity: source.status === Image.Ready ? 1 : 0
         visible: widgetData["source"] !== ""
     }
 
