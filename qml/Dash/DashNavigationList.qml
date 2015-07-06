@@ -59,13 +59,9 @@ Item {
             id: column
             width: parent.width
 
-            // TODO: check if SDK ListItems could be used here
-            // and if not make them be useful since this is a quite common pattern
-
-            AbstractButton {
+            ListItem.Standard {
                 id: backButton
                 objectName: "backButton"
-                width: parent.width
                 visible: navigation && !navigation.isRoot || false
                 height: itemHeight
 
@@ -98,25 +94,11 @@ Item {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                 }
-
-                Rectangle {
-                    anchors {
-                        bottom: parent.bottom
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-                    color: root.foregroundColor
-                    opacity: 0.2
-                    height: units.dp(1)
-                }
             }
 
-            AbstractButton {
+            ListItem.Standard {
                 id: allButton
                 objectName: "allButton"
-                width: parent.width
                 visible: navigation && (!navigation.isRoot || (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
                 height: itemHeight
 
@@ -136,19 +118,6 @@ Item {
                     elide: Text.ElideMiddle
                 }
 
-                Rectangle {
-                    anchors {
-                        bottom: parent.bottom
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-                    color: root.foregroundColor
-                    opacity: 0.2
-                    height: units.dp(1)
-                }
-
                 onClicked: root.allNavigationClicked();
             }
 
@@ -158,13 +127,7 @@ Item {
                 delegate: ListItem.Standard {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-                    showDivider: false
+                    showDivider: index != navigation.count - 1
                     selected: isActive
 
                     onClicked: root.enterNavigation(navigationId, hasChildren)
@@ -173,8 +136,9 @@ Item {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
+                            leftMargin: units.gu(2)
                             right: rightIcon.visible ? rightIcon.left : parent.right
-                            rightMargin: rightIcon.visible ? units.gu(0.5) : 0
+                            rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
                         }
                         text: label
                         color: root.foregroundColor
@@ -188,24 +152,13 @@ Item {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
+                            rightMargin: units.gu(2)
                         }
                         height: units.gu(2)
                         width: height
                         name: hasChildren ? "go-next" : "tick"
                         color: root.foregroundColor
                         visible: hasChildren || isActive
-                    }
-
-                    Rectangle {
-                        anchors {
-                            bottom: parent.bottom
-                            left: parent.left
-                            right: parent.right
-                        }
-                        color: root.foregroundColor
-                        opacity: 0.1
-                        height: units.dp(1)
-                        visible: index != navigation.count - 1
                     }
                 }
             }
