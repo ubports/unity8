@@ -32,6 +32,8 @@ StateGroup {
     // "phone", "tablet" or "desktop"
     property string category: "phone"
 
+    property int ignoredMice: 0
+
 
     property alias name: root.state
 
@@ -52,6 +54,16 @@ StateGroup {
                 supportedOrientations: Qt.PortraitOrientation
                                      | Qt.LandscapeOrientation
                                      | Qt.InvertedLandscapeOrientation
+            }
+        },
+        State {
+            name: "arale"
+            PropertyChanges {
+                target: root
+                supportedOrientations: Qt.PortraitOrientation
+                                     | Qt.LandscapeOrientation
+                                     | Qt.InvertedLandscapeOrientation
+                ignoredMice: 1
             }
         },
         State {
