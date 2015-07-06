@@ -1310,7 +1310,6 @@ Rectangle {
             shell.usageScenario = "desktop"
             waitForRendering(root)
 
-            wait(5000)
             var desktopStage = findChild(shell, "stage");
             print("desktopStage", desktopStage)
             verify(desktopStage != null)
