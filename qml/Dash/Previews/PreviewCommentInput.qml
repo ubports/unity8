@@ -28,7 +28,7 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: commentTextArea.implicitHeight
+    implicitHeight: Math.max(commentTextArea.implicitHeight, submitButton.implicitHeight)
 
     function submit() {
         var data = { "comment": commentTextArea.text };
