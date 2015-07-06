@@ -363,6 +363,7 @@ Rectangle {
 
                 MouseArea {
                     id: closeMouseArea
+                    objectName: "closeMouseArea"
                     anchors.fill: closeImage
                     anchors.margins: -units.gu(1)
                     enabled: spreadSelectArea.upperThirdContainsMouse

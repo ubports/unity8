@@ -286,6 +286,12 @@ Rectangle {
         signalName: "actionInvoked"
     }
 
+    SignalSpy {
+        id: appRemovedSpy
+        target: ApplicationManager
+        signalName: "applicationRemoved"
+    }
+
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
@@ -1440,6 +1446,42 @@ Rectangle {
             }
 
             verify(y < 4000);
+
+            keyRelease(Qt.Key_Control);
+        }
+
+        function test_closeFromSpread() {
+            loadDesktopShellWithApps()
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+            appRemovedSpy.clear();
+
+            var closedAppId = ApplicationManager.get(2).appId;
+            var appDelegate2 = appRepeater.itemAt(2);
+            var closeMouseArea = findChild(appDelegate2, "closeMouseArea");
+
+            // Move the mosue over tile 2 and verify the close button becomes visible
+            var x = 0;
+            var y = shell.height * .5;
+            mouseMove(shell, x, y)
+            while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
+                x+=10;
+                mouseMove(shell, x, y)
+                waitForRendering(shell)
+            }
+            tryCompare(closeMouseArea, "enabled", true)
+
+            // Close the app using the close button
+            mouseClick(closeMouseArea, closeMouseArea.width / 2, closeMouseArea.height / 2)
+
+            // Verify applicationRemoved has been emitted correctly
+            tryCompare(appRemovedSpy, "count", 1)
+            compare(appRemovedSpy.signalArguments[0][0], closedAppId);
 
             keyRelease(Qt.Key_Control);
         }
