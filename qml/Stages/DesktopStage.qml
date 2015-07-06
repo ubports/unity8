@@ -365,7 +365,7 @@ Rectangle {
                     id: closeMouseArea
                     anchors.fill: closeImage
                     anchors.margins: -units.gu(1)
-                    enabled: spreadSelectArea.enabled
+                    enabled: spreadSelectArea.upperThirdContainsMouse
                     onClicked: {
                         print("enabling clsoeBehaviro")
                         appRepeater.closingIndex = index;
