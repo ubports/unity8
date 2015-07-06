@@ -1,6 +1,5 @@
 AbstractButton { 
                 id: root; 
-                property var template; 
                 property var components; 
                 property var cardData; 
                 property var artShapeBorderSource: undefined; 
@@ -13,7 +12,7 @@ AbstractButton {
                 property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
-                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true);
+                enabled: true;
 
 Loader {
                                 id: backgroundLoader; 
@@ -33,18 +32,14 @@ Loader {
                                         objectName: "backgroundImage"; 
                                         source: { 
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; 
-                                            else if (template && typeof template["card-background"] === "string") return template["card-background"]; 
-                                            else return ""; 
+                                            else return "";
                                         } 
                                     } 
                                     function getColor(index) { 
                                         if (cardData && typeof cardData["background"] === "object" 
                                             && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { 
                                             return cardData["background"]["elements"][index]; 
-                                        } else if (template && typeof template["card-background"] === "object" 
-                                                && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  { 
-                                            return template["card-background"]["elements"][index]; 
-                                        } else return undefined; 
+                                        } else return index === 0 ? "#E9E9E9" : undefined;
                                     } 
                                 } 
                             }
@@ -95,6 +90,7 @@ CroppedImageMinimumSourceSize {
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader ; 
+                        width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.titleAlignment; 

@@ -1,218 +1,312 @@
-# add_qml_test(path component_name [NO_ADD_TEST] [NO_TARGETS]
-#              [TARGETS target1 [target2 [...]]]
-#              [IMPORT_PATHS import_path1 [import_path2 [...]]
-#              [PROPERTIES prop1 value1 [prop2 value2 [...]]])
+# If you need to override the qmlscene or qmltestrunner executables,
+# create the corresponding executable target.
+
+# These functions respect the global STDOUT_LOGGER and ARTIFACTS_DIR variables.
+
+# You can use those with cmake_parse_arguments
+# if you need to wrap and mangle arguments.
+set(QMLTEST_OPTIONS ADD_TEST CACHE INTERNAL "")
+set(QMLTEST_SINGLE ITERATIONS ARG_PREFIX CACHE INTERNAL "")
+set(QMLTEST_MULTI ARGS ENVIRONMENT DEPENDS IMPORT_PATHS TARGETS CACHE INTERNAL "")
+
+# import_executables(name1 [name2 [...]]
+#    [OPTIONAL]                           # continue when not found
+# )
 #
-# NO_ADD_TEST will prevent adding the test to the "test" target
-# NO_TARGETS will prevent adding the test to any targets
-# TARGETS lists the targets the test should be added to
-# IMPORT_PATHS will pass those paths to qmltestrunner as "-import" arguments
-# PROPERTIES will be set on the target and test target. See CMake's set_target_properties()
+# This will find the named executables and import them
+# to an imported target of the same name.
+
+function(import_executables)
+    cmake_parse_arguments(QMLTEST "OPTIONAL" "" "" ${ARGN})
+
+    foreach(NAME ${QMLTEST_UNPARSED_ARGUMENTS})
+        if(NOT TARGET ${NAME})
+            add_executable(${NAME} IMPORTED GLOBAL)
+            find_program(${NAME}_exe ${NAME})
+
+            if(NOT QMLTEST_OPTIONAL AND NOT ${NAME}_exe)
+                message(FATAL_ERROR "Could not locate ${NAME}.")
+            elseif(NOT ${NAME}_exe)
+                message(STATUS "Could not locate ${NAME}, skipping.")
+            else()
+                set_target_properties(${NAME} PROPERTIES IMPORTED_LOCATION ${${NAME}_exe})
+            endif()
+        endif()
+    endforeach()
+endfunction()
+
+
+# add_qml_test(path component_name
+#     [...]
+# )
 #
-# Two targets will be created:
-#   - testComponentName - Runs the test with qmltestrunner
-#   - tryComponentName - Runs the test with uqmlscene, for manual interaction
-#   - gdbtestComponentName - Runs the test with qmltestrunner under gdb
+# Add test targets for ${component_name} under ${path}. It's assumed
+# that the test file is named ${path}/tst_${component_name}.qml.
 #
-# To change/set a default value for the whole test suite, prior to calling add_qml_test, set:
-# qmltest_DEFAULT_NO_ADD_TEST (default: FALSE)
-# qmltest_DEFAULT_TARGETS
-# qmltest_DEFAULT_IMPORT_PATHS
-# qmltest_DEFAULT_PROPERTIES
+# This function wraps add_manual_qml_test and add_qml_unittest,
+# see below for available arguments.
 
-find_program(qmltestrunner_exe qmltestrunner)
+function(add_qml_test PATH COMPONENT_NAME)
+    cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    mangle_arguments()
 
-if(NOT qmltestrunner_exe)
-  msg(FATAL_ERROR "Could not locate qmltestrunner.")
-endif()
+    add_qml_unittest(${ARGV})
+    add_manual_qml_test(${ARGV})
+endfunction()
 
-set(qmlscene_exe ${CMAKE_BINARY_DIR}/tests/uqmlscene/uqmlscene)
 
-set(test_env LC_ALL=C UNITY_TESTING=1)
+# add_qml_unittest(path component_name
+#     [...]
+# )
+#
+# Add test targets for ${component_name} under ${path}. It's assumed
+# that the test file is named ${path}/tst_${component_name}.qml.
+#
+# This function wraps add_executable_test, see below for available arguments.
 
-macro(add_manual_qml_test SUBPATH COMPONENT_NAME)
-    set(options NO_ADD_TEST NO_TARGETS)
-    set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
+function(add_qml_unittest PATH COMPONENT_NAME)
+    import_executables(qmltestrunner)
 
-    cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
-    cmake_parse_arguments(qmltest_default "${options}" "" "${multi_value_keywords}" ${qmltest_DEFAULT_PROPERTIES})
-
-    set(qmlscene_TARGET try${COMPONENT_NAME})
-    set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
-
-    set(qmlscene_imports "")
-    if(NOT "${qmltest_IMPORT_PATHS}" STREQUAL "")
-        foreach(IMPORT_PATH ${qmltest_IMPORT_PATHS})
-            list(APPEND qmlscene_imports "-I")
-            list(APPEND qmlscene_imports ${IMPORT_PATH})
-        endforeach(IMPORT_PATH)
-    elseif(NOT "${qmltest_DEFAULT_IMPORT_PATHS}" STREQUAL "")
-        foreach(IMPORT_PATH ${qmltest_DEFAULT_IMPORT_PATHS})
-            list(APPEND qmlscene_imports "-I")
-            list(APPEND qmlscene_imports ${IMPORT_PATH})
-        endforeach(IMPORT_PATH)
-    endif()
-
-    if("${qmltest_ENVIRONMENT}" STREQUAL "")
-        set(qmltest_ENVIRONMENT "${qmltest_default_ENVIRONMENT}")
-    endif()
-
-    set(qmlscene_command
-        env ${test_env} ${qmltest_ENVIRONMENT}
-        ${qmlscene_exe} -qmljsdebugger=port:3768 ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
-            ${qmlscene_imports}
+    add_executable_test(${COMPONENT_NAME} qmltestrunner
+        ${ARGN}
+        ARGS -input ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
-    add_custom_target(${qmlscene_TARGET} ${qmlscene_command})
+endfunction()
 
-endmacro(add_manual_qml_test)
 
-macro(add_qml_benchmark SUBPATH COMPONENT_NAME ITERATIONS)
-    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} ${ITERATIONS} ${ARGN})
-endmacro(add_qml_benchmark)
+# add_manual_qml_test(path component_name
+#     [...]
+# )
+#
+# Add manual test targets for ${component_name} under ${path}. It's assumed
+# that the test file is named ${path}/tst_${component_name}.qml.
+#
+# This function wraps add_manual_test, see below for available arguments.
 
-macro(add_qml_test SUBPATH COMPONENT_NAME)
-    add_qml_test_internal(${SUBPATH} ${COMPONENT_NAME} 0 ${ARGN})
-endmacro(add_qml_test)
+function(add_manual_qml_test PATH COMPONENT_NAME)
+    import_executables(qmlscene)
+    cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
 
-macro(add_qml_test_internal SUBPATH COMPONENT_NAME ITERATIONS)
-    set(options NO_ADD_TEST NO_TARGETS)
-    set(multi_value_keywords IMPORT_PATHS TARGETS PROPERTIES ENVIRONMENT)
+    add_manual_test(${COMPONENT_NAME} qmlscene
+        ${ARGN}
+        ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
+    )
+endfunction()
 
-    cmake_parse_arguments(qmltest "${options}" "" "${multi_value_keywords}" ${ARGN})
-    cmake_parse_arguments(qmltest_default "${options}" "" "${multi_value_keywords}" ${qmltest_DEFAULT_PROPERTIES})
 
-    set(qmltest_TARGET test${COMPONENT_NAME})
-    set(qmltest_gdb_TARGET gdbtest${COMPONENT_NAME})
-    set(qmltest_xvfb_TARGET xvfbtest${COMPONENT_NAME})
-    set(qmltest_FILE ${SUBPATH}/tst_${COMPONENT_NAME})
+# add_executable_test(target component_name
+#     [...]                              # see doc for add_manual_qml_test for common arguments
+#     [ADD_TEST]                         # whether to add to the "test" target
+#     [ARG_PREFIX arg_prefix]            # prefix logging arguments with this string
+#     [ARGS] arg1 [arg2 [...]]           # pass these arguments to the test executable
+#     [TARGETS target1 [target2 [...]]]  # make the listed targets depend on this test
+#                                        # if a corresponding xvfbtarget1, xvfbtarget2 etc. exists,
+#                                        # this test running under xvfb will be added as a dependency
+#                                        # of those targets
+#     [ITERATIONS count]                 # run this test as a benchmark for ${count} iterations
+# )
+#
+# Logging options in the standard form of "-o filename,format"
+# will be appended to the arguments list, prefixed with ARG_PREFIX.
+# XUnitXML files will be stored in current binary dir or under
+# ARTIFACTS_DIR, if set.
+#
+# Three targets will be created:
+#   - test${component_name} - Runs the test
+#   - xvfbtest${component_name} - Runs the test under xvfb
+#   - gdbtest${component_name} - Runs the test under gdb
 
-    set(qmltestrunner_imports "")
-    if(NOT "${qmltest_IMPORT_PATHS}" STREQUAL "")
-        foreach(IMPORT_PATH ${qmltest_IMPORT_PATHS})
-            list(APPEND qmltestrunner_imports "-import")
-            list(APPEND qmltestrunner_imports ${IMPORT_PATH})
-        endforeach(IMPORT_PATH)
-    elseif(NOT "${qmltest_DEFAULT_IMPORT_PATHS}" STREQUAL "")
-        foreach(IMPORT_PATH ${qmltest_DEFAULT_IMPORT_PATHS})
-            list(APPEND qmltestrunner_imports "-import")
-            list(APPEND qmltestrunner_imports ${IMPORT_PATH})
-        endforeach(IMPORT_PATH)
-    endif()
+function(add_executable_test COMPONENT_NAME TARGET)
+    import_executables(gdb xvfb-run OPTIONAL)
 
-    string(TOLOWER "${CMAKE_GENERATOR}" cmake_generator_lower)
-    if(cmake_generator_lower STREQUAL "unix makefiles")
-        set(function_ARGS $(FUNCTION))
+    cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    mangle_arguments()
+
+    if(ARTIFACTS_DIR)
+        file(RELATIVE_PATH path ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+        file(MAKE_DIRECTORY ${ARTIFACTS_DIR}/${path})
+        set(file_logger -o ${ARTIFACTS_DIR}/${path}/test${COMPONENT_NAME}.xml,xunitxml)
     else()
-        set(function_ARGS "")
+        set(file_logger -o ${CMAKE_CURRENT_BINARY_DIR}/test${COMPONENT_NAME}.xml,xunitxml)
     endif()
 
-    if (${ITERATIONS} GREATER 0)
-        set(ITERATIONS_STRING "-iterations" ${ITERATIONS})
-    else()
-        set(ITERATIONS_STRING "")
-    endif()
-
-    if("${qmltest_ENVIRONMENT}" STREQUAL "")
-        set(qmltest_ENVIRONMENT "${qmltest_default_ENVIRONMENT}")
-    endif()
+    bake_arguments("${QMLTEST_ARG_PREFIX}" args ${iterations} ${file_logger} ${STDOUT_LOGGER})
 
     set(qmltest_command
-        env ${test_env} ${qmltest_ENVIRONMENT}
-        ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
-            ${qmltestrunner_imports}
-            ${ITERATIONS_STRING}
-            -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
-            -o -,txt
-            ${function_ARGS}
-    )
-    find_program(DPKG dpkg-architecture)
-    if(DPKG)
-        exec_program(${DPKG} ARGS "-qDEB_BUILD_MULTIARCH" OUTPUT_VARIABLE ARCH_TRIPLET )
-        set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
-    endif()
-    set(qmltest_xvfb_command
-        env ${test_env} ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH}
-        xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
-        ${qmltestrunner_exe} -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml
-        ${qmltestrunner_imports}
-            -o ${CMAKE_BINARY_DIR}/${qmltest_TARGET}.xml,xunitxml
-            -o -,txt
-            ${function_ARGS}
+        $<TARGET_FILE:${TARGET}>
+            ${QMLTEST_ARGS}
+            ${args}
     )
 
-    set(qmltest_gdb_command
-        env ${test_env} ${qmltest_ENVIRONMENT} ${LD_PRELOAD_PATH}
-        gdb -e ${qmltestrunner_exe} -ex \"run -input ${CMAKE_CURRENT_SOURCE_DIR}/${qmltest_FILE}.qml ${qmltestrunner_imports} ${ITERATIONS_STRING}\"
+    add_qmltest_target(test${COMPONENT_NAME} ${TARGET}
+        COMMAND ${qmltest_command}
+        ${depends}
+        ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
+        ${add_test}
+        ${targets}
     )
 
-    add_qmltest_target(${qmltest_TARGET} "${qmltest_command}" TRUE ${qmltest_NO_ADD_TEST})
-    add_qmltest_target(${qmltest_xvfb_TARGET} "${qmltest_xvfb_command}" ${qmltest_NO_TARGETS} TRUE)
-    add_qmltest_target(${qmltest_gdb_TARGET} "${qmltest_gdb_command}" TRUE TRUE)
-    add_manual_qml_test(${SUBPATH} ${COMPONENT_NAME} ${ARGN})
-endmacro(add_qml_test_internal)
-
-macro(add_binary_qml_test CLASS_NAME LD_PATH DEPS ENVVAR)
-    set(testCommand
-          ${ENVVAR}
-          LD_LIBRARY_PATH=${LD_PATH}
-          dbus-test-runner
-          -m 300
-          -t ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
-          -p -o -p ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
-          -p -o -p -,txt)
-
-    add_qmltest_target(test${CLASS_NAME} "${testCommand}" FALSE TRUE)
-    add_dependencies(test${CLASS_NAME} ${CLASS_NAME}TestExec ${DEPS})
-
-    find_program( HAVE_GCC gcc )
-    if (NOT ${HAVE_GCC} STREQUAL "")
-        exec_program( gcc ARGS "-dumpmachine" OUTPUT_VARIABLE ARCH_TRIPLET )
-        set(LD_PRELOAD_PATH "LD_PRELOAD=/usr/lib/${ARCH_TRIPLET}/mesa/libGL.so.1")
-    endif()
-    set(xvfbtestCommand
-          ${LD_PRELOAD_PATH}
-          ${ENVVAR}
-          LD_LIBRARY_PATH=${LD_PATH}
-          xvfb-run --server-args "-screen 0 1024x768x24" --auto-servernum
-          dbus-test-runner
-          -m 300
-          -t ${CMAKE_CURRENT_BINARY_DIR}/${CLASS_NAME}TestExec
-          -p -o -p ${CMAKE_BINARY_DIR}/test${CLASS_NAME}.xml,xunitxml
-          -p -o -p -,txt)
-
-    add_qmltest_target(xvfbtest${CLASS_NAME} "${xvfbtestCommand}" FALSE TRUE)
-    add_dependencies(qmluitests xvfbtest${CLASS_NAME})
-endmacro(add_binary_qml_test)
-
-macro(add_qmltest_target qmltest_TARGET qmltest_command qmltest_NO_TARGETS qmltest_NO_ADD_TEST)
-    add_custom_target(${qmltest_TARGET} ${qmltest_command})
-
-    if(NOT "${qmltest_PROPERTIES}" STREQUAL "")
-        set_target_properties(${qmltest_TARGET} PROPERTIES ${qmltest_PROPERTIES})
-    elseif(NOT "${qmltest_DEFAULT_PROPERTIES}" STREQUAL "")
-        set_target_properties(${qmltest_TARGET} PROPERTIES ${qmltest_DEFAULT_PROPERTIES})
+    if(TARGET xvfb-run)
+        add_qmltest_target(xvfbtest${COMPONENT_NAME} ${TARGET}
+            COMMAND $<TARGET_FILE:xvfb-run> --server-args "-screen 0 1024x768x24" --auto-servernum ${qmltest_command}
+            ${depends}
+            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT} LD_PRELOAD=/usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/mesa/libGL.so.1
+            TARGETS ${xvfb_targets}
+        )
     endif()
 
-    if("${qmltest_NO_ADD_TEST}" STREQUAL FALSE AND NOT "${qmltest_DEFAULT_NO_ADD_TEST}" STREQUAL "TRUE")
-        add_test(${qmltest_TARGET} ${qmltest_command})
+    if(TARGET gdb)
+        add_qmltest_target(gdbtest${COMPONENT_NAME} ${TARGET}
+            COMMAND $<TARGET_FILE:gdb> -ex run -args ${qmltest_command}
+            ${depends}
+            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
+        )
+    endif()
+endfunction()
 
-        if(NOT "${qmltest_UNPARSED_ARGUMENTS}" STREQUAL "")
-            set_tests_properties(${qmltest_TARGET} PROPERTIES ${qmltest_PROPERTIES})
-        elseif(NOT "${qmltest_DEFAULT_PROPERTIES}" STREQUAL "")
-            set_tests_properties(${qmltest_TARGET} PROPERTIES ${qmltest_DEFAULT_PROPERTIES})
+
+# add_manual_test(target component_name
+#     [DEPENDS target1 [target2 [...]]]                # make this test depend on the specified targets
+#     [IMPORT_PATHS import_path1 [import_path2 [...]]  # use these QML import paths
+#                                                      # (they're searched first to last)
+#     [ENVIRONMENT var1=value1 [var2=value2 [...]]]    # set these environment variables
+# )
+#
+# Two targets will be created:
+#   - try${component_name} - Runs the test for manual interaction
+#   - gdbtry${component_name} - Runs the test under gdb
+
+function(add_manual_test COMPONENT_NAME TARGET)
+    import_executables(gdb OPTIONAL)
+
+    cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
+    mangle_arguments()
+
+    bake_arguments("${QMLTEST_ARG_PREFIX}" args -qmljsdebugger=port:3768)
+
+    set(qmltry_command
+        $<TARGET_FILE:${TARGET}>
+            ${QMLTEST_ARGS}
+            ${args}
+    )
+
+    add_qmltest_target(try${COMPONENT_NAME} ${TARGET}
+        COMMAND ${qmltry_command}
+        ${depends}
+        ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
+    )
+
+    if(TARGET gdb)
+        add_qmltest_target(gdbtry${COMPONENT_NAME} ${TARGET}
+            COMMAND $<TARGET_FILE:gdb> -ex run -args ${qmltry_command}
+            ${depends}
+            ENVIRONMENT QML2_IMPORT_PATH=${imports} ${QMLTEST_ENVIRONMENT}
+        )
+    endif()
+endfunction()
+
+
+################### INTERNAL ####################
+
+# add_qmltest_target(target_name target
+#    COMMAND test_exe [arg1 [...]]       # execute this test with arguments
+#    [...]                               # see above for available arguments:
+#                                        # ADD_TEST, ENVIRONMENT, DEPENDS and TARGETS
+# )
+
+function(add_qmltest_target TARGET_NAME TARGET)
+    cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "COMMAND;${QMLTEST_MULTI}" ${ARGN})
+    mangle_arguments()
+
+    # Additional arguments
+    string(TOLOWER "${CMAKE_GENERATOR}" cmake_generator_lower)
+    if(cmake_generator_lower STREQUAL "unix makefiles")
+        set(function "$(FUNCTION)")
+    endif()
+
+    add_custom_target(${TARGET_NAME}
+        env ${QMLTEST_ENVIRONMENT}
+        ${QMLTEST_COMMAND} ${function}
+        DEPENDS ${TARGET} ${QMLTEST_DEPENDS}
+    )
+
+    if(QMLTEST_ADD_TEST)
+        add_test(
+            NAME ${TARGET_NAME}
+            COMMAND ${QMLTEST_COMMAND}
+        )
+
+        foreach(ENV ${QMLTEST_ENVIRONMENT})
+            set_property(TEST ${TARGET_NAME} APPEND PROPERTY ENVIRONMENT ${ENV})
+        endforeach()
+
+        set_property(TEST ${TARGET_NAME} APPEND PROPERTY DEPENDS ${TARGET})
+        foreach(DEPEND ${DEPENDS})
+            set_property(TEST ${TARGET_NAME} APPEND PROPERTY DEPENDS ${DEPEND})
+        endforeach()
+    endif()
+
+    foreach(UPSTREAM_TARGET ${QMLTEST_TARGETS})
+        add_dependencies(${UPSTREAM_TARGET} ${TARGET_NAME})
+    endforeach()
+endfunction()
+
+
+# mangle_arguments(${ARGN})
+#
+# Verify there were no unparsed arguments and
+# mangle the known ones for further processing.
+
+macro(mangle_arguments)
+    if(QMLTEST_UNPARSED_ARGUMENTS)
+        message(FATAL_ERROR "Unexpected arguments: ${QMLTEST_UNPARSED_ARGUMENTS}")
+    endif()
+
+    if(QMLTEST_ADD_TEST)
+        set(add_test ADD_TEST)
+    endif()
+
+    if(QMLTEST_IMPORT_PATHS)
+        string(REPLACE ";" ":" imports "${QMLTEST_IMPORT_PATHS}")
+    endif()
+
+    if(QMLTEST_ITERATIONS)
+        set(iterations -iterations ${QMLTEST_ITERATIONS})
+    endif()
+
+    if(QMLTEST_DEPENDS)
+        set(depends DEPENDS ${QMLTEST_DEPENDS})
+    endif()
+
+    if(QMLTEST_TARGETS)
+        set(targets TARGETS ${QMLTEST_TARGETS})
+    endif()
+
+    set(xvfb_targets "")
+    foreach(target ${QMLTEST_TARGETS})
+        if(TARGET xvfb${target})
+            list(APPEND xvfb_targets xvfb${target})
         endif()
-    endif("${qmltest_NO_ADD_TEST}" STREQUAL FALSE AND NOT "${qmltest_DEFAULT_NO_ADD_TEST}" STREQUAL "TRUE")
+    endforeach()
+    set(xvfb_targets "${xvfb_targets}" PARENT_SCOPE)
+endmacro()
 
-    if("${qmltest_NO_TARGETS}" STREQUAL "FALSE")
-        if(NOT "${qmltest_TARGETS}" STREQUAL "")
-            foreach(TARGET ${qmltest_TARGETS})
-                add_dependencies(${TARGET} ${qmltest_TARGET})
-            endforeach(TARGET)
-        elseif(NOT "${qmltest_DEFAULT_TARGETS}" STREQUAL "")
-            foreach(TARGET ${qmltest_DEFAULT_TARGETS})
-                add_dependencies(${TARGET} ${qmltest_TARGET})
-            endforeach(TARGET)
-        endif()
-    endif("${qmltest_NO_TARGETS}" STREQUAL "FALSE")
 
-endmacro(add_qmltest_target)
+# bake_arguments(prefix output
+#    arg1 [arg2 [...]]
+# )
+#
+# If set, add the argument prefix before every passed
+# argument and store the result in ${OUTPUT} variable.
+
+function(bake_arguments PREFIX OUTPUT)
+    set(args "${ARGN}")
+    if(PREFIX)
+        set(args "")
+        foreach(arg ${ARGN})
+            list(APPEND args ${PREFIX})
+            list(APPEND args ${arg})
+        endforeach()
+    endif()
+    set(${OUTPUT} "${args}" PARENT_SCOPE)
+endfunction()
