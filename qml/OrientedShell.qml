@@ -19,6 +19,7 @@ import QtQuick.Window 2.0
 import Unity.Session 0.1
 import GSettings 1.0
 import "Components"
+import "Components/UnityInputInfo"
 import "Rotation"
 
 Rectangle {
@@ -40,8 +41,11 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
+
     // to be overwritten by tests
     property var unity8Settings: Unity8Settings {}
+    property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }
+
     property int physicalOrientation: Screen.orientation
     property bool orientationLocked: OrientationLock.enabled
     property var orientationLock: OrientationLock
@@ -63,6 +67,22 @@ Rectangle {
         if (orientationLocked) {
             orientation = orientationLock.savedOrientation;
         }
+        // We need to manually update this on startup as the binding
+        // below doesn't seem to have any effect at that stage
+        oskSettings.stayHidden = UnityInputInfo.keyboards > 0
+        oskSettings.disableHeight = shell.usageScenario == "desktop"
+    }
+
+    Binding {
+        target: oskSettings
+        property: "stayHidden"
+        value: UnityInputInfo.keyboards > 0
+    }
+
+    Binding {
+        target: oskSettings
+        property: "disableHeight"
+        value: shell.usageScenario == "desktop"
     }
 
     readonly property int supportedOrientations: shell.supportedOrientations
@@ -142,11 +162,18 @@ Rectangle {
         usageScenario: {
             if (root.unity8Settings.usageMode === "Windowed") {
                 return "desktop";
-            } else if (root.unity8Settings.usageMode === "Staged"
-                    && deviceConfiguration.category === "desktop") {
-                return "tablet";
-            } else {
-                return deviceConfiguration.category;
+            } else if (root.unity8Settings.usageMode === "Staged") {
+                if (deviceConfiguration.category === "phone") {
+                    return "phone";
+                } else {
+                    return "tablet";
+                }
+            } else { // automatic
+                if (UnityInputInfo.mice > deviceConfiguration.ignoredMice) {
+                    return "desktop";
+                } else {
+                    return deviceConfiguration.category;
+                }
             }
         }
 

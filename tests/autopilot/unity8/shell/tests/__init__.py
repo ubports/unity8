@@ -51,9 +51,9 @@ from unity8 import (
     fixture_setup,
     process_helpers
 )
-from unity8.shell.emulators import (
+from unity8 import (
     dash as dash_helpers,
-    main_window as main_window_emulator,
+    shell
 )
 
 
@@ -297,7 +297,7 @@ class UnityTestCase(AutopilotTestCase):
 
     @property
     def main_window(self):
-        return self._proxy.select_single(main_window_emulator.QQuickView)
+        return self._proxy.select_single(shell.QQuickView)
 
 
 class DashBaseTestCase(AutopilotTestCase):

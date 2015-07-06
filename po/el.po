@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-04-14 16:13+0200\n"
-"PO-Revision-Date: 2015-06-18 19:05+0000\n"
+"POT-Creation-Date: 2015-06-22 12:00+0200\n"
+"PO-Revision-Date: 2015-07-05 21:52+0000\n"
 "Last-Translator: Simos Xenitellis <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-06-23 05:33+0000\n"
-"X-Generator: Launchpad (build 17572)\n"
+"X-Launchpad-Export-Date: 2015-07-06 05:36+0000\n"
+"X-Generator: Launchpad (build 17597)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -30,6 +30,86 @@ msgstr "Καρφίτσωμα συντόμευσης"
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "Ξεκαρφίτσωμα συντόμευσης"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:157
+msgid "Yesterday %l:%M %p"
+msgstr "Χτες %l:%M %p"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened today.
+#. en_US example: "%l:%M %p" --> "1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:164
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:172
+msgid "Tomorrow %l:%M %p"
+msgstr "Αύριο %l:%M %p"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:181
+msgid "%a %l:%M %p"
+msgstr "%a %l:%M %p"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:190
+msgid "%a %d %b %l:%M %p"
+msgstr "%a %d %b %l:%M %p"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:201
+msgid "Yesterday %H:%M"
+msgstr "Χτες %H:%M"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened today.
+#. en_US example: "%H:%M" --> "13:00"
+#: plugins/Utils/relativetimeformatter.cpp:208
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:216
+msgid "Tomorrow %H:%M"
+msgstr "Αύριο %H:%M"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:225
+msgid "%a %H:%M"
+msgstr "%a %H:%M"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:234
+msgid "%a %d %b %H:%M"
+msgstr "%a %d %b %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -193,15 +273,15 @@ msgstr "Περισσότερα..."
 msgid "Less..."
 msgstr "Λιγότερα..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Βαθμολογήστε το"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Προσθέστε την αξιολόγησή σας"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
 msgid "Send"
 msgstr "Αποστολή"
 
@@ -217,15 +297,15 @@ msgstr "Αφήστε για ανανέωση…"
 msgid "Enable location data"
 msgstr "Ενεργοποίηση δεδομένων τοποθεσίας"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:67
 msgid "Manage"
 msgstr "Διαχείριση"
 
-#: qml/Dash/ScopesList.qml:112
+#: qml/Dash/ScopesList.qml:113
 msgid "Home"
 msgstr "Αρχή"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "Επίσης εγκατεστημένα"
 
@@ -317,27 +397,58 @@ msgstr "Συνδιάσκεψη"
 msgid "Nothing is playing"
 msgstr "Δεν αναπαράγεται τίποτα"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:787
+#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#, qt-format
+msgid "%1 hour"
+msgid_plural "%1 hours"
+msgstr[0] "%1 ώρα"
+msgstr[1] "%1 ώρες"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#, qt-format
+msgid "%1 minute"
+msgid_plural "%1 minutes"
+msgstr[0] "%1 λεπτό"
+msgstr[1] "%1 λεπτά"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#, qt-format
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 δευτερόλεπτο"
+msgstr[1] "%1 δευτερόλεπτα"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:780
+msgid "0 seconds"
+msgstr "0 δευτερόλεπτα"
+
+#. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
+#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#, qt-format
+msgid "%1 remaining"
+msgstr "%1 απομένουν"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
 msgstr "Στην ουρά..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:792
 msgid "Downloading"
 msgstr "Λήψη σε εξέλιξη"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:793
+#: qml/Panel/Indicators/MenuItemFactory.qml:794
 msgid "Paused, tap to resume"
 msgstr "Σταματημένο, αγγίξτε για συνέχιση"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:796
 msgid "Canceled"
 msgstr "Ακυρώθηκε"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:798
 msgid "Finished"
 msgstr "Ολοκληρώθηκε"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:800
 msgid "Failed, tap to retry"
 msgstr "Αποτυχία, πατήστε για να ξαναπροσπαθήσετε"
 
@@ -417,6 +528,38 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Πίσω"
 
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Όροι και προϋποθέσεις"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Επιβεβαίωση φράσης πρόσβασης"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Επιβεβαιώστε τον κωδικό πρόσβασης"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Παρακαλώ προσπαθήστε ξανά."
+
+#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50
+msgid "Continue"
+msgstr "Συνέχιση"
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Επιλογή κωδικού πρόσβασης"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Η φράση πρόσβασης πρέπει να έχει 4 χαρακτήρες"
+
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr "Γεια!"
@@ -428,13 +571,6 @@ msgstr "Καλώς ήρθατε στο Ubuntu phone σας."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "Ας ξεκινήσουμε."
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "Συνέχιση"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -461,7 +597,7 @@ msgstr "Παρακαλούμε επιλέξτε πως θα θέλατε να ξ
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Χειρονομία"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
@@ -518,7 +654,7 @@ msgstr ""
 "Χρήση GPS, ανωνυμοποιημένων δικτύων Wi-Fi και πληροφορίες δικτύων κινητής "
 "τηλεφωνίας (συνιστάται)"
 
-#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
@@ -573,36 +709,13 @@ msgstr "Το τηλέφωνό σας είναι πλέον έτοιμο για �
 msgid "Finish"
 msgstr "Ολοκλήρωση"
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "Όροι και προϋποθέσεις"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Επιβεβαίωση φράσης πρόσβασης"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "Επιβεβαιώστε τον κωδικό πρόσβασης"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Παρακαλώ προσπαθήστε ξανά."
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Επιλογή κωδικού πρόσβασης"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "Η φράση πρόσβασης πρέπει να έχει 4 χαρακτήρες"
-
+#. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
 msgstr "〈  %1"
 
+#. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"

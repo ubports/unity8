@@ -102,7 +102,7 @@ Item {
             maximumValue: {
                 var maximum = getExtendedProperty(extendedData, "maxValue", 1.0);
                 if (maximum <= minimumValue) {
-                        return minimumValue + 1;
+                    return minimumValue + 1;
                 }
                 return maximum;
             }
@@ -765,20 +765,21 @@ Item {
                 var minutes = Math.floor(secondsLeft / 60) % 60;
                 var seconds = secondsLeft % 60;
                 if (hours > 0) {
-                    remaining += hours + (hours == 1 ? " hour" : " hours");
+                    remaining += i18n.tr("%1 hour", "%1 hours", hours).arg(hours)
                 }
                 if (minutes > 0) {
                     if (remaining != "") remaining += ", ";
-                    remaining += minutes + (minutes == 1 ? " minute" : " minutes");
+                    remaining += i18n.tr("%1 minute", "%1 minutes", minutes).arg(minutes)
                 }
                 // don't include seconds if hours > 0
                 if (hours == 0 && minutes < 5 && seconds > 0) {
                     if (remaining != "") remaining += ", ";
-                    remaining += seconds + (seconds == 1 ? " second" : " seconds");
+                    remaining += i18n.tr("%1 second", "%1 seconds", seconds).arg(seconds)
                 }
                 if (remaining == "")
-                    remaining = "0 seconds";
-                return remaining + " remaining";
+                    remaining = i18n.tr("0 seconds");
+                // Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
+                return i18n.tr("%1 remaining").arg(remaining);
             }
 
             stateText: {
