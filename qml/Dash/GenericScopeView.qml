@@ -71,12 +71,14 @@ FocusScope {
     property var maybePreviewIndex;
     property var maybePreviewResultsModel;
     property var maybePreviewLimitedCategoryItemCount;
+    property string maybePreviewCategoryId;
 
     function itemClicked(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
         scopeView.maybePreviewResult = result;
         scopeView.maybePreviewIndex = index;
         scopeView.maybePreviewResultsModel = resultsModel;
         scopeView.maybePreviewLimitedCategoryItemCount = limitedCategoryItemCount;
+        scopeView.maybePreviewCategoryId = categoryId;
 
         scope.activate(result, categoryId);
     }
@@ -86,13 +88,14 @@ FocusScope {
         scopeView.maybePreviewIndex = undefined;
         scopeView.maybePreviewResultsModel = undefined;
         scopeView.maybePreviewLimitedCategoryItemCount = undefined;
+        scopeView.maybePreviewCategoryId = undefined;
 
         if (scope.preview(result, categoryId)) {
-            openPreview(index, resultsModel, limitedCategoryItemCount);
+            openPreview(index, resultsModel, limitedCategoryItemCount, categoryId);
         }
     }
 
-    function openPreview(index, resultsModel, limitedCategoryItemCount) {
+    function openPreview(index, resultsModel, limitedCategoryItemCount, categoryId) {
         if (limitedCategoryItemCount > 0) {
             previewLimitModel.model = resultsModel;
             previewLimitModel.limit = limitedCategoryItemCount;
@@ -102,6 +105,7 @@ FocusScope {
         }
         subPageLoader.initialIndex = -1;
         subPageLoader.initialIndex = index;
+        subPageLoader.categoryId = categoryId;
         subPageLoader.openSubPage("preview");
     }
 
@@ -151,10 +155,14 @@ FocusScope {
         onPreviewRequested: { // (QVariant const& result)
             if (result === scopeView.maybePreviewResult) {
                 scopeView.maybePreviewResult = undefined;
-                openPreview(scopeView.maybePreviewIndex, scopeView.maybePreviewResultsModel, scopeView.maybePreviewLimitedCategoryItemCount);
+                openPreview(scopeView.maybePreviewIndex,
+                            scopeView.maybePreviewResultsModel,
+                            scopeView.maybePreviewLimitedCategoryItemCount,
+                            scopeView.maybePreviewCategoryId);
                 scopeView.maybePreviewIndex = undefined;
                 scopeView.maybePreviewResultsModel = undefined;
                 scopeView.maybePreviewLimitedCategoryItemCount = undefined;
+                scopeView.maybePreviewCategoryId = undefined;
             }
         }
     }
@@ -737,6 +745,7 @@ FocusScope {
         property var scope: scopeView.scope
         property var scopeStyle: scopeView.scopeStyle
         property int initialIndex: -1
+        property string categoryId
         property var model: null
 
         readonly property bool processing: item && item.processing || false
@@ -768,6 +777,7 @@ FocusScope {
                 item.open = Qt.binding(function() { return subPageLoader.open; } )
                 item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
                 item.model = Qt.binding(function() { return subPageLoader.model; } )
+                item.categoryId = Qt.binding(function() { return subPageLoader.categoryId; } )
             }
             open = true;
         }
