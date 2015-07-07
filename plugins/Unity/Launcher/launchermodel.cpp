@@ -341,6 +341,7 @@ void LauncherModel::runningChanged(const QString &appId, bool running)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setRunning(running);
+        m_asAdapter->syncItems(m_list);
         Q_EMIT dataChanged(index(idx), index(idx), {RoleRunning});
     }
 }
@@ -351,8 +352,8 @@ void LauncherModel::countChanged(const QString &appId, int count)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         item->setCount(count);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleCount});
         m_asAdapter->syncItems(m_list);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleCount});
     }
 }
 
@@ -404,7 +405,8 @@ void LauncherModel::refresh()
             item->setName(desktopFile.displayName());
             item->setIcon(desktopFile.icon());
             item->setPinned(item->pinned()); // update pinned text if needed
-            Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon});
+            item->setRunning(item->running());
+            Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon, RoleRunning});
         }
     }
 
