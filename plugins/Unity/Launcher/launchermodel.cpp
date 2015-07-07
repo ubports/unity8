@@ -492,6 +492,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         LauncherItem *item = m_list.at(itemIndex);
         if (!item->recent()) {
             item->setRecent(true);
+            item->setRunning(true);
             m_asAdapter->syncItems(m_list);
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
