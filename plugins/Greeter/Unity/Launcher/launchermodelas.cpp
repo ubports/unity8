@@ -67,6 +67,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->progress();
         case RoleFocused:
             return item->focused();
+        case RoleRunning:
+            return item->running();
     }
 
     return QVariant();
@@ -208,8 +210,9 @@ void LauncherModel::refresh()
                     item->setIcon(asItem.toMap().value("icon").toString());
                     item->setCount(asItem.toMap().value("count").toInt());
                     item->setCountVisible(asItem.toMap().value("countVisible").toBool());
+                    item->setRunning(asItem.toMap().value("running").toBool());
                     int idx = m_list.indexOf(item);
-                    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+                    Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon, RoleCount, RoleCountVisible, RoleRunning});
                 }
                 break;
             }
@@ -255,6 +258,7 @@ void LauncherModel::refresh()
             item->setPinned(true);
             item->setCount(entry.toMap().value("count").toInt());
             item->setCountVisible(entry.toMap().value("countVisible").toBool());
+            item->setRunning(entry.toMap().value("running").toBool());
             beginInsertRows(QModelIndex(), newPosition, newPosition);
             m_list.insert(newPosition, item);
             endInsertRows();

@@ -56,5 +56,6 @@ QVariantMap ASAdapter::itemToVariant(LauncherItem *item) const
     details.insert("count", item->count());
     details.insert("countVisible", item->countVisible());
     details.insert("pinned", item->pinned());
+    details.insert("running", item->running());
     return details;
 }

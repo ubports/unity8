@@ -36,10 +36,11 @@ LauncherModel::LauncherModel(QObject *parent):
     m_settings(new GSettings(this)),
     m_dbusIface(new DBusInterface(this)),
     m_asAdapter(new ASAdapter()),
-    m_appManager(0)
+    m_appManager(nullptr)
 {
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
+    connect(m_dbusIface, &DBusInterface::runningChanged, this, &LauncherModel::runningChanged);
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
     connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
@@ -331,6 +332,16 @@ void LauncherModel::progressChanged(const QString &appId, int progress)
         LauncherItem *item = m_list.at(idx);
         item->setProgress(progress);
         Q_EMIT dataChanged(index(idx), index(idx), {RoleProgress});
+    }
+}
+
+void LauncherModel::runningChanged(const QString &appId, bool running)
+{
+    const int idx = findApplication(appId);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        item->setRunning(running);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleRunning});
     }
 }
 

@@ -21,7 +21,6 @@
 
 class LauncherItem;
 class AccountsServiceDBusAdaptor;
-class QDBusInterface;
 
 class ASAdapter
 {
@@ -37,8 +36,6 @@ private:
 private:
     AccountsServiceDBusAdaptor *m_accounts;
     QString m_user;
-
-    QDBusInterface *m_userInterface;
 
     friend class LauncherModelTest;
 };
