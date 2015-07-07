@@ -22,7 +22,7 @@ import logging
 import autopilot.logging
 import ubuntuuitoolkit
 
-from unity8.shell import emulators
+import unity8
 
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 class Launcher(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
-    """An emulator that understands the Launcher."""
+    """A helper that understands the Launcher."""
 
     @autopilot.logging.log_action(logger.debug)
     def show(self):
@@ -57,7 +57,7 @@ class Launcher(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
                 'QQuickImage', objectName='dashItem')
             self.pointing_device.click_object(dash_icon)
         else:
-            raise emulators.UnityEmulatorException('The launcher is closed.')
+            raise unity8.UnityException('The launcher is closed.')
 
     @autopilot.logging.log_action(logger.debug)
     def click_application_launcher_icon(self, application_name):

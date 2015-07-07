@@ -1,7 +1,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 #
 # Unity Autopilot Test Suite
-# Copyright (C) 2012, 2013, 2014 Canonical
+# Copyright (C) 2012, 2013, 2014, 2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,11 +17,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""unity autopilot tests and emulators - top level package."""
+"""unity autopilot tests and helpers - top level package."""
 import os
 import os.path
 import subprocess
 import sysconfig
+
+
+class UnityException(Exception):
+    """Exception raised when there is an error with the Unity test helpers."""
 
 
 def running_installed_tests():
