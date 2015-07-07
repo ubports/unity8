@@ -533,7 +533,7 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         m_list.takeAt(appIndex)->deleteLater();
         endRemoveRows();
         m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(appIndex), index(appIndex), {RolePinned, RoleRunning});
+        Q_EMIT dataChanged(index(appIndex), index(appIndex), {RolePinned});
     }
     Q_EMIT dataChanged(index(appIndex), index(appIndex), {RoleRunning});
 }
