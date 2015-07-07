@@ -492,10 +492,9 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         LauncherItem *item = m_list.at(itemIndex);
         if (!item->recent()) {
             item->setRecent(true);
-            item->setRunning(true);
-            m_asAdapter->syncItems(m_list);
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
+        item->setRunning(true);
         // TODO Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
@@ -506,8 +505,8 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
         m_list.append(item);
         endInsertRows();
-        m_asAdapter->syncItems(m_list);
     }
+    m_asAdapter->syncItems(m_list);
     Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRunning});
 }
 
