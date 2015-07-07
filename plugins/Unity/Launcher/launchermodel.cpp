@@ -40,6 +40,7 @@ LauncherModel::LauncherModel(QObject *parent):
 {
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
+    connect(m_dbusIface, &DBusInterface::progressChanged, this, &LauncherModel::progressChanged);
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
     connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
