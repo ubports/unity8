@@ -18,7 +18,6 @@
 
 #include "Greeter.h"
 #include "GreeterPrivate.h"
-//#include <lightdm.h>
 #include <libintl.h>
 #include <QDebug>
 
