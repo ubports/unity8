@@ -67,24 +67,28 @@ FocusScope {
         subPageLoader.closeSubPage()
     }
 
-    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
-        if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope" || (scope.id === "videoaggregator" && categoryId === "myvideos-getstarted")) {
-            // TODO Technically it is possible that calling activate() will make the scope emit
-            // previewRequested so that we show a preview but there's no scope that does that yet
-            // so it's not implemented
-            scope.activate(result)
-        } else {
-            if (scope.preview(result)) {
-                openPreview(index, resultsModel, limitedCategoryItemCount);
-            }
-        }
+    property var maybePreviewResult;
+    property var maybePreviewIndex;
+    property var maybePreviewResultsModel;
+    property var maybePreviewLimitedCategoryItemCount;
+
+    function itemClicked(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
+        scopeView.maybePreviewResult = result;
+        scopeView.maybePreviewIndex = index;
+        scopeView.maybePreviewResultsModel = resultsModel;
+        scopeView.maybePreviewLimitedCategoryItemCount = limitedCategoryItemCount;
+
+        scope.activate(result, categoryId);
     }
 
-    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
-        if (itemModel.uri.indexOf("scope://") !== 0 && !(scope.id === "videoaggregator" && categoryId === "myvideos-getstarted")) {
-            if (scope.preview(result)) {
-                openPreview(index, resultsModel, limitedCategoryItemCount);
-            }
+    function itemPressedAndHeld(index, result, resultsModel, limitedCategoryItemCount, categoryId) {
+        scopeView.maybePreviewResult = undefined;
+        scopeView.maybePreviewIndex = undefined;
+        scopeView.maybePreviewResultsModel = undefined;
+        scopeView.maybePreviewLimitedCategoryItemCount = undefined;
+
+        if (scope.preview(result, categoryId)) {
+            openPreview(index, resultsModel, limitedCategoryItemCount);
         }
     }
 
@@ -144,6 +148,15 @@ FocusScope {
         target: scopeView.scope
         onShowDash: subPageLoader.closeSubPage()
         onHideDash: subPageLoader.closeSubPage()
+        onPreviewRequested: { // (QVariant const& result)
+            if (result === scopeView.maybePreviewResult) {
+                scopeView.maybePreviewResult = undefined;
+                openPreview(scopeView.maybePreviewIndex, scopeView.maybePreviewResultsModel, scopeView.maybePreviewLimitedCategoryItemCount);
+                scopeView.maybePreviewIndex = undefined;
+                scopeView.maybePreviewResultsModel = undefined;
+                scopeView.maybePreviewLimitedCategoryItemCount = undefined;
+            }
+        }
     }
 
     Connections {
@@ -345,12 +358,12 @@ FocusScope {
 
                 Connections {
                     target: rendererLoader.item
-                    onClicked: {
-                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount(), baseItem.category);
+                    onClicked: { // (int index, var result, var item, var itemModel)
+                        scopeView.itemClicked(index, result, itemModel, target.model, categoryItemCount(), baseItem.category);
                     }
 
-                    onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount(), baseItem.category);
+                    onPressAndHold: { // (int index, var result, var itemModel)
+                        scopeView.itemPressedAndHeld(index, result, target.model, categoryItemCount(), baseItem.category);
                     }
 
                     function categoryItemCount() {
