@@ -211,7 +211,13 @@ void LauncherModel::refresh()
                     item->setCountVisible(cachedMap.value("countVisible").toBool());
                     item->setProgress(cachedMap.value("progress").toInt());
                     int idx = m_list.indexOf(item);
-                    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+                    Q_EMIT dataChanged(index(idx),
+                                       index(idx),
+                                       QVector<int>() << RoleName
+                                                      << RoleIcon
+                                                      << RoleCount
+                                                      << RoleCountVisible
+                                                      << RoleProgress);
                 }
                 break;
             }
