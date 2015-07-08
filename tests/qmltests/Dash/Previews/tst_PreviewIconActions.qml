@@ -56,7 +56,8 @@ Rectangle {
             }
 
             timer.start();
-            console.log("triggered", widgetId, actionId);
+            if (!testcase.running)
+                console.log("triggered", widgetId, actionId);
         }
         width: parent.width
         clip: true
@@ -74,6 +75,7 @@ Rectangle {
     }
 
     UT.UnityTestCase {
+        id: testcase
         name: "PreviewIconActionTest"
         when: windowShown
 
