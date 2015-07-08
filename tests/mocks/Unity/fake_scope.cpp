@@ -189,10 +189,12 @@ void Scope::activate(QVariant const& result, QString const& categoryId)
         m_openScope = scopes->getScopeFromAll("MockScope9");
         scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
+    } else {
+        Q_EMIT previewRequested(result);
     }
 }
 
-PreviewStack* Scope::preview(QVariant const& result, QString const& categoryId)
+PreviewStack* Scope::preview(QVariant const& result, QString const& /*categoryId*/)
 {
     Q_UNUSED(result);
 
