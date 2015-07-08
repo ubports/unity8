@@ -88,7 +88,7 @@ FocusScope {
         scopeView.maybePreviewIndex = undefined;
         scopeView.maybePreviewResultsModel = undefined;
         scopeView.maybePreviewLimitedCategoryItemCount = undefined;
-        scopeView.maybePreviewCategoryId = undefined;
+        scopeView.maybePreviewCategoryId = "";
 
         if (scope.preview(result, categoryId)) {
             openPreview(index, resultsModel, limitedCategoryItemCount, categoryId);
@@ -154,15 +154,16 @@ FocusScope {
         onHideDash: subPageLoader.closeSubPage()
         onPreviewRequested: { // (QVariant const& result)
             if (result === scopeView.maybePreviewResult) {
-                scopeView.maybePreviewResult = undefined;
                 openPreview(scopeView.maybePreviewIndex,
                             scopeView.maybePreviewResultsModel,
                             scopeView.maybePreviewLimitedCategoryItemCount,
                             scopeView.maybePreviewCategoryId);
+
+                scopeView.maybePreviewResult = undefined;
                 scopeView.maybePreviewIndex = undefined;
                 scopeView.maybePreviewResultsModel = undefined;
                 scopeView.maybePreviewLimitedCategoryItemCount = undefined;
-                scopeView.maybePreviewCategoryId = undefined;
+                scopeView.maybePreviewCategoryId = "";
             }
         }
     }
