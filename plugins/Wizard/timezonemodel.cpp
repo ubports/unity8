@@ -19,6 +19,7 @@
 #include <QTimeZone>
 #include <QDebug>
 
+#include "LocalePlugin.h"
 #include "timezonemodel.h"
 
 
@@ -65,7 +66,7 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
         case Abbreviation:
             return tz.abbreviation(QDateTime::currentDateTime());
         case Country:
-            return QLocale::countryToString(tz.country());
+            return LocaleAttached::countryToString(tz.country());
         case City: {
             const QString cityName = QString::fromUtf8(tzid.split('/').last().replace("_", " ")); // take the last part, replace _ by a space
             return cityName;

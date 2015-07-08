@@ -32,6 +32,7 @@ public:
     Q_INVOKABLE QJsonObject languages() const;
     Q_INVOKABLE QJsonObject countriesForLanguage(const QString &code) const;
     Q_INVOKABLE QJsonObject countries() const;
+    Q_INVOKABLE static QString countryToString(QLocale::Country c);
 
     friend class LocalePlugin;
 };
