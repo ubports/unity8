@@ -25,7 +25,7 @@ from unity8 import process_helpers
 class FakePlatformSensors:
 
     def __init__(self, pid=None):
-        self.pid = pid or process_helpers.get_unity_pid()
+        self.pid = pid or process_helpers._get_unity_pid()
 
     def set_orientation(self, action):
         if action == 'top_up':

@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtTest 1.0
 import AccountsService 0.1
-import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
@@ -46,11 +45,6 @@ Item {
         }
     }
 
-    GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
-    }
-
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
         LightDM.Greeter.mockMode = "single-pin";
@@ -73,7 +67,6 @@ Item {
             sourceComponent: Component {
                 Shell {
                     property string indicatorProfile: "phone"
-                    property string shellMode: "full-greeter" /* default */
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
@@ -119,7 +112,7 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
-            unity8Settings.usageMode = "Staged";
+
             AccountsService.demoEdges = false;
             AccountsService.demoEdges = true;
             swipeAwayGreeter();
@@ -193,7 +186,7 @@ Item {
         }
 
         function checkRightEdge() {
-            if (unity8Settings.usageMode === "Staged") {
+            if (shell.usageScenario === "phone") {
                 touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
 
                 var stage = findChild(shell, "stage");
@@ -271,7 +264,7 @@ Item {
         }
 
         function test_walkthroughOnDesktop() {
-            unity8Settings.usageMode = "Windowed";
+            shell.usageScenario = "desktop";
             var page = goToPage("tutorialLeftFinish");
             var tick = findChild(page, "tick");
             tap(tick);
