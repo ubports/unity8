@@ -26,7 +26,7 @@ import Ubuntu.Components 1.1
 PreviewWidget {
     id: root
 
-    height: row.height
+    implicitHeight: row.height
 
     Row {
         id: row
