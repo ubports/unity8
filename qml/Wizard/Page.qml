@@ -40,6 +40,7 @@ Item {
     property bool desktopOnly: false
 
     property bool hasBackButton: true
+    property string backButtonText: i18n.ctr("Button: Go back one page in the Wizard", "Back")
     property bool customBack: false
     property bool customTitle: false
     property alias forwardButtonSourceComponent: forwardButton.sourceComponent
@@ -143,7 +144,7 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
             z: 1
-            text: i18n.ctr("Button: Go back one page in the Wizard", "Back")
+            text: backButtonText
             visible: pageStack.depth > 1 && hasBackButton
             backArrow: true
 

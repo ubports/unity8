@@ -35,44 +35,39 @@ LocalComponents.Page {
     id: passwdPage
     objectName: "passwdPage"
 
-    title: i18n.tr("Lock security")
+    title: i18n.tr("Lock Security")
     forwardButtonSourceComponent: forwardButton
-    skip: false
 
     function indexToMethod(index) {
-        if (index === 0)
+        if (index === 1)
             return UbuntuSecurityPrivacyPanel.Passcode
-        else if (index === 1)
+        else if (index === 0)
             return UbuntuSecurityPrivacyPanel.Passphrase
-        else
-            return UbuntuSecurityPrivacyPanel.Swipe
     }
 
     function methodToIndex(method) {
-        if (method === UbuntuSecurityPrivacyPanel.Swipe)
-            return 2
-        else if (method === UbuntuSecurityPrivacyPanel.Passcode)
-            return 0
-        else
+        if (method === UbuntuSecurityPrivacyPanel.Passcode)
             return 1
+        else if (method === UbuntuSecurityPrivacyPanel.Passphrase)
+            return 0
     }
 
     Component.onCompleted: {
         selector.currentIndex = methodToIndex(root.passwordMethod)
     }
 
-    Column {
+    Item {
         id: column
         anchors.fill: content
-        spacing: units.gu(4)
         anchors.topMargin: units.gu(4)
 
         Label {
+            id: infoLabel
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
             text: i18n.tr("Choose how to secure your device to protect your personal information.")
-            color: "black"
+            color: "#525252"
             fontSize: "small"
             font.weight: Font.Light
         }
@@ -81,13 +76,15 @@ LocalComponents.Page {
             id: selector
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.top: infoLabel.bottom
+            anchors.topMargin: units.gu(3)
 
             boundsBehavior: Flickable.StopAtBounds;
             clip: true;
-            height: column.height
+            height: childrenRect.height
 
             // this is the order we want to display it; cf indexToMethod()
-            model: [UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Swipe]
+            model: [UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Passcode]
 
             delegate: ListItem {
                 id: itemDelegate
@@ -97,7 +94,7 @@ LocalComponents.Page {
                     objectName: "passwdDelegate" + index
                     anchors.verticalCenter: parent.verticalCenter;
                     fontSize: "medium"
-                    color: "black"
+                    color: "#525252"
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
                     text: {
                         var method = modelData
@@ -134,6 +131,74 @@ LocalComponents.Page {
                 }
             }
         }
+
+        Switch {
+            id: requiredSwitch
+            anchors.left: parent.left
+            anchors.top: selector.bottom
+            anchors.topMargin: units.gu(1)
+            checked: true
+        }
+
+        Label {
+            id: requiredLabel
+            anchors.left: requiredSwitch.right
+            anchors.right: parent.right
+            anchors.top: selector.bottom
+            anchors.topMargin: units.gu(1)
+            anchors.leftMargin: units.gu(1)
+            wrapMode: Text.Wrap
+            text: i18n.tr("Require my password or passcode to access my device")
+            color: "#525252"
+            opacity: requiredSwitch.checked ? 1 : 0.5
+            fontSize: "small"
+            font.weight: Font.Light
+            MouseArea {
+                anchors.fill: parent
+                onClicked: requiredSwitch.trigger()
+            }
+        }
+
+        Label {
+            id: requiredInfo
+            anchors.left: requiredSwitch.right
+            anchors.right: parent.right
+            anchors.top: requiredLabel.bottom
+            anchors.topMargin: units.gu(1)
+            anchors.leftMargin: units.gu(1)
+            wrapMode: Text.Wrap
+            text: i18n.tr("You will still be required to enter password or passcode to gain admin privileges")
+            color: "#888888"
+            opacity: requiredSwitch.checked ? 1 : 0.5
+            fontSize: "x-small"
+            font.weight: Font.Light
+        }
+
+        CheckBox {
+            id: encryptCheck
+            anchors.left: requiredLabel.left
+            anchors.top: requiredInfo.bottom
+            anchors.topMargin: units.gu(1)
+            visible: requiredSwitch.checked
+        }
+
+        Label {
+            id: encryptLabel
+            anchors.left: encryptCheck.right
+            anchors.right: parent.right
+            anchors.verticalCenter: encryptCheck.verticalCenter
+            anchors.leftMargin: units.gu(.5)
+            wrapMode: Text.Wrap
+            text: i18n.tr("Encrypt my content")
+            color: "#525252"
+            font.weight: Font.Light
+            fontSize: "small"
+            visible: requiredSwitch.checked
+            MouseArea {
+                anchors.fill: parent
+                onClicked: encryptCheck.trigger()
+            }
+        }
     }
 
     Component {
@@ -141,8 +206,12 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             text: i18n.tr("Next")
             onClicked: {
-                print("Clicked next")
-                root.passwordMethod = indexToMethod(selector.currentIndex)
+                if (!requiredSwitch.checked)  { // == swipe method
+                    root.passwordMethod = UbuntuSecurityPrivacyPanel.Swipe
+                } else {
+                    root.passwordMethod = indexToMethod(selector.currentIndex)
+                }
+
                 print("Current method: " + root.passwordMethod)
                 pageStack.load(Qt.resolvedUrl("passwd-set.qml"))
             }

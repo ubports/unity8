@@ -26,7 +26,7 @@ LocalComponents.Page {
     title: i18n.tr("Language")
     forwardButtonSourceComponent: forwardButton
 
-    property var detectedLangs: ["en"]
+    property var detectedLangs: ["en"] // default language
 
     UbuntuLanguagePlugin {
         id: plugin
@@ -174,9 +174,7 @@ LocalComponents.Page {
             enabled: root.language !== ""
             onClicked: {
                 if (root.language !== plugin.languageCodes[plugin.currentLanguage]) {
-                    //plugin.currentLanguage = listview.currentIndex; // setting system language by some magic index? wtf
-                    //System.updateSessionLanguage(selectedLanguage); // TODO
-                    i18n.language = i18n.language; // re-notify of change after above call (for qlocale change)
+                    i18n.language = i18n.language // re-notify of change after above call (for qlocale change)
                 }
                 pageStack.next()
             }

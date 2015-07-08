@@ -29,7 +29,7 @@ Item {
 
     // These should be set by a security page and we apply the settings when
     // the user exits the wizard.
-    property int passwordMethod: UbuntuSecurityPrivacyPanel.Passcode
+    property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
     property string password: ""
     property string language: ""
 

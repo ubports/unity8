@@ -29,6 +29,8 @@ LocalComponents.Page {
     id: passwdConfirmPage
     objectName: "passwdConfirmPage"
     forwardButtonSourceComponent: forwardButton
+    customTitle: true
+    backButtonText: i18n.tr("Cancel")
 
     skip: root.passwordMethod === UbuntuSecurityPrivacyPanel.Swipe
 
@@ -39,7 +41,7 @@ LocalComponents.Page {
         id: lockscreen
         anchors {
             fill: parent
-            topMargin: topMargin
+            topMargin: customMargin
             leftMargin: leftMargin
             rightMargin: rightMargin
             bottomMargin: buttonMargin
@@ -52,6 +54,8 @@ LocalComponents.Page {
         errorText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
                   i18n.tr("Incorrect password.") + "\n" + i18n.tr("Please re-enter.") :
                   i18n.tr("Incorrect passcode.") + "\n" + i18n.tr("Please re-enter.")
+
+        foregroundColor: "#525252"
 
         showEmergencyCallButton: false
         showCancelButton: false
@@ -79,7 +83,7 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             visible: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
             enabled: root.password === lockscreen.passphrase
-            text: i18n.tr("Continue")
+            text: i18n.tr("OK")
             onClicked: pageStack.next()
         }
     }

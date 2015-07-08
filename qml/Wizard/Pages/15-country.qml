@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.2
+import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -64,6 +65,10 @@ LocalComponents.Page {
     {
         selectedCountry = code
         regionsListView.currentIndex = index
+    }
+
+    UbuntuLanguagePlugin {
+        id: plugin
     }
 
     ActivityIndicator {
@@ -152,12 +157,10 @@ LocalComponents.Page {
             text: i18n.tr("Next")
             enabled: selectedCountry !== ""
             onClicked: {
-                //                if (selectedLanguage !== plugin.languageCodes[plugin.currentLanguage]) {
-                //                    //plugin.currentLanguage = listview.currentIndex; // setting system language by some magic index? wtf
-                //                    //System.updateSessionLanguage(selectedLanguage); // TODO
-                //                    i18n.language = i18n.language; // re-notify of change after above call (for qlocale change)
-                //                }
-                // FIXME export the selected locale to the system
+                if (root.language !== plugin.languageCodes[plugin.currentLanguage]) {
+                    plugin.currentLanguage = plugin.languageCodes.indexOf(root.language)
+                    System.updateSessionLanguage(root.language + "_" + selectedCountry); // also updates the locale
+                }
                 pageStack.next()
             }
         }

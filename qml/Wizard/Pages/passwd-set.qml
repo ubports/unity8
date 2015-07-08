@@ -29,8 +29,8 @@ LocalComponents.Page {
     id: passwdSetPage
     objectName: "passwdSetPage"
     forwardButtonSourceComponent: forwardButton
-
-    skip: root.passwordMethod === UbuntuSecurityPrivacyPanel.Swipe
+    customTitle: true
+    backButtonText: i18n.tr("Cancel")
 
     // If we are entering this page, clear any saved password and get focus
     onEnabledChanged: if (enabled) lockscreen.clear(false)
@@ -50,22 +50,21 @@ LocalComponents.Page {
         id: lockscreen
         anchors {
             fill: parent
-            topMargin: topMargin
+            topMargin: customMargin
             leftMargin: leftMargin
             rightMargin: rightMargin
             bottomMargin: buttonMargin
         }
 
-        infoText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
-                  i18n.tr("Enter password") :
-                  i18n.tr("Choose passcode")
+        infoText: alphaNumeric ? i18n.tr("Enter password") : i18n.tr("Choose passcode")
+        foregroundColor: "#525252"
 
         // Note that the number four comes from PAM settings,
         // which we don't have a good way to interrogate.  We
         // only do this matching instead of PAM because we want
         // to set the password via PAM in a different place
         // than this page.  See comments at top of passwd-type file.
-        errorText: i18n.tr("Passphrase must be 4 characters long")
+        errorText: i18n.tr("Password must be 4 characters long")
 
         showEmergencyCallButton: false
         showCancelButton: false
@@ -87,7 +86,7 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             visible: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
             enabled: lockscreen.passphrase.length >= 4
-            text: i18n.tr("Next")
+            text: i18n.tr("OK")
             onClicked: passwdSetPage.confirm()
         }
     }
