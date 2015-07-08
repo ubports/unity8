@@ -112,7 +112,7 @@ Rectangle {
         id: cardTool
         template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
         components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
-        viewWidth: units.gu(48)
+        viewWidth: units.gu(40)
     }
 
     readonly property var card: loader.item
@@ -261,10 +261,10 @@ Rectangle {
 
         function test_card_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), index: 0 },
+                { tag: "Medium", width: units.gu(18), index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", width: units.gu(18.5), index: 0 },
+                { tag: "Wide", width: units.gu(18), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
                 { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow");
@@ -296,7 +296,7 @@ Rectangle {
 
         function test_art_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), fill: Image.PreserveAspectCrop, index: 0 },
+                { tag: "Medium", width: units.gu(18), fill: Image.PreserveAspectCrop, index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
