@@ -84,7 +84,8 @@ LocalComponents.Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    hereCheckLabel.checked = !hereCheckLabel.checked
+                    if (!hereCheckLabel.checked)
+                        hereCheckLabel.checked = true
                 }
             }
         }
@@ -135,7 +136,8 @@ LocalComponents.Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    gpsCheckLabel.checked = !gpsCheckLabel.checked
+                    if (!gpsCheckLabel.checked)
+                        gpsCheckLabel.checked = true
                 }
             }
         }
@@ -168,7 +170,8 @@ LocalComponents.Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    nopeCheckLabel.checked = !nopeCheckLabel.checked
+                    if (!nopeCheckLabel.checked)
+                        nopeCheckLabel.checked = true
                 }
             }
         }

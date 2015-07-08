@@ -67,7 +67,7 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
         case Country:
             return QLocale::countryToString(tz.country());
         case City: {
-            const QString cityName = QString::fromUtf8(tzid.split('/').last().replace("_", " "));
+            const QString cityName = QString::fromUtf8(tzid.split('/').last().replace("_", " ")); // take the last part, replace _ by a space
             return cityName;
         }
         case Comment:

@@ -97,7 +97,7 @@ LocalComponents.Page {
                 criteria: ViewSection.FullString;
                 labelPositioning: ViewSection.InlineLabels | ViewSection.CurrentLabelAtStart
                 delegate: Label {
-                    fontSize: "large"
+                    fontSize: "x-large"
                 }
             }
 

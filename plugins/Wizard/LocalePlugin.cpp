@@ -43,7 +43,9 @@ QJsonObject LocaleAttached::countriesForLanguage(const QString &code) const
     Q_FOREACH(const QLocale &loc, allLocales) {
         const QString countryCode = loc.name().section('_', 1, 1);
         //qDebug() << "Matching country:" << countryCode;
-        result.insert(countryCode, QLocale::countryToString(loc.country()));
+        if (!countryCode.isEmpty()) {
+            result.insert(countryCode, QLocale::countryToString(loc.country()));
+        }
     }
     return result;
 }
@@ -55,7 +57,7 @@ QJsonObject LocaleAttached::countries() const
 
     Q_FOREACH(const QLocale &loc, allLocales) {
         const QString countryCode = loc.name().section('_', 1, 1);
-        if (!countryCode.isEmpty() && countryCode.length() == 2) {
+        if (countryCode.length() == 2) {
             result.insert(countryCode, QLocale::countryToString(loc.country()));
         }
     }
