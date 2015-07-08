@@ -124,7 +124,7 @@ Item {
                         onRequestFavorite: root.requestFavorite(scopeId, favorite);
                         onRequestEditMode: root.state = "edit";
                         onRequestScopeMoveTo: root.requestFavoriteMoveTo(scopeId, index);
-                        onRequestActivate: root.scope.activate(result);
+                        onRequestActivate: root.scope.activate(result, categoryId);
                         onRequestRestore: root.requestRestore(scopeId);
                     }
                 }
