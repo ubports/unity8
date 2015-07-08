@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-06-22 12:00+0200\n"
-"PO-Revision-Date: 2015-06-05 06:39+0000\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"PO-Revision-Date: 2015-07-06 21:10+0000\n"
+"Last-Translator: Sasa Batistic <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2015-07-04 05:37+0000\n"
+"X-Launchpad-Export-Date: 2015-07-07 05:40+0000\n"
 "X-Generator: Launchpad (build 17597)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -118,7 +118,7 @@ msgstr "Naprava je zaklenjena"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov šifrirnih rekel."
+msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
@@ -398,32 +398,38 @@ msgstr "Nič se ne predvaja"
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 ur"
+msgstr[1] "%1 ura"
+msgstr[2] "%1 uri"
+msgstr[3] "%1 ure"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:772
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 minut"
+msgstr[1] "%1 minuta"
+msgstr[2] "%1 minuti"
+msgstr[3] "%1 minute"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:777
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 sekund"
+msgstr[1] "%1 sekunda"
+msgstr[2] "%1 sekundi"
+msgstr[3] "%1 sekunde"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:780
 msgid "0 seconds"
-msgstr ""
+msgstr "0 sekund"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:782
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "Preostalo %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
@@ -530,7 +536,7 @@ msgstr "Pogoji uporabe"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr "Potrdite šifrirno reklo"
+msgstr "Potrdite geslo"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
@@ -554,7 +560,7 @@ msgstr "Izberite svoje geslo"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr "Šifrirno reklo mora biti dolgo vsaj 4 znake"
+msgstr "Geslo mora biti dolgo vsaj 4 znake"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -611,7 +617,7 @@ msgstr "Samo 4 številke"
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Šifrirno reklo"
+msgstr "Geslo"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
