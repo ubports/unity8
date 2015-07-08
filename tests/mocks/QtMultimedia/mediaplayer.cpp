@@ -185,7 +185,7 @@ void MediaPlayer::timerEvent()
 
 MediaPlayer::AudioRole MediaPlayer::audioRole() const
 {
-    return MediaPlayer::MultimediaRole;
+    return MediaPlayer::multimedia;
 }
 
 void MediaPlayer::setAudioRole(MediaPlayer::AudioRole audioRole)

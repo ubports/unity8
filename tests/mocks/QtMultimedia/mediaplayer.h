@@ -57,10 +57,10 @@ public:
     };
 
     enum AudioRole {
-        AlarmRole,
-        AlertRole,
-        MultimediaRole,
-        PhoneRole
+        alarm,
+        alert,
+        multimedia,
+        phone
     };
 
     enum Availability {

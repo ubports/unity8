@@ -144,7 +144,7 @@ $ ctest
 
 To run all graphical tests, which can take a couple of minutes:
 
-$ make qmluitests
+$ make uitests
 
 To run the tests for a single component/class:
 
