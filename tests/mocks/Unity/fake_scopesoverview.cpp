@@ -41,7 +41,7 @@ void ScopesOverview::setSearchQuery(const QString& search_query)
         Q_EMIT categoriesChanged();
 }
 
-Q_INVOKABLE void ScopesOverview::activate(QVariant const& result)
+Q_INVOKABLE void ScopesOverview::activate(QVariant const& result, QString const& /*categoryId*/)
 {
     Scopes *scopes = dynamic_cast<Scopes*>(parent());
     if (scopes->getScope(result.toString())) {

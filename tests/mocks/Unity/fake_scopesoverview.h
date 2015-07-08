@@ -32,7 +32,7 @@ public:
     ScopesOverview(Scopes* parent = 0);
 
     void setSearchQuery(const QString& search_query) override;
-    Q_INVOKABLE void activate(QVariant const& result) override;
+    Q_INVOKABLE void activate(QVariant const& result, QString const& categoryId) override;
 
     // This is implementation detail
     void setFavorite(Scope *scope, bool favorite);
