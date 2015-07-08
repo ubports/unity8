@@ -181,6 +181,12 @@ Item {
             duration: privWiggleAnim.duration
             easing.type: Easing.OutQuad
         }
+
+        UbuntuNumberAnimation {
+            target: privWiggleAnim.target
+            property: "alerting"
+            to: 0
+        }
     }
 
     Item {

@@ -66,6 +66,7 @@ QString DBusInterface::introspect(const QString &path) const
         "<interface name=\"com.canonical.Unity.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
+            "<property name=\"alerting\" type=\"b\" access=\"readwrite\" />"
         "</interface>";
     return nodeiface;
 }
@@ -168,6 +169,8 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             retval.append(QVariant::fromValue(QDBusVariant(item->count())));
         } else if (message.arguments()[1].toString() == "countVisible") {
             retval.append(QVariant::fromValue(QDBusVariant(item->countVisible())));
+        } else if (message.arguments()[1].toString() == "alerting") {
+            retval.append(QVariant::fromValue(QDBusVariant(item->alerting())));
         }
     } else if (message.member() == "Set") {
         if (message.arguments()[1].toString() == "count") {
@@ -181,6 +184,12 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
                 notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "countVisible", newVisible);
+            }
+        } else if (message.arguments()[1].toString() == "alerting") {
+            bool newAlerting = message.arguments()[2].value<QDBusVariant>().variant().toBool();
+            if (!item || newAlerting != item->alerting()) {
+                Q_EMIT alertingChanged(appid, newAlerting);
+                notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "alerting", newAlerting);
             }
         }
     } else if (message.member() == "GetAll") {
