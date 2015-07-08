@@ -38,12 +38,12 @@ MediaServicesControls {
             if (secs < 10) secs = "0%1".arg(secs);
             if (min < 10) min = "0%1".arg(min);
             if (hour > 0) {
-                // TRANSLATORS: this refers to a duration/remaining time of the video in hours, minutes and seconds,
+                // Translators: this refers to a duration/remaining time of the video in hours, minutes and seconds,
                 // of which you can change the order.
                 // %1 refers to hours, %2 refers to minutes and %3 refers to seconds.
                 return  i18n.tr("%1:%2:%3").arg(hour).arg(min).arg(secs);
             } else {
-                // TRANSLATORS: this refers to a duration/remaining time of the video in minutes and seconds,
+                // Translators: this refers to a duration/remaining time of the video in minutes and seconds,
                 // of which you can change the order.
                 // %1 refers to minutes and %2 refers to seconds.
                 return  i18n.tr("%1:%2").arg(min).arg(secs);
