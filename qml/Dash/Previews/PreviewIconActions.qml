@@ -36,7 +36,7 @@ PreviewWidget {
         spacing: units.gu(2)
 
         Repeater {
-            model: widgetData["actions"]
+            model: row.actions
 
             AbstractButton {
                 objectName: "button" + modelData.id
