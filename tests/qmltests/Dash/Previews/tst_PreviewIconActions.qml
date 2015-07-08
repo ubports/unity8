@@ -44,7 +44,9 @@ Rectangle {
         widgetData: actionDataActions
         onTriggered: {
             if (timer.index !== -1) {
-                console.log("Processing other click, ignoring");
+                if (!testcase.running) {
+                    console.log("Processing other click, ignoring");
+                }
                 return;
             }
 
@@ -56,8 +58,9 @@ Rectangle {
             }
 
             timer.start();
-            if (!testcase.running)
+            if (!testcase.running) {
                 console.log("triggered", widgetId, actionId);
+            }
         }
         width: parent.width
         clip: true
