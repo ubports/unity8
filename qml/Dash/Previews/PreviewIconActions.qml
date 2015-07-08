@@ -48,6 +48,7 @@ PreviewWidget {
                     height: parent.height
                     width: height
                     source: modelData.icon
+                    sourceSize { width: icon.width; height: icon.height }
                 }
 
                 Label {
