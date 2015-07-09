@@ -26,8 +26,8 @@ import "../../Components" as UnityComponents
  */
 
 LocalComponents.Page {
-    id: passwdSetPage
-    objectName: "passwdSetPage"
+    id: passcodeSetPage
+    objectName: "passcodeSetPage"
     forwardButtonSourceComponent: forwardButton
     customTitle: true
     backButtonText: i18n.tr("Cancel")
@@ -56,7 +56,7 @@ LocalComponents.Page {
             bottomMargin: buttonMargin
         }
 
-        infoText: alphaNumeric ? i18n.tr("Enter password") : i18n.tr("Choose passcode")
+        infoText: i18n.tr("Choose passcode")
         foregroundColor: "#525252"
 
         // Note that the number four comes from PAM settings,
@@ -68,13 +68,13 @@ LocalComponents.Page {
 
         showEmergencyCallButton: false
         showCancelButton: false
-        alphaNumeric: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
+        alphaNumeric: false
         minPinLength: 4
         maxPinLength: 4
 
         onEntered: {
             if (passphrase.length >= 4) {
-                passwdSetPage.confirm();
+                passcodeSetPage.confirm();
             } else {
                 lockscreen.clear(true)
             }
@@ -84,10 +84,9 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            visible: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
             enabled: lockscreen.passphrase.length >= 4
             text: i18n.tr("OK")
-            onClicked: passwdSetPage.confirm()
+            onClicked: passcodeSetPage.confirm()
         }
     }
 }

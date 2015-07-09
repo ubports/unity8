@@ -206,14 +206,21 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             text: i18n.tr("Next")
             onClicked: {
-                if (!requiredSwitch.checked)  { // == swipe method
+                var method = indexToMethod(selector.currentIndex)
+
+                if (!requiredSwitch.checked) {
                     root.passwordMethod = UbuntuSecurityPrivacyPanel.Swipe
                 } else {
-                    root.passwordMethod = indexToMethod(selector.currentIndex)
+                    root.passwordMethod = method
                 }
 
                 print("Current method: " + root.passwordMethod)
-                pageStack.load(Qt.resolvedUrl("passcode-set.qml"))
+
+                if (method === UbuntuSecurityPrivacyPanel.Passphrase) {
+                    pageStack.load(Qt.resolvedUrl("password-set.qml"))
+                } else if (method === UbuntuSecurityPrivacyPanel.Passcode) {
+                    pageStack.load(Qt.resolvedUrl("passcode-set.qml"))
+                }
             }
         }
     }

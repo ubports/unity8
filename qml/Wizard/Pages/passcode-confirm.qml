@@ -26,13 +26,11 @@ import "../../Components" as UnityComponents
  */
 
 LocalComponents.Page {
-    id: passwdConfirmPage
-    objectName: "passwdConfirmPage"
+    id: passcodeConfirmPage
+    objectName: "passcodeConfirmPage"
     forwardButtonSourceComponent: forwardButton
     customTitle: true
     backButtonText: i18n.tr("Cancel")
-
-    skip: root.passwordMethod === UbuntuSecurityPrivacyPanel.Swipe
 
     // If we are entering this page, clear any saved password and get focus
     onEnabledChanged: if (enabled) lockscreen.clear(false)
@@ -47,19 +45,15 @@ LocalComponents.Page {
             bottomMargin: buttonMargin
         }
 
-        infoText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
-                  i18n.tr("Confirm password") :
-                  i18n.tr("Confirm passcode")
+        infoText: i18n.tr("Confirm passcode")
 
-        errorText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
-                  i18n.tr("Incorrect password.") + "\n" + i18n.tr("Please re-enter.") :
-                  i18n.tr("Incorrect passcode.") + "\n" + i18n.tr("Please re-enter.")
+        errorText: i18n.tr("Incorrect passcode.") + "\n" + i18n.tr("Please re-enter.")
 
         foregroundColor: "#525252"
 
         showEmergencyCallButton: false
         showCancelButton: false
-        alphaNumeric: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
+        alphaNumeric: false
         minPinLength: 4
         maxPinLength: 4
 
