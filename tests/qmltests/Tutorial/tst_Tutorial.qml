@@ -332,14 +332,14 @@ Item {
             verify(teaseAnimation.running);
 
             // Start a drag, make sure animation stops
-            touchFlick(shell, 0, halfHeight, units.gu(3), halfHeight, true, false);
+            touchFlick(shell, 0, halfHeight, units.gu(4), halfHeight, true, false);
             verify(!teaseAnimation.running);
             verify(launcher.visibleWidth > 0);
             verify(launcher.x > 0);
             compare(launcher.x, teaseAnimation.bounce);
 
             // Continue drag, make sure we don't create a gap on the left hand side
-            touchFlick(shell, units.gu(3), halfHeight, shell.width, halfHeight, false, false);
+            touchFlick(shell, units.gu(4), halfHeight, shell.width, halfHeight, false, false);
             verify(!teaseAnimation.running);
             compare(launcher.visibleWidth, launcher.panelWidth);
             compare(launcher.x, 0);
