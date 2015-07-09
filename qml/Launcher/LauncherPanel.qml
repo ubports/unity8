@@ -170,12 +170,6 @@ Rectangle {
                         }
                     }
 
-                    onPeekingIndexChanged: {
-                        if (peekingIndex !== -1) {
-                            launcherListViewItem.clip = false
-                        }
-                    }
-
                     // The height of the area where icons start getting folded
                     property int foldingStartHeight: units.gu(6.5)
                     // The height of the area where the items reach the final folding angle
@@ -232,6 +226,8 @@ Rectangle {
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
+                        property var peekingItem: launcherListView.peekingIndex === index ? launcherDelegate : undefined
+
 
                         ThinDivider {
                             id: dropIndicator
@@ -243,6 +239,14 @@ Rectangle {
                         }
 
                         states: [
+                            State {
+                                name: "peeking"
+                                when: peekingItem === launcherDelegate && !dragging && launcher.state !== "visible" 
+                                PropertyChanges {
+                                    target: launcherDelegate
+                                    x: units.gu(.5) + launcherListView.width * .5
+                                }
+                            },
                             State {
                                 name: "selected"
                                 when: dndArea.selectedItem === launcherDelegate && fakeDragItem.visible && !dragging
@@ -277,6 +281,38 @@ Rectangle {
                         ]
 
                         transitions: [
+                            Transition {
+                                from: ""
+                                to: "peeking"
+                                SequentialAnimation {
+                                    // revealing
+                                    PropertyAction { target: panel; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
+                                    PropertyAction { target: launcherListViewItem; property: "clip"; value: 0 }
+
+                                    UbuntuNumberAnimation {
+                                        alwaysRunToEnd: true
+                                        loops: 1
+                                        target: launcherDelegate
+                                        properties: "x"
+                                        to: units.gu(.5) + launcherListView.width * .5
+                                        duration: UbuntuAnimation.BriskDuration
+                                    }
+                                    PauseAnimation {}
+
+                                    // hiding
+                                    UbuntuNumberAnimation {
+                                        alwaysRunToEnd: true
+                                        loops: 1
+                                        target: launcherDelegate
+                                        properties: "x"
+                                        to: 0
+                                        duration: UbuntuAnimation.BriskDuration
+                                    }
+
+                                   PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
+                                   PropertyAction { target: panel; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                                }
+                            },
                             Transition {
                                 from: ""
                                 to: "selected"

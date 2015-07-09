@@ -28,7 +28,6 @@ Item {
     property real maxAngle: 0
     property bool inverted: false
     property bool alerting: false
-    property bool peeking: false
     readonly property alias wiggling: wiggleAnim.running
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
@@ -59,58 +58,9 @@ Item {
     onAlertingChanged: {
         if (alerting) {
             launcherListView.peeking(index)
-            if (launcher.state !== "visible" && launcherListView.peekingIndex === index) {
-                peeking = true
-            }
         } else {
             launcherListView.unpeeking(index)
-            peeking = false
         }
-    }
-
-    SequentialAnimation {
-        running: peeking
-
-        // revealing
-        UbuntuNumberAnimation {
-            target: panel
-            property: "visible"
-            to: (launcher.visibleWidth === 0) ? 1 : 0
-        }
-
-        UbuntuNumberAnimation {
-            alwaysRunToEnd: true
-            loops: 1
-            target: root
-            properties: "x"
-            to: units.gu(.5) + launcherListView.width * .5
-            duration: UbuntuAnimation.BriskDuration
-        }
-
-        PauseAnimation {}
-
-        // hiding
-        UbuntuNumberAnimation {
-            alwaysRunToEnd: true
-            loops: 1
-            target: root
-            properties: "x"
-            to: 0
-            duration: UbuntuAnimation.BriskDuration
-        }
-
-        UbuntuNumberAnimation {
-            target: launcherListViewItem
-            property: "clip"
-            to: 1
-        }
-
-        UbuntuNumberAnimation {
-            target: panel
-            property: "visible"
-            to: (launcher.visibleWidth === 0) ? 0 : 1
-        }
-
     }
 
     QtObject {
