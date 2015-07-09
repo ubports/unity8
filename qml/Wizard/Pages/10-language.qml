@@ -131,7 +131,7 @@ LocalComponents.Page {
 
                     fontSize: "medium"
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
-                    color: "black" // FIXME proper color from the theme
+                    color: "#525252"
                 }
 
                 Image {

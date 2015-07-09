@@ -76,7 +76,7 @@ LocalComponents.Page {
             }
 
             wrapMode: Text.WordWrap
-            color: "black"
+            color: "#525252"
             font.weight: checked ? Font.Normal : Font.Light
             text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")
             property bool checked: true
@@ -101,7 +101,7 @@ LocalComponents.Page {
             }
 
             wrapMode: Text.WordWrap
-            color: "black"
+            color: "#525252"
             font.weight: Font.Light
             fontSize: "small"
             linkColor: "#dd4814"
@@ -128,7 +128,7 @@ LocalComponents.Page {
             }
             text: i18n.tr("GPS only")
             wrapMode: Text.WordWrap
-            color: "black"
+            color: "#525252"
             font.weight: checked ? Font.Normal : Font.Light
             width: content.width
             property bool checked: false
@@ -161,7 +161,7 @@ LocalComponents.Page {
                 rightMargin: rightMargin
             }
             wrapMode: Text.WordWrap
-            color: "black"
+            color: "#525252"
             font.weight: checked ? Font.Normal : Font.Light
             width: content.width
             text: i18n.tr("Don't use my location")
@@ -196,7 +196,7 @@ LocalComponents.Page {
             wrapMode: Text.Wrap
             textFormat: Text.RichText
             text: i18n.tr("You can change it later in <em>System Settings</em>.")
-            color: "black"
+            color: "#525252"
             fontSize: "small"
             font.weight: Font.Light
             width: content.width

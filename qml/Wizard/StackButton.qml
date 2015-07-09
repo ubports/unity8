@@ -25,14 +25,15 @@ AbstractButton {
     property bool backArrow: false
 
     width: label.width
-    height: label.height + units.gu(4)
+    height: units.gu(5)
 
     Label {
         id: label
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
-        color: enabled ? "black" : UbuntuColors.lightGrey // FIXME proper colors
+        color: "#525252"
+        opacity: enabled ? 1.0 : 0.5
         font.weight: backArrow ? Font.Normal : Font.DemiBold
         text: stackButton.text
         horizontalAlignment: backArrow ? Text.AlignLeft : Text.AlignRight

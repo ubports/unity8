@@ -46,6 +46,7 @@ LocalComponents.Page {
             text: i18n.tr("Privacy policy")
             color: "#dd4814"
             font.weight: Font.Light
+            fontSize: "small"
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor

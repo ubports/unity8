@@ -59,7 +59,7 @@ LocalComponents.Page {
                 anchors.topMargin: units.gu(3)
                 font.weight: tz.currentTz ? Font.Normal : Font.Light
                 fontSize: "medium"
-                color: "black"
+                color: "#525252"
             }
             Label {
                 id: timeLabel
@@ -69,7 +69,7 @@ LocalComponents.Page {
                 anchors.bottomMargin: units.gu(3)
                 font.weight: tz.currentTz ? Font.Normal : Font.Light
                 fontSize: "small"
-                color: "black"
+                color: "#525252"
             }
             Image {
                 anchors {

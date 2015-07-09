@@ -28,8 +28,7 @@ LocalComponents.Page {
     Image {
         source: "data/Phone Splash Screen bkg.png"
         anchors.fill: parent
-        scale: Image.PreserveAspectCrop
-        clip: true
+        scale: Image.PreserveAspectFit
     }
 
     Column {

@@ -77,7 +77,7 @@ LocalComponents.Page {
             text: i18n.tr("You won’t be able to make calls or use text messaging without a SIM.")
             fontSize: "small"
             font.weight: Font.Light
-            color: restartDialog.visible ? Theme.palette.normal.backgroundText : "black"
+            color: restartDialog.visible ? Theme.palette.normal.backgroundText : "#525252"
         }
 
         Label {
@@ -88,7 +88,7 @@ LocalComponents.Page {
             text: i18n.tr("To proceed with no SIM tap <em>Skip</em>.")
             fontSize: "small"
             font.weight: Font.Light
-            color: restartDialog.visible ? Theme.palette.normal.backgroundText : "black"
+            color: restartDialog.visible ? Theme.palette.normal.backgroundText : "#525252"
         }
     }
 

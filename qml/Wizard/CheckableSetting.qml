@@ -78,8 +78,9 @@ ListItem.Empty {
             }
             wrapMode: Text.Wrap
             linkColor: Theme.palette.normal.foregroundText
-            color: "black"
+            color: "#525252"
             font.weight: Font.Light
+            fontSize: "small"
             onLinkActivated: listItem.linkActivated(link)
         }
     }

@@ -162,7 +162,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             fontSize: "small"
             font.weight: Font.Light
-            color: "black"
+            color: "#525252"
             text: mainMenu.count > 0 ? i18n.tr("Available networks…")
                                      : i18n.tr("No available networks.")
         }

@@ -103,7 +103,7 @@ Item {
             }
             wrapMode: Text.Wrap
             text: title
-            color: customTitle ? "black" : "white"
+            color: customTitle ? "#525252" : "#fdfdfd"
             fontSize: "x-large"
         }
     }
