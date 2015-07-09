@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,13 +28,79 @@ Rectangle {
     color: "#111111"
 
     // Controls to be set from outside
-    property bool shown: false
-    property bool moving: false
     property int dragAreaWidth
     property real maximizedAppTopMargin
     property bool interactive
+    property alias beingResized: spreadView.beingResized
+
+    property bool spreadEnabled: true // If false, animations and right edge will be disabled
+
     property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
-    property int orientation: Qt.PortraitOrientation
+    property int shellOrientationAngle: 0
+    property int shellOrientation
+    property int shellPrimaryOrientation
+    property int nativeOrientation
+    property real nativeWidth
+    property real nativeHeight
+    function updateFocusedAppOrientation() {
+        var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
+        if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
+            spreadRepeater.itemAt(mainStageAppIndex).matchShellOrientation();
+        }
+
+        for (var i = 0; i < spreadRepeater.count; ++i) {
+
+            if (i === mainStageAppIndex) {
+                continue;
+            }
+
+            var spreadDelegate = spreadRepeater.itemAt(i);
+
+            var delta = spreadDelegate.appWindowOrientationAngle - root.shellOrientationAngle;
+            if (delta < 0) { delta += 360; }
+            delta = delta % 360;
+
+            var supportedOrientations = spreadDelegate.application.supportedOrientations;
+            if (supportedOrientations === Qt.PrimaryOrientation) {
+                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+            }
+
+            if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
+                spreadDelegate.matchShellOrientation();
+            }
+        }
+    }
+    function updateFocusedAppOrientationAnimated() {
+        var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
+        if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
+            spreadRepeater.itemAt(mainStageAppIndex).animateToShellOrientation();
+        }
+
+        if (priv.sideStageAppId) {
+            var sideStageAppIndex = priv.indexOf(priv.sideStageAppId);
+            if (sideStageAppIndex >= 0 && sideStageAppIndex < spreadRepeater.count) {
+                spreadRepeater.itemAt(sideStageAppIndex).matchShellOrientation();
+            }
+        }
+    }
+
+    // To be read from outside
+    property var mainApp: null
+    property int mainAppWindowOrientationAngle: 0
+    readonly property bool orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
+
+    onWidthChanged: {
+        spreadView.selectedIndex = -1;
+        spreadView.phase = 0;
+        spreadView.contentX = -spreadView.shift;
+    }
+
+    onShellOrientationChanged: {
+        if (shellOrientation == Qt.PortraitOrientation || shellOrientation == Qt.InvertedPortraitOrientation) {
+            ApplicationManager.focusApplication(priv.mainStageAppId);
+            priv.sideStageAppId = "";
+        }
+    }
 
     onInverseProgressChanged: {
         // This can't be a simple binding because that would be triggered after this handler
@@ -59,6 +125,13 @@ Rectangle {
         }
 
         property string oldFocusedAppId: ""
+        property bool mainAppOrientationChangesEnabled: false
+
+        property real landscapeHeight: root.nativeOrientation == Qt.LandscapeOrientation ?
+                root.nativeHeight : root.nativeWidth
+
+        property bool shellIsLandscape: root.shellOrientation === Qt.LandscapeOrientation
+                      || root.shellOrientation === Qt.InvertedLandscapeOrientation
 
         property string mainStageAppId
         property string sideStageAppId
@@ -76,6 +149,7 @@ Rectangle {
                     priv.sideStageAppId = focusedAppId;
                 } else {
                     priv.mainStageAppId = focusedAppId;
+                    root.mainApp = focusedApp;
                 }
             }
 
@@ -166,6 +240,7 @@ Rectangle {
 
     Flickable {
         id: spreadView
+        objectName: "spreadView"
         anchors.fill: parent
         interactive: (spreadDragArea.dragging || phase > 1) && draggedDelegateCount === 0
         contentWidth: spreadRow.width - shift
@@ -214,7 +289,25 @@ Rectangle {
         property int draggedDelegateCount: 0
         property int closingIndex: -1
 
+        // FIXME: Workaround Flickable's not keepping its contentX still when resized
+        onContentXChanged: { forceItToRemainStillIfBeingResized(); }
+        onShiftChanged: { forceItToRemainStillIfBeingResized(); }
+        function forceItToRemainStillIfBeingResized() {
+            if (root.beingResized && contentX != -shift) {
+                contentX = -shift;
+            }
+        }
+
         property bool animateX: true
+        property bool beingResized: false
+        onBeingResizedChanged: {
+            if (beingResized) {
+                // Brace yourselves for impact!
+                selectedIndex = -1;
+                phase = 0;
+                contentX = -shift;
+            }
+        }
 
         property bool sideStageDragging: sideStageDragHandle.dragging
         property real sideStageDragProgress: sideStageDragHandle.progress
@@ -253,7 +346,6 @@ Rectangle {
             case "overlay":
                 return 1;
             }
-            print("Unhandled nextInStack case! This shouldn't happen any more when the Dash is an app!");
             return -1;
         }
         property int nextZInStack: indexToZIndex(nextInStack)
@@ -289,6 +381,10 @@ Rectangle {
         }
 
         onShiftedContentXChanged: {
+            if (root.beingResized) {
+                // Flickabe.contentX wiggles during resizes. Don't react to it.
+                return;
+            }
             if (spreadView.phase == 0 && spreadView.shiftedContentX > spreadView.width * spreadView.positionMarker2) {
                 spreadView.phase = 1;
             } else if (spreadView.phase == 1 && spreadView.shiftedContentX > spreadView.width * spreadView.positionMarker4) {
@@ -398,8 +494,8 @@ Rectangle {
         MouseArea {
             id: spreadRow
             x: spreadView.contentX
-            height: root.height
             width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
+            height: root.height
 
             onClicked: {
                 spreadView.snapTo(0);
@@ -408,8 +504,9 @@ Rectangle {
             Rectangle {
                 id: sideStageBackground
                 color: "black"
-                anchors.fill: parent
-                anchors.leftMargin: spreadView.width - (1 - sideStageDragHandle.progress) * spreadView.sideStageWidth
+                width: spreadView.sideStageWidth * (1 - sideStageDragHandle.progress)
+                height: priv.landscapeHeight
+                x: spreadView.width - width
                 z: spreadView.indexToZIndex(priv.indexOf(priv.sideStageAppId))
                 opacity: spreadView.phase == 0 ? 1 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
@@ -417,8 +514,10 @@ Rectangle {
 
             Item {
                 id: sideStageDragHandle
-                anchors { top: parent.top; bottom: parent.bottom; left: parent.left; leftMargin: spreadView.width - spreadView.sideStageWidth - width }
+                anchors.right: sideStageBackground.left
+                anchors.top: sideStageBackground.top
                 width: units.gu(2)
+                height: priv.landscapeHeight
                 z: sideStageBackground.z
                 opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
                 property real progress: 0
@@ -437,7 +536,6 @@ Rectangle {
 
                 Image {
                     anchors.centerIn: parent
-                    anchors.horizontalCenterOffset: parent.progress * spreadView.sideStageWidth - (width - parent.width) / 2
                     width: sideStageDragHandleMouseArea.pressed ? parent.width * 2 : parent.width
                     height: parent.height
                     source: "graphics/sidestage_handle@20.png"
@@ -450,16 +548,19 @@ Rectangle {
                     enabled: spreadView.shiftedContentX == 0
                     property int startX
                     property var gesturePoints: new Array()
+                    property real totalDiff
 
                     onPressed: {
                         gesturePoints = [];
                         startX = mouseX;
+                        totalDiff = 0.0;
                         sideStageDragHandle.progress = 0;
                         sideStageDragHandle.dragging = true;
                     }
                     onMouseXChanged: {
+                        totalDiff += mouseX - startX;
                         if (priv.mainStageAppId) {
-                            sideStageDragHandle.progress = Math.max(0, (-startX + mouseX) / spreadView.sideStageWidth);
+                            sideStageDragHandle.progress = Math.max(0, totalDiff / spreadView.sideStageWidth);
                         }
                         gesturePoints.push(mouseX);
                     }
@@ -488,14 +589,27 @@ Rectangle {
 
             Repeater {
                 id: spreadRepeater
+                objectName: "spreadRepeater"
                 model: ApplicationManager
 
                 delegate: TransformedTabletSpreadDelegate {
                     id: spreadTile
                     objectName: model.appId ? "tabletSpreadDelegate_" + model.appId
                                             : "tabletSpreadDelegate_null";
-                    height: spreadView.height
-                    width: model.stage == ApplicationInfoInterface.MainStage ? spreadView.width : spreadView.sideStageWidth
+                    width: {
+                        if (wantsMainStage) {
+                            return spreadView.width;
+                        } else {
+                            return spreadView.sideStageWidth;
+                        }
+                    }
+                    height: {
+                        if (wantsMainStage) {
+                            return spreadView.height;
+                        } else {
+                            return priv.landscapeHeight;
+                        }
+                    }
                     active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
                     zIndex: spreadView.indexToZIndex(index)
                     selected: spreadView.selectedIndex == index
@@ -507,6 +621,8 @@ Rectangle {
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 && spreadView.phase === 0 ? root.inverseProgress : 0
                     application: ApplicationManager.get(index)
                     closeable: !isDash
+
+                    readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
@@ -559,12 +675,11 @@ Rectangle {
                         return progress;
                     }
 
-                    Binding {
-                        target: spreadTile
-                        property: "orientation"
-                        when: spreadTile.interactive
-                        value: root.orientation
-                    }
+                    shellOrientationAngle: wantsMainStage ? root.shellOrientationAngle : 0
+                    shellOrientation: wantsMainStage ? root.shellOrientation : Qt.PortraitOrientation
+                    shellPrimaryOrientation: wantsMainStage ? root.shellPrimaryOrientation : Qt.PortraitOrientation
+                    nativeOrientation: wantsMainStage ? root.nativeOrientation : Qt.PortraitOrientation
+
 
                     onClicked: {
                         if (spreadView.phase == 2) {
@@ -585,6 +700,19 @@ Rectangle {
                         ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
                     }
 
+                    Binding {
+                        target: root
+                        when: model.appId == priv.mainStageAppId
+                        property: "mainAppWindowOrientationAngle"
+                        value: appWindowOrientationAngle
+                    }
+                    Binding {
+                        target: priv
+                        when: model.appId == priv.mainStageAppId
+                        property: "mainAppOrientationChangesEnabled"
+                        value: orientationChangesEnabled
+                    }
+
                     EasingCurve {
                         id: snappingCurve
                         type: EasingCurve.Linear
@@ -596,11 +724,19 @@ Rectangle {
         }
     }
 
+    //eat touch events during the right edge gesture
+    MouseArea {
+        anchors.fill: parent
+        enabled: spreadDragArea.dragging
+    }
+
     DirectionalDragArea {
         id: spreadDragArea
+        objectName: "spreadDragArea"
         anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
         width: root.dragAreaWidth
         direction: Direction.Leftwards
+        enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
         property var gesturePoints: new Array()
 

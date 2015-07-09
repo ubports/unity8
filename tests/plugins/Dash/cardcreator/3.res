@@ -1,6 +1,5 @@
 AbstractButton { 
                 id: root; 
-                property var template; 
                 property var components; 
                 property var cardData; 
                 property var artShapeBorderSource: undefined; 
@@ -13,7 +12,7 @@ AbstractButton {
                 property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
-                enabled: root.template == null ? true : (root.template["non-interactive"] !== undefined ? !root.template["non-interactive"] : true);
+                enabled: true;
 
 onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } 
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
@@ -34,6 +33,7 @@ Item  {
                                     property bool doShapeItem: components["art"]["conciergeMode"] !== true;
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage.image;
+                                    property alias borderSource: artShapeShape.borderSource;
                                     ShaderEffectSource {
                                         id: artShapeSource;
                                         sourceItem: artImage;
@@ -43,6 +43,7 @@ Item  {
                                         hideSource: doShapeItem;
                                     }
                                     Shape {
+                                        id: artShapeShape;
                                         image: artShapeSource;
                                         anchors.fill: parent;
                                         visible: doShapeItem;
@@ -88,6 +89,7 @@ Label {
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
                         visible: showHeader ; 
+                        width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.titleAlignment; 

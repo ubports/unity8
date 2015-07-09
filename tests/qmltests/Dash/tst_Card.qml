@@ -112,7 +112,7 @@ Rectangle {
         id: cardTool
         template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
         components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
-        viewWidth: units.gu(48)
+        viewWidth: units.gu(40)
     }
 
     readonly property var card: loader.item
@@ -124,7 +124,6 @@ Rectangle {
         sourceComponent: cardTool.cardComponent
         clip: true
         onLoaded: {
-            item.template = Qt.binding(function() { return cardTool.template; });
             item.components = Qt.binding(function() { return cardTool.components; });
             item.cardData = Qt.binding(function() { return Helpers.mapData(dataArea.text, cardTool.components, dataError); });
             item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
@@ -224,6 +223,7 @@ Rectangle {
         property Item mascotImage: findChild(card, "mascotImage");
 
         function init() {
+            cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
             loader.visible = true;
         }
 
@@ -261,10 +261,10 @@ Rectangle {
 
         function test_card_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), index: 0 },
+                { tag: "Medium", width: units.gu(18), index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", width: units.gu(18.5), index: 0 },
+                { tag: "Wide", width: units.gu(18), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
                 { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow");
@@ -296,7 +296,7 @@ Rectangle {
 
         function test_art_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), fill: Image.PreserveAspectCrop, index: 0 },
+                { tag: "Medium", width: units.gu(18), fill: Image.PreserveAspectCrop, index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
@@ -424,6 +424,7 @@ Rectangle {
             ];
         }
 
+
         function test_background(data) {
             selector.selectedIndex = data.index;
             waitForRendering(selector);
@@ -452,6 +453,34 @@ Rectangle {
             if (data.hasOwnProperty("image")) {
                 tryCompare(backgroundImage, "source", data.image);
             }
+        }
+
+        function test_fallback() {
+            selector.selectedIndex = 0;
+            waitForRendering(card);
+
+            card.cardData["art"] = "somethingbroken";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", false);
+
+            cardTool.components["art"]["fallback"] = Qt.resolvedUrl("artwork/emblem.png");
+            cardTool.componentsChanged();
+            card.cardData["art"] = "somethingbroken";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+
+            card.cardData["mascot"] = "somethingbroken2";
+            card.cardDataChanged();
+            compare(mascotImage.image.status, Image.Error);
+
+            cardTool.components["mascot"] = {"fallback": Qt.resolvedUrl("artwork/emblem.png")};
+            cardTool.componentsChanged();
+            card.cardData["mascot"] = "somethingbroken2";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(mascotImage.image, "status", Image.Ready);
         }
 
         function test_font_weights_data() {

@@ -50,7 +50,9 @@ SpreadDelegate {
     property int dragOffset: 0
 
     dropShadow: spreadView.active ||
-                (active && model.stage == ApplicationInfoInterface.MainStage && priv.xTranslate != 0)
+                (active
+                 && (model.stage == ApplicationInfoInterface.MainStage || !priv.shellIsLandscape)
+                 && priv.xTranslate != 0)
 
     onSelectedChanged: {
         if (selected) {
@@ -139,7 +141,8 @@ SpreadDelegate {
                      !snapAnimation.running &&
                      model.appId !== "unity8-dash" &&
                      !spreadView.sideStageDragging &&
-                     spreadView.animateX
+                     spreadView.animateX &&
+                     !spreadView.beingResized
             UbuntuNumberAnimation {
                 duration: UbuntuAnimation.FastDuration
             }

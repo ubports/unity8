@@ -332,6 +332,13 @@ FocusScope {
                     updateRanges();
                     if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
                         // Yeah, hackish :/
+                        if (scopeView.width > units.gu(45)) {
+                            if (scopeView.width >= units.gu(70)) {
+                                cardTool.cardWidth = units.gu(9);
+                            } else {
+                                cardTool.cardWidth = units.gu(10);
+                            }
+                        }
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
                     }
                     item.cardTool = cardTool;
@@ -425,7 +432,7 @@ FocusScope {
                             //     to the next, we set the visible range to the viewport so
                             //     items are not culled (invisible) but still use no cacheBuffer
                             //     (it will be set once the scope is the current one)
-                            var displayMarginBeginning = baseItem.y;
+                            var displayMarginBeginning = baseItem.y + rendererLoader.anchors.topMargin;
                             displayMarginBeginning = -Math.max(-displayMarginBeginning, 0);
                             displayMarginBeginning = -Math.min(-displayMarginBeginning, baseItem.height);
                             displayMarginBeginning = Math.round(displayMarginBeginning);

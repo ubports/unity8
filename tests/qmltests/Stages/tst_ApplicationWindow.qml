@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,9 @@ Rectangle {
         root.fakeApplication.manualSurfaceCreation = true;
         root.fakeApplication.setState(ApplicationInfoInterface.Starting);
     }
+    Component.onDestruction: {
+        applicationWindowLoader.item.removeScreenshot();
+    }
     property QtObject fakeApplication: null
     readonly property var fakeSession: fakeApplication ? fakeApplication.session : null
 
@@ -50,7 +53,7 @@ Rectangle {
         ApplicationWindow {
             anchors.fill: parent
             application: fakeApplication
-            orientation: Qt.PortraitOrientation
+            surfaceOrientationAngle: 0
             interactive: true
             focus: true
         }
@@ -210,15 +213,6 @@ Rectangle {
             stateGroup = null;
         }
 
-        // wait until any transition animation has finished
-        function waitUntilTransitionsEnd() {
-            var transitions = stateGroup.transitions;
-            for (var i = 0; i < transitions.length; ++i) {
-                var transition = transitions[i];
-                tryCompare(transition, "running", false, 2000);
-            }
-        }
-
         function init() {
             findInterestingApplicationWindowChildren();
         }
@@ -280,12 +274,12 @@ Rectangle {
 
             tryCompare(stateGroup, "state", "surface");
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             setApplicationState(appSuspended);
 
             verify(stateGroup.state === "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
         }
 
         function test_killedAppShowsScreenshot() {
@@ -311,12 +305,46 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             setApplicationState(appSuspended);
 
             // kill it
             setApplicationState(appStopped);
+
+            tryCompare(stateGroup, "state", "screenshot");
+            waitUntilTransitionsEnd(stateGroup);
+            tryCompare(fakeApplication, "session", null);
+
+            // and restart it
+            setApplicationState(appStarting);
+
+            waitUntilTransitionsEnd(stateGroup);
+            verify(stateGroup.state === "screenshot");
+            verify(fakeSession === null);
+
+            setApplicationState(appRunning);
+
+            waitUntilTransitionsEnd(stateGroup);
+            verify(stateGroup.state === "screenshot");
+
+            initSession();
+
+            tryCompare(stateGroup, "state", "surface");
+            tryCompare(screenshotImage, "status", Image.Null);
+        }
+
+        function test_suspendrestartApp() {
+            var screenshotImage = findChild(applicationWindowLoader.item, "screenshotImage");
+
+            initSession();
+            setApplicationState(appRunning);
+            tryCompare(stateGroup, "state", "surface");
+            waitUntilTransitionsEnd();
+
+            setApplicationState(appSuspended);
+
+            cleanupSession();
 
             tryCompare(stateGroup, "state", "screenshot");
             waitUntilTransitionsEnd();
@@ -344,7 +372,7 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             // oh, it crashed...
             setApplicationState(appStopped);
@@ -357,18 +385,18 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(fakeSession.surface !== null);
 
             applicationWindowLoader.item.visible = false;
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
             verify(fakeSession.surface !== null);
 
             applicationWindowLoader.item.visible = true;
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
             verify(fakeSession.surface !== null);
         }
@@ -379,7 +407,7 @@ Rectangle {
 
             tryCompare(stateGroup, "state", "surface");
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             var fakeSurface = fakeSession.surface;
             fakeSurface.touchPressCount = 0;
@@ -396,7 +424,7 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             cleanupSession();
 
@@ -416,6 +444,13 @@ Rectangle {
 
             applicationWindowLoader.item.interactive = true;
             compare(fakeSession.surface.activeFocus, true);
+        }
+
+        function test_no_spinner_if_stopped() {
+            setApplicationState(appStopped);
+            tryCompare(stateGroup, "state", "splashScreen");
+            var splashLoader = findChild(applicationWindowLoader.item, "splashLoader");
+            verify(!splashLoader.item.activeSpinner);
         }
     }
 }
