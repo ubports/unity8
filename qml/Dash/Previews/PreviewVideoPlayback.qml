@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +15,9 @@
  */
 
 import QtQuick 2.0
-import QtMultimedia 5.0
-import Ubuntu.Components 1.2
+import Ubuntu.Components 0.1
 import Ubuntu.Thumbnailer 0.1
-//import Ubuntu.Content 0.1
-import "../../Components/MediaServices"
+import "../../Components"
 
 /*! \brief Preview widget for video.
 
@@ -30,19 +28,47 @@ import "../../Components/MediaServices"
 PreviewWidget {
     id: root
     implicitWidth: units.gu(35)
-    implicitHeight: services.height
+    implicitHeight: childrenRect.height
 
-    property alias rootItem: services.rootItem
+    LazyImage {
+        objectName: "screenshot"
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        scaleTo: "width"
+        source: {
+            var screenshot = widgetData["screenshot"];
+            if (screenshot) return screenshot;
 
-    MediaServices {
-        id: services
-        width: parent.width
+            var source = widgetData["source"];
+            if (source) {
+                if (source.toString().indexOf("file://") === 0) {
+                    return "image://thumbnailer/" + source.toString().substr(7);
+                }
+            }
 
-        context: "video"
-        sourceData: root.isCurrentPreview ? widgetData : undefined
-        fullscreen: false
-        maximumEmbeddedHeight: rootItem.height / 2
+            return "";
+        }
+        initialHeight: width * 10 / 16
 
-        onClose: fullscreen = false
+        Image {
+            objectName: "playButton"
+
+            readonly property bool bigButton: parent.width > units.gu(40)
+
+            anchors.centerIn: parent
+            width: bigButton ? units.gu(8) : units.gu(4.5)
+            height: width
+            source: "../graphics/play_button%1%2.png".arg(previewImageMouseArea.pressed ? "_active" : "").arg(bigButton ? "_big" : "")
+            visible: parent.state === "ready"
+        }
+
+        MouseArea {
+            enabled: parent.state === "ready"
+            id: previewImageMouseArea
+            anchors.fill: parent
+            onClicked: Qt.openUrlExternally(widgetData["source"])
+        }
     }
 }
