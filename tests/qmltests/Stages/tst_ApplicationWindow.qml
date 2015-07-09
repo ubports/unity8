@@ -340,26 +340,26 @@ Rectangle {
             initSession();
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
 
             setApplicationState(appSuspended);
 
             cleanupSession();
 
             tryCompare(stateGroup, "state", "screenshot");
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             tryCompare(fakeApplication, "session", null);
 
             // and restart it
             setApplicationState(appStarting);
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "screenshot");
             verify(fakeSession === null);
 
             setApplicationState(appRunning);
 
-            waitUntilTransitionsEnd();
+            waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "screenshot");
 
             initSession();
