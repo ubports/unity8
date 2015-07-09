@@ -213,7 +213,7 @@ LocalComponents.Page {
                 }
 
                 print("Current method: " + root.passwordMethod)
-                pageStack.load(Qt.resolvedUrl("passwd-set.qml"))
+                pageStack.load(Qt.resolvedUrl("passcode-set.qml"))
             }
         }
     }

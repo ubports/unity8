@@ -43,7 +43,7 @@ LocalComponents.Page {
     Timer {
         id: confirmTimer
         interval: UbuntuAnimation.SnapDuration
-        onTriggered: pageStack.load(Qt.resolvedUrl("passwd-confirm.qml"));
+        onTriggered: pageStack.load(Qt.resolvedUrl("passcode-confirm.qml"));
     }
 
     UnityComponents.Lockscreen {
