@@ -133,6 +133,7 @@ Label {
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
                         color: root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white");
                         visible: showHeader && overlayLoader.active; 
+                        width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
                         horizontalAlignment: root.titleAlignment; 

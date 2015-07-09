@@ -155,7 +155,7 @@ var kOverlayLoaderCode = 'Loader { \n\
 
 // multiple row version of HeaderRowCode
 function kHeaderRowCodeGenerator() {
-var kHeaderRowCodeTemplate = 'Row { \n\
+    var kHeaderRowCodeTemplate = 'Row { \n\
                         id: row; \n\
                         objectName: "outerRow"; \n\
                         property real margins: units.gu(1); \n\
@@ -220,6 +220,7 @@ var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
 // %1 is used as anchors of titleLabel
 // %2 is used as color of titleLabel
 // %3 is used as extra condition for visible of titleLabel
+// %4 is used as title width
 var kTitleLabelCode = 'Label { \n\
                         id: titleLabel; \n\
                         objectName: "titleLabel"; \n\
@@ -231,6 +232,7 @@ var kTitleLabelCode = 'Label { \n\
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); \n\
                         color: %2; \n\
                         visible: showHeader %3; \n\
+                        width: %4; \n\
                         text: root.title; \n\
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
                         horizontalAlignment: root.titleAlignment; \n\
@@ -246,7 +248,7 @@ var kEmblemIconCode = 'Icon { \n\
                             anchors { \n\
                                 bottom: titleLabel.baseline; \n\
                                 right: parent.right; \n\
-                                %1
+                                %1 \n\
                             } \n\
                             source: cardData && cardData["emblem"] || ""; \n\
                             color: %2; \n\
@@ -499,6 +501,7 @@ function cardString(template, components) {
         var attributesAnchors;
         var titleContainerAnchors;
         var titleRightAnchor;
+        var titleWidth = "undefined";
 
         var extraRightAnchor = '';
         var extraLeftAnchor = '';
@@ -542,8 +545,9 @@ function cardString(template, components) {
                 attributesAnchors = subtitleAnchors + 'top: titleLabel.bottom;\n';
             }
         } else if (hasMascot) {
-            // Using row + titleContainer
+            // Using row without titleContainer
             titleAnchors = 'verticalCenter: parent.verticalCenter;\n';
+            titleWidth = "parent.width - x";
         } else {
             if (headerAsOverlay) {
                 // Using anchors to the overlay
@@ -581,7 +585,7 @@ function cardString(template, components) {
 
         // code for different elements
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
-        var titleCode = kTitleLabelCode.arg(titleAnchors).arg(titleColor).arg(titleLabelVisibleExtra);
+        var titleCode = kTitleLabelCode.arg(titleAnchors).arg(titleColor).arg(titleLabelVisibleExtra).arg(titleWidth);
         var subtitleCode;
         var attributesCode;
 

@@ -58,7 +58,7 @@ class TestFakeSensor(RotationBase):
     def test_fake_sensor(self):
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
         self.useFixture(unity_with_sensors)
-        process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
+        process_helpers.unlock_unity()
         fake_sensors = unity_with_sensors.fake_sensors
         o_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
 
@@ -84,7 +84,7 @@ class TestRotationWithApp(RotationBase):
 
         unity_with_sensors = fixture_setup.LaunchUnityWithFakeSensors()
         self.useFixture(unity_with_sensors)
-        process_helpers.unlock_unity(unity_with_sensors.unity_proxy)
+        process_helpers.unlock_unity()
         fake_sensors = unity_with_sensors.fake_sensors
         o_proxy = unity_with_sensors.main_win.select_single('OrientedShell')
         self.shell_proxy = unity_with_sensors.main_win.select_single('Shell')

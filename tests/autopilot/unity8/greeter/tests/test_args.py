@@ -28,27 +28,27 @@ class GreeterArgsTest(GreeterTestCase):
     def test_full_greeter_mode(self):
         unity_proxy = self.launch_unity(mode='full-greeter')
         shell = self.get_shell(unity_proxy)
-        self.assertTrue(shell.testShellMode == 'full-greeter')
+        self.assertTrue(shell.mode == 'full-greeter')
 
     def test_full_shell_mode(self):
         unity_proxy = self.launch_unity(mode='full-shell')
         shell = self.get_shell(unity_proxy)
-        self.assertTrue(shell.testShellMode == 'full-shell')
+        self.assertTrue(shell.mode == 'full-shell')
 
     def test_greeter_mode(self):
         unity_proxy = self.launch_unity(mode='greeter')
         shell = self.get_shell(unity_proxy)
-        self.assertTrue(shell.testShellMode == 'greeter')
+        self.assertTrue(shell.mode == 'greeter')
 
     def test_nonexistent_mode(self):
         unity_proxy = self.launch_unity(mode=self.NONEXISTENT_MODE)
         shell = self.get_shell(unity_proxy)
-        self.assertTrue(shell.testShellMode == self.DEFAULT_SHELL_MODE,
+        self.assertTrue(shell.mode == self.DEFAULT_SHELL_MODE,
                         "Shell mode was {} but should have been {}"
-                        .format(shell.testShellMode,
+                        .format(shell.mode,
                                 self.DEFAULT_SHELL_MODE))
 
     def test_shell_mode(self):
         unity_proxy = self.launch_unity(mode='shell')
         shell = self.get_shell(unity_proxy)
-        self.assertTrue(shell.testShellMode == 'shell')
+        self.assertTrue(shell.mode == 'shell')
