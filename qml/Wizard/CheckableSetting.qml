@@ -32,8 +32,9 @@ ListItem.Empty {
 
     implicitHeight: Math.max(label.height, checkBox.height)
 
-    Item {
+    FocusScope {
         anchors.fill: parent
+        focus: true
 
         CheckBox {
             id: checkBox
@@ -83,5 +84,7 @@ ListItem.Empty {
             fontSize: "small"
             onLinkActivated: listItem.linkActivated(link)
         }
+
+        Keys.onSpacePressed: checkBox.trigger()
     }
 }
