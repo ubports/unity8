@@ -43,13 +43,16 @@ Item {
     property real brightness: 0
     property real wiggleAngle: 0
 
+    signal alertingTriggered(int alertIndex)
+    signal alertingEnded(int alertIndex)
+
     Connections {
         target: mainColumn.parent
         onPanelMoved: {
             if (alerting && launcherListView.peekingIndex === index) {
                 x = Math.max(units.gu(4.5) - launcher.visibleWidth, 0)
                 if (x === 0) {
-                    launcherListView.unpeeking(index)
+                    alertingEnded(index)
                 }
             }
         }
@@ -57,9 +60,9 @@ Item {
 
     onAlertingChanged: {
         if (alerting) {
-            launcherListView.peeking(index)
+            alertingTriggered(index)
         } else {
-            launcherListView.unpeeking(index)
+            alertingEnded(index)
         }
     }
 

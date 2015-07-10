@@ -151,25 +151,6 @@ Rectangle {
                         to: priv.moveToIndexYTo
                     }
 
-                    function peeking(peek) {
-                        if (!dragging && (peekingIndex === -1 || launcher.visibleWidth > 0)) {
-                            priv.moveToIndexYFrom = contentY
-                            positionViewAtIndex(peek, ListView.Center)
-                            priv.moveToIndexYTo = contentY
-                            moveToIndexAnimation.start()
-                        }
-
-                        if (peekingIndex === -1) {
-                            peekingIndex = peek
-                        }
-                    }
-
-                    function unpeeking(peek) {
-                        if (peekingIndex === peek) {
-                            peekingIndex = -1
-                        }
-                    }
-
                     // The height of the area where icons start getting folded
                     property int foldingStartHeight: units.gu(6.5)
                     // The height of the area where the items reach the final folding angle
@@ -228,6 +209,25 @@ Rectangle {
                         property bool dragging: false
                         property var peekingItem: launcherListView.peekingIndex === index ? launcherDelegate : undefined
 
+
+                        onAlertingTriggered: {
+                            if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
+                                priv.moveToIndexYFrom = launcherListView.contentY
+                                launcherListView.positionViewAtIndex(alertIndex, ListView.Center)
+                                priv.moveToIndexYTo = launcherListView.contentY
+                                moveToIndexAnimation.start()
+                            }
+
+                            if (launcherListView.peekingIndex === -1) {
+                                launcherListView.peekingIndex = alertIndex
+                            }
+                        }
+
+                        onAlertingEnded: {
+                            if (launcherListView.peekingIndex === alertIndex) {
+                                launcherListView.peekingIndex = -1
+                            }
+                        }
 
                         ThinDivider {
                             id: dropIndicator
