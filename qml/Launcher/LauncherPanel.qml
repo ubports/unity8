@@ -16,9 +16,9 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.0 as ListItems
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import Unity.Launcher 0.1
-import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.Popups 1.3
 import "../Components/ListItems"
 import "../Components/"
 

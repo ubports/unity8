@@ -22,7 +22,7 @@ import Ubuntu.Settings.Menus 0.1 as Menus
 import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
-import Ubuntu.Components.ListItems 0.1 as ListItems
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import Ubuntu.Components 1.3
 
 Item {

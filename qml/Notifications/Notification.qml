@@ -21,7 +21,7 @@ import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
 
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components.ListItems 1.3 as ListItem
 
 Item {
     id: notification

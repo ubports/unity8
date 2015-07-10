@@ -15,11 +15,11 @@
 */
 
 import QtQuick 2.2
-import Ubuntu.Components 1.1
-import Ubuntu.Components.Themes 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Themes 1.3
 import "../Components"
 
-import Ubuntu.Components.Themes.Ambiance 1.1 as Ambiance
+import Ubuntu.Components.Themes.Ambiance 1.3 as Ambiance
 
 Item {
     id: root
@@ -66,7 +66,7 @@ Item {
         property var theme: QtObject {
             property string name
             property Palette palette: Qt.createQmlObject("import QtQuick 2.2;\
-                                                          import Ubuntu.Components.Themes.%1 1.1;\
+                                                          import Ubuntu.Components.Themes.%1 1.3;\
                                                           Palette {}".arg(styledItem.theme.name),
                                                          styledItem, "dynamicPalette");
         }

@@ -15,7 +15,7 @@
  */
 import QtQuick 2.2
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Styles 1.1 as Style
+import Ubuntu.Components.Styles 1.3 as Style
 
 // FIXME: copied with large modifications from Ubuntu UI Toolkit's Ambiance's theme
 Style.PageHeadStyle {

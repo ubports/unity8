@@ -16,7 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Styles 1.1
+import Ubuntu.Components.Styles 1.3
 
 /**
  * TODO: Once the SDK version of PullToRefreshStyle doesn't have bug 1375799

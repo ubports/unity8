@@ -16,7 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.0
+import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import ".." as LocalComponents
 
