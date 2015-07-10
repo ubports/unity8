@@ -332,6 +332,13 @@ FocusScope {
                     updateRanges();
                     if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
                         // Yeah, hackish :/
+                        if (scopeView.width > units.gu(45)) {
+                            if (scopeView.width >= units.gu(70)) {
+                                cardTool.cardWidth = units.gu(9);
+                            } else {
+                                cardTool.cardWidth = units.gu(10);
+                            }
+                        }
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
                     }
                     item.cardTool = cardTool;

@@ -88,7 +88,7 @@ Item {
                 tryCompareFunction(function() {
                     var category = findChild(genericScopeView, categoryName);
                     if (category && category.y > 0 && category.y < genericScopeView.height) return true;
-                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height,
+                    touchFlick(genericScopeView, genericScopeView.width/2, units.gu(20),
                                genericScopeView.width/2, genericScopeView.y)
                     tryCompare(categoryListView, "moving", false);
                     return false;
