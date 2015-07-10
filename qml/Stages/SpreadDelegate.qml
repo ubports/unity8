@@ -397,7 +397,6 @@ FocusScope {
                 if (!running) {
                     dragArea.moving = false;
                     if (requestClose) {
-                        appWindow.removeScreenshot();
                         root.closed();
                     } else {
                         dragArea.distance = 0;
