@@ -65,8 +65,7 @@ Item {
 
           Qt bug: https://bugreports.qt-project.org/browse/QTBUG-11712
           */
-        property string theme: (ColorUtils.luminance(styledItem.backgroundColor) >= 0.85) ? "Ambiance" :
-                                (isGradient ? "SuruGradient" : "SuruDark")
+        property string theme: (ColorUtils.luminance(styledItem.backgroundColor) >= 0.85) ? "Ambiance" : "SuruDark"
     }
 
     // automatically select the appropriate theme depending on the background colors
