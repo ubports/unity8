@@ -83,7 +83,7 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            enabled: emailInput.acceptableInput && passInput.text.length !== ""
+            enabled: emailInput.acceptableInput && passInput.text !== ""
             text: i18n.tr("Sign In")
             onClicked: pageStack.next() // TODO sign in against U1
         }

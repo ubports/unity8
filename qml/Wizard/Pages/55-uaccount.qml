@@ -47,6 +47,10 @@ LocalComponents.Page {
                 right: parent.right
             }
             text: i18n.tr("Create Account")
+
+            onClicked: {
+                pageStack.load(Qt.resolvedUrl("uaccount-signup.qml"))
+            }
         }
 
         Button {
