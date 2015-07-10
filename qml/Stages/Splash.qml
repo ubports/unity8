@@ -63,7 +63,7 @@ Item {
                                                                                       : root.footerColor
 
         // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
-        property var fakeTheme: QtObject {
+        readonly property var fakeTheme: QtObject {
             property string name
             property Palette palette: Qt.createQmlObject("import QtQuick 2.2;\
                                                           import Ubuntu.Components.Themes.%1 1.3;\
