@@ -39,7 +39,7 @@ LocalComponents.Page {
     }
 
     Component.onCompleted: {
-        theme.palette.normal.backgroundText = UbuntuColors.lightGrey // "fix" the placeholder text in the search field
+        theme.palette.normal.backgroundText = "#525252" // "fix" the placeholder text in the search field
         searchField.forceActiveFocus()
     }
 

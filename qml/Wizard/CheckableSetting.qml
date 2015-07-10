@@ -77,7 +77,7 @@ ListItem.Empty {
                 rightMargin: listItem.rightMargin
             }
             wrapMode: Text.Wrap
-            linkColor: Theme.palette.normal.foregroundText
+            linkColor: "#dd4814"
             color: "#525252"
             font.weight: Font.Light
             fontSize: "small"
