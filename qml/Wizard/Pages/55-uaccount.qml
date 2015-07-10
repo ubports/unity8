@@ -55,8 +55,10 @@ LocalComponents.Page {
                 right: parent.right
             }
             text: i18n.tr("Sign In")
+            onClicked: {
+                pageStack.load(Qt.resolvedUrl("uaccount-signin.qml"))
+            }
         }
-
     }
 
     Component {
