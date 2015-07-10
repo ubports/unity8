@@ -61,7 +61,14 @@ Loader {
             case "reviews": return "PreviewRatingDisplay.qml";
             case "table": return "PreviewTable.qml";
             case "text": return "PreviewTextSummary.qml";
-            case "video": return "PreviewInlineVideo.qml";
+            case "video": {
+                if (!widgetData) return "";
+                var source = widgetData.hasOwnProperty("source") ? widgetData["source"].toString() : "";
+                if (source.match("^http") !== null) {
+                    return "PreviewVideoPlayback.qml";
+                }
+                return "PreviewInlineVideo.qml";
+            }
             default: return "";
         }
     }

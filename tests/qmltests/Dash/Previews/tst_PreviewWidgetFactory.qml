@@ -75,24 +75,25 @@ Rectangle {
 
         function test_mapping_data() {
             return [
-                { tag: "Actions", type: "actions", source: "PreviewActions.qml" },
-                { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml" },
-                { tag: "Expandable", type: "expandable", source: "PreviewExpandable.qml" },
-                { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
-                { tag: "Header", type: "header", source: "PreviewHeader.qml" },
-                { tag: "Image", type: "image", source: "PreviewZoomableImage.qml" },
-                { tag: "Progress", type: "progress", source: "PreviewProgress.qml" },
-                { tag: "Rating Input", type: "rating-input", source: "PreviewRatingInput.qml" },
-                { tag: "Rating Display", type: "reviews", source: "PreviewRatingDisplay.qml" },
-                { tag: "Table", type: "table", source: "PreviewTable.qml" },
-                { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
-                { tag: "Video", type: "video", source: "PreviewVideoPlayback.qml" },
+                { tag: "Actions", data: { type: "actions" }, source: "PreviewActions.qml" },
+                { tag: "Audio", data: { type: "audio" }, source: "PreviewAudioPlayback.qml" },
+                { tag: "Expandable", data: { type: "expandable" }, source: "PreviewExpandable.qml" },
+                { tag: "Gallery", data: { type: "gallery" }, source: "PreviewImageGallery.qml" },
+                { tag: "Header", data: { type: "header" }, source: "PreviewHeader.qml" },
+                { tag: "Image", data: { type: "image" }, source: "PreviewZoomableImage.qml" },
+                { tag: "Progress", data: { type: "progress" }, source: "PreviewProgress.qml" },
+                { tag: "Rating Input", data: { type: "rating-input" }, source: "PreviewRatingInput.qml" },
+                { tag: "Rating Display", data: { type: "reviews" }, source: "PreviewRatingDisplay.qml" },
+                { tag: "Table", data: { type: "table" }, source: "PreviewTable.qml" },
+                { tag: "Text", data: { type: "text" }, source: "PreviewTextSummary.qml" },
+                { tag: "Video", data: { type: "video" }, source: "PreviewInlineVideo.qml" },
+                { tag: "Video", data: { type: "video", source: "http://demo" }, source: "PreviewVideoPlayback.qml" },
             ];
         }
 
         function test_mapping(data) {
-            factory.widgetData = { type: data.type };
-            factory.widgetType = data.type;
+            factory.widgetData = data.data;
+            factory.widgetType = data.data.type;
 
             verify((String(factory.source)).indexOf(data.source) != -1);
         }
