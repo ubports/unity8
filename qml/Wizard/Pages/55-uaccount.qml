@@ -41,7 +41,7 @@ LocalComponents.Page {
         }
 
         Button {
-            id: signupButton
+            id: signinButton
             anchors {
                 top: infoLabel.bottom
                 left: parent.left
@@ -49,14 +49,14 @@ LocalComponents.Page {
                 rightMargin: units.gu(1)
                 topMargin: units.gu(4)
             }
-            text: i18n.tr("Create Account")
+            text: i18n.tr("Sign In")
             onClicked: {
-                pageStack.load(Qt.resolvedUrl("uaccount-signup.qml"))
+                pageStack.load(Qt.resolvedUrl("uaccount-signin.qml"))
             }
         }
 
         Button {
-            id: signinButton
+            id: signupButton
             anchors {
                 top: infoLabel.bottom
                 left: parent.horizontalCenter
@@ -64,9 +64,9 @@ LocalComponents.Page {
                 leftMargin: units.gu(1)
                 topMargin: units.gu(4)
             }
-            text: i18n.tr("Sign In")
+            text: i18n.tr("Create Account")
             onClicked: {
-                pageStack.load(Qt.resolvedUrl("uaccount-signin.qml"))
+                pageStack.load(Qt.resolvedUrl("uaccount-signup.qml"))
             }
         }
     }
