@@ -24,10 +24,9 @@ LocalComponents.Page {
     title: i18n.tr("Ubuntu Account")
     forwardButtonSourceComponent: forwardButton
 
-    Column {
+    Item {
         id: column
         anchors.fill: content
-        spacing: units.gu(3)
         anchors.topMargin: units.gu(4)
 
         Label {
@@ -42,21 +41,28 @@ LocalComponents.Page {
         }
 
         Button {
+            id: signupButton
             anchors {
+                top: infoLabel.bottom
                 left: parent.left
-                right: parent.right
+                right: parent.horizontalCenter
+                rightMargin: units.gu(1)
+                topMargin: units.gu(4)
             }
             text: i18n.tr("Create Account")
-
             onClicked: {
                 pageStack.load(Qt.resolvedUrl("uaccount-signup.qml"))
             }
         }
 
         Button {
+            id: signinButton
             anchors {
-                left: parent.left
+                top: infoLabel.bottom
+                left: parent.horizontalCenter
                 right: parent.right
+                leftMargin: units.gu(1)
+                topMargin: units.gu(4)
             }
             text: i18n.tr("Sign In")
             onClicked: {

@@ -155,7 +155,8 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            enabled: emailInput.acceptableInput && passInput.text !== "" && pass2Input.text !== "" && passInput.text === pass2Input.text
+            enabled: emailInput.acceptableInput && termsCheck.checked &&
+                     passInput.text !== "" && pass2Input.text !== "" && passInput.text === pass2Input.text
             text: i18n.tr("Sign Up")
             onClicked: pageStack.next() // TODO sign up against U1
         }
