@@ -38,14 +38,15 @@ LocalComponents.Page {
             print("Modems changed")
             var detectedLangs = []
             if (simManager0.present && simManager0.preferredLanguages.length > 0) {
+                print("SIM 0 detected langs:", detectedLangs)
                 detectedLangs = simManager0.preferredLanguages
             } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
+                print("SIM 1 detected langs:", detectedLangs)
                 detectedLangs = simManager1.preferredLanguages
             } else {
+                print("No lang detected, falling back to default:", defaultLanguage)
                 detectedLangs = [defaultLanguage] // fallback to default lang
             }
-
-            print("Detected langs: " + detectedLangs)
 
             populateModel(false, detectedLangs)
         }
