@@ -29,7 +29,7 @@ LocalComponents.Page {
     objectName: "passwdSetPage"
     forwardButtonSourceComponent: forwardButton
     customTitle: true
-    title: confirmPhase ? i18n.tr("Confirm password") : i18n.tr("Enter password")
+    title: confirmPhase ? i18n.tr("Confirm password") : i18n.tr("Choose password")
     backButtonText: i18n.tr("Cancel")
 
     property alias password: passwordField.text
@@ -182,7 +182,7 @@ LocalComponents.Page {
                 return i18n.tr("Very weak password");
             }
             color: "#888888"
-            fontSize: "x-small"
+            fontSize: "small"
             font.weight: Font.Light
             visible: password.length > 0
         }
