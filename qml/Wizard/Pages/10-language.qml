@@ -92,6 +92,8 @@ LocalComponents.Page {
     {
         root.language = code
         languagesListView.currentIndex = index
+        print("Selected language: " + root.language)
+        print("Current index: " + languagesListView.currentIndex)
     }
 
     Column {
@@ -152,10 +154,7 @@ LocalComponents.Page {
                 }
 
                 onClicked: {
-                    root.language = code
-                    ListView.view.currentIndex = index
-                    print("Selected language: " + root.language)
-                    print("Current index: " + ListView.view.currentIndex)
+                    selectLanguage(code, index)
                 }
             }
         }
