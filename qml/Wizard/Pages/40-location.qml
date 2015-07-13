@@ -104,7 +104,7 @@ LocalComponents.Page {
             color: "#525252"
             font.weight: Font.Light
             fontSize: "small"
-            linkColor: "#dd4814"
+            linkColor: UbuntuColors.orange
             text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
             onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
         }

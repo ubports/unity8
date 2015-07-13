@@ -129,9 +129,6 @@ LocalComponents.Page {
                     accessPoint.activate();
                 }
             }
-//            style: Rectangle {
-//                color: "#4c000000"
-//            }
 
             Component.onCompleted: {
                 loadAttributes();
@@ -160,10 +157,9 @@ LocalComponents.Page {
             id: label
             anchors.left: parent.left
             anchors.right: parent.right
-            fontSize: "small"
             font.weight: Font.Light
             color: "#525252"
-            text: mainMenu.count > 0 ? i18n.tr("Available networks…")
+            text: mainMenu.count > 0 ? i18n.tr("Available networks")
                                      : i18n.tr("No available networks.")
         }
 

@@ -101,7 +101,7 @@ LocalComponents.Page {
             color: "black"
             fontSize: "small"
             font.weight: Font.Light
-            linkColor: "#dd4814"
+            linkColor: UbuntuColors.orange
             text: i18n.tr("By continuing, you agree to the HERE Platform Service Terms:") +
                   " <a href=\"http://here.com/terms/service-terms\">http://here.com/terms/service-terms</a>"
             onLinkActivated: {
@@ -118,7 +118,7 @@ LocalComponents.Page {
             color: "black"
             fontSize: "small"
             font.weight: Font.Light
-            linkColor: "#dd4814"
+            linkColor: UbuntuColors.orange
             text: i18n.tr("and Privacy Policy:") +
                   " <a href=\"http://here.com/privacy/privacy-policy\">http://here.com/privacy/privacy-policy</a>"
             onLinkActivated: {

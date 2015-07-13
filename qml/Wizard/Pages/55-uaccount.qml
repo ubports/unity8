@@ -34,7 +34,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Secure my device using Ubuntu account")
+            text: i18n.tr("Secure my device using my Ubuntu account")
             color: "#525252"
             font.weight: Font.Light
             fontSize: "small"
@@ -67,6 +67,45 @@ LocalComponents.Page {
             text: i18n.tr("Create Account")
             onClicked: {
                 pageStack.load(Qt.resolvedUrl("uaccount-signup.qml"))
+            }
+        }
+
+        LocalComponents.CheckableSetting {
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: privacyLabel.top
+                bottomMargin: units.gu(2)
+            }
+
+            id: reportCheck
+            objectName: "reportCheck"
+            showDivider: false
+            text: i18n.tr("Improve system performance by sending us crashes and error reports.")
+            checked: true
+        }
+
+        Label {
+            id: privacyLabel
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                leftMargin: reportCheck.labelOffset
+                bottomMargin: units.gu(4)
+            }
+            wrapMode: Text.Wrap
+            text: i18n.tr("Privacy policy")
+            color: UbuntuColors.orange
+            font.weight: Font.Light
+            fontSize: "small"
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    // TODO
+                    print("Display privacy policy")
+                }
             }
         }
     }

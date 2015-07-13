@@ -78,7 +78,7 @@ ListItem.Empty {
                 rightMargin: listItem.rightMargin
             }
             wrapMode: Text.Wrap
-            linkColor: "#dd4814"
+            linkColor: UbuntuColors.orange
             color: "#525252"
             font.weight: Font.Light
             fontSize: "small"

@@ -44,7 +44,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             wrapMode: Text.Wrap
             text: i18n.tr("Privacy policy")
-            color: "#dd4814"
+            color: UbuntuColors.orange
             font.weight: Font.Light
             fontSize: "small"
             MouseArea {
