@@ -238,6 +238,14 @@ Rectangle {
                             source: "graphics/divider-line.png"
                         }
 
+                        // just for debugging the peeking animation on the device
+                        onStateChanged: {
+                            print("launcher-panel state changed")
+                            if (state === "peeking") {
+                                print("trying to run peeking animation")
+                            }
+                        }
+
                         states: [
                             State {
                                 name: "peeking"
