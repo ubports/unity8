@@ -41,7 +41,7 @@ LocalComponents.Page {
             } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
                 detectedLangs = simManager1.preferredLanguages
             } else {
-                //detectedLangs = ["de", "fr", "it"]
+                //detectedLangs = ["fr"]
             }
 
             print("Detected langs: " + detectedLangs)
@@ -54,6 +54,7 @@ LocalComponents.Page {
     {
         model.clear()
         var index = 0;
+        var selectedIndex = -1;
         var langs = LocalePlugin.languages();
         Object.keys(langs).map(function(code) { // prepare the object
             //console.log("Got language:" + code);
@@ -76,11 +77,13 @@ LocalComponents.Page {
             }
             model.append(lang);
             if (!onlyDetected && detectedLangs.length > 0 && lang.code === detectedLangs[0]) { // preselect the first of detected languages
-                selectLanguage(lang.code, index)
-                languagesListView.positionViewAtIndex(index, ListView.Beginning)
+                selectedIndex = index;
+                selectLanguage(lang.code, selectedIndex)
             }
             index++;
         });
+
+        languagesListView.positionViewAtIndex(selectedIndex, ListView.Center)
     }
 
     function selectLanguage(code, index)
@@ -108,7 +111,7 @@ LocalComponents.Page {
                 right: parent.right;
             }
 
-            height: column.height - column.spacing - (showAll.visible ? showAll.height : 0)
+            height: column.height - column.spacing
 
             model: ListModel {
                 id: model;
@@ -152,17 +155,6 @@ LocalComponents.Page {
                     print("Selected language: " + root.language)
                     print("Current index: " + ListView.view.currentIndex)
                 }
-            }
-        }
-
-        Button {
-            id: showAll
-            //anchors.horizontalCenter: parent.horizontalCenter
-            text: i18n.tr("Show all languages...")
-            visible: detectedLangs.length > 0
-            onClicked: {
-                populateModel(false, root.language !== "" ? [root.language] : ["en"]) // show all langs
-                showAll.visible = false
             }
         }
     }
