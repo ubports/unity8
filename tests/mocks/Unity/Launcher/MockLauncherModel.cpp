@@ -26,6 +26,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setProgress(0);
     item->setPinned(true);
     item->setFocused(true);
+    item->setRunning(true);
     m_list.append(item);
     item = new MockLauncherItem("camera-app", "/usr/share/applications/camera-app.desktop", "Camera", "camera", this);
     item->setProgress(10);
@@ -57,6 +58,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item->setCount(1234567890);
     item->setCountVisible(true);
     item->setPinned(true);
+    item->setRunning(true);
     m_list.append(item);
     item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad", this);
     item->setProgress(50);

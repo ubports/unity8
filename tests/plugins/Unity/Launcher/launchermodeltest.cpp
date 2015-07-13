@@ -298,6 +298,22 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
     }
 
+    void testApplicationRunning() {
+        launcherModel->pin("abs-icon");
+        launcherModel->pin("no-icon");
+
+        QCOMPARE(launcherModel->get(0)->running(), true);
+        QCOMPARE(launcherModel->get(1)->running(), true);
+
+        appManager->stopApplication("abs-icon");
+        QCOMPARE(launcherModel->get(0)->running(), false);
+        QCOMPARE(launcherModel->get(1)->running(), true);
+
+        appManager->stopApplication("no-icon");
+        QCOMPARE(launcherModel->get(0)->running(), false);
+        QCOMPARE(launcherModel->get(1)->running(), false);
+    }
+
     void testApplicationFocused() {
         // all apps unfocused at beginning...
         QCOMPARE(launcherModel->get(0)->focused(), false);

@@ -74,6 +74,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->icon();
         case RolePinned:
             return item->pinned();
+        case RoleRunning:
+            return item->running();
         case RoleCount:
             return item->count();
         case RoleCountVisible:
@@ -476,10 +478,13 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
             m_asAdapter->syncItems(m_list);
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), QVector<int>() << RoleRecent);
         }
+        item->setRunning(true);
+        Q_EMIT dataChanged(index(itemIndex), index(itemIndex), QVector<int>() << RoleRunning);
         // Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);
+        item->setRunning(true);
         item->setFocused(app->focused());
 
         beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
@@ -501,11 +506,17 @@ void LauncherModel::applicationRemoved(const QModelIndex &parent, int row)
         }
     }
 
-    if (appIndex > -1 && !m_list.at(appIndex)->pinned()) {
-        beginRemoveRows(QModelIndex(), appIndex, appIndex);
-        m_list.takeAt(appIndex)->deleteLater();
-        endRemoveRows();
-        m_asAdapter->syncItems(m_list);
+    if (appIndex > -1) {
+        LauncherItem *item = m_list.at(appIndex);
+        item->setRunning(false);
+        Q_EMIT dataChanged(index(appIndex), index(appIndex), QVector<int>() << RoleRunning);
+
+        if (!m_list.at(appIndex)->pinned()) {
+            beginRemoveRows(QModelIndex(), appIndex, appIndex);
+            m_list.takeAt(appIndex)->deleteLater();
+            endRemoveRows();
+            m_asAdapter->syncItems(m_list);
+        }
     }
 }
 

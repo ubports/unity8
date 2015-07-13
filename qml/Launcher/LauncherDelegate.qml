@@ -24,6 +24,7 @@ Item {
     property int count: 0
     property bool countVisible: false
     property int progress: -1
+    property bool itemRunning: false
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
@@ -138,6 +139,17 @@ Item {
                 }
             }
         }
+
+        Image {
+            objectName: "runningHighlight"
+            anchors {
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+            }
+            visible: root.itemRunning
+            source: "graphics/running_app_arrow.png"
+        }
+
         Image {
             objectName: "focusedHighlight"
             anchors {
