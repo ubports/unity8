@@ -297,7 +297,6 @@ Rectangle {
                                         to: units.gu(.5) + launcherListView.width * .5
                                         duration: UbuntuAnimation.BriskDuration
                                     }
-                                    PauseAnimation {}
 
                                     // hiding
                                     UbuntuNumberAnimation {
@@ -309,8 +308,8 @@ Rectangle {
                                         duration: UbuntuAnimation.BriskDuration
                                     }
 
-                                   PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
-                                   PropertyAction { target: panel; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                                    PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
+                                    PropertyAction { target: panel; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
                                 }
                             },
                             Transition {
