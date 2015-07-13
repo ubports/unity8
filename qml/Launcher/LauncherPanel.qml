@@ -286,7 +286,7 @@ Rectangle {
                                 to: "peeking"
                                 SequentialAnimation {
                                     // revealing
-                                    PropertyAction { target: panel; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
+                                    PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
                                     PropertyAction { target: launcherListViewItem; property: "clip"; value: 0 }
 
                                     UbuntuNumberAnimation {
@@ -309,7 +309,7 @@ Rectangle {
                                     }
 
                                     PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
-                                    PropertyAction { target: panel; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                                    PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
                                 }
                             },
                             Transition {
