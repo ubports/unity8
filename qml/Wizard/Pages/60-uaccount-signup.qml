@@ -26,10 +26,6 @@ LocalComponents.Page {
     backButtonText: i18n.tr("Cancel")
     forwardButtonSourceComponent: forwardButton
 
-    Component.onCompleted: {
-        emailInput.forceActiveFocus()
-    }
-
     Item {
         id: column
         anchors.fill: content
@@ -123,6 +119,18 @@ LocalComponents.Page {
             anchors.top: pass2Label.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
+            KeyNavigation.tab: encryptCheck
+        }
+
+        LocalComponents.CheckableSetting {
+            id: encryptCheck
+            objectName: "encryptCheck"
+            showDivider: false
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: pass2Input.bottom
+            anchors.topMargin: units.gu(3)
+            text: i18n.tr("Encrypt my content")
             KeyNavigation.tab: optoutCheck
         }
 
@@ -132,10 +140,11 @@ LocalComponents.Page {
             showDivider: false
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: pass2Input.bottom
+            anchors.top: encryptCheck.bottom
             anchors.topMargin: units.gu(3)
             text: i18n.tr("Opt out of cloud account (not recommended)")
             KeyNavigation.tab: termsCheck
+            visible: false
         }
 
         LocalComponents.CheckableSetting {
@@ -149,13 +158,15 @@ LocalComponents.Page {
             text: i18n.tr("I have read and accept the Ubuntu account <a href='#'>terms of service</a>")
             //onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml")) // TODO show terms
             KeyNavigation.tab: emailInput
+            visible: false
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            enabled: emailInput.acceptableInput && termsCheck.checked &&
+            enabled: emailInput.acceptableInput &&
+                     //termsCheck.checked && // FIXME re-enable when the checkboxes get visible again
                      passInput.text !== "" && pass2Input.text !== "" && passInput.text === pass2Input.text
             text: i18n.tr("Sign Up")
             onClicked: pageStack.next() // TODO sign up against U1
