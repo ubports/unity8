@@ -236,10 +236,6 @@ Rectangle {
                             State {
                                 name: "peeking"
                                 when: peeking && !dragging && launcher.state !== "visible"
-                                PropertyChanges {
-                                    target: launcherDelegate
-                                    x: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
-                                }
                             },
                             State {
                                 name: "selected"
