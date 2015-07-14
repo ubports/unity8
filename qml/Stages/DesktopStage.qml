@@ -400,27 +400,45 @@ Rectangle {
                     }
                 }
 
-                ColumnLayout {
+                MouseArea {
                     id: tileInfo
-                    width: units.gu(30)
                     anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(5) }
+                    width: units.gu(30)
+                    height: titleInfoColumn.height
                     visible: false
-                    spacing: units.gu(1)
+                    hoverEnabled: true
 
-                    UbuntuShape {
-                        Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
-                        Layout.preferredWidth: height * 8 / 7.6
-                        image: Image {
-                            anchors.fill: parent
-                            source: model.icon
+                    onContainsMouseChanged: {
+                        if (containsMouse) {
+                            appRepeater.highlightedIndex = index
                         }
                     }
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: units.gu(6)
-                        text: model.name
-                        wrapMode: Text.WordWrap
-                        maximumLineCount: 2
+
+                    onClicked: {
+                        appDelegate.focus = true
+                        root.state = ""
+                    }
+
+                    ColumnLayout {
+                        id: titleInfoColumn
+                        anchors { left: parent.left; top: parent.top; right: parent.right }
+                        spacing: units.gu(1)
+
+                        UbuntuShape {
+                            Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
+                            Layout.preferredWidth: height * 8 / 7.6
+                            image: Image {
+                                anchors.fill: parent
+                                source: model.icon
+                            }
+                        }
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: units.gu(6)
+                            text: model.name
+                            wrapMode: Text.WordWrap
+                            maximumLineCount: 2
+                        }
                     }
                 }
             }
