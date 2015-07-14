@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-06-22 12:00+0200\n"
-"PO-Revision-Date: 2015-07-04 21:24+0000\n"
-"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
+"PO-Revision-Date: 2015-07-12 09:46+0000\n"
+"Last-Translator: Seweryn Opyd <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-07-05 05:55+0000\n"
-"X-Generator: Launchpad (build 17597)\n"
+"X-Launchpad-Export-Date: 2015-07-13 05:36+0000\n"
+"X-Generator: Launchpad (build 17620)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -53,7 +53,7 @@ msgstr "%k:%M"
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr "Jutro %k:%M"
+msgstr "Jutro %k:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -70,7 +70,7 @@ msgstr "%a %k:%M"
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr "%a %d %b %k:%M"
+msgstr "%a, %b %d %k:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -78,7 +78,7 @@ msgstr "%a %d %b %k:%M"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr "Wczoraj %H:%M"
+msgstr "Wczoraj %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
@@ -110,7 +110,7 @@ msgstr "%a %H:%M"
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr "%a %d %b %H:%M"
+msgstr "%a, %b %d %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -202,9 +202,7 @@ msgstr "Zasilanie"
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
-"Czy na pewno\n"
-"wyłączyć?"
+msgstr "Czy na pewno wyłączyć?"
 
 #: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"

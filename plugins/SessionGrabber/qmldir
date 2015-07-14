@@ -1,3 +1,0 @@
-module SessionGrabber
-plugin SessionGrabber-qml
-typeinfo SessionGrabber.qmltypes

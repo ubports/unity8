@@ -305,7 +305,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: tutorial.spreadEnabled && (!greeter || !greeter.hasLockedApp)
+                value: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
             }
             Binding {
                 target: applicationsDisplayLoader.item
