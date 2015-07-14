@@ -68,6 +68,7 @@ Showable {
     // eater
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
     }
 
     MenuContent {
