@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-06-22 12:00+0200\n"
-"PO-Revision-Date: 2014-08-23 14:19+0000\n"
+"PO-Revision-Date: 2015-07-12 08:47+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-07-04 05:37+0000\n"
-"X-Generator: Launchpad (build 17597)\n"
+"X-Launchpad-Export-Date: 2015-07-13 05:36+0000\n"
+"X-Generator: Launchpad (build 17620)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -113,11 +113,11 @@ msgstr ""
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
-msgstr ""
+msgstr "ההתקן נעול"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "ננעלת מחוץ למערכת עקב ריבוי ניסיונות הזנת מילת צופן."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
@@ -133,21 +133,21 @@ msgstr[1] ""
 #: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "יציאה"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "האם אכן לצאת מהמערכת?"
 
 #: qml/Components/Dialogs.qml:72
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "נעילה"
 
 #: qml/Components/Dialogs.qml:79
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "יציאה"
 
 #: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
 #: qml/Components/Dialogs.qml:173
@@ -157,63 +157,63 @@ msgstr "ביטול"
 #: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "כיבוי"
 
 #: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "האם לכבות?"
 
 #: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "הפעלה מחדש"
 
 #: qml/Components/Dialogs.qml:109
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "כיבוי"
 
 #: qml/Components/Dialogs.qml:129
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "הפעלה מחדש"
 
 #: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "האם להפעיל מחדש?"
 
 #: qml/Components/Dialogs.qml:132
 msgid "No"
-msgstr ""
+msgstr "לא"
 
 #: qml/Components/Dialogs.qml:138
 msgid "Yes"
-msgstr ""
+msgstr "כן"
 
 #: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "צריכת חשמל"
 
 #: qml/Components/Dialogs.qml:153
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
+msgstr "האם לכבות?"
 
 #: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "כיבוי"
 
 #: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "הפעלה מחדש"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr ""
+msgstr "חזרה לשיחה"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -234,30 +234,30 @@ msgstr "להציג הכול"
 #: qml/Dash/GenericScopeView.qml:594
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "חנות"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 #: qml/Dash/PageHeader.qml:286
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "הגדרות"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "הסרה מהמועדפים"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
-msgstr ""
+msgstr "הוספה למועדפים"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -281,23 +281,23 @@ msgstr "שליחה"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "יש למשוך כדי לרענן…"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "יש לעזוב כדי לרענן…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "הפעלת נתוני מיקום"
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
-msgstr ""
+msgstr "ניהול"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr ""
+msgstr "בית"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
@@ -305,15 +305,15 @@ msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
-msgstr ""
+msgstr "שחרור נעילה"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "ניסיון חוזר"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "יש לגעת כדי לשחרר נעילה"
 
 #: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
@@ -346,7 +346,7 @@ msgstr ""
 
 #: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr ""
+msgstr "נא להזין מילת צופן"
 
 #: qml/Greeter/NarrowView.qml:117
 msgid "Enter passcode"
@@ -443,11 +443,11 @@ msgstr "נכשל, יש לגעת כדי לנסות שוב"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "להשיב"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "שחרור נעילת ה־SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
@@ -455,28 +455,28 @@ msgstr "נדידה"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "פעולה זו עושה דברים שונים ליישומים שונים"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "יש לגעת כאן כדי לסיים."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "פתיחת תפריטים מיוחדים"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "גרירה למעלה מהקצה התחתון."
 
 #: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "יש לגעת כאן כדי להמשיך."
 
 #: qml/Tutorial/TutorialContent.qml:81
 msgid "Click here to finish."
-msgstr ""
+msgstr "יש ללחוץ כאן כדי לסיים."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -484,7 +484,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "פתיחת המשגר"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
@@ -496,11 +496,11 @@ msgstr ""
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "נא לנסות שוב."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "לצפייה ביישומים הפתוחים"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
@@ -508,7 +508,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "צפייה בכל המשימות הפעילות שלך."
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
@@ -517,31 +517,31 @@ msgstr ""
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "תנאי שימוש"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "אישור מילת הצופן"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "אישור קוד הצופן"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "נא לנסות שוב."
 
 #: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50
 msgid "Continue"
-msgstr ""
+msgstr "להמשיך"
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "בחירת קוד הצופן שלך"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
@@ -549,19 +549,19 @@ msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "שלום!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "ברוך בואך לטלפון האובונטו שלך."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "קדימה, מתחילים."
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "יש להוסיף כרטיס SIM ולהפעיל את ההתקן מחדש"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
@@ -569,7 +569,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr ""
+msgstr "דילוג"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
@@ -582,48 +582,48 @@ msgstr ""
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "החלקה"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "אין אבטחה"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "קוד צופן"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "4 ספרות בלבד"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "מילת צופן"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "מספרים ואותיות"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "התחברות לרשת אלחוטית"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "רשתות זמינות…"
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "אין רשתות זמינות."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "מיקום"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
@@ -650,11 +650,11 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "ניתן לשנות את העדפותיך מאוחר יותר ב<b>הגדרות המערכת</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "שיפור החוויה שלך"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
@@ -670,19 +670,19 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "הכול בוצע"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "כל הכבוד!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "הטלפון שלך מוכן לשימוש."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "סיום"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
