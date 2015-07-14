@@ -33,7 +33,6 @@ LocalComponents.Page {
     backButtonText: i18n.tr("Cancel")
 
     property alias password: passwordField.text
-    readonly property int passwordScore: scorePassword(password)
     property bool confirmPhase: false
 
     // If we are entering this page, clear any saved password and get focus
@@ -71,37 +70,8 @@ LocalComponents.Page {
         if (!!text) {
             infoLabel.text = text
         } else {
-            infoLabel.text = i18n.tr("Enter at least 4 characters")
+            infoLabel.text = i18n.tr("Enter at least 6 characters")
         }
-    }
-
-    function scorePassword(pass) {
-        var score = 0;
-        if (!pass)
-            return score;
-
-        // award every unique letter until 5 repetitions
-        var letters = Object();
-        for (var i=0; i<pass.length; i++) {
-            letters[pass[i]] = (letters[pass[i]] || 0) + 1;
-            score += 5.0 / letters[pass[i]];
-        }
-
-        // bonus points for mixing it up
-        var variations = {
-            digits: /\d/.test(pass),
-            lower: /[a-z]/.test(pass),
-            upper: /[A-Z]/.test(pass),
-            nonWords: /\W/.test(pass),
-        }
-
-        var variationCount = 0;
-        for (var check in variations) {
-            variationCount += (variations[check] === true) ? 1 : 0;
-        }
-        score += (variationCount - 1) * 10;
-
-        return parseInt(score);
     }
 
     Item {
@@ -139,59 +109,21 @@ LocalComponents.Page {
             }
         }
 
-        Rectangle {
-            id: passwordStrengthMeter
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: passwordField.bottom
-                topMargin: units.gu(1)
-            }
-            width: parent.width
-            height: units.gu(1)
-            color: {
-                if (passwordScore > 80)
-                    return "green";
-                if (passwordScore > 60)
-                    return "orange";
-                if (passwordScore >= 30)
-                    return "red";
-
-                return "red";
-            }
-            visible: password.length > 0
-        }
-
-        Label {
-            id: passwordStrengthInfo
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: passwordStrengthMeter.bottom
-                topMargin: units.gu(1)
-            }
-            wrapMode: Text.Wrap
-            text: {
-                if (passwordScore > 80)
-                    return i18n.tr("Strong password");
-                else if (passwordScore > 60)
-                    return i18n.tr("Medium password")
-                if (passwordScore >= 30)
-                    return i18n.tr("Weak password");
-
-                return i18n.tr("Very weak password");
-            }
-            color: "#888888"
-            fontSize: "small"
-            font.weight: Font.Light
-            visible: password.length > 0
+        // password meter
+        LocalComponents.PasswordMeter {
+            id: passMeter
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: passwordField.bottom
+            anchors.topMargin: units.gu(1)
+            password: passwordField.text
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            enabled: confirmPhase ? password === root.password : password.length >= 4 // TODO set more sensible restrictions for the length?
+            enabled: confirmPhase ? password === root.password : password.length > 5 // TODO set more sensible restrictions for the length?
             text: i18n.tr("OK")
             onClicked:  {
                 if (confirmPhase) {

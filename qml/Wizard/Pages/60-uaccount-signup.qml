@@ -99,13 +99,23 @@ LocalComponents.Page {
             KeyNavigation.tab: pass2Input
         }
 
+        // password meter
+        LocalComponents.PasswordMeter {
+            id: passMeter
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: passInput.bottom
+            anchors.topMargin: units.gu(1)
+            password: passInput.text
+        }
+
         // repeat password
         Label {
             id: pass2Label
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: passInput.bottom
-            anchors.topMargin: units.gu(3)
+            anchors.top: passMeter.bottom
+            anchors.topMargin: passInput.text !== "" ? units.gu(6) : units.gu(3)
             wrapMode: Text.Wrap
             text: i18n.tr("Repeat password:")
             color: "#525252"
@@ -167,7 +177,7 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             enabled: emailInput.acceptableInput &&
                      //termsCheck.checked && // FIXME re-enable when the checkboxes get visible again
-                     passInput.text !== "" && pass2Input.text !== "" && passInput.text === pass2Input.text
+                     pass2Input.text.length > 5 && passInput.text === pass2Input.text
             text: i18n.tr("Sign Up")
             onClicked: pageStack.next() // TODO sign up against U1
         }
