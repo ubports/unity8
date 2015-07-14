@@ -51,6 +51,14 @@ Rectangle {
             spreadView.contentX = -spreadView.shift;
         }
     }
+    onSpreadEnabledChanged: {
+        if (!spreadEnabled) {
+            // reset. go back to display the focused app
+            spreadView.selectedIndex = -1;
+            spreadView.phase = 0;
+            spreadView.contentX = -spreadView.shift;
+        }
+    }
     function updateFocusedAppOrientation() {
         if (spreadRepeater.count > 0) {
             spreadRepeater.itemAt(0).matchShellOrientation();
@@ -281,7 +289,13 @@ Rectangle {
 
             switch (phase) {
             case 0:
-                if (shiftedContentX > width * positionMarker2) {
+                // the "spreadEnabled" part is because when code does "phase = 0; contentX = -shift" to
+                // dismiss the spread because spreadEnabled went to false, for some reason, during tests,
+                // Flickable might jump in and change contentX value back, causing the code below to do
+                // "phase = 1" which will make the spread stay.
+                // It sucks that we have no control whatsoever over whether or when Flickable animates its
+                // contentX.
+                if (root.spreadEnabled && shiftedContentX > width * positionMarker2) {
                     phase = 1;
                 }
                 break;
@@ -456,6 +470,7 @@ Rectangle {
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
                                  !snapAnimation.running &&
+                                 !spreadDragArea.pressed &&
                                  priv.animateX &&
                                  !root.beingResized
                         UbuntuNumberAnimation {

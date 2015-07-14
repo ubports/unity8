@@ -951,6 +951,51 @@ Rectangle {
             tryCompare(mockOskSettings, "stayHidden", false);
         }
 
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1471609
+
+            Steps:
+             - Open an app which can rotate
+             - Rotate the phone to landscape
+             - Open the app spread
+             - Press the power button while the app spread is open
+             - Wait a bit and press power button again
+
+            Expected outcome:
+             You see greeter in portrat (ie, primary orientation)
+
+            Actual outcome:
+             You see greeter in landscape
+
+            Comments:
+             Greeter supports only the primary orientation (portrait in phones) but
+             the stage doesn't allow orientation changes while the apps spread is open,
+             hence the bug.
+         */
+        function test_phoneWithSpreadInLandscapeWhenGreeterShowsUp() {
+            loadShell("mako");
+
+            var gmailApp = ApplicationManager.startApplication("gmail-webapp");
+            verify(gmailApp);
+
+            // ensure the mock gmail-webapp is as we expect
+            compare(gmailApp.rotatesWindowContents, false);
+            compare(gmailApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
+                    | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
+
+            // wait until it's able to rotate
+            tryCompare(shell, "orientationChangesEnabled", true);
+
+            rotateTo(90);
+            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle + 90);
+
+            performEdgeSwipeToShowAppSpread();
+
+            showGreeter();
+
+            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle);
+        }
+
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
         function rotateTo(angle) {
             switch (angle) {

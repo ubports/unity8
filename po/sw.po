@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-06-22 12:00+0200\n"
-"PO-Revision-Date: 2014-01-14 19:28+0000\n"
-"Last-Translator: Damas <Unknown>\n"
+"PO-Revision-Date: 2015-07-10 20:22+0000\n"
+"Last-Translator: Valentine <mwangi_valentino@yahoo.com>\n"
 "Language-Team: Swahili <sw@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-07-04 05:37+0000\n"
-"X-Generator: Launchpad (build 17597)\n"
+"X-Launchpad-Export-Date: 2015-07-11 05:33+0000\n"
+"X-Generator: Launchpad (build 17620)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
-msgstr ""
+msgstr "Neno siri "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:100
@@ -37,14 +37,14 @@ msgstr ""
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:157
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Jana %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened today.
 #. en_US example: "%l:%M %p" --> "1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:164
 msgid "%l:%M %p"
-msgstr ""
+msgstr "%l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
@@ -52,7 +52,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr ""
+msgstr "Kesho %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -69,7 +69,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr ""
+msgstr "%a %d %b %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -77,14 +77,14 @@ msgstr ""
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr ""
+msgstr "Jana %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
 #. en_US example: "%H:%M" --> "13:00"
 #: plugins/Utils/relativetimeformatter.cpp:208
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
@@ -92,7 +92,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:216
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "Kesho %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
@@ -100,7 +100,7 @@ msgstr ""
 #. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:225
 msgid "%a %H:%M"
-msgstr ""
+msgstr "%a %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
@@ -109,11 +109,11 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr ""
+msgstr "%a %d %b %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
-msgstr ""
+msgstr "kifaa kimefungwa"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
@@ -127,68 +127,68 @@ msgstr ""
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Subiri dakika %1 halafu jaribu tena..."
+msgstr[1] "Subiri dakika %1 halafu jaribu tena"
 
 #: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "Logi nje"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr "Una uhakika unataka kulogi nje?"
 
 #: qml/Components/Dialogs.qml:72
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Funga"
 
 #: qml/Components/Dialogs.qml:79
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Logi nje"
 
 #: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
 #: qml/Components/Dialogs.qml:173
 msgid "Cancel"
-msgstr ""
+msgstr "Ghairi"
 
 #: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Zima"
 
 #: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Una uhakika unataka kuzima?"
 
 #: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Washa tena"
 
 #: qml/Components/Dialogs.qml:109
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Zima"
 
 #: qml/Components/Dialogs.qml:129
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Washa tena"
 
 #: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Una uhakika unataka kuzima halafu uwashe tena?"
 
 #: qml/Components/Dialogs.qml:132
 msgid "No"
-msgstr ""
+msgstr "La"
 
 #: qml/Components/Dialogs.qml:138
 msgid "Yes"
-msgstr ""
+msgstr "Ndio"
 
 #: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
@@ -199,17 +199,17 @@ msgstr ""
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
+msgstr "Una uhakika unataka kuzima?"
 
 #: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Zima"
 
 #: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Zima na uwashe"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
@@ -217,55 +217,55 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
-msgstr ""
+msgstr "Simu ya dharura"
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
-msgstr ""
+msgstr "Sawa"
 
 #: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
 msgid "See less"
-msgstr ""
+msgstr "Onyesha kidogo"
 
 #: qml/Dash/GenericScopeView.qml:532
 msgid "See all"
-msgstr ""
+msgstr "Onyesha zote"
 
 #: qml/Dash/GenericScopeView.qml:594
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Tafuta"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Duka"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Tafuta"
 
 #: qml/Dash/PageHeader.qml:286
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "Mipangilio"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Toa kutoka nilizopenda"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Ongeza kwenye nilizopenda"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr ""
+msgstr "Zaidi..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr ""
+msgstr "Kidogo..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
@@ -289,15 +289,15 @@ msgstr ""
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Eneza data ya eneo"
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
-msgstr ""
+msgstr "Amuru"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr ""
+msgstr "Nyumbani"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
@@ -305,15 +305,15 @@ msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
-msgstr ""
+msgstr "Fungua"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Jaribu tena"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Gusa ufungue"
 
 #: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
@@ -342,11 +342,11 @@ msgstr ""
 #: qml/Greeter/NarrowView.qml:115
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Bonyeza %1"
 
 #: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Bonyeza neno siri"
 
 #: qml/Greeter/NarrowView.qml:117
 msgid "Enter passcode"
