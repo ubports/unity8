@@ -26,7 +26,6 @@ import Ubuntu.Gestures 0.1
 
 Rectangle {
     id: root
-
     anchors.fill: parent
 
     // Controls to be set from outside
@@ -313,6 +312,7 @@ Rectangle {
 
                 DecoratedWindow {
                     id: decoratedWindow
+                    objectName: "decoratedWindow"
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
                     windowWidth: appDelegate.width
@@ -402,6 +402,7 @@ Rectangle {
 
                 MouseArea {
                     id: tileInfo
+                    objectName: "tileInfo"
                     anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(5) }
                     width: units.gu(30)
                     height: titleInfoColumn.height

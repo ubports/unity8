@@ -1485,5 +1485,52 @@ Rectangle {
 
             keyRelease(Qt.Key_Control);
         }
+
+        function test_selectFromSpreadWithMouse_data() {
+            return [
+                {tag: "click on tileInfo", tileInfo: true },
+                {tag: "click on surface", tileInfo: false },
+            ]
+        }
+
+        function test_selectFromSpreadWithMouse(data) {
+            loadDesktopShellWithApps()
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+            appRemovedSpy.clear();
+
+            var focusAppId = ApplicationManager.get(2).appId;
+            var appDelegate2 = appRepeater.itemAt(2);
+            var decoratedWindow = findChild(appDelegate2, "decoratedWindow");
+            var stage = findChild(shell, "stage");
+
+            tryCompare(stage, "state", "altTab");
+
+            // Move the mouse over tile 2 and verify the highlight becomes visible
+            var x = 0;
+            var y = shell.height * (data.tileInfo ? .5 : 0.95)
+            mouseMove(shell, x, y)
+            while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
+                print("y is", y)
+                x+=10;
+                mouseMove(shell, x, y)
+                waitForRendering(shell)
+            }
+            tryCompare(decoratedWindow, "highlightShown", true);
+
+            // Click the tile
+            mouseClick(decoratedWindow, decoratedWindow.width / 2, decoratedWindow.height / 2)
+
+            // Verify that we left the spread and app2 is the focused one now
+            tryCompare(stage, "state", "");
+            tryCompare(ApplicationManager, "focusedApplicationId", focusAppId);
+
+            keyRelease(Qt.Key_Control);
+        }
     }
 }
