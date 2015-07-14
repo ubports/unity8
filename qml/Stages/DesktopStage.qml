@@ -55,46 +55,6 @@ Rectangle {
     property alias background: wallpaper.source
     property bool altTabPressed: false
 
-    onAltTabPressedChanged: {
-        if (!altTabPressed && root.state == "altTab") {
-            print("released", appRepeater.highlightedIndex)
-            ApplicationManager.requestFocusApplication(ApplicationManager.get(appRepeater.highlightedIndex).appId)
-        }
-    }
-
-    function altTabNext(isAutoRepeat) {
-        if (root.altTabPressed) {
-            print("should tab next", isAutoRepeat, "highlightedIndex is", appRepeater.highlightedIndex)
-            if (isAutoRepeat && appRepeater.highlightedIndex >= ApplicationManager.count -1) {
-                return; // AutoRepeat is not allowed to wrap around
-            }
-
-            appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count;
-            print("new highlighted index", appRepeater.highlightedIndex)
-            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3));
-            if (spreadFlickable.contentX < newContentX || appRepeater.highlightedIndex == 0) {
-                spreadFlickable.snapTo(newContentX)
-            }
-        }
-    }
-
-    function altTabPrevious(isAutoRepeat) {
-        print("alttabprevious pressed")
-        if (root.altTabPressed) {
-            if (isAutoRepeat && appRepeater.highlightedIndex == 0) {
-                return; // AutoRepeat is not allowed to wrap around
-            }
-
-            var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
-            print("setting highlighted to", newIndex)
-            appRepeater.highlightedIndex = newIndex;
-            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1));
-            if (spreadFlickable.contentX > newContentX || newIndex == ApplicationManager.count -1) {
-                spreadFlickable.snapTo(newContentX)
-            }
-        }
-    }
-
     CrossFadeImage {
         id: wallpaper
         anchors.fill: parent
@@ -165,9 +125,60 @@ Rectangle {
         visible: false
     }
 
-    Item {
+    FocusScope {
         id: appContainer
         anchors.fill: parent
+
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_Left:
+            case Qt.Key_Backtab:
+                selectPrevious(event.isAutoRepeat)
+                break;
+            case Qt.Key_Right:
+            case Qt.Key_Tab:
+                selectNext(event.isAutoRepeat)
+                break;
+            case Qt.Key_Escape:
+                appRepeater.highlightedIndex = -1
+            case Qt.Key_Enter:
+            case Qt.Key_Return:
+            case Qt.Key_Space:
+                root.state = ""
+            }
+        }
+
+        function selectNext(isAutoRepeat) {
+            if (isAutoRepeat && appRepeater.highlightedIndex >= ApplicationManager.count -1) {
+                return; // AutoRepeat is not allowed to wrap around
+            }
+
+            appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count;
+            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3));
+            if (spreadFlickable.contentX < newContentX || appRepeater.highlightedIndex == 0) {
+                spreadFlickable.snapTo(newContentX)
+            }
+        }
+
+        function selectPrevious(isAutoRepeat) {
+            if (isAutoRepeat && appRepeater.highlightedIndex == 0) {
+                return; // AutoRepeat is not allowed to wrap around
+            }
+
+            var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
+            appRepeater.highlightedIndex = newIndex;
+            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1));
+            if (spreadFlickable.contentX > newContentX || newIndex == ApplicationManager.count -1) {
+                spreadFlickable.snapTo(newContentX)
+            }
+        }
+
+        function focusSelected() {
+            if (appRepeater.highlightedIndex != -1) {
+                appRepeater.itemAt(appRepeater.highlightedIndex).focus = true;
+            }
+        }
+
         Repeater {
             id: appRepeater
             model: ApplicationManager
@@ -521,6 +532,7 @@ Rectangle {
             PropertyChanges { target: spreadFlickable; enabled: true }
             PropertyChanges { target: currentSelectedLabel; visible: true }
             PropertyChanges { target: spreadBackground; visible: true }
+            PropertyChanges { target: appContainer; focus: true }
         }
     ]
     signal updateWorkspaces();
@@ -530,7 +542,7 @@ Rectangle {
             from: "*"
             to: "altTab"
             SequentialAnimation {
-                PropertyAction { target: appRepeater; property: "highlightedIndex"; value: 1 }
+                PropertyAction { target: appRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
                 PauseAnimation { duration: 50 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 ScriptAction { script: root.updateWorkspaces() }
@@ -547,6 +559,7 @@ Rectangle {
             to: "*"
             PropertyAnimation { property: "opacity" }
             PropertyAction { target: root; property: "workspacesUpdated"; value: false }
+            ScriptAction { script: { appContainer.focusSelected() } }
             PropertyAction { target: appRepeater; property: "highlightedIndex"; value: -1 }
         }
 

@@ -42,8 +42,6 @@ Item {
     signal volumeUpTriggered;
     signal screenshotTriggered;
 
-    signal altTabNext(bool isAutoRepeat);
-    signal altTabPrevious(bool isAutoRepeat);
     readonly property bool altTabPressed: d.altTabPressed
 
     property int powerKeyLongPressTime: 2000
@@ -110,21 +108,6 @@ Item {
         } else if (event.key == Qt.Key_Tab) {
             if (d.altPressed && !d.altTabPressed) {
                 d.altTabPressed = true;
-            } else if (d.altTabPressed) {
-                root.altTabNext(event.isAutoRepeat);
-            }
-        } else if (event.key == Qt.Key_Backtab) {
-            if (d.altTabPressed) {
-                root.altTabPrevious(event.isAutoRepeat);
-            }
-        } else if (event.key == Qt.Key_Left) {
-            if (d.altTabPressed) {
-                root.altTabPrevious(event.isAutoRepeat);
-                event.accpeted = true;
-            }
-        } else if (event.key == Qt.Key_Right) {
-            if (d.altTabPressed) {
-                root.altTabNext(event.isAutoRepeat);
                 event.accepted = true;
             }
         }
