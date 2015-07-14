@@ -202,7 +202,6 @@ Rectangle {
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
-                        //property var peekingItem: launcherListView.peekingIndex === index ? launcherDelegate : undefined
                         property bool peeking: launcherListView.peekingIndex === index
 
                         onAlertingChanged: {
@@ -236,7 +235,6 @@ Rectangle {
                         states: [
                             State {
                                 name: "peeking"
-                                //when: peekingItem === launcherDelegate && !dragging && launcher.state !== "visible"
                                 when: peeking && !dragging && launcher.state !== "visible"
                                 PropertyChanges {
                                     target: launcherDelegate
