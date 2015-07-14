@@ -41,25 +41,13 @@ Item {
     property real offset: 0
     property real itemOpacity: 1
     property real brightness: 0
-    property real wiggleAngle: 0
-
-    signal alertingTriggered(int alertIndex)
-    signal alertingEnded(int alertIndex)
-
-    onAlertingChanged: {
-        if (alerting) {
-            alertingTriggered(index)
-        } else {
-            alertingEnded(index)
-        }
-    }
+    property double maxWiggleAngle: 5.0
 
     QtObject {
-        id: privWiggleAnim
+        id: priv
 
-        readonly property double angle: 5.0
-        readonly property int duration: UbuntuAnimation.SnapDuration
-        readonly property var target: root
+        readonly property int wiggleDuration: UbuntuAnimation.SnapDuration
+        property real wiggleAngle: 0
     }
 
     SequentialAnimation {
@@ -70,61 +58,61 @@ Item {
         alwaysRunToEnd: true
 
         NumberAnimation {
-            target: privWiggleAnim.target
+            target: priv
             property: "wiggleAngle"
             from: 0
-            to: privWiggleAnim.angle
-            duration: privWiggleAnim.duration
+            to: maxWiggleAngle
+            duration: priv.wiggleDuration
             easing.type: Easing.InQuad
         }
 
         NumberAnimation {
-            target: privWiggleAnim.target
+            target: priv
             property: "wiggleAngle"
-            from: privWiggleAnim.angle
-            to: -privWiggleAnim.angle
-            duration: privWiggleAnim.duration
+            from: maxWiggleAngle
+            to: -maxWiggleAngle
+            duration: priv.wiggleDuration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: privWiggleAnim.target
+            target: priv
             property: "wiggleAngle"
-            from: -privWiggleAnim.angle
-            to: privWiggleAnim.angle
-            duration: privWiggleAnim.duration
+            from: -maxWiggleAngle
+            to: maxWiggleAngle
+            duration: priv.wiggleDuration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: privWiggleAnim.target
+            target: priv
             property: "wiggleAngle"
-            from: privWiggleAnim.angle
-            to: -privWiggleAnim.angle
-            duration: privWiggleAnim.duration
+            from: maxWiggleAngle
+            to: -maxWiggleAngle
+            duration: priv.wiggleDuration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: privWiggleAnim.target
+            target: priv
             property: "wiggleAngle"
-            from: -privWiggleAnim.angle
-            to: privWiggleAnim.angle
-            duration: privWiggleAnim.duration
+            from: -maxWiggleAngle
+            to: maxWiggleAngle
+            duration: priv.wiggleDuration
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
-            target: privWiggleAnim.target
+            target: priv
             property: "wiggleAngle"
-            from: privWiggleAnim.angle
+            from: maxWiggleAngle
             to: 0
-            duration: privWiggleAnim.duration
+            duration: priv.wiggleDuration
             easing.type: Easing.OutQuad
         }
 
         UbuntuNumberAnimation {
-            target: privWiggleAnim.target
+            target: root
             property: "alerting"
             to: 0
         }
@@ -263,7 +251,7 @@ Item {
             Rotation {
                 axis { x: 0; y: 0; z: 1 }
                 origin { x: iconItem.width / 2; y: iconItem.height / 2; z: 0 }
-                angle: root.wiggleAngle
+                angle: priv.wiggleAngle
             },
             // Rotating 3 times at top/bottom because that increases the perspective.
             // This is a hack, but as QML does not support real 3D coordinates

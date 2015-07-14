@@ -119,11 +119,11 @@ Rectangle {
                     // need to be smaller than this size to avoid breakage.
                     property int extensionSize: 0
 
-                    QtObject {
-                        id: priv
-                        property real moveToIndexYFrom
-                        property real moveToIndexYTo
-                    }
+                    // These properties are needed to facilitate implicitly unfolding the
+                    // launcher to the peeking icon, if it is not already fully flat
+                    // and in view for the user
+                    property real moveToIndexYFrom
+                    property real moveToIndexYTo
 
                     // Setting extensionSize after the list has been populated because it has
                     // the potential to mess up with the intial positioning in combination
@@ -142,8 +142,8 @@ Rectangle {
                         id: moveToIndexAnimation
                         target: launcherListView
                         property: "contentY"
-                        from: priv.moveToIndexYFrom
-                        to: priv.moveToIndexYTo
+                        from: launcherListView.moveToIndexYFrom
+                        to: launcherListView.moveToIndexYTo
                     }
 
                     // The height of the area where icons start getting folded
@@ -202,25 +202,25 @@ Rectangle {
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
-                        property var peekingItem: launcherListView.peekingIndex === index ? launcherDelegate : undefined
+                        //property var peekingItem: launcherListView.peekingIndex === index ? launcherDelegate : undefined
+                        property bool peeking: launcherListView.peekingIndex === index
 
+                        onAlertingChanged: {
+                            if(alerting) {
+                                if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
+                                    launcherListView.moveToIndexYFrom = launcherListView.contentY
+                                    launcherListView.positionViewAtIndex(index, ListView.Center)
+                                    launcherListView.moveToIndexYTo = launcherListView.contentY
+                                    moveToIndexAnimation.start()
+                                }
 
-                        onAlertingTriggered: {
-                            if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
-                                priv.moveToIndexYFrom = launcherListView.contentY
-                                launcherListView.positionViewAtIndex(alertIndex, ListView.Center)
-                                priv.moveToIndexYTo = launcherListView.contentY
-                                moveToIndexAnimation.start()
-                            }
-
-                            if (launcherListView.peekingIndex === -1) {
-                                launcherListView.peekingIndex = alertIndex
-                            }
-                        }
-
-                        onAlertingEnded: {
-                            if (launcherListView.peekingIndex === alertIndex) {
-                                launcherListView.peekingIndex = -1
+                                if (launcherListView.peekingIndex === -1) {
+                                    launcherListView.peekingIndex = index
+                                }
+                            } else {
+                                if (launcherListView.peekingIndex === index) {
+                                    launcherListView.peekingIndex = -1
+                                }
                             }
                         }
 
@@ -236,7 +236,8 @@ Rectangle {
                         states: [
                             State {
                                 name: "peeking"
-                                when: peekingItem === launcherDelegate && !dragging && launcher.state !== "visible" 
+                                //when: peekingItem === launcherDelegate && !dragging && launcher.state !== "visible"
+                                when: peeking && !dragging && launcher.state !== "visible"
                                 PropertyChanges {
                                     target: launcherDelegate
                                     x: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
