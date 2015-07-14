@@ -204,6 +204,36 @@ Rectangle {
                         property bool dragging: false
                         property bool peeking: launcherListView.peekingIndex === index
 
+                        SequentialAnimation {
+                            id: peekingAnimation
+
+                            // revealing
+                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
+                            PropertyAction { target: launcherListViewItem; property: "clip"; value: 0 }
+
+                            UbuntuNumberAnimation {
+                                target: launcherDelegate
+                                alwaysRunToEnd: true
+                                loops: 1
+                                properties: "x"
+                                to: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
+                                duration: UbuntuAnimation.BriskDuration
+                            }
+
+                            // hiding
+                            UbuntuNumberAnimation {
+                                target: launcherDelegate
+                                alwaysRunToEnd: true
+                                loops: 1
+                                properties: "x"
+                                to: 0
+                                duration: UbuntuAnimation.BriskDuration
+                            }
+
+                            PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
+                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                        }
+
                         onAlertingChanged: {
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
@@ -211,6 +241,9 @@ Rectangle {
                                     launcherListView.positionViewAtIndex(index, ListView.Center)
                                     launcherListView.moveToIndexYTo = launcherListView.contentY
                                     moveToIndexAnimation.start()
+                                    if (!dragging && launcher.state !== "visible") {
+                                        peekingAnimation.start()
+                                    }
                                 }
 
                                 if (launcherListView.peekingIndex === -1) {
@@ -233,10 +266,6 @@ Rectangle {
                         }
 
                         states: [
-                            State {
-                                name: "peeking"
-                                when: peeking && !dragging && launcher.state !== "visible"
-                            },
                             State {
                                 name: "selected"
                                 when: dndArea.selectedItem === launcherDelegate && fakeDragItem.visible && !dragging
@@ -271,37 +300,6 @@ Rectangle {
                         ]
 
                         transitions: [
-                            Transition {
-                                from: ""
-                                to: "peeking"
-                                SequentialAnimation {
-                                    // revealing
-                                    PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
-                                    PropertyAction { target: launcherListViewItem; property: "clip"; value: 0 }
-
-                                    UbuntuNumberAnimation {
-                                        alwaysRunToEnd: true
-                                        loops: 1
-                                        target: launcherDelegate
-                                        properties: "x"
-                                        to: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
-                                        duration: UbuntuAnimation.BriskDuration
-                                    }
-
-                                    // hiding
-                                    UbuntuNumberAnimation {
-                                        alwaysRunToEnd: true
-                                        loops: 1
-                                        target: launcherDelegate
-                                        properties: "x"
-                                        to: 0
-                                        duration: UbuntuAnimation.BriskDuration
-                                    }
-
-                                    PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
-                                    PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
-                                }
-                            },
                             Transition {
                                 from: ""
                                 to: "selected"
