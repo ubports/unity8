@@ -71,9 +71,8 @@ Rectangle {
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
-            if (appDelegate.state === "minimized") {
-                appDelegate.state = "normal"
-            }
+            print("focus requested", appDelegate.minimized, appDelegate.maximized)
+            appDelegate.minimized = false;
             ApplicationManager.focusApplication(appId);
         }
     }
@@ -108,8 +107,8 @@ Rectangle {
         onClose: {
             ApplicationManager.stopApplication(ApplicationManager.focusedApplicationId)
         }
-        onMinimize: appRepeater.itemAt(0).state = "minimized"
-        onMaximize: appRepeater.itemAt(0).state = "normal"
+        onMinimize: appRepeater.itemAt(0).minimize();
+        onMaximize: appRepeater.itemAt(0).unmaximize();
     }
 
     Binding {
@@ -197,6 +196,9 @@ Rectangle {
                 readonly property int minWidth: units.gu(10)
                 readonly property int minHeight: units.gu(10)
 
+                property bool maximized: false
+                property bool minimized: false
+
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.requestFocusApplication(model.appId);
@@ -206,6 +208,19 @@ Rectangle {
                     if (ApplicationManager.focusedApplicationId == model.appId) {
                         decoratedWindow.forceActiveFocus();
                     }
+                }
+
+                function maximize() {
+                    minimized = false;
+                    maximized = true;
+                }
+                function minimize() {
+                    maximized = false;
+                    minimized = true;
+                }
+                function unmaximize() {
+                    minimized = false;
+                    maximized = false;
                 }
 
                 Behavior on x {
@@ -218,14 +233,14 @@ Rectangle {
 
                 states: [
                     State {
-                        name: "normal"
+                        name: "normal"; when: !appDelegate.maximized && !appDelegate.minimized && root.state !== "altTab"
                     },
                     State {
-                        name: "maximized"
+                        name: "maximized"; when: appDelegate.maximized && (root.state !== "altTab" || (root.state == "altTab" && !root.workspacesUpdated))
                         PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
                     },
                     State {
-                        name: "minimized"
+                        name: "minimized"; when: appDelegate.minimized && (root.state !== "altTab" || (root.state == "altTab" && !root.workspacesUpdated))
                         PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
                     },
                     State {
@@ -307,8 +322,8 @@ Rectangle {
                     focus: false
 
                     onClose: ApplicationManager.stopApplication(model.appId)
-                    onMaximize: appDelegate.state = (appDelegate.state == "maximized" ? "normal" : "maximized")
-                    onMinimize: appDelegate.state = "minimized"
+                    onMaximize: appDelegate.maximize()
+                    onMinimize: appDelegate.minimize()
 
                     transform: [
                         Scale {
