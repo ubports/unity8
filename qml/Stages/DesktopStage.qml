@@ -376,7 +376,7 @@ Rectangle {
                     id: closeMouseArea
                     objectName: "closeMouseArea"
                     anchors.fill: closeImage
-                    anchors.margins: -units.gu(1)
+                    anchors.margins: -units.gu(2)
                     enabled: spreadSelectArea.upperThirdContainsMouse
                     onClicked: {
                         print("enabling clsoeBehaviro")
