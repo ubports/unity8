@@ -37,15 +37,10 @@ Rectangle {
 
     signal applicationSelected(string appId)
     signal showDashHome()
-    signal panelMoved()
 
     onXChanged: {
         if (quickList.state == "open") {
             quickList.state = ""
-        }
-
-        if (launcherListView.peekingIndex !== -1) {
-            panelMoved()
         }
     }
 
@@ -238,21 +233,13 @@ Rectangle {
                             source: "graphics/divider-line.png"
                         }
 
-                        // just for debugging the peeking animation on the device
-                        onStateChanged: {
-                            print("launcher-panel state changed")
-                            if (state === "peeking") {
-                                print("trying to run peeking animation")
-                            }
-                        }
-
                         states: [
                             State {
                                 name: "peeking"
                                 when: peekingItem === launcherDelegate && !dragging && launcher.state !== "visible" 
                                 PropertyChanges {
                                     target: launcherDelegate
-                                    x: units.gu(.5) + launcherListView.width * .5
+                                    x: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
                                 }
                             },
                             State {
@@ -302,7 +289,7 @@ Rectangle {
                                         loops: 1
                                         target: launcherDelegate
                                         properties: "x"
-                                        to: units.gu(.5) + launcherListView.width * .5
+                                        to: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
                                         duration: UbuntuAnimation.BriskDuration
                                     }
 

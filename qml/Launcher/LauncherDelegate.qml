@@ -46,18 +46,6 @@ Item {
     signal alertingTriggered(int alertIndex)
     signal alertingEnded(int alertIndex)
 
-    Connections {
-        target: mainColumn.parent
-        onPanelMoved: {
-            if (alerting && launcherListView.peekingIndex === index) {
-                x = Math.max(units.gu(4.5) - launcher.visibleWidth, 0)
-                if (x === 0) {
-                    alertingEnded(index)
-                }
-            }
-        }
-    }
-
     onAlertingChanged: {
         if (alerting) {
             alertingTriggered(index)
