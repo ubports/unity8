@@ -48,28 +48,24 @@ LocalComponents.Page {
         ListItem {
             id: tz
             objectName: "tz"
-            property QtObject tzData: null
-            readonly property bool currentTz: !!tzData ? selectedTimeZone === tzData.id : false
+            readonly property bool currentTz: !!id ? selectedTimeZone === id : false
 
-            Label {
-                id: cityLabel
-                text: !!tzData ? tzData.city : ""
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.topMargin: units.gu(3)
-                font.weight: tz.currentTz ? Font.Normal : Font.Light
-                fontSize: "medium"
-                color: "#525252"
-            }
-            Label {
-                id: timeLabel
-                text: !!tzData ? tzData.time + " " + tzData.abbreviation : ""
-                anchors.left: parent.left
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: units.gu(3)
-                font.weight: tz.currentTz ? Font.Normal : Font.Light
-                fontSize: "small"
-                color: "#525252"
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+                Label {
+                    id: cityLabel
+                    text: !!city ? city : ""
+                    font.weight: tz.currentTz ? Font.Normal : Font.Light
+                    fontSize: "medium"
+                    color: "#525252"
+                }
+                Label {
+                    id: timeLabel
+                    text: !!time ? time + " " + abbreviation : ""
+                    font.weight: tz.currentTz ? Font.Normal : Font.Light
+                    fontSize: "small"
+                    color: "#525252"
+                }
             }
             Image {
                 anchors {
@@ -84,16 +80,10 @@ LocalComponents.Page {
             }
 
             onClicked: {
-                tzModel.selectedZoneId = tzData.id
+                tzModel.selectedZoneId = id
                 print("Selected tz: " + selectedTimeZone)
             }
         }
-    }
-
-    ActivityIndicator {
-        id: busyIndicator
-        anchors.centerIn: parent
-        running: true
     }
 
     Column {
@@ -109,41 +99,24 @@ LocalComponents.Page {
             color: UbuntuColors.lightGrey
         }
 
-        Flickable {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: column.height - searchField.height - column.spacing - topMargin
-            contentHeight: contentItem.childrenRect.height
-            clip: true
-            flickDeceleration: 1500 * units.gridUnit / 8
-            maximumFlickVelocity: 2500 * units.gridUnit / 8
-            boundsBehavior: (contentHeight > height) ? Flickable.DragAndOvershootBounds : Flickable.StopAtBounds
+        ListView {
+            id: tzList;
 
-            Column {
-                anchors.left: parent.left
-                anchors.right: parent.right
+            boundsBehavior: Flickable.StopAtBounds;
+            clip: true;
+            currentIndex: -1
+            snapMode: ListView.SnapToItem
 
-                Repeater {
-                    id: tzList
-                    model: tzFilterModel
-                    delegate: Loader {
-                        id: loader
-                        anchors.left: !!parent ? parent.left : undefined
-                        anchors.right: !!parent ? parent.right : undefined
-                        height: units.gu(11)
-                        asynchronous: true
-                        sourceComponent: tzComponent
-
-                        onLoaded: {
-                            item.tzData = Qt.binding(function() { return model; });
-                            busyIndicator.running = false
-                        }
-                    }
-                    onCountChanged: {
-                        print("Displaying " + tzList.count + " items")
-                    }
-                }
+            anchors {
+                left: parent.left;
+                right: parent.right;
             }
+
+            height: column.height - searchField.height - column.spacing - topMargin
+
+            model: tzFilterModel
+
+            delegate: tzComponent
         }
     }
 
