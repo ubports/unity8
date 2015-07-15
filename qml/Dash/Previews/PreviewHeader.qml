@@ -78,15 +78,15 @@ PreviewWidget {
                 sourceComponent: UbuntuShape {
                     objectName: "mascotShape"
                     visible: image.status === Image.Ready
-                    image: Image {
+                    sourceFillMode: UbuntuShape.PreserveAspectCrop
+                    sourceHorizontalAlignment: UbuntuShape.AlignHCenter
+                    sourceVerticalAlignment: UbuntuShape.AlignVCenter
+                    source: Image {
                         source: headerRoot.mascot
                         width: source ? mascotShapeLoader.width : 0
                         height: mascotShapeLoader.height
 
                         sourceSize { width: mascotShapeLoader.maxSize; height: mascotShapeLoader.maxSize }
-                        fillMode: Image.PreserveAspectCrop
-                        horizontalAlignment: Image.AlignHCenter
-                        verticalAlignment: Image.AlignVCenter
                         onStatusChanged: if (status === Image.Error) source = headerRoot.fallback;
                     }
                 }

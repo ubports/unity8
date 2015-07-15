@@ -51,13 +51,12 @@ Item {
             anchors.fill: parent
             anchors.margins: units.gu(1)
             radius: "medium"
-            borderSource: "none"
-
-            image: Image {
+            aspect: UbuntuShape.Flat
+            sourceFillMode: UbuntuShape.PreserveAspectCrop
+            source: Image {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
-                fillMode: Image.PreserveAspectCrop
                 source: root.iconName
             }
         }
@@ -80,9 +79,9 @@ Item {
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
-            color: UbuntuColors.orange
+            backgroundColor: UbuntuColors.orange
             visible: root.countVisible
-            borderSource: "none"
+            aspect: UbuntuShape.Flat
 
             Label {
                 id: countLabel

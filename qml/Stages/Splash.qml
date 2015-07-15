@@ -121,14 +121,13 @@ Item {
         visible: d.showIcon
 
         radius: "medium"
-        borderSource: "none"
-
-        image: Image {
+        aspect: UbuntuShape.Flat
+        sourceFillMode: Image.PreserveAspectCrop
+        source: Image {
             id: iconImage
             sourceSize.width: iconShape.width
             sourceSize.height: iconShape.height
             source: d.showIcon ? root.icon : ""
-            fillMode: Image.PreserveAspectCrop
         }
     }
 

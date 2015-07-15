@@ -29,8 +29,8 @@ UbuntuShape {
 
     signal triggered(string id)
 
-    color: theme.palette.normal.base
-    borderSource: "none"
+    backgroundColor: theme.palette.normal.base
+    aspect: UbuntuShape.Flat
     height: expanded ? (optionToggleRepeater.count - startIndex) * itemHeight : itemHeight
     width: parent.width
     radius: "medium"

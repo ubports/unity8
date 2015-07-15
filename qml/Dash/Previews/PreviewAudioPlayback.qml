@@ -175,7 +175,7 @@ PreviewWidget {
                             }
                             height: units.dp(2)
                             visible: progressBarImage.visible
-                            color: UbuntuColors.orange
+                            backgroundColor: UbuntuColors.orange
                         }
 
                         Image {

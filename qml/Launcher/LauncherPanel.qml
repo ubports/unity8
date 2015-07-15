@@ -61,8 +61,8 @@ Rectangle {
                     fill: parent
                     topMargin: -units.gu(2)
                 }
-                borderSource: "none"
-                color: UbuntuColors.orange
+                aspect: UbuntuShape.Flat
+                backgroundColor: UbuntuColors.orange
             }
 
             Image {

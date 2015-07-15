@@ -53,7 +53,7 @@ Item {
     UbuntuShape {
         id: placeholder
         objectName: "placeholder"
-        color: "#22FFFFFF"
+        backgroundColor: "#22FFFFFF"
         anchors.fill: shape
         visible: opacity != 0
 
@@ -87,19 +87,18 @@ Item {
 
         opacity: 0
         visible: opacity != 0
-
-        image: Image {
+        sourceFillMode: UbuntuShape.PreserveAspectFit
+        sourceHorizontalAlignment: UbuntuShape.AlignHCenter
+        sourceVerticalAlignment: UbuntuShape.AlignVCenter
+        source: Image {
             id: image
             objectName: "image"
 
             property url nextSource
             property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
-            fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
-            horizontalAlignment: Image.AlignHCenter
-            verticalAlignment: Image.AlignVCenter
             sourceSize.width: root.scaleTo == "width" ? root.width
                                 : root.scaleTo == "fit" && root.width <= root.height ? root.width
                                 : 0
