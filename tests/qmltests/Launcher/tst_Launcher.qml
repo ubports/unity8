@@ -749,12 +749,11 @@ Item {
             var listView = findChild(launcher, "launcherListView")
             verify(listView != undefined)
             LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
-            waitForWiggleToStart(appIcon5)
             tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
+            waitForWiggleToStart(appIcon5)
             tryCompare(appIcon5, "wiggling", true, 1000, "appId #6 should not be still")
             dragLauncherIntoView();
             tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
-            tryCompare(appIcon5, "wiggling", true, 1000, "appId #1 should not be still")
             LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
             waitForWiggleToStop(appIcon5)
             tryCompare(appIcon5, "wiggling", false, 1000, "appId #1 should not be wiggling")
