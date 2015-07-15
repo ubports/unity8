@@ -175,7 +175,7 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            enabled: emailInput.acceptableInput &&
+            enabled: emailInput.acceptableInput && nameInput.text !== "" &&
                      //termsCheck.checked && // FIXME re-enable when the checkboxes get visible again
                      pass2Input.text.length > 5 && passInput.text === pass2Input.text
             text: i18n.tr("Sign Up")
