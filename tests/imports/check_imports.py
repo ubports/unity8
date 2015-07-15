@@ -51,7 +51,7 @@ def raise_error(e):
 # the Qt version in debian/control and in CMakeLists.txt
 quick_pat = re.compile(r'.*import QtQuick.*$')
 quick_good_pat = re.compile(r'.*import QtQuick 2\.4.*$')
-quick_layouts_good_pat = re.compile(r'.*import QtQuick.Layouts 1\.2.*$')
+quick_layouts_good_pat = re.compile(r'.*import QtQuick.Layouts 1\.1.*$')
 quick_window_good_pat = re.compile(r'.*import QtQuick.Window 2\.2.*$')
 
 # Ubuntu Components patterns

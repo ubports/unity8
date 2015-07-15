@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Layouts 1.2
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import Ubuntu.Components 1.3
