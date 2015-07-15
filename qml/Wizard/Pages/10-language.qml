@@ -132,7 +132,6 @@ LocalComponents.Page {
 
                     anchors {
                         left: parent.left;
-                        right: parent.right;
                         verticalCenter: parent.verticalCenter;
                     }
 

@@ -106,7 +106,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             placeholderText: i18n.tr("Enter your city or country")
-            color: UbuntuColors.darkGrey
+            color: UbuntuColors.lightGrey
         }
 
         Flickable {
