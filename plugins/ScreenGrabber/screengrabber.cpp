@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,18 +28,17 @@
 
 #include <QDebug>
 
-void saveScreenshot(QImage screenshot, QString filename, QString format, int quality)
+void saveScreenshot(QImage screenshot, const QString &filename, const QString &format, int quality)
 {
     if (!screenshot.save(filename, format.toLatin1().data(), quality))
         qWarning() << "ScreenShotter: failed to save snapshot!";
 }
 
 ScreenGrabber::ScreenGrabber(QObject *parent)
-    : QObject(parent),
-      screenshotQuality(0)
+    : QObject(parent)
 {
-    QDir screenshotsDir(QStandardPaths::displayName(QStandardPaths::PicturesLocation));
-    screenshotsDir.mkdir("Screenshots");
+    QDir screenshotsDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+    screenshotsDir.mkpath("Screenshots");
     screenshotsDir.cd("Screenshots");
     if (screenshotsDir.exists())
     {
@@ -78,7 +77,7 @@ void ScreenGrabber::captureAndSave()
     QtConcurrent::run(saveScreenshot, screenshot, makeFileName(), getFormat(), screenshotQuality);
 }
 
-QString ScreenGrabber::makeFileName()
+QString ScreenGrabber::makeFileName() const
 {
     QString fileName(fileNamePrefix);
     fileName.append(QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz"));
@@ -87,7 +86,7 @@ QString ScreenGrabber::makeFileName()
     return fileName;
 }
 
-QString ScreenGrabber::getFormat()
+QString ScreenGrabber::getFormat() const
 {
     //TODO: This should be configurable (perhaps through gsettings?)
     return "png";

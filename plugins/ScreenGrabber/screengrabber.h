@@ -28,15 +28,16 @@ class ScreenGrabber: public QObject
 
 public:
     explicit ScreenGrabber(QObject *parent = 0);
+    ~ScreenGrabber() = default;
 
 public Q_SLOTS:
     void captureAndSave();
 
 private:
-    QString makeFileName();
-    QString getFormat();
+    QString makeFileName() const;
+    QString getFormat() const;
     QString fileNamePrefix;
-    int screenshotQuality;
+    int screenshotQuality = -1; // default quality for the format
 };
 
 #endif

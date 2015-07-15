@@ -93,6 +93,8 @@ Item {
                 }
                 d.volumeUpKeyPressed = true;
             }
+        } else if (event.key == Qt.Key_Print) {
+            root.screenshotTriggered();
         }
     }
 
