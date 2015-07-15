@@ -16,7 +16,7 @@
 
 pragma Singleton
 
-import QtQuick 2.3
+import QtQuick 2.4
 import Unity.InputInfo 0.1
 
 Item {

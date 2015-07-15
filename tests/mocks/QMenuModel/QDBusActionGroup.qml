@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1
 
@@ -34,7 +34,7 @@ QtObject {
 
     function action(actionName) {
         return Qt.createQmlObject("
-            import QtQuick 2.3
+            import QtQuick 2.4
             import QMenuModel 0.1
 
             QtObject {

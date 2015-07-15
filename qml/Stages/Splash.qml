@@ -14,7 +14,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.2
+import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Themes 1.3
 import "../Components"
@@ -64,7 +64,7 @@ Item {
         // FIXME: fake a Theme object as to expose the Palette corresponding to the backgroundColor (see MainViewStyle.qml)
         readonly property var fakeTheme: QtObject {
             property string name
-            property Palette palette: Qt.createQmlObject("import QtQuick 2.2;\
+            property Palette palette: Qt.createQmlObject("import QtQuick 2.4;\
                                                           import Ubuntu.Components.Themes.%1 1.3;\
                                                           Palette {}".arg(styledItem.fakeTheme.name),
                                                          styledItem, "dynamicPalette");

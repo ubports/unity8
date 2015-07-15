@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import AccountsService 0.1
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
