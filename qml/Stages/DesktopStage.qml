@@ -370,7 +370,6 @@ Rectangle {
                         }
 
                         onClicked: {
-                            appDelegate.focus = true
                             root.state = ""
                         }
                     }
@@ -394,7 +393,6 @@ Rectangle {
                     anchors.margins: -units.gu(2)
                     enabled: spreadSelectArea.upperThirdContainsMouse
                     onClicked: {
-                        print("enabling clsoeBehaviro")
                         appRepeater.closingIndex = index;
                         ApplicationManager.stopApplication(model.appId)
                     }
@@ -416,7 +414,6 @@ Rectangle {
                     }
 
                     onClicked: {
-                        appDelegate.focus = true
                         root.state = ""
                     }
 
