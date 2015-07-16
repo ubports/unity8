@@ -128,13 +128,14 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
     }
 
     /* Break down the path to just the app id */
+    bool validpath = true;
     QString pathtemp = message.path();
     if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/")) {
-        return false;
+        validpath = false;
     }
     pathtemp.remove("/com/canonical/Unity/Launcher/");
     if (pathtemp.indexOf('/') >= 0) {
-        return false;
+        validpath = false;
     }
 
     /* Find ourselves an appid */
@@ -149,7 +150,7 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         }
     } else if (message.interface() == "com.canonical.Unity.Launcher.Item") {
         // Handle methods of the Launcher-Item interface
-        if (message.member() == "Alert") {
+        if (message.member() == "Alert" && validpath) {
             QDBusMessage reply = message.createReply();
             Q_EMIT alertCalled(appid);
             return connection.send(reply);
@@ -162,6 +163,10 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
     }
 
     if (message.member() != "GetAll" && message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item") {
+        return false;
+    }
+
+    if (!validpath) {
         return false;
     }
 
