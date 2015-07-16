@@ -461,6 +461,20 @@ private Q_SLOTS:
         QCOMPARE(index == -1, !isRunning && !isPinned && !startWhenVisible);
     }
 
+    void testAlert() {
+        // Check that the alerting-status is still false
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+        QVERIFY(launcherModel->get(index)->alerting() == false);
+
+        // Call Alert() on "abs-icon"
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "com.canonical.Unity.Launcher.Item");
+        interface.call("Alert");
+
+        // Check that the alerting-status is now true
+        QVERIFY(launcherModel->get(index)->alerting() == true);
+    }
+
     void testRefreshAfterDeletedDesktopFiles_data() {
         QTest::addColumn<bool>("deleted");
         QTest::newRow("have .desktop files") << false;
