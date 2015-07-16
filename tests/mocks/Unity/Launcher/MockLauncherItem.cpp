@@ -173,8 +173,7 @@ bool MockLauncherItem::alerting() const
 
 void MockLauncherItem::setAlerting(bool alerting)
 {
-    if (m_alerting != alerting)
-    {
+    if (m_alerting != alerting) {
         m_alerting = alerting;
         Q_EMIT alertingChanged(alerting);
     }

@@ -202,7 +202,6 @@ Rectangle {
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
-                        property bool peeking: launcherListView.peekingIndex === index
 
                         SequentialAnimation {
                             id: peekingAnimation
