@@ -148,7 +148,7 @@ LocalComponents.Page {
                     fillMode: Image.PreserveAspectFit
                     height: langLabel.paintedHeight
 
-                    source: "data/Tick.png"
+                    source: "image://theme/tick"
                     visible: itemDelegate.isCurrent
                 }
 

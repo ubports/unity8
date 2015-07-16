@@ -112,7 +112,7 @@ LocalComponents.Page {
         Image {
             fillMode: Image.PreserveAspectFit
             height: hereCheckLabel.height
-            source: "data/Tick.png"
+            source: "image://theme/tick"
             opacity: hereCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
         }
@@ -145,7 +145,7 @@ LocalComponents.Page {
         Image {
             fillMode: Image.PreserveAspectFit
             height: gpsCheckLabel.height
-            source: "data/Tick.png"
+            source: "image://theme/tick"
             opacity: gpsCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: gpsCheckLabel.verticalCenter
@@ -179,7 +179,7 @@ LocalComponents.Page {
         Image {
             fillMode: Image.PreserveAspectFit
             height: nopeCheckLabel.height
-            source: "data/Tick.png"
+            source: "image://theme/tick"
             opacity: nopeCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: nopeCheckLabel.verticalCenter
