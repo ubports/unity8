@@ -12,7 +12,7 @@ add_executable(GreeterDBusTestExec
 qt5_use_modules(GreeterDBusTestExec Core DBus Quick Test)
 target_link_libraries(GreeterDBusTestExec
     -L${CMAKE_BINARY_DIR}/tests/mocks/IntegratedLightDM/liblightdm
-    -llightdm-qt5-2
+    -llightdm-qt5-3
     )
 target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM
