@@ -29,7 +29,6 @@ Loader {
     property var users: d.valid ? loader.item.users : null
     property var userRoles: d.valid ? loader.item.userRoles : null
 
-    // TODO: Conditionally load RealLightDMImpl if shell.mode dictates it
     source:  shell.mode === "greeter" ?
         "./FullLightDMImpl.qml" : "./IntegratedLightDMImpl.qml"
 
