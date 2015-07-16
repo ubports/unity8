@@ -443,11 +443,11 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("color")) {
-                tryCompare(background, "color", data.color);
+                tryCompare(background, "backgroundColor", data.color);
             }
 
             if (data.hasOwnProperty("gradientColor")) {
-                tryCompare(background, "gradientColor", data.gradientColor);
+                tryCompare(background, "secondaryBackgroundColor", data.gradientColor);
             }
 
             if (data.hasOwnProperty("image")) {
@@ -520,7 +520,7 @@ Rectangle {
             waitForRendering(selector);
             waitForRendering(card);
 
-            background.color = data.tag;
+            background.backgroundColor = data.tag;
 
             var fontColor = data.dark ? theme.palette.normal.baseText : "white";
 
