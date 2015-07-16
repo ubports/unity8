@@ -64,6 +64,10 @@ Rectangle {
     Connections {
         target: ApplicationManager
         onApplicationAdded: {
+            if (root.state == "altTab") {
+                root.state = "";
+            }
+
             ApplicationManager.requestFocusApplication(appId)
         }
 
