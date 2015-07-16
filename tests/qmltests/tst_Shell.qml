@@ -806,7 +806,6 @@ Rectangle {
             // check that the desktop stage and window have been loaded
             {
                 var desktopWindow = findChild(shell, "appWindow_webbrowser-app");
-                print("have desktopWindow", desktopWindow)
                 verify(desktopWindow);
             }
 
@@ -1317,7 +1316,6 @@ Rectangle {
             waitForRendering(root)
 
             var desktopStage = findChild(shell, "stage");
-            print("desktopStage", desktopStage)
             verify(desktopStage != null)
 
             var app1 = ApplicationManager.startApplication("dialer-app")
@@ -1354,6 +1352,9 @@ Rectangle {
             var desktopStage = findChild(shell, "stage");
             verify(desktopStage !== null)
 
+            var appContainer = findInvisibleChild(shell, "appContainer")
+            verify(appContainer !== null)
+
             var appRepeater = findInvisibleChild(shell, "appRepeater")
             verify(appRepeater !== null)
 
@@ -1373,7 +1374,7 @@ Rectangle {
             // We can't simulate a pressed key with keyPress() currently, so let's inject the events
             // at API level. Jump for 10 times, verify that it's still at the last one and didn't wrap around.
             for (var i = 0; i < 10; i++) {
-                desktopStage.altTabNext(true);
+                appContainer.selectNext(true); // true == isAutoRepeat
                 wait(0); // Trigger the event loop to make sure all the things happen
             }
             tryCompare(appRepeater, "highlightedIndex", 6)
@@ -1516,7 +1517,6 @@ Rectangle {
             var y = shell.height * (data.tileInfo ? .5 : 0.95)
             mouseMove(shell, x, y)
             while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
-                print("y is", y)
                 x+=10;
                 mouseMove(shell, x, y)
                 waitForRendering(shell)

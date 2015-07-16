@@ -70,8 +70,8 @@ Rectangle {
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
-            print("focus requested", appDelegate.minimized, appDelegate.maximized)
             appDelegate.minimized = false;
+            appDelegate.focus = true;
             ApplicationManager.focusApplication(appId);
         }
     }
@@ -125,6 +125,7 @@ Rectangle {
 
     FocusScope {
         id: appContainer
+        objectName: "appContainer"
         anchors.fill: parent
 
         Keys.onPressed: {
@@ -201,6 +202,7 @@ Rectangle {
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.requestFocusApplication(model.appId);
+                        decoratedWindow.forceActiveFocus();
                     }
                 }
                 Component.onCompleted: {
