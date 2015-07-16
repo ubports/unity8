@@ -41,6 +41,7 @@ LauncherModel::LauncherModel(QObject *parent):
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
+    connect(m_dbusIface, &DBusInterface::alertCalled, this, &LauncherModel::alert);
 
     connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
 
@@ -471,6 +472,16 @@ void LauncherModel::refresh()
     }
 
     m_asAdapter->syncItems(m_list);
+}
+
+void LauncherModel::alert(const QString &appId)
+{
+    int idx = findApplication(appId);
+    if (idx >= 0) {
+        LauncherItem *item = m_list.at(idx);
+        setAlerting(item->appId(), true);
+        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleAlerting);
+    }
 }
 
 void LauncherModel::applicationAdded(const QModelIndex &parent, int row)

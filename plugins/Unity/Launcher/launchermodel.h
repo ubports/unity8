@@ -64,6 +64,7 @@ public:
 public Q_SLOTS:
     void requestRemove(const QString &appId) override;
     Q_INVOKABLE void refresh();
+    Q_INVOKABLE void alert(const QString &appId);
 
 private:
     void storeAppList();

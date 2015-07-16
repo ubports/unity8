@@ -66,7 +66,7 @@ QString DBusInterface::introspect(const QString &path) const
         "<interface name=\"com.canonical.Unity.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
-            "<property name=\"alerting\" type=\"b\" access=\"readwrite\" />"
+            "<method name=\"Alert\" />"
         "</interface>";
     return nodeiface;
 }
@@ -127,11 +127,31 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         return false;
     }
 
+    /* Break down the path to just the app id */
+    QString pathtemp = message.path();
+    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/")) {
+        return false;
+    }
+    pathtemp.remove("/com/canonical/Unity/Launcher/");
+    if (pathtemp.indexOf('/') >= 0) {
+        return false;
+    }
+
+    /* Find ourselves an appid */
+    QString appid = decodeAppId(pathtemp);
+
     // First handle methods of the Launcher interface
     if (message.interface() == "com.canonical.Unity.Launcher") {
         if (message.member() == "Refresh") {
             QDBusMessage reply = message.createReply();
             Q_EMIT refreshCalled();
+            return connection.send(reply);
+        }
+    } else if (message.interface() == "com.canonical.Unity.Launcher.Item") {
+        // Handle methods of the Launcher-Item interface
+        if (message.member() == "Alert") {
+            QDBusMessage reply = message.createReply();
+            Q_EMIT alertCalled(appid);
             return connection.send(reply);
         }
     }
@@ -145,18 +165,6 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         return false;
     }
 
-    /* Break down the path to just the app id */
-    QString pathtemp = message.path();
-    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/")) {
-        return false;
-    }
-    pathtemp.remove("/com/canonical/Unity/Launcher/");
-    if (pathtemp.indexOf('/') >= 0) {
-        return false;
-    }
-
-    /* Find ourselves an appid */
-    QString appid = decodeAppId(pathtemp);
     int index = m_launcherModel->findApplication(appid);
     LauncherItem *item = static_cast<LauncherItem*>(m_launcherModel->get(index));
 
@@ -169,8 +177,6 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             retval.append(QVariant::fromValue(QDBusVariant(item->count())));
         } else if (message.arguments()[1].toString() == "countVisible") {
             retval.append(QVariant::fromValue(QDBusVariant(item->countVisible())));
-        } else if (message.arguments()[1].toString() == "alerting") {
-            retval.append(QVariant::fromValue(QDBusVariant(item->alerting())));
         }
     } else if (message.member() == "Set") {
         if (message.arguments()[1].toString() == "count") {
@@ -184,12 +190,6 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
                 notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "countVisible", newVisible);
-            }
-        } else if (message.arguments()[1].toString() == "alerting") {
-            bool newAlerting = message.arguments()[2].value<QDBusVariant>().variant().toBool();
-            if (!item || newAlerting != item->alerting()) {
-                Q_EMIT alertingChanged(appid, newAlerting);
-                notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "alerting", newAlerting);
             }
         }
     } else if (message.member() == "GetAll") {
