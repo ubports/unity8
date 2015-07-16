@@ -111,10 +111,11 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: hereCheckLabel.height
+            height: nopeCheckLabel.height
             source: "image://theme/tick"
             opacity: hereCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
+            anchors.verticalCenter: hereCheckLabel.verticalCenter
         }
 
         Label {
@@ -144,7 +145,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: gpsCheckLabel.height
+            height: nopeCheckLabel.height
             source: "image://theme/tick"
             opacity: gpsCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
