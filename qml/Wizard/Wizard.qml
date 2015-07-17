@@ -32,7 +32,7 @@ Showable {
     // expected behavior of no emission on startup.
     readonly property bool active: loader.active
 
-    property bool shellMode: shell == null ? true : shell.mode
+    property string shellMode: shell.mode ? shell.mode : ""
 
     hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 
