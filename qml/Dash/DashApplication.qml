@@ -22,8 +22,6 @@ MainView {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(68)
 
-    useDeprecatedToolbar: false
-
     Dash {
         anchors.fill: parent
     }
