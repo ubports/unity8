@@ -342,6 +342,7 @@ Showable {
             MultiPointTouchArea {
                 anchors.fill: parent
                 mouseEnabled: false
+                enabled: parent.enabled
             }
         }
     }
