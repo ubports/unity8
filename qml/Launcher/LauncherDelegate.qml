@@ -75,7 +75,7 @@ Item {
             objectName: "countEmblem"
             anchors {
                 right: parent.right
-                top: parent.top
+                bottom: parent.bottom
                 margins: units.dp(3)
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
