@@ -35,7 +35,6 @@ import Powerd 0.1
 
 Item {
     id: root
-    objectName: "physicalKeysMapper"
 
     signal powerKeyLongPressed;
     signal volumeDownTriggered;

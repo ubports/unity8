@@ -178,6 +178,7 @@ Item {
 
     PhysicalKeysMapper {
         id: physicalKeysMapper
+        objectName: "physicalKeysMapper"
 
         onPowerKeyLongPressed: dialogs.showPowerDialog()
         onVolumeDownTriggered: volumeControl.volumeDown();
