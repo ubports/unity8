@@ -31,7 +31,6 @@ Item {
     property url icon
     property alias title: header.title
     property alias showHeader: header.visible
-    property alias activeSpinner: activityIndicator.running
 
     Ambiance.Palette {
         id: ambiancePalette
@@ -145,7 +144,6 @@ Item {
     }
 
     ActivityIndicator {
-        id: activityIndicator
         anchors.centerIn: header.visible ? parent : undefined
         anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
 
