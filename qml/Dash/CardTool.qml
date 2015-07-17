@@ -80,16 +80,25 @@ Item {
 
      If undefined, should use implicit width of the actual card.
      */
-    readonly property var cardWidth: {
+    property var cardWidth: {
         switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
-                if (template["card-layout"] === "horizontal") return units.gu(38);
-                switch (template["card-size"]) {
-                    case "small": return units.gu(12);
-                    case "large": return units.gu(38);
+                var size = template["card-size"];
+                if (template["card-layout"] === "horizontal") size = "large";
+                switch (size) {
+                    case "small": {
+                        if (viewWidth <= units.gu(45)) return units.gu(12);
+                        else return units.gu(14);
+                    }
+                    case "large": {
+                        if (viewWidth >= units.gu(70)) return units.gu(42);
+                        else return viewWidth - units.gu(2);
+                    }
                 }
-                return units.gu(18.5);
+                if (viewWidth <= units.gu(45)) return units.gu(18);
+                else if (viewWidth >= units.gu(70)) return units.gu(20);
+                else return units.gu(23);
             case "carousel":
             case "horizontal-list":
                 return carouselTool.minimumTileWidth;

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-06-22 12:00+0200\n"
-"PO-Revision-Date: 2015-05-01 16:39+0000\n"
+"PO-Revision-Date: 2015-07-16 10:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-07-04 05:37+0000\n"
-"X-Generator: Launchpad (build 17597)\n"
+"X-Launchpad-Export-Date: 2015-07-17 05:37+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 "Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -39,14 +39,14 @@ msgstr "Neo-phrìnich an ath-ghoirid"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:157
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "An-dè aig %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened today.
 #. en_US example: "%l:%M %p" --> "1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:164
 msgid "%l:%M %p"
-msgstr ""
+msgstr "%l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
@@ -54,7 +54,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr ""
+msgstr "A-màireach aig %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -62,7 +62,7 @@ msgstr ""
 #. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:181
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
@@ -71,7 +71,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr ""
+msgstr "%a %b %d %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -79,14 +79,14 @@ msgstr ""
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr ""
+msgstr "An-dè aig %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
 #. en_US example: "%H:%M" --> "13:00"
 #: plugins/Utils/relativetimeformatter.cpp:208
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
@@ -94,7 +94,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:216
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "A-màireach aig %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
@@ -102,7 +102,7 @@ msgstr ""
 #. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:225
 msgid "%a %H:%M"
-msgstr ""
+msgstr "%a %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
@@ -111,7 +111,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr ""
+msgstr "%a %b %d %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -405,32 +405,38 @@ msgstr "Chan eil dad 'ga chluich"
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 uair a thìde"
+msgstr[1] "%1 uair a thìde"
+msgstr[2] "%1 uairean a thìde"
+msgstr[3] "%1 uair a thìde"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:772
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 mhionaid"
+msgstr[1] "%1 mhionaid"
+msgstr[2] "%1 mionaidean"
+msgstr[3] "%1 mionaid"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:777
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 diog"
+msgstr[1] "%1 dhiog"
+msgstr[2] "%1 diogan"
+msgstr[3] "%1 diog"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:780
 msgid "0 seconds"
-msgstr ""
+msgstr "0 diog"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:782
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "%1 air fhàgail"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
@@ -492,7 +498,7 @@ msgstr "Thoir gnogag an-seo gus leantainn air adhart."
 
 #: qml/Tutorial/TutorialContent.qml:81
 msgid "Click here to finish."
-msgstr ""
+msgstr "Briog an-seo gus crìoch a chur air."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -613,7 +619,7 @@ msgstr "Còd-faire"
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "4 àireamhan a-mhàin"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
