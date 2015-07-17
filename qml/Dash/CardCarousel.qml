@@ -64,7 +64,7 @@ DashRenderer {
                 item.components = Qt.binding(function() { return cardTool.components; });
                 item.fontScale = Qt.binding(function() { return carousel.fontScale; });
                 item.showHeader = Qt.binding(function() { return loader.explicitlyScaled; });
-                item.artShapeBorderSource = "none";
+                item.artShapeStyle = "flat";
                 item.scopeStyle = cardCarousel.scopeStyle;
             }
 
