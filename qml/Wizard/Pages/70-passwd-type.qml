@@ -25,7 +25,7 @@ import ".." as LocalComponents
  * answer.  We don't run as root, so if we did set the password immediately,
  * we'd need to prompt for their previous password when they came back and
  * changed their answer.  Which is silly UX.  So instead, we just keep track
- * of their choice and set the password at the end (see main.qml).
+ * of their choice and set the password at the end (see Pages.qml).
  * Setting the password shouldn't fail, since Ubuntu Touch has loose password
  * requirements, but we'll check what we can here.  Ideally we'd be able to ask
  * the system if a password is legal without actually setting that password.
@@ -35,7 +35,7 @@ LocalComponents.Page {
     id: passwdPage
     objectName: "passwdPage"
 
-    title: i18n.tr("Lock Security")
+    title: i18n.tr("Lock Screen")
     forwardButtonSourceComponent: forwardButton
 
     function indexToMethod(index) {
@@ -43,6 +43,8 @@ LocalComponents.Page {
             return UbuntuSecurityPrivacyPanel.Passcode
         else if (index === 0)
             return UbuntuSecurityPrivacyPanel.Passphrase
+        else
+            return UbuntuSecurityPrivacyPanel.Swipe
     }
 
     function methodToIndex(method) {
@@ -50,6 +52,8 @@ LocalComponents.Page {
             return 1
         else if (method === UbuntuSecurityPrivacyPanel.Passphrase)
             return 0
+        else
+            return 2
     }
 
     Component.onCompleted: {
@@ -66,7 +70,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Choose how to secure your device to protect your personal information.")
+            text: i18n.tr("Choose lock screen security")
             color: "#525252"
             fontSize: "small"
             font.weight: Font.Light
@@ -84,7 +88,7 @@ LocalComponents.Page {
             height: childrenRect.height
 
             // this is the order we want to display it; cf indexToMethod()
-            model: [UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Passcode]
+            model: [UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Swipe]
 
             delegate: ListItem {
                 id: itemDelegate
@@ -131,74 +135,6 @@ LocalComponents.Page {
                 }
             }
         }
-
-        Switch {
-            id: requiredSwitch
-            anchors.left: parent.left
-            anchors.top: selector.bottom
-            anchors.topMargin: units.gu(1)
-            checked: true
-        }
-
-        Label {
-            id: requiredLabel
-            anchors.left: requiredSwitch.right
-            anchors.right: parent.right
-            anchors.top: selector.bottom
-            anchors.topMargin: units.gu(1)
-            anchors.leftMargin: units.gu(1)
-            wrapMode: Text.Wrap
-            text: i18n.tr("Require my password or passcode to access my device")
-            color: "#525252"
-            opacity: requiredSwitch.checked ? 1 : 0.5
-            fontSize: "small"
-            font.weight: Font.Light
-            MouseArea {
-                anchors.fill: parent
-                onClicked: requiredSwitch.trigger()
-            }
-        }
-
-        Label {
-            id: requiredInfo
-            anchors.left: requiredSwitch.right
-            anchors.right: parent.right
-            anchors.top: requiredLabel.bottom
-            anchors.topMargin: units.gu(1)
-            anchors.leftMargin: units.gu(1)
-            wrapMode: Text.Wrap
-            text: i18n.tr("You will still be required to enter password or passcode to gain admin privileges")
-            color: "#888888"
-            opacity: requiredSwitch.checked ? 1 : 0.5
-            fontSize: "x-small"
-            font.weight: Font.Light
-        }
-
-        CheckBox {
-            id: encryptCheck
-            anchors.left: requiredLabel.left
-            anchors.top: requiredInfo.bottom
-            anchors.topMargin: units.gu(1)
-            visible: requiredSwitch.checked
-        }
-
-        Label {
-            id: encryptLabel
-            anchors.left: encryptCheck.right
-            anchors.right: parent.right
-            anchors.verticalCenter: encryptCheck.verticalCenter
-            anchors.leftMargin: units.gu(.5)
-            wrapMode: Text.Wrap
-            text: i18n.tr("Encrypt my content")
-            color: "#525252"
-            font.weight: Font.Light
-            fontSize: "small"
-            visible: requiredSwitch.checked
-            MouseArea {
-                anchors.fill: parent
-                onClicked: encryptCheck.trigger()
-            }
-        }
     }
 
     Component {
@@ -207,19 +143,15 @@ LocalComponents.Page {
             text: i18n.tr("Next")
             onClicked: {
                 var method = indexToMethod(selector.currentIndex)
-
-                if (!requiredSwitch.checked) {
-                    root.passwordMethod = UbuntuSecurityPrivacyPanel.Swipe
-                } else {
-                    root.passwordMethod = method
-                }
-
+                root.passwordMethod = method
                 print("Current method: " + root.passwordMethod)
 
                 if (method === UbuntuSecurityPrivacyPanel.Passphrase) {
                     pageStack.load(Qt.resolvedUrl("password-set.qml"))
                 } else if (method === UbuntuSecurityPrivacyPanel.Passcode) {
                     pageStack.load(Qt.resolvedUrl("passcode-set.qml"))
+                } else {
+                    pageStack.next()
                 }
             }
         }
