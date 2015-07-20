@@ -19,6 +19,7 @@
 #include <QtTest>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
+#include <QQmlEngine>
 
 class ScreenGrabberTest: public QObject
 {
@@ -29,6 +30,7 @@ private Q_SLOTS:
     void initTestCase()
     {
         m_view = new QQuickView();
+        m_view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         m_view->setSource(QUrl::fromLocalFile(CURRENT_SOURCE_DIR "/grabber.qml"));
         m_grabber = dynamic_cast<ScreenGrabber*>(m_view->rootObject()->property("grabber").value<QObject*>());
         QVERIFY(m_grabber);
