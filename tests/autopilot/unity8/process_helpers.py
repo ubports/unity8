@@ -25,6 +25,7 @@ from autopilot.introspection import get_proxy_object_for_existing_process
 
 from unity8 import greeter
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -175,7 +176,7 @@ def _get_unity_status():
         raise CannotAccessUnity(str(error))
 
 
-def get_unity_pid():
+def _get_unity_pid():
     try:
         return get_job_pid('unity8')
     except JobError as error:

@@ -92,14 +92,16 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
         process_helpers.lock_unity()
 
         # FIXME - this is because the device greeter uses a password.
-        # Need to be able to selectively enable mocks so that we can use the fake greeter.
+        # Need to be able to selectively enable mocks so that we can use the
+        # fake greeter.
         def unlock_thread_worker(greeter):
             greeter.wait_swiped_away()
             process_helpers.unlock_unity()
             greeter.created.wait_for(False)
 
         greeter = self.main_window.get_greeter()
-        unlock_thread = threading.Thread(target=unlock_thread_worker, args=(greeter,))
+        unlock_thread = threading.Thread(
+            target=unlock_thread_worker, args=(greeter,))
         unlock_thread.start()
         application_name = self.launch_fake_app()
         unlock_thread.join(10)
