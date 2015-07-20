@@ -26,7 +26,7 @@ LocalComponents.Page {
     title: i18n.tr("Time Zone")
     forwardButtonSourceComponent: forwardButton
 
-    readonly property alias selectedTimeZone: tzModel.selectedZoneId
+    property alias selectedTimeZone: tzModel.selectedZoneId
 
     TimeZoneModel {
         id: tzModel
@@ -99,6 +99,11 @@ LocalComponents.Page {
             anchors.right: parent.right
             placeholderText: i18n.tr("Enter your city or country")
             color: UbuntuColors.lightGrey
+            onTextChanged: {
+                if (text == "") { // reset when switching between filter modes (text/country)
+                    selectedTimeZone = ""
+                }
+            }
         }
 
         ListView {
