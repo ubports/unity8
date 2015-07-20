@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Lukáš Tinkl <lukas.tinkl@canonical.com>
  */
 
 #include <QTimeZone>
@@ -26,6 +24,13 @@
 TimeZoneModel::TimeZoneModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    m_roleNames = {{IdRole, "id"},
+                   {Abbreviation, "abbreviation"},
+                   {Country, "country"},
+                   {CountryCode, "countryCode"},
+                   {City, "city"},
+                   {Comment, "comment"},
+                   {Time, "time"}};
     init();
 }
 
@@ -67,8 +72,11 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
             return tz.abbreviation(QDateTime::currentDateTime());
         case Country:
             return LocaleAttached::countryToString(tz.country());
+        case CountryCode: {
+            return LocaleAttached::qlocToCountryCode(tz.country());
+        }
         case City: {
-            const QString cityName = QString::fromUtf8(tzid.split('/').last().replace("_", " ")); // take the last part, replace _ by a space
+            const QString cityName = QString::fromUtf8(tzid.split('/').last().replace('_', ' ')); // take the last part, replace _ by a space
             return cityName;
         }
         case Comment:
@@ -86,7 +94,7 @@ QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
 
 QHash<int, QByteArray> TimeZoneModel::roleNames() const
 {
-    return {{IdRole, "id"}, {Abbreviation, "abbreviation"}, {Country, "country"}, {City, "city"}, {Comment, "comment"}, {Time, "time"}};
+    return m_roleNames;
 }
 
 void TimeZoneModel::init()

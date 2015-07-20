@@ -26,7 +26,6 @@ LocalComponents.Page {
     title: i18n.tr("Country")
     forwardButtonSourceComponent: forwardButton
 
-    property string selectedCountry: ""
     readonly property var preferedCountries: LocalePlugin.countriesForLanguage(root.language)
 
     Component.onCompleted: {
@@ -63,8 +62,10 @@ LocalComponents.Page {
 
     function selectCountry(code, index)
     {
-        selectedCountry = code
+        root.country = code
         regionsListView.currentIndex = index
+        print("Selected country: " + root.country)
+        print("Current index: " + regionsListView.currentIndex)
     }
 
     UbuntuLanguagePlugin {
@@ -143,8 +144,6 @@ LocalComponents.Page {
 
                 onClicked: {
                     selectCountry(code, index)
-                    print("Selected country: " + selectedCountry)
-                    print("Current index: " + ListView.view.currentIndex)
                 }
             }
         }
@@ -154,11 +153,11 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            enabled: selectedCountry !== ""
+            enabled: root.country !== ""
             onClicked: {
                 if (root.language !== plugin.languageCodes[plugin.currentLanguage]) {
                     plugin.currentLanguage = plugin.languageCodes.indexOf(root.language)
-                    System.updateSessionLanguage(root.language + "_" + selectedCountry); // also updates the locale
+                    System.updateSessionLanguage(root.language + "_" + root.country); // also updates the locale
                 }
                 pageStack.next()
             }

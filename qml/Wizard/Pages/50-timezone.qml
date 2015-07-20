@@ -82,6 +82,7 @@ LocalComponents.Page {
             onClicked: {
                 tzModel.selectedZoneId = id
                 print("Selected tz: " + selectedTimeZone)
+                print("Clicked country", countryCode)
             }
         }
     }

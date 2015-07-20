@@ -337,6 +337,16 @@ QString LocaleAttached::countryToString(QLocale::Country c)
     return d->countryToString(c);
 }
 
+QString LocaleAttached::qlocToCountryCode(QLocale::Country c)
+{
+    const QList<QLocale> locales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, c);
+    if (!locales.isEmpty()) {
+        return locales.first().name().split('_').at(1);
+    }
+
+    return QString();
+}
+
 
 LocalePlugin::LocalePlugin(QObject* parent)
     : QObject(parent)

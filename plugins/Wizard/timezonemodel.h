@@ -51,6 +51,7 @@ public:
         IdRole = Qt::UserRole + 1,
         Abbreviation,
         Country,
+        CountryCode,
         City,
         Comment,
         Time
@@ -74,6 +75,7 @@ private:
     void init();
     QByteArrayList m_zoneIds;
     QString m_selectedZoneId;
+    QHash<int, QByteArray> m_roleNames;
 };
 
 #endif

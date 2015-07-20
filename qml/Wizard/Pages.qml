@@ -31,7 +31,8 @@ Item {
     // the user exits the wizard.
     property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
     property string password: ""
-    property string language: ""
+    property string language: "" // language code
+    property string country: "" // country code, uppercase
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
