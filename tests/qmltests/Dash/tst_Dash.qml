@@ -15,13 +15,15 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import QtTest 1.0
 import "../../../qml/Dash"
+import "../../../qml/"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 Item {
-    id: shell
+    id: root
     width: units.gu(40)
     height: units.gu(80)
 
@@ -36,6 +38,17 @@ Item {
     Dash {
         id: dash
         anchors.fill: parent
+    }
+
+    Window {
+        id: window
+        width: units.gu(40)
+        height: units.gu(80)
+        Shell {
+            id: shell
+            anchors.fill: parent
+        }
+        Component.onCompleted: window.show();
     }
 
     SignalSpy {
@@ -263,6 +276,22 @@ Item {
             tryCompare(dashContentList, "currentIndex", 0)
             dashCommunicatorService.mockSetCurrentScope(1, true, false);
             tryCompare(dashContentList, "currentIndex", 1)
+        }
+
+        function test_setShellHome() {
+            var dashContentList = findChild(dash, "dashContentList");
+            var startX = dash.width - units.gu(1);
+            var startY = dash.height / 2;
+            var stopX = units.gu(1)
+            var stopY = startY;
+            waitForRendering(dashContentList)
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            mouseFlick(dash, startX, startY, stopX, stopY);
+            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
+
+            var launcher = findChild(shell, "launcher");
+            launcher.showDashHome()
+            tryCompare(dashContentList, "currentIndex", 0)
         }
 
         function test_setCurrentScopeClosesPreview() {
