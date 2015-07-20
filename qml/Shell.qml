@@ -520,7 +520,7 @@ Item {
         greeter.notifyAboutToFocusApp("unity8-dash");
 
         var animate = !LightDM.Greeter.active && !stages.shown
-        dash.setCurrentScope(0, animate, true)
+        dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
 
