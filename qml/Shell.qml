@@ -614,6 +614,7 @@ Item {
             objectName: "wizard"
             anchors.fill: parent
             background: shell.background
+            enabled: shell.mode !== "greeter"
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {

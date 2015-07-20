@@ -32,8 +32,6 @@ Showable {
     // expected behavior of no emission on startup.
     readonly property bool active: loader.active
 
-    property string shellMode: shell.mode ? shell.mode : ""
-
     hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 
     onRequiredChanged: {
@@ -45,7 +43,7 @@ Showable {
     Loader {
         id: loader
         anchors.fill: parent
-        active: System.wizardEnabled && shellMode !== "greeter"
+        active: System.wizardEnabled
         source: "Pages.qml"
 
         Binding {
