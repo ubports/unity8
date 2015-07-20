@@ -54,8 +54,14 @@ MirSurfaceItem::MirSurfaceItem(const QString& name,
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 
     // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
+    const QWindowList windows = QGuiApplication::topLevelWindows();
+    QQuickView *quickView = nullptr;
+    Q_FOREACH(QWindow *w, windows) {
+        quickView = qobject_cast<QQuickView*>(w);
+        if (quickView) {
+            break;
+        }
+    }
 
     QString qmlComponentFilePath;
     if (!qmlFilePath.isEmpty()) {
