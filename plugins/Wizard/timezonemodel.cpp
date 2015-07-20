@@ -117,15 +117,20 @@ TimeZoneFilterModel::TimeZoneFilterModel(QObject *parent)
 
 bool TimeZoneFilterModel::filterAcceptsRow(int row, const QModelIndex &parentIndex) const
 {
-    if (!sourceModel() || m_filter.isEmpty()) {
+    if (!sourceModel()) {
         return true;
     }
 
-    const QString city = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::City).toString();
-    const QString country = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::Country).toString();
+    if (!m_filter.isEmpty()) { // filtering by freeform text input, cf setFilter(QString)
+        const QString city = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::City).toString();
+        const QString country = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::Country).toString();
 
-    if (m_stringMatcher.indexIn(city) != -1 || m_stringMatcher.indexIn(country) != -1) {
-        return true;
+        if (m_stringMatcher.indexIn(city) != -1 || m_stringMatcher.indexIn(country) != -1) {
+            return true;
+        }
+    } else if (!m_country.isEmpty()) { // filter by country code
+        const QString countryCode = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::CountryCode).toString();
+        return m_country.compare(countryCode, Qt::CaseInsensitive) == 0;
     }
 
     return false;
@@ -142,4 +147,18 @@ void TimeZoneFilterModel::setFilter(const QString &filter)
     m_stringMatcher.setPattern(m_filter);
     Q_EMIT filterChanged();
     invalidate();
+}
+
+QString TimeZoneFilterModel::country() const
+{
+    return m_country;
+}
+
+void TimeZoneFilterModel::setCountry(const QString &country)
+{
+    if (m_country == country)
+        return;
+
+    m_country = country;
+    Q_EMIT countryChanged(country);
 }

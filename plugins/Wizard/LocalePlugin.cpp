@@ -341,7 +341,7 @@ QString LocaleAttached::qlocToCountryCode(QLocale::Country c)
 {
     const QList<QLocale> locales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, c);
     if (!locales.isEmpty()) {
-        return locales.first().name().split('_').at(1);
+        return locales.first().name().section('_', 1, 1);
     }
 
     return QString();

@@ -36,6 +36,7 @@ LocalComponents.Page {
         id: tzFilterModel
         sourceModel: tzModel
         filter: searchField.text
+        country: root.country
     }
 
     Component.onCompleted: {

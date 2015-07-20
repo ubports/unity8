@@ -24,6 +24,7 @@ class TimeZoneFilterModel: public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
+    Q_PROPERTY(QString country READ country WRITE setCountry NOTIFY countryChanged)
 
 public:
     explicit TimeZoneFilterModel(QObject *parent = 0);
@@ -33,12 +34,17 @@ public:
     QString filter() const;
     void setFilter(const QString &filter);
 
+    QString country() const;
+    void setCountry(const QString &country);
+
 Q_SIGNALS:
     void filterChanged();
+    void countryChanged(const QString &country);
 
 private:
     QString m_filter;
     QStringMatcher m_stringMatcher;
+    QString m_country;
 };
 
 class TimeZoneModel: public QAbstractListModel
