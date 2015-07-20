@@ -27,14 +27,6 @@ Item {
     width: units.gu(80)
     height: units.gu(80)
 
-    // BEGIN To reduce warnings
-    // TODO I think it we should pass down these variables
-    // as needed instead of hoping they will be globally around
-    property var greeter: null
-    property var panel: null
-    // BEGIN To reduce warnings
-
-
     Shell {
         id: shell
         height: root.height
@@ -61,6 +53,9 @@ Item {
         readonly property var scopes: dashContent.scopes
 
         function init() {
+            var greeter = findChild(shell, "greeter");
+            greeter.forceShow();
+
             // clear and reload the scopes.
             scopes.clear();
             var dashContentList = findChild(dash, "dashContentList");
