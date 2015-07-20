@@ -284,14 +284,14 @@ Item {
             var startY = dash.height / 2;
             var stopX = units.gu(1)
             var stopY = startY;
-            waitForRendering(dashContentList)
+            waitForRendering(dashContentList);
             mouseFlick(dash, startX, startY, stopX, stopY);
             mouseFlick(dash, startX, startY, stopX, stopY);
             compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
 
             var launcher = findChild(shell, "launcher");
-            launcher.showDashHome()
-            tryCompare(dashContentList, "currentIndex", 0)
+            launcher.showDashHome();
+            tryCompare(dashContentList, "currentIndex", 0);
         }
 
         function test_setCurrentScopeClosesPreview() {
