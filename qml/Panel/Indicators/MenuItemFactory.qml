@@ -353,11 +353,11 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property string serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000)
+            property string serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
             LiveTimer {
                 frequency: LiveTimer.Relative
                 relativeTime: alarmItem.serverTime
-                onTrigger: alarmItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000)
+                onTrigger: alarmItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
             }
 
             text: menuData && menuData.label || ""
@@ -394,11 +394,11 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property string serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000)
+            property string serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
             LiveTimer {
                 frequency: LiveTimer.Relative
                 relativeTime: appointmentItem.serverTime
-                onTrigger: appointmentItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000)
+                onTrigger: appointmentItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
             }
 
             text: menuData && menuData.label || ""

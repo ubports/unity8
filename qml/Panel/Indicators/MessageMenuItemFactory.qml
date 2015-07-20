@@ -39,12 +39,12 @@ Loader {
         id: priv
         property var extendedData: menuData && menuData.ext || undefined
         property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
-        property string time: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000000)
+        property string time: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000)
     }
     LiveTimer {
         frequency: LiveTimer.Relative
         relativeTime: priv.time
-        onTrigger: priv.time = new Date(getExtendedProperty(priv.extendedData, "xCanonicalTime", 0) / 1000000)
+        onTrigger: priv.time = new Date(getExtendedProperty(priv.extendedData, "xCanonicalTime", 0) / 1000)
     }
 
     onMenuModelChanged: {
