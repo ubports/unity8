@@ -489,8 +489,6 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             compare(dashCommunicatorSpy.count, 1);
-            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
-            compare(dashCommunicatorSpy.signalArguments[0][2], true)
         }
 
         function test_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
@@ -507,8 +505,6 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
 
             compare(dashCommunicatorSpy.count, 1);
-            compare(dashCommunicatorSpy.signalArguments[0][0], 0);
-            compare(dashCommunicatorSpy.signalArguments[0][2], true)
         }
 
         function test_suspend() {
