@@ -34,21 +34,9 @@ Item {
     property var panel: null
     // BEGIN To reduce warnings
 
-
     Dash {
         id: dash
         anchors.fill: parent
-    }
-
-    Window {
-        id: window
-        width: units.gu(40)
-        height: units.gu(80)
-        Shell {
-            id: shell
-            anchors.fill: parent
-        }
-        Component.onCompleted: window.show();
     }
 
     SignalSpy {
@@ -276,22 +264,6 @@ Item {
             tryCompare(dashContentList, "currentIndex", 0)
             dashCommunicatorService.mockSetCurrentScope(1, true, false);
             tryCompare(dashContentList, "currentIndex", 1)
-        }
-
-        function test_setShellHome() {
-            var dashContentList = findChild(dash, "dashContentList");
-            var startX = dash.width - units.gu(1);
-            var startY = dash.height / 2;
-            var stopX = units.gu(1)
-            var stopY = startY;
-            waitForRendering(dashContentList);
-            mouseFlick(dash, startX, startY, stopX, stopY);
-            mouseFlick(dash, startX, startY, stopX, stopY);
-            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
-
-            var launcher = findChild(shell, "launcher");
-            launcher.showDashHome();
-            tryCompare(dashContentList, "currentIndex", 0);
         }
 
         function test_setCurrentScopeClosesPreview() {
