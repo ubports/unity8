@@ -166,7 +166,11 @@ Item {
         finishStartUpTimer.start();
     }
 
-    LightDM{id: lightDM} // Provide backend access
+    LightDM{
+        id: lightDM
+        greeterMode: shell.mode === "greeter"
+    }
+
     VolumeControl {
         id: volumeControl
     }
