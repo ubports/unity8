@@ -15,15 +15,13 @@
  */
 
 import QtQuick 2.0
-import QtQuick.Window 2.0
 import QtTest 1.0
 import "../../../qml/Dash"
-import "../../../qml/"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1 as UT
 
 Item {
-    id: root
+    id: shell
     width: units.gu(40)
     height: units.gu(80)
 
@@ -33,6 +31,7 @@ Item {
     property var greeter: null
     property var panel: null
     // BEGIN To reduce warnings
+
 
     Dash {
         id: dash
