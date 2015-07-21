@@ -21,7 +21,8 @@
 #define UNITY_POWERD_H
 
 #include <gio/gio.h>
-#include <QObject>
+#include <QtCore/QObject>
+#include <QtDBus/QDBusInterface>
 
 class Powerd: public QObject
 {
@@ -29,7 +30,6 @@ class Powerd: public QObject
     Q_ENUMS(Status)
     Q_ENUMS(DisplayStateChangeReason)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
-    Q_DISABLE_COPY(Powerd)
 
 public:
     enum DisplayStateChangeReason {
@@ -49,8 +49,6 @@ public:
 
     Status status() const;
 
-    void performAsyncCall(const QString &method, const QVariantList &args);
-
 Q_SIGNALS:
     void statusChanged(DisplayStateChangeReason reason);
 
@@ -58,6 +56,7 @@ private Q_SLOTS:
     void handleDisplayPowerStateChange(int status, int reason);
 
 private:
+    QDBusInterface *unityScreen;
     GSettings *systemSettings;
     Status cachedStatus;
 };

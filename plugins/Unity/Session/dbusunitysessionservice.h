@@ -264,6 +264,9 @@ public:
 
 public Q_SLOTS:
     Q_SCRIPTABLE void Open(const unsigned int type, const unsigned int arg_1, const unsigned int max_wait, const QList<QDBusObjectPath> &inhibitors);
+
+private:
+    void performAsyncCall(const QString &method);
 };
 
 class DBusGnomeScreensaverWrapper: public UnityDBusObject
