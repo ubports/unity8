@@ -99,7 +99,7 @@ LocalComponents.Page {
                 anchors.right: parent.right
                 wrapMode: Text.Wrap
                 linkColor: Theme.palette.normal.foregroundText
-                // TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+                // Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
                 text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
                 onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
             }

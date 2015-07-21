@@ -32,10 +32,6 @@ DBusInterface::DBusInterface(LauncherModel *parent):
 {
 }
 
-DBusInterface::~DBusInterface()
-{
-}
-
 QString DBusInterface::introspect(const QString &path) const
 {
     /* This case we should just list the nodes */

@@ -6,25 +6,31 @@ PO_DIR=$PWD
 PROGNAME=$(basename $0)
 
 # Create a list of files to scan
-GETTEXT_FILES=$(mktemp --tmpdir uitk-unity.lst.XXXXX)
+GETTEXT_FILES=$(mktemp --tmpdir unity8.lst.XXXXX)
 trap 'rm -f "$GETTEXT_FILES"' EXIT
 cd ..
 find \( -name '*.h' -o -name '*.cpp' -o -name '*.qml' -o -name '*.js' \) \
-    -a ! \( -path './debian/*' -o -path './builddir/*' -o -path './build/*' -o -path './.bzr/*' \) | sort \
+    -a ! \( -path './debian/*' -o -path './builddir/*' -o -path './build/*' -o -path './tests/*' -o -path './.bzr/*' \) | sort \
 > $GETTEXT_FILES
 
 # Generate pot from our list
 xgettext \
     --output $PO_DIR/unity8.pot \
+    --from-code=UTF-8 \
     --files-from $GETTEXT_FILES \
     --qt --c++ \
-    --add-comments=TRANSLATORS \
+    --add-comments=Translators \
     --keyword=tr \
     --keyword=tr:1,2 \
     --keyword=dtr:2 \
+    --keyword=dtr:2,3 \
     --keyword=ctr:1c,2 \
+    --keyword=dctr:2c,3 \
+    --keyword=tag \
+    --keyword=tag:1c,2 \
+    --keyword=dgettext_datetime \
     --package-name="unity8" \
     --copyright-holder="Canonical Ltd." \
     --from-code="UTF-8"
 
-echo "$PROGNAME: $PO_DIR/auto-generated.pot updated"
+echo "$PROGNAME: $PO_DIR/unity8.pot updated"

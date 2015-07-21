@@ -1,0 +1,3 @@
+module Unity.InputInfo
+plugin InputInfo
+typeinfo InputInfo.qmltypes

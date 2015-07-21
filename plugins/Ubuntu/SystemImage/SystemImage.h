@@ -19,8 +19,6 @@
 
 #include <QObject>
 
-class QDBusInterface;
-
 class SystemImage : public QObject
 {
     Q_OBJECT
@@ -28,11 +26,9 @@ class SystemImage : public QObject
 
 public:
     explicit SystemImage(QObject *parent = 0);
+    ~SystemImage() = default;
 
     Q_INVOKABLE void factoryReset();
-
-private:
-    QDBusInterface *m_interface;
 };
 
 #endif // SYSTEMIMAGE_H
