@@ -73,7 +73,6 @@ private Q_SLOTS:
     void countChanged(const QString &appId, int count);
     void countVisibleChanged(const QString &appId, int count);
     void progressChanged(const QString &appId, int progress);
-    void runningChanged(const QString &appId, bool running);
 
     void applicationAdded(const QModelIndex &parent, int row);
     void applicationRemoved(const QModelIndex &parent, int row);

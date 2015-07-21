@@ -40,7 +40,6 @@ LauncherModel::LauncherModel(QObject *parent):
 {
     connect(m_dbusIface, &DBusInterface::countChanged, this, &LauncherModel::countChanged);
     connect(m_dbusIface, &DBusInterface::countVisibleChanged, this, &LauncherModel::countVisibleChanged);
-    connect(m_dbusIface, &DBusInterface::runningChanged, this, &LauncherModel::runningChanged);
     connect(m_dbusIface, &DBusInterface::refreshCalled, this, &LauncherModel::refresh);
 
     connect(m_settings, &GSettings::changed, this, &LauncherModel::refresh);
@@ -198,7 +197,9 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
         } else if (actionId == "launch_item") {
             QDesktopServices::openUrl(getUrlForAppId(appId));
         } else if (actionId == "stop_item") { // Quit
-            m_appManager->stopApplication(appId);
+            if (m_appManager) {
+                m_appManager->stopApplication(appId);
+            }
         // Nope, we don't know this action, let the backend forward it to the application
         } else {
             // TODO: forward quicklist action to app, possibly via m_dbusIface
@@ -332,17 +333,6 @@ void LauncherModel::progressChanged(const QString &appId, int progress)
         LauncherItem *item = m_list.at(idx);
         item->setProgress(progress);
         Q_EMIT dataChanged(index(idx), index(idx), {RoleProgress});
-    }
-}
-
-void LauncherModel::runningChanged(const QString &appId, bool running)
-{
-    const int idx = findApplication(appId);
-    if (idx >= 0) {
-        LauncherItem *item = m_list.at(idx);
-        item->setRunning(running);
-        m_asAdapter->syncItems(m_list);
-        Q_EMIT dataChanged(index(idx), index(idx), {RoleRunning});
     }
 }
 

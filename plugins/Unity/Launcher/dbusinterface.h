@@ -36,7 +36,6 @@ public:
 Q_SIGNALS:
     void countChanged(const QString &appId, int count);
     void countVisibleChanged(const QString &appId, bool countVisible);
-    void runningChanged(const QString &appId, bool running);
     void refreshCalled();
 
 private:
