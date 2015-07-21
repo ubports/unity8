@@ -77,6 +77,8 @@ Rectangle {
             return [
                 { tag: "Actions", type: "actions", source: "PreviewActions.qml", expanded: true },
                 { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml", expanded: true },
+                { tag: "Comment", type: "comment", source: "PreviewComment.qml", expanded: true },
+                { tag: "Comment Input", type: "comment-input", source: "PreviewCommentInput.qml", expanded: true },
                 { tag: "Expandable", type: "expandable", source: "PreviewExpandable.qml", expanded: false },
                 { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml", expanded: true },
                 { tag: "Header", type: "header", source: "PreviewHeader.qml", expanded: true },

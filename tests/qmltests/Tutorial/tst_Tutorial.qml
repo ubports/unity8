@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013,2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtTest 1.0
 import AccountsService 0.1
-import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
@@ -46,11 +45,6 @@ Item {
         }
     }
 
-    GSettings {
-        id: unity8Settings
-        schema.id: "com.canonical.Unity8"
-    }
-
     Component.onCompleted: {
         // must set the mock mode before loading the Shell
         LightDM.Greeter.mockMode = "single-pin";
@@ -73,7 +67,6 @@ Item {
             sourceComponent: Component {
                 Shell {
                     property string indicatorProfile: "phone"
-                    property string shellMode: "full-greeter" /* default */
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
@@ -119,7 +112,7 @@ Item {
 
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
-            unity8Settings.usageMode = "Staged";
+
             AccountsService.demoEdges = false;
             AccountsService.demoEdges = true;
             swipeAwayGreeter();
@@ -193,7 +186,7 @@ Item {
         }
 
         function checkRightEdge() {
-            if (unity8Settings.usageMode === "Staged") {
+            if (shell.usageScenario === "phone") {
                 touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
 
                 var stage = findChild(shell, "stage");
@@ -271,7 +264,7 @@ Item {
         }
 
         function test_walkthroughOnDesktop() {
-            unity8Settings.usageMode = "Windowed";
+            shell.usageScenario = "desktop";
             var page = goToPage("tutorialLeftFinish");
             var tick = findChild(page, "tick");
             tap(tick);
@@ -324,6 +317,36 @@ Item {
             touchFlick(shell, halfWidth, halfHeight, 0, halfHeight, false, true);
 
             tryCompare(left, "shown", true); // and we should still be on left
+        }
+
+        function test_launcherNoDragGap() {
+            // See bug 1454882, where if you dragged the launcher while it was
+            // visible, you could pull it further than the edge of the screen.
+
+            var left = goToPage("tutorialLeft");
+            var launcher = findChild(shell, "launcher");
+            var teaseAnimation = findInvisibleChild(left, "teaseAnimation");
+
+            // Wait for launcher to be really out there
+            tryCompareFunction(function() {return launcher.x > teaseAnimation.maxBounce/2}, true);
+            verify(teaseAnimation.running);
+
+            // Start a drag, make sure animation stops
+            touchFlick(shell, 0, halfHeight, units.gu(4), halfHeight, true, false);
+            verify(!teaseAnimation.running);
+            verify(launcher.visibleWidth > 0);
+            verify(launcher.x > 0);
+            compare(launcher.x, teaseAnimation.bounce);
+
+            // Continue drag, make sure we don't create a gap on the left hand side
+            touchFlick(shell, units.gu(4), halfHeight, shell.width, halfHeight, false, false);
+            verify(!teaseAnimation.running);
+            compare(launcher.visibleWidth, launcher.panelWidth);
+            compare(launcher.x, 0);
+
+            // Finish and make sure we continue animation
+            touchFlick(shell, shell.width, halfHeight, shell.width, halfHeight, false, true);
+            tryCompare(teaseAnimation, "running", true);
         }
 
         function test_spread() {
