@@ -168,7 +168,6 @@ Item {
 
     LightDM{
         id: lightDM
-        greeterMode: shell.mode === "greeter"
     }
 
     VolumeControl {
