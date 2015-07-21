@@ -40,10 +40,6 @@ Item {
         clip: true
     }
 
-    SignalSpy {
-        id: spy
-    }
-
     UT.UnityTestCase {
         name: "DashShell"
         when: windowShown
