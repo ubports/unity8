@@ -234,7 +234,7 @@ IndicatorDelegate {
         ]
     }
 
-    onRootActionStateChanged: {
+    rootActionState.onUpdated: {
         if (rootActionState == undefined) {
             title = "";
             leftLabel = "";

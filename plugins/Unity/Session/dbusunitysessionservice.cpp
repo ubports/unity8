@@ -18,77 +18,69 @@
 #include "dbusunitysessionservice.h"
 
 // Qt
-#include <QDBusConnection>
-#include <QDBusInterface>
+#include <QDBusPendingCall>
 
 DBusUnitySessionService::DBusUnitySessionService()
     : UnityDBusObject("/com/canonical/Unity/Session", "com.canonical.Unity")
 {
 }
 
-DBusUnitySessionService::~DBusUnitySessionService()
-{
-}
-
 void DBusUnitySessionService::Logout()
 {
-  Q_EMIT logoutReady();
+    // TODO ask the apps to quit and then emit the signal
+    Q_EMIT logoutReady();
 }
 
 void DBusUnitySessionService::EndSession()
 {
-  QDBusConnection connection = QDBusConnection::sessionBus();
-  QDBusInterface iface1 ("com.ubuntu.Upstart",
-                         "/com/ubuntu/Upstart",
-                         "com.ubuntu.Upstart0_6",
-                         connection);
-
-  iface1.call("EndSession");
+    const QDBusMessage msg = QDBusMessage::createMethodCall("com.ubuntu.Upstart",
+                                                            "/com/ubuntu/Upstart",
+                                                            "com.ubuntu.Upstart0_6",
+                                                            "EndSession");
+    QDBusConnection::sessionBus().asyncCall(msg);
 }
 
 void DBusUnitySessionService::RequestLogout()
 {
-  Q_EMIT logoutRequested(false);
+    Q_EMIT logoutRequested(false);
 }
 
 void DBusUnitySessionService::Reboot()
 {
-  QDBusConnection connection = QDBusConnection::systemBus();
-  QDBusInterface iface1 ("org.freedesktop.login1",
-                         "/org/freedesktop/login1",
-                         "org.freedesktop.login1.Manager",
-                         connection);
-
-  iface1.call("Reboot", false);
+    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.login1",
+                                                      "/org/freedesktop/login1",
+                                                      "org.freedesktop.login1.Manager",
+                                                      "Reboot");
+    msg << false;
+    QDBusConnection::systemBus().asyncCall(msg);
 }
 
 void DBusUnitySessionService::RequestReboot()
 {
-  Q_EMIT rebootRequested(false);
+    Q_EMIT rebootRequested(false);
 }
 
 void DBusUnitySessionService::Shutdown()
 {
-  QDBusConnection connection = QDBusConnection::systemBus();
-  QDBusInterface iface1 ("org.freedesktop.login1",
-                         "/org/freedesktop/login1",
-                         "org.freedesktop.login1.Manager",
-                         connection);
-
-  iface1.call("PowerOff", false);
+    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.login1",
+                                                      "/org/freedesktop/login1",
+                                                      "org.freedesktop.login1.Manager",
+                                                      "PowerOff");
+    msg << false;
+    QDBusConnection::systemBus().asyncCall(msg);
 }
 
 void DBusUnitySessionService::RequestShutdown()
 {
-  Q_EMIT shutdownRequested(false);
+    Q_EMIT shutdownRequested(false);
 }
 
 enum class Action : unsigned
 {
-  LOGOUT = 0,
-  SHUTDOWN,
-  REBOOT,
-  NONE
+    LOGOUT = 0,
+    SHUTDOWN,
+    REBOOT,
+    NONE
 };
 
 DBusGnomeSessionManagerWrapper::DBusGnomeSessionManagerWrapper()
@@ -96,38 +88,38 @@ DBusGnomeSessionManagerWrapper::DBusGnomeSessionManagerWrapper()
 {
 }
 
-DBusGnomeSessionManagerWrapper::~DBusGnomeSessionManagerWrapper()
+void DBusGnomeSessionManagerWrapper::performAsyncCall(const QString &method)
 {
+    const QDBusMessage msg = QDBusMessage::createMethodCall("com.canonical.Unity",
+                                                            "/com/canonical/Unity/Session",
+                                                            "com.canonical.Unity.Session",
+                                                            method);
+    QDBusConnection::sessionBus().asyncCall(msg);
 }
 
 void DBusGnomeSessionManagerWrapper::Open(const unsigned type, const unsigned arg_1, const unsigned max_wait, const QList<QDBusObjectPath> &inhibitors)
 {
-  Q_UNUSED(arg_1);
-  Q_UNUSED(max_wait);
-  Q_UNUSED(inhibitors);
+    Q_UNUSED(arg_1);
+    Q_UNUSED(max_wait);
+    Q_UNUSED(inhibitors);
 
-  QDBusConnection connection = QDBusConnection::sessionBus();
-  QDBusInterface iface1 ("com.canonical.Unity",
-                         "/com/canonical/Unity/Session",
-                         "com.canonical.Unity.Session",
-                         connection);
+    const Action action = (Action)type;
 
-  Action action = (Action)type;
-
-  switch (action)
-  {
+    switch (action)
+    {
     case Action::LOGOUT:
-      iface1.call("RequestLogout");
-      break;
+        performAsyncCall("RequestLogout");
+        break;
 
     case Action::REBOOT:
-      iface1.call("RequestShutdown");
-      break;
+        performAsyncCall("RequestReboot");
+        break;
 
     case Action::SHUTDOWN:
-      break;
+        performAsyncCall("RequestShutdown");
+        break;
 
     default:
-      break;
-  }
+        break;
+    }
 }
