@@ -32,6 +32,10 @@ Showable {
     // expected behavior of no emission on startup.
     readonly property bool active: loader.active
 
+    // The wizard should be run at a later time if, for example, unity8 is
+    // in greeter mode
+    property bool deferred: false
+
     hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 
     onRequiredChanged: {
@@ -43,7 +47,7 @@ Showable {
     Loader {
         id: loader
         anchors.fill: parent
-        active: System.wizardEnabled
+        active: System.wizardEnabled && !deferred
         source: "Pages.qml"
 
         Binding {
