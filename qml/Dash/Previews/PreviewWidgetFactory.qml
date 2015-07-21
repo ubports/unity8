@@ -55,6 +55,7 @@ Loader {
             case "expandable": return "PreviewExpandable.qml";
             case "gallery": return "PreviewImageGallery.qml";
             case "header": return "PreviewHeader.qml";
+            case "icon-actions": return "PreviewIconActions.qml";
             case "image": return "PreviewZoomableImage.qml";
             case "progress": return "PreviewProgress.qml";
             case "payments": return "PreviewPayments.qml";
