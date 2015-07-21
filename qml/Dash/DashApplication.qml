@@ -22,7 +22,8 @@ MainView {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(68)
 
-    useDeprecatedToolbar: false
+    // Workaround bug #1475643
+    headerColor: Qt.rgba(0, 0, 0, 0)
 
     Dash {
         anchors.fill: parent

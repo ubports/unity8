@@ -41,8 +41,8 @@ QtObject {
                 signal activated
 
                 property string actionName: \"" + actionName + "\"
-                property bool valid: ActionData.data[actionName] != undefined ? ActionData.data[actionName].valid : false
-                property var state: ActionData.data[actionName] != undefined ? ActionData.data[actionName].state : undefined
+                property bool valid: ActionData.data.hasOwnProperty(actionName) ? ActionData.data[actionName].valid : false
+                property var state: ActionData.data.hasOwnProperty(actionName) ? ActionData.data[actionName].state : undefined
 
                 function activate() {
                     activated();

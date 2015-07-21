@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,22 +46,32 @@ TutorialPage {
 
     SequentialAnimation {
         id: teaseAnimation
+        objectName: "teaseAnimation"
         paused: running && root.paused
         running: !slider.active && root.launcher.visibleWidth === 0 && root.shown
         loops: Animation.Infinite
+        property real bounce: 0
+        readonly property real maxBounce: units.gu(2)
 
         UbuntuNumberAnimation {
-            target: root.launcher
-            property: "x"
-            to: units.gu(2)
+            target: teaseAnimation
+            property: "bounce"
+            to: teaseAnimation.maxBounce
             duration: UbuntuAnimation.SleepyDuration
         }
         UbuntuNumberAnimation {
-            target: root.launcher
-            property: "x"
+            target: teaseAnimation
+            property: "bounce"
             to: 0
             duration: UbuntuAnimation.SleepyDuration
         }
+    }
+
+    Binding {
+        target: root.launcher
+        when: root.shown
+        property: "x"
+        value: Math.min(root.launcher.panelWidth - root.launcher.visibleWidth, teaseAnimation.bounce)
     }
 
     Timer {

@@ -313,7 +313,7 @@ Item {
             tryCompare(panel, "fullscreenMode", false)
             tryCompare(indicators, "available", true)
             tryCompare(launcher, "available", true)
-            tryCompare(stage, "spreadEnabled", true)
+            tryCompare(stage, "spreadEnabled", false)
         }
 
         function test_emergencyCallCrash() {
