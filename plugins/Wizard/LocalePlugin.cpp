@@ -294,9 +294,10 @@ LocaleAttached::LocaleAttached(QObject* parent)
 QJsonObject LocaleAttached::languages() const
 {
     QJsonObject result;
-    for (int i = QLocale::C + 1; i < QLocale::LastLanguage; ++i) {
-        QLocale loc(static_cast<QLocale::Language>(i));
-        result.insert(loc.name().split('_').first(), QLocale::languageToString(loc.language()));
+
+    const QList<QLocale> allLocales = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale::AnyScript, QLocale::AnyCountry);
+    Q_FOREACH(const QLocale &loc, allLocales) {
+        result.insert(loc.name().split('_').first(), loc.nativeLanguageName());
     }
 
     return result;

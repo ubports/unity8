@@ -71,7 +71,7 @@ LocalComponents.Page {
             return
         })
         .sort(function(a, b) { // sort by language name
-            return a.language.localeCompare(b.language);
+            return a.language.toLocaleLowerCase().localeCompare(b.language.toLocaleLowerCase()); // sort languages case insensitively
         })
         .forEach(function(lang) { // build the model
             if (lang.code === "C") {
