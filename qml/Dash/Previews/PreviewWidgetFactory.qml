@@ -50,6 +50,8 @@ Loader {
         switch (widgetType) {
             case "actions": return "PreviewActions.qml";
             case "audio": return "PreviewAudioPlayback.qml";
+            case "comment": return "PreviewComment.qml";
+            case "comment-input": return "PreviewCommentInput.qml";
             case "expandable": return "PreviewExpandable.qml";
             case "gallery": return "PreviewImageGallery.qml";
             case "header": return "PreviewHeader.qml";
