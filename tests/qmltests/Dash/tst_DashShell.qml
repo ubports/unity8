@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Window 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Dash"
 import "../../../qml/"
@@ -29,15 +28,15 @@ Item {
 
     Shell {
         id: shell
-        height: root.height
-        width: root.width / 2
+        width: parent.width / 2
+        height: parent.height
     }
 
     Dash {
         id: dash
-        height: root.height
-        width: root.width / 2
-        x: root.width / 2
+        width: parent.width / 2
+        height: parent.height
+        x: width
         clip: true
     }
 
@@ -53,6 +52,8 @@ Item {
         readonly property var scopes: dashContent.scopes
 
         function init() {
+            dash.windowActive = true;
+
             var greeter = findChild(shell, "greeter");
             greeter.forceShow();
 
@@ -83,29 +84,11 @@ Item {
             var stopX = units.gu(1)
             var stopY = startY;
             waitForRendering(dashContentList);
-            mouseFlick(dash, startX, startY, stopX, stopY);
-            mouseFlick(dash, startX, startY, stopX, stopY);
+            touchFlick(dash, startX, startY, stopX, stopY);
+            touchFlick(dash, startX, startY, stopX, stopY);
             compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
 
-            var launcher = findChild(shell, "launcher");
-            launcher.switchToNextState("visible")
-            var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
-            tryCompare(buttonShowDashHome, "enabled", true);
-            mouseClick(buttonShowDashHome);
-            tryCompare(dashContentList, "currentIndex", 0);
-        }
-
-        function test_setLongSwipeOnDashNoChangeScope() {
-            var dashContentList = findChild(dash, "dashContentList");
-            var startX = dash.width - units.gu(1);
-            var startY = dash.height / 2;
-            var stopX = units.gu(1)
-            var stopY = startY;
-            waitForRendering(dashContentList);
-            mouseFlick(dash, startX, startY, stopX, stopY);
-            mouseFlick(dash, startX, startY, stopX, stopY);
-            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
-
+            // Flick the greeter away
             var startX = shell.width - units.gu(1);
             var startY = shell.height / 2;
             var stopX = units.gu(1)
@@ -113,9 +96,44 @@ Item {
             touchFlick(shell, startX, startY, stopX, stopY);
 
             // Now do a long launcher movement
-
             touchFlick(shell, stopX, startY, startX, stopY);
+
+            var launcher = findChild(shell, "launcher");
+            var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");
+            tryCompare(buttonShowDashHome, "enabled", true);
+            tryCompare(launcher, "visibleWidth", launcher.panelWidth);
+
+            // Make sure that opening the launcher doesn't change the scope
             compare(dashContentList.currentIndex, 2, "Opening the launcher changed the current scope");
+
+            mouseClick(buttonShowDashHome);
+            tryCompare(dashContentList, "currentIndex", 0);
+        }
+
+        function test_setShortLauncherMoveResetNonActiveDash() {
+            var dashContentList = findChild(dash, "dashContentList");
+            var startX = dash.width - units.gu(1);
+            var startY = dash.height / 2;
+            var stopX = units.gu(1)
+            var stopY = startY;
+            waitForRendering(dashContentList);
+            touchFlick(dash, startX, startY, stopX, stopY);
+            touchFlick(dash, startX, startY, stopX, stopY);
+            compare(dashContentList.currentIndex, 2, "Could not flick to scope id 2");
+
+            // Pretend the dash is not active
+            dash.windowActive = false;
+
+            // Flick the greeter away
+            var startX = shell.width - units.gu(1);
+            var startY = shell.height / 2;
+            var stopX = units.gu(1)
+            var stopY = startY;
+            touchFlick(shell, startX, startY, stopX, stopY);
+
+            // Now do a small launcher movement
+            touchFlick(shell, stopX, startY, startX, stopY);
+            compare(dashContentList.currentIndex, 0, "Small launcher move did not reset dash on non active window");
         }
     }
 }
