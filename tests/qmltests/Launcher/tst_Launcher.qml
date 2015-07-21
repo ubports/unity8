@@ -682,6 +682,8 @@ Item {
         }
 
         function test_alertHidingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
             var appIcon6 = findChild(launcher, "launcherDelegate6")
             verify(appIcon6 != undefined)
             LauncherModel.setAlerting(LauncherModel.get(6).appId, true)
@@ -689,6 +691,7 @@ Item {
             LauncherModel.setAlerting(LauncherModel.get(6).appId, false)
             waitForWiggleToStop(appIcon6)
             tryCompare(appIcon6, "x", 0, 1000, "x-value of appId #6 should not be non-zero")
+            waitForRendering(listView)
         }
 
         function test_alertIgnoreFocusedApp() {
@@ -707,6 +710,7 @@ Item {
             LauncherModel.setAlerting(LauncherModel.get(3).appId, false)
             LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
             tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+            waitForRendering(listView)
         }
 
         function test_alertMultipleApps() {
