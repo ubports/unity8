@@ -24,12 +24,13 @@ import QtQuick 2.3
 Loader {
     id: loader
 
+    property bool fullLightDM
     property var greeter: d.valid ? loader.item.greeter : null
     property var infographic: d.valid ? loader.item.infographic : null
     property var users: d.valid ? loader.item.users : null
     property var userRoles: d.valid ? loader.item.userRoles : null
 
-    source:  shell.mode === "greeter" ?
+    source:  fullLightDM ?
         "./FullLightDMImpl.qml" : "./IntegratedLightDMImpl.qml"
 
     QtObject {

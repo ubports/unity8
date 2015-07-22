@@ -168,6 +168,7 @@ Item {
 
     LightDM{
         id: lightDM
+        fullLightDM: shell.mode === "greeter"
     }
 
     VolumeControl {
@@ -438,6 +439,7 @@ Item {
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: tutorial.running
+            fullLightDM: shell.mode === "greeter"
             background: shell.background
 
             // avoid overlapping with Launcher's edge drag area
@@ -685,6 +687,7 @@ Item {
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
         }
+        fullLightDM: shell.mode === "greeter"
     }
 
     Connections {

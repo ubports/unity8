@@ -36,6 +36,8 @@ Item {
         }
     }
 
+    property bool fullLightDM
+
     signal powerOffClicked();
 
     function showPowerDialog() {
@@ -62,7 +64,11 @@ Item {
         active: false
     }
 
-    LightDM{id: lightDM} // Provide backend access
+    LightDM{
+        id: lightDM
+        fullLightDM: root.fullLightDM
+    }
+
     Component {
         id: logoutDialogComponent
         ShellDialog {
