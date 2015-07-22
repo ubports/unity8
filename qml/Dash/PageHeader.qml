@@ -136,7 +136,7 @@ Item {
         objectName: "headerContainer"
         clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: units.gu(6)
+        height: header.contentHeight
         contentHeight: headersColumn.height
         interactive: false
         contentY: showSearch ? 0 : height
@@ -171,8 +171,6 @@ Item {
             PageHeadStyle {
                 id: searchHeader
                 anchors { left: parent.left; right: parent.right }
-                height: headerContainer.height
-                contentHeight: height
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 __separator_visible: false
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
@@ -247,7 +245,6 @@ Item {
                 objectName: "innerPageHeader"
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
-                contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 __separator_visible: false
                 property var styledItem: header
