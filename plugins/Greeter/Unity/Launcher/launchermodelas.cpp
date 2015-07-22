@@ -200,7 +200,7 @@ void LauncherModel::refresh()
     Q_FOREACH (LauncherItem* item, m_list) {
         bool found = false;
         Q_FOREACH(const QVariant &asItem, items) {
-            QMap<QString, QVariant> cachedMap = asItem.toMap();
+            QVariantMap cachedMap = asItem.toMap();
             if (cachedMap.value("id").toString() == item->appId()) {
                 // Only keep and update it if we either show unpinned or it is pinned
                 if (!m_onlyPinned || cachedMap.value("pinned").toBool()) {
@@ -213,11 +213,11 @@ void LauncherModel::refresh()
                     int idx = m_list.indexOf(item);
                     Q_EMIT dataChanged(index(idx),
                                        index(idx),
-                                       QVector<int>() << RoleName
-                                                      << RoleIcon
-                                                      << RoleCount
-                                                      << RoleCountVisible
-                                                      << RoleProgress);
+                                       {RoleName,
+                                        RoleIcon,
+                                        RoleCount,
+                                        RoleCountVisible,
+                                        RoleProgress});
                 }
                 break;
             }
@@ -255,7 +255,7 @@ void LauncherModel::refresh()
         }
 
         if (itemIndex == -1) {
-            QMap<QString, QVariant> chachedMap = entry.toMap();
+            QVariantMap chachedMap = entry.toMap();
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list in AS.
             LauncherItem *item = new LauncherItem(chachedMap.value("id").toString(),
                                                   chachedMap.value("name").toString(),

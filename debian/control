@@ -101,7 +101,7 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-ubuntu-telephony0.1,
          qtdeclarative5-ubuntu-web-plugin,
          ubuntu-system-settings,
-         unity-launcher-impl-8,
+         unity-launcher-impl-4,
          unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
@@ -189,7 +189,7 @@ Depends: accountsservice-ubuntu-schemas (>= 0.0.3),
          ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,
-          unity-launcher-impl-8,
+          unity-launcher-impl-4,
 Description: Unity 8 private libs
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .

@@ -66,6 +66,7 @@ QString DBusInterface::introspect(const QString &path) const
         "<interface name=\"com.canonical.Unity.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
+            "<property name=\"progress\" type=\"i\" access=\"readwrite\" />"
         "</interface>";
     return nodeiface;
 }
