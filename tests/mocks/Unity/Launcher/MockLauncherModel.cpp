@@ -221,7 +221,7 @@ void MockLauncherModel::setProgress(const QString &appId, int progress)
     if (index >= 0) {
         m_list.at(index)->setProgress(progress);
         QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleProgress);
     }
 }
 
@@ -262,7 +262,7 @@ void MockLauncherModel::setCount(const QString &appId, int count)
     if (index >= 0) {
         m_list.at(index)->setCount(count);
         QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleCount);
     }
 }
 
