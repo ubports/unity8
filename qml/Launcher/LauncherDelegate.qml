@@ -147,7 +147,8 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
             visible: root.itemRunning
-            source: "graphics/running_app_arrow.png"
+            rotation: 180
+            source: "graphics/focused_app_arrow.png"
         }
 
         Image {
