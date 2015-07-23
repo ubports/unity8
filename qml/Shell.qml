@@ -189,7 +189,6 @@ Item {
     ScreenGrabber {
         id: screenGrabber
         z: dialogs.z + 10
-        enabled: Powerd.status === Powerd.On
     }
 
     Binding {

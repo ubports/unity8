@@ -109,6 +109,8 @@ Item {
                 d.altTabPressed = true;
                 event.accepted = true;
             }
+        } else if (event.key == Qt.Key_Print) {
+            root.screenshotTriggered();
         }
     }
 
