@@ -178,14 +178,7 @@ Item {
 
     }
 
-    //We need to eat touch events here because of bug lp:1445472
     MultiPointTouchArea {
-        objectName: "eatTouchArea"
-        anchors.fill: parent
-        enabled: root.shadeBackground && root.state == "visible"
-    }
-
-    MouseArea {
         id: closeMouseArea
         anchors {
             left: launcherDragArea.right
