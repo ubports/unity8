@@ -37,6 +37,7 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_count(0),
     m_countVisible(false),
     m_focused(false),
+    m_alerting(false),
     m_quickList(new MockQuickListModel(this))
 {
 
@@ -129,6 +130,9 @@ void MockLauncherItem::setCount(int count)
     {
         m_count = count;
         Q_EMIT countChanged(count);
+        if (m_countVisible) {
+            setAlerting(true);
+        }
     }
 }
 
@@ -142,6 +146,9 @@ void MockLauncherItem::setCountVisible(bool countVisible)
     if (m_countVisible != countVisible) {
         m_countVisible = countVisible;
         Q_EMIT countVisibleChanged(countVisible);
+        if (countVisible) {
+            setAlerting(true);
+        }
     }
 }
 
@@ -159,6 +166,18 @@ void MockLauncherItem::setFocused(bool focused)
     }
 }
 
+bool MockLauncherItem::alerting() const
+{
+    return m_alerting;
+}
+
+void MockLauncherItem::setAlerting(bool alerting)
+{
+    if (m_alerting != alerting) {
+        m_alerting = alerting;
+        Q_EMIT alertingChanged(alerting);
+    }
+}
 
 unity::shell::launcher::QuickListModelInterface *MockLauncherItem::quickList() const
 {

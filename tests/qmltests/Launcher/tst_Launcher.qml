@@ -95,30 +95,55 @@ Item {
         }
 
         Row {
-           spacing: units.gu(1)
+            spacing: units.gu(1)
 
-           Button {
-               text: "35% bar"
-               onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, 35)
-               Layout.fillWidth: true
-           }
+            Button {
+                text: "35% bar"
+                onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntryBar.displayText)).appId, 35)
+                Layout.fillWidth: true
+            }
 
-           TextArea {
-               id: appIdEntry
-               anchors.verticalCenter: parent.verticalCenter
-               width: units.gu(4)
-               height: units.gu(4)
-               autoSize: true
-               text: "2"
-               maximumLineCount: 1
-           }
+            TextArea {
+                id: appIdEntryBar
+                anchors.verticalCenter: parent.verticalCenter
+                width: units.gu(4)
+                height: units.gu(4)
+                autoSize: true
+                text: "2"
+                maximumLineCount: 1
+            }
 
-           Button {
-               text: "no bar"
-               onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, -1)
-               Layout.fillWidth: true
-           }
-       }
+            Button {
+                text: "no bar"
+                onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntryBar.displayText)).appId, -1)
+                Layout.fillWidth: true
+            }
+        }
+
+        Row {
+            spacing: units.gu(1)
+
+            Button {
+                text: "set alert"
+                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, true)
+            }
+
+            TextArea {
+                id: appIdEntryAlert
+                anchors.verticalCenter: parent.verticalCenter
+                width: units.gu(5)
+                height: units.gu(4)
+                autoSize: true
+                text: "2"
+                maximumLineCount: 1
+                Layout.fillWidth: true
+            }
+
+            Button {
+                text: "unset alert"
+                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, false)
+            }
+        }
     }
 
     SignalSpy {
@@ -193,6 +218,16 @@ Item {
         function waitUntilLauncherDisappears() {
             var panel = findChild(launcher, "launcherPanel");
             tryCompare(panel, "x", -panel.width, 1000);
+        }
+
+        function waitForWiggleToStart(appIcon) {
+            verify(appIcon != undefined)
+            tryCompare(appIcon, "wiggling", true, 1000, "wiggle-anim should not be in stopped state")
+        }
+
+        function waitForWiggleToStop(appIcon) {
+            verify(appIcon != undefined)
+            tryCompare(appIcon, "wiggling", false, 1000, "wiggle-anim should not be in running state")
         }
 
         function positionLauncherListAtBeginning() {
@@ -672,6 +707,115 @@ Item {
             LauncherModel.setProgress(LauncherModel.get(0).appId, 20)
             compare(findChild(item, "progressOverlay").visible, true)
             LauncherModel.setProgress(LauncherModel.get(0).appId, 0)
+        }
+
+        function test_alertPeekingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+        }
+
+        function test_alertHidingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            var appIcon6 = findChild(launcher, "launcherDelegate6")
+            verify(appIcon6 != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(6).appId, true)
+            waitForWiggleToStart(appIcon6)
+            LauncherModel.setAlerting(LauncherModel.get(6).appId, false)
+            waitForWiggleToStop(appIcon6)
+            tryCompare(appIcon6, "x", 0, 1000, "x-value of appId #6 should not be non-zero")
+            waitForRendering(listView)
+        }
+
+        function test_alertIgnoreFocusedApp() {
+            LauncherModel.setAlerting(LauncherModel.get(0).appId, true)
+            compare(LauncherModel.get(0).alerting, false, "Focused app should not have the alert-state set")
+        }
+
+        function test_alertOnlyOnePeekingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 3, 1000, "Wrong appId set as peeking-index")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+            waitForRendering(listView)
+        }
+
+        function test_alertMultipleApps() {
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, true)
+            compare(LauncherModel.get(1).alerting, true, "Alert-state of appId #1 should not be false")
+            compare(LauncherModel.get(3).alerting, true, "Alert-state of appId #3 should not be false")
+            compare(LauncherModel.get(5).alerting, true, "Alert-state of appId #5 should not be false")
+            compare(LauncherModel.get(7).alerting, true, "Alert-state of appId #7 should not be false")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, false)
+            compare(LauncherModel.get(1).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(3).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(5).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(7).alerting, false, "Alert-state of appId #1 should not be true")
+        }
+
+        function test_alertMoveIconIntoView() {
+            dragLauncherIntoView();
+            var appIcon1 = findChild(launcher, "launcherDelegate1");
+            var appIcon7 = findChild(launcher, "launcherDelegate7");
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, true)
+            tryCompare(appIcon1, "angle", 0, 1000, "angle of appId #1 should not be non-zero")
+            waitForWiggleToStart(appIcon1)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, true)
+            tryCompare(appIcon7, "angle", 0, 1000, "angle of appId #7 should not be non-zero")
+            waitForWiggleToStart(appIcon7)
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, false)
+            waitForWiggleToStop(appIcon7)
+        }
+
+        function test_alertWigglePeekDrag() {
+            var appIcon5 = findChild(launcher, "launcherDelegate5");
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
+            waitForWiggleToStart(appIcon5)
+            tryCompare(appIcon5, "wiggling", true, 1000, "appId #6 should not be still")
+            dragLauncherIntoView();
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            waitForWiggleToStop(appIcon5)
+            tryCompare(appIcon5, "wiggling", false, 1000, "appId #1 should not be wiggling")
+        }
+
+        function test_alertViaCountAndCountVisible() {
+            dragLauncherIntoView();
+            var appIcon1 = findChild(launcher, "launcherDelegate1")
+            var oldCount = LauncherModel.get(1).count
+            LauncherModel.setCount(LauncherModel.get(1).appId, 42)
+            tryCompare(appIcon1, "wiggling", false, 1000, "appId #1 should be still")
+            LauncherModel.setCountVisible(LauncherModel.get(1).appId, 1)
+            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setCount(LauncherModel.get(1).appId, 4711)
+            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setCountVisible(LauncherModel.get(1).appId, 0)
+            LauncherModel.setCount(LauncherModel.get(1).appId, oldCount)
         }
     }
 }

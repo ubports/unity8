@@ -1,3 +1,37 @@
+unity8 (8.10+15.10.20150717-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals ]
+  * Ensure tutorial doesn't let user drag the launcher past screen edge.
+    (LP: #1454882)
+
+  [ Albert Astals Cid ]
+  * Fix build with ninja
+
+  [ Andrea Cimitan ]
+  * Add PreviewSocialComment
+
+  [ Daniel d'Andrada ]
+  * Ensure tutorial doesn't let user drag the launcher past screen edge.
+    (LP: #1454882)
+  * Update tst_ShellWithPin
+
+  [ Josh Arenson ]
+  * Add a basic autopilot test for the SettingsWizard
+
+  [ Lukáš Tinkl ]
+  * Avoid sync DBUS calls
+
+  [ Marcus Tomlinson ]
+  * Handle TERM, HUP, and INT signals in unity-scope-tool (LP: #1470464)
+
+  [ Michael Zanetti ]
+  * Add PreviewSocialComment
+
+  [ Nick Dedekind ]
+  * Fixed qml warnings in 'make tryShell'
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 17 Jul 2015 15:53:38 +0000
+
 unity8 (8.10+15.10.20150713-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]

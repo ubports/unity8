@@ -27,7 +27,7 @@ class DBusInterface: public UnityDBusVirtualObject
     Q_OBJECT
 public:
     DBusInterface(LauncherModel *parent);
-    ~DBusInterface();
+    ~DBusInterface() = default;
 
     // QDBusVirtualObject implementaition
     QString introspect (const QString &path) const override;
@@ -38,6 +38,7 @@ Q_SIGNALS:
     void countVisibleChanged(const QString &appId, bool countVisible);
     void progressChanged(const QString &appId, int progress);
     void refreshCalled();
+    void alertCalled(const QString &appId);
 
 private:
     static QString decodeAppId(const QString& path);
