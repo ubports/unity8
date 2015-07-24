@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-07-23 05:44+0000\n"
+"X-Launchpad-Export-Date: 2015-07-24 05:42+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -563,7 +563,7 @@ msgstr "插入 SIM 卡并重启你的设备"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "离开它，您将不能使用电话或短信功能。"
+msgstr "没有它，您将不能使用电话或短信功能。"
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -644,7 +644,7 @@ msgstr "选择这个选项表示你同意 Nokia HERE <a href='#'>条款声明</a
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr "一点也不"
+msgstr "不使用"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
