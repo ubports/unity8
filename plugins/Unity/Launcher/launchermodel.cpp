@@ -357,7 +357,7 @@ void LauncherModel::countChanged(const QString &appId, int count)
     }
 }
 
-void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
+void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
 {
     int idx = findApplication(appId);
     if (idx >= 0) {
