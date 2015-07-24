@@ -385,7 +385,6 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(item);
             endInsertRows();
-            Q_EMIT hint();
         }
     }
     m_asAdapter->syncItems(m_list);
