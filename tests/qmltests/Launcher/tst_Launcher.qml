@@ -811,6 +811,7 @@ Item {
             LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
             waitForWiggleToStop(appIcon1)
             LauncherModel.setCount(LauncherModel.get(1).appId, 4711)
+            LauncherModel.setCountVisible(LauncherModel.get(1).appId, 1)
             tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
             LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
             waitForWiggleToStop(appIcon1)
