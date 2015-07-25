@@ -159,7 +159,11 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         return false;
     }
 
-    if (message.member() != "GetAll" && message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item") {
+    if (message.member() == "Get" && (message.arguments().count() != 2 || message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item")) {
+        return false;
+    }
+
+    if (message.member() == "Set" && (message.arguments().count() != 3 || message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item")) {
         return false;
     }
 

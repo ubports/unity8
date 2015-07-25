@@ -358,7 +358,7 @@ void LauncherModel::countChanged(const QString &appId, int count)
     }
 }
 
-void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
+void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
 {
     int idx = findApplication(appId);
     if (idx >= 0) {
@@ -386,7 +386,6 @@ void LauncherModel::countVisibleChanged(const QString &appId, int countVisible)
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(item);
             endInsertRows();
-            Q_EMIT hint();
         }
     }
     m_asAdapter->syncItems(m_list);
