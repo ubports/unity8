@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE void shutdown() { Shutdown(); }
     Q_INVOKABLE void endSession() { EndSession(); }
 
+    // TODO: remove duplicate signals and split D-Bus and QML API's
 Q_SIGNALS:
     /**
      * LogoutRequested signal
