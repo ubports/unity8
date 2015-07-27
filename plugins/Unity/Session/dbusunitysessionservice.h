@@ -56,6 +56,7 @@ Q_SIGNALS:
      *        which inhibit the logout.
      */
     Q_SCRIPTABLE void LogoutRequested(bool have_inhibitors);
+    void logoutRequested(bool have_inhibitors);
 
     /**
      * RebootRequested signal
@@ -66,6 +67,7 @@ Q_SIGNALS:
      *        which inhibit the reboot.
      */
     Q_SCRIPTABLE void RebootRequested(bool have_inhibitors);
+    void rebootRequested(bool have_inhibitors);
 
     /**
      * ShutdownRequested signal
@@ -76,6 +78,7 @@ Q_SIGNALS:
      *        which inhibit the shutdown.
      */
     Q_SCRIPTABLE void ShutdownRequested(bool have_inhibitors);
+    void shutdownRequested(bool have_inhibitors);
 
     /**
      * LogoutReady signal
@@ -84,11 +87,13 @@ Q_SIGNALS:
      * is safe to logout.
      */
     Q_SCRIPTABLE void LogoutReady();
+    void logoutReady();
 
     /**
      * Emitted as a result of calling PromptLock()
      */
     Q_SCRIPTABLE void LockRequested();
+    void lockRequested();
 
     /**
      * Emitted after the session has been locked.

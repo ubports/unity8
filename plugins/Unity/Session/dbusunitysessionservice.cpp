@@ -197,6 +197,7 @@ void DBusUnitySessionService::Logout()
 {
     // TODO ask the apps to quit and then emit the signal
     Q_EMIT LogoutReady();
+    Q_EMIT logoutReady();
 }
 
 void DBusUnitySessionService::EndSession()
@@ -275,6 +276,7 @@ QString DBusUnitySessionService::HostName() const
 void DBusUnitySessionService::PromptLock()
 {
     Q_EMIT LockRequested();
+    Q_EMIT lockRequested();
 }
 
 void DBusUnitySessionService::Lock()
@@ -303,6 +305,7 @@ bool DBusUnitySessionService::IsLocked() const
 void DBusUnitySessionService::RequestLogout()
 {
     Q_EMIT LogoutRequested(false);
+    Q_EMIT logoutRequested(false);
 }
 
 void DBusUnitySessionService::Reboot()
@@ -313,6 +316,7 @@ void DBusUnitySessionService::Reboot()
 void DBusUnitySessionService::RequestReboot()
 {
     Q_EMIT RebootRequested(false);
+    Q_EMIT rebootRequested(false);
 }
 
 void DBusUnitySessionService::Shutdown()
@@ -338,6 +342,7 @@ void DBusUnitySessionService::HybridSleep()
 void DBusUnitySessionService::RequestShutdown()
 {
     Q_EMIT ShutdownRequested(false);
+    Q_EMIT shutdownRequested(false);
 }
 
 enum class Action : unsigned
