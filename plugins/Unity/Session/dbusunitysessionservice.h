@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE void endSession() { EndSession(); }
 
     // TODO: remove duplicate signals and split D-Bus and QML API's
+    // Apparently QML needs the signals in lowercase, while DBUS spec needs the uppercase version
 Q_SIGNALS:
     /**
      * LogoutRequested signal
