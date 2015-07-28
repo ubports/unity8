@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-23 03:42+0000\n"
+"PO-Revision-Date: 2015-07-27 10:26+0000\n"
 "Last-Translator: Ian Li <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-07-25 05:39+0000\n"
+"X-Launchpad-Export-Date: 2015-07-28 05:40+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -218,7 +218,7 @@ msgstr "回到呼叫"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
-msgstr "紧急电话"
+msgstr "紧急呼叫"
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
@@ -365,7 +365,7 @@ msgstr "对不起，密语不正确"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "请重新输入"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -516,7 +516,7 @@ msgstr "上一步"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr "Hi！"
+msgstr "您好！"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
