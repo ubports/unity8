@@ -27,7 +27,7 @@ class DBusInterface: public UnityDBusVirtualObject
     Q_OBJECT
 public:
     DBusInterface(LauncherModel *parent);
-    ~DBusInterface();
+    ~DBusInterface() = default;
 
     // QDBusVirtualObject implementaition
     QString introspect (const QString &path) const override;
