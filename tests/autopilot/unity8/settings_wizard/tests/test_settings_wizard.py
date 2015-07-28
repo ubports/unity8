@@ -45,6 +45,9 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
         self.assertEqual(default_selection, DEFAULT_LANGUAGE)
         return language_page.continue_()
 
+    def _test_location_page(self, location_page):
+        return location_page.continue_()
+
     def _test_password_page(self, password_page):
         """ Check default selection for password type and change
         password type to swipe to keep this test as uncomplicated
@@ -57,6 +60,9 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
     def _test_reporting_page(self, reporting_page):
         return reporting_page.continue_()
 
+    def _test_sim_page(self, sim_page):
+        return sim_page.skip()
+
     def _test_wifi_connect_page(self, wifi_connect_page):
         if wifi_connect_page.is_any_network_checked() or not \
            wifi_connect_page.is_any_network_found():
@@ -67,13 +73,22 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
     def test_skipping_through_wizard(self):
         """ Most basic test of the settings wizard. Skip all skipable pages """
         sim_inserted, next_page = self._test_language_page()
-        if sim_inserted:
-            password_page = next_page
+        if not sim_inserted:
+            sim_page = next_page
+            password_page = self._test_sim_page(sim_page)
         else:
-            password_page = next_page.skip()
+            password_page = next_page
         wifi_connect_page = self._test_password_page(password_page)
-        reporting_page = self._test_wifi_connect_page(wifi_connect_page)
+
+        locationPageEnabled, next_page = self._test_wifi_connect_page(
+            wifi_connect_page)
+        if locationPageEnabled:
+            location_page = next_page
+            reporting_page = self._test_location_page(location_page)
+        else:
+            reporting_page = next_page
         finish_page = self._test_reporting_page(reporting_page)
+
         finish_page.finish()
         self.assertFalse(
             self.wizard_helper.is_settings_wizard_enabled())

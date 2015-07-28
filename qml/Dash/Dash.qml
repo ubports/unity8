@@ -332,6 +332,18 @@ Showable {
             // Eat direct presses on the overview hint so that they do not end up in the card below
             anchors.fill: parent
             enabled: parent.opacity != 0
+
+            // TODO: This is a temporary workaround to allow people opening the
+            // dash overview when there's no touch input around. Will be replaced with
+            // a SDK component once that's available
+            onClicked: bottomEdgeController.progress = 1;
+
+            // We need to eat touch events here in order to not allow opening the bottom edge with a touch press
+            MultiPointTouchArea {
+                anchors.fill: parent
+                mouseEnabled: false
+                enabled: parent.enabled
+            }
         }
     }
 

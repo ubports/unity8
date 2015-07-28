@@ -1,36 +1,34 @@
-unity8 (8.10+15.10.20150717-0ubuntu1) wily; urgency=medium
-
-  [ Albert Astals ]
-  * Ensure tutorial doesn't let user drag the launcher past screen edge.
-    (LP: #1454882)
+unity8 (8.10+15.10.20150721-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]
-  * Fix build with ninja
+  * Add context for "Please re-enter" (LP: #1377195)
+  * Fix i18n in scope tool (LP: #1317541)
+  * Fix warning when doing make try
+  * New phone background provided by design (LP: #1364537)
+  * PreviewExpandable should be not expanded on startup
+  * Update state of indicators bar only when the user is actively
+    dragging himself (LP: #1457044)
+  * icon-actions preview widget
+  * make testPageHeader more stable
 
-  [ Andrea Cimitan ]
-  * Add PreviewSocialComment
-
-  [ Daniel d'Andrada ]
-  * Ensure tutorial doesn't let user drag the launcher past screen edge.
-    (LP: #1454882)
-  * Update tst_ShellWithPin
+  [ CI Train Bot ]
+  * Resync trunk.
 
   [ Josh Arenson ]
-  * Add a basic autopilot test for the SettingsWizard
-
-  [ Lukáš Tinkl ]
-  * Avoid sync DBUS calls
-
-  [ Marcus Tomlinson ]
-  * Handle TERM, HUP, and INT signals in unity-scope-tool (LP: #1470464)
+  * Add handling for the location page to the autopilot settings wizard
+    test
 
   [ Michael Zanetti ]
-  * Add PreviewSocialComment
+  * allow opening the manage dash area by clicking with a mouse on the
+    arrow label
 
-  [ Nick Dedekind ]
-  * Fixed qml warnings in 'make tryShell'
+  [ handsome_feng ]
+  * Added touch state on navigation. (LP: #1383213)
 
- -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 17 Jul 2015 15:53:38 +0000
+  [ handsome_feng<445865575@qq.com> ]
+  * Added touch state on navigation. (LP: #1383213)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 21 Jul 2015 09:10:05 +0000
 
 unity8 (8.10+15.10.20150713-0ubuntu1) wily; urgency=medium
 
