@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Components"
 
