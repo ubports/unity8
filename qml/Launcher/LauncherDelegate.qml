@@ -46,27 +46,16 @@ Item {
         height: parent.itemHeight + units.gu(1)
         anchors.centerIn: parent
 
-        UbuntuShape {
+        UbuntuShapeIcon {
             id: iconShape
-            anchors.fill: parent
-            anchors.margins: units.gu(1)
-            radius: "medium"
-            aspect: UbuntuShape.Flat
-            sourceFillMode: UbuntuShape.PreserveAspectCrop
+            anchors.centerIn: parent
+            width: parent.width - units.gu(2);
             source: Image {
                 id: iconImage
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
                 source: root.iconName
             }
-        }
-
-        BorderImage {
-            id: itemGlow
-            anchors.centerIn: iconItem
-            source: "graphics/icon-top-highlight.png"
-            width: root.itemWidth - units.gu(1)
-            height: root.itemHeight - units.gu(1)
         }
 
         UbuntuShape {

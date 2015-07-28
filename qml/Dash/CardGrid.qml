@@ -24,7 +24,9 @@ DashRenderer {
         if (!cardTool || !cardTool.template || typeof cardTool.template["collapsed-rows"] != "number") return 2;
         return cardTool.template["collapsed-rows"];
     }
-
+    // hackish, relies on GenericScopeView.qml:335 tweak to detect application icons in click scope
+    readonly property var artShapeStyle: cardTool.artShapeSize === Qt.size(units.gu(8), units.gu(7.5)) ? "icon" : "inset";
+    
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
     collapsedItemCount: collapsedRows * grid.columns
@@ -52,6 +54,7 @@ DashRenderer {
         displayMarginEnd: root.displayMarginEnd
         cacheBuffer: root.cacheBuffer
         interactive: false
+        topMargin: root.artShapeStyle === "icon" ? units.gu(0.1) : 0 // otherwise when we have a shadow, its top is clipped
         delegate: Item {
             width: grid.cellWidth
             height: grid.cellHeight
@@ -69,6 +72,7 @@ DashRenderer {
                     item.components = Qt.binding(function() { return cardTool.components; });
                     item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                     item.scopeStyle = root.scopeStyle;
+                    item.artShapeStyle = root.artShapeStyle;
                 }
                 Connections {
                     target: loader.item

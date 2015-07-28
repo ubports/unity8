@@ -64,17 +64,8 @@ DashRenderer {
                 item.components = Qt.binding(function() { return cardTool.components; });
                 item.fontScale = Qt.binding(function() { return carousel.fontScale; });
                 item.showHeader = Qt.binding(function() { return loader.explicitlyScaled; });
-                item.artShapeStyle = "flat";
+                item.artShapeStyle = "shadow";
                 item.scopeStyle = cardCarousel.scopeStyle;
-            }
-
-            BorderImage {
-                anchors {
-                    fill: parent
-                    margins: -units.gu(1)
-                }
-                z: -1
-                source: "graphics/carousel_dropshadow.sci"
             }
         }
     }
