@@ -472,6 +472,41 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
         }
 
+        function test_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
+            loadShell("phone");
+            swipeAwayGreeter();
+            dragLauncherIntoView();
+            dashCommunicatorSpy.clear();
+
+            tapOnAppIconInLauncher();
+            waitUntilApplicationWindowIsFullyVisible();
+
+            verify(ApplicationManager.focusedApplicationId !== "unity8-dash")
+
+            //Long left swipe
+            swipeFromLeftEdge(units.gu(30));
+
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(dashCommunicatorSpy.count, 1);
+        }
+
+        function test_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
+            loadShell("phone");
+            swipeAwayGreeter();
+            dragLauncherIntoView();
+            dashCommunicatorSpy.clear();
+
+            var launcher = findChild(shell, "launcher");
+            var dashIcon = findChild(launcher, "dashItem");
+            verify(dashIcon != undefined);
+            mouseClick(dashIcon);
+
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(dashCommunicatorSpy.count, 1);
+        }
+
         function test_suspend() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1082,6 +1117,8 @@ Rectangle {
         }
 
         function test_tapUbuntuIconInLauncherOverAppSpread() {
+            launcherShowDashHomeSpy.clear();
+
             loadShell("phone");
             swipeAwayGreeter();
 
