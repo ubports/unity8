@@ -32,24 +32,35 @@ LocalComponents.Page {
         id: plugin
     }
 
+    Component.onCompleted: {
+        if (!modemManager.available) { // don't wait for the modem if it's not there
+            init()
+        }
+    }
+
     Connections {
         target: modemManager
         onModemsChanged: {
             print("Modems changed")
-            var detectedLangs = []
-            if (simManager0.present && simManager0.preferredLanguages.length > 0) {
-                print("SIM 0 detected langs:", detectedLangs)
-                detectedLangs = simManager0.preferredLanguages
-            } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
-                print("SIM 1 detected langs:", detectedLangs)
-                detectedLangs = simManager1.preferredLanguages
-            } else {
-                print("No lang detected, falling back to default:", defaultLanguage)
-                detectedLangs = [defaultLanguage] // fallback to default lang
-            }
-
-            populateModel(false, detectedLangs)
+            init()
         }
+    }
+
+    function init()
+    {
+        var detectedLangs = []
+        if (simManager0.present && simManager0.preferredLanguages.length > 0) {
+            detectedLangs = simManager0.preferredLanguages
+            print("SIM 0 detected langs:", detectedLangs)
+        } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
+            detectedLangs = simManager1.preferredLanguages
+            print("SIM 1 detected langs:", detectedLangs)
+        } else {
+            print("No lang detected, falling back to default:", defaultLanguage)
+            detectedLangs = [defaultLanguage] // fallback to default lang
+        }
+
+        populateModel(false, detectedLangs)
     }
 
     function populateModel(onlyDetected, detectedLangs)
@@ -85,7 +96,9 @@ LocalComponents.Page {
             index++;
         });
 
-        languagesListView.positionViewAtIndex(selectedIndex, ListView.Center)
+        if (selectedIndex !== -1) {
+            languagesListView.positionViewAtIndex(selectedIndex, ListView.Center)
+        }
     }
 
     function selectLanguage(code, index)

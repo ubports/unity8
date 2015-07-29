@@ -26,28 +26,60 @@ LocalComponents.Page {
     title: i18n.tr("Region")
     forwardButtonSourceComponent: forwardButton
 
-    readonly property var preferedCountries: LocalePlugin.countriesForLanguage(root.language)
-
     Component.onCompleted: {
-        populateModel(preferedCountries);
+        if (!modemManager.available) { // don't wait for the modem if it's not there
+            init()
+        }
     }
 
-    function populateModel(preferedCountries)
+    Connections {
+        target: modemManager
+        onModemsChanged: {
+            print("Modems changed")
+            init()
+        }
+    }
+
+    function init()
+    {
+        var detectedCountry
+        if (simManager0.present && simManager0.mobileCountryCode) {
+            detectedCountry = LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode)
+            print("SIM 0 detected country:", detectedCountry)
+        } else if (simManager1.present && simManager1.mobileCountryCode) {
+            detectedCountry = LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode)
+            print("SIM 1 detected country:", detectedCountry)
+        } else if (!detectedCountry) {
+            detectedCountry = preferedCountry() // fallback to prefered country
+            print("No SIM country detected, falling back to prefered country:", detectedCountry)
+        }
+
+        populateModel(detectedCountry)
+    }
+
+    // return a prefered country for a language, but only if there's exactly one
+    function preferedCountry()
+    {
+        var countries = Object.keys(LocalePlugin.countriesForLanguage(root.language))
+        if (countries.length === 1) {
+            return countries[0]
+        }
+        // TODO should we ultimately fallback to "US" here?
+    }
+
+    function populateModel(preferedCountry)
     {
         var countries = LocalePlugin.countries();
+        var index = 0
+        var selectedIndex = -1
         //console.log("All countries:" + countries);
+        print("Prefered country", preferedCountry)
         Object.keys(countries).map(function(code) { // prepare the object
             //console.log("Got country:" + code);
-            return { "code": code, "country":  countries[code] || code,
-                "dept": Object.keys(preferedCountries).indexOf(code) !== -1 ? i18n.tr("Prefered") : i18n.tr("All") };
+            return { "code": code, "country":  countries[code] || code };
         })
-        .sort(function(a, b) { // group by status, sort by country name
-            if (a.dept === b.dept) {
-                 return a.country.localeCompare(b.country);
-            } else if (a.dept === i18n.tr("Prefered")) {
-                return -1
-            }
-            return 1
+        .sort(function(a, b) { // sort by country name
+            return a.country.localeCompare(b.country);
         })
         .forEach(function(country) { // build the model
             //console.debug("Adding country:" + country.code);
@@ -55,9 +87,18 @@ LocalComponents.Page {
                 return;
             }
             model.append(country);
+            if (preferedCountry && country.code === preferedCountry) { // preselect the prefered country, if any
+                selectedIndex = index;
+                selectCountry(country.code, selectedIndex)
+            }
+            index++;
         });
         busyIndicator.running = false;
         busyIndicator.visible = false;
+
+        if (selectedIndex !== -1) {
+            regionsListView.positionViewAtIndex(selectedIndex, ListView.Center)
+        }
     }
 
     function selectCountry(code, index)
