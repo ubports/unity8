@@ -119,12 +119,6 @@ Rectangle {
                     // need to be smaller than this size to avoid breakage.
                     property int extensionSize: 0
 
-                    // These properties are needed to facilitate implicitly unfolding the
-                    // launcher to the peeking icon, if it is not already fully flat
-                    // and in view for the user
-                    property real moveToIndexYFrom
-                    property real moveToIndexYTo
-
                     // Setting extensionSize after the list has been populated because it has
                     // the potential to mess up with the intial positioning in combination
                     // with snapping to the center of the list. This catches all the cases
@@ -136,14 +130,6 @@ Rectangle {
                     Component.onCompleted: {
                         extensionSize = itemHeight * 3
                         flick(0, clickFlickSpeed)
-                    }
-
-                    UbuntuNumberAnimation {
-                        id: moveToIndexAnimation
-                        target: launcherListView
-                        property: "contentY"
-                        from: launcherListView.moveToIndexYFrom
-                        to: launcherListView.moveToIndexYTo
                     }
 
                     // The height of the area where icons start getting folded
@@ -175,6 +161,17 @@ Rectangle {
                         target: launcherListView
                         property: "contentY"
                         to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY - launcherListView.topMargin
+                    }
+
+                    UbuntuNumberAnimation {
+                        id: moveAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        function moveTo(contentY) {
+                            from = launcherListView.contentY;
+                            to = contentY;
+                            start();
+                        }
                     }
 
                     displaced: Transition {
@@ -236,10 +233,14 @@ Rectangle {
                         onAlertingChanged: {
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
-                                    launcherListView.moveToIndexYFrom = launcherListView.contentY
-                                    launcherListView.positionViewAtIndex(index, ListView.Center)
-                                    launcherListView.moveToIndexYTo = launcherListView.contentY
-                                    moveToIndexAnimation.start()
+                                      var itemPosition = index * launcherListView.itemHeight;
+                                      var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+                                      var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
+                                      if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
+                                          moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
+                                      } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
+                                          moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
+                                      }
                                     if (!dragging && launcher.state !== "visible") {
                                         peekingAnimation.start()
                                     }

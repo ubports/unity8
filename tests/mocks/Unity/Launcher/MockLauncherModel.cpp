@@ -265,7 +265,7 @@ void MockLauncherModel::setCount(const QString &appId, int count)
     if (index >= 0) {
         m_list.at(index)->setCount(count);
         QModelIndex modelIndex = this->index(index);
-        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleCount);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
     }
 }
 
