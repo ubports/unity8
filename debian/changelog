@@ -1,44 +1,42 @@
-unity8 (8.10+15.10.20150721-0ubuntu1) wily; urgency=medium
-
-  [ Albert Astals Cid ]
-  * Add context for "Please re-enter" (LP: #1377195)
-  * Fix i18n in scope tool (LP: #1317541)
-  * Fix warning when doing make try
-  * New phone background provided by design (LP: #1364537)
-  * PreviewExpandable should be not expanded on startup
-  * Update state of indicators bar only when the user is actively
-    dragging himself (LP: #1457044)
-  * icon-actions preview widget
-  * make testPageHeader more stable
+unity8 (8.10+15.10.20150729-0ubuntu1) wily; urgency=medium
 
   [ CI Train Bot ]
   * Resync trunk.
-
-  [ Josh Arenson ]
-  * Add handling for the location page to the autopilot settings wizard
-    test
-
-  [ Michael Zanetti ]
   * allow opening the manage dash area by clicking with a mouse on the
-    arrow label
-
-  [ handsome_feng ]
-  * Added touch state on navigation. (LP: #1383213)
-
-  [ handsome_feng<445865575@qq.com> ]
-  * Added touch state on navigation. (LP: #1383213)
-
- -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 21 Jul 2015 09:10:05 +0000
-
-unity8 (8.10+15.10.20150713-0ubuntu1) wily; urgency=medium
-
-  [ Albert Astals Cid ]
-  * Revert Session Screenshotter (LP: #1473476)
+    arrow label (LP: #1431564)
 
   [ Daniel d'Andrada ]
-  * Dismiss the apps spread if greeter gets shown (LP: #1471609)
+  * TouchRegistry: remove null candidates from list of candidates (LP:
+    #1473492)
 
- -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 13 Jul 2015 14:17:20 +0000
+  [ Lukáš Tinkl ]
+  * Fix power dialogs on desktop
+  * Provide DBUS compatibility with  various session services
+    (suspend/hibernate, lock/unlock, screensaver, etc)
+  * React on PrtScr keyboard shortcut for taking screenshots on desktop
+    (LP: #1474149)
+  * launcher parity: close apps from quicklist (LP: #1457201)
+
+  [ Michael Zanetti ]
+  * Implement first edition for a desktop Alt+Tab spread
+  * drop the gcc-4.9 dependency (LP: #1452348)
+
+  [ Mirco Müller ]
+  * Added corresponding tests and visual tweaks to a launcher-item's
+    progress-overlay.
+  * Added corresponding tests and visual tweaks to a launcher-item's
+    progress-overlay.
+  * Implemented alert/wiggle feature for launcher-icons.
+  * Implemented alert/wiggle feature for launcher-icons.
+
+  [ handsome_feng ]
+  * makes left swip reset the search string. (LP: #1413791)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Don't expand indicators when tap to return to call. (LP: #1453217)
+  * makes left swip reset the search string. (LP: #1413791)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 29 Jul 2015 12:39:01 +0000
 
 unity8 (8.10+15.10.20150708.2-0ubuntu1) wily; urgency=medium
 
