@@ -1,0 +1,5 @@
+This directory holds a few handy shell-scripts to simplify runtime-testing of DBus-APIs (requires qdbus-qt5 to be installed).
+
+launcher-icon related:
+ * list-launcher-icons.sh - get all icons of unity8-launcher
+ * alert-launcher-icon.sh - trigger alert/wiggle of unfocused launcher-icon

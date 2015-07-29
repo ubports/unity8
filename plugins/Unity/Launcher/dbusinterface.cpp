@@ -62,6 +62,7 @@ QString DBusInterface::introspect(const QString &path) const
         "<interface name=\"com.canonical.Unity.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
+            "<method name=\"Alert\" />"
         "</interface>";
     return nodeiface;
 }
@@ -122,11 +123,32 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         return false;
     }
 
+    /* Break down the path to just the app id */
+    bool validpath = true;
+    QString pathtemp = message.path();
+    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/")) {
+        validpath = false;
+    }
+    pathtemp.remove("/com/canonical/Unity/Launcher/");
+    if (pathtemp.indexOf('/') >= 0) {
+        validpath = false;
+    }
+
+    /* Find ourselves an appid */
+    QString appid = decodeAppId(pathtemp);
+
     // First handle methods of the Launcher interface
     if (message.interface() == "com.canonical.Unity.Launcher") {
         if (message.member() == "Refresh") {
             QDBusMessage reply = message.createReply();
             Q_EMIT refreshCalled();
+            return connection.send(reply);
+        }
+    } else if (message.interface() == "com.canonical.Unity.Launcher.Item") {
+        // Handle methods of the Launcher-Item interface
+        if (message.member() == "Alert" && validpath) {
+            QDBusMessage reply = message.createReply();
+            Q_EMIT alertCalled(appid);
             return connection.send(reply);
         }
     }
@@ -136,22 +158,18 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
         return false;
     }
 
-    if (message.member() != "GetAll" && message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item") {
+    if (message.member() == "Get" && (message.arguments().count() != 2 || message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item")) {
         return false;
     }
 
-    /* Break down the path to just the app id */
-    QString pathtemp = message.path();
-    if (!pathtemp.startsWith("/com/canonical/Unity/Launcher/")) {
-        return false;
-    }
-    pathtemp.remove("/com/canonical/Unity/Launcher/");
-    if (pathtemp.indexOf('/') >= 0) {
+    if (message.member() == "Set" && (message.arguments().count() != 3 || message.arguments()[0].toString() != "com.canonical.Unity.Launcher.Item")) {
         return false;
     }
 
-    /* Find ourselves an appid */
-    QString appid = decodeAppId(pathtemp);
+    if (!validpath) {
+        return false;
+    }
+
     int index = m_launcherModel->findApplication(appid);
     LauncherItem *item = static_cast<LauncherItem*>(m_launcherModel->get(index));
 

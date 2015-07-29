@@ -86,6 +86,7 @@ Rectangle {
             height: parent.height - dashItem.height - parent.spacing*2
 
             Item {
+                id: launcherListViewItem
                 anchors.fill: parent
                 clip: true
 
@@ -108,6 +109,9 @@ Rectangle {
                     highlightRangeMode: ListView.ApplyRange
                     preferredHighlightBegin: (height - itemHeight) / 2
                     preferredHighlightEnd: (height + itemHeight) / 2
+
+                    // for the single peeking icon, when alert-state is set on delegate
+                    property int peekingIndex: -1
 
                     // The size of the area the ListView is extended to make sure items are not
                     // destroyed when dragging them outside the list. This needs to be at least
@@ -159,6 +163,17 @@ Rectangle {
                         to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY - launcherListView.topMargin
                     }
 
+                    UbuntuNumberAnimation {
+                        id: moveAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        function moveTo(contentY) {
+                            from = launcherListView.contentY;
+                            to = contentY;
+                            start();
+                        }
+                    }
+
                     displaced: Transition {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
                     }
@@ -180,9 +195,66 @@ Rectangle {
                         progress: model.progress
                         itemFocused: model.focused
                         inverted: root.inverted
+                        alerting: model.alerting
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
+
+                        SequentialAnimation {
+                            id: peekingAnimation
+
+                            // revealing
+                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
+                            PropertyAction { target: launcherListViewItem; property: "clip"; value: 0 }
+
+                            UbuntuNumberAnimation {
+                                target: launcherDelegate
+                                alwaysRunToEnd: true
+                                loops: 1
+                                properties: "x"
+                                to: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
+                                duration: UbuntuAnimation.BriskDuration
+                            }
+
+                            // hiding
+                            UbuntuNumberAnimation {
+                                target: launcherDelegate
+                                alwaysRunToEnd: true
+                                loops: 1
+                                properties: "x"
+                                to: 0
+                                duration: UbuntuAnimation.BriskDuration
+                            }
+
+                            PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
+                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                        }
+
+                        onAlertingChanged: {
+                            if(alerting) {
+                                if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
+                                      var itemPosition = index * launcherListView.itemHeight;
+                                      var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+                                      var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
+                                      if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
+                                          moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
+                                      } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
+                                          moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
+                                      }
+                                    if (!dragging && launcher.state !== "visible") {
+                                        peekingAnimation.start()
+                                    }
+                                }
+
+                                if (launcherListView.peekingIndex === -1) {
+                                    launcherListView.peekingIndex = index
+                                }
+                            } else {
+                                if (launcherListView.peekingIndex === index) {
+                                    launcherListView.peekingIndex = -1
+                                }
+                            }
+                        }
 
                         ThinDivider {
                             id: dropIndicator
@@ -521,7 +593,7 @@ Rectangle {
         Image {
             anchors {
                 left: parent.left
-                leftMargin: quickList.item ? (quickList.item.width - units.gu(1)) / 2 - width / 2 : 0
+                leftMargin: quickList.item !== undefined ? (quickList.item.width - units.gu(1)) / 2 - width / 2 : 0
                 verticalCenter: parent.verticalCenter
                 verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1) * (root.inverted ? 1 : -1)
             }
@@ -564,10 +636,9 @@ Rectangle {
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
-        property int offset: item ? itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
+        property int offset: item !== undefined ? (itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
                                  -(item.height/2) - height - units.gu(.5) :
-                                 (item.height/2) + units.gu(.5) :
-                                    0
+                                 (item.height/2) + units.gu(.5)) : 0
 
         Column {
             id: quickListColumn
