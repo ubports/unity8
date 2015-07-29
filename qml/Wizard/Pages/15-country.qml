@@ -23,7 +23,7 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "countryPage"
 
-    title: i18n.tr("Country")
+    title: i18n.tr("Region")
     forwardButtonSourceComponent: forwardButton
 
     readonly property var preferedCountries: LocalePlugin.countriesForLanguage(root.language)

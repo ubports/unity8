@@ -99,8 +99,6 @@ LocalComponents.Page {
     Column {
         id: column
         anchors.fill: content
-        anchors.bottomMargin: units.gu(1)
-        spacing: units.gu(2)
 
         ListView {
             id: languagesListView;
