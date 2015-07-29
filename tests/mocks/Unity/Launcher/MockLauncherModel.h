@@ -55,6 +55,7 @@ public:
 
     // For testing
     Q_INVOKABLE void emitHint();
+    Q_INVOKABLE void setProgress(const QString &appId, int progress);
     Q_INVOKABLE void setCount(const QString &appId, int count);
     Q_INVOKABLE void setCountVisible(const QString &appId, bool countVisible);
 

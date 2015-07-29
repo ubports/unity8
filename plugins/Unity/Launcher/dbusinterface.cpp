@@ -62,6 +62,7 @@ QString DBusInterface::introspect(const QString &path) const
         "<interface name=\"com.canonical.Unity.Launcher.Item\">"
             "<property name=\"count\" type=\"i\" access=\"readwrite\" />"
             "<property name=\"countVisible\" type=\"b\" access=\"readwrite\" />"
+            "<property name=\"progress\" type=\"i\" access=\"readwrite\" />"
             "<method name=\"Alert\" />"
         "</interface>";
     return nodeiface;
@@ -175,26 +176,36 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
 
     QVariantList retval;
     if (message.member() == "Get") {
+        QString cachedString = message.arguments()[1].toString();
         if (!item) {
             return false;
         }
-        if (message.arguments()[1].toString() == "count") {
+        if (cachedString == "count") {
             retval.append(QVariant::fromValue(QDBusVariant(item->count())));
-        } else if (message.arguments()[1].toString() == "countVisible") {
+        } else if (cachedString == "countVisible") {
             retval.append(QVariant::fromValue(QDBusVariant(item->countVisible())));
+        } else if (cachedString == "progress") {
+            retval.append(QVariant::fromValue(QDBusVariant(item->progress())));
         }
     } else if (message.member() == "Set") {
-        if (message.arguments()[1].toString() == "count") {
+        QString cachedString = message.arguments()[1].toString();
+        if (cachedString == "count") {
             int newCount = message.arguments()[2].value<QDBusVariant>().variant().toInt();
             if (!item || newCount != item->count()) {
                 Q_EMIT countChanged(appid, newCount);
                 notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "count", QVariant(newCount));
             }
-        } else if (message.arguments()[1].toString() == "countVisible") {
+        } else if (cachedString == "countVisible") {
             bool newVisible = message.arguments()[2].value<QDBusVariant>().variant().toBool();
             if (!item || newVisible != item->countVisible()) {
                 Q_EMIT countVisibleChanged(appid, newVisible);
                 notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "countVisible", newVisible);
+            }
+        } else if (cachedString == "progress") {
+            int newProgress = message.arguments()[2].value<QDBusVariant>().variant().toInt();
+            if (!item || newProgress != item->progress()) {
+                Q_EMIT progressChanged(appid, newProgress);
+                notifyPropertyChanged("com.canonical.Unity.Launcher.Item", encodeAppId(appid), "progress", QVariant(newProgress));
             }
         }
     } else if (message.member() == "GetAll") {
@@ -202,6 +213,7 @@ bool DBusInterface::handleMessage(const QDBusMessage& message, const QDBusConnec
             QVariantMap all;
             all.insert("count", item->count());
             all.insert("countVisible", item->countVisible());
+            all.insert("progress", item->progress());
             retval.append(all);
         }
     } else {

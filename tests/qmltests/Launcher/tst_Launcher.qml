@@ -98,12 +98,38 @@ Item {
             spacing: units.gu(1)
 
             Button {
-                text: "set alert"
-                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, true)
+                text: "35% bar"
+                onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntryBar.displayText)).appId, 35)
+                Layout.fillWidth: true
             }
 
             TextArea {
-                id: appIdEntry
+                id: appIdEntryBar
+                anchors.verticalCenter: parent.verticalCenter
+                width: units.gu(4)
+                height: units.gu(4)
+                autoSize: true
+                text: "2"
+                maximumLineCount: 1
+            }
+
+            Button {
+                text: "no bar"
+                onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntryBar.displayText)).appId, -1)
+                Layout.fillWidth: true
+            }
+        }
+
+        Row {
+            spacing: units.gu(1)
+
+            Button {
+                text: "set alert"
+                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, true)
+            }
+
+            TextArea {
+                id: appIdEntryAlert
                 anchors.verticalCenter: parent.verticalCenter
                 width: units.gu(5)
                 height: units.gu(4)
@@ -115,7 +141,7 @@ Item {
 
             Button {
                 text: "unset alert"
-                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntry.displayText)).appId, false)
+                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, false)
             }
         }
     }
@@ -670,6 +696,17 @@ Item {
 
             tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
             waitUntilLauncherDisappears();
+        }
+
+        function test_progressChangeViaModel() {
+            dragLauncherIntoView();
+            var item = findChild(launcher, "launcherDelegate0")
+            verify(item != undefined)
+            LauncherModel.setProgress(LauncherModel.get(0).appId, -1)
+            compare(findChild(item, "progressOverlay").visible, false)
+            LauncherModel.setProgress(LauncherModel.get(0).appId, 20)
+            compare(findChild(item, "progressOverlay").visible, true)
+            LauncherModel.setProgress(LauncherModel.get(0).appId, 0)
         }
 
         function test_alertPeekingIcon() {
