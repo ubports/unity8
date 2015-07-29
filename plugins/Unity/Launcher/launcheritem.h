@@ -73,6 +73,7 @@ private:
     bool m_focused;
     bool m_alerting;
     QuickListModel *m_quickList;
+    QuickListEntry m_quitAction;
 
     friend class LauncherModel;
 };

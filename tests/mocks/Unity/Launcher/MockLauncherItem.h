@@ -31,6 +31,7 @@ class MockLauncherItem: public LauncherItemInterface
     Q_OBJECT
 public:
     MockLauncherItem(const QString &appId, const QString& desktopFile, const QString& name, const QString& icon, QObject* parent = 0);
+    ~MockLauncherItem();
 
     QString appId() const override;
     QString desktopFile() const;

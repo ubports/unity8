@@ -44,6 +44,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser", this);
     item->setCount(1);
     item->setCountVisible(true);
+    item->setRunning(true);
     item->setAlerting(false);
     m_list.append(item);
     item = new MockLauncherItem("twitter-webapp", "/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter", this);
@@ -194,7 +195,9 @@ void MockLauncherModel::requestRemove(const QString &appId)
     int index = findApp(appId);
     if (index >= 0) {
         beginRemoveRows(QModelIndex(), index, 0);
-        m_list.takeAt(index)->deleteLater();
+        MockLauncherItem * item = m_list.takeAt(index);
+        item->setRunning(false);
+        item->deleteLater();
         endRemoveRows();
     }
 }

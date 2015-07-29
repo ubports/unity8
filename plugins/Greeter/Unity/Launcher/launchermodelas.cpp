@@ -67,6 +67,8 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->progress();
         case RoleFocused:
             return item->focused();
+        case RoleRunning:
+            return item->running();
     }
 
     return QVariant();
@@ -217,14 +219,10 @@ void LauncherModel::refresh()
                     item->setCount(cachedMap.value("count").toInt());
                     item->setCountVisible(cachedMap.value("countVisible").toBool());
                     item->setProgress(cachedMap.value("progress").toInt());
+                    item->setRunning(cachedMap.value("running").toBool());
+
                     int idx = m_list.indexOf(item);
-                    Q_EMIT dataChanged(index(idx),
-                                       index(idx),
-                                       {RoleName,
-                                        RoleIcon,
-                                        RoleCount,
-                                        RoleCountVisible,
-                                        RoleProgress});
+                    Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon, RoleCount, RoleCountVisible, RoleRunning, RoleProgress});
                 }
                 break;
             }
@@ -262,16 +260,17 @@ void LauncherModel::refresh()
         }
 
         if (itemIndex == -1) {
-            QVariantMap chachedMap = entry.toMap();
+            QVariantMap cachedMap = entry.toMap();
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list in AS.
-            LauncherItem *item = new LauncherItem(chachedMap.value("id").toString(),
-                                                  chachedMap.value("name").toString(),
-                                                  chachedMap.value("icon").toString(),
+            LauncherItem *item = new LauncherItem(cachedMap.value("id").toString(),
+                                                  cachedMap.value("name").toString(),
+                                                  cachedMap.value("icon").toString(),
                                                   this);
             item->setPinned(true);
-            item->setCount(chachedMap.value("count").toInt());
-            item->setCountVisible(chachedMap.value("countVisible").toBool());
-            item->setProgress(chachedMap.value("progress").toInt());
+            item->setCount(cachedMap.value("count").toInt());
+            item->setCountVisible(cachedMap.value("countVisible").toBool());
+            item->setProgress(cachedMap.value("progress").toInt());
+            item->setRunning(cachedMap.value("running").toBool());
             beginInsertRows(QModelIndex(), newPosition, newPosition);
             m_list.insert(newPosition, item);
             endInsertRows();

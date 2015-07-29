@@ -40,7 +40,10 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_alerting(false),
     m_quickList(new MockQuickListModel(this))
 {
+}
 
+MockLauncherItem::~MockLauncherItem()
+{
 }
 
 QString MockLauncherItem::appId() const

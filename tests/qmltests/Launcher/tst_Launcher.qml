@@ -197,7 +197,7 @@ Item {
                        startX+units.gu(8), startY);
 
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
@@ -208,7 +208,7 @@ Item {
             mouseMove(root, 1, root.height / 2);
 
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
@@ -248,7 +248,7 @@ Item {
             waitUntilLauncherDisappears();
 
             var panel = findChild(launcher, "launcherPanel")
-            verify(panel != undefined)
+            verify(!!panel)
 
             // it starts out hidden just left of the left launcher edge
             compare(panel.x, -panel.width)
@@ -286,7 +286,7 @@ Item {
 
             var appIcon = findChild(launcher, "launcherDelegate0");
 
-            verify(appIcon != undefined);
+            verify(!!appIcon);
 
             if (data.mouse) {
                 mouseClick(appIcon);
@@ -309,7 +309,7 @@ Item {
             dragLauncherIntoView()
 
             var dashIcon = findChild(launcher, "dashItem")
-            verify(dashIcon != undefined)
+            verify(!!dashIcon)
 
             mouseClick(dashIcon)
 
@@ -599,7 +599,7 @@ Item {
 
             // Doing longpress
             mousePress(draggedItem);
-            tryCompare(quickListShape, "opacity", 0.96);
+            tryCompare(quickListShape, "opacity", 0.8);
             mouseRelease(draggedItem);
 
             verify(quickList.y >= units.gu(1));
@@ -684,9 +684,31 @@ Item {
             tryCompare(quickList, "state", "");
         }
 
+        function test_quickListMenuOnRMB() {
+            dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var quickList = findChild(launcher, "quickList")
+            var quickListShape = findChild(launcher, "quickListShape")
+            var dndArea = findChild(launcher, "dndArea");
+
+            // Initial state
+            tryCompare(quickListShape, "visible", false)
+
+            // Doing RMB click
+            mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
+            tryCompare(quickListShape, "visible", true)
+            verify(quickList, "state", "open")
+            verify(dndArea, "dragging", false)
+
+            // Click somewhere in the empty space to dismiss the quicklist
+            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+            tryCompare(quickListShape, "visible", false);
+            verify(quickList, "state", "")
+        }
+
         function test_revealByHover() {
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             revealByHover();
             tryCompare(launcher, "state", "visibleTemporary");

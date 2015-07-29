@@ -68,6 +68,7 @@ class MockAppManager: public unity::shell::application::ApplicationManagerInterf
     Q_OBJECT
 public:
     MockAppManager(QObject *parent = 0): ApplicationManagerInterface(parent) {}
+    ~MockAppManager() {}
     int rowCount(const QModelIndex &) const override { return m_list.count(); }
     QVariant data(const QModelIndex &, int ) const override { return QVariant(); }
     QString focusedApplicationId() const override {
@@ -323,6 +324,46 @@ private Q_SLOTS:
         // The pinned one needs to stay, the other needs to disappear
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
         QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
+    }
+
+    void testQuitMenuItem() {
+        // we have 2 apps running, both should have the Quit action in its quick list
+        QCOMPARE(launcherModel->rowCount(), 2);
+
+        // stop the second one keeping it pinned so that it doesn't go away
+        launcherModel->pin("no-icon");
+        appManager->stopApplication("no-icon");
+
+        // find the first Quit item, should be there
+        QuickListModel *model = qobject_cast<QuickListModel*>(launcherModel->get(0)->quickList());
+        int quitActionIndex = -1;
+        for (int i = 0; i < model->rowCount(); ++i) {
+            if (model->get(i).actionId() == "stop_item") {
+                quitActionIndex = i;
+                break;
+            }
+        }
+        QVERIFY(quitActionIndex >= 0);
+
+        // find the second Quit item, should NOT be there, the app is stopped
+        QuickListModel *model2 = qobject_cast<QuickListModel*>(launcherModel->get(1)->quickList());
+        int quitActionIndex2 = -1;
+        for (int i = 0; i < model2->rowCount(); ++i) {
+            if (model2->get(i).actionId() == "stop_item") {
+                quitActionIndex2 = i;
+                break;
+            }
+        }
+        QVERIFY(quitActionIndex2 == -1);
+
+        // trigger the first quit item quicklist action
+        launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), quitActionIndex);
+        // first app should be gone...
+        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+        // ... the second app (now at index 0) should still be there, pinned and stopped
+        QCOMPARE(launcherModel->get(0)->appId(), QStringLiteral("no-icon"));
+        QCOMPARE(launcherModel->get(0)->pinned(), true);
+        QCOMPARE(launcherModel->get(0)->running(), false);
     }
 
     void testGetUrlForAppId() {
