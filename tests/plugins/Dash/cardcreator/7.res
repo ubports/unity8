@@ -137,7 +137,7 @@ UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
     anchors { fill: backgroundLoader }
-    visible: root.pressed;
+    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }

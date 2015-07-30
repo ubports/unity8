@@ -92,12 +92,12 @@ left: parent.left;
                                 ] 
                     }
 UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: backgroundLoader } 
-                        visible: root.pressed; 
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: backgroundLoader }
+    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: row.y + row.height + units.gu(1);
 }
