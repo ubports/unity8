@@ -52,7 +52,7 @@ Categories::data(const QModelIndex& index, int role) const
     ResultsModel *resultsModel = resultModel(index.row());
     switch (role) {
         case RoleCategoryId:
-        if (index.row() == 0) {
+            if (index.row() == 0) {
                 return QString("predefined");
             } else if (index.row() == 2) {
                 return QString("local");
