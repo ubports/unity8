@@ -23,10 +23,9 @@
 #include <QStringList>
 #include <QDebug>
 
-AccountsService::AccountsService(QObject* parent)
-  : QObject(parent),
+AccountsService::AccountsService(QObject* parent, const QString &user)
+    : QObject(parent),
     m_service(new AccountsServiceDBusAdaptor(this)),
-    m_user(""),
     m_demoEdges(false),
     m_enableLauncherWhileLocked(false),
     m_enableIndicatorsWhileLocked(false),
@@ -36,12 +35,10 @@ AccountsService::AccountsService(QObject* parent)
     m_hereEnabled(false),
     m_hereLicensePath() // null means not set yet
 {
-    connect(m_service, SIGNAL(propertiesChanged(const QString &, const QString &, const QStringList &)),
-            this, SLOT(propertiesChanged(const QString &, const QString &, const QStringList &)));
-    connect(m_service, SIGNAL(maybeChanged(const QString &)),
-            this, SLOT(maybeChanged(const QString &)));
+    connect(m_service, &AccountsServiceDBusAdaptor::propertiesChanged, this, &AccountsService::onPropertiesChanged);
+    connect(m_service, &AccountsServiceDBusAdaptor::maybeChanged, this, &AccountsService::onMaybeChanged);
 
-    setUser(qgetenv("USER"));
+    setUser(!user.isEmpty() ? user : QString::fromUtf8(qgetenv("USER")));
 }
 
 QString AccountsService::user() const
@@ -173,19 +170,18 @@ void AccountsService::updateEnableLauncherWhileLocked(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'EnableLauncherWhileLocked' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        auto enableLauncherWhileLocked = reply.value().variant().toBool();
+        const bool enableLauncherWhileLocked = reply.value().toBool();
         if (m_enableLauncherWhileLocked != enableLauncherWhileLocked) {
             m_enableLauncherWhileLocked = enableLauncherWhileLocked;
             Q_EMIT enableLauncherWhileLockedChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -203,19 +199,18 @@ void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'EnableIndicatorsWhileLocked' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        auto enableIndicatorsWhileLocked = reply.value().variant().toBool();
+        const bool enableIndicatorsWhileLocked = reply.value().toBool();
         if (m_enableIndicatorsWhileLocked != enableIndicatorsWhileLocked) {
             m_enableIndicatorsWhileLocked = enableIndicatorsWhileLocked;
             Q_EMIT enableIndicatorsWhileLockedChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -233,19 +228,18 @@ void AccountsService::updateBackgroundFile(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'BackgroundFile' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        auto backgroundFile = reply.value().variant().toString();
+        const QString backgroundFile = reply.value().toString();
         if (m_backgroundFile != backgroundFile) {
             m_backgroundFile = backgroundFile;
             Q_EMIT backgroundFileChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -263,19 +257,18 @@ void AccountsService::updateStatsWelcomeScreen(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'StatsWelcomeScreen' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        auto statsWelcomeScreen = reply.value().variant().toBool();
+        const bool statsWelcomeScreen = reply.value().toBool();
         if (m_statsWelcomeScreen != statsWelcomeScreen) {
             m_statsWelcomeScreen = statsWelcomeScreen;
             Q_EMIT statsWelcomeScreenChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -293,19 +286,18 @@ void AccountsService::updatePasswordDisplayHint(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'PasswordDisplayHint' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        PasswordDisplayHint passwordDisplayHint = (PasswordDisplayHint)reply.value().variant().toInt();
+        const PasswordDisplayHint passwordDisplayHint = (PasswordDisplayHint)reply.value().toInt();
         if (m_passwordDisplayHint != passwordDisplayHint) {
             m_passwordDisplayHint = passwordDisplayHint;
             Q_EMIT passwordDisplayHintChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -323,19 +315,18 @@ void AccountsService::updateFailedLogins(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'FailedLogins' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        uint failedLogins = reply.value().variant().toUInt();
+        const uint failedLogins = reply.value().toUInt();
         if (m_failedLogins != failedLogins) {
             m_failedLogins = failedLogins;
             Q_EMIT failedLoginsChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -353,19 +344,18 @@ void AccountsService::updateHereEnabled(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'LicenseAccepted' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        auto hereEnabled = reply.value().variant().toBool();
+        const bool hereEnabled = reply.value().toBool();
         if (m_hereEnabled != hereEnabled) {
             m_hereEnabled = hereEnabled;
             Q_EMIT hereEnabledChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -383,14 +373,14 @@ void AccountsService::updateHereLicensePath(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'LicenseBasePath' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
-        auto hereLicensePath = reply.value().variant().toString();
+        QString hereLicensePath = reply.value().toString();
         if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
             hereLicensePath = "";
 
@@ -398,7 +388,6 @@ void AccountsService::updateHereLicensePath(bool async)
             m_hereLicensePath = hereLicensePath;
             Q_EMIT hereLicensePathChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();
@@ -421,7 +410,7 @@ void AccountsService::setFailedLogins(uint failedLogins)
     }
 }
 
-void AccountsService::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
+void AccountsService::onPropertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
     if (m_user != user) {
         return;
@@ -459,7 +448,7 @@ void AccountsService::propertiesChanged(const QString &user, const QString &inte
     }
 }
 
-void AccountsService::maybeChanged(const QString &user)
+void AccountsService::onMaybeChanged(const QString &user)
 {
     if (m_user != user) {
         return;

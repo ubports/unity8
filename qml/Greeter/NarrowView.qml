@@ -118,7 +118,7 @@ FocusScope {
                                  i18n.tr("Enter passcode")
         errorText: promptText !== "" ? i18n.tr("Sorry, incorrect %1").arg(promptText) :
                    alphaNumeric ? i18n.tr("Sorry, incorrect passphrase") + "\n" +
-                                  i18n.tr("Please re-enter") :
+                                  i18n.ctr("passphrase", "Please re-enter") :
                                   i18n.tr("Sorry, incorrect passcode")
 
         onEntered: root.responded(passphrase)

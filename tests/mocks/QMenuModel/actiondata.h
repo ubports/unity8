@@ -31,7 +31,9 @@ class Q_DECL_EXPORT ActionData : public QObject
 public:
     ActionData(QObject* parent = 0)
         : QObject(parent)
-    {}
+        , m_data(QVariantMap())
+    {
+    }
 
     QVariant data() const { return m_data; }
     void setData(const QVariant& data)

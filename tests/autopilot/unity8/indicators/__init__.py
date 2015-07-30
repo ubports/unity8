@@ -74,6 +74,7 @@ class Indicator():
         # XXX this should be implemented as a general horizontal swiping in
         # the toolkit custom proxy object. -- elopio - 2015-01-20
         if not flickable.atXEnd:
+            flickable.interactive.wait_for(True)
             while not flickable.atXEnd:
                 start_y = stop_y = (
                     flickable.globalRect.y +

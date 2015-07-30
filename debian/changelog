@@ -1,3 +1,35 @@
+unity8 (8.10+15.10.20150721-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add context for "Please re-enter" (LP: #1377195)
+  * Fix i18n in scope tool (LP: #1317541)
+  * Fix warning when doing make try
+  * New phone background provided by design (LP: #1364537)
+  * PreviewExpandable should be not expanded on startup
+  * Update state of indicators bar only when the user is actively
+    dragging himself (LP: #1457044)
+  * icon-actions preview widget
+  * make testPageHeader more stable
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Josh Arenson ]
+  * Add handling for the location page to the autopilot settings wizard
+    test
+
+  [ Michael Zanetti ]
+  * allow opening the manage dash area by clicking with a mouse on the
+    arrow label
+
+  [ handsome_feng ]
+  * Added touch state on navigation. (LP: #1383213)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Added touch state on navigation. (LP: #1383213)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 21 Jul 2015 09:10:05 +0000
+
 unity8 (8.10+15.10.20150713-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]

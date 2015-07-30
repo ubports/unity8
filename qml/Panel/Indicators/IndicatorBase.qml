@@ -43,6 +43,5 @@ Item {
     ModelActionRootState {
         id: rootAction
         menu: menuModel ? menuModel : null
-        onUpdated: indicatorItem.rootActionStateChanged()
     }
 }
