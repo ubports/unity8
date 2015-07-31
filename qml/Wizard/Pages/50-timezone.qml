@@ -17,6 +17,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.2
 import Wizard 0.1
+import Ubuntu.SystemSettings.TimeDate 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -131,8 +132,10 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             text: i18n.tr("Next")
             enabled: selectedTimeZone != ""
-            // TODO save the timezone to system
-            onClicked: pageStack.next()
+            onClicked: {
+                UbuntuTimeDatePanel.timeZone = selectedTimeZone
+                pageStack.next()
+            }
         }
     }
 }
