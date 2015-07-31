@@ -25,6 +25,7 @@
 
 void DashCommunicatorPlugin::registerTypes(const char *uri)
 {
+    // @uri Unity.DashCommunicator
     Q_ASSERT(uri == QStringLiteral("Unity.DashCommunicator"));
     qmlRegisterType<DashCommunicatorService>(uri, 0, 1, "DashCommunicatorService");
     qmlRegisterType<DashCommunicator>(uri, 0, 1, "DashCommunicator");

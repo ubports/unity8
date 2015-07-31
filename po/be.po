@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-04-14 16:13+0200\n"
+"POT-Creation-Date: 2015-07-17 10:10+0200\n"
 "PO-Revision-Date: 2015-04-27 14:34+0000\n"
 "Last-Translator: Arsień Šachalevič <semen.shah@gmail.com>\n"
 "Language-Team: Belarusian <be@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2015-04-28 05:33+0000\n"
-"X-Generator: Launchpad (build 17453)\n"
+"X-Launchpad-Export-Date: 2015-07-25 05:38+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -32,6 +32,86 @@ msgstr "Замацаваць кнопку"
 msgid "Unpin shortcut"
 msgstr "Адмацаваць кнопку"
 
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:157
+msgid "Yesterday %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened today.
+#. en_US example: "%l:%M %p" --> "1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:164
+msgid "%l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:172
+msgid "Tomorrow %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:181
+msgid "%a %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:190
+msgid "%a %d %b %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:201
+msgid "Yesterday %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened today.
+#. en_US example: "%H:%M" --> "13:00"
+#: plugins/Utils/relativetimeformatter.cpp:208
+msgid "%H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:216
+msgid "Tomorrow %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:225
+msgid "%a %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:234
+msgid "%a %d %b %H:%M"
+msgstr ""
+
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Прылада заблакаваная"
@@ -45,7 +125,7 @@ msgstr ""
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
 "Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў уводу "
-"код доступу."
+"кода доступу."
 
 #: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
@@ -53,7 +133,7 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Пачакайце %1 хвіліну і паўтарыце спробу…"
 msgstr[1] "Пачакайце %1 хвіліны і паўтарыце спробу…"
-msgstr[2] "Пачакайце %1 хвілінаў і паўтарыце спробу…"
+msgstr[2] "Пачакайце %1 хвілін і паўтарыце спробу…"
 
 #: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
@@ -125,8 +205,8 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Вы сапраўды хочаце выключыць\n"
-"сілкаванне?"
+"Вы ўпэўнены, што хочаце\n"
+"выключыць кампутар?"
 
 #: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
@@ -150,15 +230,15 @@ msgstr "Терміновы выклік"
 msgid "OK"
 msgstr "Добра"
 
-#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
+#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
 msgid "See less"
 msgstr "Карацей"
 
-#: qml/Dash/GenericScopeView.qml:532
+#: qml/Dash/GenericScopeView.qml:539
 msgid "See all"
 msgstr "Больш падрабязна"
 
-#: qml/Dash/GenericScopeView.qml:594
+#: qml/Dash/GenericScopeView.qml:601
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Пошук"
@@ -194,15 +274,15 @@ msgstr "Болей…"
 msgid "Less..."
 msgstr "Менш..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Ацаніць"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Дадаць рэцэнзію"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
 msgid "Send"
 msgstr "Адправіць"
 
@@ -218,15 +298,15 @@ msgstr "Адпусціце для абнаўлення ..."
 msgid "Enable location data"
 msgstr "Уключыць дадзеныя аб месцазнаходжанні"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:67
 msgid "Manage"
 msgstr "Кіраванне"
 
-#: qml/Dash/ScopesList.qml:112
-msgid "Home"
-msgstr "Дом"
-
 #: qml/Dash/ScopesList.qml:113
+msgid "Home"
+msgstr "Хатняя тэчка"
+
+#: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "Таксама ўсталявана"
 
@@ -242,61 +322,62 @@ msgstr "Паспрабаваць ізноў"
 msgid "Tap to unlock"
 msgstr "Націсніце, каб разблакаваць"
 
-#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr "Даруце, няслушны пароль"
+msgstr "Даруйце, няслушны пароль."
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr "Даруйце, няслушны код"
+msgstr "Даруйце, няслушны код."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "Апошняя спроба."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Калі пароль паказаны няправільна, тэлефон вернецца ў зыходны стан, усе "
-"асабістыя дадзеныя будуць выдаленыя."
+"Калі ўведзены пароль няправільны, Ваш тэлефон зробіць агульны скід налад і  "
+"ўсе асабістыя дадзеныя будуць выдалены."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Калі пароль уведзены няправільна, то ваш тэлефон будзе праводзіць скід да "
-"завадскіх налад і ўсе асабістыя дадзеныя будуць выдаленыя."
+"Калі ўведзены код няправільны, Ваш тэлефон зробіць агульны скід налад і  ўсе "
+"асабістыя дадзеныя будуць выдалены."
 
-#: qml/Greeter/NarrowView.qml:115
+#: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
 msgstr "Увядзіце %1"
 
-#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Увядзіце парольную фразу"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
 msgstr "Увядзіце код"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Даруйце, некарэктны %1"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
 msgstr "Даруйце, няслушны пароль"
 
-#: qml/Greeter/NarrowView.qml:120
-msgid "Please re-enter"
-msgstr "Калі ласка паўтарыце ўвод"
-
 #: qml/Greeter/NarrowView.qml:121
+msgctxt "passphrase"
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
 msgstr "Даруйце, няслушны код"
 
@@ -314,31 +395,62 @@ msgstr "Канферэнцыя"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
-msgstr "Анічога не прайграецца"
+msgstr "Нішто не грае"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:787
+#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#, qt-format
+msgid "%1 hour"
+msgid_plural "%1 hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#, qt-format
+msgid "%1 minute"
+msgid_plural "%1 minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#, qt-format
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:780
+msgid "0 seconds"
+msgstr ""
+
+#. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
+#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#, qt-format
+msgid "%1 remaining"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
 msgstr "У чарзе..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:792
 msgid "Downloading"
 msgstr "Запампоўка"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:793
+#: qml/Panel/Indicators/MenuItemFactory.qml:794
 msgid "Paused, tap to resume"
 msgstr "Прыпынена, націсніце для працягу"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:796
 msgid "Canceled"
 msgstr "Скасавана"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:798
 msgid "Finished"
 msgstr "Скончана"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:800
 msgid "Failed, tap to retry"
-msgstr "Памылка, націсніце для паўтору"
+msgstr "Не атрымалася, націсніце, каб паўтарыць спробу"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
@@ -440,7 +552,7 @@ msgstr "Дадайце SIM-карту і перазагрузіце Вашую �
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "Без яе вы не зможаце тэлефанаваць ці адпраўляць паведамленні."
+msgstr "Без яе Вы не зможаце тэлефанаваць ці адпраўляць паведамленні."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -448,7 +560,7 @@ msgstr "Прапусціць"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr "Блакаванне бяспекі"
+msgstr "Блакіроўка"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
@@ -513,7 +625,7 @@ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
 "На аснове GPS, ананімізаванага Wi-Fi і дадзеных сотавай сеткі (рэкамендуецца)"
 
-#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
@@ -528,7 +640,7 @@ msgstr "Не дазваляць"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "Пасля змяніць налады можна з дапамогай <b>Сістэмных параметраў</b>."
+msgstr "Пасля змяніць налады можна з дапамогай <b>Сістэмных наладкаў</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
@@ -547,8 +659,8 @@ msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"Гэтае можна адключыць у <b>Сістэмных параметрах</b>, <b>Бяспека &amp; "
-"канфедэнцыйнасць</b>"
+"Гэтае можна адключыць у <b>Сістэмных наладках</b>, дзе <b>Бяспека &amp; "
+"канфедэнцыйнасці</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
@@ -585,17 +697,19 @@ msgstr "Калі ласка, паспрабуйце яшчэ раз."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr "Выберыце ваш код-пароль"
+msgstr "Выберыце код"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr "Пароль мусіць складацца мінімум з 4 сімвалаў"
+msgstr "Код мусіць складацца з 4 сімвалаў"
 
+#. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
 msgstr "〈  %1"
 
+#. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
@@ -612,9 +726,6 @@ msgstr "%1  〉"
 
 #~ msgid "Right edge"
 #~ msgstr "Правы край"
-
-#~ msgid "Close"
-#~ msgstr "Зачыніць"
 
 #~ msgid "Left edge"
 #~ msgstr "Левы край"
@@ -646,15 +757,8 @@ msgstr "%1  〉"
 #~ msgid "Power"
 #~ msgstr "Сілкаванне"
 
-#~ msgid "Restart"
-#~ msgstr "Перазапуск"
-
 #~ msgid "Power off"
 #~ msgstr "Выключыць"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr ""
-#~ "Паспрабуйце правесці пальцам ад верхняга краю, для доступу да індыкатараў"
 
 #~ msgid "Swipe up again to close the settings screen"
 #~ msgstr "Правядзіце пальцам яшчэ раз, каб зачыніць акно параметраў"
@@ -670,15 +774,28 @@ msgstr "%1  〉"
 #~ msgid "Skip intro"
 #~ msgstr "Прапусціць уводзіны"
 
+#~ msgid "Store"
+#~ msgstr "Крама"
+
+#~ msgid "Restart"
+#~ msgstr "Перазапусціць"
+
+#~ msgid "Close"
+#~ msgstr "Закрыць"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Паспрабуйце правесці пальцам ад верхняга краю для доступу да індыкатараў"
+
 #~ msgid "Settings"
-#~ msgstr "Параметры"
+#~ msgstr "Наладкі"
 
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Вамі наладжаныя дзеянні на дакрананні па краях экрана. Цяпер тэлефон можна "
-#~ "выкарыстоўваць.<br><br>Дакраніцеся да экрана, каб пачаць."
+#~ "Вы толькі што асвоілі асноўная жэсты і можаце пачаць выкарыстоўваць "
+#~ "тэлефон<br><br>Дакраніцеся да экрана, каб пачаць"
 
-#~ msgid "Store"
-#~ msgstr "Крама"
+#~ msgid "Please re-enter"
+#~ msgstr "Калі ласка, паўтарыце ўвод"

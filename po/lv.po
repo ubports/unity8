@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-04-14 16:13+0200\n"
+"POT-Creation-Date: 2015-07-17 10:10+0200\n"
 "PO-Revision-Date: 2015-02-28 16:18+0000\n"
 "Last-Translator: Rūdolfs Mazurs <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-04-23 06:48+0000\n"
-"X-Generator: Launchpad (build 17430)\n"
+"X-Launchpad-Export-Date: 2015-07-25 05:39+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -30,6 +30,86 @@ msgstr "Piespraust īsceļu"
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
 msgstr "Noņemt īsceļu"
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:157
+msgid "Yesterday %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened today.
+#. en_US example: "%l:%M %p" --> "1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:164
+msgid "%l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:172
+msgid "Tomorrow %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:181
+msgid "%a %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:190
+msgid "%a %d %b %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:201
+msgid "Yesterday %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened today.
+#. en_US example: "%H:%M" --> "13:00"
+#: plugins/Utils/relativetimeformatter.cpp:208
+msgid "%H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:216
+msgid "Tomorrow %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:225
+msgid "%a %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:234
+msgid "%a %d %b %H:%M"
+msgstr ""
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -146,15 +226,15 @@ msgstr "Ārkārtas situācijas zvans"
 msgid "OK"
 msgstr "Labi"
 
-#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
+#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
 msgid "See less"
 msgstr "Skatīt mazāk"
 
-#: qml/Dash/GenericScopeView.qml:532
+#: qml/Dash/GenericScopeView.qml:539
 msgid "See all"
 msgstr "Skatīt visus"
 
-#: qml/Dash/GenericScopeView.qml:594
+#: qml/Dash/GenericScopeView.qml:601
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -190,15 +270,15 @@ msgstr "Vairāk..."
 msgid "Less..."
 msgstr "Mazāk..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Novērtēt šo"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Pievienot atsauksmi"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
 msgid "Send"
 msgstr "Sūtīt"
 
@@ -214,15 +294,15 @@ msgstr "Atlaist, lai atsvaidzinātu..."
 msgid "Enable location data"
 msgstr "Ieslēgt atrašanās vietas datus"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:67
 msgid "Manage"
 msgstr "Pārvaldīt"
 
-#: qml/Dash/ScopesList.qml:112
+#: qml/Dash/ScopesList.qml:113
 msgid "Home"
 msgstr "Mājas"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "Arī instalēja"
 
@@ -238,19 +318,19 @@ msgstr ""
 msgid "Tap to unlock"
 msgstr ""
 
-#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Piedodiet, nepareiza parole."
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Piedodiet, nepareizs piekļuves kods."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "Šīs būs jūs pēdējais mēģinājums."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -258,7 +338,7 @@ msgstr ""
 "Ja parole netiks pareizi ievadīta, jūsu tālrunis tiks atstatīts uz rūpnīcas "
 "iestatījumiem un visa personīgā informācija tiks izdzēsta."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -266,33 +346,34 @@ msgstr ""
 "Ja piekļuves kods netiks pareizi ievadīts, jūsu tālrunis tiks atstatīts uz "
 "rūpnīcas iestatījumiem un visa personīgā informācija tiks izdzēsta."
 
-#: qml/Greeter/NarrowView.qml:115
+#: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
 msgstr "Ievadiet %1"
 
-#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Ievadiet paroli"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
 msgstr "Ievadiet piekļuves kodu"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Piedodiet, nepareizs %1"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
 msgstr "Piedodiet, nepareiza parole"
 
-#: qml/Greeter/NarrowView.qml:120
-msgid "Please re-enter"
-msgstr "Lūdzu, ievadiet vēlreiz"
-
 #: qml/Greeter/NarrowView.qml:121
+msgctxt "passphrase"
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
 msgstr "Piedodiet, nepareizs piekļuves kods"
 
@@ -312,27 +393,58 @@ msgstr "Konference"
 msgid "Nothing is playing"
 msgstr "Nekas netiek atskaņots"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:787
+#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#, qt-format
+msgid "%1 hour"
+msgid_plural "%1 hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#, qt-format
+msgid "%1 minute"
+msgid_plural "%1 minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#, qt-format
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:780
+msgid "0 seconds"
+msgstr ""
+
+#. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
+#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#, qt-format
+msgid "%1 remaining"
+msgstr ""
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
 msgstr "Sarakstā..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:792
 msgid "Downloading"
 msgstr "Lejupielādē"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:793
+#: qml/Panel/Indicators/MenuItemFactory.qml:794
 msgid "Paused, tap to resume"
 msgstr "Pauzēts, uzsitiet, lai turpinātu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:796
 msgid "Canceled"
 msgstr "Atcelts"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:798
 msgid "Finished"
 msgstr "Pabeigts"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:800
 msgid "Failed, tap to retry"
 msgstr "Neizdevās, uzsitiet, lai mēģinātu vēlreiz"
 
@@ -510,7 +622,7 @@ msgstr ""
 "Izmantot GPS, anonimizētu bezvadu (Wi-Fi) un mobilā tīklā informāciju "
 "(ieteicams)"
 
-#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
@@ -586,11 +698,13 @@ msgstr "Izvēlieties savu paroli"
 msgid "Passphrase must be 4 characters long"
 msgstr "Piekļuves kodam ir jābūt 4 rakstzīmju garumā"
 
+#. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
 msgstr "〈  %1"
 
+#. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
@@ -670,3 +784,6 @@ msgstr "%1  〉"
 
 #~ msgid "Restart"
 #~ msgstr "Pārstartēt"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Lūdzu, ievadiet vēlreiz"

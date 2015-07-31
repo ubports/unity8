@@ -38,7 +38,7 @@ class DBusUnitySessionService : public UnityDBusObject
 
 public:
     DBusUnitySessionService();
-    ~DBusUnitySessionService();
+    ~DBusUnitySessionService() = default;
 
     // For use in QML. Javascript doesn't accept functions beginning with capital letters
     Q_INVOKABLE void logout() { Logout(); }
@@ -90,7 +90,7 @@ public Q_SLOTS:
     /**
      * Logout the system.
      *
-     * This method directly logout the system without user's confirmation.
+     * This method directly logs out the system without user's confirmation.
      * Ordinary applications should avoid calling this method. Please call
      * RequestLogout() to ask the user to decide logout or not.
      */
@@ -99,7 +99,7 @@ public Q_SLOTS:
     /**
      * Reboot the system.
      *
-     * This method directly reboot the system without user's confirmation.
+     * This method directly reboots the system without user's confirmation.
      * Ordinary applications should avoid calling this method. Please call
      * RequestReboot() to ask the user to decide reboot or not.
      */
@@ -108,7 +108,7 @@ public Q_SLOTS:
     /**
      * Shutdown the system.
      *
-     * This method directly shutdown the system without user's confirmation.
+     * This method directly shuts down the system without user's confirmation.
      * Ordinary applications should avoid calling this method. Please call
      * RequestShutdown() to ask the user to decide shutdown or not.
      */
@@ -117,7 +117,7 @@ public Q_SLOTS:
     /**
      * Issue a logout request.
      *
-     * This method emit the logoutRequested signal to the shell with a boolean
+     * This method emits the logoutRequested signal to the shell with a boolean
      * which indicates if there's any inhibitors. The shell should receive
      * this signal and display a dialog to ask the user to confirm the logout
      * action. If confirmed, shell can call Logout() method to logout.
@@ -127,7 +127,7 @@ public Q_SLOTS:
     /**
      * Issue a reboot request.
      *
-     * This method emit the rebootRequested signal to the shell with a boolean
+     * This method emits the rebootRequested signal to the shell with a boolean
      * which indicates if there's any inhibitors. The shell should receive
      * this signal and display a dialog to ask the user to confirm the reboot
      * action. If confirmed, shell can call Reboot() method to reboot
@@ -137,7 +137,7 @@ public Q_SLOTS:
     /**
      * Issue a shutdown request.
      *
-     * This method emit the shutdownRequested signal to the shell with a
+     * This method emits the shutdownRequested signal to the shell with a
      * boolean which indicates if there's any inhibitors.
      * The shell should receive
      * this signal and display a dialog to ask the user to confirm the reboot
@@ -161,9 +161,12 @@ class DBusGnomeSessionManagerWrapper : public UnityDBusObject
 
 public:
     DBusGnomeSessionManagerWrapper();
-    ~DBusGnomeSessionManagerWrapper();
+    ~DBusGnomeSessionManagerWrapper() = default;
 
 public Q_SLOTS:
     Q_SCRIPTABLE void Open(const unsigned int type, const unsigned int arg_1, const unsigned int max_wait, const QList<QDBusObjectPath> &inhibitors);
+
+private:
+    void performAsyncCall(const QString &method);
 };
 #endif // DBUSUNITYSESSIONSERVICE_H

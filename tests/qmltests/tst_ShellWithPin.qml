@@ -69,8 +69,6 @@ Item {
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
-                    property string shellMode: "full-greeter" /* default */
-
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true
                     }
@@ -315,7 +313,7 @@ Item {
             tryCompare(panel, "fullscreenMode", false)
             tryCompare(indicators, "available", true)
             tryCompare(launcher, "available", true)
-            tryCompare(stage, "spreadEnabled", true)
+            tryCompare(stage, "spreadEnabled", false)
         }
 
         function test_emergencyCallCrash() {

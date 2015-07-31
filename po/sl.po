@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-04-14 16:13+0200\n"
-"PO-Revision-Date: 2015-06-05 06:39+0000\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2015-07-17 10:10+0200\n"
+"PO-Revision-Date: 2015-07-06 21:10+0000\n"
+"Last-Translator: Sasa Batistic <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2015-06-06 05:31+0000\n"
-"X-Generator: Launchpad (build 17540)\n"
+"X-Launchpad-Export-Date: 2015-07-25 05:39+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -32,13 +32,93 @@ msgstr "Pripni bližnjico"
 msgid "Unpin shortcut"
 msgstr "Odpni bližnjico"
 
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:157
+msgid "Yesterday %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened today.
+#. en_US example: "%l:%M %p" --> "1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:164
+msgid "%l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:172
+msgid "Tomorrow %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:181
+msgid "%a %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#: plugins/Utils/relativetimeformatter.cpp:190
+msgid "%a %d %b %l:%M %p"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:201
+msgid "Yesterday %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened today.
+#. en_US example: "%H:%M" --> "13:00"
+#: plugins/Utils/relativetimeformatter.cpp:208
+msgid "%H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:216
+msgid "Tomorrow %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:225
+msgid "%a %H:%M"
+msgstr ""
+
+#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
+#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
+#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
+#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#: plugins/Utils/relativetimeformatter.cpp:234
+msgid "%a %d %b %H:%M"
+msgstr ""
+
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Naprava je zaklenjena"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov šifrirnih rekel."
+msgstr "Telefon ste zaklenili zaradi preveč napačnih vnosov gesla."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
@@ -148,15 +228,15 @@ msgstr "Klic v sili"
 msgid "OK"
 msgstr "V REDU"
 
-#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
+#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
 msgid "See less"
 msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:532
+#: qml/Dash/GenericScopeView.qml:539
 msgid "See all"
 msgstr "Pokaži vse"
 
-#: qml/Dash/GenericScopeView.qml:594
+#: qml/Dash/GenericScopeView.qml:601
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Iskanje"
@@ -192,15 +272,15 @@ msgstr "Več ..."
 msgid "Less..."
 msgstr "Manj ..."
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:81
+#: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Ocenite"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:126
+#: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Dodaj oceno"
 
-#: qml/Dash/Previews/PreviewRatingInput.qml:166
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
 msgid "Send"
 msgstr "Pošlji"
 
@@ -216,15 +296,15 @@ msgstr "Spustite za osvežitev ..."
 msgid "Enable location data"
 msgstr "Omogoči podatke o položaju"
 
-#: qml/Dash/ScopesList.qml:66
+#: qml/Dash/ScopesList.qml:67
 msgid "Manage"
 msgstr "Upravljaj"
 
-#: qml/Dash/ScopesList.qml:112
+#: qml/Dash/ScopesList.qml:113
 msgid "Home"
 msgstr "Domov"
 
-#: qml/Dash/ScopesList.qml:113
+#: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "Tudi nameščeno"
 
@@ -240,19 +320,19 @@ msgstr "Poskusi znova"
 msgid "Tap to unlock"
 msgstr "Tapnite za odklep"
 
-#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Nepravilno geslo."
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Nepravilno geslo."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "To je vaš zadnji poskus"
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -260,7 +340,7 @@ msgstr ""
 "Če je vneseno nepravilno šifrirno reklo, bo telefon ponastavljen na "
 "tovarniške nastavitve ter vsi osebni podatki bodo izbrisani."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -268,33 +348,34 @@ msgstr ""
 "Če je vneseno nepravilno geslo, bo telefon ponastavljen na tovarniške "
 "nastavitve ter vsi osebni podatki bodo izbrisani."
 
-#: qml/Greeter/NarrowView.qml:115
+#: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
 msgstr "Vnesite %1"
 
-#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Vnesite šifrirno reklo"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
 msgstr "Vnesite geslo"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Oprostite, napačen %1"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
 msgstr "Oprostite, napačno šifrirno reklo"
 
-#: qml/Greeter/NarrowView.qml:120
-msgid "Please re-enter"
-msgstr "Ponovno vnesite"
-
 #: qml/Greeter/NarrowView.qml:121
+msgctxt "passphrase"
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
 msgstr "Nepravilno geslo"
 
@@ -314,27 +395,64 @@ msgstr "Konferenca"
 msgid "Nothing is playing"
 msgstr "Nič se ne predvaja"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:787
+#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#, qt-format
+msgid "%1 hour"
+msgid_plural "%1 hours"
+msgstr[0] "%1 ur"
+msgstr[1] "%1 ura"
+msgstr[2] "%1 uri"
+msgstr[3] "%1 ure"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#, qt-format
+msgid "%1 minute"
+msgid_plural "%1 minutes"
+msgstr[0] "%1 minut"
+msgstr[1] "%1 minuta"
+msgstr[2] "%1 minuti"
+msgstr[3] "%1 minute"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#, qt-format
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekund"
+msgstr[1] "%1 sekunda"
+msgstr[2] "%1 sekundi"
+msgstr[3] "%1 sekunde"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:780
+msgid "0 seconds"
+msgstr "0 sekund"
+
+#. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
+#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#, qt-format
+msgid "%1 remaining"
+msgstr "Preostalo %1"
+
+#: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
 msgstr "V vrsti ..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:791
+#: qml/Panel/Indicators/MenuItemFactory.qml:792
 msgid "Downloading"
 msgstr "Prejemanje"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:793
+#: qml/Panel/Indicators/MenuItemFactory.qml:794
 msgid "Paused, tap to resume"
 msgstr "Premor, tapnite za nadaljevanje"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:795
+#: qml/Panel/Indicators/MenuItemFactory.qml:796
 msgid "Canceled"
 msgstr "Preklicano"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:797
+#: qml/Panel/Indicators/MenuItemFactory.qml:798
 msgid "Finished"
 msgstr "Končano"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:799
+#: qml/Panel/Indicators/MenuItemFactory.qml:800
 msgid "Failed, tap to retry"
 msgstr "Spodletelo, tapnite za ponovni poskus"
 
@@ -475,7 +593,7 @@ msgstr "Samo 4 številke"
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Šifrirno reklo"
+msgstr "Geslo"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
@@ -512,7 +630,7 @@ msgstr ""
 "Uporaba GPS-a z brezimnim Wi-Fi-jem ter podatki mobilnega omrežja "
 "(priporočljivo)"
 
-#. TRANSLATORS: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
+#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
@@ -571,7 +689,7 @@ msgstr "Pogoji uporabe"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr "Potrdite šifrirno reklo"
+msgstr "Potrdite geslo"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
@@ -588,13 +706,15 @@ msgstr "Izberite svoje geslo"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr "Šifrirno reklo mora biti dolgo vsaj 4 znake"
+msgstr "Geslo mora biti dolgo vsaj 4 znake"
 
+#. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
 msgstr "〈  %1"
 
+#. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
@@ -689,3 +809,6 @@ msgstr "%1  〉"
 
 #~ msgid "Restart"
 #~ msgstr "Ponovni zagon"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Ponovno vnesite"

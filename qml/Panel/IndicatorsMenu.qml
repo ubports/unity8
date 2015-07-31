@@ -270,7 +270,7 @@ Showable {
         }
 
         function updateState() {
-            if (!showAnimation.running && !hideAnimation.running) {
+            if (!showAnimation.running && !hideAnimation.running && d.activeDragHandle) {
                 if (unitProgress <= 0) {
                     root.state = "initial";
                 // lock indicator if we've been committed and aren't moving too much laterally or too fast up.
