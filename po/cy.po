@@ -1,35 +1,36 @@
-# Galician translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Welsh translation for unity8
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-08-01 03:25+0000\n"
-"Last-Translator: Marcos Lans <Unknown>\n"
-"Language-Team: Galician <gl@li.org>\n"
+"PO-Revision-Date: 2015-07-31 13:21+0000\n"
+"Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
+"Language-Team: Welsh <cy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 0 : n==2 ? 1 : (n != 8 && n != 11) ? "
+"2 : 3;\n"
 "X-Launchpad-Export-Date: 2015-08-01 05:45+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
-msgstr "Contrasinal : "
+msgstr "Cyfrinair: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Pin shortcut"
-msgstr "Fixar o atallo"
+msgstr "Pinio llwybr byr"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:100
 msgid "Unpin shortcut"
-msgstr "Eliminar o atallo"
+msgstr "Dadbinio llwybr byr"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
@@ -37,7 +38,7 @@ msgstr "Eliminar o atallo"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:157
 msgid "Yesterday %l:%M %p"
-msgstr "Onte %l:%M %p"
+msgstr "Ddoe %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened today.
@@ -52,7 +53,7 @@ msgstr "%l:%M %p"
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr "Mañá %l:%M %p"
+msgstr "Yfory %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -69,7 +70,7 @@ msgstr "%a %l:%M %p"
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr "%a %b %d %l:%M %p"
+msgstr "%a %d %b %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -77,7 +78,7 @@ msgstr "%a %b %d %l:%M %p"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr "Onte %H:%M"
+msgstr "Ddoe %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
@@ -92,7 +93,7 @@ msgstr "%H:%M"
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:216
 msgid "Tomorrow %H:%M"
-msgstr "Mañá %H:%M"
+msgstr "Yfory %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
@@ -109,514 +110,526 @@ msgstr "%a %H:%M"
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr "%a %b %d %H:%M"
+msgstr "%a %d %b %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
-msgstr "Dispositivo bloqueado"
+msgstr "Dyfais ar glo"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Bloqueouse o dispositivo polos intentos fallidos da frase secreta."
+msgstr ""
+"Cawsoch eich cloi allan am gyflwyno cyfrinair anghywir ormod o weithiau."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "Bloqueouse o dispositivo polos intentos fallidos da clave."
+msgstr ""
+"Cawsoch eich cloi allan am gyflwyno côd mynediad anghywir ormod o weithiau."
 
 #: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Agarde %1 minuto e ténteo de novo…"
-msgstr[1] "Agarde %1 minutos e ténteo de novo…"
+msgstr[0] "Arhoswch am %1 munud cyn cynnig eto..."
+msgstr[1] "Arhoswch am %1 munud cyn cynnig eto..."
+msgstr[2] "Arhoswch am %1 munud cyn cynnig eto..."
+msgstr[3] "Arhoswch am %1 munud cyn cynnig eto..."
 
 #: qml/Components/Dialogs.qml:69
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Saír"
+msgstr "Allgofnodi"
 
 #: qml/Components/Dialogs.qml:70
 msgid "Are you sure you want to log out?"
-msgstr "Confirma que desexa pechar a sesión?"
+msgstr "Ydych chi'n sicr eich bod am allgofnodi?"
 
 #: qml/Components/Dialogs.qml:72
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr "Bloquear"
+msgstr "Cloi"
 
 #: qml/Components/Dialogs.qml:79
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Saír da sesión"
+msgstr "Allgofnodi"
 
 #: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
 #: qml/Components/Dialogs.qml:173
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Diddymu"
 
 #: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "Apagar"
+msgstr "Diffodd"
 
 #: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
-msgstr "Confirma que desexa apagar?"
+msgstr "Ydych chi'n sicr eich bod am ddiffodd?"
 
 #: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr "Reiniciar"
+msgstr "Ailgychwyn"
 
 #: qml/Components/Dialogs.qml:109
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr "Apagar"
+msgstr "Diffodd"
 
 #: qml/Components/Dialogs.qml:129
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr "Reiniciar"
+msgstr "Ailgychwyn"
 
 #: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
-msgstr "Confirma que desexa reiniciar?"
+msgstr "Ydych chi'n sicr eich bod am ailgychwyn?"
 
 #: qml/Components/Dialogs.qml:132
 msgid "No"
-msgstr "Non"
+msgstr "Na"
 
 #: qml/Components/Dialogs.qml:138
 msgid "Yes"
-msgstr "Si"
+msgstr "Ydw"
 
 #: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Alimentación"
+msgstr "Pŵer"
 
 #: qml/Components/Dialogs.qml:153
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr "Confirma que desexa apagar?"
+msgstr ""
+"Ydych chi'n sicr eich bod am\n"
+"ddiffodd y pŵer?"
 
 #: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "Apagar"
+msgstr "Diffodd y pŵer"
 
 #: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Reiniciar"
+msgstr "Ailgychwyn"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr "Volver á chamada"
+msgstr "Nôl i'r alwad"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
-msgstr "Chamada de emerxencia"
+msgstr "Galwad Frys"
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
-msgstr "Aceptar"
+msgstr "Iawn"
 
 #: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
 msgid "See less"
-msgstr "Ver menos"
+msgstr "Gweld llai"
 
 #: qml/Dash/GenericScopeView.qml:539
 msgid "See all"
-msgstr "Ver todo"
+msgstr "Gweld y cyfan"
 
 #: qml/Dash/GenericScopeView.qml:601
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "Buscar"
+msgstr "Chwilio"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Tenda"
+msgstr "Marchnad"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr "Buscar"
+msgstr "Chwilio"
 
 #: qml/Dash/PageHeader.qml:286
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Axustes"
+msgstr "Gosodiadau"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
-msgstr "Eliminar dos favoritos"
+msgstr "Tynnu o Ffefrynnau"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
-msgstr "Engadir aos favoritos"
+msgstr "Ychwanegu at Ffefrynnau"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr "Máis…"
+msgstr "Mwy..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr "Menos..."
+msgstr "Llai..."
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
-msgstr "Valore isto"
+msgstr "Graddio hwn"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
-msgstr "Engadir unha opinión"
+msgstr "Ychwanegu adolygiad"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:169
 msgid "Send"
-msgstr "Enviar"
+msgstr "Anfon"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr "Tirar para actualizar..."
+msgstr "Tynnwch i adnewyddu..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr "Soltar para actualizar"
+msgstr "Rhyddhewch i adnewyddu..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr "Activar datos da localización"
+msgstr "Galluogi data lleoliad"
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
-msgstr "Xestionar"
+msgstr "Rheoli"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr "Persoal"
+msgstr "Cartref"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
-msgstr "Tamén instalado"
+msgstr "Hefyd wedi gosod"
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
-msgstr "Desbloquear"
+msgstr "Datgloi"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr "Reintentar"
+msgstr "Ailgynnig"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr "Tocar para desbloquear"
+msgstr "Tapiwch i ddatgloi"
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr "Sentímolo a frase é incorrecta."
+msgstr "Cyfrinair anghywir"
 
 #: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr "Sentímolo, a clave é incorrecta."
+msgstr "Cod cyfrinachol anghywir"
 
 #: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
-msgstr "Este será o seu último intento."
+msgstr "Hwn yw eich ymgais olaf"
 
 #: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Se a frase de paso introducida é incorrecta, o teléfono restabelecerá os "
-"valores de fábrica e perderá todos os datos persoais."
+"Os fydd y cyfrinair yn anghywir bydd eich ffôn yn cael ei ailosod i gyflwr "
+"ffatri a bydd data personol yn cael ei ddileu."
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Se a clave introducida é incorrecta, o teléfono restabelecerá os valores de "
-"fábrica e perderá todos os datos persoais."
+"Os fydd y cod cyfrinachol yn anghywir bydd eich ffôn yn cael ei ailosod i "
+"gyflwr ffatri a bydd data personol yn cael ei ddileu."
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
-msgstr "Introducir %1"
+msgstr "Rhowch %1"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr "Introduza a frase secreta"
+msgstr "Rhowch gyfrinair"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
-msgstr "Introduza a clave"
+msgstr "Rhowch god cyfrinachol"
 
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "Sentímolo, %1 non coincide"
+msgstr "%1 anghywir"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
-msgstr "Sentímolo a frase é incorrecta"
+msgstr "Cyfrinair anghywir"
 
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr "Introducir de novo"
+msgstr "Ceisiwch eto"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
-msgstr "Sentímolo, a clave é incorrecta"
+msgstr "Cod cyfrinachol anghywir"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
-msgstr "Mostrar contrasinal"
+msgstr "Dangos cyfrinair"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Toque para volver á chamada..."
+msgstr "Tapiwch i ffonio nôl"
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr "Conferencia"
+msgstr "Cydalwad"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
-msgstr "Non hai nada en reprodución"
+msgstr "Dim byd yn chwarae"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:768
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] "%1 hora"
-msgstr[1] "%1 horas"
+msgstr[0] "%1 awr"
+msgstr[1] "%1 awr"
+msgstr[2] "%1 awr"
+msgstr[3] "%1 awr"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:772
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] "%1 minuto"
-msgstr[1] "%1 minutos"
+msgstr[0] "%1 munud"
+msgstr[1] "%1 munud"
+msgstr[2] "%1 munud"
+msgstr[3] "%1 munud"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:777
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] "%1 segundo"
-msgstr[1] "%1 segundos"
+msgstr[0] "%1 eiliad"
+msgstr[1] "%1 eiliad"
+msgstr[2] "%1 eiliad"
+msgstr[3] "%1 eiliad"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:780
 msgid "0 seconds"
-msgstr "0 segundos"
+msgstr "0 eiliad"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:782
 #, qt-format
 msgid "%1 remaining"
-msgstr "Faltan %1"
+msgstr "%1 yn weddill"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
-msgstr "Na cola..."
+msgstr "Mewn ciw..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:792
 msgid "Downloading"
-msgstr "Descargando"
+msgstr "Yn llwytho i lawr"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:794
 msgid "Paused, tap to resume"
-msgstr "Detido, toque para continuar"
+msgstr "Seibiwyd, tapiwch i ailafael ynddi"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:796
 msgid "Canceled"
-msgstr "Cancelado"
+msgstr "Diddymwyd"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:798
 msgid "Finished"
-msgstr "Rematado"
+msgstr "Wedi gorffen"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:800
 msgid "Failed, tap to retry"
-msgstr "Fallou, toque para reintentar"
+msgstr "Methwyd, tapiwch i geisio eto"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr "Responder"
+msgstr "Ateb"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "Desbloquear a SIM"
+msgstr "Datgloi SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr "Itinerancia"
+msgstr "Crwydrol"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr "Esta acción actúa de xeito distinto segundo o aplicativo"
+msgstr "Mae'r weithred hon yn gwneud pethau gwahanol mewn apiau gwahanol"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr "Toque aquí para rematar."
+msgstr "Tapiwch yma i orffen"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr "Abrir menús especiais"
+msgstr "Agor dewislenni arbennig"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr "Esvare o dedo desde o bordo inferior."
+msgstr "Trawiwch i fyny o'r ymyl gwaelod."
 
 #: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr "Toque aquí para continuar."
+msgstr "Tapiwch yma i barhau."
 
 #: qml/Tutorial/TutorialContent.qml:81
 msgid "Click here to finish."
-msgstr "Prema aquí para rematar."
+msgstr "Cliciwch yma i orffen."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr "Estes son os atallos aos aplicativos favoritos"
+msgstr "Rhain yw'r llwybrau byr i'ch hoff apiau"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr "Abrir o Iniciador"
+msgstr "Agor y lansiwr"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr "Esvare o dedo un pouco desde o bordo esquerdo."
+msgstr "Trawiad byr o'r ymyl chwith."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr "Case o conseguiu!"
+msgstr "Bron â bod!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr "Ténteo de novo."
+msgstr "Ceisiwch eto."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr "Ver os aplicativos abertos"
+msgstr "I weld apiau sydd ar agor"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr "Esvare o dedo desde o bordo dereito."
+msgstr "Trawiad hir o'r ymyl dde."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr "Ver todas as tarefas en execución."
+msgstr "Gweld pob tasg sy'n rhedeg."
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Atrás"
+msgstr "Nôl"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr "Boas!"
+msgstr "Shwmae!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr "Benvido/a ao seu teléfono Ubuntu."
+msgstr "Croeso i'ch ffôn Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr "Comezamos."
+msgstr "Beth am gychwyn."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr "Continuar"
+msgstr "Parhau"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr "Engada unha tarxeta SIM e reinicie o dispositivo"
+msgstr "Ychwanegwch gerdyn SIM ac ailgychwyn y ddyfais"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
-"Sen ela, non poderá realizar chamadas nin usar a mensaxería de texto."
+msgstr "Hebddo bydd dim modd gwneud galwadau na defnyddio negeseuon testun."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr "Saltar"
+msgstr "Neidio"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr "Seguranza do bloqueo"
+msgstr "Diogelwch cloi"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr "Por favor, seleccione a forma de desbloquear o teléfono."
+msgstr "Dewiswch sut yr hoffech ddatgloi'r ffôn."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr "Esvarar o dedo"
+msgstr "Trawio"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr "Sen seguranza"
+msgstr "Dim diogelwch"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr "Clave"
+msgstr "Cod cyfrinachol"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr "Só 4 díxitos"
+msgstr "4 digid yn unig"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Frase secreta"
+msgstr "Cyfrinair"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr "Números e letras"
+msgstr "Rhifau a llythrennau"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr "Conectar a unha wifi"
+msgstr "Cysylltu â diwifr"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr "Redes dispoñíbeis..."
+msgstr "Rhwydweithiau sydd ar gael..."
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr "Non hai redes dispoñíbeis."
+msgstr "Dim rhwydweithiau ar gael"
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr "Localización"
+msgstr "Lleoliad"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr "Permitir ao teléfono detectar a localizacón:"
+msgstr "Caniatáu'r ffôn i ganfod eich lleoliad:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr "Usar só GPS (menos exacta)"
+msgstr "Defnyddio GPS yn unig (llai cywir)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr "Usar GPS, wifi anónimo e información da rede móbil (recomendado)"
+msgstr ""
+"Defnyddio GPS, diwifr dienw a gwybodaeth rhwydwaith cellog (argymellir hwn)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -624,77 +637,77 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
-"Seleccionando esta opción acepta os <a href='#'>termos e condicións</a> do "
-"HERE de Nokia."
+"Drwy ddewis yr opsiwn yma rydych yn cytuno i <a href='#'>dermau ac "
+"amodau</a> Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr "De ningún xeito"
+msgstr "Dim o gwbl"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "Pode cambialo máis tarde nos <b>Axustes do sistema</b>."
+msgstr "Gallwch newid hwn eto yn <b>Gosodiadau System</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr "Mellorando a súa experiencia"
+msgstr "Gwella eich profiad"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
-"O teléfono configurouse para informar dos erros automaticamente  a Canonical "
-"e os seus socios, os creadores do sistema operativo."
+"Cyfluniwyd eich ffôn i adrodd gwallau i Canonical a'i bartneriaid, "
+"gwneuthurwyr y system weithredu."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"Pode desactivalo nos <b>Axustes do sistema</b> en <b>Seguranza e "
-"privacidade</b>"
+"Gellir analluogi hwn yn <b>Gosodiadau System</b> dan <b>Diogelwch a "
+"Phreifatwydd</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr "Rematado"
+msgstr "Wedi gorffen"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr "Bo traballo!"
+msgstr "Da iawn!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr "Xa ten o teléfono listo para usar."
+msgstr "Mae eich ffôn yn barod i'w ddefnyddio"
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr "Rematar"
+msgstr "Gorffen"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr "Termos e condicións"
+msgstr "Amodau a Thelerau"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr "Confirmar a frase secreta"
+msgstr "Cadarnhau cyfrinair"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr "Confirmar a clave"
+msgstr "Cadarnhau cod cyfrinachol"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr "Ténteo de novo."
+msgstr "Rhowch gynnig arall arni"
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr "Escolla unha clave"
+msgstr "Dewiswch eich cod cyfrinachol"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr "A frase secreta debe ter 4 caracteres"
+msgstr "Dylai cyfrinair fod yn bedwar nod"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
@@ -707,99 +720,3 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
-
-#~ msgid "Confirm"
-#~ msgstr "Confirmar"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Escriba ou diga unha orde"
-
-#~ msgid "Speak Now..."
-#~ msgstr "Fale agora…"
-
-#~ msgid "Speaking..."
-#~ msgstr "Falando…"
-
-#~ msgid "Search"
-#~ msgstr "Buscar"
-
-#~ msgid "Right edge"
-#~ msgstr "Bordo dereito"
-
-#~ msgid "Skip intro"
-#~ msgstr "Saltar introdución"
-
-#~ msgid "Top edge"
-#~ msgstr "Bordo superior"
-
-#~ msgid "Close"
-#~ msgstr "Pechar"
-
-#~ msgid "Left edge"
-#~ msgstr "Bordo esquerdo"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Agora xa domina os xestos dos bordos e pode comezar a usar o "
-#~ "teléfono<br><br>Toque na pantalla para comezar"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Cargando, agarde…"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Esvare o dedo desde o bordo superior para acceder aos indicadores."
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Esvare o dedo desde o bordo dereito para desbloquear o teléfono"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Esvare o dedo de novo cara a arriba para pechar os axustes"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Esvare o dedo desde a esquerda para mostrar o iniciador rápido dos "
-#~ "aplicativos"
-
-#~ msgid "Well done"
-#~ msgstr "Ben feito!"
-
-#~ msgid "All"
-#~ msgstr "Todos"
-
-#~ msgid "Favorites"
-#~ msgstr "Favoritos"
-
-#~ msgid "Store"
-#~ msgstr "Tenda"
-
-#~ msgid "Power off"
-#~ msgstr "Apagar"
-
-#~ msgid "Done"
-#~ msgstr "Feito"
-
-#~ msgid "Log out"
-#~ msgstr "Saír da sesión"
-
-#~ msgid "Reboot"
-#~ msgstr "Reiniciar"
-
-#~ msgid "Shut down"
-#~ msgstr "Apagar"
-
-#~ msgid "Power"
-#~ msgstr "Enerxía"
-
-#~ msgid "Settings"
-#~ msgstr "Axustes"
-
-#~ msgid "Restart"
-#~ msgstr "Reiniciar"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Xestionar os Ámbitos"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Introducir de novo"
