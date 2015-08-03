@@ -16,7 +16,6 @@
 
 #include "Connectivity.h"
 #include <QDBusConnection>
-#include <QDBusInterface>
 #include <QDBusPendingCall>
 
 Connectivity::Connectivity(QObject *parent)
@@ -26,8 +25,9 @@ Connectivity::Connectivity(QObject *parent)
 
 void Connectivity::unlockAllModems()
 {
-    QDBusInterface iface("com.ubuntu.connectivity1",
-                         "/com/ubuntu/connectivity1/Private",
-                         "com.ubuntu.connectivity1.Private");
-    iface.asyncCall("UnlockAllModems");
+    const QDBusMessage msg = QDBusMessage::createMethodCall("com.ubuntu.connectivity1",
+                                                            "/com/ubuntu/connectivity1/Private",
+                                                            "com.ubuntu.connectivity1.Private",
+                                                            "UnlockAllModems");
+    QDBusConnection::sessionBus().asyncCall(msg);
 }

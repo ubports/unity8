@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-06-22 12:00+0200\n"
+"POT-Creation-Date: 2015-07-17 10:10+0200\n"
 "PO-Revision-Date: 2015-03-22 15:56+0000\n"
 "Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-07-04 05:37+0000\n"
-"X-Generator: Launchpad (build 17597)\n"
+"X-Launchpad-Export-Date: 2015-07-25 05:39+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -223,15 +223,15 @@ msgstr "Acil Arama"
 msgid "OK"
 msgstr "Tamam"
 
-#: qml/Dash/GenericScopeView.qml:532 qml/Dash/GenericScopeView.qml:690
+#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
 msgid "See less"
 msgstr "Daha azını gör"
 
-#: qml/Dash/GenericScopeView.qml:532
+#: qml/Dash/GenericScopeView.qml:539
 msgid "See all"
 msgstr "Tümünü gör"
 
-#: qml/Dash/GenericScopeView.qml:594
+#: qml/Dash/GenericScopeView.qml:601
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Ara"
@@ -315,19 +315,19 @@ msgstr ""
 msgid "Tap to unlock"
 msgstr "Kilidi açmak için dokun"
 
-#: qml/Greeter/NarrowView.qml:53 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
 msgstr "Üzgünüm, hatalı parola."
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
 msgstr "Üzgünüm, hatalı parola."
 
-#: qml/Greeter/NarrowView.qml:55
+#: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
 msgstr "Bu son denemeniz olacak."
 
-#: qml/Greeter/NarrowView.qml:57
+#: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
@@ -335,7 +335,7 @@ msgstr ""
 "Eğer hatalı parola girilirse, telefonunuz fabrika ayarlarına dönecek ve tüm "
 "kişisel verileriniz silinecek."
 
-#: qml/Greeter/NarrowView.qml:58
+#: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
@@ -343,33 +343,34 @@ msgstr ""
 "Eğer hatalı parola girilirse, telefonunuz fabrika ayarlarına dönecek ve tüm "
 "kişisel verileriniz silinecek."
 
-#: qml/Greeter/NarrowView.qml:115
+#: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
 msgstr "%1 Girin"
 
-#: qml/Greeter/NarrowView.qml:116 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
 msgstr "Parolayı girin"
 
-#: qml/Greeter/NarrowView.qml:117
+#: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
 msgstr "Parolayı girin"
 
-#: qml/Greeter/NarrowView.qml:118
+#: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
 msgstr "Üzgünüm, hatalı %1"
 
-#: qml/Greeter/NarrowView.qml:119
+#: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
 msgstr "Üzgünüm, hatalı parola"
 
-#: qml/Greeter/NarrowView.qml:120
-msgid "Please re-enter"
-msgstr "Lütfen yeniden girin"
-
 #: qml/Greeter/NarrowView.qml:121
+msgctxt "passphrase"
+msgid "Please re-enter"
+msgstr ""
+
+#: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
 msgstr "Üzgünüm, hatalı parola"
 
@@ -519,38 +520,6 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "Şartlar ve Koşullar"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Parolayı yinele"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "Parolayı yinele"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Lütfen yeniden deneyin."
-
-#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50
-msgid "Continue"
-msgstr "Devam Et"
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Parolanızı seçin"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "Parola 4 karakter olmalı"
-
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr "Merhaba!"
@@ -562,6 +531,13 @@ msgstr "Ubuntu telefonunuza hoş geldiniz."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "Hadi başlayalım."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Devam Et"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -698,6 +674,31 @@ msgstr "Telefonunuz artık kullanıma hazır."
 msgid "Finish"
 msgstr "Son"
 
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Şartlar ve Koşullar"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Parolayı yinele"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Parolayı yinele"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Lütfen yeniden deneyin."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Parolanızı seçin"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Parola 4 karakter olmalı"
+
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
@@ -792,3 +793,6 @@ msgstr "%1  〉"
 
 #~ msgid "Restart"
 #~ msgstr "Yeniden başlat"
+
+#~ msgid "Please re-enter"
+#~ msgstr "Lütfen yeniden girin"

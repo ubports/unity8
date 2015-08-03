@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ import ScreenGrabber 0.1
 
 Rectangle {
     id: root
-    enabled: true
     visible: false
     color: "white"
     anchors.fill: parent
@@ -38,9 +37,6 @@ Rectangle {
     }
 
     function capture() {
-        if (!enabled)
-            return;
-
         visible = true;
         shutterSound.stop();
         shutterSound.play();

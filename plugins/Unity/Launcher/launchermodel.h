@@ -45,6 +45,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
 
+    Q_INVOKABLE void setAlerting(const QString &appId, bool alerting) override;
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface* get(int index) const override;
     Q_INVOKABLE void move(int oldIndex, int newIndex) override;
     Q_INVOKABLE void pin(const QString &appId, int index = -1) override;
@@ -63,6 +64,7 @@ public:
 public Q_SLOTS:
     void requestRemove(const QString &appId) override;
     Q_INVOKABLE void refresh();
+    Q_INVOKABLE void alert(const QString &appId);
 
 private:
     void storeAppList();
@@ -71,7 +73,7 @@ private:
 
 private Q_SLOTS:
     void countChanged(const QString &appId, int count);
-    void countVisibleChanged(const QString &appId, int count);
+    void countVisibleChanged(const QString &appId, bool count);
     void progressChanged(const QString &appId, int progress);
 
     void applicationAdded(const QModelIndex &parent, int row);
