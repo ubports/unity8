@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013,2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -317,6 +317,36 @@ Item {
             touchFlick(shell, halfWidth, halfHeight, 0, halfHeight, false, true);
 
             tryCompare(left, "shown", true); // and we should still be on left
+        }
+
+        function test_launcherNoDragGap() {
+            // See bug 1454882, where if you dragged the launcher while it was
+            // visible, you could pull it further than the edge of the screen.
+
+            var left = goToPage("tutorialLeft");
+            var launcher = findChild(shell, "launcher");
+            var teaseAnimation = findInvisibleChild(left, "teaseAnimation");
+
+            // Wait for launcher to be really out there
+            tryCompareFunction(function() {return launcher.x > teaseAnimation.maxBounce/2}, true);
+            verify(teaseAnimation.running);
+
+            // Start a drag, make sure animation stops
+            touchFlick(shell, 0, halfHeight, units.gu(4), halfHeight, true, false);
+            verify(!teaseAnimation.running);
+            verify(launcher.visibleWidth > 0);
+            verify(launcher.x > 0);
+            compare(launcher.x, teaseAnimation.bounce);
+
+            // Continue drag, make sure we don't create a gap on the left hand side
+            touchFlick(shell, units.gu(4), halfHeight, shell.width, halfHeight, false, false);
+            verify(!teaseAnimation.running);
+            compare(launcher.visibleWidth, launcher.panelWidth);
+            compare(launcher.x, 0);
+
+            // Finish and make sure we continue animation
+            touchFlick(shell, shell.width, halfHeight, shell.width, halfHeight, false, true);
+            tryCompare(teaseAnimation, "running", true);
         }
 
         function test_spread() {
