@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import AccountsService 0.1
+import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.Components.ListItems 1.0 as ListItem
@@ -66,11 +67,6 @@ Rectangle {
                         width: units.gu(40)
                         height: units.gu(71)
                     }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Staged")
-                        }
-                    }
                 },
                 State {
                     name: "tablet"
@@ -78,11 +74,6 @@ Rectangle {
                         target: shellLoader
                         width: units.gu(100)
                         height: units.gu(71)
-                    }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Staged")
-                        }
                     }
                 },
                 State {
@@ -95,11 +86,6 @@ Rectangle {
                     PropertyChanges {
                         target: mouseEmulation
                         checked: false
-                    }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Windowed")
-                        }
                     }
                 }
             ]
