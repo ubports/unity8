@@ -21,7 +21,6 @@
 
 class LauncherItem;
 class AccountsServiceDBusAdaptor;
-class QDBusInterface;
 
 class ASAdapter
 {
@@ -29,7 +28,7 @@ public:
     ASAdapter();
     ~ASAdapter();
 
-    void syncItems(QList<LauncherItem*> m_list);
+    void syncItems(const QList<LauncherItem*> &list);
 
 private:
     QVariantMap itemToVariant(LauncherItem *item) const;
@@ -37,8 +36,6 @@ private:
 private:
     AccountsServiceDBusAdaptor *m_accounts;
     QString m_user;
-
-    QDBusInterface *m_userInterface;
 
     friend class LauncherModelTest;
 };

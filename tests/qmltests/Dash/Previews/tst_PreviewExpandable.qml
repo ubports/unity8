@@ -51,9 +51,10 @@ Rectangle {
         widgetsModel.append({"type": "text", "widgetId": "text4", "properties": { "text": longText }});
     }
 
-    PreviewExpandable {
+    PreviewWidgetFactory {
         id: previewExpandable
         anchors { left: parent.left; right: parent.right }
+        widgetType: "expandable"
         widgetData: root.widgetData
     }
 
@@ -77,6 +78,7 @@ Rectangle {
         }
 
         function init() {
+            checkInitialState();
         }
 
         function test_collapsed_by_default() {

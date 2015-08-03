@@ -35,7 +35,7 @@ Loader {
     property var scopeStyle: null
 
     //! Should the widget show in expanded mode (For those that support it)
-    property bool expanded: true
+    property bool expanded: widgetType !== "expandable"
 
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false
@@ -55,6 +55,7 @@ Loader {
             case "expandable": return "PreviewExpandable.qml";
             case "gallery": return "PreviewImageGallery.qml";
             case "header": return "PreviewHeader.qml";
+            case "icon-actions": return "PreviewIconActions.qml";
             case "image": return "PreviewZoomableImage.qml";
             case "progress": return "PreviewProgress.qml";
             case "payments": return "PreviewPayments.qml";

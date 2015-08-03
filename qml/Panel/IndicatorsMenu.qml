@@ -36,6 +36,7 @@ Showable {
     readonly property bool fullyClosed: unitProgress == 0
     property bool enableHint: true
     property bool contentEnabled: true
+    property bool showOnClick: true
     property color panelColor: "black"
 
     signal showTapped(point position)
@@ -68,6 +69,7 @@ Showable {
     // eater
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
     }
 
     MenuContent {
@@ -168,7 +170,7 @@ Showable {
         anchors.left: parent.left
         anchors.right: parent.right
         height: minimizedPanelHeight
-        enabled: __showDragHandle.enabled
+        enabled: __showDragHandle.enabled && showOnClick
         onClicked: {
             bar.selectItemAt(mouseX)
             root.show()
@@ -270,7 +272,7 @@ Showable {
         }
 
         function updateState() {
-            if (!showAnimation.running && !hideAnimation.running) {
+            if (!showAnimation.running && !hideAnimation.running && d.activeDragHandle) {
                 if (unitProgress <= 0) {
                     root.state = "initial";
                 // lock indicator if we've been committed and aren't moving too much laterally or too fast up.

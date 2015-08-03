@@ -75,20 +75,20 @@ Rectangle {
 
         function test_mapping_data() {
             return [
-                { tag: "Actions", type: "actions", source: "PreviewActions.qml" },
-                { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml" },
-                { tag: "Comment", type: "comment", source: "PreviewComment.qml" },
-                { tag: "Comment Input", type: "comment-input", source: "PreviewCommentInput.qml" },
-                { tag: "Expandable", type: "expandable", source: "PreviewExpandable.qml" },
-                { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml" },
-                { tag: "Header", type: "header", source: "PreviewHeader.qml" },
-                { tag: "Image", type: "image", source: "PreviewZoomableImage.qml" },
-                { tag: "Progress", type: "progress", source: "PreviewProgress.qml" },
-                { tag: "Rating Input", type: "rating-input", source: "PreviewRatingInput.qml" },
-                { tag: "Rating Display", type: "reviews", source: "PreviewRatingDisplay.qml" },
-                { tag: "Table", type: "table", source: "PreviewTable.qml" },
-                { tag: "Text", type: "text", source: "PreviewTextSummary.qml" },
-                { tag: "Video", type: "video", source: "PreviewVideoPlayback.qml" },
+                { tag: "Actions", type: "actions", source: "PreviewActions.qml", expanded: true },
+                { tag: "Audio", type: "audio", source: "PreviewAudioPlayback.qml", expanded: true },
+                { tag: "Comment", type: "comment", source: "PreviewComment.qml", expanded: true },
+                { tag: "Comment Input", type: "comment-input", source: "PreviewCommentInput.qml", expanded: true },
+                { tag: "Expandable", type: "expandable", source: "PreviewExpandable.qml", expanded: false },
+                { tag: "Gallery", type: "gallery", source: "PreviewImageGallery.qml", expanded: true },
+                { tag: "Header", type: "header", source: "PreviewHeader.qml", expanded: true },
+                { tag: "Image", type: "image", source: "PreviewZoomableImage.qml", expanded: true },
+                { tag: "Progress", type: "progress", source: "PreviewProgress.qml", expanded: true },
+                { tag: "Rating Input", type: "rating-input", source: "PreviewRatingInput.qml", expanded: true },
+                { tag: "Rating Display", type: "reviews", source: "PreviewRatingDisplay.qml", expanded: true },
+                { tag: "Table", type: "table", source: "PreviewTable.qml", expanded: true },
+                { tag: "Text", type: "text", source: "PreviewTextSummary.qml", expanded: true },
+                { tag: "Video", type: "video", source: "PreviewVideoPlayback.qml", expanded: true },
             ];
         }
 
@@ -97,6 +97,7 @@ Rectangle {
             factory.widgetType = data.type;
 
             verify((String(factory.source)).indexOf(data.source) != -1);
+            compare(factory.item.expanded, data.expanded);
         }
     }
 }

@@ -41,7 +41,13 @@ Item {
     signal volumeUpTriggered;
     signal screenshotTriggered;
 
+    readonly property bool altTabPressed: d.altTabPressed
+
     property int powerKeyLongPressTime: 2000
+
+    // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
+    // running desktop, set this to true to use Ctrl+Tab instead.
+    property bool controlInsteadOfAlt: false
 
     QtObject {
         id: d
@@ -49,6 +55,9 @@ Item {
         property bool volumeDownKeyPressed: false
         property bool volumeUpKeyPressed: false
         property bool ignoreVolumeEvents: false
+
+        property bool altPressed: false
+        property bool altTabPressed: false
     }
 
     Timer {
@@ -93,6 +102,15 @@ Item {
                 }
                 d.volumeUpKeyPressed = true;
             }
+        } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
+            d.altPressed = true;
+        } else if (event.key == Qt.Key_Tab) {
+            if (d.altPressed && !d.altTabPressed) {
+                d.altTabPressed = true;
+                event.accepted = true;
+            }
+        } else if (event.key == Qt.Key_Print) {
+            root.screenshotTriggered();
         }
     }
 
@@ -108,6 +126,12 @@ Item {
             if (!d.ignoreVolumeEvents) root.volumeUpTriggered();
             d.volumeUpKeyPressed = false;
             if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
+        } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
+            d.altPressed = false;
+            if (d.altTabPressed) {
+                d.altTabPressed = false;
+                event.accepted = true;
+            }
         }
     }
 }

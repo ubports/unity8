@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013, 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -45,6 +45,17 @@ void QuickListModel::updateAction(const QuickListEntry &entry)
             Q_EMIT dataChanged(index(i), index(i));
             return;
         }
+    }
+}
+
+void QuickListModel::removeAction(const QuickListEntry &entry)
+{
+    const int start = m_list.indexOf(entry);
+    if (start > -1) {
+        beginRemoveRows(QModelIndex(), start, start);
+        m_list.removeOne(entry);
+        Q_EMIT dataChanged(index(start), index(start));
+        endRemoveRows();
     }
 }
 

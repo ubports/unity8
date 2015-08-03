@@ -34,6 +34,12 @@ Item {
         property alias searchEnabled : pageHeader.searchEntryEnabled
         property alias searchQuery : pageHeader.searchQuery
 
+        function doTypeString(text) {
+            var headerContainer = findChild(pageHeader, "headerContainer");
+            tryCompare(headerContainer, "contentY", 0);
+            typeString(text);
+        }
+
         function init() {
             searchEnabled = true;
 
@@ -63,7 +69,7 @@ Item {
             pageHeader.resetSearch()
 
             pageHeader.triggerSearch()
-            typeString("test")
+            doTypeString("test")
 
             compare(searchQuery, "test", "Typing in the search field did not change searchQuery")
         }
@@ -72,7 +78,7 @@ Item {
             searchEnabled = true
             pageHeader.triggerSearch()
             searchQuery = "test1"
-            typeString("test2")
+            doTypeString("test2")
             compare(searchQuery, "test1test2", "Setting searchQuery text does not update the TextField")
         }
 
@@ -91,28 +97,28 @@ Item {
 
         function test_history() {
             pageHeader.triggerSearch()
-            typeString("humppa1")
+            doTypeString("humppa1")
             pageHeader.resetSearch()
 
             tryCompare(pageHeader.searchHistory, "count", 1)
             compare(pageHeader.searchHistory.get(0).query, "humppa1")
 
             pageHeader.triggerSearch()
-            typeString("humppa2")
+            doTypeString("humppa2")
             pageHeader.resetSearch()
 
             compare(pageHeader.searchHistory.count, 2)
             compare(pageHeader.searchHistory.get(0).query, "humppa2")
 
             pageHeader.triggerSearch()
-            typeString("humppa3")
+            doTypeString("humppa3")
             pageHeader.resetSearch()
 
             compare(pageHeader.searchHistory.count, 3)
             compare(pageHeader.searchHistory.get(0).query, "humppa3")
 
             pageHeader.triggerSearch()
-            typeString("humppa4")
+            doTypeString("humppa4")
             pageHeader.resetSearch()
 
             compare(pageHeader.searchHistory.count, 3)
