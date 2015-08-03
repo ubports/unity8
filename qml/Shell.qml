@@ -397,25 +397,6 @@ Item {
     }
 
     Connections {
-        target: SurfaceManager
-        onSurfaceCreated: {
-            if (surface.type == MirSurfaceItem.InputMethod) {
-                inputMethod.surface = surface;
-            }
-        }
-
-        onSurfaceDestroyed: {
-            if (inputMethod.surface == surface) {
-                inputMethod.surface = null;
-                surface.parent = null;
-            }
-            if (!surface.parent) {
-                // there's no one displaying it. delete it right away
-                surface.release();
-            }
-        }
-    }
-    Connections {
         target: SessionManager
         onSessionStopping: {
             if (!session.parentSession && !session.application) {
