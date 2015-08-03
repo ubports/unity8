@@ -32,6 +32,7 @@
 // local
 #include <paths.h>
 #include "registry-tracker.h"
+#include "unix-signal-handler.h"
 
 
 int main(int argc, char *argv[])
@@ -81,6 +82,7 @@ int main(int argc, char *argv[])
     }
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
+    textdomain("unity8");
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -95,6 +97,11 @@ int main(int argc, char *argv[])
     view->setSource(source);
 
     view->show();
+
+    UnixSignalHandler signal_handler([]{
+        QGuiApplication::exit(0);
+    });
+    signal_handler.setupUnixSignalHandlers();
 
     int result = application->exec();
 

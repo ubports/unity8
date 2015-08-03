@@ -9,6 +9,9 @@ add_executable(GreeterDBusTestExec
     dbus.cpp
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
     )
+# This add_dependencies is needed since we're linking with with -L and -l below
+# make seems to work but ninja breaks without it
+add_dependencies(GreeterDBusTestExec MockLightDM)
 qt5_use_modules(GreeterDBusTestExec Core DBus Quick Test)
 target_link_libraries(GreeterDBusTestExec
     -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
@@ -44,6 +47,9 @@ add_executable(GreeterUsersModelTestExec
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     )
+# This add_dependencies is needed since we're linking with with -L and -l below
+# make seems to work but ninja breaks without it
+add_dependencies(GreeterUsersModelTestExec MockLightDM)
 qt5_use_modules(GreeterUsersModelTestExec Core Test)
 target_link_libraries(GreeterUsersModelTestExec
     -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm

@@ -16,7 +16,9 @@
 
 #include "System.h"
 
-#include <QDBusInterface>
+#include <QDBusPendingCall>
+#include <QDBusMessage>
+#include <QDBusConnection>
 #include <QDBusMetaType>
 #include <QDir>
 #include <QFile>
@@ -73,21 +75,23 @@ void System::watcherFileChanged()
 void System::setSessionVariable(const QString &variable, const QString &value)
 {
     // We need to update both upstart's and DBus's environment
-    QProcess::execute(QString("initctl set-env --global %1=%2").arg(variable, value));
-
-    QDBusInterface iface("org.freedesktop.DBus",
-                         "/org/freedesktop/DBus",
-                         "org.freedesktop.DBus",
-                         QDBusConnection::sessionBus());
+    QProcess::startDetached(QStringLiteral("initctl set-env --global %1=%2").arg(variable, value));
 
     QMap<QString,QString> valueMap;
     valueMap.insert(variable, value);
-    iface.call("UpdateActivationEnvironment", QVariant::fromValue(valueMap));
+
+    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.DBus",
+                                                      "/org/freedesktop/DBus",
+                                                      "org.freedesktop.DBus",
+                                                      "UpdateActivationEnvironment");
+
+    msg << QVariant::fromValue(valueMap);
+    QDBusConnection::sessionBus().asyncCall(msg);
 }
 
 void System::updateSessionLanguage(const QString &locale)
 {
-    QString language = locale.split(".")[0];
+    const QString language = locale.split(".")[0];
 
     setSessionVariable("LANGUAGE", language);
     setSessionVariable("LANG", locale);

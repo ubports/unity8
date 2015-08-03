@@ -71,7 +71,7 @@ void Lights::setColor(const QColor &color)
     if (m_color != color) {
         m_color = color;
         Q_EMIT colorChanged(m_color);
-        // FIXME: update the collor if the light is already on
+        // FIXME: update the color if the light is already on
     }
 }
 

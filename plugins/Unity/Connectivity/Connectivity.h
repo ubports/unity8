@@ -26,6 +26,7 @@ class Connectivity : public QObject
 
 public:
     explicit Connectivity(QObject *parent = 0);
+    ~Connectivity() = default;
 
     Q_INVOKABLE void unlockAllModems();
 };
