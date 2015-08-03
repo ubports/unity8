@@ -141,9 +141,9 @@ void AccountsService::updateDemoEdges(bool async)
             this, [this](QDBusPendingCallWatcher* watcher) {
 
         QDBusPendingReply<QDBusVariant> reply = *watcher;
+        watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'demo-edges' property - " << reply.error().message();
-            watcher->deleteLater();
             return;
         }
 
@@ -152,7 +152,6 @@ void AccountsService::updateDemoEdges(bool async)
             m_demoEdges = demoEdges;
             Q_EMIT demoEdgesChanged();
         }
-        watcher->deleteLater();
     });
     if (!async) {
         watcher->waitForFinished();

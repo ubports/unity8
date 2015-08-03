@@ -67,9 +67,18 @@ QVariant LauncherModel::data(const QModelIndex &index, int role) const
             return item->progress();
         case RoleFocused:
             return item->focused();
+        case RoleRunning:
+            return item->running();
     }
 
     return QVariant();
+}
+
+void LauncherModel::setAlerting(const QString &appId, bool alerting)
+{
+    Q_UNUSED(appId)
+    Q_UNUSED(alerting)
+    qWarning() << "This is a read only implementation. Cannot set alert-state of items.";
 }
 
 unity::shell::launcher::LauncherItemInterface *LauncherModel::get(int index) const
@@ -200,16 +209,20 @@ void LauncherModel::refresh()
     Q_FOREACH (LauncherItem* item, m_list) {
         bool found = false;
         Q_FOREACH(const QVariant &asItem, items) {
-            if (asItem.toMap().value("id").toString() == item->appId()) {
+            QVariantMap cachedMap = asItem.toMap();
+            if (cachedMap.value("id").toString() == item->appId()) {
                 // Only keep and update it if we either show unpinned or it is pinned
-                if (!m_onlyPinned || asItem.toMap().value("pinned").toBool()) {
+                if (!m_onlyPinned || cachedMap.value("pinned").toBool()) {
                     found = true;
-                    item->setName(asItem.toMap().value("name").toString());
-                    item->setIcon(asItem.toMap().value("icon").toString());
-                    item->setCount(asItem.toMap().value("count").toInt());
-                    item->setCountVisible(asItem.toMap().value("countVisible").toBool());
+                    item->setName(cachedMap.value("name").toString());
+                    item->setIcon(cachedMap.value("icon").toString());
+                    item->setCount(cachedMap.value("count").toInt());
+                    item->setCountVisible(cachedMap.value("countVisible").toBool());
+                    item->setProgress(cachedMap.value("progress").toInt());
+                    item->setRunning(cachedMap.value("running").toBool());
+
                     int idx = m_list.indexOf(item);
-                    Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleName << RoleIcon);
+                    Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon, RoleCount, RoleCountVisible, RoleRunning, RoleProgress});
                 }
                 break;
             }
@@ -247,14 +260,17 @@ void LauncherModel::refresh()
         }
 
         if (itemIndex == -1) {
+            QVariantMap cachedMap = entry.toMap();
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list in AS.
-            LauncherItem *item = new LauncherItem(entry.toMap().value("id").toString(),
-                                                  entry.toMap().value("name").toString(),
-                                                  entry.toMap().value("icon").toString(),
+            LauncherItem *item = new LauncherItem(cachedMap.value("id").toString(),
+                                                  cachedMap.value("name").toString(),
+                                                  cachedMap.value("icon").toString(),
                                                   this);
             item->setPinned(true);
-            item->setCount(entry.toMap().value("count").toInt());
-            item->setCountVisible(entry.toMap().value("countVisible").toBool());
+            item->setCount(cachedMap.value("count").toInt());
+            item->setCountVisible(cachedMap.value("countVisible").toBool());
+            item->setProgress(cachedMap.value("progress").toInt());
+            item->setRunning(cachedMap.value("running").toBool());
             beginInsertRows(QModelIndex(), newPosition, newPosition);
             m_list.insert(newPosition, item);
             endInsertRows();

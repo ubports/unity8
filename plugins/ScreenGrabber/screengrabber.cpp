@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
 #include "screengrabber.h"
@@ -28,27 +26,35 @@
 
 #include <QDebug>
 
-void saveScreenshot(QImage screenshot, QString filename, QString format, int quality)
+bool saveScreenshot(const QImage &screenshot, const QString &filename, const QString &format, int quality)
 {
-    if (!screenshot.save(filename, format.toLatin1().data(), quality))
-        qWarning() << "ScreenShotter: failed to save snapshot!";
+    if (!screenshot.save(filename, format.toLatin1().data(), quality)) {
+        qWarning() << "ScreenGrabber: failed to save snapshot!";
+        return false;
+    }
+
+    return true;
 }
 
 ScreenGrabber::ScreenGrabber(QObject *parent)
-    : QObject(parent),
-      screenshotQuality(0)
+    : QObject(parent)
 {
-    QDir screenshotsDir(QStandardPaths::displayName(QStandardPaths::PicturesLocation));
-    screenshotsDir.mkdir("Screenshots");
+    QDir screenshotsDir;
+    if (qEnvironmentVariableIsSet("UNITY_TESTING")) {
+        qDebug() << "Using test environment";
+        QStandardPaths::setTestModeEnabled(true);
+        screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    } else {
+        qDebug() << "Using real environment";
+        screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    }
+    screenshotsDir.mkpath("Screenshots");
     screenshotsDir.cd("Screenshots");
-    if (screenshotsDir.exists())
-    {
+    if (screenshotsDir.exists()) {
         fileNamePrefix = screenshotsDir.absolutePath();
         fileNamePrefix.append("/screenshot");
-    }
-    else
-    {
-        qWarning() << "ScreenShotter: failed to create directory at: " << screenshotsDir.absolutePath();
+    } else {
+        qWarning() << "ScreenGrabber: failed to create directory at: " << screenshotsDir.absolutePath();
     }
 }
 
@@ -74,11 +80,16 @@ void ScreenGrabber::captureAndSave()
         return;
     }
 
-    QImage screenshot = main_window->grabWindow();
-    QtConcurrent::run(saveScreenshot, screenshot, makeFileName(), getFormat(), screenshotQuality);
+    const QImage screenshot = main_window->grabWindow();
+    const QString filename = makeFileName();
+    qDebug() << "Saving screenshot to" << filename;
+    auto saveOp = QtConcurrent::run(saveScreenshot, screenshot, filename, getFormat(), screenshotQuality);
+    if (saveOp.result()) {
+        Q_EMIT screenshotSaved(filename);
+    }
 }
 
-QString ScreenGrabber::makeFileName()
+QString ScreenGrabber::makeFileName() const
 {
     QString fileName(fileNamePrefix);
     fileName.append(QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz"));
@@ -87,7 +98,7 @@ QString ScreenGrabber::makeFileName()
     return fileName;
 }
 
-QString ScreenGrabber::getFormat()
+QString ScreenGrabber::getFormat() const
 {
     //TODO: This should be configurable (perhaps through gsettings?)
     return "png";
