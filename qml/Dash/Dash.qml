@@ -41,7 +41,7 @@ Showable {
         onSetCurrentScopeRequested: {
             if (!isSwipe || !window.active || bottomEdgeController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
                 if (bottomEdgeController.progress != 0 && window.active) animate = false;
-                dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
+                dashContent.setCurrentScopeAtIndex(index, animate, true)
                 backToDashContent()
             }
         }

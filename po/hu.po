@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-04 11:42+0000\n"
+"PO-Revision-Date: 2015-08-01 06:47+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-07-25 05:39+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-02 05:36+0000\n"
+"X-Generator: Launchpad (build 17656)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -370,7 +370,7 @@ msgstr "Elnézést, helytelen jelmondat"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Próbálja újra"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"

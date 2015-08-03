@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-17 12:36+0000\n"
+"PO-Revision-Date: 2015-07-29 09:41+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2015-07-25 05:38+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-07-30 06:14+0000\n"
+"X-Generator: Launchpad (build 17646)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -310,7 +310,7 @@ msgstr "الرئيسية"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
-msgstr ""
+msgstr "أيضا تم تثبيت"
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -373,7 +373,7 @@ msgstr "نأسف، عبارة السّر غير صحيحية"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "برجاء إعادة إدخالها"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -389,11 +389,11 @@ msgstr "انقر للعودة إلى المكالمة..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr ""
+msgstr "مؤتمر"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
-msgstr ""
+msgstr "لا شيء مُشغّل"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:768
 #, qt-format
@@ -460,12 +460,12 @@ msgstr "انتهى"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:800
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "فشل، انقل لإعادة المحاولة"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "رد"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -514,7 +514,7 @@ msgstr "اسحب سحبة قصيرة من الحافة اليسرى."
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "انت حصلت على ذلك تقريبا!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
@@ -661,28 +661,32 @@ msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"هاتفك مُعدّ لإرسال تقارير آلية بالأخطاء إلى كانونيكال وشركائها (صانعي نظام "
+"التشغيل)."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"يمكن تعطيل ذلك بالذهاب إلى <b>إعدادات النظام</b> من خلال <b>الأمان "
+"والخصوصية</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "تم ذلك"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "عمل جيد!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "هاتفك جاهز الآن للاستخدام."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "إنهاء"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-27 02:51+0000\n"
+"PO-Revision-Date: 2015-08-01 03:25+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-07-28 05:40+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-02 05:36+0000\n"
+"X-Generator: Launchpad (build 17656)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -380,7 +380,7 @@ msgstr "Mostrar contrasinal"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Toque para volver a chamar..."
+msgstr "Toque para volver á chamada..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"

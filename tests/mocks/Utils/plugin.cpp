@@ -23,6 +23,14 @@
 
 // local
 #include "plugin.h"
+#include "inputwatcher.h"
+#include "qlimitproxymodelqml.h"
+#include "unitysortfilterproxymodelqml.h"
+#include "relativetimeformatter.h"
+#include "timeformatter.h"
+#include "unitymenumodelpaths.h"
+#include "windowkeysfilter.h"
+#include "easingcurve.h"
 #include "windowstatestorage.h"
 #include "constants.h"
 
@@ -53,7 +61,7 @@ static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
 
 void FakeUtilsPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("Utils"));;
+    Q_ASSERT(uri == QLatin1String("Utils"));
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");

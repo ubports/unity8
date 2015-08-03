@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 Canonical, Ltd.
+/* Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * Authors:
  *  Michael Zanetti <michael.zanetti@canonical.com>
@@ -20,7 +20,6 @@
 
 QuickListEntry::QuickListEntry()
 {
-
 }
 
 QString QuickListEntry::actionId() const
@@ -56,4 +55,9 @@ void QuickListEntry::setIcon(const QString &icon)
 bool QuickListEntry::clickable() const
 {
     return !m_actionId.isEmpty();
+}
+
+bool QuickListEntry::operator==(const QuickListEntry &other)
+{
+    return !other.actionId().isEmpty() && other.actionId() == m_actionId;
 }

@@ -178,6 +178,7 @@ Item {
 
     PhysicalKeysMapper {
         id: physicalKeysMapper
+        objectName: "physicalKeysMapper"
 
         onPowerKeyLongPressed: dialogs.showPowerDialog()
         onVolumeDownTriggered: volumeControl.volumeDown();
@@ -188,7 +189,6 @@ Item {
     ScreenGrabber {
         id: screenGrabber
         z: dialogs.z + 10
-        enabled: Powerd.status === Powerd.On
     }
 
     Binding {
@@ -351,6 +351,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "beingResized"
                 value: shell.beingResized
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "altTabPressed"
+                value: physicalKeysMapper.altTabPressed
             }
         }
 
