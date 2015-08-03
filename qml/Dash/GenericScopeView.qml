@@ -67,6 +67,11 @@ FocusScope {
         subPageLoader.closeSubPage()
     }
 
+    function resetSearch() {
+        if(pageHeaderLoader.item && showPageHeader)
+            pageHeaderLoader.item.resetSearch()
+    }
+
     property var maybePreviewResult;
     property var maybePreviewIndex;
     property var maybePreviewResultsModel;

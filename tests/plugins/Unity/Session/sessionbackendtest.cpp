@@ -24,6 +24,11 @@
 #include <QDBusInterface>
 #include <QDBusReply>
 #include <QDBusVariant>
+#include <QDebug>
+#include <QDBusObjectPath>
+
+#include <unistd.h>
+#include <sys/types.h>
 
 #include "dbusunitysessionservice.h"
 
@@ -52,9 +57,10 @@ private Q_SLOTS:
         QTest::addColumn<QString>("method");
         QTest::addColumn<QString>("signal");
 
-        QTest::newRow("Logout") << "RequestLogout" << "logoutRequested(bool)";
-        QTest::newRow("Reboot") << "RequestReboot" << "rebootRequested(bool)";
-        QTest::newRow("Shutdown") << "RequestShutdown" << "shutdownRequested(bool)";
+        QTest::newRow("Logout") << "RequestLogout" << "LogoutRequested(bool)";
+        QTest::newRow("Reboot") << "RequestReboot" << "RebootRequested(bool)";
+        QTest::newRow("Shutdown") << "RequestShutdown" << "ShutdownRequested(bool)";
+        QTest::newRow("PromptLock") << "PromptLock" << "LockRequested()";
     }
 
     void testUnitySessionLogoutRequested() {
@@ -65,7 +71,7 @@ private Q_SLOTS:
         QCoreApplication::processEvents(); // to let the service register on DBus
 
         // .. because QSignalSpy checks the signal signature like this: "if (((aSignal[0] - '0') & 0x03) != QSIGNAL_CODE)"
-        QSignalSpy spy(&dbusUnitySessionService, signal.prepend(QSIGNAL_CODE).toLocal8Bit().constData());
+        QSignalSpy spy(&dbusUnitySessionService, qPrintable(signal.prepend(QSIGNAL_CODE)));
 
         QDBusReply<void> reply = dbusUnitySession->call(method);
         QCOMPARE(reply.isValid(), true);
@@ -77,9 +83,9 @@ private Q_SLOTS:
         QTest::addColumn<uint>("method");
         QTest::addColumn<QString>("signal");
 
-        QTest::newRow("Logout") << (uint)Action::LOGOUT << "logoutRequested(bool)";
-        QTest::newRow("Shutdown") << (unsigned)Action::SHUTDOWN << "shutdownRequested(bool)";
-        QTest::newRow("Reboot") << (unsigned)Action::REBOOT << "rebootRequested(bool)";
+        QTest::newRow("Logout") << (uint)Action::LOGOUT << "LogoutRequested(bool)";
+        QTest::newRow("Shutdown") << (uint)Action::SHUTDOWN << "ShutdownRequested(bool)";
+        QTest::newRow("Reboot") << (uint)Action::REBOOT << "RebootRequested(bool)";
     }
 
     void testGnomeSessionWrapper() {
@@ -92,7 +98,7 @@ private Q_SLOTS:
         // Spy on the given signal on the /com/canonical/Unity/Session object
         // as proof we are actually calling the actual method.
         // .. because QSignalSpy checks the signal signature like this: "if (((aSignal[0] - '0') & 0x03) != QSIGNAL_CODE)"
-        QSignalSpy spy(&dbusUnitySessionService, signal.prepend(QSIGNAL_CODE).toLocal8Bit().constData());
+        QSignalSpy spy(&dbusUnitySessionService, qPrintable(signal.prepend(QSIGNAL_CODE)));
 
         DBusGnomeSessionManagerWrapper dbusGnomeSessionManagerWrapper;
         QCoreApplication::processEvents(); // to let the service register on DBus
@@ -114,6 +120,46 @@ private Q_SLOTS:
 
         // Make sure we see the signal being emitted.
         QCOMPARE(spy.count(), 1);
+    }
+
+    void testUserName() {
+        DBusUnitySessionService dbusUnitySessionService;
+        QCoreApplication::processEvents(); // to let the service register on DBus
+
+        QProcess * proc = new QProcess(this);
+        proc->start("id -un", QProcess::ReadOnly);
+        proc->waitForFinished();
+        const QByteArray out = proc->readAll().trimmed();
+
+        QCOMPARE(dbusUnitySessionService.UserName(), QString::fromUtf8(out));
+    }
+
+    void testRealName() {
+        DBusUnitySessionService dbusUnitySessionService;
+        QCoreApplication::processEvents(); // to let the service register on DBus
+
+        QDBusInterface accIface("org.freedesktop.Accounts", "/org/freedesktop/Accounts", "org.freedesktop.Accounts", QDBusConnection::systemBus());
+        if (accIface.isValid()) {
+            QDBusReply<QDBusObjectPath> userPath = accIface.asyncCall("FindUserById", static_cast<qint64>(geteuid()));
+            if (userPath.isValid()) {
+                QDBusInterface userAccIface("org.freedesktop.Accounts", userPath.value().path(), "org.freedesktop.Accounts.User", QDBusConnection::systemBus());
+                QCOMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
+            }
+        }
+    }
+
+    void testLogin1Capabilities() {
+        DBusUnitySessionService dbusUnitySessionService;
+        QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
+        QCoreApplication::processEvents(); // to let the services register on DBus
+
+        if (login1face.isValid()) {
+            QCOMPARE(dbusUnitySessionService.CanHibernate(), (login1face.call("CanHibernate").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanSuspend(), (login1face.call("CanSuspend").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanReboot(), (login1face.call("CanReboot").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanShutdown(), (login1face.call("CanPowerOff").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
+        }
     }
 
 private:

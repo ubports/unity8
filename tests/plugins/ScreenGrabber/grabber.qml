@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,31 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SNAPSHOTTER_H
-#define SNAPSHOTTER_H
+import QtQuick 2.4
+import ScreenGrabber 0.1
 
-#include <QObject>
-#include <QString>
+Rectangle {
+    property var grabber: screenGrabber
 
-class ScreenGrabber: public QObject
-{
-    Q_OBJECT
+    width: 100
+    height: 100
+    color: "green"
 
-public:
-    explicit ScreenGrabber(QObject *parent = 0);
-    ~ScreenGrabber() = default;
-
-public Q_SLOTS:
-    void captureAndSave();
-
-Q_SIGNALS:
-    void screenshotSaved(const QString &filename);
-
-private:
-    QString makeFileName() const;
-    QString getFormat() const;
-    QString fileNamePrefix;
-    int screenshotQuality = -1; // default quality for the format
-};
-
-#endif
+    ScreenGrabber {
+        id: screenGrabber
+        objectName: "screenGrabber"
+    }
+}

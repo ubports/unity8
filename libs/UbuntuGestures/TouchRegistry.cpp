@@ -271,6 +271,8 @@ void TouchRegistry::addCandidateOwnerForTouch(int id, QQuickItem *candidate)
             this, &TouchRegistry::rejectCandidateOwnerForTouch);
 
     touchInfo->candidates.append(candidateInfo);
+
+    connect(candidate, &QObject::destroyed, this, [=](){ pruneNullCandidatesForTouch(id); });
 }
 
 void TouchRegistry::addTouchWatcher(int touchId, QQuickItem *watcher)
@@ -296,25 +298,53 @@ void TouchRegistry::removeCandidateOwnerForTouch(int id, QQuickItem *candidate)
     Pool<TouchInfo>::Iterator touchInfo = findTouchInfo(id);
     if (!touchInfo) { qFatal("TouchRegistry: Failed to find TouchInfo"); }
 
-    int indexRemoved = -1;
 
     // TODO: check if the candidate is in fact the owner of the touch
 
-    for (int i = 0; i < touchInfo->candidates.count() && indexRemoved == -1; ++i) {
-        CandidateInfo &candidateInfo = touchInfo->candidates[i];
-        if (candidateInfo.item == candidate) {
-            Q_ASSERT(i > 0 || candidateInfo.state == CandidateInfo::Undecided);
-            if (i == 0 && candidateInfo.state != CandidateInfo::Undecided) {
-                qCritical("TouchRegistry: touch owner is being removed.");
-            }
-            delete candidateInfo.inactivityTimer;
-            candidateInfo.inactivityTimer = nullptr;
-            touchInfo->candidates.removeAt(i);
-            indexRemoved = i;
+    bool removed = false;
+    for (int i = 0; i < touchInfo->candidates.count() && !removed; ++i) {
+        if (touchInfo->candidates[i].item == candidate) {
+            removeCandidateOwnerForTouchByIndex(touchInfo, i);
+            removed = true;
         }
     }
+}
 
-    if (indexRemoved == 0) {
+void TouchRegistry::pruneNullCandidatesForTouch(int touchId)
+{
+    #if TOUCHREGISTRY_DEBUG
+    UG_DEBUG << "pruneNullCandidatesForTouch touchId" << touchId;
+    #endif
+
+    Pool<TouchInfo>::Iterator touchInfo = findTouchInfo(touchId);
+    if (!touchInfo) {
+        // doesn't matter as touch is already gone.
+        return;
+    }
+
+    int i = 0;
+    while (i < touchInfo->candidates.count()) {
+        if (touchInfo->candidates[i].item.isNull()) {
+            removeCandidateOwnerForTouchByIndex(touchInfo, i);
+        } else {
+            ++i;
+        }
+    }
+}
+
+void TouchRegistry::removeCandidateOwnerForTouchByIndex(Pool<TouchRegistry::TouchInfo>::Iterator &touchInfo,
+        int candidateIndex)
+{
+    // TODO: check if the candidate is in fact the owner of the touch
+
+    Q_ASSERT(candidateIndex < touchInfo->candidates.count());
+
+    if (candidateIndex == 0 && touchInfo->candidates[candidateIndex].state != CandidateInfo::Undecided) {
+        qCritical("TouchRegistry: touch owner is being removed.");
+    }
+    removeCandidateHelper(touchInfo, candidateIndex);
+
+    if (candidateIndex == 0) {
         // the top candidate has been removed. if the new top candidate
         // wants the touch let him know he's now the owner.
         if (touchInfo->isOwned()) {
@@ -359,6 +389,7 @@ void TouchRegistry::requestTouchOwnership(int id, QQuickItem *candidate)
         touchInfo->candidates.append(candidateInfo);
         // it's the last one
         candidateIndex = touchInfo->candidates.count() - 1;
+        connect(candidate, &QObject::destroyed, this, [=](){ pruneNullCandidatesForTouch(id); });
     }
 
     // If it's the top candidate it means it's now the owner. Let
@@ -430,7 +461,7 @@ void TouchRegistry::rejectCandidateOwnerForTouch(int id, QQuickItem *candidate)
         QCoreApplication::sendEvent(candidate, &lostOwnershipEvent);
     }
 
-    touchInfo->candidates.removeAt(rejectedCandidateIndex);
+    removeCandidateHelper(touchInfo, rejectedCandidateIndex);
 
     if (rejectedCandidateIndex == 0) {
         // the top candidate has been removed. if the new top candidate
@@ -439,6 +470,21 @@ void TouchRegistry::rejectCandidateOwnerForTouch(int id, QQuickItem *candidate)
             touchInfo->notifyCandidatesOfOwnershipResolution();
         }
     }
+}
+
+void TouchRegistry::removeCandidateHelper(Pool<TouchInfo>::Iterator &touchInfo, int candidateIndex)
+{
+    {
+        CandidateInfo &candidateInfo = touchInfo->candidates[candidateIndex];
+
+        delete candidateInfo.inactivityTimer;
+        candidateInfo.inactivityTimer = nullptr;
+
+        if (candidateInfo.item) {
+            disconnect(candidateInfo.item.data(), nullptr, this, nullptr);
+        }
+    }
+    touchInfo->candidates.removeAt(candidateIndex);
 }
 
 ////////////////////////////////////// TouchRegistry::TouchInfo ////////////////////////////////////
