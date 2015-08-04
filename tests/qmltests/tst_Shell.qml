@@ -67,11 +67,6 @@ Rectangle {
                         width: units.gu(40)
                         height: units.gu(71)
                     }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Staged")
-                        }
-                    }
                 },
                 State {
                     name: "tablet"
@@ -79,11 +74,6 @@ Rectangle {
                         target: shellLoader
                         width: units.gu(100)
                         height: units.gu(71)
-                    }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Staged")
-                        }
                     }
                 },
                 State {
@@ -96,11 +86,6 @@ Rectangle {
                     PropertyChanges {
                         target: mouseEmulation
                         checked: false
-                    }
-                    StateChangeScript {
-                        script: {
-                            GSettingsController.setUsageMode("Windowed")
-                        }
                     }
                 }
             ]
@@ -317,7 +302,6 @@ Rectangle {
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
-            GSettingsController.setUsageMode("Staged");
         }
 
         function loadShell(formFactor) {
@@ -602,9 +586,9 @@ Rectangle {
             verify(mainAppId != "");
             var mainApp = ApplicationManager.findApplication(mainAppId);
             verify(mainApp);
-            tryCompare(mainApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(mainApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
 
-            // Suspend while call is active...
+            // Display off while call is active...
             callManager.foregroundCall = phoneCall;
             Powerd.status = Powerd.Off;
             tryCompare(greeter, "shown", false);
@@ -615,8 +599,7 @@ Rectangle {
             Powerd.status = Powerd.Off;
             tryCompare(greeter, "fullyShown", true);
 
-            tryCompare(ApplicationManager, "suspended", true);
-            compare(mainApp.state, ApplicationInfoInterface.Suspended);
+            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
             // And wake up
             Powerd.status = Powerd.On;
@@ -632,8 +615,7 @@ Rectangle {
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
             swipeAwayGreeter();
 
-            tryCompare(ApplicationManager, "suspended", false);
-            compare(mainApp.state, ApplicationInfoInterface.Running);
+            compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
             tryCompare(ApplicationManager, "focusedApplicationId", mainAppId);
         }
 
@@ -804,15 +786,15 @@ Rectangle {
 
         function test_launchedAppHasActiveFocus_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageMode: "Staged"},
-                {tag: "tablet", formFactor: "tablet", usageMode: "Staged"},
-                {tag: "desktop", formFactor: "tablet", usageMode: "Windowed"}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"},
+                {tag: "desktop", formFactor: "tablet", usageScenario: "desktop"}
             ]
         }
 
         function test_launchedAppHasActiveFocus(data) {
-            GSettingsController.setUsageMode(data.usageMode);
             loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
@@ -1345,6 +1327,50 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
             compare(launcher.inverted, data.launcherInverted);
+        }
+
+        function test_unfocusedAppsGetSuspendedAfterEnteringStagedMode() {
+            loadShell("tablet");
+            shell.usageScenario = "desktop";
+
+            var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppWindowIsFullyLoaded(webBrowserApp);
+
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(galleryApp);
+
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedRunning);
+            compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedRunning);
+
+            shell.usageScenario = "tablet";
+
+            tryCompare(webBrowserApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+            tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+        }
+
+        function test_unfocusedAppsAreResumedWhenEnteringWindowedMode() {
+            loadShell("tablet");
+            shell.usageScenario = "tablet";
+
+            var webBrowserApp = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppWindowIsFullyLoaded(webBrowserApp);
+
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            waitUntilAppWindowIsFullyLoaded(galleryApp);
+
+            ApplicationManager.requestFocusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            compare(webBrowserApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
+            compare(galleryApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
+
+            shell.usageScenario = "desktop";
+
+            tryCompare(webBrowserApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
+            tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
 
         function test_altTabSwitchesFocus() {
