@@ -224,7 +224,7 @@ Rectangle {
             var repeater = findChild(previewExpandable, "repeater")
             for (var i = 0; i < repeater.count; ++i) {
                 previewWidgetFactory.active = false;
-                wait(0); // spin the even loop otherwise we get warnings because the previous item from the
+                wait(0); // spin the event loop otherwise we get warnings because the previous item from the
                          // widget factory has still not been deleted and we change the widgetData
                 previewWidgetFactory.widgetData = allWidgetsModel.get(i).properties;
                 previewWidgetFactory.widgetType = allWidgetsModel.get(i).type;
