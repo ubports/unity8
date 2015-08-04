@@ -131,6 +131,7 @@ Rectangle {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
+        focus: true
 
         Keys.onPressed: {
             switch (event.key) {
@@ -206,12 +207,6 @@ Rectangle {
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.requestFocusApplication(model.appId);
-                        decoratedWindow.forceActiveFocus();
-                    }
-                }
-                Component.onCompleted: {
-                    if (ApplicationManager.focusedApplicationId == model.appId) {
-                        decoratedWindow.forceActiveFocus();
                     }
                 }
 
@@ -325,7 +320,7 @@ Rectangle {
                     windowHeight: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
-                    focus: false
+                    focus: true
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximize()
