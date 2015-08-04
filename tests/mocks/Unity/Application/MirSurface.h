@@ -49,7 +49,7 @@ public:
     QString name() const override;
 
     QSize size() const override { return QSize(width(),height()); }
-    void setSize(const QSize &size) override;
+    void resize(int width, int height) override;
 
     Mir::State state() const override;
     void setState(Mir::State) override;
@@ -70,7 +70,6 @@ public:
 
     int width() const;
     int height() const;
-    void resize(int width, int height);
 
     /////
     // internal mock stuff

@@ -180,9 +180,3 @@ void MirSurface::resize(int width, int height)
         Q_EMIT heightChanged();
     }
 }
-
-void MirSurface::setSize(const QSize &size)
-{
-    resize(size.width(), size.height());
-    Q_EMIT sizeChanged(size);
-}
