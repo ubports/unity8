@@ -1,3 +1,13 @@
+unity8 (8.10+15.10.20150803-0ubuntu1) UNRELEASED; urgency=medium
+
+  [ Kevin Gunn ]
+  * No change, rebuild for gcc5
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/cy.po
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 03 Aug 2015 14:17:33 +0000
+
 unity8 (8.10+15.10.20150729-0ubuntu1) wily; urgency=medium
 
   [ CI Train Bot ]
