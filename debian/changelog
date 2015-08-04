@@ -1,4 +1,4 @@
-unity8 (8.11) wily; urgency=medium
+unity8 (8.11-0ubuntu1) UNRELEASED; urgency=medium
 
   * Increase version because of new scopes shell communication protocol
 
