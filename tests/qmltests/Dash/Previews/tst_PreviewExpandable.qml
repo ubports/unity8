@@ -44,6 +44,20 @@ Rectangle {
         "widgets": widgetsModel
     }
 
+    property var widgetData1: {
+        "title": "Title here1",
+        "collapsed-widgets": 2,
+        "widgets": widgetsModel
+        "expanded": true
+    }
+
+    property var widgetData2: {
+        "title": "Title here2",
+        "collapsed-widgets": 2,
+        "widgets": widgetsModel
+        "expanded": false
+    }
+   
     Component.onCompleted: {
         widgetsModel.append({"type": "text", "widgetId": "text1", "properties": { "text": longText }});
         widgetsModel.append({"type": "text", "widgetId": "table1", "properties": { "text": tableData }});
@@ -105,5 +119,39 @@ Rectangle {
 
             checkInitialState();
         }
+
+        function test_expand_collapse_when_initialized() {
+            previewExpandable.widgetData = widgetData1;
+                
+            compare(previewExpandable.expanded, true);
+
+            var repeater = findChild(previewExpandable, "repeater")
+            compare(repeater.count, 4)
+
+            compare (repeater.itemAt(0).visible, true);
+            compare (repeater.itemAt(1).visible, true);
+            compare (repeater.itemAt(2).visible, true);
+            compare (repeater.itemAt(3).visible, true);
+            compare (repeater.itemAt(0).expanded, true);
+            compare (repeater.itemAt(1).expanded, true);
+            compare (repeater.itemAt(2).expanded, true);
+            compare (repeater.itemAt(3).expanded, true);	    
+        }  
+        
+        function test_collapsed_when_initialized() {
+            previewExpandable.widgetData = widgetData2;
+                
+            compare(previewExpandable.expanded, false);
+
+            var repeater = findChild(previewExpandable, "repeater")
+            compare(repeater.count, 4)
+
+            compare (repeater.itemAt(0).visible, true);
+            compare (repeater.itemAt(1).visible, true);
+            compare (repeater.itemAt(2).visible, false);
+            compare (repeater.itemAt(3).visible, false);
+            compare (repeater.itemAt(0).expanded, false);
+            compare (repeater.itemAt(1).expanded, false);
+        }          
     }
 }
