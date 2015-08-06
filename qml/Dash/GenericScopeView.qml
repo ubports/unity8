@@ -73,10 +73,18 @@ FocusScope {
     }
 
     property var maybePreviewResult;
-    property var maybePreviewIndex;
+    property int maybePreviewIndex;
     property var maybePreviewResultsModel;
-    property var maybePreviewLimitedCategoryItemCount;
+    property int maybePreviewLimitedCategoryItemCount;
     property string maybePreviewCategoryId;
+
+    function clearMaybePreviewData() {
+        scopeView.maybePreviewResult = undefined;
+        scopeView.maybePreviewIndex = -1;
+        scopeView.maybePreviewResultsModel = undefined;
+        scopeView.maybePreviewLimitedCategoryItemCount = -1;
+        scopeView.maybePreviewCategoryId = "";
+    }
 
     function itemClicked(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
         scopeView.maybePreviewResult = result;
@@ -89,11 +97,7 @@ FocusScope {
     }
 
     function itemPressedAndHeld(index, result, resultsModel, limitedCategoryItemCount, categoryId) {
-        scopeView.maybePreviewResult = undefined;
-        scopeView.maybePreviewIndex = undefined;
-        scopeView.maybePreviewResultsModel = undefined;
-        scopeView.maybePreviewLimitedCategoryItemCount = undefined;
-        scopeView.maybePreviewCategoryId = "";
+        clearMaybePreviewData();
 
         if (scope.preview(result, categoryId)) {
             openPreview(index, resultsModel, limitedCategoryItemCount, categoryId);
@@ -164,11 +168,7 @@ FocusScope {
                             scopeView.maybePreviewLimitedCategoryItemCount,
                             scopeView.maybePreviewCategoryId);
 
-                scopeView.maybePreviewResult = undefined;
-                scopeView.maybePreviewIndex = undefined;
-                scopeView.maybePreviewResultsModel = undefined;
-                scopeView.maybePreviewLimitedCategoryItemCount = undefined;
-                scopeView.maybePreviewCategoryId = "";
+                clearMaybePreviewData();
             }
         }
     }
