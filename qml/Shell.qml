@@ -182,6 +182,7 @@ Item {
 
     PhysicalKeysMapper {
         id: physicalKeysMapper
+        objectName: "physicalKeysMapper"
 
         onPowerKeyLongPressed: dialogs.showPowerDialog()
         onVolumeDownTriggered: volumeControl.volumeDown();
@@ -192,7 +193,6 @@ Item {
     ScreenGrabber {
         id: screenGrabber
         z: dialogs.z + 10
-        enabled: Powerd.status === Powerd.On
     }
 
     Binding {
@@ -355,6 +355,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "beingResized"
                 value: shell.beingResized
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "altTabPressed"
+                value: physicalKeysMapper.altTabPressed
             }
         }
 
@@ -572,8 +577,11 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            property bool mainAppIsFullscreen: shell.mainApp && shell.mainApp.fullscreen
-            fullscreenMode: (mainAppIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+            property bool topmostApplicationIsFullscreen:
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+
+            fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
         }
 

@@ -1,46 +1,42 @@
-unity8 (8.10+15.10.20150717-0ubuntu1) wily; urgency=medium
+unity8 (8.10+15.10.20150729-0ubuntu1) wily; urgency=medium
 
-  [ Albert Astals ]
-  * Ensure tutorial doesn't let user drag the launcher past screen edge.
-    (LP: #1454882)
-
-  [ Albert Astals Cid ]
-  * Fix build with ninja
-
-  [ Andrea Cimitan ]
-  * Add PreviewSocialComment
+  [ CI Train Bot ]
+  * Resync trunk.
+  * allow opening the manage dash area by clicking with a mouse on the
+    arrow label (LP: #1431564)
 
   [ Daniel d'Andrada ]
-  * Ensure tutorial doesn't let user drag the launcher past screen edge.
-    (LP: #1454882)
-  * Update tst_ShellWithPin
-
-  [ Josh Arenson ]
-  * Add a basic autopilot test for the SettingsWizard
+  * TouchRegistry: remove null candidates from list of candidates (LP:
+    #1473492)
 
   [ Lukáš Tinkl ]
-  * Avoid sync DBUS calls
-
-  [ Marcus Tomlinson ]
-  * Handle TERM, HUP, and INT signals in unity-scope-tool (LP: #1470464)
+  * Fix power dialogs on desktop
+  * Provide DBUS compatibility with  various session services
+    (suspend/hibernate, lock/unlock, screensaver, etc)
+  * React on PrtScr keyboard shortcut for taking screenshots on desktop
+    (LP: #1474149)
+  * launcher parity: close apps from quicklist (LP: #1457201)
 
   [ Michael Zanetti ]
-  * Add PreviewSocialComment
+  * Implement first edition for a desktop Alt+Tab spread
+  * drop the gcc-4.9 dependency (LP: #1452348)
 
-  [ Nick Dedekind ]
-  * Fixed qml warnings in 'make tryShell'
+  [ Mirco Müller ]
+  * Added corresponding tests and visual tweaks to a launcher-item's
+    progress-overlay.
+  * Added corresponding tests and visual tweaks to a launcher-item's
+    progress-overlay.
+  * Implemented alert/wiggle feature for launcher-icons.
+  * Implemented alert/wiggle feature for launcher-icons.
 
- -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 17 Jul 2015 15:53:38 +0000
+  [ handsome_feng ]
+  * makes left swip reset the search string. (LP: #1413791)
 
-unity8 (8.10+15.10.20150713-0ubuntu1) wily; urgency=medium
+  [ handsome_feng<445865575@qq.com> ]
+  * Don't expand indicators when tap to return to call. (LP: #1453217)
+  * makes left swip reset the search string. (LP: #1413791)
 
-  [ Albert Astals Cid ]
-  * Revert Session Screenshotter (LP: #1473476)
-
-  [ Daniel d'Andrada ]
-  * Dismiss the apps spread if greeter gets shown (LP: #1471609)
-
- -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 13 Jul 2015 14:17:20 +0000
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 29 Jul 2015 12:39:01 +0000
 
 unity8 (8.10+15.10.20150708.2-0ubuntu1) wily; urgency=medium
 
