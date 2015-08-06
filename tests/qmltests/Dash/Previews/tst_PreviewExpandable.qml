@@ -47,14 +47,14 @@ Rectangle {
     property var widgetData1: {
         "title": "Title here1",
         "collapsed-widgets": 2,
-        "widgets": widgetsModel
+        "widgets": widgetsModel,
         "expanded": true
     }
 
     property var widgetData2: {
         "title": "Title here2",
         "collapsed-widgets": 2,
-        "widgets": widgetsModel
+        "widgets": widgetsModel,
         "expanded": false
     }
    
