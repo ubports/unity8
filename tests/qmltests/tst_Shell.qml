@@ -1479,7 +1479,7 @@ Rectangle {
                 while (appRepeater.highlightedIndex != i && x <= 4000) {
                     x+=10;
                     mouseMove(shell, x, y)
-                    waitForRendering(shell)
+                    wait(0); // spin the loop so bindings get evaluated
                 }
             }
 
@@ -1510,7 +1510,7 @@ Rectangle {
             while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
-                waitForRendering(shell)
+                wait(0); // spin the loop so bindings get evaluated
             }
             tryCompare(closeMouseArea, "enabled", true)
 
@@ -1556,7 +1556,7 @@ Rectangle {
             while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
-                waitForRendering(shell)
+                wait(0); // spin the loop so bindings get evaluated
             }
             tryCompare(decoratedWindow, "highlightShown", true);
 
