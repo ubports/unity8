@@ -37,6 +37,11 @@ Item {
         id: surfaceItem
         anchors.fill: parent
 
+        consumesInput: true
+
+        surfaceWidth: width
+        surfaceHeight: height
+
         onLiveChanged: {
             if (surface !== null && !live) {
                 surface = null;
