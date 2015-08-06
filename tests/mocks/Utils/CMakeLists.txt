@@ -4,12 +4,12 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${GIO_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/plugins/Utils
 )
 
 set(QMLPLUGIN_SRC
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qlimitproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/relativetimeformatter.cpp
@@ -18,9 +18,11 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowkeysfilter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowscreenshotprovider.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
     constants.cpp
     plugin.cpp
     windowstatestorage.cpp
+    plugin.cpp
     )
 
 add_library(FakeUtils-qml SHARED

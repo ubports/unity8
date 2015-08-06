@@ -38,6 +38,7 @@ public:
 
     QVariant data(const QModelIndex& index, int role) const override;
 
+    Q_INVOKABLE void setAlerting(const QString &appId, bool alerting) override;
     Q_INVOKABLE unity::shell::launcher::LauncherItemInterface *get(int index) const override;
     Q_INVOKABLE void move(int oldIndex, int newIndex) override;
     Q_INVOKABLE void pin(const QString &appId, int index = -1) override;
@@ -54,6 +55,9 @@ public:
 
     // For testing
     Q_INVOKABLE void emitHint();
+    Q_INVOKABLE void setProgress(const QString &appId, int progress);
+    Q_INVOKABLE void setCount(const QString &appId, int count);
+    Q_INVOKABLE void setCountVisible(const QString &appId, bool countVisible);
 
 Q_SIGNALS:
     void quickListTriggered(const QString &appId, int index);

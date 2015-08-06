@@ -345,12 +345,26 @@ static void loadDummyDataFiles(QQmlEngine &engine, const QString& directory)
     }
 }
 
+class DummyTestRootObject : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(bool windowShown READ windowShown NOTIFY windowShownChanged)
+
+public:
+    DummyTestRootObject(QObject *o) :  QObject(o) {}
+
+    bool windowShown() const { return false; }
+
+Q_SIGNALS:
+    void windowShownChanged();
+};
+
 static QObject *s_testRootObject = nullptr;
 static QObject *testRootObject(QQmlEngine *engine, QJSEngine *jsEngine)
 {
     Q_UNUSED(jsEngine);
     if (!s_testRootObject) {
-        s_testRootObject = new QObject(engine);
+        s_testRootObject = new DummyTestRootObject(engine);
     }
     return s_testRootObject;
 }
@@ -560,3 +574,5 @@ int main(int argc, char ** argv)
 
     return exitCode;
 }
+
+#include "main.moc"

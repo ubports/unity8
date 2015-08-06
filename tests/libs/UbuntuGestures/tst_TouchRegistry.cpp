@@ -67,6 +67,7 @@ private Q_SLOTS:
     void rejectingTouchfterItsEnd();
     void removeOldUndecidedCandidates();
     void interimOwnerWontGetUnownedTouchEvents();
+    void candidateVanishes();
 
 private:
     TouchRegistry *touchRegistry;
@@ -815,6 +816,52 @@ void tst_TouchRegistry::interimOwnerWontGetUnownedTouchEvents()
 
     QCOMPARE(undecidedCandidate.unownedTouchEvents.count(), 2);
     QCOMPARE(interimOwner.unownedTouchEvents.count(), 0);
+}
+
+/*
+  Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473492
+
+  Bug caused by candidates getting deleted before ownership resolution
+ */
+void tst_TouchRegistry::candidateVanishes()
+{
+    DummyCandidate mainCandidate;
+    DummyCandidate *missingCandidate = new DummyCandidate;
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointPressed);
+        QTouchEvent touchEvent(QEvent::TouchBegin,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointPressed,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    touchRegistry->addCandidateOwnerForTouch(0, &mainCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, missingCandidate);
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointMoved);
+        QTouchEvent touchEvent(QEvent::TouchUpdate,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointMoved,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    // This candidate suddenly disappears without having removed its candidacy.
+    delete missingCandidate;
+    missingCandidate = nullptr;
+
+    touchRegistry->requestTouchOwnership(0, &mainCandidate);
+
+    QVERIFY(mainCandidate.ownedTouches.contains(0));
 }
 
 ////////////// TouchMemento //////////

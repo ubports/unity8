@@ -44,6 +44,7 @@ public:
     int count() const override;
     bool countVisible() const override;
     bool focused() const override;
+    bool alerting() const override;
 
     unity::shell::launcher::QuickListModelInterface *quickList() const override;
 
@@ -57,6 +58,7 @@ private:
     void setCount(int count);
     void setCountVisible(bool countVisible);
     void setFocused(bool focused);
+    void setAlerting(bool alerting);
 
 private:
     QString m_appId;
@@ -69,7 +71,9 @@ private:
     int m_count;
     bool m_countVisible;
     bool m_focused;
+    bool m_alerting;
     QuickListModel *m_quickList;
+    QuickListEntry m_quitAction;
 
     friend class LauncherModel;
 };

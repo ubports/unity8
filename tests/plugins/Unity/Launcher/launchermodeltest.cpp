@@ -68,6 +68,7 @@ class MockAppManager: public unity::shell::application::ApplicationManagerInterf
     Q_OBJECT
 public:
     MockAppManager(QObject *parent = 0): ApplicationManagerInterface(parent) {}
+    ~MockAppManager() {}
     int rowCount(const QModelIndex &) const override { return m_list.count(); }
     QVariant data(const QModelIndex &, int ) const override { return QVariant(); }
     QString focusedApplicationId() const override {
@@ -325,6 +326,46 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
     }
 
+    void testQuitMenuItem() {
+        // we have 2 apps running, both should have the Quit action in its quick list
+        QCOMPARE(launcherModel->rowCount(), 2);
+
+        // stop the second one keeping it pinned so that it doesn't go away
+        launcherModel->pin("no-icon");
+        appManager->stopApplication("no-icon");
+
+        // find the first Quit item, should be there
+        QuickListModel *model = qobject_cast<QuickListModel*>(launcherModel->get(0)->quickList());
+        int quitActionIndex = -1;
+        for (int i = 0; i < model->rowCount(); ++i) {
+            if (model->get(i).actionId() == "stop_item") {
+                quitActionIndex = i;
+                break;
+            }
+        }
+        QVERIFY(quitActionIndex >= 0);
+
+        // find the second Quit item, should NOT be there, the app is stopped
+        QuickListModel *model2 = qobject_cast<QuickListModel*>(launcherModel->get(1)->quickList());
+        int quitActionIndex2 = -1;
+        for (int i = 0; i < model2->rowCount(); ++i) {
+            if (model2->get(i).actionId() == "stop_item") {
+                quitActionIndex2 = i;
+                break;
+            }
+        }
+        QVERIFY(quitActionIndex2 == -1);
+
+        // trigger the first quit item quicklist action
+        launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), quitActionIndex);
+        // first app should be gone...
+        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+        // ... the second app (now at index 0) should still be there, pinned and stopped
+        QCOMPARE(launcherModel->get(0)->appId(), QStringLiteral("no-icon"));
+        QCOMPARE(launcherModel->get(0)->pinned(), true);
+        QCOMPARE(launcherModel->get(0)->running(), false);
+    }
+
     void testGetUrlForAppId() {
         QCOMPARE(launcherModel->getUrlForAppId(QString()), QString());
         QCOMPARE(launcherModel->getUrlForAppId(""), QString());
@@ -368,10 +409,17 @@ private Q_SLOTS:
     }
 
     void testCountEmblems() {
+        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
+
         // Call GetAll on abs-icon
         QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
         QDBusReply<QVariantMap> reply = interface.call("GetAll");
         QVariantMap map = reply.value();
+
+        // Check that the alerting-status is still false, and the item on the upper side of the API
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+        QVERIFY(launcherModel->get(index)->alerting() == false);
 
         // Make sure GetAll returns a map with count and countVisible props
         QCOMPARE(map.contains("count"), true);
@@ -393,13 +441,8 @@ private Q_SLOTS:
         QCOMPARE(map.value("count").toInt(), 55);
         QCOMPARE(map.value("countVisible").toBool(), true);
 
-        // Now the item on the upper side of the API
-        int index = launcherModel->findApplication("abs-icon");
-        QCOMPARE(index >= 0, true);
-
-        // And make sure values have changed there as well
-        QCOMPARE(launcherModel->get(index)->countVisible(), true);
-        QCOMPARE(launcherModel->get(index)->count(), 55);
+        // Finally check, that the change to "count" implicitly also set the alerting-state to true
+        QVERIFY(launcherModel->get(index)->alerting() == true);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
@@ -457,6 +500,20 @@ private Q_SLOTS:
         // Make sure item is shown/hidden as expected
         index = launcherModel->findApplication("abs-icon");
         QCOMPARE(index == -1, !isRunning && !isPinned && !startWhenVisible);
+    }
+
+    void testAlert() {
+        // Check that the alerting-status is still false
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+        QVERIFY(launcherModel->get(index)->alerting() == false);
+
+        // Call Alert() on "abs-icon"
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "com.canonical.Unity.Launcher.Item");
+        interface.call("Alert");
+
+        // Check that the alerting-status is now true
+        QVERIFY(launcherModel->get(index)->alerting() == true);
     }
 
     void testRefreshAfterDeletedDesktopFiles_data() {
