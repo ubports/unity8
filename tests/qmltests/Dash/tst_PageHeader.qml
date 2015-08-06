@@ -143,7 +143,7 @@ Item {
         }
 
         function cleanup() {
-            doResetSearch();;
+            doResetSearch();
         }
 
         function test_popover() {
@@ -227,7 +227,7 @@ Item {
             tryCompare(headerContainer, "showSearch", !data.hideSearch);
             tryCompareFunction(function() { return headerContainer.popover === null; }, true);
 
-            doResetSearch();;
+            doResetSearch();
         }
 
         function test_search_change_shows_search() {
