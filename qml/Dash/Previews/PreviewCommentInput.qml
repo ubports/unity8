@@ -38,6 +38,29 @@ PreviewWidget {
     TextArea {
         id: commentTextArea
         objectName: "commentTextArea"
+
+        property var  flickableItem: null;
+        property bool inputMethodVisible: Qt.inputMethod.visible;
+        onInputMethodVisibleChanged: {
+            //A workaround to automatically move textArea up on u-touch
+            if (inputMethodVisible && commentTextArea.activeFocus) {
+                var obj = root.parent.parent.parent;
+                if (obj.objectName.indexOf("previewListRow") === 0) {
+                    flickableItem = obj;
+
+                    var textAreaPos = commentTextArea.mapToItem(flickableItem, 0, 0);
+                    var textAreaGlobalHeight = textAreaPos.y + commentTextArea.implicitHeight
+                                                                    + flickableItem.height / 2.0;
+
+                    if (textAreaGlobalHeight > flickableItem.height) {
+                        flickableItem.contentY += textAreaGlobalHeight - flickableItem.height;
+                    }
+                }
+            } else {
+                flickableItem = null;
+            }
+        }
+
         anchors {
             top: parent.top
             left: parent.left
