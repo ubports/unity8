@@ -34,12 +34,12 @@ ASAdapter::~ASAdapter()
     m_accounts->deleteLater();
 }
 
-void ASAdapter::syncItems(QList<LauncherItem *> m_list)
+void ASAdapter::syncItems(const QList<LauncherItem*> &list)
 {
     if (m_accounts && !m_user.isEmpty()) {
         QList<QVariantMap> items;
 
-        Q_FOREACH(LauncherItem *item, m_list) {
+        Q_FOREACH(LauncherItem *item, list) {
             items << itemToVariant(item);
         }
 
@@ -56,5 +56,7 @@ QVariantMap ASAdapter::itemToVariant(LauncherItem *item) const
     details.insert("count", item->count());
     details.insert("countVisible", item->countVisible());
     details.insert("pinned", item->pinned());
+    details.insert("running", item->running());
+    details.insert("progress", item->progress());
     return details;
 }

@@ -67,6 +67,11 @@ FocusScope {
         subPageLoader.closeSubPage()
     }
 
+    function resetSearch() {
+        if(pageHeaderLoader.item && showPageHeader)
+            pageHeaderLoader.item.resetSearch()
+    }
+
     function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
         if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope" || (scope.id === "videoaggregator" && categoryId === "myvideos-getstarted")) {
             // TODO Technically it is possible that calling activate() will make the scope emit
@@ -332,6 +337,13 @@ FocusScope {
                     updateRanges();
                     if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
                         // Yeah, hackish :/
+                        if (scopeView.width > units.gu(45)) {
+                            if (scopeView.width >= units.gu(70)) {
+                                cardTool.cardWidth = units.gu(9);
+                            } else {
+                                cardTool.cardWidth = units.gu(10);
+                            }
+                        }
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
                     }
                     item.cardTool = cardTool;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,6 +15,7 @@
  *
  * Authors:
  *      Ying-Chun Liu (PaulLiu) <paul.liu@canonical.com>
+ *      Lukáš Tinkl <lukas.tinkl@canonical.com>
  */
 
 #include <QtTest>
@@ -23,6 +24,11 @@
 #include <QDBusInterface>
 #include <QDBusReply>
 #include <QDBusVariant>
+#include <QDebug>
+#include <QDBusObjectPath>
+
+#include <unistd.h>
+#include <sys/types.h>
 
 #include "dbusunitysessionservice.h"
 
@@ -49,17 +55,23 @@ private Q_SLOTS:
 
     void testUnitySessionLogoutRequested_data() {
         QTest::addColumn<QString>("method");
+        QTest::addColumn<QString>("signal");
 
-        QTest::newRow("Logout") << "RequestLogout";
+        QTest::newRow("Logout") << "RequestLogout" << "LogoutRequested(bool)";
+        QTest::newRow("Reboot") << "RequestReboot" << "RebootRequested(bool)";
+        QTest::newRow("Shutdown") << "RequestShutdown" << "ShutdownRequested(bool)";
+        QTest::newRow("PromptLock") << "PromptLock" << "LockRequested()";
     }
 
     void testUnitySessionLogoutRequested() {
         QFETCH(QString, method);
+        QFETCH(QString, signal);
 
         DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        QSignalSpy spy(&dbusUnitySessionService, SIGNAL(logoutRequested(bool)));
+        // .. because QSignalSpy checks the signal signature like this: "if (((aSignal[0] - '0') & 0x03) != QSIGNAL_CODE)"
+        QSignalSpy spy(&dbusUnitySessionService, qPrintable(signal.prepend(QSIGNAL_CODE)));
 
         QDBusReply<void> reply = dbusUnitySession->call(method);
         QCOMPARE(reply.isValid(), true);
@@ -67,21 +79,34 @@ private Q_SLOTS:
         QCOMPARE(spy.count(), 1);
     }
 
-    void testGnomeSessionWrapperLogoutRequested() {
+    void testGnomeSessionWrapper_data() {
+        QTest::addColumn<uint>("method");
+        QTest::addColumn<QString>("signal");
+
+        QTest::newRow("Logout") << (uint)Action::LOGOUT << "LogoutRequested(bool)";
+        QTest::newRow("Shutdown") << (uint)Action::SHUTDOWN << "ShutdownRequested(bool)";
+        QTest::newRow("Reboot") << (uint)Action::REBOOT << "RebootRequested(bool)";
+    }
+
+    void testGnomeSessionWrapper() {
+        QFETCH(uint, method);
+        QFETCH(QString, signal);
+
         DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        // Spy on the logoutRequested signal on the /com/canonical/Unity/Session object
+        // Spy on the given signal on the /com/canonical/Unity/Session object
         // as proof we are actually calling the actual method.
-        QSignalSpy spy(&dbusUnitySessionService, SIGNAL(logoutRequested(bool)));
+        // .. because QSignalSpy checks the signal signature like this: "if (((aSignal[0] - '0') & 0x03) != QSIGNAL_CODE)"
+        QSignalSpy spy(&dbusUnitySessionService, qPrintable(signal.prepend(QSIGNAL_CODE)));
 
         DBusGnomeSessionManagerWrapper dbusGnomeSessionManagerWrapper;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        QDBusInterface dbusGnomeSessionWrapper ("com.canonical.Unity",
-                                                "/org/gnome/SessionManager/EndSessionDialog",
-                                                "org.gnome.SessionManager.EndSessionDialog",
-                                                QDBusConnection::sessionBus());
+        QDBusInterface dbusGnomeSessionWrapper("com.canonical.Unity",
+                                               "/org/gnome/SessionManager/EndSessionDialog",
+                                               "org.gnome.SessionManager.EndSessionDialog",
+                                               QDBusConnection::sessionBus());
 
         QCOMPARE(dbusGnomeSessionWrapper.isValid(), true);
 
@@ -90,43 +115,51 @@ private Q_SLOTS:
         QVariant inhibitors;
         inhibitors.setValue(var);
 
-        QDBusReply<void> reply = dbusGnomeSessionWrapper.call("Open", (unsigned)Action::LOGOUT, (unsigned)0, (unsigned)0, inhibitors);
+        QDBusReply<void> reply = dbusGnomeSessionWrapper.call("Open", method, (unsigned)0, (unsigned)0, inhibitors);
         QCOMPARE(reply.isValid(), true);
 
         // Make sure we see the signal being emitted.
         QCOMPARE(spy.count(), 1);
     }
 
-    void testGnomeSessionWrapperShutdownRequested() {
+    void testUserName() {
         DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        // Spy on the shutdownRequested signal on the /com/canonical/Unity/Session object
-        // as proof we are actually calling the actual method.
-        QSignalSpy spy(&dbusUnitySessionService, SIGNAL(shutdownRequested(bool)));
+        QProcess * proc = new QProcess(this);
+        proc->start("id -un", QProcess::ReadOnly);
+        proc->waitForFinished();
+        const QByteArray out = proc->readAll().trimmed();
 
-        DBusGnomeSessionManagerWrapper dbusGnomeSessionManagerWrapper;
+        QCOMPARE(dbusUnitySessionService.UserName(), QString::fromUtf8(out));
+    }
+
+    void testRealName() {
+        DBusUnitySessionService dbusUnitySessionService;
         QCoreApplication::processEvents(); // to let the service register on DBus
 
-        QDBusInterface dbusGnomeSessionWrapper ("com.canonical.Unity",
-                                                "/org/gnome/SessionManager/EndSessionDialog",
-                                                "org.gnome.SessionManager.EndSessionDialog",
-                                                QDBusConnection::sessionBus());
+        QDBusInterface accIface("org.freedesktop.Accounts", "/org/freedesktop/Accounts", "org.freedesktop.Accounts", QDBusConnection::systemBus());
+        if (accIface.isValid()) {
+            QDBusReply<QDBusObjectPath> userPath = accIface.asyncCall("FindUserById", static_cast<qint64>(geteuid()));
+            if (userPath.isValid()) {
+                QDBusInterface userAccIface("org.freedesktop.Accounts", userPath.value().path(), "org.freedesktop.Accounts.User", QDBusConnection::systemBus());
+                QCOMPARE(dbusUnitySessionService.RealName(), userAccIface.property("RealName").toString());
+            }
+        }
+    }
 
-        QCOMPARE(dbusGnomeSessionWrapper.isValid(), true);
+    void testLogin1Capabilities() {
+        DBusUnitySessionService dbusUnitySessionService;
+        QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
+        QCoreApplication::processEvents(); // to let the services register on DBus
 
-        // Set the QVariant as a QList<QDBusObjectPath> type
-        QDbusList var;
-        QVariant inhibitors;
-        inhibitors.setValue(var);
-
-        // * Reboot action translates to the shutdown signal due to some weird idiosyncracy
-        //   in the indicator-session/Unity interaction. *
-        QDBusReply<void> reply = dbusGnomeSessionWrapper.call("Open", (unsigned)Action::REBOOT, (unsigned)0, (unsigned)0, inhibitors);
-        QCOMPARE(reply.isValid(), true);
-
-        // Make sure we see the signal being emitted.
-        QCOMPARE(spy.count(), 1);
+        if (login1face.isValid()) {
+            QCOMPARE(dbusUnitySessionService.CanHibernate(), (login1face.call("CanHibernate").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanSuspend(), (login1face.call("CanSuspend").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanReboot(), (login1face.call("CanReboot").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanShutdown(), (login1face.call("CanPowerOff").arguments().first().toString() != "no"));
+            QCOMPARE(dbusUnitySessionService.CanHybridSleep(), (login1face.call("CanHybridSleep").arguments().first().toString() != "no"));
+        }
     }
 
 private:

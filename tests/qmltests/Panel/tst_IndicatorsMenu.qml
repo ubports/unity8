@@ -145,11 +145,17 @@ IndicatorTest {
         }
 
         function test_progress_changes_state_to_reveal() {
+            var firstItem = get_indicator_item(0);
+            var firstItemMappedPosition = indicatorsMenu.mapFromItem(firstItem, firstItem.width/2, firstItem.height/2);
+            touchPress(indicatorsMenu, firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2);
+
             indicatorsMenu.height = indicatorsMenu.openedHeight / 2;
             compare(indicatorsMenu.state, "reveal", "Indicators should be revealing when partially opened.");
 
             indicatorsMenu.height = indicatorsMenu.openedHeight;
             compare(indicatorsMenu.state, "reveal", "Indicators should still be revealing when fully opened.");
+
+            touchRelease(indicatorsMenu, firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight / 2);
         }
 
         function test_open_state() {
