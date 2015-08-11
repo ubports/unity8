@@ -44,6 +44,8 @@ QtObject {
         audio.playlist = null;
         if (newPlaylist) {
             playlist.clear();
+            audio.playlist = playlist;
+
             // Look for newSource in newPlaylist
             var sourceIndex = -1;
             for (var i in newPlaylist) {
@@ -61,7 +63,6 @@ QtObject {
                 playlist.addSource(newPlaylist[i]);
             }
             playlist.currentIndex = sourceIndex;
-            audio.playlist = playlist;
         } else {
             audio.source = newSource;
         }
@@ -69,6 +70,7 @@ QtObject {
     }
 
     function stop() {
+console.log("STop2");
         audio.stop();
     }
 
