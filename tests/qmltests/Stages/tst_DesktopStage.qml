@@ -24,9 +24,8 @@ import Utils 0.1
 
 import "../../../qml/Stages"
 
-Rectangle {
+Item {
     id: root
-    color: "darkblue"
     width:  desktopStageLoader.width + controls.width
     height: desktopStageLoader.height
 
@@ -57,6 +56,7 @@ Rectangle {
         property bool itemDestroyed: false
         sourceComponent: Component {
             DesktopStage {
+                color: "darkblue"
                 anchors.fill: parent
                 Component.onDestruction: {
                     desktopStageLoader.itemDestroyed = true;

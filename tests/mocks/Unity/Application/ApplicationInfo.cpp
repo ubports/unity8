@@ -30,7 +30,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
     , m_appId(appId)
     , m_stage(MainStage)
-    , m_state(Starting)
+    , m_state(Stopped)
     , m_focused(false)
     , m_fullscreen(false)
     , m_session(0)
@@ -39,6 +39,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
             Qt::InvertedPortraitOrientation |
             Qt::InvertedLandscapeOrientation)
     , m_rotatesWindowContents(false)
+    , m_requestedState(RequestedRunning)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -46,7 +47,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
 ApplicationInfo::ApplicationInfo(QObject *parent)
     : ApplicationInfoInterface(QString(), parent)
     , m_stage(MainStage)
-    , m_state(Starting)
+    , m_state(Stopped)
     , m_focused(false)
     , m_fullscreen(false)
     , m_session(0)
@@ -55,6 +56,7 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
             Qt::InvertedPortraitOrientation |
             Qt::InvertedLandscapeOrientation)
     , m_rotatesWindowContents(false)
+    , m_requestedState(RequestedRunning)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -74,7 +76,6 @@ void ApplicationInfo::createSession()
 
 void ApplicationInfo::setSession(Session* session)
 {
-    qDebug() << "Application::setSession - appId=" << appId() << "session=" << session;
     if (m_session == session)
         return;
 
@@ -91,6 +92,8 @@ void ApplicationInfo::setSession(Session* session)
         m_session->setApplication(this);
         m_session->setParent(this);
         SessionManager::singleton()->registerSession(m_session);
+        connect(m_session, &Session::surfaceChanged,
+                this, &ApplicationInfo::onSessionSurfaceChanged);
 
         if (!m_manualSurfaceCreation) {
             QTimer::singleShot(500, m_session, SLOT(createSurface()));
@@ -161,11 +164,12 @@ void ApplicationInfo::setState(State value)
         m_state = value;
         Q_EMIT stateChanged(value);
 
-        if (!m_manualSurfaceCreation && m_state == ApplicationInfo::Running) {
+        if (!m_manualSurfaceCreation && !m_session && m_state == ApplicationInfo::Starting) {
             QTimer::singleShot(500, this, SLOT(createSession()));
         } else if (m_state == ApplicationInfo::Stopped) {
-            delete m_session;
-            m_session = nullptr;
+            Session *session = m_session;
+            setSession(nullptr);
+            delete session;
         }
     }
 }
@@ -212,4 +216,34 @@ bool ApplicationInfo::rotatesWindowContents() const
 void ApplicationInfo::setRotatesWindowContents(bool value)
 {
     m_rotatesWindowContents = value;
+}
+
+ApplicationInfo::RequestedState ApplicationInfo::requestedState() const
+{
+    return m_requestedState;
+}
+
+void ApplicationInfo::setRequestedState(RequestedState value)
+{
+    if (m_requestedState != value) {
+        m_requestedState = value;
+        Q_EMIT requestedStateChanged(m_requestedState);
+
+        if (m_requestedState == RequestedRunning && m_state == Suspended) {
+            setState(Running);
+        } else if (m_requestedState == RequestedSuspended && m_state == Running) {
+            setState(Suspended);
+        }
+    }
+}
+
+void ApplicationInfo::onSessionSurfaceChanged(MirSurfaceItem* surface)
+{
+    if (surface != nullptr && m_state == Starting) {
+        if (m_requestedState == RequestedRunning) {
+            setState(Running);
+        } else {
+            setState(Suspended);
+        }
+    }
 }
