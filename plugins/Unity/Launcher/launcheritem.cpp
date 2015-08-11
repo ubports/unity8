@@ -34,16 +34,22 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_count(0),
     m_countVisible(false),
     m_focused(false),
+    m_alerting(false),
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
     nameAction.setActionId("launch_item");
     nameAction.setText(m_name);
     m_quickList->appendAction(nameAction);
+
     QuickListEntry pinningAction;
     pinningAction.setActionId("pin_item");
     pinningAction.setText(gettext("Pin shortcut"));
     m_quickList->appendAction(pinningAction);
+
+    m_quitAction.setActionId("stop_item");
+    m_quitAction.setIcon("application-exit");
+    m_quitAction.setText(gettext("Quit"));
 }
 
 QString LauncherItem::appId() const
@@ -110,6 +116,11 @@ void LauncherItem::setRunning(bool running)
 {
     if (m_running != running) {
         m_running = running;
+        if (m_running) { // add the quit action
+            m_quickList->appendAction(m_quitAction);
+        } else { // remove the quit action
+            m_quickList->removeAction(m_quitAction);
+        }
         Q_EMIT runningChanged(running);
     }
 }
@@ -150,6 +161,9 @@ void LauncherItem::setCount(int count)
     if (m_count != count) {
         m_count = count;
         Q_EMIT countChanged(count);
+        if (m_countVisible) {
+            setAlerting(true);
+        }
     }
 }
 
@@ -163,6 +177,9 @@ void LauncherItem::setCountVisible(bool countVisible)
     if (m_countVisible != countVisible) {
         m_countVisible = countVisible;
         Q_EMIT countVisibleChanged(countVisible);
+        if (countVisible) {
+            setAlerting(true);
+        }
     }
 }
 
@@ -175,7 +192,23 @@ void LauncherItem::setFocused(bool focused)
 {
     if (m_focused != focused) {
         m_focused = focused;
+        if (focused) {
+            setAlerting(false);
+        }
         Q_EMIT focusedChanged(focused);
+    }
+}
+
+bool LauncherItem::alerting() const
+{
+    return m_alerting;
+}
+
+void LauncherItem::setAlerting(bool alerting)
+{
+    if (m_alerting != alerting) {
+        m_alerting = alerting;
+        Q_EMIT alertingChanged(alerting);
     }
 }
 

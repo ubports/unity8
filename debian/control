@@ -6,12 +6,10 @@ Build-Depends: cmake,
                dbus-test-runner,
                debhelper (>= 9),
                doxyqml,
-# We rely on C++11 features, and to prevent from ABI breaks
-# in libstdc++ causing us issues, we explicitly select a G++
-# version. To allow cross-compiling to work, we also must
-# append :native to g++-4.9 so we don't try to run armhf g++
+# To allow cross-compiling to work, we also must append :native
+# to g++ so we don't try to run armhf g++
 # on an x86 CPU for eaxmple, when cross-compiling.
-               g++-4.9:native,
+               g++:native,
                libandroid-properties-dev,
                graphviz,
                gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
@@ -30,7 +28,7 @@ Build-Depends: cmake,
                libqt5xmlpatterns5-dev,
                libsystemsettings-dev,
                libudev-dev,
-               libunity-api-dev (>= 7.97),
+               libunity-api-dev (>= 7.99),
                libusermetricsoutput1-dev,
                libxcb1-dev,
                pkg-config,
@@ -101,7 +99,7 @@ Depends: gsettings-desktop-schemas,
          qtdeclarative5-ubuntu-telephony0.1,
          qtdeclarative5-ubuntu-web-plugin,
          ubuntu-system-settings,
-         unity-launcher-impl-4,
+         unity-launcher-impl-7,
          unity8-common (= ${source:Version}),
          unity8-private (= ${binary:Version}),
          unity8-private | unity-launcher-impl,
@@ -191,7 +189,7 @@ Depends: accountsservice-ubuntu-schemas (>= 0.0.3),
          ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-launcher-impl,
-          unity-launcher-impl-4,
+          unity-launcher-impl-7,
 Description: Unity 8 private libs
  The Unity 8 shell is the primary user interface for Ubuntu devices.
  .

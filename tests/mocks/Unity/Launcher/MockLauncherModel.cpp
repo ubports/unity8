@@ -34,6 +34,7 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("gallery-app", "/usr/share/applications/gallery-app.desktop", "Gallery", "gallery", this);
     item->setProgress(50);
     item->setCountVisible(true);
+    item->setAlerting(false);
     m_list.append(item);
     item = new MockLauncherItem("music-app", "/usr/share/applications/music-app.desktop", "Music", "soundcloud", this);
     m_list.append(item);
@@ -43,25 +44,31 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("webbrowser-app", "/usr/share/applications/webbrowser-app.desktop", "Browser", "browser", this);
     item->setCount(1);
     item->setCountVisible(true);
+    item->setRunning(true);
+    item->setAlerting(false);
     m_list.append(item);
     item = new MockLauncherItem("twitter-webapp", "/usr/share/applications/twitter-webapp.desktop", "Twitter", "twitter", this);
     item->setCount(12);
     item->setCountVisible(true);
+    item->setAlerting(false);
     item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("gmail-webapp", "/usr/share/applications/gmail-webapp.desktop", "GMail", "gmail", this);
     item->setCount(123);
     item->setCountVisible(true);
+    item->setAlerting(false);
     m_list.append(item);
     item = new MockLauncherItem("ubuntu-weather-app", "/usr/share/applications/ubuntu-weather-app.desktop", "Weather", "weather", this);
     item->setCount(1234567890);
     item->setCountVisible(true);
+    item->setAlerting(false);
     item->setPinned(true);
     m_list.append(item);
     item = new MockLauncherItem("notes-app", "/usr/share/applications/notes-app.desktop", "Notepad", "notepad", this);
     item->setProgress(50);
     item->setCount(5);
     item->setCountVisible(true);
+    item->setAlerting(false);
     item->setFocused(true);
     item->setPinned(true);
     m_list.append(item);
@@ -105,6 +112,8 @@ QVariant MockLauncherModel::data(const QModelIndex& index, int role) const
         return item->countVisible();
     case RoleFocused:
         return item->focused();
+    case RoleAlerting:
+        return item->alerting();
     }
 
     return QVariant();
@@ -117,6 +126,18 @@ unity::shell::launcher::LauncherItemInterface *MockLauncherModel::get(int index)
         return 0;
     }
     return m_list.at(index);
+}
+
+void MockLauncherModel::setAlerting(const QString &appId, bool alerting) {
+    int index = findApp(appId);
+    if (index >= 0) {
+        QModelIndex modelIndex = this->index(index);
+        MockLauncherItem *item = m_list.at(index);
+        if (!item->focused()) {
+            item->setAlerting(alerting);
+            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleAlerting);
+        }
+    }
 }
 
 void MockLauncherModel::move(int oldIndex, int newIndex)
@@ -174,7 +195,9 @@ void MockLauncherModel::requestRemove(const QString &appId)
     int index = findApp(appId);
     if (index >= 0) {
         beginRemoveRows(QModelIndex(), index, 0);
-        m_list.takeAt(index)->deleteLater();
+        MockLauncherItem * item = m_list.takeAt(index);
+        item->setRunning(false);
+        item->deleteLater();
         endRemoveRows();
     }
 }
@@ -193,6 +216,16 @@ int MockLauncherModel::findApp(const QString &appId)
         }
     }
     return -1;
+}
+
+void MockLauncherModel::setProgress(const QString &appId, int progress)
+{
+    int index = findApp(appId);
+    if (index >= 0) {
+        m_list.at(index)->setProgress(progress);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleProgress);
+    }
 }
 
 void MockLauncherModel::setUser(const QString &username)
@@ -224,6 +257,26 @@ void MockLauncherModel::setOnlyPinned(bool onlyPinned)
 void MockLauncherModel::emitHint()
 {
     Q_EMIT hint();
+}
+
+void MockLauncherModel::setCount(const QString &appId, int count)
+{
+    int index = findApp(appId);
+    if (index >= 0) {
+        m_list.at(index)->setCount(count);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+    }
+}
+
+void MockLauncherModel::setCountVisible(const QString &appId, bool countVisible)
+{
+    int index = findApp(appId);
+    if (index >= 0) {
+        m_list.at(index)->setCountVisible(countVisible);
+        QModelIndex modelIndex = this->index(index);
+        Q_EMIT dataChanged(modelIndex, modelIndex);
+    }
 }
 
 unity::shell::application::ApplicationManagerInterface *MockLauncherModel::applicationManager() const

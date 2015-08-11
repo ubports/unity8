@@ -147,6 +147,7 @@ Item {
                 return root.width
             }
             enableHint: !callHint.active && !fullscreenMode
+            showOnClick: !callHint.visible
             panelColor: indicatorAreaBackground.color
 
             onShowTapped: {

@@ -149,7 +149,6 @@ private:
             // yet because of undecided candidates higher up.
             InterimOwner = 2
         } state;
-        // TODO: Prune candidates that become null and resolve ownership accordingly.
         QPointer<QQuickItem> item;
         QPointer<UbuntuGestures::CandidateInactivityTimer> inactivityTimer;
     };
@@ -171,6 +170,10 @@ private:
         QList<CandidateInfo> candidates;
         QList<QPointer<QQuickItem>> watchers;
     };
+
+    void pruneNullCandidatesForTouch(int touchId);
+    void removeCandidateOwnerForTouchByIndex(Pool<TouchInfo>::Iterator &touchInfo, int candidateIndex);
+    void removeCandidateHelper(Pool<TouchInfo>::Iterator &touchInfo, int candidateIndex);
 
     Pool<TouchInfo>::Iterator findTouchInfo(int id);
 
