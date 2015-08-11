@@ -27,5 +27,5 @@ void MockQtMultimediaPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("QtMultimedia"));
     qmlRegisterType<Audio>(uri, 5, 0, "Audio");
     qmlRegisterType<Audio>(uri, 5, 0, "MediaPlayer");
-    qmlRegisterType<DeclarativePlaylist>(uri, 5, 0, "Playlist");
+    qmlRegisterType<DeclarativePlaylist>(uri, 5, 4, "Playlist");
 }
