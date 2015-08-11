@@ -1,3 +1,9 @@
+unity8 (8.11-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Increase version because of new scopes shell communication protocol
+
+ -- Albert Astals Cid <albert.astals@canonical.com>  Tue, 04 Aug 2015 17:16:32 +0200
+
 unity8 (8.10+15.10.20150804-0ubuntu1) wily; urgency=medium
 
   [ Kevin Gunn ]
