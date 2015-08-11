@@ -46,6 +46,9 @@ public:
     ApplicationInfo(const QString &appId, QObject *parent = nullptr);
     ~ApplicationInfo();
 
+    RequestedState requestedState() const override;
+    void setRequestedState(RequestedState) override;
+
     void setIconId(const QString &iconId);
     void setScreenshotId(const QString &screenshotId);
 
@@ -101,6 +104,9 @@ Q_SIGNALS:
 public Q_SLOTS:
     Q_INVOKABLE void createSession();
 
+private Q_SLOTS:
+    void onSessionSurfaceChanged(MirSurfaceItem*);
+
 private:
     void setIcon(const QUrl &value);
 
@@ -116,6 +122,7 @@ private:
     Session* m_session;
     Qt::ScreenOrientations m_supportedOrientations;
     bool m_rotatesWindowContents;
+    RequestedState m_requestedState;
 
     bool m_manualSurfaceCreation;
 };

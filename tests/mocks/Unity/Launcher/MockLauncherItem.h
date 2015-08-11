@@ -31,6 +31,7 @@ class MockLauncherItem: public LauncherItemInterface
     Q_OBJECT
 public:
     MockLauncherItem(const QString &appId, const QString& desktopFile, const QString& name, const QString& icon, QObject* parent = 0);
+    ~MockLauncherItem();
 
     QString appId() const override;
     QString desktopFile() const;
@@ -44,6 +45,7 @@ public:
     int count() const override;
     bool countVisible() const override;
     bool focused() const override;
+    bool alerting() const override;
 
     unity::shell::launcher::QuickListModelInterface *quickList() const override;
 
@@ -55,6 +57,7 @@ private:
     void setCount(int count);
     void setCountVisible(bool countVisible);
     void setFocused(bool focused);
+    void setAlerting(bool alerting);
 
     QString m_appId;
     QString m_desktopFile;
@@ -67,6 +70,7 @@ private:
     int m_count;
     bool m_countVisible;
     bool m_focused;
+    bool m_alerting;
     MockQuickListModel *m_quickList;
 
     friend class MockLauncherModel;

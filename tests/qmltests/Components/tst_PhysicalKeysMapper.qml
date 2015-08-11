@@ -89,6 +89,11 @@ TestCase {
         compare(powerSpy.count, 1);
     }
 
+    function test_screenshotPrtScr() {
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_Print })
+        tryCompare(screenshotSpy, "count", 1) // verify the screenshotTriggered signal has been called, exactly once
+    }
+
     function test_screenshotButtons_data() {
         return [
             { tag: "UpFirst", first: Qt.Key_VolumeUp, second: Qt.Key_VolumeDown },

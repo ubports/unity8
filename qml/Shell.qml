@@ -178,6 +178,7 @@ Item {
 
     PhysicalKeysMapper {
         id: physicalKeysMapper
+        objectName: "physicalKeysMapper"
 
         onPowerKeyLongPressed: dialogs.showPowerDialog()
         onVolumeDownTriggered: volumeControl.volumeDown();
@@ -188,13 +189,6 @@ Item {
     ScreenGrabber {
         id: screenGrabber
         z: dialogs.z + 10
-        enabled: Powerd.status === Powerd.On
-    }
-
-    Binding {
-        target: ApplicationManager
-        property: "forceDashActive"
-        value: launcher.shown || launcher.dashSwipe
     }
 
     WindowKeysFilter {
@@ -352,6 +346,21 @@ Item {
                 property: "beingResized"
                 value: shell.beingResized
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "keepDashRunning"
+                value: launcher.shown || launcher.dashSwipe
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "suspended"
+                value: greeter.shown
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "altTabPressed"
+                value: physicalKeysMapper.altTabPressed
+            }
         }
 
         Tutorial {
@@ -454,12 +463,6 @@ Item {
             }
 
             onEmergencyCall: startLockedApp("dialer-app")
-
-            Binding {
-                target: ApplicationManager
-                property: "suspended"
-                value: greeter.shown
-            }
         }
     }
 

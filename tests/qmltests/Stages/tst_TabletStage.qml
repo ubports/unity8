@@ -77,8 +77,16 @@ Rectangle {
                 appId: "webbrowser-app"
             }
             ApplicationCheckBox {
+                id: galleryCheckBox
+                appId: "gallery-app"
+            }
+            ApplicationCheckBox {
                 id: dialerCheckBox
                 appId: "dialer-app"
+            }
+            ApplicationCheckBox {
+                id: facebookCheckBox
+                appId: "facebook-webapp"
             }
         }
     }
@@ -93,6 +101,19 @@ Rectangle {
         function init() {
             tabletStageLoader.active = true;
             tryCompare(tabletStageLoader, "status", Loader.Ready);
+
+            // this is very strange, but sometimes the test starts without
+            // TabletStage components having finished loading themselves
+            var appWindow = null;
+            while (!appWindow) {
+                appWindow = findChild(tabletStage, "appWindow_unity8-dash");
+                if (!appWindow) {
+                    console.log("didn't find appWindow_unity8-dash in " + tabletStage + ". Trying again...");
+                    wait(50);
+                }
+            }
+
+            waitUntilAppSurfaceShowsUp("unity8-dash");
         }
 
         function cleanup() {
@@ -109,7 +130,9 @@ Rectangle {
 
             // kill all (fake) running apps
             webbrowserCheckBox.checked = false;
+            galleryCheckBox.checked = false;
             dialerCheckBox.checked = false;
+            facebookCheckBox.checked = false;
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -118,6 +141,34 @@ Rectangle {
             var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
             verify(appWindowStates);
             tryCompare(appWindowStates, "state", "surface");
+        }
+
+        function switchToApp(targetAppId) {
+            touchFlick(tabletStage,
+                tabletStage.width - (tabletStage.dragAreaWidth / 2), tabletStage.height / 2,
+                tabletStage.x + 1, tabletStage.height / 2);
+
+            var spreadView = findChild(tabletStage, "spreadView");
+            verify(spreadView);
+            tryCompare(spreadView, "phase", 2);
+            tryCompare(spreadView, "flicking", false);
+            tryCompare(spreadView, "moving", false);
+
+            waitUntilAppDelegateStopsMoving(targetAppId);
+
+            var targetAppWindow = findChild(tabletStage, "appWindow_" + targetAppId);
+            tap(targetAppWindow, 10, 10);
+        }
+
+        function waitUntilAppDelegateStopsMoving(targetAppId)
+        {
+            var targetAppDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + targetAppId);
+            verify(targetAppDelegate);
+            var lastValue = undefined;
+            do {
+                lastValue = targetAppDelegate.animatedProgress;
+                wait(30);
+            } while (lastValue != targetAppDelegate.animatedProgress);
         }
 
         function test_tappingSwitchesFocusBetweenStages() {
@@ -154,7 +205,6 @@ Rectangle {
             tryCompare(dialerApp.session.surface, "activeFocus", true);
             tryCompare(webbrowserApp.session.surface, "activeFocus", false);
         }
-
 
         function test_closeAppInSideStage() {
             dialerCheckBox.checked = true;
@@ -199,6 +249,116 @@ Rectangle {
             touchFlick(appWindow,
                     appWindow.width / 2, appWindow.height / 2,
                     appWindow.width / 2, -appWindow.height / 2);
+        }
+
+        function test_suspendsAndResumesAppsInMainStage() {
+            webbrowserCheckBox.checked = true;
+            var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
+            compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
+
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
+
+            galleryCheckBox.checked = true;
+            var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
+            compare(galleryApp.stage, ApplicationInfoInterface.MainStage);
+
+            tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+
+            switchToApp(webbrowserApp.appId);
+
+            tryCompare(galleryApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
+
+            switchToApp(galleryApp.appId);
+
+            tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+        }
+
+
+        function test_foregroundMainAndSideStageAppsAreKeptRunning() {
+
+            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            verify(stagesPriv);
+
+            // launch two main stage apps
+            // gallery will be on foreground and webbrowser on background
+
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId)
+            var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
+            compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
+
+            galleryCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(galleryCheckBox.appId)
+            var galleryApp = ApplicationManager.findApplication(galleryCheckBox.appId);
+            compare(galleryApp.stage, ApplicationInfoInterface.MainStage);
+
+            compare(stagesPriv.mainStageAppId, galleryCheckBox.appId);
+
+            // then launch two side stage apps
+            // facebook will be on foreground and dialer on background
+
+            dialerCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(dialerCheckBox.appId)
+            var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
+            compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
+
+            facebookCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(facebookCheckBox.appId)
+            var facebookApp = ApplicationManager.findApplication(facebookCheckBox.appId);
+            compare(facebookApp.stage, ApplicationInfoInterface.SideStage);
+
+            compare(stagesPriv.sideStageAppId, facebookCheckBox.appId);
+
+            // Now check that the foreground apps are running and that the background ones
+            // are suspended
+
+            tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(facebookApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(dialerApp, "state", ApplicationInfoInterface.Suspended);
+
+            switchToApp(dialerCheckBox.appId);
+
+            tryCompare(galleryApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(facebookApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(dialerApp, "state", ApplicationInfoInterface.Running);
+
+            switchToApp(webbrowserCheckBox.appId);
+
+            tryCompare(galleryApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(facebookApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(dialerApp, "state", ApplicationInfoInterface.Running);
+        }
+
+        function test_foregroundAppsAreSuspendedWhenStageIsSuspended() {
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId)
+            var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
+            compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
+
+            dialerCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(dialerCheckBox.appId)
+            var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
+            compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
+
+
+            compare(webbrowserApp.requestedState, ApplicationInfoInterface.RequestedRunning);
+            compare(dialerApp.requestedState, ApplicationInfoInterface.RequestedRunning);
+
+            tabletStage.suspended = true;
+
+            tryCompare(webbrowserApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+            tryCompare(dialerApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+
+            tabletStage.suspended = false;
+
+            tryCompare(webbrowserApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
+            tryCompare(dialerApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
     }
 
