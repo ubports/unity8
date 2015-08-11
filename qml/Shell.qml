@@ -191,12 +191,6 @@ Item {
         z: dialogs.z + 10
     }
 
-    Binding {
-        target: ApplicationManager
-        property: "forceDashActive"
-        value: launcher.shown || launcher.dashSwipe
-    }
-
     WindowKeysFilter {
         Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
@@ -354,6 +348,16 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "keepDashRunning"
+                value: launcher.shown || launcher.dashSwipe
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "suspended"
+                value: greeter.shown
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "altTabPressed"
                 value: physicalKeysMapper.altTabPressed
             }
@@ -459,12 +463,6 @@ Item {
             }
 
             onEmergencyCall: startLockedApp("dialer-app")
-
-            Binding {
-                target: ApplicationManager
-                property: "suspended"
-                value: greeter.shown
-            }
         }
     }
 
