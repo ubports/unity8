@@ -74,8 +74,7 @@ CardAudioProgress {
                             width: height; 
                             height: (root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1); 
                             readonly property url source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; 
-                            readonly property url playlist: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["playlist"]) || null; 
-                            UbuntuShape { 
+                            UbuntuShape {
                                 anchors.fill: parent; 
                                 visible: parent.pressed; 
                                 radius: "medium"; 
@@ -95,6 +94,7 @@ CardAudioProgress {
                                         DashAudioPlayer.play(); 
                                     } 
                                 } else { 
+                                    var playlist = (cardData["quickPreviewData"] && cardData["quickPreviewData"]["playlist"]) || null;
                                     DashAudioPlayer.playSource(source, playlist); 
                                 } 
                             } 
