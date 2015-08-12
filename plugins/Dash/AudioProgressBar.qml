@@ -31,6 +31,8 @@ Item {
         anchors { left: parent.left; right: parent.right }
         height: units.dp(6)
         source: "graphics/music_progress_bg.png"
+        sourceSize.width: width
+        sourceSize.height: height
     }
 
     UbuntuShape {
@@ -46,6 +48,6 @@ Item {
             rightMargin: maxWidth - (maxWidth * root.progress)
         }
         height: units.dp(2)
-        color: UbuntuColors.orange
+        backgroundColor: UbuntuColors.orange
     }
 }

@@ -26,7 +26,7 @@ Item {
 
     property int duration: 0
     property url source
-    property color color: Theme.palette.normal.baseText
+    property color color: theme.palette.normal.baseText
     readonly property int position: DashAudioPlayer.isCurrentSource(source) ? DashAudioPlayer.position / 1000 : 0
 
     AudioProgressBar {
