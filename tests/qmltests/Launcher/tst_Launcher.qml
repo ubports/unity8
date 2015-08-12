@@ -382,6 +382,15 @@ Item {
             }
         }
 
+        function test_runningHighlight() {
+            dragLauncherIntoView();
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "runningHighlight").visible, LauncherModel.get(i).running)
+            }
+        }
+
         function test_focusedHighlight() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
