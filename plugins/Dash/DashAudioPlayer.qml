@@ -70,7 +70,6 @@ QtObject {
     }
 
     function stop() {
-console.log("STop2");
         audio.stop();
     }
 
