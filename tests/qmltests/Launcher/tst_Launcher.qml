@@ -520,7 +520,14 @@ Item {
             waitUntilLauncherDisappears();
         }
 
-        function test_dragndrop_cancel() {
+        function test_dragndrop_cancel_data() {
+            return [
+                {tag: "by mouse", mouse: true},
+                {tag: "by touch", mouse: false}
+            ]
+        }
+
+        function test_dragndrop_cancel(data) {
             dragLauncherIntoView();
             var draggedItem = findChild(launcher, "launcherDelegate4")
             var item0 = findChild(launcher, "launcherDelegate0")
@@ -529,22 +536,37 @@ Item {
             // Doing longpress
             var currentMouseX = draggedItem.width / 2
             var currentMouseY = draggedItem.height / 2
-            mousePress(draggedItem, currentMouseX, currentMouseY)
+
+            if(data.mouse) {
+                mousePress(draggedItem, currentMouseX, currentMouseY)
+            } else {
+                touchPress(draggedItem, currentMouseX, currentMouseY)
+            }
+
             // DraggedItem needs to hide and fakeDragItem become visible
             tryCompare(draggedItem, "itemOpacity", 0)
             tryCompare(fakeDragItem, "visible", true)
 
             // Dragging
             currentMouseX -= units.gu(20)
-            mouseMove(draggedItem, currentMouseX, currentMouseY)
+
+            if(data.mouse) {
+                mouseMove(draggedItem, currentMouseX, currentMouseY)
+            } else {
+                touchMove(draggedItem, currentMouseX, currentMouseY)
+            }
 
             // Make sure we're in the dragging state
             var dndArea = findChild(launcher, "dndArea");
             tryCompare(draggedItem, "dragging", true)
             tryCompare(dndArea, "draggedIndex", 4)
 
-            // Tap somewhere in the middle of the screen to close/hide the launcher
-            tap(root)
+            // Click/Tap somewhere in the middle of the screen to close/hide the launcher
+            if(data.mouse) {
+                mouseClick(root)
+            } else {
+                tap(root)
+            }
 
             // Make sure the dnd operation has been stopped
             tryCompare(draggedItem, "dragging", false)
