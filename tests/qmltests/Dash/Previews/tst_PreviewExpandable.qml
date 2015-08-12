@@ -46,9 +46,9 @@ Rectangle {
 
     Component.onCompleted: {
         widgetsModel.append({"type": "text", "widgetId": "text1", "properties": { "text": longText }});
-        widgetsModel.append({"type": "text", "widgetId": "table1", "properties": { "text": tableData }});
+        widgetsModel.append({"type": "table", "widgetId": "table1", "properties": tableData });
         widgetsModel.append({"type": "text", "widgetId": "text3", "properties": { "text": shortText }});
-        widgetsModel.append({"type": "text", "widgetId": "text4", "properties": { "text": longText }});
+        widgetsModel.append({"type": "text", "widgetId": "text4", "properties": { "text": longText2 }});
     }
 
     PreviewWidgetFactory {
