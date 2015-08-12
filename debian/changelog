@@ -1,3 +1,29 @@
+unity8 (8.11+15.04.20150811-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Increase version because of new scopes shell communication protocol
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 11 Aug 2015 14:45:12 +0000
+
+unity8 (8.10+15.10.20150804-0ubuntu1) wily; urgency=medium
+
+  [ Kevin Gunn ]
+  * No change, rebuild for gcc5
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/cy.po
+  * Resync trunk. added: po/cy.po
+
+  [ Daniel d'Andrada ]
+  * Stages now control the "requestedState" property of applications
+  * Stages now control the "requestedState" property of applications
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 04 Aug 2015 20:56:05 +0000
+
 unity8 (8.10+15.10.20150729-0ubuntu1) wily; urgency=medium
 
   [ CI Train Bot ]

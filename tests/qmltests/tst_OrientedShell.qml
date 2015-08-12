@@ -46,7 +46,7 @@ Rectangle {
     }
 
     QtObject {
-        id: mockUsageModeSettings
+        id: mockUnity8Settings
         property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
     }
 
@@ -125,7 +125,7 @@ Rectangle {
         sourceComponent: Component {
             OrientedShell {
                 anchors.fill: parent
-                usageModeSettings: mockUsageModeSettings
+                unity8Settings: mockUnity8Settings
                 oskSettings: mockOskSettings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
@@ -926,7 +926,7 @@ Rectangle {
 
         function test_attachRemoveInputDevices() {
             usageModeSelector.selectedIndex = 2;
-            tryCompare(mockUsageModeSettings, "usageMode", "Automatic")
+            tryCompare(mockUnity8Settings, "usageMode", "Automatic")
 
             loadShell("mako")
             var shell = findChild(orientedShell, "shell");

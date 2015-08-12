@@ -39,6 +39,9 @@ class MockApp: public unity::shell::application::ApplicationInfoInterface
     Q_OBJECT
 public:
     MockApp(const QString &appId, QObject *parent = 0): ApplicationInfoInterface(appId, parent), m_appId(appId), m_focused(false) { }
+
+    RequestedState requestedState() const override { return RequestedRunning; }
+    void setRequestedState(RequestedState) override {}
     QString appId() const override { return m_appId; }
     QString name() const override { return "mock"; }
     QString comment() const override { return "this is a mock"; }
@@ -117,10 +120,6 @@ public:
         endRemoveRows();
     }
     bool requestFocusApplication(const QString &appId) override { Q_UNUSED(appId); return true; }
-    bool suspended() const override { return false; }
-    void setSuspended(bool) override {}
-    bool forceDashActive() const override { return false; }
-    void setForceDashActive(bool) override {}
 
 private:
     QList<MockApp*> m_list;
