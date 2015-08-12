@@ -26,6 +26,7 @@ Item {
     property int initialIndex: -1
     property var scope: null
     property var scopeStyle: null
+    property string categoryId
 
     property alias showSignatureLine: header.showSignatureLine
 
@@ -99,7 +100,7 @@ Item {
             isCurrent: ListView.isCurrentItem
 
             previewModel: {
-                var previewStack = root.scope.preview(result);
+                var previewStack = root.scope.preview(result, root.categoryId);
                 return previewStack.getPreviewModel(0);
             }
             scopeStyle: root.scopeStyle
