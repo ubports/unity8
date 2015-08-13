@@ -34,7 +34,7 @@ import Dash 0.1
 
 PreviewWidget {
     id: root
-    height: childrenRect.height
+    implicitHeight: childrenRect.height
 
     Column {
         anchors { left: parent.left; right: parent.right }
