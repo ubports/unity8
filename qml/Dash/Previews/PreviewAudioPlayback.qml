@@ -34,7 +34,7 @@ import Ubuntu.Components 1.3
 
 PreviewWidget {
     id: root
-    height: childrenRect.height
+    implicitHeight: childrenRect.height
 
     onIsCurrentPreviewChanged: if (!isCurrentPreview) audio.stop()
 

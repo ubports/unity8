@@ -31,7 +31,7 @@ Item {
     property real unitProgress: 0.0
     property real selectionChangeBuffer: units.gu(2)
     property bool enableLateralChanges: false
-    property color hightlightColor: "#ededed"
+    property color hightlightColor: "#ffffff"
 
     property real lateralPosition: -1
     onLateralPositionChanged: {

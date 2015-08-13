@@ -177,7 +177,8 @@ Item {
         }
 
     }
-    MouseArea {
+
+    MultiPointTouchArea {
         id: closeMouseArea
         anchors {
             left: launcherDragArea.right
