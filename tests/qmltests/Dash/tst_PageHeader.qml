@@ -33,7 +33,7 @@ Item {
 
         property alias searchEnabled : pageHeader.searchEntryEnabled
         property alias searchQuery : pageHeader.searchQuery
-        property var headerContainer: findChild(pageHeader, "headerContainer");
+        property var headerContainer: findChild(pageHeader, "headerContainer")
 
         function doTypeString(text) {
             tryCompare(headerContainer, "contentY", 0);
