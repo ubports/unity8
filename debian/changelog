@@ -1,3 +1,42 @@
+unity8 (8.11+15.04.20150812-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add a test that checks that items in an expandable are the correct
+    size after expanding the expandable
+  * Fix the expandable test
+  * Replace some waitForRendering with wait(0)
+  * Workaround for bug 1473471 (LP: #1473471)
+
+  [ Gary.Wzl ]
+  * Fix layout issue when adding audio track widget in expandable widget
+
+  [ handsome_feng ]
+  * Added indication for running apps. (LP: #1471577)
+  * Adjust the color to highlighting indicator. (LP: #1457098)
+  * Convert the MouseArea to MultiPointTouchArea to track multiple touch
+    points. (LP: #1445472)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Convert the MouseArea to MultiPointTouchArea to track multiple touch
+    points. (LP: #1445472)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 12 Aug 2015 08:41:24 +0000
+
+unity8 (8.10+15.10.20150804-0ubuntu1) wily; urgency=medium
+
+  [ Kevin Gunn ]
+  * No change, rebuild for gcc5
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/cy.po
+  * Resync trunk. added: po/cy.po
+
+  [ Daniel d'Andrada ]
+  * Stages now control the "requestedState" property of applications
+  * Stages now control the "requestedState" property of applications
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 04 Aug 2015 20:56:05 +0000
+
 unity8 (8.10+15.10.20150729-0ubuntu1) wily; urgency=medium
 
   [ CI Train Bot ]

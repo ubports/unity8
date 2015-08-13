@@ -123,7 +123,7 @@ Item {
         width: parent.width
         anchors.bottom: parent.bottom
 
-        color: "#4c4c4c"
+        color: "#888888"
         opacity: expanded ? 1.0 : 0.0
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.SnapDuration } }
     }

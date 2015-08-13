@@ -36,6 +36,8 @@ Rectangle {
     property bool altTabEnabled: true
     property real startScale: 1.1
     property real endScale: 0.7
+    property bool keepDashRunning: true
+    property bool suspended: false
     property int shellOrientationAngle: 0
     property int shellOrientation
     property int shellPrimaryOrientation
@@ -427,6 +429,14 @@ Rectangle {
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
                     focusFirstApp: root.focusFirstApp
+
+                    Binding {
+                        target: appDelegate.application
+                        property: "requestedState"
+                        value: (isDash && root.keepDashRunning) || (!root.suspended && appDelegate.focus)
+                            ? ApplicationInfoInterface.RequestedRunning
+                            : ApplicationInfoInterface.RequestedSuspended
+                    }
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
