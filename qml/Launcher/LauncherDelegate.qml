@@ -24,6 +24,7 @@ Item {
     property int count: 0
     property bool countVisible: false
     property int progress: -1
+    property bool itemRunning: false
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
@@ -214,6 +215,17 @@ Item {
                     width: progressOverlay.width
                 }
             }
+        }
+
+        Image {
+            objectName: "runningHighlight"
+            anchors {
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+            }
+            visible: root.itemRunning
+            rotation: 180
+            source: "graphics/focused_app_arrow.png"
         }
 
         Image {

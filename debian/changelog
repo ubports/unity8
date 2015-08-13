@@ -1,13 +1,26 @@
-unity8 (8.11+15.04.20150811-0ubuntu1) vivid; urgency=medium
+unity8 (8.11+15.04.20150812-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
-  * Increase version because of new scopes shell communication protocol
+  * Add a test that checks that items in an expandable are the correct
+    size after expanding the expandable
+  * Fix the expandable test
+  * Replace some waitForRendering with wait(0)
+  * Workaround for bug 1473471 (LP: #1473471)
 
-  [ CI Train Bot ]
-  * New rebuild forced.
-  * Resync trunk.
+  [ Gary.Wzl ]
+  * Fix layout issue when adding audio track widget in expandable widget
 
- -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 11 Aug 2015 14:45:12 +0000
+  [ handsome_feng ]
+  * Added indication for running apps. (LP: #1471577)
+  * Adjust the color to highlighting indicator. (LP: #1457098)
+  * Convert the MouseArea to MultiPointTouchArea to track multiple touch
+    points. (LP: #1445472)
+
+  [ handsome_feng<445865575@qq.com> ]
+  * Convert the MouseArea to MultiPointTouchArea to track multiple touch
+    points. (LP: #1445472)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 12 Aug 2015 08:41:24 +0000
 
 unity8 (8.10+15.10.20150804-0ubuntu1) wily; urgency=medium
 
