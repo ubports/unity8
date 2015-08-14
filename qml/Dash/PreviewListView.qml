@@ -84,7 +84,7 @@ Item {
             }
         }
 
-        onCountChanged: {
+        onModelChanged: {
             if (count > 0 && initialIndex >= 0) {
                 currentIndex = initialIndex;
                 initialIndex = -1;
