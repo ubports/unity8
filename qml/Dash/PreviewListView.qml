@@ -86,7 +86,7 @@ Item {
 
         onModelChanged: {
             if (count > 0 && initialIndex >= 0) {
-                currentIndex = initialIndex;
+                previewListView.positionViewAtIndex(initialIndex, ListView.SnapPosition);
                 initialIndex = -1;
             }
         }
