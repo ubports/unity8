@@ -9,6 +9,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    activefocuslogger.cpp
     constants.cpp
     HomeKeyWatcher.cpp
     inputwatcher.cpp
