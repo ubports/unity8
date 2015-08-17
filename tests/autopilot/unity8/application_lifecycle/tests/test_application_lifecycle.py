@@ -118,7 +118,10 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
         process_helpers.lock_unity()
 
-        self.launch_upstart_application(application_name)
+        # Don't wait for the proxy since the application is
+        # already launched and sleeping because the greeter is on
+        # so waiting for the proxy will never happen
+        self.launch_upstart_application(application_name, [], False)
         greeter = self.main_window.get_greeter()
         greeter.wait_swiped_away()
         process_helpers.unlock_unity()
