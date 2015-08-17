@@ -1,3 +1,20 @@
+unity8 (8.11+15.04.20150814-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make the test pass again after rework of appmanager
+  * fix testPhoneStage
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Daniel d'Andrada ]
+  * Fix and clean up InputInfo plugin
+
+  [ Rodney Dawes ]
+  * Do not call verify in the payments button code. (LP: #1468038)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 14 Aug 2015 09:53:11 +0000
+
 unity8 (8.11+15.04.20150812-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
