@@ -61,7 +61,23 @@ Item {
         property real columnWidth: width / columns
 
         Repeater {
+            id: repeater;
             model: previewModel
+
+            function findChild(obj, objectName) {
+                var childs = new Array(0);
+                childs.push(obj)
+                while (childs.length > 0) {
+                    if (childs[0].objectName === objectName) {
+                        return childs[0]
+                    }
+                    for (var i in childs[0].data) {
+                        childs.push(childs[0].data[i])
+                    }
+                    childs.splice(0, 1);
+                }
+                return null;
+            }
 
             delegate: ListView {
                 id: column
@@ -70,6 +86,39 @@ Item {
                 width: row.columnWidth
                 spacing: row.spacing
                 bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
+                
+                readonly property int inputMethodMargin: 30;
+                property bool inputMethodVisible: Qt.inputMethod.visible;
+                onInputMethodVisibleChanged: {
+                    if (!inputMethodVisible)
+                        return;
+
+                    var textArea = null;
+                    var contentItem = column.contentItem;
+                    
+                    var reviewTextArea = repeater.findChild(contentItem, "reviewTextArea");
+                    if (reviewTextArea !== null && reviewTextArea.activeFocus) {
+                        textArea = reviewTextArea;
+                    }
+                    
+                    if (textArea === null) {
+                        var commentTextArea = repeater.findChild(contentItem, "commentTextArea");
+                        if (commentTextArea !== null && commentTextArea.activeFocus) {
+                            textArea = commentTextArea;
+                        }
+                    }
+
+                    if (textArea === null)
+                        return;
+
+                    var textAreaPos = textArea.mapToItem(column, 0, 0);
+                    var textAreaGlobalHeight = textAreaPos.y + textArea.implicitHeight
+                            + column.height / 2.0;
+
+                    if (textAreaGlobalHeight > column.height) {
+                        column.contentY += textAreaGlobalHeight - column.height + inputMethodMargin;
+                    }
+                }
 
                 model: columnModel
                 cacheBuffer: height
