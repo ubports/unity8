@@ -295,22 +295,23 @@ Item {
                 tryCompare(ApplicationManager, "count", oldCount - 1)
             }
             phoneStage.shellOrientationAngle = 0;
+            phoneStage.select(ApplicationManager.get(0).appId);
         }
 
         function test_focusNewTopMostAppAfterFocusedOneClosesItself() {
             addApps(2);
 
             var secondApp = ApplicationManager.get(0);
-            tryCompare(secondApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(secondApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
             tryCompare(secondApp, "focused", true);
 
             var firstApp = ApplicationManager.get(1);
-            tryCompare(firstApp, "state", ApplicationInfoInterface.Suspended);
+            tryCompare(firstApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
             tryCompare(firstApp, "focused", false);
 
             ApplicationManager.stopApplication(secondApp.appId);
 
-            tryCompare(firstApp, "state", ApplicationInfoInterface.Running);
+            tryCompare(firstApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
             tryCompare(firstApp, "focused", true);
         }
 
@@ -387,6 +388,78 @@ Item {
             phoneStage.inverseProgress = 0;
 
             tryCompare(focusedDelegate, "x", 0);
+        }
+
+        function test_focusedAppIsTheOnlyRunningApp() {
+            addApps(2);
+
+            var delegateA = findChild(phoneStage, "appDelegate0");
+            verify(delegateA);
+            var delegateB = findChild(phoneStage, "appDelegate1");
+            verify(delegateB);
+
+            // A is focused and running, B is unfocused and suspended
+            compare(delegateA.focus, true);
+            compare(delegateA.application.requestedState, ApplicationInfoInterface.RequestedRunning);
+            compare(delegateB.focus, false);
+            compare(delegateB.application.requestedState, ApplicationInfoInterface.RequestedSuspended);
+
+            // Switch foreground/focused appp from A to B
+            goToSpread();
+            phoneStage.select(delegateB.application.appId);
+
+            // Now it's the other way round
+            // A is unfocused and suspended, B is focused and running
+            tryCompare(delegateA, "focus", false);
+            tryCompare(delegateA.application, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+            tryCompare(delegateB, "focus", true);
+            tryCompare(delegateB.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_dashRemainsRunningIfStageIsToldSo() {
+            addApps(1);
+
+            var delegateDash = findChild(phoneStage, "appDelegate1");
+            verify(delegateDash);
+            compare(delegateDash.application.appId, "unity8-dash");
+
+            var delegateOther = findChild(phoneStage, "appDelegate0");
+            verify(delegateOther);
+
+            goToSpread();
+            phoneStage.select("unity8-dash");
+
+            tryCompare(delegateDash, "focus", true);
+            tryCompare(delegateDash.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
+            compare(delegateOther.focus, false);
+            compare(delegateOther.application.requestedState, ApplicationInfoInterface.RequestedSuspended);
+
+            goToSpread();
+            phoneStage.select(delegateOther.application.appId);
+
+            // The other app gets focused and running but dash is kept running despite being unfocused
+            tryCompare(delegateDash, "focus", false);
+            tryCompare(delegateDash.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
+            compare(delegateOther.focus, true);
+            compare(delegateOther.application.requestedState, ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_foregroundAppIsSuspendedWhenStageIsSuspended() {
+            addApps(1);
+
+            var delegate = findChild(phoneStage, "appDelegate0");
+            verify(delegate);
+
+            compare(delegate.focus, true);
+            compare(delegate.application.requestedState, ApplicationInfoInterface.RequestedRunning);
+
+            phoneStage.suspended = true;
+
+            tryCompare(delegate.application, "requestedState", ApplicationInfoInterface.RequestedSuspended);
+
+            phoneStage.suspended = false;
+
+            tryCompare(delegate.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
     }
 }
