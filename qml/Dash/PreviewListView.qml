@@ -86,10 +86,10 @@ Item {
             }
         }
 
-        onCountChanged: {
+        onModelChanged: {
             if (count > 0 && initialIndex >= 0 && !usedInitialIndex) {
                 usedInitialIndex = true;
-                currentIndex = initialIndex;
+                previewListView.positionViewAtIndex(initialIndex, ListView.SnapPosition);
             }
         }
 
