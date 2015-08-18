@@ -295,6 +295,7 @@ Item {
                 tryCompare(ApplicationManager, "count", oldCount - 1)
             }
             phoneStage.shellOrientationAngle = 0;
+            phoneStage.select(ApplicationManager.get(0).appId);
         }
 
         function test_focusNewTopMostAppAfterFocusedOneClosesItself() {
