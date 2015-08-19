@@ -54,7 +54,7 @@ public:
 
 
     Mir::State state() const override;
-    void setState(Mir::State) override;
+    Q_INVOKABLE void setState(Mir::State) override;
 
     bool live() const override;
 

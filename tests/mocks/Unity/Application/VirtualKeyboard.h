@@ -27,11 +27,6 @@ class VirtualKeyboard : public MirSurface
 public:
     explicit VirtualKeyboard();
     ~VirtualKeyboard();
-
-/*
-protected:
-    void touchEvent(QTouchEvent * event) override;
-*/
 };
 
 Q_DECLARE_METATYPE(VirtualKeyboard*)

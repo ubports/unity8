@@ -36,10 +36,3 @@ VirtualKeyboard::VirtualKeyboard()
 VirtualKeyboard::~VirtualKeyboard()
 {
 }
-
-/*
-void VirtualKeyboard::touchEvent(QTouchEvent *event)
-{
-    event->setAccepted(false);
-}
-*/
