@@ -181,6 +181,11 @@ Showable {
         }
     }
 
+    GSettings {
+        id: greeterSettings
+        schema.id: "com.canonical.Unity8.Greeter"
+    }
+
     Timer {
         id: forcedDelayTimer
 
@@ -193,10 +198,9 @@ Showable {
         property int delayMinutes;
 
         function forceDelay(delay /* in minutes */) {
-            delayTarget = new Date();
-            delayTarget.setTime(delayTarget.getTime() + delay * 60000);
-            delayMinutes = Math.ceil(delay);
-            start();
+            var when = new Date().getTime() + delay * 60000;
+            greeterSettings.lockedOutUntil = when;
+            // code below that watches GSettings will pick up the change
         }
 
         onTriggered: {
@@ -208,6 +212,18 @@ Showable {
                 delayMinutes = 0;
             }
         }
+
+        function checkForForcedDelay() {
+            delayTarget = new Date();
+            delayTarget.setTime(greeterSettings.lockedOutUntil);
+            trigger();
+        }
+
+        Connections {
+            target: greeterSettings
+            onLockedOutUntilChanged: checkForForcedDelay()
+        }
+        Component.onCompleted: checkForForcedDelay()
     }
 
     // event eater

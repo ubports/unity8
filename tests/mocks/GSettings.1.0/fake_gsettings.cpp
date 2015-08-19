@@ -62,6 +62,19 @@ void GSettingsControllerQml::setUsageMode(const QString &usageMode)
     }
 }
 
+quint64 GSettingsControllerQml::lockedOutUntil() const
+{
+    return m_lockedOutUntil;
+}
+
+void GSettingsControllerQml::setLockedOutUntil(quint64 timestamp)
+{
+    if (m_lockedOutUntil != timestamp) {
+        m_lockedOutUntil = timestamp;
+        Q_EMIT lockedOutUntilChanged(m_lockedOutUntil);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -99,6 +112,8 @@ GSettingsQml::GSettingsQml(QObject *parent)
             this, SIGNAL(pictureUriChanged(const QString &)));
     connect(GSettingsControllerQml::instance(), SIGNAL(usageModeChanged(const QString &)),
             this, SIGNAL(usageModeChanged(const QString &)));
+    connect(GSettingsControllerQml::instance(), SIGNAL(lockedOutUntilChanged(quint64)),
+            this, SIGNAL(lockedOutUntilChanged(quint64)));
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -134,5 +149,21 @@ void GSettingsQml::setUsageMode(const QString &usageMode)
 {
     if (m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setUsageMode(usageMode);
+    }
+}
+
+quint64 GSettingsQml::lockedOutUntil() const
+{
+    if (m_schema->id() == "com.canonical.Unity8.Greeter") {
+        return GSettingsControllerQml::instance()->lockedOutUntil();
+    } else {
+        return 0;
+    }
+}
+
+void GSettingsQml::setLockedOutUntil(quint64 timestamp)
+{
+    if (m_schema->id() == "com.canonical.Unity8.Greeter") {
+        GSettingsControllerQml::instance()->setLockedOutUntil(timestamp);
     }
 }

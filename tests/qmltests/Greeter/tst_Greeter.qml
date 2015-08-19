@@ -431,7 +431,33 @@ Item {
             compare(LightDM.Infographic.username, "has-password");
         }
 
-        function test_forcedDelay() {
+        function test_forcedDelayIntoGSettings() {
+            greeter.failedLoginsDelayAttempts = 1;
+            greeter.failedLoginsDelayMinutes = 1;
+            selectUser("has-password");
+            tryCompare(viewShowPromptSpy, "count", 1);
+            view.responded("wr0ng p4ssw0rd");
+
+            var timestamp = new Date().getTime() + 60000;
+            compare(GSettingsController.lockedOutUntil, timestamp);
+        }
+
+        function test_forcedDelayFromGSettings() {
+            compare(view.delayMinutes, 0);
+            var timestamp = new Date().getTime() + 30; // in 30 seconds
+            GSettingsController.lockedOutUntil = timestamp;
+            tryCompare(view, "delayMinutes", 1);
+        }
+
+        function test_forcedDelayOnConstruction() {
+            var timestamp = new Date().getTime() + 30; // in 30 seconds
+            GSettingsController.lockedOutUntil = timestamp;
+            cleanup();
+            init();
+            tryCompare(view, "delayMinutes", 1);
+        }
+
+        function test_forcedDelayRoundTrip() {
             greeter.failedLoginsDelayAttempts = 1;
             greeter.failedLoginsDelayMinutes = 0.001; // make delay very short
 

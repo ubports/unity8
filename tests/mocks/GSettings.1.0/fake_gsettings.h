@@ -47,6 +47,7 @@ class GSettingsQml: public QObject
     Q_PROPERTY(GSettingsSchemaQml* schema READ schema NOTIFY schemaChanged)
     Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
     Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
+    Q_PROPERTY(quint64 lockedOutUntil READ lockedOutUntil WRITE setLockedOutUntil NOTIFY lockedOutUntilChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -54,14 +55,17 @@ public:
     GSettingsSchemaQml * schema() const;
     QString pictureUri() const;
     QString usageMode() const;
+    quint64 lockedOutUntil() const;
 
     void setPictureUri(const QString &str);
     void setUsageMode(const QString &usageMode);
+    void setLockedOutUntil(quint64 timestamp);
 
 Q_SIGNALS:
     void schemaChanged();
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
+    void lockedOutUntilChanged(quint64);
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -83,15 +87,20 @@ public:
     QString usageMode() const;
     Q_INVOKABLE void setUsageMode(const QString &usageMode);
 
+    quint64 lockedOutUntil() const;
+    Q_INVOKABLE void setLockedOutUntil(quint64 timestamp);
+
 Q_SIGNALS:
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
+    void lockedOutUntilChanged(quint64 timestamp);
 
 private:
     GSettingsControllerQml();
 
     QString m_pictureUri;
     QString m_usageMode;
+    quint64 m_lockedOutUntil;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;
