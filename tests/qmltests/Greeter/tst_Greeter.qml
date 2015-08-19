@@ -475,6 +475,7 @@ Item {
             view.responded("wr0ng p4ssw0rd");
             compare(view.delayMinutes, 1);
             tryCompare(view, "delayMinutes", 0);
+            compare(greeterSettings.lockedOutUntil, 0);
         }
 
         function test_dbusRequestAuthenticationUser() {

@@ -212,6 +212,10 @@ Showable {
                 start(); // go again
             } else {
                 delayMinutes = 0;
+
+                // clean up, to avoid accidentally locking user out if phone
+                // gets time wrong for whatever reason in the future.
+                greeterSettings.lockedOutUntil = 0;
             }
         }
 
