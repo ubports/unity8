@@ -20,6 +20,7 @@ import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 0.1
 import AccountsService 0.1
+import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 
@@ -73,6 +74,11 @@ Item {
         id: emergencyCallSpy
         target: loader.item
         signalName: "emergencyCall"
+    }
+
+    GSettings {
+        id: greeterSettings
+        schema.id: "com.canonical.Unity8.Greeter"
     }
 
     UT.UnityTestCase {
@@ -148,6 +154,7 @@ Item {
             verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
             greeter.failedLoginsDelayAttempts = 7;
             greeter.failedLoginsDelayMinutes = 5;
+            greeterSettings.lockedOutUntil = 0;
         }
 
         function cleanup() {
@@ -439,22 +446,22 @@ Item {
             view.responded("wr0ng p4ssw0rd");
 
             var timestamp = new Date().getTime() + 60000;
-            compare(GSettingsController.lockedOutUntil, timestamp);
+            verify(Math.abs(greeterSettings.lockedOutUntil - timestamp) < 3);
         }
 
         function test_forcedDelayFromGSettings() {
             compare(view.delayMinutes, 0);
             var timestamp = new Date().getTime() + 30; // in 30 seconds
-            GSettingsController.lockedOutUntil = timestamp;
-            tryCompare(view, "delayMinutes", 1);
+            greeterSettings.lockedOutUntil = timestamp;
+            compare(view.delayMinutes, 1);
         }
 
         function test_forcedDelayOnConstruction() {
             var timestamp = new Date().getTime() + 30; // in 30 seconds
-            GSettingsController.lockedOutUntil = timestamp;
+            greeterSettings.lockedOutUntil = timestamp;
             cleanup();
-            init();
-            tryCompare(view, "delayMinutes", 1);
+            view = findChild(greeter, "testView");
+            compare(view.delayMinutes, 1);
         }
 
         function test_forcedDelayRoundTrip() {
@@ -466,7 +473,7 @@ Item {
 
             compare(view.delayMinutes, 0);
             view.responded("wr0ng p4ssw0rd");
-            tryCompare(view, "delayMinutes", 1);
+            compare(view.delayMinutes, 1);
             tryCompare(view, "delayMinutes", 0);
         }
 

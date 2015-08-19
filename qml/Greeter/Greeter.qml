@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import AccountsService 0.1
+import GSettings 1.0
 import LightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.SystemImage 0.1
@@ -184,6 +185,7 @@ Showable {
     GSettings {
         id: greeterSettings
         schema.id: "com.canonical.Unity8.Greeter"
+        onLockedOutUntilChanged: forcedDelayTimer.checkForForcedDelay()
     }
 
     Timer {
@@ -216,13 +218,9 @@ Showable {
         function checkForForcedDelay() {
             delayTarget = new Date();
             delayTarget.setTime(greeterSettings.lockedOutUntil);
-            trigger();
+            triggered();
         }
 
-        Connections {
-            target: greeterSettings
-            onLockedOutUntilChanged: checkForForcedDelay()
-        }
         Component.onCompleted: checkForForcedDelay()
     }
 
