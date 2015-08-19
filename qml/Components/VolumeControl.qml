@@ -33,6 +33,7 @@ Item {
         objectPath: "/com/canonical/indicator/sound"
 
         property variant actionObject: action("volume")
+        property variant indicatorsAction: action("indicator-shown")
     }
 
     function volumeUp() {
@@ -41,6 +42,16 @@ Item {
 
     function volumeDown() {
         actionGroup.actionObject.activate(stepDown);
+    }
+
+    Connections {
+        target: panel.indicators
+        onFullyOpenedChanged: { // disallow the volume notification when using the slider
+            if (target.fullyOpened)
+                actionGroup.indicatorsAction.updateState(true)
+            else
+                actionGroup.indicatorsAction.updateState(false)
+        }
     }
 
     Component.onCompleted: actionGroup.start()
