@@ -181,18 +181,20 @@ void Scope::setNoResultsHint(const QString& str)
     }
 }
 
-void Scope::activate(QVariant const& result)
+void Scope::activate(QVariant const& result, QString const& categoryId)
 {
-    qDebug() << "Called activate on scope" << m_id << "with result" << result;
+    qDebug() << "Called activate on scope" << m_id << "with result" << result << "and category" << categoryId;
     if (result.toString() == "Result.2.2") {
         Scopes *scopes = dynamic_cast<Scopes*>(parent());
         m_openScope = scopes->getScopeFromAll("MockScope9");
         scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
+    } else {
+        Q_EMIT previewRequested(result);
     }
 }
 
-PreviewStack* Scope::preview(QVariant const& result)
+PreviewStack* Scope::preview(QVariant const& result, QString const& /*categoryId*/)
 {
     Q_UNUSED(result);
 

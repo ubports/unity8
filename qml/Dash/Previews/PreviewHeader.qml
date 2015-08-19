@@ -30,7 +30,7 @@ import "../"
 PreviewWidget {
     id: root
 
-    height: childrenRect.height
+    implicitHeight: childrenRect.height
 
     Item {
         id: headerRoot
@@ -43,7 +43,7 @@ PreviewWidget {
         readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
 
         // Rewire the source since we may have unwired it on onStatusChanged
-        onMascotChanged: if (mascotShapeLoader.item) mascotShapeLoader.item.image.source = mascot;
+        onMascotChanged: if (mascotShapeLoader.item) mascotShapeLoader.item.source.source = mascot;
 
         implicitHeight: row.height + row.margins * 2
         width: parent.width
@@ -77,7 +77,7 @@ PreviewWidget {
 
                 sourceComponent: UbuntuShape {
                     objectName: "mascotShape"
-                    visible: image.status === Image.Ready
+                    visible: source.status === Image.Ready
                     sourceFillMode: UbuntuShape.PreserveAspectCrop
                     sourceHorizontalAlignment: UbuntuShape.AlignHCenter
                     sourceVerticalAlignment: UbuntuShape.AlignVCenter

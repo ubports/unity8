@@ -181,25 +181,25 @@ Rectangle {
         }
 
         function test_select() {
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ffffff");
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ffffff");
 
             indicatorItem.expanded = true;
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#888888");
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 0.6);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#4c4c4c");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#4c4c4c");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#888888");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#888888");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#888888");
 
             indicatorItem.selected = true;
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ffffff");
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ffffff");
         }
     }
 }
