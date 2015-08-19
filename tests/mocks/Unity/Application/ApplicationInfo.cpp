@@ -96,7 +96,7 @@ void ApplicationInfo::setSession(Session* session)
                 this, &ApplicationInfo::onSessionSurfaceChanged);
 
         if (!m_manualSurfaceCreation) {
-            QTimer::singleShot(500, m_session, SLOT(createSurface()));
+            QTimer::singleShot(500, m_session, &Session::createSurface);
         }
     }
 
@@ -165,7 +165,7 @@ void ApplicationInfo::setState(State value)
         Q_EMIT stateChanged(value);
 
         if (!m_manualSurfaceCreation && !m_session && m_state == ApplicationInfo::Starting) {
-            QTimer::singleShot(500, this, SLOT(createSession()));
+            QTimer::singleShot(500, this, &ApplicationInfo::createSession);
         } else if (m_state == ApplicationInfo::Stopped) {
             Session *session = m_session;
             setSession(nullptr);

@@ -24,9 +24,9 @@ UnitySortFilterProxyModelQML::UnitySortFilterProxyModelQML(QObject *parent)
     : QSortFilterProxyModel(parent)
     , m_invertMatch(false)
 {
-    connect(this, SIGNAL(modelReset()), SIGNAL(countChanged()));
-    connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(countChanged()));
-    connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(countChanged()));
+    connect(this, &UnitySortFilterProxyModelQML::modelReset, this, &UnitySortFilterProxyModelQML::countChanged);
+    connect(this, &UnitySortFilterProxyModelQML::rowsInserted, this, &UnitySortFilterProxyModelQML::countChanged);
+    connect(this, &UnitySortFilterProxyModelQML::rowsRemoved, this, &UnitySortFilterProxyModelQML::countChanged);
 }
 
 /*

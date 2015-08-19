@@ -102,9 +102,9 @@ class MirrorModel : public QObject
 public:
     MirrorModel(QAbstractItemModel *model) : m_mirror(model)
     {
-        connect(model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
-        connect(model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
-        connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(dataChanged(QModelIndex,QModelIndex)));
+        connect(model, &QAbstractItemModel::rowsInserted, this, &MirrorModel::rowsInserted);
+        connect(model, &QAbstractItemModel::rowsRemoved, this, &MirrorModel::rowsRemoved);
+        connect(model, &QAbstractItemModel::dataChanged, this, &MirrorModel::dataChanged);
     }
 
     void check()
