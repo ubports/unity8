@@ -19,7 +19,6 @@
 
 #include <QList>
 #include <QObject>
-#include <QVariant>
 
 class GSettingsSchemaQml: public QObject
 {
@@ -46,9 +45,9 @@ class GSettingsQml: public QObject
     Q_OBJECT
 
     Q_PROPERTY(GSettingsSchemaQml* schema READ schema NOTIFY schemaChanged)
-    Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY changed)
-    Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY changed)
-    Q_PROPERTY(qint64 lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY changed)
+    Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
+    Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
+    Q_PROPERTY(qint64 lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY lockedOutTimeChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -64,7 +63,9 @@ public:
 
 Q_SIGNALS:
     void schemaChanged();
-    void changed(const QString &key, const QVariant &value);
+    void pictureUriChanged(const QString&);
+    void usageModeChanged(const QString&);
+    void lockedOutTimeChanged(qint64);
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -90,7 +91,9 @@ public:
     Q_INVOKABLE void setLockedOutTime(qint64 timestamp);
 
 Q_SIGNALS:
-    void changed(const QString&, const QVariant&);
+    void pictureUriChanged(const QString&);
+    void usageModeChanged(const QString&);
+    void lockedOutTimeChanged(qint64 timestamp);
 
 private:
     GSettingsControllerQml();

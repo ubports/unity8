@@ -45,7 +45,7 @@ void GSettingsControllerQml::setPictureUri(const QString &str)
 {
     if (str != m_pictureUri) {
         m_pictureUri = str;
-        Q_EMIT changed("picture-uri", QVariant(m_pictureUri));
+        Q_EMIT pictureUriChanged(m_pictureUri);
     }
 }
 
@@ -58,7 +58,7 @@ void GSettingsControllerQml::setUsageMode(const QString &usageMode)
 {
     if (usageMode != m_usageMode) {
         m_usageMode = usageMode;
-        Q_EMIT changed("usage-mode", QVariant(m_usageMode));
+        Q_EMIT usageModeChanged(m_usageMode);
     }
 }
 
@@ -71,7 +71,7 @@ void GSettingsControllerQml::setLockedOutTime(qint64 timestamp)
 {
     if (m_lockedOutTime != timestamp) {
         m_lockedOutTime = timestamp;
-        Q_EMIT changed("locked-out-time", QVariant(m_lockedOutTime));
+        Q_EMIT lockedOutTimeChanged(m_lockedOutTime);
     }
 }
 
@@ -108,8 +108,12 @@ GSettingsQml::GSettingsQml(QObject *parent)
     : QObject(parent)
 {
     m_schema = new GSettingsSchemaQml(this);
-    connect(GSettingsControllerQml::instance(), SIGNAL(changed(const QString &, const QVariant &)),
-            this, SIGNAL(changed(const QString &, const QVariant &)));
+    connect(GSettingsControllerQml::instance(), SIGNAL(pictureUriChanged(const QString &)),
+            this, SIGNAL(pictureUriChanged(const QString &)));
+    connect(GSettingsControllerQml::instance(), SIGNAL(usageModeChanged(const QString &)),
+            this, SIGNAL(usageModeChanged(const QString &)));
+    connect(GSettingsControllerQml::instance(), SIGNAL(lockedOutTimeChanged(qint64)),
+            this, SIGNAL(lockedOutTimeChanged(qint64)));
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
