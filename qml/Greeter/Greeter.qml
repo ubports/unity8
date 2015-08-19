@@ -185,7 +185,7 @@ Showable {
     GSettings {
         id: greeterSettings
         schema.id: "com.canonical.Unity8.Greeter"
-        onLockedOutUntilChanged: forcedDelayTimer.checkForForcedDelay()
+        onLockedOutTimeChanged: forcedDelayTimer.checkForForcedDelay()
     }
 
     Timer {
@@ -196,7 +196,7 @@ Showable {
         // for a few minutes.  When we wake up, we want to quickly be correct.
         interval: 500
 
-        property Date delayTarget;
+        property var delayTarget;
         property int delayMinutes;
 
         function forceDelay() {
@@ -229,6 +229,7 @@ Showable {
 
         function checkForForcedDelay() {
             var now = new Date();
+            delayTarget = now;
             delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
 
             // If tooEarly is true, something went very wrong.  Bug or NTP

@@ -458,11 +458,10 @@ Item {
         }
 
         function test_forcedDelayOnConstruction() {
-            greeter.failedLoginsDelayMinutes = 1;
             greeterSettings.lockedOutTime = new Date().getTime();
             cleanup();
             view = findChild(greeter, "testView");
-            compare(view.delayMinutes, 1);
+            compare(view.delayMinutes, greeter.failedLoginsDelayMinutes);
         }
 
         function test_forcedDelayRoundTrip() {
