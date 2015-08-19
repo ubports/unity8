@@ -185,7 +185,11 @@ Showable {
     GSettings {
         id: greeterSettings
         schema.id: "com.canonical.Unity8.Greeter"
-        onLockedOutTimeChanged: forcedDelayTimer.checkForForcedDelay()
+        onChanged: {
+            if (key === "locked-out-time") {
+                forcedDelayTimer.checkForForcedDelay();
+            }
+        }
     }
 
     Timer {

@@ -45,7 +45,7 @@ void GSettingsControllerQml::setPictureUri(const QString &str)
 {
     if (str != m_pictureUri) {
         m_pictureUri = str;
-        Q_EMIT pictureUriChanged(m_pictureUri);
+        Q_EMIT changed("picture-uri", QVariant(m_pictureUri));
     }
 }
 
@@ -58,20 +58,20 @@ void GSettingsControllerQml::setUsageMode(const QString &usageMode)
 {
     if (usageMode != m_usageMode) {
         m_usageMode = usageMode;
-        Q_EMIT usageModeChanged(m_usageMode);
+        Q_EMIT changed("usage-mode", QVariant(m_usageMode));
     }
 }
 
-quint64 GSettingsControllerQml::lockedOutTime() const
+qint64 GSettingsControllerQml::lockedOutTime() const
 {
     return m_lockedOutTime;
 }
 
-void GSettingsControllerQml::setLockedOutTime(quint64 timestamp)
+void GSettingsControllerQml::setLockedOutTime(qint64 timestamp)
 {
     if (m_lockedOutTime != timestamp) {
         m_lockedOutTime = timestamp;
-        Q_EMIT lockedOutTimeChanged(m_lockedOutTime);
+        Q_EMIT changed("locked-out-time", QVariant(m_lockedOutTime));
     }
 }
 
@@ -108,12 +108,8 @@ GSettingsQml::GSettingsQml(QObject *parent)
     : QObject(parent)
 {
     m_schema = new GSettingsSchemaQml(this);
-    connect(GSettingsControllerQml::instance(), SIGNAL(pictureUriChanged(const QString &)),
-            this, SIGNAL(pictureUriChanged(const QString &)));
-    connect(GSettingsControllerQml::instance(), SIGNAL(usageModeChanged(const QString &)),
-            this, SIGNAL(usageModeChanged(const QString &)));
-    connect(GSettingsControllerQml::instance(), SIGNAL(lockedOutTimeChanged(quint64)),
-            this, SIGNAL(lockedOutTimeChanged(quint64)));
+    connect(GSettingsControllerQml::instance(), SIGNAL(changed(const QString &, const QVariant &)),
+            this, SIGNAL(changed(const QString &, const QVariant &)));
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -152,7 +148,7 @@ void GSettingsQml::setUsageMode(const QString &usageMode)
     }
 }
 
-quint64 GSettingsQml::lockedOutTime() const
+qint64 GSettingsQml::lockedOutTime() const
 {
     if (m_schema->id() == "com.canonical.Unity8.Greeter") {
         return GSettingsControllerQml::instance()->lockedOutTime();
@@ -161,7 +157,7 @@ quint64 GSettingsQml::lockedOutTime() const
     }
 }
 
-void GSettingsQml::setLockedOutTime(quint64 timestamp)
+void GSettingsQml::setLockedOutTime(qint64 timestamp)
 {
     if (m_schema->id() == "com.canonical.Unity8.Greeter") {
         GSettingsControllerQml::instance()->setLockedOutTime(timestamp);

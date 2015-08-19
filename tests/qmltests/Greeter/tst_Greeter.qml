@@ -447,7 +447,7 @@ Item {
             view.responded("wr0ng p4ssw0rd");
 
             var timestamp = new Date().getTime();
-            verify(Math.abs(greeterSettings.lockedOutTime - timestamp) < 3);
+            verify(Math.abs(greeterSettings.lockedOutTime - timestamp) < 2000);
         }
 
         function test_forcedDelayFromGSettings() {
