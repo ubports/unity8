@@ -1660,7 +1660,7 @@ private Q_SLOTS:
 
     void addingRemoveItemsShouldNotChangeContentY()
     {
-        QSignalSpy spy(lvwph, SIGNAL(contentYChanged()));
+        QSignalSpy spy(lvwph, &ListViewWithPageHeader::contentYChanged);
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 150));
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 6));
 

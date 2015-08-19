@@ -95,10 +95,10 @@ GSettingsQml::GSettingsQml(QObject *parent)
     : QObject(parent)
 {
     m_schema = new GSettingsSchemaQml(this);
-    connect(GSettingsControllerQml::instance(), SIGNAL(pictureUriChanged(const QString &)),
-            this, SIGNAL(pictureUriChanged(const QString &)));
-    connect(GSettingsControllerQml::instance(), SIGNAL(usageModeChanged(const QString &)),
-            this, SIGNAL(usageModeChanged(const QString &)));
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::pictureUriChanged,
+            this, &GSettingsQml::pictureUriChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::usageModeChanged,
+            this, &GSettingsQml::usageModeChanged);
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {

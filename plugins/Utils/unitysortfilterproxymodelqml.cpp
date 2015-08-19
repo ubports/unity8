@@ -59,9 +59,9 @@ UnitySortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
 
         setSourceModel(itemModel);
 
-        connect(itemModel, SIGNAL(modelReset()), SIGNAL(totalCountChanged()));
-        connect(itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
-        connect(itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
+        connect(itemModel, &QAbstractItemModel::modelReset, this, &UnitySortFilterProxyModelQML::totalCountChanged);
+        connect(itemModel, &QAbstractItemModel::rowsInserted, this, &UnitySortFilterProxyModelQML::totalCountChanged);
+        connect(itemModel, &QAbstractItemModel::rowsRemoved, this, &UnitySortFilterProxyModelQML::totalCountChanged);
 
         Q_EMIT totalCountChanged();
         Q_EMIT modelChanged();

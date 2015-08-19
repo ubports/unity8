@@ -173,7 +173,7 @@ void Greeter::sendAuthenticationComplete()
 {
     if (qgetenv("UNITY_TESTING").isEmpty()) {
         // simulate PAM's delay
-        QTimer::singleShot(1000, this, SIGNAL(authenticationComplete()));
+        QTimer::singleShot(1000, this, &Greeter::authenticationComplete);
     } else {
         Q_EMIT authenticationComplete();
     }
