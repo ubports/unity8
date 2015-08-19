@@ -516,7 +516,6 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
             Q_EMIT dataChanged(index(itemIndex), index(itemIndex), {RoleRecent});
         }
         item->setRunning(true);
-        // TODO Shall we paint some running/recent app highlight? If yes, do it here.
     } else {
         LauncherItem *item = new LauncherItem(app->appId(), app->name(), app->icon().toString(), this);
         item->setRecent(true);

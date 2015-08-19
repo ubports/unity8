@@ -24,6 +24,7 @@ Item {
     property int count: 0
     property bool countVisible: false
     property int progress: -1
+    property bool itemRunning: false
     property bool itemFocused: false
     property real maxAngle: 0
     property bool inverted: false
@@ -124,10 +125,11 @@ Item {
         height: parent.itemHeight + units.gu(1)
         anchors.centerIn: parent
 
-        UbuntuShapeIcon {
+        ProportionalShape {
             id: iconShape
             anchors.centerIn: parent
-            width: parent.width - units.gu(2);
+            width: parent.width - units.gu(2)
+            aspect: UbuntuShape.DropShadow
             source: Image {
                 id: iconImage
                 sourceSize.width: iconShape.width
@@ -204,6 +206,20 @@ Item {
             }
         }
 
+<<<<<<< TREE
+=======
+        Image {
+            objectName: "runningHighlight"
+            anchors {
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+            }
+            visible: root.itemRunning
+            rotation: 180
+            source: "graphics/focused_app_arrow.png"
+        }
+
+>>>>>>> MERGE-SOURCE
         Image {
             objectName: "focusedHighlight"
             anchors {

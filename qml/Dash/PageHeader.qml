@@ -175,11 +175,10 @@ Item {
                 __separator_visible: false
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
-                property string title
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
-                property var config: PageHeadConfiguration {
+                config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                     backAction: Action {
                         iconName: "back"
@@ -248,11 +247,11 @@ Item {
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 __separator_visible: false
                 property var styledItem: header
-                property string title: root.title
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
-                property var config: PageHeadConfiguration {
+                config: PageHeadConfiguration {
+                    title: root.title
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                     backAction: Action {
                         iconName: backIsClose ? "close" : "back"

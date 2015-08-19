@@ -62,7 +62,7 @@ Item  {
                                         }
                                         Component {
                                             id: artShapeIconComponent;
-                                            UbuntuShapeIcon { source: artShapeSource; }
+                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; }
                                         }
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;

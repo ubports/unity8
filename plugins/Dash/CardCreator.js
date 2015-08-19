@@ -100,7 +100,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         } \n\
                                         Component { \n\
                                             id: artShapeIconComponent; \n\
-                                            UbuntuShapeIcon { source: artShapeSource; } \n\
+                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; } \n\
                                         } \n\
                                     } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\

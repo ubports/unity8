@@ -31,9 +31,9 @@ IndicatorDelegate {
     property bool selected: false
     property real iconHeight: units.gu(2)
     readonly property color color: {
-        if (!expanded) return "#ededed";
-        if (!selected) return "#4c4c4c";
-        return "#ededed";
+        if (!expanded) return "#ffffff";
+        if (!selected) return "#888888";
+        return "#ffffff";
     }
 
     signal clicked()

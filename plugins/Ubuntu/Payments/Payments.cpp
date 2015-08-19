@@ -123,8 +123,6 @@ void Payments::setStoreItemId(const QString &store_item_id)
     if (m_store_item_id.isEmpty()) {
         return;
     }
-
-    pay_package_item_start_verification(m_package, m_store_item_id.toLocal8Bit().data());
 }
 
 void Payments::setPurchasing(bool is_purchasing)

@@ -351,6 +351,15 @@ TestCase {
         event.commit()
     }
 
+    function touchMove(item, tox, toy) {
+        var root = fetchRootItem(item)
+        var rootPoint = item.mapToItem(root, tox, toy)
+
+        var event = touchEvent(item);
+        event.move(0 /* touchId */, rootPoint.x, rootPoint.y);
+        event.commit();
+    }
+
     function touchPinch(item, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End) {
         // Make sure the item is rendered
         waitForRendering(item);
