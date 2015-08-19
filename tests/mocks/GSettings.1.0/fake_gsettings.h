@@ -19,6 +19,7 @@
 
 #include <QList>
 #include <QObject>
+#include <QVariant>
 
 class GSettingsSchemaQml: public QObject
 {

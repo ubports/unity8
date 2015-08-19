@@ -185,11 +185,6 @@ Showable {
     GSettings {
         id: greeterSettings
         schema.id: "com.canonical.Unity8.Greeter"
-        onChanged: {
-            if (key === "locked-out-time") {
-                forcedDelayTimer.checkForForcedDelay();
-            }
-        }
     }
 
     Timer {
@@ -200,8 +195,8 @@ Showable {
         // for a few minutes.  When we wake up, we want to quickly be correct.
         interval: 500
 
-        property var delayTarget;
-        property int delayMinutes;
+        property var delayTarget
+        property int delayMinutes
 
         function forceDelay() {
             // Store the beginning time for a lockout in GSettings, so that
@@ -216,9 +211,8 @@ Showable {
             //   settings to keep the user out longer.  But by storing
             //   start-time, we never make the user wait longer than the full
             //   lock out time.
-            // The code below that watches GSettings will pick up the change
-            // for us.
             greeterSettings.lockedOutTime = new Date().getTime();
+            checkForForcedDelay();
         }
 
         onTriggered: {
