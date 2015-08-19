@@ -154,7 +154,7 @@ Item {
             verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
             greeter.failedLoginsDelayAttempts = 7;
             greeter.failedLoginsDelayMinutes = 5;
-            greeterSettings.lockedOutUntil = 0;
+            greeterSettings.lockedOutTime = 0;
         }
 
         function cleanup() {
@@ -443,22 +443,23 @@ Item {
             greeter.failedLoginsDelayMinutes = 1;
             selectUser("has-password");
             tryCompare(viewShowPromptSpy, "count", 1);
+            compare(greeterSettings.lockedOutTime, 0);
             view.responded("wr0ng p4ssw0rd");
 
-            var timestamp = new Date().getTime() + 60000;
-            verify(Math.abs(greeterSettings.lockedOutUntil - timestamp) < 3);
+            var timestamp = new Date().getTime();
+            verify(Math.abs(greeterSettings.lockedOutTime - timestamp) < 3);
         }
 
         function test_forcedDelayFromGSettings() {
+            greeter.failedLoginsDelayMinutes = 1;
             compare(view.delayMinutes, 0);
-            var timestamp = new Date().getTime() + 30; // in 30 seconds
-            greeterSettings.lockedOutUntil = timestamp;
+            greeterSettings.lockedOutTime = new Date().getTime();
             compare(view.delayMinutes, 1);
         }
 
         function test_forcedDelayOnConstruction() {
-            var timestamp = new Date().getTime() + 30; // in 30 seconds
-            greeterSettings.lockedOutUntil = timestamp;
+            greeter.failedLoginsDelayMinutes = 1;
+            greeterSettings.lockedOutTime = new Date().getTime();
             cleanup();
             view = findChild(greeter, "testView");
             compare(view.delayMinutes, 1);
@@ -475,7 +476,6 @@ Item {
             view.responded("wr0ng p4ssw0rd");
             compare(view.delayMinutes, 1);
             tryCompare(view, "delayMinutes", 0);
-            compare(greeterSettings.lockedOutUntil, 0);
         }
 
         function test_dbusRequestAuthenticationUser() {

@@ -62,16 +62,16 @@ void GSettingsControllerQml::setUsageMode(const QString &usageMode)
     }
 }
 
-quint64 GSettingsControllerQml::lockedOutUntil() const
+quint64 GSettingsControllerQml::lockedOutTime() const
 {
-    return m_lockedOutUntil;
+    return m_lockedOutTime;
 }
 
-void GSettingsControllerQml::setLockedOutUntil(quint64 timestamp)
+void GSettingsControllerQml::setLockedOutTime(quint64 timestamp)
 {
-    if (m_lockedOutUntil != timestamp) {
-        m_lockedOutUntil = timestamp;
-        Q_EMIT lockedOutUntilChanged(m_lockedOutUntil);
+    if (m_lockedOutTime != timestamp) {
+        m_lockedOutTime = timestamp;
+        Q_EMIT lockedOutTimeChanged(m_lockedOutTime);
     }
 }
 
@@ -112,8 +112,8 @@ GSettingsQml::GSettingsQml(QObject *parent)
             this, SIGNAL(pictureUriChanged(const QString &)));
     connect(GSettingsControllerQml::instance(), SIGNAL(usageModeChanged(const QString &)),
             this, SIGNAL(usageModeChanged(const QString &)));
-    connect(GSettingsControllerQml::instance(), SIGNAL(lockedOutUntilChanged(quint64)),
-            this, SIGNAL(lockedOutUntilChanged(quint64)));
+    connect(GSettingsControllerQml::instance(), SIGNAL(lockedOutTimeChanged(quint64)),
+            this, SIGNAL(lockedOutTimeChanged(quint64)));
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -152,18 +152,18 @@ void GSettingsQml::setUsageMode(const QString &usageMode)
     }
 }
 
-quint64 GSettingsQml::lockedOutUntil() const
+quint64 GSettingsQml::lockedOutTime() const
 {
     if (m_schema->id() == "com.canonical.Unity8.Greeter") {
-        return GSettingsControllerQml::instance()->lockedOutUntil();
+        return GSettingsControllerQml::instance()->lockedOutTime();
     } else {
         return 0;
     }
 }
 
-void GSettingsQml::setLockedOutUntil(quint64 timestamp)
+void GSettingsQml::setLockedOutTime(quint64 timestamp)
 {
     if (m_schema->id() == "com.canonical.Unity8.Greeter") {
-        GSettingsControllerQml::instance()->setLockedOutUntil(timestamp);
+        GSettingsControllerQml::instance()->setLockedOutTime(timestamp);
     }
 }
