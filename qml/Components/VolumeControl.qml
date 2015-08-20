@@ -47,13 +47,12 @@ Item {
     }
 
     Connections {
-        target: indicators
-        onFullyOpenedChanged: { // disallow the volume notification when using the slider
-            if (indicators.fullyOpened) {
-                actionGroup.indicatorsAction.updateState(true);
-            } else {
-                actionGroup.indicatorsAction.updateState(false);
-            }
+        target: indicators  // disallow the volume notification when using the slider, lpbug#1484126
+        onFullyOpenedChanged: {
+            actionGroup.indicatorsAction.updateState(indicators.fullyOpened && indicators.currentIndicator === "indicator-sound");
+        }
+        onCurrentIndicatorChanged: {
+            actionGroup.indicatorsAction.updateState(indicators.fullyOpened && indicators.currentIndicator === "indicator-sound");
         }
     }
 
