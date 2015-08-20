@@ -30,7 +30,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                     radius: "medium"; \n\
                                     backgroundColor: getColor(0) || "white"; \n\
                                     secondaryBackgroundColor: getColor(1) || backgroundColor; \n\
-                                    backgroundMode: cardData && typeof cardData["background"] === "object" && cardData["background"]["type"] === "gradient" ? UbuntuShape.VerticalGradient : UbuntuShape.SolidColor; \n\
+                                    backgroundMode: UbuntuShape.VerticalGradient; \n\
                                     anchors.fill: parent; \n\
                                     source: backgroundImage.source ? backgroundImage : null; \n\
                                     property real luminance: Style.luminance(backgroundColor); \n\

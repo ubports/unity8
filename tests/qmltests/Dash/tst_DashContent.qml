@@ -215,7 +215,7 @@ Item {
             verify(pageHeader, "Could not find the scope page header.");
             var innerHeader = findChild(pageHeader, "innerPageHeader");
             verify(innerHeader, "Could not find the scope page header.");
-            compare(innerHeader.title, scopesModel.getScope(data.index).name);
+            compare(innerHeader.config.title, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
