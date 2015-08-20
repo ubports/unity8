@@ -26,6 +26,8 @@ Item {
     readonly property int stepUp: 1
     readonly property int stepDown: -1
 
+    property var indicators // passed from Shell.qml
+
     QDBusActionGroup {
         id: actionGroup
         busType: 1
@@ -45,12 +47,13 @@ Item {
     }
 
     Connections {
-        target: panel.indicators
+        target: indicators
         onFullyOpenedChanged: { // disallow the volume notification when using the slider
-            if (target.fullyOpened)
-                actionGroup.indicatorsAction.updateState(true)
-            else
-                actionGroup.indicatorsAction.updateState(false)
+            if (indicators.fullyOpened) {
+                actionGroup.indicatorsAction.updateState(true);
+            } else {
+                actionGroup.indicatorsAction.updateState(false);
+            }
         }
     }
 

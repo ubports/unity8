@@ -169,6 +169,7 @@ Item {
 
     VolumeControl {
         id: volumeControl
+        indicators: panel.indicators
     }
 
     DashCommunicator {
