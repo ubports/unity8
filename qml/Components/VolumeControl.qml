@@ -27,6 +27,10 @@ Item {
     readonly property int stepDown: -1
 
     property var indicators // passed from Shell.qml
+    readonly property bool showNotification: indicators && indicators.fullyOpened && indicators.currentIndicator === "indicator-sound"
+    onShowNotificationChanged: { // disallow the volume notification when using the slider, lpbug#1484126
+        actionGroup.indicatorsAction.updateState(root.showNotification);
+    }
 
     QDBusActionGroup {
         id: actionGroup
@@ -44,16 +48,6 @@ Item {
 
     function volumeDown() {
         actionGroup.actionObject.activate(stepDown);
-    }
-
-    Connections {
-        target: indicators  // disallow the volume notification when using the slider, lpbug#1484126
-        onFullyOpenedChanged: {
-            actionGroup.indicatorsAction.updateState(indicators.fullyOpened && indicators.currentIndicator === "indicator-sound");
-        }
-        onCurrentIndicatorChanged: {
-            actionGroup.indicatorsAction.updateState(indicators.fullyOpened && indicators.currentIndicator === "indicator-sound");
-        }
     }
 
     Component.onCompleted: actionGroup.start()
