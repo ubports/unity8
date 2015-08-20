@@ -193,6 +193,7 @@ Rectangle {
                         count: model.count
                         countVisible: model.countVisible
                         progress: model.progress
+                        itemRunning: model.running
                         itemFocused: model.focused
                         inverted: root.inverted
                         alerting: model.alerting

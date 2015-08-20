@@ -30,7 +30,7 @@ import "../"
 PreviewWidget {
     id: root
 
-    height: childrenRect.height
+    implicitHeight: childrenRect.height
 
     Item {
         id: headerRoot
