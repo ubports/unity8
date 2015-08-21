@@ -77,7 +77,7 @@ FocusScope {
         property bool startingUp: true
     }
 
-    Component.onCompleted: { finishStartUpTimer.start();}
+    Component.onCompleted: { finishStartUpTimer.start(); }
     Timer { id: finishStartUpTimer; interval: 400; onTriggered: priv.startingUp = false }
 
     Rectangle {
