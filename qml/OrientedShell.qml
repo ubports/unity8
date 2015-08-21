@@ -67,6 +67,7 @@ Rectangle {
         }
     }
     Component.onCompleted: {
+        console.log("JOSH: OrientedShell: " + deviceConfiguration.deviceSpecificOrientationOverrides.hello);
         if (orientationLocked) {
             orientation = orientationLock.savedOrientation;
         }
@@ -154,6 +155,7 @@ Rectangle {
         width: root.width
         height: root.height
         orientation: root.angleToOrientation(orientationAngle)
+        deviceSpecificOrientationOverrides: deviceConfiguration.deviceSpecificOrientationOverrides
         primaryOrientation: root.primaryOrientation
         nativeOrientation: root.nativeOrientation
         nativeWidth: root.width

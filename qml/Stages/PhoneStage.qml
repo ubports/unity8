@@ -42,6 +42,7 @@ Rectangle {
     property int shellOrientation
     property int shellPrimaryOrientation
     property int nativeOrientation
+    property QtObject deviceSpecificOrientationOverrides
     property real nativeWidth
     property real nativeHeight
     property bool beingResized: false
@@ -530,6 +531,7 @@ Rectangle {
 
                     shellOrientationAngle: root.shellOrientationAngle
                     shellOrientation: root.shellOrientation
+                    deviceSpecificOrientationOverrides: root.deviceSpecificOrientationOverrides
                     shellPrimaryOrientation: root.shellPrimaryOrientation
                     nativeOrientation: root.nativeOrientation
 

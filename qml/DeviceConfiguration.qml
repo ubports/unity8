@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import "Components"
 
 StateGroup {
     id: root
@@ -27,6 +28,10 @@ StateGroup {
                                       | Qt.InvertedPortraitOrientation
                                       | Qt.LandscapeOrientation
                                       | Qt.InvertedLandscapeOrientation
+
+    property var deviceSpecificOrientationOverrides: QtObject{
+        property string hello: "world"
+    }
 
     // Supported values so far:
     // "phone", "tablet" or "desktop"

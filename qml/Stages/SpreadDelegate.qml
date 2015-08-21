@@ -42,6 +42,7 @@ FocusScope {
     property alias application: appWindow.application
     property int shellOrientationAngle
     property int shellOrientation
+    property string deviceSpecificOrientationOverrides
     property int shellPrimaryOrientation
     property int nativeOrientation
 
@@ -76,7 +77,7 @@ FocusScope {
         property bool startingUp: true
     }
 
-    Component.onCompleted: { finishStartUpTimer.start(); }
+    Component.onCompleted: { finishStartUpTimer.start();}
     Timer { id: finishStartUpTimer; interval: 400; onTriggered: priv.startingUp = false }
 
     Rectangle {
@@ -163,6 +164,8 @@ FocusScope {
                             // If it doesn't support shell's current orientation
                             // then simply pick some arbitraty one that it does support
                             var chosenOrientation = 0;
+
+                            console.log("JOSH: SPREAD DELEGATE: " + root.deviceSpecificOrientationOverrides); 
                             if (supportedOrientations & root.shellOrientation) {
                                 chosenOrientation = root.shellOrientation;
                             } else if (supportedOrientations & Qt.PortraitOrientation) {

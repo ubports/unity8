@@ -39,11 +39,15 @@ Rectangle {
     property bool keepDashRunning: true
     property bool suspended: false
     property int shellOrientationAngle: 0
+    property var deviceSpecificOrientationOverrides
     property int shellOrientation
     property int shellPrimaryOrientation
     property int nativeOrientation
     property real nativeWidth
     property real nativeHeight
+
+    Component.onCompleted: console.log("JOSH ts onComp: " + deviceSpecificOrientationOverrides)
+
     function updateFocusedAppOrientation() {
         var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
         if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
@@ -325,6 +329,7 @@ Rectangle {
         // In case the ApplicationManager already holds an app when starting up we're missing animations
         // Make sure we end up in the same state
         Component.onCompleted: {
+            console.log("JOSH: tablet stage: " + root.deviceSpecificOrientationOverrides)
             spreadView.contentX = -spreadView.shift
         }
 
@@ -689,6 +694,7 @@ Rectangle {
                         return progress;
                     }
 
+                    deviceSpecificOrientationOverrides: root.deviceSpecificOrientationOverrides
                     shellOrientationAngle: wantsMainStage ? root.shellOrientationAngle : 0
                     shellOrientation: wantsMainStage ? root.shellOrientation : Qt.PortraitOrientation
                     shellPrimaryOrientation: wantsMainStage ? root.shellPrimaryOrientation : Qt.PortraitOrientation

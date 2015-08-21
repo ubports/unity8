@@ -48,6 +48,7 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
+    property QtObject deviceSpecificOrientationOverrides
     property int primaryOrientation
     property int nativeOrientation
     property real nativeWidth
@@ -159,7 +160,40 @@ Item {
         value: ApplicationManager
     }
 
+function serialize(object, maxDepth) {
+    function _processObject(object, maxDepth, level) {
+        var output = Array()
+        var pad = "  "
+        if (maxDepth == undefined) {
+            maxDepth = -1
+        }
+        if (level == undefined) {
+            level = 0
+        }
+        var padding = Array(level + 1).join(pad)
+
+        output.push((Array.isArray(object) ? "[" : "{"))
+        var fields = Array()
+        for (var key in object) {
+            var keyText = Array.isArray(object) ? "" : ("\"" + key + "\": ")
+            if (typeof (object[key]) == "object" && key != "parent" && maxDepth != 0) {
+                var res = _processObject(object[key], maxDepth > 0 ? maxDepth - 1 : -1, level + 1)
+                fields.push(padding + pad + keyText + res)
+            } else {
+                fields.push(padding + pad + keyText + "\"" + object[key] + "\"")
+            }
+        }
+        output.push(fields.join(",\n"))
+        output.push(padding + (Array.isArray(object) ? "]" : "}"))
+
+        return output.join("\n")
+    }
+
+    return _processObject(object, maxDepth)
+}
+
     Component.onCompleted: {
+        console.log("JOSH: Shell: " + deviceSpecificOrientationOverrides.hello);
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
         if (ApplicationManager.count > 0) {
             ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
@@ -267,6 +301,8 @@ Item {
                 }
             }
 
+            onLoaded: console.log("JOSH in shell loader: " + deviceSpecificOrientationOverrides.hello)
+
             property bool interactive: tutorial.spreadEnabled
                     && (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
@@ -335,6 +371,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "nativeWidth"
                 value: shell.nativeWidth
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "deviceSpecificOrientationOverrides"
+                value: shell.deviceSpecificOrientationOverrides
             }
             Binding {
                 target: applicationsDisplayLoader.item
