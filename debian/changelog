@@ -1,3 +1,15 @@
+unity8 (8.11+15.04.20150817-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Drop gcc 4.9 requirement in debian/rules
+  * Make the test more stable
+  * Optimize scope.preview() calls (LP: #1478022)
+
+  [ Alberto Mardegan ]
+  * Set currentIndex after the model change is completed (LP: #1433442)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 17 Aug 2015 11:57:31 +0000
+
 unity8 (8.11+15.04.20150814-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
