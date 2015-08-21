@@ -30,8 +30,17 @@ StateGroup {
                                       | Qt.InvertedLandscapeOrientation
 
     property var deviceSpecificOrientationOverrides: QtObject{
-        property string hello: "world"
+        id: overrides
+        property int landscapeOrientation: Qt.LandscapeOrientation
+        property int invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
+        property int portraitOrientation: Qt.PortraitOrientation
+        property int invertedPortraitOrientation: Qt.InvertedPortraitOrientation
     }
+
+    property alias landscapeOrientation: overrides.landscapeOrientation
+    property alias invertedLandscapeOrientation: overrides.invertedLandscapeOrientation
+    property alias portraitOrientation: overrides.portraitOrientation
+    property alias invertedPortraitOrientation: overrides.invertedPortraitOrientation
 
     // Supported values so far:
     // "phone", "tablet" or "desktop"
@@ -82,6 +91,7 @@ StateGroup {
             name: "flo"
             PropertyChanges {
                 target: root
+                landscapeOrientation: Qt.InvertedLandscapeOrientation
                 primaryOrientation: Qt.InvertedLandscapeOrientation
                 category: "tablet"
             }

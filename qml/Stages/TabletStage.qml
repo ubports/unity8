@@ -39,14 +39,14 @@ Rectangle {
     property bool keepDashRunning: true
     property bool suspended: false
     property int shellOrientationAngle: 0
+
+    // For some reason qml doesn't seem to like to bind to a QtObject, so this is a var
     property var deviceSpecificOrientationOverrides
     property int shellOrientation
     property int shellPrimaryOrientation
     property int nativeOrientation
     property real nativeWidth
     property real nativeHeight
-
-    Component.onCompleted: console.log("JOSH ts onComp: " + deviceSpecificOrientationOverrides)
 
     function updateFocusedAppOrientation() {
         var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
@@ -329,7 +329,6 @@ Rectangle {
         // In case the ApplicationManager already holds an app when starting up we're missing animations
         // Make sure we end up in the same state
         Component.onCompleted: {
-            console.log("JOSH: tablet stage: " + root.deviceSpecificOrientationOverrides)
             spreadView.contentX = -spreadView.shift
         }
 

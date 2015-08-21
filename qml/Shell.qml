@@ -193,7 +193,6 @@ function serialize(object, maxDepth) {
 }
 
     Component.onCompleted: {
-        console.log("JOSH: Shell: " + deviceSpecificOrientationOverrides.hello);
         Theme.name = "Ubuntu.Components.Themes.SuruGradient"
         if (ApplicationManager.count > 0) {
             ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
@@ -300,8 +299,6 @@ function serialize(object, maxDepth) {
                     return "Stages/DesktopStage.qml";
                 }
             }
-
-            onLoaded: console.log("JOSH in shell loader: " + deviceSpecificOrientationOverrides.hello)
 
             property bool interactive: tutorial.spreadEnabled
                     && (!greeter || !greeter.shown)
