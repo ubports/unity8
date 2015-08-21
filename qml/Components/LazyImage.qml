@@ -31,11 +31,8 @@ Item {
     property real initialHeight: scaleTo == "height" || scaleTo == "fit" ? height : units.gu(10)
 
     property alias sourceSize: image.sourceSize
-    property alias sourceFillMode: shape.sourceFillMode
     property alias asynchronous: image.asynchronous
     property alias cache: image.cache
-    property alias sourceHorizontalAlignment: shape.sourceHorizontalAlignment
-    property alias sourceVerticalAlignment: shape.sourceVerticalAlignment
     property alias sourceImage: image
     property bool pressed: false
 
