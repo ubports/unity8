@@ -138,6 +138,8 @@ Item {
         }
 
         function init() {
+            greeterSettings.lockedOutTime = 0;
+            resetLoader();
             teaseSpy.clear();
             sessionStartedSpy.clear();
             emergencyCallSpy.clear();
@@ -154,10 +156,9 @@ Item {
             verifySelected(LightDM.Users.data(0, LightDM.UserRoles.NameRole));
             greeter.failedLoginsDelayAttempts = 7;
             greeter.failedLoginsDelayMinutes = 5;
-            greeterSettings.lockedOutTime = 0;
         }
 
-        function cleanup() {
+        function resetLoader() {
             loader.itemDestroyed = false;
             loader.active = false;
             tryCompare(loader, "status", Loader.Null);
@@ -450,16 +451,9 @@ Item {
             verify(Math.abs(greeterSettings.lockedOutTime - timestamp) < 2000);
         }
 
-        function test_forcedDelayFromGSettings() {
-            greeter.failedLoginsDelayMinutes = 1;
-            compare(view.delayMinutes, 0);
-            greeterSettings.lockedOutTime = new Date().getTime();
-            compare(view.delayMinutes, 1);
-        }
-
         function test_forcedDelayOnConstruction() {
             greeterSettings.lockedOutTime = new Date().getTime();
-            cleanup();
+            resetLoader();
             view = findChild(greeter, "testView");
             compare(view.delayMinutes, greeter.failedLoginsDelayMinutes);
         }
