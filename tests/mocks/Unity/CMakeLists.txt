@@ -7,7 +7,7 @@ add_subdirectory(Notifications)
 add_subdirectory(DashCommunicator)
 
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
-pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=6)
+pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=7)
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
