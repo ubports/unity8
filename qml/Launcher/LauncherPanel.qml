@@ -73,7 +73,7 @@ Rectangle {
                 source: "graphics/home.png"
                 rotation: root.rotation
             }
-            MouseArea {
+            AbstractButton {
                 id: dashItem
                 anchors.fill: parent
                 onClicked: root.showDashHome()
@@ -381,6 +381,7 @@ Rectangle {
                         }
 
                         onClicked: {
+                            Haptics.play();
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
 
