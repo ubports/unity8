@@ -37,6 +37,7 @@ StateGroup {
         property int invertedPortraitOrientation: Qt.InvertedPortraitOrientation
     }
 
+    // PropetyChanges don't like assigning to nested properties
     property alias landscapeOrientation: overrides.landscapeOrientation
     property alias invertedLandscapeOrientation: overrides.invertedLandscapeOrientation
     property alias portraitOrientation: overrides.portraitOrientation
