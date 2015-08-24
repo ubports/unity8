@@ -32,17 +32,25 @@ Rectangle {
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
 
-    // NB: native and primary orientations here don't map exactly to their QScreen counterparts
-    readonly property int nativeOrientation: width > height ? Qt.LandscapeOrientation : Qt.PortraitOrientation
-
-    readonly property int primaryOrientation:
-            deviceConfiguration.primaryOrientation == deviceConfiguration.useNativeOrientation
-                   ? nativeOrientation : deviceConfiguration.primaryOrientation
-
     DeviceConfiguration {
         id: deviceConfiguration
         name: applicationArguments.deviceName
     }
+
+    property var orientations: Orientations {
+        id: orientations
+        // NB: native and primary orientations here don't map exactly to their QScreen counterparts
+        native_: root.width > root.height ? Qt.LandscapeOrientation : Qt.PortraitOrientation
+
+        primary: deviceConfiguration.primaryOrientation == deviceConfiguration.UseNativeOrientation
+                ? nativeOrientation : deviceConfiguration.primaryOrientation
+
+        landscape: deviceConfiguration.landscapeOrientation
+        invertedLandscape: deviceConfiguration.invertedLandscapeOrientation
+        portrait: deviceConfiguration.portraitOrientation
+        invertedPortrait: deviceConfiguration.invertedPortraitOrientation
+    }
+
 
 
     // to be overwritten by tests
@@ -92,7 +100,7 @@ Rectangle {
                                                & deviceConfiguration.supportedOrientations
     property int acceptedOrientationAngle: {
         if (orientation & supportedOrientations) {
-            return Screen.angleBetween(nativeOrientation, orientation);
+            return Screen.angleBetween(orientations.native_, orientation);
         } else if (shell.orientation & supportedOrientations) {
             // stay where we are
             return shell.orientationAngle;
@@ -102,16 +110,16 @@ Rectangle {
             // rotate to some supported orientation as we can't stay where we currently are
             // TODO: Choose the closest to the current one
             if (supportedOrientations & Qt.PortraitOrientation) {
-                return Screen.angleBetween(nativeOrientation, Qt.PortraitOrientation);
-            } else if (supportedOrientations & Qt.LandcscapeOrientation) {
-                return Screen.angleBetween(nativeOrientation, Qt.LandscapeOrientation);
+                return Screen.angleBetween(orientations.native_, Qt.PortraitOrientation);
+            } else if (supportedOrientations & Qt.LandscapeOrientation) {
+                return Screen.angleBetween(orientations.native_, Qt.LandscapeOrientation);
             } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
-                return Screen.angleBetween(nativeOrientation, Qt.InvertedPortraitOrientation);
+                return Screen.angleBetween(orientations.native_, Qt.InvertedPortraitOrientation);
             } else if (supportedOrientations & Qt.InvertedLandscapeOrientation) {
-                return Screen.angleBetween(nativeOrientation, Qt.InvertedLandscapeOrientation);
+                return Screen.angleBetween(orientations.native_, Qt.InvertedLandscapeOrientation);
             } else {
                 // if all fails, fallback to primary orientation
-                return Screen.angleBetween(nativeOrientation, primaryOrientation);
+                return Screen.angleBetween(orientations.native_, orientations.primary);
             }
         }
     }
@@ -135,7 +143,7 @@ Rectangle {
             break;
         default:
             console.warn("angleToOrientation: Invalid orientation angle: " + angle);
-            return primaryOrientation;
+            return orientations.primary;
         }
     }
 
@@ -153,10 +161,8 @@ Rectangle {
         objectName: "shell"
         width: root.width
         height: root.height
-        deviceSpecificOrientationOverrides: deviceConfiguration.deviceSpecificOrientationOverrides
         orientation: root.angleToOrientation(orientationAngle)
-        primaryOrientation: root.primaryOrientation
-        nativeOrientation: root.nativeOrientation
+        orientations: root.orientations
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode

@@ -16,93 +16,99 @@
 
 import QtQuick 2.0
 
-StateGroup {
+QtObject {
     id: root
 
-    readonly property int useNativeOrientation: -1
+    readonly property int UseNativeOrientation: -1
 
-    property int primaryOrientation: useNativeOrientation
+    // The only writable property in the API
+    // all other properties are set according to the device name
+    property alias name: priv.state
 
-    property int supportedOrientations: Qt.PortraitOrientation
-                                      | Qt.InvertedPortraitOrientation
-                                      | Qt.LandscapeOrientation
-                                      | Qt.InvertedLandscapeOrientation
+    readonly property alias primaryOrientation: priv.primaryOrientation
+    readonly property alias supportedOrientations: priv.supportedOrientations
+    readonly property alias landscapeOrientation: priv.landscapeOrientation
+    readonly property alias invertedLandscapeOrientation: priv.invertedLandscapeOrientation
+    readonly property alias portraitOrientation: priv.portraitOrientation
+    readonly property alias invertedPortraitOrientation: priv.invertedPortraitOrientation
 
-    property var deviceSpecificOrientationOverrides: QtObject{
-        id: overrides
+    readonly property alias category: "phone"
+
+    readonly property alias ignoredMice: 0
+
+    StateGroup {
+        id: priv
+
+        property int primaryOrientation: root.UseNativeOrientation
+
+        property int supportedOrientations: Qt.PortraitOrientation
+                                          | Qt.InvertedPortraitOrientation
+                                          | Qt.LandscapeOrientation
+                                          | Qt.InvertedLandscapeOrientation
+
         property int landscapeOrientation: Qt.LandscapeOrientation
         property int invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
         property int portraitOrientation: Qt.PortraitOrientation
         property int invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+
+        // Supported values so far:
+        // "phone", "tablet" or "desktop"
+        property string category: "phone"
+
+        property int ignoredMice: 0
+
+        states: [
+            State {
+                name: "mako"
+                PropertyChanges {
+                    target: priv
+                    supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.LandscapeOrientation
+                                         | Qt.InvertedLandscapeOrientation
+                }
+            },
+            State {
+                name: "krillin"
+                PropertyChanges {
+                    target: priv
+                    supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.LandscapeOrientation
+                                         | Qt.InvertedLandscapeOrientation
+                }
+            },
+            State {
+                name: "arale"
+                PropertyChanges {
+                    target: priv
+                    supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.LandscapeOrientation
+                                         | Qt.InvertedLandscapeOrientation
+                    ignoredMice: 1
+                }
+            },
+            State {
+                name: "manta"
+                PropertyChanges {
+                    target: priv
+                    category: "tablet"
+                }
+            },
+            State {
+                name: "flo"
+                PropertyChanges {
+                    target: priv
+                    landscapeOrientation: Qt.InvertedLandscapeOrientation
+                    primaryOrientation: Qt.InvertedLandscapeOrientation
+                    category: "tablet"
+                }
+            },
+            State {
+                name: "desktop"
+                PropertyChanges {
+                    target: priv
+                    category: "desktop"
+                }
+            }
+        ]
     }
-
-    // PropertyChanges don't like assigning to nested properties
-    property alias landscapeOrientation: overrides.landscapeOrientation
-    property alias invertedLandscapeOrientation: overrides.invertedLandscapeOrientation
-    property alias portraitOrientation: overrides.portraitOrientation
-    property alias invertedPortraitOrientation: overrides.invertedPortraitOrientation
-
-    // Supported values so far:
-    // "phone", "tablet" or "desktop"
-    property string category: "phone"
-
-    property int ignoredMice: 0
-
-
-    property alias name: root.state
-
-    states: [
-        State {
-            name: "mako"
-            PropertyChanges {
-                target: root
-                supportedOrientations: Qt.PortraitOrientation
-                                     | Qt.LandscapeOrientation
-                                     | Qt.InvertedLandscapeOrientation
-            }
-        },
-        State {
-            name: "krillin"
-            PropertyChanges {
-                target: root
-                supportedOrientations: Qt.PortraitOrientation
-                                     | Qt.LandscapeOrientation
-                                     | Qt.InvertedLandscapeOrientation
-            }
-        },
-        State {
-            name: "arale"
-            PropertyChanges {
-                target: root
-                supportedOrientations: Qt.PortraitOrientation
-                                     | Qt.LandscapeOrientation
-                                     | Qt.InvertedLandscapeOrientation
-                ignoredMice: 1
-            }
-        },
-        State {
-            name: "manta"
-            PropertyChanges {
-                target: root
-                category: "tablet"
-            }
-        },
-        State {
-            name: "flo"
-            PropertyChanges {
-                target: root
-                landscapeOrientation: Qt.InvertedLandscapeOrientation
-                primaryOrientation: Qt.InvertedLandscapeOrientation
-                category: "tablet"
-            }
-        },
-        State {
-            name: "desktop"
-            PropertyChanges {
-                target: root
-                category: "desktop"
-            }
-        }
-    ]
-
 }

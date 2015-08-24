@@ -48,9 +48,7 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
-    property QtObject deviceSpecificOrientationOverrides
-    property int primaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
     property real nativeWidth
     property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
@@ -319,28 +317,18 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "orientations"
+                value: shell.orientations
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "background"
                 value: shell.background
             }
             Binding {
                 target: applicationsDisplayLoader.item
-                property: "shellPrimaryOrientation"
-                value: shell.primaryOrientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeOrientation"
-                value: shell.nativeOrientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
                 property: "nativeWidth"
                 value: shell.nativeWidth
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "deviceSpecificOrientationOverrides"
-                value: shell.deviceSpecificOrientationOverrides
             }
             Binding {
                 target: applicationsDisplayLoader.item

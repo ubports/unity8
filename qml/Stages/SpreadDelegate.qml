@@ -42,9 +42,7 @@ FocusScope {
     property alias application: appWindow.application
     property int shellOrientationAngle
     property int shellOrientation
-    property QtObject deviceSpecificOrientationOverrides
-    property int shellPrimaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
 
     function matchShellOrientation() {
         if (!root.application)
@@ -140,7 +138,6 @@ FocusScope {
                 return angle % 360;
             }
 
-            property alias overrides: root.deviceSpecificOrientationOverrides
             states: [
                 // Sets the initial orientationAngle of the window, when it first slides into view
                 // (with the splash screen likely being displayed). At that point we just try to
@@ -159,7 +156,7 @@ FocusScope {
                             var supportedOrientations = root.application.supportedOrientations;
 
                             if (supportedOrientations === Qt.PrimaryOrientation) {
-                                supportedOrientations = root.shellPrimaryOrientation;
+                                supportedOrientations = root.orientations.primary;
                             }
 
                             // If it doesn't support shell's current orientation
@@ -168,22 +165,18 @@ FocusScope {
                             if (supportedOrientations & root.shellOrientation) {
                                 chosenOrientation = root.shellOrientation;
                             } else if (supportedOrientations & Qt.PortraitOrientation) {
-                                chosenOrientation = overrides ?
-                                    overrides.portraitOrientation : Qt.PortraitOrientation;
+                                chosenOrientation = root.orientations.portrait;
                             } else if (supportedOrientations & Qt.LandscapeOrientation) {
-                                chosenOrientation = overrides ?
-                                   overrides.landscapeOrientation : Qt.LandscapeOrientation;
+                                chosenOrientation = root.orientations.landscape;
                             } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
-                                chosenOrientation = overrides ?
-                                    overrides.invertedPortraitOrientation : Qt.InvertedPortraitOrientation;
+                                chosenOrientation = root.orientations.invertedPortrait;
                             } else if (supportedOrientations & Qt.InvertedLandscapeOrientation) {
-                                chosenOrientation = overrides ?
-                                overrides.invertedLandscapeOrientation : Qt.InvertedLandscapeOrientation;
+                                chosenOrientation = root.orientations.invertedLandscape;
                             } else {
-                                chosenOrientation = root.shellPrimaryOrientation;
+                                chosenOrientation = root.orientations.primary;
                             }
 
-                            return Screen.angleBetween(root.nativeOrientation, chosenOrientation);
+                            return Screen.angleBetween(root.orientations.native_, chosenOrientation);
                         }
 
                         rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)

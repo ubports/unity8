@@ -40,11 +40,8 @@ Rectangle {
     property bool suspended: false
     property int shellOrientationAngle: 0
 
-    // For some reason qml doesn't seem to like to bind to a QtObject, so this is a var
-    property var deviceSpecificOrientationOverrides
     property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
     property real nativeWidth
     property real nativeHeight
     property bool beingResized: false
@@ -79,7 +76,7 @@ Rectangle {
 
             var supportedOrientations = spreadDelegate.application.supportedOrientations;
             if (supportedOrientations === Qt.PrimaryOrientation) {
-                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+                supportedOrientations = root.orientations.primary;
             }
 
             if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
@@ -530,12 +527,9 @@ Rectangle {
                     visible: (progress >= 0 && progress < 1.7)
                             || (isDash && priv.focusedAppDelegateIsDislocated)
 
-
-                    deviceSpecificOrientationOverrides: root.deviceSpecificOrientationOverrides
                     shellOrientationAngle: root.shellOrientationAngle
                     shellOrientation: root.shellOrientation
-                    shellPrimaryOrientation: root.shellPrimaryOrientation
-                    nativeOrientation: root.nativeOrientation
+                    orientations: root.orientations
 
                     onClicked: {
                         if (root.altTabEnabled && spreadView.phase == 2) {
