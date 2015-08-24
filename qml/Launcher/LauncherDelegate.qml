@@ -206,8 +206,6 @@ Item {
             }
         }
 
-<<<<<<< TREE
-=======
         Image {
             objectName: "runningHighlight"
             anchors {
@@ -219,7 +217,6 @@ Item {
             source: "graphics/focused_app_arrow.png"
         }
 
->>>>>>> MERGE-SOURCE
         Image {
             objectName: "focusedHighlight"
             anchors {
