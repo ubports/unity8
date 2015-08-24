@@ -48,6 +48,7 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
+    property QtObject deviceSpecificOrientationOverrides
     property int primaryOrientation
     property int nativeOrientation
     property real nativeWidth
@@ -335,6 +336,11 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "nativeWidth"
                 value: shell.nativeWidth
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "deviceSpecificOrientationOverrides"
+                value: shell.deviceSpecificOrientationOverrides
             }
             Binding {
                 target: applicationsDisplayLoader.item

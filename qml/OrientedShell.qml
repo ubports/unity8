@@ -153,6 +153,7 @@ Rectangle {
         objectName: "shell"
         width: root.width
         height: root.height
+        deviceSpecificOrientationOverrides: deviceConfiguration.deviceSpecificOrientationOverrides
         orientation: root.angleToOrientation(orientationAngle)
         primaryOrientation: root.primaryOrientation
         nativeOrientation: root.nativeOrientation

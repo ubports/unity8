@@ -39,6 +39,9 @@ Rectangle {
     property bool keepDashRunning: true
     property bool suspended: false
     property int shellOrientationAngle: 0
+
+    // For some reason qml doesn't seem to like to bind to a QtObject, so this is a var
+    property var deviceSpecificOrientationOverrides
     property int shellOrientation
     property int shellPrimaryOrientation
     property int nativeOrientation
@@ -528,6 +531,7 @@ Rectangle {
                             || (isDash && priv.focusedAppDelegateIsDislocated)
 
 
+                    deviceSpecificOrientationOverrides: root.deviceSpecificOrientationOverrides
                     shellOrientationAngle: root.shellOrientationAngle
                     shellOrientation: root.shellOrientation
                     shellPrimaryOrientation: root.shellPrimaryOrientation
