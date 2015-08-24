@@ -16,8 +16,6 @@
 
 #include "windowstatestorage.h"
 
-#include <QRect>
-
 WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)
 {
