@@ -69,10 +69,10 @@ Item {
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
-                    bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
                 }
                 width: row.columnWidth
                 spacing: row.spacing
+                bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
                 property var makeSureVisibleItem
                 property real previousVisibleHeight: 0
                 property real visibleHeight: height - bottomMargin
