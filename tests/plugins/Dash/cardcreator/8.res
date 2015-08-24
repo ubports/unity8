@@ -25,7 +25,7 @@ Loader {
                                     radius: "medium"; 
                                     backgroundColor: getColor(0) || "white"; 
                                     secondaryBackgroundColor: getColor(1) || backgroundColor; 
-                                    backgroundMode: cardData && typeof cardData["background"] === "object" && cardData["background"]["type"] === "gradient" ? UbuntuShape.VerticalGradient : UbuntuShape.SolidColor; 
+                                    backgroundMode: UbuntuShape.VerticalGradient;
                                     anchors.fill: parent; 
                                     source: backgroundImage.source ? backgroundImage : null; 
                                     property real luminance: Style.luminance(backgroundColor); 
