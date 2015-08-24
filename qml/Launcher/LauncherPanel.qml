@@ -461,6 +461,8 @@ Rectangle {
                                 return;
                             }
 
+                            Haptics.play();
+
                             draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
 
                             // Opening QuickList
@@ -674,6 +676,7 @@ Rectangle {
                         if (!model.clickable) {
                             return;
                         }
+                        Haptics.play();
                         quickList.state = "";
                         // Unsetting model to prevent showing changing entries during fading out
                         // that may happen because of triggering an action.
