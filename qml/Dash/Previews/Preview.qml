@@ -61,16 +61,31 @@ Item {
         property real columnWidth: width / columns
 
         Repeater {
-            id: repeater;
             model: previewModel
-          
+
             delegate: ListView {
                 id: column
                 objectName: "previewListRow" + index
-                anchors { top: parent.top; bottom: parent.bottom }
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
+                }
                 width: row.columnWidth
                 spacing: row.spacing
-                bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
+                property var makeSureVisibleItem
+                property real previousVisibleHeight: 0
+                property real visibleHeight: height - bottomMargin
+                onVisibleHeightChanged: {
+                    if (makeSureVisibleItem && makeSureVisibleItem.activeFocus && previousVisibleHeight > visibleHeight) {
+                        var textAreaPos = makeSureVisibleItem.mapToItem(column, 0, 0);
+                        if (textAreaPos.y + makeSureVisibleItem.height > column.visibleHeight) {
+                            column.contentY += textAreaPos.y + makeSureVisibleItem.height - column.visibleHeight
+                        }
+                    }
+                    previousVisibleHeight = visibleHeight;
+                }
+
                 model: columnModel
                 cacheBuffer: height
 
@@ -82,8 +97,6 @@ Item {
                     widgetData: model.properties
                     isCurrentPreview: root.isCurrent
                     scopeStyle: root.scopeStyle
-                    readonly property int inputMethodMargin: units.gu(2);
-
                     anchors {
                         left: parent.left
                         right: parent.right
@@ -94,16 +107,10 @@ Item {
                     onTriggered: {
                         previewModel.triggered(widgetId, actionId, data);
                     }
-                    
-                    onMakeSureVisible: {
-                        var textAreaPos = item.mapToItem(column, 0, 0);
-                        var textAreaGlobalHeight = textAreaPos.y + item.implicitHeight
-                                                                 + column.height / 2.0;
-
-                        if (textAreaGlobalHeight > column.height) {
-                            column.contentY += textAreaGlobalHeight - column.height + inputMethodMargin;
-                        }
-                    }
+                     onMakeSureVisible: {
+                         column.previousVisibleHeight=column.visibleHeight
+                         column.makeSureVisibleItem=item
+                     }
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
 

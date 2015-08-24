@@ -39,7 +39,7 @@ PreviewWidget {
         id: commentTextArea
         objectName: "commentTextArea"
 
-        property bool inputMethodVisible: Qt.inputMethod.visible;
+        property bool inputMethodVisible: Qt.inputMethod.visible
         onInputMethodVisibleChanged: {
             if(inputMethodVisible && activeFocus)
                 root.makeSureVisible(commentTextArea);

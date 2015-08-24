@@ -144,7 +144,7 @@ PreviewWidget {
                 id: reviewTextArea
                 objectName: "reviewTextArea"
                 
-                property bool inputMethodVisible: Qt.inputMethod.visible;
+                property bool inputMethodVisible: Qt.inputMethod.visible
                 onInputMethodVisibleChanged: {
                     if(inputMethodVisible && activeFocus)
                         root.makeSureVisible(reviewTextArea);
