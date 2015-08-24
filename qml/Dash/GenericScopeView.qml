@@ -99,23 +99,25 @@ FocusScope {
     function itemPressedAndHeld(index, result, resultsModel, limitedCategoryItemCount, categoryId) {
         clearMaybePreviewData();
 
-        if (scope.preview(result, categoryId)) {
-            openPreview(index, resultsModel, limitedCategoryItemCount, categoryId);
-        }
+        openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId);
     }
 
-    function openPreview(index, resultsModel, limitedCategoryItemCount, categoryId) {
-        if (limitedCategoryItemCount > 0) {
-            previewLimitModel.model = resultsModel;
-            previewLimitModel.limit = limitedCategoryItemCount;
-            subPageLoader.model = previewLimitModel;
-        } else {
-            subPageLoader.model = resultsModel;
+    function openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId) {
+        var previewStack = scope.preview(result, categoryId);
+        if (previewStack) {
+            if (limitedCategoryItemCount > 0) {
+                previewLimitModel.model = resultsModel;
+                previewLimitModel.limit = limitedCategoryItemCount;
+                subPageLoader.model = previewLimitModel;
+            } else {
+                subPageLoader.model = resultsModel;
+            }
+            subPageLoader.initialIndex = -1;
+            subPageLoader.initialIndex = index;
+            subPageLoader.categoryId = categoryId;
+            subPageLoader.previewStack = previewStack;
+            subPageLoader.openSubPage("preview");
         }
-        subPageLoader.initialIndex = -1;
-        subPageLoader.initialIndex = index;
-        subPageLoader.categoryId = categoryId;
-        subPageLoader.openSubPage("preview");
     }
 
     Binding {
@@ -163,7 +165,8 @@ FocusScope {
         onHideDash: subPageLoader.closeSubPage()
         onPreviewRequested: { // (QVariant const& result)
             if (result === scopeView.maybePreviewResult) {
-                openPreview(scopeView.maybePreviewIndex,
+                openPreview(result,
+                            scopeView.maybePreviewIndex,
                             scopeView.maybePreviewResultsModel,
                             scopeView.maybePreviewLimitedCategoryItemCount,
                             scopeView.maybePreviewCategoryId);
@@ -758,6 +761,7 @@ FocusScope {
         property var scope: scopeView.scope
         property var scopeStyle: scopeView.scopeStyle
         property int initialIndex: -1
+        property var previewStack;
         property string categoryId
         property var model: null
 
@@ -791,6 +795,8 @@ FocusScope {
                 item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
                 item.model = Qt.binding(function() { return subPageLoader.model; } )
                 item.categoryId = Qt.binding(function() { return subPageLoader.categoryId; } )
+                item.initialIndexPreviewStack = subPageLoader.previewStack;
+                subPageLoader.previewStack = null;
             }
             open = true;
         }
