@@ -31,7 +31,7 @@ Loader {
     property var userRoles: d.valid ? loader.item.userRoles : null
 
     source:  fullLightDM ?
-        "./FullLightDMImpl.qml" : "./IntegratedLightDMImpl.qml"
+        "FullLightDMImpl.qml" : "IntegratedLightDMImpl.qml"
 
     QtObject {
         id: d
