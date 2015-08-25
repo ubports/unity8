@@ -1,3 +1,9 @@
+unity8 (8.11+15.04.20150821-0ubuntu2) UNRELEASED; urgency=medium
+
+  * release for wily
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Tue, 25 Aug 2015 11:13:03 +0200
+
 unity8 (8.11+15.04.20150821-0ubuntu1) vivid; urgency=medium
 
   [ Michael Terry ]
