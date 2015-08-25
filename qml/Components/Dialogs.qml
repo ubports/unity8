@@ -36,6 +36,7 @@ Item {
         }
     }
 
+    property LightDM lightDM
     property bool fullLightDM
 
     signal powerOffClicked();
@@ -62,11 +63,6 @@ Item {
         objectName: "dialogLoader"
         anchors.fill: parent
         active: false
-    }
-
-    LightDM{
-        id: lightDM
-        fullLightDM: root.fullLightDM
     }
 
     Component {

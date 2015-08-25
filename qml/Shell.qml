@@ -693,6 +693,7 @@ Item {
             shutdownFadeOut.start();
         }
         fullLightDM: shell.mode === "greeter"
+        lightDM: lightDM
     }
 
     Connections {
