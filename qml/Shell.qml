@@ -198,8 +198,6 @@ Item {
     }
 
     WindowKeysFilter {
-        // this serves merely for forwarding the remaining key events
-        // to the PhysicalKeysMapper, not as a shortcut itself
         Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
     }
