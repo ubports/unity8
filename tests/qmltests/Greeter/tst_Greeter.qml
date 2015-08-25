@@ -36,12 +36,6 @@ Item {
         loader.active = true;
     }
 
-    // For testing only as greeter depends on this property
-    Item {
-        id: shell
-        property string mode: "full-greeter"
-    }
-
     Loader {
         id: loader
 
