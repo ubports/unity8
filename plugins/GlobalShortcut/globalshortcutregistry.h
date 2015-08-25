@@ -24,7 +24,7 @@
 
 #include "globalshortcut.h"
 
-typedef QMap<QVariant, QVector<GlobalShortcut *>> GlobalShortcutList;
+typedef QMap<QVariant, QVector<QPointer<GlobalShortcut>>> GlobalShortcutList;
 
 /**
  * @brief The GlobalShortcutRegistry class
@@ -58,6 +58,9 @@ public:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+
+private Q_SLOTS:
+    void removeShortcut(QObject *obj);
 
 private:
     GlobalShortcutList m_shortcuts;

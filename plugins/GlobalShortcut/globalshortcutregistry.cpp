@@ -40,12 +40,31 @@ bool GlobalShortcutRegistry::hasShortcut(const QVariant &seq) const
 
 void GlobalShortcutRegistry::addShortcut(const QVariant &seq, GlobalShortcut *sc)
 {
-    if (!m_shortcuts.keys().contains(seq)) { // create a new entry
-        m_shortcuts.insert(seq, {sc});
-    } else { // append to an existing one
-        auto shortcuts = m_shortcuts[seq];
-        shortcuts.append(sc);
-        m_shortcuts.insert(seq, shortcuts);
+    if (sc) {
+        if (!m_shortcuts.keys().contains(seq)) { // create a new entry
+            m_shortcuts.insert(seq, {sc});
+        } else { // append to an existing one
+            auto shortcuts = m_shortcuts[seq];
+            shortcuts.append(sc);
+            m_shortcuts.insert(seq, shortcuts);
+        }
+
+        connect(sc, &GlobalShortcut::destroyed, this, &GlobalShortcutRegistry::removeShortcut);
+    }
+}
+
+void GlobalShortcutRegistry::removeShortcut(QObject *obj)
+{
+    QMutableMapIterator<QVariant, QVector<QPointer<GlobalShortcut>>> it(m_shortcuts);
+    while (it.hasNext()) {
+        it.next();
+        GlobalShortcut * scObj = static_cast<GlobalShortcut *>(obj);
+        if (scObj && it.value().contains(scObj)) {
+            it.value().removeAll(scObj);
+            if (it.value().isEmpty()) {
+                it.remove();
+            }
+        }
     }
 }
 
@@ -56,14 +75,15 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-
         QKeySequence seq = QKeySequence(keyEvent->key() + keyEvent->modifiers());
         if (m_shortcuts.keys().contains(seq)) {
             const auto shortcuts = m_shortcuts.value(seq);
-            Q_FOREACH(auto shortcut, shortcuts) {
-                qApp->sendEvent(shortcut, keyEvent);
+            Q_FOREACH(const auto &shortcut, shortcuts) {
+                if (shortcut) {
+                    qApp->sendEvent(shortcut, keyEvent);
+                    event->accept();
+                }
             }
-            event->accept();
         }
 
         return event->isAccepted();
