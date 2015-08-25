@@ -32,7 +32,6 @@ Item {
 
     property bool paused: false
     property real edgeSize
-    property bool useEdgeDragArea
 
     signal finished()
 
@@ -78,17 +77,11 @@ Item {
         anchors.fill: parent
         textXOffset: root.launcher.panelWidth
         paused: !shown || root.paused
-        text: root.useEdgeDragArea ? i18n.tr("Tap here to continue.") : i18n.tr("Click here to finish.")
+        text: i18n.tr("Tap here to continue.")
 
         onFinished: {
             root.launcher.hide();
-            if (root.useEdgeDragArea) {
-                tutorialRight.show();
-            } else {
-                // Last two screens use EdgeDragArea (right edge spread and
-                // bottom edge).  So just end tutorial here.
-                root.finish();
-            }
+            tutorialRight.show();
         }
     }
 
