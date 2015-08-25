@@ -263,12 +263,14 @@ Item {
             goToPage(null);
         }
 
-        function test_walkthroughOnDesktop() {
+        function test_skipOnDesktop() {
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "active", true);
+            tryCompare(tutorial, "running", true);
+
             shell.usageScenario = "desktop";
-            var page = goToPage("tutorialLeftFinish");
-            var tick = findChild(page, "tick");
-            tap(tick);
-            checkFinished();
+            tryCompare(tutorial, "active", false);
+            tryCompare(tutorial, "running", false);
         }
 
         function test_launcherShortDrag() {
