@@ -108,7 +108,7 @@ set(SHELL_APP unity8)
 set(DASH_APP unity8-dash)
 set(SCOPE_TOOL unity-scope-tool)
 set(INDICATORS_CLIENT_APP indicators-client)
-set(LIGHTDM_GREETER_APP lightdm-unity8-greeter)
+set(GREETER_APP unity8-greeter)
 set(MOCK_INDICATOR_SERVICE_APP unity-mock-indicator-service)
 
 include_directories(
