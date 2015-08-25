@@ -43,6 +43,7 @@ private Q_SLOTS:
         item.insert("name", "Item 1");
         item.insert("icon", "fake.svg");
         item.insert("count", 0);
+        item.insert("progress", 0);
         item.insert("countVisible", false);
         item.insert("pinned", true);
         list.append(item);
@@ -67,6 +68,7 @@ private Q_SLOTS:
             inSync &= model->get(i)->name() == list.at(i).value("name").toString();
             inSync &= model->get(i)->icon() == list.at(i).value("icon").toString();
             inSync &= model->get(i)->count() == list.at(i).value("count").toInt();
+            inSync &= model->get(i)->progress() == list.at(i).value("progress").toInt();
             inSync &= model->get(i)->countVisible() == list.at(i).value("countVisible").toBool();
         }
         return inSync;
@@ -111,6 +113,7 @@ private Q_SLOTS:
         newEntry.insert("name", "New app");
         newEntry.insert("icon", "some-icon.svg");
         newEntry.insert("count", 0);
+        newEntry.insert("progress", 42);
         newEntry.insert("countVisible", false);
         newEntry.insert("pinned", true);
         newList.append(newEntry);

@@ -18,6 +18,8 @@ pragma Singleton
 
 import QtQuick 2.3
 import Unity.InputInfo 0.1
+// Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
+import Ubuntu.Components 1.2
 
 Item {
     id: root

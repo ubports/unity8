@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-07-25 05:39+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
+"X-Generator: Launchpad (build 17690)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
-msgstr ""
+msgstr "මුරපදය: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:45
 #: plugins/Unity/Launcher/launcheritem.cpp:100
@@ -152,7 +152,7 @@ msgstr ""
 #: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
 #: qml/Components/Dialogs.qml:173
 msgid "Cancel"
-msgstr ""
+msgstr "අවලංගු කරන්න"
 
 #: qml/Components/Dialogs.qml:98
 msgctxt "Title: Reboot/Shut down dialog"
@@ -161,7 +161,7 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:99
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "නිවාදැමිම තහවුරු කරන්න"
 
 #: qml/Components/Dialogs.qml:101
 msgctxt "Button: Reboot the system"
@@ -180,15 +180,15 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:130
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "යළි පණගැන්වීම තහවුරු කරන්න"
 
 #: qml/Components/Dialogs.qml:132
 msgid "No"
-msgstr ""
+msgstr "නැත"
 
 #: qml/Components/Dialogs.qml:138
 msgid "Yes"
-msgstr ""
+msgstr "ඔව්"
 
 #: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
@@ -200,6 +200,8 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"පරිගණකය වසාදැමිම\n"
+"ඔබ තහවුරු කරන්නේද?"
 
 #: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
@@ -217,7 +219,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
-msgstr ""
+msgstr "හදිසි ඇමතුම"
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
@@ -269,15 +271,15 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
-msgstr ""
+msgstr "මෙය අගය කරන්න"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
-msgstr ""
+msgstr "විචාරයක් ලියන්න"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:169
 msgid "Send"
-msgstr ""
+msgstr "යවන්න"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -372,7 +374,7 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
-msgstr ""
+msgstr "මුරපදය පෙන්වන්න"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
@@ -696,3 +698,63 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Left edge"
+#~ msgstr "වම් අන්තය"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "දුරකථනය අගුලුහරින්න දකුණු අන්තයේ සිට අදින්න"
+
+#~ msgid "Right edge"
+#~ msgstr "දකුණු අන්තය"
+
+#~ msgid "Close"
+#~ msgstr "වසන්න"
+
+#~ msgid "Skip intro"
+#~ msgstr "හැඳින්වීම මඟහරින්න"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "පූරණය වෙමින්. මඳක් රැඳෙන්න..."
+
+#~ msgid "Speaking..."
+#~ msgstr "කතාකරමින්..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "දැන් කථා කරන්න..."
+
+#~ msgid "Confirm"
+#~ msgstr "ස්ථීර කරන්න"
+
+#~ msgid "Top edge"
+#~ msgstr "ඉහළ අන්තය"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "දර්ශකවලට ප්‍රවේශවන්න ඉහළ අන්තයේ සිට අදින්න"
+
+#~ msgid "Well done"
+#~ msgstr "කදිමයි"
+
+#~ msgid "Search"
+#~ msgstr "සෙවුම"
+
+#~ msgid "Type or say a command"
+#~ msgstr "විධානයක් ඇතුල්කරන්න හෝ කියන්න"
+
+#~ msgid "Log out"
+#~ msgstr "ඉවත් වන්න"
+
+#~ msgid "Reboot"
+#~ msgstr "යළි පණගන්වන්න"
+
+#~ msgid "Shut down"
+#~ msgstr "පරිගණකය නිවා දමන්න"
+
+#~ msgid "Power"
+#~ msgstr "බලය"
+
+#~ msgid "Restart"
+#~ msgstr "පරිගණකය යළි පණගන්වන්න"
+
+#~ msgid "Power off"
+#~ msgstr "පරිගණකය නිවා දමන්න"
