@@ -34,8 +34,84 @@ Rectangle {
         "values": [ [ "Long Label 1", "Value 1"],  [ "Label 2", "Long Value 2"],  [ "Label 3", "Value 3"],  [ "Label 4", "Value 4"],  [ "Label 5", "Value 5"] ]
     }
 
+    property var actionsData: {
+        "actions": [ {"label": "Some Label", "id": "someid"} ]
+    }
+
+    property var audioData: {
+        "tracks": [ { title: "Some track name", length: "30", source: "/not/existing/path/testsound1" } ]
+    }
+
+    property var commentData: {
+        "author": "Claire Thompson",
+        "comment": "C.",
+        "source": "../../graphics/avatars/amanda@12.png"
+    }
+
+    property var commentInputData: {
+        "submit-label": "TestSubmitLabel"
+    }
+
+    property var galleryData: {
+        "sources": [
+                    "../../graphics/phone_background.jpg",
+                    "../../graphics/tablet_background.jpg",
+                    "../../graphics/clock@18.png",
+                    "../../graphics/borked"
+                   ]
+    }
+
+    property var headerData: {
+        "title": "THE TITLE",
+        "subtitle": "Something catchy"
+    }
+
+    property var iconActionsData: {
+        "actions": [ {"label": "10", "id": "s", "icon": Qt.resolvedUrl("../artwork/avatar@12.png") } ]
+    }
+
+    property var imageData: {
+        "source": "../../graphics/phone_background.jpg",
+        "zoomable": false
+    }
+
+    property var paymentsData: {
+        "source": { "price" : 0.99, "currency": "USD", "store_item_id": "com.example.package" }
+    }
+
+    property var progressData: {
+        "type": "progress",
+        "source": { "dbus-name" : "somename", "dbus-object": "somestring" }
+    }
+
+    property var ratingInputData: {
+        "visible": "both",
+        "required": "both"
+    }
+
+    property var ratingEditData: {
+        "visible": "both",
+        "required": "both",
+        author: "Some dude",
+        rating: 4.5,
+        review: "Very cool app"
+    }
+
+    property var reviewsData: {
+        "reviews": [ { author: "Some dude", rating: 4.5, review: "Very cool app" } ]
+    }
+
+    property var videoData: {
+        "source": "",
+        "screenshot": "../../../tests/qmltests/Components/tst_LazyImage/square.png"
+    }
+
     ListModel {
         id: widgetsModel
+    }
+
+    ListModel {
+        id: allWidgetsModel
     }
 
     property var widgetData: {
@@ -44,11 +120,36 @@ Rectangle {
         "widgets": widgetsModel
     }
 
+    property var allWidgetsData: {
+        "title": "Title here",
+        "collapsed-widgets": 0,
+        "widgets": allWidgetsModel
+    }
+
+
     Component.onCompleted: {
         widgetsModel.append({"type": "text", "widgetId": "text1", "properties": { "text": longText }});
-        widgetsModel.append({"type": "text", "widgetId": "table1", "properties": { "text": tableData }});
+        widgetsModel.append({"type": "table", "widgetId": "table1", "properties": tableData });
         widgetsModel.append({"type": "text", "widgetId": "text3", "properties": { "text": shortText }});
-        widgetsModel.append({"type": "text", "widgetId": "text4", "properties": { "text": longText }});
+        widgetsModel.append({"type": "text", "widgetId": "text4", "properties": { "text": longText2 }});
+
+        allWidgetsModel.append({"type": "actions", "widgetId": "actions1", "properties": actionsData });
+        allWidgetsModel.append({"type": "audio", "widgetId": "audio1", "properties": audioData });
+        allWidgetsModel.append({"type": "comment", "widgetId": "comment1", "properties": commentData });
+        allWidgetsModel.append({"type": "comment-input", "widgetId": "comment-input1", "properties": commentInputData });
+        // "expandable" For now we're not testing inception of expandables
+        allWidgetsModel.append({"type": "gallery", "widgetId": "gallery1", "properties": galleryData });
+        allWidgetsModel.append({"type": "header", "widgetId": "header1", "properties": headerData });
+        allWidgetsModel.append({"type": "icon-actions", "widgetId": "icon-actions1", "properties": iconActionsData } );
+        allWidgetsModel.append({"type": "image", "widgetId": "image1", "properties": imageData });
+        allWidgetsModel.append({"type": "payments", "widgetId": "payments1", "properties": paymentsData });
+        allWidgetsModel.append({"type": "progress", "widgetId": "progress1", "properties": progressData });
+        allWidgetsModel.append({"type": "rating-input", "widgetId": "rating-input1", "properties": ratingInputData });
+        allWidgetsModel.append({"type": "rating-edit", "widgetId": "rating-edit1", "properties": ratingEditData });
+        allWidgetsModel.append({"type": "reviews", "widgetId": "reviews1", "properties": reviewsData });
+        allWidgetsModel.append({"type": "table", "widgetId": "table1", "properties": tableData });
+        allWidgetsModel.append({"type": "text", "widgetId": "text1", "properties": { "text": longText }});
+        allWidgetsModel.append({"type": "video", "widgetId": "video1", "properties": videoData });
     }
 
     PreviewWidgetFactory {
@@ -56,6 +157,12 @@ Rectangle {
         anchors { left: parent.left; right: parent.right }
         widgetType: "expandable"
         widgetData: root.widgetData
+    }
+
+    PreviewWidgetFactory {
+        id: previewWidgetFactory
+        anchors { left: parent.left; right: parent.right; top: previewExpandable.bottom  }
+        opacity: 0
     }
 
     UT.UnityTestCase {
@@ -78,11 +185,8 @@ Rectangle {
         }
 
         function init() {
+            previewExpandable.widgetData = widgetData;
             checkInitialState();
-        }
-
-        function test_collapsed_by_default() {
-            // Nothing init does this already
         }
 
         function test_expand_collapse() {
@@ -104,6 +208,43 @@ Rectangle {
             mouseClick(expandButton);
 
             checkInitialState();
+        }
+
+        function test_all_widgets_height() {
+            previewExpandable.widgetData = allWidgetsData;
+
+            var repeater = findChild(previewExpandable, "repeater")
+            for (var i = 0; i < repeater.count; ++i) {
+                tryCompare(repeater.itemAt(i), "height", 0);
+            }
+
+            var expandButton = findChild(previewExpandable, "expandButton")
+            mouseClick(expandButton);
+
+            var repeater = findChild(previewExpandable, "repeater")
+            for (var i = 0; i < repeater.count; ++i) {
+                previewWidgetFactory.active = false;
+                wait(0); // spin the event loop otherwise we get warnings because the previous item from the
+                         // widget factory has still not been deleted and we change the widgetData
+                previewWidgetFactory.widgetData = allWidgetsModel.get(i).properties;
+                previewWidgetFactory.widgetType = allWidgetsModel.get(i).type;
+                previewWidgetFactory.active = true;
+
+                // Wait for the height ot settle by waiting twice the time of the
+                // longest of the height behaviour animations
+                wait(UbuntuAnimation.SnapDuration * 2);
+
+                // Check the item inside the expandable has the same height
+                // as the one straight from the factory
+                verify(repeater.itemAt(i).height > 0);
+                tryCompare(repeater.itemAt(i), "height", previewWidgetFactory.height);
+            }
+
+            mouseClick(expandButton);
+            compare(previewExpandable.expanded, false);
+            for (var i = 0; i < repeater.count; ++i) {
+                tryCompare(repeater.itemAt(i), "height", 0);
+            }
         }
     }
 }

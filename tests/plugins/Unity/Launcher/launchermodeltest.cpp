@@ -39,6 +39,9 @@ class MockApp: public unity::shell::application::ApplicationInfoInterface
     Q_OBJECT
 public:
     MockApp(const QString &appId, QObject *parent = 0): ApplicationInfoInterface(appId, parent), m_appId(appId), m_focused(false) { }
+
+    RequestedState requestedState() const override { return RequestedRunning; }
+    void setRequestedState(RequestedState) override {}
     QString appId() const override { return m_appId; }
     QString name() const override { return "mock"; }
     QString comment() const override { return "this is a mock"; }
@@ -117,10 +120,6 @@ public:
         endRemoveRows();
     }
     bool requestFocusApplication(const QString &appId) override { Q_UNUSED(appId); return true; }
-    bool suspended() const override { return false; }
-    void setSuspended(bool) override {}
-    bool forceDashActive() const override { return false; }
-    void setForceDashActive(bool) override {}
 
 private:
     QList<MockApp*> m_list;
@@ -297,6 +296,22 @@ private Q_SLOTS:
         appManager->removeApplication(0);
         // Now it needs to go away
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+    }
+
+    void testApplicationRunning() {
+        launcherModel->pin("abs-icon");
+        launcherModel->pin("no-icon");
+
+        QCOMPARE(launcherModel->get(0)->running(), true);
+        QCOMPARE(launcherModel->get(1)->running(), true);
+
+        appManager->stopApplication("abs-icon");
+        QCOMPARE(launcherModel->get(0)->running(), false);
+        QCOMPARE(launcherModel->get(1)->running(), true);
+
+        appManager->stopApplication("no-icon");
+        QCOMPARE(launcherModel->get(0)->running(), false);
+        QCOMPARE(launcherModel->get(1)->running(), false);
     }
 
     void testApplicationFocused() {

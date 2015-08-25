@@ -72,38 +72,52 @@ FocusScope {
             pageHeaderLoader.item.resetSearch()
     }
 
-    function itemClicked(index, result, item, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
-        if (itemModel.uri.indexOf("scope://") === 0 || scope.id === "clickscope" || (scope.id === "videoaggregator" && categoryId === "myvideos-getstarted")) {
-            // TODO Technically it is possible that calling activate() will make the scope emit
-            // previewRequested so that we show a preview but there's no scope that does that yet
-            // so it's not implemented
-            scope.activate(result)
-        } else {
-            if (scope.preview(result)) {
-                openPreview(index, resultsModel, limitedCategoryItemCount);
-            }
-        }
+    property var maybePreviewResult;
+    property int maybePreviewIndex;
+    property var maybePreviewResultsModel;
+    property int maybePreviewLimitedCategoryItemCount;
+    property string maybePreviewCategoryId;
+
+    function clearMaybePreviewData() {
+        scopeView.maybePreviewResult = undefined;
+        scopeView.maybePreviewIndex = -1;
+        scopeView.maybePreviewResultsModel = undefined;
+        scopeView.maybePreviewLimitedCategoryItemCount = -1;
+        scopeView.maybePreviewCategoryId = "";
     }
 
-    function itemPressedAndHeld(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
-        if (itemModel.uri.indexOf("scope://") !== 0 && !(scope.id === "videoaggregator" && categoryId === "myvideos-getstarted")) {
-            if (scope.preview(result)) {
-                openPreview(index, resultsModel, limitedCategoryItemCount);
-            }
-        }
+    function itemClicked(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
+        scopeView.maybePreviewResult = result;
+        scopeView.maybePreviewIndex = index;
+        scopeView.maybePreviewResultsModel = resultsModel;
+        scopeView.maybePreviewLimitedCategoryItemCount = limitedCategoryItemCount;
+        scopeView.maybePreviewCategoryId = categoryId;
+
+        scope.activate(result, categoryId);
     }
 
-    function openPreview(index, resultsModel, limitedCategoryItemCount) {
-        if (limitedCategoryItemCount > 0) {
-            previewLimitModel.model = resultsModel;
-            previewLimitModel.limit = limitedCategoryItemCount;
-            subPageLoader.model = previewLimitModel;
-        } else {
-            subPageLoader.model = resultsModel;
+    function itemPressedAndHeld(index, result, resultsModel, limitedCategoryItemCount, categoryId) {
+        clearMaybePreviewData();
+
+        openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId);
+    }
+
+    function openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId) {
+        var previewStack = scope.preview(result, categoryId);
+        if (previewStack) {
+            if (limitedCategoryItemCount > 0) {
+                previewLimitModel.model = resultsModel;
+                previewLimitModel.limit = limitedCategoryItemCount;
+                subPageLoader.model = previewLimitModel;
+            } else {
+                subPageLoader.model = resultsModel;
+            }
+            subPageLoader.initialIndex = -1;
+            subPageLoader.initialIndex = index;
+            subPageLoader.categoryId = categoryId;
+            subPageLoader.previewStack = previewStack;
+            subPageLoader.openSubPage("preview");
         }
-        subPageLoader.initialIndex = -1;
-        subPageLoader.initialIndex = index;
-        subPageLoader.openSubPage("preview");
     }
 
     Binding {
@@ -149,6 +163,17 @@ FocusScope {
         target: scopeView.scope
         onShowDash: subPageLoader.closeSubPage()
         onHideDash: subPageLoader.closeSubPage()
+        onPreviewRequested: { // (QVariant const& result)
+            if (result === scopeView.maybePreviewResult) {
+                openPreview(result,
+                            scopeView.maybePreviewIndex,
+                            scopeView.maybePreviewResultsModel,
+                            scopeView.maybePreviewLimitedCategoryItemCount,
+                            scopeView.maybePreviewCategoryId);
+
+                clearMaybePreviewData();
+            }
+        }
     }
 
     Connections {
@@ -357,12 +382,12 @@ FocusScope {
 
                 Connections {
                     target: rendererLoader.item
-                    onClicked: {
-                        scopeView.itemClicked(index, result, item, itemModel, target.model, categoryItemCount(), baseItem.category);
+                    onClicked: { // (int index, var result, var item, var itemModel)
+                        scopeView.itemClicked(index, result, itemModel, target.model, categoryItemCount(), baseItem.category);
                     }
 
-                    onPressAndHold: {
-                        scopeView.itemPressedAndHeld(index, result, itemModel, target.model, categoryItemCount(), baseItem.category);
+                    onPressAndHold: { // (int index, var result, var itemModel)
+                        scopeView.itemPressedAndHeld(index, result, target.model, categoryItemCount(), baseItem.category);
                     }
 
                     function categoryItemCount() {
@@ -736,6 +761,8 @@ FocusScope {
         property var scope: scopeView.scope
         property var scopeStyle: scopeView.scopeStyle
         property int initialIndex: -1
+        property var previewStack;
+        property string categoryId
         property var model: null
 
         readonly property bool processing: item && item.processing || false
@@ -767,6 +794,9 @@ FocusScope {
                 item.open = Qt.binding(function() { return subPageLoader.open; } )
                 item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
                 item.model = Qt.binding(function() { return subPageLoader.model; } )
+                item.categoryId = Qt.binding(function() { return subPageLoader.categoryId; } )
+                item.initialIndexPreviewStack = subPageLoader.previewStack;
+                subPageLoader.previewStack = null;
             }
             open = true;
         }

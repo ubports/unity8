@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-07-25 05:39+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
+"X-Generator: Launchpad (build 17690)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -192,7 +192,7 @@ msgstr "はい"
 #: qml/Components/Dialogs.qml:152
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "電源"
 
 #: qml/Components/Dialogs.qml:153
 msgid ""
@@ -203,12 +203,12 @@ msgstr "本当に電源を切りますか？"
 #: qml/Components/Dialogs.qml:155
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "電源を切る"
 
 #: qml/Components/Dialogs.qml:164
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "再起動"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
