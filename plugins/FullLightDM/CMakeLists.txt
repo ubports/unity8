@@ -1,5 +1,4 @@
 pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
-pkg_check_modules(LIBLIGHTDM_GOBJECT REQUIRED liblightdm-gobject-1)
 pkg_check_modules(LIBLIGHTDM REQUIRED liblightdm-qt5-3)
 
 include_directories(
