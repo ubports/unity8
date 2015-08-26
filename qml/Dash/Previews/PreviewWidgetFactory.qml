@@ -77,7 +77,7 @@ Loader {
         item.scopeStyle = Qt.binding(function() { return root.scopeStyle } )
 
         if (widgetType !== "expandable")
-            item.expanded = Qt.binding(function() { return root.expanded } ) 
+            item.expanded = Qt.binding(function() { return root.expanded } )
     }
 
     Connections {

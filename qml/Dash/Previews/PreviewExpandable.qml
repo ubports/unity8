@@ -25,7 +25,7 @@ import "../../Components"
     all the widgets are shown, when collapsed only the first
     widgetData["collapsed-widgets"] are shown. It has a title that comes
     in via widgetData["title"]. This widget expands all child widgets 
-    when construction by specifying widgetData["expanded"] == true. 
+    when initialized by specifying widgetData["expanded"] == true. 
     It's in unexpanded mode by default.
  */
 
@@ -33,7 +33,10 @@ PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
 
-    expanded: widgetData["expanded"] == undefined? false : widgetData["expanded"];
+    property var initialExpanded:widgetData["expanded"]
+    onInitialExpandedChanged: {
+        expanded = initialExpanded === undefined? false : initialExpanded;
+    }
 
     Label {
         id: titleLabel

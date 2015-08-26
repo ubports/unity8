@@ -123,8 +123,6 @@ Rectangle {
         function test_expand_collapse_when_initialized() {
             previewExpandable.widgetData = widgetData1;
                 
-            compare(previewExpandable.expanded, true);
-
             var repeater = findChild(previewExpandable, "repeater")
             compare(repeater.count, 4)
 
@@ -141,8 +139,6 @@ Rectangle {
         function test_collapsed_when_initialized() {
             previewExpandable.widgetData = widgetData2;
                 
-            compare(previewExpandable.expanded, false);
-
             var repeater = findChild(previewExpandable, "repeater")
             compare(repeater.count, 4)
 
@@ -152,6 +148,8 @@ Rectangle {
             compare (repeater.itemAt(3).visible, false);
             compare (repeater.itemAt(0).expanded, false);
             compare (repeater.itemAt(1).expanded, false);
+            compare (repeater.itemAt(2).expanded, false);
+            compare (repeater.itemAt(3).expanded, false);
         }          
     }
 }
