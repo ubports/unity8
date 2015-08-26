@@ -21,6 +21,9 @@ import GSettings 1.0
 import "Components"
 import "Components/UnityInputInfo"
 import "Rotation"
+// Backup Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
+// in case we remove the UnityInputInfo import
+import Ubuntu.Components 1.2
 
 Rectangle {
     id: root
@@ -43,7 +46,7 @@ Rectangle {
 
 
     // to be overwritten by tests
-    property var usageModeSettings: GSettings { schema.id: "com.canonical.Unity8" }
+    property var unity8Settings: Unity8Settings {}
     property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }
 
     property int physicalOrientation: Screen.orientation
@@ -160,9 +163,9 @@ Rectangle {
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
         usageScenario: {
-            if (root.usageModeSettings.usageMode === "Windowed") {
+            if (root.unity8Settings.usageMode === "Windowed") {
                 return "desktop";
-            } else if (root.usageModeSettings.usageMode === "Staged") {
+            } else if (root.unity8Settings.usageMode === "Staged") {
                 if (deviceConfiguration.category === "phone") {
                     return "phone";
                 } else {

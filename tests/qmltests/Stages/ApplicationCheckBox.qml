@@ -86,8 +86,29 @@ RowLayout {
         }
     }
     Label {
+        id: appIdLabel
         text: root.appId
         color: "white"
+        anchors.verticalCenter: parent.verticalCenter
+    }
+    Rectangle {
+        color: {
+            if (d.application) {
+                if (d.application.state === ApplicationInfoInterface.Starting) {
+                    return "yellow";
+                } else if (d.application.state === ApplicationInfoInterface.Running) {
+                    return "green";
+                } else if (d.application.state === ApplicationInfoInterface.Suspended) {
+                    return "blue";
+                } else {
+                    return "darkred";
+                }
+            } else {
+                return "darkred";
+            }
+        }
+        width: height
+        height: appIdLabel.height * 0.7
         anchors.verticalCenter: parent.verticalCenter
     }
 }

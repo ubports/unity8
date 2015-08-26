@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
 import Ubuntu.Components 0.1
+import Unity.Application 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
 import "../../../qml/Panel"
@@ -416,6 +417,23 @@ IndicatorTest {
 
             // give it a couple of event loop iterations for any animations etc to kick in
             wait(50);
+
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+        }
+
+        function test_tapToReturnCallDoesntExpandIndicators() {
+            compare(panel.indicators.shown, false);
+            verify(panel.indicators.fullyClosed);
+
+            callManager.foregroundCall = phoneCall;
+
+            ApplicationManager.focusApplication("unity8-dash");
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+            mouseClick(panel.indicators,
+                       panel.indicators.width / 2,
+                       panel.indicators.minimizedPanelHeight / 2);
 
             compare(panel.indicators.shown, false);
             verify(panel.indicators.fullyClosed);
