@@ -19,3 +19,4 @@ set(QMLPLUGIN_SRC
     )
 
 add_subdirectory(FullLightDM)
+add_subdirectory(IntegratedLightDM)

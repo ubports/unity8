@@ -23,4 +23,4 @@ target_link_libraries(FullLightDM-qml
     )
 
 qt5_use_modules(FullLightDM-qml DBus Gui Qml)
-add_unity8_plugin(FullLightDM 0.1 FullLightDM TARGETS FullLightDM-qml)
+add_unity8_plugin(FullLightDM 0.1 LightDM/FullLightDM TARGETS FullLightDM-qml)
