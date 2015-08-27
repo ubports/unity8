@@ -7,12 +7,12 @@ add_definitions(-DFULL_LIGHTDM)
 
 include_directories(../)
 
-foreach(l ${QMLPLUGIN_SRC})
-        list(APPEND "${${QMLPLUGIN_SRC}_TMP}" ../${l})
+foreach(source_file ${QMLPLUGIN_SRC})
+    list(APPEND RELATIVE_QMLPLUGIN_SRC ../${source_file})
 endforeach()
 
 add_library(FullLightDM-qml MODULE
-    ${QMLPLUGIN_SRC_TMP}
+    ${RELATIVE_QMLPLUGIN_SRC}
     )
 
 target_link_libraries(FullLightDM-qml
