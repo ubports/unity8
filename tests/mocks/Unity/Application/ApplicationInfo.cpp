@@ -15,6 +15,7 @@
  */
 
 #include "ApplicationInfo.h"
+#include "MirSurface.h"
 #include "Session.h"
 #include "SessionManager.h"
 
@@ -72,6 +73,13 @@ void ApplicationInfo::createSession()
 
     QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
     setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));
+}
+
+void ApplicationInfo::destroySession()
+{
+    Session *session = this->session();
+    setSession(nullptr);
+    delete session;
 }
 
 void ApplicationInfo::setSession(Session* session)
@@ -237,7 +245,7 @@ void ApplicationInfo::setRequestedState(RequestedState value)
     }
 }
 
-void ApplicationInfo::onSessionSurfaceChanged(MirSurfaceItem* surface)
+void ApplicationInfo::onSessionSurfaceChanged(MirSurface* surface)
 {
     if (surface != nullptr && m_state == Starting) {
         if (m_requestedState == RequestedRunning) {
