@@ -54,7 +54,7 @@ static QObject *infographic_provider(QQmlEngine *engine, QJSEngine *scriptEngine
     return UserMetricsOutput::UserMetrics::getInstance();
 }
 
-void FullLightDMPlugin::registerTypes(const char *uri)
+void PLUGIN_CLASSNAME::registerTypes(const char *uri)
 {
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<UserMetricsOutput::ColorTheme>();

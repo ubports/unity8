@@ -15,13 +15,22 @@
  *
  */
 
-#ifndef FULL_LIGHTDM_PLUGIN_H
-#define FULL_LIGHTDM_PLUGIN_H
+#ifndef LIGHTDM_PLUGIN_H
+#define LIGHTDM_PLUGIN_H
 
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlExtensionPlugin>
 
-class FullLightDMPlugin : public QQmlExtensionPlugin
+#if defined INTEGRATED_LIGHTDM
+    #define PLUGIN_CLASSNAME FullLightDMPlugin
+#elif defined FULL_LIGHTDM
+    #define PLUGIN_CLASSNAME IntegratedLightDMPlugin
+#else
+    #error No library defined in LightDM plugin
+#endif
+
+
+class PLUGIN_CLASSNAME : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
@@ -30,4 +39,4 @@ public:
     void registerTypes(const char *uri) override;
 };
 
-#endif /* FULL_LIGHTDM_PLUGIN_H */
+#endif /* LIGHTDM_PLUGIN_H */
