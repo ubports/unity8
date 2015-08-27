@@ -1,3 +1,11 @@
+unity8 (8.11+15.04.20150827.1-0ubuntu1) vivid; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * MirSurfaceItem is now a view+controller instantiated from QML (LP:
+    #1483752)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 27 Aug 2015 14:00:05 +0000
+
 unity8 (8.11+15.04.20150821-0ubuntu1) vivid; urgency=medium
 
   [ Michael Terry ]
