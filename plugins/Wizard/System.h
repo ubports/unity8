@@ -33,7 +33,7 @@ public:
     void setWizardEnabled(bool enabled);
 
 public Q_SLOTS:
-    void updateSessionLanguage(const QString &locale);
+    void updateSessionLocale(const QString &locale);
 
 Q_SIGNALS:
     void wizardEnabledChanged();

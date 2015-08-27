@@ -87,6 +87,7 @@ LocalComponents.Page {
             property bool checked: menuData && menuData.isToggled || false
             property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
+            property bool enterprise: getExtendedProperty(extendedData, "xCanonicalWifiApIsEnterprise", false)
             property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
@@ -94,13 +95,15 @@ LocalComponents.Page {
                 if (!unityMenuModel || menuIndex == -1) return;
                 unityMenuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
                                                                   'x-canonical-wifi-ap-is-secure': 'bool',
+                                                                  'x-canonical-wifi-ap-is-enterprise': 'bool',
                                                                   'x-canonical-wifi-ap-strength-action': 'string'});
             }
 
-            signal activate()
-
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            visible: !enterprise
+            __foregroundColor: "#525252"
+            showDivider: true
             iconName: {
                 var imageName = "nm-signal-100";
 
@@ -122,13 +125,7 @@ LocalComponents.Page {
                 return imageName;
             }
             iconFrame: false
-            control: CheckBox {
-                id: checkBoxActive
-
-                onClicked: {
-                    accessPoint.activate();
-                }
-            }
+            onClicked: unityMenuModel.activate(menuIndex);
 
             Component.onCompleted: {
                 loadAttributes();
@@ -139,11 +136,6 @@ LocalComponents.Page {
             onMenuIndexChanged: {
                 loadAttributes();
             }
-            onCheckedChanged: {
-                // Can't rely on binding. Checked is assigned on click.
-                checkBoxActive.checked = checked;
-            }
-            onActivate: unityMenuModel.activate(menuIndex);
         }
     }
 
@@ -159,8 +151,8 @@ LocalComponents.Page {
             anchors.right: parent.right
             font.weight: Font.Light
             color: "#525252"
-            text: mainMenu.count > 0 ? i18n.tr("Available networks")
-                                     : i18n.tr("No available networks.")
+            text: mainMenu.count > 0 ? i18n.tr("Available Wi-Fi networks")
+                                     : i18n.tr("No available Wi-Fi networks")
         }
 
         Flickable {

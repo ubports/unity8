@@ -51,7 +51,7 @@ Item {
     SignalSpy {
         id: updateSessionLanguageSpy
         target: System
-        signalName: "updateSessionLanguageCalled"
+        signalName: "updateSessionLocaleCalled"
     }
 
     SignalSpy {

@@ -25,6 +25,7 @@
 #include <QLocale>
 #include <QMap>
 #include <QProcess>
+#include <QDebug>
 
 System::System()
     : QObject()
@@ -80,7 +81,7 @@ void System::setSessionVariable(const QString &variable, const QString &value)
     QDBusConnection::sessionBus().asyncCall(msg);
 }
 
-void System::updateSessionLanguage(const QString &locale)
+void System::updateSessionLocale(const QString &locale)
 {
     const QString language = locale.split(".")[0];
 
@@ -93,10 +94,10 @@ void System::updateSessionLanguage(const QString &locale)
     QLocale::setDefault(QLocale(locale));
 
     // Restart bits of the session to pick up new language.
-    QProcess::startDetached("sh -c \"initctl emit indicator-services-end; \
-                                     initctl stop scope-registry; \
-                                     initctl stop smart-scopes-proxy; \
-                                     initctl emit --no-wait indicator-services-start; \
-                                     initctl restart --no-wait maliit-server; \
-                                     initctl restart --no-wait unity8-dash\"");
+//    QProcess::startDetached("sh -c \"initctl emit indicator-services-end; \
+//                                     initctl stop scope-registry; \
+//                                     initctl stop smart-scopes-proxy; \
+//                                     initctl emit --no-wait indicator-services-start; \
+//                                     initctl restart --no-wait maliit-server; \
+//                                     initctl restart --no-wait unity8-dash\"");
 }

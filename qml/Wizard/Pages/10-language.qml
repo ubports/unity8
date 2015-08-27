@@ -34,7 +34,7 @@ LocalComponents.Page {
 
     Component.onCompleted: {
         if (!modemManager.available) { // don't wait for the modem if it's not there
-            init()
+            init();
         }
     }
 
@@ -50,63 +50,17 @@ LocalComponents.Page {
     {
         var detectedLangs = []
         if (simManager0.present && simManager0.preferredLanguages.length > 0) {
-            detectedLangs = simManager0.preferredLanguages
-            print("SIM 0 detected langs:", detectedLangs)
+            detectedLangs = simManager0.preferredLanguages;
+            print("SIM 0 detected langs:", detectedLangs);
         } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
-            detectedLangs = simManager1.preferredLanguages
-            print("SIM 1 detected langs:", detectedLangs)
+            detectedLangs = simManager1.preferredLanguages;
+            print("SIM 1 detected langs:", detectedLangs);
         } else {
-            print("No lang detected, falling back to default:", defaultLanguage)
-            detectedLangs = [defaultLanguage] // fallback to default lang
+            print("No lang detected, falling back to default:", defaultLanguage);
+            detectedLangs = [defaultLanguage]; // fallback to default lang
         }
 
-        populateModel(false, detectedLangs)
-    }
-
-    function populateModel(onlyDetected, detectedLangs)
-    {
-        model.clear()
-        var index = 0;
-        var selectedIndex = -1;
-        var langs = LocalePlugin.languages();
-        Object.keys(langs).map(function(code) { // prepare the object
-            //console.log("Got language:" + code);
-
-            if (onlyDetected) {
-                if (!!detectedLangs && detectedLangs.indexOf(code) !== -1) {
-                    return { "code": code, "language": langs[code] || code }
-                }
-            } else {
-                return { "code": code, "language": langs[code] || code }
-            }
-            return
-        })
-        .sort(function(a, b) { // sort by language name
-            return a.language.toLocaleLowerCase().localeCompare(b.language.toLocaleLowerCase()); // sort languages case insensitively
-        })
-        .forEach(function(lang) { // build the model
-            if (lang.code === "C") {
-                return;
-            }
-            model.append(lang);
-            if (!onlyDetected && detectedLangs.length > 0 && lang.code === detectedLangs[0]) { // preselect the first of detected languages
-                selectedIndex = index;
-                selectLanguage(lang.code, selectedIndex)
-            }
-            index++;
-        });
-
-        if (selectedIndex !== -1) {
-            languagesListView.positionViewAtIndex(selectedIndex, ListView.Center)
-        }
-    }
-
-    function selectLanguage(code, index)
-    {
-        root.language = code
-        languagesListView.currentIndex = index
-        print("Selected language: " + root.language)
-        print("Current index: " + languagesListView.currentIndex)
+        //populateModel(false, detectedLangs)
     }
 
     Column {
@@ -114,11 +68,10 @@ LocalComponents.Page {
         anchors.fill: content
 
         ListView {
-            id: languagesListView;
-
-            boundsBehavior: Flickable.StopAtBounds;
-            clip: true;
-            currentIndex: -1
+            id: languagesListView
+            boundsBehavior: Flickable.StopAtBounds
+            clip: true
+            currentIndex: plugin.currentLanguage
             snapMode: ListView.SnapToItem
 
             anchors {
@@ -128,9 +81,7 @@ LocalComponents.Page {
 
             height: column.height - column.spacing
 
-            model: ListModel {
-                id: model;
-            }
+            model: plugin.languageNames
 
             delegate: ListItem {
                 id: itemDelegate;
@@ -139,7 +90,7 @@ LocalComponents.Page {
 
                 Label {
                     id: langLabel
-                    text: language;
+                    text: modelData
 
                     anchors {
                         left: parent.left;
@@ -164,7 +115,8 @@ LocalComponents.Page {
                 }
 
                 onClicked: {
-                    selectLanguage(code, index)
+                    languagesListView.currentIndex = index;
+                    i18n.language = plugin.languageCodes[index];
                 }
             }
         }
@@ -174,12 +126,16 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            enabled: root.language !== ""
+            enabled: languagesListView.currentIndex
             onClicked: {
-                if (root.language !== plugin.languageCodes[plugin.currentLanguage]) {
-                    i18n.language = i18n.language // re-notify of change after above call (for qlocale change)
+                if (plugin.currentLanguage !== languagesListView.currentIndex) {
+                    plugin.currentLanguage = languagesListView.currentIndex;
+                    print("Updating session locale:", plugin.languageCodes[plugin.currentLanguage])
+                    System.updateSessionLocale(plugin.languageCodes[plugin.currentLanguage]);
                 }
-                pageStack.next()
+                i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)
+                root.countryCode = plugin.languageCodes[plugin.currentLanguage].split('_')[1].split('.')[0] // extract the country code, save it for the timezone page
+                pageStack.next();
             }
         }
     }

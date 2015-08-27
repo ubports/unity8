@@ -37,10 +37,11 @@ LocalComponents.Page {
         id: tzFilterModel
         sourceModel: tzModel
         filter: searchField.text
-        country: root.country
+        country: root.countryCode
     }
 
     Component.onCompleted: {
+        print("Current i18n", i18n.language)
         theme.palette.normal.backgroundText = "#525252" // "fix" the placeholder text in the search field
     }
 
@@ -81,7 +82,7 @@ LocalComponents.Page {
             }
 
             onClicked: {
-                tzModel.selectedZoneId = id
+                selectedTimeZone = id
                 print("Selected tz: " + selectedTimeZone)
                 print("Clicked country", countryCode)
             }
