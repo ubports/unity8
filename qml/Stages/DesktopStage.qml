@@ -478,16 +478,41 @@ Rectangle {
         anchors.fill: appContainer
         propagateComposedEvents: true
         hoverEnabled: true
+
+        property int scrollAreaWidth: root.width / 3
+        property bool progressiveScrollingEnabled: false
+
         onMouseXChanged: {
             mouse.accepted = false
+
+            // Find the howered item and mark it active
             var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
             var itemUnder = appContainer.childAt(mapped.x, mapped.y)
             if (itemUnder) {
                 mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
                 var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
-                if (delegateChild.objectName === "decoratedWindow") {
+                print("delegateChild", delegateChild)
+                if (delegateChild.objectName === "decoratedWindow" || delegateChild.objectName === "tileInfo") {
                     appRepeater.highlightedIndex = appRepeater.indexOf(itemUnder)
                 }
+            }
+
+            var margins = spreadFlickable.width * 0.05;
+
+            if (!progressiveScrollingEnabled && mouseX < spreadFlickable.width - scrollAreaWidth) {
+                progressiveScrollingEnabled = true
+            }
+
+            // do we need to scroll?
+            if (mouseX < scrollAreaWidth) {
+                var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
+                var contentX = (1 - progress) * (spreadFlickable.contentWidth - spreadFlickable.width)
+                spreadFlickable.contentX = Math.max(0, Math.min(spreadFlickable.contentX, contentX))
+            }
+            if (mouseX > spreadFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
+                var progress = Math.min(1, (mouseX - (spreadFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
+                var contentX = progress * (spreadFlickable.contentWidth - spreadFlickable.width)
+                spreadFlickable.contentX = Math.min(spreadFlickable.contentWidth - spreadFlickable.width, Math.max(spreadFlickable.contentX, contentX))
             }
         }
         onPressed: mouse.accepted = false
@@ -495,9 +520,12 @@ Rectangle {
 
     FloatingFlickable {
         id: spreadFlickable
+        objectName: "spreadFlickable"
         anchors.fill: parent
         contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
         enabled: false
+
+        onContentXChanged: print("cx", contentX)
 
         function snapTo(contentX) {
             snapAnimation.stop();
@@ -623,6 +651,7 @@ Rectangle {
             from: "*"
             to: "altTab"
             SequentialAnimation {
+                PropertyAction { target: hoverMouseArea; property: "progressiveScrollingEnabled"; value: false }
                 PropertyAction { target: appRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
                 PauseAnimation { duration: 50 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
