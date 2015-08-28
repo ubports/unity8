@@ -205,7 +205,6 @@ Rectangle {
                 id: appDelegate
                 z: ApplicationManager.count - index
                 y: units.gu(3)
-
                 width: units.gu(60)
                 height: units.gu(50)
 
@@ -220,7 +219,6 @@ Rectangle {
 
                 property bool maximized: false
                 property bool minimized: false
-
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
@@ -524,8 +522,6 @@ Rectangle {
         anchors.fill: parent
         contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
         enabled: false
-
-        onContentXChanged: print("cx", contentX)
 
         function snapTo(contentX) {
             snapAnimation.stop();
