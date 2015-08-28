@@ -192,18 +192,35 @@ Rectangle {
             property int highlightedIndex: -1
             property int closingIndex: -1
 
+            function indexOf(delegateItem) {
+                for (var i = 0; i < appRepeater.count; i++) {
+                    if (appRepeater.itemAt(i) === delegateItem) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
             delegate: FocusScope {
                 id: appDelegate
                 z: ApplicationManager.count - index
                 y: units.gu(3)
+
                 width: units.gu(60)
                 height: units.gu(50)
+
+                property int windowWidth: 0
+                property int windowHeight: 0
+                // We don't want to resize the actual application when we're transforming things for the spread only
+                onWidthChanged: if (appDelegate.state !== "altTab") windowWidth = width
+                onHeightChanged: if (appDelegate.state !== "altTab") windowHeight = height
 
                 readonly property int minWidth: units.gu(10)
                 readonly property int minHeight: units.gu(10)
 
                 property bool maximized: false
                 property bool minimized: false
+
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
@@ -266,7 +283,9 @@ Rectangle {
                         PropertyChanges {
                             target: appDelegate
                             x: spreadMaths.animatedX
-                            y: spreadMaths.animatedY + (appDelegate.height - decoratedWindow.height)
+                            y: spreadMaths.animatedY + (appDelegate.height - decoratedWindow.height) - units.gu(2)
+                            width: spreadMaths.spreadHeight
+                            height: spreadMaths.sceneHeight
                             angle: spreadMaths.animatedAngle
                             itemScale: spreadMaths.scale
                             itemScaleOriginY: decoratedWindow.height / 2;
@@ -281,6 +300,7 @@ Rectangle {
                             width: spreadMaths.spreadHeight
                             height: spreadMaths.spreadHeight
                             shadowOpacity: spreadMaths.shadowOpacity
+                            anchors.topMargin: units.gu(2)
                         }
                         PropertyChanges {
                             target: tileInfo
@@ -307,6 +327,7 @@ Rectangle {
                         from: ""
                         to: "altTab"
                         PropertyAction { target: appDelegate; properties: "y,angle,z,itemScale,itemScaleOriginY" }
+                        PropertyAction { target: decoratedWindow; properties: "anchors.topMargin" }
                         PropertyAnimation {
                             target: appDelegate; properties: "x";
                             from: root.width;
@@ -345,8 +366,8 @@ Rectangle {
                     objectName: "decoratedWindow"
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
-                    windowWidth: appDelegate.width
-                    windowHeight: appDelegate.height
+                    windowWidth: appDelegate.windowWidth
+                    windowHeight: appDelegate.windowHeight
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: false
@@ -374,31 +395,6 @@ Rectangle {
                         anchors.fill: parent
                         anchors.margins: -units.gu(2)
                         enabled: false
-                        hoverEnabled: enabled
-
-                        // There is a bug in MouseArea where containsMouse doesn't
-                        // return to false if the MouseArea is disabled while
-                        // containing the mouse. Let's manage the property our own.
-                        property bool upperThirdContainsMouse: false
-                        onContainsMouseChanged: evaluateContainsMouse()
-                        onMouseYChanged: evaluateContainsMouse()
-                        function evaluateContainsMouse() {
-                            if (containsMouse) {
-                                appRepeater.highlightedIndex = index
-                            }
-
-                            if (containsMouse && mouseY < height / 3) {
-                                spreadSelectArea.upperThirdContainsMouse = true
-                            } else {
-                                spreadSelectArea.upperThirdContainsMouse = false;
-                            }
-                        }
-                        onEnabledChanged: {
-                            if (!enabled) {
-                                spreadSelectArea.upperThirdContainsMouse = false
-                            }
-                        }
-
                         onClicked: {
                             root.state = ""
                         }
@@ -407,24 +403,28 @@ Rectangle {
 
                 Image {
                     id: closeImage
-                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset }
+                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset + units.gu(2) }
                     source: "graphics/window-close.svg"
-                    visible: spreadSelectArea.upperThirdContainsMouse
+                    property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                    visible: index == appRepeater.highlightedIndex
+                             && mousePos.y < (decoratedWindow.height / 3)
+                             && mousePos.y > -units.gu(4)
+                             && mousePos.x > -units.gu(4)
+                             && mousePos.x < (decoratedWindow.width * 2 / 3)
                     height: units.gu(1.5)
                     width: height
                     sourceSize.width: width
                     sourceSize.height: height
-                }
 
-                MouseArea {
-                    id: closeMouseArea
-                    objectName: "closeMouseArea"
-                    anchors.fill: closeImage
-                    anchors.margins: -units.gu(2)
-                    enabled: spreadSelectArea.upperThirdContainsMouse
-                    onClicked: {
-                        appRepeater.closingIndex = index;
-                        ApplicationManager.stopApplication(model.appId)
+                    MouseArea {
+                        id: closeMouseArea
+                        objectName: "closeMouseArea"
+                        anchors.fill: closeImage
+                        anchors.margins: -units.gu(2)
+                        onClicked: {
+                            appRepeater.closingIndex = index;
+                            ApplicationManager.stopApplication(model.appId)
+                        }
                     }
                 }
 
@@ -471,6 +471,26 @@ Rectangle {
                 }
             }
         }
+    }
+
+    MouseArea {
+        id: hoverMouseArea
+        anchors.fill: appContainer
+        propagateComposedEvents: true
+        hoverEnabled: true
+        onMouseXChanged: {
+            mouse.accepted = false
+            var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+            var itemUnder = appContainer.childAt(mapped.x, mapped.y)
+            if (itemUnder) {
+                mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
+                if (delegateChild.objectName === "decoratedWindow") {
+                    appRepeater.highlightedIndex = appRepeater.indexOf(itemUnder)
+                }
+            }
+        }
+        onPressed: mouse.accepted = false
     }
 
     FloatingFlickable {
