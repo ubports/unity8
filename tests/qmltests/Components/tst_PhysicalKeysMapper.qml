@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import "../../../qml/Components"
+import Powerd 0.1
 
 TestCase {
     name: "PhysicalKeysMapper"
@@ -56,6 +57,7 @@ TestCase {
     }
 
     function init() {
+        Powerd.status = Powerd.On;
         loader.active = true;
         tryCompare(loader.status == Loader.Ready);
     }
@@ -72,6 +74,32 @@ TestCase {
         physicalKeysMapper.powerKeyLongPressTime = 500;
 
         physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
+
+        for (var i = 0; i < 3; ++i) {
+            wait(10);
+            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
+        }
+
+        // powerKeyLongPressed should not have been emitted yet.
+        compare(powerSpy.count, 0);
+
+        for (var i = 0; i < 10; ++i) {
+            wait(50);
+            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
+        }
+
+        compare(powerSpy.count, 1);
+    }
+
+    function test_powerKeyLongPressed_screen_off() {
+        // The screen is off
+        Powerd.status = Powerd.Off;
+        physicalKeysMapper.powerKeyLongPressTime = 500;
+
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
+
+        // After the first key press it'll be on and the rest of keypresses are auto repeat
+        Powerd.status = Powerd.On;
 
         for (var i = 0; i < 3; ++i) {
             wait(10);
