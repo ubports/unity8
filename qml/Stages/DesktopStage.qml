@@ -327,8 +327,8 @@ Rectangle {
                         PropertyAction { target: appDelegate; properties: "y,angle,z,itemScale,itemScaleOriginY" }
                         PropertyAction { target: decoratedWindow; properties: "anchors.topMargin" }
                         PropertyAnimation {
-                            target: appDelegate; properties: "x";
-                            from: root.width;
+                            target: appDelegate; properties: "x"
+                            from: root.width
                             duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
                             easing: UbuntuAnimation.StandardEasing
                         }
@@ -684,7 +684,7 @@ Rectangle {
         hoverEnabled: true
         onContainsMouseChanged: {
             if (containsMouse) {
-                root.state = "altTab"
+                root.state = "altTab";
             }
         }
     }
