@@ -476,6 +476,7 @@ Rectangle {
         anchors.fill: appContainer
         propagateComposedEvents: true
         hoverEnabled: true
+        enabled: false
 
         property int scrollAreaWidth: root.width / 3
         property bool progressiveScrollingEnabled: false
@@ -641,6 +642,7 @@ Rectangle {
             PropertyChanges { target: currentSelectedLabel; visible: true }
             PropertyChanges { target: spreadBackground; visible: true }
             PropertyChanges { target: appContainer; focus: true }
+            PropertyChanges { target: hoverMouseArea; enabled: true }
         }
     ]
     signal updateWorkspaces();
