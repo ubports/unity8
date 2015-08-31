@@ -1,6 +1,6 @@
 add_subdirectory(AccountsService)
 add_subdirectory(Greeter)
-#add_subdirectory(LightDM)
+add_subdirectory(LightDM)
 add_subdirectory(Dash)
 add_subdirectory(ScreenGrabber)
 add_subdirectory(Ubuntu)
