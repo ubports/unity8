@@ -31,7 +31,7 @@ Item {
     // the user exits the wizard.
     property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
     property string password: ""
-    property string countryCode: "US"
+    property string countryCode: "US" // default country (for the timezone page)
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy

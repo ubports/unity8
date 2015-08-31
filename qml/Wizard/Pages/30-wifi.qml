@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -63,7 +63,7 @@ LocalComponents.Page {
         function getAccessPointName() {
             // 0 is the interface
             if (currentNetworkMode === NetworkInfo.WlanMode &&
-                networkStatus(NetworkInfo.WlanMode, 0) === NetworkInfo.HomeNetwork)
+                    networkStatus(NetworkInfo.WlanMode, 0) === NetworkInfo.HomeNetwork)
                 accessPointName = networkName(NetworkInfo.WlanMode, 0);
             else
                 accessPointName = "";
@@ -84,23 +84,26 @@ LocalComponents.Page {
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalWifiApStrengthAction", "")
             }
-            property bool checked: menuData && menuData.isToggled || false
-            property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
-            property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
-            property bool enterprise: getExtendedProperty(extendedData, "xCanonicalWifiApIsEnterprise", false)
+            readonly property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
+            readonly property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
+            readonly property bool enterprise: getExtendedProperty(extendedData, "xCanonicalWifiApIsEnterprise", false)
+            readonly property bool isAccessPoint: menuData.type === "unity.widgets.systemsettings.tablet.accesspoint"
             property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
             function loadAttributes() {
                 if (!unityMenuModel || menuIndex == -1) return;
                 unityMenuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
-                                                                  'x-canonical-wifi-ap-is-secure': 'bool',
-                                                                  'x-canonical-wifi-ap-is-enterprise': 'bool',
-                                                                  'x-canonical-wifi-ap-strength-action': 'string'});
+                                                          'x-canonical-wifi-ap-is-secure': 'bool',
+                                                          'x-canonical-wifi-ap-is-enterprise': 'bool',
+                                                          'x-canonical-wifi-ap-strength-action': 'string'});
             }
+
+            signal activate()
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive || false
+            height: isAccessPoint && !enterprise ? units.gu(6) : 0
             visible: !enterprise
             __foregroundColor: "#525252"
             showDivider: true
@@ -125,7 +128,7 @@ LocalComponents.Page {
                 return imageName;
             }
             iconFrame: false
-            onClicked: unityMenuModel.activate(menuIndex);
+            onClicked: accessPoint.activate();
 
             Component.onCompleted: {
                 loadAttributes();
@@ -136,6 +139,7 @@ LocalComponents.Page {
             onMenuIndexChanged: {
                 loadAttributes();
             }
+            onActivate: unityMenuModel.activate(menuIndex);
         }
     }
 
@@ -151,45 +155,29 @@ LocalComponents.Page {
             anchors.right: parent.right
             font.weight: Font.Light
             color: "#525252"
-            text: mainMenu.count > 0 ? i18n.tr("Available Wi-Fi networks")
+            text: listview.count > 0 ? i18n.tr("Available Wi-Fi networks")
                                      : i18n.tr("No available Wi-Fi networks")
         }
 
-        Flickable {
+        ListView {
+            id: listview
             anchors.left: parent.left
             anchors.right: parent.right
-            height: column.height - label.height - column.spacing
-            contentHeight: contentItem.childrenRect.height
-            clip: true
-            flickDeceleration: 1500 * units.gridUnit / 8
-            maximumFlickVelocity: 2500 * units.gridUnit / 8
-            boundsBehavior: (contentHeight > height) ? Flickable.DragAndOvershootBounds : Flickable.StopAtBounds
+            model: menuModel
 
-            Column {
+            delegate: Loader {
+                id: loader
+
+                readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
+
                 anchors.left: parent.left
                 anchors.right: parent.right
+                asynchronous: true
+                sourceComponent: isAccessPoint ? accessPointComponent : null
 
-                Repeater {
-                    id: mainMenu
-
-                    model: menuModel
-
-                    delegate: Loader {
-                        id: loader
-
-                        readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
-
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        height: isAccessPoint ? units.gu(6) : 0
-                        asynchronous: true
-                        sourceComponent: isAccessPoint ? accessPointComponent : null
-
-                        onLoaded: {
-                            item.menuData = Qt.binding(function() { return model; });
-                            item.menuIndex = Qt.binding(function() { return index; });
-                        }
-                    }
+                onLoaded: {
+                    item.menuData = Qt.binding(function() { return model; });
+                    item.menuIndex = Qt.binding(function() { return index; });
                 }
             }
         }
@@ -198,7 +186,7 @@ LocalComponents.Page {
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: (connected || mainMenu.count === 0) ? i18n.tr("Next") : i18n.tr("Skip")
+            text: (connected || listview.count === 0) ? i18n.tr("Next") : i18n.tr("Skip")
             onClicked: pageStack.next()
         }
     }

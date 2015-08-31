@@ -121,9 +121,7 @@ LocalComponents.Page {
             }
 
             height: column.height - searchField.height - column.spacing - topMargin
-
             model: tzFilterModel
-
             delegate: tzComponent
         }
     }
@@ -134,8 +132,8 @@ LocalComponents.Page {
             text: i18n.tr("Next")
             enabled: selectedTimeZone != ""
             onClicked: {
-                UbuntuTimeDatePanel.timeZone = selectedTimeZone
-                pageStack.next()
+                UbuntuTimeDatePanel.timeZone = selectedTimeZone;
+                pageStack.next();
             }
         }
     }
