@@ -494,22 +494,25 @@ Rectangle {
                 }
             }
 
-            var margins = spreadFlickable.width * 0.05;
+            print("width:", spreadFlickable.width, "contentWidth", spreadFlickable.contentWidth)
+            if (spreadFlickable.contentWidth > spreadFlickable.minContentWidth) {
+                var margins = spreadFlickable.width * 0.05;
 
-            if (!progressiveScrollingEnabled && mouseX < spreadFlickable.width - scrollAreaWidth) {
-                progressiveScrollingEnabled = true
-            }
+                if (!progressiveScrollingEnabled && mouseX < spreadFlickable.width - scrollAreaWidth) {
+                    progressiveScrollingEnabled = true
+                }
 
-            // do we need to scroll?
-            if (mouseX < scrollAreaWidth) {
-                var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
-                var contentX = (1 - progress) * (spreadFlickable.contentWidth - spreadFlickable.width)
-                spreadFlickable.contentX = Math.max(0, Math.min(spreadFlickable.contentX, contentX))
-            }
-            if (mouseX > spreadFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
-                var progress = Math.min(1, (mouseX - (spreadFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
-                var contentX = progress * (spreadFlickable.contentWidth - spreadFlickable.width)
-                spreadFlickable.contentX = Math.min(spreadFlickable.contentWidth - spreadFlickable.width, Math.max(spreadFlickable.contentX, contentX))
+                // do we need to scroll?
+                if (mouseX < scrollAreaWidth) {
+                    var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
+                    var contentX = (1 - progress) * (spreadFlickable.contentWidth - spreadFlickable.width)
+                    spreadFlickable.contentX = Math.max(0, Math.min(spreadFlickable.contentX, contentX))
+                }
+                if (mouseX > spreadFlickable.width - scrollAreaWidth && progressiveScrollingEnabled) {
+                    var progress = Math.min(1, (mouseX - (spreadFlickable.width - scrollAreaWidth)) / (scrollAreaWidth - margins))
+                    var contentX = progress * (spreadFlickable.contentWidth - spreadFlickable.width)
+                    spreadFlickable.contentX = Math.min(spreadFlickable.contentWidth - spreadFlickable.width, Math.max(spreadFlickable.contentX, contentX))
+                }
             }
         }
         onPressed: mouse.accepted = false
@@ -519,6 +522,7 @@ Rectangle {
         id: spreadFlickable
         objectName: "spreadFlickable"
         anchors.fill: parent
+        property int minContentWidth: 6 * Math.min(height / 4, width / 5)
         contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
         enabled: false
 
@@ -633,7 +637,7 @@ Rectangle {
         State {
             name: "altTab"; when: root.altTabPressed
             PropertyChanges { target: workspaceSelector; visible: true }
-            PropertyChanges { target: spreadFlickable; enabled: true }
+            PropertyChanges { target: spreadFlickable; enabled: spreadFlickable.contentWidth > spreadFlickable.minContentWidth }
             PropertyChanges { target: currentSelectedLabel; visible: true }
             PropertyChanges { target: spreadBackground; visible: true }
             PropertyChanges { target: appContainer; focus: true }
