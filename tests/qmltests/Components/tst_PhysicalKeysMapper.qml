@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import "../../../qml/Components"
+import Powerd 0.1
 
 TestCase {
     name: "PhysicalKeysMapper"
@@ -56,6 +57,7 @@ TestCase {
     }
 
     function init() {
+        Powerd.status = Powerd.On;
         loader.active = true;
         tryCompare(loader.status == Loader.Ready);
     }
@@ -68,10 +70,22 @@ TestCase {
         screenshotSpy.clear();
     }
 
-    function test_powerKeyLongPressed() {
+    function test_powerKeyLongPressed_data() {
+        return [
+            { tag: "screenOn", status: Powerd.On },
+            { tag: "screenOff", status: Powerd.Off },
+        ];
+    }
+
+    function test_powerKeyLongPressed(data) {
+        Powerd.status = data.status;
         physicalKeysMapper.powerKeyLongPressTime = 500;
 
         physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
+
+        // After the first key press the screen is always on
+        // and the rest of keypresses are auto repeat
+        Powerd.status = Powerd.On;
 
         for (var i = 0; i < 3; ++i) {
             wait(10);
