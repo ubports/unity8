@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.3
-import QtQuick.Controls 1.3
 import AccountsService 0.1
 import QMenuModel 0.1 as QMenuModel
 import Qt.labs.folderlistmodel 2.1
@@ -51,16 +50,6 @@ LocalComponents.Page {
         Component.onCompleted: start()
     }
 
-    Component.onCompleted: {
-        group.bindCheckable(hereCheckLabel)
-        group.bindCheckable(gpsCheckLabel)
-        group.bindCheckable(nopeCheckLabel)
-    }
-
-    ExclusiveGroup {
-        id: group
-    }
-
     Item {
         id: column
         anchors.fill: content
@@ -84,8 +73,11 @@ LocalComponents.Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if (!hereCheckLabel.checked)
-                        hereCheckLabel.checked = true
+                    if (!hereCheckLabel.checked) {
+                        hereCheckLabel.checked = true;
+                        gpsCheckLabel.checked = false;
+                        nopeCheckLabel.checked = false;
+                    }
                 }
             }
         }
@@ -137,8 +129,11 @@ LocalComponents.Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if (!gpsCheckLabel.checked)
-                        gpsCheckLabel.checked = true
+                    if (!gpsCheckLabel.checked) {
+                        hereCheckLabel.checked = false;
+                        gpsCheckLabel.checked = true;
+                        nopeCheckLabel.checked = false;
+                    }
                 }
             }
         }
@@ -171,8 +166,11 @@ LocalComponents.Page {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if (!nopeCheckLabel.checked)
-                        nopeCheckLabel.checked = true
+                    if (!nopeCheckLabel.checked) {
+                        hereCheckLabel.checked = false;
+                        gpsCheckLabel.checked = false;
+                        nopeCheckLabel.checked = true;
+                    }
                 }
             }
         }
