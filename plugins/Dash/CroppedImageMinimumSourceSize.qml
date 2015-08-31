@@ -16,24 +16,12 @@
 
 import QtQuick 2.3
 
-Item {
+Image    {
     id: root
 
-    property alias image: innerImage
-    property alias source: innerImage.source
-    property alias asynchronous: innerImage.asynchronous
-    property alias verticalAlignment: innerImage.verticalAlignment
-    property alias horizontalAlignment: innerImage.horizontalAlignment
-    property alias fillMode: innerImage.fillMode
+    fillMode: Image.PreserveAspectCrop
 
-    Image {
-        id: innerImage
-
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-
-        readonly property real itemAspectRatio: width / height
-        readonly property real imageAspectRatio: implicitWidth / implicitHeight
-        sourceSize: (imageAspectRatio > itemAspectRatio) ? Qt.size(0, height) : Qt.size(width, 0)
-    }
+    readonly property real itemAspectRatio: width / height
+    readonly property real imageAspectRatio: implicitWidth / implicitHeight
+    sourceSize: (imageAspectRatio > itemAspectRatio) ? Qt.size(0, height) : Qt.size(width, 0)
 }
