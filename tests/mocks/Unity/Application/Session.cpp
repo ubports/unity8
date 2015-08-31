@@ -54,23 +54,21 @@ Session::~Session()
     if (m_application) {
         m_application->setSession(nullptr);
     }
-    delete m_surface;
     delete m_children;
+
+    if (m_surface) {
+        if (m_surface->viewCount() == 0) {
+            delete m_surface;
+        } else {
+            m_surface->setLive(false);
+        }
+    }
 }
 
 void Session::release()
 {
     qDebug() << "Session::release " << name();
-
-    if (m_parentSession) {
-        m_parentSession->removeChildSession(this);
-    }
-    if (m_application) {
-        m_application->setSession(nullptr);
-    }
-    if (!parent()) {
-        deleteLater();
-    }
+    deleteLater();
 }
 
 void Session::setApplication(ApplicationInfo* application)
@@ -82,27 +80,29 @@ void Session::setApplication(ApplicationInfo* application)
     Q_EMIT applicationChanged(application);
 }
 
-void Session::setSurface(MirSurfaceItem* surface)
+void Session::setSurface(MirSurface* surface)
 {
     qDebug() << "Session::setSurface - session=" << name() << "surface=" << surface;
     if (m_surface == surface)
         return;
 
     if (m_surface) {
-        m_surface->setSession(nullptr);
-        m_surface->setParent(nullptr);
-        Q_EMIT m_surface->deregister();
+        disconnect(m_surface, nullptr, this, nullptr);
     }
 
     m_surface = surface;
 
     if (m_surface) {
-        m_surface->setSession(this);
-        m_surface->setParent(this);
-        SurfaceManager::singleton()->registerSurface(m_surface);
+        connect(m_surface, &QObject::destroyed, this, &Session::onSurfaceDestroyed);
     }
 
     Q_EMIT surfaceChanged(m_surface);
+}
+
+void Session::onSurfaceDestroyed()
+{
+    m_surface = nullptr;
+    Q_EMIT surfaceChanged(nullptr);
 }
 
 void Session::setScreenshot(const QUrl& screenshot)
@@ -110,7 +110,7 @@ void Session::setScreenshot(const QUrl& screenshot)
     if (screenshot != m_screenshot) {
         m_screenshot = screenshot;
         if (m_surface) {
-            m_surface->setScreenshot(m_screenshot);
+            m_surface->setScreenshotUrl(m_screenshot);
         }
     }
 }
@@ -137,9 +137,9 @@ void Session::createSurface()
     if (m_surface) return;
 
     setSurface(SurfaceManager::singleton()->createSurface(name(),
-           MirSurfaceItem::Normal,
-           m_application && m_application->fullscreen() ? MirSurfaceItem::Fullscreen :
-                                                          MirSurfaceItem::Maximized,
+           Mir::NormalType,
+           m_application && m_application->fullscreen() ? Mir::FullscreenState :
+                                                          Mir::MaximizedState,
            m_screenshot));
 }
 

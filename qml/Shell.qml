@@ -373,20 +373,19 @@ Item {
             id: tutorial
             objectName: "tutorial"
             anchors.fill: parent
-            active: AccountsService.demoEdges
-            paused: LightDM.Greeter.active
-            launcher: launcher
-            panel: panel
-            edgeSize: shell.edgeSize
 
             // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
-            // we'll tell the tutorial to avoid using them on the Desktop.  The
+            // we skip the tutorial on the Desktop to avoid using them.  The
             // Desktop doesn't use the same spread design anyway.  The tutorial is
             // all a bit of a placeholder on non-phone form factors right now.
             // When the design team gives us more guidance, we can do something
             // more clever here.
-            // TODO: use DeviceConfiguration instead of checking source
-            useEdgeDragArea: applicationsDisplayLoader.source != Qt.resolvedUrl("Stages/DesktopStage.qml")
+            active: usageScenario != "desktop" && AccountsService.demoEdges
+
+            paused: LightDM.Greeter.active
+            launcher: launcher
+            panel: panel
+            edgeSize: shell.edgeSize
 
             onFinished: {
                 AccountsService.demoEdges = false;
@@ -402,25 +401,6 @@ Item {
         z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
     }
 
-    Connections {
-        target: SurfaceManager
-        onSurfaceCreated: {
-            if (surface.type == MirSurfaceItem.InputMethod) {
-                inputMethod.surface = surface;
-            }
-        }
-
-        onSurfaceDestroyed: {
-            if (inputMethod.surface == surface) {
-                inputMethod.surface = null;
-                surface.parent = null;
-            }
-            if (!surface.parent) {
-                // there's no one displaying it. delete it right away
-                surface.release();
-            }
-        }
-    }
     Connections {
         target: SessionManager
         onSessionStopping: {

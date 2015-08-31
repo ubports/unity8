@@ -50,7 +50,8 @@ FocusScope {
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
         property bool needToTakeScreenshot:
-            sessionContainer.surface && d.surfaceInitialized && screenshotImage.status === Image.Null
+            ((sessionContainer.surface && d.surfaceInitialized) || d.hadSurface)
+            && screenshotImage.status === Image.Null
             && d.applicationState === ApplicationInfoInterface.Stopped
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
