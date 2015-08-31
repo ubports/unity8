@@ -29,6 +29,10 @@ LocalComponents.Page {
 
     property alias selectedTimeZone: tzModel.selectedZoneId
 
+    UbuntuTimeDatePanel {
+        id: timeDatePanel
+    }
+
     TimeZoneModel {
         id: tzModel
     }
@@ -110,14 +114,14 @@ LocalComponents.Page {
         ListView {
             id: tzList;
 
-            boundsBehavior: Flickable.StopAtBounds;
+            boundsBehavior: Flickable.StopAtBounds
             clip: true;
             currentIndex: -1
             snapMode: ListView.SnapToItem
 
             anchors {
-                left: parent.left;
-                right: parent.right;
+                left: parent.left
+                right: parent.right
             }
 
             height: column.height - searchField.height - column.spacing - topMargin
@@ -132,7 +136,7 @@ LocalComponents.Page {
             text: i18n.tr("Next")
             enabled: selectedTimeZone != ""
             onClicked: {
-                UbuntuTimeDatePanel.timeZone = selectedTimeZone;
+                timeDatePanel.timeZone = selectedTimeZone;
                 pageStack.next();
             }
         }
