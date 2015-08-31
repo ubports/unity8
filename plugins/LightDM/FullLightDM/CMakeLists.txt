@@ -1,7 +1,9 @@
 pkg_check_modules(LIBLIGHTDM REQUIRED liblightdm-qt5-3)
 
 set(PLUGIN_CLASSNAME "FullLightDM")
-configure_file(../qmldir.in ${CMAKE_CURRENT_BINARY_DIR}/qmldir)
+
+# Written to source dir as thats where add_unity8_plugin expects it
+configure_file(../qmldir.in ${CMAKE_CURRENT_SOURCE_DIR}/qmldir)
 
 add_definitions(-DFULL_LIGHTDM)
 
