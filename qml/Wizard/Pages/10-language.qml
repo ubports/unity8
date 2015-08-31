@@ -26,8 +26,6 @@ LocalComponents.Page {
     title: i18n.tr("Language")
     forwardButtonSourceComponent: forwardButton
 
-    readonly property string defaultLanguage: "en" // default language
-
     UbuntuLanguagePlugin {
         id: plugin
     }
@@ -41,26 +39,38 @@ LocalComponents.Page {
     Connections {
         target: modemManager
         onModemsChanged: {
-            print("Modems changed")
-            init()
+            print("Modems changed");
+            init();
         }
     }
 
     function init()
     {
-        var detectedLangs = []
+        var detectedLang = "";
+        // try to detect the language from the SIM card
         if (simManager0.present && simManager0.preferredLanguages.length > 0) {
-            detectedLangs = simManager0.preferredLanguages;
-            print("SIM 0 detected langs:", detectedLangs);
+            detectedLang = simManager0.preferredLanguages[0];
+            print("SIM 0 detected lang:", detectedLang);
         } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
-            detectedLangs = simManager1.preferredLanguages;
-            print("SIM 1 detected langs:", detectedLangs);
+            detectedLang = simManager1.preferredLanguages[0];
+            print("SIM 1 detected lang:", detectedLang);
+        } else if (plugin.currentLanguage != -1) {
+            detectedLang = plugin.currentLanguage;
+            print("Using current language", plugin.currentLanguage, "as default");
         } else {
-            print("No lang detected, falling back to default:", defaultLanguage);
-            detectedLangs = [defaultLanguage]; // fallback to default lang
+            print("No lang detected, falling back to default (en_US)");
+            detectedLang = "en_US"; // fallback to default lang
         }
 
-        //populateModel(false, detectedLangs)
+        // preselect the detected language
+        for (var i = 0; i < plugin.languageCodes.length; i++) {
+            var code = plugin.languageCodes[i].split(".")[0]; // remove the encoding part, after dot (en_US.utf8 -> en_US)
+            if (detectedLang === code) {
+                languagesListView.currentIndex = i;
+                languagesListView.positionViewAtIndex(i, ListView.Center);
+                break;
+            }
+        }
     }
 
     Column {
@@ -71,7 +81,7 @@ LocalComponents.Page {
             id: languagesListView
             boundsBehavior: Flickable.StopAtBounds
             clip: true
-            currentIndex: plugin.currentLanguage
+            currentIndex: -1
             snapMode: ListView.SnapToItem
 
             anchors {
@@ -84,7 +94,7 @@ LocalComponents.Page {
             model: plugin.languageNames
 
             delegate: ListItem {
-                id: itemDelegate;
+                id: itemDelegate
 
                 readonly property bool isCurrent: index === ListView.view.currentIndex
 
@@ -93,8 +103,8 @@ LocalComponents.Page {
                     text: modelData
 
                     anchors {
-                        left: parent.left;
-                        verticalCenter: parent.verticalCenter;
+                        left: parent.left
+                        verticalCenter: parent.verticalCenter
                     }
 
                     fontSize: "medium"
@@ -134,7 +144,7 @@ LocalComponents.Page {
                     System.updateSessionLocale(plugin.languageCodes[plugin.currentLanguage]);
                 }
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)
-                root.countryCode = plugin.languageCodes[plugin.currentLanguage].split('_')[1].split('.')[0] // extract the country code, save it for the timezone page
+                root.countryCode = plugin.languageCodes[plugin.currentLanguage].split('_')[1].split('.')[0]; // extract the country code, save it for the timezone page
                 pageStack.next();
             }
         }
