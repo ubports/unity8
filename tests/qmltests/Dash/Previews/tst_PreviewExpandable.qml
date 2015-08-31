@@ -173,8 +173,22 @@ Rectangle {
     }
 
     PreviewWidgetFactory {
-        id: previewWidgetFactory
+        id: previewExpandable1
         anchors { left: parent.left; right: parent.right; top: previewExpandable.bottom  }
+        widgetType: "expandable"
+        widgetData: root.widgetData1
+    }
+
+    PreviewWidgetFactory {
+        id: previewExpandable2
+        anchors { left: parent.left; right: parent.right; top: previewExpandable1.bottom  }
+        widgetType: "expandable"
+        widgetData: root.widgetData2
+    }
+
+    PreviewWidgetFactory {
+        id: previewWidgetFactory
+        anchors { left: parent.left; right: parent.right; top: previewExpandable2.bottom  }
         opacity: 0
     }
 
@@ -223,7 +237,7 @@ Rectangle {
             checkInitialState();
         }
 
-        function test_expand_collapse_when_initialized() {
+        function test_expand_collapse_when_assigned() {
             previewExpandable.widgetData = widgetData1;
                 
             var repeater = findChild(previewExpandable, "repeater")
@@ -237,9 +251,9 @@ Rectangle {
             compare (repeater.itemAt(1).expanded, true);
             compare (repeater.itemAt(2).expanded, true);
             compare (repeater.itemAt(3).expanded, true);	    
-        }  
+        }
         
-        function test_collapsed_when_initialized() {
+        function test_collapsed_when_assigned() {
             previewExpandable.widgetData = widgetData2;
                 
             var repeater = findChild(previewExpandable, "repeater")
@@ -253,7 +267,35 @@ Rectangle {
             compare (repeater.itemAt(1).expanded, false);
             compare (repeater.itemAt(2).expanded, false);
             compare (repeater.itemAt(3).expanded, false);
-        }          
+        }
+
+        function test_expand_when_initialized() {
+            var repeater = findChild(previewExpandable1, "repeater")
+            compare(repeater.count, 4)
+
+            compare (repeater.itemAt(0).visible, true);
+            compare (repeater.itemAt(1).visible, true);
+            compare (repeater.itemAt(2).visible, true);
+            compare (repeater.itemAt(3).visible, true);
+            compare (repeater.itemAt(0).expanded, true);
+            compare (repeater.itemAt(1).expanded, true);
+            compare (repeater.itemAt(2).expanded, true);
+            compare (repeater.itemAt(3).expanded, true);
+        }
+
+        function test_collapse_when_initialized() {
+            var repeater = findChild(previewExpandable2, "repeater")
+            compare(repeater.count, 4)
+
+            compare (repeater.itemAt(0).visible, true);
+            compare (repeater.itemAt(1).visible, true);
+            compare (repeater.itemAt(2).visible, false);
+            compare (repeater.itemAt(3).visible, false);
+            compare (repeater.itemAt(0).expanded, false);
+            compare (repeater.itemAt(1).expanded, false);
+            compare (repeater.itemAt(2).expanded, false);
+            compare (repeater.itemAt(3).expanded, false);
+        }
 
         function test_all_widgets_height() {
             previewExpandable.widgetData = allWidgetsData;
