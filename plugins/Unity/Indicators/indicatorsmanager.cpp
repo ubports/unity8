@@ -75,8 +75,8 @@ void IndicatorsManager::load()
         }
     }
 
-    QObject::connect(m_fsWatcher.data(), SIGNAL(directoryChanged(const QString&)), this, SLOT(onDirectoryChanged(const QString&)));
-    QObject::connect(m_fsWatcher.data(), SIGNAL(fileChanged(const QString&)), this, SLOT(onFileChanged(const QString&)));
+    QObject::connect(m_fsWatcher.data(), &QFileSystemWatcher::directoryChanged, this, &IndicatorsManager::onDirectoryChanged);
+    QObject::connect(m_fsWatcher.data(), &QFileSystemWatcher::fileChanged, this, &IndicatorsManager::onFileChanged);
     setLoaded(true);
 }
 
@@ -282,7 +282,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
     new_indicator->init(data->m_fileInfo.fileName(), settings);
     new_indicator->setProfile(m_profile);
-    QObject::connect(this, SIGNAL(profileChanged(const QString&)), new_indicator.data(), SLOT(setProfile(const QString&)));
+    QObject::connect(this, &IndicatorsManager::profileChanged, new_indicator.data(), &Indicator::setProfile);
     return new_indicator;
 }
 

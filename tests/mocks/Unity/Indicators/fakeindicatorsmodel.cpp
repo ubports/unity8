@@ -24,9 +24,9 @@ FakeIndicatorsModel::FakeIndicatorsModel(QObject *parent)
     : QAbstractListModel(parent),
       m_profile("phone")
 {
-    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
+    QObject::connect(this, &FakeIndicatorsModel::rowsInserted, this, &FakeIndicatorsModel::countChanged);
+    QObject::connect(this, &FakeIndicatorsModel::rowsRemoved, this, &FakeIndicatorsModel::countChanged);
+    QObject::connect(this, &FakeIndicatorsModel::modelReset, this, &FakeIndicatorsModel::countChanged);
 }
 
 /*! \internal */

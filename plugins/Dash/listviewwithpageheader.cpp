@@ -168,10 +168,10 @@ ListViewWithPageHeader::ListViewWithPageHeader()
     m_contentYAnimation->setDuration(200);
     m_contentYAnimation->setTargetObject(this);
 
-    connect(this, SIGNAL(contentWidthChanged()), this, SLOT(onContentWidthChanged()));
-    connect(this, SIGNAL(contentHeightChanged()), this, SLOT(onContentHeightChanged()));
-    connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
-    connect(m_contentYAnimation, SIGNAL(runningChanged(bool)), this, SLOT(contentYAnimationRunningChanged(bool)));
+    connect(this, &ListViewWithPageHeader::contentWidthChanged, this, &ListViewWithPageHeader::onContentWidthChanged);
+    connect(this, &ListViewWithPageHeader::contentHeightChanged, this, &ListViewWithPageHeader::onContentHeightChanged);
+    connect(this, &ListViewWithPageHeader::heightChanged, this, &ListViewWithPageHeader::onHeightChanged);
+    connect(m_contentYAnimation, &QQuickNumberAnimation::runningChanged, this, &ListViewWithPageHeader::contentYAnimationRunningChanged);
 
     setFlickableDirection(VerticalFlick);
 }
@@ -191,10 +191,10 @@ void ListViewWithPageHeader::setModel(QAbstractItemModel *model)
         if (!m_delegateModel) {
             createDelegateModel();
         } else {
-            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+            disconnect(m_delegateModel, &QQmlDelegateModel::modelUpdated, this, &ListViewWithPageHeader::onModelUpdated);
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-        connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+        connect(m_delegateModel, &QQmlDelegateModel::modelUpdated, this, &ListViewWithPageHeader::onModelUpdated);
         Q_EMIT modelChanged();
         polish();
         // TODO?
@@ -283,7 +283,7 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
         m_topSectionItem = getSectionItem(QString());
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
-        connect(m_topSectionItem, SIGNAL(heightChanged()), SIGNAL(stickyHeaderHeightChanged()));
+        connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
 
         // TODO create sections for existing items
 
@@ -605,7 +605,7 @@ void ListViewWithPageHeader::adjustHeader(qreal diff)
 void ListViewWithPageHeader::createDelegateModel()
 {
     m_delegateModel = new QQmlDelegateModel(qmlContext(this), this);
-    connect(m_delegateModel, SIGNAL(createdItem(int,QObject*)), this, SLOT(itemCreated(int,QObject*)));
+    connect(m_delegateModel, &QQmlDelegateModel::createdItem, this, &ListViewWithPageHeader::itemCreated);
     if (isComponentComplete())
         m_delegateModel->componentComplete();
     updateWatchedRoles();
