@@ -726,19 +726,19 @@ Rectangle {
             var item = findChild(shell, "inputMethod");
             var surface = SurfaceManager.inputMethodSurface();
 
-            surface.setState(MirSurfaceItem.Minimized);
+            surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
 
-            surface.setState(MirSurfaceItem.Restored);
+            surface.setState(Mir.RestoredState);
             tryCompare(item, "visible", true);
 
-            surface.setState(MirSurfaceItem.Minimized);
+            surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
 
-            surface.setState(MirSurfaceItem.Maximized);
+            surface.setState(Mir.MaximizedState);
             tryCompare(item, "visible", true);
 
-            surface.setState(MirSurfaceItem.Minimized);
+            surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
         }
 
@@ -1112,20 +1112,20 @@ Rectangle {
 
             waitUntilFocusedApplicationIsShowingItsSurface();
 
-            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
-            verify(topmostSurface);
+            var topmostSurfaceItem = findChild(topmostSpreadDelegate, "surfaceItem");
+            verify(topmostSurfaceItem);
 
             var rightEdgeDragArea = findChild(shell, "spreadDragArea");
-            topmostSurface.touchPressCount = 0;
-            topmostSurface.touchReleaseCount = 0;
+            topmostSurfaceItem.touchPressCount = 0;
+            topmostSurfaceItem.touchReleaseCount = 0;
 
             var tapPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
                     rightEdgeDragArea.height / 2);
 
             tap(shell, tapPoint.x, tapPoint.y);
 
-            tryCompare(topmostSurface, "touchPressCount", 1);
-            tryCompare(topmostSurface, "touchReleaseCount", 1);
+            tryCompare(topmostSurfaceItem, "touchPressCount", 1);
+            tryCompare(topmostSurfaceItem, "touchReleaseCount", 1);
         }
 
         /*
@@ -1137,11 +1137,11 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
-            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var topmostSurfaceItem = findChild(topmostSpreadDelegate, "surfaceItem");
             var rightEdgeDragArea = findChild(shell, "spreadDragArea");
 
-            topmostSurface.touchPressCount = 0;
-            topmostSurface.touchReleaseCount = 0;
+            topmostSurfaceItem.touchPressCount = 0;
+            topmostSurfaceItem.touchReleaseCount = 0;
 
             var gestureStartPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
                     rightEdgeDragArea.height / 2);
@@ -1150,8 +1150,8 @@ Rectangle {
                     gestureStartPoint.x /* fromX */, gestureStartPoint.y /* fromY */,
                     units.gu(1) /* toX */, gestureStartPoint.y /* toY */);
 
-            tryCompare(topmostSurface, "touchPressCount", 0);
-            tryCompare(topmostSurface, "touchReleaseCount", 0);
+            tryCompare(topmostSurfaceItem, "touchPressCount", 0);
+            tryCompare(topmostSurfaceItem, "touchReleaseCount", 0);
         }
 
         function waitUntilFocusedApplicationIsShowingItsSurface()
