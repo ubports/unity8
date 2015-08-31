@@ -42,7 +42,7 @@ Item {
     signal triggered(string widgetId, string actionId, var data)
 
     /*! \brief This signal should be emitted when widget gains the focus
-     *  and input method popups. 
+     *  and input method popups.
      *  And preview widget should reposition in visible area to avoid
      *  keyboard appears over the widget.
      *
