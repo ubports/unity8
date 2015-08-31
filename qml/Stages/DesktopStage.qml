@@ -403,7 +403,7 @@ Rectangle {
                     id: closeImage
                     anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset + units.gu(2) }
                     source: "graphics/window-close.svg"
-                    property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                    readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
                     visible: index == appRepeater.highlightedIndex
                              && mousePos.y < (decoratedWindow.height / 3)
                              && mousePos.y > -units.gu(4)
@@ -483,13 +483,12 @@ Rectangle {
         onMouseXChanged: {
             mouse.accepted = false
 
-            // Find the howered item and mark it active
+            // Find the hovered item and mark it active
             var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
             var itemUnder = appContainer.childAt(mapped.x, mapped.y)
             if (itemUnder) {
                 mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
                 var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
-                print("delegateChild", delegateChild)
                 if (delegateChild.objectName === "decoratedWindow" || delegateChild.objectName === "tileInfo") {
                     appRepeater.highlightedIndex = appRepeater.indexOf(itemUnder)
                 }
