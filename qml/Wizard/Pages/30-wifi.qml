@@ -160,6 +160,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             height: column.height - label.height - column.spacing - topMargin
+            clip: true
             model: menuModel
 
             delegate: Loader {
