@@ -62,8 +62,7 @@ LocalComponents.Page {
 
         function getAccessPointName() {
             // 0 is the interface
-            if (currentNetworkMode === NetworkInfo.WlanMode &&
-                    networkStatus(NetworkInfo.WlanMode, 0) === NetworkInfo.HomeNetwork)
+            if (currentNetworkMode === NetworkInfo.WlanMode && networkStatus(NetworkInfo.WlanMode, 0) === NetworkInfo.HomeNetwork)
                 accessPointName = networkName(NetworkInfo.WlanMode, 0);
             else
                 accessPointName = "";
@@ -87,7 +86,6 @@ LocalComponents.Page {
             readonly property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             readonly property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             readonly property bool enterprise: getExtendedProperty(extendedData, "xCanonicalWifiApIsEnterprise", false)
-            readonly property bool isAccessPoint: menuData.type === "unity.widgets.systemsettings.tablet.accesspoint"
             property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
@@ -102,9 +100,7 @@ LocalComponents.Page {
             signal activate()
 
             text: menuData && menuData.label || ""
-            enabled: menuData && menuData.sensitive || false
-            height: isAccessPoint && !enterprise ? units.gu(6) : 0
-            visible: !enterprise
+            enabled: menuData && menuData.sensitive && !enterprise || false
             __foregroundColor: "#525252"
             showDivider: true
             iconName: {
@@ -170,6 +166,7 @@ LocalComponents.Page {
 
                 readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
 
+                height: isAccessPoint ? units.gu(6) : 0
                 anchors.left: parent.left
                 anchors.right: parent.right
                 asynchronous: true
