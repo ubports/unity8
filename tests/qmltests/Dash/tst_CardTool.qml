@@ -346,6 +346,11 @@ Rectangle {
 
             tryCompare(cardTool, "titleAlignment", data.value);
 
+            cardTool.components['title'] = { "field": "title" };
+            cardTool.componentsChanged();
+
+            tryCompare(cardTool, "titleAlignment", data.value);
+
             cardTool.components['title'] = { "field": "title", "align": "left" };
             cardTool.componentsChanged();
 
