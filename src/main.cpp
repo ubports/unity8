@@ -117,7 +117,7 @@ int main(int argc, const char *argv[])
     view->engine()->setNetworkAccessManagerFactory(managerFactory);
 
     view->setSource(source);
-    QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
+    QObject::connect(view->engine(), &QQmlEngine::quit, application, &QGuiApplication::quit);
 
     // FIXME: This is a workaround to make the greeter fullscreen as
     // view->showFullScreen() doesn't work quite right

@@ -173,6 +173,7 @@ Item {
 
     VolumeControl {
         id: volumeControl
+        indicators: panel.indicators
     }
 
     DashCommunicator {
@@ -399,25 +400,6 @@ Item {
         z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
     }
 
-    Connections {
-        target: SurfaceManager
-        onSurfaceCreated: {
-            if (surface.type == MirSurfaceItem.InputMethod) {
-                inputMethod.surface = surface;
-            }
-        }
-
-        onSurfaceDestroyed: {
-            if (inputMethod.surface == surface) {
-                inputMethod.surface = null;
-                surface.parent = null;
-            }
-            if (!surface.parent) {
-                // there's no one displaying it. delete it right away
-                surface.release();
-            }
-        }
-    }
     Connections {
         target: SessionManager
         onSessionStopping: {

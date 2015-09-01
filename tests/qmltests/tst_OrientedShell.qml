@@ -280,9 +280,9 @@ Rectangle {
                     onCheckedChanged: {
                         var surface = SurfaceManager.inputMethodSurface();
                         if (checked) {
-                            surface.setState(MirSurfaceItem.Restored);
+                            surface.setState(Mir.RestoredState);
                         } else {
-                            surface.setState(MirSurfaceItem.Minimized);
+                            surface.setState(Mir.MinimizedState);
                         }
                     }
                 }
@@ -415,22 +415,22 @@ Rectangle {
             compare(dashApp.stage, ApplicationInfoInterface.MainStage);
 
             tryCompareFunction(function(){return dashApp.session.surface != null;}, true);
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
             rotateTo(90);
 
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(180);
 
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(270);
 
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
@@ -1200,15 +1200,10 @@ Rectangle {
         }
 
         // expectedAngle is in orientedShell's coordinate system
-        function checkAppSurfaceOrientation(app, expectedAngle) {
+        function checkAppSurfaceOrientation(item, app, expectedAngle) {
             var surface = app.session.surface;
             if (!surface) {
                 console.warn("no surface");
-                return false;
-            }
-
-            if (!itemIsChildOfOrientedShell(surface)) {
-                console.warn("surface not a child of OrientedShell");
                 return false;
             }
 
@@ -1221,7 +1216,12 @@ Rectangle {
                 topMargin = appsDisplayLoader.item.maximizedAppTopMargin;
             }
 
-            var point = surface.mapToItem(orientedShell, 0, 0);
+            var surfaceItem = findSurfaceItem(item, surface);
+            if (!surfaceItem) {
+                console.warn("no surfaceItem rendering app surface");
+                return false;
+            }
+            var point = surfaceItem.mapToItem(orientedShell, 0, 0);
 
             switch (expectedAngle) {
             case 0:
@@ -1235,14 +1235,22 @@ Rectangle {
             }
         }
 
-        function itemIsChildOfOrientedShell(item) {
-            var parent = item.parent;
-            var found = false;
-            while (parent && !found) {
-                found = parent === orientedShell;
-                parent = parent.parent;
+        function findSurfaceItem(obj, surface) {
+            var childs = new Array(0);
+            childs.push(obj)
+            while (childs.length > 0) {
+                console.log("Checking " + childs[0].objectName);
+                if (childs[0].objectName === "surfaceItem"
+                        && childs[0].surface !== undefined
+                        && childs[0].surface === surface) {
+                    return childs[0];
+                }
+                for (var i in childs[0].children) {
+                    childs.push(childs[0].children[i])
+                }
+                childs.splice(0, 1);
             }
-            return found;
+            return null;
         }
     }
 }

@@ -27,6 +27,7 @@ Showable {
     property alias hideDragHandle: __hideDragHandle
     property alias overFlowWidth: bar.overFlowWidth
     property alias verticalVelocityThreshold: yVelocityCalculator.velocityThreshold
+    property alias currentIndicator: bar.currentIndicator
     property int minimizedPanelHeight: units.gu(3)
     property int expandedPanelHeight: units.gu(7)
     property real openedHeight: units.gu(71)

@@ -24,9 +24,9 @@ UnitySortFilterProxyModelQML::UnitySortFilterProxyModelQML(QObject *parent)
     : QSortFilterProxyModel(parent)
     , m_invertMatch(false)
 {
-    connect(this, SIGNAL(modelReset()), SIGNAL(countChanged()));
-    connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(countChanged()));
-    connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(countChanged()));
+    connect(this, &UnitySortFilterProxyModelQML::modelReset, this, &UnitySortFilterProxyModelQML::countChanged);
+    connect(this, &UnitySortFilterProxyModelQML::rowsInserted, this, &UnitySortFilterProxyModelQML::countChanged);
+    connect(this, &UnitySortFilterProxyModelQML::rowsRemoved, this, &UnitySortFilterProxyModelQML::countChanged);
 }
 
 /*
@@ -59,9 +59,9 @@ UnitySortFilterProxyModelQML::setModel(QAbstractItemModel *itemModel)
 
         setSourceModel(itemModel);
 
-        connect(itemModel, SIGNAL(modelReset()), SIGNAL(totalCountChanged()));
-        connect(itemModel, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
-        connect(itemModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(totalCountChanged()));
+        connect(itemModel, &QAbstractItemModel::modelReset, this, &UnitySortFilterProxyModelQML::totalCountChanged);
+        connect(itemModel, &QAbstractItemModel::rowsInserted, this, &UnitySortFilterProxyModelQML::totalCountChanged);
+        connect(itemModel, &QAbstractItemModel::rowsRemoved, this, &UnitySortFilterProxyModelQML::totalCountChanged);
 
         Q_EMIT totalCountChanged();
         Q_EMIT modelChanged();

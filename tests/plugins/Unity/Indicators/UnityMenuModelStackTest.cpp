@@ -48,7 +48,7 @@ private Q_SLOTS:
     void testHeadOnSetHead()
     {
         UnityMenuModelStack stack;
-        connect(&stack, SIGNAL(headChanged(UnityMenuModel*)), this, SLOT(onHeadChanged()));
+        connect(&stack, &UnityMenuModelStack::headChanged, this, &UnityMenuModelStackTest::onHeadChanged);
         stack.setHead(m_model);
 
         QCOMPARE(stack.head(), m_model);
@@ -58,7 +58,7 @@ private Q_SLOTS:
     void testTailOnSetHead()
     {
         UnityMenuModelStack stack;
-        connect(&stack, SIGNAL(tailChanged(UnityMenuModel*)), this, SLOT(onTailChanged()));
+        connect(&stack, &UnityMenuModelStack::tailChanged, this, &UnityMenuModelStackTest::onTailChanged);
         stack.setHead(m_model);
 
         QCOMPARE(stack.tail(), m_model);
@@ -84,7 +84,7 @@ private Q_SLOTS:
         m_model->setModelData(recuseAddMenu(subMenuCount, menuDepth));
 
         UnityMenuModelStack stack;
-        connect(&stack, SIGNAL(tailChanged(UnityMenuModel*)), this, SLOT(onTailChanged()));
+        connect(&stack, &UnityMenuModelStack::tailChanged, this, &UnityMenuModelStackTest::onTailChanged);
 
         QList<UnityMenuModel*> models;
 
