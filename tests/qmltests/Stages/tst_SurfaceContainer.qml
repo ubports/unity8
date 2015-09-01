@@ -70,12 +70,12 @@ Rectangle {
 
                         if (checked) {
                             var fakeSurface = SurfaceManager.createSurface("fake-surface",
-                                                                           MirSurfaceItem.Normal,
-                                                                           MirSurfaceItem.Restored,
+                                                                           Mir.NormalType,
+                                                                           Mir.RestoredState,
                                                                            Qt.resolvedUrl("../Dash/artwork/music-player-design.png"));
                             surfaceContainerLoader.item.surface = fakeSurface;
                         } else {
-                            ApplicationTest.removeSurface(surfaceContainerLoader.item.surface);
+                            surfaceContainerLoader.item.surface.setLive(false);
                         }
                     }
                 }
@@ -121,70 +121,64 @@ Rectangle {
             interactiveCheckbox.checked = true;
         }
 
-        /*
-            Add a first surface. Then remove it. Then add a second surface.
-            That second surface should be properly sized.
-
-            Regression test for https://bugs.launchpad.net/ubuntu/+source/qtmir/+bug/1359819
-         */
-        function test_resetSurfaceGetsProperlySized() {
-            surfaceCheckbox.checked = true;
-            surfaceCheckbox.checked = false;
-            surfaceCheckbox.checked = true;
-            var fakeSurface = surfaceContainerLoader.item.surface;
-            compare(fakeSurface.width, surfaceContainerLoader.item.width);
-            compare(fakeSurface.height, surfaceContainerLoader.item.height);
-        }
-
         function test_animateRemoval() {
             surfaceCheckbox.checked = true;
 
             verify(surfaceContainer.surface !== null);
 
-            ApplicationTest.removeSurface(surfaceContainer.surface);
+            surfaceContainer.surface.setLive(false);
 
             compare(surfaceContainer.state, "zombie");
             tryCompare(surfaceContainer, "surface", null);
         }
 
-        function test_surfaceGetsNoTouchesWhenContainerNotInteractive() {
+        function test_surfaceItemGetsNoTouchesWhenContainerNotInteractive() {
             surfaceCheckbox.checked = true;
             verify(surfaceContainer.surface !== null);
 
-            surfaceContainer.surface.touchPressCount = 0;
-            surfaceContainer.surface.touchReleaseCount = 0;
+            var surfaceItem = findChild(surfaceContainer, "surfaceItem");
+            verify(surfaceItem !== null);
+
+            surfaceItem.touchPressCount = 0;
+            surfaceItem.touchReleaseCount = 0;
 
             tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
 
             // surface got touches as the surfaceContainer is interactive
-            compare(surfaceContainer.surface.touchPressCount, 1)
-            compare(surfaceContainer.surface.touchReleaseCount, 1);
+            compare(surfaceItem.touchPressCount, 1)
+            compare(surfaceItem.touchReleaseCount, 1);
 
             interactiveCheckbox.checked = false;
             tap(surfaceContainer, surfaceContainer.width / 2, surfaceContainer.height / 2);
 
             // surface shouldn't get the touches from the second tap as the surfaceContainer
             // was *not* interactive when it happened.
-            compare(surfaceContainer.surface.touchPressCount, 1)
-            compare(surfaceContainer.surface.touchReleaseCount, 1);
+            compare(surfaceItem.touchPressCount, 1)
+            compare(surfaceItem.touchReleaseCount, 1);
         }
 
-        function test_surfaceGetsActiveFocusOnMousePress() {
+        function test_surfaceItemGetsActiveFocusOnMousePress() {
             surfaceCheckbox.checked = true;
             verify(surfaceContainer.surface !== null);
 
-            compare(surfaceContainer.surface.activeFocus, false);
+            var surfaceItem = findChild(surfaceContainer, "surfaceItem");
+            verify(surfaceItem !== null);
+
+            compare(surfaceItem.activeFocus, false);
             mouseClick(surfaceContainer);
-            compare(surfaceContainer.surface.activeFocus, true);
+            compare(surfaceItem.activeFocus, true);
         }
 
-        function test_surfaceGetsActiveFocusOnTap() {
+        function test_surfaceItemGetsActiveFocusOnTap() {
             surfaceCheckbox.checked = true;
             verify(surfaceContainer.surface !== null);
 
-            compare(surfaceContainer.surface.activeFocus, false);
+            var surfaceItem = findChild(surfaceContainer, "surfaceItem");
+            verify(surfaceItem !== null);
+
+            compare(surfaceItem.activeFocus, false);
             tap(surfaceContainer);
-            compare(surfaceContainer.surface.activeFocus, true);
+            compare(surfaceItem.activeFocus, true);
         }
     }
 }

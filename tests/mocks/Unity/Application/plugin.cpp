@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,11 +20,13 @@
 #include "ApplicationScreenshotProvider.h"
 #include "Session.h"
 #include "MirSurfaceItem.h"
-#include "MirSurfaceItemModel.h"
 #include "SurfaceManager.h"
 #include "SessionManager.h"
 #include "ApplicationTestInterface.h"
 #include "UbuntuKeyboardInfo.h"
+
+// unity-api
+#include <unity/shell/application/Mir.h>
 
 #include <qqml.h>
 #include <QQmlEngine>
@@ -67,14 +69,16 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {
     qRegisterMetaType<Session*>("Session*");
     qRegisterMetaType<ApplicationInfo*>("ApplicationInfo*");
-    qRegisterMetaType<MirSurfaceItemModel*>("SessionModel*");
-    qRegisterMetaType<MirSurfaceItem*>("MirSurfaceItem*");
-    qRegisterMetaType<MirSurfaceItemModel*>("MirSurfaceItemModel*");
+    qRegisterMetaType<SessionModel*>("SessionModel*");
+    qRegisterMetaType<unity::shell::application::MirSurfaceInterface*>("unity::shell::application::MirSurfaceInterface*");
+    qRegisterMetaType<Mir::Type>("Mir::Type");
+    qRegisterMetaType<Mir::State>("Mir::State");
 
     qmlRegisterUncreatableType<unity::shell::application::ApplicationManagerInterface>(uri, 0, 1, "ApplicationManagerInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterUncreatableType<unity::shell::application::ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterUncreatableType<Session>(uri, 0, 1, "Session", "Session can't be instantiated from QML");
-    qmlRegisterUncreatableType<MirSurfaceItem>(uri, 0, 1, "MirSurfaceItem", "MirSurfaceItem can't be instantiated from QML");
+    qmlRegisterUncreatableType<MirSurface>(uri, 0, 1, "MirSurface", "MirSurface can't be instantiated from QML");
+    qmlRegisterType<MirSurfaceItem>(uri, 0, 1, "MirSurfaceItem");
 
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
 
@@ -84,8 +88,7 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<ApplicationTestInterface>(uri, 0, 1, "ApplicationTest", applicationTestInterface);
     qmlRegisterSingletonType<UbuntuKeyboardInfo>(uri, 0, 1, "UbuntuKeyboardInfo", ubuntuKeyboardInfoSingleton);
 
-    qRegisterMetaType<MirSurfaceItem::Type>("MirSurfaceItem::Type");
-    qRegisterMetaType<MirSurfaceItem::State>("MirSurfaceItem::State");
+    qmlRegisterUncreatableType<Mir>(uri, 0, 1, "Mir", "Mir provides enum values, it can't be instantiated");
 }
 
 void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
