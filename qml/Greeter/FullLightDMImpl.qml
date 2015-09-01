@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.3
-import FullLightDM 0.1 as LightDM
+import LightDM.FullLightDM 0.1 as LightDM
 
 Item{
     id: implementation
