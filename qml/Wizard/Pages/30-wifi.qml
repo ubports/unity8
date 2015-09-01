@@ -159,6 +159,7 @@ LocalComponents.Page {
             id: listview
             anchors.left: parent.left
             anchors.right: parent.right
+            height: column.height - label.height - column.spacing - topMargin
             model: menuModel
 
             delegate: Loader {
