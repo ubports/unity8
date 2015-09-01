@@ -59,10 +59,18 @@ void PLUGIN_CLASSNAME::registerTypes(const char *uri)
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<UserMetricsOutput::ColorTheme>();
 
-    Q_ASSERT(uri == QLatin1String("FullLightDM"));
+    Q_ASSERT(uri == QLatin1String("PLUGIN_CLASSNAME"));
     qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
     qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
+
+#if defined INTEGRATED_LIGHTDM
+    qmlRegisterSingletonType<Greeter>(uri, 0, 1, "Greeter", greeter_provider);
+#elif defined FULL_LIGHTDM
     qmlRegisterSingletonType<QLightDM::Greeter>(uri, 0, 1, "Greeter", greeter_provider);
+#else
+    #error No library defined in LightDM plugin
+#endif
+
     qmlRegisterSingletonType<UsersModel>(uri, 0, 1, "Users", users_provider);
     qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", "Type is not instantiable");
     qmlRegisterSingletonType<UserMetricsOutput::UserMetrics>(uri, 0, 1, "Infographic", infographic_provider);
