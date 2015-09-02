@@ -1,2 +1,2 @@
-usr/share/lightdm/greeters/lightdm-unity8-greeter.desktop
+usr/share/lightdm/greeters/unity8-greeter.desktop
 usr/share/lightdm/lightdm.conf.d/51-unity-greeter.conf
