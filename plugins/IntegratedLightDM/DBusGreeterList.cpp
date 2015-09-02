@@ -24,8 +24,8 @@ DBusGreeterList::DBusGreeterList(Greeter *greeter, const QString &path)
  : UnityDBusObject(path, "com.canonical.UnityGreeter", true, greeter),
    m_greeter(greeter)
 {
-    connect(m_greeter, SIGNAL(authenticationUserChanged(const QString &)), this, SLOT(authenticationUserChangedHandler(const QString &)));
-    connect(m_greeter, SIGNAL(promptlessChanged()), this, SLOT(promptlessChangedHandler()));
+    connect(m_greeter, &Greeter::authenticationUserChanged, this, &DBusGreeterList::authenticationUserChangedHandler);
+    connect(m_greeter, &Greeter::promptlessChanged, this, &DBusGreeterList::promptlessChangedHandler);
 }
 
 QString DBusGreeterList::GetActiveEntry() const

@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2014-10-28 06:34+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Vahan Harutyunyan <Unknown>\n"
 "Language-Team: Armenian <hy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Գաղտնաբառ: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Փակցնել պիտակը"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Հեռացնել պիտակը"
 
@@ -227,15 +231,15 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Տեսնել բոլորը"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -271,6 +275,11 @@ msgstr "Ավելին..."
 msgid "Less..."
 msgstr "Ավելի քիչ..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Ուղղարկել"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Գնահատեք սա"
@@ -278,10 +287,6 @@ msgstr "Գնահատեք սա"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr ""
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Ուղղարկել"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -474,13 +479,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -701,74 +702,5 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
-#~ msgid "Confirm"
-#~ msgstr "Հաստատել"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Գրիր կամ ասա կոմմենտը"
-
-#~ msgid "Speaking..."
-#~ msgstr "Խոսում եմ..."
-
-#~ msgid "Search"
-#~ msgstr "Որոնում"
-
-#~ msgid "Log out"
-#~ msgstr "Ելք"
-
-#~ msgid "Reboot"
-#~ msgstr "Վերաբեռնել"
-
-#~ msgid "Shut down"
-#~ msgstr "Անջատել"
-
-#~ msgid "Power"
-#~ msgstr "Էլեկտրասնուցում"
-
-#~ msgid "Restart"
-#~ msgstr "Վերագործարկել"
-
-#~ msgid "Power off"
-#~ msgstr "Անջատել սնուցման աղբյուրից"
-
-#~ msgid "Top edge"
-#~ msgstr "Վերին եզրը"
-
-#~ msgid "Close"
-#~ msgstr "Փակել"
-
-#~ msgid "Left edge"
-#~ msgstr "Ձախ եզրը"
-
-#~ msgid "Well done"
-#~ msgstr "Լավ է"
-
-#~ msgid "Right edge"
-#~ msgstr "Աջ եզրը"
-
-#~ msgid "Settings"
-#~ msgstr "Կարգավորումներ"
-
-#~ msgid "Favorites"
-#~ msgstr "Նախընտրելի"
-
-#~ msgid "Store"
-#~ msgstr "Խանութ"
-
-#~ msgid "Done"
-#~ msgstr "Կատարված է"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Բեռնվում է: Խնդրում ենք սպասել..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Հիմա խոսեք..."
-
-#~ msgid "All"
-#~ msgstr "Բոլորը"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Խնդրում ենք նորից մուտքագրել"
-
-#~ msgid "Skip intro"
-#~ msgstr "Բաց թողնել ներածությունը"

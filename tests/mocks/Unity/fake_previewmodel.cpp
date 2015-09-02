@@ -37,8 +37,7 @@ PreviewModel::PreviewModel(QObject* parent, Scope* scope)
     // we have one column by default
     PreviewWidgetModel* columnModel = new PreviewWidgetModel(this);
     m_previewWidgetModels.append(columnModel);
-    connect(this, SIGNAL(triggered(QString const&, QString const&, QVariantMap const&)),
-            this, SLOT(triggeredSlot(QString const&, QString const&, QVariantMap const&)));
+    connect(this, &PreviewModel::triggered, this, &PreviewModel::triggeredSlot);
 }
 
 void PreviewModel::setWidgetColumnCount(int count)

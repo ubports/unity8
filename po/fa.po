@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-11 15:43+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "گذرواژه: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "سنجاق کردن میانبر"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "برداشتن سنجاق میانبر"
 
@@ -225,15 +229,15 @@ msgstr "تماس اضطراری"
 msgid "OK"
 msgstr "قبول"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "کم‌تر ببینید"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "دیدن همه"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "جست‌وجو"
@@ -269,6 +273,11 @@ msgstr "بیش‌تر…"
 msgid "Less..."
 msgstr "کم‌تر…"
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "ارسال"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "امتیاز دادن"
@@ -276,10 +285,6 @@ msgstr "امتیاز دادن"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "افزودن یک بازبینی"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "ارسال"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -473,14 +478,10 @@ msgstr "باز کردن فهرست‌های مخصوص"
 msgid "Swipe up from the bottom edge."
 msgstr "از لبه‌ی پایینی به سمت بالا بکشید."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "برای ادامه این‌جا را بزنید"
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "برای پایان اینجا کلیک کنید."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -708,96 +709,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Right edge"
-#~ msgstr "لبه‌ی راست"
-
-#~ msgid "Top edge"
-#~ msgstr "لبه‌ی بالا"
-
-#~ msgid "Well done"
-#~ msgstr "عالی بود"
-
-#~ msgid "Type or say a command"
-#~ msgstr "دستوری را بنویسید یا بگویید"
-
-#~ msgid "Left edge"
-#~ msgstr "لبه‌ی چپ"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "برای دست‌رسی به نشانگرها، از لبه‌ی بالا بکشید"
-
-#~ msgid "Close"
-#~ msgstr "بستن"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "برای بستن صفحه‌ی تنظیمات، دوباره به بالا بکشپد"
-
-#~ msgid "Skip intro"
-#~ msgstr "پرش از مقدّمه"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "برای باز کردن قفل تلفن، از لبه‌ی راست بکشید"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "برای آشکار شدن اجراگر به منظور دست‌رسی سریع به اپ‌ها از سمت چپ بکشید"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید استفاده "
-#~ "از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
-
-#~ msgid "Confirm"
-#~ msgstr "تأیید"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "در حال بار کردن. لطفاً صبر کنید…"
-
-#~ msgid "Speaking..."
-#~ msgstr "در حال صحبت کردن…"
-
-#~ msgid "Speak Now..."
-#~ msgstr "اکنون صحبت کنید…"
-
-#~ msgid "Search"
-#~ msgstr "جست‌وجو"
-
-#~ msgid "All"
-#~ msgstr "همه"
-
-#~ msgid "Favorites"
-#~ msgstr "برگزیده‌ها"
-
-#~ msgid "Store"
-#~ msgstr "فروشگاه"
-
-#~ msgid "Power off"
-#~ msgstr "خاموش کردن"
-
-#~ msgid "Done"
-#~ msgstr "انجام شد"
-
-#~ msgid "Power"
-#~ msgstr "توان"
-
-#~ msgid "Log out"
-#~ msgstr "خروج از حساب"
-
-#~ msgid "Reboot"
-#~ msgstr "راه‌اندازی مجدّد"
-
-#~ msgid "Shut down"
-#~ msgstr "خاموش کردن"
-
-#~ msgid "Settings"
-#~ msgstr "تنظیمات"
-
-#~ msgid "Restart"
-#~ msgstr "شروع مجدّد"
-
 #~ msgid "Please re-enter"
 #~ msgstr "لطفاً دوباره وارد کنید"
 
-#~ msgid "Manage Scopes"
-#~ msgstr "مدیریت حوزه‌ها"
+#~ msgid "Click here to finish."
+#~ msgstr "برای پایان اینجا کلیک کنید."

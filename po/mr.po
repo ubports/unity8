@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2014-01-14 19:54+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Rohan Deshmukh <Unknown>\n"
 "Language-Team: Marathi <mr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "पासवर्ड: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -223,15 +227,15 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "शोध"
@@ -267,6 +271,11 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "पाठवा"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr ""
@@ -274,10 +283,6 @@ msgstr ""
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr ""
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "पाठवा"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -470,13 +475,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -696,33 +697,3 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
-
-#~ msgid "Skip intro"
-#~ msgstr "परिचय वगळा"
-
-#~ msgid "Top edge"
-#~ msgstr "वरचा काठ"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "इंडिकेटर वापरण्याकरिता वरचा काठावरून स्वाइप करण्याचा प्रयत्न करा"
-
-#~ msgid "Close"
-#~ msgstr "बंद करा"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "सेटिंग्ज स्क्रीन बंद करण्यासाठी पुन्हा एकदा स्वाइप करा"
-
-#~ msgid "Left edge"
-#~ msgstr "डावा काठ"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "लाँचर वरील अॕप्प्स त्वरित वापरण्याकरिता डाव्या बाजूने स्वाइप करा"
-
-#~ msgid "Well done"
-#~ msgstr "कौशल्यपूर्वक केले"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "फोन अनलॉक करण्यासाठी उजव्या काठावरुन स्वाइप करण्याचा प्रयत्न करा"
-
-#~ msgid "Right edge"
-#~ msgstr "उजवा काठ"

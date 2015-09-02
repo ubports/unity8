@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-04-24 04:29+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Gursharnjit_Singh <ubuntuser13@gmail.com>\n"
 "Language-Team: Punjabi <pa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "ਗੁਪਤ ਕੋਡ: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "ਸ਼ਾਰਟਕੱਟ ਪਿੰਨ ਲਗਾਓ"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "ਸ਼ਾਰਟਕੱਟ ਪਿੰਨ ਹਟਾਓ"
 
@@ -225,15 +229,15 @@ msgstr "ਅਪਾਤਕਾਲੀਨ ਕਾਲ"
 msgid "OK"
 msgstr "ਠੀਕ"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "ਘੱਟ ਵੇਖੋ"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "ਸਾਰਾ ਵੇਖੋ"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "ਖੋਜ"
@@ -269,6 +273,11 @@ msgstr "ਹੋਰ..."
 msgid "Less..."
 msgstr "ਘੱਟ..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "ਭੇਜੋ"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "ਇਸ ਨੂੰ ਰੇਟ ਕਰੋ"
@@ -276,10 +285,6 @@ msgstr "ਇਸ ਨੂੰ ਰੇਟ ਕਰੋ"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "ਸਮੀਖਿਆ ਜੋੜੋ"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "ਭੇਜੋ"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -476,14 +481,10 @@ msgstr "ਖਾਸ਼ ਮੀਨੂੰ ਖੋਲ੍ਹੋ"
 msgid "Swipe up from the bottom edge."
 msgstr "ਹੇਠਲੇ ਕਿਨਾਰੇ ਤੋਂ ਉੱਪਰ ਵੱਲੋਂ ਖਿੱਚੋ।"
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "ਜਾਰੀ ਰੱਖਣ ਲਈ ਇੱਥੇ ਛੂਹੋ।"
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "ਸਮਾਪਤੀ ਲਈ ਇੱਥੇ ਕਲਿੱਕ ਕਰੋ।"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -710,41 +711,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Log out"
-#~ msgstr "ਲਾਗ-ਆਉਟ"
-
-#~ msgid "Reboot"
-#~ msgstr "ਮੁਡ਼-ਚਾਲੂ"
-
-#~ msgid "Shut down"
-#~ msgstr "ਬੰਦ ਕਰੋ"
-
-#~ msgid "Power"
-#~ msgstr "ਪਾਵਰ"
-
-#~ msgid "Top edge"
-#~ msgstr "ਉੱਪਰੀ ਕੰਢਾ"
-
-#~ msgid "Restart"
-#~ msgstr "ਮੁੜ ਚਾਲੂ ਕਰੋ"
-
-#~ msgid "Right edge"
-#~ msgstr "ਸੱਜਾ ਕੋਨਾ"
-
-#~ msgid "Skip intro"
-#~ msgstr "ਜਾਣ-ਪਛਾਣ ਛੱਡੋ"
-
-#~ msgid "Power off"
-#~ msgstr "ਬੰਦ ਕਰੋ"
-
-#~ msgid "Settings"
-#~ msgstr "ਸੈਟਿੰਗ"
-
-#~ msgid "Store"
-#~ msgstr "ਸਟੋਰ"
-
-#~ msgid "Search"
-#~ msgstr "ਖੋਜ"
-
 #~ msgid "Please re-enter"
 #~ msgstr "ਕਿਰਪਾ ਕਰਕੇ ਮੁੜ-ਦਰਜ ਕਰੋ"
+
+#~ msgid "Click here to finish."
+#~ msgstr "ਸਮਾਪਤੀ ਲਈ ਇੱਥੇ ਕਲਿੱਕ ਕਰੋ।"

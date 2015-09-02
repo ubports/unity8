@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-24 18:03+0000\n"
-"Last-Translator: Torsten Franz <Unknown>\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-06-01 11:33+0000\n"
+"Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Passwort: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Verknüpfung anheften"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Verknüpfung entfernen"
 
@@ -229,15 +233,15 @@ msgstr "Notruf"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Weniger ansehen"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Alle anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Suchen"
@@ -273,6 +277,11 @@ msgstr "Mehr …"
 msgid "Less..."
 msgstr "Weniger …"
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Senden"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Bewerten"
@@ -280,10 +289,6 @@ msgstr "Bewerten"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Bewertung hinzufügen"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Senden"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -481,14 +486,10 @@ msgstr "Spezielle Menüs öffnen"
 msgid "Swipe up from the bottom edge."
 msgstr "Wischen Sie von der unteren Bildschirmkante nach oben."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Zum Fortfahren hier tippen."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Zum Abschließen bitte hier klicken."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -716,99 +717,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Confirm"
-#~ msgstr "Bestätigen"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Wird geladen. Bitte warten …"
-
-#~ msgid "Speak Now..."
-#~ msgstr "Sprechen Sie jetzt …"
-
-#~ msgid "Search"
-#~ msgstr "Suchen"
-
-#~ msgid "Close"
-#~ msgstr "Schließen"
-
-#~ msgid "Left edge"
-#~ msgstr "Linker Rand"
-
-#~ msgid "Well done"
-#~ msgstr "Gut gemacht"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Wischen Sie erneut nach oben, um das Einstellungsmenü zu schließen"
-
-#~ msgid "Skip intro"
-#~ msgstr "Einführung überspringen"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Befehl eingeben oder sprechen"
-
-#~ msgid "Speaking..."
-#~ msgstr "Sprechen Sie …"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Sie haben nun die Kantengesten erfolgreich erlernt und können das Telefon "
-#~ "nun nutzen<br><br>Zum Starten auf den Bildschirm tippen"
-
-#~ msgid "Top edge"
-#~ msgstr "Oberer Bildschirmrand"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr ""
-#~ "Vom oberen Bildschirmrand her wischen, um die Statusmeldungen anzuzeigen"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Wischen Sie von links nach rechts, um die Seitenleiste für den Anwendungs-"
-#~ "Schnellzugriff aufzurufen"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Vom rechten Bildschirmrand her wischen, um das Gerät zu entsperren"
-
-#~ msgid "Right edge"
-#~ msgstr "Rechter Bildschirmrand"
-
-#~ msgid "Power off"
-#~ msgstr "Ausschalten"
-
-#~ msgid "All"
-#~ msgstr "Alle"
-
-#~ msgid "Done"
-#~ msgstr "Erledigt"
-
-#~ msgid "Favorites"
-#~ msgstr "Favoriten"
-
-#~ msgid "Store"
-#~ msgstr "Store"
-
-#~ msgid "Log out"
-#~ msgstr "Abmelden"
-
-#~ msgid "Reboot"
-#~ msgstr "Neustart"
-
-#~ msgid "Shut down"
-#~ msgstr "Herunterfahren"
-
-#~ msgid "Power"
-#~ msgstr "Energie"
-
-#~ msgid "Settings"
-#~ msgstr "Einstellungen"
-
-#~ msgid "Restart"
-#~ msgstr "Neustarten"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Filter verwalten"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Bitte erneut eingeben"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Zum Abschließen bitte hier klicken."
