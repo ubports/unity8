@@ -24,11 +24,6 @@ Powerd::Powerd(QObject* parent)
 {
 }
 
-void Powerd::setStatusForTests(Powerd::Status status)
-{
-    setStatus(status, DisplayStateChangeReason::Unknown);
-}
-
 void Powerd::setStatus(Powerd::Status status, DisplayStateChangeReason reason)
 {
     if (m_status != status) {

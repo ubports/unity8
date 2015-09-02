@@ -590,19 +590,19 @@ Rectangle {
 
             // Display off while call is active...
             callManager.foregroundCall = phoneCall;
-            Powerd.status = Powerd.Off;
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
             tryCompare(greeter, "shown", false);
 
             // Now try again after ending call
             callManager.foregroundCall = null;
-            Powerd.status = Powerd.On;
-            Powerd.status = Powerd.Off;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
             tryCompare(greeter, "fullyShown", true);
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
             // And wake up
-            Powerd.status = Powerd.On;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
             tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
