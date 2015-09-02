@@ -54,13 +54,13 @@ IndicatorsModel::IndicatorsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     m_manager = new IndicatorsManager(this);
-    QObject::connect(m_manager, SIGNAL(indicatorLoaded(const QString&)), this, SLOT(onIndicatorLoaded(const QString&)));
-    QObject::connect(m_manager, SIGNAL(indicatorAboutToBeUnloaded(const QString&)), this, SLOT(onIndicatorAboutToBeUnloaded(const QString&)));
-    QObject::connect(m_manager, SIGNAL(profileChanged(const QString&)), this, SIGNAL(profileChanged()));
+    QObject::connect(m_manager, &IndicatorsManager::indicatorLoaded, this, &IndicatorsModel::onIndicatorLoaded);
+    QObject::connect(m_manager, &IndicatorsManager::indicatorAboutToBeUnloaded, this, &IndicatorsModel::onIndicatorAboutToBeUnloaded);
+    QObject::connect(m_manager, &IndicatorsManager::profileChanged, this, &IndicatorsModel::profileChanged);
 
-    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
+    QObject::connect(this, &IndicatorsModel::rowsInserted, this, &IndicatorsModel::countChanged);
+    QObject::connect(this, &IndicatorsModel::rowsRemoved, this, &IndicatorsModel::countChanged);
+    QObject::connect(this, &IndicatorsModel::modelReset, this, &IndicatorsModel::countChanged);
 }
 
 /*! \internal */
@@ -148,8 +148,8 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator_name)
         pos++;
     }
 
-    QObject::connect(indicator.data(), SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
-    QObject::connect(indicator.data(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
+    QObject::connect(indicator.data(), &Indicator::identifierChanged, this, &IndicatorsModel::onIdentifierChanged);
+    QObject::connect(indicator.data(), &Indicator::indicatorPropertiesChanged, this, &IndicatorsModel::onIndicatorPropertiesChanged);
 
     beginInsertRows(QModelIndex(), pos, pos);
 

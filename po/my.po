@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2013-12-12 11:12+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Pyae Sone <Unknown>\n"
 "Language-Team: Burmese <my@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "စကားဝှက် - "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -223,15 +227,15 @@ msgstr "အရေးပေါ်ခေါ်မည်"
 msgid "OK"
 msgstr "ကောင်းပြီ"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "ရှာဖွေရန်"
@@ -267,6 +271,11 @@ msgstr "ပိုမို၍..."
 msgid "Less..."
 msgstr ""
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "ပို့မည်"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "ဒီဟာကိုအမှတ်ပေးမည်"
@@ -274,10 +283,6 @@ msgstr "ဒီဟာကိုအမှတ်ပေးမည်"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr ""
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "ပို့မည်"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -470,13 +475,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -696,39 +697,3 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
-
-#~ msgid "Confirm"
-#~ msgstr "အတည်ပြုပါ"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Command တစ်ခု ပြောပါ သို့မဟုတ် ရိုက်ထည့်ပါ"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "ဖွင့်နေသည်။ ခဏစောင့်ပါ"
-
-#~ msgid "Speak Now..."
-#~ msgstr "ယခုပြောပါ"
-
-#~ msgid "Speaking..."
-#~ msgstr "ပြောနေသည်"
-
-#~ msgid "Search"
-#~ msgstr "ရှာဖွေ"
-
-#~ msgid "Right edge"
-#~ msgstr "ညာဖက် အစွန်း"
-
-#~ msgid "Skip intro"
-#~ msgstr "မိတ်ဆက်ကိုကျော်မည်"
-
-#~ msgid "Top edge"
-#~ msgstr "ထိပ် အစွန်း"
-
-#~ msgid "Close"
-#~ msgstr "ပိတ်"
-
-#~ msgid "Left edge"
-#~ msgstr "ဘယ်​ဖက် အစွန်း"
-
-#~ msgid "Well done"
-#~ msgstr "ကောင်းအောင်ပြုလုပ်ခဲ့သည်"

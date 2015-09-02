@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-04-13 15:19+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Данило Шеган <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,20 +17,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 "Language: sr\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Лозинка: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Прикачи пречицу"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Откачи пречицу"
 
@@ -229,15 +233,15 @@ msgstr "Хитан позив"
 msgid "OK"
 msgstr "У реду"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Сажетије"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Опширније"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Претрага"
@@ -273,6 +277,11 @@ msgstr "Више..."
 msgid "Less..."
 msgstr "Мање..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Пошаљи"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Оцени"
@@ -280,10 +289,6 @@ msgstr "Оцени"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Напиши оцену"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Пошаљи"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -480,14 +485,10 @@ msgstr "Отвори нарочите изборнике"
 msgid "Swipe up from the bottom edge."
 msgstr "Превуците од доње ивице навише."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Тапните овде за наставак."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -713,94 +714,6 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
-
-#~ msgid "Confirm"
-#~ msgstr "Потврди"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Укуцајте или изговорите наредбу"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Учитавам. Сачекајте..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Изговорите сада..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Говор..."
-
-#~ msgid "Search"
-#~ msgstr "Претрага"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Превуците прстом од горње ивице да би приступили показатељима"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Превуците поново на горе да би затворили подешавања"
-
-#~ msgid "Well done"
-#~ msgstr "Одлично"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Превуците прстом од десне ивице да откључате телефон"
-
-#~ msgid "Log out"
-#~ msgstr "Одјави се"
-
-#~ msgid "Reboot"
-#~ msgstr "Ресетуј"
-
-#~ msgid "Shut down"
-#~ msgstr "Угаси"
-
-#~ msgid "Power"
-#~ msgstr "Напајање"
-
-#~ msgid "Top edge"
-#~ msgstr "Горња ивица"
-
-#~ msgid "Skip intro"
-#~ msgstr "Прескочи увод"
-
-#~ msgid "Power off"
-#~ msgstr "Искључи"
-
-#~ msgid "Right edge"
-#~ msgstr "Десна ивица"
-
-#~ msgid "Close"
-#~ msgstr "Затвори"
-
-#~ msgid "Left edge"
-#~ msgstr "Лева ивица"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Превуците с лева да би открили покретач за брз приступ програмима"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Сада сте савладали превлачења са ивица и можете да користите "
-#~ "телефон<br><br>Тапните на екран да почнете"
-
-#~ msgid "Settings"
-#~ msgstr "Подешавања"
-
-#~ msgid "All"
-#~ msgstr "Сви"
-
-#~ msgid "Favorites"
-#~ msgstr "Омиљени"
-
-#~ msgid "Store"
-#~ msgstr "Продавница"
-
-#~ msgid "Done"
-#~ msgstr "Готово"
-
-#~ msgid "Restart"
-#~ msgstr "Поново покрени"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Молим, унесите поново"

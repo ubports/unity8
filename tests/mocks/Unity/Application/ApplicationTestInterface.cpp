@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include "SessionManager.h"
 #include "SurfaceManager.h"
 #include "Session.h"
-#include "MirSurfaceItem.h"
+#include "MirSurface.h"
 
 #include <paths.h>
 
@@ -62,7 +62,7 @@ void ApplicationTestInterface::removeSession(Session* existingSession)
         existingSession->setLive(false);
 }
 
-void ApplicationTestInterface::removeSurface(MirSurfaceItem* existingSurface)
+void ApplicationTestInterface::removeSurface(MirSurface* existingSurface)
 {
     qDebug() << "ApplicationTestInterface::removeSurface - " << existingSurface;
 

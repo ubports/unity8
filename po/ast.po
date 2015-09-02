@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-06-11 23:39+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Contraseña: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Anclar atayu"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Desanclar atayu"
 
@@ -226,15 +230,15 @@ msgstr "Llamada d'emerxencia"
 msgid "OK"
 msgstr "Aceutar"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Ver too"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Guetar"
@@ -270,6 +274,11 @@ msgstr "Más…"
 msgid "Less..."
 msgstr "Menos…"
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Unviar"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Valorar esto"
@@ -277,10 +286,6 @@ msgstr "Valorar esto"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Amestar una reseña"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Unviar"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -477,14 +482,10 @@ msgstr "Abrir menús especiales"
 msgid "Swipe up from the bottom edge."
 msgstr "Esliza dende'l berbesu d'embaxo."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Toca equí pa siguir."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Primi equí pa finar."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -711,98 +712,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Skip intro"
-#~ msgstr "Omitir la intro"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Esliza'l deu dende'l berbesu drechu pa desbloquiar el teléfonu"
-
-#~ msgid "Right edge"
-#~ msgstr "Berbesu drechu"
-
-#~ msgid "Top edge"
-#~ msgstr "Berbesu superior"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Esliza'l deu dende'l berbesu superior p'acceder a los menús"
-
-#~ msgid "Close"
-#~ msgstr "Zarrar"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Esliza hacia arriba pa zarrar la pantalla d'axustes"
-
-#~ msgid "Left edge"
-#~ msgstr "Berbesu esquierdu"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Esliza'l deu dende la esquierda p'amosar el llanzador y acceder rápidamente "
-#~ "a les aplicaciones"
-
-#~ msgid "Well done"
-#~ msgstr "Bien fecho"
-
-#~ msgid "Confirm"
-#~ msgstr "Confirmar"
-
-#~ msgid "Speaking..."
-#~ msgstr "Falando…"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Cargando, espera…"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Escribi o di una orde"
-
-#~ msgid "Speak Now..."
-#~ msgstr "Fala agora…"
-
-#~ msgid "Search"
-#~ msgstr "Guetar"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Agora yá domines los xestos de los berbesos y pues entamar a usar el "
-#~ "teléfonu<br><br>Toca la pantalla pa comenzar"
-
-#~ msgid "Power"
-#~ msgstr "Enerxía"
-
-#~ msgid "Log out"
-#~ msgstr "Zarrar sesión"
-
-#~ msgid "Reboot"
-#~ msgstr "Reaniciar"
-
-#~ msgid "Shut down"
-#~ msgstr "Apagar"
-
-#~ msgid "Settings"
-#~ msgstr "Axustes"
-
-#~ msgid "Power off"
-#~ msgstr "Apagar"
-
-#~ msgid "Done"
-#~ msgstr "Fecho"
-
-#~ msgid "Favorites"
-#~ msgstr "Favoritos"
-
-#~ msgid "All"
-#~ msgstr "Too"
-
-#~ msgid "Store"
-#~ msgstr "Tienda"
-
-#~ msgid "Restart"
-#~ msgstr "Reaniciar"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Xestionar ámbitos"
+#~ msgid "Click here to finish."
+#~ msgstr "Primi equí pa finar."
 
 #~ msgid "Please re-enter"
 #~ msgstr "Por favor, reintroduzla"

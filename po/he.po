@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-12 08:47+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "ססמה: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "הצמדת קיצור דרך"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "הפרדת קיצור הדרך"
 
@@ -223,15 +227,15 @@ msgstr "שיחת חירום"
 msgid "OK"
 msgstr "אישור"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "לראות פחות"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "להציג הכול"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "חיפוש"
@@ -267,6 +271,11 @@ msgstr "עוד…"
 msgid "Less..."
 msgstr "פחות…"
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "שליחה"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "דירוג היישום"
@@ -274,10 +283,6 @@ msgstr "דירוג היישום"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "הוספת סקירה"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "שליחה"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -470,14 +475,10 @@ msgstr "פתיחת תפריטים מיוחדים"
 msgid "Swipe up from the bottom edge."
 msgstr "גרירה למעלה מהקצה התחתון."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "יש לגעת כאן כדי להמשיך."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "יש ללחוץ כאן כדי לסיים."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -697,72 +698,5 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
-#~ msgid "Confirm"
-#~ msgstr "אישור"
-
-#~ msgid "Type or say a command"
-#~ msgstr "ניתן להקליד או לומר פקודה"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "בטעינה. נא להמתין..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "יש לדבר כעת..."
-
-#~ msgid "Search"
-#~ msgstr "חיפוש"
-
-#~ msgid "Skip intro"
-#~ msgstr "לדלג על הפתיחה"
-
-#~ msgid "Right edge"
-#~ msgstr "שול ימני"
-
-#~ msgid "Top edge"
-#~ msgstr "השול העליון"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "נא לנסות למשוך מהשול העליון כדי לגשת למחוונים"
-
-#~ msgid "Close"
-#~ msgstr "סגירה"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "נא לנסות למשוך מהשול הימני כדי לשחרר את נעילת הטלפון"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "ניתן למשוך שוב כדי לסגור את מסך ההגדרות"
-
-#~ msgid "Left edge"
-#~ msgstr "שול שמאלי"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "יש למשוך משמאל כדי לחשוף את המשגר לצורך גישה מהירה ליישומים"
-
-#~ msgid "Well done"
-#~ msgstr "כל הכבוד"
-
-#~ msgid "Speaking..."
-#~ msgstr "הדיבור מושמע…"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "ברגעים אלו סיימת את התמחותך בשימוש במחוות קצה והטלפון פתוח לשימושך<br><br>נא "
-#~ "לגעת במסך כדי להתחיל"
-
-#~ msgid "Power off"
-#~ msgstr "כיבוי"
-
-#~ msgid "Done"
-#~ msgstr "סיימתי"
-
-#~ msgid "Store"
-#~ msgstr "אחסון"
-
-#~ msgid "All"
-#~ msgstr "הכול"
-
-#~ msgid "Favorites"
-#~ msgstr "מועדפים"
+#~ msgid "Click here to finish."
+#~ msgstr "יש ללחוץ כאן כדי לסיים."
