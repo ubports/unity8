@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2014-01-21 11:05+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Aras <aras.noori@gmail.com>\n"
 "Language-Team: Kurdish (Sorani) <ckb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:01+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -223,15 +227,15 @@ msgstr "هێڵی فریاگوزاری"
 msgid "OK"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -267,6 +271,11 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "ناردن"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "پلە دابنی بۆی"
@@ -274,10 +283,6 @@ msgstr "پلە دابنی بۆی"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "پێداچوونەوە زۆر بکە"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "ناردن"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -470,13 +475,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -696,51 +697,3 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
-
-#~ msgid "Top edge"
-#~ msgstr "لێواری سەرەوە"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "لێواری سەرەوە ڕابکێشە بۆ گەیشتن بە نیشاندەرەکان"
-
-#~ msgid "Close"
-#~ msgstr "داخستن"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "ڕایکێشەوە سەرەوە جارێکی تر بۆ داخستنی پەردەی ڕێکخستنەکان"
-
-#~ msgid "Left edge"
-#~ msgstr "لێواری چەپ"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "لێواری ڕاست ڕابکێشە بۆ کردنەوەی مۆبایلەکە"
-
-#~ msgid "Right edge"
-#~ msgstr "لێواری ڕاست"
-
-#~ msgid "Speaking..."
-#~ msgstr "قسە دەکات..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "ئێستا قسە بکە"
-
-#~ msgid "Confirm"
-#~ msgstr "پشتڕاستکردنەوە"
-
-#~ msgid "Search"
-#~ msgstr "گەڕان"
-
-#~ msgid "Skip intro"
-#~ msgstr "پێشەکیی بپەڕێنە"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "لە چەپەوە بچۆرەوە سەر دەستپێک بۆئەوەی بتوانی هەموو ئەپەکان ببینی"
-
-#~ msgid "Well done"
-#~ msgstr "دەستخۆش"
-
-#~ msgid "Type or say a command"
-#~ msgstr "فەرمانێک بێژە یان بنووسە"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "لە بارکردندایە. تکایە چاوەڕێ بکە..."

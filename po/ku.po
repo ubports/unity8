@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2014-09-10 13:14+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Şîfre: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Kurteriyê pêveke"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Derzîdanka kurteriyê rake"
 
@@ -225,15 +229,15 @@ msgstr "Lêgerîna Lezgîn"
 msgid "OK"
 msgstr "BAŞ E"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Hindiktir bibîne"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Tevî bibîne"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -269,6 +273,11 @@ msgstr "Zêdetir..."
 msgid "Less..."
 msgstr "Hindiktir..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Bişîne"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Deng bidê"
@@ -276,10 +285,6 @@ msgstr "Deng bidê"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Binirxîne"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Bişîne"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -476,13 +481,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -702,87 +703,3 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
-
-#~ msgid "Log out"
-#~ msgstr "Derkeve"
-
-#~ msgid "Reboot"
-#~ msgstr "Dîsdestpêkirin"
-
-#~ msgid "Shut down"
-#~ msgstr "Bigire"
-
-#~ msgid "Close"
-#~ msgstr "Bigire"
-
-#~ msgid "Well done"
-#~ msgstr "Aferim"
-
-#~ msgid "Settings"
-#~ msgstr "Eyar"
-
-#~ msgid "Search"
-#~ msgstr "Lêgerîn"
-
-#~ msgid "Power"
-#~ msgstr "Hêz"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "JI bo xwe bigihînî danezanan ji kêleka jorê kaş bike"
-
-#~ msgid "Top edge"
-#~ msgstr "Kêleka jorê"
-
-#~ msgid "Skip intro"
-#~ msgstr "Danasînê derbas bike"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Ji bo kilîdê vekî ji kêleka rastê kaş bike"
-
-#~ msgid "Right edge"
-#~ msgstr "Kêleka rastê"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Ji bo girtina ekrana eyaran dîsa bi jorê ve kaş bike"
-
-#~ msgid "Left edge"
-#~ msgstr "Kêleka çepê"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Ji bo vekirina gihînera lezgîn ya bernamokan ji kêleka çepê kaş bike"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Tu tevgerên kêlekê fêr bûyî<br><br>Ji bo destpêkirinê ekranê bipelîne"
-
-#~ msgid "Power off"
-#~ msgstr "Bigire"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Fermanekê bêje yan binivîse"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Bar dike. Tika ye li bendê bî..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Niha biaxive..."
-
-#~ msgid "All"
-#~ msgstr "Hemû"
-
-#~ msgid "Confirm"
-#~ msgstr "Erê bike"
-
-#~ msgid "Favorites"
-#~ msgstr "Bijare"
-
-#~ msgid "Store"
-#~ msgstr "Firoşgeh"
-
-#~ msgid "Done"
-#~ msgstr "Qediya"
-
-#~ msgid "Speaking..."
-#~ msgstr "Diaxive..."

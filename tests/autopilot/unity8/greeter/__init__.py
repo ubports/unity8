@@ -41,6 +41,10 @@ def wait_for_greeter():
     Eventually(Equals(True), timeout=300).match(_is_greeter_active)
 
 
+def wait_for_greeter_gone():
+    Eventually(Equals(False), timeout=300).match(_is_greeter_active)
+
+
 def _get_greeter_dbus_proxy():
     bus = dbus.SessionBus()
     return bus.get_object('com.canonical.UnityGreeter', '/')

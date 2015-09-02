@@ -71,13 +71,13 @@ void DownloadTracker::startService()
     if(!m_service.isEmpty() && !m_dbusPath.isEmpty()) {
         m_adaptor = new DownloadTrackerAdaptor(m_service, m_dbusPath, QDBusConnection::sessionBus(), this);
 
-        connect(m_adaptor, SIGNAL(canceled(bool)), this, SIGNAL(canceled(bool)));
-        connect(m_adaptor, SIGNAL(error(const QString &)), this, SIGNAL(error(const QString &)));
-        connect(m_adaptor, SIGNAL(finished(const QString &)), this, SIGNAL(finished(const QString &)));
-        connect(m_adaptor, SIGNAL(paused(bool)), this, SIGNAL(paused(bool)));
-        connect(m_adaptor, SIGNAL(progress(qulonglong, qulonglong)), this, SIGNAL(progress(qulonglong, qulonglong)));
-        connect(m_adaptor, SIGNAL(resumed(bool)), this, SIGNAL(resumed(bool)));
-        connect(m_adaptor, SIGNAL(started(bool)), this, SIGNAL(started(bool)));
+        connect(m_adaptor, &DownloadTrackerAdaptor::canceled, this, &DownloadTracker::canceled);
+        connect(m_adaptor, &DownloadTrackerAdaptor::error, this, &DownloadTracker::error);
+        connect(m_adaptor, &DownloadTrackerAdaptor::finished, this, &DownloadTracker::finished);
+        connect(m_adaptor, &DownloadTrackerAdaptor::paused, this, &DownloadTracker::paused);
+        connect(m_adaptor, static_cast<void (DownloadTrackerAdaptor::*)(qulonglong, qulonglong)>(&DownloadTrackerAdaptor::progress), this, &DownloadTracker::progress);
+        connect(m_adaptor, &DownloadTrackerAdaptor::resumed, this, &DownloadTracker::resumed);
+        connect(m_adaptor, &DownloadTrackerAdaptor::started, this, &DownloadTracker::started);
     }
     // FIXME find a better way of determining if the service is ready
     Q_EMIT serviceReadyChanged(m_adaptor && m_adaptor->isValid());
