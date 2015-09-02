@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-29 09:41+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "كلمة السر: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "تثبيت الاختصار"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "إزالة تثبيت الاختصار"
 
@@ -232,15 +236,15 @@ msgstr "مكالمة طوارئ"
 msgid "OK"
 msgstr "موافق"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "شاهد أقل"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "عرض الكل"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "بحث"
@@ -276,6 +280,11 @@ msgstr "المزيد..."
 msgid "Less..."
 msgstr "أقل..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "أرسل"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "قيّم ذلك"
@@ -283,10 +292,6 @@ msgstr "قيّم ذلك"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "أضف تعليق"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "أرسل"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -491,14 +496,10 @@ msgstr "فتح قوائم خاصة"
 msgid "Swipe up from the bottom edge."
 msgstr "اسحب لأعلى من الحافة السفلى."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "انقر هنا للمتابعة."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "انقر هنا للإنهاء."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -725,61 +726,8 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
-#~ msgid "Confirm"
-#~ msgstr "التأكيد"
-
-#~ msgid "Type or say a command"
-#~ msgstr "اكتب أو قُل أمرا"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "يجري التحميل. برجاء الانتظار..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "تكلم الآن..."
-
-#~ msgid "Speaking..."
-#~ msgstr "تتكلم الآن..."
-
-#~ msgid "Search"
-#~ msgstr "ابحث"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "اسحب اصبعك من الحافة العلوية للوصول إلى المؤشرات"
-
-#~ msgid "Top edge"
-#~ msgstr "الحافة العلوية"
-
-#~ msgid "Close"
-#~ msgstr "أغلق"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "اسحب اصعبك لأعلى مرة أخرى لغلق شاشة الإعدادات"
-
-#~ msgid "Skip intro"
-#~ msgstr "تخطي المقدمة"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "اسحب اصبعك من الحافة اليمنى لفتح قفل الهاتف"
-
-#~ msgid "Right edge"
-#~ msgstr "الحافة اليمنى"
-
-#~ msgid "Left edge"
-#~ msgstr "الحافة اليسرى"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "اسحب أصبعك من الحافة اليسرى لإظهار شريط يونتي للوصول السريع للتطبيقات"
-
-#~ msgid "Well done"
-#~ msgstr "أحسنت!"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
-#~ "الشاشة للبدء"
-
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"
+
+#~ msgid "Click here to finish."
+#~ msgstr "انقر هنا للإنهاء."

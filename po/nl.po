@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-07 07:14+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Wachtwoord: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Snelkoppeling vastzetten"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Snelkoppeling losmaken"
 
@@ -229,15 +233,15 @@ msgstr "Noodoproep"
 msgid "OK"
 msgstr "Ok"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Alles zien"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Zoeken"
@@ -273,6 +277,11 @@ msgstr "Meer…"
 msgid "Less..."
 msgstr "Minder…"
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Versturen"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Beoordeel dit"
@@ -280,10 +289,6 @@ msgstr "Beoordeel dit"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Voeg recensie toe"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Versturen"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -374,7 +379,7 @@ msgstr "Sorry, onjuiste wachtwoordzin"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Gelieve opnieuw in te voeren"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -482,14 +487,10 @@ msgstr "Speciale menu's openen"
 msgid "Swipe up from the bottom edge."
 msgstr "Veeg omhoog vanaf de onderrand."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Tik hier om door te gaan."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Klik hier om te stoppen."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -716,96 +717,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Confirm"
-#~ msgstr "Bevestigen"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Een opdracht intypen of inspreken"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Bezig met laden. Even geduld a.u.b."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Nu inspreken…"
-
-#~ msgid "Speaking..."
-#~ msgstr "Inspreken…"
-
-#~ msgid "Search"
-#~ msgstr "Zoeken"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Veeg nogmaals omhoog om het instellingenscherm te sluiten"
-
-#~ msgid "Well done"
-#~ msgstr "Goed gedaan"
-
-#~ msgid "Top edge"
-#~ msgstr "Bovenrand"
-
-#~ msgid "Close"
-#~ msgstr "Sluiten"
-
-#~ msgid "Skip intro"
-#~ msgstr "Intro overslaan"
-
-#~ msgid "Left edge"
-#~ msgstr "Linkerrand"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Veeg vanaf links om de Starter te tonen voor snelle toegang tot apps"
-
-#~ msgid "Right edge"
-#~ msgstr "Rechterrand"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Nu u de bewegingen vanuit de randen onder de knie heeft, kunt u beginnen met "
-#~ "het gebruiken van de telefoon<br><br>Tik op het scherm om te beginnen"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Veeg vanuit de bovenrand om de indicatoren te bekijken"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Veeg vanuit de rechterrand om het scherm te ontgrendelen"
-
-#~ msgid "All"
-#~ msgstr "Alles"
-
-#~ msgid "Favorites"
-#~ msgstr "Favorieten"
-
-#~ msgid "Store"
-#~ msgstr "Winkel"
-
-#~ msgid "Done"
-#~ msgstr "Klaar"
-
-#~ msgid "Power off"
-#~ msgstr "Uitschakelen"
-
-#~ msgid "Log out"
-#~ msgstr "Afmelden"
-
-#~ msgid "Reboot"
-#~ msgstr "Herstarten"
-
-#~ msgid "Shut down"
-#~ msgstr "Uitschakelen"
-
-#~ msgid "Settings"
-#~ msgstr "Instellingen"
-
-#~ msgid "Power"
-#~ msgstr "Energie"
-
-#~ msgid "Restart"
-#~ msgstr "Herstarten"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Scopes-beheer"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Herhaal deze a.u.b."
+
+#~ msgid "Click here to finish."
+#~ msgstr "Klik hier om te stoppen."

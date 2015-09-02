@@ -128,7 +128,7 @@ void HomeKeyWatcherTest::touchTapTouch()
     QFETCH(int, silenceAfterTap);
     QFETCH(int, expectedActivatedCount);
     HomeKeyWatcher homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
-    QSignalSpy activatedSpy(&homeKeyWatcher, SIGNAL(activated()));
+    QSignalSpy activatedSpy(&homeKeyWatcher, &HomeKeyWatcher::activated);
     QVERIFY(activatedSpy.isValid());
 
     {
@@ -189,7 +189,7 @@ void HomeKeyWatcherTest::touchTapTouch()
 void HomeKeyWatcherTest::tapWhileTouching()
 {
     HomeKeyWatcher homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
-    QSignalSpy activatedSpy(&homeKeyWatcher, SIGNAL(activated()));
+    QSignalSpy activatedSpy(&homeKeyWatcher, &HomeKeyWatcher::activated);
     QVERIFY(activatedSpy.isValid());
 
     {

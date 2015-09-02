@@ -22,21 +22,17 @@
 
 #include <QDebug>
 
-VirtualKeyboard::VirtualKeyboard(QQuickItem *parent)
-    : MirSurfaceItem("input-method",
-                     MirSurfaceItem::InputMethod,
-                     MirSurfaceItem::Minimized,
-                     QUrl("qrc:///Unity/Application/vkb_portrait.png"),
-                     QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"),
-                     parent)
+VirtualKeyboard::VirtualKeyboard()
+    : MirSurface("input-method",
+                     Mir::InputMethodType,
+                     Mir::MinimizedState,
+                     QString("file://%1/Dash/graphics/phone/screenshots/vkb_portrait.png")
+                             .arg(qmlDirectory()),
+                     QString("%1/Unity/Application/VirtualKeyboard.qml")
+                            .arg(mockPluginsDir()))
 {
 }
 
 VirtualKeyboard::~VirtualKeyboard()
 {
-}
-
-void VirtualKeyboard::touchEvent(QTouchEvent *event)
-{
-    event->setAccepted(false);
 }

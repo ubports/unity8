@@ -22,13 +22,13 @@
 #include <QQuickItem>
 
 class ApplicationInfo;
-class MirSurfaceItem;
+class MirSurface;
 
 class Session : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
+    Q_PROPERTY(MirSurface* surface READ surface NOTIFY surfaceChanged)
     Q_PROPERTY(ApplicationInfo* application READ application NOTIFY applicationChanged)
     Q_PROPERTY(Session* parentSession READ parentSession NOTIFY parentSessionChanged DESIGNABLE false)
     Q_PROPERTY(SessionModel* childSessions READ childSessions DESIGNABLE false CONSTANT)
@@ -46,11 +46,11 @@ public:
     QString name() const { return m_name; }
     bool live() const { return m_live; }
     ApplicationInfo* application() const { return m_application; }
-    MirSurfaceItem* surface() const { return m_surface; }
+    MirSurface* surface() const { return m_surface; }
     Session* parentSession() const { return m_parentSession; }
 
     void setApplication(ApplicationInfo* item);
-    void setSurface(MirSurfaceItem* surface);
+    void setSurface(MirSurface* surface);
     void setScreenshot(const QUrl& m_screenshot);
     void setLive(bool live);
 
@@ -60,7 +60,7 @@ public:
 
 Q_SIGNALS:
     void applicationChanged(ApplicationInfo*);
-    void surfaceChanged(MirSurfaceItem*);
+    void surfaceChanged(MirSurface*);
     void parentSessionChanged(Session*);
     void liveChanged(bool live);
 
@@ -70,6 +70,10 @@ Q_SIGNALS:
 public Q_SLOTS:
     Q_INVOKABLE void createSurface();
 
+
+private Q_SLOTS:
+    void onSurfaceDestroyed();
+
 private:
     SessionModel* childSessions() const;
     void setParentSession(Session* session);
@@ -78,7 +82,7 @@ private:
     bool m_live;
     QUrl m_screenshot;
     ApplicationInfo* m_application;
-    MirSurfaceItem* m_surface;
+    MirSurface* m_surface;
     Session* m_parentSession;
     SessionModel* m_children;
 

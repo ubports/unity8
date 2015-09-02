@@ -74,6 +74,13 @@ Powerd::Status Powerd::status() const
     return cachedStatus;
 }
 
+void Powerd::setStatus(Powerd::Status status, DisplayStateChangeReason reason)
+{
+    unityScreen->asyncCall("setScreenPowerMode",
+                           status == Powerd::On ? "on" : "off",
+                           static_cast<qint32>(reason));
+}
+
 void Powerd::handleDisplayPowerStateChange(int status, int reason)
 {
     if (cachedStatus != (Status)status) {

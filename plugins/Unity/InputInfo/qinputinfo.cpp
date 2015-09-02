@@ -138,7 +138,7 @@ QInputDeviceInfo::QInputDeviceInfo(QObject *parent) :
     connect(d_ptr, &QInputDeviceInfoPrivate::newDevice,this,&QInputDeviceInfo::addedDevice);
     connect(d_ptr, &QInputDeviceInfoPrivate::deviceRemoved,this,&QInputDeviceInfo::deviceRemoved);
 
-    connect(d_ptr,SIGNAL(ready()),this,SIGNAL(ready()));
+    connect(d_ptr, &QInputDeviceInfoPrivate::ready, this, &QInputDeviceInfo::ready);
 }
 
 QVector <QInputDevice *> QInputDeviceInfo::deviceList()

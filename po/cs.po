@@ -7,28 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-07 10:44+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Vojtěch Daněk <vdanek@outlook.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 "Language: cs\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Heslo: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Připíchnout zkratku"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Odpíchnout zkratku"
 
@@ -229,15 +233,15 @@ msgstr "Tísňové volání"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Zobrazit méně"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Zobrazit vše"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Hledat"
@@ -273,6 +277,11 @@ msgstr "Více..."
 msgid "Less..."
 msgstr "Méně..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Odeslat"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Ohodnoťte to"
@@ -280,10 +289,6 @@ msgstr "Ohodnoťte to"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Přidat recenzi"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Odeslat"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -483,14 +488,10 @@ msgstr "Otevřít speciální menu"
 msgid "Swipe up from the bottom edge."
 msgstr "Potáhněte prstem z dola nahoru."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Klepněte zde pro pokračování."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Klikněte zde pro dokončení."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -717,53 +718,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Pokuste se odemknout telefon potažením prstu z pravého okraje."
-
-#~ msgid "Skip intro"
-#~ msgstr "Přeskočit intro"
-
-#~ msgid "Right edge"
-#~ msgstr "Pravý okraj"
-
-#~ msgid "Top edge"
-#~ msgstr "Horní okraj"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Pokuste se zpřístupnit indikátory potažením prstu z horního okraje"
-
-#~ msgid "Close"
-#~ msgstr "Uzavřít"
-
-#~ msgid "Left edge"
-#~ msgstr "Levý okraj"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Načítám. Čekejte prosím..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Mluvte..."
-
-#~ msgid "Confirm"
-#~ msgstr "Potvrdit"
-
-#~ msgid "Search"
-#~ msgstr "Hledat"
-
-#~ msgid "Speaking..."
-#~ msgstr "Mluvte..."
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Pro rychlý přístup k aplikacím potáhněte prst z levého okraje."
-
-#~ msgid "Well done"
-#~ msgstr "Výborně"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Napište nebo řekněte příkaz"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Přetažením nahoru dojde k uzavření obrazovky nastavení"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Vložte znovu"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Klikněte zde pro dokončení."
