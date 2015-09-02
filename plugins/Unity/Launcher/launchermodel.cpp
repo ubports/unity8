@@ -256,9 +256,9 @@ void LauncherModel::setApplicationManager(unity::shell::application::Application
     // Is there already another appmanager set?
     if (m_appManager) {
         // Disconnect any signals
-        disconnect(this, SLOT(applicationAdded(QModelIndex,int)));
-        disconnect(this, SLOT(applicationRemoved(QModelIndex,int)));
-        disconnect(this, SLOT(focusedAppIdChanged()));
+        disconnect(this, &LauncherModel::applicationAdded, 0, nullptr);
+        disconnect(this, &LauncherModel::applicationRemoved, 0, nullptr);
+        disconnect(this, &LauncherModel::focusedAppIdChanged, 0, nullptr);
 
         // remove any recent/running apps from the launcher
         QList<int> recentAppIndices;
@@ -278,9 +278,9 @@ void LauncherModel::setApplicationManager(unity::shell::application::Application
     }
 
     m_appManager = appManager;
-    connect(m_appManager, SIGNAL(rowsInserted(QModelIndex, int, int)), SLOT(applicationAdded(QModelIndex,int)));
-    connect(m_appManager, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), SLOT(applicationRemoved(QModelIndex,int)));
-    connect(m_appManager, SIGNAL(focusedApplicationIdChanged()), SLOT(focusedAppIdChanged()));
+    connect(m_appManager, &ApplicationManagerInterface::rowsInserted, this, &LauncherModel::applicationAdded);
+    connect(m_appManager, &ApplicationManagerInterface::rowsAboutToBeRemoved, this, &LauncherModel::applicationRemoved);
+    connect(m_appManager, &ApplicationManagerInterface::focusedApplicationIdChanged, this, &LauncherModel::focusedAppIdChanged);
 
     Q_EMIT applicationManagerChanged();
 

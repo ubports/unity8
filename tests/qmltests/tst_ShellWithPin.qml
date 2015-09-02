@@ -19,7 +19,7 @@ import Ubuntu.Components 1.0
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import LightDM 0.1 as LightDM
+import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.SystemImage 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
@@ -498,12 +498,13 @@ Item {
 
         function test_suspend() {
             var greeter = findChild(shell, "greeter");
+            var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader")
 
             // Put it to sleep
             Powerd.status = Powerd.Off;
 
-            // If locked, ApplicationManager.suspended should be true
-            tryCompare(ApplicationManager, "suspended", true);
+            // If locked, applicationsDisplayLoader.item.suspended should be true
+            tryCompare(applicationsDisplayLoader.item, "suspended", true);
 
             // And wake up
             Powerd.status = Powerd.On;
@@ -513,12 +514,12 @@ Item {
             swipeAwayGreeter(true);
 
             // We have a lockscreen, make sure we're still suspended
-            tryCompare(ApplicationManager, "suspended", true);
+            tryCompare(applicationsDisplayLoader.item, "suspended", true);
 
             enterPin("1234")
 
             // Now that the lockscreen has gone too, make sure we're waking up
-            tryCompare(ApplicationManager, "suspended", false);
+            tryCompare(applicationsDisplayLoader.item, "suspended", false);
 
         }
 

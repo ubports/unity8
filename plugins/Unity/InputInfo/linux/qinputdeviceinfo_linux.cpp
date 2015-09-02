@@ -52,7 +52,7 @@ QInputDeviceInfoPrivate::QInputDeviceInfoPrivate(QObject *parent) :
     QObject(parent)
   , udev(0)
 {
-    QTimer::singleShot(250,this,SLOT(init()));
+    QTimer::singleShot(250, this, &QInputDeviceInfoPrivate::init);
 }
 
 void QInputDeviceInfoPrivate::init()
@@ -78,7 +78,7 @@ void QInputDeviceInfoPrivate::init()
         notifierFd = udev_monitor_get_fd(udevMonitor);
 
         notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read, this);
-        connect(notifier, SIGNAL(activated(int)), this, SLOT(onUDevChanges()));
+        connect(notifier, &QSocketNotifier::activated, this, &QInputDeviceInfoPrivate::onUDevChanges);
 
 
         udev_enumerate_scan_devices(enumerate);
@@ -100,8 +100,6 @@ void QInputDeviceInfoPrivate::init()
                     QInputDevice *iDevice = addDevice(eventPath);
                     if (!iDevice)
                         continue;
-
-                    qDebug() << "*** ADDING DEVICE" << eventPath;
 
                     iDevice->setTypes(getInputTypes(dev));
 
@@ -125,12 +123,6 @@ void QInputDeviceInfoPrivate::init()
 
 QInputDeviceInfo::InputTypes QInputDeviceInfoPrivate::getInputTypes( struct udev_device *dev)
 {
-    qDebug() << "******* have input type Keyboard" << udev_device_get_property_value(dev, "ID_INPUT_KEYBOARD");
-    qDebug() << "******* have input type Mouse" << udev_device_get_property_value(dev, "ID_INPUT_MOUSE");
-    qDebug() << "******* have input type Touchpad" << udev_device_get_property_value(dev, "ID_INPUT_TOUCHPAD");
-    qDebug() << "******* have input type Touchscreen" << udev_device_get_property_value(dev, "ID_INPUT_TOUCHSCREEN");
-    qDebug() << "******* have input type Tablet" << udev_device_get_property_value(dev, "ID_INPUT_TABLET");
-    qDebug() << "******* have input type joystick" << udev_device_get_property_value(dev, "ID_INPUT_JOYSTICK");
     QInputDeviceInfo::InputTypes types = QInputDeviceInfo::Unknown;
     if (qstrcmp(udev_device_get_property_value(dev, "ID_INPUT_KEYBOARD"), "1") == 0 )
        types |= QInputDeviceInfo::Keyboard;
@@ -151,6 +143,7 @@ QInputDeviceInfo::InputTypes QInputDeviceInfoPrivate::getInputTypes( struct udev
 QInputDevice *QInputDeviceInfoPrivate::addDevice(const QString &path)
 {
     QInputDevice *inputDevice = new QInputDevice(this);
+    inputDevice->setDevicePath(path);
 
     struct libevdev *dev = NULL;
     int fd;
@@ -158,17 +151,15 @@ QInputDevice *QInputDeviceInfoPrivate::addDevice(const QString &path)
     fd = open(path.toLatin1(), O_RDONLY|O_NONBLOCK);
 
     if (fd == -1) {
-        qDebug() << "Failed to open";
         return inputDevice;
     }
     rc = libevdev_new_from_fd(fd, &dev);
     if (rc < 0) {
-        qDebug() << "Failed to init libevdev ("<< strerror(-rc) << ")";
+        qWarning() << "Failed to init libevdev ("<< strerror(-rc) << ")";
         return inputDevice;
     }
 
     inputDevice->setName(QString::fromLatin1(libevdev_get_name(dev)));
-    inputDevice->setDevicePath(path);
     for (int i = 0; i < EV_MAX; i++) {
         if (i == EV_KEY || i == EV_SW || i == EV_REL
                 || i == EV_REL || i == EV_ABS) {

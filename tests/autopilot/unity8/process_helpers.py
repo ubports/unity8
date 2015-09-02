@@ -43,6 +43,7 @@ def unlock_unity():
     """
     greeter.wait_for_greeter()
     greeter.hide_greeter_with_dbus()
+    greeter.wait_for_greeter_gone()
 
 
 def lock_unity():

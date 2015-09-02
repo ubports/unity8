@@ -25,7 +25,7 @@ Audio::Audio(QObject* parent):
 {
     qsrand(time(nullptr));
     m_timer.setInterval(1000);
-    connect(&m_timer, SIGNAL(timeout()), SLOT(timerEvent()));
+    connect(&m_timer, &QTimer::timeout, this, &Audio::timerEvent);
 
     m_position = 0;
     Q_EMIT positionChanged(m_position);
