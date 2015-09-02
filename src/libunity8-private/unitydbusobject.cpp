@@ -29,7 +29,7 @@ UnityDBusObject::UnityDBusObject(const QString &path, const QString &service, bo
 {
     if (async) {
         // Use a zero-timer to let Qml finish loading before we announce on DBus
-        QTimer::singleShot(0, this, SLOT(registerObject()));
+        QTimer::singleShot(0, this, &UnityDBusObject::registerObject);
     } else {
         registerObject();
     }

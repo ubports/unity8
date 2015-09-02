@@ -30,9 +30,9 @@ Navigation::Navigation(const QString& navigationId, const QString& label, const 
  , m_loaded(false)
  , m_scope(scope)
 {
-    QTimer::singleShot(1500, this, SLOT(slotLoaded()));
-    connect(scope, SIGNAL(currentNavigationIdChanged()), this, SLOT(slotCurrentNavigationChanged()));
-    connect(scope, SIGNAL(currentAltNavigationIdChanged()), this, SLOT(slotCurrentNavigationChanged()));
+    QTimer::singleShot(1500, this, &Navigation::slotLoaded);
+    connect(scope, &Scope::currentNavigationIdChanged, this, &Navigation::slotCurrentNavigationChanged);
+    connect(scope, &Scope::currentAltNavigationIdChanged, this, &Navigation::slotCurrentNavigationChanged);
 }
 
 QString Navigation::navigationId() const
