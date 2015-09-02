@@ -24,6 +24,7 @@ import os
 import threading
 
 from autopilot.platform import model
+from autopilot.application import _launcher
 
 from unity8 import process_helpers
 from unity8.application_lifecycle import tests
@@ -118,10 +119,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
         process_helpers.lock_unity()
 
-        # Don't wait for the proxy since the application is
-        # already launched and sleeping because the greeter is on
-        # so waiting for the proxy will never happen
-        self.launch_upstart_application(application_name, [], False)
+        self.launch_upstart_application(application_name, [], _launcher.AlreadyLaunchedUpstart)
         greeter = self.main_window.get_greeter()
         greeter.wait_swiped_away()
         process_helpers.unlock_unity()
