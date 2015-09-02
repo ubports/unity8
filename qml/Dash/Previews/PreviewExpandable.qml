@@ -24,8 +24,8 @@ import "../../Components"
     Those widgets can be collapsed or uncollapsed. When uncollapsed
     all the widgets are shown, when collapsed only the first
     widgetData["collapsed-widgets"] are shown. It has a title that comes
-    in via widgetData["title"]. This widget expands all child widgets 
-    when initialized by specifying widgetData["expanded"] == true. 
+    in via widgetData["title"]. This widget expands all child widgets
+    when initialized by specifying widgetData["expanded"] == true.
     It's in unexpanded mode by default.
  */
 

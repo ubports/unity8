@@ -133,7 +133,7 @@ Rectangle {
         "widgets": widgetsModel,
         "expanded": false
     }
-   
+
     property var allWidgetsData: {
         "title": "Title here",
         "collapsed-widgets": 0,
@@ -239,7 +239,7 @@ Rectangle {
 
         function test_expand_collapse_when_assigned() {
             previewExpandable.widgetData = widgetData1;
-                
+
             var repeater = findChild(previewExpandable, "repeater")
             compare(repeater.count, 4)
 
@@ -250,12 +250,12 @@ Rectangle {
             compare (repeater.itemAt(0).expanded, true);
             compare (repeater.itemAt(1).expanded, true);
             compare (repeater.itemAt(2).expanded, true);
-            compare (repeater.itemAt(3).expanded, true);	    
+            compare (repeater.itemAt(3).expanded, true);
         }
-        
+
         function test_collapsed_when_assigned() {
             previewExpandable.widgetData = widgetData2;
-                
+
             var repeater = findChild(previewExpandable, "repeater")
             compare(repeater.count, 4)
 
