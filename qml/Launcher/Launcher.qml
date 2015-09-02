@@ -62,7 +62,6 @@ Item {
     }
 
     function fadeOut() {
-        animateTimer.stop();
         fadeOutAnimation.start();
     }
 
@@ -137,6 +136,7 @@ Item {
         id: fadeOutAnimation
         ScriptAction {
             script: {
+                animateTimer.stop(); // Don't change the state behind our back
                 panel.layer.enabled = true
             }
         }
