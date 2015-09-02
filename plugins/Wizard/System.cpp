@@ -36,7 +36,7 @@ System::System()
     if(!wizardEnabled()) {
         m_fsWatcher.addPath(wizardEnabledPath());
     }
-    connect(&m_fsWatcher, &QFileSystemWatcher::fileChanged, this, &System::wizardEnabledChanged);
+    connect(&m_fsWatcher, &QFileSystemWatcher::fileChanged, this, &System::watcherFileChanged);
 }
 
 QString System::wizardEnabledPath()
