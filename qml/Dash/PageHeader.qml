@@ -250,12 +250,8 @@ Item {
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
-<<<<<<< TREE
-                property var config: PageHeadConfiguration {
-=======
                 config: PageHeadConfiguration {
                     title: root.title
->>>>>>> MERGE-SOURCE
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                     backAction: Action {
                         iconName: backIsClose ? "close" : "back"
