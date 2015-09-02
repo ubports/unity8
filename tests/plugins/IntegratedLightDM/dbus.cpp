@@ -94,7 +94,7 @@ private Q_SLOTS:
 
     void testSetActiveEntry()
     {
-        QSignalSpy spy(greeter, SIGNAL(requestAuthenticationUser(QString)));
+        QSignalSpy spy(greeter, &Greeter::requestAuthenticationUser);
         QDBusReply<void> reply = dbusList->call("SetActiveEntry", "has-password");
         QVERIFY(reply.isValid());
         spy.wait();
@@ -123,7 +123,7 @@ private Q_SLOTS:
 
     void testActiveEntrySet()
     {
-        QSignalSpy spy(greeter, SIGNAL(requestAuthenticationUser(QString)));
+        QSignalSpy spy(greeter, &Greeter::requestAuthenticationUser);
         QVERIFY(dbusList->setProperty("ActiveEntry", "has-password"));
         spy.wait();
 
@@ -134,7 +134,7 @@ private Q_SLOTS:
 
     void testActiveEntryChanged()
     {
-        QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
+        QSignalSpy spy(this, &GreeterDBusTest::PropertiesChangedRelay);
         greeter->authenticate("has-password");
         spy.wait();
 
@@ -160,7 +160,7 @@ private Q_SLOTS:
 
     void testEntryIsLockedChanged()
     {
-        QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
+        QSignalSpy spy(this, &GreeterDBusTest::PropertiesChangedRelay);
         greeter->authenticate("no-password");
 
         // Two property changed signals will be emitted, one for the IsLocked
@@ -182,7 +182,7 @@ private Q_SLOTS:
         QVERIFY(!greeter->isActive());
         QVERIFY(!dbusMain->property("IsActive").toBool());
 
-        QSignalSpy spy(this, SIGNAL(PropertiesChangedRelay(QString, QVariantMap, QStringList)));
+        QSignalSpy spy(this, &GreeterDBusTest::PropertiesChangedRelay);
         greeter->setIsActive(true);
         spy.wait();
 

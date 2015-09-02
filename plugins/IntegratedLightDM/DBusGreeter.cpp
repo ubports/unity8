@@ -24,7 +24,7 @@ DBusGreeter::DBusGreeter(Greeter *greeter, const QString &path)
  : UnityDBusObject(path, "com.canonical.UnityGreeter", true, greeter),
    m_greeter(greeter)
 {
-    connect(m_greeter, SIGNAL(isActiveChanged()), this, SLOT(isActiveChangedHandler()));
+    connect(m_greeter, &Greeter::isActiveChanged, this, &DBusGreeter::isActiveChangedHandler);
 }
 
 bool DBusGreeter::isActive() const

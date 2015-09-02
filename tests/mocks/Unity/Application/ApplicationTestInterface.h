@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 
 class ApplicationManager;
 class Session;
-class MirSurfaceItem;
+class MirSurface;
 
 class ApplicationTestInterface : public QDBusAbstractAdaptor
 {
@@ -32,7 +32,7 @@ public:
 
     Q_INVOKABLE Session* addChildSession(Session* existingSession, const QString& surfaceImage);
     Q_INVOKABLE void removeSession(Session* existingSession);
-    Q_INVOKABLE void removeSurface(MirSurfaceItem* existingSurface);
+    Q_INVOKABLE void removeSurface(MirSurface* existingSurface);
 
 public Q_SLOTS:
     quint32 addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage);

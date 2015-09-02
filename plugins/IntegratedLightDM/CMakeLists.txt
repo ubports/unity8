@@ -8,7 +8,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Utils
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
+    ${CMAKE_SOURCE_DIR}/tests/mocks/IntegratedLightDM
     #${LIBLIGHTDM_INCLUDE_DIRS}
     ${libunity8-private_SOURCE_DIR}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
@@ -23,11 +23,11 @@ set(QMLPLUGIN_SRC
     UsersModel.cpp
     )
 
-add_library(LightDM-qml MODULE
+add_library(IntegratedLightDM-qml MODULE
     ${QMLPLUGIN_SRC}
     )
 
-target_link_libraries(LightDM-qml
+target_link_libraries(IntegratedLightDM-qml
     integratedLightDM
     unity8-private
 # TODO: Once we split out a separate greeter process, uncomment these lines
@@ -35,6 +35,6 @@ target_link_libraries(LightDM-qml
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     )
 
-qt5_use_modules(LightDM-qml DBus Gui Qml)
+qt5_use_modules(IntegratedLightDM-qml DBus Gui Qml)
 
-add_unity8_plugin(LightDM 0.1 LightDM TARGETS LightDM-qml)
+add_unity8_plugin(IntegratedLightDM 0.1 IntegratedLightDM TARGETS IntegratedLightDM-qml)
