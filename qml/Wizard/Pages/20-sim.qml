@@ -37,8 +37,8 @@ LocalComponents.Page {
     property bool hadModem: false
 
     Component.onCompleted: {
-        hadModem = simManager0.present || simManager1.present
-        print("Had modem: " + hadModem)
+        hadModem = simManager0.present || simManager1.present;
+        print("Had modem: " + hadModem);
     }
 
     Dialog {
@@ -50,9 +50,7 @@ LocalComponents.Page {
             id: restartButton
             text: i18n.tr("Restart")
             onClicked: {
-                PopupUtils.close(restartDialog)
-                quit()
-                DBusUnitySessionService.reboot()
+                DBusUnitySessionService.reboot();
             }
         }
     }

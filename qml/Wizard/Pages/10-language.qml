@@ -32,6 +32,7 @@ LocalComponents.Page {
 
     Component.onCompleted: {
         if (!modemManager.available) { // don't wait for the modem if it's not there
+            print("=== Modem manager not available, init manually")
             init();
         }
     }
@@ -39,7 +40,14 @@ LocalComponents.Page {
     Connections {
         target: modemManager
         onModemsChanged: {
-            print("Modems changed");
+            print("=== Modems changed, init");
+            print("Modem manager available:", modemManager.available);
+            print("SIM 1 present:", simManager0.present);
+            print("SIM 1 ready:", simManager0.ready);
+            print("SIM 1 languages:", simManager0.preferredLanguages);
+            print("SIM 1 country:", LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode));
+            print("SIM 2 present:", simManager1.present);
+            print("SIM 2 ready:", simManager1.ready);
             init();
         }
     }
@@ -47,7 +55,7 @@ LocalComponents.Page {
     function init()
     {
         var detectedLang = "";
-        // try to detect the language from the SIM card
+        // try to detect the language+country from the SIM card
         if (simManager0.present && simManager0.preferredLanguages.length > 0) {
             detectedLang = simManager0.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode);
             print("SIM 0 detected lang:", detectedLang);
@@ -56,20 +64,25 @@ LocalComponents.Page {
             print("SIM 1 detected lang:", detectedLang);
         } else if (plugin.currentLanguage != -1) {
             detectedLang = plugin.languageCodes[plugin.currentLanguage];
-            print("Using current language", detectedLang, "as default");
+            print("Still using current language", detectedLang, "as default");
         } else {
             print("No lang detected, falling back to default (en_US)");
             detectedLang = "en_US"; // fallback to default lang
         }
 
         // preselect the detected language
+        var selectedIndex = -1;
         for (var i = 0; i < plugin.languageCodes.length; i++) {
             var code = plugin.languageCodes[i].split(".")[0]; // remove the encoding part, after dot (en_US.utf8 -> en_US)
             if (detectedLang === code) {
                 languagesListView.currentIndex = i;
-                languagesListView.positionViewAtIndex(i, ListView.Center);
+                selectedIndex = i;
                 break;
             }
+        }
+
+        if (selectedIndex !== -1) {
+            languagesListView.positionViewAtIndex(selectedIndex, ListView.Center);
         }
     }
 
