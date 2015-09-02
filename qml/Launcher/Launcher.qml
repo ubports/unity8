@@ -62,6 +62,7 @@ Item {
     }
 
     function fadeOut() {
+        animateTimer.stop();
         fadeOutAnimation.start();
     }
 
