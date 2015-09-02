@@ -116,7 +116,7 @@ int main(int argc, const char *argv[])
     view->engine()->setNetworkAccessManagerFactory(managerFactory);
 
     view->setSource(source);
-    QObject::connect(view->engine(), SIGNAL(quit()), application, SLOT(quit()));
+    QObject::connect(view->engine(), &QQmlEngine::quit, application, &QGuiApplication::quit);
 
     if (isMirServer || parser.hasFullscreen()) {
         view->showFullScreen();

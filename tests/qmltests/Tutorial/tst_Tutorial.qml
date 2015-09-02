@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import QtTest 1.0
 import AccountsService 0.1
-import LightDM 0.1 as LightDM
+import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
@@ -263,12 +263,14 @@ Item {
             goToPage(null);
         }
 
-        function test_walkthroughOnDesktop() {
+        function test_skipOnDesktop() {
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "active", true);
+            tryCompare(tutorial, "running", true);
+
             shell.usageScenario = "desktop";
-            var page = goToPage("tutorialLeftFinish");
-            var tick = findChild(page, "tick");
-            tap(tick);
-            checkFinished();
+            tryCompare(tutorial, "active", false);
+            tryCompare(tutorial, "running", false);
         }
 
         function test_launcherShortDrag() {
