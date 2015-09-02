@@ -55,11 +55,11 @@ void ModelActionRootState::setMenu(UnityMenuModel* menu)
         m_menu = menu;
 
         if (m_menu) {
-            connect(m_menu, SIGNAL(rowsInserted(const QModelIndex&, int, int)), SLOT(onModelRowsAdded(const QModelIndex&, int, int)));
-            connect(m_menu, SIGNAL(rowsRemoved(const QModelIndex&, int, int)), SLOT(onModelRowsRemoved(const QModelIndex&, int, int)));
-            connect(m_menu, SIGNAL(dataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)), SLOT(onModelDataChanged(const QModelIndex&, const QModelIndex&, const QVector<int>&)));
+            connect(m_menu, &UnityMenuModel::rowsInserted, this, &ModelActionRootState::onModelRowsAdded);
+            connect(m_menu, &UnityMenuModel::rowsRemoved, this, &ModelActionRootState::onModelRowsRemoved);
+            connect(m_menu, &UnityMenuModel::dataChanged, this, &ModelActionRootState::onModelDataChanged);
 
-            connect(m_menu, SIGNAL(destroyed()), SLOT(reset()));
+            connect(m_menu, &UnityMenuModel::destroyed, this, &ModelActionRootState::reset);
         }
         updateActionState();
         Q_EMIT menuChanged();

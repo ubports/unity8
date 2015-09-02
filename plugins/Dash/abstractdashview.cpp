@@ -28,8 +28,8 @@ AbstractDashView::AbstractDashView()
  , m_delegateValidated(false)
  , m_implicitHeightDirty(false)
 {
-    connect(this, SIGNAL(widthChanged()), this, SLOT(relayout()));
-    connect(this, SIGNAL(heightChanged()), this, SLOT(onHeightChanged()));
+    connect(this, &AbstractDashView::widthChanged, this, &AbstractDashView::relayout);
+    connect(this, &AbstractDashView::heightChanged, this, &AbstractDashView::onHeightChanged);
 }
 
 QAbstractItemModel *AbstractDashView::model() const
@@ -43,10 +43,10 @@ void AbstractDashView::setModel(QAbstractItemModel *model)
         if (!m_delegateModel) {
             createDelegateModel();
         } else {
-            disconnect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+            disconnect(m_delegateModel, &QQmlDelegateModel::modelUpdated, this, &AbstractDashView::onModelUpdated);
         }
         m_delegateModel->setModel(QVariant::fromValue<QAbstractItemModel *>(model));
-        connect(m_delegateModel, SIGNAL(modelUpdated(QQmlChangeSet,bool)), this, SLOT(onModelUpdated(QQmlChangeSet,bool)));
+        connect(m_delegateModel, &QQmlDelegateModel::modelUpdated, this, &AbstractDashView::onModelUpdated);
 
         cleanupExistingItems();
 
@@ -167,7 +167,7 @@ void AbstractDashView::setDisplayMarginEnd(qreal end)
 void AbstractDashView::createDelegateModel()
 {
     m_delegateModel = new QQmlDelegateModel(qmlContext(this), this);
-    connect(m_delegateModel, SIGNAL(createdItem(int,QObject*)), this, SLOT(itemCreated(int,QObject*)));
+    connect(m_delegateModel, &QQmlDelegateModel::createdItem, this, &AbstractDashView::itemCreated);
     if (isComponentComplete())
         m_delegateModel->componentComplete();
 }

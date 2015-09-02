@@ -28,9 +28,9 @@ QLimitProxyModelQML::QLimitProxyModelQML(QObject *parent)
     , m_dataChangedBegin(-1)
     , m_dataChangedEnd(-1)
 {
-    connect(this, SIGNAL(modelReset()), SIGNAL(countChanged()));
-    connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), SIGNAL(countChanged()));
-    connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), SIGNAL(countChanged()));
+    connect(this, &QLimitProxyModelQML::modelReset, this, &QLimitProxyModelQML::countChanged);
+    connect(this, &QLimitProxyModelQML::rowsInserted, this, &QLimitProxyModelQML::countChanged);
+    connect(this, &QLimitProxyModelQML::rowsRemoved, this, &QLimitProxyModelQML::countChanged);
 }
 
 QHash<int, QByteArray> QLimitProxyModelQML::roleNames() const
@@ -50,20 +50,20 @@ QLimitProxyModelQML::setModel(QAbstractItemModel *itemModel)
 
         if (sourceModel() != nullptr) {
             // Disconnect the QIdentityProxyModel handling for rows removed/added...
-            disconnect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)), this, nullptr);
-            disconnect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, nullptr);
-            disconnect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)), this, nullptr);
-            disconnect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, nullptr);
+            disconnect(sourceModel(), &QAbstractItemModel::rowsAboutToBeInserted, this, nullptr);
+            disconnect(sourceModel(), &QAbstractItemModel::rowsInserted, this, nullptr);
+            disconnect(sourceModel(), &QAbstractItemModel::rowsAboutToBeRemoved, this, nullptr);
+            disconnect(sourceModel(), &QAbstractItemModel::rowsRemoved, this, nullptr);
 
             // ... and use our own
-            connect(sourceModel(), SIGNAL(rowsAboutToBeInserted(QModelIndex,int,int)),
-                    this, SLOT(sourceRowsAboutToBeInserted(QModelIndex,int,int)));
-            connect(sourceModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),
-                    this, SLOT(sourceRowsInserted(QModelIndex,int,int)));
-            connect(sourceModel(), SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
-                    this, SLOT(sourceRowsAboutToBeRemoved(QModelIndex,int,int)));
-            connect(sourceModel(), SIGNAL(rowsRemoved(QModelIndex,int,int)),
-                    this, SLOT(sourceRowsRemoved(QModelIndex,int,int)));
+            connect(sourceModel(), &QAbstractItemModel::rowsAboutToBeInserted,
+                    this, &QLimitProxyModelQML::sourceRowsAboutToBeInserted);
+            connect(sourceModel(), &QAbstractItemModel::rowsInserted,
+                    this, &QLimitProxyModelQML::sourceRowsInserted);
+            connect(sourceModel(), &QAbstractItemModel::rowsAboutToBeRemoved,
+                    this, &QLimitProxyModelQML::sourceRowsAboutToBeRemoved);
+            connect(sourceModel(), &QAbstractItemModel::rowsRemoved,
+                    this, &QLimitProxyModelQML::sourceRowsRemoved);
         }
         Q_EMIT modelChanged();
     }

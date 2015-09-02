@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2014-09-03 16:39+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Nicat Məmmədov <n1c4t97@gmail.com>\n"
 "Language-Team: Azerbaijani <az@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Şifrә: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Pin qısayolu"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Açma qısayolu"
 
@@ -223,15 +227,15 @@ msgstr "Zərurət zəngi"
 msgid "OK"
 msgstr "Oldu"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Daha azını gör"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Hamısını gör"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -267,6 +271,11 @@ msgstr "Daha çox..."
 msgid "Less..."
 msgstr "Az..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Göndər"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Qiymәtlәndir"
@@ -274,10 +283,6 @@ msgstr "Qiymәtlәndir"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Rəy yaz"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Göndər"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -474,13 +479,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -700,83 +701,3 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
-
-#~ msgid "Confirm"
-#~ msgstr "Təsdiqlə"
-
-#~ msgid "Search"
-#~ msgstr "Axtar"
-
-#~ msgid "Top edge"
-#~ msgstr "Yuxarı künc"
-
-#~ msgid "Close"
-#~ msgstr "Bağla"
-
-#~ msgid "Left edge"
-#~ msgstr "Sol künc"
-
-#~ msgid "Well done"
-#~ msgstr "Təbriklər"
-
-#~ msgid "Right edge"
-#~ msgstr "Sağ Künc"
-
-#~ msgid "Speaking..."
-#~ msgstr "Danışır..."
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Yüklənir. Zəhmət olmasa, gözləyin..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Danışın..."
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Applikasiyalara sürətli keçid üçün paneli açmaq üçün sol küncdən çəkin"
-
-#~ msgid "Power off"
-#~ msgstr "Söndür"
-
-#~ msgid "All"
-#~ msgstr "Hamısı"
-
-#~ msgid "Favorites"
-#~ msgstr "Seçilmişlər"
-
-#~ msgid "Done"
-#~ msgstr "Başa çatdı"
-
-#~ msgid "Log out"
-#~ msgstr "Çıxış"
-
-#~ msgid "Shut down"
-#~ msgstr "Sistemi Söndür"
-
-#~ msgid "Reboot"
-#~ msgstr "Yenidən yüklə"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Göstəriciləri görmәk üçün yuxarı küncdən sürüşdürün"
-
-#~ msgid "Skip intro"
-#~ msgstr "Tәqdimatı keç"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Kilidi açmaq üçün sağ küncdən sürüşdürün"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Nizamlamalar ekranını bağlamaq üçün yenidən yuxarı sürüşdürün"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Siz künc hәrәkәtlәrini öyrәndiniz və telefonu istifadə etməyə başlaya "
-#~ "bilərsiniz.<br><br>Başlamaq üçün ekrana toxunun"
-
-#~ msgid "Settings"
-#~ msgstr "Tənzimləmələr"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Bir әmr söyləyin və ya yazın"

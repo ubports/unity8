@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2013-06-26 22:35+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Sandi: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Paku pintasan"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Lepas pintasan"
 
@@ -226,15 +230,15 @@ msgstr "Panggilan Darurat"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Lihat lebih sedikit"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Lihat semua"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -270,6 +274,11 @@ msgstr "Lebih..."
 msgid "Less..."
 msgstr "Kurang..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Kirim"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Beri peringkat"
@@ -277,10 +286,6 @@ msgstr "Beri peringkat"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Berikan ulasan"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Kirim"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -477,13 +482,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -704,96 +705,5 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
-#~ msgid "Close"
-#~ msgstr "Tutup"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Memuat. Mohon Tunggu..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Berbicara..."
-
-#~ msgid "Confirm"
-#~ msgstr "Konfirmasi"
-
-#~ msgid "Top edge"
-#~ msgstr "Tepi atas"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Coba usap dari tepi atas untuk mengakses indikator"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Usap ke atas lagi untuk menutup layar pengaturan"
-
-#~ msgid "Left edge"
-#~ msgstr "Tepi kiri"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Usap dari tepi kiri menampilkan peluncur untuk akses cepat aplikasi"
-
-#~ msgid "Skip intro"
-#~ msgstr "Lewati pengenalan"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Coba usap dari tepi kanan untuk membuka kunci telepon"
-
-#~ msgid "Right edge"
-#~ msgstr "Tepi kanan"
-
-#~ msgid "Log out"
-#~ msgstr "Log keluar"
-
-#~ msgid "Reboot"
-#~ msgstr "Boot ulang"
-
-#~ msgid "Shut down"
-#~ msgstr "Matikan"
-
-#~ msgid "Power"
-#~ msgstr "Daya"
-
-#~ msgid "Restart"
-#~ msgstr "Nyalakan ulang"
-
-#~ msgid "Power off"
-#~ msgstr "Matikan"
-
-#~ msgid "Settings"
-#~ msgstr "Pengaturan"
-
-#~ msgid "Search"
-#~ msgstr "Cari"
-
-#~ msgid "Done"
-#~ msgstr "Selesai"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Ketik atau ucapkan sebuah perintah"
-
-#~ msgid "Speak Now..."
-#~ msgstr "Bicaralah Sekarang..."
-
-#~ msgid "All"
-#~ msgstr "Semua"
-
-#~ msgid "Favorites"
-#~ msgstr "Favorit"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Kelola Skup"
-
-#~ msgid "Store"
-#~ msgstr "Simpan"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Harap masukkan lagi"
-
-#~ msgid "Well done"
-#~ msgstr "Bagus sekali"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Anda kini telah menguasai gestur tepi dan dapat mulai memakai "
-#~ "telepon<br><br>Ketuk pada layar untuk mulai"

@@ -7,28 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-31 09:29+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:01+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 "Language: zh_TW\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "密碼： "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "釘住捷徑"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "取消捷徑釘選"
 
@@ -223,15 +227,15 @@ msgstr "緊急通話"
 msgid "OK"
 msgstr "確定"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "縮減查看"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "查看全部"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "搜尋"
@@ -267,6 +271,11 @@ msgstr "更多…"
 msgid "Less..."
 msgstr "縮減…"
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "發送"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "給予評等"
@@ -274,10 +283,6 @@ msgstr "給予評等"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "新增評論"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "發送"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -467,14 +472,10 @@ msgstr "開啟特殊選單"
 msgid "Swipe up from the bottom edge."
 msgstr "從底部邊緣向上滑動。"
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "點按這裡繼續。"
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -694,94 +695,5 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Confirm"
-#~ msgstr "確認"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "載入中。請稍候..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "請說..."
-
-#~ msgid "Speaking..."
-#~ msgstr "說話中..."
-
-#~ msgid "Search"
-#~ msgstr "搜尋"
-
-#~ msgid "Close"
-#~ msgstr "關閉"
-
-#~ msgid "Skip intro"
-#~ msgstr "略過導覽"
-
-#~ msgid "Type or say a command"
-#~ msgstr "輸入或說出指令"
-
-#~ msgid "Right edge"
-#~ msgstr "右側邊緣"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "從螢幕右緣向左滑動解鎖手機"
-
-#~ msgid "Top edge"
-#~ msgstr "上方邊緣"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "從螢幕上緣向下滑動打開指示器"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "再次向上滑動關閉設定畫面"
-
-#~ msgid "Left edge"
-#~ msgstr "左方邊緣"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "從螢幕左緣向右滑動揭開啟動器可快速存取程式"
-
-#~ msgid "Well done"
-#~ msgstr "做得好"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
-
-#~ msgid "Log out"
-#~ msgstr "登出"
-
-#~ msgid "Reboot"
-#~ msgstr "重新開機"
-
-#~ msgid "Shut down"
-#~ msgstr "關機"
-
-#~ msgid "Power"
-#~ msgstr "關閉電源"
-
-#~ msgid "Power off"
-#~ msgstr "關閉電源"
-
-#~ msgid "All"
-#~ msgstr "全部"
-
-#~ msgid "Settings"
-#~ msgstr "設定"
-
-#~ msgid "Favorites"
-#~ msgstr "最愛"
-
-#~ msgid "Store"
-#~ msgstr "商城"
-
-#~ msgid "Done"
-#~ msgstr "完成"
-
-#~ msgid "Restart"
-#~ msgstr "重新啟動"
-
 #~ msgid "Please re-enter"
 #~ msgstr "請再輸入"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "管理 Scopes"

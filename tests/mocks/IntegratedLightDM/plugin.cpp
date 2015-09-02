@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,12 +53,12 @@ static QObject *infographic_provider(QQmlEngine *engine, QJSEngine *scriptEngine
     return UserMetricsOutput::UserMetrics::getInstance();
 }
 
-void LightDMPlugin::registerTypes(const char *uri)
+void IntegratedLightDMPlugin::registerTypes(const char *uri)
 {
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<UserMetricsOutput::ColorTheme>();
 
-    Q_ASSERT(uri == QLatin1String("LightDM"));
+    Q_ASSERT(uri == QLatin1String("IntegratedLightDM"));
     qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
     qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
     qmlRegisterSingletonType<MockGreeter>(uri, 0, 1, "Greeter", greeter_provider);

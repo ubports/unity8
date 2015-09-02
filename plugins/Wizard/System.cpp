@@ -34,8 +34,7 @@ System::System()
     qDBusRegisterMetaType<QMap<QString,QString>>();
 
     m_fsWatcher.addPath(wizardEnabledPath());
-    connect(&m_fsWatcher, SIGNAL(fileChanged(const QString &)),
-            this, SIGNAL(wizardEnabledChanged()));
+    connect(&m_fsWatcher, &QFileSystemWatcher::fileChanged, this, &System::wizardEnabledChanged);
 }
 
 QString System::wizardEnabledPath()

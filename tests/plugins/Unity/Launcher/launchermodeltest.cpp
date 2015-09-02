@@ -187,7 +187,7 @@ private Q_SLOTS:
     }
 
     void testPinning() {
-        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
+        QSignalSpy spy(launcherModel, &LauncherModel::dataChanged);
         QCOMPARE(launcherModel->get(0)->pinned(), false);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
         launcherModel->pin(launcherModel->get(0)->appId());
@@ -424,7 +424,7 @@ private Q_SLOTS:
     }
 
     void testCountEmblems() {
-        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
+        QSignalSpy spy(launcherModel, &LauncherModel::dataChanged);
 
         // Call GetAll on abs-icon
         QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
@@ -570,7 +570,7 @@ private Q_SLOTS:
 
     void testSettings() {
         GSettings *settings = launcherModel->m_settings;
-        QSignalSpy spy(launcherModel, SIGNAL(hint()));
+        QSignalSpy spy(launcherModel, &LauncherModel::hint);
 
         // Nothing pinned at startup
         QCOMPARE(settings->storedApplications().count(), 0);

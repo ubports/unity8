@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import LightDM 0.1 as LightDM
+import IntegratedLightDM 0.1 as LightDM
 
 Item {
     property var greeter: LightDM.Greeter
