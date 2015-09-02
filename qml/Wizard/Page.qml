@@ -60,9 +60,12 @@ Item {
 
     OfonoManager { // need it here for the language and country detection
         id: modemManager
-        property bool ready: false
-        onModemsChanged: {
-            ready = true
+        property bool gotSimCard: available && ((simManager0.ready && simManager0.present) || (simManager1.ready && simManager1.present))
+        onAvailableChanged: {
+            print("== Modem manager AVAILABLE");
+        }
+        onGotSimCardChanged: {
+            print("== Modem has a usable SIM CARD");
         }
     }
 
@@ -71,11 +74,25 @@ Item {
     OfonoSimManager {
         id: simManager0
         modemPath: modemManager.modems.length >= 1 ? modemManager.modems[0] : ""
+        onReadyChanged: {
+            print("=== SIM 1 READY!");
+            print("SIM 1 present:", simManager0.present);
+            print("SIM 1 ready:", simManager0.ready);
+            print("SIM 1 languages:", simManager0.preferredLanguages);
+            print("SIM 1 country code:", simManager0.mobileCountryCode);
+        }
     }
 
     OfonoSimManager {
         id: simManager1
         modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
+        onReadyChanged: {
+            print("=== SIM 2 READY!");
+            print("SIM 2 present:", simManager1.present);
+            print("SIM 2 ready:", simManager1.ready);
+            print("SIM 2 languages:", simManager1.preferredLanguages);
+            print("SIM 2 country code:", simManager1.mobileCountryCode);
+        }
     }
 
     // title

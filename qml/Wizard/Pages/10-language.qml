@@ -39,15 +39,12 @@ LocalComponents.Page {
 
     Connections {
         target: modemManager
-        onModemsChanged: {
-            print("=== Modems changed, init");
-            print("Modem manager available:", modemManager.available);
-            print("SIM 1 present:", simManager0.present);
-            print("SIM 1 ready:", simManager0.ready);
+        onGotSimCardChanged: {
+            print("=== Got a usable SIM card, init language page");
             print("SIM 1 languages:", simManager0.preferredLanguages);
             print("SIM 1 country:", LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode));
-            print("SIM 2 present:", simManager1.present);
-            print("SIM 2 ready:", simManager1.ready);
+            print("SIM 2 languages:", simManager1.preferredLanguages);
+            print("SIM 2 country:", LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode));
             init();
         }
     }
@@ -64,25 +61,21 @@ LocalComponents.Page {
             print("SIM 1 detected lang:", detectedLang);
         } else if (plugin.currentLanguage != -1) {
             detectedLang = plugin.languageCodes[plugin.currentLanguage];
-            print("Still using current language", detectedLang, "as default");
+            print("Using current language", detectedLang, "as default");
         } else {
             print("No lang detected, falling back to default (en_US)");
             detectedLang = "en_US"; // fallback to default lang
         }
 
         // preselect the detected language
-        var selectedIndex = -1;
         for (var i = 0; i < plugin.languageCodes.length; i++) {
             var code = plugin.languageCodes[i].split(".")[0]; // remove the encoding part, after dot (en_US.utf8 -> en_US)
             if (detectedLang === code) {
+                print("Found detected language", detectedLang, "at index", i);
                 languagesListView.currentIndex = i;
-                selectedIndex = i;
+                languagesListView.positionViewAtIndex(i, ListView.Center);
                 break;
             }
-        }
-
-        if (selectedIndex !== -1) {
-            languagesListView.positionViewAtIndex(selectedIndex, ListView.Center);
         }
     }
 
