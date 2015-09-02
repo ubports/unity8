@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-06 14:55+0200\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,15 +227,27 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
+<<<<<<< TREE
 #: qml/Dash/GenericScopeView.qml:544 qml/Dash/GenericScopeView.qml:702
+=======
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+>>>>>>> MERGE-SOURCE
 msgid "See less"
 msgstr ""
 
+<<<<<<< TREE
 #: qml/Dash/GenericScopeView.qml:544
+=======
+#: qml/Dash/GenericScopeView.qml:569
+>>>>>>> MERGE-SOURCE
 msgid "See all"
 msgstr ""
 
+<<<<<<< TREE
 #: qml/Dash/GenericScopeView.qml:606
+=======
+#: qml/Dash/GenericScopeView.qml:631
+>>>>>>> MERGE-SOURCE
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -273,7 +285,10 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:61
 #: qml/Dash/Previews/PreviewRatingInput.qml:169
+<<<<<<< TREE
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Send"
 msgstr ""
 
@@ -480,13 +495,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24

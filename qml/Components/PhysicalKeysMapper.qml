@@ -67,7 +67,7 @@ Item {
 
     function onKeyPressed(event) {
         if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)
-            && !event.isAutoRepeat) {
+            && (!event.isAutoRepeat || !powerKeyLongPressTimer.running)) {
 
             // FIXME: We only consider power key presses if the screen is
             // on because of bugs 1410830/1409003.  The theory is that when

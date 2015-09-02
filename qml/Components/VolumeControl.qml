@@ -27,6 +27,12 @@ Item {
     readonly property int stepUp: 1
     readonly property int stepDown: -1
 
+    property var indicators // passed from Shell.qml
+    readonly property bool showNotification: indicators && indicators.fullyOpened && indicators.currentIndicator === "indicator-sound"
+    onShowNotificationChanged: { // disallow the volume notification when using the slider, lpbug#1484126
+        actionGroup.indicatorsAction.updateState(root.showNotification);
+    }
+
     GlobalShortcut {
         id: muteShortcut
         shortcut: Qt.Key_VolumeMute
@@ -41,6 +47,7 @@ Item {
 
         property variant actionObject: action("volume")
         property variant muteActionObject: action("mute")
+        property variant indicatorsAction: action("indicator-shown")
     }
 
     function volumeUp() {

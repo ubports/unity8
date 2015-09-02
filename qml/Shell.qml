@@ -27,7 +27,6 @@ import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
 import Utils 0.1
-import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
 import "Greeter"
@@ -169,8 +168,10 @@ Item {
         finishStartUpTimer.start();
     }
 
+    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
+        indicators: panel.indicators
     }
 
     DashCommunicator {
@@ -508,7 +509,7 @@ Item {
 
         greeter.notifyAboutToFocusApp("unity8-dash");
 
-        var animate = !LightDM.Greeter.active && !stages.shown
+        var animate = !lightDM.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -556,8 +557,11 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            property bool mainAppIsFullscreen: shell.mainApp && shell.mainApp.fullscreen
-            fullscreenMode: (mainAppIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+            property bool topmostApplicationIsFullscreen:
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+
+            fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
         }
 

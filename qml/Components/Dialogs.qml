@@ -19,8 +19,8 @@ import QtQuick 2.0
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Ubuntu.Components 1.1
-import LightDM 0.1 as LightDM
 import GlobalShortcut 1.0
+import "../Greeter"
 
 Item {
     id: root
@@ -78,12 +78,12 @@ Item {
 
     GlobalShortcut { // lock screen
         shortcut: Qt.Key_ScreenSaver
-        onTriggered: LightDM.Greeter.showGreeter()
+        onTriggered: lightDM.greeter.showGreeter()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
-        onTriggered: LightDM.Greeter.showGreeter()
+        onTriggered: lightDM.greeter.showGreeter()
     }
 
     QtObject {
@@ -106,6 +106,8 @@ Item {
         active: false
     }
 
+    LightDM {id: lightDM} // Provide backend access
+
     Component {
         id: logoutDialogComponent
         ShellDialog {
@@ -115,7 +117,7 @@ Item {
             Button {
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
-                    LightDM.Greeter.showGreeter()
+                    lightDM.greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }

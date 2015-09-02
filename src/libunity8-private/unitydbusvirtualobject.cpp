@@ -28,7 +28,7 @@ UnityDBusVirtualObject::UnityDBusVirtualObject(const QString &path, const QStrin
 {
     if (async) {
         // Use a zero-timer to let Qml finish loading before we announce on DBus
-        QTimer::singleShot(0, this, SLOT(registerObject()));
+        QTimer::singleShot(0, this, &UnityDBusVirtualObject::registerObject);
     } else {
         registerObject();
     }
