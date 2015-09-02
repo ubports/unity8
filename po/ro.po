@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
 "PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -16,19 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2015-08-26 06:17+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Parolă: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Fixează scurtătura"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Eliberează scurtătura"
 
@@ -230,15 +234,15 @@ msgstr "Apel de urgență"
 msgid "OK"
 msgstr "În regulă"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Afișează mai puține"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Afișează tot"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Căutare"
@@ -274,6 +278,11 @@ msgstr "Mai mult ..."
 msgid "Less..."
 msgstr "Mai puțin..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Trimite"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Evaluați"
@@ -281,10 +290,6 @@ msgstr "Evaluați"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Adăugați o recenzie"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Trimite"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -486,14 +491,10 @@ msgstr "Deschide meniurile speciale"
 msgid "Swipe up from the bottom edge."
 msgstr "Glisaţi în sus dinspre marginea de jos."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Apăsaţi aici pentru a continua."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Apăsați aici pentru a termina."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -726,3 +727,6 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Introduceți din nou"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Apăsați aici pentru a termina."

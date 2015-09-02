@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
 "PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -15,19 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-26 06:17+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Jelszó: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Indító rögzítése"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Indító feloldása"
 
@@ -37,14 +41,14 @@ msgstr "Indító feloldása"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:157
 msgid "Yesterday %l:%M %p"
-msgstr "Tegnap %k.%M"
+msgstr "Tegnap %p. %I.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened today.
 #. en_US example: "%l:%M %p" --> "1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:164
 msgid "%l:%M %p"
-msgstr "%k.%M"
+msgstr "%p. %l.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
@@ -52,7 +56,7 @@ msgstr "%k.%M"
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr "Holnap %k.%M"
+msgstr "Holnap %p. %I.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -60,7 +64,7 @@ msgstr "Holnap %k.%M"
 #. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:181
 msgid "%a %l:%M %p"
-msgstr "%a %k.%M"
+msgstr "%a %p. %I.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
@@ -69,7 +73,7 @@ msgstr "%a %k.%M"
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr "%d %b %a %k.%M"
+msgstr "%d. %b. %a, %p. %I.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -77,14 +81,14 @@ msgstr "%d %b %a %k.%M"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr "Tegnap %k.%M"
+msgstr "Tegnap %H.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
 #. en_US example: "%H:%M" --> "13:00"
 #: plugins/Utils/relativetimeformatter.cpp:208
 msgid "%H:%M"
-msgstr "%k.%M"
+msgstr "%H.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
@@ -92,7 +96,7 @@ msgstr "%k.%M"
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:216
 msgid "Tomorrow %H:%M"
-msgstr "Holnap %k.%M"
+msgstr "Holnap %H.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
@@ -100,7 +104,7 @@ msgstr "Holnap %k.%M"
 #. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:225
 msgid "%a %H:%M"
-msgstr "%a %k.%M"
+msgstr "%a %H.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
@@ -109,7 +113,7 @@ msgstr "%a %k.%M"
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr "%d %b %a  %k.%M"
+msgstr "%d. %b., %a  %H.%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -223,17 +227,17 @@ msgstr "Segélyhívás"
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
-msgstr "Ok"
+msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Kevesebb"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Összes megtekintése"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Keresés"
@@ -269,6 +273,11 @@ msgstr "Több…"
 msgid "Less..."
 msgstr "Kevesebb…"
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Küldés"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Értékelje"
@@ -276,10 +285,6 @@ msgstr "Értékelje"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Értékelés hozzáadása"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Küldés"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -348,7 +353,7 @@ msgstr ""
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
-msgstr "Adja meg: %1"
+msgstr "%1 megadása"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
@@ -382,7 +387,7 @@ msgstr "Jelszó megjelenítése"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Érintse meg, hogy visszatérjen a híváshoz..."
+msgstr "Ide koppintva visszatérhet a híváshoz"
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -470,20 +475,16 @@ msgstr "Koppintson ide a befejezéshez."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr "Speciális menük megnyitása"
+msgstr "Speciális menük elérése"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
 msgstr "Húzza az ujját a kijelző aljától indulva felfelé."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Koppintson ide a folytatáshoz."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Kattintson ide a befejezéshez."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -515,7 +516,7 @@ msgstr "Húzza az ujját hosszan a kijelző jobboldalától indulva."
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr "Az összes futó alkalmazás megtekinthető."
+msgstr "A futó alkalmazások itt tekinthetőek meg."
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
@@ -713,3 +714,6 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Próbálja újra"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Kattintson ide a befejezéshez."

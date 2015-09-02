@@ -381,7 +381,7 @@ Item {
             // more clever here.
             active: usageScenario != "desktop" && AccountsService.demoEdges
 
-            paused: lightDM.Greeter.active
+            paused: lightDM.greeter.active
             launcher: launcher
             panel: panel
             edgeSize: shell.edgeSize

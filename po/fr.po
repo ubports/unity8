@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
 "PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -15,19 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-08-26 06:17+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Mot de passe : "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Épingler le raccourci"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Détacher le raccourci"
 
@@ -229,15 +233,15 @@ msgstr "Appel d'urgence"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Voir moins"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Tout voir"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Rechercher"
@@ -273,6 +277,11 @@ msgstr "Plus..."
 msgid "Less..."
 msgstr "Moins..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Envoyer"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Évaluez ceci"
@@ -280,10 +289,6 @@ msgstr "Évaluez ceci"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Ajouter un avis"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Envoyer"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -482,14 +487,10 @@ msgstr "Ouvrir les menus spéciaux"
 msgid "Swipe up from the bottom edge."
 msgstr "Glissez vers le haut à partir du bord inférieur."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Appuyez ici pour continuer."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Cliquez ici pour terminer."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -723,3 +724,6 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Veuillez ressaisir"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Cliquez ici pour terminer."
