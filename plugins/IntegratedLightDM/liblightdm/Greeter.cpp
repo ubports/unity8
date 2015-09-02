@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,7 +12,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Author: Michael Terry <michael.terry@canonical.com>
  */
+
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * CHANGES MADE HERE MUST BE REFLECTED ON THE MOCK LIB
+ * COUNTERPART IN tests/mocks/Lightdm/liblightdm
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
 
 #include "Greeter.h"
 #include "GreeterPrivate.h"
@@ -126,13 +135,6 @@ void Greeter::authenticate(const QString &username)
 
     d->authenticated = false;
     d->authenticationUser = username;
-    d->twoFactorDone = false;
-    QTimer::singleShot(0, this, SLOT(delayedAuthentication()));
-}
-
-void Greeter::delayedAuthentication()
-{
-    Q_D(Greeter);
     d->handleAuthenticate();
 }
 
@@ -173,26 +175,9 @@ void Greeter::sendAuthenticationComplete()
 {
     if (qgetenv("UNITY_TESTING").isEmpty()) {
         // simulate PAM's delay
-        QTimer::singleShot(1000, this, SIGNAL(authenticationComplete()));
+        QTimer::singleShot(1000, this, &Greeter::authenticationComplete);
     } else {
         Q_EMIT authenticationComplete();
-    }
-}
-
-QString Greeter::mockMode() const
-{
-    Q_D(const Greeter);
-    return d->mockMode;
-}
-
-
-void Greeter::setMockMode(QString mockMode)
-{
-    Q_D(Greeter);
-
-    if (d->mockMode != mockMode) {
-        d->mockMode = mockMode;
-        Q_EMIT mockModeChanged(mockMode);
     }
 }
 

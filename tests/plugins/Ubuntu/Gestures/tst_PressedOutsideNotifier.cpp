@@ -64,7 +64,7 @@ void tst_PressedOutsideNotifier::touchOutsideAreaTriggersSignal()
     // Therefore, still outside it.
     QPoint touch0 = QPoint(m_blueRect->x() * 0.5, m_blueRect->y() * 0.5);
 
-    QSignalSpy pressedOutsideSpy(m_notifier, SIGNAL(pressedOutside()));
+    QSignalSpy pressedOutsideSpy(m_notifier, &PressedOutsideNotifier::pressedOutside);
 
     QTest::touchEvent(m_view, m_device)
         .press(0, touch0);
@@ -82,7 +82,7 @@ void tst_PressedOutsideNotifier::touchInsideAreaHasNoEffect()
     QPoint touch0 = QPoint(m_blueRect->x() + m_blueRect->width()*0.5,
                            m_blueRect->y() + m_blueRect->height()*0.5);
 
-    QSignalSpy pressedOutsideSpy(m_notifier, SIGNAL(pressedOutside()));
+    QSignalSpy pressedOutsideSpy(m_notifier, &PressedOutsideNotifier::pressedOutside);
 
     QTest::touchEvent(m_view, m_device)
         .press(0, touch0);
@@ -99,7 +99,7 @@ void tst_PressedOutsideNotifier::mousePressOutsideAreaTriggersSignal()
 {
     QPoint mousePos= QPoint(m_blueRect->x() * 0.5, m_blueRect->y() * 0.5);
 
-    QSignalSpy pressedOutsideSpy(m_notifier, SIGNAL(pressedOutside()));
+    QSignalSpy pressedOutsideSpy(m_notifier, &PressedOutsideNotifier::pressedOutside);
 
     QTest::mousePress(m_view, Qt::LeftButton, 0 /*modifiers*/, mousePos);
 
@@ -115,7 +115,7 @@ void tst_PressedOutsideNotifier::mousePresssInsideAreaHasNoEffect()
     QPoint mousePos = QPoint(m_blueRect->x() + m_blueRect->width()*0.5,
                              m_blueRect->y() + m_blueRect->height()*0.5);
 
-    QSignalSpy pressedOutsideSpy(m_notifier, SIGNAL(pressedOutside()));
+    QSignalSpy pressedOutsideSpy(m_notifier, &PressedOutsideNotifier::pressedOutside);
 
     QTest::mousePress(m_view, Qt::LeftButton, 0 /*modifiers*/, mousePos);
 
@@ -130,7 +130,7 @@ void tst_PressedOutsideNotifier::nothingHappensWhileDisabled()
 {
     QPoint touch0 = QPoint(m_blueRect->x() * 0.5, m_blueRect->y() * 0.5);
 
-    QSignalSpy pressedOutsideSpy(m_notifier, SIGNAL(pressedOutside()));
+    QSignalSpy pressedOutsideSpy(m_notifier, &PressedOutsideNotifier::pressedOutside);
 
     m_notifier->setEnabled(false);
 

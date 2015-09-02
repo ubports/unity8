@@ -36,10 +36,12 @@ Showable {
         }
     }
 
+    property bool windowActive: window.active
+
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
-            if (!isSwipe || !window.active || bottomEdgeController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
+            if (!isSwipe || !windowActive || bottomEdgeController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
                 if (bottomEdgeController.progress != 0 && window.active) animate = false;
                 dashContent.setCurrentScopeAtIndex(index, animate, true)
                 backToDashContent()

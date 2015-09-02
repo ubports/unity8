@@ -26,6 +26,12 @@ Item {
     readonly property int stepUp: 1
     readonly property int stepDown: -1
 
+    property var indicators // passed from Shell.qml
+    readonly property bool showNotification: indicators && indicators.fullyOpened && indicators.currentIndicator === "indicator-sound"
+    onShowNotificationChanged: { // disallow the volume notification when using the slider, lpbug#1484126
+        actionGroup.indicatorsAction.updateState(root.showNotification);
+    }
+
     QDBusActionGroup {
         id: actionGroup
         busType: 1
@@ -33,6 +39,7 @@ Item {
         objectPath: "/com/canonical/indicator/sound"
 
         property variant actionObject: action("volume")
+        property variant indicatorsAction: action("indicator-shown")
     }
 
     function volumeUp() {

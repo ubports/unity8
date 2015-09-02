@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-06 05:33+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Пароль: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Закрепить ярлык"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Открепить ярлык"
 
@@ -229,15 +233,15 @@ msgstr "Экстренный вызов"
 msgid "OK"
 msgstr "ОК"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Вкратце"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Показать всё"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Поиск"
@@ -273,6 +277,11 @@ msgstr "Ещё..."
 msgid "Less..."
 msgstr "Меньше..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Отправить"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Оцените это"
@@ -280,10 +289,6 @@ msgstr "Оцените это"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Добавьте отзыв"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Отправить"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -374,7 +379,7 @@ msgstr "Введена неверная кодовая фраза"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Повторите ввод"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -483,14 +488,10 @@ msgstr "Открытие специальных меню"
 msgid "Swipe up from the bottom edge."
 msgstr "Проведите вверх от нижнего края."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Нажмите здесь для продолжения."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Нажмите для завершения."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -719,101 +720,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Type or say a command"
-#~ msgstr "Введите или произнесите команду"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Загрузка. Пожалуйста, подождите..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Говорите..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Говорите..."
-
-#~ msgid "Search"
-#~ msgstr "Поиск"
-
-#~ msgid "Right edge"
-#~ msgstr "Правый край"
-
-#~ msgid "Skip intro"
-#~ msgstr "Пропустить обучение"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr ""
-#~ "Попробуйте переместить палец от правого края к левому для разблокировки "
-#~ "устройства"
-
-#~ msgid "Top edge"
-#~ msgstr "Верхний край"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr ""
-#~ "Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
-
-#~ msgid "Close"
-#~ msgstr "Закрыть"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Снова переместите палец вверх для закрытия экрана настроек"
-
-#~ msgid "Left edge"
-#~ msgstr "Левый край"
-
-#~ msgid "Well done"
-#~ msgstr "Великолепно"
-
-#~ msgid "Confirm"
-#~ msgstr "Подтвердить"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Переместите палец от левого края вправо для открытия лаунчера для быстрого "
-#~ "доступа к приложениям"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Вы научились пользоваться Ubuntu и можете начать использовать свой "
-#~ "телефон<br><br>Нажмите на экран"
-
-#~ msgid "Power off"
-#~ msgstr "Отключить"
-
-#~ msgid "All"
-#~ msgstr "Все"
-
-#~ msgid "Favorites"
-#~ msgstr "Избранное"
-
-#~ msgid "Done"
-#~ msgstr "Готово"
-
-#~ msgid "Log out"
-#~ msgstr "Завершение сеанса"
-
-#~ msgid "Reboot"
-#~ msgstr "Перезагрузка"
-
-#~ msgid "Shut down"
-#~ msgstr "Выключение"
-
-#~ msgid "Power"
-#~ msgstr "Питание"
-
-#~ msgid "Settings"
-#~ msgstr "Настройки"
-
-#~ msgid "Store"
-#~ msgstr "Магазин"
-
-#~ msgid "Restart"
-#~ msgstr "Перезагрузить"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Повторите ввод"
 
-#~ msgid "Manage Scopes"
-#~ msgstr "Настройки поиска"
+#~ msgid "Click here to finish."
+#~ msgstr "Нажмите для завершения."

@@ -17,73 +17,54 @@
 #ifndef MIRSURFACEITEM_H
 #define MIRSURFACEITEM_H
 
-#include "MirSurfaceItemModel.h"
+#include "MirSurface.h"
 
 #include <QQuickItem>
 #include <QUrl>
 
-class Session;
+// unity-api
+#include <unity/shell/application/MirSurfaceItemInterface.h>
 
-class MirSurfaceItem : public QQuickItem
+class MirSurfaceItem : public unity::shell::application::MirSurfaceItemInterface
 {
     Q_OBJECT
-    Q_ENUMS(Type)
-    Q_ENUMS(State)
-    Q_ENUMS(OrientationAngle)
 
-    Q_PROPERTY(Type type READ type NOTIFY typeChanged)
-    Q_PROPERTY(State state READ state NOTIFY stateChanged)
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(bool live READ live NOTIFY liveChanged)
-    Q_PROPERTY(OrientationAngle orientationAngle READ orientationAngle WRITE setOrientationAngle
-               NOTIFY orientationAngleChanged DESIGNABLE false)
+    ////
+    // for use in qml tests
     Q_PROPERTY(int touchPressCount READ touchPressCount WRITE setTouchPressCount
                                    NOTIFY touchPressCountChanged DESIGNABLE false)
     Q_PROPERTY(int touchReleaseCount READ touchReleaseCount WRITE setTouchReleaseCount
                                      NOTIFY touchReleaseCountChanged DESIGNABLE false)
 
 public:
-    enum Type {
-        Normal,
-        Utility,
-        Dialog,
-        Overlay,
-        Freestyle,
-        Popover,
-        InputMethod,
-    };
-
-    enum State {
-        Unknown,
-        Restored,
-        Minimized,
-        Maximized,
-        VertMaximized,
-        /* SemiMaximized, */
-        Fullscreen,
-    };
-
-    enum OrientationAngle {
-        Angle0 = 0,
-        Angle90 = 90,
-        Angle180 = 180,
-        Angle270 = 270
-    };
-
+    explicit MirSurfaceItem(QQuickItem *parent = 0);
     ~MirSurfaceItem();
 
-    //getters
-    Session* session() const { return m_session; }
-    Type type() const { return m_type; }
-    State state() const { return m_state; }
-    QString name() const { return m_name; }
-    bool live() const { return m_live; }
-    OrientationAngle orientationAngle() const { return m_orientationAngle; }
+    Mir::Type type() const override;
+    QString name() const override;
+    bool live() const override;
 
-    void setOrientationAngle(OrientationAngle angle);
+    Mir::State surfaceState() const override;
+    void setSurfaceState(Mir::State) override {}
 
-    void setSession(Session* item);
-    void setScreenshot(const QUrl& screenshot);
+    Mir::OrientationAngle orientationAngle() const override;
+    void setOrientationAngle(Mir::OrientationAngle angle) override;
+
+    unity::shell::application::MirSurfaceInterface* surface() const override { return m_qmlSurface; }
+    void setSurface(unity::shell::application::MirSurfaceInterface*) override;
+
+    bool consumesInput() const override { return m_consumesInput; }
+    void setConsumesInput(bool value) override;
+
+    int surfaceWidth() const override;
+    void setSurfaceWidth(int value) override;
+
+    int surfaceHeight() const override;
+    void setSurfaceHeight(int value) override;
+
+    /////
+    // For use in qml tests
+
     void setLive(bool live);
 
     int touchPressCount() const { return m_touchPressCount; }
@@ -92,47 +73,32 @@ public:
     int touchReleaseCount() const { return m_touchReleaseCount; }
     void setTouchReleaseCount(int count) { m_touchReleaseCount = count; Q_EMIT touchReleaseCountChanged(count); }
 
-    Q_INVOKABLE void setState(State newState);
-    Q_INVOKABLE void release();
-
 Q_SIGNALS:
-    void typeChanged(Type);
-    void stateChanged(State);
-    void liveChanged(bool live);
-    void orientationAngleChanged(OrientationAngle angle);
     void touchPressCountChanged(int count);
     void touchReleaseCountChanged(int count);
 
-    // internal mock use
-    void deregister();
-
 protected:
-    explicit MirSurfaceItem(const QString& name,
-                            Type type,
-                            State state,
-                            const QUrl& screenshot,
-                            const QString &qmlFilePath = QString(),
-                            QQuickItem *parent = 0);
-
     void touchEvent(QTouchEvent * event) override;
+    void itemChange(ItemChange change, const ItemChangeData & value) override;
 
 private Q_SLOTS:
     void onComponentStatusChanged(QQmlComponent::Status status);
+    void updateScreenshot(QUrl screenshot);
 
 private:
     void createQmlContentItem();
     void printComponentErrors();
+    void updateSurfaceSize();
 
-    Session* m_session;
-    const QString m_name;
-    const Type m_type;
-    State m_state;
-    bool m_live;
-    OrientationAngle  m_orientationAngle;
+    MirSurface* m_qmlSurface;
 
     QQmlComponent *m_qmlContentComponent;
     QQuickItem *m_qmlItem;
-    QUrl m_screenshotUrl;
+
+    bool m_consumesInput;
+
+    int m_surfaceWidth;
+    int m_surfaceHeight;
 
     int m_touchPressCount;
     int m_touchReleaseCount;
@@ -142,6 +108,5 @@ private:
 
 Q_DECLARE_METATYPE(MirSurfaceItem*)
 Q_DECLARE_METATYPE(QList<MirSurfaceItem*>)
-Q_DECLARE_METATYPE(MirSurfaceItem::OrientationAngle)
 
 #endif // MIRSURFACEITEM_H

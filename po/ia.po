@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-06-08 18:58+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Contrasigno: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Via-breve a pin"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Via-breve a levar pin"
 
@@ -37,14 +41,14 @@ msgstr "Via-breve a levar pin"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:157
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Heri"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened today.
 #. en_US example: "%l:%M %p" --> "1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:164
 msgid "%l:%M %p"
-msgstr ""
+msgstr "%l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
@@ -52,7 +56,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr ""
+msgstr "Deman %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -60,7 +64,7 @@ msgstr ""
 #. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:181
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
@@ -69,7 +73,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr ""
+msgstr "%a %d %b %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -77,14 +81,14 @@ msgstr ""
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr ""
+msgstr "Heri %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
 #. en_US example: "%H:%M" --> "13:00"
 #: plugins/Utils/relativetimeformatter.cpp:208
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
@@ -92,7 +96,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:216
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "Deman %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
@@ -100,7 +104,7 @@ msgstr ""
 #. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:225
 msgid "%a %H:%M"
-msgstr ""
+msgstr "%a %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
@@ -109,7 +113,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr ""
+msgstr "%a %d %b %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -227,15 +231,15 @@ msgstr "Appello de emergentia"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Vider minus"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Vider toto"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Cerca"
@@ -271,6 +275,11 @@ msgstr "Plus..."
 msgid "Less..."
 msgstr "Minus..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Mandar"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Evalutar isto"
@@ -278,10 +287,6 @@ msgstr "Evalutar isto"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Adder un revision"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Mandar"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -372,7 +377,7 @@ msgstr "Displacente, phrase-contrasigno incorrecte"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Per favor re-insere"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -398,32 +403,32 @@ msgstr "Nil es jocante"
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 hora"
+msgstr[1] "%1 horas"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:772
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 minuta"
+msgstr[1] "%1 minutas"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:777
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 secunda"
+msgstr[1] "%1 secundas"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:780
 msgid "0 seconds"
-msgstr ""
+msgstr "0 secundas"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:782
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "%1 restante"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
@@ -478,14 +483,10 @@ msgstr "Aperi le menus special"
 msgid "Swipe up from the bottom edge."
 msgstr "Stria in alto ex le bordo basse."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Pulsa ci pro continuar"
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Clicca ci pro finir"
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -716,86 +717,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Log out"
-#~ msgstr "Clauder le Session"
-
-#~ msgid "Reboot"
-#~ msgstr "Reinitiar"
-
-#~ msgid "Shut down"
-#~ msgstr "Stoppar"
-
-#~ msgid "Power"
-#~ msgstr "Energia"
-
-#~ msgid "Restart"
-#~ msgstr "Re-Initiar"
-
-#~ msgid "Power off"
-#~ msgstr "Stoppar le energia"
-
-#~ msgid "Top edge"
-#~ msgstr "Bordo superior"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Proba striar le bordo superior pro acceder le indicatores"
-
-#~ msgid "Close"
-#~ msgstr "Clauder"
-
-#~ msgid "Left edge"
-#~ msgstr "Bordo sinistre"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Proba striar le bordo dextere pro liberar le telephono"
-
-#~ msgid "Skip intro"
-#~ msgstr "Saltar le introduction"
-
-#~ msgid "Right edge"
-#~ msgstr "Bordo dextere"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Stria novemente pro clauder le pagina del preparationes"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Striar ab le sinistra pro revelar le lanceator pro un celere accesso al "
-#~ "applicationes"
-
-#~ msgid "Well done"
-#~ msgstr "Ben!"
-
-#~ msgid "Search"
-#~ msgstr "Cercar"
-
-#~ msgid "Store"
-#~ msgstr "Salvar"
-
-#~ msgid "Settings"
-#~ msgstr "Preparationes"
-
-#~ msgid "Confirm"
-#~ msgstr "Confirmar"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Scriber o dicer un commando"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Cargante. Attender per favor..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Parlar Ora..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Parlante..."
-
 #~ msgid "Please re-enter"
 #~ msgstr "Per favor re-inserer"
 
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Tu es ora maestrate le gestos del bordo e pote initiar usar le "
-#~ "telephono<br><br>colpar sur le schermo pro initiar"
+#~ msgid "Click here to finish."
+#~ msgstr "Clicca ci pro finir"

@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-02-22 15:22+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:01+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Contrasenya: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Apega la drecera"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Desenganxa la drecera"
 
@@ -229,15 +233,15 @@ msgstr "Cridada d'emergència"
 msgid "OK"
 msgstr "D'acord"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Mostra'n menys"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Mostra-ho tot"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -273,6 +277,11 @@ msgstr "Més..."
 msgid "Less..."
 msgstr "Menys..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Envia"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Puntueu-ho"
@@ -280,10 +289,6 @@ msgstr "Puntueu-ho"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Afegiu una ressenya"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Envia"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -482,13 +487,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -718,102 +719,5 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Log out"
-#~ msgstr "Ix"
-
-#~ msgid "Shut down"
-#~ msgstr "Apaga"
-
-#~ msgid "Reboot"
-#~ msgstr "Reinicia"
-
-#~ msgid "Power"
-#~ msgstr "Energia"
-
-#~ msgid "Power off"
-#~ msgstr "Apaga"
-
-#~ msgid "Restart"
-#~ msgstr "Reinicia"
-
-#~ msgid "Skip intro"
-#~ msgstr "Omet la introducció"
-
-#~ msgid "Right edge"
-#~ msgstr "Vora dreta"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr ""
-#~ "Proveu de lliscar el dit des de la vora dreta per desblocar el telèfon"
-
-#~ msgid "Top edge"
-#~ msgstr "Vora superior"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr ""
-#~ "Proveu de lliscar el dit des de la vora superior per accedir als indicadors"
-
-#~ msgid "Close"
-#~ msgstr "Tanca"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr ""
-#~ "Llisqueu el dit cap amunt una altra vegada per tancar la pantalla de "
-#~ "configuració"
-
-#~ msgid "Left edge"
-#~ msgstr "Vora esquerra"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Llisqueu el dit des de la vora esquerra per mostrar el llançador i accedir "
-#~ "ràpidament a les aplicacions"
-
-#~ msgid "Well done"
-#~ msgstr "Enhorabona!"
-
-#~ msgid "Search"
-#~ msgstr "Cerca"
-
-#~ msgid "Settings"
-#~ msgstr "Paràmetres"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Gestioneu les lents"
-
-#~ msgid "Done"
-#~ msgstr "Fet"
-
-#~ msgid "Store"
-#~ msgstr "Botiga"
-
-#~ msgid "Favorites"
-#~ msgstr "Preferides"
-
-#~ msgid "All"
-#~ msgstr "Totes"
-
-#~ msgid "Confirm"
-#~ msgstr "Confirma"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "S'està carregant. Espereu-vos un moment..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Parleu..."
-
-#~ msgid "Speaking..."
-#~ msgstr "S'està parlant..."
-
 #~ msgid "Please re-enter"
 #~ msgstr "Torneu-ho a introduir"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Escriviu o pronuncieu una ordre"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Ja heu après com utilitzar els gestos de les vores per fer servir el "
-#~ "telèfon<br><br>Feu un toc a la pantalla per començar"

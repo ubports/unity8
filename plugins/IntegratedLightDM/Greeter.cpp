@@ -35,12 +35,12 @@ Greeter::Greeter(QObject* parent)
 {
     Q_D(Greeter);
 
-    connect(d->m_greeter, SIGNAL(showMessage(QString, QLightDM::Greeter::MessageType)),
-            this, SLOT(showMessageFilter(QString, QLightDM::Greeter::MessageType)));
-    connect(d->m_greeter, SIGNAL(showPrompt(QString, QLightDM::Greeter::PromptType)),
-            this, SLOT(showPromptFilter(QString, QLightDM::Greeter::PromptType)));
-    connect(d->m_greeter, SIGNAL(authenticationComplete()),
-            this, SLOT(authenticationCompleteFilter()));
+    connect(d->m_greeter, &QLightDM::Greeter::showMessage,
+            this, &Greeter::showMessageFilter);
+    connect(d->m_greeter, &QLightDM::Greeter::showPrompt,
+            this, &Greeter::showPromptFilter);
+    connect(d->m_greeter, &QLightDM::Greeter::authenticationComplete,
+            this, &Greeter::authenticationCompleteFilter);
 
     d->m_greeter->connectSync();
 }

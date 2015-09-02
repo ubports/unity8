@@ -73,7 +73,7 @@ Rectangle {
                 source: "graphics/home.png"
                 rotation: root.rotation
             }
-            MouseArea {
+            AbstractButton {
                 id: dashItem
                 anchors.fill: parent
                 onClicked: root.showDashHome()
@@ -381,6 +381,7 @@ Rectangle {
                         }
 
                         onClicked: {
+                            Haptics.play();
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
 
@@ -459,6 +460,8 @@ Rectangle {
                             if (Math.abs(selectedItem.angle) > 30) {
                                 return;
                             }
+
+                            Haptics.play();
 
                             draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
 
@@ -673,6 +676,7 @@ Rectangle {
                         if (!model.clickable) {
                             return;
                         }
+                        Haptics.play();
                         quickList.state = "";
                         // Unsetting model to prevent showing changing entries during fading out
                         // that may happen because of triggering an action.

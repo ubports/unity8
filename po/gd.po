@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-16 10:56+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,20 +16,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 "Language: gd\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Facal-faire: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Prìnich ath-ghoirid"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Neo-phrìnich an ath-ghoirid"
 
@@ -233,15 +237,15 @@ msgstr "Gairm èiginn"
 msgid "OK"
 msgstr "Ceart ma-thà"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Lorg"
@@ -277,6 +281,11 @@ msgstr "Barrachd..."
 msgid "Less..."
 msgstr "Nas lugha..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Cuir"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Rangaich seo"
@@ -284,10 +293,6 @@ msgstr "Rangaich seo"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Cuir lèirmheas ris"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Cuir"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -492,14 +497,10 @@ msgstr "Fosgail na clàran-taice sònraichte"
 msgid "Swipe up from the bottom edge."
 msgstr "Dèan grad-shlaighdeadh a-nìos on oir."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Thoir gnogag an-seo gus leantainn air adhart."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Briog an-seo gus crìoch a chur air."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -730,102 +731,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Skip intro"
-#~ msgstr "Gearr leum thairis air an ro-ràdh"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr ""
-#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
-#~ "far an fhòn"
-
-#~ msgid "Right edge"
-#~ msgstr "An oir dheas"
-
-#~ msgid "Top edge"
-#~ msgstr "An oir aig a' bharr"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr ""
-#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir aig a' bharr gus greim "
-#~ "fhaighinn air na taisbeanairean"
-
-#~ msgid "Close"
-#~ msgstr "Dùin"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Dèan grad-shlaighdeadh a-nìos gus sgrìn nan roghainnean a dhùnadh"
-
-#~ msgid "Left edge"
-#~ msgstr "An oir chlì"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Dèan grad-shlaighdeadh on oir chlì air an lòinseir a bheir dhut cothrom "
-#~ "luath air na h-aplacaidean"
-
-#~ msgid "Well done"
-#~ msgstr "Gasta!"
-
-#~ msgid "Confirm"
-#~ msgstr "Dearbhaich"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "'Ga luchdadh, fuirich ort..."
-
-#~ msgid "Type or say a command"
-#~ msgstr "Sgrìobh no can àithne"
-
-#~ msgid "Speaking..."
-#~ msgstr "A' bruidhinn..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Can rud a-nis..."
-
-#~ msgid "Search"
-#~ msgstr "Lorg"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
-#~ "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
-
-#~ msgid "All"
-#~ msgstr "Na h-uile"
-
-#~ msgid "Favorites"
-#~ msgstr "Annsachdan"
-
-#~ msgid "Store"
-#~ msgstr "Am bùth"
-
-#~ msgid "Power off"
-#~ msgstr "Cuir a' chumhachd dheth"
-
-#~ msgid "Done"
-#~ msgstr "Deiseil"
-
-#~ msgid "Log out"
-#~ msgstr "Clàraich a-mach"
-
-#~ msgid "Reboot"
-#~ msgstr "Ath-thòisich an siostam"
-
-#~ msgid "Shut down"
-#~ msgstr "Dùin sìos"
-
-#~ msgid "Power"
-#~ msgstr "Cumhachd"
-
-#~ msgid "Settings"
-#~ msgstr "Roghainnean"
-
-#~ msgid "Restart"
-#~ msgstr "Ath-thòisich"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Stiùirich na sgòpaichean"
+#~ msgid "Click here to finish."
+#~ msgstr "Briog an-seo gus crìoch a chur air."
 
 #~ msgid "Please re-enter"
 #~ msgstr "Cuir a-steach i a-rithist"

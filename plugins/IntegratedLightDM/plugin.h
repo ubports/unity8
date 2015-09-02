@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright (C) 2012,2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,16 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-import QtQuick 2.4
-import LightDM 0.1 as LightDM
+#ifndef INTEGRATED_LIGHTDM_PLUGIN_H
+#define INTEGRATED_LIGHTDM_PLUGIN_H
 
-Item {
-    property var greeter: LightDM.Greeter
-    Binding {
-        target: LightDM.Greeter
-        property: "mockMode"
-        value: "full"
-    }
-}
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
+
+class IntegratedLightDMPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri) override;
+};
+
+#endif /* INTEGRATED_LIGHTDM_PLUGIN_H */

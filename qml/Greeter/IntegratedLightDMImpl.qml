@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,24 +12,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Gerry Boland <gerry.boland@canonical.com>
- *          Michael Terry <michael.terry@canonical.com>
  */
 
-#ifndef LIGHTDM_PLUGIN_H
-#define LIGHTDM_PLUGIN_H
+import QtQuick 2.4
+import IntegratedLightDM 0.1 as LightDM
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+Item{
+    id: implementation
 
-class LightDMPlugin : public QQmlExtensionPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    property var greeter: LightDM.Greeter
+    property var infographic: LightDM.Infographic
+    property var users: LightDM.Users
+    property var userRoles: LightDM.UserRoles
 
-public:
-    void registerTypes(const char *uri) override;
-};
-
-#endif
+}
