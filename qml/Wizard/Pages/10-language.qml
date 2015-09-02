@@ -49,14 +49,14 @@ LocalComponents.Page {
         var detectedLang = "";
         // try to detect the language from the SIM card
         if (simManager0.present && simManager0.preferredLanguages.length > 0) {
-            detectedLang = simManager0.preferredLanguages[0];
+            detectedLang = simManager0.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode);
             print("SIM 0 detected lang:", detectedLang);
         } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
-            detectedLang = simManager1.preferredLanguages[0];
+            detectedLang = simManager1.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode);
             print("SIM 1 detected lang:", detectedLang);
         } else if (plugin.currentLanguage != -1) {
-            detectedLang = plugin.currentLanguage;
-            print("Using current language", plugin.currentLanguage, "as default");
+            detectedLang = plugin.languageCodes[plugin.currentLanguage];
+            print("Using current language", detectedLang, "as default");
         } else {
             print("No lang detected, falling back to default (en_US)");
             detectedLang = "en_US"; // fallback to default lang
@@ -81,7 +81,7 @@ LocalComponents.Page {
             id: languagesListView
             boundsBehavior: Flickable.StopAtBounds
             clip: true
-            currentIndex: -1
+            currentIndex: plugin.currentLanguage
             snapMode: ListView.SnapToItem
 
             anchors {

@@ -37,6 +37,5 @@ void MockSystem::setWizardEnabled(bool enabled)
 
 void MockSystem::updateSessionLocale(const QString &locale)
 {
-    qDebug() << Q_FUNC_INFO << locale;
     Q_EMIT updateSessionLocaleCalled(locale);
 }
