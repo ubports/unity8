@@ -403,119 +403,12 @@ Item {
             tryCompare(dashNavigationButton.currentNavigation, "navigationId", "middle2");
         }
 
-        function test_altNavigation() {
-            var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
-            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
-            tryCompare(dashNavigation, "visible", true);
-            var dashNavigationButton = findChild(dashContentList.currentItem, "altNavigationButton");
-            verify(dashNavigationButton, "Can't find navigation button");
-
-            compare(dashNavigationButton.showList, false);
-            waitForRendering(dashNavigationButton);
-            mouseClick(dashNavigationButton);
-            compare(dashNavigationButton.showList, true);
-
-            var navigationListView = findChild(dashNavigationButton, "navigationListView");
-            tryCompareFunction(function() {
-                return navigationListView.currentItem &&
-                       navigationListView.currentItem.navigation &&
-                       navigationListView.currentItem.navigation.loaded; }, true);
-
-            waitForRendering(navigationListView);
-            waitForRendering(navigationListView.currentItem);
-
-            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "altrootChild1");
-            tryCompare(navigationListView.currentItem.navigation, "navigationId", "altroot");
-
-            var allButton = findChild(dashNavigationButton, "allButton");
-            compare(allButton.visible, false);
-            var backButton = findChild(navigationListView, "backButton");
-            compare(backButton.visible, false);
-
-            var navigation = findChild(dashNavigationButton, "navigation0child3");
-            mouseClick(navigation);
-            compare(dashNavigationButton.showList, false);
-            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "altrootChild3");
-            tryCompare(navigationListView.currentItem.navigation, "navigationId", "altroot");
-
-            mouseClick(dashNavigationButton);
-            compare(dashNavigationButton.showList, true);
-            waitForRendering(navigationListView);
-            waitForRendering(navigationListView.currentItem);
-            compare(allButton.visible, false);
-
-            navigation = findChild(dashNavigationButton, "navigation0child2");
-            mouseClick(navigation);
-            compare(dashNavigationButton.showList, false);
-            tryCompare(dashNavigationButton.currentNavigation, "navigationId", "altrootChild2");
-            tryCompare(navigationListView.currentItem.navigation, "navigationId", "altroot");
-
-            mouseClick(dashNavigationButton);
-            compare(dashNavigationButton.showList, true);
-            waitForRendering(navigationListView);
-            waitForRendering(navigationListView.currentItem);
-            verify(!backButton.visible, "Back button should not be visible");
-
-            compare(navigationListView.count, 1, "There should be no second-level navigation");
-
-            mouseClick(dashNavigationButton);
-            compare(dashNavigationButton.showList, false);
-        }
-
-        function test_navigationsClosing() {
-            var dashContentList = findChild(dashContent, "dashContentList");
-            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
-            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
-            tryCompare(dashNavigation, "visible", true);
-            var dashNavigationButton = findChild(dashContentList.currentItem, "navigationButton");
-            verify(dashNavigationButton, "Can't find navigation button");
-            var dashAltNavigationButton = findChild(dashContentList.currentItem, "altNavigationButton");
-            verify(dashAltNavigationButton, "Can't find alternative navigation button");
-
-            waitForRendering(dashNavigationButton);
-            waitForRendering(dashAltNavigationButton);
-
-            compare(dashNavigationButton.showList, false);
-            compare(dashAltNavigationButton.showList, false);
-
-            mouseClick(dashAltNavigationButton);
-            compare(dashNavigationButton.showList, false);
-            compare(dashAltNavigationButton.showList, true);
-
-            var navigationListView = findChild(dashAltNavigationButton, "navigationListView");
-            tryCompareFunction(function() {
-                return navigationListView.currentItem &&
-                       navigationListView.currentItem.navigation &&
-                       navigationListView.currentItem.navigation.loaded; }, true);
-
-            var blackRect = findChild(dashNavigation, "blackRect");
-            tryCompare(blackRect, "opacity", 0.5);
-
-            mouseClick(dashNavigationButton);
-            compare(dashNavigationButton.showList, false);
-            compare(dashAltNavigationButton.showList, false);
-
-            tryCompare(navigationListView, "visible", false);
-
-            mouseClick(dashNavigationButton);
-            compare(dashNavigationButton.showList, true);
-            compare(dashAltNavigationButton.showList, false);
-
-            navigationListView = findChild(dashNavigationButton, "navigationListView");
-            tryCompare(navigationListView.currentItem.navigation, "loaded", true);
-
-            mouseClick(dashAltNavigationButton);
-            compare(dashNavigationButton.showList, false);
-            compare(dashAltNavigationButton.showList, false);
-        }
-
         function test_navigationsSwipeToNextScope() {
             var dashContentList = findChild(dashContent, "dashContentList");
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             tryCompare(dashNavigation, "visible", true);
-            var dashNavigationButton = findChild(dashContentList.currentItem, "altNavigationButton");
+            var dashNavigationButton = findChild(dashContentList.currentItem, "navigationButton");
             verify(dashNavigationButton, "Can't find navigation button");
 
             compare(dashNavigationButton.showList, false);
