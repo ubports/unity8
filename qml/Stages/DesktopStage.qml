@@ -77,7 +77,6 @@ Rectangle {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
             appDelegate.minimized = false;
-            appDelegate.focus = true;
             ApplicationManager.focusApplication(appId);
         }
     }
@@ -89,12 +88,6 @@ Rectangle {
         readonly property var focusedAppDelegate: {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
-        }
-
-        onFocusedAppDelegateChanged: {
-            if (focusedAppDelegate) {
-                focusedAppDelegate.focus = true;
-            }
         }
 
         function indexOf(appId) {
@@ -133,23 +126,28 @@ Rectangle {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
+        focus: true
 
         Keys.onPressed: {
             switch (event.key) {
             case Qt.Key_Left:
             case Qt.Key_Backtab:
                 selectPrevious(event.isAutoRepeat)
+                event.accepted = true;
                 break;
             case Qt.Key_Right:
             case Qt.Key_Tab:
                 selectNext(event.isAutoRepeat)
+                event.accepted = true;
                 break;
             case Qt.Key_Escape:
                 appRepeater.highlightedIndex = -1
+                event.accepted = true;
             case Qt.Key_Enter:
             case Qt.Key_Return:
             case Qt.Key_Space:
                 root.state = ""
+                event.accepted = true;
             }
         }
 
@@ -180,7 +178,8 @@ Rectangle {
 
         function focusSelected() {
             if (appRepeater.highlightedIndex != -1) {
-                appRepeater.itemAt(appRepeater.highlightedIndex).focus = true;
+                var application = ApplicationManager.get(appRepeater.highlightedIndex);
+                ApplicationManager.focusApplication(application.appId);
             }
         }
 
@@ -205,17 +204,7 @@ Rectangle {
                 property bool maximized: false
                 property bool minimized: false
 
-                onFocusChanged: {
-                    if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
-                        ApplicationManager.requestFocusApplication(model.appId);
-                        decoratedWindow.forceActiveFocus();
-                    }
-                }
-                Component.onCompleted: {
-                    if (ApplicationManager.focusedApplicationId == model.appId) {
-                        decoratedWindow.forceActiveFocus();
-                    }
-                }
+                focus: priv.focusedAppId === model.appId && root.state !== "altTab"
 
                 Binding {
                     target: ApplicationManager.get(index)
@@ -326,7 +315,7 @@ Rectangle {
                     resizeHandleWidth: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                    onPressed: appDelegate.focus = true;
+                    onPressed: ApplicationManager.focusApplication(model.appId);
                 }
 
                 DecoratedWindow {
@@ -338,7 +327,7 @@ Rectangle {
                     windowHeight: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
-                    focus: false
+                    focus: true
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximize()
@@ -582,7 +571,6 @@ Rectangle {
             PropertyChanges { target: spreadFlickable; enabled: true }
             PropertyChanges { target: currentSelectedLabel; visible: true }
             PropertyChanges { target: spreadBackground; visible: true }
-            PropertyChanges { target: appContainer; focus: true }
         }
     ]
     signal updateWorkspaces();
