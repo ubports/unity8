@@ -29,7 +29,7 @@ LocalComponents.Page {
     objectName: "passwdSetPage"
     forwardButtonSourceComponent: forwardButton
     customTitle: true
-    title: confirmPhase ? i18n.tr("Confirm password") : i18n.tr("Choose password")
+    title: confirmPhase ? i18n.tr("Confirm Password") : i18n.tr("Choose Password")
     backButtonText: i18n.tr("Cancel")
 
     property alias password: passwordField.text
