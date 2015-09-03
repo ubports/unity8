@@ -17,5 +17,10 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/greeters
     )
 
+install(FILES
+    51-unity-greeter.conf
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/lightdm.conf.d
+    )
+
 install(FILES com.canonical.Unity8.gschema.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/glib-2.0/schemas)
 install(FILES unity8-dash.url-dispatcher DESTINATION ${CMAKE_INSTALL_DATADIR}/url-dispatcher/urls)
