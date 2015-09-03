@@ -1,3 +1,13 @@
+unity8 (8.11+15.10.20150826-0ubuntu1) wily; urgency=medium
+
+  [ Michael Zanetti ]
+  * release for wily
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 26 Aug 2015 09:01:03 +0000
+
 unity8 (8.11+15.04.20150831.2-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]
