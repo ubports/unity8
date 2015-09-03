@@ -125,6 +125,7 @@ Item {
             objectName: "timeout"
             interval: 2000 // wizard pages shouldn't take long
             onTriggered: {
+                print("PAGE SKIPPED BY TIMEOUT!!!");
                 pageStack.currentPage.skip = true;
                 pageStack.currentPage.skipValid = true;
             }

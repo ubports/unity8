@@ -29,16 +29,49 @@ LocalComponents.Page {
     customTitle: true
     hasBackButton: false
 
-    skipValid: !modemManager.available ||
-               (modemManager.ready && (modemManager.modems.length < 1 || simManager0.ready)
-                              && (modemManager.modems.length < 2 || simManager1.ready))
-    skip: !modemManager.available || modemManager.modems.length === 0 || simManager0.present || simManager1.present
+    skipValid: modemManager.gotSimCard
 
-    property bool hadModem: false
+    // skip this page altogether if...
+    skip: !modemManager.available || modemManager.modems.length === 0 || // .. we don't have any modem
+          simManager0.present || simManager1.present // ... or we already have a SIM card inserted
 
-    Component.onCompleted: {
-        hadModem = simManager0.present || simManager1.present;
-        print("Had modem: " + hadModem);
+    property bool hadSIM: simManager0.present || simManager1.present
+
+    Timer {
+        id: timer
+        interval: 250
+        running: true
+        onTriggered: {
+            print("=== SIM page: timer triggered");
+            hadSIM = simManager0.present || simManager1.present;
+            print("=== SIM page: had sim:", hadSIM);
+            if (hadSIM) {
+                skip = true;
+                skipValid = true;
+            }
+            else {
+                checkSkipValid();
+            }
+        }
+    }
+
+    function checkSkipValid() {
+        skipValid = (modemManager.available && modemManager.modems.length === 0) || // got modem with no SIM card slots
+                !modemManager.available || // modem not available
+                (simManager0.ready && !simManager0.present) || (simManager1.ready && !simManager1.present) || // empty SIM card slots
+                simManager0.present || simManager1.present;  // already have a SIM card inserted
+        print("=== SIM page: check skipValid:", skipValid);
+    }
+
+    Connections {
+        target: modemManager
+        onGotSimCardChanged: {
+            print("=== SIM page: SIM card inserted");
+            if (!hadSIM && modemManager.gotSimCard) { // show the restart dialog in case a SIM gets inserted
+                print("=== SIM page: showing reboot dialog");
+                restartDialog.visible = true;
+            }
+        }
     }
 
     Dialog {
@@ -51,15 +84,6 @@ LocalComponents.Page {
             text: i18n.tr("Restart")
             onClicked: {
                 DBusUnitySessionService.reboot();
-            }
-        }
-    }
-
-    Connections {
-        target: modemManager
-        onModemsChanged: {
-            if (!hadModem && (simManager0.present || simManager1.present)) { // show the restart dialog in case a SIM gets inserted
-                restartDialog.visible = true
             }
         }
     }

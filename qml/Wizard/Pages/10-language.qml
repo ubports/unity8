@@ -32,7 +32,7 @@ LocalComponents.Page {
 
     Component.onCompleted: {
         if (!modemManager.available) { // don't wait for the modem if it's not there
-            print("=== Modem manager not available, init manually")
+            print("== Modem manager not available, init language manually")
             init();
         }
     }
@@ -40,11 +40,11 @@ LocalComponents.Page {
     Connections {
         target: modemManager
         onGotSimCardChanged: {
-            print("=== Got a usable SIM card, init language page");
-            print("SIM 1 languages:", simManager0.preferredLanguages);
-            print("SIM 1 country:", LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode));
-            print("SIM 2 languages:", simManager1.preferredLanguages);
-            print("SIM 2 country:", LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode));
+            print("== Got a usable SIM card, init language page");
+//            print("SIM 1 languages:", simManager0.preferredLanguages);
+//            print("SIM 1 country:", LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode));
+//            print("SIM 2 languages:", simManager1.preferredLanguages);
+//            print("SIM 2 country:", LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode));
             init();
         }
     }

@@ -32,7 +32,6 @@ Item {
         property bool ready: false
 
         function updatePresence() {
-            print("Update presence")
             d.present = MockQOfono.isModemPresent(simManager.modemPath)
             d.ready = MockQOfono.isModemReady(simManager.modemPath);
         }

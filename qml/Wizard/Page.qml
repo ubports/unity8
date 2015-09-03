@@ -60,12 +60,16 @@ Item {
 
     OfonoManager { // need it here for the language and country detection
         id: modemManager
-        property bool gotSimCard: available && ((simManager0.ready && simManager0.present) || (simManager1.ready && simManager1.present))
+        readonly property bool gotSimCard: available && ((simManager0.ready && simManager0.present) || (simManager1.ready && simManager1.present))
+        property bool ready: false
+        onModemsChanged: {
+            ready = true;
+        }
         onAvailableChanged: {
-            print("== Modem manager AVAILABLE");
+            print("Modem manager available:", available);
         }
         onGotSimCardChanged: {
-            print("== Modem has a usable SIM CARD");
+            print("Modem has a usable SIM CARD now:", gotSimCard);
         }
     }
 
@@ -74,24 +78,16 @@ Item {
     OfonoSimManager {
         id: simManager0
         modemPath: modemManager.modems.length >= 1 ? modemManager.modems[0] : ""
-        onReadyChanged: {
-            print("=== SIM 1 READY!");
-            print("SIM 1 present:", simManager0.present);
-            print("SIM 1 ready:", simManager0.ready);
-            print("SIM 1 languages:", simManager0.preferredLanguages);
-            print("SIM 1 country code:", simManager0.mobileCountryCode);
+        onPresentChanged: {
+            print("SIM CARD 1 inserted!!!", present);
         }
     }
 
     OfonoSimManager {
         id: simManager1
         modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
-        onReadyChanged: {
-            print("=== SIM 2 READY!");
-            print("SIM 2 present:", simManager1.present);
-            print("SIM 2 ready:", simManager1.ready);
-            print("SIM 2 languages:", simManager1.preferredLanguages);
-            print("SIM 2 country code:", simManager1.mobileCountryCode);
+        onPresentChanged: {
+            print("SIM CARD 2 inserted!!!", present);
         }
     }
 
