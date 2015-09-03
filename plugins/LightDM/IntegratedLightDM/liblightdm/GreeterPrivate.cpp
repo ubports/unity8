@@ -65,7 +65,7 @@ public:
         cancelPam();
     }
 
-    void start(QString username)
+    void start(QString &username)
     {
         // Clear out any existing PAM interactions first
         cancelPam();
