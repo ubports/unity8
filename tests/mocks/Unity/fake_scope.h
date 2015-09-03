@@ -67,11 +67,15 @@ public:
 
     QString currentNavigationId() const  override;
     bool hasNavigation() const  override;
-    QString currentAltNavigationId() const  override;
-    bool hasAltNavigation() const  override;
     Q_INVOKABLE unity::shell::scopes::NavigationInterface* getNavigation(QString const& navigationId) override;
-    Q_INVOKABLE unity::shell::scopes::NavigationInterface* getAltNavigation(QString const& altNavigationId) override;
-    Q_INVOKABLE void setNavigationState(const QString &navigationId, bool isAltNavigation) override;
+    Q_INVOKABLE void setNavigationState(const QString &navigationId) override;
+
+    unity::shell::scopes::FilterBaseInterface* primaryNavigationFilter() const override;
+    unity::shell::scopes::FiltersInterface* filters() const override;
+    QString primaryNavigationTag() const override;
+    int activeFiltersCount() const override;
+    Q_INVOKABLE void resetPrimaryNavigationTag() override;
+    
     void performQuery(const QString& query) override;
 
     Status status() const override;
@@ -97,7 +101,6 @@ protected:
     bool m_favorite;
     bool m_isActive;
     QString m_currentNavigationId;
-    QString m_currentAltNavigationId;
 
     QString m_previewRendererName;
 

@@ -32,7 +32,6 @@ Navigation::Navigation(const QString& navigationId, const QString& label, const 
 {
     QTimer::singleShot(1500, this, &Navigation::slotLoaded);
     connect(scope, &Scope::currentNavigationIdChanged, this, &Navigation::slotCurrentNavigationChanged);
-    connect(scope, &Scope::currentAltNavigationIdChanged, this, &Navigation::slotCurrentNavigationChanged);
 }
 
 QString Navigation::navigationId() const
@@ -107,11 +106,7 @@ QVariant Navigation::data(const QModelIndex &index, int role) const
         case RoleHasChildren:
             return m_navigationId == "root" && index.row() != 3;
         case RoleIsActive:
-            if (m_navigationId.startsWith("alt")) {
-                return m_scope->currentAltNavigationId() == data(index, RoleNavigationId);
-            } else {
-                return m_scope->currentNavigationId() == data(index, RoleNavigationId);
-            }
+            return m_scope->currentNavigationId() == data(index, RoleNavigationId);
     }
     return QVariant();
 }

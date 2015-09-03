@@ -38,7 +38,6 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_favorite(favorite)
     , m_isActive(false)
     , m_currentNavigationId("root")
-    , m_currentAltNavigationId("altrootChild1")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
@@ -229,16 +228,6 @@ bool Scope::hasNavigation() const
     return true;
 }
 
-QString Scope::currentAltNavigationId() const
-{
-    return m_currentAltNavigationId;
-}
-
-bool Scope::hasAltNavigation() const
-{
-    return true;
-}
-
 Scope::Status Scope::status() const
 {
     return Status::Okay;
@@ -290,29 +279,34 @@ unity::shell::scopes::NavigationInterface* Scope::getNavigation(const QString& i
     return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
 }
 
-unity::shell::scopes::NavigationInterface* Scope::getAltNavigation(QString const& id)
+void Scope::setNavigationState(const QString &navigationId)
 {
-    if (id.isEmpty())
-        return nullptr;
-
-    QString parentId;
-    QString parentLabel;
-    if (id != "altroot") {
-        parentId = "altroot";
-        parentLabel = "altroot";
-    }
-    return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
+    m_currentNavigationId = navigationId;
+    Q_EMIT currentNavigationIdChanged();
 }
 
-void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation)
+unity::shell::scopes::FilterBaseInterface* Scope::primaryNavigationFilter() const
 {
-    if (isAltNavigation) {
-        m_currentAltNavigationId = navigationId;
-        Q_EMIT currentAltNavigationIdChanged();
-    } else {
-        m_currentNavigationId = navigationId;
-        Q_EMIT currentNavigationIdChanged();
-    }
+    return nullptr;
+}
+
+unity::shell::scopes::FiltersInterface* Scope::filters() const
+{
+    return nullptr;
+}
+
+QString Scope::primaryNavigationTag() const
+{
+    return QString();
+}
+
+int Scope::activeFiltersCount() const
+{
+    return 0;
+}
+
+void Scope::resetPrimaryNavigationTag()
+{
 }
 
 void Scope::performQuery(const QString& query)
