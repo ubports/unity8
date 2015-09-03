@@ -227,27 +227,15 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-<<<<<<< TREE
-#: qml/Dash/GenericScopeView.qml:544 qml/Dash/GenericScopeView.qml:702
-=======
 #: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
->>>>>>> MERGE-SOURCE
 msgid "See less"
 msgstr ""
 
-<<<<<<< TREE
-#: qml/Dash/GenericScopeView.qml:544
-=======
 #: qml/Dash/GenericScopeView.qml:569
->>>>>>> MERGE-SOURCE
 msgid "See all"
 msgstr ""
 
-<<<<<<< TREE
-#: qml/Dash/GenericScopeView.qml:606
-=======
 #: qml/Dash/GenericScopeView.qml:631
->>>>>>> MERGE-SOURCE
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -285,10 +273,6 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:61
 #: qml/Dash/Previews/PreviewRatingInput.qml:169
-<<<<<<< TREE
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
-=======
->>>>>>> MERGE-SOURCE
 msgid "Send"
 msgstr ""
 
