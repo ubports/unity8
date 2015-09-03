@@ -60,7 +60,7 @@ QString Greeter::getHint(const QString &name) const
 
 QString Greeter::defaultSessionHint() const
 {
-    return "ubuntu";
+    return QString("ubuntu");
 }
 
 bool Greeter::hideUsersHint() const
@@ -85,7 +85,7 @@ bool Greeter::lockHint () const
 
 QString Greeter::selectUserHint() const
 {
-    return "";
+    return QString();
 }
 
 bool Greeter::selectGuestHint() const
@@ -95,7 +95,7 @@ bool Greeter::selectGuestHint() const
 
 QString Greeter::autologinUserHint() const
 {
-    return "";
+    return QString();
 }
 
 bool Greeter::autologinGuestHint() const
@@ -115,7 +115,7 @@ bool Greeter::inAuthentication() const
 
 QString Greeter::hostname() const
 {
-    return "hostname1";
+    return QString("hostname1");
 }
 
 bool Greeter::isAuthenticated() const
