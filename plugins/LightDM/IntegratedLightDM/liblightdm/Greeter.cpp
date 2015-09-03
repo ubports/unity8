@@ -55,7 +55,7 @@ bool Greeter::hasGuestAccountHint() const
 QString Greeter::getHint(const QString &name) const
 {
     Q_UNUSED(name)
-    return "";
+    return QString();
 }
 
 QString Greeter::defaultSessionHint() const
