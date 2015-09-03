@@ -495,7 +495,6 @@ Rectangle {
                 }
             }
 
-            print("width:", spreadFlickable.width, "contentWidth", spreadFlickable.contentWidth)
             if (spreadFlickable.contentWidth > spreadFlickable.minContentWidth) {
                 var margins = spreadFlickable.width * 0.05;
 
