@@ -45,7 +45,13 @@ LocalComponents.Page {
     }
 
     Component.onCompleted: {
-        print("Current i18n", i18n.language)
+        if (tzList.count == 1) { // preselect the first (and only) TZ
+            var tz = tzList.itemAt(0,0);
+            if (!!tz) {
+                tz.clicked();
+            }
+        }
+
         theme.palette.normal.backgroundText = "#525252" // "fix" the placeholder text in the search field
     }
 
