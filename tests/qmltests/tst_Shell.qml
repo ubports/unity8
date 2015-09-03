@@ -1104,6 +1104,19 @@ Rectangle {
             compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
+        function test_tutorialPausedDuringGreeter(data) {
+            loadShell("phone");
+
+            var tutorial = findChild(shell, "tutorial");
+
+            AccountsService.demoEdges = true;
+            tryCompare(tutorial, "running", true);
+            tryCompare(tutorial, "paused", true);
+
+            swipeAwayGreeter();
+            tryCompare(tutorial, "paused", false);
+        }
+
         function test_tapOnRightEdgeReachesApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();
