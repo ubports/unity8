@@ -1104,7 +1104,7 @@ Rectangle {
             compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
-        function test_tutorialPausedDuringGreeter(data) {
+        function test_tutorialPausedDuringGreeter() {
             loadShell("phone");
 
             var tutorial = findChild(shell, "tutorial");
