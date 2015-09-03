@@ -100,7 +100,9 @@ LocalComponents.Page {
             echoMode: TextInput.Password
             onTextChanged: {
                 if (confirmPhase) {
-                    if (password !== root.password) {
+                    if (password.length == 0) {
+                        setInfo();
+                    } else if (password !== root.password) {
                         setError(i18n.tr("Passwords do not match"))
                     } else {
                         setInfo(i18n.tr("Passwords match"))
