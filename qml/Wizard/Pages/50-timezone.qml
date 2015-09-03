@@ -104,6 +104,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             placeholderText: i18n.tr("Enter your city or country")
             color: UbuntuColors.lightGrey
+            inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: {
                 if (text == "") { // reset when switching between filter modes (text/country)
                     selectedTimeZone = ""
