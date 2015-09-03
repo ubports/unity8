@@ -77,7 +77,7 @@ Rectangle {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
             appDelegate.minimized = false;
-            ApplicationManager.focusApplication(appId);
+            appDelegate.focus = true;
         }
     }
 
@@ -179,7 +179,7 @@ Rectangle {
         function focusSelected() {
             if (appRepeater.highlightedIndex != -1) {
                 var application = ApplicationManager.get(appRepeater.highlightedIndex);
-                ApplicationManager.focusApplication(application.appId);
+                ApplicationManager.requestFocusApplication(application.appId)
             }
         }
 
@@ -204,7 +204,11 @@ Rectangle {
                 property bool maximized: false
                 property bool minimized: false
 
-                focus: priv.focusedAppId === model.appId && root.state !== "altTab"
+                onFocusChanged: {
+                    if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
+                        ApplicationManager.focusApplication(model.appId);
+                    }
+                }
 
                 Binding {
                     target: ApplicationManager.get(index)
@@ -315,7 +319,7 @@ Rectangle {
                     resizeHandleWidth: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                    onPressed: ApplicationManager.focusApplication(model.appId);
+                    onPressed: { appDelegate.focus = true; }
                 }
 
                 DecoratedWindow {
