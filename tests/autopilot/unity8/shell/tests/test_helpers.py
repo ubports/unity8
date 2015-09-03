@@ -48,7 +48,7 @@ class DashHelperTestCase(tests.DashBaseTestCase):
 
     def test_search(self):
         self.dash.enter_search_query('Test', self.keyboard)
-        text_field = self.dash._get_search_text_field()
+        text_field = self.dash.get_search_text_field()
         self.assertEqual(text_field.text, 'Test')
 
     def test_open_scope_to_the_right(self):
