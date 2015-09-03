@@ -7,28 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2013-10-24 11:36+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Arun Kumar - அருண் குமார் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:01+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 "Language: ta\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr ""
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr ""
 
@@ -224,15 +228,15 @@ msgstr "அவசர அழைப்பு"
 msgid "OK"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -268,6 +272,11 @@ msgstr ""
 msgid "Less..."
 msgstr ""
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "அனுப்பு"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "இதை மதிப்பிடு"
@@ -275,10 +284,6 @@ msgstr "இதை மதிப்பிடு"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "ஒரு பரிசீலனையை சேர்"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "அனுப்பு"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -471,13 +476,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -697,53 +698,3 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
-
-#~ msgid "Skip intro"
-#~ msgstr "அறிமுகத்தை தவிர்"
-
-#~ msgid "Right edge"
-#~ msgstr "வலது விளிம்பு"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "தொலைபேசியை திறக்க வலது முனையிலிருந்து தேய்த்து முயற்சி செய்"
-
-#~ msgid "Top edge"
-#~ msgstr "மேல் விளிம்பு"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "காட்டிகளை அனுக மேல் விளிம்பிலிருந்து தேய்த்து முயற்சி செய்"
-
-#~ msgid "Close"
-#~ msgstr "மூடு"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "அமைவுகளின் திரையை மூட மறுபடியும் மேலே தேய்க்கவும்"
-
-#~ msgid "Left edge"
-#~ msgstr "இடது விளிம்பு"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "பயன்பாடுகளின் விரைவான அணுகலை பெறத்தேவையான தொடக்கியை இடமிருந்து தேய்த்தால் "
-#~ "வெளிப்படும்"
-
-#~ msgid "Well done"
-#~ msgstr "நன்றாக செய்தீர்கள்"
-
-#~ msgid "Confirm"
-#~ msgstr "உறுதிப்படுத்து"
-
-#~ msgid "Type or say a command"
-#~ msgstr "ஒரு கட்டளையை உச்சரி அல்லது தட்டச்சுசெய்"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "ஏற்றுகிறது. தயைசெய்து காத்திருக்கவும்..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "இப்பொது பேசு..."
-
-#~ msgid "Speaking..."
-#~ msgstr "பேசுகிறது..."
-
-#~ msgid "Search"
-#~ msgstr "தெடு"

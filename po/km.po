@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2014-08-20 02:48+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Sophea Sok <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "ពាក្យសម្ងាត់៖ "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "ភ្ជាប់​ផ្លូវកាត់"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "មិន​ភ្ជាប់ផ្លូវកាត់"
 
@@ -225,15 +229,15 @@ msgstr "ការ​ហៅ​ពេល​អាសន្ន"
 msgid "OK"
 msgstr "យល់ព្រម"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "មើល​តិច​ជាង"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "មើល​ទាំងអស់"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "ស្វែងរក"
@@ -269,6 +273,11 @@ msgstr "ច្រើនជាង​..."
 msgid "Less..."
 msgstr "តិច​ជាង..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "ផ្ញើ"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "វាយតម្លៃ​វា"
@@ -276,10 +285,6 @@ msgstr "វាយតម្លៃ​វា"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "បន្ថែម​ការ​ពិនិត្យ"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "ផ្ញើ"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -478,13 +483,9 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
 msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
@@ -704,93 +705,3 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "សាកល្បង​​អូស​ពី​គែម​ស្ដាំ​ ដើម្បី​ដោះ​សោ​ទូរស័ព្ទ"
-
-#~ msgid "Right edge"
-#~ msgstr "គែម​ស្ដាំ"
-
-#~ msgid "Skip intro"
-#~ msgstr "រំលង​ការ​ណែនាំ"
-
-#~ msgid "Top edge"
-#~ msgstr "គែម​ខាង​លើ"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "សាកល្បង​អូស​ពី​គែម​ខាង​លើ ដើម្បី​ចូល​ដំណើរការ​សញ្ញា"
-
-#~ msgid "Close"
-#~ msgstr "បិទ"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "អូស​ឡើង​លើ​ម្ដងទៀត ដើម្បី​បិទ​ការ​កំណត់​អេក្រង់"
-
-#~ msgid "Left edge"
-#~ msgstr "គែមឆ្វេង"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "អូស​ពី​គែម​ឆ្វេង "
-#~ "ដើម្បី​បង្ហាញ​កម្មវិធី​ចាប់ផ្ដើម​សម្រាប់​ចូល​ដំណើរ​ការ​កម្មវិធី​រហ័ស"
-
-#~ msgid "Well done"
-#~ msgstr "ធ្វើ​បាន​ល្អ"
-
-#~ msgid "Type or say a command"
-#~ msgstr "បញ្ចូល ឬ​និយាយ​ពាក្យ​បញ្ជា"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "សូម​រង់ចាំ កំពុង​ផ្ទុក..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "និយាយ​ឥឡូវ..."
-
-#~ msgid "Confirm"
-#~ msgstr "បញ្ជាក់"
-
-#~ msgid "Speaking..."
-#~ msgstr "កំពុង​និយាយ..."
-
-#~ msgid "Search"
-#~ msgstr "ស្វែង​រក"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "ឥឡូវ​អ្នក​បាន​ពិនិត្យ​កាយវិការ​គែម​ "
-#~ "និង​អាច​ចាប់ផ្ដើម​ប្រើ​ទូរស័ព្ទ<br><br>ប៉ះ លើ​អេក្រង់​ដើម្បី​ចាប់ផ្ដើម"
-
-#~ msgid "All"
-#~ msgstr "ទាំងអស់"
-
-#~ msgid "Favorites"
-#~ msgstr "និយម"
-
-#~ msgid "Store"
-#~ msgstr "រក្សាទុក"
-
-#~ msgid "Power off"
-#~ msgstr "បិទ"
-
-#~ msgid "Done"
-#~ msgstr "ធ្វើរួច"
-
-#~ msgid "Power"
-#~ msgstr "បីទ/បើក"
-
-#~ msgid "Log out"
-#~ msgstr "ចេញ"
-
-#~ msgid "Shut down"
-#~ msgstr "បិទ"
-
-#~ msgid "Reboot"
-#~ msgstr "ចាប់ផ្ដើម​ឡើងវិញ"
-
-#~ msgid "Settings"
-#~ msgstr "ការកំណត់"
-
-#~ msgid "Restart"
-#~ msgstr "ចាប់​ផ្ដើម​ឡើង​វិញ"

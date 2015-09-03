@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2014-08-19 13:02+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "암호: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "바로 가기를 고정"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "바로 가기를 고정 해제"
 
@@ -37,14 +41,14 @@ msgstr "바로 가기를 고정 해제"
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:157
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "어제 %p %I:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened today.
 #. en_US example: "%l:%M %p" --> "1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:164
 msgid "%l:%M %p"
-msgstr ""
+msgstr "%p %I:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
@@ -52,7 +56,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr ""
+msgstr "내일 %p %l:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -60,7 +64,7 @@ msgstr ""
 #. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:181
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%p %l:%M (%"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
@@ -69,7 +73,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr ""
+msgstr "%d %b %p %l:%M (%a)"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -77,14 +81,14 @@ msgstr ""
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr ""
+msgstr "어제 %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
 #. en_US example: "%H:%M" --> "13:00"
 #: plugins/Utils/relativetimeformatter.cpp:208
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
@@ -92,7 +96,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:216
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "내일 %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
@@ -100,7 +104,7 @@ msgstr ""
 #. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:225
 msgid "%a %H:%M"
-msgstr ""
+msgstr "%H:%M (%a)"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
@@ -109,7 +113,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr ""
+msgstr "%d %b %H:%M (%a)"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -222,15 +226,15 @@ msgstr "긴급 통화"
 msgid "OK"
 msgstr "확인"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "간단히 표시"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "모두 보기"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "검색"
@@ -266,6 +270,11 @@ msgstr "더 보기..."
 msgid "Less..."
 msgstr "간단하게..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "보내기"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "이 프로그램 평가"
@@ -273,10 +282,6 @@ msgstr "이 프로그램 평가"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "평가 추가"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "보내기"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -363,7 +368,7 @@ msgstr "죄송합니다. 암호문일 올바르지 않습니다."
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "다시 입력해주십시오."
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -389,32 +394,29 @@ msgstr "연주하는 항목 없음"
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1시간"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:772
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1분"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:777
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1초"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:780
 msgid "0 seconds"
-msgstr ""
+msgstr "0초"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:782
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "%1 남음"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
@@ -469,14 +471,10 @@ msgstr "특별 메뉴 열기"
 msgid "Swipe up from the bottom edge."
 msgstr "아래쪽 가장자리에서 쓸어 올리십시오."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "계속하려면 여기를 두드리십시오."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -696,95 +694,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Search"
-#~ msgstr "검색"
-
-#~ msgid "Skip intro"
-#~ msgstr "도입부 건너뛰기"
-
-#~ msgid "Right edge"
-#~ msgstr "오른쪽 끝"
-
-#~ msgid "Close"
-#~ msgstr "닫기"
-
-#~ msgid "Confirm"
-#~ msgstr "확인"
-
-#~ msgid "Well done"
-#~ msgstr "잘하셨습니다."
-
-#~ msgid "Type or say a command"
-#~ msgstr "명령을 입력하거나 말하세요."
-
-#~ msgid "Speak Now..."
-#~ msgstr "지금 말하세요..."
-
-#~ msgid "Speaking..."
-#~ msgstr "말하는 중..."
-
-#~ msgid "Power off"
-#~ msgstr "전원 끄기"
-
-#~ msgid "Done"
-#~ msgstr "완료"
-
-#~ msgid "All"
-#~ msgstr "모두"
-
-#~ msgid "Favorites"
-#~ msgstr "즐겨찾기"
-
-#~ msgid "Store"
-#~ msgstr "장터"
-
-#~ msgid "Log out"
-#~ msgstr "로그아웃"
-
-#~ msgid "Reboot"
-#~ msgstr "다시 시작"
-
-#~ msgid "Power"
-#~ msgstr "전원"
-
-#~ msgid "Shut down"
-#~ msgstr "컴퓨터 끄기"
-
-#~ msgid "Settings"
-#~ msgstr "설정"
-
-#~ msgid "Top edge"
-#~ msgstr "윗쪽 가장자리"
-
-#~ msgid "Left edge"
-#~ msgstr "왼쪽 가장자리"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "여러분은 가장자리에서 끌어오기 제스쳐를 완벽히 익히셨고 휴대 전화를 사용할 수 있습니다. <br><br> 스크린을 터치해서 시작하세요."
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "불러오는 중 입니다. 짐시 기다려주십시오..."
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "위쪽 가장자리에서 쓸면 알림에 접근할 수 있습니다."
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "오른쪽 가장자리에서 쓸면 휴대 전화의 잠금을 해제합니다."
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "위쪽으로 쓸면 설정 화면을 닫습니다."
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "왼쪽에서 쓸면 런처를 표시해 프로그램에 빠르게 접근할 수 있습니다."
-
-#~ msgid "Restart"
-#~ msgstr "다시 시작"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "스코프 관리"
-
 #~ msgid "Please re-enter"
 #~ msgstr "다시 입력해주십시오."
+
+#~ msgid "Click here to finish."
+#~ msgstr "끝내려면 눌러주십시오."

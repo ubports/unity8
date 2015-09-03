@@ -7,27 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-05 21:52+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Simos Xenitellis <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Κωδικός πρόσβασης: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Καρφίτσωμα συντόμευσης"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Ξεκαρφίτσωμα συντόμευσης"
 
@@ -229,15 +233,15 @@ msgstr "Κλήση έκτακτης ανάγκης"
 msgid "OK"
 msgstr "OK"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Λιγότερα"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Εμφάνιση όλων"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Αναζήτηση"
@@ -273,6 +277,11 @@ msgstr "Περισσότερα..."
 msgid "Less..."
 msgstr "Λιγότερα..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Αποστολή"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Βαθμολογήστε το"
@@ -280,10 +289,6 @@ msgstr "Βαθμολογήστε το"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Προσθέστε την αξιολόγησή σας"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Αποστολή"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -483,14 +488,10 @@ msgstr "Άνοιγμα ειδικών μενού"
 msgid "Swipe up from the bottom edge."
 msgstr "Σύρετε από την κάτω άκρη προς τα πάνω."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Πατήστε εδώ για συνέχεια."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Πατήστε εδώ για τέλος."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -722,95 +723,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Confirm"
-#~ msgstr "Επιβεβαίωση"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Πληκτρολογήστε ή πείτε μια εντολή"
-
-#~ msgid "Speak Now..."
-#~ msgstr "Μιλήστε τώρα..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Ομιλία..."
-
-#~ msgid "Search"
-#~ msgstr "Αναζήτηση"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Σύρετε από το πάνω άκρο για πρόσβαση στις ρυθμίσεις"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Σύρετε προς τα επάνω για κλείσιμο των ρυθμίσεων"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Σύρετε από τα αριστερό άκρο για εμφάνιση του εκκινητή για άμεση πρόσβαση "
-#~ "στις εφαρμογές"
-
-#~ msgid "Well done"
-#~ msgstr "Συγχαρητήρια"
-
-#~ msgid "Close"
-#~ msgstr "Κλείσιμο"
-
-#~ msgid "Left edge"
-#~ msgstr "Αριστερό άκρο"
-
-#~ msgid "Top edge"
-#~ msgstr "Πάνω άκρο"
-
-#~ msgid "Right edge"
-#~ msgstr "Δεξί άκρο"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Γίνεται φόρτωση. Παρακαλώ περιμένετε..."
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Σύρετε από το δεξί άκρο για ξεκλείδωμα του τηλεφώνου"
-
-#~ msgid "Skip intro"
-#~ msgstr "Παράλειψη εισαγωγής"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Πλέον γνωρίζετε τις χειρονομίες από τα άκρα και μπορείτε να ξεκινήσετε να "
-#~ "χρησιμοποιείτε το τηλέφωνο<br><br>Αγγίξτε την οθόνη για να ξεκινήσετε"
-
-#~ msgid "Store"
-#~ msgstr "Κατάστημα"
-
-#~ msgid "Power off"
-#~ msgstr "Τερματισμός"
-
-#~ msgid "All"
-#~ msgstr "Όλα"
-
-#~ msgid "Favorites"
-#~ msgstr "Αγαπημένα"
-
-#~ msgid "Done"
-#~ msgstr "Ολοκληρώθηκε"
-
-#~ msgid "Log out"
-#~ msgstr "Αποσύνδεση"
-
-#~ msgid "Reboot"
-#~ msgstr "Επανεκκίνηση"
-
-#~ msgid "Restart"
-#~ msgstr "Επανεκκίνηση"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Παρακαλώ πληκτρολογήστε ξανά"
 
-#~ msgid "Shut down"
-#~ msgstr "Τερματισμός λειτουργίας"
-
-#~ msgid "Settings"
-#~ msgstr "Ρυθμίσεις"
-
-#~ msgid "Power"
-#~ msgstr "Ενέργεια"
+#~ msgid "Click here to finish."
+#~ msgstr "Πατήστε εδώ για τέλος."

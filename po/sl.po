@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-06 21:10+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Sasa Batistic <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:01+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Geslo: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Pripni bližnjico"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Odpni bližnjico"
 
@@ -228,15 +232,15 @@ msgstr "Klic v sili"
 msgid "OK"
 msgstr "V REDU"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Pokaži vse"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Iskanje"
@@ -272,6 +276,11 @@ msgstr "Več ..."
 msgid "Less..."
 msgstr "Manj ..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Pošlji"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Ocenite"
@@ -279,10 +288,6 @@ msgstr "Ocenite"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Dodaj oceno"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Pošlji"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -485,14 +490,10 @@ msgstr "Odpri posebne menije"
 msgid "Swipe up from the bottom edge."
 msgstr "Potegnite gor od spodnjega roba."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Tapnite tukaj za nadaljevanje."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Kliknite tu za zaključek."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -720,95 +721,8 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Confirm"
-#~ msgstr "Potrdi"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Vnesite ali izrecite ukaz"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Nalaganje. Prosimo počakajte ..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Govorite zdaj ..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Govorjenje ..."
-
-#~ msgid "Search"
-#~ msgstr "Iskanje"
-
-#~ msgid "Top edge"
-#~ msgstr "Zgornji rob"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Poskusite povleči od zgornjega roba za dostop do kazalnikov"
-
-#~ msgid "Close"
-#~ msgstr "Zapri"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Povlecite ponovno navzgor za zaprtje zaslona z nastavitvami"
-
-#~ msgid "Left edge"
-#~ msgstr "Levi rob"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Poskusite povleči od leve za razkritje zaganjalnika za hiter dostop do "
-#~ "programov"
-
-#~ msgid "Skip intro"
-#~ msgstr "Preskoči uvod"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Poskusite povleči od desnega roba za odklep telefona"
-
-#~ msgid "Right edge"
-#~ msgstr "Desni rob"
-
-#~ msgid "Well done"
-#~ msgstr "Odlično"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Sedaj, ko ste osvojili poteze robov, lahko začnete uporabljati "
-#~ "telefon<br><br>Tapnite na zaslon za začetek"
-
-#~ msgid "Done"
-#~ msgstr "Končano"
-
-#~ msgid "Store"
-#~ msgstr "Trgovina"
-
-#~ msgid "Power off"
-#~ msgstr "Izklopi"
-
-#~ msgid "All"
-#~ msgstr "Vse"
-
-#~ msgid "Favorites"
-#~ msgstr "Priljubljeni"
-
-#~ msgid "Log out"
-#~ msgstr "Odjava"
-
-#~ msgid "Reboot"
-#~ msgstr "Ponovni zagon"
-
-#~ msgid "Shut down"
-#~ msgstr "Izklop"
-
-#~ msgid "Power"
-#~ msgstr "Izključitev"
-
-#~ msgid "Settings"
-#~ msgstr "Nastavitve"
-
-#~ msgid "Restart"
-#~ msgstr "Ponovni zagon"
-
 #~ msgid "Please re-enter"
 #~ msgstr "Ponovno vnesite"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Kliknite tu za zaključek."
