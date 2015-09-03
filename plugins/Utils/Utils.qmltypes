@@ -145,7 +145,7 @@ Module {
             type: "int"
             Parameter { name: "row"; type: "int" }
         }
-    } 
+    }
     Component {
         name: "WindowKeysFilter"
         defaultProperty: "data"
