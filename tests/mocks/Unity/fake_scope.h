@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2014 Canonical, Ltd.
+ * Copyright (C) 2013, 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,6 +107,7 @@ protected:
     unity::shell::scopes::CategoriesInterface* m_categories;
     unity::shell::scopes::ScopeInterface* m_openScope;
     unity::shell::scopes::SettingsModelInterface* m_settings;
+    unity::shell::scopes::FiltersInterface* m_filters;
 
     bool m_returnNullPreview;
 };

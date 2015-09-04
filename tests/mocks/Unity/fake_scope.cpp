@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2014 Canonical, Ltd.
+ * Copyright (C) 2013, 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include "fake_scope.h"
 
+#include "fake_filters.h"
 #include "fake_navigation.h"
 #include "fake_resultsmodel.h"
 #include "fake_scopes.h"
@@ -42,6 +43,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
     , m_settings(new SettingsModel(this))
+    , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
 {
 }
@@ -292,16 +294,18 @@ unity::shell::scopes::FilterBaseInterface* Scope::primaryNavigationFilter() cons
 
 unity::shell::scopes::FiltersInterface* Scope::filters() const
 {
-    return nullptr;
+    return m_filters;
 }
 
 QString Scope::primaryNavigationTag() const
 {
+    // TODO
     return QString();
 }
 
 int Scope::activeFiltersCount() const
 {
+    // TODO
     return 0;
 }
 
