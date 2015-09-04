@@ -124,9 +124,9 @@ LocalComponents.Page {
                         verticalCenter: parent.verticalCenter;
                     }
                     fillMode: Image.PreserveAspectFit
-                    height: langLabel.paintedHeight
+                    height: langLabel.height
 
-                    source: "image://theme/tick"
+                    source: "data/Tick@30.png"
                     visible: itemDelegate.isCurrent
                 }
 

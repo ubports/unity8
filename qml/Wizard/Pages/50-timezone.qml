@@ -87,7 +87,7 @@ LocalComponents.Page {
                 fillMode: Image.PreserveAspectFit
                 height: cityLabel.paintedHeight
 
-                source: "image://theme/tick"
+                source: "data/Tick@30.png"
                 visible: tz.currentTz
             }
 
