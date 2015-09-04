@@ -33,11 +33,16 @@ Item {
 
         property alias searchEnabled : pageHeader.searchEntryEnabled
         property alias searchQuery : pageHeader.searchQuery
+        property var headerContainer: findChild(pageHeader, "headerContainer")
 
         function doTypeString(text) {
-            var headerContainer = findChild(pageHeader, "headerContainer");
             tryCompare(headerContainer, "contentY", 0);
             typeString(text);
+        }
+
+        function doResetSearch() {
+            pageHeader.resetSearch();
+            tryCompare(headerContainer, "contentY", headerContainer.height);
         }
 
         function init() {
@@ -49,14 +54,13 @@ Item {
             pageHeader.searchHistory.clear();
 
             // Check initial state
-            var headerContainer = findChild(pageHeader, "headerContainer");
             tryCompareFunction(function() { return headerContainer.popover === null; }, true);
             compare(pageHeader.searchHistory.count, 0);
         }
 
         function test_search_disabled() {
             searchEnabled = false
-            pageHeader.resetSearch()
+            doResetSearch();
 
             pageHeader.triggerSearch()
             keyClick(Qt.Key_S)
@@ -66,7 +70,7 @@ Item {
 
         function test_search_enable() {
             searchEnabled = true
-            pageHeader.resetSearch()
+            doResetSearch();
 
             pageHeader.triggerSearch()
             doTypeString("test")
@@ -84,42 +88,42 @@ Item {
 
         function test_reset_search() {
             searchEnabled = true
-            pageHeader.resetSearch()
+            doResetSearch();
 
             pageHeader.triggerSearch()
             keyClick(Qt.Key_S)
 
             compare(searchQuery, "s", "Could not type in TextField.")
 
-            pageHeader.resetSearch()
+            doResetSearch();
             compare(searchQuery, "", "Reset search did not reset searchQuery correctly.")
         }
 
         function test_history() {
             pageHeader.triggerSearch()
             doTypeString("humppa1")
-            pageHeader.resetSearch()
+            doResetSearch();
 
             tryCompare(pageHeader.searchHistory, "count", 1)
             compare(pageHeader.searchHistory.get(0).query, "humppa1")
 
             pageHeader.triggerSearch()
             doTypeString("humppa2")
-            pageHeader.resetSearch()
+            doResetSearch();
 
             compare(pageHeader.searchHistory.count, 2)
             compare(pageHeader.searchHistory.get(0).query, "humppa2")
 
             pageHeader.triggerSearch()
             doTypeString("humppa3")
-            pageHeader.resetSearch()
+            doResetSearch();
 
             compare(pageHeader.searchHistory.count, 3)
             compare(pageHeader.searchHistory.get(0).query, "humppa3")
 
             pageHeader.triggerSearch()
             doTypeString("humppa4")
-            pageHeader.resetSearch()
+            doResetSearch();
 
             compare(pageHeader.searchHistory.count, 3)
             compare(pageHeader.searchHistory.get(0).query, "humppa4")
@@ -139,7 +143,7 @@ Item {
         }
 
         function cleanup() {
-            pageHeader.resetSearch();
+            doResetSearch();
         }
 
         function test_popover() {
@@ -223,7 +227,7 @@ Item {
             tryCompare(headerContainer, "showSearch", !data.hideSearch);
             tryCompareFunction(function() { return headerContainer.popover === null; }, true);
 
-            pageHeader.resetSearch();
+            doResetSearch();
         }
 
         function test_search_change_shows_search() {

@@ -15,7 +15,6 @@
  */
 
 #include "MirSurfaceItem.h"
-#include "Session.h"
 
 #include <paths.h>
 
@@ -27,69 +26,30 @@
 
 #include <QDebug>
 
-MirSurfaceItem::MirSurfaceItem(const QString& name,
-                               MirSurfaceItem::Type type,
-                               MirSurfaceItem::State state,
-                               const QUrl& screenshot,
-                               const QString &qmlFilePath,
-                               QQuickItem *parent)
-    : QQuickItem(parent)
-    , m_session(nullptr)
-    , m_name(name)
-    , m_type(type)
-    , m_state(state)
-    , m_live(true)
-    , m_orientationAngle(Angle0)
+using namespace unity::shell::application;
+
+MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
+    : MirSurfaceItemInterface(parent)
+    , m_qmlSurface(nullptr)
     , m_qmlItem(nullptr)
-    , m_screenshotUrl(screenshot)
+    , m_consumesInput(false)
+    , m_surfaceWidth(0)
+    , m_surfaceHeight(0)
     , m_touchPressCount(0)
     , m_touchReleaseCount(0)
 {
+    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
         Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
         Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
         Qt::ExtraButton9 | Qt::ExtraButton10 | Qt::ExtraButton11 |
         Qt::ExtraButton12 | Qt::ExtraButton13);
-
-    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
-
-    // The assumptions I make here really should hold.
-    QQuickView *quickView =
-        qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
-    QString qmlComponentFilePath;
-    if (!qmlFilePath.isEmpty()) {
-        qmlComponentFilePath.append(qmlFilePath);
-    } else {
-        qmlComponentFilePath = QString("%1/Unity/Application/MirSurfaceItem.qml")
-            .arg(mockPluginsDir());
-    }
-
-    m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);
-
-    switch (m_qmlContentComponent->status()) {
-        case QQmlComponent::Ready:
-            createQmlContentItem();
-            break;
-        case QQmlComponent::Loading:
-            connect(m_qmlContentComponent, &QQmlComponent::statusChanged,
-                    this, &MirSurfaceItem::onComponentStatusChanged);
-            break;
-        case QQmlComponent::Error:
-            printComponentErrors();
-            qFatal("MirSurfaceItem: failed to create content component.");
-            break;
-        default:
-            qFatal("MirSurfaceItem: Unhandled component status");
-    }
 }
 
 MirSurfaceItem::~MirSurfaceItem()
 {
-    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << name();
-    if (m_session) {
-        m_session->setSurface(nullptr);
-    }
+    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
+    setSurface(nullptr);
 }
 
 void MirSurfaceItem::printComponentErrors()
@@ -100,58 +60,70 @@ void MirSurfaceItem::printComponentErrors()
     }
 }
 
-void MirSurfaceItem::release()
+Mir::Type MirSurfaceItem::type() const
 {
-    qDebug() << "MirSurfaceItem::release " << name();
-
-    if (m_session) {
-        m_session->setSurface(nullptr);
-    }
-    if (!parent()) {
-        deleteLater();
+    if (m_qmlSurface) {
+        return m_qmlSurface->type();
+    } else {
+        return Mir::UnknownType;
     }
 }
 
-void MirSurfaceItem::setOrientationAngle(OrientationAngle angle)
+Mir::State MirSurfaceItem::surfaceState() const
 {
-    if (m_orientationAngle == angle)
+    if (m_qmlSurface) {
+        return m_qmlSurface->state();
+    } else {
+        return Mir::UnknownState;
+    }
+}
+
+QString MirSurfaceItem::name() const
+{
+    if (m_qmlSurface) {
+        return m_qmlSurface->name();
+    } else {
+        return QString();
+    }
+}
+
+bool MirSurfaceItem::live() const
+{
+    if (m_qmlSurface) {
+        return m_qmlSurface->live();
+    } else {
+        return false;
+    }
+}
+
+Mir::OrientationAngle MirSurfaceItem::orientationAngle() const
+{
+    if (m_qmlSurface) {
+        return m_qmlSurface->orientationAngle();
+    } else {
+        return Mir::Angle0;
+    }
+}
+
+void MirSurfaceItem::setOrientationAngle(Mir::OrientationAngle angle)
+{
+    if (!m_qmlSurface)
         return;
 
-    m_orientationAngle = angle;
+    if (m_qmlSurface->orientationAngle() == angle)
+        return;
+
+    m_qmlSurface->setOrientationAngle(angle);
 
     QQmlProperty orientationProp(m_qmlItem, "orientationAngle");
-    orientationProp.write(QVariant::fromValue(m_orientationAngle));
-
-    Q_EMIT orientationAngleChanged(m_orientationAngle);
+    orientationProp.write(QVariant::fromValue(m_qmlSurface->orientationAngle()));
 }
 
-void MirSurfaceItem::setSession(Session* session)
+void MirSurfaceItem::updateScreenshot(QUrl screenshotUrl)
 {
-    m_session = session;
-}
-
-void MirSurfaceItem::setScreenshot(const QUrl& screenshot)
-{
-    m_screenshotUrl = screenshot;
     if (m_qmlItem) {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
-        screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
-    }
-}
-
-void MirSurfaceItem::setLive(bool live)
-{
-    if (m_live != live) {
-        m_live = live;
-        Q_EMIT liveChanged(m_live);
-    }
-}
-
-void MirSurfaceItem::setState(MirSurfaceItem::State newState)
-{
-    if (newState != m_state) {
-        m_state = newState;
-        Q_EMIT stateChanged(newState);
+        screenshotSource.write(QVariant::fromValue(screenshotUrl));
     }
 }
 
@@ -174,7 +146,7 @@ void MirSurfaceItem::createQmlContentItem()
 
     {
         QQmlProperty screenshotSource(m_qmlItem, "screenshotSource");
-        screenshotSource.write(QVariant::fromValue(m_screenshotUrl));
+        screenshotSource.write(QVariant::fromValue(m_qmlSurface->screenshotUrl()));
     }
 }
 
@@ -186,5 +158,126 @@ void MirSurfaceItem::touchEvent(QTouchEvent * event)
     } else if (event->touchPointStates() & Qt::TouchPointReleased) {
         ++m_touchReleaseCount;
         Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
+    }
+}
+
+void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
+{
+    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
+                                                   << " name=" << name()
+                                                   << " surface=" << surface;
+
+    if (m_qmlSurface == surface) {
+        return;
+    }
+
+    if (m_qmlSurface) {
+        delete m_qmlItem;
+        m_qmlItem = nullptr;
+
+        delete m_qmlContentComponent;
+        m_qmlContentComponent = nullptr;
+
+        disconnect(m_qmlSurface, nullptr, this, nullptr);
+        m_qmlSurface->decrementViewCount();
+    }
+
+    m_qmlSurface = static_cast<MirSurface*>(surface);
+
+    if (m_qmlSurface) {
+        m_qmlSurface->incrementViewCount();
+
+        m_qmlSurface->setActiveFocus(hasActiveFocus());
+
+        updateSurfaceSize();
+
+        connect(m_qmlSurface, &MirSurface::orientationAngleChanged, this, &MirSurfaceItem::orientationAngleChanged);
+        connect(m_qmlSurface, &MirSurface::screenshotUrlChanged, this, &MirSurfaceItem::updateScreenshot);
+        connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
+        connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
+
+        // The assumptions I make here really should hold.
+        QQuickView *quickView =
+            qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
+
+        QString qmlComponentFilePath;
+        if (!m_qmlSurface->qmlFilePath().isEmpty()) {
+            qmlComponentFilePath.append(m_qmlSurface->qmlFilePath());
+        } else {
+            qmlComponentFilePath = QString("%1/Unity/Application/MirSurfaceItem.qml")
+                .arg(mockPluginsDir());
+        }
+
+        m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);
+
+        switch (m_qmlContentComponent->status()) {
+            case QQmlComponent::Ready:
+                createQmlContentItem();
+                break;
+            case QQmlComponent::Loading:
+                connect(m_qmlContentComponent, &QQmlComponent::statusChanged,
+                        this, &MirSurfaceItem::onComponentStatusChanged);
+                break;
+            case QQmlComponent::Error:
+                printComponentErrors();
+                qFatal("MirSurfaceItem: failed to create content component.");
+                break;
+            default:
+                qFatal("MirSurfaceItem: Unhandled component status");
+        }
+    }
+
+    Q_EMIT surfaceChanged(m_qmlSurface);
+}
+
+void MirSurfaceItem::itemChange(ItemChange change, const ItemChangeData & value)
+{
+    if (change == QQuickItem::ItemActiveFocusHasChanged) {
+        if (m_qmlSurface) {
+            m_qmlSurface->setActiveFocus(value.boolValue);
+        }
+    }
+}
+
+void MirSurfaceItem::setConsumesInput(bool value)
+{
+    if (m_consumesInput != value) {
+        m_consumesInput = value;
+        Q_EMIT consumesInputChanged(value);
+    }
+}
+
+int MirSurfaceItem::surfaceWidth() const
+{
+    return m_surfaceWidth;
+}
+
+void MirSurfaceItem::setSurfaceWidth(int value)
+{
+    if (m_surfaceWidth != value) {
+        m_surfaceWidth = value;
+        Q_EMIT surfaceWidthChanged(m_surfaceWidth);
+        updateSurfaceSize();
+    }
+}
+
+int MirSurfaceItem::surfaceHeight() const
+{
+    return m_surfaceHeight;
+}
+
+void MirSurfaceItem::setSurfaceHeight(int value)
+{
+    if (m_surfaceHeight != value) {
+        m_surfaceHeight = value;
+        Q_EMIT surfaceHeightChanged(m_surfaceHeight);
+        updateSurfaceSize();
+    }
+}
+
+void MirSurfaceItem::updateSurfaceSize()
+{
+    if (m_qmlSurface && m_surfaceWidth > 0 && m_surfaceHeight > 0) {
+        m_qmlSurface->resize(m_surfaceWidth, m_surfaceHeight);
     }
 }

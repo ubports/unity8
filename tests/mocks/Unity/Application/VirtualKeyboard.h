@@ -17,26 +17,18 @@
 #ifndef VIRTUALKEYBOARD_H
 #define VIRTUALKEYBOARD_H
 
-#include "MirSurfaceItem.h"
-#include "MirSurfaceItemModel.h"
+#include "MirSurface.h"
 
 #include <QQuickItem>
-#include <QUrl>
 
-class Session;
-
-class VirtualKeyboard : public MirSurfaceItem
+class VirtualKeyboard : public MirSurface
 {
     Q_OBJECT
 public:
-    explicit VirtualKeyboard(QQuickItem *parent = 0);
+    explicit VirtualKeyboard();
     ~VirtualKeyboard();
-
-protected:
-    void touchEvent(QTouchEvent * event) override;
 };
 
 Q_DECLARE_METATYPE(VirtualKeyboard*)
-Q_DECLARE_METATYPE(QList<VirtualKeyboard*>)
 
 #endif // VIRTUALKEYBOARD_H

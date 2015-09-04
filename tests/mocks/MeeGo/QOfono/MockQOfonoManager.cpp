@@ -23,12 +23,12 @@ MockQOfonoManager::MockQOfonoManager(QObject *parent)
       m_modemsSet(false),
       m_startedSet(false)
 {
-    connect(MockQOfono::instance(), SIGNAL(availableChanged()),
-            this, SIGNAL(availableChanged()));
-    connect(MockQOfono::instance(), SIGNAL(readyChanged()),
-            this, SLOT(checkReady()));
-    connect(MockQOfono::instance(), SIGNAL(modemsChanged()),
-            this, SLOT(maybeModemsChanged()));
+    connect(MockQOfono::instance(), &MockQOfono::availableChanged,
+            this, &MockQOfonoManager::availableChanged);
+    connect(MockQOfono::instance(), &MockQOfono::readyChanged,
+            this, &MockQOfonoManager::checkReady);
+    connect(MockQOfono::instance(), &MockQOfono::modemsChanged,
+            this, &MockQOfonoManager::maybeModemsChanged);
 
     checkReady();
 }
@@ -55,7 +55,7 @@ void MockQOfonoManager::checkReady()
     if (!m_startedSet && MockQOfono::instance()->ready()) {
         m_startedSet = true;
         // Simulate QOfono's asynchronous initialization
-        QTimer::singleShot(1, this, SLOT(setModems()));
+        QTimer::singleShot(1, this, &MockQOfonoManager::setModems);
     }
 }
 

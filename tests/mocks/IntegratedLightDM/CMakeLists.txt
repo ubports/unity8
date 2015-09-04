@@ -10,16 +10,16 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/Utils
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM
+    ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM
     ${CMAKE_SOURCE_DIR}/tests/mocks/libusermetrics
     ${libunity8-private_SOURCE_DIR}
 )
 
 set(QMLPLUGIN_SRC
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeter.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM/DBusGreeterList.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM/Greeter.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/DBusGreeter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/DBusGreeterList.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/Greeter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     MockGreeter.cpp
     MockUsersModel.cpp
@@ -42,7 +42,7 @@ target_link_libraries(MockLightDM-qml
 
 qt5_use_modules(MockLightDM-qml DBus Gui Qml)
 
-add_unity8_mock(LightDM 0.1 LightDM
+add_unity8_mock(IntegratedLightDM 0.1 IntegratedLightDM
     PREFIX mocks
     TARGETS MockLightDM-qml
     ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}/liblightdm"

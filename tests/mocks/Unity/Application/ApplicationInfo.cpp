@@ -15,6 +15,7 @@
  */
 
 #include "ApplicationInfo.h"
+#include "MirSurface.h"
 #include "Session.h"
 #include "SessionManager.h"
 
@@ -74,6 +75,13 @@ void ApplicationInfo::createSession()
     setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));
 }
 
+void ApplicationInfo::destroySession()
+{
+    Session *session = this->session();
+    setSession(nullptr);
+    delete session;
+}
+
 void ApplicationInfo::setSession(Session* session)
 {
     if (m_session == session)
@@ -96,7 +104,7 @@ void ApplicationInfo::setSession(Session* session)
                 this, &ApplicationInfo::onSessionSurfaceChanged);
 
         if (!m_manualSurfaceCreation) {
-            QTimer::singleShot(500, m_session, SLOT(createSurface()));
+            QTimer::singleShot(500, m_session, &Session::createSurface);
         }
     }
 
@@ -165,7 +173,7 @@ void ApplicationInfo::setState(State value)
         Q_EMIT stateChanged(value);
 
         if (!m_manualSurfaceCreation && !m_session && m_state == ApplicationInfo::Starting) {
-            QTimer::singleShot(500, this, SLOT(createSession()));
+            QTimer::singleShot(500, this, &ApplicationInfo::createSession);
         } else if (m_state == ApplicationInfo::Stopped) {
             Session *session = m_session;
             setSession(nullptr);
@@ -237,7 +245,7 @@ void ApplicationInfo::setRequestedState(RequestedState value)
     }
 }
 
-void ApplicationInfo::onSessionSurfaceChanged(MirSurfaceItem* surface)
+void ApplicationInfo::onSessionSurfaceChanged(MirSurface* surface)
 {
     if (surface != nullptr && m_state == Starting) {
         if (m_requestedState == RequestedRunning) {

@@ -1,3 +1,62 @@
+unity8 (8.11+15.04.20150831.2-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Accept auto repeats for the power down button if timer is not yet
+    running (LP: #1486953, #1488927)
+  * Add tests for Shell+Dash interaction
+  * Make clicking on launcher buttons have haptic feedback
+  * Make test_greeter_hides_on_app_open more stable
+  * Move connect() to new syntax
+  * make pot_file (LP: #1488484)
+
+  [ Gerry Boland ]
+  * [spread] avoid changing sourceSize of snapshotted apps, it causes
+    ghost apps in the spread (LP: #1474319)
+
+  [ Josh Arenson ]
+  * Refactor the greeter to enable dynamic loading of backend plugins.
+  * Refactor the greeter to enable dynamic loading of backend plugins.
+
+  [ Lukáš Tinkl ]
+  * Don't show the volume notification when the sound indicator is shown
+    (LP: #1484126)
+
+  [ Michael Terry ]
+  * Unify turn-on-screen-upon-notification logic from various daemons
+    into unity8. (LP: #1426115, #1482317)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 31 Aug 2015 10:25:39 +0000
+
+unity8 (8.11+15.04.20150827.1-0ubuntu1) vivid; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * MirSurfaceItem is now a view+controller instantiated from QML (LP:
+    #1483752)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 27 Aug 2015 14:00:05 +0000
+
+unity8 (8.11+15.04.20150821-0ubuntu1) vivid; urgency=medium
+
+  [ Michael Terry ]
+  * Skip the tutorial entirely when in desktop mode.  This fixes the
+    emulator not being able to pass the tutorial.
+  * Skip the tutorial entirely when in desktop mode.  This fixes the
+    emulator not being able to pass the tutorial.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 21 Aug 2015 14:34:50 +0000
+
+unity8 (8.11+15.04.20150817-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Drop gcc 4.9 requirement in debian/rules
+  * Make the test more stable
+  * Optimize scope.preview() calls (LP: #1478022)
+
+  [ Alberto Mardegan ]
+  * Set currentIndex after the model change is completed (LP: #1433442)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 17 Aug 2015 11:57:31 +0000
+
 unity8 (8.11+15.04.20150814-0ubuntu1) vivid; urgency=medium
 
   [ Albert Astals Cid ]

@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import QtMultimedia 5.0
+import Powerd 0.1
 import Ubuntu.Components 1.1
 import Unity.Notifications 1.0
 import QMenuModel 0.1
@@ -84,8 +85,16 @@ Item {
         source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
     }
 
-    // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
+        // Turn on screen as needed (Powerd.Notification means the screen
+        // stays on for a shorter amount of time)
+        if (type == Notification.SnapDecision) {
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+        } else if (type != Notification.Confirmation) {
+            Powerd.setStatus(Powerd.On, Powerd.Notification);
+        }
+
+        // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
         if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
