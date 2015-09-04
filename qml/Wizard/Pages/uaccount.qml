@@ -35,7 +35,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             wrapMode: Text.Wrap
             text: i18n.tr("Secure my device using my Ubuntu account")
-            color: "#525252"
+            color: textColor
             font.weight: Font.Light
             fontSize: "small"
         }

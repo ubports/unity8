@@ -57,7 +57,7 @@ LocalComponents.Page {
         }
 
         infoText: i18n.tr("Choose passcode")
-        foregroundColor: "#525252"
+        foregroundColor: textColor
 
         // Note that the number four comes from PAM settings,
         // which we don't have a good way to interrogate.  We

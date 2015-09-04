@@ -40,24 +40,24 @@ LocalComponents.Page {
 
     function indexToMethod(index) {
         if (index === 1)
-            return UbuntuSecurityPrivacyPanel.Passcode
+            return UbuntuSecurityPrivacyPanel.Passcode;
         else if (index === 0)
-            return UbuntuSecurityPrivacyPanel.Passphrase
+            return UbuntuSecurityPrivacyPanel.Passphrase;
         else
-            return UbuntuSecurityPrivacyPanel.Swipe
+            return UbuntuSecurityPrivacyPanel.Swipe;
     }
 
     function methodToIndex(method) {
         if (method === UbuntuSecurityPrivacyPanel.Passcode)
-            return 1
+            return 1;
         else if (method === UbuntuSecurityPrivacyPanel.Passphrase)
-            return 0
+            return 0;
         else
-            return 2
+            return 2;
     }
 
     Component.onCompleted: {
-        selector.currentIndex = methodToIndex(root.passwordMethod)
+        selector.currentIndex = methodToIndex(root.passwordMethod);
     }
 
     Item {
@@ -71,20 +71,28 @@ LocalComponents.Page {
             anchors.right: parent.right
             wrapMode: Text.Wrap
             text: i18n.tr("Choose lock screen security")
-            color: "#525252"
+            color: textColor
             fontSize: "small"
             font.weight: Font.Light
+        }
+
+        Rectangle {
+            id: divider
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: infoLabel.bottom
+            anchors.topMargin: units.gu(3)
+            height: units.dp(1)
+            color: dividerColor
         }
 
         ListView {
             id: selector
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: infoLabel.bottom
-            anchors.topMargin: units.gu(3)
-
-            boundsBehavior: Flickable.StopAtBounds;
-            clip: true;
+            anchors.top: divider.bottom
+            boundsBehavior: Flickable.StopAtBounds
+            clip: true
             height: childrenRect.height
 
             // this is the order we want to display it; cf indexToMethod()
@@ -93,27 +101,30 @@ LocalComponents.Page {
             delegate: ListItem {
                 id: itemDelegate
                 readonly property bool isCurrent: index === ListView.view.currentIndex
+                highlightColor: backgroundColor
+                divider.colorFrom: dividerColor
+                divider.colorTo: backgroundColor
                 Label {
                     id: methodLabel
                     objectName: "passwdDelegate" + index
                     anchors.verticalCenter: parent.verticalCenter;
                     fontSize: "medium"
-                    color: "#525252"
+                    color: textColor
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
                     text: {
                         var method = modelData
                         var name = ""
                         var desc = ""
                         if (method === UbuntuSecurityPrivacyPanel.Swipe) {
-                            return i18n.ctr("Label: Type of security method", "None")
+                            return i18n.ctr("Label: Type of security method", "None");
                         } else if (method === UbuntuSecurityPrivacyPanel.Passcode) {
-                            name = i18n.ctr("Label: Type of security method", "Passcode")
-                            desc = i18n.ctr("Label: Description of security method", "4 digits only")
+                            name = i18n.ctr("Label: Type of security method", "Passcode");
+                            desc = i18n.ctr("Label: Description of security method", "4 digits only");
                         } else {
-                            name = i18n.ctr("Label: Type of security method", "Password")
-                            desc = i18n.ctr("Label: Description of security method", "numbers and letters")
+                            name = i18n.ctr("Label: Type of security method", "Password");
+                            desc = i18n.ctr("Label: Description of security method", "numbers and letters");
                         }
-                        return "%1 (%2)".arg(name).arg(desc)
+                        return "%1 (%2)".arg(name).arg(desc);
                     }
                 }
 
@@ -130,10 +141,19 @@ LocalComponents.Page {
                 }
 
                 onClicked: {
-                    selector.currentIndex = index
-                    print("Current method: " + indexToMethod(index))
+                    selector.currentIndex = index;
+                    print("Current method: " + indexToMethod(index));
                 }
             }
+        }
+
+        Rectangle {
+            id: divider2
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: selector.bottom
+            height: units.dp(1)
+            color: dividerColor
         }
     }
 
@@ -142,16 +162,16 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             text: i18n.tr("Next")
             onClicked: {
-                var method = indexToMethod(selector.currentIndex)
-                root.passwordMethod = method
-                print("Current method: " + root.passwordMethod)
+                var method = indexToMethod(selector.currentIndex);
+                root.passwordMethod = method;
+                print("Current method: " + root.passwordMethod);
 
                 if (method === UbuntuSecurityPrivacyPanel.Passphrase) {
-                    pageStack.load(Qt.resolvedUrl("password-set.qml"))
+                    pageStack.load(Qt.resolvedUrl("password-set.qml"));
                 } else if (method === UbuntuSecurityPrivacyPanel.Passcode) {
-                    pageStack.load(Qt.resolvedUrl("passcode-set.qml"))
+                    pageStack.load(Qt.resolvedUrl("passcode-set.qml"));
                 } else {
-                    pageStack.next()
+                    pageStack.next();
                 }
             }
         }

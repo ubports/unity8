@@ -60,7 +60,7 @@ LocalComponents.Page {
             anchors.horizontalCenter: parent.horizontalCenter
             text: i18n.tr("Get Started")
             onClicked: {
-                root.quitWizard()
+                root.quitWizard();
             }
         }
     }

@@ -49,7 +49,7 @@ LocalComponents.Page {
 
         errorText: i18n.tr("Incorrect passcode.") + "\n" + i18n.tr("Please re-enter.")
 
-        foregroundColor: "#525252"
+        foregroundColor: textColor
 
         showEmergencyCallButton: false
         showCancelButton: false

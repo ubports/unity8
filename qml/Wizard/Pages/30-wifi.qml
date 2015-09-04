@@ -101,7 +101,7 @@ LocalComponents.Page {
 
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive && !enterprise || false
-            __foregroundColor: "#525252"
+            __foregroundColor: textColor
             showDivider: true
             iconName: {
                 var imageName = "nm-signal-100";
@@ -150,7 +150,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             font.weight: Font.Light
-            color: "#525252"
+            color: "#68064d"
             text: listview.count > 0 ? i18n.tr("Available Wi-Fi networks")
                                      : i18n.tr("No available Wi-Fi networks")
         }

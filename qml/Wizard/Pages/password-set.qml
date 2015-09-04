@@ -86,7 +86,7 @@ LocalComponents.Page {
                 right: parent.right
             }
             wrapMode: Text.Wrap
-            color: hasError ? "#e14141": "#525252"
+            color: hasError ? errorColor : textColor
         }
 
         TextField {

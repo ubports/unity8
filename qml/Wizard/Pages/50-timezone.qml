@@ -52,7 +52,7 @@ LocalComponents.Page {
             }
         }
 
-        theme.palette.normal.backgroundText = "#525252" // "fix" the placeholder text in the search field
+        theme.palette.normal.backgroundText = textColor // "fix" the placeholder text in the search field
     }
 
     Component {
@@ -69,14 +69,14 @@ LocalComponents.Page {
                     text: !!city ? city : ""
                     font.weight: tz.currentTz ? Font.Normal : Font.Light
                     fontSize: "medium"
-                    color: "#525252"
+                    color: textColor
                 }
                 Label {
                     id: timeLabel
                     text: !!time ? time + " " + abbreviation : ""
                     font.weight: tz.currentTz ? Font.Normal : Font.Light
                     fontSize: "small"
-                    color: "#525252"
+                    color: textColor
                 }
             }
             Image {
@@ -122,7 +122,7 @@ LocalComponents.Page {
             id: tzList;
 
             boundsBehavior: Flickable.StopAtBounds
-            clip: true;
+            clip: true
             currentIndex: -1
             snapMode: ListView.SnapToItem
 

@@ -62,7 +62,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            color: "black"
+            color: textColor
             fontSize: "small"
             font.weight: Font.Light
             text: i18n.tr("Your device uses positioning technologies provided by HERE.")
@@ -73,7 +73,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            color: "black"
+            color: textColor
             fontSize: "small"
             font.weight: Font.Light
             text: i18n.tr("To provide you with positioning services and to improve their quality, HERE collects " +
@@ -86,7 +86,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            color: "black"
+            color: textColor
             fontSize: "small"
             font.weight: Font.Light
             text: i18n.tr("The information collected is used to analyze the service and to " +
@@ -98,7 +98,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            color: "black"
+            color: textColor
             fontSize: "small"
             font.weight: Font.Light
             linkColor: UbuntuColors.orange
@@ -115,7 +115,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            color: "black"
+            color: textColor
             fontSize: "small"
             font.weight: Font.Light
             linkColor: UbuntuColors.orange

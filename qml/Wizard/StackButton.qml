@@ -32,8 +32,9 @@ AbstractButton {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
-        color: "#525252"
+        color: textColor
         opacity: enabled ? 1.0 : 0.5
+        fontSize: "medium"
         font.weight: backArrow ? Font.Normal : Font.DemiBold
         text: stackButton.text
         horizontalAlignment: backArrow ? Text.AlignLeft : Text.AlignRight

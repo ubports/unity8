@@ -30,6 +30,12 @@ Item {
     readonly property real rightMargin: units.gu(3)
     readonly property real customMargin: units.gu(4) // margin for the custom (w/o title bar) pages
 
+    // colors
+    readonly property color backgroundColor: "#fdfdfd"
+    readonly property color dividerColor: "#cdcdcd"
+    readonly property color textColor: "#525252"
+    readonly property color errorColor: "#e14141"
+
     // If you want to skip a page, mark skipValid false while you figure out
     // whether to skip, then set it to true once you've determined the value
     // of the skip property.
@@ -116,7 +122,7 @@ Item {
             }
             wrapMode: Text.Wrap
             text: title
-            color: customTitle ? "#525252" : "#fdfdfd"
+            color: customTitle ? textColor : backgroundColor
             fontSize: "x-large"
         }
     }

@@ -115,7 +115,7 @@ LocalComponents.Page {
 
                     fontSize: "medium"
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
-                    color: "#525252"
+                    color: textColor
                 }
 
                 Image {
@@ -146,7 +146,7 @@ LocalComponents.Page {
             onClicked: {
                 if (plugin.currentLanguage !== languagesListView.currentIndex) {
                     plugin.currentLanguage = languagesListView.currentIndex;
-                    print("Updating session locale:", plugin.languageCodes[plugin.currentLanguage])
+                    print("Updating session locale:", plugin.languageCodes[plugin.currentLanguage]);
                     System.updateSessionLocale(plugin.languageCodes[plugin.currentLanguage]);
                 }
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)

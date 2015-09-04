@@ -65,7 +65,7 @@ LocalComponents.Page {
             }
 
             wrapMode: Text.WordWrap
-            color: "#525252"
+            color: textColor
             font.weight: checked ? Font.Normal : Font.Light
             text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")
             property bool checked: true
@@ -93,7 +93,7 @@ LocalComponents.Page {
             }
 
             wrapMode: Text.WordWrap
-            color: "#525252"
+            color: textColor
             font.weight: Font.Light
             fontSize: "small"
             linkColor: UbuntuColors.orange
@@ -110,18 +110,28 @@ LocalComponents.Page {
             anchors.verticalCenter: hereCheckLabel.verticalCenter
         }
 
+        Rectangle {
+            id: divider
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: hereTermsLabel.bottom
+            anchors.topMargin: units.gu(3)
+            height: units.dp(1)
+            color: dividerColor
+        }
+
         Label {
             id: gpsCheckLabel
             anchors {
                 left: parent.left
                 right: parent.right
-                top: hereTermsLabel.bottom
+                top: divider.bottom
                 topMargin: units.gu(3)
                 rightMargin: rightMargin
             }
             text: i18n.tr("GPS only")
             wrapMode: Text.WordWrap
-            color: "#525252"
+            color: textColor
             font.weight: checked ? Font.Normal : Font.Light
             width: content.width
             property bool checked: false
@@ -147,17 +157,27 @@ LocalComponents.Page {
             anchors.verticalCenter: gpsCheckLabel.verticalCenter
         }
 
+        Rectangle {
+            id: divider2
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: gpsCheckLabel.bottom
+            anchors.topMargin: units.gu(3)
+            height: units.dp(1)
+            color: dividerColor
+        }
+
         Label {
             id: nopeCheckLabel
             anchors {
                 left: parent.left
                 right: parent.right
-                top: gpsCheckLabel.bottom
+                top: divider2.bottom
                 topMargin: units.gu(3)
                 rightMargin: rightMargin
             }
             wrapMode: Text.WordWrap
-            color: "#525252"
+            color: textColor
             font.weight: checked ? Font.Normal : Font.Light
             width: content.width
             text: i18n.tr("Don't use my location")
@@ -184,18 +204,28 @@ LocalComponents.Page {
             anchors.verticalCenter: nopeCheckLabel.verticalCenter
         }
 
+        Rectangle {
+            id: divider3
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: nopeCheckLabel.bottom
+            anchors.topMargin: units.gu(3)
+            height: units.dp(1)
+            color: dividerColor
+        }
+
         Label {
             id: infoLabel
             anchors {
                 left: parent.left
                 right: parent.right
-                top: nopeCheckLabel.bottom
+                top: divider3.bottom
                 topMargin: units.gu(3)
             }
             wrapMode: Text.Wrap
             textFormat: Text.RichText
             text: i18n.tr("You can change it later in <em>System Settings</em>.")
-            color: "#525252"
+            color: textColor
             fontSize: "small"
             font.weight: Font.Light
             width: content.width
