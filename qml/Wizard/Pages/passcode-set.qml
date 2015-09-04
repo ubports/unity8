@@ -80,13 +80,4 @@ LocalComponents.Page {
             }
         }
     }
-
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
-            enabled: lockscreen.passphrase.length >= 4
-            text: i18n.tr("OK")
-            onClicked: passcodeSetPage.confirm()
-        }
-    }
 }

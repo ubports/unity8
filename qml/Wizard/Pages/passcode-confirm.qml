@@ -71,14 +71,4 @@ LocalComponents.Page {
             onTriggered: pageStack.next()
         }
     }
-
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
-            visible: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
-            enabled: root.password === lockscreen.passphrase
-            text: i18n.tr("OK")
-            onClicked: pageStack.next()
-        }
-    }
 }
