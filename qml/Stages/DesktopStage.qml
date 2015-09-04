@@ -16,7 +16,7 @@
  * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
@@ -394,6 +394,7 @@ Rectangle {
                         anchors.margins: -units.gu(2)
                         enabled: false
                         onClicked: {
+                            appRepeater.highlightedIndex = index;
                             root.state = ""
                         }
                     }
@@ -483,6 +484,7 @@ Rectangle {
 
         onMouseXChanged: {
             mouse.accepted = false
+            if (hoverMouseArea.pressed) return;
 
             // Find the hovered item and mark it active
             var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
