@@ -210,6 +210,13 @@ Rectangle {
                     }
                 }
 
+                Component.onCompleted: {
+                    // Focus the top-most or AppMan-focused application on start up.
+                    if (ApplicationManager.focusedApplicationId === model.appId && !focus) {
+                        focus = true;
+                    }
+                }
+
                 Binding {
                     target: ApplicationManager.get(index)
                     property: "requestedState"
