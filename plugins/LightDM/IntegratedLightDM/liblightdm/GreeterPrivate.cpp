@@ -65,7 +65,7 @@ public:
         cancelPam();
     }
 
-    void start(QString &username)
+    void start(const QString &username)
     {
         // Clear out any existing PAM interactions first
         cancelPam();
@@ -197,7 +197,7 @@ public:
     }
 
 public Q_SLOTS:
-    bool respond(QString response)
+    bool respond(const QString &response)
     {
         if (!futures.isEmpty()) {
             futures.dequeue().reportFinished(&response);
@@ -227,7 +227,7 @@ private Q_SLOTS:
         Q_EMIT greeter->authenticationComplete();
     }
 
-    void handleMessage(pam_handle *handle, QString text, QLightDM::Greeter::MessageType type)
+    void handleMessage(pam_handle *handle, const QString &text, QLightDM::Greeter::MessageType type)
     {
         if (handle != pamHandle)
             return;
@@ -235,7 +235,7 @@ private Q_SLOTS:
         Q_EMIT greeter->showMessage(text, type);
     }
 
-    void handlePrompt(pam_handle *handle, QString text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture future)
+    void handlePrompt(pam_handle *handle, const QString &text, QLightDM::Greeter::PromptType type, QLightDM::GreeterImpl::ResponseFuture future)
     {
         if (handle != pamHandle) {
             future.reportResult(QString());
