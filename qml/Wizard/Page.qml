@@ -148,6 +148,7 @@ Item {
             bottom: parent.bottom
             left: parent.left
             right: parent.right
+            bottomMargin: Qt.inputMethod.keyboardRectangle.height
         }
         height: buttonBarHeight
         color: "#f5f5f5"
