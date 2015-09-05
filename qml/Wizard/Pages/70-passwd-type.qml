@@ -134,7 +134,7 @@ LocalComponents.Page {
                         verticalCenter: parent.verticalCenter;
                     }
                     fillMode: Image.PreserveAspectFit
-                    height: methodLabel.paintedHeight
+                    height: methodLabel.height / 2
 
                     source: "data/Tick@30.png"
                     visible: itemDelegate.isCurrent

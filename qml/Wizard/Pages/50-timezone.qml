@@ -85,7 +85,7 @@ LocalComponents.Page {
                     verticalCenter: parent.verticalCenter;
                 }
                 fillMode: Image.PreserveAspectFit
-                height: cityLabel.paintedHeight
+                height: cityLabel.height / 2
 
                 source: "data/Tick@30.png"
                 visible: tz.currentTz

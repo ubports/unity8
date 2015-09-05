@@ -103,7 +103,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height
+            height: nopeCheckLabel.height / 2
             source: "data/Tick@30.png"
             opacity: hereCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
@@ -150,7 +150,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height
+            height: nopeCheckLabel.height / 2
             source: "data/Tick@30.png"
             opacity: gpsCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
@@ -197,7 +197,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height
+            height: nopeCheckLabel.height / 2
             source: "data/Tick@30.png"
             opacity: nopeCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
