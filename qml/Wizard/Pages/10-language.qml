@@ -101,7 +101,7 @@ LocalComponents.Page {
 
             delegate: ListItem {
                 id: itemDelegate
-
+                highlightColor: backgroundColor
                 readonly property bool isCurrent: index === ListView.view.currentIndex
 
                 Label {

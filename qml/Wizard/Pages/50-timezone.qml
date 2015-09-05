@@ -60,6 +60,7 @@ LocalComponents.Page {
         ListItem {
             id: tz
             objectName: "tz"
+            highlightColor: backgroundColor
             readonly property bool currentTz: !!id ? selectedTimeZone === id : false
 
             Column {
