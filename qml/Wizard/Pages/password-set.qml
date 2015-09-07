@@ -77,6 +77,8 @@ LocalComponents.Page {
     Item {
         id: column
         anchors.fill: content
+        anchors.leftMargin: leftMargin
+        anchors.rightMargin: rightMargin
 
         Label {
             id: infoLabel
