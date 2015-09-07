@@ -22,11 +22,11 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "ubuntuAccountSignUpPage"
 
-    title: i18n.tr("Create Account")
+    title: webview.visible ? i18n.tr("Terms And Conditions") : i18n.tr("Create Account")
     customTitle: true
     customBack: true
-    backButtonText: i18n.tr("Cancel")
-    forwardButtonSourceComponent: forwardButton
+    backButtonText: webview.visible ? i18n.tr("Back") : i18n.tr("Cancel")
+    forwardButtonSourceComponent: !webview.visible ? forwardButton : null
 
     onBackClicked: {
         if (webview.visible) {
@@ -39,6 +39,8 @@ LocalComponents.Page {
     Item {
         id: column
         anchors.fill: content
+        anchors.leftMargin: leftMargin
+        anchors.rightMargin: rightMargin
 
         // email
         Label {
@@ -189,8 +191,6 @@ LocalComponents.Page {
         id: webview
         objectName: "webview"
         anchors.fill: content
-        anchors.leftMargin: -leftMargin
-        anchors.rightMargin: -rightMargin
         visible: false
     }
 
