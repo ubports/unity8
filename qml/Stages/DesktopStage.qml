@@ -302,6 +302,17 @@ Rectangle {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                    },
+                    Transition {
+                        from: ""
+                        to: "altTab"
+                        PropertyAction { target: appDelegate; properties: "y,angle,z,itemScale,itemScaleOriginY" }
+                        PropertyAnimation {
+                            target: appDelegate; properties: "x"
+                            from: root.width
+                            duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
+                            easing: UbuntuAnimation.StandardEasing
+                        }
                     }
                 ]
                 property real angle: 0
@@ -616,19 +627,20 @@ Rectangle {
     ]
 
     MouseArea {
-         anchors {
-             top: parent.top
-             right: parent.right
-             bottom: parent.bottom
-         }
-         // TODO: Make this a push to edge thing like the launcher when we can,
-         // for now, yes, we want 1 pixel, regardless of the scaling
-         width: 1
-         hoverEnabled: true
-         onContainsMouseChanged: {
-             if (containsMouse) {
-                 root.state = "altTab"
-             }
-         }
+        id: rightEdgePushArea
+        anchors {
+            top: parent.top
+            right: parent.right
+            bottom: parent.bottom
+        }
+        // TODO: Make this a push to edge thing like the launcher when we can,
+        // for now, yes, we want 1 pixel, regardless of the scaling
+        width: 1
+        hoverEnabled: true
+        onContainsMouseChanged: {
+            if (containsMouse) {
+                root.state = "altTab";
+            }
+        }
     }
 }
