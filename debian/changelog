@@ -1,8 +1,36 @@
-unity8 (8.11+15.10.20150826-0ubuntu2) UNRELEASED; urgency=medium
+unity8 (8.11+15.10.20150907-0ubuntu1) wily; urgency=medium
 
+  [ Michal Sawicz ]
   * Resync wily with vivid
 
- -- Michal Sawicz <michal.sawicz@canonical.com>  Thu, 03 Sep 2015 10:35:54 +0200
+  [ Albert Astals Cid ]
+  * Accomodate header height when using a card carousel with non
+    overlayed header (LP: #1489309)
+  * Fix restart unity8 from inside the phone more than two times (LP:
+    #1487946)
+
+  [ Gary.Wzl ]
+  * Move textarea up automatically when inputmethod popup. (LP:
+    #1485947)
+
+  [ Lukáš Tinkl ]
+  * Introduce a GlobalShortcut QML component for handling global
+    keyboard shortcuts
+
+  [ Michael Terry ]
+  * Fix the fact that a user that is locked out from their account for
+    five minutes after entering too many wrong passwords can simply
+    reboot to try again. (LP: #1383086)
+  * Fix the fact that a user that is locked out from their account for
+    five minutes after entering too many wrong passwords can simply
+    reboot to try again. (LP: #1383086)
+
+  [ Michael Zanetti ]
+  * Implement progressive autoscrolling in desktop spread
+  * add an animation transition when invoking the spread by hitting the
+    right edge
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 07 Sep 2015 14:05:37 +0000
 
 unity8 (8.11+15.10.20150826-0ubuntu1) wily; urgency=medium
 
