@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-09-05 22:33+0000\n"
+"PO-Revision-Date: 2015-09-06 13:48+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-09-06 05:58+0000\n"
+"X-Launchpad-Export-Date: 2015-09-07 05:59+0000\n"
 "X-Generator: Launchpad (build 17706)\n"
 "Language: sr\n"
 
@@ -304,11 +304,11 @@ msgstr "Управљај"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr "Матица"
+msgstr "Почетна"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
-msgstr "Такође уграђен"
+msgstr "Такође инсталиран"
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -324,11 +324,11 @@ msgstr "Додирните да откључате"
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr "Жао ми је, погрешна лозинка."
+msgstr "Жао ми је, погрешна приступна фраза."
 
 #: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr "Жао ми је, погрешан код."
+msgstr "Жао нам је, погрешан приступни код."
 
 #: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
@@ -339,16 +339,16 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Ако се унесе погрешна лозинка, ваш телефон ће се ресетовати и сви лични "
-"подаци ће бити обрисани."
+"Ако се унесе погрешна присупна фраза, ваш телефон ће се ресетовати и сви "
+"лични подаци ће бити обрисани."
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Ако се унесе погрешан код, ваш телефон ће се ресетовати и сви лични подаци "
-"ће бити обрисани."
+"Ако се унесе погрешан приступни код, ваш телефон ће се ресетовати и сви "
+"лични подаци ће бити обрисани."
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
@@ -357,11 +357,11 @@ msgstr "Унеси %1"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr "Унесите лозинку"
+msgstr "Унесите приступну фразу"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
-msgstr "Унесите шифру"
+msgstr "Унесите приступни код"
 
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
@@ -370,16 +370,16 @@ msgstr "Жао ми је, погрешан %1"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
-msgstr "Жао ми је, погрешна лозинка"
+msgstr "Жао ми је, погрешна приступна фраза"
 
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Молим, унесите поново"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
-msgstr "Жао ми је, погрешан код"
+msgstr "Жао ми је, погрешанприступни код"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -387,7 +387,7 @@ msgstr "Прикажи лозинку"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Тапните да одговорите на позив"
+msgstr "Тапните да се вратите на позив..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -395,38 +395,41 @@ msgstr "Конференција"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
-msgstr "Ништа се не изводи"
+msgstr "Ништа се не репродукује"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:768
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 сат"
+msgstr[1] "%1 сата"
+msgstr[2] "%1 сати"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:772
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 минут"
+msgstr[1] "%1 минута"
+msgstr[2] "%1 минута"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:777
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 секунда"
+msgstr[1] "%1 секунде"
+msgstr[2] "%1 секунди"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:780
 msgid "0 seconds"
-msgstr ""
+msgstr "0 секунди"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:782
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "%1 преостало"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
@@ -434,7 +437,7 @@ msgstr "Је заказано…"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:792
 msgid "Downloading"
-msgstr "Преузимам"
+msgstr "Преузимање"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:794
 msgid "Paused, tap to resume"
@@ -488,7 +491,7 @@ msgstr "Тапните овде за наставак."
 
 #: qml/Tutorial/TutorialContent.qml:81
 msgid "Click here to finish."
-msgstr ""
+msgstr "Кликните овде да завршите."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -579,7 +582,7 @@ msgstr "Без заштите"
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr "Код"
+msgstr "Приступни код"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
@@ -589,7 +592,7 @@ msgstr "Само 4 цифре"
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Лозинка"
+msgstr "Приступна фраза"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
@@ -614,7 +617,7 @@ msgstr "Положај"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr "Допустите да телефон препозна Ваш положај"
+msgstr "Допустите да телефон препозна Ваш положај:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
@@ -631,12 +634,12 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
-"Избором ове могућности се слажете са <a href='#'>условима употребе</a> Nokia "
-"HERE-а."
+"Избором ове могућности се слажете са <a href='#'>условима и одредбама</a> "
+"Nokia HERE-а."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr "Нипошто"
+msgstr "Нимало"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
@@ -651,7 +654,7 @@ msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
-"Телефон је подешен да самостално пријављује грешке Каноникалу и сарадницима, "
+"Телефон је подешен да аутоматски пријављује грешке Каноникалу и сарадницима, "
 "творцима оперативног система."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
@@ -672,7 +675,7 @@ msgstr "Лепо одрађено!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr "Телефон је спреман за употребу."
+msgstr "Ваш телефон је спреман за употребу."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -680,28 +683,28 @@ msgstr "Крај"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr "Услови употребе"
+msgstr "Правила и услови"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr "Потврдите лозинку"
+msgstr "Потврдите приступну фразу"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr "Потврдите шифру"
+msgstr "Потврдите приступни код"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr "Молим, покушајте поново"
+msgstr "Молим, покушајте поново."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr "Изаберите своју шифру"
+msgstr "Изаберите ваш приступни код"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr "Лозинка мора имати бар 4 знака"
+msgstr "Приступна фраза мора имати бар 4 симбола"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
