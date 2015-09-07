@@ -55,6 +55,8 @@ LocalComponents.Page {
     Column {
         id: column
         anchors.fill: content
+        anchors.leftMargin: leftMargin
+        anchors.rightMargin: rightMargin
         spacing: units.gu(3)
 
         Label {
