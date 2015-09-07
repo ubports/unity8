@@ -28,7 +28,6 @@ import "../../Components" as UnityComponents
 LocalComponents.Page {
     id: passcodeSetPage
     objectName: "passcodeSetPage"
-    forwardButtonSourceComponent: forwardButton
     customTitle: true
     backButtonText: i18n.tr("Cancel")
 

@@ -28,9 +28,9 @@ LocalComponents.Page {
 
     onBackClicked: {
         if (webview.visible) {
-            showBrowser(false)
+            showBrowser(false);
         } else {
-            pageStack.prev()
+            pageStack.prev();
         }
     }
 
@@ -122,8 +122,8 @@ LocalComponents.Page {
             text: i18n.tr("and Privacy Policy:") +
                   " <a href=\"http://here.com/privacy/privacy-policy\">http://here.com/privacy/privacy-policy</a>"
             onLinkActivated: {
-                showBrowser(true)
-                webview.url = link
+                showBrowser(true);
+                webview.url = link;
             }
         }
 
@@ -132,8 +132,8 @@ LocalComponents.Page {
             objectName: "webview"
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
+            anchors.leftMargin: -leftMargin
+            anchors.rightMargin: -rightMargin
             height: parent.height
             visible: false
         }

@@ -377,7 +377,7 @@ Item {
             // more clever here.
             active: usageScenario != "desktop" && AccountsService.demoEdges
 
-            paused: LightDM.Greeter.active
+            paused: lightDM.greeter.active
             launcher: launcher
             panel: panel
             edgeSize: shell.edgeSize
@@ -413,7 +413,7 @@ Item {
         sourceComponent: shell.mode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         onLoaded: {
-                item.objectName = "greeter"
+            item.objectName = "greeter"
         }
     }
 

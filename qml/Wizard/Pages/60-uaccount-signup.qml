@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.2
+import Ubuntu.Web 0.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -23,8 +24,17 @@ LocalComponents.Page {
 
     title: i18n.tr("Create Account")
     customTitle: true
+    customBack: true
     backButtonText: i18n.tr("Cancel")
     forwardButtonSourceComponent: forwardButton
+
+    onBackClicked: {
+        if (webview.visible) {
+            webview.visible = false;
+        } else {
+            pageStack.prev();
+        }
+    }
 
     Item {
         id: column
@@ -141,7 +151,7 @@ LocalComponents.Page {
             anchors.top: pass2Input.bottom
             anchors.topMargin: units.gu(3)
             text: i18n.tr("Encrypt my content")
-            KeyNavigation.tab: optoutCheck
+            KeyNavigation.tab: termsCheck
         }
 
         LocalComponents.CheckableSetting {
@@ -163,13 +173,25 @@ LocalComponents.Page {
             showDivider: false
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: optoutCheck.bottom
+            anchors.top: encryptCheck.bottom
             anchors.topMargin: units.gu(1)
             text: i18n.tr("I have read and accept the Ubuntu account <a href='#'>terms of service</a>")
-            //onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml")) // TODO show terms
+            onLinkActivated: {
+                webview.visible = true;
+                webview.url = "https://login.ubuntu.com/terms/";
+            }
             KeyNavigation.tab: emailInput
-            visible: false // TODO re-enable in Phase 2
+            visible: true
         }
+    }
+
+    WebView {
+        id: webview
+        objectName: "webview"
+        anchors.fill: content
+        anchors.leftMargin: -leftMargin
+        anchors.rightMargin: -rightMargin
+        visible: false
     }
 
     Component {
@@ -177,7 +199,8 @@ LocalComponents.Page {
         LocalComponents.StackButton {
             enabled: emailInput.acceptableInput && nameInput.text !== "" &&
                      //termsCheck.checked && // TODO re-enable in Phase 2
-                     pass2Input.text.length > 5 && passInput.text === pass2Input.text
+                     pass2Input.text.length > 7 && passInput.text === pass2Input.text &&
+                     termsCheck.checked
             text: i18n.tr("Sign Up")
             onClicked: pageStack.next() // TODO sign up against U1
         }

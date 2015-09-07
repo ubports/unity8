@@ -236,7 +236,7 @@ int IndicatorsModel::columnCount(const QModelIndex &) const
     return 1;
 }
 
-Q_INVOKABLE QVariant IndicatorsModel::data(int row, int role) const
+QVariant IndicatorsModel::data(int row, int role) const
 {
     return data(index(row, 0), role);
 }

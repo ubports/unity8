@@ -69,6 +69,7 @@ LocalComponents.Page {
             id: infoLabel
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.leftMargin: leftMargin
             wrapMode: Text.Wrap
             text: i18n.tr("Choose lock screen security")
             color: textColor
@@ -108,6 +109,8 @@ LocalComponents.Page {
                     id: methodLabel
                     objectName: "passwdDelegate" + index
                     anchors.verticalCenter: parent.verticalCenter;
+                    anchors.left: parent.left
+                    anchors.leftMargin: leftMargin
                     fontSize: "medium"
                     color: textColor
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
@@ -132,6 +135,7 @@ LocalComponents.Page {
                     anchors {
                         right: parent.right;
                         verticalCenter: parent.verticalCenter;
+                        rightMargin: rightMargin
                     }
                     fillMode: Image.PreserveAspectFit
                     height: methodLabel.height / 2

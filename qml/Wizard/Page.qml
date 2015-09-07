@@ -135,8 +135,6 @@ Item {
             left: parent.left
             right: parent.right
             bottom: buttonRect.top
-            leftMargin: leftMargin
-            rightMargin: rightMargin
         }
     }
 

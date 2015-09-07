@@ -142,8 +142,12 @@ LocalComponents.Page {
     Column {
         id: column
         spacing: units.gu(2)
-        anchors.fill: content
-        anchors.topMargin: units.gu(4)
+        anchors {
+            fill: content
+            leftMargin: leftMargin
+            rightMargin: rightMargin
+            topMargin: units.gu(4)
+        }
 
         Label {
             id: label

@@ -89,7 +89,11 @@ LocalComponents.Page {
     }
 
     Column {
-        anchors.fill: content
+        anchors {
+            fill: content
+            leftMargin: leftMargin
+            rightMargin: rightMargin
+        }
         spacing: units.gu(4)
 
         Label {

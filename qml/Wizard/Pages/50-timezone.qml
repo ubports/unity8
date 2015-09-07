@@ -65,6 +65,8 @@ LocalComponents.Page {
 
             Column {
                 anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: leftMargin
                 Label {
                     id: cityLabel
                     text: !!city ? city : ""
@@ -82,8 +84,9 @@ LocalComponents.Page {
             }
             Image {
                 anchors {
-                    right: parent.right;
-                    verticalCenter: parent.verticalCenter;
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    rightMargin: rightMargin
                 }
                 fillMode: Image.PreserveAspectFit
                 height: cityLabel.height / 2
@@ -102,13 +105,18 @@ LocalComponents.Page {
 
     Column {
         id: column
-        anchors.fill: content
-        anchors.topMargin: units.gu(4)
+        anchors {
+            fill: content
+            topMargin: units.gu(4)
+        }
+        spacing: units.gu(2)
 
         TextField {
             id: searchField
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.leftMargin: leftMargin
+            anchors.rightMargin: rightMargin
             placeholderText: i18n.tr("Enter your city or country")
             color: UbuntuColors.lightGrey
             inputMethodHints: Qt.ImhNoPredictiveText

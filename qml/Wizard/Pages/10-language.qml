@@ -91,8 +91,8 @@ LocalComponents.Page {
             snapMode: ListView.SnapToItem
 
             anchors {
-                left: parent.left;
-                right: parent.right;
+                left: parent.left
+                right: parent.right
             }
 
             height: column.height - column.spacing
@@ -111,6 +111,7 @@ LocalComponents.Page {
                     anchors {
                         left: parent.left
                         verticalCenter: parent.verticalCenter
+                        leftMargin: leftMargin
                     }
 
                     fontSize: "medium"
@@ -122,6 +123,7 @@ LocalComponents.Page {
                     anchors {
                         right: parent.right;
                         verticalCenter: parent.verticalCenter;
+                        rightMargin: rightMargin
                     }
                     fillMode: Image.PreserveAspectFit
                     height: langLabel.height / 2

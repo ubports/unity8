@@ -61,6 +61,7 @@ LocalComponents.Page {
                 left: parent.left
                 right: parent.right
                 top: parent.top
+                leftMargin: leftMargin
                 rightMargin: rightMargin
             }
 
@@ -89,6 +90,7 @@ LocalComponents.Page {
                 right: parent.right
                 top: hereCheckLabel.bottom
                 topMargin: units.gu(1)
+                leftMargin: leftMargin
                 rightMargin: rightMargin
             }
 
@@ -108,6 +110,7 @@ LocalComponents.Page {
             opacity: hereCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: hereCheckLabel.verticalCenter
+            anchors.rightMargin: rightMargin
         }
 
         Rectangle {
@@ -127,6 +130,7 @@ LocalComponents.Page {
                 right: parent.right
                 top: divider.bottom
                 topMargin: units.gu(3)
+                leftMargin: leftMargin
                 rightMargin: rightMargin
             }
             text: i18n.tr("GPS only")
@@ -155,6 +159,7 @@ LocalComponents.Page {
             opacity: gpsCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: gpsCheckLabel.verticalCenter
+            anchors.rightMargin: rightMargin
         }
 
         Rectangle {
@@ -174,6 +179,7 @@ LocalComponents.Page {
                 right: parent.right
                 top: divider2.bottom
                 topMargin: units.gu(3)
+                leftMargin: leftMargin
                 rightMargin: rightMargin
             }
             wrapMode: Text.WordWrap
@@ -202,6 +208,7 @@ LocalComponents.Page {
             opacity: nopeCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: nopeCheckLabel.verticalCenter
+             anchors.rightMargin: rightMargin
         }
 
         Rectangle {
@@ -221,6 +228,8 @@ LocalComponents.Page {
                 right: parent.right
                 top: divider3.bottom
                 topMargin: units.gu(3)
+                leftMargin: leftMargin
+                rightMargin: rightMargin
             }
             wrapMode: Text.Wrap
             textFormat: Text.RichText
