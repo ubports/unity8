@@ -41,7 +41,15 @@ QVariant Filters::data(const QModelIndex &index, int role) const
     if (row < 0 || row >= m_filters.count())
         return QVariant();
 
+    unity::shell::scopes::FilterBaseInterface *filter = m_filters[row];
+
     switch (role) {
+        case RoleFilterId:
+            return filter->filterId();
+        case RoleFilterType:
+            return filter->filterType();
+        case RoleFilter:
+            return QVariant::fromValue<unity::shell::scopes::FilterBaseInterface *>(filter);
         default:
             return QVariant();
     }
