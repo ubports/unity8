@@ -27,10 +27,9 @@ import "../../Components" as UnityComponents
 LocalComponents.Page {
     id: passwdSetPage
     objectName: "passwdSetPage"
-    forwardButtonSourceComponent: forwardButton
     customTitle: true
+    buttonBarVisible: false
     title: confirmPhase ? i18n.tr("Confirm Password") : i18n.tr("Choose Password")
-    backButtonText: i18n.tr("Cancel")
 
     property alias password: passwordField.text
     property bool confirmPhase: false
@@ -39,38 +38,38 @@ LocalComponents.Page {
     onEnabledChanged: if (enabled) password = ""
 
     Component.onCompleted: {
-        setInfo()
-        passwordField.forceActiveFocus()
+        setInfo();
+        passwordField.forceActiveFocus();
     }
 
     function confirm() {
-        root.password = password
-        confirmTimer.start()
+        root.password = password;
+        confirmTimer.start();
     }
 
     Timer {
         id: confirmTimer
         interval: UbuntuAnimation.SnapDuration
         onTriggered: {
-            confirmPhase = true
-            password = ""
-            passwordField.forceActiveFocus()
+            confirmPhase = true;
+            password = "";
+            passwordField.forceActiveFocus();
         }
     }
 
     function setError(text) {
         if (!!text) {
-            infoLabel.hasError = true
-            infoLabel.text = text
+            infoLabel.hasError = true;
+            infoLabel.text = text;
         }
     }
 
     function setInfo(text) {
-        infoLabel.hasError = false
+        infoLabel.hasError = false;
         if (!!text) {
-            infoLabel.text = text
+            infoLabel.text = text;
         } else {
-            infoLabel.text = i18n.tr("Enter at least 6 characters")
+            infoLabel.text = i18n.tr("Enter at least 6 characters");
         }
     }
 
@@ -86,6 +85,7 @@ LocalComponents.Page {
             anchors {
                 left: parent.left
                 right: parent.right
+                topMargin: units.gu(3)
             }
             wrapMode: Text.Wrap
             color: hasError ? errorColor : textColor
@@ -105,9 +105,9 @@ LocalComponents.Page {
                     if (password.length == 0) {
                         setInfo();
                     } else if (password !== root.password) {
-                        setError(i18n.tr("Passwords do not match"))
+                        setError(i18n.tr("Passwords do not match"));
                     } else {
-                        setInfo(i18n.tr("Passwords match"))
+                        setInfo(i18n.tr("Passwords match"));
                     }
                 }
             }
@@ -121,19 +121,42 @@ LocalComponents.Page {
             anchors.top: passwordField.bottom
             anchors.topMargin: units.gu(1)
             password: passwordField.text
+            visible: !confirmPhase
         }
-    }
 
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
-            enabled: confirmPhase ? password === root.password : password.length > 5 // TODO set more sensible restrictions for the length?
+        // buttons
+        Button {
+            id: cancelButton
+            anchors {
+                top: passMeter.bottom
+                left: parent.left
+                right: parent.horizontalCenter
+                rightMargin: units.gu(1)
+                topMargin: units.gu(4)
+            }
+            text: i18n.tr("Cancel")
+            onClicked: {
+                pageStack.prev();
+            }
+        }
+
+        Button {
+            id: okButton
+            anchors {
+                top: passMeter.bottom
+                left: parent.horizontalCenter
+                right: parent.right
+                leftMargin: units.gu(1)
+                topMargin: units.gu(4)
+            }
             text: i18n.tr("OK")
-            onClicked:  {
+            color: okColor
+            enabled: confirmPhase ? password === root.password : password.length > 5 // TODO set more sensible restrictions for the length?
+            onClicked: {
                 if (confirmPhase) {
-                    pageStack.next()
+                    pageStack.next();
                 } else {
-                    passwdSetPage.confirm()
+                    passwdSetPage.confirm();
                 }
             }
         }

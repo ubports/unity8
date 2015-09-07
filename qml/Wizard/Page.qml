@@ -35,6 +35,7 @@ Item {
     readonly property color dividerColor: "#cdcdcd"
     readonly property color textColor: "#525252"
     readonly property color errorColor: "#e14141"
+    readonly property color okColor: "#3fb24f"
 
     // If you want to skip a page, mark skipValid false while you figure out
     // whether to skip, then set it to true once you've determined the value
@@ -52,6 +53,7 @@ Item {
     property alias forwardButtonSourceComponent: forwardButton.sourceComponent
     property alias content: contentHolder
     property bool lastPage: false
+    property bool buttonBarVisible: true
 
     property string title: ""
 
@@ -107,7 +109,7 @@ Item {
             right: parent.right
         }
         source: customTitle ? "" : "Pages/data/Phone header bkg.png"
-        height: customTitle ? customMargin + titleLabel.height + customMargin : topMargin + bottomMargin
+        height: customTitle ? customMargin + titleLabel.height + customMargin : units.gu(16)
         clip: true
 
         Label {
@@ -134,14 +136,14 @@ Item {
             top: titleRect.bottom
             left: parent.left
             right: parent.right
-            bottom: buttonRect.top
+            bottom: buttonBarVisible ? buttonRect.top : parent.top
         }
     }
 
     // button bar
     Rectangle {
         id: buttonRect
-        visible: !lastPage
+        visible: !lastPage && buttonBarVisible
         anchors {
             bottom: parent.bottom
             left: parent.left
