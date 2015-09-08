@@ -119,7 +119,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
         process_helpers.lock_unity()
 
-        self.launch_upstart_application(application_name, [], _launcher.AlreadyLaunchedUpstart)
+        self.launch_upstart_application(application_name, [], _launcher.AlreadyLaunchedUpstartLauncher)
         greeter = self.main_window.get_greeter()
         greeter.wait_swiped_away()
         process_helpers.unlock_unity()
