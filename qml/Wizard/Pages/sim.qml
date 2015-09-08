@@ -29,12 +29,6 @@ LocalComponents.Page {
     customTitle: true
     hasBackButton: false
 
-    skipValid: modemManager.gotSimCard
-
-    // skip this page altogether if...
-    skip: !modemManager.available || modemManager.modems.length === 0 || // .. we don't have any modem
-          simManager0.present || simManager1.present // ... or we already have a SIM card inserted
-
     property bool hadSIM: simManager0.present || simManager1.present
 
     Timer {
@@ -45,22 +39,7 @@ LocalComponents.Page {
             print("=== SIM page: timer triggered");
             hadSIM = simManager0.present || simManager1.present;
             print("=== SIM page: had sim:", hadSIM);
-            if (hadSIM) {
-                skip = true;
-                skipValid = true;
-            }
-            else {
-                checkSkipValid();
-            }
         }
-    }
-
-    function checkSkipValid() {
-        skipValid = (modemManager.available && modemManager.modems.length === 0) || // got modem with no SIM card slots
-                !modemManager.available || // modem not available
-                (simManager0.ready && !simManager0.present) || (simManager1.ready && !simManager1.present) || // empty SIM card slots
-                simManager0.present || simManager1.present;  // already have a SIM card inserted
-        print("=== SIM page: check skipValid:", skipValid);
     }
 
     Connections {
@@ -122,7 +101,10 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Skip")
-            onClicked: pageStack.next()
+            onClicked: {
+                seenSIMPage = true;
+                pageStack.next();
+            }
         }
     }
 }

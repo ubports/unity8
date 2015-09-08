@@ -32,6 +32,7 @@ Item {
     property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
     property string password: ""
     property string countryCode: "US" // default country (for the timezone page)
+    property bool seenSIMPage: false // we want to see the SIM page at most once
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy

@@ -153,7 +153,11 @@ LocalComponents.Page {
                 }
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)
                 root.countryCode = plugin.languageCodes[plugin.currentLanguage].split('_')[1].split('.')[0]; // extract the country code, save it for the timezone page
-                pageStack.next();
+
+                if (simManager0.present || simManager1.present || root.seenSIMPage) // go to next page
+                    pageStack.next();
+                else
+                    pageStack.load(Qt.resolvedUrl("sim.qml")); // show the SIM page
             }
         }
     }
