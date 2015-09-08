@@ -33,11 +33,6 @@ PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
 
-    property var initialExpanded:widgetData["expanded"]
-    onInitialExpandedChanged: {
-        expanded = initialExpanded === undefined? false : initialExpanded;
-    }
-
     Label {
         id: titleLabel
         objectName: "titleLabel"

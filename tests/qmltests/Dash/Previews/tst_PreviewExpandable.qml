@@ -212,6 +212,8 @@ Rectangle {
         }
 
         function init() {
+            previewExpandable.widgetType = "";
+            previewExpandable.widgetType = "expandable";
             previewExpandable.widgetData = widgetData;
             checkInitialState();
         }

@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
 "PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Rouxel <vincent.rouxel@mailoo.org>\n"
 "Language-Team: Breton <br@li.org>\n"
-"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,12 +22,16 @@ msgstr ""
 msgid "Password: "
 msgstr "Ger-tremen : "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "Spilhennañ ar verradenn"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Dispilhennañ ar verradenn"
 
@@ -230,15 +233,15 @@ msgstr "Pellgomzadenn vallus"
 msgid "OK"
 msgstr "Mat eo"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Gwelet nebeutoc'h"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "Gwelet pep tra"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Klask"
@@ -274,6 +277,11 @@ msgstr "Muioc'h..."
 msgid "Less..."
 msgstr "Nebeutoc'h..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "Kas"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "Priziit an dra-mañ"
@@ -281,10 +289,6 @@ msgstr "Priziit an dra-mañ"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "Ouzhpennañ un ali"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "Kas"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -481,14 +485,10 @@ msgstr "Digeriñ al lañserioù ispisial"
 msgid "Swipe up from the bottom edge."
 msgstr "Riklit war-du an nec'h adalek an traoñ"
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Pouzañ amañ evit kenderc'hel"
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "Klikit amañ evit echuiñ."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -564,7 +564,8 @@ msgstr "Surentez ar prennañ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr "Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
+msgstr ""
+"Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
@@ -622,7 +623,8 @@ msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr "Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
+msgstr ""
+"Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -716,3 +718,6 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Adverkañ, mar plij"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Klikit amañ evit echuiñ."
