@@ -111,7 +111,7 @@ Item {
         }
     }
 
-    // title
+    // page header
     Image {
         id: titleRect
         visible: !lastPage
@@ -124,6 +124,7 @@ Item {
         height: customTitle ? customMargin + titleLabel.height + customMargin : units.gu(16)
         clip: true
 
+        // page title
         Label {
             id: titleLabel
             anchors {
@@ -140,6 +141,7 @@ Item {
             fontSize: "x-large"
         }
 
+        // indicators
         Row {
             id: indicatorRow
             visible: !customTitle

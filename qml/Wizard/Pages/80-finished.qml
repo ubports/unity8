@@ -41,16 +41,20 @@ LocalComponents.Page {
         spacing: units.gu(3)
 
         Label {
-            anchors.horizontalCenter: parent.horizontalCenter
-            wrapMode: Text.WordWrap
+            anchors.left: parent.left
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
             fontSize: "x-large"
             font.weight: Font.Light
             text: i18n.tr("Welcome to Ubuntu")
         }
 
         Label {
-            anchors.horizontalCenter: parent.horizontalCenter
-            wrapMode: Text.WordWrap
+            anchors.left: parent.left
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
             fontSize: "large"
             font.weight: Font.Light
             text: i18n.tr("You are ready to use your device now")
@@ -59,6 +63,10 @@ LocalComponents.Page {
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             text: i18n.tr("Get Started")
+            color: "transparent"
+            strokeColor: "white"
+            font.weight: Font.DemiBold
+            width: Math.max(implicitWidth, parent.width/2) // make the button slightly wider than usual
             onClicked: {
                 root.quitWizard();
             }
