@@ -17,6 +17,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.2
 import MeeGo.QOfono 0.2
+import Wizard 0.1
 
 Item {
     readonly property real buttonMargin: units.gu(3)
@@ -33,7 +34,7 @@ Item {
     // colors
     readonly property color backgroundColor: "#fdfdfd"
     readonly property color dividerColor: "#cdcdcd"
-    readonly property color textColor: "#525252"
+    readonly property color textColor: "#5d5d5d"
     readonly property color errorColor: "#e14141"
     readonly property color okColor: "#3fb24f"
 
@@ -99,6 +100,17 @@ Item {
         }
     }
 
+    Timer {
+        id: indicatorTimer
+        running: true
+        interval: 1000
+        triggeredOnStart: true
+        repeat: true
+        onTriggered: {
+            indicatorTime.text = Qt.formatTime(new Date(), "h:mm")
+        }
+    }
+
     // title
     Image {
         id: titleRect
@@ -126,6 +138,54 @@ Item {
             text: title
             color: customTitle ? textColor : backgroundColor
             fontSize: "x-large"
+        }
+
+        Row {
+            id: indicatorRow
+            visible: !customTitle
+            anchors {
+                top: parent.top
+                right: parent.right
+                topMargin: units.gu(.5)
+                rightMargin: units.gu(.5)
+            }
+            height: units.gu(2)
+            spacing: units.gu(.5)
+
+            Icon {
+                id: indicatorSim
+                anchors.verticalCenter: parent.verticalCenter
+                name: "no-simcard"
+                height: parent.height
+                width: height
+                visible: !(simManager0.present || simManager1.present)
+                color: "white"
+            }
+
+            Icon {
+                id: indicatorNet
+                anchors.verticalCenter: parent.verticalCenter
+                name: Status.networkIcon
+                height: parent.height
+                width: height
+                color: "white"
+            }
+
+            Icon {
+                id: indicatorBattery
+                anchors.verticalCenter: parent.verticalCenter
+                name: Status.batteryIcon
+                height: parent.height
+                width: height * 1.4 // the battery icon is not rectangular :/
+                color: "white"
+            }
+
+            Label {
+                id: indicatorTime
+                anchors.verticalCenter: parent.verticalCenter
+                color: "white"
+                fontSize: "small"
+            }
         }
     }
 

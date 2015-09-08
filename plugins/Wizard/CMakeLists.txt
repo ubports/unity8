@@ -4,6 +4,7 @@ add_library(Wizard-qml MODULE
     System.cpp
     LocalePlugin.cpp
     timezonemodel.cpp
+    Status.cpp
 )
 
 qt5_use_modules(Wizard-qml DBus Qml)

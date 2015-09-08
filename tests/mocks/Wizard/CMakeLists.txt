@@ -8,7 +8,8 @@ add_library(MockWizard-qml MODULE
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/PageList.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/timezonemodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/LocalePlugin.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Wizard/Status.cpp
 )
 
-qt5_use_modules(MockWizard-qml Qml)
+qt5_use_modules(MockWizard-qml DBus Qml)
 add_unity8_mock(Wizard 0.1 Wizard TARGETS MockWizard-qml)
