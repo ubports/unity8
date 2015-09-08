@@ -20,6 +20,7 @@ import QtQuick 2.3
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
+import "../Components"
 import "../Components/PanelState"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
@@ -55,13 +56,6 @@ Rectangle {
 
     property alias background: wallpaper.source
     property bool altTabPressed: false
-
-    CrossFadeImage {
-        id: wallpaper
-        anchors.fill: parent
-        sourceSize { height: root.height; width: root.width }
-        fillMode: Image.PreserveAspectCrop
-    }
 
     Connections {
         target: ApplicationManager
@@ -141,8 +135,8 @@ Rectangle {
                 event.accepted = true;
                 break;
             case Qt.Key_Escape:
-                appRepeater.highlightedIndex = -1
-                event.accepted = true;
+                spreadRepeater.highlightedIndex = -1
+                // Falling through intentionally
             case Qt.Key_Enter:
             case Qt.Key_Return:
             case Qt.Key_Space:
@@ -152,35 +146,43 @@ Rectangle {
         }
 
         function selectNext(isAutoRepeat) {
-            if (isAutoRepeat && appRepeater.highlightedIndex >= ApplicationManager.count -1) {
+            print("should select next", isAutoRepeat)
+            if (isAutoRepeat && spreadRepeater.highlightedIndex >= ApplicationManager.count -1) {
                 return; // AutoRepeat is not allowed to wrap around
             }
 
-            appRepeater.highlightedIndex = (appRepeater.highlightedIndex + 1) % ApplicationManager.count;
-            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 3));
-            if (spreadFlickable.contentX < newContentX || appRepeater.highlightedIndex == 0) {
+            spreadRepeater.highlightedIndex = (spreadRepeater.highlightedIndex + 1) % ApplicationManager.count;
+            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, spreadRepeater.highlightedIndex - 3));
+            if (spreadFlickable.contentX < newContentX || spreadRepeater.highlightedIndex == 0) {
                 spreadFlickable.snapTo(newContentX)
             }
         }
 
         function selectPrevious(isAutoRepeat) {
-            if (isAutoRepeat && appRepeater.highlightedIndex == 0) {
+            if (isAutoRepeat && spreadRepeater.highlightedIndex == 0) {
                 return; // AutoRepeat is not allowed to wrap around
             }
 
-            var newIndex = appRepeater.highlightedIndex - 1 >= 0 ? appRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
-            appRepeater.highlightedIndex = newIndex;
-            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, appRepeater.highlightedIndex - 1));
+            var newIndex = spreadRepeater.highlightedIndex - 1 >= 0 ? spreadRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
+            spreadRepeater.highlightedIndex = newIndex;
+            var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, spreadRepeater.highlightedIndex - 1));
             if (spreadFlickable.contentX > newContentX || newIndex == ApplicationManager.count -1) {
                 spreadFlickable.snapTo(newContentX)
             }
         }
 
         function focusSelected() {
-            if (appRepeater.highlightedIndex != -1) {
-                var application = ApplicationManager.get(appRepeater.highlightedIndex);
+            if (spreadRepeater.highlightedIndex != -1) {
+                var application = ApplicationManager.get(spreadRepeater.highlightedIndex);
                 ApplicationManager.focusApplication(application.appId);
             }
+        }
+
+        CrossFadeImage {
+            id: wallpaper
+            anchors.fill: parent
+            sourceSize { height: root.height; width: root.width }
+            fillMode: Image.PreserveAspectCrop
         }
 
         Repeater {
@@ -188,30 +190,12 @@ Rectangle {
             model: ApplicationManager
             objectName: "appRepeater"
 
-            property int highlightedIndex: -1
-            property int closingIndex: -1
-
-            function indexOf(delegateItem) {
-                for (var i = 0; i < appRepeater.count; i++) {
-                    if (appRepeater.itemAt(i) === delegateItem) {
-                        return i;
-                    }
-                }
-                return -1;
-            }
-
             delegate: FocusScope {
                 id: appDelegate
                 z: ApplicationManager.count - index
                 y: units.gu(3)
                 width: units.gu(60)
                 height: units.gu(50)
-
-                property int windowWidth: 0
-                property int windowHeight: 0
-                // We don't want to resize the actual application when we're transforming things for the spread only
-                onWidthChanged: if (appDelegate.state !== "altTab") windowWidth = width
-                onHeightChanged: if (appDelegate.state !== "altTab") windowHeight = height
 
                 readonly property int minWidth: units.gu(10)
                 readonly property int minHeight: units.gu(10)
@@ -245,63 +229,17 @@ Rectangle {
                     maximized = false;
                 }
 
-                Behavior on x {
-                    id: closeBehavior
-                    enabled: appRepeater.closingIndex >= 0
-                    UbuntuNumberAnimation {
-                        onRunningChanged: if (!running) appRepeater.closingIndex = -1
-                    }
-                }
-
                 states: [
                     State {
-                        name: "normal"; when: !appDelegate.maximized && !appDelegate.minimized && root.state !== "altTab"
+                        name: "normal"; when: !appDelegate.maximized && !appDelegate.minimized
                     },
                     State {
-                        name: "maximized"; when: appDelegate.maximized && (root.state !== "altTab" || (root.state == "altTab" && !root.workspacesUpdated))
+                        name: "maximized"; when: appDelegate.maximized
                         PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
                     },
                     State {
-                        name: "minimized"; when: appDelegate.minimized && (root.state !== "altTab" || (root.state == "altTab" && !root.workspacesUpdated))
+                        name: "minimized"; when: appDelegate.minimized
                         PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
-                    },
-                    State {
-                        name: "altTab"; when: root.state == "altTab" && root.workspacesUpdated
-                        PropertyChanges {
-                            target: appDelegate
-                            x: spreadMaths.animatedX
-                            y: spreadMaths.animatedY + (appDelegate.height - decoratedWindow.height) - units.gu(2)
-                            width: spreadMaths.spreadHeight
-                            height: spreadMaths.sceneHeight
-                            angle: spreadMaths.animatedAngle
-                            itemScale: spreadMaths.scale
-                            itemScaleOriginY: decoratedWindow.height / 2;
-                            z: index
-                            visible: spreadMaths.itemVisible
-                        }
-                        PropertyChanges {
-                            target: decoratedWindow
-                            decorationShown: false
-                            highlightShown: index == appRepeater.highlightedIndex
-                            state: "transformed"
-                            width: spreadMaths.spreadHeight
-                            height: spreadMaths.spreadHeight
-                            shadowOpacity: spreadMaths.shadowOpacity
-                            anchors.topMargin: units.gu(2)
-                        }
-                        PropertyChanges {
-                            target: tileInfo
-                            visible: true
-                            opacity: spreadMaths.tileInfoOpacity
-                        }
-                        PropertyChanges {
-                            target: spreadSelectArea
-                            enabled: true
-                        }
-                        PropertyChanges {
-                            target: windowMoveResizeArea
-                            enabled: false
-                        }
                     }
                 ]
                 transitions: [
@@ -309,32 +247,15 @@ Rectangle {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
-                    },
-                    Transition {
-                        from: ""
-                        to: "altTab"
-                        PropertyAction { target: appDelegate; properties: "y,angle,z,itemScale,itemScaleOriginY" }
-                        PropertyAction { target: decoratedWindow; properties: "anchors.topMargin" }
-                        PropertyAnimation {
-                            target: appDelegate; properties: "x"
-                            from: root.width
-                            duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
-                            easing: UbuntuAnimation.StandardEasing
-                        }
                     }
                 ]
-                property real angle: 0
-                property real itemScale: 1
-                property int itemScaleOriginX: 0
-                property int itemScaleOriginY: 0
 
-                SpreadMaths {
-                    id: spreadMaths
-                    flickable: spreadFlickable
-                    itemIndex: index
-                    totalItems: Math.max(6, ApplicationManager.count)
-                    sceneHeight: root.height
-                    itemHeight: appDelegate.height
+                Binding {
+                    id: previewBinding
+                    target: appDelegate
+                    property: "z"
+                    value: ApplicationManager.count + 1
+                    when: index == spreadRepeater.highlightedIndex && blurLayer.ready
                 }
 
                 WindowMoveResizeArea {
@@ -353,8 +274,8 @@ Rectangle {
                     objectName: "decoratedWindow"
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
-                    windowWidth: appDelegate.windowWidth
-                    windowHeight: appDelegate.windowHeight
+                    width: appDelegate.width
+                    height: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
@@ -362,6 +283,66 @@ Rectangle {
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
+                }
+            }
+        }
+    }
+
+    BlurLayer {
+        id: blurLayer
+        anchors.fill: parent
+        source: appContainer
+        visible: false
+    }
+
+    Item {
+        id: spreadContainer
+        visible: false
+        onVisibleChanged: print("container visible changed", visible)
+
+        Repeater {
+            id: spreadRepeater
+            model: ApplicationManager
+
+            property int highlightedIndex: -1
+            property int closingIndex: -1
+
+            function indexOf(delegateItem) {
+                for (var i = 0; i < spreadRepeater.count; i++) {
+                    if (spreadRepeater.itemAt(i) === delegateItem) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            delegate: Item {
+                id: spreadDelegate
+                objectName: "spreadDelegate"
+                width: units.gu(20)
+                height: units.gu(20)
+
+                property real angle: 0
+                property real itemScale: 1
+                property int itemScaleOriginX: 0
+                property int itemScaleOriginY: 0
+
+                Behavior on x {
+                    id: closeBehavior
+                    enabled: spreadRepeater.closingIndex >= 0
+                    UbuntuNumberAnimation {
+                        onRunningChanged: if (!running) spreadRepeater.closingIndex = -1
+                    }
+                }
+
+                DesktopSpreadDelegate {
+                    id: clippedSpreadDelegate
+                    objectName: "clippedSpreadDelegate"
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    windowWidth: parent.width
+                    windowHeight: parent.height
+                    application: ApplicationManager.get(index)
 
                     transform: [
                         Scale {
@@ -371,9 +352,9 @@ Rectangle {
                             yScale: itemScale
                         },
                         Rotation {
-                            origin { x: 0; y: (decoratedWindow.height - (decoratedWindow.height * itemScale / 2)) }
+                            origin { x: 0; y: (clippedSpreadDelegate.height - (clippedSpreadDelegate.height * itemScale / 2)) }
                             axis { x: 0; y: 1; z: 0 }
-                            angle: appDelegate.angle
+                            angle: spreadDelegate.angle
                         }
                     ]
 
@@ -388,37 +369,69 @@ Rectangle {
                     }
                 }
 
-                Image {
-                    id: closeImage
-                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset + units.gu(2) }
-                    source: "graphics/window-close.svg"
-                    readonly property var mousePos: hoverMouseArea.mapToItem(appDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-                    visible: index == appRepeater.highlightedIndex
-                             && mousePos.y < (decoratedWindow.height / 3)
-                             && mousePos.y > -units.gu(4)
-                             && mousePos.x > -units.gu(4)
-                             && mousePos.x < (decoratedWindow.width * 2 / 3)
-                    height: units.gu(1.5)
-                    width: height
-                    sourceSize.width: width
-                    sourceSize.height: height
+                SpreadMaths {
+                    id: spreadMaths
+                    flickable: spreadFlickable
+                    itemIndex: index
+                    totalItems: Math.max(6, ApplicationManager.count)
+                    sceneHeight: root.height
+                    itemHeight: spreadDelegate.height
+                }
 
-                    MouseArea {
-                        id: closeMouseArea
-                        objectName: "closeMouseArea"
-                        anchors.fill: closeImage
-                        anchors.margins: -units.gu(2)
-                        onClicked: {
-                            appRepeater.closingIndex = index;
-                            ApplicationManager.stopApplication(model.appId)
+                states: [
+                    State {
+                        name: "altTab"; when: root.state == "altTab" && spreadContainer.visible
+                        PropertyChanges {
+                            target: spreadDelegate
+                            x: spreadMaths.animatedX
+                            y: spreadMaths.animatedY + (spreadDelegate.height - clippedSpreadDelegate.height) - units.gu(2)
+                            width: spreadMaths.spreadHeight
+                            height: spreadMaths.sceneHeight
+                            angle: spreadMaths.animatedAngle
+                            itemScale: spreadMaths.scale
+                            itemScaleOriginY: clippedSpreadDelegate.height / 2;
+                            z: index
+                            visible: spreadMaths.itemVisible
+                        }
+                        PropertyChanges {
+                            target: clippedSpreadDelegate
+                            highlightShown: index == spreadRepeater.highlightedIndex
+                            state: "transformed"
+                            width: spreadMaths.spreadHeight
+                            height: spreadMaths.spreadHeight
+                            shadowOpacity: spreadMaths.shadowOpacity
+                            anchors.topMargin: units.gu(2)
+                        }
+                        PropertyChanges {
+                            target: tileInfo
+                            visible: true
+                            opacity: spreadMaths.tileInfoOpacity
+                        }
+                        PropertyChanges {
+                            target: spreadSelectArea
+                            enabled: true
                         }
                     }
-                }
+                ]
+                transitions: [
+                    Transition {
+                        from: ""
+                        to: "altTab"
+                        PropertyAction { target: spreadDelegate; properties: "y,height,width,angle,z,itemScale,itemScaleOriginY,visible" }
+                        PropertyAction { target: clippedSpreadDelegate; properties: "anchors.topMargin" }
+                        PropertyAnimation {
+                            target: spreadDelegate; properties: "x"
+                            from: root.width
+                            duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
+                            easing: UbuntuAnimation.StandardEasing
+                        }
+                    }
+                ]
 
                 MouseArea {
                     id: tileInfo
                     objectName: "tileInfo"
-                    anchors { left: parent.left; top: decoratedWindow.bottom; topMargin: units.gu(5) }
+                    anchors { left: parent.left; top: clippedSpreadDelegate.bottom; topMargin: units.gu(5) }
                     width: units.gu(30)
                     height: titleInfoColumn.height
                     visible: false
@@ -426,7 +439,7 @@ Rectangle {
 
                     onContainsMouseChanged: {
                         if (containsMouse) {
-                            appRepeater.highlightedIndex = index
+                            spreadRepeater.highlightedIndex = index
                         }
                     }
 
@@ -456,9 +469,37 @@ Rectangle {
                         }
                     }
                 }
+
+                Image {
+                    id: closeImage
+                    anchors { left: parent.left; top: parent.top; leftMargin: -height / 2; topMargin: -height / 2 + spreadMaths.closeIconOffset + units.gu(2) }
+                    source: "graphics/window-close.svg"
+                    readonly property var mousePos: hoverMouseArea.mapToItem(spreadDelegate, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+                    visible: index == spreadRepeater.highlightedIndex
+                             && mousePos.y < (clippedSpreadDelegate.height / 3)
+                             && mousePos.y > -units.gu(4)
+                             && mousePos.x > -units.gu(4)
+                             && mousePos.x < (clippedSpreadDelegate.width * 2 / 3)
+                    height: units.gu(1.5)
+                    width: height
+                    sourceSize.width: width
+                    sourceSize.height: height
+
+                    MouseArea {
+                        id: closeMouseArea
+                        objectName: "closeMouseArea"
+                        anchors.fill: closeImage
+                        anchors.margins: -units.gu(2)
+                        onClicked: {
+                            spreadRepeater.closingIndex = index;
+                            ApplicationManager.stopApplication(model.appId)
+                        }
+                    }
+                }
             }
         }
     }
+
 
     MouseArea {
         id: hoverMouseArea
@@ -474,13 +515,13 @@ Rectangle {
             mouse.accepted = false
 
             // Find the hovered item and mark it active
-            var mapped = mapToItem(appContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
-            var itemUnder = appContainer.childAt(mapped.x, mapped.y)
+            var mapped = mapToItem(spreadContainer, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
+            var itemUnder = spreadContainer.childAt(mapped.x, mapped.y)
             if (itemUnder) {
                 mapped = mapToItem(itemUnder, hoverMouseArea.mouseX, hoverMouseArea.mouseY)
                 var delegateChild = itemUnder.childAt(mapped.x, mapped.y)
-                if (delegateChild.objectName === "decoratedWindow" || delegateChild.objectName === "tileInfo") {
-                    appRepeater.highlightedIndex = appRepeater.indexOf(itemUnder)
+                if (delegateChild && (delegateChild.objectName === "clippedSpreadDelegate" || delegateChild.objectName === "tileInfo")) {
+                    spreadRepeater.highlightedIndex = spreadRepeater.indexOf(itemUnder)
                 }
             }
 
@@ -534,7 +575,7 @@ Rectangle {
             left: parent.left
             top: parent.top
             right: parent.right
-            topMargin: units.gu(3.5) // TODO: should be root.panelHeight
+            topMargin: units.gu(3.5)
         }
         height: root.height * 0.25
         visible: false
@@ -557,15 +598,12 @@ Rectangle {
                         }
                         height: parent.height * 0.75
 
-                        // FIXME: This is temporary until we can have multiple Items per surface
                         ShaderEffect {
                             anchors.fill: parent
 
                             property var source: ShaderEffectSource {
                                 id: shaderEffectSource
-                                live: false
                                 sourceItem: appContainer
-                                Connections { target: root; onUpdateWorkspaces: shaderEffectSource.scheduleUpdate() }
                             }
 
                             fragmentShader: "
@@ -617,7 +655,7 @@ Rectangle {
     Label {
         id: currentSelectedLabel
         anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
-        text: appRepeater.highlightedIndex >= 0 ? ApplicationManager.get(appRepeater.highlightedIndex).name : ""
+        text: spreadRepeater.highlightedIndex >= 0 ? ApplicationManager.get(spreadRepeater.highlightedIndex).name : ""
         visible: false
         fontSize: "large"
     }
@@ -625,40 +663,39 @@ Rectangle {
     states: [
         State {
             name: "altTab"; when: root.altTabPressed
+            PropertyChanges { target: blurLayer; saturation: 0.8; blurRadius: 60; visible: true }
             PropertyChanges { target: workspaceSelector; visible: true }
+            PropertyChanges { target: spreadContainer; visible: true }
             PropertyChanges { target: spreadFlickable; enabled: spreadFlickable.contentWidth > spreadFlickable.minContentWidth }
             PropertyChanges { target: currentSelectedLabel; visible: true }
             PropertyChanges { target: spreadBackground; visible: true }
             PropertyChanges { target: hoverMouseArea; enabled: true }
         }
     ]
-    signal updateWorkspaces();
-    property bool workspacesUpdated: false
     transitions: [
         Transition {
             from: "*"
             to: "altTab"
             SequentialAnimation {
                 PropertyAction { target: hoverMouseArea; property: "progressiveScrollingEnabled"; value: false }
-                PropertyAction { target: appRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
+                PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
                 PauseAnimation { duration: 50 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
-                ScriptAction { script: root.updateWorkspaces() }
-                // FIXME: Updating of shaderEffectSource take a bit of time. This is temporary until we can paint multiple items per surface
-                PauseAnimation { duration: 10 }
-                PropertyAction { target: root; property: "workspacesUpdated"; value: true }
-                PropertyAction { target: spreadFlickable; property: "visible" }
-                PropertyAction { targets: [currentSelectedLabel,spreadBackground]; property: "visible" }
-                PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
+                PropertyAction { target: spreadContainer; property: "visible" }
+                ParallelAnimation {
+                    UbuntuNumberAnimation { target: blurLayer; properties: "saturation,blurRadius" }
+                    PropertyAction { target: spreadFlickable; property: "visible" }
+                    PropertyAction { targets: [currentSelectedLabel,spreadBackground]; property: "visible" }
+                    PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
+                }
             }
         },
         Transition {
             from: "*"
             to: "*"
             PropertyAnimation { property: "opacity" }
-            PropertyAction { target: root; property: "workspacesUpdated"; value: false }
             ScriptAction { script: { appContainer.focusSelected() } }
-            PropertyAction { target: appRepeater; property: "highlightedIndex"; value: -1 }
+            PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: -1 }
         }
 
     ]

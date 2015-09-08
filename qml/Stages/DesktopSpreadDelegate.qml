@@ -20,20 +20,41 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
 
-FocusScope {
+Item {
     id: root
 
     property alias window: applicationWindow
     property alias application: applicationWindow.application
-    property alias active: decoration.active
 
-    property bool decorationShown: true
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    signal close();
-    signal maximize();
-    signal minimize();
+    property int windowWidth: width
+    property int windowHeight: height
+
+    state: "normal"
+    states: [
+        State {
+            name: "normal"
+            PropertyChanges {
+                target: root
+                width: windowWidth
+                height: windowHeight
+            }
+        },
+        State {
+            name: "transformed"
+            PropertyChanges {
+                target: applicationWindow
+                itemScale: Math.max(root.width / root.windowWidth, root.height / root.windowHeight)
+                interactive: false
+            }
+            PropertyChanges {
+                target: clipper
+                clip: true
+            }
+        }
+    ]
 
     BorderImage {
         anchors {
@@ -59,27 +80,29 @@ FocusScope {
         visible: root.highlightShown
     }
 
-    WindowDecoration {
-        id: decoration
-        objectName: application ? "appWindowDecoration_" + application.appId : "appWindowDecoration_null"
-        anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: units.gu(3)
-        title: model.name
-        onClose: root.close();
-        onMaximize: root.maximize();
-        onMinimize: root.minimize();
-        visible: decorationShown
-    }
+    Item {
+        id: clipper
+        anchors.fill: parent
 
-    ApplicationWindow {
-        id: applicationWindow
-        objectName: application ? "appWindow_" + application.appId : "appWindow_null"
-        anchors.top: parent.top
-        anchors.topMargin: decoration.height
-        anchors.left: parent.left
-        width: root.width
-        height: root.height - decoration.height
-        interactive: true
-        focus: true
+        ApplicationWindow {
+            id: applicationWindow
+            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+            anchors.top: parent.top
+            anchors.topMargin: 0
+            anchors.left: parent.left
+            width: root.windowWidth
+            height: root.windowHeight
+            interactive: false
+            focus: true
+
+            property real itemScale: 1
+            transform: [
+                Scale {
+                    origin.x: 0; origin.y: 0
+                    xScale: applicationWindow.itemScale
+                    yScale: applicationWindow.itemScale
+                }
+            ]
+        }
     }
 }
