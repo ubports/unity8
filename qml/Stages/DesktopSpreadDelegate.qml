@@ -29,8 +29,8 @@ Item {
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    property int windowWidth: width
-    property int windowHeight: height
+    property int windowWidth: application.session.surface.size.width
+    property int windowHeight: application.session.surface.size.height
 
     state: "normal"
     states: [
@@ -93,7 +93,8 @@ Item {
             width: root.windowWidth
             height: root.windowHeight
             interactive: false
-            focus: true
+            resizeSurface: false
+            focus: false
 
             property real itemScale: 1
             transform: [

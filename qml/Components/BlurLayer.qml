@@ -38,7 +38,7 @@ Item {
             {
                 highp vec4 sourceColor = texture2D(source, qt_TexCoord0);
                 highp vec4 scaledColor = sourceColor * vec4(0.3, 0.59, 0.11, 1.0);
-                float luminance = scaledColor.r + scaledColor.g + scaledColor.b ;
+                lowp float luminance = scaledColor.r + scaledColor.g + scaledColor.b ;
                 gl_FragColor = mix(vec4(luminance, luminance, luminance, sourceColor.a), sourceColor, saturationValue);
             }"
     }

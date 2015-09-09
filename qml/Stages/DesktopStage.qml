@@ -109,13 +109,6 @@ Rectangle {
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
 
-    Rectangle {
-        id: spreadBackground
-        anchors.fill: parent
-        color: "#55000000"
-        visible: false
-    }
-
     FocusScope {
         id: appContainer
         objectName: "appContainer"
@@ -295,6 +288,13 @@ Rectangle {
         visible: false
     }
 
+    Rectangle {
+        id: spreadBackground
+        anchors.fill: parent
+        color: "#55000000"
+        visible: false
+    }
+
     Item {
         id: spreadContainer
         visible: false
@@ -340,9 +340,9 @@ Rectangle {
                     objectName: "clippedSpreadDelegate"
                     anchors.left: parent.left
                     anchors.top: parent.top
-                    windowWidth: parent.width
-                    windowHeight: parent.height
                     application: ApplicationManager.get(index)
+                    width: spreadMaths.spreadHeight
+                    height: spreadMaths.spreadHeight
 
                     transform: [
                         Scale {
@@ -397,8 +397,6 @@ Rectangle {
                             target: clippedSpreadDelegate
                             highlightShown: index == spreadRepeater.highlightedIndex
                             state: "transformed"
-                            width: spreadMaths.spreadHeight
-                            height: spreadMaths.spreadHeight
                             shadowOpacity: spreadMaths.shadowOpacity
                             anchors.topMargin: units.gu(2)
                         }
