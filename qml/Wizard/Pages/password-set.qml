@@ -136,7 +136,14 @@ LocalComponents.Page {
             }
             text: i18n.tr("Cancel")
             onClicked: {
-                pageStack.prev();
+                if (confirmPhase) {
+                    confirmPhase = false;
+                    password = "";
+                    setInfo();
+                    passwordField.forceActiveFocus();
+                } else {
+                    pageStack.prev();
+                }
             }
         }
 
