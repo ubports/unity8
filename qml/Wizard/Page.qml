@@ -138,7 +138,8 @@ Item {
             wrapMode: Text.Wrap
             text: title
             color: customTitle ? textColor : backgroundColor
-            fontSize: "x-large"
+            fontSize: customTitle ? "large" : "x-large"
+            font.weight: customTitle ? Font.Light : Font.Normal
         }
 
         // indicators
