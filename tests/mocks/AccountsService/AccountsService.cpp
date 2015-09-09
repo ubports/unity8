@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "AccountsService.h"
@@ -151,4 +149,26 @@ void AccountsService::setHereLicensePath(const QString &path)
 bool AccountsService::hereLicensePathValid() const
 {
     return !m_hereLicensePath.isNull();
+}
+
+QString AccountsService::realName() const
+{
+    return m_realName;
+}
+
+void AccountsService::setRealName(const QString &realName)
+{
+    m_realName = realName;
+    Q_EMIT realNameChanged();
+}
+
+QString AccountsService::email() const
+{
+    return m_email;
+}
+
+void AccountsService::setEmail(const QString &email)
+{
+    m_email = email;
+    Q_EMIT emailChanged();
 }

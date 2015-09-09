@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "AccountsService.h"
@@ -128,6 +126,34 @@ QString AccountsService::hereLicensePath() const
 bool AccountsService::hereLicensePathValid() const
 {
     return !m_hereLicensePath.isNull();
+}
+
+QString AccountsService::realName() const
+{
+    return m_realName;
+}
+
+void AccountsService::setRealName(const QString &realName)
+{
+    if (realName != m_realName) {
+        m_realName = realName;
+        m_service->setUserProperty(m_user, "org.freedesktop.Accounts.User", "RealName", m_realName);
+        Q_EMIT realNameChanged();
+    }
+}
+
+QString AccountsService::email() const
+{
+    return m_email;
+}
+
+void AccountsService::setEmail(const QString &email)
+{
+    if (email != m_email) {
+        m_email = email;
+        m_service->setUserProperty(m_user, "org.freedesktop.Accounts.User", "Email", m_email);
+        Q_EMIT emailChanged();
+    }
 }
 
 void AccountsService::updateDemoEdges(bool async)
@@ -394,6 +420,58 @@ void AccountsService::updateHereLicensePath(bool async)
     }
 }
 
+void AccountsService::updateRealName(bool async)
+{
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "org.freedesktop.Accounts.User", "RealName");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'RealName' property - " << reply.error().message();
+            return;
+        }
+
+        const QString realName = reply.value().toString();
+        if (m_realName != realName) {
+            m_realName = realName;
+            Q_EMIT realNameChanged();
+        }
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
+}
+
+void AccountsService::updateEmail(bool async)
+{
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user, "org.freedesktop.Accounts.User", "Email");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'Email' property - " << reply.error().message();
+            return;
+        }
+
+        const QString email = reply.value().toString();
+        if (m_email != email) {
+            m_email = email;
+            Q_EMIT emailChanged();
+        }
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
+}
+
 uint AccountsService::failedLogins() const
 {
     return m_failedLogins;
@@ -455,4 +533,6 @@ void AccountsService::onMaybeChanged(const QString &user)
 
     // Standard properties might have changed
     updateBackgroundFile();
+    updateRealName();
+    updateEmail();
 }
