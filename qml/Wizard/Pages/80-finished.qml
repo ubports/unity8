@@ -65,8 +65,7 @@ LocalComponents.Page {
             text: i18n.tr("Get Started")
             color: "transparent"
             strokeColor: "white"
-            font.weight: Font.DemiBold
-            width: Math.max(implicitWidth, parent.width/2) // make the button slightly wider than usual
+            font.pixelSize: FontUtils.sizeToPixels("large")
             onClicked: {
                 root.quitWizard();
             }
