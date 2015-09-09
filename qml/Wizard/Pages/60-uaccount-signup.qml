@@ -17,6 +17,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.2
 import Ubuntu.Web 0.2
+import AccountsService 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -153,38 +154,36 @@ LocalComponents.Page {
             anchors.top: pass2Input.bottom
             anchors.topMargin: units.gu(2)
             text: i18n.tr("Encrypt my content")
-            KeyNavigation.tab: termsCheck
-        }
-
-        LocalComponents.CheckableSetting {
-            id: optoutCheck
-            objectName: "optoutCheck"
-            showDivider: false
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: encryptCheck.bottom
-            anchors.topMargin: units.gu(2)
-            text: i18n.tr("Opt out of cloud account (not recommended)")
-            KeyNavigation.tab: termsCheck
-            visible: false // TODO re-enable in Phase 2
-        }
-
-        LocalComponents.CheckableSetting {
-            id: termsCheck
-            objectName: "termsCheck"
-            showDivider: false
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: encryptCheck.bottom
-            anchors.topMargin: units.gu(1)
-            text: i18n.tr("I have read and accept the Ubuntu account <a href='#'>terms of service</a>")
-            onLinkActivated: {
-                webview.visible = true;
-                webview.url = "https://login.ubuntu.com/terms/";
-            }
             KeyNavigation.tab: emailInput
-            visible: true
         }
+
+//        LocalComponents.CheckableSetting {
+//            id: optoutCheck
+//            objectName: "optoutCheck"
+//            showDivider: false
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: encryptCheck.bottom
+//            anchors.topMargin: units.gu(2)
+//            text: i18n.tr("Opt out of cloud account (not recommended)")
+//            KeyNavigation.tab: termsCheck
+//        }
+
+//        LocalComponents.CheckableSetting {
+//            id: termsCheck
+//            objectName: "termsCheck"
+//            showDivider: false
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: encryptCheck.bottom
+//            anchors.topMargin: units.gu(1)
+//            text: i18n.tr("I have read and accept the Ubuntu account <a href='#'>terms of service</a>")
+//            onLinkActivated: {
+//                webview.visible = true;
+//                webview.url = "https://login.ubuntu.com/terms/";
+//            }
+//            KeyNavigation.tab: emailInput
+//        }
     }
 
     WebView {
@@ -198,10 +197,14 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             enabled: emailInput.acceptableInput && nameInput.text !== "" &&
-                     pass2Input.text.length > 7 && passInput.text === pass2Input.text &&
-                     termsCheck.checked
+                     pass2Input.text.length > 7 && passInput.text === pass2Input.text
             text: i18n.tr("Sign Up")
-            onClicked: pageStack.next() // TODO sign up against U1
+            onClicked: {
+                root.password = passInput.text;
+                AccountsService.realName = nameInput.text;
+                AccountsService.email = emailInput.text;
+                pageStack.next() // TODO sign up against U1 in Phase 2
+            }
         }
     }
 }

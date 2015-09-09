@@ -65,7 +65,8 @@ LocalComponents.Page {
             text: i18n.tr("Get Started")
             color: "transparent"
             strokeColor: "white"
-            font.pixelSize: FontUtils.sizeToPixels("large")
+            font.weight: Font.Normal
+            font.pixelSize: FontUtils.sizeToPixels("medium")
             onClicked: {
                 root.quitWizard();
             }

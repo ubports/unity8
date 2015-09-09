@@ -39,25 +39,19 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     function indexToMethod(index) {
-        if (index === 1)
-            return UbuntuSecurityPrivacyPanel.Passcode;
-        else if (index === 0)
+        if (index === 0 || index === 1)
             return UbuntuSecurityPrivacyPanel.Passphrase;
+        else if (index === 2)
+            return UbuntuSecurityPrivacyPanel.Passcode;
         else
             return UbuntuSecurityPrivacyPanel.Swipe;
     }
 
-    function methodToIndex(method) {
-        if (method === UbuntuSecurityPrivacyPanel.Passcode)
-            return 1;
-        else if (method === UbuntuSecurityPrivacyPanel.Passphrase)
-            return 0;
-        else
-            return 2;
-    }
-
     Component.onCompleted: {
-        selector.currentIndex = methodToIndex(root.passwordMethod);
+        if (root.password !== "") // the user has set a password as part of the previous page
+            selector.currentIndex = 0;
+        else
+            selector.currentIndex = 1;
     }
 
     Item {
@@ -97,7 +91,8 @@ LocalComponents.Page {
             height: childrenRect.height
 
             // this is the order we want to display it; cf indexToMethod()
-            model: [UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Swipe]
+            model: [UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Passphrase,
+                UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Swipe]
 
             delegate: ListItem {
                 id: itemDelegate
@@ -115,19 +110,16 @@ LocalComponents.Page {
                     color: textColor
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
                     text: {
-                        var method = modelData
-                        var name = ""
-                        var desc = ""
-                        if (method === UbuntuSecurityPrivacyPanel.Swipe) {
-                            return i18n.ctr("Label: Type of security method", "None");
-                        } else if (method === UbuntuSecurityPrivacyPanel.Passcode) {
-                            name = i18n.ctr("Label: Type of security method", "Passcode");
-                            desc = i18n.ctr("Label: Description of security method", "4 digits only");
-                        } else {
-                            name = i18n.ctr("Label: Type of security method", "Password");
-                            desc = i18n.ctr("Label: Description of security method", "numbers and letters");
+                        switch (index) {
+                        case 0:
+                            return i18n.ctr("Label: Type of security method", "Device account password");
+                        case 1:
+                            return i18n.ctr("Label: Type of security method", "New password");
+                        case 2:
+                            return i18n.ctr("Label: Type of security method", "Passcode");
+                        case 3:
+                            return i18n.ctr("Label: Type of security method", "Swipe");
                         }
-                        return "%1 (%2)".arg(name).arg(desc);
                     }
                 }
 
@@ -170,11 +162,14 @@ LocalComponents.Page {
                 root.passwordMethod = method;
                 print("Current method: " + root.passwordMethod);
 
-                if (method === UbuntuSecurityPrivacyPanel.Passphrase) {
-                    pageStack.load(Qt.resolvedUrl("password-set.qml"));
-                } else if (method === UbuntuSecurityPrivacyPanel.Passcode) {
+                if (method === UbuntuSecurityPrivacyPanel.Passphrase) { // any password
+                    if (selector.currentIndex == 1)
+                        pageStack.load(Qt.resolvedUrl("password-set.qml")); // let the user choose a new password
+                    else
+                        pageStack.next(); // got the password already, go next page
+                } else if (method === UbuntuSecurityPrivacyPanel.Passcode) { // passcode
                     pageStack.load(Qt.resolvedUrl("passcode-set.qml"));
-                } else {
+                } else { //swipe
                     pageStack.next();
                 }
             }
