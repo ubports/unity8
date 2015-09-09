@@ -60,13 +60,13 @@ Item {
         height: units.gu(1)
         color: {
             if (passwordScore > 80)
-                return "green";
+                return okColor;
             else if (passwordScore > 60)
-                return "orange";
+                return "#f9c00f";
             else if (passwordScore >= 30)
-                return "red";
+                return "#ed3146";
 
-            return "red";
+            return "#ed3146";
         }
         visible: password.length > 0
     }

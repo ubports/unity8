@@ -72,7 +72,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: emailInput.bottom
-            anchors.topMargin: units.gu(3)
+            anchors.topMargin: units.gu(2)
             wrapMode: Text.Wrap
             text: i18n.tr("Your name:")
             color: textColor
@@ -94,7 +94,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: nameInput.bottom
-            anchors.topMargin: units.gu(3)
+            anchors.topMargin: units.gu(2)
             wrapMode: Text.Wrap
             text: i18n.tr("Password:")
             color: textColor
@@ -127,7 +127,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: passMeter.bottom
-            anchors.topMargin: passInput.text !== "" ? units.gu(6) : units.gu(3)
+            anchors.topMargin: passInput.text !== "" ? units.gu(4) : units.gu(2)
             wrapMode: Text.Wrap
             text: i18n.tr("Repeat password:")
             color: textColor
@@ -151,7 +151,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: pass2Input.bottom
-            anchors.topMargin: units.gu(3)
+            anchors.topMargin: units.gu(2)
             text: i18n.tr("Encrypt my content")
             KeyNavigation.tab: termsCheck
         }
@@ -163,7 +163,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: encryptCheck.bottom
-            anchors.topMargin: units.gu(3)
+            anchors.topMargin: units.gu(2)
             text: i18n.tr("Opt out of cloud account (not recommended)")
             KeyNavigation.tab: termsCheck
             visible: false // TODO re-enable in Phase 2
