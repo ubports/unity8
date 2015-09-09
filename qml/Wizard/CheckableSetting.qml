@@ -31,6 +31,7 @@ ListItem.Empty {
     signal linkActivated(string link)
 
     implicitHeight: Math.max(label.height, checkBox.height)
+    highlightWhenPressed: false
 
     FocusScope {
         anchors.fill: parent
@@ -79,7 +80,7 @@ ListItem.Empty {
             }
             wrapMode: Text.Wrap
             linkColor: UbuntuColors.orange
-            color: "#525252"
+            color: textColor
             font.weight: Font.Light
             fontSize: "small"
             onLinkActivated: listItem.linkActivated(link)
