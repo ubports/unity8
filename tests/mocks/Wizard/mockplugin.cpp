@@ -23,26 +23,12 @@
 
 #include <QtQml/qqml.h>
 
-static QObject *system_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new MockSystem();
-}
-
-static QObject *status_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new Status();
-}
-
 void MockWizardPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Wizard"));
     qmlRegisterType<PageList>(uri, 0, 1, "PageList");
-    qmlRegisterSingletonType<MockSystem>(uri, 0, 1, "System", system_provider);
-    qmlRegisterSingletonType<Status>(uri, 0, 1, "Status", status_provider);
+    qmlRegisterSingletonType<MockSystem>(uri, 0, 1, "System", [](QQmlEngine*, QJSEngine*) -> QObject* { return new MockSystem; });
+    qmlRegisterSingletonType<Status>(uri, 0, 1, "Status", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Status; });
     qmlRegisterType<TimeZoneModel>(uri, 0, 1, "TimeZoneModel");
     qmlRegisterType<TimeZoneFilterModel>(uri, 0, 1, "TimeZoneFilterModel");
     qmlRegisterType<LocalePlugin>(uri, 0, 1, "LocalePlugin");
