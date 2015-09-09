@@ -80,7 +80,7 @@ Item {
         }
         wrapMode: Text.Wrap
         text: {
-            if (password.length < 6)
+            if (password.length < 8)
                 return i18n.tr("Password too short")
             else if (passwordScore > 80)
                 return i18n.tr("Strong password");
