@@ -198,7 +198,6 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             enabled: emailInput.acceptableInput && nameInput.text !== "" &&
-                     //termsCheck.checked && // TODO re-enable in Phase 2
                      pass2Input.text.length > 7 && passInput.text === pass2Input.text &&
                      termsCheck.checked
             text: i18n.tr("Sign Up")

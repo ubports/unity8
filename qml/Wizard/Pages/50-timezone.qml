@@ -107,7 +107,7 @@ LocalComponents.Page {
         id: column
         anchors {
             fill: content
-            topMargin: units.gu(4)
+            topMargin: customMargin
         }
         spacing: units.gu(2)
 

@@ -146,7 +146,7 @@ LocalComponents.Page {
             fill: content
             leftMargin: leftMargin
             rightMargin: rightMargin
-            topMargin: units.gu(4)
+            topMargin: customMargin
         }
 
         Label {

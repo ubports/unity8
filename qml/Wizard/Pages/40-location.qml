@@ -53,7 +53,7 @@ LocalComponents.Page {
     Item {
         id: column
         anchors.fill: content
-        anchors.topMargin: units.gu(4)
+        anchors.topMargin: customMargin
 
         Label {
             id: hereCheckLabel
