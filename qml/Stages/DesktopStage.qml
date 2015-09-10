@@ -112,7 +112,7 @@ Rectangle {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
-        focus: true
+        focus: !root.altTabPressed
 
         CrossFadeImage {
             id: wallpaper
