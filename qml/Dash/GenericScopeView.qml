@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.1
+import "../Components/SearchHistoryModel"
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
@@ -25,7 +26,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationDisableParentInteractive: categoryView.pageHeader.bottomItem[0].disableParentInteractive
+    readonly property bool navigationDisableParentInteractive: peExtraPanel.visible /*TODO bring back the dash navigation */
     property bool forceNonInteractive: false
     property var scope: null
     property UnitySortFilterProxyModel categories: categoryFilter
@@ -617,6 +618,8 @@ FocusScope {
             objectName: "scopePageHeader"
             width: parent.width
             title: scopeView.scope ? scopeView.scope.name : ""
+            extraPanel: peExtraPanel
+            searchHistory: SearchHistoryModel
             searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
@@ -627,18 +630,26 @@ FocusScope {
             paginationCount: scopeView.paginationCount
             paginationIndex: scopeView.paginationIndex
 
-            bottomItem: DashNavigation {
-                scope: scopeView.scope
-                anchors { left: parent.left; right: parent.right }
-                windowHeight: scopeView.height
-                windowWidth: scopeView.width
-                scopeStyle: scopeView.scopeStyle
-            }
-
             onBackClicked: scopeView.backClicked()
             onSettingsClicked: subPageLoader.openSubPage("settings")
             onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
             onSearchTextFieldFocused: scopeView.showHeader()
+        }
+
+        PageHeaderExtraPanel {
+            id: peExtraPanel
+            width: parent.width
+            anchors {
+                top: categoryView.pageHeader.bottom
+                topMargin: -categoryView.pageHeader.signatureLineHeight
+            }
+            z: 1
+            visible: false
+            searchHistory: SearchHistoryModel
+            onHistoryItemClicked: {
+                SearchHistoryModel.addQuery(text);
+                categoryView.pageHeader.searchQuery = text;
+            }
         }
     }
 
@@ -647,7 +658,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: parent.height - pullToRefresh.contentY + (categoryView.pageHeader.bottomItem[0].height - categoryView.pageHeader.height)
+        height: parent.height - pullToRefresh.contentY - categoryView.pageHeader.height
         clip: true
 
         PullToRefresh {

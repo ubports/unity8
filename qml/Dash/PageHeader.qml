@@ -20,23 +20,24 @@ import Ubuntu.Components.Themes.Ambiance 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import "../Components"
-import "../Components/SearchHistoryModel"
 
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
+    implicitHeight: headerContainer.height + bottomContainer.height + signatureLineHeight
+    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
 
     property bool showBackButton: false
     property bool backIsClose: false
     property string title
+    property var extraPanel
 
     property bool storeEntryEnabled: false
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
     property bool favoriteEnabled: false
     property bool favorite: false
-    property ListModel searchHistory: SearchHistoryModel
+    property ListModel searchHistory
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
     property bool showSignatureLine: true
@@ -69,9 +70,8 @@ Item {
     }
 
     function closePopup(keepFocus) {
-        if (headerContainer.popover != null) {
-            headerContainer.popover.unfocusOnDestruction = !keepFocus;
-            PopupUtils.close(headerContainer.popover);
+        if (extraPanel.visible) {
+            extraPanel.visible = false;
         } else if (!keepFocus) {
             unfocus();
         }
@@ -95,13 +95,9 @@ Item {
     function openSearchHistory() {
         if (openSearchAnimation.running) {
             openSearchAnimation.openSearchHistory = true;
-        } else if (root.searchHistory.count > 0 && headerContainer.popover == null) {
-            headerContainer.popover = PopupUtils.open(popoverComponent, searchTextField,
-                                                      {
-                                                          "contentWidth": searchTextField.width,
-                                                          "edgeMargins": units.gu(1)
-                                                      }
-                                                     );
+        } else if (root.searchHistory.count > 0) {
+            // Show extraPanel
+            extraPanel.visible = true;
         }
     }
 
@@ -142,7 +138,6 @@ Item {
         contentY: showSearch ? 0 : height
 
         property bool showSearch: false
-        property var popover: null
 
         Background {
             id: background
@@ -314,47 +309,6 @@ Item {
                             fillMode: Image.PreserveAspectFit
                             horizontalAlignment: Image.AlignLeft
                             sourceSize.height: height
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: popoverComponent
-        Popover {
-            id: popover
-            autoClose: false
-
-            property bool unfocusOnDestruction: false
-
-            Component.onDestruction: {
-                headerContainer.popover = null;
-                if (unfocusOnDestruction) {
-                    root.unfocus();
-                }
-            }
-
-            Column {
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-
-                Repeater {
-                    id: recentSearches
-                    objectName: "recentSearches"
-                    model: searchHistory
-
-                    delegate: Standard {
-                        showDivider: index < recentSearches.count - 1
-                        text: query
-                        onClicked: {
-                            searchHistory.addQuery(text);
-                            searchTextField.text = text;
-                            closePopup(/* keepFocus */false);
                         }
                     }
                 }
