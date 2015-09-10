@@ -1,3 +1,0 @@
-module LightDM.@PLUGIN_CLASSNAME@
-plugin @PLUGIN_CLASSNAME@-qml
-typeinfo @PLUGIN_CLASSNAME@.qmltypes
