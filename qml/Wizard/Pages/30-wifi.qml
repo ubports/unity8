@@ -116,6 +116,8 @@ LocalComponents.Page {
                     imageName = "nm-signal-50";
                 } else if (signalStrength <= 75) {
                     imageName = "nm-signal-75";
+                } else if (signalStrength <= 100) {
+                    imageName = "nm-signal-100";
                 }
 
                 if (secure) {

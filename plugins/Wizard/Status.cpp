@@ -110,6 +110,8 @@ QString Status::networkIcon()
                 iconName = "nm-signal-50";
             } else if (strength <= 75) {
                 iconName = "nm-signal-75";
+            } else if (strength <= 100) {
+                iconName = "nm-signal-100";
             }
 
             if (flags >= 1) {
