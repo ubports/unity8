@@ -54,7 +54,7 @@ LocalComponents.Page {
             font.weight: Font.Light
         }
 
-        TextField {
+        LocalComponents.WizardTextField {
             id: emailInput
             anchors.left: parent.left
             anchors.right: parent.right
@@ -80,7 +80,7 @@ LocalComponents.Page {
             font.weight: Font.Light
         }
 
-        TextField {
+        LocalComponents.WizardTextField {
             id: nameInput
             anchors.left: parent.left
             anchors.right: parent.right
@@ -102,7 +102,7 @@ LocalComponents.Page {
             font.weight: Font.Light
         }
 
-        TextField {
+        LocalComponents.WizardTextField {
             id: passInput
             anchors.left: parent.left
             anchors.right: parent.right
@@ -135,7 +135,7 @@ LocalComponents.Page {
             font.weight: Font.Light
         }
 
-        TextField {
+        LocalComponents.WizardTextField {
             id: pass2Input
             anchors.left: parent.left
             anchors.right: parent.right

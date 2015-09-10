@@ -52,7 +52,7 @@ LocalComponents.Page {
             }
         }
 
-        theme.palette.normal.backgroundText = textColor // "fix" the placeholder text in the search field
+        theme.palette.normal.backgroundText = textColor
     }
 
     Component {
@@ -111,14 +111,13 @@ LocalComponents.Page {
         }
         spacing: units.gu(2)
 
-        TextField {
+        LocalComponents.WizardTextField {
             id: searchField
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: leftMargin
             anchors.rightMargin: rightMargin
             placeholderText: i18n.tr("Enter your city or country")
-            color: UbuntuColors.lightGrey
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: {
                 if (text == "") { // reset when switching between filter modes (text/country)

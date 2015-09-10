@@ -91,7 +91,7 @@ LocalComponents.Page {
             color: hasError ? errorColor : textColor
         }
 
-        TextField {
+        LocalComponents.WizardTextField {
             id: passwordField
             anchors {
                 left: parent.left
