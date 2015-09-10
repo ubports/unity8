@@ -97,14 +97,12 @@ LocalComponents.Page {
                                                           'x-canonical-wifi-ap-strength-action': 'string'});
             }
 
-            signal activate()
-
             text: menuData && menuData.label || ""
             enabled: menuData && menuData.sensitive && !enterprise || false
             __foregroundColor: textColor
             showDivider: true
             iconName: {
-                var imageName = "nm-signal-100";
+                var imageName = "nm-no-connection";
 
                 if (adHoc) {
                     imageName = "nm-adhoc";
@@ -126,7 +124,7 @@ LocalComponents.Page {
                 return imageName;
             }
             iconFrame: false
-            onClicked: accessPoint.activate();
+            onClicked: unityMenuModel.activate(menuIndex);
 
             Component.onCompleted: {
                 loadAttributes();
@@ -137,7 +135,6 @@ LocalComponents.Page {
             onMenuIndexChanged: {
                 loadAttributes();
             }
-            onActivate: unityMenuModel.activate(menuIndex);
         }
     }
 
