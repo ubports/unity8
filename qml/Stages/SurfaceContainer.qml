@@ -18,34 +18,26 @@ import QtQuick 2.0
 import Ubuntu.Components 1.1
 import Ubuntu.Gestures 0.1 // For TouchGate
 import Utils 0.1 // for InputWatcher
+import Unity.Application 0.1 // for MirSurfaceItem
 
 FocusScope {
     id: root
     objectName: "surfaceContainer"
-    property Item surface: null
+
+    property var surface: null
     property bool hadSurface: false
     property bool interactive
     property int surfaceOrientationAngle: 0
 
     onSurfaceChanged: {
         if (surface) {
-            // Set the surface focus *after* it is added to the scene to
-            // ensure an update to the scene's active focus.
-            surface.focus = false;
-            surface.parent = root;
-            surface.focus = true;
-        } else {
-            hadSurface = true;
+            surfaceItem.surface = surface;
+            root.hadSurface = false;
         }
     }
-    Binding { target: surface; property: "anchors.fill"; value: root }
-    Binding { target: surface; property: "z"; value: 1 }
-    Binding { target: surface; property: "enabled"; value: root.interactive; when: surface }
-    Binding { target: surface; property: "antialiasing"; value: !root.interactive; when: surface }
-    Binding { target: surface; property: "orientationAngle"; value: root.surfaceOrientationAngle; when: surface }
 
     InputWatcher {
-        target: root.surface
+        target: surfaceItem
         onTargetPressedChanged: {
             if (targetPressed && root.interactive) {
                 root.focus = true;
@@ -54,28 +46,53 @@ FocusScope {
         }
     }
 
-    TouchGate {
-        targetItem: surface
+    MirSurfaceItem {
+        id: surfaceItem
+        objectName: "surfaceItem"
+
+        consumesInput: true
+
+        surfaceWidth: width
+        surfaceHeight: height
+
         anchors.fill: root
-        enabled: root.surface ? root.surface.enabled : false
-        z: 2
+        enabled: root.interactive
+        focus: true
+        antialiasing: !root.interactive
+        orientationAngle: root.surfaceOrientationAngle
+    }
+
+    TouchGate {
+        targetItem: surfaceItem
+        anchors.fill: root
+        enabled: surfaceItem.enabled
     }
 
     states: [
         State {
             name: "zombie"
-            when: surface && !surface.live
+            when: surfaceItem.surface && !surfaceItem.live
         }
     ]
     transitions: [
         Transition {
             from: ""; to: "zombie"
             SequentialAnimation {
-                UbuntuNumberAnimation { target: surface; property: "opacity"; to: 0.0
+                UbuntuNumberAnimation { target: surfaceItem; property: "opacity"; to: 0.0
                                         duration: UbuntuAnimation.BriskDuration }
-                PropertyAction { target: surface; property: "visible"; value: false }
-                ScriptAction { script: { if (root.surface) { root.surface.release(); } } }
+                PropertyAction { target: surfaceItem; property: "visible"; value: false }
+                ScriptAction { script: {
+                    surfaceItem.surface = null;
+                    root.hadSurface = true;
+                } }
             }
+        },
+        Transition {
+            from: "zombie"; to: ""
+            ScriptAction { script: {
+                surfaceItem.opacity = 1.0;
+                surfaceItem.visible = true;
+            } }
         }
     ]
 }

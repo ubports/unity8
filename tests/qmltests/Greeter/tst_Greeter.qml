@@ -20,7 +20,8 @@ import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 0.1
 import AccountsService 0.1
-import LightDM 0.1 as LightDM
+import GSettings 1.0
+import IntegratedLightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 
 Item {
@@ -73,6 +74,11 @@ Item {
         id: emergencyCallSpy
         target: loader.item
         signalName: "emergencyCall"
+    }
+
+    GSettings {
+        id: greeterSettings
+        schema.id: "com.canonical.Unity8.Greeter"
     }
 
     UT.UnityTestCase {
@@ -132,6 +138,8 @@ Item {
         }
 
         function init() {
+            greeterSettings.lockedOutTime = 0;
+            resetLoader();
             teaseSpy.clear();
             sessionStartedSpy.clear();
             emergencyCallSpy.clear();
@@ -150,7 +158,7 @@ Item {
             greeter.failedLoginsDelayMinutes = 5;
         }
 
-        function cleanup() {
+        function resetLoader() {
             loader.itemDestroyed = false;
             loader.active = false;
             tryCompare(loader, "status", Loader.Null);
@@ -431,7 +439,26 @@ Item {
             compare(LightDM.Infographic.username, "has-password");
         }
 
-        function test_forcedDelay() {
+        function test_forcedDelayIntoGSettings() {
+            greeter.failedLoginsDelayAttempts = 1;
+            greeter.failedLoginsDelayMinutes = 1;
+            selectUser("has-password");
+            tryCompare(viewShowPromptSpy, "count", 1);
+            compare(greeterSettings.lockedOutTime, 0);
+            view.responded("wr0ng p4ssw0rd");
+
+            var timestamp = new Date().getTime();
+            verify(Math.abs(greeterSettings.lockedOutTime - timestamp) < 2000);
+        }
+
+        function test_forcedDelayOnConstruction() {
+            greeterSettings.lockedOutTime = new Date().getTime();
+            resetLoader();
+            view = findChild(greeter, "testView");
+            compare(view.delayMinutes, greeter.failedLoginsDelayMinutes);
+        }
+
+        function test_forcedDelayRoundTrip() {
             greeter.failedLoginsDelayAttempts = 1;
             greeter.failedLoginsDelayMinutes = 0.001; // make delay very short
 
@@ -440,7 +467,7 @@ Item {
 
             compare(view.delayMinutes, 0);
             view.responded("wr0ng p4ssw0rd");
-            tryCompare(view, "delayMinutes", 1);
+            compare(view.delayMinutes, 1);
             tryCompare(view, "delayMinutes", 0);
         }
 

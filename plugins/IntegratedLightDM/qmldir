@@ -1,0 +1,3 @@
+module IntegratedLightDM
+plugin IntegratedLightDM-qml
+typeinfo IntegratedLightDM.qmltypes

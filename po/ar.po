@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-07-17 10:10+0200\n"
-"PO-Revision-Date: 2015-07-29 09:41+0000\n"
+"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"PO-Revision-Date: 2015-05-14 09:20+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2015-08-20 06:00+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-11 06:08+0000\n"
+"X-Generator: Launchpad (build 17720)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "كلمة السر: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:45
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:47
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
 msgstr "تثبيت الاختصار"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:100
+#: plugins/Unity/Launcher/launcheritem.cpp:52
+msgid "Quit"
+msgstr ""
+
+#: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "إزالة تثبيت الاختصار"
 
@@ -137,72 +141,72 @@ msgstr[3] "برجاء الانتظار %1 دقائق ثم المحاولة مج�
 msgstr[4] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
 msgstr[5] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
 
-#: qml/Components/Dialogs.qml:69
+#: qml/Components/Dialogs.qml:112
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:113
 msgid "Are you sure you want to log out?"
 msgstr "هل أنت متأكد من رغبتك في تسجيل الخروج؟"
 
-#: qml/Components/Dialogs.qml:72
+#: qml/Components/Dialogs.qml:115
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "أوصِد"
 
-#: qml/Components/Dialogs.qml:79
+#: qml/Components/Dialogs.qml:122
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:221
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:141
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "إطفاء الجهاز"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:142
 msgid "Are you sure you want to shut down?"
 msgstr "هل أنت متأكد من رغبتك في إطفاء الجهاز؟"
 
-#: qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:144
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:153
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "إطفاء الجهاز"
 
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr "هل أنت متأكد من رغبتك في إعادة تشغيل الجهاز؟"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "لا"
 
-#: qml/Components/Dialogs.qml:138
+#: qml/Components/Dialogs.qml:185
 msgid "Yes"
 msgstr "نعم"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:200
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "الطاقة"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:201
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -210,12 +214,12 @@ msgstr ""
 "هل أنت متأكد من رغبتك\n"
 "في إيقاف التشغيل؟"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:203
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "إيقاف التشغيل"
 
-#: qml/Components/Dialogs.qml:164
+#: qml/Components/Dialogs.qml:212
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "إعادة التشغيل"
@@ -232,15 +236,15 @@ msgstr "مكالمة طوارئ"
 msgid "OK"
 msgstr "موافق"
 
-#: qml/Dash/GenericScopeView.qml:539 qml/Dash/GenericScopeView.qml:697
+#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "شاهد أقل"
 
-#: qml/Dash/GenericScopeView.qml:539
+#: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
 msgstr "عرض الكل"
 
-#: qml/Dash/GenericScopeView.qml:601
+#: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "بحث"
@@ -276,6 +280,11 @@ msgstr "المزيد..."
 msgid "Less..."
 msgstr "أقل..."
 
+#: qml/Dash/Previews/PreviewCommentInput.qml:61
+#: qml/Dash/Previews/PreviewRatingInput.qml:169
+msgid "Send"
+msgstr "أرسل"
+
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
 msgstr "قيّم ذلك"
@@ -283,10 +292,6 @@ msgstr "قيّم ذلك"
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
 msgstr "أضف تعليق"
-
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
-msgid "Send"
-msgstr "أرسل"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -391,11 +396,11 @@ msgstr "انقر للعودة إلى المكالمة..."
 msgid "Conference"
 msgstr "مؤتمر"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:639
+#: qml/Panel/Indicators/MenuItemFactory.qml:674
 msgid "Nothing is playing"
 msgstr "لا شيء مُشغّل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -406,7 +411,7 @@ msgstr[3] "%1 ساعات"
 msgstr[4] "%1 ساعة"
 msgstr[5] "%1 ساعة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#: qml/Panel/Indicators/MenuItemFactory.qml:807
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -417,7 +422,7 @@ msgstr[3] "%1 دقائق"
 msgstr[4] "%1 دقيقة"
 msgstr[5] "%1 دقيقة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#: qml/Panel/Indicators/MenuItemFactory.qml:812
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -428,37 +433,37 @@ msgstr[3] "%1 ثوان"
 msgstr[4] "%1 ثانية"
 msgstr[5] "%1 ثانية"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:780
+#: qml/Panel/Indicators/MenuItemFactory.qml:815
 msgid "0 seconds"
 msgstr "أقل من ثانية"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#: qml/Panel/Indicators/MenuItemFactory.qml:817
 #, qt-format
 msgid "%1 remaining"
 msgstr "باق %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:788
+#: qml/Panel/Indicators/MenuItemFactory.qml:823
 msgid "In queue…"
 msgstr "في الانتظار..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:792
+#: qml/Panel/Indicators/MenuItemFactory.qml:827
 msgid "Downloading"
 msgstr "التنزيل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:794
+#: qml/Panel/Indicators/MenuItemFactory.qml:829
 msgid "Paused, tap to resume"
 msgstr "مُلبث، انقر للاستئناف"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:796
+#: qml/Panel/Indicators/MenuItemFactory.qml:831
 msgid "Canceled"
 msgstr "تم إلغائه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:798
+#: qml/Panel/Indicators/MenuItemFactory.qml:833
 msgid "Finished"
 msgstr "انتهى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:800
+#: qml/Panel/Indicators/MenuItemFactory.qml:835
 msgid "Failed, tap to retry"
 msgstr "فشل، انقل لإعادة المحاولة"
 
@@ -466,6 +471,10 @@ msgstr "فشل، انقل لإعادة المحاولة"
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "رد"
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+msgid "Call back"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -491,14 +500,10 @@ msgstr "فتح قوائم خاصة"
 msgid "Swipe up from the bottom edge."
 msgstr "اسحب لأعلى من الحافة السفلى."
 
-#: qml/Tutorial/TutorialContent.qml:81 qml/Tutorial/TutorialLeftFinish.qml:25
+#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "انقر هنا للمتابعة."
-
-#: qml/Tutorial/TutorialContent.qml:81
-msgid "Click here to finish."
-msgstr "انقر هنا للإنهاء."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
@@ -537,6 +542,38 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "عودة"
 
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "الشروط والأحكام"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "تأكيد العبارة السرية"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "تأكيد الرمز السري"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "حاول مجددا."
+
+#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50
+msgid "Continue"
+msgstr "متابعة"
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "اختر الرمز السري خاصتك"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "يجب أن تحتوي العبارة السرية على 4 أحرف على الأقل"
+
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr "أهلا!"
@@ -548,13 +585,6 @@ msgstr "مرحبا بك في أوبونتو للهواتف."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "هيا بنا نبدأ."
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "متابعة"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -688,31 +718,6 @@ msgstr "هاتفك جاهز الآن للاستخدام."
 msgid "Finish"
 msgstr "إنهاء"
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "الشروط والأحكام"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "تأكيد العبارة السرية"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "تأكيد الرمز السري"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "حاول مجددا."
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "اختر الرمز السري خاصتك"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "يجب أن تحتوي العبارة السرية على 4 أحرف على الأقل"
-
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
@@ -725,61 +730,8 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
-#~ msgid "Confirm"
-#~ msgstr "التأكيد"
-
-#~ msgid "Type or say a command"
-#~ msgstr "اكتب أو قُل أمرا"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "يجري التحميل. برجاء الانتظار..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "تكلم الآن..."
-
-#~ msgid "Speaking..."
-#~ msgstr "تتكلم الآن..."
-
-#~ msgid "Search"
-#~ msgstr "ابحث"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "اسحب اصبعك من الحافة العلوية للوصول إلى المؤشرات"
-
-#~ msgid "Top edge"
-#~ msgstr "الحافة العلوية"
-
-#~ msgid "Close"
-#~ msgstr "أغلق"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "اسحب اصعبك لأعلى مرة أخرى لغلق شاشة الإعدادات"
-
-#~ msgid "Skip intro"
-#~ msgstr "تخطي المقدمة"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "اسحب اصبعك من الحافة اليمنى لفتح قفل الهاتف"
-
-#~ msgid "Right edge"
-#~ msgstr "الحافة اليمنى"
-
-#~ msgid "Left edge"
-#~ msgstr "الحافة اليسرى"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "اسحب أصبعك من الحافة اليسرى لإظهار شريط يونتي للوصول السريع للتطبيقات"
-
-#~ msgid "Well done"
-#~ msgstr "أحسنت!"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
-#~ "الشاشة للبدء"
-
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"
+
+#~ msgid "Click here to finish."
+#~ msgstr "انقر هنا للإنهاء."

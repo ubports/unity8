@@ -305,8 +305,8 @@ void tst_DirectionalDragArea::sceneXAndX()
 
     sendTouchPress(0 /* timestamp */, 0 /* id */, touchScenePos);
 
-    QSignalSpy touchXSpy(edgeDragArea, SIGNAL(touchXChanged(qreal)));
-    QSignalSpy touchSceneXSpy(edgeDragArea, SIGNAL(touchSceneXChanged(qreal)));
+    QSignalSpy touchXSpy(edgeDragArea, &DirectionalDragArea::touchXChanged);
+    QSignalSpy touchSceneXSpy(edgeDragArea, &DirectionalDragArea::touchSceneXChanged);
 
     touchScenePos.rx() = m_view->width() / 2;
     sendTouchUpdate(50 /* timestamp */, 0 /* id */, touchScenePos);
@@ -334,8 +334,8 @@ void tst_DirectionalDragArea::sceneYAndY()
 
     sendTouchPress(0 /* timestamp */, 0 /* id */, touchScenePos);
 
-    QSignalSpy touchYSpy(edgeDragArea, SIGNAL(touchYChanged(qreal)));
-    QSignalSpy touchSceneYSpy(edgeDragArea, SIGNAL(touchSceneYChanged(qreal)));
+    QSignalSpy touchYSpy(edgeDragArea, &DirectionalDragArea::touchYChanged);
+    QSignalSpy touchSceneYSpy(edgeDragArea, &DirectionalDragArea::touchSceneYChanged);
 
     touchScenePos.ry() = m_view->height() / 2;
     sendTouchUpdate(50 /* timestamp */, 0 /* id */, touchScenePos);

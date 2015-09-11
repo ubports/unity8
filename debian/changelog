@@ -1,3 +1,37 @@
+unity8 (8.11+15.10.20150907-0ubuntu1) wily; urgency=medium
+
+  [ Michal Sawicz ]
+  * Resync wily with vivid
+
+  [ Albert Astals Cid ]
+  * Accomodate header height when using a card carousel with non
+    overlayed header (LP: #1489309)
+  * Fix restart unity8 from inside the phone more than two times (LP:
+    #1487946)
+
+  [ Gary.Wzl ]
+  * Move textarea up automatically when inputmethod popup. (LP:
+    #1485947)
+
+  [ Lukáš Tinkl ]
+  * Introduce a GlobalShortcut QML component for handling global
+    keyboard shortcuts
+
+  [ Michael Terry ]
+  * Fix the fact that a user that is locked out from their account for
+    five minutes after entering too many wrong passwords can simply
+    reboot to try again. (LP: #1383086)
+  * Fix the fact that a user that is locked out from their account for
+    five minutes after entering too many wrong passwords can simply
+    reboot to try again. (LP: #1383086)
+
+  [ Michael Zanetti ]
+  * Implement progressive autoscrolling in desktop spread
+  * add an animation transition when invoking the spread by hitting the
+    right edge
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 07 Sep 2015 14:05:37 +0000
+
 unity8 (8.11+15.10.20150826-0ubuntu1) wily; urgency=medium
 
   [ Michael Zanetti ]
@@ -7,6 +41,43 @@ unity8 (8.11+15.10.20150826-0ubuntu1) wily; urgency=medium
   * New rebuild forced.
 
  -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 26 Aug 2015 09:01:03 +0000
+
+unity8 (8.11+15.04.20150831.2-0ubuntu1) vivid; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Accept auto repeats for the power down button if timer is not yet
+    running (LP: #1486953, #1488927)
+  * Add tests for Shell+Dash interaction
+  * Make clicking on launcher buttons have haptic feedback
+  * Make test_greeter_hides_on_app_open more stable
+  * Move connect() to new syntax
+  * make pot_file (LP: #1488484)
+
+  [ Gerry Boland ]
+  * [spread] avoid changing sourceSize of snapshotted apps, it causes
+    ghost apps in the spread (LP: #1474319)
+
+  [ Josh Arenson ]
+  * Refactor the greeter to enable dynamic loading of backend plugins.
+  * Refactor the greeter to enable dynamic loading of backend plugins.
+
+  [ Lukáš Tinkl ]
+  * Don't show the volume notification when the sound indicator is shown
+    (LP: #1484126)
+
+  [ Michael Terry ]
+  * Unify turn-on-screen-upon-notification logic from various daemons
+    into unity8. (LP: #1426115, #1482317)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 31 Aug 2015 10:25:39 +0000
+
+unity8 (8.11+15.04.20150827.1-0ubuntu1) vivid; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * MirSurfaceItem is now a view+controller instantiated from QML (LP:
+    #1483752)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 27 Aug 2015 14:00:05 +0000
 
 unity8 (8.11+15.04.20150821-0ubuntu1) vivid; urgency=medium
 

@@ -102,9 +102,9 @@ class MirrorModel : public QObject
 public:
     MirrorModel(QAbstractItemModel *model) : m_mirror(model)
     {
-        connect(model, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(rowsInserted(QModelIndex,int,int)));
-        connect(model, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(rowsRemoved(QModelIndex,int,int)));
-        connect(model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(dataChanged(QModelIndex,QModelIndex)));
+        connect(model, &QAbstractItemModel::rowsInserted, this, &MirrorModel::rowsInserted);
+        connect(model, &QAbstractItemModel::rowsRemoved, this, &MirrorModel::rowsRemoved);
+        connect(model, &QAbstractItemModel::dataChanged, this, &MirrorModel::dataChanged);
     }
 
     void check()
@@ -193,7 +193,7 @@ private Q_SLOTS:
         MockListModel model;
         model.insertRows(0, 5);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         proxy.setModel(&model);
         QCOMPARE(proxy.rowCount(), 5);
@@ -207,7 +207,7 @@ private Q_SLOTS:
 
         proxy.setModel(&model);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         model.insertRows(0, 5);
         QCOMPARE(proxy.rowCount(), 5);
@@ -222,7 +222,7 @@ private Q_SLOTS:
 
         proxy.setModel(&model);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         model.removeRows(0, 3);
         QCOMPARE(proxy.rowCount(), 2);
@@ -237,7 +237,7 @@ private Q_SLOTS:
         proxy.setModel(&model);
         proxy.setLimit(3);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         model.insertRows(0, 5);
         QCOMPARE(proxy.rowCount(), 3);
@@ -253,9 +253,9 @@ private Q_SLOTS:
 
         proxy.setModel(&model);
 
-        QSignalSpy spyOnRowsRemoved(&proxy, SIGNAL(rowsRemoved(const QModelIndex &, int, int)));
-        QSignalSpy spyOnRowsInserted(&proxy, SIGNAL(rowsInserted(const QModelIndex &, int, int)));
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnRowsRemoved(&proxy, &QLimitProxyModelQML::rowsRemoved);
+        QSignalSpy spyOnRowsInserted(&proxy, &QLimitProxyModelQML::rowsInserted);
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         proxy.setLimit(5);
         QCOMPARE(spyOnRowsInserted.count(), 0);
@@ -300,9 +300,9 @@ private Q_SLOTS:
 
         proxy.setModel(&model);
 
-        QSignalSpy spyOnRowsRemoved(&proxy, SIGNAL(rowsRemoved(const QModelIndex &, int, int)));
-        QSignalSpy spyOnRowsInserted(&proxy, SIGNAL(rowsInserted(const QModelIndex &, int, int)));
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnRowsRemoved(&proxy, &QLimitProxyModelQML::rowsRemoved);
+        QSignalSpy spyOnRowsInserted(&proxy, &QLimitProxyModelQML::rowsInserted);
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         proxy.setLimit(7);
         QCOMPARE(spyOnRowsRemoved.count(), 0);
@@ -359,9 +359,9 @@ private Q_SLOTS:
 
         proxy.setModel(&model);
 
-        QSignalSpy spyOnRowsRemoved(&proxy, SIGNAL(rowsRemoved(const QModelIndex &, int, int)));
-        QSignalSpy spyOnRowsInserted(&proxy, SIGNAL(rowsInserted(const QModelIndex &, int, int)));
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnRowsRemoved(&proxy, &QLimitProxyModelQML::rowsRemoved);
+        QSignalSpy spyOnRowsInserted(&proxy, &QLimitProxyModelQML::rowsInserted);
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         proxy.setLimit(7);
         QCOMPARE(spyOnRowsRemoved.count(), 0);
@@ -406,9 +406,9 @@ private Q_SLOTS:
         proxy.setModel(&model);
         proxy.setLimit(7);
 
-        QSignalSpy spyOnRowsRemoved(&proxy, SIGNAL(rowsRemoved(const QModelIndex &, int, int)));
-        QSignalSpy spyOnRowsInserted(&proxy, SIGNAL(rowsInserted(const QModelIndex &, int, int)));
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnRowsRemoved(&proxy, &QLimitProxyModelQML::rowsRemoved);
+        QSignalSpy spyOnRowsInserted(&proxy, &QLimitProxyModelQML::rowsInserted);
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         model.insertRows(0, 5);
         QCOMPARE(spyOnRowsRemoved.count(), 0);
@@ -451,9 +451,9 @@ private Q_SLOTS:
 
         QCOMPARE(proxy.rowCount(), 7);
 
-        QSignalSpy spyOnRowsRemoved(&proxy, SIGNAL(rowsRemoved(const QModelIndex &, int, int)));
-        QSignalSpy spyOnRowsInserted(&proxy, SIGNAL(rowsInserted(const QModelIndex &, int, int)));
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnRowsRemoved(&proxy, &QLimitProxyModelQML::rowsRemoved);
+        QSignalSpy spyOnRowsInserted(&proxy, &QLimitProxyModelQML::rowsInserted);
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         model.removeRows(7, 3);
         QCOMPARE(proxy.rowCount(), 7);
@@ -507,7 +507,7 @@ private Q_SLOTS:
         QLimitProxyModelQML proxy;
         MockListModel model, model2;
 
-        QSignalSpy spyOnModelChanged(&proxy, SIGNAL(modelChanged()));
+        QSignalSpy spyOnModelChanged(&proxy, &QLimitProxyModelQML::modelChanged);
 
         proxy.setModel(&model);
         QCOMPARE(spyOnModelChanged.count(), 1);
@@ -529,7 +529,7 @@ private Q_SLOTS:
         proxy.setModel(&model);
         proxy.setModel(&model);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &QLimitProxyModelQML::countChanged);
 
         model.insertRows(0, 5);
         QCOMPARE(proxy.rowCount(), 5);

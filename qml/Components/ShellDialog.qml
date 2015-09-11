@@ -33,5 +33,11 @@ Dialog {
 
     onVisibleChanged: { if (!visible) { dialogLoader.active = false; } }
 
-    Component.onCompleted: show()
+    Keys.onEscapePressed: hide()
+
+    focus: true
+
+    Component.onCompleted: {
+        show();
+    }
 }

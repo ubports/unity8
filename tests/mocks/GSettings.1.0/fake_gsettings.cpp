@@ -62,6 +62,19 @@ void GSettingsControllerQml::setUsageMode(const QString &usageMode)
     }
 }
 
+qint64 GSettingsControllerQml::lockedOutTime() const
+{
+    return m_lockedOutTime;
+}
+
+void GSettingsControllerQml::setLockedOutTime(qint64 timestamp)
+{
+    if (m_lockedOutTime != timestamp) {
+        m_lockedOutTime = timestamp;
+        Q_EMIT lockedOutTimeChanged(m_lockedOutTime);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -95,10 +108,12 @@ GSettingsQml::GSettingsQml(QObject *parent)
     : QObject(parent)
 {
     m_schema = new GSettingsSchemaQml(this);
-    connect(GSettingsControllerQml::instance(), SIGNAL(pictureUriChanged(const QString &)),
-            this, SIGNAL(pictureUriChanged(const QString &)));
-    connect(GSettingsControllerQml::instance(), SIGNAL(usageModeChanged(const QString &)),
-            this, SIGNAL(usageModeChanged(const QString &)));
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::pictureUriChanged,
+            this, &GSettingsQml::pictureUriChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::usageModeChanged,
+            this, &GSettingsQml::usageModeChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::lockedOutTimeChanged,
+            this, &GSettingsQml::lockedOutTimeChanged);
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -134,5 +149,21 @@ void GSettingsQml::setUsageMode(const QString &usageMode)
 {
     if (m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setUsageMode(usageMode);
+    }
+}
+
+qint64 GSettingsQml::lockedOutTime() const
+{
+    if (m_schema->id() == "com.canonical.Unity8.Greeter") {
+        return GSettingsControllerQml::instance()->lockedOutTime();
+    } else {
+        return 0;
+    }
+}
+
+void GSettingsQml::setLockedOutTime(qint64 timestamp)
+{
+    if (m_schema->id() == "com.canonical.Unity8.Greeter") {
+        GSettingsControllerQml::instance()->setLockedOutTime(timestamp);
     }
 }

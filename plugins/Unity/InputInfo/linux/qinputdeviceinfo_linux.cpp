@@ -52,7 +52,7 @@ QInputDeviceInfoPrivate::QInputDeviceInfoPrivate(QObject *parent) :
     QObject(parent)
   , udev(0)
 {
-    QTimer::singleShot(250,this,SLOT(init()));
+    QTimer::singleShot(250, this, &QInputDeviceInfoPrivate::init);
 }
 
 void QInputDeviceInfoPrivate::init()
@@ -78,7 +78,7 @@ void QInputDeviceInfoPrivate::init()
         notifierFd = udev_monitor_get_fd(udevMonitor);
 
         notifier = new QSocketNotifier(notifierFd, QSocketNotifier::Read, this);
-        connect(notifier, SIGNAL(activated(int)), this, SLOT(onUDevChanges()));
+        connect(notifier, &QSocketNotifier::activated, this, &QInputDeviceInfoPrivate::onUDevChanges);
 
 
         udev_enumerate_scan_devices(enumerate);

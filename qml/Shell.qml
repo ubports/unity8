@@ -25,8 +25,8 @@ import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
+import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
 import Utils 0.1
-import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
 import "Greeter"
@@ -41,6 +41,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
+
 
 Item {
     id: shell
@@ -146,7 +147,7 @@ Item {
     // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
     Image {
         id: gsImageTester
-        source: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
+        source: backgroundSettings.pictureUri && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
         height: 0
         width: 0
         sourceSize.height: 0
@@ -167,8 +168,10 @@ Item {
         finishStartUpTimer.start();
     }
 
+    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
+        indicators: panel.indicators
     }
 
     DashCommunicator {
@@ -180,7 +183,7 @@ Item {
         id: physicalKeysMapper
         objectName: "physicalKeysMapper"
 
-        onPowerKeyLongPressed: dialogs.showPowerDialog()
+        onPowerKeyLongPressed: dialogs.showPowerDialog();
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
@@ -189,6 +192,10 @@ Item {
     ScreenGrabber {
         id: screenGrabber
         z: dialogs.z + 10
+    }
+
+    GlobalShortcut {
+        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
     }
 
     WindowKeysFilter {
@@ -396,25 +403,6 @@ Item {
     }
 
     Connections {
-        target: SurfaceManager
-        onSurfaceCreated: {
-            if (surface.type == MirSurfaceItem.InputMethod) {
-                inputMethod.surface = surface;
-            }
-        }
-
-        onSurfaceDestroyed: {
-            if (inputMethod.surface == surface) {
-                inputMethod.surface = null;
-                surface.parent = null;
-            }
-            if (!surface.parent) {
-                // there's no one displaying it. delete it right away
-                surface.release();
-            }
-        }
-    }
-    Connections {
         target: SessionManager
         onSessionStopping: {
             if (!session.parentSession && !session.application) {
@@ -431,7 +419,7 @@ Item {
         sourceComponent: shell.mode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         onLoaded: {
-                item.objectName = "greeter"
+            item.objectName = "greeter"
         }
     }
 
@@ -521,7 +509,7 @@ Item {
 
         greeter.notifyAboutToFocusApp("unity8-dash");
 
-        var animate = !LightDM.Greeter.active && !stages.shown
+        var animate = !lightDM.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -569,8 +557,11 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            property bool mainAppIsFullscreen: shell.mainApp && shell.mainApp.fullscreen
-            fullscreenMode: (mainAppIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+            property bool topmostApplicationIsFullscreen:
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+
+            fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
         }
 
@@ -678,6 +669,7 @@ Item {
         objectName: "dialogs"
         anchors.fill: parent
         z: overlay.z + 10
+        usageScenario: shell.usageScenario
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
@@ -704,7 +696,7 @@ Item {
             to: 1.0
             onStopped: {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
-                    DBusUnitySessionService.Shutdown();
+                    DBusUnitySessionService.shutdown();
                 }
             }
         }
