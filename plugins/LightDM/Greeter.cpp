@@ -19,7 +19,6 @@
 #include "Greeter.h"
 #include "GreeterPrivate.h"
 #include <libintl.h>
-#include <QDebug>
 
 GreeterPrivate::GreeterPrivate(Greeter* parent)
   : m_greeter(new QLightDM::Greeter(parent)),
