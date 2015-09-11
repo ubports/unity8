@@ -16,7 +16,7 @@
  */
 
 #ifndef INTEGRATED_LIGHTDM_PLUGIN_H
-#define INTEGRATED_LIGHTDM_PLUGIN_H
+#define INTEFRATED_LIGHTDM_PLUGIN_H
 
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlExtensionPlugin>
