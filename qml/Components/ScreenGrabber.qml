@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 import ScreenGrabber 0.1
+import GlobalShortcut 1.0
 
 Rectangle {
     id: root
@@ -28,6 +29,12 @@ Rectangle {
     ScreenGrabber {
         id: screenGrabber
         objectName: "screenGrabber"
+    }
+
+    GlobalShortcut {
+        id: screenshotShortcut
+        shortcut: Qt.Key_Print
+        onTriggered: capture()
     }
 
     Audio {

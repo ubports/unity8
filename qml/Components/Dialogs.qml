@@ -19,6 +19,7 @@ import QtQuick 2.0
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Ubuntu.Components 1.1
+import GlobalShortcut 1.0
 import "../Greeter"
 
 Item {
@@ -35,6 +36,7 @@ Item {
             ApplicationManager.stopApplication(app.appId);
         }
     }
+    property string usageScenario
 
     property LightDM lightDM
     property bool fullLightDM
@@ -45,19 +47,61 @@ Item {
         d.showPowerDialog();
     }
 
+    GlobalShortcut { // reboot/shutdown dialog
+        shortcut: Qt.Key_PowerDown
+        active: root.usageScenario === "desktop"
+        onTriggered: root.unitySessionService.RequestShutdown()
+    }
+
+    GlobalShortcut { // reboot/shutdown dialog
+        shortcut: Qt.Key_PowerOff
+        active: root.usageScenario === "desktop"
+        onTriggered: root.unitySessionService.RequestShutdown()
+    }
+
+    GlobalShortcut { // sleep
+        shortcut: Qt.Key_Sleep
+        onTriggered: root.unitySessionService.Suspend()
+    }
+
+    GlobalShortcut { // hibernate
+        shortcut: Qt.Key_Hibernate
+        onTriggered: root.unitySessionService.Hibernate()
+    }
+
+    GlobalShortcut { // logout/lock dialog
+        shortcut: Qt.Key_LogOff
+        onTriggered: root.unitySessionService.RequestLogout()
+    }
+
+    GlobalShortcut { // logout/lock dialog
+        shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_Delete
+        onTriggered: root.unitySessionService.RequestLogout()
+    }
+
+    GlobalShortcut { // lock screen
+        shortcut: Qt.Key_ScreenSaver
+        onTriggered: lightDM.greeter.showGreeter()
+    }
+
+    GlobalShortcut { // lock screen
+        shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
+        onTriggered: lightDM.greeter.showGreeter()
+    }
+
     QtObject {
         id: d // private stuff
         objectName: "dialogsPrivate"
 
-
         function showPowerDialog() {
             if (!dialogLoader.active) {
                 dialogLoader.sourceComponent = powerDialogComponent;
+                dialogLoader.focus = true;
                 dialogLoader.active = true;
-                dialogLoader.item.forceActiveFocus();
             }
         }
     }
+
     Loader {
         id: dialogLoader
         objectName: "dialogLoader"
@@ -107,6 +151,7 @@ Item {
                     unitySessionService.reboot();
                     shutdownDialog.hide();
                 }
+                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.ctr("Button: Shut down the system", "Shut down")
@@ -115,12 +160,14 @@ Item {
                     unitySessionService.shutdown();
                     shutdownDialog.hide();
                 }
+                color: UbuntuColors.red
             }
             Button {
                 text: i18n.tr("Cancel")
                 onClicked: {
                     shutdownDialog.hide();
                 }
+                color: UbuntuColors.lightGrey
             }
         }
     }
@@ -136,6 +183,7 @@ Item {
                 onClicked: {
                     rebootDialog.hide();
                 }
+                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Yes")
@@ -144,6 +192,7 @@ Item {
                     unitySessionService.reboot();
                     rebootDialog.hide();
                 }
+                color: UbuntuColors.red
             }
         }
     }
@@ -170,14 +219,14 @@ Item {
                     unitySessionService.reboot();
                     powerDialog.hide();
                 }
-                color: UbuntuColors.green
+                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();
                 }
-                color: UbuntuColors.coolGrey
+                color: UbuntuColors.lightGrey
             }
         }
     }
@@ -189,6 +238,7 @@ Item {
             // Display a dialog to ask the user to confirm.
             if (!dialogLoader.active) {
                 dialogLoader.sourceComponent = logoutDialogComponent;
+                dialogLoader.focus = true;
                 dialogLoader.active = true;
             }
         }
@@ -197,6 +247,7 @@ Item {
             // Display a dialog to ask the user to confirm.
             if (!dialogLoader.active) {
                 dialogLoader.sourceComponent = shutdownDialogComponent;
+                dialogLoader.focus = true;
                 dialogLoader.active = true;
             }
         }
@@ -204,7 +255,11 @@ Item {
         onRebootRequested: {
             // Display a dialog to ask the user to confirm.
             if (!dialogLoader.active) {
-                dialogLoader.sourceComponent = rebootDialogComponent;
+                // display a combined reboot/shutdown dialog, sadly the session indicator calls rather the "Reboot()" method
+                // than shutdown when clicking on the "Shutdown..." menu item
+                // FIXME: when/if session indicator is fixed, put the rebootDialogComponent here
+                dialogLoader.sourceComponent = shutdownDialogComponent;
+                dialogLoader.focus = true;
                 dialogLoader.active = true;
             }
         }

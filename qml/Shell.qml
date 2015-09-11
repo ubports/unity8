@@ -25,6 +25,7 @@ import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
+import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -40,6 +41,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
+
 
 Item {
     id: shell
@@ -145,7 +147,7 @@ Item {
     // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
     Image {
         id: gsImageTester
-        source: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
+        source: backgroundSettings.pictureUri && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
         height: 0
         width: 0
         sourceSize.height: 0
@@ -185,7 +187,7 @@ Item {
         id: physicalKeysMapper
         objectName: "physicalKeysMapper"
 
-        onPowerKeyLongPressed: dialogs.showPowerDialog()
+        onPowerKeyLongPressed: dialogs.showPowerDialog();
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
@@ -194,6 +196,10 @@ Item {
     ScreenGrabber {
         id: screenGrabber
         z: dialogs.z + 10
+    }
+
+    GlobalShortcut {
+        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
     }
 
     WindowKeysFilter {
@@ -417,7 +423,7 @@ Item {
         sourceComponent: shell.mode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         onLoaded: {
-                item.objectName = "greeter"
+            item.objectName = "greeter"
         }
     }
 
@@ -669,6 +675,7 @@ Item {
         objectName: "dialogs"
         anchors.fill: parent
         z: overlay.z + 10
+        usageScenario: shell.usageScenario
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
@@ -697,7 +704,7 @@ Item {
             to: 1.0
             onStopped: {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
-                    DBusUnitySessionService.Shutdown();
+                    DBusUnitySessionService.shutdown();
                 }
             }
         }
