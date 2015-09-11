@@ -21,7 +21,7 @@ import "../../../qml/Greeter"
 import Ubuntu.Components 0.1
 import AccountsService 0.1
 import GSettings 1.0
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 import Unity.Test 0.1 as UT
 
 Item {
