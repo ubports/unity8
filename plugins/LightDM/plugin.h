@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2012,2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,22 @@
  *
  */
 
-#ifndef INTEGRATED_LIGHTDM_PLUGIN_H
-#define INTEFRATED_LIGHTDM_PLUGIN_H
+#ifndef LIGHTDM_PLUGIN_H
+#define LIGHTDM_PLUGIN_H
 
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlExtensionPlugin>
 
-class IntegratedLightDMPlugin : public QQmlExtensionPlugin
+#if defined INTEGRATED_LIGHTDM
+    #define PLUGIN_CLASSNAME FullLightDMPlugin
+#elif defined FULL_LIGHTDM
+    #define PLUGIN_CLASSNAME IntegratedLightDMPlugin
+#else
+    #error No library defined in LightDM plugin
+#endif
+
+
+class PLUGIN_CLASSNAME : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
@@ -30,4 +39,4 @@ public:
     void registerTypes(const char *uri) override;
 };
 
-#endif /* INTEGRATED_LIGHTDM_PLUGIN_H */
+#endif /* LIGHTDM_PLUGIN_H */

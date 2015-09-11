@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,8 @@ DBusGreeter::DBusGreeter(Greeter *greeter, const QString &path)
  : UnityDBusObject(path, "com.canonical.UnityGreeter", true, greeter),
    m_greeter(greeter)
 {
-    connect(m_greeter, SIGNAL(isActiveChanged()), this, SLOT(isActiveChangedHandler()));
+    connect(m_greeter, &Greeter::isActiveChanged,
+            this, &DBusGreeter::isActiveChangedHandler);
 }
 
 bool DBusGreeter::isActive() const
@@ -34,12 +35,12 @@ bool DBusGreeter::isActive() const
 
 void DBusGreeter::ShowGreeter()
 {
-    return Q_EMIT m_greeter->showGreeter();
+    Q_EMIT m_greeter->showGreeter();
 }
 
 void DBusGreeter::HideGreeter()
 {
-    return Q_EMIT m_greeter->hideGreeter();
+    Q_EMIT m_greeter->hideGreeter();
 }
 
 void DBusGreeter::isActiveChangedHandler()

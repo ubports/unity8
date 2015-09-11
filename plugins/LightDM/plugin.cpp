@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2012,2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,15 +54,23 @@ static QObject *infographic_provider(QQmlEngine *engine, QJSEngine *scriptEngine
     return UserMetricsOutput::UserMetrics::getInstance();
 }
 
-void IntegratedLightDMPlugin::registerTypes(const char *uri)
+void PLUGIN_CLASSNAME::registerTypes(const char *uri)
 {
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<UserMetricsOutput::ColorTheme>();
 
-    Q_ASSERT(uri == QLatin1String("IntegratedLightDM"));
+    Q_ASSERT(uri == QLatin1String("PLUGIN_CLASSNAME"));
     qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
     qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
+
+#if defined INTEGRATED_LIGHTDM
     qmlRegisterSingletonType<Greeter>(uri, 0, 1, "Greeter", greeter_provider);
+#elif defined FULL_LIGHTDM
+    qmlRegisterSingletonType<QLightDM::Greeter>(uri, 0, 1, "Greeter", greeter_provider);
+#else
+    #error No library defined in LightDM plugin
+#endif
+
     qmlRegisterSingletonType<UsersModel>(uri, 0, 1, "Users", users_provider);
     qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", "Type is not instantiable");
     qmlRegisterSingletonType<UserMetricsOutput::UserMetrics>(uri, 0, 1, "Infographic", infographic_provider);
