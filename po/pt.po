@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-11 06:08+0000\n"
+"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
 "X-Generator: Launchpad (build 17720)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -123,7 +123,7 @@ msgstr "Dispositivo bloqueado"
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
 "Foi bloqueado devido a diversas tentativas falhadas na introdução da palavra-"
-"chave de segurança."
+"passe de segurança."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
@@ -145,7 +145,7 @@ msgstr "Terminar sessão"
 
 #: qml/Components/Dialogs.qml:113
 msgid "Are you sure you want to log out?"
-msgstr "Tem a certeza de que quer sair?"
+msgstr "Quer mesmo sair?"
 
 #: qml/Components/Dialogs.qml:115
 msgctxt "Button: Lock the system"
@@ -165,11 +165,11 @@ msgstr "Cancelar"
 #: qml/Components/Dialogs.qml:141
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "Encerrar"
+msgstr "Desligar"
 
 #: qml/Components/Dialogs.qml:142
 msgid "Are you sure you want to shut down?"
-msgstr "Tem a certeza de que quer encerrar?"
+msgstr "Quer mesmo desligar?"
 
 #: qml/Components/Dialogs.qml:144
 msgctxt "Button: Reboot the system"
@@ -179,7 +179,7 @@ msgstr "Reiniciar"
 #: qml/Components/Dialogs.qml:153
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr "Encerrar"
+msgstr "Desligar"
 
 #: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
@@ -188,7 +188,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
-msgstr "Tem a certeza de que quer reiniciar?"
+msgstr "Quer mesmo reiniciar?"
 
 #: qml/Components/Dialogs.qml:178
 msgid "No"
@@ -370,7 +370,7 @@ msgstr "Introduza o código"
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "Desculpe, incorreto %1"
+msgstr "Desculpe, %1 incorreto"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
@@ -577,7 +577,7 @@ msgstr "Vamos começar!"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr "Adicione o cartão SIM e reinicie o seu dispositivo"
+msgstr "Adicione o cartão SIM e reinicie o dispositivo"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
@@ -586,7 +586,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr "Ignorar"
+msgstr "Saltar"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
@@ -669,7 +669,7 @@ msgstr "De modo nenhum"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "Pode mudar de ideias mais tarde em  <b>Definições do Sistema</b>."
+msgstr "Pode mudar de ideias mais tarde em  <b>Definições</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
