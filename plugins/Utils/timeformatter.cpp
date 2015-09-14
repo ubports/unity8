@@ -113,7 +113,7 @@ TimeFormatter::TimeFormatter(QObject *parent): QObject(parent)
     priv = new TimeFormatterPrivate;
     priv->formatter = this;
     priv->time = 0;
-    priv->format = "yyyy-MM-dd hh:mm";
+    priv->format = QStringLiteral("yyyy-MM-dd hh:mm");
     priv->system_bus = nullptr;
     priv->subscription_id = 0;
     priv->cancellable = g_cancellable_new ();
@@ -182,7 +182,7 @@ QString TimeFormatter::formatTime() const
 }
 
 GDateTimeFormatter::GDateTimeFormatter(QObject* parent)
-: TimeFormatter("%d-%m-%Y %I:%M%p", parent)
+: TimeFormatter(QStringLiteral("%d-%m-%Y %I:%M%p"), parent)
 {
 }
 
@@ -194,7 +194,7 @@ QString GDateTimeFormatter::formatTime() const
 
     datetime = g_date_time_new_from_unix_local(time());
     if (!datetime) {
-        return "";
+        return QLatin1String("");
     }
 
     time_string = g_date_time_format(datetime, formatBytes.constData());

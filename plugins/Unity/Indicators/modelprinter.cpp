@@ -60,7 +60,7 @@ QString ModelPrinter::text()
 
 QString tabify(int level) {    QString str;
     for (int i = 0; i < level; i++) {
-        str += "      ";
+        str += QLatin1String("      ");
     }
     return str;
 }
@@ -68,7 +68,7 @@ QString tabify(int level) {    QString str;
 QString ModelPrinter::getModelDataString(UnityMenuModel* sourceModel, int level)
 {
     if (!sourceModel)
-        return "";
+        return QLatin1String("");
 
     QString str;
     QTextStream stream(&str);
@@ -110,7 +110,7 @@ QString ModelPrinter::getRowSring(UnityMenuModel* sourceModel, int row, int dept
     return str;
 }
 
-QString ModelPrinter::getVariantString(const QString& roleName, const QVariant vData ) const
+QString ModelPrinter::getVariantString(const QString& roleName, const QVariant &vData) const
 {
     QString str;
     QTextStream stream(&str);

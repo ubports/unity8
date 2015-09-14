@@ -38,17 +38,17 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
-    nameAction.setActionId("launch_item");
+    nameAction.setActionId(QStringLiteral("launch_item"));
     nameAction.setText(m_name);
     m_quickList->appendAction(nameAction);
 
     QuickListEntry pinningAction;
-    pinningAction.setActionId("pin_item");
+    pinningAction.setActionId(QStringLiteral("pin_item"));
     pinningAction.setText(gettext("Pin shortcut"));
     m_quickList->appendAction(pinningAction);
 
-    m_quitAction.setActionId("stop_item");
-    m_quitAction.setIcon("application-exit");
+    m_quitAction.setActionId(QStringLiteral("stop_item"));
+    m_quitAction.setIcon(QStringLiteral("application-exit"));
     m_quitAction.setText(gettext("Quit"));
 }
 
@@ -67,7 +67,7 @@ void LauncherItem::setName(const QString &name)
     if (m_name != name) {
         m_name = name;
         QuickListEntry entry;
-        entry.setActionId("launch_item");
+        entry.setActionId(QStringLiteral("launch_item"));
         entry.setText(m_name);
         m_quickList->updateAction(entry);
         Q_EMIT nameChanged(name);
@@ -102,7 +102,7 @@ void LauncherItem::setPinned(bool pinned)
     // Even if pinned status didn't change, we want to update text in case
     // the locale has changed since we last set pinned status.
     QuickListEntry entry;
-    entry.setActionId("pin_item");
+    entry.setActionId(QStringLiteral("pin_item"));
     entry.setText(pinned ? gettext("Unpin shortcut") : gettext("Pin shortcut"));
     m_quickList->updateAction(entry);
 }
