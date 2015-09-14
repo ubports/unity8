@@ -1,4 +1,4 @@
-unity8 (8.12+15.10.20150907-0ubuntu2) UNRELEASED; urgency=medium
+unity8 (8.13+15.10.20150907-0ubuntu2) UNRELEASED; urgency=medium
 
   * bump version to fix OOBE build
 
