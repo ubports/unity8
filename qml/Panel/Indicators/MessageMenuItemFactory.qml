@@ -201,8 +201,8 @@ Loader {
             title: menuData && menuData.label || ""
             time: timeFormatter.timeString
             body: getExtendedProperty(extendedData, "xCanonicalText", "")
-            actionButtonText: getExtendedProperty(activateActionDescription, "label", "Call back")
-            replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
+            actionButtonText: getExtendedProperty(activateActionDescription, "label", i18n.tr("Call back"))
+            replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.tr("Send"))
             // icons
             avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
             icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/missed-call")

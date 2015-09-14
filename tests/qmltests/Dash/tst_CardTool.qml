@@ -345,6 +345,16 @@ Rectangle {
             cardTool.componentsChanged();
 
             tryCompare(cardTool, "titleAlignment", data.value);
+
+            cardTool.components['title'] = { "field": "title" };
+            cardTool.componentsChanged();
+
+            tryCompare(cardTool, "titleAlignment", data.value);
+
+            cardTool.components['title'] = { "field": "title", "align": "left" };
+            cardTool.componentsChanged();
+
+            tryCompare(cardTool, "titleAlignment", Text.AlignLeft);
         }
 
         function test_categoryLayout_data() {

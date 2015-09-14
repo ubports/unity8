@@ -21,7 +21,9 @@ import "../Components"
 DashRenderer {
     id: cardCarousel
 
-    expandedHeight: carousel.implicitHeight + units.gu(6)
+    readonly property real extraHeaderHeight: cardTool.template && cardTool.template["overlay"] === true ? 0 : cardTool.headerHeight
+
+    expandedHeight: carousel.implicitHeight + units.gu(6) + extraHeaderHeight
     collapsedHeight: expandedHeight
     growsVertically: false
     innerWidth: carousel.innerWidth
@@ -30,6 +32,7 @@ DashRenderer {
         id: carousel
         anchors.fill: parent
         tileAspectRatio: cardTool.components && cardTool.components["art"]["aspect-ratio"] || 1.0
+        extraBottomMargin: cardCarousel.extraHeaderHeight
         // FIXME we need to "reverse" the carousel to make the selected item the size
         // and push others back.
         minimumTileWidth: cardTool.cardWidth / selectedItemScaleFactor
@@ -64,6 +67,7 @@ DashRenderer {
                 item.components = Qt.binding(function() { return cardTool.components; });
                 item.fontScale = Qt.binding(function() { return carousel.fontScale; });
                 item.showHeader = Qt.binding(function() { return loader.explicitlyScaled; });
+                item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                 item.artShapeBorderSource = "none";
                 item.scopeStyle = cardCarousel.scopeStyle;
             }
