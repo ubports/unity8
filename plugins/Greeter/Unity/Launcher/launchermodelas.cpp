@@ -147,7 +147,7 @@ QString LauncherModel::getUrlForAppId(const QString &appId) const
         return QString();
     }
 
-    if (!appId.contains(QStringLiteral("_"))) {
+    if (!appId.contains('_')) {
         return "application:///" + appId + ".desktop";
     }
 

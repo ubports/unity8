@@ -286,9 +286,9 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     return new_indicator;
 }
 
-QList<Indicator::Ptr> IndicatorsManager::indicators()
+QVector<Indicator::Ptr> IndicatorsManager::indicators()
 {
-    QList<Indicator::Ptr> list;
+    QVector<Indicator::Ptr> list;
     Q_FOREACH(IndicatorData* data, m_indicatorsData)
     {
         Indicator::Ptr ret = indicator(data->m_name);

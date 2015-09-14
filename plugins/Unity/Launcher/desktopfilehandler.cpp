@@ -79,7 +79,7 @@ void DesktopFileHandler::load()
             helper.replace(dashPos, 1, '/');
         }
 
-        if (helper.contains(QStringLiteral("/"))) {
+        if (helper.contains('/')) {
             path += helper.split('/').at(0) + '/';
             helper.remove(QRegExp("^" + path));
         }
