@@ -16,6 +16,7 @@
 
 import QtQuick 2.3
 import AccountsService 0.1
+import GSettings 1.0
 import Ubuntu.Components 1.1
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
@@ -181,6 +182,11 @@ Showable {
         }
     }
 
+    GSettings {
+        id: greeterSettings
+        schema.id: "com.canonical.Unity8.Greeter"
+    }
+
     Timer {
         id: forcedDelayTimer
 
@@ -189,14 +195,24 @@ Showable {
         // for a few minutes.  When we wake up, we want to quickly be correct.
         interval: 500
 
-        property var delayTarget;
-        property int delayMinutes;
+        property var delayTarget
+        property int delayMinutes
 
-        function forceDelay(delay /* in minutes */) {
-            delayTarget = new Date();
-            delayTarget.setTime(delayTarget.getTime() + delay * 60000);
-            delayMinutes = Math.ceil(delay);
-            start();
+        function forceDelay() {
+            // Store the beginning time for a lockout in GSettings, so that
+            // we still lock the user out if they reboot.  And we store
+            // starting time rather than end-time or how-long because:
+            // - If storing end-time and on boot we have a problem with NTP,
+            //   we might get locked out for a lot longer than we thought.
+            // - If storing how-long, and user turns their phone off for an
+            //   hour rather than wait, they wouldn't expect to still be locked
+            //   out.
+            // - A malicious actor could manipulate either of the above
+            //   settings to keep the user out longer.  But by storing
+            //   start-time, we never make the user wait longer than the full
+            //   lock out time.
+            greeterSettings.lockedOutTime = new Date().getTime();
+            checkForForcedDelay();
         }
 
         onTriggered: {
@@ -208,6 +224,29 @@ Showable {
                 delayMinutes = 0;
             }
         }
+
+        function checkForForcedDelay() {
+            var now = new Date();
+            delayTarget = now;
+            delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
+
+            // If tooEarly is true, something went very wrong.  Bug or NTP
+            // misconfiguration maybe?
+            var tooEarly = now.getTime() < greeterSettings.lockedOutTime;
+            var tooLate = now > delayTarget;
+
+            // Compare stored time to system time. If a malicious actor is
+            // able to manipulate time to avoid our lockout, they already have
+            // enough access to cause damage. So we choose to trust this check.
+            if (tooEarly || tooLate) {
+                stop();
+                delayMinutes = 0;
+            } else {
+                triggered();
+            }
+        }
+
+        Component.onCompleted: checkForForcedDelay()
     }
 
     // event eater
@@ -380,7 +419,7 @@ Showable {
                 if (failedLoginsDelayAttempts > 0
                         && AccountsService.failedLogins > 0
                         && AccountsService.failedLogins % failedLoginsDelayAttempts == 0) {
-                    forcedDelayTimer.forceDelay(failedLoginsDelayMinutes);
+                    forcedDelayTimer.forceDelay();
                 }
 
                 loader.item.notifyAuthenticationFailed();

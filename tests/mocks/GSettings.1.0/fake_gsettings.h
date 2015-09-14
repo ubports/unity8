@@ -47,6 +47,7 @@ class GSettingsQml: public QObject
     Q_PROPERTY(GSettingsSchemaQml* schema READ schema NOTIFY schemaChanged)
     Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
     Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
+    Q_PROPERTY(qint64 lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY lockedOutTimeChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -54,14 +55,17 @@ public:
     GSettingsSchemaQml * schema() const;
     QString pictureUri() const;
     QString usageMode() const;
+    qint64 lockedOutTime() const;
 
     void setPictureUri(const QString &str);
     void setUsageMode(const QString &usageMode);
+    void setLockedOutTime(qint64 timestamp);
 
 Q_SIGNALS:
     void schemaChanged();
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
+    void lockedOutTimeChanged(qint64);
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -83,15 +87,20 @@ public:
     QString usageMode() const;
     Q_INVOKABLE void setUsageMode(const QString &usageMode);
 
+    qint64 lockedOutTime() const;
+    Q_INVOKABLE void setLockedOutTime(qint64 timestamp);
+
 Q_SIGNALS:
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
+    void lockedOutTimeChanged(qint64 timestamp);
 
 private:
     GSettingsControllerQml();
 
     QString m_pictureUri;
     QString m_usageMode;
+    qint64 m_lockedOutTime;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;
