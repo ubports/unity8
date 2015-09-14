@@ -105,7 +105,7 @@ Rectangle {
             var dialogsPrivate = findInvisibleChild(dialogs, "dialogsPrivate");
             dialogsPrivate.showPowerDialog();
             var dialogLoader = findInvisibleChild(dialogs, "dialogLoader");
-            tryCompare(dialogLoader.item, "focus", true);
+            tryCompare(dialogLoader.item.__foreground, "focus", true);
         }
     }
 }
