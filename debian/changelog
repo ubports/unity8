@@ -1,8 +1,8 @@
-unity8 (8.12+15.04.20150914-0ubuntu1) vivid; urgency=medium
-  [ Lukas Tinkl ]
-  * bump OOBE version to fix build
+unity8 (8.12+15.10.20150907-0ubuntu2) UNRELEASED; urgency=medium
 
- -- Lukas Tinkl <lukas.tinkl@canonical.com> Mon, 14 Sep 2015 12:42:00 +0200
+  * bump version to fix OOBE build
+
+ -- Lukas Tinkl <ltinkl@canonical.com>  Mon, 14 Sep 2015 19:19:23 +0200
 
 unity8 (8.11+15.10.20150907-0ubuntu1) wily; urgency=medium
 
