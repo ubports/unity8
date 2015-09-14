@@ -47,6 +47,8 @@ Item {
     property int drawBuffer: width / pathItemCount // an "ok" value - but values used from the listView cause loops
     /// The selected item can be shown in a different size controlled by selectedItemScaleFactor
     property real selectedItemScaleFactor: 1.1
+    /// The extra margin at the bottom
+    property real extraBottomMargin: 0
     /// The index of the item that should be highlighted
     property alias highlightIndex: listView.highlightIndex
     /// exposes the delegate of the currentItem
@@ -114,13 +116,13 @@ Item {
         readonly property real tileWidth: Math.max(realWidth / pathItemCount, minimumTileWidth)
         readonly property real tileHeight: tileWidth / tileAspectRatio
         readonly property real translationXViewFactor: 0.2 * (referenceGapToMiddlePhase / gapToMiddlePhase)
-        readonly property real verticalMargin: (parent.height - tileHeight) / 2
+        readonly property real verticalMargin: (parent.height - tileHeight - carousel.extraBottomMargin) / 2
         readonly property real visibleTilesScaleFactor: realPathItemCount / referencePathItemCount
 
         anchors {
             fill: parent
             topMargin: verticalMargin
-            bottomMargin: verticalMargin
+            bottomMargin: verticalMargin + carousel.extraBottomMargin
             // extending the "drawing area"
             leftMargin: -carousel.drawBuffer
             rightMargin: -carousel.drawBuffer
@@ -249,7 +251,7 @@ Item {
                                                                      listView.gapToEndPhase,
                                                                      listView.translationXViewFactor)
 
-        delegate: tileWidth > 0 && tileHeight > 0 ? loaderComponent : undefined
+        delegate: tileWidth > 0 && tileHeight > 0 ? loaderComponent : null
 
         Component {
             id: loaderComponent

@@ -15,7 +15,15 @@ Module {
         isSingleton: true
         exportMetaObjectRevisions: [0]
         Signal {
+            name: "LogoutRequested"
+            Parameter { name: "have_inhibitors"; type: "bool" }
+        }
+        Signal {
             name: "logoutRequested"
+            Parameter { name: "have_inhibitors"; type: "bool" }
+        }
+        Signal {
+            name: "RebootRequested"
             Parameter { name: "have_inhibitors"; type: "bool" }
         }
         Signal {
@@ -23,19 +31,45 @@ Module {
             Parameter { name: "have_inhibitors"; type: "bool" }
         }
         Signal {
+            name: "ShutdownRequested"
+            Parameter { name: "have_inhibitors"; type: "bool" }
+        }
+        Signal {
             name: "shutdownRequested"
             Parameter { name: "have_inhibitors"; type: "bool" }
         }
+        Signal { name: "LogoutReady" }
         Signal { name: "logoutReady" }
+        Signal { name: "LockRequested" }
+        Signal { name: "lockRequested" }
+        Signal { name: "Locked" }
+        Signal { name: "Unlocked" }
         Method { name: "Logout" }
         Method { name: "Reboot" }
         Method { name: "Shutdown" }
+        Method { name: "Suspend" }
+        Method { name: "Hibernate" }
+        Method { name: "HybridSleep" }
         Method { name: "RequestLogout" }
         Method { name: "RequestReboot" }
         Method { name: "RequestShutdown" }
+        Method { name: "EndSession" }
+        Method { name: "CanHibernate"; type: "bool" }
+        Method { name: "CanSuspend"; type: "bool" }
+        Method { name: "CanHybridSleep"; type: "bool" }
+        Method { name: "CanReboot"; type: "bool" }
+        Method { name: "CanShutdown"; type: "bool" }
+        Method { name: "CanLock"; type: "bool" }
+        Method { name: "UserName"; type: "string" }
+        Method { name: "RealName"; type: "string" }
+        Method { name: "HostName"; type: "string" }
+        Method { name: "PromptLock" }
+        Method { name: "Lock" }
+        Method { name: "IsLocked"; type: "bool" }
         Method { name: "logout" }
         Method { name: "reboot" }
         Method { name: "shutdown" }
+        Method { name: "endSession" }
     }
     Component {
         name: "OrientationLock"
