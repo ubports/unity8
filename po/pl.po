@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
-"X-Generator: Launchpad (build 17706)\n"
+"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
+"X-Generator: Launchpad (build 17720)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -122,12 +122,11 @@ msgstr "Urządzenie zablokowane"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"Zostałeś zablokowany z powodu zbyt wielu błędnych prób podania hasła."
+msgstr "Zablokowano z powodu zbyt wielu prób podania nieprawidłowego hasła."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "Zablokowano z powodu zbyt wielu prób podania niepoprawnego hasła"
+msgstr "Zablokowano z powodu zbyt wielu prób podania nieprawidłowego hasła."
 
 #: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
@@ -137,83 +136,83 @@ msgstr[0] "Poczekaj %1 minutę i spróbuj ponownie…"
 msgstr[1] "Poczekaj %1 minuty i spróbuj ponownie…"
 msgstr[2] "Poczekaj %1 minut i spróbuj ponownie…"
 
-#: qml/Components/Dialogs.qml:69
+#: qml/Components/Dialogs.qml:112
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Wylogowanie"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:113
 msgid "Are you sure you want to log out?"
-msgstr "Czy na pewno wylogować?"
+msgstr "Wylogować?"
 
-#: qml/Components/Dialogs.qml:72
+#: qml/Components/Dialogs.qml:115
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Blokada"
 
-#: qml/Components/Dialogs.qml:79
+#: qml/Components/Dialogs.qml:122
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Wyloguj"
 
-#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:221
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:141
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Wyłącz"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:142
 msgid "Are you sure you want to shut down?"
-msgstr "Czy na pewno wyłączyć?"
+msgstr "Wyłączyć?"
 
-#: qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:144
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Uruchom ponownie"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:153
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Wyłącz"
 
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Uruchom ponownie"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
-msgstr "Czy na pewno uruchomić ponownie?"
+msgstr "Uruchomić ponownie?"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr "Nie"
 
-#: qml/Components/Dialogs.qml:138
+#: qml/Components/Dialogs.qml:185
 msgid "Yes"
 msgstr "Tak"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:200
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Zasilanie"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:201
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Czy na pewno wyłączyć?"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:203
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Wyłącz"
 
-#: qml/Components/Dialogs.qml:164
+#: qml/Components/Dialogs.qml:212
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Uruchom ponownie"
@@ -394,11 +393,11 @@ msgstr "Dotknij aby powrócić do połączenia..."
 msgid "Conference"
 msgstr "Konferencja"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:639
+#: qml/Panel/Indicators/MenuItemFactory.qml:674
 msgid "Nothing is playing"
 msgstr "Nic nie jest odtwarzane"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -406,7 +405,7 @@ msgstr[0] "%1 godzina"
 msgstr[1] "%1 godziny"
 msgstr[2] "%1 godzin"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#: qml/Panel/Indicators/MenuItemFactory.qml:807
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -414,7 +413,7 @@ msgstr[0] "%1 minuta"
 msgstr[1] "%1 minuty"
 msgstr[2] "%1 minut"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#: qml/Panel/Indicators/MenuItemFactory.qml:812
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -422,37 +421,37 @@ msgstr[0] "%1 sekunda"
 msgstr[1] "%1 sekundy"
 msgstr[2] "%1 sekund"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:780
+#: qml/Panel/Indicators/MenuItemFactory.qml:815
 msgid "0 seconds"
 msgstr "0 sekund"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#: qml/Panel/Indicators/MenuItemFactory.qml:817
 #, qt-format
 msgid "%1 remaining"
 msgstr "Pozostało: %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:788
+#: qml/Panel/Indicators/MenuItemFactory.qml:823
 msgid "In queue…"
 msgstr "W kolejce..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:792
+#: qml/Panel/Indicators/MenuItemFactory.qml:827
 msgid "Downloading"
 msgstr "Pobieranie"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:794
+#: qml/Panel/Indicators/MenuItemFactory.qml:829
 msgid "Paused, tap to resume"
 msgstr "Wstrzymano, kliknij by wznowić"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:796
+#: qml/Panel/Indicators/MenuItemFactory.qml:831
 msgid "Canceled"
 msgstr "Anulowano"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:798
+#: qml/Panel/Indicators/MenuItemFactory.qml:833
 msgid "Finished"
 msgstr "Zakończono"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:800
+#: qml/Panel/Indicators/MenuItemFactory.qml:835
 msgid "Failed, tap to retry"
 msgstr "Błąd, kliknij aby powtórzyć"
 
@@ -460,6 +459,10 @@ msgstr "Błąd, kliknij aby powtórzyć"
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Odpowiedz"
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+msgid "Call back"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -527,6 +530,38 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Powrót"
 
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Zasady i warunki"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Potwierdź hasło"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Potwierdź kod"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Proszę spróbować ponownie."
+
+#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50
+msgid "Continue"
+msgstr "Kontynuuj"
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Proszę wybrać kod"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Hasło musi składać się z 4 znaków"
+
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr "Witaj!"
@@ -538,13 +573,6 @@ msgstr "Witamy w telefonie z systemem Ubuntu."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "Zaczynajmy."
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "Kontynuuj"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -677,31 +705,6 @@ msgstr "Twoje urządzenie jest gotowe do pracy"
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
 msgstr "Zakończ"
-
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "Zasady i warunki"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Potwierdź hasło"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "Potwierdź kod"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Proszę spróbować ponownie."
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Wybierz kod"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "Hasło musi składać się z 4 znaków"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39

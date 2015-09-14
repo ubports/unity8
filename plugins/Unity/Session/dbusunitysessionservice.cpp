@@ -28,6 +28,7 @@
 #include <QDBusReply>
 #include <QElapsedTimer>
 #include <QDateTime>
+#include <QDBusUnixFileDescriptor>
 
 #define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
 #define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
@@ -44,6 +45,7 @@ public:
     QString logindSessionPath;
     bool isSessionActive = true;
     QElapsedTimer screensaverActiveTimer;
+    QDBusUnixFileDescriptor m_systemdInhibitFd;
 
     DBusUnitySessionServicePrivate(): QObject() {
         init();
@@ -66,10 +68,39 @@ public:
             // start watching the Active property
             QDBusConnection::systemBus().connect(LOGIN1_SERVICE, logindSessionPath, "org.freedesktop.DBus.Properties", "PropertiesChanged",
                                                  this, SLOT(onPropertiesChanged(QString,QVariantMap,QStringList)));
+
+            setupSystemdInhibition();
+
+            // re-enable the inhibition upon resume from sleep
+            QDBusConnection::systemBus().connect(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, "PrepareForSleep",
+                                                 this, SLOT(onResuming(bool)));
         } else {
             qWarning() << "Failed to get logind session path" << reply.error().message();
         }
     }
+
+    void setupSystemdInhibition()
+    {
+        if (m_systemdInhibitFd.isValid())
+            return;
+
+        // inhibit systemd handling of power/sleep/lid buttons
+        // http://www.freedesktop.org/wiki/Software/systemd/inhibit
+
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, "Inhibit");
+        msg << "handle-power-key:handle-suspend-key:handle-hibernate-key:handle-lid-switch"; // what
+        msg << "Unity"; // who
+        msg << "Unity8 handles power events"; // why
+        msg << "block"; // mode
+        QDBusReply<QDBusUnixFileDescriptor> desc = QDBusConnection::systemBus().asyncCall(msg);
+
+        if (desc.isValid()) {
+            m_systemdInhibitFd = desc.value();
+        } else {
+            qWarning() << "failed to inhibit systemd powersave handling";
+        }
+    }
+
 
     bool checkLogin1Call(const QString &method) const
     {
@@ -105,7 +136,6 @@ public:
         QDBusReply<QVariant> reply = QDBusConnection::systemBus().asyncCall(msg);
         if (reply.isValid()) {
             isSessionActive = reply.value().toBool();
-            qDebug() << "Session" << logindSessionPath << "is active:" << isSessionActive;
         } else {
             qWarning() << "Failed to get Active property" << reply.error().message();
         }
@@ -170,6 +200,13 @@ private Q_SLOTS:
                 screensaverActiveTimer.start();
                 setIdleHint(true);
             }
+        }
+    }
+
+    void onResuming(bool active)
+    {
+        if (!active) {
+            setupSystemdInhibition();
         }
     }
 
@@ -287,7 +324,6 @@ void DBusUnitySessionService::Lock()
                                                       sessionPath,
                                                       "org.freedesktop.DisplayManager.Session",
                                                       "Lock");
-    qDebug() << "Locking session" << msg.path();
     QDBusReply<void> reply = QDBusConnection::systemBus().asyncCall(msg);
     if (!reply.isValid()) {
         qWarning() << "Lock call failed" << reply.error().message();

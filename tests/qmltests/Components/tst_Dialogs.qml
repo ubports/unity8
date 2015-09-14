@@ -32,6 +32,7 @@ Rectangle {
         signal logoutRequested
         signal shutdownRequested
         signal rebootRequested
+        signal logoutReady
         function logout() {}
         function shutdown() {}
         function reboot() {}
@@ -79,15 +80,19 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
-            Button { text: "Power dialog"; onClicked: { testCase.test_showPowerDialog(); } }
-            Button { text: "Logout Requested"; onClicked: { fakeUnitySession.logoutRequested(); } }
-            Button { text: "Shutdown Requested"; onClicked: { fakeUnitySession.shutdownRequested(); } }
-            Button { text: "Reboot Requested"; onClicked: { fakeUnitySession.rebootRequested(); } }
+            Button { text: "Power dialog"; onClicked: { testCase.test_showPowerDialog(); }
+                     activeFocusOnPress: false }
+            Button { text: "Logout Requested"; onClicked: { fakeUnitySession.logoutRequested(); }
+                     activeFocusOnPress: false }
+            Button { text: "Shutdown Requested"; onClicked: { fakeUnitySession.shutdownRequested(); }
+                     activeFocusOnPress: false }
+            Button { text: "Reboot Requested"; onClicked: { fakeUnitySession.rebootRequested(); }
+                     activeFocusOnPress: false }
             Label { text: "Rotation:" }
-            Button { text: "0"; onClicked: {fakeShell.rotation = 0;} }
-            Button { text: "90"; onClicked: {fakeShell.rotation = 90;} }
-            Button { text: "180"; onClicked: {fakeShell.rotation = 180;} }
-            Button { text: "270"; onClicked: {fakeShell.rotation = 270;} }
+            Button { text: "0"; onClicked: {fakeShell.rotation = 0;} activeFocusOnPress: false }
+            Button { text: "90"; onClicked: {fakeShell.rotation = 90;} activeFocusOnPress: false }
+            Button { text: "180"; onClicked: {fakeShell.rotation = 180;} activeFocusOnPress: false }
+            Button { text: "270"; onClicked: {fakeShell.rotation = 270;} activeFocusOnPress: false }
         }
     }
 
