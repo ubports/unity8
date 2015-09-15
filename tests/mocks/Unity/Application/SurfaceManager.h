@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include <QObject>
 
-#include "MirSurfaceItem.h"
+#include "MirSurface.h"
 #include "VirtualKeyboard.h"
 
 class SurfaceManager : public QObject
@@ -30,21 +30,18 @@ public:
 
     static SurfaceManager *singleton();
 
-    Q_INVOKABLE MirSurfaceItem *createSurface(const QString& name,
-                                  MirSurfaceItem::Type type,
-                                  MirSurfaceItem::State state,
+    Q_INVOKABLE MirSurface* createSurface(const QString& name,
+                                  Mir::Type type,
+                                  Mir::State state,
                                   const QUrl& screenshot);
 
-    // Internal mock use
-    void registerSurface(MirSurfaceItem *surface);
-
     // To be used in the tests
-    Q_INVOKABLE MirSurfaceItem *inputMethodSurface();
+    Q_INVOKABLE MirSurface* inputMethodSurface();
 
 Q_SIGNALS:
     void countChanged();
-    void surfaceCreated(MirSurfaceItem *surface);
-    void surfaceDestroyed(MirSurfaceItem *surface);
+    void surfaceCreated(MirSurface *surface);
+    void surfaceDestroyed(MirSurface*surface);
 
 private:
     static SurfaceManager *the_surface_manager;

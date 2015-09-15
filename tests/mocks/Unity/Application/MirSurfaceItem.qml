@@ -47,6 +47,7 @@ Rectangle {
         y: surfaceText.y
         width: surfaceText.width
         height: surfaceText.height
+        clip: true
 
         transform: Translate { x: -2; y: -2 }
     }
@@ -58,6 +59,7 @@ Rectangle {
         fontSizeMode: Text.Fit
         minimumPixelSize: 10; font.pixelSize: 200
         verticalAlignment: Text.AlignVCenter
+        clip: true
 
         rotation: root.orientationAngle
         x: (parent.width - width) / 2
