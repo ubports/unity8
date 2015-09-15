@@ -24,6 +24,7 @@ import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Ubuntu.Components 1.1
+import "../../Greeter"
 
 Item {
     id: menuFactory
@@ -63,6 +64,14 @@ Item {
         },
         "indicator-messages" : {
             "com.canonical.indicator.button"         : messagesButtonMenu
+        },
+        "indicator-datetime" : {
+            "com.canonical.indicator.calendar": calendarMenu,
+            "com.canonical.indicator.location": timezoneMenu
+        },
+        "indicator-session" : {
+            "indicator.user-menu-item": userMenuItem,
+            "indicator.guest-menu-item": userMenuItem
         }
     }
 
@@ -72,6 +81,8 @@ Item {
         }
         return defaultValue;
     }
+
+    LightDM {id: lightDM} // Provide backend access
 
     Component {
         id: separatorMenu;
@@ -418,6 +429,78 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-color': 'string',
                                                              'x-canonical-time': 'int64',
                                                              'x-canonical-time-format': 'string'});
+            }
+        }
+    }
+
+    Component {
+        id: userMenuItem
+
+        Menus.UserSessionMenu {
+            objectName: "userSessionMenu"
+            highlightWhenPressed: false
+
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            //property var extendedData: menuData && menuData.ext || undefined
+
+            name: menuData && menuData.label || ""
+            iconSource: menuData && menuData.icon || ""
+            // active: true // TODO hook up with lightdm
+
+            onTriggered: {
+                menuModel.activate(menuIndex);
+            }
+        }
+    }
+
+    Component {
+        id: calendarMenu
+
+        Menus.CalendarMenu {
+            objectName: "calendarMenu"
+            highlightWhenPressed: false
+        }
+    }
+
+    Component {
+        id: timezoneMenu
+
+        Menus.TimeZoneMenu {
+            id: tzMenuItem
+            objectName: "timezoneMenu"
+
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
+            readonly property var tz: getExtendedProperty(extendedData, "xCanonicalTimezone", "UTC")
+            property var tzFormatter: Utils.TimeFormatter {}
+            property var updateTimer: Timer {
+                repeat: true
+                running: true
+                onTriggered: tzMenuItem.time = tzMenuItem.tzFormatter.currentTimeInTimezone(tzMenuItem.tz)
+            }
+
+            city: menuData && menuData.label || ""
+            time: tzFormatter.currentTimeInTimezone(tz)
+            enabled: menuData && menuData.sensitive || false
+            highlightWhenPressed: false
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+            onTriggered: {
+                menuModel.activate(menuIndex);
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-timezone': 'string'});
             }
         }
     }

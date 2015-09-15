@@ -42,6 +42,8 @@ public:
 
     void update();
 
+    Q_INVOKABLE QString currentTimeInTimezone(const QVariant &tzId) const;
+
 Q_SIGNALS:
     void formatChanged(const QString &format);
     void timeStringChanged(const QString &timeString);
