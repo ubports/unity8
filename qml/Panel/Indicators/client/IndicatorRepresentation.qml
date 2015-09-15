@@ -26,7 +26,7 @@ import "../.."
 Page {
     id: root
 
-    title: indicatorProperties && indicatorProperties.title ?  indicatorProperties.title : ""
+    title: indicatorProperties && indicatorProperties.title ?  indicatorProperties.title : indicatorProperties.accessibleName
     property variant indicatorProperties
 
     anchors.fill: parent

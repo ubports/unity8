@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
@@ -24,7 +21,7 @@ import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
 import Ubuntu.Components 1.1
-import "../../Greeter"
+import Unity.Session 0.1
 
 Item {
     id: menuFactory
@@ -81,8 +78,6 @@ Item {
         }
         return defaultValue;
     }
-
-    LightDM {id: lightDM} // Provide backend access
 
     Component {
         id: separatorMenu;
@@ -443,11 +438,12 @@ Item {
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
-            //property var extendedData: menuData && menuData.ext || undefined
 
-            name: menuData && menuData.label || ""
+            name: menuData && menuData.label || "" // label is the user's real name
             iconSource: menuData && menuData.icon || ""
-            // active: true // TODO hook up with lightdm
+
+            // would be better to compare with the logname but sadly the indicator doesn't expose that
+            active: DBusUnitySessionService.RealName() !== "" ? DBusUnitySessionService.RealName() == name : DBusUnitySessionService.UserName() == name
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -479,7 +475,7 @@ Item {
             property var tzFormatter: Utils.TimeFormatter {}
             property var updateTimer: Timer {
                 repeat: true
-                running: true
+                running: identifier == "indicator-datetime" // only run when we're open
                 onTriggered: tzMenuItem.time = tzMenuItem.tzFormatter.currentTimeInTimezone(tzMenuItem.tz)
             }
 
