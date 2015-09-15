@@ -19,7 +19,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1 as QMenuModel
 import Utils 0.1 as Utils
@@ -35,12 +35,16 @@ Loader {
     signal menuSelected
     signal menuDeselected
 
-    property var extendedData: menuData && menuData.ext || undefined
-    property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
-
-    // TODO - bug #1260728
-    property var timeFormatter: Utils.RelativeTimeFormatter {
-        time: getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000000
+    QtObject {
+        id: priv
+        property var extendedData: menuData && menuData.ext || undefined
+        property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
+        property date time: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000)
+    }
+    LiveTimer {
+        frequency: LiveTimer.Relative
+        relativeTime: priv.time
+        onTrigger: priv.time = new Date(getExtendedProperty(priv.extendedData, "xCanonicalTime", 0) / 1000)
     }
 
     onMenuModelChanged: {
@@ -50,7 +54,7 @@ Loader {
         loadAttributes();
     }
 
-    sourceComponent: loadMessage(actionsDescription)
+    sourceComponent: loadMessage(priv.actionsDescription)
 
     function loadMessage(actions)
     {
@@ -100,11 +104,11 @@ Loader {
             objectName: "simpleTextMessage"
             // text
             title: menuData && menuData.label || ""
-            time: timeFormatter.timeString
-            body: getExtendedProperty(extendedData, "xCanonicalText", "")
+            time: i18n.relativeDateTime(priv.time)
+            body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
             // icons
-            avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
-            icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
+            avatar: getExtendedProperty(priv.extendedData, "icon", "image://theme/contact")
+            icon: getExtendedProperty(priv.extendedData, "xCanonicalAppIcon", "image://theme/message")
             // actions
             enabled: menuData && menuData.sensitive || false
             removable: !selected
@@ -133,7 +137,9 @@ Loader {
         Menus.TextMessageMenu {
             id: message
             objectName: "textMessage"
-            property var replyActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
+            property var replyActionDescription: priv.actionsDescription && priv.actionsDescription.length > 0 ?
+                                                     priv.actionsDescription[0] :
+                                                     undefined
 
             property var replyAction: QMenuModel.UnityMenuAction {
                 model: menuModel
@@ -143,13 +149,13 @@ Loader {
 
             // text
             title: menuData && menuData.label || ""
-            time: timeFormatter.timeString
-            body: getExtendedProperty(extendedData, "xCanonicalText", "")
+            time: i18n.relativeDateTime(priv.time)
+            body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
             replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
             replyHintText: i18n.ctr("Label: Hint in message indicator line edit", "Reply")
             // icons
-            avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
-            icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/message")
+            avatar: getExtendedProperty(priv.extendedData, "icon", "image://theme/contact")
+            icon: getExtendedProperty(priv.extendedData, "xCanonicalAppIcon", "image://theme/message")
             // actions
             replyEnabled: replyAction.valid && replyAction.enabled
             enabled: menuData && menuData.sensitive || false
@@ -183,8 +189,10 @@ Loader {
         Menus.SnapDecisionMenu {
             id: message
             objectName: "snapDecision"
-            property var activateActionDescription: actionsDescription && actionsDescription.length > 0 ? actionsDescription[0] : undefined
-            property var replyActionDescription: actionsDescription && actionsDescription.length > 1 ? actionsDescription[1] : undefined
+            property var activateActionDescription: priv.actionsDescription && priv.actionsDescription.length > 0 ?
+                                                        priv.actionsDescription[0] : undefined
+            property var replyActionDescription: priv.actionsDescription && priv.actionsDescription.length > 1 ?
+                                                     priv.actionsDescription[1] : undefined
 
             property var activateAction: QMenuModel.UnityMenuAction {
                 model: menuModel
@@ -199,13 +207,13 @@ Loader {
 
             // text
             title: menuData && menuData.label || ""
-            time: timeFormatter.timeString
-            body: getExtendedProperty(extendedData, "xCanonicalText", "")
+            time: i18n.relativeDateTime(priv.time)
+            body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
             actionButtonText: getExtendedProperty(activateActionDescription, "label", i18n.tr("Call back"))
             replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.tr("Send"))
             // icons
-            avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")
-            icon: getExtendedProperty(extendedData, "xCanonicalAppIcon", "image://theme/missed-call")
+            avatar: getExtendedProperty(priv.extendedData, "icon", "image://theme/contact")
+            icon: getExtendedProperty(priv.extendedData, "xCanonicalAppIcon", "image://theme/missed-call")
             // actions
             actionEnabled: activateAction.valid && activateAction.enabled
             replyEnabled: replyAction.valid && replyAction.enabled
