@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
-import LightDM 0.1 as LightDM
+import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
 import Ubuntu.Components.ListItems 1.0 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
@@ -726,19 +726,19 @@ Rectangle {
             var item = findChild(shell, "inputMethod");
             var surface = SurfaceManager.inputMethodSurface();
 
-            surface.setState(MirSurfaceItem.Minimized);
+            surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
 
-            surface.setState(MirSurfaceItem.Restored);
+            surface.setState(Mir.RestoredState);
             tryCompare(item, "visible", true);
 
-            surface.setState(MirSurfaceItem.Minimized);
+            surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
 
-            surface.setState(MirSurfaceItem.Maximized);
+            surface.setState(Mir.MaximizedState);
             tryCompare(item, "visible", true);
 
-            surface.setState(MirSurfaceItem.Minimized);
+            surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
         }
 
@@ -1112,20 +1112,20 @@ Rectangle {
 
             waitUntilFocusedApplicationIsShowingItsSurface();
 
-            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
-            verify(topmostSurface);
+            var topmostSurfaceItem = findChild(topmostSpreadDelegate, "surfaceItem");
+            verify(topmostSurfaceItem);
 
             var rightEdgeDragArea = findChild(shell, "spreadDragArea");
-            topmostSurface.touchPressCount = 0;
-            topmostSurface.touchReleaseCount = 0;
+            topmostSurfaceItem.touchPressCount = 0;
+            topmostSurfaceItem.touchReleaseCount = 0;
 
             var tapPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
                     rightEdgeDragArea.height / 2);
 
             tap(shell, tapPoint.x, tapPoint.y);
 
-            tryCompare(topmostSurface, "touchPressCount", 1);
-            tryCompare(topmostSurface, "touchReleaseCount", 1);
+            tryCompare(topmostSurfaceItem, "touchPressCount", 1);
+            tryCompare(topmostSurfaceItem, "touchReleaseCount", 1);
         }
 
         /*
@@ -1137,11 +1137,11 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
-            var topmostSurface = findChild(topmostSpreadDelegate, "surfaceContainer").surface;
+            var topmostSurfaceItem = findChild(topmostSpreadDelegate, "surfaceItem");
             var rightEdgeDragArea = findChild(shell, "spreadDragArea");
 
-            topmostSurface.touchPressCount = 0;
-            topmostSurface.touchReleaseCount = 0;
+            topmostSurfaceItem.touchPressCount = 0;
+            topmostSurfaceItem.touchReleaseCount = 0;
 
             var gestureStartPoint = rightEdgeDragArea.mapToItem(shell, rightEdgeDragArea.width / 2,
                     rightEdgeDragArea.height / 2);
@@ -1150,8 +1150,8 @@ Rectangle {
                     gestureStartPoint.x /* fromX */, gestureStartPoint.y /* fromY */,
                     units.gu(1) /* toX */, gestureStartPoint.y /* toY */);
 
-            tryCompare(topmostSurface, "touchPressCount", 0);
-            tryCompare(topmostSurface, "touchReleaseCount", 0);
+            tryCompare(topmostSurfaceItem, "touchPressCount", 0);
+            tryCompare(topmostSurfaceItem, "touchReleaseCount", 0);
         }
 
         function waitUntilFocusedApplicationIsShowingItsSurface()
@@ -1566,8 +1566,6 @@ Rectangle {
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
 
-            appRemovedSpy.clear();
-
             var focusAppId = ApplicationManager.get(2).appId;
             var appDelegate2 = appRepeater.itemAt(2);
             var decoratedWindow = findChild(appDelegate2, "decoratedWindow");
@@ -1577,7 +1575,7 @@ Rectangle {
 
             // Move the mouse over tile 2 and verify the highlight becomes visible
             var x = 0;
-            var y = shell.height * (data.tileInfo ? .5 : 0.95)
+            var y = shell.height * (data.tileInfo ? .95 : 0.5)
             mouseMove(shell, x, y)
             while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
@@ -1592,6 +1590,42 @@ Rectangle {
             // Verify that we left the spread and app2 is the focused one now
             tryCompare(stage, "state", "");
             tryCompare(ApplicationManager, "focusedApplicationId", focusAppId);
+
+            keyRelease(Qt.Key_Control);
+        }
+
+        function test_progressiveAutoScrolling() {
+            loadDesktopShellWithApps()
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+            var spreadFlickable = findChild(shell, "spreadFlickable")
+            print("have flickable", spreadFlickable, spreadFlickable.contentX)
+
+            compare(spreadFlickable.contentX, 0);
+
+            // Move the mouse to the right and make sure it scrolls the Flickable
+            var x = 0;
+            var y = shell.height * .5
+            mouseMove(shell, x, y)
+            while (x <= spreadFlickable.width) {
+                x+=10;
+                mouseMove(shell, x, y)
+                wait(0); // spin the loop so bindings get evaluated
+            }
+            tryCompare(spreadFlickable, "contentX", spreadFlickable.contentWidth - spreadFlickable.width);
+
+            // And turn around
+            while (x > 0) {
+                x-=10;
+                mouseMove(shell, x, y)
+                wait(0); // spin the loop so bindings get evaluated
+            }
+            tryCompare(spreadFlickable, "contentX", 0);
 
             keyRelease(Qt.Key_Control);
         }

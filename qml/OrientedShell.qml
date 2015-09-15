@@ -128,19 +128,15 @@ Rectangle {
         switch (angle) {
         case 0:
             return nativeOrientation;
-            break;
         case 90:
             return nativeOrientation === Qt.PortraitOrientation ? Qt.InvertedLandscapeOrientation
                                                                 : Qt.PortraitOrientation;
-            break;
         case 180:
             return nativeOrientation === Qt.PortraitOrientation ? Qt.InvertedPortraitOrientation
                                                                 : Qt.InvertedLandscapeOrientation;
-            break;
         case 270:
             return nativeOrientation === Qt.PortraitOrientation ? Qt.LandscapeOrientation
                                                                 : Qt.InvertedPortraitOrientation;
-            break;
         default:
             console.warn("angleToOrientation: Invalid orientation angle: " + angle);
             return orientations.primary;

@@ -30,7 +30,6 @@ import Powerd 0.1
     * Power dialog
     * Volume Decreases/Increases
     * Screenshots
-
 */
 
 Item {
@@ -68,7 +67,7 @@ Item {
 
     function onKeyPressed(event) {
         if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)
-            && !event.isAutoRepeat) {
+            && (!event.isAutoRepeat || !powerKeyLongPressTimer.running)) {
 
             // FIXME: We only consider power key presses if the screen is
             // on because of bugs 1410830/1409003.  The theory is that when
@@ -80,15 +79,15 @@ Item {
             if (Powerd.status === Powerd.On) {
                 powerKeyLongPressTimer.restart();
             }
-            event.accepted = true;
-        } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay)
-                   && !event.isAutoRepeat) {
+        } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) && !event.isAutoRepeat) {
             event.accepted = callManager.handleMediaKey(false);
         } else if (event.key == Qt.Key_VolumeDown) {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeDownTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeUpKeyPressed) {
-                    if (Powerd.status === Powerd.On) root.screenshotTriggered();
+                    if (Powerd.status === Powerd.On) {
+                        root.screenshotTriggered();
+                    }
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeDownKeyPressed = true;
@@ -97,7 +96,9 @@ Item {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeUpTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeDownKeyPressed) {
-                    if (Powerd.status === Powerd.On) root.screenshotTriggered();
+                    if (Powerd.status === Powerd.On) {
+                        root.screenshotTriggered();
+                    }
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeUpKeyPressed = true;
@@ -109,8 +110,6 @@ Item {
                 d.altTabPressed = true;
                 event.accepted = true;
             }
-        } else if (event.key == Qt.Key_Print) {
-            root.screenshotTriggered();
         }
     }
 

@@ -44,7 +44,7 @@ QDeclarativeInputDeviceInfo::QDeclarativeInputDeviceInfo(QObject *parent) :
     QAbstractListModel(parent),
     deviceInfo(new QInputDeviceInfo)
 {
-    connect(deviceInfo,SIGNAL(ready()),this,SLOT(updateDeviceList()));
+    connect(deviceInfo, &QInputDeviceInfo::ready, this, &QDeclarativeInputDeviceInfo::updateDeviceList);
     connect(deviceInfo, &QInputDeviceInfo::deviceAdded,this,&QDeclarativeInputDeviceInfo::addedDevice);
     connect(deviceInfo, &QInputDeviceInfo::deviceRemoved,this,&QDeclarativeInputDeviceInfo::removedDevice);
 }

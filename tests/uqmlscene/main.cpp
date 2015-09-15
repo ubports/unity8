@@ -222,8 +222,8 @@ static int displayOptionsDialog(Options *options)
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
                                                        Qt::Horizontal,
                                                        &dialog);
-    QObject::connect(buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    QObject::connect(buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
     layout->addRow("Qml file:", qmlFileComboBox);
     layout->addWidget(originalCheckBox);
@@ -498,7 +498,7 @@ int main(int argc, char ** argv)
 #endif
                 loadDummyDataFiles(engine, fi.path());
             }
-            QObject::connect(&engine, SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
+            QObject::connect(&engine, &QQmlEngine::quit, QCoreApplication::instance(), &QCoreApplication::quit);
 
             qmlRegisterSingletonType<QObject>("Qt.test.qtestroot", 1, 0, "QTestRootObject", testRootObject);
 
