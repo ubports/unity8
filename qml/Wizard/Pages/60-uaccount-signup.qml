@@ -145,20 +145,20 @@ LocalComponents.Page {
             anchors.top: pass2Label.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
-            KeyNavigation.tab: encryptCheck
-        }
-
-        LocalComponents.CheckableSetting {
-            id: encryptCheck
-            objectName: "encryptCheck"
-            showDivider: false
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: pass2Input.bottom
-            anchors.topMargin: units.gu(2)
-            text: i18n.tr("Encrypt my content")
             KeyNavigation.tab: emailInput
         }
+
+//        LocalComponents.CheckableSetting {
+//            id: encryptCheck
+//            objectName: "encryptCheck"
+//            showDivider: false
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: pass2Input.bottom
+//            anchors.topMargin: units.gu(2)
+//            text: i18n.tr("Encrypt my content")
+//            KeyNavigation.tab: emailInput
+//        }
 
         //        LocalComponents.CheckableSetting {
         //            id: optoutCheck
