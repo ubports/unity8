@@ -16,9 +16,9 @@
 
 import QtQuick 2.3
 import QMenuModel 0.1 as QMenuModel
-import QtSystemInfo 5.0
 import Ubuntu.Components 1.2
 import Ubuntu.Settings.Menus 0.1 as Menus
+import Wizard 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -28,7 +28,7 @@ LocalComponents.Page {
     title: i18n.tr("Connect to Wi‑Fi")
     forwardButtonSourceComponent: forwardButton
 
-    readonly property bool connected: networkInfo.accessPointName
+    readonly property bool connected: Status.online
 
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
@@ -67,30 +67,6 @@ LocalComponents.Page {
         menuObjectPath: "/com/canonical/indicator/network/phone_wifi_settings"
     }
 
-    NetworkInfo {
-        id: networkInfo
-
-        property string accessPointName
-
-        monitorCurrentNetworkMode: true
-        monitorNetworkName: true
-        monitorNetworkStatus: true
-
-        onCurrentNetworkModeChanged: getAccessPointName()
-        onNetworkNameChanged: getAccessPointName()
-        onNetworkStatusChanged: if (status !== NetworkInfo.HomeNetwork) accessPointName = ""
-
-        Component.onCompleted: getAccessPointName()
-
-        function getAccessPointName() {
-            // 0 is the interface
-            if (currentNetworkMode === NetworkInfo.WlanMode && networkStatus(NetworkInfo.WlanMode, 0) === NetworkInfo.HomeNetwork)
-                accessPointName = networkName(NetworkInfo.WlanMode, 0);
-            else
-                accessPointName = "";
-        }
-    }
-
     Component {
         id: accessPointComponent
         ListItem {
@@ -109,7 +85,7 @@ LocalComponents.Page {
             }
             readonly property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             readonly property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
-            readonly property bool isConnected: menuData && menuData.label === networkInfo.accessPointName
+            readonly property bool isConnected: menuData && menuData.actionState
             property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
