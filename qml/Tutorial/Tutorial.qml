@@ -21,8 +21,6 @@ Item {
     id: root
 
     property alias active: loader.active
-    property bool paused
-    property real edgeSize
 
     property Item launcher
     property Item panel
@@ -45,18 +43,6 @@ Item {
         id: loader
         anchors.fill: parent
         source: "TutorialContent.qml"
-
-        Binding {
-            target: loader.item
-            property: "paused"
-            value: root.paused
-        }
-
-        Binding {
-            target: loader.item
-            property: "edgeSize"
-            value: root.edgeSize
-        }
 
         Binding {
             target: loader.item

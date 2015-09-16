@@ -23,15 +23,11 @@ Item {
     property Item launcher
     property Item panel
 
-    readonly property bool launcherEnabled: !running ||
-                                            (!paused && tutorialLeft.shown)
+    readonly property bool launcherEnabled: !running || tutorialLeft.shown
     readonly property bool spreadEnabled: !running
     readonly property bool panelEnabled: !running
     readonly property bool panelContentEnabled: !running
     readonly property alias running: d.running
-
-    property bool paused: false
-    property real edgeSize
 
     signal finished()
 
@@ -64,54 +60,9 @@ Item {
     TutorialLeft {
         id: tutorialLeft
         objectName: "tutorialLeft"
+        parent: root.panel
         anchors.fill: parent
         launcher: root.launcher
-        paused: !shown || root.paused
-
-        onFinished: tutorialLeftFinish.show()
-    }
-
-    TutorialLeftFinish {
-        id: tutorialLeftFinish
-        objectName: "tutorialLeftFinish"
-        anchors.fill: parent
-        textXOffset: root.launcher.panelWidth
-        paused: !shown || root.paused
-        text: i18n.tr("Tap here to continue.")
-
-        onFinished: {
-            root.launcher.hide();
-            tutorialRight.show();
-        }
-    }
-
-    TutorialRight {
-        id: tutorialRight
-        objectName: "tutorialRight"
-        anchors.fill: parent
-        edgeSize: root.edgeSize
-        panel: root.panel
-        paused: !shown || root.paused
-
-        onFinished: tutorialBottom.show()
-    }
-
-    TutorialBottom {
-        id: tutorialBottom
-        objectName: "tutorialBottom"
-        anchors.fill: parent
-        edgeSize: root.edgeSize
-        paused: !shown || root.paused
-
-        onFinished: tutorialBottomFinish.show()
-    }
-
-    TutorialBottomFinish {
-        id: tutorialBottomFinish
-        objectName: "tutorialBottomFinish"
-        anchors.fill: parent
-        backgroundFadesOut: true
-        paused: !shown || root.paused
 
         onFinished: root.finish()
     }

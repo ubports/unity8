@@ -23,79 +23,25 @@ TutorialPage {
 
     property var launcher
 
-    title: i18n.tr("Open the launcher")
-    text: i18n.tr("Short swipe from the left edge.")
-
-    textXOffset: root.launcher.x + root.launcher.visibleWidth
-
     Connections {
         target: root.launcher
 
         onStateChanged: {
             if (root.launcher.state === "visible") {
-                finishTimer.start();
+                root.hide();
             }
         }
-
-        onDash: {
-            finishTimer.stop();
-            root.showError();
-            root.launcher.hide();
-        }
     }
 
-    SequentialAnimation {
-        id: teaseAnimation
-        objectName: "teaseAnimation"
-        paused: running && root.paused
-        running: !slider.active && root.launcher.visibleWidth === 0 && root.shown
-        loops: Animation.Infinite
-        property real bounce: 0
-        readonly property real maxBounce: units.gu(2)
-
-        UbuntuNumberAnimation {
-            target: teaseAnimation
-            property: "bounce"
-            to: teaseAnimation.maxBounce
-            duration: UbuntuAnimation.SleepyDuration
-        }
-        UbuntuNumberAnimation {
-            target: teaseAnimation
-            property: "bounce"
-            to: 0
-            duration: UbuntuAnimation.SleepyDuration
-        }
+    arrow {
+        anchors.left: root.left
+        anchors.verticalCenter: root.verticalCenter
     }
 
-    Binding {
-        target: root.launcher
-        when: root.shown
-        property: "x"
-        value: Math.min(root.launcher.panelWidth - root.launcher.visibleWidth, teaseAnimation.bounce)
-    }
-
-    Timer {
-        id: finishTimer
-        interval: 1
-        onTriggered: {
-            root.hide();
-            root.launcher.x = 0; // make sure to reset launcher before we go
-        }
-    }
-
-    foreground {
-        children: [
-            LocalComponents.Slider {
-                id: slider
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    topMargin: root.textBottom + units.gu(3)
-                }
-                offset: root.launcher.x + root.launcher.visibleWidth + root.launcher.progress
-                active: root.launcher.dragging
-                shortSwipe: true
-            }
-        ]
+    label {
+        text: i18n.tr("Short swipe from the left edge to open the launcher")
+        anchors.left: arrow.right
+        anchors.right: root.right
+        anchors.verticalCenter: arrow.verticalCenter
     }
 }

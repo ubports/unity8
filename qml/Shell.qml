@@ -383,10 +383,8 @@ Item {
             // more clever here.
             active: usageScenario != "desktop" && AccountsService.demoEdges
 
-            paused: LightDM.Greeter.active
             launcher: launcher
             panel: panel
-            edgeSize: shell.edgeSize
 
             onFinished: {
                 AccountsService.demoEdges = false;

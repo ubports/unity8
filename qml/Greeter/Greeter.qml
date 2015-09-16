@@ -171,6 +171,7 @@ Showable {
     onForcedUnlockChanged: {
         if (forcedUnlock && shown) {
             // pretend we were just authenticated
+            loader.item.hide();
             loader.item.notifyAuthenticationSucceeded();
         }
     }
