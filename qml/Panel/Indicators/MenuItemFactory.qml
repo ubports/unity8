@@ -79,6 +79,11 @@ Item {
         return defaultValue;
     }
 
+    Utils.TimeFormatter
+    {
+        id: tzFormatter
+    }
+
     Component {
         id: separatorMenu;
 
@@ -457,6 +462,7 @@ Item {
         Menus.CalendarMenu {
             objectName: "calendarMenu"
             highlightWhenPressed: false
+            focus: true
         }
     }
 
@@ -472,11 +478,10 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
             readonly property var tz: getExtendedProperty(extendedData, "xCanonicalTimezone", "UTC")
-            property var tzFormatter: Utils.TimeFormatter {}
             property var updateTimer: Timer {
                 repeat: true
                 running: identifier == "indicator-datetime" // only run when we're open
-                onTriggered: tzMenuItem.time = tzMenuItem.tzFormatter.currentTimeInTimezone(tzMenuItem.tz)
+                onTriggered: tzMenuItem.time = tzFormatter.currentTimeInTimezone(tzMenuItem.tz)
             }
 
             city: menuData && menuData.label || ""
