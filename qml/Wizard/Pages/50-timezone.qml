@@ -120,9 +120,8 @@ LocalComponents.Page {
             placeholderText: i18n.tr("Enter your city or country")
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: {
-                if (text == "") { // reset when switching between filter modes (text/country)
-                    selectedTimeZone = ""
-                }
+                // reset when switching between filter modes (text/country)
+                selectedTimeZone = ""
             }
         }
 
