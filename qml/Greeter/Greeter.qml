@@ -54,8 +54,6 @@ Showable {
 
     readonly property bool animating: loader.item ? loader.item.animating : false
 
-    property bool fullLightDM
-
     signal tease()
     signal sessionStarted()
     signal emergencyCall()

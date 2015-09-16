@@ -435,7 +435,6 @@ Item {
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: tutorial.running
-            fullLightDM: shell.mode === "greeter"
             background: shell.background
 
             // avoid overlapping with Launcher's edge drag area
