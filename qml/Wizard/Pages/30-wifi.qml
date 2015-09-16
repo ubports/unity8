@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
 import QMenuModel 0.1 as QMenuModel
 import QtSystemInfo 5.0
 import Ubuntu.Components 1.2
-import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Settings.Menus 0.1 as Menus
 import ".." as LocalComponents
 
@@ -36,6 +35,29 @@ LocalComponents.Page {
             return object[propertyName];
         }
         return defaultValue;
+    }
+
+    function getAPIcon(adHoc, signalStrength, secure) {
+        var imageName = "nm-no-connection";
+
+        if (adHoc) {
+            imageName = "nm-adhoc";
+        } else if (signalStrength == 0) {
+            imageName = "nm-signal-00";
+        } else if (signalStrength <= 25) {
+            imageName = "nm-signal-25";
+        } else if (signalStrength <= 50) {
+            imageName = "nm-signal-50";
+        } else if (signalStrength <= 75) {
+            imageName = "nm-signal-75";
+        } else if (signalStrength <= 100) {
+            imageName = "nm-signal-100";
+        }
+
+        if (secure) {
+            imageName += "-secure";
+        }
+        return "image://theme/" + imageName;
     }
 
     QMenuModel.UnityMenuModel {
@@ -71,9 +93,11 @@ LocalComponents.Page {
 
     Component {
         id: accessPointComponent
-        ListItem.Standard {
+        ListItem {
             id: accessPoint
             objectName: "accessPoint"
+            highlightColor: backgroundColor
+            enabled: menuData && menuData.sensitive || false
 
             property QtObject menuData: null
             property var unityMenuModel: menuModel
@@ -85,6 +109,7 @@ LocalComponents.Page {
             }
             readonly property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             readonly property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
+            readonly property bool isConnected: menuData && menuData.label === networkInfo.accessPointName
             property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
@@ -95,33 +120,40 @@ LocalComponents.Page {
                                                           'x-canonical-wifi-ap-strength-action': 'string'});
             }
 
-            text: menuData && menuData.label || ""
-            enabled: menuData && menuData.sensitive || false
-            __foregroundColor: textColor
-            showDivider: true
-            iconName: {
-                var imageName = "nm-no-connection";
-
-                if (adHoc) {
-                    imageName = "nm-adhoc";
-                } else if (signalStrength == 0) {
-                    imageName = "nm-signal-00";
-                } else if (signalStrength <= 25) {
-                    imageName = "nm-signal-25";
-                } else if (signalStrength <= 50) {
-                    imageName = "nm-signal-50";
-                } else if (signalStrength <= 75) {
-                    imageName = "nm-signal-75";
-                } else if (signalStrength <= 100) {
-                    imageName = "nm-signal-100";
+            Image {
+                id: apIcon
+                anchors {
+                    left: parent.left
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: leftMargin
                 }
+                fillMode: Image.PreserveAspectFit
+                height: apName.height
 
-                if (secure) {
-                    imageName += "-secure";
-                }
-                return imageName;
+                source: getAPIcon(accessPoint.adHoc, accessPoint.signalStrength, accessPoint.secure)
             }
-            iconFrame: false
+
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: apIcon.right
+                anchors.leftMargin: leftMargin
+                Label {
+                    id: apName
+                    text: menuData && menuData.label || ""
+                    font.weight: accessPoint.isConnected ? Font.Normal : Font.Light
+                    fontSize: "medium"
+                    color: textColor
+                }
+                Label {
+                    id: connectedLabel
+                    text: i18n.tr("Connected")
+                    font.weight: Font.Light
+                    fontSize: "small"
+                    color: okColor
+                    visible: accessPoint.isConnected
+                }
+            }
+
             onClicked: unityMenuModel.activate(menuIndex);
 
             Component.onCompleted: {
