@@ -18,7 +18,7 @@ install(FILES
     )
 
 install(FILES
-    51-unity-greeter.conf
+    51-unity8-greeter.conf
     DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/lightdm.conf.d
     )
 
