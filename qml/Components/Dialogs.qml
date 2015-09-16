@@ -39,6 +39,7 @@ Item {
     property string usageScenario
 
     property LightDM lightDM
+    property bool fullLightDM
 
     signal powerOffClicked();
 
