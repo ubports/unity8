@@ -17,6 +17,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.2
 import Ubuntu.Web 0.2
+import Ubuntu.SystemSettings.Diagnostics 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -34,6 +35,11 @@ LocalComponents.Page {
         } else {
             pageStack.prev();
         }
+    }
+
+    UbuntuDiagnostics {
+        id: diagnostics
+        objectName: "diagnostics"
     }
 
     Column {
@@ -75,7 +81,10 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            onClicked: pageStack.next(); // TODO save that info somewhere
+            onClicked: {
+                diagnostics.setReportCrashes(reportCheck.checked);
+                pageStack.next();
+            }
         }
     }
 }
