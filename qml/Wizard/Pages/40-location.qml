@@ -208,7 +208,7 @@ LocalComponents.Page {
             opacity: nopeCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: nopeCheckLabel.verticalCenter
-             anchors.rightMargin: rightMargin
+            anchors.rightMargin: rightMargin
         }
 
         Rectangle {

@@ -37,11 +37,14 @@ LocalComponents.Page {
         }
     }
 
-    Item {
+    Flickable
+    {
         id: column
+        clip: true
+        flickableDirection: Flickable.VerticalFlick
         anchors.fill: content
-        anchors.leftMargin: leftMargin
-        anchors.rightMargin: rightMargin
+        anchors.leftMargin: parent.leftMargin
+        anchors.rightMargin: parent.rightMargin
 
         // email
         Label {
@@ -157,33 +160,33 @@ LocalComponents.Page {
             KeyNavigation.tab: emailInput
         }
 
-//        LocalComponents.CheckableSetting {
-//            id: optoutCheck
-//            objectName: "optoutCheck"
-//            showDivider: false
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            anchors.top: encryptCheck.bottom
-//            anchors.topMargin: units.gu(2)
-//            text: i18n.tr("Opt out of cloud account (not recommended)")
-//            KeyNavigation.tab: termsCheck
-//        }
+        //        LocalComponents.CheckableSetting {
+        //            id: optoutCheck
+        //            objectName: "optoutCheck"
+        //            showDivider: false
+        //            anchors.left: parent.left
+        //            anchors.right: parent.right
+        //            anchors.top: encryptCheck.bottom
+        //            anchors.topMargin: units.gu(2)
+        //            text: i18n.tr("Opt out of cloud account (not recommended)")
+        //            KeyNavigation.tab: termsCheck
+        //        }
 
-//        LocalComponents.CheckableSetting {
-//            id: termsCheck
-//            objectName: "termsCheck"
-//            showDivider: false
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            anchors.top: encryptCheck.bottom
-//            anchors.topMargin: units.gu(1)
-//            text: i18n.tr("I have read and accept the Ubuntu account <a href='#'>terms of service</a>")
-//            onLinkActivated: {
-//                webview.visible = true;
-//                webview.url = "https://login.ubuntu.com/terms/";
-//            }
-//            KeyNavigation.tab: emailInput
-//        }
+        //        LocalComponents.CheckableSetting {
+        //            id: termsCheck
+        //            objectName: "termsCheck"
+        //            showDivider: false
+        //            anchors.left: parent.left
+        //            anchors.right: parent.right
+        //            anchors.top: encryptCheck.bottom
+        //            anchors.topMargin: units.gu(1)
+        //            text: i18n.tr("I have read and accept the Ubuntu account <a href='#'>terms of service</a>")
+        //            onLinkActivated: {
+        //                webview.visible = true;
+        //                webview.url = "https://login.ubuntu.com/terms/";
+        //            }
+        //            KeyNavigation.tab: emailInput
+        //        }
     }
 
     WebView {
