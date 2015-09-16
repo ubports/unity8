@@ -177,7 +177,7 @@ LocalComponents.Page {
                     if (isAccessPoint) {
                         menuModel.loadExtendedAttributes(index, {'x-canonical-wifi-ap-is-enterprise': 'bool'}); // filter out enterprise wifis, lpbug:#1475023
                         if (!getExtendedProperty(menuModel.ext, "xCanonicalWifiApIsEnterprise", false)) {
-                            return accessPoint;
+                            return accessPointComponent;
                         }
                         return null;
                     }
