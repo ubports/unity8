@@ -75,7 +75,7 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            onClicked: pageStack.next();
+            onClicked: pageStack.next(); // TODO save that info somewhere
         }
     }
 }
