@@ -19,7 +19,6 @@ add_library(FullLightDM-qml MODULE
 
 target_link_libraries(FullLightDM-qml
     unity8-private
-    lightdm-qt5-3
     ${LIBLIGHTDM_LDFLAGS}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     )
