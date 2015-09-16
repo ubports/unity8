@@ -85,7 +85,6 @@ LocalComponents.Page {
             }
             readonly property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             readonly property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
-            readonly property bool enterprise: getExtendedProperty(extendedData, "xCanonicalWifiApIsEnterprise", false)
             property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
@@ -93,12 +92,11 @@ LocalComponents.Page {
                 if (!unityMenuModel || menuIndex == -1) return;
                 unityMenuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
                                                           'x-canonical-wifi-ap-is-secure': 'bool',
-                                                          'x-canonical-wifi-ap-is-enterprise': 'bool',
                                                           'x-canonical-wifi-ap-strength-action': 'string'});
             }
 
             text: menuData && menuData.label || ""
-            enabled: menuData && menuData.sensitive && !enterprise || false
+            enabled: menuData && menuData.sensitive || false
             __foregroundColor: textColor
             showDivider: true
             iconName: {
@@ -175,7 +173,15 @@ LocalComponents.Page {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 asynchronous: true
-                sourceComponent: isAccessPoint ? accessPointComponent : null
+                sourceComponent: {
+                    if (isAccessPoint) {
+                        menuModel.loadExtendedAttributes(index, {'x-canonical-wifi-ap-is-enterprise': 'bool'}); // filter out enterprise wifis, lpbug:#1475023
+                        if (!getExtendedProperty(menuModel.ext, "xCanonicalWifiApIsEnterprise", false)) {
+                            return accessPoint;
+                        }
+                        return null;
+                    }
+                }
 
                 onLoaded: {
                     item.menuData = Qt.binding(function() { return model; });
