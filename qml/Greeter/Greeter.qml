@@ -54,7 +54,7 @@ Showable {
 
     readonly property bool animating: loader.item ? loader.item.animating : false
 
-    property LightDM lightDM
+    property bool fullLightDM
 
     signal tease()
     signal sessionStarted()
@@ -106,6 +106,11 @@ Showable {
         }
 
         return d.startUnlock(true /* toTheRight */);
+    }
+
+    LightDM{
+        id:lightDM
+        fullLightDM: root.fullLightDM
     }
 
     QtObject {
