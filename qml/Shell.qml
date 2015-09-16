@@ -681,7 +681,6 @@ Item {
             shutdownFadeOutRectangle.visible = true;
             shutdownFadeOut.start();
         }
-        fullLightDM: shell.mode === "greeter"
         lightDM: lightDM
     }
 
