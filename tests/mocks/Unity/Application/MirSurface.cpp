@@ -170,13 +170,20 @@ int MirSurface::height() const
 
 void MirSurface::resize(int width, int height)
 {
+    bool changed = false;
     if (width != m_width) {
         m_width = width;
         Q_EMIT widthChanged();
+        changed = true;
     }
 
     if (m_height != height) {
         m_height = height;
         Q_EMIT heightChanged();
+        changed = true;
+    }
+
+    if (changed) {
+        Q_EMIT sizeChanged(QSize(width, height));
     }
 }

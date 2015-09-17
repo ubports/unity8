@@ -254,7 +254,7 @@ int MirSurfaceItem::surfaceWidth() const
 
 void MirSurfaceItem::setSurfaceWidth(int value)
 {
-    if (m_surfaceWidth != value) {
+    if (value != -1 && m_surfaceWidth != value) {
         m_surfaceWidth = value;
         Q_EMIT surfaceWidthChanged(m_surfaceWidth);
         updateSurfaceSize();
@@ -268,7 +268,7 @@ int MirSurfaceItem::surfaceHeight() const
 
 void MirSurfaceItem::setSurfaceHeight(int value)
 {
-    if (m_surfaceHeight != value) {
+    if (value != -1 && m_surfaceHeight != value) {
         m_surfaceHeight = value;
         Q_EMIT surfaceHeightChanged(m_surfaceHeight);
         updateSurfaceSize();
