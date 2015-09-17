@@ -38,8 +38,6 @@ Item {
     }
     property string usageScenario
 
-    property LightDM lightDM
-
     signal powerOffClicked();
 
     function showPowerDialog() {
@@ -80,12 +78,12 @@ Item {
 
     GlobalShortcut { // lock screen
         shortcut: Qt.Key_ScreenSaver
-        onTriggered: lightDM.greeter.showGreeter()
+        onTriggered: TheLightDM.greeter.showGreeter()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
-        onTriggered: lightDM.greeter.showGreeter()
+        onTriggered: TheLightDM.greeter.showGreeter()
     }
 
     QtObject {
@@ -117,7 +115,7 @@ Item {
             Button {
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
-                    lightDM.greeter.showGreeter()
+                    TheLightDM.greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }
