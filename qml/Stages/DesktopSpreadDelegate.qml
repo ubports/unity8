@@ -71,6 +71,7 @@ Item {
         anchors.margins: -units.gu(1)
         color: "white"
         opacity: highlightShown ? 0.15 : 0
+        antialiasing: true
     }
 
     Rectangle {
@@ -78,6 +79,7 @@ Item {
         height: units.dp(2)
         color: UbuntuColors.orange
         visible: root.highlightShown
+        antialiasing: true
     }
 
     Item {
