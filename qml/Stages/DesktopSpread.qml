@@ -12,8 +12,8 @@ FocusScope {
 
     readonly property alias highlightedIndex: spreadRepeater.highlightedIndex
 
-
     Keys.onPressed: {
+        print("key pressed", event.key)
         switch (event.key) {
         case Qt.Key_Left:
         case Qt.Key_Backtab:

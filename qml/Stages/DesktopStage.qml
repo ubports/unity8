@@ -112,7 +112,7 @@ Rectangle {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
-        focus: !root.altTabPressed
+        focus: spread.state !== "altTab"
 
         CrossFadeImage {
             id: wallpaper
@@ -260,6 +260,6 @@ Rectangle {
         id: spread
         anchors.fill: parent
         workspace: appContainer
-        focus: root.altTabPressed
+        focus: state == "altTab"
     }
 }
