@@ -382,7 +382,7 @@ Item {
             // more clever here.
             active: usageScenario != "desktop" && AccountsService.demoEdges
 
-            paused: TheLightDM.greeter.active
+            paused: LightDM.greeter.active
             launcher: launcher
             panel: panel
             edgeSize: shell.edgeSize
@@ -508,7 +508,7 @@ Item {
 
         greeter.notifyAboutToFocusApp("unity8-dash");
 
-        var animate = !TheLightDM.greeter.active && !stages.shown
+        var animate = !LightDM.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -560,7 +560,7 @@ Item {
                 ApplicationManager.focusedApplicationId &&
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
-            fullscreenMode: (topmostApplicationIsFullscreen && !TheLightDM.greeter.active && launcher.progress == 0)
+            fullscreenMode: (topmostApplicationIsFullscreen && !LightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
         }
 

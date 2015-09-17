@@ -44,7 +44,7 @@ Showable {
     readonly property bool hasLockedApp: lockedApp !== ""
 
     property bool forcedUnlock
-    readonly property bool locked: TheLightDM.greeter.active && !TheLightDM.greeter.authenticated && !forcedUnlock
+    readonly property bool locked: LightDM.greeter.active && !LightDM.greeter.authenticated && !forcedUnlock
 
     property bool tabletMode
     property url viewSource // only used for testing
@@ -110,7 +110,7 @@ Showable {
     QtObject {
         id: d
 
-        readonly property bool multiUser: TheLightDM.users.count > 1
+        readonly property bool multiUser: LightDM.users.count > 1
         property int currentIndex
         property bool waiting
 
@@ -134,15 +134,15 @@ Showable {
                 loader.item.reset();
             }
             currentIndex = uid;
-            var user = TheLightDM.users.data(uid, TheLightDM.userRoles.NameRole);
+            var user = LightDM.users.data(uid, LightDM.userRoles.NameRole);
             AccountsService.user = user;
             LauncherModel.setUser(user);
-            TheLightDM.greeter.authenticate(user); // always resets auth state
+            LightDM.greeter.authenticate(user); // always resets auth state
         }
 
         function login() {
             enabled = false;
-            if (TheLightDM.greeter.startSessionSync()) {
+            if (LightDM.greeter.startSessionSync()) {
                 sessionStarted();
                 if (loader.item) {
                     loader.item.notifyAuthenticationSucceeded();
@@ -267,7 +267,7 @@ Showable {
             root.lockedApp = "";
             root.forceActiveFocus();
             d.selectUser(d.currentIndex, true);
-            TheLightDM.infographic.readyForDataChange();
+            LightDM.infographic.readyForDataChange();
         }
 
         Connections {
@@ -277,9 +277,9 @@ Showable {
             }
             onResponded: {
                 if (root.locked) {
-                    TheLightDM.greeter.respond(response);
+                    LightDM.greeter.respond(response);
                 } else {
-                    if (TheLightDM.greeter.active && !TheLightDM.greeter.authenticated) { // could happen if forcedUnlock
+                    if (LightDM.greeter.active && !LightDM.greeter.authenticated) { // could happen if forcedUnlock
                         d.login();
                     }
                     loader.item.hide();
@@ -345,18 +345,18 @@ Showable {
         Binding {
             target: loader.item
             property: "userModel"
-            value: TheLightDM.users
+            value: LightDM.users
         }
 
         Binding {
             target: loader.item
             property: "infographicModel"
-            value: TheLightDM.infographic
+            value: LightDM.infographic
         }
     }
 
     Connections {
-        target: TheLightDM.greeter
+        target: LightDM.greeter
 
         onShowGreeter: root.forceShow()
 
@@ -366,7 +366,7 @@ Showable {
         }
 
         onShowMessage: {
-            if (!TheLightDM.greeter.active) {
+            if (!LightDM.greeter.active) {
                 return; // could happen if hideGreeter() comes in before we prompt
             }
 
@@ -385,7 +385,7 @@ Showable {
         onShowPrompt: {
             d.waiting = false;
 
-            if (!TheLightDM.greeter.active) {
+            if (!LightDM.greeter.active) {
                 return; // could happen if hideGreeter() comes in before we prompt
             }
 
@@ -395,14 +395,14 @@ Showable {
         onAuthenticationComplete: {
             d.waiting = false;
 
-            if (TheLightDM.greeter.authenticated) {
+            if (LightDM.greeter.authenticated) {
                 AccountsService.failedLogins = 0;
                 d.login();
-                if (!TheLightDM.greeter.promptless) {
+                if (!LightDM.greeter.promptless) {
                     loader.item.hide();
                 }
             } else {
-                if (!TheLightDM.greeter.promptless) {
+                if (!LightDM.greeter.promptless) {
                     AccountsService.failedLogins++;
                 }
 
@@ -423,7 +423,7 @@ Showable {
                 }
 
                 loader.item.notifyAuthenticationFailed();
-                if (!TheLightDM.greeter.promptless) {
+                if (!LightDM.greeter.promptless) {
                     d.selectUser(d.currentIndex, false);
                 }
             }
@@ -431,8 +431,8 @@ Showable {
 
         onRequestAuthenticationUser: {
             // Find index for requested user, if it exists
-            for (var i = 0; i < TheLightDM.users.count; i++) {
-                if (user === TheLightDM.users.data(i, TheLightDM.userRoles.NameRole)) {
+            for (var i = 0; i < LightDM.users.count; i++) {
+                if (user === LightDM.users.data(i, LightDM.userRoles.NameRole)) {
                     d.selectUser(i, true);
                     return;
                 }
@@ -441,19 +441,19 @@ Showable {
     }
 
     Binding {
-        target: TheLightDM.greeter
+        target: LightDM.greeter
         property: "active"
         value: root.active
     }
 
     Binding {
-        target: TheLightDM.infographic
+        target: LightDM.infographic
         property: "username"
-        value: AccountsService.statsWelcomeScreen ? TheLightDM.users.data(d.currentIndex, TheLightDM.userRoles.NameRole) : ""
+        value: AccountsService.statsWelcomeScreen ? LightDM.users.data(d.currentIndex, LightDM.userRoles.NameRole) : ""
     }
 
     Connections {
         target: i18n
-        onLanguageChanged: TheLightDM.infographic.readyForDataChange()
+        onLanguageChanged: LightDM.infographic.readyForDataChange()
     }
 }

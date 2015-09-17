@@ -78,12 +78,12 @@ Item {
 
     GlobalShortcut { // lock screen
         shortcut: Qt.Key_ScreenSaver
-        onTriggered: TheLightDM.greeter.showGreeter()
+        onTriggered: LightDM.greeter.showGreeter()
     }
 
     GlobalShortcut { // lock screen
         shortcut: Qt.ControlModifier|Qt.AltModifier|Qt.Key_L
-        onTriggered: TheLightDM.greeter.showGreeter()
+        onTriggered: LightDM.greeter.showGreeter()
     }
 
     QtObject {
@@ -115,7 +115,7 @@ Item {
             Button {
                 text: i18n.ctr("Button: Lock the system", "Lock")
                 onClicked: {
-                    TheLightDM.greeter.showGreeter()
+                    LightDM.greeter.showGreeter()
                     logoutDialog.hide();
                 }
             }
