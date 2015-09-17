@@ -474,7 +474,7 @@ Item {
             readonly property var tz: getExtendedProperty(extendedData, "xCanonicalTimezone", "UTC")
             property var updateTimer: Timer {
                 repeat: true
-                running: identifier == "indicator-datetime" && tzMenuItem.visible // only run when we're open
+                running: tzMenuItem.visible // only run when we're open
                 onTriggered: tzMenuItem.time = Utils.TimezoneFormatter.currentTimeInTimezone(tzMenuItem.tz)
                 onRunningChanged: {
                     print("LIVE TIMER RUNNING:", running)
