@@ -12,8 +12,15 @@ FocusScope {
 
     readonly property alias highlightedIndex: spreadRepeater.highlightedIndex
 
+    onFocusChanged: {
+        // When the spread comes active, we want to keep focus to the input handler below
+        // Make sure nothing inside the ApplicationWindow grabs our focus!
+        if (focus) {
+            forceActiveFocus();
+        }
+    }
+
     Keys.onPressed: {
-        print("key pressed", event.key)
         switch (event.key) {
         case Qt.Key_Left:
         case Qt.Key_Backtab:

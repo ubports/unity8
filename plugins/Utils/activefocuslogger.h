@@ -35,4 +35,3 @@ private:
 };
 
 #endif // UNITY_ACTIVEFOCUSLOGGER_H
-
