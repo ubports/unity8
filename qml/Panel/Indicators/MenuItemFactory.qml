@@ -476,9 +476,6 @@ Item {
                 repeat: true
                 running: tzMenuItem.visible // only run when we're open
                 onTriggered: tzMenuItem.time = Utils.TimezoneFormatter.currentTimeInTimezone(tzMenuItem.tz)
-                onRunningChanged: {
-                    print("LIVE TIMER RUNNING:", running)
-                }
             }
 
             city: menuData && menuData.label || ""
