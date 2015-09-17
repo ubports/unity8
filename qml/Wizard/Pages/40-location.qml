@@ -59,10 +59,10 @@ LocalComponents.Page {
             id: hereCheckLabel
             anchors {
                 left: parent.left
-                right: parent.right
+                right: hereTermsCheck.left
                 top: parent.top
                 leftMargin: leftMargin
-                rightMargin: rightMargin
+                rightMargin: units.gu(1)
             }
 
             wrapMode: Text.WordWrap
@@ -87,11 +87,11 @@ LocalComponents.Page {
             id: hereTermsLabel
             anchors {
                 left: parent.left
-                right: parent.right
+                right: hereTermsCheck.left
                 top: hereCheckLabel.bottom
                 topMargin: units.gu(1)
                 leftMargin: leftMargin
-                rightMargin: rightMargin
+                rightMargin: units.gu(1)
             }
 
             wrapMode: Text.WordWrap
@@ -104,8 +104,9 @@ LocalComponents.Page {
         }
 
         Image {
+            id: hereTermsCheck
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height / 2
+            height: nopeCheckLabel.height
             source: "data/Tick@30.png"
             opacity: hereCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
@@ -154,7 +155,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height / 2
+            height: nopeCheckLabel.height
             source: "data/Tick@30.png"
             opacity: gpsCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
@@ -203,7 +204,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height / 2
+            height: nopeCheckLabel.height
             source: "data/Tick@30.png"
             opacity: nopeCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
