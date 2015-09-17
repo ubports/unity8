@@ -462,7 +462,7 @@ FocusScope {
             SequentialAnimation {
                 PropertyAction { target: hoverMouseArea; property: "progressiveScrollingEnabled"; value: false }
                 PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
-                PauseAnimation { duration: 50 }
+                PauseAnimation { duration: 140 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 PropertyAction { target: spreadContainer; property: "visible" }
                 ParallelAnimation {
