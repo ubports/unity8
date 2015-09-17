@@ -316,7 +316,7 @@ FocusScope {
                 }
 
                 // do we need to scroll?
-                if (mouseX < scrollAreaWidth) {
+                if (mouseX < scrollAreaWidth + margins) {
                     var progress = Math.min(1, (scrollAreaWidth + margins - mouseX) / (scrollAreaWidth - margins));
                     var contentX = (1 - progress) * (spreadFlickable.contentWidth - spreadFlickable.width)
                     spreadFlickable.contentX = Math.max(0, Math.min(spreadFlickable.contentX, contentX))
