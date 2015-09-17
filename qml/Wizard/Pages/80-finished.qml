@@ -38,7 +38,7 @@ LocalComponents.Page {
         anchors.verticalCenter: parent.verticalCenter
         anchors.leftMargin: leftMargin
         anchors.rightMargin: rightMargin
-        spacing: units.gu(3)
+        spacing: units.gu(2)
 
         Label {
             anchors.left: parent.left
@@ -67,6 +67,7 @@ LocalComponents.Page {
             strokeColor: "white"
             font.weight: Font.Normal
             font.pixelSize: FontUtils.sizeToPixels("medium")
+            width: Math.max(parent.width/2, implicitWidth)
             onClicked: {
                 root.quitWizard();
             }
