@@ -117,7 +117,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             anchors.leftMargin: leftMargin
             anchors.rightMargin: rightMargin
-            placeholderText: i18n.tr("Enter your city or country")
+            placeholderText: i18n.tr("Enter your city")
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: {
                 // reset when switching between filter modes (text/country)
