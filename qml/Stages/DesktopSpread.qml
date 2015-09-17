@@ -80,6 +80,8 @@ FocusScope {
         anchors.fill: parent
         visible: false
 
+        property bool animateIn: false
+
         Repeater {
             id: spreadRepeater
             model: ApplicationManager
@@ -201,7 +203,7 @@ FocusScope {
                         PropertyAnimation {
                             target: spreadDelegate; properties: "x"
                             from: root.width
-                            duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
+                            duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration :0
                             easing: UbuntuAnimation.StandardEasing
                         }
                     }
@@ -466,7 +468,10 @@ FocusScope {
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 PropertyAction { target: spreadContainer; property: "visible" }
                 ParallelAnimation {
-                    UbuntuNumberAnimation { target: blurLayer; properties: "saturation,blurRadius" }
+                    UbuntuNumberAnimation {
+                        target: blurLayer; properties: "saturation,blurRadius";
+                        duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0
+                    }
                     PropertyAction { target: spreadFlickable; property: "visible" }
                     PropertyAction { targets: [currentSelectedLabel,spreadBackground]; property: "visible" }
                     PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
@@ -479,6 +484,7 @@ FocusScope {
             PropertyAnimation { property: "opacity" }
             ScriptAction { script: { root.focusSelected() } }
             PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: -1 }
+            PropertyAction { target: spreadContainer; property: "animateIn"; value: false }
         }
 
     ]
@@ -496,6 +502,7 @@ FocusScope {
         hoverEnabled: true
         onContainsMouseChanged: {
             if (containsMouse) {
+                spreadContainer.animateIn = true;
                 root.state = "altTab";
             }
         }
