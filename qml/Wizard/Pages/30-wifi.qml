@@ -104,7 +104,7 @@ LocalComponents.Page {
                     leftMargin: leftMargin
                 }
                 fillMode: Image.PreserveAspectFit
-                height: apName.height
+                height: accessPoint.height
 
                 source: getAPIcon(accessPoint.adHoc, accessPoint.signalStrength, accessPoint.secure)
             }
@@ -149,8 +149,6 @@ LocalComponents.Page {
         spacing: units.gu(2)
         anchors {
             fill: content
-            leftMargin: leftMargin
-            rightMargin: rightMargin
             topMargin: customMargin
         }
 
@@ -158,6 +156,7 @@ LocalComponents.Page {
             id: label
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.leftMargin: leftMargin
             font.weight: Font.Light
             color: "#68064d"
             text: listview.count > 0 ? i18n.tr("Available Wi-Fi networks")
@@ -177,7 +176,7 @@ LocalComponents.Page {
 
                 readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
 
-                height: isAccessPoint ? units.gu(6) : 0
+                height: !!sourceComponent ? units.gu(6) : 0
                 anchors.left: parent.left
                 anchors.right: parent.right
                 asynchronous: true
