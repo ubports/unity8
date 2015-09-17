@@ -471,7 +471,7 @@ Item {
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
-            readonly property var tz: getExtendedProperty(extendedData, "xCanonicalTimezone", "UTC")
+            readonly property string tz: getExtendedProperty(extendedData, "xCanonicalTimezone", "UTC")
             property var updateTimer: Timer {
                 repeat: true
                 running: tzMenuItem.visible // only run when we're open
@@ -481,7 +481,6 @@ Item {
             city: menuData && menuData.label || ""
             time: Utils.TimezoneFormatter.currentTimeInTimezone(tz)
             enabled: menuData && menuData.sensitive || false
-            highlightWhenPressed: false
 
             onMenuModelChanged: {
                 loadAttributes();
@@ -490,7 +489,18 @@ Item {
                 loadAttributes();
             }
             onTriggered: {
-                menuModel.activate(menuIndex);
+                tzActionGroup.setLocation.activate(tz);
+            }
+
+            QDBusActionGroup {
+                id: tzActionGroup
+                busType: DBus.SessionBus
+                busName: "com.canonical.indicator.datetime"
+                objectPath: "/com/canonical/indicator/datetime"
+
+                property variant setLocation: action("set-location")
+
+                Component.onCompleted: tzActionGroup.start()
             }
 
             function loadAttributes() {
