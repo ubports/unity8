@@ -151,7 +151,7 @@ Loader {
             title: menuData && menuData.label || ""
             time: i18n.relativeDateTime(priv.time)
             body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
-            replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
+            replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.ctr("Button: Send a reply message", "Send"))
             replyHintText: i18n.ctr("Label: Hint in message indicator line edit", "Reply")
             // icons
             avatar: getExtendedProperty(priv.extendedData, "icon", "image://theme/contact")
@@ -209,8 +209,8 @@ Loader {
             title: menuData && menuData.label || ""
             time: i18n.relativeDateTime(priv.time)
             body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
-            actionButtonText: getExtendedProperty(activateActionDescription, "label", i18n.tr("Call back"))
-            replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.tr("Send"))
+            actionButtonText: getExtendedProperty(activateActionDescription, "label", i18n.ctr("Button: Call back on phone", "Call back"))
+            replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.ctr("Button: Send a reply message", "Send"))
             // icons
             avatar: getExtendedProperty(priv.extendedData, "icon", "image://theme/contact")
             icon: getExtendedProperty(priv.extendedData, "xCanonicalAppIcon", "image://theme/missed-call")
