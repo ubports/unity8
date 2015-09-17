@@ -20,7 +20,7 @@ import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 import Unity.Session 0.1
 
 Item {
@@ -58,17 +58,15 @@ Item {
             "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
             "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
             "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
+
+            "com.canonical.indicator.calendar": calendarMenu,
+            "com.canonical.indicator.location": timezoneMenu,
+
+            "indicator.user-menu-item": userMenuItem,
+            "indicator.guest-menu-item": userMenuItem
         },
         "indicator-messages" : {
             "com.canonical.indicator.button"         : messagesButtonMenu
-        },
-        "indicator-datetime" : {
-            "com.canonical.indicator.calendar": calendarMenu,
-            "com.canonical.indicator.location": timezoneMenu
-        },
-        "indicator-session" : {
-            "indicator.user-menu-item": userMenuItem,
-            "indicator.guest-menu-item": userMenuItem
         }
     }
 
@@ -77,11 +75,6 @@ Item {
             return object[propertyName];
         }
         return defaultValue;
-    }
-
-    Utils.TimeFormatter
-    {
-        id: tzFormatter
     }
 
     Component {
@@ -448,7 +441,8 @@ Item {
             iconSource: menuData && menuData.icon || ""
 
             // would be better to compare with the logname but sadly the indicator doesn't expose that
-            active: DBusUnitySessionService.RealName() !== "" ? DBusUnitySessionService.RealName() == name : DBusUnitySessionService.UserName() == name
+            active: DBusUnitySessionService.RealName() !== "" ? DBusUnitySessionService.RealName() == name
+                                                              : DBusUnitySessionService.UserName() == name
 
             onTriggered: {
                 menuModel.activate(menuIndex);
@@ -480,12 +474,15 @@ Item {
             readonly property var tz: getExtendedProperty(extendedData, "xCanonicalTimezone", "UTC")
             property var updateTimer: Timer {
                 repeat: true
-                running: identifier == "indicator-datetime" // only run when we're open
-                onTriggered: tzMenuItem.time = tzFormatter.currentTimeInTimezone(tzMenuItem.tz)
+                running: identifier == "indicator-datetime" && tzMenuItem.visible // only run when we're open
+                onTriggered: tzMenuItem.time = Utils.TimezoneFormatter.currentTimeInTimezone(tzMenuItem.tz)
+                onRunningChanged: {
+                    print("LIVE TIMER RUNNING:", running)
+                }
             }
 
             city: menuData && menuData.label || ""
-            time: tzFormatter.currentTimeInTimezone(tz)
+            time: Utils.TimezoneFormatter.currentTimeInTimezone(tz)
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
 

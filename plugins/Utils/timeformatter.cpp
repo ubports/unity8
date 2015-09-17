@@ -20,7 +20,6 @@
 
 #include <gio/gio.h>
 #include <QDateTime>
-#include <QTimeZone>
 
 struct TimeFormatterPrivate
 {
@@ -175,17 +174,6 @@ void TimeFormatter::update()
 {
     priv->timeString = formatTime();
     Q_EMIT timeStringChanged(priv->timeString);
-}
-
-QString TimeFormatter::currentTimeInTimezone(const QVariant &tzId) const
-{
-    QTimeZone tz(tzId.toByteArray());
-    if (tz.isValid()) {
-        const QDateTime now = QDateTime::currentDateTime().toTimeZone(tz);
-        // return locale-aware string in the form "day, hh:mm", e.g. "Mon 14:30" or "Mon 1:30 pm"
-        return QStringLiteral("%1 %2").arg(now.toString("ddd")).arg(now.time().toString(Qt::DefaultLocaleShortDate));
-    }
-    return QString();
 }
 
 QString TimeFormatter::formatTime() const
