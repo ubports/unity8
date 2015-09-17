@@ -12,4 +12,12 @@
       <description>The usage mode chosen will affect the Window Management behaviour.</description>
     </key>
   </schema>
+
+  <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">
+    <key type="x" name="locked-out-time">
+      <default>0</default>
+      <summary>When the greeter was last locked.</summary>
+      <description>If too many unsuccessful login attempts have been made in a row, the greeter locks you out for a while.  This unix timestamp indicates when you were locked out, so unity8 knows when to let you back in.</description>
+    </key>
+  </schema>
 </schemalist>

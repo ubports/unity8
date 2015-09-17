@@ -16,7 +16,7 @@
  * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.1
 import Unity.Application 0.1
@@ -133,6 +133,12 @@ Rectangle {
                 width: units.gu(60)
                 height: units.gu(50)
 
+                property int windowWidth: 0
+                property int windowHeight: 0
+                // We don't want to resize the actual application when we're transforming things for the spread only
+                onWidthChanged: if (appDelegate.state !== "altTab") windowWidth = width
+                onHeightChanged: if (appDelegate.state !== "altTab") windowHeight = height
+
                 readonly property int minWidth: units.gu(10)
                 readonly property int minHeight: units.gu(10)
 
@@ -183,6 +189,18 @@ Rectangle {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                    },
+                    Transition {
+                        from: ""
+                        to: "altTab"
+                        PropertyAction { target: appDelegate; properties: "y,angle,z,itemScale,itemScaleOriginY" }
+                        PropertyAction { target: decoratedWindow; properties: "anchors.topMargin" }
+                        PropertyAnimation {
+                            target: appDelegate; properties: "x"
+                            from: root.width
+                            duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
+                            easing: UbuntuAnimation.StandardEasing
+                        }
                     }
                 ]
 
