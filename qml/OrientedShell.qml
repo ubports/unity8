@@ -44,7 +44,6 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
-
     // to be overwritten by tests
     property var unity8Settings: Unity8Settings {}
     property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }
@@ -155,6 +154,7 @@ Rectangle {
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode
+        clickToCloseNotifications: UnityInputInfo.mice > deviceConfiguration.ignoredMice
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.

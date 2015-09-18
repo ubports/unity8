@@ -33,7 +33,7 @@ public:
     virtual ~ActionModel();
 
     int rowCount(const QModelIndex &index) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
+    Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override; // invokable for testing
     QHash<int, QByteArray> roleNames() const override;
 
     Q_ENUMS(ActionsRoles)

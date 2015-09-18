@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 import Powerd 0.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
-
+import "../Components/UnityInputInfo"
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Item {
@@ -49,6 +49,8 @@ Item {
     readonly property color sdDarkGrey: "#dddddd"
     readonly property color sdFontColor: "#5d5d5d"
     readonly property real contentSpacing: units.gu(2)
+    readonly property bool canBeClosed: type === Notification.Ephemeral
+    property bool clickToClose
 
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
@@ -59,12 +61,12 @@ Item {
     state: {
         var result = "";
 
-        if (type == Notification.SnapDecision) {
-            if (ListView.view.currentIndex == index) {
+        if (type === Notification.SnapDecision) {
+            if (ListView.view.currentIndex === index) {
                 result = "expanded";
             } else {
                 if (ListView.view.count > 2) {
-                    if (ListView.view.currentIndex == -1 && index == 1) {
+                    if (ListView.view.currentIndex === -1 && index == 1) {
                         result = "expanded";
                     } else {
                         result = "contracted";
@@ -82,7 +84,7 @@ Item {
         id: sound
         objectName: "sound"
         audioRole: MediaPlayer.alert
-        source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
+        source: hints["suppress-sound"] !== "true" && !!hints["sound-file"] ? hints["sound-file"] : ""
     }
 
     Component.onCompleted: {
@@ -139,7 +141,7 @@ Item {
 
     clip: fullscreen ? false : true
 
-    visible: type != Notification.PlaceHolder
+    visible: type !== Notification.PlaceHolder
 
     UbuntuShape {
         id: shapedBack
@@ -195,7 +197,7 @@ Item {
             actions: paths.actions
             menuObjectPath: paths.menuObjectPath
             onNameOwnerChanged: {
-                if (lastNameOwner !== "" && nameOwner === "" && notification.notification !== undefined) {
+                if (lastNameOwner !== "" && nameOwner === "" && !!notification.notification) {
                     notification.notification.close()
                 }
                 lastNameOwner = nameOwner
@@ -214,8 +216,10 @@ Item {
             drag.maximumX: notification.width
 
             onClicked: {
-                if (notification.type == Notification.Interactive) {
+                if (notification.type === Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                } else if (clickToClose && canBeClosed) {
+                    notification.notification.close()
                 } else {
                     notificationList.currentIndex = index;
                 }
@@ -256,10 +260,10 @@ Item {
                     id: icon
 
                     objectName: "icon"
-                    width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
+                    width: type === Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
                     height: width
-                    shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
-                    visible: iconSource !== undefined && iconSource !== "" && type !== Notification.Confirmation
+                    shaped: notification.hints["x-canonical-non-shaped-icon"] === "true" ? false : true
+                    visible: !!iconSource && iconSource !== "" && type !== Notification.Confirmation
                 }
 
                 Column {
@@ -280,7 +284,7 @@ Item {
                         fontSize: "medium"
                         color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
-                        textFormat: Text.PlainText
+                        textFormat: Text.StyledText
                     }
 
                     Label {
@@ -295,9 +299,9 @@ Item {
                         fontSize: "small"
                         color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
-                        maximumLineCount: type == Notification.SnapDecision ? 12 : 2
+                        maximumLineCount: type === Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
-                        textFormat: Text.PlainText
+                        textFormat: Text.StyledText
                     }
                 }
 
@@ -313,7 +317,7 @@ Item {
             }
 
             ListItem.ThinDivider {
-                visible: type == Notification.SnapDecision
+                visible: type === Notification.SnapDecision
             }
 
             ShapedIcon {
@@ -321,9 +325,9 @@ Item {
                 objectName: "centeredIcon"
                 width: units.gu(5)
                 height: width
-                shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
+                shaped: notification.hints["x-canonical-non-shaped-icon"] === "true" ? false : true
                 fileSource: icon.fileSource
-                visible: fileSource !== undefined && fileSource !== "" && type === Notification.Confirmation
+                visible: !!fileSource && fileSource !== "" && type === Notification.Confirmation
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
@@ -439,7 +443,7 @@ Item {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : sdDarkGrey
+                                color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? green : sdDarkGrey
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -467,11 +471,11 @@ Item {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing * 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? red : sdDarkGrey
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
-                            sourceComponent:  (index == 1 || index == 2) ? oneOverTwoButtonBottom : undefined
+                            sourceComponent: (index == 1 || index == 2) ? oneOverTwoButtonBottom : undefined
                         }
                     }
                 }
@@ -499,6 +503,7 @@ Item {
                         width: buttonRow.width
                         leftIconName: "call-end"
                         rightIconName: "call-start"
+                        clickToAct: notification.clickToClose
                         onRightTriggered: {
                             notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
                         }
@@ -528,10 +533,10 @@ Item {
                                 text: loader.actionLabel
                                 color: {
                                     var result = sdDarkGrey;
-                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
+                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {
                                         result = green;
                                     }
-                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
+                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true") {
                                         result = red;
                                     }
                                     return result;
@@ -554,7 +559,7 @@ Item {
                     margins: contentSpacing
                 }
 
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
                 model: notification.actions
                 expanded: false
                 startIndex: 2
