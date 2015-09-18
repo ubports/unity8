@@ -79,6 +79,9 @@ Q_SIGNALS:
 
 protected:
     void touchEvent(QTouchEvent * event) override;
+    void mousePressEvent(QMouseEvent * event) override;
+    void mouseMoveEvent(QMouseEvent * event) override;
+    void mouseReleaseEvent(QMouseEvent * event) override;
     void itemChange(ItemChange change, const ItemChangeData & value) override;
 
 private Q_SLOTS:

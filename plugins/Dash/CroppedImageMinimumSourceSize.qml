@@ -15,30 +15,13 @@
  */
 
 import QtQuick 2.3
-import Dash 0.1
 
-Item {
+Image    {
     id: root
 
-    property string source
-    property alias image: innerImage
-    property alias asynchronous: innerImage.asynchronous
-    property alias verticalAlignment: innerImage.verticalAlignment
-    property alias horizontalAlignment: innerImage.horizontalAlignment
-    property alias fillMode: innerImage.fillMode
+    fillMode: Image.PreserveAspectCrop
 
-    CroppedImageSizer {
-        id: sizer
-        source: root.source
-        width: root.width
-        height: root.height
-    }
-
-    Image {
-        id: innerImage
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-        sourceSize: sizer.sourceSize.width == 0 && sizer.sourceSize.height == 0 ? undefined : sizer.sourceSize
-        source: sizer.sourceSize.width == -1 && sizer.sourceSize.height == -1 ? "" : root.source
-    }
+    readonly property real itemAspectRatio: width / height
+    readonly property real imageAspectRatio: implicitWidth / implicitHeight
+    sourceSize: (imageAspectRatio > itemAspectRatio) ? Qt.size(0, height) : Qt.size(width, 0)
 }
