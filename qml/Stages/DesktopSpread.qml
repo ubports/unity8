@@ -286,10 +286,12 @@ FocusScope {
 
     MouseArea {
         id: hoverMouseArea
+        objectName: "hoverMouseArea"
         anchors.fill: spreadContainer
         propagateComposedEvents: true
         hoverEnabled: true
         enabled: false
+        visible: enabled
 
         property int scrollAreaWidth: root.width / 3
         property bool progressiveScrollingEnabled: false

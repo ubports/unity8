@@ -1651,5 +1651,26 @@ Rectangle {
 
             keyRelease(Qt.Key_Control);
         }
+
+        // This makes sure the hoverMouseArea is set to invisible AND disabled
+        // when not needed. Otherwise it'll eat mouse hover events for the rest of the shell/apps
+        function test_hoverMouseAreaDisabledAndInvisible() {
+            loadDesktopShellWithApps()
+
+            var hoverMouseArea = findChild(shell, "hoverMouseArea");
+            tryCompare(hoverMouseArea, "enabled", false)
+            tryCompare(hoverMouseArea, "visible", false)
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+            tryCompare(hoverMouseArea, "enabled", true)
+            tryCompare(hoverMouseArea, "visible", true)
+
+            keyRelease(Qt.Key_Control)
+
+            tryCompare(hoverMouseArea, "enabled", false)
+            tryCompare(hoverMouseArea, "visible", false)
+        }
     }
 }
