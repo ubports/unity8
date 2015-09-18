@@ -259,6 +259,13 @@ Rectangle {
         visible: false
     }
 
+    MouseArea {
+        id: eventEater
+        anchors.fill: parent
+        visible: spreadBackground.visible
+        enabled: visible
+    }
+
     DesktopSpread {
         id: spread
         objectName: "spread"
