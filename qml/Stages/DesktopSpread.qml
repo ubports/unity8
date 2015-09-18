@@ -220,7 +220,8 @@ FocusScope {
                     id: tileInfo
                     objectName: "tileInfo"
                     anchors { left: parent.left; top: clippedSpreadDelegate.bottom; topMargin: units.gu(5) }
-                    width: units.gu(30)
+                    property int nextItemX: spreadRepeater.count > index + 1 ? spreadRepeater.itemAt(index + 1).x : spreadDelegate.x + units.gu(30)
+                    width: Math.min(units.gu(30), nextItemX - spreadDelegate.x)
                     height: titleInfoColumn.height
                     visible: false
                     hoverEnabled: true
@@ -253,6 +254,7 @@ FocusScope {
                             Layout.preferredHeight: units.gu(6)
                             text: model.name
                             wrapMode: Text.WordWrap
+                            elide: Text.ElideRight
                             maximumLineCount: 2
                         }
                     }
