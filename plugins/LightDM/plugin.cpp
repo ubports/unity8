@@ -59,7 +59,11 @@ void PLUGIN_CLASSNAME::registerTypes(const char *uri)
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<UserMetricsOutput::ColorTheme>();
 
-    Q_ASSERT(uri == QLatin1String("PLUGIN_CLASSNAME"));
+#if defined INTEGRATED_LIGHTDM
+    Q_ASSERT(uri == QLatin1String("LightDM.IntegratedLightDM"));
+#elif defined FULL_LIGHTDM
+    Q_ASSERT(uri == QLatin1String("LightDM.FullLightDM"));
+#endif
     qRegisterMetaType<QLightDM::Greeter::MessageType>("QLightDM::Greeter::MessageType");
     qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
 
