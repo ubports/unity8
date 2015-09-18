@@ -1672,5 +1672,40 @@ Rectangle {
             tryCompare(hoverMouseArea, "enabled", false)
             tryCompare(hoverMouseArea, "visible", false)
         }
+
+        function test_workspacePreviewsHighlightedApp() {
+            loadDesktopShellWithApps()
+
+            var targetZ = ApplicationManager.count + 1;
+
+            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
+            verify(spreadRepeater !== null);
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+            tryCompare(spreadRepeater, "highlightedIndex", 1);
+            tryCompare(appRepeater.itemAt(1), "z", targetZ)
+
+            var x = 0;
+            var y = shell.height * .75;
+            mouseMove(shell, x, y)
+
+            for (var i = 0; i < 7; i++) {
+                while (spreadRepeater.highlightedIndex != i && x <= 4000) {
+                    tryCompare(appRepeater.itemAt(spreadRepeater.highlightedIndex), "z", targetZ)
+                    x+=10;
+                    mouseMove(shell, x, y)
+                    wait(0); // spin the loop so bindings get evaluated
+                }
+            }
+
+            verify(y < 4000);
+
+            keyRelease(Qt.Key_Control);
+        }
     }
 }
