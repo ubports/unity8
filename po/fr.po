@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-09-17 13:38+0000\n"
+"PO-Revision-Date: 2015-07-27 11:47+0000\n"
 "Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-09-18 05:44+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-09-16 05:49+0000\n"
+"X-Generator: Launchpad (build 17737)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -726,5 +727,106 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Skip intro"
+#~ msgstr "Passer l'intro"
+
+#~ msgid "Right edge"
+#~ msgstr "Bord droit"
+
+#~ msgid "Top edge"
+#~ msgstr "Bord supérieur"
+
+#~ msgid "Close"
+#~ msgstr "Fermer"
+
+#~ msgid "Left edge"
+#~ msgstr "Bord gauche"
+
+#~ msgid "Speaking..."
+#~ msgstr "En cours d'écoute..."
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Chargement. Veuillez patienter…"
+
+#~ msgid "Search"
+#~ msgstr "Rechercher"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmez"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Rédigez ou dictez une commande"
+
+#~ msgid "Well done"
+#~ msgstr "Félicitations"
+
+#~ msgid "Speak Now..."
+#~ msgstr "Parlez maintenant…"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Vous maîtrisez maintenant les différents gestes et pouvez commencer à "
+#~ "utiliser le téléphone<br><br>Appuyez sur l'écran pour commencer"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Faites glisser votre doigt à partir du bord droit pour déverrouiller."
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Faites glisser votre doigt à partir du bord supérieur pour accéder aux "
+#~ "indicateurs."
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr ""
+#~ "Faites glisser à nouveau votre doigt vers le bord supérieur pour fermer "
+#~ "l'écran des paramètres"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Faites glisser votre doigt à partir du bord gauche pour afficher le "
+#~ "lanceur d'applications."
+
+#~ msgid "Power off"
+#~ msgstr "Éteindre"
+
+#~ msgid "All"
+#~ msgstr "Toutes"
+
+#~ msgid "Store"
+#~ msgstr "Logithèque"
+
+#~ msgid "Done"
+#~ msgstr "Terminé"
+
+#~ msgid "Favorites"
+#~ msgstr "Favorites"
+
+#~ msgid "Log out"
+#~ msgstr "Se déconnecter"
+
+#~ msgid "Reboot"
+#~ msgstr "Redémarrer"
+
+#~ msgid "Shut down"
+#~ msgstr "Éteindre"
+
+#~ msgid "Settings"
+#~ msgstr "Paramètres"
+
+#~ msgid "Power"
+#~ msgstr "Alimentation"
+
+#~ msgid "Restart"
+#~ msgstr "Redémarrer"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Gérer les moteurs de recherche"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Veuillez ressaisir"
+
+#~ msgid "Click here to finish."
+#~ msgstr "Cliquez ici pour terminer."
