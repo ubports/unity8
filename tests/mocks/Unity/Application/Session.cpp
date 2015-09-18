@@ -35,14 +35,14 @@ Session::Session(const QString &name,
     , m_parentSession(nullptr)
     , m_children(new SessionModel(this))
 {
-    qDebug() << "Session::Session() " << this->name();
+//    qDebug() << "Session::Session() " << this->name();
 
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 Session::~Session()
 {
-    qDebug() << "Session::~Session() " << name();
+//    qDebug() << "Session::~Session() " << name();
 
     QList<Session*> children(m_children->list());
     for (Session* child : children) {
@@ -67,7 +67,7 @@ Session::~Session()
 
 void Session::release()
 {
-    qDebug() << "Session::release " << name();
+//    qDebug() << "Session::release " << name();
     deleteLater();
 }
 
@@ -82,7 +82,7 @@ void Session::setApplication(ApplicationInfo* application)
 
 void Session::setSurface(MirSurface* surface)
 {
-    qDebug() << "Session::setSurface - session=" << name() << "surface=" << surface;
+//    qDebug() << "Session::setSurface - session=" << name() << "surface=" << surface;
     if (m_surface == surface)
         return;
 

@@ -70,7 +70,7 @@ Rectangle {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
             appDelegate.minimized = false;
-            appDelegate.focus = true;
+            ApplicationManager.focusApplication(appId)
         }
     }
 
@@ -132,12 +132,7 @@ Rectangle {
                 y: units.gu(3)
                 width: units.gu(60)
                 height: units.gu(50)
-
-                property int windowWidth: 0
-                property int windowHeight: 0
-                // We don't want to resize the actual application when we're transforming things for the spread only
-                onWidthChanged: if (appDelegate.state !== "altTab") windowWidth = width
-                onHeightChanged: if (appDelegate.state !== "altTab") windowHeight = height
+                focus: model.appId === priv.focusedAppId
 
                 readonly property int minWidth: units.gu(10)
                 readonly property int minHeight: units.gu(10)
@@ -148,13 +143,6 @@ Rectangle {
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.focusApplication(model.appId);
-                    }
-                }
-
-                Component.onCompleted: {
-                    // Focus the top-most or AppMan-focused application on start up.
-                    if (ApplicationManager.focusedApplicationId === model.appId && !focus) {
-                        focus = true;
                     }
                 }
 
@@ -231,7 +219,7 @@ Rectangle {
                     resizeHandleWidth: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
-                    onPressed: { appDelegate.focus = true; }
+                    onPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
 
                 DecoratedWindow {

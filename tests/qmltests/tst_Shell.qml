@@ -322,8 +322,9 @@ Rectangle {
 
         function loadDesktopShellWithApps() {
             loadShell("desktop");
+            waitForRendering(shell)
             shell.usageScenario = "desktop"
-            waitForRendering(root)
+            waitForRendering(shell)
             var app1 = ApplicationManager.startApplication("dialer-app")
             var app2 = ApplicationManager.startApplication("webbrowser-app")
             var app3 = ApplicationManager.startApplication("camera-app")
@@ -1407,17 +1408,18 @@ Rectangle {
             keyClick(Qt.Key_Tab, Qt.ControlModifier)
             tryCompare(app2.session.surface, "activeFocus", true)
 
+            var desktopSpread = findChild(shell, "spread")
 
-            tryCompare(desktopStage, "state", "")
+            tryCompare(desktopSpread, "state", "")
 
             // Just press Alt, make sure the spread comes up
             keyPress(Qt.Key_Control);
             keyClick(Qt.Key_Tab);
-            tryCompare(desktopStage, "state", "altTab")
+            tryCompare(desktopSpread, "state", "altTab")
 
             // Release control, check if spread disappears
             keyRelease(Qt.Key_Control)
-            tryCompare(desktopStage, "state", "")
+            tryCompare(desktopSpread, "state", "")
 
             // Focus should have switched back now
             tryCompare(app3.session.surface, "activeFocus", true)
@@ -1429,41 +1431,44 @@ Rectangle {
             var desktopStage = findChild(shell, "stage");
             verify(desktopStage !== null)
 
-            var appContainer = findInvisibleChild(shell, "appContainer")
-            verify(appContainer !== null)
+            var desktopSpread = findChild(shell, "spread");
+            verify(desktopSpread !== null)
 
-            var appRepeater = findInvisibleChild(shell, "appRepeater")
-            verify(appRepeater !== null)
+            var spreadContainer = findInvisibleChild(shell, "spreadContainer")
+            verify(spreadContainer !== null)
+
+            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater")
+            verify(spreadRepeater !== null)
 
             // remember the focused appId
             var focused = ApplicationManager.get(ApplicationManager.findApplication(ApplicationManager.focusedApplicationId));
 
-            tryCompare(desktopStage, "state", "")
+            tryCompare(desktopSpread, "state", "")
 
             // Just press Alt, make sure the spread comes up
             keyPress(Qt.Key_Control);
             keyClick(Qt.Key_Tab);
-            tryCompare(desktopStage, "state", "altTab")
-            tryCompare(appRepeater, "highlightedIndex", 1)
+            tryCompare(desktopSpread, "state", "altTab")
+            tryCompare(spreadRepeater, "highlightedIndex", 1)
             waitForRendering(shell)
 
             // Now press and hold Tab, make sure the highlight moves all the way but stops at the last one
             // We can't simulate a pressed key with keyPress() currently, so let's inject the events
             // at API level. Jump for 10 times, verify that it's still at the last one and didn't wrap around.
             for (var i = 0; i < 10; i++) {
-                appContainer.selectNext(true); // true == isAutoRepeat
+                desktopSpread.selectNext(true); // true == isAutoRepeat
                 wait(0); // Trigger the event loop to make sure all the things happen
             }
-            tryCompare(appRepeater, "highlightedIndex", 6)
+            tryCompare(spreadRepeater, "highlightedIndex", 6)
 
             // Now release it once, and verify that it does wrap around with an additional Tab press
             keyRelease(Qt.Key_Tab);
             keyClick(Qt.Key_Tab);
-            tryCompare(appRepeater, "highlightedIndex", 0)
+            tryCompare(spreadRepeater, "highlightedIndex", 0)
 
             // Release control, check if spread disappears
             keyRelease(Qt.Key_Control)
-            tryCompare(desktopStage, "state", "")
+            tryCompare(desktopSpread, "state", "")
 
             // Make sure that after wrapping around once, we have the same one focused as at the beginning
             tryCompare(focused.session.surface, "activeFocus", true)
@@ -1472,30 +1477,30 @@ Rectangle {
         function test_altBackTabNavigation() {
             loadDesktopShellWithApps();
 
-            var appRepeater = findInvisibleChild(shell, "appRepeater");
-            verify(appRepeater !== null);
+            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
+            verify(spreadRepeater !== null);
 
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
-            tryCompare(appRepeater, "highlightedIndex", 1);
+            tryCompare(spreadRepeater, "highlightedIndex", 1);
 
             keyClick(Qt.Key_Tab);
-            tryCompare(appRepeater, "highlightedIndex", 2);
+            tryCompare(spreadRepeater, "highlightedIndex", 2);
 
             keyClick(Qt.Key_Tab);
-            tryCompare(appRepeater, "highlightedIndex", 3);
+            tryCompare(spreadRepeater, "highlightedIndex", 3);
 
             keyClick(Qt.Key_Tab);
-            tryCompare(appRepeater, "highlightedIndex", 4);
+            tryCompare(spreadRepeater, "highlightedIndex", 4);
 
             keyClick(Qt.Key_Backtab);
-            tryCompare(appRepeater, "highlightedIndex", 3);
+            tryCompare(spreadRepeater, "highlightedIndex", 3);
 
             keyClick(Qt.Key_Backtab);
-            tryCompare(appRepeater, "highlightedIndex", 2);
+            tryCompare(spreadRepeater, "highlightedIndex", 2);
 
             keyClick(Qt.Key_Backtab);
-            tryCompare(appRepeater, "highlightedIndex", 1);
+            tryCompare(spreadRepeater, "highlightedIndex", 1);
 
             keyRelease(Qt.Key_Control);
         }
@@ -1503,20 +1508,20 @@ Rectangle {
         function test_highlightFollowsMouse() {
             loadDesktopShellWithApps()
 
-            var appRepeater = findInvisibleChild(shell, "appRepeater");
-            verify(appRepeater !== null);
+            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
+            verify(spreadRepeater !== null);
 
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
 
-            tryCompare(appRepeater, "highlightedIndex", 1);
+            tryCompare(spreadRepeater, "highlightedIndex", 1);
 
             var x = 0;
             var y = shell.height * .75;
             mouseMove(shell, x, y)
 
             for (var i = 0; i < 7; i++) {
-                while (appRepeater.highlightedIndex != i && x <= 4000) {
+                while (spreadRepeater.highlightedIndex != i && x <= 4000) {
                     x+=10;
                     mouseMove(shell, x, y)
                     wait(0); // spin the loop so bindings get evaluated
@@ -1531,8 +1536,8 @@ Rectangle {
         function test_closeFromSpread() {
             loadDesktopShellWithApps()
 
-            var appRepeater = findInvisibleChild(shell, "appRepeater");
-            verify(appRepeater !== null);
+            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
+            verify(spreadRepeater !== null);
 
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
@@ -1540,14 +1545,14 @@ Rectangle {
             appRemovedSpy.clear();
 
             var closedAppId = ApplicationManager.get(2).appId;
-            var appDelegate2 = appRepeater.itemAt(2);
-            var closeMouseArea = findChild(appDelegate2, "closeMouseArea");
+            var spreadDelegate2 = spreadRepeater.itemAt(2);
+            var closeMouseArea = findChild(spreadDelegate2, "closeMouseArea");
 
             // Move the mosue over tile 2 and verify the close button becomes visible
             var x = 0;
             var y = shell.height * .5;
             mouseMove(shell, x, y)
-            while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
+            while (spreadRepeater.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated
@@ -1594,7 +1599,7 @@ Rectangle {
             var x = 0;
             var y = shell.height * (data.tileInfo ? .95 : 0.5)
             mouseMove(shell, x, y)
-            while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
+            while (spreadRepeater.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated

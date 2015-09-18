@@ -77,6 +77,7 @@ FocusScope {
 
     Item {
         id: spreadContainer
+        objectName: "spreadContainer"
         anchors.fill: parent
         visible: false
 

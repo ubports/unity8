@@ -29,8 +29,8 @@ Item {
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    property int windowWidth: application.session.surface.size.width
-    property int windowHeight: application.session.surface.size.height
+    property int windowWidth: application.session && application.session.surface ? application.session.surface.size.width : 0
+    property int windowHeight: application.session && application.session.surface ? application.session.surface.size.height : 0
 
     state: "normal"
     states: [
