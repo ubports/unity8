@@ -29,8 +29,16 @@ Loader {
     property var infographic: d.valid ? loader.item.infographic : null
     property var users: d.valid ? loader.item.users : null
     property var userRoles: d.valid ? loader.item.userRoles : null
+    property var fullLightDM: {
+        if (typeof applicationArguments !== "undefined") {
+            if (applicationArguments.mode === "greeter") {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    source:  applicationArguments.mode === "greeter" ?
+    source:  fullLightDM ?
         "FullLightDMImpl.qml" : "IntegratedLightDMImpl.qml"
 
     QtObject {
