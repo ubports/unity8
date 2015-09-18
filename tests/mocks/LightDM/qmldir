@@ -1,3 +1,2 @@
 module LightDM
 plugin MockLightDM-qml
-typeinfo IntegratedLightDM.qmltypes

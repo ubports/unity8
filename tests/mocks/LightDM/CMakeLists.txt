@@ -45,5 +45,5 @@ qt5_use_modules(MockLightDM-qml DBus Gui Qml)
 add_unity8_mock(LightDM 0.1 LightDM
     PREFIX mocks
     TARGETS MockLightDM-qml
-    ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}/LightDM/IntegratedLightDM/liblightdm"
+    ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}/liblightdm"
 )
