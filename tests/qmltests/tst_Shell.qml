@@ -1626,7 +1626,6 @@ Rectangle {
             keyClick(Qt.Key_Tab);
 
             var spreadFlickable = findChild(shell, "spreadFlickable")
-            print("have flickable", spreadFlickable, spreadFlickable.contentX)
 
             compare(spreadFlickable.contentX, 0);
 
@@ -1704,6 +1703,31 @@ Rectangle {
             }
 
             verify(y < 4000);
+
+            keyRelease(Qt.Key_Control);
+        }
+
+        function test_focusAppFromLauncherExitsSpread() {
+            loadDesktopShellWithApps()
+
+            var desktopSpread = findChild(shell, "spread");
+            var launcher = findChild(shell, "launcher");
+            var bfb = findChild(launcher, "buttonShowDashHome");
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+
+            tryCompare(desktopSpread, "state", "altTab")
+
+            mouseMove(shell, 0, 0);
+            tryCompare(launcher, "state", "visibleTemporary")
+
+            mouseClick(bfb, bfb.width / 2, bfb.height / 2)
+            tryCompare(launcher, "state", "")
+            tryCompare(desktopSpread, "state", "")
+
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
             keyRelease(Qt.Key_Control);
         }

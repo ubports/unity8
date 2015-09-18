@@ -71,6 +71,10 @@ Rectangle {
             var appDelegate = appRepeater.itemAt(appIndex);
             appDelegate.minimized = false;
             ApplicationManager.focusApplication(appId)
+
+            if (spread.state == "altTab") {
+                spread.cancel()
+            }
         }
     }
 

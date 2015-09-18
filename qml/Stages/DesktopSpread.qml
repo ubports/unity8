@@ -75,6 +75,11 @@ FocusScope {
         }
     }
 
+    function cancel() {
+        spreadRepeater.highlightedIndex = -1;
+        state = ""
+    }
+
     Item {
         id: spreadContainer
         objectName: "spreadContainer"
