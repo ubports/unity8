@@ -35,7 +35,7 @@ Loader {
     property var scopeStyle: null
 
     //! Should the widget show in expanded mode (For those that support it)
-    property bool expanded: widgetType !== "expandable"
+    property bool expanded: widgetType !== "expandable" || widgetData["expanded"] === true
 
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false

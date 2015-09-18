@@ -61,7 +61,6 @@ Item {
                 Component.onDestruction: {
                     desktopStageLoader.itemDestroyed = true;
                 }
-                focus: true
             }
         }
     }
@@ -142,8 +141,8 @@ Item {
 
         function test_appFocusSwitch_data() {
             return [
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
             ]
         }
 
@@ -162,8 +161,8 @@ Item {
 
         function test_tappingOnWindowChangesFocusedApp_data() {
             return [
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
             ]
         }
 
@@ -172,16 +171,20 @@ Item {
             for (i = 0; i < data.apps.length; i++) {
                 startApplication(data.apps[i]);
             }
+            var fromAppId = data.apps[data.focusfrom];
+            var toAppId = data.apps[data.focusTo]
 
-            var fromAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusfrom]);
+            var fromAppWindow = findChild(desktopStage, "appWindow_" + fromAppId);
             verify(fromAppWindow);
             tap(fromAppWindow);
             compare(fromAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, fromAppId);
 
-            var toAppWindow = findChild(desktopStage, "appWindow_" + data.apps[data.focusTo]);
+            var toAppWindow = findChild(desktopStage, "appWindow_" + toAppId);
             verify(toAppWindow);
             tap(toAppWindow);
             compare(toAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, toAppId);
         }
 
         function test_tappingOnDecorationFocusesApplication_data() {

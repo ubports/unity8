@@ -167,7 +167,7 @@ Rectangle {
             var lastValue = undefined;
             do {
                 lastValue = targetAppDelegate.animatedProgress;
-                wait(30);
+                wait(300);
             } while (lastValue != targetAppDelegate.animatedProgress);
         }
 

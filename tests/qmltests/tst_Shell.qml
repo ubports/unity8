@@ -590,19 +590,19 @@ Rectangle {
 
             // Display off while call is active...
             callManager.foregroundCall = phoneCall;
-            Powerd.status = Powerd.Off;
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
             tryCompare(greeter, "shown", false);
 
             // Now try again after ending call
             callManager.foregroundCall = null;
-            Powerd.status = Powerd.On;
-            Powerd.status = Powerd.Off;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
             tryCompare(greeter, "fullyShown", true);
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
             // And wake up
-            Powerd.status = Powerd.On;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
             tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
@@ -795,6 +795,7 @@ Rectangle {
         function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
+            waitForGreeterToStabilize();
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
@@ -1102,6 +1103,19 @@ Rectangle {
 
             var tutorialLeft = findChild(tutorial, "tutorialLeft");
             compare(tutorialLeft, null); // should be destroyed with tutorial
+        }
+
+        function test_tutorialPausedDuringGreeter() {
+            loadShell("phone");
+
+            var tutorial = findChild(shell, "tutorial");
+
+            AccountsService.demoEdges = true;
+            tryCompare(tutorial, "running", true);
+            tryCompare(tutorial, "paused", true);
+
+            swipeAwayGreeter();
+            tryCompare(tutorial, "paused", false);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {

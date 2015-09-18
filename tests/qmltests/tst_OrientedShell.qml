@@ -296,9 +296,9 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: {
                     if (Powerd.status === Powerd.On) {
-                        Powerd.status = Powerd.Off;
+                        Powerd.setStatus(Powerd.Off, Powerd.Unknown);
                     } else {
-                        Powerd.status = Powerd.On;
+                        Powerd.setStatus(Powerd.On, Powerd.Unknown);
                     }
                 }
             }
