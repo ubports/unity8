@@ -269,6 +269,7 @@ Rectangle {
 
     DesktopSpread {
         id: spread
+        objectName: "spread"
         anchors.fill: parent
         workspace: appContainer
         focus: state == "altTab"

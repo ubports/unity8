@@ -1574,18 +1574,21 @@ Rectangle {
         function test_selectFromSpreadWithMouse(data) {
             loadDesktopShellWithApps()
 
-            var appRepeater = findInvisibleChild(shell, "appRepeater");
-            verify(appRepeater !== null);
+            var stage = findChild(shell, "stage");
+            var spread = findChild(stage, "spread");
+            waitForRendering(spread)
+
+            var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
+            verify(spreadRepeater !== null);
 
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
 
             var focusAppId = ApplicationManager.get(2).appId;
-            var appDelegate2 = appRepeater.itemAt(2);
-            var decoratedWindow = findChild(appDelegate2, "decoratedWindow");
-            var stage = findChild(shell, "stage");
+            var spreadDelegate2 = spreadRepeater.itemAt(2);
+            var clippedSpreadDelegate = findChild(spreadDelegate2, "clippedSpreadDelegate");
 
-            tryCompare(stage, "state", "altTab");
+            tryCompare(spread, "state", "altTab");
 
             // Move the mouse over tile 2 and verify the highlight becomes visible
             var x = 0;
@@ -1596,10 +1599,10 @@ Rectangle {
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated
             }
-            tryCompare(decoratedWindow, "highlightShown", true);
+            tryCompare(clippedSpreadDelegate, "highlightShown", true);
 
             // Click the tile
-            mouseClick(decoratedWindow, decoratedWindow.width / 2, decoratedWindow.height / 2)
+            mouseClick(clippedSpreadDelegate, clippedSpreadDelegate.width / 2, clippedSpreadDelegate.height / 2)
 
             // Verify that we left the spread and app2 is the focused one now
             tryCompare(stage, "state", "");

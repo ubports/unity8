@@ -38,7 +38,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_touchPressCount(0)
     , m_touchReleaseCount(0)
 {
-    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
+//    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
         Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
         Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
@@ -48,7 +48,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
 
 MirSurfaceItem::~MirSurfaceItem()
 {
-    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
+//    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
     setSurface(nullptr);
 }
 
@@ -136,7 +136,7 @@ void MirSurfaceItem::onComponentStatusChanged(QQmlComponent::Status status)
 
 void MirSurfaceItem::createQmlContentItem()
 {
-    qDebug() << "MirSurfaceItem::createQmlContentItem()";
+//    qDebug() << "MirSurfaceItem::createQmlContentItem()";
 
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
@@ -178,9 +178,9 @@ void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
 
 void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 {
-    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
-                                                   << " name=" << name()
-                                                   << " surface=" << surface;
+//    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
+//                                                   << " name=" << name()
+//                                                   << " surface=" << surface;
 
     if (m_qmlSurface == surface) {
         return;

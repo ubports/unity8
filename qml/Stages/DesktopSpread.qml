@@ -84,6 +84,7 @@ FocusScope {
 
         Repeater {
             id: spreadRepeater
+            objectName: "spreadRepeater"
             model: ApplicationManager
 
             property int highlightedIndex: -1
