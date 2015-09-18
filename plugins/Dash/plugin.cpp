@@ -17,7 +17,6 @@
 
 #include "plugin.h"
 
-#include "croppedimagesizer.h"
 #include "horizontaljournal.h"
 #include "listviewwithpageheader.h"
 #include "organicgrid.h"
@@ -65,7 +64,6 @@ void DashPlugin::registerTypes(const char *uri)
     qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
     qmlRegisterType<OrganicGrid>(uri, 0, 1, "OrganicGrid");
     qmlRegisterType<VerticalJournal>(uri, 0, 1, "VerticalJournal");
-    qmlRegisterType<CroppedImageSizer>(uri, 0, 1, "CroppedImageSizer");
     qmlRegisterSingletonType<AudioComparer>(uri, 0, 1, "AudioUrlComparer", audio_comparer_singleton_provider);
 }
 

@@ -590,19 +590,19 @@ Rectangle {
 
             // Display off while call is active...
             callManager.foregroundCall = phoneCall;
-            Powerd.status = Powerd.Off;
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
             tryCompare(greeter, "shown", false);
 
             // Now try again after ending call
             callManager.foregroundCall = null;
-            Powerd.status = Powerd.On;
-            Powerd.status = Powerd.Off;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
             tryCompare(greeter, "fullyShown", true);
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
             // And wake up
-            Powerd.status = Powerd.On;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
             tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app
@@ -795,6 +795,7 @@ Rectangle {
         function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
+            waitForGreeterToStabilize();
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
@@ -1102,6 +1103,19 @@ Rectangle {
 
             var tutorialLeft = findChild(tutorial, "tutorialLeft");
             compare(tutorialLeft, null); // should be destroyed with tutorial
+        }
+
+        function test_tutorialPausedDuringGreeter() {
+            loadShell("phone");
+
+            var tutorial = findChild(shell, "tutorial");
+
+            AccountsService.demoEdges = true;
+            tryCompare(tutorial, "running", true);
+            tryCompare(tutorial, "paused", true);
+
+            swipeAwayGreeter();
+            tryCompare(tutorial, "paused", false);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {
@@ -1566,8 +1580,6 @@ Rectangle {
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
 
-            appRemovedSpy.clear();
-
             var focusAppId = ApplicationManager.get(2).appId;
             var appDelegate2 = appRepeater.itemAt(2);
             var decoratedWindow = findChild(appDelegate2, "decoratedWindow");
@@ -1577,7 +1589,7 @@ Rectangle {
 
             // Move the mouse over tile 2 and verify the highlight becomes visible
             var x = 0;
-            var y = shell.height * (data.tileInfo ? .5 : 0.95)
+            var y = shell.height * (data.tileInfo ? .95 : 0.5)
             mouseMove(shell, x, y)
             while (appRepeater.highlightedIndex !== 2 && x <= 4000) {
                 x+=10;
@@ -1592,6 +1604,42 @@ Rectangle {
             // Verify that we left the spread and app2 is the focused one now
             tryCompare(stage, "state", "");
             tryCompare(ApplicationManager, "focusedApplicationId", focusAppId);
+
+            keyRelease(Qt.Key_Control);
+        }
+
+        function test_progressiveAutoScrolling() {
+            loadDesktopShellWithApps()
+
+            var appRepeater = findInvisibleChild(shell, "appRepeater");
+            verify(appRepeater !== null);
+
+            keyPress(Qt.Key_Control)
+            keyClick(Qt.Key_Tab);
+
+            var spreadFlickable = findChild(shell, "spreadFlickable")
+            print("have flickable", spreadFlickable, spreadFlickable.contentX)
+
+            compare(spreadFlickable.contentX, 0);
+
+            // Move the mouse to the right and make sure it scrolls the Flickable
+            var x = 0;
+            var y = shell.height * .5
+            mouseMove(shell, x, y)
+            while (x <= spreadFlickable.width) {
+                x+=10;
+                mouseMove(shell, x, y)
+                wait(0); // spin the loop so bindings get evaluated
+            }
+            tryCompare(spreadFlickable, "contentX", spreadFlickable.contentWidth - spreadFlickable.width);
+
+            // And turn around
+            while (x > 0) {
+                x-=10;
+                mouseMove(shell, x, y)
+                wait(0); // spin the loop so bindings get evaluated
+            }
+            tryCompare(spreadFlickable, "contentX", 0);
 
             keyRelease(Qt.Key_Control);
         }

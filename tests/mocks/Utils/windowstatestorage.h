@@ -16,6 +16,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include <QRect>
 
 class WindowStateStorage: public QObject
 {

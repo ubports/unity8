@@ -1,4 +1,5 @@
 add_subdirectory(AccountsService)
+add_subdirectory(GlobalShortcut)
 add_subdirectory(Greeter)
 add_subdirectory(IntegratedLightDM)
 add_subdirectory(Dash)
