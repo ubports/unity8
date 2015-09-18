@@ -14,21 +14,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ActiveFocusLogger.h"
+#include "activefocuslogger.h"
 
-#include <QDebug>
-#include <QQuickItem>
+#include <QQuickWindow>
 
-void ActiveFocusLogger::setWindow(QQuickWindow *window)
+ActiveFocusLogger::ActiveFocusLogger(QQuickItem *parent)
+    : QQuickItem(parent)
 {
-    m_window = window;
-    QObject::connect(window, &QQuickWindow::activeFocusItemChanged,
-            this, &ActiveFocusLogger::printActiveFocusInfo);
+    connect(this, &QQuickItem::windowChanged,
+            this, &ActiveFocusLogger::setupFilterOnWindow);
+}
+
+void ActiveFocusLogger::setupFilterOnWindow(QQuickWindow *window)
+{
+    if (!m_window.isNull()) {
+        disconnect(m_window.data(), nullptr, this, nullptr);
+        m_window.clear();
+    }
+
+    if (window) {
+        m_window = window;
+        QObject::connect(window, &QQuickWindow::activeFocusItemChanged,
+                this, &ActiveFocusLogger::printActiveFocusInfo);
+    }
 }
 
 void ActiveFocusLogger::printActiveFocusInfo()
 {
-    if (!m_window) {
+    if (!m_window || !isEnabled()) {
         return;
     }
 
