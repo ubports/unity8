@@ -24,11 +24,11 @@ Powerd::Powerd(QObject* parent)
 {
 }
 
-void Powerd::setStatus(Powerd::Status status)
+void Powerd::setStatus(Powerd::Status status, DisplayStateChangeReason reason)
 {
     if (m_status != status) {
         m_status = status;
-        Q_EMIT statusChanged(DisplayStateChangeReason::Unknown);
+        Q_EMIT statusChanged(reason);
     }
 }
 

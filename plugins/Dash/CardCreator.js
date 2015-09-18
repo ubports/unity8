@@ -68,7 +68,7 @@ var kArtShapeHolderCode = 'Item  { \n\
                                     objectName: "artShape"; \n\
                                     property bool doShapeItem: components["art"]["conciergeMode"] !== true; \n\
                                     visible: image.status == Image.Ready; \n\
-                                    readonly property alias image: artImage.image; \n\
+                                    readonly property alias image: artImage; \n\
                                     property alias borderSource: artShapeShape.borderSource; \n\
                                     ShaderEffectSource { \n\
                                         id: artShapeSource; \n\
@@ -195,11 +195,11 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 id: mascotShapeLoader; \n\
                                 objectName: "mascotShapeLoader"; \n\
                                 asynchronous: root.asynchronous; \n\
-                                active: mascotImage.image.status === Image.Ready; \n\
+                                active: mascotImage.status === Image.Ready; \n\
                                 visible: showHeader && active && status == Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
-                                sourceComponent: UbuntuShape { image: mascotImage.image } \n\
+                                sourceComponent: UbuntuShape { image: mascotImage } \n\
                                 anchors { %1 } \n\
                             }\n';
 
@@ -476,7 +476,7 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
         var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
         if (fallback !== "") {
-            code += 'Connections { target: mascotImage.image; onStatusChanged: if (mascotImage.image.status === Image.Error) mascotImage.source = "%1"; } \n'.arg(fallback);
+            code += 'Connections { target: mascotImage; onStatusChanged: if (mascotImage.status === Image.Error) mascotImage.source = "%1"; } \n'.arg(fallback);
         }
     }
 

@@ -23,6 +23,7 @@
 #include "plugin.h"
 
 // local
+#include "activefocuslogger.h"
 #include "easingcurve.h"
 #include "HomeKeyWatcher.h"
 #include "inputwatcher.h"
@@ -69,6 +70,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
     qmlRegisterSingletonType<TimezoneFormatter>(uri, 0, 1, "TimezoneFormatter",
                                                 [](QQmlEngine*, QJSEngine*) -> QObject* { return new TimezoneFormatter; });
+    qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

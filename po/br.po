@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-08-25 14:12+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
+"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
-"Language: br\n"
+"X-Launchpad-Export-Date: 2015-09-16 05:49+0000\n"
+"X-Generator: Launchpad (build 17737)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -594,8 +594,7 @@ msgstr "Surentez ar prennañ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
-"Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
+msgstr "Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
@@ -653,8 +652,7 @@ msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-"Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
+msgstr "Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -720,6 +718,104 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid "Close"
+#~ msgstr "Serriñ"
+
+#~ msgid "Top edge"
+#~ msgstr "Bord uhelañ"
+
+#~ msgid "Left edge"
+#~ msgstr "Bord kleiz"
+
+#~ msgid "Skip intro"
+#~ msgstr "Tremen hep sellet ouzh an digoradur"
+
+#~ msgid "Right edge"
+#~ msgstr "Bord dehoù"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Mestroniañ a rit ar jestroù ha gallout a rit kregiñ da implijout ar "
+#~ "pellgomzer<br><br>Touchit d'ar skramm evit kregiñ ganti"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "O kargañ. Gortozit, mar plij..."
+
+#~ msgid "Speaking..."
+#~ msgstr "O komz..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Komzit bremañ..."
+
+#~ msgid "Confirm"
+#~ msgstr "Kadarnaat"
+
+#~ msgid "Search"
+#~ msgstr "Klask"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Lakait ho piz da riklañ adalek ar bord uhelañ da lakaat ar merkerioù war "
+#~ "wel."
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr ""
+#~ "Lakait ho piz da riklañ war-du ar bord uhelañ da serriñ skramm an "
+#~ "arventennoù"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Lakait ho piz da riklañ adalek ar bord dehoù da zibrennañ ar pellgomzer."
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Lakait ho piz da riklañ adalek ar bord kleiz da ziskouez al lañser "
+#~ "arloadoù prim."
+
+#~ msgid "Well done"
+#~ msgstr "Gourc'hemennoù !"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Skrivit pe lavarit un urzhiad"
+
+#~ msgid "Store"
+#~ msgstr "Enrollañ"
+
+#~ msgid "Power off"
+#~ msgstr "Lazhañ"
+
+#~ msgid "Done"
+#~ msgstr "Graet eo"
+
+#~ msgid "All"
+#~ msgstr "An holl anezho"
+
+#~ msgid "Favorites"
+#~ msgstr "Gwellañ deuet"
+
+#~ msgid "Power"
+#~ msgstr "Tredan"
+
+#~ msgid "Log out"
+#~ msgstr "Digevreañ"
+
+#~ msgid "Reboot"
+#~ msgstr "Adloc'hañ"
+
+#~ msgid "Shut down"
+#~ msgstr "Lazhañ ar benveg"
+
+#~ msgid "Settings"
+#~ msgstr "Arventennoù"
+
+#~ msgid "Restart"
+#~ msgstr "Adloc'hañ"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Merañ ar c'hefluskerioù enklask"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Adverkañ, mar plij"
