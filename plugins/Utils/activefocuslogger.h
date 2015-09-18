@@ -14,24 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACTIVE_FOCUS_LOGGER_H
-#define ACTIVE_FOCUS_LOGGER_H
+#ifndef UNITY_ACTIVEFOCUSLOGGER_H
+#define UNITY_ACTIVEFOCUSLOGGER_H
 
-#include <QObject>
-#include <QQuickWindow>
+#include <QQuickItem>
 #include <QPointer>
 
-class ActiveFocusLogger : public QObject {
+class ActiveFocusLogger : public QQuickItem
+{
     Q_OBJECT
-
 public:
-    void setWindow(QQuickWindow *window);
+    ActiveFocusLogger(QQuickItem *parent = 0);
 
 private Q_SLOTS:
+    void setupFilterOnWindow(QQuickWindow *window);
     void printActiveFocusInfo();
 
 private:
     QPointer<QQuickWindow> m_window;
 };
 
-#endif // ACTIVE_FOCUS_LOGGER_H
+#endif // UNITY_ACTIVEFOCUSLOGGER_H
