@@ -20,21 +20,6 @@ Module {
         Property { name: "displayMarginEnd"; type: "double" }
     }
     Component {
-        name: "CroppedImageSizer"
-        prototype: "QObject"
-        exports: ["Dash/CroppedImageSizer 0.1"]
-        exportMetaObjectRevisions: [0]
-        Property { name: "source"; type: "QUrl" }
-        Property { name: "width"; type: "double" }
-        Property { name: "height"; type: "double" }
-        Property { name: "sourceSize"; type: "QSize"; isReadonly: true }
-        Signal { name: "inputParamsChanged" }
-        Method {
-            name: "setImageSize"
-            Parameter { name: "imageSize"; type: "QSize" }
-        }
-    }
-    Component {
         name: "HorizontalJournal"
         defaultProperty: "data"
         prototype: "AbstractDashView"

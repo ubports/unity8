@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-08-10 11:45+0000\n"
 "Last-Translator: Daniel Cheung <daniel.2345@hotmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-02 05:57+0000\n"
-"X-Generator: Launchpad (build 17706)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -134,83 +134,83 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Components/Dialogs.qml:69
+#: qml/Components/Dialogs.qml:112
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:113
 msgid "Are you sure you want to log out?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:72
+#: qml/Components/Dialogs.qml:115
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:79
+#: qml/Components/Dialogs.qml:122
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
+#: qml/Components/Dialogs.qml:221
 msgid "Cancel"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:141
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:142
 msgid "Are you sure you want to shut down?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:144
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:153
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:175
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:176
 msgid "Are you sure you want to reboot?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:178
 msgid "No"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:138
+#: qml/Components/Dialogs.qml:185
 msgid "Yes"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:200
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:201
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:203
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:164
+#: qml/Components/Dialogs.qml:212
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr ""
@@ -387,68 +387,72 @@ msgstr "輕觸可返回通話…"
 msgid "Conference"
 msgstr "會議"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:639
+#: qml/Panel/Indicators/MenuItemFactory.qml:674
 msgid "Nothing is playing"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#: qml/Panel/Indicators/MenuItemFactory.qml:803
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#: qml/Panel/Indicators/MenuItemFactory.qml:807
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#: qml/Panel/Indicators/MenuItemFactory.qml:812
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:780
+#: qml/Panel/Indicators/MenuItemFactory.qml:815
 msgid "0 seconds"
 msgstr ""
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#: qml/Panel/Indicators/MenuItemFactory.qml:817
 #, qt-format
 msgid "%1 remaining"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:788
+#: qml/Panel/Indicators/MenuItemFactory.qml:823
 msgid "In queue…"
 msgstr "佇列中…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:792
+#: qml/Panel/Indicators/MenuItemFactory.qml:827
 msgid "Downloading"
 msgstr "下載中"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:794
+#: qml/Panel/Indicators/MenuItemFactory.qml:829
 msgid "Paused, tap to resume"
 msgstr "已暫停，輕觸以繼續"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:796
+#: qml/Panel/Indicators/MenuItemFactory.qml:831
 msgid "Canceled"
 msgstr "已取消"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:798
+#: qml/Panel/Indicators/MenuItemFactory.qml:833
 msgid "Finished"
 msgstr "已完成"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:800
+#: qml/Panel/Indicators/MenuItemFactory.qml:835
 msgid "Failed, tap to retry"
 msgstr "失敗，輕觸以重試"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
+msgstr ""
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+msgid "Call back"
 msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
@@ -517,6 +521,38 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr ""
 
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50
+msgid "Continue"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr ""
+
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr ""
@@ -527,13 +563,6 @@ msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
 msgstr ""
 
 #: qml/Wizard/Pages/20-sim.qml:25
@@ -661,31 +690,6 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr ""
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr ""
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr ""
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr ""
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr ""
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr ""
-
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
@@ -697,3 +701,56 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Top edge"
+#~ msgstr "頂部邊緣"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "試從頂部邊緣輕掃存取指示器"
+
+#~ msgid "Close"
+#~ msgstr "關閉"
+
+#~ msgid "Well done"
+#~ msgstr "做得好"
+
+#~ msgid "Skip intro"
+#~ msgstr "跳過介紹"
+
+#~ msgid "Speaking..."
+#~ msgstr "正在講..."
+
+#~ msgid "Confirm"
+#~ msgstr "確認"
+
+#~ msgid "Search"
+#~ msgstr "搜尋"
+
+#~ msgid "Type or say a command"
+#~ msgstr "輸入或說出指令"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "再向上滑動一次以關閉設定畫面"
+
+#~ msgid "Left edge"
+#~ msgstr "左側邊緣"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "試從右邊緣向左滑動解鎖手機"
+
+#~ msgid "Right edge"
+#~ msgstr "右側邊緣"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "從左側邊緣滑動以顯示啟動器快速查看應用"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "載入中。請稍候..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "請講..."

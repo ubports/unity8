@@ -161,6 +161,21 @@ void MirSurfaceItem::touchEvent(QTouchEvent * event)
     }
 }
 
+void MirSurfaceItem::mousePressEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
+void MirSurfaceItem::mouseMoveEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
+void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
 void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 {
     qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
