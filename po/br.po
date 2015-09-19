@@ -11,13 +11,13 @@ msgstr ""
 "PO-Revision-Date: 2015-09-17 13:37+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
-"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-09-18 05:43+0000\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:42+0000\n"
 "X-Generator: Launchpad (build 17746)\n"
+"Language: br\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -594,7 +594,8 @@ msgstr "Surentez ar prennañ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr "Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
+msgstr ""
+"Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
@@ -652,7 +653,8 @@ msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr "Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
+msgstr ""
+"Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
