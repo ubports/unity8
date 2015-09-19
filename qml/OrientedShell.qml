@@ -44,6 +44,7 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
+
     // to be overwritten by tests
     property var unity8Settings: Unity8Settings {}
     property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }

@@ -578,7 +578,7 @@ Item {
                 waitForRendering(notifications);
 
                 var notification = findChild(notifications, "notification" + (mockModel.count - 1))
-                verify(!!notification, "notification wasn't found");
+                verify(notification !== undefined, "notification wasn't found");
 
                 waitForRendering(notification);
                 tryCompare(notification, "height", notification.state === "contracted" ? units.gu(10) : notification.implicitHeight);
@@ -672,7 +672,7 @@ Item {
                         actionSpy.clear()
 
                         // click to collapse
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded === false; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
                     } else {
                         mouseClick(buttonCancel)
                         compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")

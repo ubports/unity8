@@ -247,7 +247,7 @@ Item {
                 waitForRendering(notifications);
 
                 var notification = findChild(notifications, "notification" + (mockModel.count - 1))
-                verify(!!notification, "notification wasn't found");
+                verify(notification !== undefined, "notification wasn't found");
 
                 waitForRendering(notification);
 
@@ -265,7 +265,7 @@ Item {
 
                 // test input does not fall through
                 mouseClick(notification)
-                if(data.type === Notification.Interactive) {
+                if(data.type == Notification.Interactive) {
                     actionSpy.wait()
                     compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")
                 }

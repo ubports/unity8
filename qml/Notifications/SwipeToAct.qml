@@ -16,7 +16,6 @@
 
 import QtQuick 2.3
 import Ubuntu.Components 1.2
-import "../Components/UnityInputInfo"
 
 Item {
     id: swipeToAct
@@ -75,7 +74,6 @@ Item {
         iconName: leftIconName
         visible: clickToAct
         width: (parent.width / 2) - priv.gap
-        height: leftShape.height
         color: UbuntuColors.red
         onClicked: {
             leftTriggered()
@@ -90,7 +88,6 @@ Item {
         iconName: rightIconName
         visible: clickToAct
         width: (parent.width / 2) - priv.gap
-        height: rightShape.height
         color: UbuntuColors.green
         onClicked: {
             rightTriggered()
@@ -126,7 +123,6 @@ Item {
                 height: units.gu(3.5)
                 name: leftIconName
                 color: "white"
-
             }
         }
 
@@ -178,7 +174,8 @@ Item {
 
             onXChanged: {
                 var factor
-                if (slider.x <= priv.gap + leftShape.width) {
+                if (slider.x <= priv.gap + leftShape.width)
+                {
                     factor = (slider.x - priv.gap) / leftShape.width
                     slider.color = priv.interpolate(leftShape.color, priv.sliderMainColor, factor)
                 } else if (slider.x >= rightShape.x - slider.width) {
