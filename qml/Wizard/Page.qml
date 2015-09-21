@@ -121,20 +121,22 @@ Item {
             right: parent.right
         }
         source: customTitle ? "" : "Pages/data/Phone header bkg.png"
-        height: customTitle ? customMargin + titleLabel.height + customMargin : units.gu(16)
+        height: units.gu(16)
         clip: true
 
         // page title
         Label {
             id: titleLabel
             property real animatedMargin: 0
+            property real animatedTopMargin: titleRect.height - customMargin - titleLabel.height
             anchors {
                 left: parent.left
                 right: parent.right
-                bottom: parent.bottom
+                top: parent.top
                 bottomMargin: bottomMargin
                 leftMargin: leftMargin + titleLabel.animatedMargin
                 rightMargin: rightMargin
+                topMargin: titleLabel.animatedTopMargin
             }
             text: title
             color: customTitle ? textColor : backgroundColor
@@ -196,13 +198,15 @@ Item {
     Item {
         id: contentHolder
         property real animatedMargin: 0
+        property real animatedTopMargin: 0
         anchors {
             top: titleRect.bottom
             left: parent.left
             right: parent.right
             bottom: buttonBarVisible ? buttonRect.top : parent.top
-            leftMargin: contentHolder.animatedMargin
-            rightMargin: -contentHolder.animatedMargin
+            leftMargin: content.animatedMargin
+            rightMargin: -content.animatedMargin
+            topMargin: content.animatedTopMargin
         }
         visible: opacity > 0
     }
@@ -258,6 +262,11 @@ Item {
         startControlsAnimation(duration)
     }
 
+    function aboutToShowSecondary(duration) {
+        secondaryAnimation.restart()
+        startControlsAnimation(duration)
+    }
+
     function startContentAnimation(duration, direction) {
         contentAnimation.animationDurationBase = duration
         contentAnimation.direction = direction
@@ -294,10 +303,10 @@ Item {
         ScriptAction { // direction of the effect
             script: {
                 if (contentAnimation.direction === Qt.LeftToRight) {
-                    titleLabel.animatedMargin = -titleRect.width;
+                    titleLabel.animatedMargin = -content.width;
                     content.animatedMargin = -content.width;
                 } else {
-                    titleLabel.animatedMargin = titleRect.width;
+                    titleLabel.animatedMargin = content.width;
                     content.animatedMargin = content.width;
                 }
             }
@@ -317,6 +326,34 @@ Item {
                 to: 1
                 duration: contentAnimation.animationDurationBase
             }
+        }
+    }
+
+    ParallelAnimation {  // animation for the secondary pages
+        id: secondaryAnimation
+
+        NumberAnimation { // the slide-up animation
+            target: titleLabel
+            property: 'animatedTopMargin'
+            from: content.height
+            to: titleRect.height - customMargin - titleLabel.height
+            duration: UbuntuAnimation.BriskDuration
+            easing: UbuntuAnimation.StandardEasing
+        }
+        NumberAnimation {
+            target: content
+            property: 'animatedTopMargin'
+            from: content.height
+            to: 0
+            duration: UbuntuAnimation.BriskDuration
+            easing: UbuntuAnimation.StandardEasing
+        }
+        NumberAnimation { // opacity animation
+            targets: [titleLabel,content]
+            property: 'opacity'
+            from: 0
+            to: 1
+            duration: UbuntuAnimation.FastDuration
         }
     }
 }

@@ -79,15 +79,10 @@ Item {
             while (pageList.index < pageStack.depth - 1)
                 pop();
             load(pageList.next());
-
-            var doTransitions = !currentPage.customTitle; // skip for secondary/extra pages
-            if (doTransitions) {
-                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
-            }
         }
 
         function prev() {
-            var doTransitions = !currentPage.customTitle; // skip for secondary/extra pages
+            var isPrimaryPage = !currentPage.customTitle; // skip for secondary/extra pages
             if (pageList.index >= pageStack.depth - 1) {
                 pageList.prev(); // update pageList.index, but not for extra pages
             }
@@ -98,8 +93,10 @@ Item {
                 currentPage.enabled = true;
             }
 
-            if (doTransitions) {
+            if (isPrimaryPage) {
                 currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.LeftToRight);
+            } else {
+                currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
             }
         }
 
@@ -117,6 +114,13 @@ Item {
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
             checkSkip()
+
+            var isPrimaryPage = !currentPage.customTitle; // skip for secondary/extra pages
+            if (isPrimaryPage) {
+                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
+            } else {
+                currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
+            }
         }
 
         function checkSkip() {
