@@ -21,7 +21,7 @@ import "../../../qml/Greeter"
 import Ubuntu.Components 0.1
 import AccountsService 0.1
 import GSettings 1.0
-import LightDM 0.1 as LightDM // This is the mock
+import LightDM 0.1  // This is the mock
 import Unity.Test 0.1 as UT
 
 Item {
