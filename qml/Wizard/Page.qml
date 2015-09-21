@@ -202,6 +202,7 @@ Item {
             right: parent.right
             bottom: buttonBarVisible ? buttonRect.top : parent.top
             leftMargin: contentHolder.animatedMargin
+            rightMargin: -contentHolder.animatedMargin
         }
     }
 
