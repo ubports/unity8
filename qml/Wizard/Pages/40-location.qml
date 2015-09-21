@@ -65,7 +65,7 @@ LocalComponents.Page {
                 rightMargin: units.gu(1)
             }
 
-            wrapMode: Text.WordWrap
+            wrapMode: content.animatedMargin ? Text.NoWrap : Text.WordWrap
             color: textColor
             font.weight: checked ? Font.Normal : Font.Light
             text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")

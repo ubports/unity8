@@ -127,15 +127,15 @@ Item {
         // page title
         Label {
             id: titleLabel
+            property real animatedMargin: 0
             anchors {
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
                 bottomMargin: bottomMargin
-                leftMargin: leftMargin
+                leftMargin: leftMargin + titleLabel.animatedMargin
                 rightMargin: rightMargin
             }
-            wrapMode: Text.Wrap
             text: title
             color: customTitle ? textColor : backgroundColor
             fontSize: customTitle ? "large" : "x-large"
@@ -195,11 +195,13 @@ Item {
     // content
     Item {
         id: contentHolder
+        property real animatedMargin: 0
         anchors {
             top: titleRect.bottom
             left: parent.left
             right: parent.right
             bottom: buttonBarVisible ? buttonRect.top : parent.top
+            leftMargin: contentHolder.animatedMargin
         }
     }
 
@@ -245,6 +247,75 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
             z: 1
+        }
+    }
+
+    // transitions
+
+    function aboutToShow(duration, direction) {
+        startContentAnimation(duration, direction)
+        startShowing(duration)
+    }
+
+    function startContentAnimation(duration, direction) {
+        contentAnimation.animationDurationBase = duration
+        contentAnimation.direction = direction
+        contentAnimation.restart()
+    }
+
+    function startShowing(showDuration) {
+        actionsShowAnimation.showDuration = showDuration
+        actionsShowAnimation.restart()
+    }
+
+    SequentialAnimation {
+        id: actionsShowAnimation
+        property int showDuration: 0
+        PropertyAction {
+            target: buttonRect
+            property: 'opacity'
+            value: 0
+        }
+        PauseAnimation { duration: Math.max(0, actionsShowAnimation.showDuration - UbuntuAnimation.SnapDuration) }
+        NumberAnimation {
+            target: buttonRect
+            property: 'opacity'
+            to: 1
+            duration: UbuntuAnimation.SnapDuration
+        }
+    }
+
+    SequentialAnimation {
+        id: contentAnimation
+        property int animationDurationBase: UbuntuAnimation.BriskDuration
+        readonly property int additionalDuration: 200
+        property int direction: Qt.LeftToRight
+        ScriptAction {
+            script: {
+                if (contentAnimation.direction === Qt.LeftToRight) {
+                    titleLabel.animatedMargin = -titleRect.width;
+                    content.animatedMargin = -content.width;
+                } else {
+                    titleLabel.animatedMargin = titleRect.width;
+                    content.animatedMargin = content.width;
+                }
+            }
+        }
+        ParallelAnimation {
+            NumberAnimation {
+                targets: [titleLabel, content]
+                property: 'animatedMargin'
+                to: 0
+                duration: contentAnimation.animationDurationBase + contentAnimation.additionalDuration
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                targets: [titleLabel,content]
+                property: 'opacity'
+                from: 0
+                to: 1
+                duration: contentAnimation.animationDurationBase
+            }
         }
     }
 }

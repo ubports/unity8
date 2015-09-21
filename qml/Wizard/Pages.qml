@@ -31,6 +31,7 @@ Item {
     // the user exits the wizard.
     property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
     property string password: ""
+
     property string countryCode: "US" // default country (for the timezone page)
     property bool seenSIMPage: false // we want to see the SIM page at most once
 
@@ -78,6 +79,8 @@ Item {
             while (pageList.index < pageStack.depth - 1)
                 pop()
             load(pageList.next())
+
+            currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft)
         }
 
         function prev() {
@@ -89,6 +92,8 @@ Item {
             } else {
                 currentPage.enabled = true
             }
+
+            currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.LeftToRight)
         }
 
         function load(path) {
@@ -126,7 +131,6 @@ Item {
             objectName: "timeout"
             interval: 2000 // wizard pages shouldn't take long
             onTriggered: {
-                print("PAGE SKIPPED BY TIMEOUT!!!");
                 pageStack.currentPage.skip = true;
                 pageStack.currentPage.skipValid = true;
             }
