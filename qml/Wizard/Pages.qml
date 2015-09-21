@@ -80,7 +80,10 @@ Item {
                 pop();
             load(pageList.next());
 
-            currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
+            var doTransitions = !currentPage.customTitle; // skip for secondary/extra pages
+            if (doTransitions) {
+                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
+            }
         }
 
         function prev() {

@@ -29,7 +29,7 @@ Item {
     readonly property real bottomMargin: units.gu(3)
     readonly property real leftMargin: units.gu(3)
     readonly property real rightMargin: units.gu(3)
-    readonly property real customMargin: units.gu(4) // margin for the custom (w/o title bar) pages
+    readonly property real customMargin: units.gu(4) // margin for the custom (w/o title image) pages
 
     // colors
     readonly property color backgroundColor: "#fdfdfd"
@@ -102,10 +102,10 @@ Item {
 
     Timer {
         id: indicatorTimer
-        running: true
         interval: 1000
         triggeredOnStart: true
         repeat: true
+        running: System.wizardEnabled
         onTriggered: {
             indicatorTime.text = Qt.formatTime(new Date(), "h:mm")
         }
