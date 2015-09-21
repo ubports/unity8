@@ -1,3 +1,28 @@
+unity8 (8.11+15.10.20150915-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix testNotifications
+  * Make the wait longer to make tests pass in CI
+  * New simplified CroppedImageMinimumSourceSize (LP: #1467740)
+  * Stop animateTimer when starting the fadeOutAnimation
+  * Use  AlreadyLaunchedUpstart so that tests passes
+  * Workaround keyboard issues and make test pass again
+
+  [ Daniel d'Andrada ]
+  * DesktopStage: Refactor focus handling
+  * Stabilize tstShell.test_launchedAppHasActiveFocus
+
+  [ Gary.Wzl ]
+  * Add widgetData["expanded"] property for expandable widget.
+
+  [ Michael Terry ]
+  * Fix typo that caused the tutorial to tease the launcher on top of
+    the greeter.
+  * Fix typo that caused the tutorial to tease the launcher on top of
+    the greeter.
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Tue, 15 Sep 2015 12:06:06 +0000
+
 unity8 (8.11+15.10.20150907-0ubuntu1) wily; urgency=medium
 
   [ Michal Sawicz ]

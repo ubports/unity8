@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-11 15:43+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
+"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-11 06:08+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-16 05:50+0000\n"
+"X-Generator: Launchpad (build 17737)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -121,8 +122,7 @@ msgstr "دستگاه قفل شد"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
-"شما به دلیل تلاش‌های بسیار زیاد شکست خورده برای عبارت‌عبور قفل شده‌اید."
+msgstr "شما به دلیل تلاش‌های بسیار زیاد شکست خورده برای عبارت‌عبور قفل شده‌اید."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
@@ -574,8 +574,7 @@ msgstr "سیم‌کارتی افزوده و دستگاهتان را شروع م�
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
-"بدون آن، نخواهید توانست تماس گرفته با از پیام‌رسانی متنی استفاده کنید."
+msgstr "بدون آن، نخواهید توانست تماس گرفته با از پیام‌رسانی متنی استفاده کنید."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -645,8 +644,7 @@ msgstr "فقط با استفاده از جی‌پی‌اس (دقّت کم‌تر
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-"با استفاده از جی‌پی‌اس، بی‌سیم ناشناس و اطّلاعات شبکه‌ی سلّولی (پیشنهاد شده)"
+msgstr "با استفاده از جی‌پی‌اس، بی‌سیم ناشناس و اطّلاعات شبکه‌ی سلّولی (پیشنهاد شده)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -682,8 +680,7 @@ msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"این می‌تواند در <b>تنظیمات سامانه</b> ذیل <b>امنیت و محرمانگی</b> غیرفعَال "
-"شود"
+"این می‌تواند در <b>تنظیمات سامانه</b> ذیل <b>امنیت و محرمانگی</b> غیرفعَال شود"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
@@ -713,8 +710,99 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Right edge"
+#~ msgstr "لبه‌ی راست"
+
+#~ msgid "Top edge"
+#~ msgstr "لبه‌ی بالا"
+
+#~ msgid "Well done"
+#~ msgstr "عالی بود"
+
+#~ msgid "Type or say a command"
+#~ msgstr "دستوری را بنویسید یا بگویید"
+
+#~ msgid "Left edge"
+#~ msgstr "لبه‌ی چپ"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "برای دست‌رسی به نشانگرها، از لبه‌ی بالا بکشید"
+
+#~ msgid "Close"
+#~ msgstr "بستن"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "برای بستن صفحه‌ی تنظیمات، دوباره به بالا بکشپد"
+
+#~ msgid "Skip intro"
+#~ msgstr "پرش از مقدّمه"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "برای باز کردن قفل تلفن، از لبه‌ی راست بکشید"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "برای آشکار شدن اجراگر به منظور دست‌رسی سریع به اپ‌ها از سمت چپ بکشید"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید "
+#~ "استفاده از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
+
+#~ msgid "Confirm"
+#~ msgstr "تأیید"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "در حال بار کردن. لطفاً صبر کنید…"
+
+#~ msgid "Speaking..."
+#~ msgstr "در حال صحبت کردن…"
+
+#~ msgid "Speak Now..."
+#~ msgstr "اکنون صحبت کنید…"
+
+#~ msgid "Search"
+#~ msgstr "جست‌وجو"
+
+#~ msgid "All"
+#~ msgstr "همه"
+
+#~ msgid "Favorites"
+#~ msgstr "برگزیده‌ها"
+
+#~ msgid "Store"
+#~ msgstr "فروشگاه"
+
+#~ msgid "Power off"
+#~ msgstr "خاموش کردن"
+
+#~ msgid "Done"
+#~ msgstr "انجام شد"
+
+#~ msgid "Power"
+#~ msgstr "توان"
+
+#~ msgid "Log out"
+#~ msgstr "خروج از حساب"
+
+#~ msgid "Reboot"
+#~ msgstr "راه‌اندازی مجدّد"
+
+#~ msgid "Shut down"
+#~ msgstr "خاموش کردن"
+
+#~ msgid "Settings"
+#~ msgstr "تنظیمات"
+
+#~ msgid "Restart"
+#~ msgstr "شروع مجدّد"
+
 #~ msgid "Please re-enter"
 #~ msgstr "لطفاً دوباره وارد کنید"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "مدیریت حوزه‌ها"
 
 #~ msgid "Click here to finish."
 #~ msgstr "برای پایان اینجا کلیک کنید."
