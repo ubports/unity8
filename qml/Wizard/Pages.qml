@@ -77,23 +77,27 @@ Item {
             // If we've opened any extra (non-main) pages, pop them before
             // continuing so back button returns to the previous main page.
             while (pageList.index < pageStack.depth - 1)
-                pop()
-            load(pageList.next())
+                pop();
+            load(pageList.next());
 
-            currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft)
+            currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
         }
 
         function prev() {
-            if (pageList.index >= pageStack.depth - 1)
-                pageList.prev() // update pageList.index, but not for extra pages
+            var doTransitions = !currentPage.customTitle; // skip for secondary/extra pages
+            if (pageList.index >= pageStack.depth - 1) {
+                pageList.prev(); // update pageList.index, but not for extra pages
+            }
             pop()
             if (!currentPage || currentPage.opacity === 0) { // undo skipped pages
-                prev()
+                prev();
             } else {
-                currentPage.enabled = true
+                currentPage.enabled = true;
             }
 
-            currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.LeftToRight)
+            if (doTransitions) {
+                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.LeftToRight);
+            }
         }
 
         function load(path) {

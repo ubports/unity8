@@ -204,6 +204,7 @@ Item {
             leftMargin: contentHolder.animatedMargin
             rightMargin: -contentHolder.animatedMargin
         }
+        visible: opacity > 0
     }
 
     // button bar
@@ -252,10 +253,9 @@ Item {
     }
 
     // transitions
-
     function aboutToShow(duration, direction) {
         startContentAnimation(duration, direction)
-        startShowing(duration)
+        startControlsAnimation(duration)
     }
 
     function startContentAnimation(duration, direction) {
@@ -264,12 +264,12 @@ Item {
         contentAnimation.restart()
     }
 
-    function startShowing(showDuration) {
+    function startControlsAnimation(showDuration) {
         actionsShowAnimation.showDuration = showDuration
         actionsShowAnimation.restart()
     }
 
-    SequentialAnimation {
+    SequentialAnimation { // animation for the button bar
         id: actionsShowAnimation
         property int showDuration: 0
         PropertyAction {
@@ -286,12 +286,12 @@ Item {
         }
     }
 
-    SequentialAnimation {
+    SequentialAnimation { // animations for the content
         id: contentAnimation
         property int animationDurationBase: UbuntuAnimation.BriskDuration
         readonly property int additionalDuration: 200
         property int direction: Qt.LeftToRight
-        ScriptAction {
+        ScriptAction { // direction of the effect
             script: {
                 if (contentAnimation.direction === Qt.LeftToRight) {
                     titleLabel.animatedMargin = -titleRect.width;
@@ -303,14 +303,14 @@ Item {
             }
         }
         ParallelAnimation {
-            NumberAnimation {
+            NumberAnimation { // the slide-in animation
                 targets: [titleLabel, content]
                 property: 'animatedMargin'
                 to: 0
                 duration: contentAnimation.animationDurationBase + contentAnimation.additionalDuration
                 easing.type: Easing.OutCubic
             }
-            NumberAnimation {
+            NumberAnimation { // opacity animation
                 targets: [titleLabel,content]
                 property: 'opacity'
                 from: 0
