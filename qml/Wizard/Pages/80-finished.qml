@@ -41,6 +41,7 @@ LocalComponents.Page {
         spacing: units.gu(2)
 
         Label {
+            id: welcomeLabel
             anchors.left: parent.left
             anchors.right: parent.right
             horizontalAlignment: Text.AlignHCenter
@@ -60,16 +61,27 @@ LocalComponents.Page {
             text: i18n.tr("You are ready to use your device now")
         }
 
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: i18n.tr("Get Started")
-            color: "transparent"
-            strokeColor: "white"
-            font.weight: Font.Normal
-            font.pixelSize: FontUtils.sizeToPixels("medium")
-            width: Math.max(parent.width/2, implicitWidth)
-            onClicked: {
-                root.quitWizard();
+        Rectangle {
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+            color: 'transparent'
+            border.width: units.dp(1)
+            border.color: 'white'
+            radius: units.dp(4)
+            width: buttonLabel.paintedWidth + units.gu(3)
+            height: buttonLabel.paintedHeight + units.gu(1.5)
+
+            Label {
+                id: buttonLabel
+                color: 'white'
+                text: i18n.tr("Get Started")
+                fontSize: "medium"
+                anchors.centerIn: parent
+            }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: root.quitWizard()
             }
         }
     }

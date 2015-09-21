@@ -82,7 +82,7 @@ Item {
         }
 
         function prev() {
-            var isPrimaryPage = !currentPage.customTitle; // skip for secondary/extra pages
+            var isPrimaryPage = !currentPage.customTitle;
             if (pageList.index >= pageStack.depth - 1) {
                 pageList.prev(); // update pageList.index, but not for extra pages
             }
@@ -115,7 +115,7 @@ Item {
             // skipValid to be assigned (see Connections object below)
             checkSkip()
 
-            var isPrimaryPage = !currentPage.customTitle; // skip for secondary/extra pages
+            var isPrimaryPage = !currentPage.customTitle;
             if (isPrimaryPage) {
                 currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
             } else {
