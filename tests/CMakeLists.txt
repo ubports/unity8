@@ -41,7 +41,7 @@ macro(unity8_parse_arguments)
     if(U8TEST_LIGHTDM)
         list(APPEND ld_paths
             ${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
-            ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
+            ${CMAKE_BINARY_DIR}/tests/mocks/IntegratedLightDM/liblightdm
         )
     endif()
 
