@@ -203,7 +203,7 @@ Item {
             top: titleRect.bottom
             left: parent.left
             right: parent.right
-            bottom: buttonBarVisible ? buttonRect.top : parent.top
+            bottom: buttonBarVisible ? buttonRect.top : parent.bottom
             leftMargin: content.animatedMargin
             rightMargin: -content.animatedMargin
             topMargin: content.animatedTopMargin
@@ -216,10 +216,9 @@ Item {
         id: buttonRect
         visible: !lastPage && buttonBarVisible
         anchors {
-            bottom: parent.bottom
+            bottom: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.top : parent.bottom
             left: parent.left
             right: parent.right
-            bottomMargin: Qt.inputMethod.keyboardRectangle.height
         }
         height: buttonBarHeight
         color: "#f5f5f5"
