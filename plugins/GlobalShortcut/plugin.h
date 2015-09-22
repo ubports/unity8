@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,34 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CROPPEDIMAGESIZERASYNCWORKER_H
-#define CROPPEDIMAGESIZERASYNCWORKER_H
+#ifndef GLOBALSHORTCUTPLUGIN_H
+#define GLOBALSHORTCUTPLUGIN_H
 
-#include <QMutex>
-#include <QObject>
+#include <QQmlExtensionPlugin>
 
-class CroppedImageSizer;
-
-class QNetworkReply;
-
-class CroppedImageSizerAsyncWorker : public QObject
+class GlobalShortcutPlugin: public QQmlExtensionPlugin
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
+
 public:
-    CroppedImageSizerAsyncWorker(CroppedImageSizer *sizer, QNetworkReply *reply);
-
-    void abort();
-
-private Q_SLOTS:
-    void requestFinished();
-
-private:
-    static void processRequestFinished(CroppedImageSizerAsyncWorker *worker);
-
-    QMutex m_mutex;
-    CroppedImageSizer *m_sizer;
-    QNetworkReply *m_reply;
-    bool m_ignoreAbort;
+    void registerTypes(const char *uri) override;
 };
 
-#endif
+
+#endif // GLOBALSHORTCUTPLUGIN_H
