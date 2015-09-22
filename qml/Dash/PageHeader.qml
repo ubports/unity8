@@ -178,60 +178,78 @@ Item {
                 panelForegroundColor: config.foregroundColor
                 property var config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
-                    backAction: Action {
-                        iconName: "back"
-                        onTriggered: {
-                            root.resetSearch();
-                            headerContainer.showSearch = false;
-                        }
-                    }
                 }
-                property var contents: TextField {
-                    id: searchTextField
-                    objectName: "searchTextField"
-                    inputMethodHints: Qt.ImhNoPredictiveText
-                    hasClearButton: false
-                    anchors {
-                        fill: parent
-                        leftMargin: units.gu(1)
-                        topMargin: units.gu(1)
-                        bottomMargin: units.gu(1)
-                        rightMargin: root.width > units.gu(60) ? root.width - units.gu(40) : units.gu(1)
-                    }
+                property var contents: Item {
+                    anchors.fill: parent
 
-                    secondaryItem: AbstractButton {
-                        height: searchTextField.height
-                        width: height
-                        enabled: searchTextField.text.length > 0
+                    TextField {
+                        id: searchTextField
+                        objectName: "searchTextField"
+                        inputMethodHints: Qt.ImhNoPredictiveText
+                        hasClearButton: false
+                        anchors {
+                            top: parent.top
+                            topMargin: units.gu(1)
+                            left: parent.left
+                            bottom: parent.bottom
+                            bottomMargin: units.gu(1)
+                            right: cancelLabel.left
+                            rightMargin: units.gu(1)
+                        }
 
-                        Image {
-                            objectName: "clearIcon"
-                            anchors.fill: parent
-                            anchors.margins: units.gu(.75)
-                            source: "image://theme/clear"
-                            opacity: searchTextField.text.length > 0
-                            visible: opacity > 0
-                            Behavior on opacity {
-                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                        secondaryItem: AbstractButton {
+                            height: searchTextField.height
+                            width: height
+                            enabled: searchTextField.text.length > 0
+
+                            Image {
+                                objectName: "clearIcon"
+                                anchors.fill: parent
+                                anchors.margins: units.gu(.75)
+                                source: "image://theme/clear"
+                                opacity: searchTextField.text.length > 0
+                                visible: opacity > 0
+                                Behavior on opacity {
+                                    UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                                }
+                            }
+
+                            onClicked: {
+                                root.resetSearch(true);
+                                root.openPopup();
                             }
                         }
 
-                        onClicked: {
-                            root.resetSearch(true);
-                            root.openPopup();
+                        onActiveFocusChanged: {
+                            if (activeFocus) {
+                                root.searchTextFieldFocused();
+                                root.openPopup();
+                            }
+                        }
+
+                        onTextChanged: {
+                            if (text != "") {
+                                closePopup(/* keepFocus */true);
+                            }
                         }
                     }
 
-                    onActiveFocusChanged: {
-                        if (activeFocus) {
-                            root.searchTextFieldFocused();
-                            root.openPopup();
+                    Label {
+                        id: cancelLabel
+                        text: i18n.tr("Cancel")
+                        verticalAlignment: Text.AlignVCenter
+                        anchors {
+                            top: parent.top
+                            right: parent.right
+                            bottom: parent.bottom
+                            margins: units.gu(1)
                         }
-                    }
-
-                    onTextChanged: {
-                        if (text != "") {
-                            closePopup(/* keepFocus */true);
+                        AbstractButton {
+                            anchors.fill: parent
+                            onClicked: {
+                                root.resetSearch();
+                                headerContainer.showSearch = false;
+                            }
                         }
                     }
                 }
