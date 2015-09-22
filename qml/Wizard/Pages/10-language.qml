@@ -79,6 +79,38 @@ LocalComponents.Page {
         }
     }
 
+    // splash screen (this has to be on the first page)
+    Image {
+        id: splashImage
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: parent.height
+        source: "data/Phone Splash Screen bkg.png"
+        fillMode: Image.PreserveAspectCrop
+        z: 2
+        visible: opacity > 0
+        Component.onCompleted: splashAnimation.start()
+    }
+
+    SequentialAnimation {
+        id: splashAnimation
+        PauseAnimation { duration: UbuntuAnimation.BriskDuration }
+        NumberAnimation {
+            target: splashImage
+            property: "height"
+            to: units.gu(16)
+            duration: UbuntuAnimation.BriskDuration
+            easing.type: Easing.InOutQuad
+        }
+        NumberAnimation {
+            target: splashImage
+            property: 'opacity'
+            from: 1
+            to: 0
+        }
+    }
+
     Column {
         id: column
         anchors.fill: content
