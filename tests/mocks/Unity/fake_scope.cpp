@@ -201,9 +201,7 @@ PreviewStack* Scope::preview(QVariant const& result, QString const& /*categoryId
     if (m_returnNullPreview) {
         return nullptr;
     } else {
-        // This probably leaks, do we don't care
-        // it's a  test after all
-        return new PreviewStack(this, this);
+        return new PreviewStack(this);
     }
 }
 
