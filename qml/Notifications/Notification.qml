@@ -49,7 +49,7 @@ Item {
     readonly property color sdFontColor: "#5d5d5d"
     readonly property real contentSpacing: units.gu(2)
     readonly property bool canBeClosed: type === Notification.Ephemeral
-    property bool clickToClose
+    property bool hasMouse
 
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
@@ -217,7 +217,7 @@ Item {
             onClicked: {
                 if (notification.type == Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-                } else if (clickToClose && canBeClosed) {
+                } else if (hasMouse && canBeClosed) {
                     notification.notification.close()
                 } else {
                     notificationList.currentIndex = index;
@@ -442,7 +442,7 @@ Item {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
+                                color: notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -470,7 +470,7 @@ Item {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing * 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? red : sdDarkGrey
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -490,7 +490,7 @@ Item {
                     margins: contentSpacing
                 }
                 visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
-                spacing: units.gu(2)
+                spacing: contentSpacing
                 layoutDirection: Qt.RightToLeft
 
                 Loader {
@@ -502,7 +502,7 @@ Item {
                         width: buttonRow.width
                         leftIconName: "call-end"
                         rightIconName: "call-start"
-                        clickToAct: notification.clickToClose
+                        clickToAct: notification.hasMouse
                         onRightTriggered: {
                             notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
                         }

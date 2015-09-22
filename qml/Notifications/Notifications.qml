@@ -28,7 +28,7 @@ ListView {
 
     property real margin
     property bool useModal: snapDecisionProxyModel.count > 0
-    property bool clickToCloseNotifications
+    property bool hasMouse
 
     UnitySortFilterProxyModel {
         id: snapDecisionProxyModel
@@ -59,7 +59,7 @@ ListView {
         notification: notificationList.model.getRaw(notificationId)
         maxHeight: notificationList.height
         margins: notificationList.margin
-        clickToClose: notificationList.clickToCloseNotifications
+        hasMouse: notificationList.hasMouse
 
         // make sure there's no opacity-difference between the several
         // elements in a notification

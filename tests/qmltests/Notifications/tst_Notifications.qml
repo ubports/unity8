@@ -188,7 +188,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
-                clickToCloseNotifications: UnityInputInfo.mice > 0 // for testing, we add/remove only a mock mouse
+                hasMouse: UnityInputInfo.mice > 0 // for testing, we add/remove only a mock mouse
             }
         }
 

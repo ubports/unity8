@@ -76,7 +76,10 @@ Item {
                 icon: "../graphics/avatars/amanda.png",
                 secondaryIcon: "incoming-call",
                 actions: [{ id: "ok_id", label: "Ok"},
-                    { id: "cancel_id", label: "Cancel"}]
+                    { id: "cancel_id", label: "Cancel"},
+                    { id: "foo_id", label: "Foo"},
+                    { id: "bar_id", label: "Bar"}
+                ]
             }
 
             mockModel.append(n)
@@ -109,7 +112,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
-                clickToCloseNotifications: UnityInputInfo.mice > 0 // for testing, we add/remove only a mock mouse
+                hasMouse: UnityInputInfo.mice > 0 // for testing, we add/remove only a mock mouse
             }
         }
 
