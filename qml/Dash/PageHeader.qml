@@ -31,6 +31,7 @@ Item {
     property bool backIsClose: false
     property string title
     property var extraPanel
+    property string navigationTag
 
     property bool storeEntryEnabled: false
     property bool searchEntryEnabled: false
@@ -195,6 +196,10 @@ Item {
                             bottomMargin: units.gu(1)
                             right: cancelLabel.left
                             rightMargin: units.gu(1)
+                        }
+
+                        primaryItem: Label {
+                            text: root.navigationTag
                         }
 
                         secondaryItem: AbstractButton {
