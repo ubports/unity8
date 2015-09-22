@@ -96,12 +96,11 @@ LocalComponents.Page {
     SequentialAnimation {
         id: splashAnimation
         PauseAnimation { duration: UbuntuAnimation.BriskDuration }
-        NumberAnimation {
+        SmoothedAnimation {
             target: splashImage
             property: "height"
             to: units.gu(16)
             duration: UbuntuAnimation.BriskDuration
-            easing.type: Easing.InOutQuad
         }
         NumberAnimation {
             target: splashImage

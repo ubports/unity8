@@ -349,11 +349,11 @@ Item {
             easing: UbuntuAnimation.StandardEasing
         }
         NumberAnimation { // opacity animation
-            targets: [titleLabel,content]
+            target: content
             property: 'opacity'
             from: 0
             to: 1
-            duration: UbuntuAnimation.FastDuration
+            duration: UbuntuAnimation.BriskDuration
         }
     }
 }
