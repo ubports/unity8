@@ -1,4 +1,5 @@
 Tests: qmluitests.sh
+Restrictions: allow-stderr
 Depends: @,
          @builddeps@,
          xvfb,
