@@ -25,20 +25,55 @@ LocalComponents.Page {
     customTitle: true
     lastPage: true
 
+    Component.onCompleted: {
+        state = "reanchored";
+    }
+
+    states: State {
+        name: "reanchored"
+        AnchorChanges { target: bgImage; anchors.top: parent.top; anchors.bottom: parent.bottom }
+        AnchorChanges { target: column;
+            anchors.verticalCenter: parent.verticalCenter;
+            anchors.top: undefined
+        }
+    }
+
+    transitions: Transition {
+        ParallelAnimation {
+            AnchorAnimation {
+                targets: [bgImage, column]
+                duration: UbuntuAnimation.BriskDuration
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation { // opacity animation
+                targets: [bgImage,column]
+                property: 'opacity'
+                from: 0
+                to: 1
+                duration: UbuntuAnimation.BriskDuration
+            }
+        }
+    }
+
     Image {
+        id: bgImage
         source: "data/Phone Splash Screen bkg.png"
-        anchors.fill: parent
         scale: Image.PreserveAspectFit
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.top // outside to let it slide down
+        visible: opacity > 0
     }
 
     Column {
         id: column
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
         anchors.leftMargin: leftMargin
         anchors.rightMargin: rightMargin
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.bottom // outside to let it slide in
         spacing: units.gu(2)
+        visible: opacity > 0
 
         Label {
             id: welcomeLabel
