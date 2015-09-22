@@ -22,9 +22,6 @@ import "../Components"
 Showable {
     id: root
 
-    // The background wallpaper to use
-    property string background
-
     // This is a bool instead of an alias because Loader classes like to emit
     // changed signals for 'active' during startup even if they aren't actually
     // changing values. Having it cached as a proper Qml bool property prevents
@@ -45,12 +42,6 @@ Showable {
         anchors.fill: parent
         active: System.wizardEnabled
         source: "Pages.qml"
-
-        Binding {
-            target: loader.item
-            property: "background"
-            value: root.background
-        }
 
         Connections {
             target: loader.item

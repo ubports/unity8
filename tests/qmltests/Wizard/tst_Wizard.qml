@@ -39,7 +39,6 @@ Item {
             Wizard {
                 id: wizard
                 anchors.fill: parent
-                background: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
 
                 Component.onDestruction: {
                     wizardLoader.itemDestroyed = true;
