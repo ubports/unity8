@@ -314,6 +314,9 @@ int Scope::activeFiltersCount() const
 
 void Scope::resetPrimaryNavigationTag()
 {
+    if (m_currentNavigationId != "root") {
+        setNavigationState("root");
+    }
 }
 
 void Scope::performQuery(const QString& query)

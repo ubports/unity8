@@ -49,6 +49,7 @@ Item {
 
     property var scopeStyle: null
 
+    signal clearSearch(bool keepPanelOpen)
     signal backClicked()
     signal storeClicked()
     signal settingsClicked()
@@ -205,14 +206,14 @@ Item {
                         secondaryItem: AbstractButton {
                             height: searchTextField.height
                             width: height
-                            enabled: searchTextField.text.length > 0
+                            enabled: searchTextField.text.length > 0 || root.navigationTag != ""
 
                             Image {
                                 objectName: "clearIcon"
                                 anchors.fill: parent
                                 anchors.margins: units.gu(.75)
                                 source: "image://theme/clear"
-                                opacity: searchTextField.text.length > 0
+                                opacity: parent.enabled
                                 visible: opacity > 0
                                 Behavior on opacity {
                                     UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
@@ -220,8 +221,7 @@ Item {
                             }
 
                             onClicked: {
-                                root.resetSearch(true);
-                                root.openPopup();
+                                root.clearSearch(true);
                             }
                         }
 
@@ -252,7 +252,7 @@ Item {
                         AbstractButton {
                             anchors.fill: parent
                             onClicked: {
-                                root.resetSearch();
+                                root.clearSearch(false);
                                 headerContainer.showSearch = false;
                             }
                         }
