@@ -25,7 +25,7 @@ LocalComponents.Page {
     objectName: "reportCheckPage"
 
     title: webview.visible ? i18n.tr("Privacy Policy") : i18n.tr("Help Us Improve")
-    forwardButtonSourceComponent: forwardButton
+    forwardButtonSourceComponent: !webview.visible ? forwardButton : null
     customBack: true
     customTitle: webview.visible
 
