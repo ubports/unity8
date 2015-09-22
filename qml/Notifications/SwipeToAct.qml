@@ -20,7 +20,7 @@ import Ubuntu.Components 1.2
 Item {
     id: swipeToAct
 
-    height: childrenRect.height
+    height: clickToAct ? leftButton.height : childrenRect.height
 
     signal leftTriggered()
     signal rightTriggered()
