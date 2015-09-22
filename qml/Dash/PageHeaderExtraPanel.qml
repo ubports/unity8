@@ -21,11 +21,21 @@ import Ubuntu.Components.ListItems 1.0
 Item {
     id: root
 
-    implicitHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.margins : 0
+    readonly property real searchesHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.margins : 0
 
+    implicitHeight: searchesHeight + dashNavigation.implicitHeight
+
+    // Set by parent
     property ListModel searchHistory
+    property var scope: null
+    property var scopeStyle: null
+    property real windowHeight
+
+    // Used by PageHeader
+    readonly property bool hasContents: searchHistory.count > 0 || scope && scope.hasNavigation
 
     signal historyItemClicked(string text)
+    signal dashNavigationLeafClicked()
 
     Rectangle {
         color: "white"
@@ -81,5 +91,19 @@ Item {
                 onClicked: root.historyItemClicked(text)
             }
         }
+    }
+
+    DashNavigation {
+        id: dashNavigation
+        scope: root.scope
+        anchors {
+            top: recentSearchesRepeater.count > 0 ? searchColumn.bottom : parent.top
+            left: parent.left
+            right: parent.right
+        }
+        scopeStyle: root.scopeStyle
+        availableHeight: windowHeight * 4 / 6 - searchesHeight
+
+        onLeafClicked: root.dashNavigationLeafClicked();
     }
 }

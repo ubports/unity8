@@ -32,11 +32,6 @@ Item {
     readonly property int itemHeight: units.gu(5)
     implicitHeight: flickable.contentHeight
 
-    Background {
-        style: root.scopeStyle ? root.scopeStyle.navigationBackground : "color:///#f5f5f5"
-        anchors.fill: parent
-    }
-
     clip: true
 
     Behavior on height {

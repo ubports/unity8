@@ -26,7 +26,6 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationDisableParentInteractive: peExtraPanel.visible /*TODO bring back the dash navigation */
     property bool forceNonInteractive: false
     property var scope: null
     property UnitySortFilterProxyModel categories: categoryFilter
@@ -36,6 +35,7 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     readonly property alias subPageShown: subPageLoader.subPageShown
+    readonly property alias extraPanelShown: peExtraPanel.visible
     property int paginationCount: 0
     property int paginationIndex: 0
     property bool visibleToParent: false
@@ -638,17 +638,26 @@ FocusScope {
 
         PageHeaderExtraPanel {
             id: peExtraPanel
-            width: parent.width
+            width: parent.width >= units.gu(60) ? units.gu(40) : parent.width
             anchors {
                 top: categoryView.pageHeader.bottom
                 topMargin: -categoryView.pageHeader.signatureLineHeight
             }
             z: 1
             visible: false
+
             searchHistory: SearchHistoryModel
+            scope: scopeView.scope
+            scopeStyle: scopeView.scopeStyle
+            windowHeight: scopeView.height
+
             onHistoryItemClicked: {
                 SearchHistoryModel.addQuery(text);
                 categoryView.pageHeader.searchQuery = text;
+            }
+
+            onDashNavigationLeafClicked: {
+                categoryView.pageHeader.closePopup();
             }
         }
     }

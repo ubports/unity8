@@ -92,10 +92,10 @@ Item {
         }
     }
 
-    function openSearchHistory() {
+    function openPopup() {
         if (openSearchAnimation.running) {
-            openSearchAnimation.openSearchHistory = true;
-        } else if (root.searchHistory.count > 0) {
+            openSearchAnimation.openPopup = true;
+        } else if (extraPanel.hasContents) {
             // Show extraPanel
             extraPanel.visible = true;
         }
@@ -148,12 +148,12 @@ Item {
         Behavior on contentY {
             UbuntuNumberAnimation {
                 id: openSearchAnimation
-                property bool openSearchHistory: false
+                property bool openPopup: false
 
                 onRunningChanged: {
-                    if (!running && openSearchAnimation.openSearchHistory) {
-                        openSearchAnimation.openSearchHistory = false;
-                        root.openSearchHistory();
+                    if (!running && openSearchAnimation.openPopup) {
+                        openSearchAnimation.openPopup = false;
+                        root.openPopup();
                     }
                 }
             }
@@ -218,14 +218,14 @@ Item {
 
                         onClicked: {
                             root.resetSearch(true);
-                            root.openSearchHistory();
+                            root.openPopup();
                         }
                     }
 
                     onActiveFocusChanged: {
                         if (activeFocus) {
                             root.searchTextFieldFocused();
-                            root.openSearchHistory();
+                            root.openPopup();
                         }
                     }
 
