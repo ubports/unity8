@@ -23,19 +23,9 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "ubuntuAccountSignUpPage"
 
-    title: webview.visible ? i18n.tr("Terms And Conditions") : i18n.tr("Create Account")
+    title: i18n.tr("Create Account")
     customTitle: true
-    customBack: true
-    backButtonText: webview.visible ? i18n.tr("Back") : i18n.tr("Cancel")
-    forwardButtonSourceComponent: !webview.visible ? forwardButton : null
-
-    onBackClicked: {
-        if (webview.visible) {
-            webview.visible = false;
-        } else {
-            pageStack.prev();
-        }
-    }
+    buttonBarVisible: false
 
     Flickable
     {
@@ -148,60 +138,32 @@ LocalComponents.Page {
             KeyNavigation.tab: emailInput
         }
 
-//        LocalComponents.CheckableSetting {
-//            id: encryptCheck
-//            objectName: "encryptCheck"
-//            showDivider: false
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            anchors.top: pass2Input.bottom
-//            anchors.topMargin: units.gu(2)
-//            text: i18n.tr("Encrypt my content")
-//            KeyNavigation.tab: emailInput
-//        }
+        // buttons
+        Button {
+            id: cancelButton
+            anchors {
+                top: pass2Input.bottom
+                left: parent.left
+                right: parent.horizontalCenter
+                rightMargin: units.gu(1)
+                topMargin: units.gu(4)
+            }
+            text: i18n.tr("Cancel")
+            onClicked: pageStack.prev()
+        }
 
-        //        LocalComponents.CheckableSetting {
-        //            id: optoutCheck
-        //            objectName: "optoutCheck"
-        //            showDivider: false
-        //            anchors.left: parent.left
-        //            anchors.right: parent.right
-        //            anchors.top: encryptCheck.bottom
-        //            anchors.topMargin: units.gu(2)
-        //            text: i18n.tr("Opt out of cloud account (not recommended)")
-        //            KeyNavigation.tab: termsCheck
-        //        }
-
-        //        LocalComponents.CheckableSetting {
-        //            id: termsCheck
-        //            objectName: "termsCheck"
-        //            showDivider: false
-        //            anchors.left: parent.left
-        //            anchors.right: parent.right
-        //            anchors.top: encryptCheck.bottom
-        //            anchors.topMargin: units.gu(1)
-        //            text: i18n.tr("I have read and accept the Ubuntu account <a href='#'>terms of service</a>")
-        //            onLinkActivated: {
-        //                webview.visible = true;
-        //                webview.url = "https://login.ubuntu.com/terms/";
-        //            }
-        //            KeyNavigation.tab: emailInput
-        //        }
-    }
-
-    WebView {
-        id: webview
-        objectName: "webview"
-        anchors.fill: content
-        visible: false
-    }
-
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
+        Button {
+            id: okButton
+            anchors {
+                top: pass2Input.bottom
+                left: parent.horizontalCenter
+                right: parent.right
+                leftMargin: units.gu(1)
+                topMargin: units.gu(4)
+            }
+            text: i18n.tr("Sign Up")
             enabled: emailInput.acceptableInput && nameInput.text !== "" &&
                      pass2Input.text.length > 7 && passInput.text === pass2Input.text
-            text: i18n.tr("Sign Up")
             onClicked: {
                 root.password = passInput.text;
                 AccountsService.realName = nameInput.text;
