@@ -26,7 +26,7 @@ class Powerd: public QObject
     Q_OBJECT
     Q_ENUMS(Status)
     Q_ENUMS(DisplayStateChangeReason)
-    Q_PROPERTY(Status status READ status WRITE setStatus NOTIFY statusChanged) // write only exists for tests
+    Q_PROPERTY(Status status READ status NOTIFY statusChanged)
 
 public:
     enum DisplayStateChangeReason {
@@ -44,7 +44,9 @@ public:
     explicit Powerd(QObject *parent = 0);
 
     Status status() const;
-    void setStatus(Status status);
+
+    // Not exposed via Q_PROPERTY because we need the 'reason' argument too
+    Q_INVOKABLE void setStatus(Status status, DisplayStateChangeReason reason);
 
 Q_SIGNALS:
     void statusChanged(DisplayStateChangeReason reason);

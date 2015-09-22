@@ -10,6 +10,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/activefocuslogger.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qlimitproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/relativetimeformatter.cpp

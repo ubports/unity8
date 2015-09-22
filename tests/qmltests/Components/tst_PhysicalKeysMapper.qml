@@ -45,7 +45,7 @@ TestCase {
     }
 
     function init() {
-        Powerd.status = Powerd.On;
+        Powerd.setStatus(Powerd.On, Powerd.Unknown);
         loader.active = true;
         tryCompare(loader.status == Loader.Ready);
     }
@@ -64,14 +64,14 @@ TestCase {
     }
 
     function test_powerKeyLongPressed(data) {
-        Powerd.status = data.status;
+        Powerd.setStatus(data.status, Powerd.Unknown);
         physicalKeysMapper.powerKeyLongPressTime = 500;
 
         physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
 
         // After the first key press the screen is always on
         // and the rest of keypresses are auto repeat
-        Powerd.status = Powerd.On;
+        Powerd.setStatus(Powerd.On, Powerd.Unknown);
 
         for (var i = 0; i < 3; ++i) {
             wait(10);

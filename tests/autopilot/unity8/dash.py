@@ -155,7 +155,7 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         self.pointing_device.drag(start_x, start_y, stop_x, stop_y, rate)
         self.dash_content_list.currentIndex.wait_for(original_index + 1)
 
-    def enter_search_query(self, query):
+    def enter_search_query(self, query, keyboard):
         current_header = self._get_current_page_header()
         search_button = \
             current_header.select_single(objectName="search_header_button")
@@ -166,12 +166,11 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         headerContainer = current_header.select_single(
             objectName="headerContainer")
         headerContainer.contentY.wait_for(0)
-        search_text_field = self._get_search_text_field()
-        search_text_field.write(query)
+        keyboard.type(query)
         self.select_single(
             objectName="processingIndicator").visible.wait_for(False)
 
-    def _get_search_text_field(self):
+    def get_search_text_field(self):
         page_header = self._get_current_page_header()
         return page_header.select_single(objectName='searchTextField')
 

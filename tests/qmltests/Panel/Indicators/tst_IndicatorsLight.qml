@@ -58,7 +58,7 @@ Item {
 
     Component.onCompleted: {
         ActionData.data = newMessage;
-        Powerd.status = Powerd.On
+        Powerd.setStatus(Powerd.On, Powerd.Unknown);
     }
 
     RowLayout {
@@ -91,8 +91,11 @@ Item {
                 Layout.fillWidth: true
                 text: Powerd.status === Powerd.On ? "Power Off" : "Power On"
                 onClicked: {
-                    if (Powerd.status === Powerd.On) Powerd.status = Powerd.Off;
-                    else Powerd.status = Powerd.On;
+                    if (Powerd.status === Powerd.On) {
+                        Powerd.setStatus(Powerd.Off, Powerd.Unknown);
+                    } else {
+                        Powerd.setStatus(Powerd.On, Powerd.Unknown);
+                    }
                 }
             }
         }
@@ -107,7 +110,7 @@ Item {
             ActionData.data = noNewMessage;
             loader.sourceComponent = undefined;
             loader.sourceComponent = light;
-            Powerd.status = Powerd.On
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
         }
 
         function test_LightsStatus_data() {
@@ -120,7 +123,7 @@ Item {
         }
 
         function test_LightsStatus(data) {
-            Powerd.status = data.powerd;
+            Powerd.setStatus(data.powerd, Powerd.Unknown);
             ActionData.data = data.actionData;
 
             compare(Lights.state, data.expected, "Light does not match expected value");
