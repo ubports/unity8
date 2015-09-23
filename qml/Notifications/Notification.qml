@@ -442,7 +442,7 @@ Item {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
+                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : sdDarkGrey
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
