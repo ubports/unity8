@@ -21,37 +21,34 @@ import "." as LocalComponents
 TutorialPage {
     id: root
 
-    property var launcher
+    property var panel
 
-    Connections {
-        target: root.launcher
+    opacityOverride: 1 - panel.indicators.unitProgress
+    onOpacityOverrideChanged: if (opacityOverride === 0) hide()
 
-        onStateChanged: {
-            if (root.launcher.state === "visible") {
-                root.hide();
-            }
-        }
+    mouseArea {
+        anchors.topMargin: panel.indicators.minimizedPanelHeight
     }
 
     background {
         sourceSize.height: 1080
         sourceSize.width: 1916
-        source: Qt.resolvedUrl("graphics/background1.png")
-        mirror: true
+        source: Qt.resolvedUrl("graphics/background2.png")
     }
 
     arrow {
-        anchors.left: root.left
-        anchors.leftMargin: units.gu(2)
-        anchors.verticalCenter: root.verticalCenter
+        anchors.top: root.top
+        anchors.topMargin: units.gu(4)
+        anchors.horizontalCenter: root.horizontalCenter
+        rotation: 90
     }
 
     label {
-        text: i18n.tr("Swipe from the left edge to open the launcher")
-        anchors.left: arrow.right
-        anchors.leftMargin: units.gu(3)
-        anchors.right: root.right
-        anchors.rightMargin: units.gu(4)
-        anchors.verticalCenter: arrow.verticalCenter
+        text: i18n.tr("Swipe from the top edge to open the notification bar")
+        anchors.top: arrow.bottom
+        anchors.topMargin: units.gu(3)
+        anchors.horizontalCenter: root.horizontalCenter
+        anchors.horizontalCenterOffset: (label.width - label.contentWidth) / 2
+        width: root.width - units.gu(8)
     }
 }
