@@ -6,19 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
 "PO-Revision-Date: 2015-04-27 14:34+0000\n"
 "Last-Translator: Arsień Šachalevič <semen.shah@gmail.com>\n"
 "Language-Team: Belarusian <be@li.org>\n"
-"Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2015-09-16 05:49+0000\n"
-"X-Generator: Launchpad (build 17737)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -123,7 +122,8 @@ msgstr "Прылада заблакаваная"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў."
+msgstr ""
+"Вы былі заблакаваныя з-за занадта вялікай колькасці няўдалых спробаў."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
@@ -773,8 +773,8 @@ msgstr "%1  〉"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Правядзіце пальцам ад левага краю, каб адкрыць панэль запуску для "
-#~ "паскарэння доступу да праграм"
+#~ "Правядзіце пальцам ад левага краю, каб адкрыць панэль запуску для паскарэння "
+#~ "доступу да праграм"
 
 #~ msgid "Skip intro"
 #~ msgstr "Прапусціць уводзіны"
@@ -804,6 +804,3 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Калі ласка, паўтарыце ўвод"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Націсніце тут для завяршэння."

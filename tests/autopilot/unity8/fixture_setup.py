@@ -74,7 +74,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
     def _get_lightdm_mock_path(self):
         lib_path = get_mocks_library_path()
         lightdm_mock_path = os.path.abspath(
-            os.path.join(lib_path, "LightDM", "liblightdm")
+            os.path.join(lib_path, "IntegratedLightDM", "liblightdm")
         )
 
         if not os.path.exists(lightdm_mock_path):

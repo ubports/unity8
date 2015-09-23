@@ -101,7 +101,7 @@ int main(int argc, const char *argv[])
         mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
-    QUrl source(::qmlDirectory()+"Dash/DashApplication.qml");
+    QUrl source(::qmlDirectory() + "/Dash/DashApplication.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 
