@@ -71,6 +71,7 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 void PropertiesServer::Reset()
 {
     m_properties["com.canonical.unity.AccountsService"]["demo-edges"] = false;
+    m_properties["com.canonical.unity.AccountsService"]["DemoEdgesCompleted"] = QStringList();
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;

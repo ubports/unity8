@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 class AccountsServiceDBusAdaptor;
 
@@ -36,6 +37,9 @@ class AccountsService: public QObject
                 READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QStringList demoEdgesCompleted
+                READ demoEdgesCompleted
+                NOTIFY demoEdgesCompletedChanged)
     Q_PROPERTY (bool enableLauncherWhileLocked
                 READ enableLauncherWhileLocked
                 NOTIFY enableLauncherWhileLockedChanged)
@@ -79,6 +83,8 @@ public:
     void setUser(const QString &user);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
+    QStringList demoEdgesCompleted() const;
+    Q_INVOKABLE void markDemoEdgeCompleted(const QString &edge);
     bool enableLauncherWhileLocked() const;
     bool enableIndicatorsWhileLocked() const;
     QString backgroundFile() const;
@@ -94,6 +100,7 @@ public:
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
+    void demoEdgesCompletedChanged();
     void enableLauncherWhileLockedChanged();
     void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
@@ -109,6 +116,7 @@ private Q_SLOTS:
 
 private:
     void updateDemoEdges(bool async = true);
+    void updateDemoEdgesCompleted(bool async = true);
     void updateEnableLauncherWhileLocked(bool async = true);
     void updateEnableIndicatorsWhileLocked(bool async = true);
     void updateBackgroundFile(bool async = true);
@@ -121,6 +129,7 @@ private:
     AccountsServiceDBusAdaptor *m_service;
     QString m_user;
     bool m_demoEdges;
+    QStringList m_demoEdgesCompleted;
     bool m_enableLauncherWhileLocked;
     bool m_enableIndicatorsWhileLocked;
     QString m_backgroundFile;

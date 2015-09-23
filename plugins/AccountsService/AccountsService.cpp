@@ -27,6 +27,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     : QObject(parent),
     m_service(new AccountsServiceDBusAdaptor(this)),
     m_demoEdges(false),
+    m_demoEdgesCompleted(),
     m_enableLauncherWhileLocked(false),
     m_enableIndicatorsWhileLocked(false),
     m_statsWelcomeScreen(false),
@@ -54,6 +55,7 @@ void AccountsService::setUser(const QString &user)
     m_user = user;
     Q_EMIT userChanged();
 
+    updateDemoEdgesCompleted(false);
     updateDemoEdges(false);
     updateEnableLauncherWhileLocked(false);
     updateEnableIndicatorsWhileLocked(false);
@@ -77,6 +79,21 @@ void AccountsService::setDemoEdges(bool demoEdges)
         m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
 
         Q_EMIT demoEdgesChanged();
+    }
+}
+
+QStringList AccountsService::demoEdgesCompleted() const
+{
+    return m_demoEdgesCompleted;
+}
+
+void AccountsService::markDemoEdgeCompleted(const QString &edge)
+{
+    if (!m_demoEdgesCompleted.contains(edge)) {
+        m_demoEdgesCompleted << edge;
+        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "DemoEdgesCompleted", m_demoEdgesCompleted);
+
+        Q_EMIT demoEdgesCompletedChanged();
     }
 }
 
@@ -151,6 +168,35 @@ void AccountsService::updateDemoEdges(bool async)
         if (m_demoEdges != demoEdges) {
             m_demoEdges = demoEdges;
             Q_EMIT demoEdgesChanged();
+        }
+    });
+    if (!async) {
+        watcher->waitForFinished();
+        delete watcher;
+    }
+}
+
+void AccountsService::updateDemoEdgesCompleted(bool async)
+{
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    "com.canonical.unity.AccountsService",
+                                                                    "DemoEdgesCompleted");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        watcher->deleteLater();
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'DemoEdgesCompleted' property - " << reply.error().message();
+            return;
+        }
+
+        auto demoEdgesCompleted = reply.value().variant().toStringList();
+        if (m_demoEdgesCompleted != demoEdgesCompleted) {
+            m_demoEdgesCompleted = demoEdgesCompleted;
+            Q_EMIT demoEdgesCompletedChanged();
         }
     });
     if (!async) {
@@ -418,6 +464,9 @@ void AccountsService::onPropertiesChanged(const QString &user, const QString &in
     if (interface == "com.canonical.unity.AccountsService") {
         if (changed.contains("demo-edges")) {
             updateDemoEdges();
+        }
+        if (changed.contains("DemoEdgesCompleted")) {
+            updateDemoEdgesCompleted();
         }
     } else if (interface == "com.canonical.unity.AccountsService.Private") {
         if (changed.contains("FailedLogins")) {
