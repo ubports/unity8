@@ -18,6 +18,7 @@ set(FakeUnityApplicationQml_SOURCES
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceItemInterface.h
+    resources/surfaces.qrc
 )
 
 add_library(FakeUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})

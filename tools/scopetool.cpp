@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
     view->setTitle(QGuiApplication::applicationName());
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
 
-    QUrl source(::qmlDirectory() + "ScopeTool.qml");
+    QUrl source(::qmlDirectory() + "/ScopeTool.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     prependImportPaths(view->engine(), ::nonMirImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());

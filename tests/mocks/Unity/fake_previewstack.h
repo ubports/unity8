@@ -32,7 +32,7 @@ class PreviewStack : public unity::shell::scopes::PreviewStackInterface
     Q_OBJECT
 
 public:
-    explicit PreviewStack(QObject* parent = 0, Scope* scope = 0);
+    explicit PreviewStack(Scope* scope = 0);
     virtual ~PreviewStack();
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;

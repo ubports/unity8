@@ -12,25 +12,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-#include "VirtualKeyboard.h"
+import QtQuick 2.0
 
-#include <paths.h>
+Item {
+    property url url
+    property int loadProgress: 0
 
-#include <QString>
-
-#include <QDebug>
-
-VirtualKeyboard::VirtualKeyboard()
-    : MirSurface("input-method",
-                     Mir::InputMethodType,
-                     Mir::MinimizedState,
-                     QUrl("qrc:///Unity/Application/vkb_portrait.png"),
-                     QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"))
-{
-}
-
-VirtualKeyboard::~VirtualKeyboard()
-{
+    onUrlChanged: loadProgress = 100
 }
