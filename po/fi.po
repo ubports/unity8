@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-04 18:32+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -717,8 +717,96 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Confirm"
+#~ msgstr "Hyväksy"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Kirjoita tai sano komento"
+
+#~ msgid "Speak Now..."
+#~ msgstr "Puhu nyt..."
+
+#~ msgid "Speaking..."
+#~ msgstr "Puhutaan..."
+
+#~ msgid "Search"
+#~ msgstr "Hae"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Ladataan, pieni hetki..."
+
+#~ msgid "Top edge"
+#~ msgstr "Yläreuna"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Vedä yläreunasta käyttääksesi ilmaisimia"
+
+#~ msgid "Close"
+#~ msgstr "Sulje"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Vedä uudestaan sulkeaksesi asetusnäkymän"
+
+#~ msgid "Left edge"
+#~ msgstr "Vasen reuna"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Vedä vasemmalta saattaaksesi sovellusten käynnistimen esiin"
+
+#~ msgid "Well done"
+#~ msgstr "Hyvin tehty"
+
+#~ msgid "Skip intro"
+#~ msgstr "Ohita esittely"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Vedä oikealta avataksesi puhelimen lukituksen"
+
+#~ msgid "Right edge"
+#~ msgstr "Oikea reuna"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
+#~ "käytön<br><br>Napauta näyttöä aloittaaksesi"
+
+#~ msgid "All"
+#~ msgstr "Kaikki"
+
+#~ msgid "Favorites"
+#~ msgstr "Suosikit"
+
+#~ msgid "Store"
+#~ msgstr "Kauppa"
+
+#~ msgid "Power off"
+#~ msgstr "Sammuta"
+
+#~ msgid "Done"
+#~ msgstr "Valmis"
+
+#~ msgid "Log out"
+#~ msgstr "Kirjaudu ulos"
+
+#~ msgid "Reboot"
+#~ msgstr "Käynnistä uudelleen"
+
+#~ msgid "Shut down"
+#~ msgstr "Sammuta"
+
+#~ msgid "Settings"
+#~ msgstr "Asetukset"
+
+#~ msgid "Power"
+#~ msgstr "Virran katkaisu"
+
+#~ msgid "Restart"
+#~ msgstr "Käynnistä uudelleen"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Näkymien hallinta"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Anna uudelleen"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Viimeistele napsauttamalla tästä."

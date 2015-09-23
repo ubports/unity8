@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Arun Kumar - அருண் குமார் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:43+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 "Language: ta\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -702,3 +702,53 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Skip intro"
+#~ msgstr "அறிமுகத்தை தவிர்"
+
+#~ msgid "Right edge"
+#~ msgstr "வலது விளிம்பு"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "தொலைபேசியை திறக்க வலது முனையிலிருந்து தேய்த்து முயற்சி செய்"
+
+#~ msgid "Top edge"
+#~ msgstr "மேல் விளிம்பு"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "காட்டிகளை அனுக மேல் விளிம்பிலிருந்து தேய்த்து முயற்சி செய்"
+
+#~ msgid "Close"
+#~ msgstr "மூடு"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "அமைவுகளின் திரையை மூட மறுபடியும் மேலே தேய்க்கவும்"
+
+#~ msgid "Left edge"
+#~ msgstr "இடது விளிம்பு"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "பயன்பாடுகளின் விரைவான அணுகலை பெறத்தேவையான தொடக்கியை இடமிருந்து தேய்த்தால் "
+#~ "வெளிப்படும்"
+
+#~ msgid "Well done"
+#~ msgstr "நன்றாக செய்தீர்கள்"
+
+#~ msgid "Confirm"
+#~ msgstr "உறுதிப்படுத்து"
+
+#~ msgid "Type or say a command"
+#~ msgstr "ஒரு கட்டளையை உச்சரி அல்லது தட்டச்சுசெய்"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "ஏற்றுகிறது. தயைசெய்து காத்திருக்கவும்..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "இப்பொது பேசு..."
+
+#~ msgid "Speaking..."
+#~ msgstr "பேசுகிறது..."
+
+#~ msgid "Search"
+#~ msgstr "தெடு"

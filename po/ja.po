@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-11-20 05:08+0000\n"
 "Last-Translator: Kentaro Kazuhama <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -700,6 +700,96 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Close"
+#~ msgstr "閉じる"
+
+#~ msgid "Top edge"
+#~ msgstr "上端"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "インジケーターにアクセスするには上端からスワイプしてみてください"
+
+#~ msgid "Left edge"
+#~ msgstr "左端"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "アプリに素早くアクセスできるLauncherを表示するには左からスワイプしてください"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "設定画面を閉じるにはもう一度上にスワイプしてください"
+
+#~ msgid "Skip intro"
+#~ msgstr "導入ガイドをスキップ"
+
+#~ msgid "Right edge"
+#~ msgstr "右端"
+
+#~ msgid "Speaking..."
+#~ msgstr "入力中..."
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "読み込み中です。お待ちください..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "音声入力を開始..."
+
+#~ msgid "Confirm"
+#~ msgstr "確認"
+
+#~ msgid "Search"
+#~ msgstr "検索"
+
+#~ msgid "Well done"
+#~ msgstr "よくできました！"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "アンロックするには右端からスワイプしてみてください"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "これでスマートフォンの操作に必要な、画面端を用いたジェスチャーを習得できました。<br><br>利用を開始するなら画面をタップしてください"
+
+#~ msgid "Power off"
+#~ msgstr "電源を切る"
+
+#~ msgid "All"
+#~ msgstr "すべて"
+
+#~ msgid "Favorites"
+#~ msgstr "お気に入り"
+
+#~ msgid "Done"
+#~ msgstr "完了"
+
+#~ msgid "Store"
+#~ msgstr "保存"
+
+#~ msgid "Type or say a command"
+#~ msgstr "コマンドを音声かキーボードから入力"
+
+#~ msgid "Log out"
+#~ msgstr "ログアウト"
+
+#~ msgid "Reboot"
+#~ msgstr "再起動"
+
+#~ msgid "Shut down"
+#~ msgstr "シャットダウン"
+
+#~ msgid "Settings"
+#~ msgstr "設定"
+
+#~ msgid "Power"
+#~ msgstr "電源"
+
+#~ msgid "Restart"
+#~ msgstr "再起動"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Scopeの管理"
 
 #~ msgid "Please re-enter"
 #~ msgstr "再入力してください"

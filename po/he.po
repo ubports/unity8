@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-12 08:47+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -702,5 +702,72 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
-#~ msgid "Click here to finish."
-#~ msgstr "יש ללחוץ כאן כדי לסיים."
+#~ msgid "Confirm"
+#~ msgstr "אישור"
+
+#~ msgid "Type or say a command"
+#~ msgstr "ניתן להקליד או לומר פקודה"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "בטעינה. נא להמתין..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "יש לדבר כעת..."
+
+#~ msgid "Search"
+#~ msgstr "חיפוש"
+
+#~ msgid "Skip intro"
+#~ msgstr "לדלג על הפתיחה"
+
+#~ msgid "Right edge"
+#~ msgstr "שול ימני"
+
+#~ msgid "Top edge"
+#~ msgstr "השול העליון"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "נא לנסות למשוך מהשול העליון כדי לגשת למחוונים"
+
+#~ msgid "Close"
+#~ msgstr "סגירה"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "נא לנסות למשוך מהשול הימני כדי לשחרר את נעילת הטלפון"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "ניתן למשוך שוב כדי לסגור את מסך ההגדרות"
+
+#~ msgid "Left edge"
+#~ msgstr "שול שמאלי"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "יש למשוך משמאל כדי לחשוף את המשגר לצורך גישה מהירה ליישומים"
+
+#~ msgid "Well done"
+#~ msgstr "כל הכבוד"
+
+#~ msgid "Speaking..."
+#~ msgstr "הדיבור מושמע…"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "ברגעים אלו סיימת את התמחותך בשימוש במחוות קצה והטלפון פתוח לשימושך<br><br>נא "
+#~ "לגעת במסך כדי להתחיל"
+
+#~ msgid "Power off"
+#~ msgstr "כיבוי"
+
+#~ msgid "Done"
+#~ msgstr "סיימתי"
+
+#~ msgid "Store"
+#~ msgstr "אחסון"
+
+#~ msgid "All"
+#~ msgstr "הכול"
+
+#~ msgid "Favorites"
+#~ msgstr "מועדפים"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2013-12-12 11:12+0000\n"
 "Last-Translator: Pyae Sone <Unknown>\n"
 "Language-Team: Burmese <my@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -701,3 +701,39 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Confirm"
+#~ msgstr "အတည်ပြုပါ"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Command တစ်ခု ပြောပါ သို့မဟုတ် ရိုက်ထည့်ပါ"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "ဖွင့်နေသည်။ ခဏစောင့်ပါ"
+
+#~ msgid "Speak Now..."
+#~ msgstr "ယခုပြောပါ"
+
+#~ msgid "Speaking..."
+#~ msgstr "ပြောနေသည်"
+
+#~ msgid "Search"
+#~ msgstr "ရှာဖွေ"
+
+#~ msgid "Right edge"
+#~ msgstr "ညာဖက် အစွန်း"
+
+#~ msgid "Skip intro"
+#~ msgstr "မိတ်ဆက်ကိုကျော်မည်"
+
+#~ msgid "Top edge"
+#~ msgstr "ထိပ် အစွန်း"
+
+#~ msgid "Close"
+#~ msgstr "ပိတ်"
+
+#~ msgid "Left edge"
+#~ msgstr "ဘယ်​ဖက် အစွန်း"
+
+#~ msgid "Well done"
+#~ msgstr "ကောင်းအောင်ပြုလုပ်ခဲ့သည်"

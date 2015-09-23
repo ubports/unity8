@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-08-10 11:45+0000\n"
 "Last-Translator: Daniel Cheung <daniel.2345@hotmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:43+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -701,3 +701,56 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Top edge"
+#~ msgstr "頂部邊緣"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "試從頂部邊緣輕掃存取指示器"
+
+#~ msgid "Close"
+#~ msgstr "關閉"
+
+#~ msgid "Well done"
+#~ msgstr "做得好"
+
+#~ msgid "Skip intro"
+#~ msgstr "跳過介紹"
+
+#~ msgid "Speaking..."
+#~ msgstr "正在講..."
+
+#~ msgid "Confirm"
+#~ msgstr "確認"
+
+#~ msgid "Search"
+#~ msgstr "搜尋"
+
+#~ msgid "Type or say a command"
+#~ msgstr "輸入或說出指令"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "再向上滑動一次以關閉設定畫面"
+
+#~ msgid "Left edge"
+#~ msgstr "左側邊緣"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "試從右邊緣向左滑動解鎖手機"
+
+#~ msgid "Right edge"
+#~ msgstr "右側邊緣"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "從左側邊緣滑動以顯示啟動器快速查看應用"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr "您現在已熟練邊緣手勢，可以開始使用手機了<br><br>輕觸螢幕開始使用"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "載入中。請稍候..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "請講..."

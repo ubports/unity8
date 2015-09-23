@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-06 21:10+0000\n"
 "Last-Translator: Sasa Batistic <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -725,8 +725,95 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Confirm"
+#~ msgstr "Potrdi"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Vnesite ali izrecite ukaz"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Nalaganje. Prosimo počakajte ..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Govorite zdaj ..."
+
+#~ msgid "Speaking..."
+#~ msgstr "Govorjenje ..."
+
+#~ msgid "Search"
+#~ msgstr "Iskanje"
+
+#~ msgid "Top edge"
+#~ msgstr "Zgornji rob"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Poskusite povleči od zgornjega roba za dostop do kazalnikov"
+
+#~ msgid "Close"
+#~ msgstr "Zapri"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Povlecite ponovno navzgor za zaprtje zaslona z nastavitvami"
+
+#~ msgid "Left edge"
+#~ msgstr "Levi rob"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Poskusite povleči od leve za razkritje zaganjalnika za hiter dostop do "
+#~ "programov"
+
+#~ msgid "Skip intro"
+#~ msgstr "Preskoči uvod"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Poskusite povleči od desnega roba za odklep telefona"
+
+#~ msgid "Right edge"
+#~ msgstr "Desni rob"
+
+#~ msgid "Well done"
+#~ msgstr "Odlično"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Sedaj, ko ste osvojili poteze robov, lahko začnete uporabljati "
+#~ "telefon<br><br>Tapnite na zaslon za začetek"
+
+#~ msgid "Done"
+#~ msgstr "Končano"
+
+#~ msgid "Store"
+#~ msgstr "Trgovina"
+
+#~ msgid "Power off"
+#~ msgstr "Izklopi"
+
+#~ msgid "All"
+#~ msgstr "Vse"
+
+#~ msgid "Favorites"
+#~ msgstr "Priljubljeni"
+
+#~ msgid "Log out"
+#~ msgstr "Odjava"
+
+#~ msgid "Reboot"
+#~ msgstr "Ponovni zagon"
+
+#~ msgid "Shut down"
+#~ msgstr "Izklop"
+
+#~ msgid "Power"
+#~ msgstr "Izključitev"
+
+#~ msgid "Settings"
+#~ msgstr "Nastavitve"
+
+#~ msgid "Restart"
+#~ msgstr "Ponovni zagon"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Ponovno vnesite"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Kliknite tu za zaključek."

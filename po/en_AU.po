@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-12 07:17+0000\n"
 "Last-Translator: Jared Norris <jarednorris@ubuntu.com>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:43+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -714,8 +714,96 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Confirm"
+#~ msgstr "Confirm"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Type or say a command"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Loading. Please Wait..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Speak Now..."
+
+#~ msgid "Speaking..."
+#~ msgstr "Speaking..."
+
+#~ msgid "Search"
+#~ msgstr "Search"
+
+#~ msgid "Top edge"
+#~ msgstr "Top edge"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Try swiping from the top edge to access the indicators"
+
+#~ msgid "Close"
+#~ msgstr "Close"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Swipe up again to close the settings screen"
+
+#~ msgid "Left edge"
+#~ msgstr "Left edge"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Swipe from the left to reveal the launcher for quick access to apps"
+
+#~ msgid "Well done"
+#~ msgstr "Well done"
+
+#~ msgid "Skip intro"
+#~ msgstr "Skip intro"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Try swiping from the right edge to unlock the phone"
+
+#~ msgid "Right edge"
+#~ msgstr "Right edge"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+
+#~ msgid "All"
+#~ msgstr "All"
+
+#~ msgid "Favorites"
+#~ msgstr "Favourites"
+
+#~ msgid "Store"
+#~ msgstr "Store"
+
+#~ msgid "Power off"
+#~ msgstr "Power off"
+
+#~ msgid "Done"
+#~ msgstr "Done"
+
+#~ msgid "Log out"
+#~ msgstr "Log out"
+
+#~ msgid "Reboot"
+#~ msgstr "Reboot"
+
+#~ msgid "Power"
+#~ msgstr "Power"
+
+#~ msgid "Shut down"
+#~ msgstr "Shut down"
+
+#~ msgid "Settings"
+#~ msgstr "Settings"
+
+#~ msgid "Restart"
+#~ msgstr "Restart"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Manage Scopes"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Please re-enter"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Click here to finish."

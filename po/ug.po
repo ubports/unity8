@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-10-07 09:00+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:43+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -706,6 +706,97 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Confirm"
+#~ msgstr "جەزملە"
+
+#~ msgid "Type or say a command"
+#~ msgstr "بۇيرۇق كىرگۈزۈڭ ياكى دەڭ"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "ئوقۇۋاتىدۇ، سەل كۈتۈڭ…"
+
+#~ msgid "Speak Now..."
+#~ msgstr "ئەمدى سۆزلەڭ…"
+
+#~ msgid "Speaking..."
+#~ msgstr "سۆزلەۋاتىسىز…"
+
+#~ msgid "Search"
+#~ msgstr "ئىزدە"
+
+#~ msgid "Top edge"
+#~ msgstr "ئۈستى گىرۋەك"
+
+#~ msgid "Close"
+#~ msgstr "ياپ"
+
+#~ msgid "Left edge"
+#~ msgstr "سول گىرۋەك"
+
+#~ msgid "Right edge"
+#~ msgstr "ئوڭ گىرۋەك"
+
+#~ msgid "Well done"
+#~ msgstr "ياخشى بولدى"
+
+#~ msgid "Skip intro"
+#~ msgstr "قىسقىچە تونۇشتۇرۇشتىن ئاتلاش"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "تېلېفوننى قۇلۇپتىن ئېچىش ئۈچۈن ئوڭ گىرۋەكتىن سىيرىڭ"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "كۆرسەتكۈچلەرنى زىيارەت قىلىش ئۈچۈن ئۈستى گىرۋەكتىن سىيرىڭ"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "تەڭشەش ئېكرانىنى يېپىش ئۈچۈن ئۈستىگە قايتا سىيرىڭ"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "قوللىنىشلارنى تىز زىيارەت قىلىش ئۈچۈن سولدىن سىيرىپ ئىجراچىنى ئېچىڭ"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "ئېكراننى چېكىپ باشلاڭ<br><br>سىز ھازىر گىرۋەك بارماق ئىشارەتلىرىنى ئىگىلەپ "
+#~ "بولدىڭىز،ئەمدى تېلېفوننى ئىشلىتىشنى باشلىسىڭىز بولىدۇ"
+
+#~ msgid "Log out"
+#~ msgstr "تىزىمدىن چىق"
+
+#~ msgid "Shut down"
+#~ msgstr "تاقا"
+
+#~ msgid "Reboot"
+#~ msgstr "قايتا قوزغات"
+
+#~ msgid "Power"
+#~ msgstr "توك مەنبە"
+
+#~ msgid "Power off"
+#~ msgstr "توكنى ئۈز"
+
+#~ msgid "Settings"
+#~ msgstr "تەڭشەكلەر"
+
+#~ msgid "Done"
+#~ msgstr "تامام"
+
+#~ msgid "Store"
+#~ msgstr "ساقلا"
+
+#~ msgid "Favorites"
+#~ msgstr "يىغقۇچ"
+
+#~ msgid "All"
+#~ msgstr "ھەممىسى"
+
+#~ msgid "Restart"
+#~ msgstr "قايتا قوزغات"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "دائىرە باشقۇرۇش"
 
 #~ msgid "Please re-enter"
 #~ msgstr "قايتا كىرگۈزۈڭ"

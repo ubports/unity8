@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-04-12 14:43+0000\n"
 "Last-Translator: George Karavasilev <kokoto-java@ubuntu.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -703,3 +703,58 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Confirm"
+#~ msgstr "Потвърди"
+
+#~ msgid "Search"
+#~ msgstr "Търсене"
+
+#~ msgid "Top edge"
+#~ msgstr "Горен край"
+
+#~ msgid "Close"
+#~ msgstr "Затвори"
+
+#~ msgid "Left edge"
+#~ msgstr "Ляв край"
+
+#~ msgid "Right edge"
+#~ msgstr "Десен край"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Въведете или кажете команда"
+
+#~ msgid "Speaking..."
+#~ msgstr "Говорете..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Говорете сега..."
+
+#~ msgid "Well done"
+#~ msgstr "Великолепно"
+
+#~ msgid "Skip intro"
+#~ msgstr "Пропусни интрото"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Зарежда се. Моля, почакайте..."
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Опитайте се да приплъзнете пръста си от горния край към долния, за да "
+#~ "получите достъп до индикаторите"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr ""
+#~ "Отново приплъзнете пръста си нагоре за да затворите екрана с настройките"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Приплъзнете пръста си от левия край към десния, за да отворите стартера за "
+#~ "бърз достъп до приложенията"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Опитайте се да приплъзнете пръста си от десния край към левия, за да "
+#~ "отключите телефона"
