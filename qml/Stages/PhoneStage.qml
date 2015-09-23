@@ -524,7 +524,13 @@ Rectangle {
                     }
 
                     // Hiding tiles when their progress is negative or reached the maximum
-                    visible: (progress >= 0 && progress < 1.7)
+                    property bool occluded: {
+                        if (spreadView.active && (progress >= 0 && progress < 1.7)) return false;
+                        if (!spreadView.active && isFocused) return false;
+                        return true;
+                    }
+
+                    visible: !occluded
                             || (isDash && priv.focusedAppDelegateIsDislocated)
 
 

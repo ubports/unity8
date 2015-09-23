@@ -58,6 +58,8 @@ public:
 
     bool live() const override;
 
+    Mir::Visibility visibility() const override;
+
     Mir::OrientationAngle orientationAngle() const override;
     void setOrientationAngle(Mir::OrientationAngle) override;
 
@@ -84,6 +86,8 @@ public:
     bool activeFocus() const;
     void setActiveFocus(bool);
 
+    void setVisibility(Mir::Visibility visibility);
+
 Q_SIGNALS:
     void stateChanged(Mir::State);
     void liveChanged(bool live);
@@ -104,6 +108,7 @@ private:
     QUrl m_screenshotUrl;
     QString m_qmlFilePath;
     bool m_live;
+    Mir::Visibility m_visibility;
     int m_viewCount;
     bool m_activeFocus;
     int m_width;

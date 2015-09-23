@@ -203,6 +203,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         m_qmlSurface->incrementViewCount();
 
         m_qmlSurface->setActiveFocus(hasActiveFocus());
+        m_qmlSurface->setVisibility(isVisible() ? Mir::Exposed : Mir::Occluded);
 
         updateSurfaceSize();
 
@@ -250,6 +251,10 @@ void MirSurfaceItem::itemChange(ItemChange change, const ItemChangeData & value)
     if (change == QQuickItem::ItemActiveFocusHasChanged) {
         if (m_qmlSurface) {
             m_qmlSurface->setActiveFocus(value.boolValue);
+        }
+    } else if (change == QQuickItem::ItemVisibleHasChanged) {
+        if (m_qmlSurface) {
+            m_qmlSurface->setVisibility(value.boolValue ? Mir::Exposed : Mir::Occluded);
         }
     }
 }

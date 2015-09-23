@@ -31,6 +31,7 @@ MirSurface::MirSurface(const QString& name,
     , m_screenshotUrl(screenshot)
     , m_qmlFilePath(qmlFilePath)
     , m_live(true)
+    , m_visibility(Mir::Exposed)
     , m_viewCount(0)
     , m_activeFocus(false)
     , m_width(-1)
@@ -71,6 +72,11 @@ void MirSurface::setState(Mir::State state)
 bool MirSurface::live() const
 {
     return m_live;
+}
+
+Mir::Visibility MirSurface::visibility() const
+{
+    return m_visibility;
 }
 
 void MirSurface::setLive(bool live)
@@ -156,6 +162,18 @@ void MirSurface::setActiveFocus(bool value)
     m_activeFocus = value;
 
     Q_EMIT activeFocusChanged(value);
+}
+
+void MirSurface::setVisibility(Mir::Visibility visibility)
+{
+    qDebug() << "MirSurface::setVisibility(visibility=" << visibility << ")";
+
+    if (m_visibility == visibility)
+        return;
+
+    m_visibility = visibility;
+
+    Q_EMIT visibilityChanged(m_visibility);
 }
 
 int MirSurface::width() const

@@ -676,6 +676,14 @@ Rectangle {
                         return tileProgress;
                     }
 
+                    // Hiding tiles when their progress is negative or reached the maximum
+                    property bool occluded: {
+                        if (spreadView.active) return false;
+                        else if (isFocused) return false;
+                        return true;
+                    }
+                    visible: !occluded
+
                     animatedProgress: {
                         if (spreadView.phase == 0 && (spreadTile.active || spreadView.nextInStack == index)) {
                             if (progress < spreadView.positionMarker1) {
