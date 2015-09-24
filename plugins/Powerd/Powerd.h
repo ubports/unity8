@@ -38,6 +38,7 @@ public:
         PowerKey        = 2, // Display changed state due to user pressing power key
         Proximity       = 3, // Display changed state due to proximity events
         Notification    = 4, // Display changed state due to user notification
+        SnapDecision    = 5, // Display changed state due to snap decision prompt
     };
 
     enum Status {

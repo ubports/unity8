@@ -90,7 +90,7 @@ Item {
         // Turn on screen as needed (Powerd.Notification means the screen
         // stays on for a shorter amount of time)
         if (type == Notification.SnapDecision) {
-            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+            Powerd.setStatus(Powerd.On, Powerd.SnapDecision);
         } else if (type != Notification.Confirmation) {
             Powerd.setStatus(Powerd.On, Powerd.Notification);
         }
