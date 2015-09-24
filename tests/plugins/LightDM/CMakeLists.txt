@@ -55,7 +55,7 @@ add_dependencies(GreeterUsersModelTestExec MockLightDM)
 qt5_use_modules(GreeterUsersModelTestExec Core Test)
 target_link_libraries(GreeterUsersModelTestExec
     -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
-    -llightdm-qt5-2
+    -llightdm-qt5-3
     )
 target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM

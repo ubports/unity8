@@ -41,7 +41,7 @@ macro(unity8_parse_arguments)
     if(U8TEST_LIGHTDM)
         list(APPEND ld_paths
             ${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
-            ${CMAKE_BINARY_DIR}/tests/mocks/IntegratedLightDM/liblightdm
+            ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
         )
     endif()
 
@@ -123,6 +123,6 @@ endfunction()
 
 # Actual test definitions
 add_subdirectory(libs)
-#add_subdirectory(plugins)
+add_subdirectory(plugins)
 add_subdirectory(qmltests)
-#add_subdirectory(whitespace)
+add_subdirectory(whitespace)

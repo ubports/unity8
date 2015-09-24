@@ -30,7 +30,7 @@ add_library(MockLightDM-qml MODULE
     ${QMLPLUGIN_SRC}
     )
 
-# We want to link to liblightdm-qt5-2, but we don't want to depend on it being
+# We want to link to liblightdm-qt5-3, but we don't want to depend on it being
 # installed on the system.  So we make sure we link to our full fake version
 # At run time, we can point to whichever version we happen to be using via
 # LD_LIBRARY_PATH.
