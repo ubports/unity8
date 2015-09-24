@@ -101,18 +101,26 @@ Item {
 
             isCurrent: ListView.isCurrentItem
 
-            previewModel: {
+            readonly property var previewStack: {
                 if (root.open) {
                     if (index === root.initialIndex) {
-                        return root.initialIndexPreviewStack.getPreviewModel(0);
+                        return root.initialIndexPreviewStack;
                     } else {
-                        var previewStack = root.scope.preview(result, root.categoryId);
-                        return previewStack.getPreviewModel(0);
+                        return root.scope.preview(result, root.categoryId);
                     }
                 } else {
                     return null;
                 }
             }
+
+            previewModel: {
+                if (previewStack) {
+                    return previewStack.getPreviewModel(0);
+                } else {
+                    return null;
+                }
+            }
+
             scopeStyle: root.scopeStyle
         }
     }
