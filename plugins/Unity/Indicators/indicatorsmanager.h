@@ -45,7 +45,7 @@ public:
 
     Indicator::Ptr indicator(const QString& indicator_name);
 
-    QList<Indicator::Ptr> indicators();
+    QVector<Indicator::Ptr> indicators();
 
     bool isLoaded() const;
 

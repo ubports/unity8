@@ -24,10 +24,10 @@ SessionBroadcast::SessionBroadcast(QObject* parent)
 {
     auto connection = QDBusConnection::SM_BUSNAME();
 
-    connection.connect("com.canonical.Unity.Greeter.Broadcast",
-                       "/com/canonical/Unity/Greeter/Broadcast",
-                       "com.canonical.Unity.Greeter.Broadcast",
-                       "ShowHome",
+    connection.connect(QStringLiteral("com.canonical.Unity.Greeter.Broadcast"),
+                       QStringLiteral("/com/canonical/Unity/Greeter/Broadcast"),
+                       QStringLiteral("com.canonical.Unity.Greeter.Broadcast"),
+                       QStringLiteral("ShowHome"),
                        this,
                        SLOT(onShowHome(const QString &)));
 }
