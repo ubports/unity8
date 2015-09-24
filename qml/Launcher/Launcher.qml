@@ -26,7 +26,6 @@ Item {
     property bool autohideEnabled: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
-    property bool shadeBackground: true // can be used to disable background shade when launcher is visible
 
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
@@ -187,7 +186,7 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-        enabled: root.shadeBackground && root.state == "visible"
+        enabled: root.state == "visible"
         onPressed: {
             root.state = ""
         }
@@ -197,7 +196,7 @@ Item {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.shadeBackground && root.state == "visible" ? 0.6 : 0
+        opacity: root.state == "visible" ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }

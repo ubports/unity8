@@ -221,7 +221,7 @@ Item {
             onFocusedApplicationIdChanged: {
                 var appId = ApplicationManager.focusedApplicationId;
 
-                if (tutorial.running && appId != "" && appId != "unity8-dash") {
+                if (wizard.active && appId != "" && appId != "unity8-dash") {
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call
                     // is more important than wizard so just bail out of those.
@@ -406,7 +406,7 @@ Item {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: tutorial.running
+            forcedUnlock: wizard.active
             background: shell.background
 
             // avoid overlapping with Launcher's edge drag area
@@ -417,12 +417,6 @@ Item {
 
             onSessionStarted: {
                 launcher.hide();
-            }
-
-            onTease: {
-                if (!tutorial.running) {
-                    launcher.tease();
-                }
             }
 
             onEmergencyCall: startLockedApp("dialer-app")
@@ -479,10 +473,6 @@ Item {
     }
 
     function showHome() {
-        if (tutorial.running) {
-            return
-        }
-
         greeter.notifyAboutToFocusApp("unity8-dash");
 
         var animate = !lightDM.greeter.active && !stages.shown
@@ -516,7 +506,6 @@ Item {
                 available: tutorial.panelEnabled
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
-                contentEnabled: tutorial.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -556,7 +545,6 @@ Item {
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
             inverted: shell.usageScenario !== "desktop"
-            shadeBackground: !tutorial.running
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -566,10 +554,8 @@ Item {
                 }
             }
             onLauncherApplicationSelected: {
-                if (!tutorial.running) {
-                    greeter.notifyAboutToFocusApp(appId);
-                    shell.activateApplication(appId)
-                }
+                greeter.notifyAboutToFocusApp(appId);
+                shell.activateApplication(appId);
             }
             onShownChanged: {
                 if (shown) {
@@ -583,22 +569,10 @@ Item {
             objectName: "tutorial"
             anchors.fill: parent
 
-            // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
-            // we skip the tutorial on the Desktop to avoid using them.  The
-            // Desktop doesn't use the same spread design anyway.  The tutorial is
-            // all a bit of a placeholder on non-phone form factors right now.
-            // When the design team gives us more guidance, we can do something
-            // more clever here.
-            active: usageScenario != "desktop" && AccountsService.demoEdges
-
+            usageScenario: usageScenario
             launcher: launcher
             panel: panel
             stage: applicationsDisplayLoader.item
-
-            onFinished: {
-                AccountsService.demoEdges = false;
-                active = false; // for immediate response / if AS is having problems
-            }
         }
 
         Wizard {

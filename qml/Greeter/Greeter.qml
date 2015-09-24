@@ -162,7 +162,7 @@ Showable {
         }
 
         function checkForcedUnlock() {
-            if (forcedUnlock && shown) {
+            if (forcedUnlock && shown && loader.item) {
                 // pretend we were just authenticated
                 loader.item.hide();
                 loader.item.notifyAuthenticationSucceeded();

@@ -44,7 +44,6 @@ FocusScope {
         readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
         readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
         readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
-        readonly property url defaultScreenshot: (root.application && root.application.defaultScreenshot !== undefined) ? root.application.defaultScreenshot : ""
 
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
@@ -90,7 +89,6 @@ FocusScope {
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
-        source: d.defaultScreenshot
         anchors.fill: parent
         antialiasing: !root.interactive
 

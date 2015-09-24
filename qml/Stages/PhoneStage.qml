@@ -105,9 +105,6 @@ Rectangle {
 
     readonly property alias dragging: spreadDragArea.dragging
 
-    // Only used by the tutorial right now, when it is teasing the right edge
-    property real dragAreaOverlap
-
     signal opened()
 
     color: "#111111"
@@ -586,7 +583,7 @@ Rectangle {
         direction: Direction.Leftwards
         enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; rightMargin: -root.dragAreaOverlap }
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; }
         width: root.dragAreaWidth
 
         property var gesturePoints: new Array()

@@ -28,7 +28,6 @@ Item {
     readonly property bool launcherEnabled: !running || tutorialLeft.shown
     readonly property bool spreadEnabled: !running || tutorialRight.shown
     readonly property bool panelEnabled: !running || tutorialTop.shown
-    readonly property bool panelContentEnabled: !running
     readonly property alias running: d.running
 
     signal finished()
@@ -42,7 +41,7 @@ Item {
     QtObject {
         id: d
 
-        property bool running: tutorialLeft.shown || tutorialTop.shown || tutorialRight.shown
+        property bool running: tutorialLeft.shown || tutorialTop.shown || tutorialRight.shown || tutorialBottom.shown
     }
 
     TutorialLeft {
@@ -116,6 +115,33 @@ Item {
 
         onFinished: {
             AccountsService.markDemoEdgeCompleted("right");
+        }
+    }
+
+    TutorialBottom {
+        id: tutorialBottom
+        objectName: "tutorialBottom"
+        anchors.fill: parent
+        hides: [launcher, panel.indicators]
+
+        Connections {
+            target: AccountsService
+            onDemoEdgesCompletedChanged: {
+                if (AccountsService.demoEdgesCompleted.indexOf("right") != -1 &&
+                        AccountsService.demoEdgesCompleted.indexOf("bottom") == -1) {
+                    tutorialBottomTimer.start();
+                }
+            }
+        }
+
+        Timer {
+            id: tutorialBottomTimer
+            interval: 1
+            onTriggered: tutorialBottom.show()
+        }
+
+        onFinished: {
+            AccountsService.markDemoEdgeCompleted("bottom");
             root.finish();
         }
     }
