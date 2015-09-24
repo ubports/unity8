@@ -473,14 +473,14 @@ Rectangle {
 
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();
-            compare(mascotImage.image.status, Image.Error);
+            compare(mascotImage.status, Image.Error);
 
             cardTool.components["mascot"] = {"fallback": Qt.resolvedUrl("artwork/emblem.png")};
             cardTool.componentsChanged();
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();
             waitForRendering(card);
-            tryCompare(mascotImage.image, "status", Image.Ready);
+            tryCompare(mascotImage, "status", Image.Ready);
         }
 
         function test_font_weights_data() {

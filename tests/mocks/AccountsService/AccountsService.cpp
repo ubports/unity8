@@ -22,7 +22,7 @@ AccountsService::AccountsService(QObject* parent)
   : QObject(parent),
     m_enableLauncherWhileLocked(true),
     m_enableIndicatorsWhileLocked(true),
-    m_backgroundFile(qmlDirectory() + "graphics/phone_background.jpg"),
+    m_backgroundFile(qmlDirectory() + "/graphics/phone_background.jpg"),
     m_statsWelcomeScreen(true),
     m_failedLogins(0),
     m_demoEdges(false),

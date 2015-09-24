@@ -13,8 +13,9 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
-# Instruct CMake to run moc automatically when needed.
+# Instruct CMake to run moc and rcc automatically when needed.
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 # enable QML debugging
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_lower) # Build types should always be lowercase but sometimes they are not.

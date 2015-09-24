@@ -39,6 +39,9 @@ public Q_SLOTS:
 Q_SIGNALS:
     void wizardEnabledChanged();
 
+private Q_SLOTS:
+    void watcherFileChanged();
+
 private:
     Q_DISABLE_COPY(System)
 
