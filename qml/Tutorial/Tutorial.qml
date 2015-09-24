@@ -24,6 +24,7 @@ Item {
 
     property Item launcher
     property Item panel
+    property Item stage
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
     readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
@@ -54,6 +55,12 @@ Item {
             target: loader.item
             property: "panel"
             value: root.panel
+        }
+
+        Binding {
+            target: loader.item
+            property: "stage"
+            value: root.stage
         }
 
         Connections {

@@ -21,33 +21,33 @@ import "." as LocalComponents
 TutorialPage {
     id: root
 
-    property var launcher
+    property var stage
 
-    opacityOverride: 1 - launcher.visibleWidth / launcher.panelWidth
+    opacityOverride: 1 - stage.dragProgress * 2
 
     mouseArea {
-        anchors.leftMargin: launcher.dragAreaWidth
+        anchors.rightMargin: stage.dragAreaWidth
     }
 
     background {
         sourceSize.height: 1080
         sourceSize.width: 1916
         source: Qt.resolvedUrl("graphics/background1.png")
-        mirror: true
     }
 
     arrow {
-        anchors.left: root.left
-        anchors.leftMargin: units.gu(2)
+        anchors.right: root.right
+        anchors.rightMargin: units.gu(2)
         anchors.verticalCenter: root.verticalCenter
+        rotation: 180
     }
 
     label {
-        text: i18n.tr("Swipe from the left edge to open the launcher")
-        anchors.left: arrow.right
-        anchors.leftMargin: units.gu(3)
-        anchors.right: root.right
-        anchors.rightMargin: units.gu(4)
+        text: i18n.tr("Short or long swipe from the right edge to view your open apps")
+        anchors.right: arrow.left
+        anchors.rightMargin: units.gu(3)
+        anchors.left: root.left
+        anchors.leftMargin: units.gu(4)
         anchors.verticalCenter: arrow.verticalCenter
     }
 }

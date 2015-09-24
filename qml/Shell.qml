@@ -369,28 +369,6 @@ Item {
                 value: physicalKeysMapper.altTabPressed
             }
         }
-
-        Tutorial {
-            id: tutorial
-            objectName: "tutorial"
-            anchors.fill: parent
-
-            // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
-            // we skip the tutorial on the Desktop to avoid using them.  The
-            // Desktop doesn't use the same spread design anyway.  The tutorial is
-            // all a bit of a placeholder on non-phone form factors right now.
-            // When the design team gives us more guidance, we can do something
-            // more clever here.
-            active: usageScenario != "desktop" && AccountsService.demoEdges
-
-            launcher: launcher
-            panel: panel
-
-            onFinished: {
-                AccountsService.demoEdges = false;
-                active = false; // for immediate response / if AS is having problems
-            }
-        }
     }
 
     InputMethod {
@@ -597,6 +575,29 @@ Item {
                 if (shown) {
                     panel.indicators.hide()
                 }
+            }
+        }
+
+        Tutorial {
+            id: tutorial
+            objectName: "tutorial"
+            anchors.fill: parent
+
+            // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
+            // we skip the tutorial on the Desktop to avoid using them.  The
+            // Desktop doesn't use the same spread design anyway.  The tutorial is
+            // all a bit of a placeholder on non-phone form factors right now.
+            // When the design team gives us more guidance, we can do something
+            // more clever here.
+            active: usageScenario != "desktop" && AccountsService.demoEdges
+
+            launcher: launcher
+            panel: panel
+            stage: applicationsDisplayLoader.item
+
+            onFinished: {
+                AccountsService.demoEdges = false;
+                active = false; // for immediate response / if AS is having problems
             }
         }
 

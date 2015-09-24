@@ -86,6 +86,9 @@ Rectangle {
         }
     }
 
+    // How far left the stage has been dragged
+    readonly property real dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).progress : 0
+
     // To be read from outside
     property var mainApp: null
     property int mainAppWindowOrientationAngle: 0

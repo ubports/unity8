@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014,2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@ TutorialPage {
     property var panel
 
     opacityOverride: 1 - panel.indicators.unitProgress
-    onOpacityOverrideChanged: if (opacityOverride === 0) hide()
 
     mouseArea {
         anchors.topMargin: panel.indicators.minimizedPanelHeight

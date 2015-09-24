@@ -23,9 +23,10 @@ Item {
 
     property Item launcher
     property Item panel
+    property Item stage
 
     readonly property bool launcherEnabled: !running || tutorialLeft.shown
-    readonly property bool spreadEnabled: !running
+    readonly property bool spreadEnabled: !running || tutorialRight.shown
     readonly property bool panelEnabled: !running || tutorialTop.shown
     readonly property bool panelContentEnabled: !running
     readonly property alias running: d.running
@@ -41,15 +42,15 @@ Item {
     QtObject {
         id: d
 
-        property bool running: tutorialLeft.shown || tutorialTop.shown
+        property bool running: tutorialLeft.shown || tutorialTop.shown || tutorialRight.shown
     }
 
     TutorialLeft {
         id: tutorialLeft
         objectName: "tutorialLeft"
-        parent: root.panel
         anchors.fill: parent
         launcher: root.launcher
+        hides: [launcher, panel.indicators]
 
         Component.onCompleted: {
             if (AccountsService.demoEdgesCompleted.indexOf("left") == -1) {
@@ -65,9 +66,9 @@ Item {
     TutorialTop {
         id: tutorialTop
         objectName: "tutorialTop"
-        parent: root.panel
         anchors.fill: parent
         panel: root.panel
+        hides: [launcher, panel.indicators]
 
         Connections {
             target: AccountsService
@@ -87,6 +88,34 @@ Item {
 
         onFinished: {
             AccountsService.markDemoEdgeCompleted("top");
+        }
+    }
+
+    TutorialRight {
+        id: tutorialRight
+        objectName: "tutorialRight"
+        anchors.fill: parent
+        stage: root.stage
+        hides: [launcher, panel.indicators]
+
+        Connections {
+            target: AccountsService
+            onDemoEdgesCompletedChanged: {
+                if (AccountsService.demoEdgesCompleted.indexOf("top") != -1 &&
+                        AccountsService.demoEdgesCompleted.indexOf("right") == -1) {
+                    tutorialRightTimer.start();
+                }
+            }
+        }
+
+        Timer {
+            id: tutorialRightTimer
+            interval: 1
+            onTriggered: tutorialRight.show()
+        }
+
+        onFinished: {
+            AccountsService.markDemoEdgeCompleted("right");
             root.finish();
         }
     }

@@ -33,8 +33,9 @@ Showable {
 
     visible: false
     shown: false
-    opacity: Math.min(_showOpacity, opacityOverride)
 
+    opacity: Math.min(_showOpacity, opacityOverride)
+    onOpacityOverrideChanged: if (opacityOverride <= 0) hide()
     property real _showOpacity: 0
 
     showAnimation: StandardAnimation {
