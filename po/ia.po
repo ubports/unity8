@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-08-25 19:31+0000\n"
+"PO-Revision-Date: 2015-09-17 13:37+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
 "Language: ia\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-16 05:49+0000\n"
-"X-Generator: Launchpad (build 17737)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:43+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -722,89 +722,5 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Log out"
-#~ msgstr "Clauder le Session"
-
-#~ msgid "Reboot"
-#~ msgstr "Reinitiar"
-
-#~ msgid "Shut down"
-#~ msgstr "Stoppar"
-
-#~ msgid "Power"
-#~ msgstr "Energia"
-
-#~ msgid "Restart"
-#~ msgstr "Re-Initiar"
-
-#~ msgid "Power off"
-#~ msgstr "Stoppar le energia"
-
-#~ msgid "Top edge"
-#~ msgstr "Bordo superior"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Proba striar le bordo superior pro acceder le indicatores"
-
-#~ msgid "Close"
-#~ msgstr "Clauder"
-
-#~ msgid "Left edge"
-#~ msgstr "Bordo sinistre"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Proba striar le bordo dextere pro liberar le telephono"
-
-#~ msgid "Skip intro"
-#~ msgstr "Saltar le introduction"
-
-#~ msgid "Right edge"
-#~ msgstr "Bordo dextere"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Stria novemente pro clauder le pagina del preparationes"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Striar ab le sinistra pro revelar le lanceator pro un celere accesso al "
-#~ "applicationes"
-
-#~ msgid "Well done"
-#~ msgstr "Ben!"
-
-#~ msgid "Search"
-#~ msgstr "Cercar"
-
-#~ msgid "Store"
-#~ msgstr "Salvar"
-
-#~ msgid "Settings"
-#~ msgstr "Preparationes"
-
-#~ msgid "Confirm"
-#~ msgstr "Confirmar"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Scriber o dicer un commando"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Cargante. Attender per favor..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Parlar Ora..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Parlante..."
-
 #~ msgid "Please re-enter"
 #~ msgstr "Per favor re-inserer"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Tu es ora maestrate le gestos del bordo e pote initiar usar le "
-#~ "telephono<br><br>colpar sur le schermo pro initiar"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Clicca ci pro finir"
