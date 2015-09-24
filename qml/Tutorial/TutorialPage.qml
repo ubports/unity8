@@ -76,10 +76,9 @@ Showable {
     Image {
         id: arrow
         width: units.gu(1)
-        sourceSize.height: 106
-        sourceSize.width: 34
-        source: Qt.resolvedUrl("graphics/arrow.png")
+        source: Qt.resolvedUrl("graphics/arrow.svg")
         fillMode: Image.PreserveAspectFit
+        mipmap: true
     }
 
     Label {
