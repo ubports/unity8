@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+DIR=/var/lib/$DPKG_MAINTSCRIPT_PACKAGE
+rm -f $DIR/version
+rmdir $DIR

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+#
+# store package version in a text file for quick retrieval from the plugin
+# for sending to smart scopes server.
+if [ "$1" = "configure" ]; then
+    DIR=/var/lib/$DPKG_MAINTSCRIPT_PACKAGE
+    if ! test -e $DIR
+    then
+        mkdir $DIR
+    fi
+    dpkg-query -W -f'${Version}' $DPKG_MAINTSCRIPT_PACKAGE \
+        > $DIR/version
+fi
