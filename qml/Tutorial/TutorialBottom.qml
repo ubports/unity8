@@ -36,11 +36,19 @@ TutorialPage {
     }
 
     label {
-        text: i18n.tr("Swipe from the bottom edge")
+        text: i18n.tr("Swipe from the bottom edge to manage the app")
         anchors.bottom: arrow.top
         anchors.bottomMargin: units.gu(3)
         anchors.horizontalCenter: root.horizontalCenter
         anchors.horizontalCenterOffset: (label.width - label.contentWidth) / 2
         width: root.width - units.gu(8)
+    }
+
+    DirectionalDragArea {
+        direction: Direction.Upwards
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: units.gu(1)
     }
 }

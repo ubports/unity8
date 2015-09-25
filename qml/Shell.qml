@@ -406,7 +406,7 @@ Item {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: wizard.active
+            forcedUnlock: wizard.active || tutorial.running
             background: shell.background
 
             // avoid overlapping with Launcher's edge drag area
