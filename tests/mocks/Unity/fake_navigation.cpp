@@ -77,17 +77,17 @@ int Navigation::count() const
 
 bool Navigation::isRoot() const
 {
-    return m_navigationId == "root" || m_navigationId == "altroot";
+    return m_navigationId == "root";
 }
 
 bool Navigation::hidden() const
 {
-    return m_navigationId == "altroot";
+    return false;
 }
 
 int Navigation::rowCount(const QModelIndex & /*parent*/) const
 {
-    if (!m_loaded || m_navigationId.startsWith("child") || m_navigationId.startsWith("altrootChild") || m_navigationId == "middle3")
+    if (!m_loaded || m_navigationId.startsWith("child") || m_navigationId == "middle3")
         return 0;
     else
         return 8;
