@@ -74,5 +74,5 @@ void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    engine->addImageProvider(QLatin1String("window"), new WindowScreenshotProvider);
+    engine->addImageProvider(QStringLiteral("window"), new WindowScreenshotProvider);
 }
