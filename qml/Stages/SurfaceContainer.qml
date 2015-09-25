@@ -28,11 +28,23 @@ FocusScope {
     property bool hadSurface: false
     property bool interactive
     property int surfaceOrientationAngle: 0
+    property string name: surface && surface.name !== "" ? surface.name : ""
 
     onSurfaceChanged: {
         if (surface) {
             surfaceItem.surface = surface;
             root.hadSurface = false;
+        }
+    }
+
+    Connections {
+        target: root.surface
+        onNameChanged: {
+            print("SURFACE RENAMED")
+            if (name !== "") {
+                print("RENAMING SURFACE", name);
+                root.name = name;
+            }
         }
     }
 

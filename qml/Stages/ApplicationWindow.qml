@@ -25,6 +25,8 @@ FocusScope {
     readonly property bool fullscreen: application ? application.fullscreen : false
     property alias interactive: sessionContainer.interactive
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
+    readonly property string title: sessionContainer.surfaceContainer.surface && sessionContainer.surfaceContainer.surface.name !== "" ?
+                                        sessionContainer.surfaceContainer.surface.name : d.name
 
     // to be set from outside
     property QtObject application
