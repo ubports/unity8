@@ -97,8 +97,6 @@ Rectangle {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
-                    primaryOrientation: Qt.PortraitOrientation
-                    nativeOrientation: Qt.PortraitOrientation
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
