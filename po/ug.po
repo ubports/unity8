@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-09-24 05:55+0000\n"
+"PO-Revision-Date: 2015-09-24 05:59+0000\n"
 "Last-Translator: eltikin <eltikinuyghur@hotmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-24 05:56+0000\n"
-"X-Generator: Launchpad (build 17749)\n"
+"X-Launchpad-Export-Date: 2015-09-25 05:51+0000\n"
+"X-Generator: Launchpad (build 17754)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -295,7 +295,7 @@ msgstr "قويۇۋەتسە يېڭىلىنىدۇ…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "ئۇرۇن سانلىق مەلۇمات ئىلىتشكە باشلىدى"
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
@@ -504,11 +504,11 @@ msgstr ""
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "قايتا سىناڭ"
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "قوزغىتىلغان دېتاللارنى كۆرۈش"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
@@ -516,7 +516,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "ئىجىرا بۇلۇۋاتقان بارلىق ۋەزىپىلەرنى كۆرۈش"
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
@@ -590,60 +590,62 @@ msgstr "تېلېفوننى قانداق قۇلۇپسىزلاشنى تاللاڭ.
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "تېز سىيرىش"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "بىخەتەرلىكى يوق"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "ئىم"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "4 خانىلىق سان"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "ئىم"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "رەقەم ۋە ھەرپلەر"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "سىمسىز تورغا(Wi-Fi) باغلان"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "ئىشلەتكىلى بولىدىغان تورلار…"
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "ئىشلەتكىلى بولىدىغان تور يوق."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "ئورنى"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "تىلفۇن ئورنىڭزنى بىكتىۋاتدۇ:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "GPS ئىشلىتىش (توپ توغرا چىقمايدۇ)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"GPS ئىشلىەتكەندە سېمسىز تور ياكى كۆچمە تىلفۇن تورنى ئېچىش كېرەك (تەۋسىيە "
+"قىلىندۇ)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -654,55 +656,59 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "پەقەت ئۇنداق ئەمەس"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "سىز <b>سىستېما تەڭشەك</b> تىن ھەرخىل ئۆزگەرتىشلەرنى ئىلىپ بارالايسىز"
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "سەۋىيەيىڭىز ئاشىدۇ"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"تېلېفونىڭىز خاتالىقلارنى Canonical ۋە ئۇنىڭ بىلەن ھەمكارلاشقانلارغا ۋە "
+"مەشغۇلات سىستېمىسىنى ياسىغۇچىلارغا ئاپتوماتىك مەلۇم قىلىدىغان قىلىپ تەڭشەلدى."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"بۇنى <b>بىخەتەرلىك &amp; شەخسىيەت</b>نىڭ ئاستىدىكى <b>سىستېما تەڭشىكى</b>دە "
+"ئىناۋەتسىز قىلىشقا بولىدۇ."
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "ھەممىسى تامام"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "جاپا چەكتىڭىز!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "تېلېفونىڭىز ئىشلىتىشكە ھازىرلاندى."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "تامام"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "جەزملە"
