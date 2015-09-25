@@ -21,13 +21,12 @@ import "../Components"
 
 Item {
     id: root
+    property real itemsIndent: 0
     property var navigation: null
     property var currentNavigation: null
     property var scopeStyle: null
     property color foregroundColor: Theme.palette.normal.baseText
-    signal enterNavigation(var newNavigationId, bool hasChildren)
-    signal goBackToParentClicked()
-    signal allNavigationClicked()
+    signal enterNavigation(var newNavigationId, string newNavigationLabel, bool hasChildren)
 
     readonly property int itemHeight: units.gu(5)
     implicitHeight: flickable.contentHeight
@@ -54,23 +53,6 @@ Item {
             id: column
             width: parent.width
 
-            DashNavigationHeader {
-                id: navigationHeader
-
-                height: itemHeight
-                width: parent.width
-
-                foregroundColor: root.foregroundColor
-                backVisible: navigation && !navigation.isRoot || false
-                textEnabled: navigation &&
-                            (!navigation.isRoot ||
-                             (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
-                text: navigation ? (navigation.allLabel != "" ? navigation.allLabel : navigation.label) : ""
-
-                onBackClicked: root.goBackToParentClicked();
-                onTextClicked: root.allNavigationClicked();
-            }
-
             Repeater {
                 model: navigation && navigation.loaded ? navigation : null
                 clip: true
@@ -80,16 +62,16 @@ Item {
                     showDivider: index != navigation.count - 1
                     selected: isActive
                     anchors.left: parent.left
-                    anchors.leftMargin: navigationHeader.backVisible ? navigationHeader.backButtonWidth : 0
+                    anchors.leftMargin: itemsIndent
                     anchors.right: parent.right
 
-                    onClicked: root.enterNavigation(navigationId, hasChildren)
+                    onClicked: root.enterNavigation(navigationId, label, hasChildren)
 
                     Label {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
-                            leftMargin: navigationHeader.backVisible ? 0 : units.gu(2)
+                            leftMargin: itemsIndent > 0 ? 0 : units.gu(2)
                             right: rightIcon.visible ? rightIcon.left : parent.right
                             rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
                         }

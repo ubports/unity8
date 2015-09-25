@@ -32,7 +32,7 @@ Item {
     // internal
     readonly property var currentNavigation: scope && scope.hasNavigation ? scope.getNavigation(scope.currentNavigationId) : null
     // Are we drilling down the tree or up?
-    property bool isGoingBack: false
+    property bool isEnteringChildren: false
 
     visible: height != 0
     implicitHeight: navigationListView.y + navigationListView.height
@@ -57,13 +57,17 @@ Item {
                 // parentNavigationId: the parent navigation Id
             }
             delegate: DashNavigationHeader {
-                height: units.gu(5)
+                height: index == 0 && headersModel.count > 1 ? 0 : units.gu(5)
                 width: parent.width
 
+                backVisible: index != 0
                 text: headerText
                 foregroundColor: d.foregroundColor
 
                 function pop(popsNeeded) {
+                    if (popsNeeded == 0)
+                        return;
+                    isEnteringChildren = false;
                     navigationListView.currentIndex = navigationListView.currentIndex - popsNeeded;
                     navigationModel.setProperty(navigationListView.currentIndex, "nullifyNavigation", false);
                     navigationModel.remove(navigationModel.count - popsNeeded, popsNeeded);
@@ -76,7 +80,7 @@ Item {
                 onBackClicked: {
                     scope.setNavigationState(parentNavigationId);
 
-                    var popsNeeded = headersModel.count - index + 1;
+                    var popsNeeded = headersModel.count - index;
                     pop(popsNeeded);
                 }
 
@@ -84,7 +88,7 @@ Item {
                     root.leafClicked();
                     scope.setNavigationState(navigationId);
 
-                    var popsNeeded = headersModel.count - index;
+                    var popsNeeded = headersModel.count - index - 1;
                     pop(popsNeeded);
                 }
             }
@@ -124,6 +128,7 @@ Item {
             objectName: "navigation" + index
             visible: height > 0
             width: navigationListView.width
+            itemsIndent: index != 0 ? units.gu(5) : 0
             scopeStyle: root.scopeStyle
             foregroundColor: d.foregroundColor
             property real desiredHeight: {
@@ -138,50 +143,20 @@ Item {
             height: desiredHeight
             navigation: (nullifyNavigation || !scope) ? null : scope.getNavigation(navigationId)
             currentNavigation: root.currentNavigation
-            onEnterNavigation: {
+            onEnterNavigation: { // var newNavigationId, string newNavigationLabel, bool hasChildren
                 scope.setNavigationState(newNavigationId);
                 // We only need to add a new item to the model
                 // if we have children, otherwise just load it
                 if (hasChildren) {
-                    isGoingBack = false;
+                    isEnteringChildren = true;
                     navigationModel.append({"navigationId": newNavigationId, "nullifyNavigation": false});
-                    if (navigationModel.count > 2) {
-                        headersModel.append({"headerText": navigation.allLabel != "" ? navigation.allLabel : navigation.label,
-                                             "navigationId": navigationId,
-                                             "parentNavigationId": navigation.parentNavigationId
-                                            });
-                    }
+                    headersModel.append({"headerText": newNavigationLabel,
+                                         "navigationId": newNavigationId,
+                                         "parentNavigationId": navigationId
+                                        });
                     navigationListView.currentIndex++;
                 } else {
                     root.leafClicked();
-                }
-            }
-            onGoBackToParentClicked: {
-                if (navigationListView.currentIndex == 0) {
-                    // This can happen if we jumped to the non root of a deep tree and the user
-                    // is now going back, create space in the list for the list to move "left"
-                    var aux = navigationListView.highlightMoveDuration;
-                    navigationListView.highlightMoveDuration = 0;
-                    navigationModel.insert(0, {"navigationId": navigation.parentNavigationId, "nullifyNavigation": false});
-                    navigationListView.currentIndex = navigationListView.currentIndex + 1;
-                    navigationListView.contentX = width * navigationListView.currentIndex;
-                    navigationListView.highlightMoveDuration = aux;
-                }
-
-                scope.setNavigationState(navigation.parentNavigationId);
-                isGoingBack = true;
-                navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
-                navigationListView.currentIndex--;
-
-                if (headersModel.count > 0) {
-                    headersModel.remove(headersModel.count - 1);
-                }
-            }
-            onAllNavigationClicked: {
-                root.leafClicked();
-                if (root.currentNavigation.parentNavigationId == navigation.navigationId) {
-                    // For leaves we have to go to the parent too
-                    scope.setNavigationState(root.currentNavigation.parentNavigationId);
                 }
             }
         }
@@ -190,9 +165,7 @@ Item {
                 return;
 
             if (contentX == width * navigationListView.currentIndex) {
-                if (isGoingBack) {
-                    navigationModel.remove(navigationListView.currentIndex + 1);
-                } else {
+                if (isEnteringChildren) {
                     navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", true);
                 }
             }
@@ -224,6 +197,10 @@ Item {
             } else {
                 navigationModel.append({"navigationId": currentNavigation.parentNavigationId, "nullifyNavigation": false});
             }
+            headersModel.append({"headerText": currentNavigation.label,
+                                 "navigationId": currentNavigation.navigationId,
+                                 "parentNavigationId": currentNavigation.parentNavigationId
+                                });
         }
     }
     Connections {
