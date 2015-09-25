@@ -44,15 +44,51 @@ Item {
                                                  : Theme.palette.normal.baseText
     }
 
-    Label {
-        id: label
+    Column {
+        id: headersColumn
         anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.margins: units.gu(2)
-        text: root.currentNavigation ? root.currentNavigation.label : ""
-        color: d.foregroundColor
-        elide: Text.ElideRight
-        maximumLineCount: 1
+        width: parent.width
+        Repeater {
+            model: ListModel {
+                id: headersModel
+                // Roles
+                // headerText: the text to show
+                // navigationId: the navigation Id that represents
+                // parentNavigationId: the parent navigation Id
+            }
+            delegate: DashNavigationHeader {
+                height: units.gu(5)
+                width: parent.width
+
+                text: headerText
+                foregroundColor: d.foregroundColor
+
+                function pop(popsNeeded) {
+                    navigationListView.currentIndex = navigationListView.currentIndex - popsNeeded;
+                    navigationModel.setProperty(navigationListView.currentIndex, "nullifyNavigation", false);
+                    navigationModel.remove(navigationModel.count - popsNeeded, popsNeeded);
+
+                    popsNeeded = Math.min(headersModel.count, popsNeeded);
+                    // This is effectively deleting ourselves, so needs to be the last thing of the function
+                    headersModel.remove(headersModel.count - popsNeeded, popsNeeded);
+                }
+
+                onBackClicked: {
+                    scope.setNavigationState(parentNavigationId);
+
+                    var popsNeeded = headersModel.count - index + 1;
+                    pop(popsNeeded);
+                }
+
+                onTextClicked: {
+                    root.leafClicked();
+                    scope.setNavigationState(navigationId);
+
+                    var popsNeeded = headersModel.count - index;
+                    pop(popsNeeded);
+                }
+            }
+        }
     }
 
     ListView {
@@ -67,7 +103,7 @@ Item {
             // nullifyNavigation: overrides navigationId to be null
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
-        anchors.top: label.bottom
+        anchors.top: headersColumn.bottom
         property int maxHeight: -1
         Component.onCompleted: updateMaxHeight();
         function updateMaxHeight()
@@ -109,6 +145,12 @@ Item {
                 if (hasChildren) {
                     isGoingBack = false;
                     navigationModel.append({"navigationId": newNavigationId, "nullifyNavigation": false});
+                    if (navigationModel.count > 2) {
+                        headersModel.append({"headerText": navigation.allLabel != "" ? navigation.allLabel : navigation.label,
+                                             "navigationId": navigationId,
+                                             "parentNavigationId": navigation.parentNavigationId
+                                            });
+                    }
                     navigationListView.currentIndex++;
                 } else {
                     root.leafClicked();
@@ -130,6 +172,10 @@ Item {
                 isGoingBack = true;
                 navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
                 navigationListView.currentIndex--;
+
+                if (headersModel.count > 0) {
+                    headersModel.remove(headersModel.count - 1);
+                }
             }
             onAllNavigationClicked: {
                 root.leafClicked();

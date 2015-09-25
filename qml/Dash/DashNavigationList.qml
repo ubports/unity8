@@ -54,66 +54,21 @@ Item {
             id: column
             width: parent.width
 
-            ListItem.Standard {
-                id: backButton
-                objectName: "backButton"
-                visible: navigation && !navigation.isRoot || false
+            DashNavigationHeader {
+                id: navigationHeader
+
                 height: itemHeight
+                width: parent.width
 
-                onClicked: root.goBackToParentClicked();
+                foregroundColor: root.foregroundColor
+                backVisible: navigation && !navigation.isRoot || false
+                textEnabled: navigation &&
+                            (!navigation.isRoot ||
+                             (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
+                text: navigation ? (navigation.allLabel != "" ? navigation.allLabel : navigation.label) : ""
 
-                Icon {
-                    id: backImage
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                        leftMargin: units.gu(2)
-                    }
-                    name: "back"
-                    height: units.gu(2)
-                    width: height
-                    color: root.foregroundColor
-                }
-
-                Label {
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: backImage.right
-                        right: parent.right
-                        leftMargin: units.gu(0.5)
-                        rightMargin: units.gu(2)
-                    }
-                    text: navigation ? navigation.parentLabel : ""
-                    color: root.foregroundColor
-                    wrapMode: Text.Wrap
-                    maximumLineCount: 2
-                    elide: Text.ElideMiddle
-                }
-            }
-
-            ListItem.Standard {
-                id: allButton
-                objectName: "allButton"
-                visible: navigation && (!navigation.isRoot || (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
-                height: itemHeight
-
-                Label {
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-                    text: navigation ? (navigation.allLabel != "" ? navigation.allLabel : navigation.label) : ""
-                    font.bold: true
-                    color: root.foregroundColor
-                    wrapMode: Text.Wrap
-                    maximumLineCount: 2
-                    elide: Text.ElideMiddle
-                }
-
-                onClicked: root.allNavigationClicked();
+                onBackClicked: root.goBackToParentClicked();
+                onTextClicked: root.allNavigationClicked();
             }
 
             Repeater {
@@ -124,6 +79,9 @@ Item {
                     height: root.itemHeight
                     showDivider: index != navigation.count - 1
                     selected: isActive
+                    anchors.left: parent.left
+                    anchors.leftMargin: navigationHeader.backVisible ? navigationHeader.backButtonWidth : 0
+                    anchors.right: parent.right
 
                     onClicked: root.enterNavigation(navigationId, hasChildren)
 
@@ -131,7 +89,7 @@ Item {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             left: parent.left
-                            leftMargin: units.gu(2)
+                            leftMargin: navigationHeader.backVisible ? 0 : units.gu(2)
                             right: rightIcon.visible ? rightIcon.left : parent.right
                             rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
                         }
