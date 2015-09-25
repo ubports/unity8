@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-11-13 09:32+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 "Language: is\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -715,5 +715,97 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
+#~ msgid "Skip intro"
+#~ msgstr "Hoppa yfir kynningu"
+
+#~ msgid "Right edge"
+#~ msgstr "Hægri brún"
+
+#~ msgid "Top edge"
+#~ msgstr "Efri brún"
+
+#~ msgid "Close"
+#~ msgstr "Loka"
+
+#~ msgid "Left edge"
+#~ msgstr "Vinstri brún"
+
+#~ msgid "Well done"
+#~ msgstr "Vel gert"
+
+#~ msgid "Confirm"
+#~ msgstr "Staðfesta"
+
+#~ msgid "Speaking..."
+#~ msgstr "Tala..."
+
+#~ msgid "Search"
+#~ msgstr "Leita"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr ""
+#~ "Prófaðu að strjúka fingrinum frá hægri brúninni til að aflæsa símanum þínum."
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Reyndu að strjúka frá toppi til að fá aðgang að tilkynningum"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Strjúktu upp til að loka stillingum"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Strjúktu frá vinstri til að afhjúpa flýtiræsi forrita"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Þú ert núna með æfingu í að nota skjáhreyfingar og getur því farið að nota "
+#~ "símann<br><br>Sláðu létt á skjáinn til að byrja"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Skrifaðu eða segðu skipun"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Hleð. Bíddu aðeins..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Tala núna..."
+
+#~ msgid "Log out"
+#~ msgstr "Útskráning"
+
+#~ msgid "Reboot"
+#~ msgstr "Endurræsa"
+
+#~ msgid "Power"
+#~ msgstr "Aflstjórnun"
+
+#~ msgid "Shut down"
+#~ msgstr "Slökkva á tölvunni"
+
+#~ msgid "Settings"
+#~ msgstr "Stillingar"
+
+#~ msgid "Restart"
+#~ msgstr "Endurræsa"
+
+#~ msgid "Power off"
+#~ msgstr "Slökkva"
+
+#~ msgid "All"
+#~ msgstr "Allt"
+
+#~ msgid "Favorites"
+#~ msgstr "Eftirlæti"
+
+#~ msgid "Store"
+#~ msgstr "Geyma"
+
+#~ msgid "Done"
+#~ msgstr "Lokið"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Settu aftur inn"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Sýsla með leitarsvið"

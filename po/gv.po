@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-04-02 14:24+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Manx <gv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : (n == 2 ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -708,3 +708,66 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Log out"
+#~ msgstr "Log magh"
+
+#~ msgid "Reboot"
+#~ msgstr "Aahoshee"
+
+#~ msgid "Shut down"
+#~ msgstr "Jean dooney"
+
+#~ msgid "Power"
+#~ msgstr "Pooyr"
+
+#~ msgid "Restart"
+#~ msgstr "Aahoishee"
+
+#~ msgid "Power off"
+#~ msgstr "Moogh"
+
+#~ msgid "Top edge"
+#~ msgstr "Oirr mullagh"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Flip woish yn çheu hoshtal dy soilshaghey yn lunneyder son raad aashagh dys "
+#~ "ny h-appyn"
+
+#~ msgid "Well done"
+#~ msgstr "Jeant dy mie"
+
+#~ msgid "Left edge"
+#~ msgstr "Oirr hoshtal"
+
+#~ msgid "Skip intro"
+#~ msgstr "Lhiem goan foaslee"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Prow flippal woish yn oirr yesh dy neu-ghlassey yn çhellvane"
+
+#~ msgid "Right edge"
+#~ msgstr "Oirr yesh"
+
+#~ msgid "Close"
+#~ msgstr "Dooney"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Flip seose reeshtagh dy dooney yn scaailan soieaghyn"
+
+#~ msgid "Settings"
+#~ msgstr "Soieaghyn"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "T'ou nish oayllagh er ny cowraghyn oirr as foddee oo cur toshiaght er jannoo "
+#~ "ymmyd jeh'n çhellvane<br><br>Jean broddey yn scaailan dy ghoaill toshiaght"
+
+#~ msgid "Store"
+#~ msgstr "Shapp"
+
+#~ msgid "Search"
+#~ msgstr "Jean shirrey"

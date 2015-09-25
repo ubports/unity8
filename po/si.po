@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2013-06-26 22:36+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Sinhalese <si@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -703,3 +703,63 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Left edge"
+#~ msgstr "වම් අන්තය"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "දුරකථනය අගුලුහරින්න දකුණු අන්තයේ සිට අදින්න"
+
+#~ msgid "Right edge"
+#~ msgstr "දකුණු අන්තය"
+
+#~ msgid "Close"
+#~ msgstr "වසන්න"
+
+#~ msgid "Skip intro"
+#~ msgstr "හැඳින්වීම මඟහරින්න"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "පූරණය වෙමින්. මඳක් රැඳෙන්න..."
+
+#~ msgid "Speaking..."
+#~ msgstr "කතාකරමින්..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "දැන් කථා කරන්න..."
+
+#~ msgid "Confirm"
+#~ msgstr "ස්ථීර කරන්න"
+
+#~ msgid "Top edge"
+#~ msgstr "ඉහළ අන්තය"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "දර්ශකවලට ප්‍රවේශවන්න ඉහළ අන්තයේ සිට අදින්න"
+
+#~ msgid "Well done"
+#~ msgstr "කදිමයි"
+
+#~ msgid "Search"
+#~ msgstr "සෙවුම"
+
+#~ msgid "Type or say a command"
+#~ msgstr "විධානයක් ඇතුල්කරන්න හෝ කියන්න"
+
+#~ msgid "Log out"
+#~ msgstr "ඉවත් වන්න"
+
+#~ msgid "Reboot"
+#~ msgstr "යළි පණගන්වන්න"
+
+#~ msgid "Shut down"
+#~ msgstr "පරිගණකය නිවා දමන්න"
+
+#~ msgid "Power"
+#~ msgstr "බලය"
+
+#~ msgid "Restart"
+#~ msgstr "පරිගණකය යළි පණගන්වන්න"
+
+#~ msgid "Power off"
+#~ msgstr "පරිගණකය නිවා දමන්න"

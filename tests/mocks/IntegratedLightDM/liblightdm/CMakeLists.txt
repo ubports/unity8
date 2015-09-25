@@ -14,5 +14,5 @@ set_target_properties(MockLightDM PROPERTIES
                       OUTPUT_NAME lightdm-qt5-2)
 
 install(TARGETS MockLightDM
-    DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM/liblightdm
+    DESTINATION ${SHELL_INSTALL_QML}/mocks/IntegratedLightDM/liblightdm
     )

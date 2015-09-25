@@ -161,6 +161,21 @@ void MirSurfaceItem::touchEvent(QTouchEvent * event)
     }
 }
 
+void MirSurfaceItem::mousePressEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
+void MirSurfaceItem::mouseMoveEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
+void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
 void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 {
     qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
@@ -200,12 +215,11 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         QQuickView *quickView =
             qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
 
-        QString qmlComponentFilePath;
+        QUrl qmlComponentFilePath;
         if (!m_qmlSurface->qmlFilePath().isEmpty()) {
-            qmlComponentFilePath.append(m_qmlSurface->qmlFilePath());
+            qmlComponentFilePath = m_qmlSurface->qmlFilePath();
         } else {
-            qmlComponentFilePath = QString("%1/Unity/Application/MirSurfaceItem.qml")
-                .arg(mockPluginsDir());
+            qmlComponentFilePath = QUrl("qrc:///Unity/Application/MirSurfaceItem.qml");
         }
 
         m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);

@@ -1,7 +1,7 @@
 
 add_subdirectory(Components)
 
-add_unity8_qmltest(. OrientedShell)
+add_unity8_qmltest(. OrientedShell LIGHTDM)
 add_unity8_qmltest(. Shell LIGHTDM)
 add_unity8_qmltest(. ShellWithPin LIGHTDM)
 add_unity8_qmltest(Components Background)
@@ -18,7 +18,7 @@ add_unity8_qmltest(Components Showable)
 add_unity8_qmltest(Components ZoomableImage)
 add_unity8_qmltest(Dash Dash)
 add_unity8_qmltest(Dash DashContent)
-add_unity8_qmltest(Dash DashShell)
+add_unity8_qmltest(Dash DashShell LIGHTDM)
 add_unity8_qmltest(Dash Card)
 add_unity8_qmltest(Dash CardCarousel)
 add_unity8_qmlbenchmark(Dash CardBenchmark 1000)

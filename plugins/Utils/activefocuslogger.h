@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,34 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CROPPEDIMAGESIZERASYNCWORKER_H
-#define CROPPEDIMAGESIZERASYNCWORKER_H
+#ifndef UNITY_ACTIVEFOCUSLOGGER_H
+#define UNITY_ACTIVEFOCUSLOGGER_H
 
-#include <QMutex>
-#include <QObject>
+#include <QQuickItem>
+#include <QPointer>
 
-class CroppedImageSizer;
-
-class QNetworkReply;
-
-class CroppedImageSizerAsyncWorker : public QObject
+class ActiveFocusLogger : public QQuickItem
 {
     Q_OBJECT
 public:
-    CroppedImageSizerAsyncWorker(CroppedImageSizer *sizer, QNetworkReply *reply);
-
-    void abort();
+    ActiveFocusLogger(QQuickItem *parent = 0);
 
 private Q_SLOTS:
-    void requestFinished();
+    void setupFilterOnWindow(QQuickWindow *window);
+    void printActiveFocusInfo();
 
 private:
-    static void processRequestFinished(CroppedImageSizerAsyncWorker *worker);
-
-    QMutex m_mutex;
-    CroppedImageSizer *m_sizer;
-    QNetworkReply *m_reply;
-    bool m_ignoreAbort;
+    QPointer<QQuickWindow> m_window;
 };
 
-#endif
+#endif // UNITY_ACTIVEFOCUSLOGGER_H

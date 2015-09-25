@@ -24,6 +24,7 @@ import os
 import threading
 
 from autopilot.platform import model
+from autopilot.application import _launcher
 
 from unity8 import process_helpers
 from unity8.application_lifecycle import tests
@@ -118,7 +119,7 @@ class ApplicationLifecycleTests(tests.ApplicationLifeCycleTestCase):
 
         process_helpers.lock_unity()
 
-        self.launch_upstart_application(application_name)
+        self.launch_upstart_application(application_name, [], _launcher.AlreadyLaunchedUpstartLauncher)
         greeter = self.main_window.get_greeter()
         greeter.wait_swiped_away()
         process_helpers.unlock_unity()

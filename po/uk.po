@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-04 05:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:43+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -30,7 +30,7 @@ msgstr "Заблокувати кнопку"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Вийти"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -468,7 +468,7 @@ msgstr "Відповісти"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
 msgid "Call back"
-msgstr ""
+msgstr "Зворотний виклик"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -726,8 +726,99 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Confirm"
+#~ msgstr "Підтвердити"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Введіть або озвучте команду"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Завантаження. Будь ласка, зачекайте…"
+
+#~ msgid "Speak Now..."
+#~ msgstr "Можна говорити…"
+
+#~ msgid "Speaking..."
+#~ msgstr "Мовлення…"
+
+#~ msgid "Search"
+#~ msgstr "Пошук"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Проведіть пальцем ще раз, щоб закрити вікно параметрів"
+
+#~ msgid "Top edge"
+#~ msgstr "Верхній край"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Спробуйте провести пальцем від верхнього краю, щоб розблокувати телефон"
+
+#~ msgid "Close"
+#~ msgstr "Закрити"
+
+#~ msgid "Left edge"
+#~ msgstr "Лівий край"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Проведіть пальцем від лівого краю, щоб відкрити панель запуску для "
+#~ "пришвидшення доступу до програм"
+
+#~ msgid "Well done"
+#~ msgstr "Добре"
+
+#~ msgid "Skip intro"
+#~ msgstr "Пропустити вступ"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Спробуйте провести пальцем від правою краю, щоб розблокувати телефон"
+
+#~ msgid "Right edge"
+#~ msgstr "Правий край"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Вами налаштовано дії у відповідь на дотики на краях екрана. Тепер телефоном "
+#~ "можна користуватися.<br><br>Торкніться екрана, щоб розпочати."
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "Favorites"
+#~ msgstr "Улюблене"
+
+#~ msgid "Store"
+#~ msgstr "Крамниця"
+
+#~ msgid "Power off"
+#~ msgstr "Вимкнути"
+
+#~ msgid "Done"
+#~ msgstr "Виконано"
+
+#~ msgid "Log out"
+#~ msgstr "Вийти"
+
+#~ msgid "Reboot"
+#~ msgstr "Перезавантажити"
+
+#~ msgid "Shut down"
+#~ msgstr "Вимкнути"
+
+#~ msgid "Power"
+#~ msgstr "Живлення"
+
+#~ msgid "Settings"
+#~ msgstr "Параметри"
+
+#~ msgid "Restart"
+#~ msgstr "Перезапуск"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Керування областями"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Ввведіть ще раз"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Натисніть тут, щоб завершити."

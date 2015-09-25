@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-09-11 11:51+0000\n"
+"PO-Revision-Date: 2015-04-27 14:34+0000\n"
 "Last-Translator: Arsień Šachalevič <semen.shah@gmail.com>\n"
 "Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -720,8 +720,87 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Reboot"
+#~ msgstr "Перазагрузіць"
+
+#~ msgid "Shut down"
+#~ msgstr "Выключыць"
+
+#~ msgid "Top edge"
+#~ msgstr "Верхні край"
+
+#~ msgid "Right edge"
+#~ msgstr "Правы край"
+
+#~ msgid "Left edge"
+#~ msgstr "Левы край"
+
+#~ msgid "Search"
+#~ msgstr "Пошук"
+
+#~ msgid "Confirm"
+#~ msgstr "Пацвердзіць"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Правядзіце пальцам з правага краю, каб разблакаваць тэлефон"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Загрузка. Чакайце..."
+
+#~ msgid "Speaking..."
+#~ msgstr "Кажа..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Кажыце..."
+
+#~ msgid "Type or say a command"
+#~ msgstr "Напішыце або вымавіце каманду"
+
+#~ msgid "Log out"
+#~ msgstr "Выйсці"
+
+#~ msgid "Power"
+#~ msgstr "Сілкаванне"
+
+#~ msgid "Power off"
+#~ msgstr "Выключыць"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Правядзіце пальцам яшчэ раз, каб зачыніць акно параметраў"
+
+#~ msgid "Well done"
+#~ msgstr "Добра"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Правядзіце пальцам ад левага краю, каб адкрыць панэль запуску для паскарэння "
+#~ "доступу да праграм"
+
+#~ msgid "Skip intro"
+#~ msgstr "Прапусціць уводзіны"
+
+#~ msgid "Store"
+#~ msgstr "Крама"
+
+#~ msgid "Restart"
+#~ msgstr "Перазапусціць"
+
+#~ msgid "Close"
+#~ msgstr "Закрыць"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Паспрабуйце правесці пальцам ад верхняга краю для доступу да індыкатараў"
+
+#~ msgid "Settings"
+#~ msgstr "Наладкі"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Вы толькі што асвоілі асноўная жэсты і можаце пачаць выкарыстоўваць "
+#~ "тэлефон<br><br>Дакраніцеся да экрана, каб пачаць"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Калі ласка, паўтарыце ўвод"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Націсніце тут для завяршэння."
