@@ -23,6 +23,7 @@ set(QMLPLUGIN_SRC
     windowscreenshotprovider.cpp
     easingcurve.cpp
     windowstatestorage.cpp
+    timezoneFormatter.cpp
     plugin.cpp
     )
 
