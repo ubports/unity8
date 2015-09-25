@@ -38,7 +38,7 @@ Item {
     signal dashNavigationLeafClicked()
 
     function resetNavigation() {
-        dashNavigation.clear();
+        dashNavigation.resetNavigation();
     }
 
     Rectangle {

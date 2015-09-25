@@ -37,6 +37,12 @@ Item {
     visible: height != 0
     implicitHeight: navigationListView.y + navigationListView.height
 
+    function resetNavigation() {
+        if (navigationModel.count > 1) {
+            clear();
+        }
+    }
+
     QtObject {
         id: d
         readonly property color foregroundColor: root.scopeStyle
