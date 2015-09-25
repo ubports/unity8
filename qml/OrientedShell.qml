@@ -42,8 +42,8 @@ Rectangle {
         // NB: native and primary orientations here don't map exactly to their QScreen counterparts
         native_: root.width > root.height ? Qt.LandscapeOrientation : Qt.PortraitOrientation
 
-        primary: deviceConfiguration.primaryOrientation == deviceConfiguration.UseNativeOrientation
-                ? nativeOrientation : deviceConfiguration.primaryOrientation
+        primary: deviceConfiguration.primaryOrientation == deviceConfiguration.useNativeOrientation
+                ? native_ : deviceConfiguration.primaryOrientation
 
         landscape: deviceConfiguration.landscapeOrientation
         invertedLandscape: deviceConfiguration.invertedLandscapeOrientation
@@ -127,15 +127,15 @@ Rectangle {
     function angleToOrientation(angle) {
         switch (angle) {
         case 0:
-            return nativeOrientation;
+            return orientations.native_;
         case 90:
-            return nativeOrientation === Qt.PortraitOrientation ? Qt.InvertedLandscapeOrientation
+            return orientations.native_ === Qt.PortraitOrientation ? Qt.InvertedLandscapeOrientation
                                                                 : Qt.PortraitOrientation;
         case 180:
-            return nativeOrientation === Qt.PortraitOrientation ? Qt.InvertedPortraitOrientation
+            return orientations.native_ === Qt.PortraitOrientation ? Qt.InvertedPortraitOrientation
                                                                 : Qt.InvertedLandscapeOrientation;
         case 270:
-            return nativeOrientation === Qt.PortraitOrientation ? Qt.LandscapeOrientation
+            return orientations.native_ === Qt.PortraitOrientation ? Qt.LandscapeOrientation
                                                                 : Qt.InvertedPortraitOrientation;
         default:
             console.warn("angleToOrientation: Invalid orientation angle: " + angle);

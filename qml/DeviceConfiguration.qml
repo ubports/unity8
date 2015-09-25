@@ -19,7 +19,7 @@ import QtQuick 2.0
 QtObject {
     id: root
 
-    readonly property int seNativeOrientation: -1
+    readonly property int useNativeOrientation: -1
 
     // The only writable property in the API
     // all other properties are set according to the device name
