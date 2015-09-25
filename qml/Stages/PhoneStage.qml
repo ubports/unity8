@@ -41,7 +41,7 @@ Rectangle {
     property int shellOrientationAngle: 0
 
     property int shellOrientation
-    property Orientations orientations
+    property QtObject orientations
     property real nativeWidth
     property real nativeHeight
     property bool beingResized: false

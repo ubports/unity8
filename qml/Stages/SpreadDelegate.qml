@@ -42,7 +42,7 @@ FocusScope {
     property alias application: appWindow.application
     property int shellOrientationAngle
     property int shellOrientation
-    property Orientations orientations
+    property QtObject orientations
 
     function matchShellOrientation() {
         if (!root.application)

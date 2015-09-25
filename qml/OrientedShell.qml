@@ -37,8 +37,9 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
-    property var orientations: Orientations {
-        id: orientations
+    property alias orientations: orientations_
+    Orientations {
+        id: orientations_
         // NB: native and primary orientations here don't map exactly to their QScreen counterparts
         native_: root.width > root.height ? Qt.LandscapeOrientation : Qt.PortraitOrientation
 
@@ -158,7 +159,7 @@ Rectangle {
         width: root.width
         height: root.height
         orientation: root.angleToOrientation(orientationAngle)
-        orientations: root.orientations
+        orientations: root.orientations ? root.orientations : ""
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode

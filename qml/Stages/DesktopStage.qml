@@ -37,7 +37,7 @@ Rectangle {
     property real inverseProgress: 0 // just to comply with the interface shared between stages
     property int shellOrientationAngle: 0
     property int shellOrientation
-    property Orientations orientations
+    property QtObject orientations
     property bool beingResized: false
     property bool keepDashRunning: true
     property bool suspended: false
