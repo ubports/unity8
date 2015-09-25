@@ -14,12 +14,12 @@ add_executable(GreeterDBusTestExec
 add_dependencies(GreeterDBusTestExec MockLightDM)
 qt5_use_modules(GreeterDBusTestExec Core DBus Quick Test)
 target_link_libraries(GreeterDBusTestExec
-    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
+    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/IntegratedLightDM/liblightdm
     -llightdm-qt5-3
     )
 target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
+    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
     )
 add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
@@ -54,13 +54,13 @@ add_executable(GreeterUsersModelTestExec
 add_dependencies(GreeterUsersModelTestExec MockLightDM)
 qt5_use_modules(GreeterUsersModelTestExec Core Test)
 target_link_libraries(GreeterUsersModelTestExec
-    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
+    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/IntegratedLightDM/liblightdm
     -llightdm-qt5-3
     )
 target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
-    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM
+    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
     )
 add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
     ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
