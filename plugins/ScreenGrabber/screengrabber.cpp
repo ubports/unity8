@@ -19,6 +19,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <QStandardPaths>
+#include <QTemporaryDir>
 #include <QtGui/QImage>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickWindow>
@@ -42,8 +43,9 @@ ScreenGrabber::ScreenGrabber(QObject *parent)
     QDir screenshotsDir;
     if (qEnvironmentVariableIsSet("UNITY_TESTING")) {
         qDebug() << "Using test environment";
-        QStandardPaths::setTestModeEnabled(true);
-        screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+        QTemporaryDir tDir;
+        tDir.setAutoRemove(false);
+        screenshotsDir = tDir.path();
     } else {
         qDebug() << "Using real environment";
         screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);

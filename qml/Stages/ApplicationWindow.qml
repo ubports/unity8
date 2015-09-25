@@ -139,9 +139,6 @@ FocusScope {
         onSurfaceChanged: {
             if (sessionContainer.surface) {
                 surfaceInitTimer.start();
-                if (ApplicationManager.focusedApplicationId == application.appId) {
-                    root.forceActiveFocus();
-                }
             } else {
                 d.surfaceInitialized = false;
             }

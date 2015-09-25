@@ -22,7 +22,7 @@ MirSurface::MirSurface(const QString& name,
         Mir::Type type,
         Mir::State state,
         const QUrl& screenshot,
-        const QString &qmlFilePath)
+        const QUrl &qmlFilePath)
     : unity::shell::application::MirSurfaceInterface(nullptr)
     , m_name(name)
     , m_type(type)
@@ -87,7 +87,7 @@ void MirSurface::setLive(bool live)
     }
 }
 
-QString MirSurface::qmlFilePath() const
+QUrl MirSurface::qmlFilePath() const
 {
     return m_qmlFilePath;
 }
