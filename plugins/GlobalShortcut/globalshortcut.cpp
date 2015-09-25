@@ -72,7 +72,7 @@ void GlobalShortcut::keyPressEvent(QKeyEvent * event)
 void GlobalShortcut::setupFilterOnWindow(QQuickWindow *window)
 {
     if (!window) {
-        qWarning() << Q_FUNC_INFO << "Failed to setup filter on window";
+//        qWarning() << Q_FUNC_INFO << "Failed to setup filter on window";
         return;
     }
 

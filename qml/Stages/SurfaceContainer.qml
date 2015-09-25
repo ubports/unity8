@@ -28,6 +28,7 @@ FocusScope {
     property bool hadSurface: false
     property bool interactive
     property int surfaceOrientationAngle: 0
+    property bool resizeSurface: true
 
     onSurfaceChanged: {
         if (surface) {
@@ -52,8 +53,8 @@ FocusScope {
 
         consumesInput: true
 
-        surfaceWidth: width
-        surfaceHeight: height
+        surfaceWidth: root.resizeSurface ? width : -1
+        surfaceHeight: root.resizeSurface ? height : -1
 
         anchors.fill: root
         enabled: root.interactive
