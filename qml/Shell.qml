@@ -41,6 +41,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
+import Cursor 1.0
 
 
 Item {
@@ -57,6 +58,7 @@ Item {
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
+    property bool cursorVisible: false
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
@@ -187,11 +189,6 @@ Item {
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
-    }
-
-    ScreenGrabber {
-        id: screenGrabber
-        z: dialogs.z + 10
     }
 
     GlobalShortcut {
@@ -682,9 +679,20 @@ Item {
         onShowHome: showHome()
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        z: dialogs.z + 10
+    }
+
+    Cursor {
+        id: cursor
+        visible: shell.cursorVisible
+        z: screenGrabber.z + 1
+    }
+
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: screenGrabber.z + 10
+        z: cursor.z + 1
         enabled: false
         visible: false
         color: "black"
