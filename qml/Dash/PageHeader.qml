@@ -89,7 +89,7 @@ Item {
 
     function unfocus() {
         searchTextField.focus = false;
-        if (!searchTextField.text) {
+        if (!searchTextField.text && !root.navigationTag) {
             headerContainer.showSearch = false;
         }
     }
@@ -122,7 +122,7 @@ Item {
         visible: headerContainer.showSearch
         onPressed: {
             closePopup(/* keepFocus */false);
-            if (!searchTextField.text) {
+            if (!searchTextField.text && !root.navigationTag) {
                 headerContainer.showSearch = false;
             }
             mouse.accepted = false;
