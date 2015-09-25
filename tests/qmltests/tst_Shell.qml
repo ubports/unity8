@@ -1756,7 +1756,7 @@ Rectangle {
             tryCompare(PanelState, "buttonsVisible", true)
         }
 
-        // but http://pad.lv/1431566
+        // bug http://pad.lv/1431566
         function test_switchToStagedHidesPanelButtons() {
             loadDesktopShellWithApps();
             var appRepeater = findChild(shell, "appRepeater")
