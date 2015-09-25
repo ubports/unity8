@@ -1755,5 +1755,27 @@ Rectangle {
             ApplicationManager.startApplication(appId);
             tryCompare(PanelState, "buttonsVisible", true)
         }
+
+        // but http://pad.lv/1431566
+        function test_switchToStagedHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(PanelState, "buttonsVisible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(PanelState, "buttonsVisible", true);
+
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+            tryCompare(PanelState, "buttonsVisible", false);
+
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            tryCompare(PanelState, "buttonsVisible", true);
+        }
     }
 }

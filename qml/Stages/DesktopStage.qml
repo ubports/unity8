@@ -111,6 +111,7 @@ Rectangle {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
