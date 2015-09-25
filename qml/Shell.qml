@@ -606,7 +606,6 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: shell.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
