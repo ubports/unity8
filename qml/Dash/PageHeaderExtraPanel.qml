@@ -37,6 +37,10 @@ Item {
     signal historyItemClicked(string text)
     signal dashNavigationLeafClicked()
 
+    function resetNavigation() {
+        dashNavigation.clear();
+    }
+
     Rectangle {
         color: "white"
         anchors.fill: parent

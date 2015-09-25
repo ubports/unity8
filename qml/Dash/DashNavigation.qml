@@ -210,8 +210,10 @@ Item {
     }
 
     property bool isFirstLoad: false
-    onScopeChanged: {
+    onScopeChanged: clear();
+    function clear() {
         navigationModel.clear();
+        headersModel.clear();
         isFirstLoad = true;
     }
     function setNewNavigation() {

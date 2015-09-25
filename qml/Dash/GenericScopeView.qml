@@ -638,6 +638,7 @@ FocusScope {
             onClearSearch: {
                 resetSearch(keepPanelOpen);
                 scopeView.scope.resetPrimaryNavigationTag();
+                peExtraPanel.resetNavigation();
                 if (keepPanelOpen) {
                     openPopup();
                 }
