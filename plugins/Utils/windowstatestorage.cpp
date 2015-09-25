@@ -47,10 +47,30 @@ WindowStateStorage::~WindowStateStorage()
     m_db.close();
 }
 
+void WindowStateStorage::saveState(const QString &windowId, WindowStateStorage::WindowState state)
+{
+    QString queryString = QString("INSERT OR REPLACE INTO state (windowId, state) values ('%1', '%2');")
+            .arg(windowId)
+            .arg((int)state);
+
+    saveValue(queryString);
+}
+
+WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue)
+{
+    QString queryString = QString("SELECT * FROM state WHERE windowId = '%1';")
+            .arg(windowId);
+
+    QSqlQuery query = getValue(queryString);
+
+    if (!query.first()) {
+        return defaultValue;
+    }
+    return (WindowState)query.value("state").toInt();
+}
+
 void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect)
 {
-    QMutexLocker mutexLocker(&s_mutex);
-
     QString queryString = QString("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
             .arg(windowId)
             .arg(rect.x())
@@ -58,15 +78,7 @@ void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect
             .arg(rect.width())
             .arg(rect.height());
 
-    QFuture<void> future = QtConcurrent::run(executeAsyncQuery, queryString);
-    m_asyncQueries.append(future);
-
-    QFutureWatcher<void> *futureWatcher = new QFutureWatcher<void>();
-    futureWatcher->setFuture(future);
-    connect(futureWatcher, &QFutureWatcher<void>::finished,
-            this,
-            [=](){ m_asyncQueries.removeAll(futureWatcher->future());
-                   futureWatcher->deleteLater(); });
+    saveValue(queryString);
 }
 
 void WindowStateStorage::executeAsyncQuery(const QString &queryString)
@@ -84,18 +96,11 @@ void WindowStateStorage::executeAsyncQuery(const QString &queryString)
 
 QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue)
 {
-    QMutexLocker l(&s_mutex);
     QString queryString = QString("SELECT * FROM geometry WHERE windowId = '%1';")
             .arg(windowId);
-    QSqlQuery query;
 
-    bool ok = query.exec(queryString);
-    if (!ok) {
-        qWarning() << "Error retrieving window state for" << windowId
-                   << "Driver error:" << query.lastError().driverText()
-                   << "Database error:" << query.lastError().databaseText();
-        return defaultValue;
-    }
+    QSqlQuery query = getValue(queryString);
+
     if (!query.first()) {
         return defaultValue;
     }
@@ -114,4 +119,38 @@ void WindowStateStorage::initdb()
         QSqlQuery query;
         query.exec("CREATE TABLE geometry(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER);");
     }
+
+    if (!m_db.tables().contains("state")) {
+        QSqlQuery query;
+        query.exec("CREATE TABLE state(windowId TEXT UNIQUE, state INTEGER);");
+    }
+}
+
+void WindowStateStorage::saveValue(const QString &queryString)
+{
+    QMutexLocker mutexLocker(&s_mutex);
+
+    QFuture<void> future = QtConcurrent::run(executeAsyncQuery, queryString);
+    m_asyncQueries.append(future);
+
+    QFutureWatcher<void> *futureWatcher = new QFutureWatcher<void>();
+    futureWatcher->setFuture(future);
+    connect(futureWatcher, &QFutureWatcher<void>::finished,
+            this,
+            [=](){ m_asyncQueries.removeAll(futureWatcher->future());
+        futureWatcher->deleteLater(); });
+}
+
+QSqlQuery WindowStateStorage::getValue(const QString &queryString)
+{
+    QMutexLocker l(&s_mutex);
+    QSqlQuery query;
+
+    bool ok = query.exec(queryString);
+    if (!ok) {
+        qWarning() << "Error retrieving database query:" << queryString
+                   << "Driver error:" << query.lastError().driverText()
+                   << "Database error:" << query.lastError().databaseText();
+    }
+    return query;
 }

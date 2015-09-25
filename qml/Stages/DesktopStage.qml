@@ -143,6 +143,7 @@ Rectangle {
 
                 property bool maximized: false
                 property bool minimized: false
+                property bool animationsEnabled: true
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
@@ -161,15 +162,18 @@ Rectangle {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) | animated;
                     minimized = false;
                     maximized = true;
                 }
-                function minimize() {
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) | animated;
                     maximized = false;
                     minimized = true;
                 }
-                function unmaximize() {
+                function unmaximize(animated) {
+                    animationsEnabled = (animated === undefined) | animated;
                     minimized = false;
                     maximized = false;
                 }
@@ -191,6 +195,7 @@ Rectangle {
                     Transition {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
+                        enabled: appDelegate.animationsEnabled
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
