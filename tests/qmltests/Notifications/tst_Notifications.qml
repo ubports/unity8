@@ -12,16 +12,15 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
-import Ubuntu.Components 0.1
+import "../../../qml/Components/UnityInputInfo"
+import Ubuntu.Components 1.2
 import Unity.Test 0.1
 import Unity.Notifications 1.0
 import QtMultimedia 5.0
@@ -77,7 +76,7 @@ Item {
                                                             "type": Notification.Ephemeral,
                                                             "hints": {},
                                                             "summary": "Cole Raby",
-                                                            "body": "I did not expect it to be that late.",
+                                                            "body": "I did not expect it to be <b>that</b> late.",
                                                             "icon": "../graphics/avatars/amanda.png",
                                                             "secondaryIcon": "../graphics/applicationIcons/facebook.png",
                                                             "rawActions": ["reply_id", "Dummy"]})
@@ -91,7 +90,7 @@ Item {
                                                             "type": Notification.Ephemeral,
                                                             "hints": {"x-canonical-non-shaped-icon": "true"},
                                                             "summary": "Contacts",
-                                                            "body": "Synchronised contacts-database with cloud-storage.",
+                                                            "body": "Synchronised contacts-database &amp; cloud-storage.",
                                                             "icon": "../graphics/applicationIcons/contacts-app.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
@@ -189,6 +188,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
+                hasMouse: UnityInputInfo.mice > 0 // for testing, we add/remove only a mock mouse
             }
         }
 
@@ -218,7 +218,7 @@ Item {
 
                 Button {
                     width: parent.width
-                    text: "add an non-shaped-icon-summary-body"
+                    text: "add a non-shaped-icon-summary-body"
                     onClicked: rootRow.addEphemeralNonShapedIconNotification()
                 }
 
@@ -256,6 +256,24 @@ Item {
                     width: parent.width
                     text: "clear model"
                     onClicked: rootRow.clearNotifications()
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    CheckBox {
+                        id: fakeMouseCB
+                        onClicked: {
+                            if (checked) {
+                                UnityInputInfo.inputInfo.addMockMouse();
+                            } else {
+                                UnityInputInfo.inputInfo.removeMockMouse();
+                            }
+                        }
+                    }
+                    Label {
+                        text: "With fake mouse"
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
                 }
             }
         }
@@ -674,6 +692,41 @@ Item {
                 } else {
                     tryCompare(mockModel, "count", before - 1)
                 }
+            }
+
+            function test_clickToClose_data() { // reuse the data
+                UnityInputInfo.inputInfo.addMockMouse();
+                return test_NotificationRenderer_data();
+            }
+
+            function test_clickToClose(data) {
+                // populate model with some mock notifications
+                mockModel.append(data.n)
+
+                // make sure the view is properly updated before going on
+                notifications.forceLayout();
+                waitForRendering(notifications);
+
+                var notification = findChild(notifications, "notification" + (mockModel.count - 1))
+                verify(!!notification, "notification wasn't found");
+
+                // click-to-dismiss check
+                waitForRendering(notification);
+                var before = mockModel.count;
+                var canBeClosed = notification.canBeClosed;
+                mouseClick(notification);
+
+                if (canBeClosed) {
+                    // closing the notification, the model count should be one less
+                    tryCompare(mockModel, "count", before - 1)
+                } else {
+                    // not closing, model stays the same
+                    tryCompare(mockModel, "count", before)
+                }
+            }
+
+            function cleanupTestCase() {
+                UnityInputInfo.inputInfo.removeMockMouse();
             }
         }
     }
