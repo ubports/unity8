@@ -37,24 +37,26 @@ Rectangle {
         name: applicationArguments.deviceName
     }
 
-    property alias orientations: orientations_
-    Orientations {
-        id: orientations_
-        // NB: native and primary orientations here don't map exactly to their QScreen counterparts
-        native_: root.width > root.height ? Qt.LandscapeOrientation : Qt.PortraitOrientation
+    property alias orientations: d.orientations
 
-        primary: deviceConfiguration.primaryOrientation == deviceConfiguration.useNativeOrientation
+    Item {
+        id: d
+
+        property Orientations orientations: Orientations {
+            id: orientations
+            // NB: native and primary orientations here don't map exactly to their QScreen counterparts
+            native_: root.width > root.height ? Qt.LandscapeOrientation : Qt.PortraitOrientation
+
+            primary: deviceConfiguration.primaryOrientation == deviceConfiguration.useNativeOrientation
                 ? native_ : deviceConfiguration.primaryOrientation
 
-        landscape: deviceConfiguration.landscapeOrientation
-        invertedLandscape: deviceConfiguration.invertedLandscapeOrientation
-        portrait: deviceConfiguration.portraitOrientation
-        invertedPortrait: deviceConfiguration.invertedPortraitOrientation
+            landscape: deviceConfiguration.landscapeOrientation
+            invertedLandscape: deviceConfiguration.invertedLandscapeOrientation
+            portrait: deviceConfiguration.portraitOrientation
+            invertedPortrait: deviceConfiguration.invertedPortraitOrientation
+        }
     }
-
-
-
-    // to be overwritten by tests
+        // to be overwritten by tests
     property var unity8Settings: Unity8Settings {}
     property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }
 
