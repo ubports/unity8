@@ -19,7 +19,7 @@ import QtQuick 2.0
 QtObject {
     id: root
 
-    readonly property int UseNativeOrientation: -1
+    readonly property int seNativeOrientation: -1
 
     // The only writable property in the API
     // all other properties are set according to the device name
@@ -32,14 +32,14 @@ QtObject {
     readonly property alias portraitOrientation: priv.portraitOrientation
     readonly property alias invertedPortraitOrientation: priv.invertedPortraitOrientation
 
-    readonly property alias category: "phone"
+    readonly property alias category: priv.category
 
-    readonly property alias ignoredMice: 0
+    readonly property alias ignoredMice: priv.ignoredMice
 
-    StateGroup {
+    readonly property var priv: StateGroup {
         id: priv
 
-        property int primaryOrientation: root.UseNativeOrientation
+        property int primaryOrientation: root.useNativeOrientation
 
         property int supportedOrientations: Qt.PortraitOrientation
                                           | Qt.InvertedPortraitOrientation
