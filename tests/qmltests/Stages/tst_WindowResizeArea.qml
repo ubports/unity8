@@ -83,7 +83,7 @@ Item {
     }
 
     UnityTestCase {
-        name: "WindowMoveResizeArea"
+        name: "WindowResizeArea"
         when: windowShown
 
         function init() {
@@ -154,12 +154,9 @@ Item {
             var initialWindowHeight = fakeWindow.height;
 
             var moveDelta = units.gu(5);
-            var startDragX = initialWindowX + fakeWindow.width / 2;
-            var startDragY = initialWindowY + fakeWindow.height / 2;
-            mouseFlick(root, startDragX, startDragY, startDragX + moveDelta, startDragY + moveDelta, true, true, units.gu(.5), 10)
 
-            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
-            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
+            fakeWindow.x = initialWindowX + moveDelta
+            fakeWindow.y = initialWindowY + moveDelta
 
             // This will destroy the window and recreate it
             windowLoader.active = false;
