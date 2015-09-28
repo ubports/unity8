@@ -433,7 +433,7 @@ Item {
             var categoryListView = findChild(scope, "categoryListView");
             waitForRendering(categoryListView);
 
-            compare(categoryListView.pageHeader.item.searchHint, "Search People");
+            compare(categoryListView.pageHeader.searchHint, "Search People");
         }
 
         function compareArrays(a, b) {
