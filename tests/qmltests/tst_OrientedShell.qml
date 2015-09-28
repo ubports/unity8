@@ -264,6 +264,10 @@ Rectangle {
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
             }
+            MouseTouchEmulationCheckbox {
+                checked: true
+                color: "white"
+            }
             Button {
                 text: "Switch fullscreen"
                 activeFocusOnPress: false
