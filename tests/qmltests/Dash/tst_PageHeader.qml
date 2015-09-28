@@ -55,7 +55,7 @@ Item {
             pageHeader.searchHistory.clear();
 
             // Check initial state
-            tryCompare(pageHeader.extraPanel, "visible", true);
+            tryCompare(pageHeader.extraPanel, "visible", false);
             compare(pageHeader.searchHistory.count, 0);
         }
 
