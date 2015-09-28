@@ -400,6 +400,101 @@ Item {
             tryCompare(dashNavigation.currentNavigation, "navigationId", "middle2");
         }
 
+        function goToSecondLevel() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
+            compare(peExtraPanel.visible, false);
+            mouseClick(searchButton);
+            tryCompare(peExtraPanel, "visible", true);
+
+            var navigationListView = findChild(dashNavigation, "navigationListView");
+            tryCompareFunction(function() {
+                return navigationListView.currentItem &&
+                       navigationListView.currentItem.navigation &&
+                       navigationListView.currentItem.navigation.loaded; }, true);
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
+
+            var navigation4 = findChild(dashNavigation, "navigation0child4");
+            mouseClick(navigation4);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle4");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle4");
+            tryCompare(dashNavigation.currentNavigation, "loaded", true);
+
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
+
+            var navigation44 = findChild(dashNavigation, "navigation1child4");
+            mouseClick(navigation44);
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "childmiddle44");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "childmiddle44");
+            tryCompare(dashNavigation.currentNavigation, "loaded", true);
+
+            waitForRendering(navigationListView);
+            waitForRendering(navigationListView.currentItem);
+
+            // header 0 is hidden
+            var header0 = findChild(dashNavigation, "dashNavigationHeader0");
+            compare(header0.height, 0);
+        }
+
+        function test_navigationSecondLevelToRoot() {
+            goToSecondLevel();
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
+            var navigationListView = findChild(dashNavigation, "navigationListView");
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+
+            // Go directly to the root pressing the back button of header1
+            var header1 = findChild(dashNavigation, "dashNavigationHeader1");
+            compare(header1.backVisible, true);
+            mouseClick(findChild(header1, "backButton"));
+
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "root");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "root");
+            compare(peExtraPanel.visible, true);
+        }
+
+        function test_navigationSecondLevelToFirstName() {
+            goToSecondLevel();
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
+            var navigationListView = findChild(dashNavigation, "navigationListView");
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+
+            // Go directly to the first pressing the header1
+            var header1 = findChild(dashNavigation, "dashNavigationHeader1");
+            mouseClick(header1);
+
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle4");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle4");
+            compare(peExtraPanel.visible, false);
+        }
+
+        function test_navigationSecondLevelToFirstBack() {
+            goToSecondLevel();
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
+            var navigationListView = findChild(dashNavigation, "navigationListView");
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+
+            // Go back to the first level pressing the back button of header2
+            var header2 = findChild(dashNavigation, "dashNavigationHeader2");
+            compare(header2.backVisible, true);
+            mouseClick(findChild(header2, "backButton"));
+
+            tryCompare(dashNavigation.currentNavigation, "navigationId", "middle4");
+            tryCompare(navigationListView.currentItem.navigation, "navigationId", "middle4");
+            compare(peExtraPanel.visible, true);
+        }
+
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);
