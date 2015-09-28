@@ -105,7 +105,7 @@ int main(int argc, const char *argv[])
         mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
-    QUrl source(::qmlDirectory()+"OrientedShell.qml");
+    QUrl source(::qmlDirectory() + "/OrientedShell.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     if (!isMirServer) {
         prependImportPaths(view->engine(), ::nonMirImportPaths());

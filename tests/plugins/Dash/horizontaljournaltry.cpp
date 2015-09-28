@@ -63,7 +63,6 @@ int main(int argc, char *argv[])
 
     QQuickView *view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
-    view->engine()->addImportPath(BUILT_PLUGINS_DIR);
 
     QWidthModela model;
     QStringList heightList;

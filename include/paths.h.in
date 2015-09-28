@@ -33,11 +33,21 @@ inline bool isRunningInstalled() {
     return installed;
 }
 
+inline QString buildDirectory() {
+    if (!qEnvironmentVariableIsEmpty("UNITY_BINARY_DIR")) return qgetenv("UNITY_BINARY_DIR");
+    return QString("@CMAKE_BINARY_DIR@");
+}
+
+inline QString sourceDirectory() {
+    if (!qEnvironmentVariableIsEmpty("UNITY_SOURCE_DIR")) return qgetenv("UNITY_SOURCE_DIR");
+    return QString("@CMAKE_SOURCE_DIR@");
+}
+
 inline QString translationDirectory() {
     if (isRunningInstalled()) {
         return QString("@CMAKE_INSTALL_PREFIX@/share/locale");
     } else {
-        return QString("@CMAKE_BINARY_DIR@/po/locale");
+        return QString(buildDirectory() + "/po/locale");
     }
 }
 
@@ -45,14 +55,14 @@ inline QString qmlDirectory() {
     if (isRunningInstalled()) {
         return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/");
     } else {
-        return QString("@CMAKE_SOURCE_DIR@/qml/");
+        return QString(sourceDirectory() + "/qml");
     }
 }
 
 inline QStringList overrideImportPaths() {
     QStringList paths;
     if (!isRunningInstalled()) {
-        paths << QString("@CMAKE_BINARY_DIR@/plugins");
+        paths << QString(buildDirectory() + "/plugins");
     }
     return paths;
 }
@@ -62,7 +72,7 @@ inline QStringList nonMirImportPaths() {
     if (isRunningInstalled()) {
         paths << QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@/nonmirplugins");
     } else {
-        paths << QString("@CMAKE_BINARY_DIR@/nonmirplugins");
+        paths << QString(buildDirectory() + "/nonmirplugins");
     }
     return paths;
 }
@@ -77,7 +87,7 @@ inline QStringList fallbackImportPaths() {
     } else {
         paths << QString("@USS_PRIVATE_PLUGINDIR@");
         paths << QString("@SHELL_PLUGINDIR@");
-        paths << QString("@CMAKE_BINARY_DIR@/tests/mocks");
+        paths << QString(buildDirectory() + "/tests/mocks");
     }
     return paths;
 }
@@ -86,7 +96,7 @@ inline QString mockPluginsDir() {
     if (isRunningInstalled()) {
         return QString("@CMAKE_INSTALL_PREFIX@/@SHELL_INSTALL_QML@/mocks");
     } else {
-        return QString("@CMAKE_BINARY_DIR@/tests/mocks");
+        return QString(buildDirectory() + "/tests/mocks");
     }
 }
 
@@ -97,10 +107,6 @@ inline QStringList shellDataDirs() {
         dirs.append(qmlDirectory());
     }
     return dirs;
-}
-
-inline QString sourceDirectory() {
-    return QString("@CMAKE_SOURCE_DIR@/");
 }
 
 inline void prependImportPaths(QQmlEngine *engine, const QStringList &paths)

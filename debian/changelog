@@ -1,3 +1,26 @@
+unity8 (8.11+15.10.20150922.1-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Adapt test to code changes
+  * Add DEP-8 test for all our UI and unit tests
+  * Keep the PreviewStack around to avoid mem leaks (LP: #1495467)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Michael Terry ]
+  * When libusermetrics gives us an empty string, still show the
+    infographic circle rather than hiding it.  This is a follow-on to a
+    branch [1] that changes the "no data available" label to the empty
+    string.
+
+  [ Michał Sawicz ]
+  * Add DEP-8 test for all our UI and unit tests
+  * Fix integrated LightDM path
+  * Resync trunk
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Tue, 22 Sep 2015 12:57:15 +0000
+
 unity8 (8.11+15.10.20150915-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]

@@ -6,19 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
 "PO-Revision-Date: 2015-07-06 17:47+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
-"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2015-09-16 05:50+0000\n"
-"X-Generator: Launchpad (build 17737)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -588,7 +587,8 @@ msgstr "Adăugați un card SIM și reporniți dispozitivul dumneavoastră"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "Fără acesta, nu veți putea efectua apeluri sau utiliza mesajele text."
+msgstr ""
+"Fără acesta, nu veți putea efectua apeluri sau utiliza mesajele text."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -677,7 +677,8 @@ msgstr "Deloc"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "Puteți să modificați opțiunea utilizând <b>Configurări de sistem</b>."
+msgstr ""
+"Puteți să modificați opțiunea utilizând <b>Configurări de sistem</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
@@ -824,6 +825,3 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Introduceți din nou"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Apăsați aici pentru a termina."
