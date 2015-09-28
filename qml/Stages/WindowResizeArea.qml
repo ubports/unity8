@@ -38,15 +38,6 @@ MouseArea {
 
     QtObject {
         id: priv
-        readonly property int windowWidth: root.width - root.resizeHandleWidth * 2
-        readonly property int windowHeight: root.height - resizeHandleWidth * 2
-
-        property var startPoint
-
-        property bool resizeTop: false
-        property bool resizeBottom: false
-        property bool resizeLeft: false
-        property bool resizeRight: false
 
         property int normalX: 0
         property int normalY: 0
