@@ -161,7 +161,7 @@ Rectangle {
         width: root.width
         height: root.height
         orientation: root.angleToOrientation(orientationAngle)
-        orientations: root.orientations ? root.orientations : ""
+        orientations: root.orientations
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode

@@ -31,6 +31,7 @@ import Powerd 0.1
 import Wizard 0.1 as Wizard
 
 import "../../qml"
+import "../../qml/Components"
 import "Stages"
 
 Rectangle {
@@ -97,6 +98,7 @@ Rectangle {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
+                    orientations: Orientations{ id: orientations }
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
