@@ -14,8 +14,7 @@ add_executable(GreeterDBusTestExec
 add_dependencies(GreeterDBusTestExec MockLightDM)
 qt5_use_modules(GreeterDBusTestExec Core DBus Quick Test)
 target_link_libraries(GreeterDBusTestExec
-    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/IntegratedLightDM/liblightdm
-    -llightdm-qt5-3
+    MockLightDM
     )
 target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
@@ -54,8 +53,7 @@ add_executable(GreeterUsersModelTestExec
 add_dependencies(GreeterUsersModelTestExec MockLightDM)
 qt5_use_modules(GreeterUsersModelTestExec Core Test)
 target_link_libraries(GreeterUsersModelTestExec
-    -L${CMAKE_BINARY_DIR}/tests/mocks/LightDM/IntegratedLightDM/liblightdm
-    -llightdm-qt5-3
+    MockLightDM
     )
 target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM
