@@ -500,7 +500,7 @@ Item {
                 mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
-                tryCompare(genericScopeView.categoryView, "contentY", units.gu(14));
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(9));
 
                 scrollToEnd();
 
