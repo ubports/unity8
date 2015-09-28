@@ -150,8 +150,6 @@ Item {
         function test_saveRestorePosition() {
             var initialWindowX = fakeWindow.x;
             var initialWindowY = fakeWindow.y;
-            var initialWindowWidth = fakeWindow.width;
-            var initialWindowHeight = fakeWindow.height;
 
             var moveDelta = units.gu(5);
 
