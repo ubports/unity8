@@ -44,8 +44,11 @@ Item {
             width: units.gu(20)
             property int windowHeight: height
             property int windowWidth: width
-            onWindowHeightChanged: height = windowHeight
-            onWindowWidthChanged: width = windowWidth
+            state: "normal"
+
+            function maximize() {
+                state = "maximized"
+            }
 
             WindowResizeArea {
                 id: windowResizeArea
@@ -213,6 +216,36 @@ Item {
             mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true, units.gu(.05), 10);
             tryCompare(fakeWindow, "width", initialWindowWidth);
             tryCompare(fakeWindow, "height", initialWindowHeight);
+        }
+
+        function test_saveRestoreMaximized() {
+            var initialWindowX = fakeWindow.x;
+            var initialWindowY = fakeWindow.y;
+
+            var moveDelta = units.gu(5);
+
+            fakeWindow.x = initialWindowX + moveDelta
+            fakeWindow.y = initialWindowY + moveDelta
+
+            // Now change the state to maximized. The window should not keep updating the stored values
+            fakeWindow.state = "maximized"
+            fakeWindow.x = 31415 // 0 is too risky to pass the test even when broken
+            fakeWindow.y = 31415
+
+            // This will destroy the window and recreate it
+            windowLoader.active = false;
+            waitForRendering(root);
+            windowLoader.active = true;
+
+            // Make sure it's again where we left it in normal state before destroying
+            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
+            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
+
+            // Make sure maximize() has been called after restoring
+            tryCompare(fakeWindow, "state", "maximized")
+
+            // clean up
+            fakeWindow.state = "normal"
         }
     }
 }
