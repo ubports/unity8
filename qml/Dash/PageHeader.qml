@@ -314,6 +314,29 @@ Item {
                             onTriggered: root.favoriteClicked()
                         }
                     ]
+
+                    contents: Label {
+                        objectName: "header_title_label"
+                        LayoutMirroring.enabled: Qt.application.layoutDirection == Qt.RightToLeft
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
+                        text: header.title
+                        font.weight: header.fontWeight
+                        fontSize: header.fontSize
+                        color: header.titleColor
+                        elide: Text.ElideRight
+                        AbstractButton {
+                            anchors.fill: parent
+                            enabled: root.searchEntryEnabled
+                            onClicked: {
+                                headerContainer.showSearch = true;
+                                searchTextField.forceActiveFocus();
+                            }
+                        }
+                    }
                 }
 
                 property var contents: null
