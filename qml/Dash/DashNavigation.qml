@@ -63,6 +63,7 @@ Item {
                 // parentNavigationId: the parent navigation Id
             }
             delegate: DashNavigationHeader {
+                objectName: "dashNavigationHeader" + index
                 height: index == 0 && headersModel.count > 1 ? 0 : units.gu(5)
                 width: parent.width
 
@@ -91,11 +92,12 @@ Item {
                 }
 
                 onTextClicked: {
-                    root.leafClicked();
                     scope.setNavigationState(navigationId);
 
                     var popsNeeded = headersModel.count - index - 1;
                     pop(popsNeeded);
+                    
+                    root.leafClicked();
                 }
             }
         }

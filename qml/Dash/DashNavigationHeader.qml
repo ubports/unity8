@@ -33,6 +33,7 @@ Row {
 
     ListItem.Standard {
         id: backImageItem
+        objectName: "backButton"
         height: parent.height
         width: height
         showDivider: false
@@ -50,7 +51,6 @@ Row {
 
     ListItem.Standard {
         id: textItem
-        objectName: "allButton"
         height: parent.height
         showDivider: false
 

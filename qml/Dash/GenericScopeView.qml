@@ -647,6 +647,7 @@ FocusScope {
 
         PageHeaderExtraPanel {
             id: peExtraPanel
+            objectName: "peExtraPanel"
             width: parent.width >= units.gu(60) ? units.gu(40) : parent.width
             anchors {
                 top: categoryView.pageHeader.bottom

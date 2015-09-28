@@ -77,6 +77,9 @@ Item {
         } else if (!keepFocus) {
             unfocus();
         }
+        if (!searchTextField.text && !root.navigationTag) {
+            headerContainer.showSearch = false;
+        }
     }
 
     function resetSearch(keepFocus) {
@@ -122,9 +125,6 @@ Item {
         visible: headerContainer.showSearch
         onPressed: {
             closePopup(/* keepFocus */false);
-            if (!searchTextField.text && !root.navigationTag) {
-                headerContainer.showSearch = false;
-            }
             mouse.accepted = false;
         }
     }
