@@ -41,9 +41,7 @@ FocusScope {
     Connections {
         target: root.surface
         onNameChanged: {
-            print("SURFACE RENAMED")
             if (name !== "") {
-                print("RENAMING SURFACE", name);
                 root.name = name;
             }
         }
