@@ -113,7 +113,7 @@ QString DesktopFileHandler::displayName() const
     // First try to find Name[xx_YY] and Name[xx] in .desktop file
     const QString locale = QLocale().name();
     const QStringList splitLocale = locale.split('_');
-    QString shortLocale = splitLocale.first();
+    const QString shortLocale = splitLocale.first();
 
     if (locale != shortLocale && settings.contains(QStringLiteral("Name[%1]").arg(locale))) {
         return settings.value(QStringLiteral("Name[%1]").arg(locale)).toString();
