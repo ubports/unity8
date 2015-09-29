@@ -139,9 +139,6 @@ Rectangle {
                 height: units.gu(50)
                 focus: model.appId === priv.focusedAppId
 
-                readonly property int minWidth: units.gu(10)
-                readonly property int minHeight: units.gu(10)
-
                 property bool maximized: false
                 property bool minimized: false
                 property bool animationsEnabled: true
