@@ -36,20 +36,20 @@ int main(int argc, const char *argv[])
     QGuiApplication *application = new QGuiApplication(argc, (char**)argv);
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Description: Unity 8 Shell Dash");
+    parser.setApplicationDescription(QStringLiteral("Description: Unity 8 Shell Dash"));
     parser.addHelpOption();
 
-    QCommandLineOption mousetouchOption("mousetouch",
-        "Allow the mouse to provide touch input");
+    QCommandLineOption mousetouchOption(QStringLiteral("mousetouch"),
+        QStringLiteral("Allow the mouse to provide touch input"));
     parser.addOption(mousetouchOption);
 
-    QCommandLineOption windowGeometryOption(QStringList() << "windowgeometry",
-        "Specify the window geometry as [<width>x<height>]", "windowgeometry", "1");
+    QCommandLineOption windowGeometryOption(QStringList() << QStringLiteral("windowgeometry"),
+        QStringLiteral("Specify the window geometry as [<width>x<height>]"), QStringLiteral("windowgeometry"), QStringLiteral("1"));
     parser.addOption(windowGeometryOption);
 
    // FIXME Remove once we drop the need of the hint
-    QCommandLineOption desktopFileHintOption("desktop_file_hint",
-        "The desktop_file_hint option for QtMir", "hint_file");
+    QCommandLineOption desktopFileHintOption(QStringLiteral("desktop_file_hint"),
+        QStringLiteral("The desktop_file_hint option for QtMir"), QStringLiteral("hint_file"));
     parser.addOption(desktopFileHintOption);
 
     // Treat args with single dashes the same as arguments with two dashes
@@ -60,7 +60,7 @@ int main(int argc, const char *argv[])
     ApplicationArguments qmlArgs;
 
     if (getenv("QT_LOAD_TESTABILITY")) {
-        QLibrary testLib(QLatin1String("qttestability"));
+        QLibrary testLib(QStringLiteral("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
             TasInitialize initFunction = (TasInitialize)testLib.resolve("qt_testability_init");
@@ -91,8 +91,8 @@ int main(int argc, const char *argv[])
         }
     }
 
-    view->setTitle("Scopes");
-    view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
+    view->setTitle(QStringLiteral("Scopes"));
+    view->rootContext()->setContextProperty(QStringLiteral("applicationArguments"), &qmlArgs);
 
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
@@ -101,7 +101,7 @@ int main(int argc, const char *argv[])
         mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
-    QUrl source(::qmlDirectory()+"Dash/DashApplication.qml");
+    QUrl source(::qmlDirectory() + "/Dash/DashApplication.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
 

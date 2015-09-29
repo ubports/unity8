@@ -25,7 +25,7 @@ add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
     DEPENDS MockLightDM
-    IMPORT_PATHS ${CMAKE_BINARY_DIR}/tests/mocks
+    IMPORT_PATHS  ${UNITY_MOCKPATH}
     LIGHTDM
     )
 

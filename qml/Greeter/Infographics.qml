@@ -73,7 +73,7 @@ Item {
         notification.hideAnim.start()
     }
 
-    visible: model.label !== ""
+    visible: model.username !== ""
 
     Component.onCompleted: startShowAnimation()
 

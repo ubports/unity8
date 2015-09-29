@@ -127,6 +127,7 @@ function(add_executable_test COMPONENT_NAME TARGET)
         file(MAKE_DIRECTORY ${ARTIFACTS_DIR}/${path})
         set(file_logger -o ${ARTIFACTS_DIR}/${path}/test${COMPONENT_NAME}.xml,xunitxml)
     else()
+        file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
         set(file_logger -o ${CMAKE_CURRENT_BINARY_DIR}/test${COMPONENT_NAME}.xml,xunitxml)
     endif()
 
