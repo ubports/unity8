@@ -20,6 +20,8 @@ import Unity.Application 0.1
 
 FocusScope {
     id: root
+    implicitWidth: sessionContainer.implicitWidth
+    implicitHeight: sessionContainer.implicitHeight
 
     // to be read from outside
     readonly property bool fullscreen: application ? application.fullscreen : false
@@ -29,6 +31,7 @@ FocusScope {
     // to be set from outside
     property QtObject application
     property int surfaceOrientationAngle
+    property alias resizeSurface: sessionContainer.resizeSurface
 
     QtObject {
         id: d

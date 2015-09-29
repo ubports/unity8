@@ -16,9 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import platform
+
 from testscenarios import multiply_scenarios
 
-from autopilot import platform
+import autopilot.platform
 
 from unity8.indicators import tests
 
@@ -38,12 +40,6 @@ class IndicatorExistsTestCase(tests.DeviceIndicatorTestCase):
         indicator_scenarios,
         tests.IndicatorTestCase.device_emulation_scenarios
     )
-
-    def setUp(self):
-        super().setUp()
-        if (platform.model() == 'Nexus 10' and
-                self.indicator_name == 'indicator-bluetooth'):
-            self.skipTest('Nexus 10 does not have bluetooth at the moment.')
 
     def test_indicator_exists(self):
         self.main_window._get_indicator_panel_item(
@@ -74,12 +70,6 @@ class IndicatorPageTitleMatchesWidgetTestCase(tests.DeviceIndicatorTestCase):
         tests.IndicatorTestCase.device_emulation_scenarios
     )
 
-    def setUp(self):
-        super().setUp()
-        if (platform.model() == 'Nexus 10' and
-                self.indicator_name == 'indicator-bluetooth'):
-            self.skipTest('Nexus 10 does not have bluetooth at the moment.')
-
     def test_indicator_page_title_matches_widget(self):
         """Swiping open an indicator must show its correct title.
 
@@ -87,5 +77,12 @@ class IndicatorPageTitleMatchesWidgetTestCase(tests.DeviceIndicatorTestCase):
         """
         indicator_page = self.main_window.open_indicator_page(
             self.indicator_name)
+        if self.indicator_name == 'indicator-bluetooth':
+            if autopilot.platform.model() == 'Nexus 10':
+                self.expectFailure('Nexus 10 does not have bluetooth at the moment.',
+                                   self.assertTrue, indicator_page.visible)
+            if platform.linux_distribution()[2] == 'wily':
+                self.expectFailure('Bluetooth doesn\'t work on wily at the moment.',
+                                   self.assertTrue, indicator_page.visible)
         self.assertTrue(indicator_page.visible)
         self.assertEqual(indicator_page.title, self.title)
