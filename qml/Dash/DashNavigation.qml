@@ -205,7 +205,7 @@ Item {
             } else {
                 navigationModel.append({"navigationId": currentNavigation.parentNavigationId, "nullifyNavigation": false});
             }
-            headersModel.append({"headerText": currentNavigation.label,
+            headersModel.append({"headerText": currentNavigation.allLabel != "" ? currentNavigation.allLabel : currentNavigation.label,
                                  "navigationId": currentNavigation.navigationId,
                                  "parentNavigationId": currentNavigation.parentNavigationId
                                 });

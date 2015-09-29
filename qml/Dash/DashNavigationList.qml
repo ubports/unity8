@@ -65,7 +65,7 @@ Item {
                     anchors.leftMargin: itemsIndent
                     anchors.right: parent.right
 
-                    onClicked: root.enterNavigation(navigationId, label, hasChildren)
+                    onClicked: root.enterNavigation(navigationId, allLabel != "" ? allLabel : label, hasChildren)
 
                     Label {
                         anchors {
