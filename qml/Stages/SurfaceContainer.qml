@@ -28,7 +28,7 @@ FocusScope {
     property bool hadSurface: false
     property bool interactive
     property int surfaceOrientationAngle: 0
-    property string name: surface && surface.name !== "" ? surface.name : ""
+    property string name: surface ? surface.name : ""
     property bool resizeSurface: true
 
     onSurfaceChanged: {
