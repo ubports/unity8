@@ -268,7 +268,7 @@ FocusScope {
                 focus: true
                 anchors {
                     fill: parent
-                    topMargin: appWindow.fullscreen || application.rotatesWindowContents
+                    topMargin: appWindow.fullscreen || (application && application.rotatesWindowContents)
                                    ? 0 : maximizedAppTopMargin
                 }
 

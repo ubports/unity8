@@ -22,11 +22,17 @@ add_subdirectory(uqmlscene)
 add_executable(qmlscene ALIAS uqmlscene)
 import_executables(dbus-test-runner)
 
+set(UNITY_PLUGINPATH "${CMAKE_BINARY_DIR}/plugins" CACHE PATH "Path to pre-built unity8 plugin dir.")
+set(UNITY_MOCKPATH "${CMAKE_BINARY_DIR}/tests/mocks" CACHE PATH "Path to pre-built unity8 mock dir.")
+
+# Pre-built mocks have preference, pre-built plugins replace local build
 set(UNITY_IMPORT_PATHS
+    ${UNITY_MOCKPATH}
     ${CMAKE_BINARY_DIR}/tests/mocks
     ${CMAKE_BINARY_DIR}/tests/utils/modules
-    ${CMAKE_BINARY_DIR}/plugins
+    ${UNITY_PLUGINPATH}
 )
+list(REMOVE_DUPLICATES UNITY_IMPORT_PATHS)
 set(UNITY_IMPORT_PATHS ${UNITY_IMPORT_PATHS} CACHE INTERNAL "")
 
 macro(unity8_parse_arguments)
@@ -40,8 +46,8 @@ macro(unity8_parse_arguments)
     set(ld_paths)
     if(U8TEST_LIGHTDM)
         list(APPEND ld_paths
-            ${CMAKE_BINARY_DIR}/tests/mocks/libusermetrics
-            ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/liblightdm
+            ${UNITY_MOCKPATH}/libusermetrics
+            ${UNITY_MOCKPATH}/IntegratedLightDM/liblightdm
         )
     endif()
 

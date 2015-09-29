@@ -35,7 +35,7 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
-    nameAction.setActionId("launch_item");
+    nameAction.setActionId(QStringLiteral("launch_item"));
     nameAction.setText(m_name);
     m_quickList->appendAction(nameAction);
 }
@@ -55,7 +55,7 @@ void LauncherItem::setName(const QString &name)
     if (m_name != name) {
         m_name = name;
         QuickListEntry entry;
-        entry.setActionId("launch_item");
+        entry.setActionId(QStringLiteral("launch_item"));
         entry.setText(m_name);
         m_quickList->updateAction(entry);
         Q_EMIT nameChanged(name);

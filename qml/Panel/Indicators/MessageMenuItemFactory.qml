@@ -145,7 +145,7 @@ Loader {
             title: menuData && menuData.label || ""
             time: timeFormatter.timeString
             body: getExtendedProperty(extendedData, "xCanonicalText", "")
-            replyButtonText: getExtendedProperty(replyActionDescription, "label", "Send")
+            replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.tr("Send"))
             replyHintText: i18n.ctr("Label: Hint in message indicator line edit", "Reply")
             // icons
             avatar: getExtendedProperty(extendedData, "icon", "image://theme/contact")

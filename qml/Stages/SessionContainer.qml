@@ -20,11 +20,14 @@ import "Animations"
 FocusScope {
     id: root
     objectName: "sessionContainer"
+    implicitWidth: _surfaceContainer.implicitWidth
+    implicitHeight: _surfaceContainer.implicitHeight
     property QtObject session
     readonly property var childSessions: session ? session.childSessions : null
     readonly property alias surface: _surfaceContainer.surface
     property alias interactive: _surfaceContainer.interactive
     property alias surfaceOrientationAngle: _surfaceContainer.surfaceOrientationAngle
+    property alias resizeSurface: _surfaceContainer.resizeSurface
 
     readonly property alias surfaceContainer: _surfaceContainer
     SurfaceContainer {

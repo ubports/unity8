@@ -32,8 +32,6 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
-static const qreal bufferRatio = 0.5;
-
 VerticalJournal::VerticalJournal()
  : m_columnWidth(0)
 {

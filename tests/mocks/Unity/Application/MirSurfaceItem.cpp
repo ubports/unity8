@@ -38,7 +38,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_touchPressCount(0)
     , m_touchReleaseCount(0)
 {
-    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
+//    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
         Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
         Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
@@ -48,7 +48,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
 
 MirSurfaceItem::~MirSurfaceItem()
 {
-    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
+//    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
     setSurface(nullptr);
 }
 
@@ -136,7 +136,7 @@ void MirSurfaceItem::onComponentStatusChanged(QQmlComponent::Status status)
 
 void MirSurfaceItem::createQmlContentItem()
 {
-    qDebug() << "MirSurfaceItem::createQmlContentItem()";
+//    qDebug() << "MirSurfaceItem::createQmlContentItem()";
 
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
@@ -178,9 +178,9 @@ void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
 
 void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 {
-    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
-                                                   << " name=" << name()
-                                                   << " surface=" << surface;
+//    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
+//                                                   << " name=" << name()
+//                                                   << " surface=" << surface;
 
     if (m_qmlSurface == surface) {
         return;
@@ -215,12 +215,11 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         QQuickView *quickView =
             qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
 
-        QString qmlComponentFilePath;
+        QUrl qmlComponentFilePath;
         if (!m_qmlSurface->qmlFilePath().isEmpty()) {
-            qmlComponentFilePath.append(m_qmlSurface->qmlFilePath());
+            qmlComponentFilePath = m_qmlSurface->qmlFilePath();
         } else {
-            qmlComponentFilePath = QString("%1/Unity/Application/MirSurfaceItem.qml")
-                .arg(mockPluginsDir());
+            qmlComponentFilePath = QUrl("qrc:///Unity/Application/MirSurfaceItem.qml");
         }
 
         m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);
@@ -269,7 +268,7 @@ int MirSurfaceItem::surfaceWidth() const
 
 void MirSurfaceItem::setSurfaceWidth(int value)
 {
-    if (m_surfaceWidth != value) {
+    if (value != -1 && m_surfaceWidth != value) {
         m_surfaceWidth = value;
         Q_EMIT surfaceWidthChanged(m_surfaceWidth);
         updateSurfaceSize();
@@ -283,7 +282,7 @@ int MirSurfaceItem::surfaceHeight() const
 
 void MirSurfaceItem::setSurfaceHeight(int value)
 {
-    if (m_surfaceHeight != value) {
+    if (value != -1 && m_surfaceHeight != value) {
         m_surfaceHeight = value;
         Q_EMIT surfaceHeightChanged(m_surfaceHeight);
         updateSurfaceSize();

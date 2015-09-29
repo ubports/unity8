@@ -996,6 +996,60 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle);
         }
 
+        /*
+           Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1476757
+
+           Steps:
+           1- have a portrait-only app in foreground (eg unity8-dash)
+           2- launch or switch to some other application
+           3- right-edge swipe to show the apps spread
+           4- swipe up to close the current app (the one from step 2)
+           5- lock the phone (press the power button)
+           6- unlock the phone (press power button again and swipe greeter away)
+               * app from step 1 should be on foreground and focused
+           7- rotate phone
+
+           Expected outcome:
+           - The portrait-only application stays put
+
+           Actual outcome:
+           - The portrait-only application rotates freely
+         */
+        function test_lockPhoneAfterClosingAppInSpreadThenUnlockAndRotate() {
+            loadShell("mako");
+
+            var gmailApp = ApplicationManager.startApplication("gmail-webapp");
+            verify(gmailApp);
+
+            waitUntilAppSurfaceShowsUp("gmail-webapp");
+
+            performEdgeSwipeToShowAppSpread();
+
+            swipeToCloseCurrentAppInSpread();
+
+            // press the power key once
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "fullyShown", true);
+
+            // and a second time to turn the display back on
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+
+            swipeAwayGreeter();
+
+            verify(isAppSurfaceFocused("unity8-dash"))
+
+            signalSpy.clear();
+            signalSpy.target = shell;
+            signalSpy.signalName = "widthChanged";
+            verify(signalSpy.valid);
+
+            rotateTo(90);
+
+            // shell shouldn't have change its orientation at any moment
+            compare(signalSpy.count, 0);
+        }
+
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
         function rotateTo(angle) {
             switch (angle) {
@@ -1016,6 +1070,12 @@ Rectangle {
             }
 
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
+            verify(rotationStates.d);
+            verify(rotationStates.d.stateUpdateTimer);
+
+            // wait for the delayed state update to take place, if any
+            tryCompare(rotationStates.d.stateUpdateTimer, "running", false);
+
             waitUntilTransitionsEnd(rotationStates);
         }
 
@@ -1239,7 +1299,6 @@ Rectangle {
             var childs = new Array(0);
             childs.push(obj)
             while (childs.length > 0) {
-                console.log("Checking " + childs[0].objectName);
                 if (childs[0].objectName === "surfaceItem"
                         && childs[0].surface !== undefined
                         && childs[0].surface === surface) {
@@ -1251,6 +1310,52 @@ Rectangle {
                 childs.splice(0, 1);
             }
             return null;
+        }
+
+        function swipeToCloseCurrentAppInSpread() {
+            var spreadView = findChild(shell, "spreadView");
+            verify(spreadView);
+
+            var delegateToClose = findChild(spreadView, "appDelegate0");
+            verify(delegateToClose);
+
+            var appIdToClose = ApplicationManager.get(0).appId;;
+            var appCountBefore = ApplicationManager.count;
+
+            // ensure the current app is widely visible by swiping to the right,
+            // which will move the app windows accordingly
+            touchFlick(shell,
+                shell.width * 0.25, shell.width / 2,
+                shell.width, shell.width / 2);
+
+            tryCompare(spreadView, "flicking", false);
+            tryCompare(spreadView, "moving", false);
+
+            // Swipe up close to its left edge, as it is the only area of it guaranteed to be exposed
+            // in the spread. Eg: its center could be covered by some other delegate.
+            touchFlick(delegateToClose,
+                1, delegateToClose.height / 2,
+                1, - delegateToClose.height / 4);
+
+            // ensure it got closed
+            tryCompare(ApplicationManager, "count", appCountBefore - 1);
+            compare(ApplicationManager.findApplication(appIdToClose), null);
+        }
+
+        function isAppSurfaceFocused(appId) {
+            var appWindow = findChild(shell, "appWindow_" + appId);
+            verify(appWindow);
+
+            var app = ApplicationManager.findApplication(appId);
+            verify(app);
+
+            var surface = app.session.surface;
+            verify(surface);
+
+            var surfaceItem = findSurfaceItem(appWindow, surface);
+            verify(surfaceItem);
+
+            return surfaceItem.activeFocus;
         }
     }
 }

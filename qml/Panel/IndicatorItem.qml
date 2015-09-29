@@ -243,7 +243,7 @@ IndicatorDelegate {
             return;
         }
 
-        title = rootActionState.title ? rootActionState.title : "";
+        title = rootActionState.title ? rootActionState.title : rootActionState.accessibleName;
         leftLabel = rootActionState.leftLabel ? rootActionState.leftLabel : "";
         rightLabel = rootActionState.rightLabel ? rootActionState.rightLabel : "";
         icons = rootActionState.icons;

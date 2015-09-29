@@ -58,10 +58,10 @@ void IndicatorsPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType<UnityMenuModelCache>(uri, 0, 1, "UnityMenuModelCache", menuModelCacheSingleton);
 
-    qmlRegisterUncreatableType<MenuContentState>(uri, 0, 1, "MenuContentState", "Can't create MenuContentState class");
-    qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", "Can't create ActionState class");
-    qmlRegisterUncreatableType<NetworkActionState>(uri, 0, 1, "NetworkActionState", "Can't create NetworkActionState class");
-    qmlRegisterUncreatableType<NetworkConnection>(uri, 0, 1, "NetworkConnection", "Can't create NetworkConnection class");
-    qmlRegisterUncreatableType<IndicatorsModelRole>(uri, 0, 1, "IndicatorsModelRole", "Can't create IndicatorsModelRole class");
-    qmlRegisterUncreatableType<FlatMenuProxyModelRole>(uri, 0, 1, "FlatMenuProxyModelRole", "Can't create FlatMenuProxyModelRole class");
+    qmlRegisterUncreatableType<MenuContentState>(uri, 0, 1, "MenuContentState", QStringLiteral("Can't create MenuContentState class"));
+    qmlRegisterUncreatableType<ActionState>(uri, 0, 1, "ActionState", QStringLiteral("Can't create ActionState class"));
+    qmlRegisterUncreatableType<NetworkActionState>(uri, 0, 1, "NetworkActionState", QStringLiteral("Can't create NetworkActionState class"));
+    qmlRegisterUncreatableType<NetworkConnection>(uri, 0, 1, "NetworkConnection", QStringLiteral("Can't create NetworkConnection class"));
+    qmlRegisterUncreatableType<IndicatorsModelRole>(uri, 0, 1, "IndicatorsModelRole", QStringLiteral("Can't create IndicatorsModelRole class"));
+    qmlRegisterUncreatableType<FlatMenuProxyModelRole>(uri, 0, 1, "FlatMenuProxyModelRole", QStringLiteral("Can't create FlatMenuProxyModelRole class"));
 }
