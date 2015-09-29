@@ -31,36 +31,9 @@ FocusScope {
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    property int windowWidth: width
-    property int windowHeight: height
-
     signal close();
     signal maximize();
     signal minimize();
-
-    state: "normal"
-    states: [
-        State {
-            name: "normal"
-            PropertyChanges {
-                target: root
-                width: windowWidth
-                height: windowHeight
-            }
-        },
-        State {
-            name: "transformed"
-            PropertyChanges {
-                target: applicationWindow
-                itemScale: Math.max(root.width / root.windowWidth, root.height / root.windowHeight)
-                interactive: false
-            }
-            PropertyChanges {
-                target: clipper
-                clip: true
-            }
-        }
-    ]
 
     BorderImage {
         anchors {
@@ -98,29 +71,15 @@ FocusScope {
         visible: decorationShown
     }
 
-    Item {
-        id: clipper
-        anchors.fill: parent
-
-        ApplicationWindow {
-            id: applicationWindow
-            objectName: application ? "appWindow_" + application.appId : "appWindow_null"
-            anchors.top: parent.top
-            anchors.topMargin: root.decorationShown ? decoration.height : 0
-            anchors.left: parent.left
-            width: root.windowWidth
-            height: root.windowHeight - (root.decorationShown ? decoration.height : 0)
-            interactive: true
-            focus: true
-
-            property real itemScale: 1
-            transform: [
-                Scale {
-                    origin.x: 0; origin.y: 0
-                    xScale: applicationWindow.itemScale
-                    yScale: applicationWindow.itemScale
-                }
-            ]
-        }
+    ApplicationWindow {
+        id: applicationWindow
+        objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+        anchors.top: parent.top
+        anchors.topMargin: decoration.height
+        anchors.left: parent.left
+        width: root.width
+        height: root.height - decoration.height
+        interactive: true
+        focus: true
     }
 }

@@ -50,8 +50,8 @@ ScreenGrabber::ScreenGrabber(QObject *parent)
         qDebug() << "Using real environment";
         screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     }
-    screenshotsDir.mkpath("Screenshots");
-    screenshotsDir.cd("Screenshots");
+    screenshotsDir.mkpath(QStringLiteral("Screenshots"));
+    screenshotsDir.cd(QStringLiteral("Screenshots"));
     if (screenshotsDir.exists()) {
         fileNamePrefix = screenshotsDir.absolutePath();
         fileNamePrefix.append("/screenshot");
@@ -94,7 +94,7 @@ void ScreenGrabber::captureAndSave()
 QString ScreenGrabber::makeFileName() const
 {
     QString fileName(fileNamePrefix);
-    fileName.append(QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz"));
+    fileName.append(QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd_hhmmsszzz")));
     fileName.append(".");
     fileName.append(getFormat());
     return fileName;
@@ -103,5 +103,5 @@ QString ScreenGrabber::makeFileName() const
 QString ScreenGrabber::getFormat() const
 {
     //TODO: This should be configurable (perhaps through gsettings?)
-    return "png";
+    return QStringLiteral("png");
 }

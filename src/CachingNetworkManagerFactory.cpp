@@ -46,7 +46,7 @@ QNetworkAccessManager *CachingNetworkManagerFactory::create(QObject *parent) {
     QNetworkAccessManager *manager = new CachingNetworkAccessManager(parent);
 
     QNetworkDiskCache* cache = new QNetworkDiskCache(manager);
-    cache->setCacheDirectory(QString("%1/network").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
+    cache->setCacheDirectory(QStringLiteral("%1/network").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
 
     manager->setCache(cache);
     return manager;
