@@ -41,6 +41,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
+import Cursor 1.0
 
 
 Item {
@@ -63,7 +64,7 @@ Item {
     function updateFocusedAppOrientationAnimated() {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
-    property bool hasMouse
+    property bool hasMouse: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -188,11 +189,6 @@ Item {
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
-    }
-
-    ScreenGrabber {
-        id: screenGrabber
-        z: dialogs.z + 10
     }
 
     GlobalShortcut {
@@ -684,9 +680,20 @@ Item {
         onShowHome: showHome()
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        z: dialogs.z + 10
+    }
+
+    Cursor {
+        id: cursor
+        visible: shell.hasMouse
+        z: screenGrabber.z + 1
+    }
+
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: screenGrabber.z + 10
+        z: cursor.z + 1
         enabled: false
         visible: false
         color: "black"
