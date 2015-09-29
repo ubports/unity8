@@ -204,15 +204,15 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
         const QString actionId = model->get(actionIndex).actionId();
 
         // Check if this is one of the launcher actions we handle ourselves
-        if (actionId == "pin_item") {
+        if (actionId == QLatin1String("pin_item")) {
             if (item->pinned()) {
                 requestRemove(appId);
             } else {
                 pin(appId);
             }
-        } else if (actionId == "launch_item") {
+        } else if (actionId == QLatin1String("launch_item")) {
             QDesktopServices::openUrl(getUrlForAppId(appId));
-        } else if (actionId == "stop_item") { // Quit
+        } else if (actionId == QLatin1String("stop_item")) { // Quit
             if (m_appManager) {
                 m_appManager->stopApplication(appId);
             }
@@ -236,13 +236,13 @@ QString LauncherModel::getUrlForAppId(const QString &appId) const
         return QString();
     }
 
-    if (!appId.contains("_")) {
+    if (!appId.contains('_')) {
         return "application:///" + appId + ".desktop";
     }
 
     QStringList parts = appId.split('_');
     QString package = parts.value(0);
-    QString app = parts.value(1, "first-listed-app");
+    QString app = parts.value(1, QStringLiteral("first-listed-app"));
     return "appid://" + package + "/" + app + "/current-user-version";
 }
 
@@ -503,7 +503,7 @@ void LauncherModel::applicationAdded(const QModelIndex &parent, int row)
         return;
     }
 
-    if (app->appId() == "unity8-dash") {
+    if (app->appId() == QLatin1String("unity8-dash")) {
         // Not adding the dash app
         return;
     }

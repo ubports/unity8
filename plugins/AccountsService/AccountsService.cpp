@@ -74,7 +74,7 @@ void AccountsService::setDemoEdges(bool demoEdges)
 {
     if (m_demoEdges != demoEdges) {
         m_demoEdges = demoEdges;
-        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "demo-edges", demoEdges);
+        m_service->setUserProperty(m_user, QStringLiteral("com.canonical.unity.AccountsService"), QStringLiteral("demo-edges"), demoEdges);
 
         Q_EMIT demoEdgesChanged();
     }
@@ -114,7 +114,7 @@ void AccountsService::setHereEnabled(bool enabled)
 {
     if (m_hereEnabled != enabled) {
         m_hereEnabled = enabled;
-        m_service->setUserProperty(m_user, "com.ubuntu.location.providers.here.AccountsService", "LicenseAccepted", enabled);
+        m_service->setUserProperty(m_user, QStringLiteral("com.ubuntu.location.providers.here.AccountsService"), QStringLiteral("LicenseAccepted"), enabled);
 
         Q_EMIT hereEnabledChanged();
     }
@@ -133,8 +133,8 @@ bool AccountsService::hereLicensePathValid() const
 void AccountsService::updateDemoEdges(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.canonical.unity.AccountsService",
-                                                                    "demo-edges");
+                                                                    QStringLiteral("com.canonical.unity.AccountsService"),
+                                                                    QStringLiteral("demo-edges"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -162,8 +162,8 @@ void AccountsService::updateDemoEdges(bool async)
 void AccountsService::updateEnableLauncherWhileLocked(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
-                                                                    "EnableLauncherWhileLocked");
+                                                                    QStringLiteral("com.ubuntu.AccountsService.SecurityPrivacy"),
+                                                                    QStringLiteral("EnableLauncherWhileLocked"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -191,8 +191,8 @@ void AccountsService::updateEnableLauncherWhileLocked(bool async)
 void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
-                                                                    "EnableIndicatorsWhileLocked");
+                                                                    QStringLiteral("com.ubuntu.AccountsService.SecurityPrivacy"),
+                                                                    QStringLiteral("EnableIndicatorsWhileLocked"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -220,8 +220,8 @@ void AccountsService::updateEnableIndicatorsWhileLocked(bool async)
 void AccountsService::updateBackgroundFile(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "org.freedesktop.Accounts.User",
-                                                                    "BackgroundFile");
+                                                                    QStringLiteral("org.freedesktop.Accounts.User"),
+                                                                    QStringLiteral("BackgroundFile"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -249,8 +249,8 @@ void AccountsService::updateBackgroundFile(bool async)
 void AccountsService::updateStatsWelcomeScreen(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.ubuntu.touch.AccountsService.SecurityPrivacy",
-                                                                    "StatsWelcomeScreen");
+                                                                    QStringLiteral("com.ubuntu.touch.AccountsService.SecurityPrivacy"),
+                                                                    QStringLiteral("StatsWelcomeScreen"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -278,8 +278,8 @@ void AccountsService::updateStatsWelcomeScreen(bool async)
 void AccountsService::updatePasswordDisplayHint(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.ubuntu.AccountsService.SecurityPrivacy",
-                                                                    "PasswordDisplayHint");
+                                                                    QStringLiteral("com.ubuntu.AccountsService.SecurityPrivacy"),
+                                                                    QStringLiteral("PasswordDisplayHint"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -307,8 +307,8 @@ void AccountsService::updatePasswordDisplayHint(bool async)
 void AccountsService::updateFailedLogins(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.canonical.unity.AccountsService.Private",
-                                                                    "FailedLogins");
+                                                                    QStringLiteral("com.canonical.unity.AccountsService.Private"),
+                                                                    QStringLiteral("FailedLogins"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -336,8 +336,8 @@ void AccountsService::updateFailedLogins(bool async)
 void AccountsService::updateHereEnabled(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.ubuntu.location.providers.here.AccountsService",
-                                                                    "LicenseAccepted");
+                                                                    QStringLiteral("com.ubuntu.location.providers.here.AccountsService"),
+                                                                    QStringLiteral("LicenseAccepted"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -365,8 +365,8 @@ void AccountsService::updateHereEnabled(bool async)
 void AccountsService::updateHereLicensePath(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
-                                                                    "com.ubuntu.location.providers.here.AccountsService",
-                                                                    "LicenseBasePath");
+                                                                    QStringLiteral("com.ubuntu.location.providers.here.AccountsService"),
+                                                                    QStringLiteral("LicenseBasePath"));
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
 
     connect(watcher, &QDBusPendingCallWatcher::finished,
@@ -381,7 +381,7 @@ void AccountsService::updateHereLicensePath(bool async)
 
         QString hereLicensePath = reply.value().toString();
         if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
-            hereLicensePath = "";
+            hereLicensePath = QLatin1String("");
 
         if (m_hereLicensePath.isNull() || m_hereLicensePath != hereLicensePath) {
             m_hereLicensePath = hereLicensePath;
@@ -403,7 +403,7 @@ void AccountsService::setFailedLogins(uint failedLogins)
 {
     if (m_failedLogins != failedLogins) {
         m_failedLogins = failedLogins;
-        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService.Private", "FailedLogins", failedLogins);
+        m_service->setUserProperty(m_user, QStringLiteral("com.canonical.unity.AccountsService.Private"), QStringLiteral("FailedLogins"), failedLogins);
 
         Q_EMIT failedLoginsChanged();
     }
@@ -415,33 +415,33 @@ void AccountsService::onPropertiesChanged(const QString &user, const QString &in
         return;
     }
 
-    if (interface == "com.canonical.unity.AccountsService") {
-        if (changed.contains("demo-edges")) {
+    if (interface == QLatin1String("com.canonical.unity.AccountsService")) {
+        if (changed.contains(QStringLiteral("demo-edges"))) {
             updateDemoEdges();
         }
-    } else if (interface == "com.canonical.unity.AccountsService.Private") {
-        if (changed.contains("FailedLogins")) {
+    } else if (interface == QLatin1String("com.canonical.unity.AccountsService.Private")) {
+        if (changed.contains(QStringLiteral("FailedLogins"))) {
             updateFailedLogins();
         }
-    } else if (interface == "com.ubuntu.touch.AccountsService.SecurityPrivacy") {
-        if (changed.contains("StatsWelcomeScreen")) {
+    } else if (interface == QLatin1String("com.ubuntu.touch.AccountsService.SecurityPrivacy")) {
+        if (changed.contains(QStringLiteral("StatsWelcomeScreen"))) {
             updateStatsWelcomeScreen();
         }
-    } else if (interface == "com.ubuntu.AccountsService.SecurityPrivacy") {
-        if (changed.contains("PasswordDisplayHint")) {
+    } else if (interface == QLatin1String("com.ubuntu.AccountsService.SecurityPrivacy")) {
+        if (changed.contains(QStringLiteral("PasswordDisplayHint"))) {
             updatePasswordDisplayHint();
         }
-        if (changed.contains("EnableLauncherWhileLocked")) {
+        if (changed.contains(QStringLiteral("EnableLauncherWhileLocked"))) {
             updateEnableLauncherWhileLocked();
         }
-        if (changed.contains("EnableIndicatorsWhileLocked")) {
+        if (changed.contains(QStringLiteral("EnableIndicatorsWhileLocked"))) {
             updateEnableIndicatorsWhileLocked();
         }
-    } else if (interface == "com.ubuntu.location.providers.here.AccountsService") {
-        if (changed.contains("LicenseAccepted")) {
+    } else if (interface == QLatin1String("com.ubuntu.location.providers.here.AccountsService")) {
+        if (changed.contains(QStringLiteral("LicenseAccepted"))) {
             updateHereEnabled();
         }
-        if (changed.contains("LicenseBasePath")) {
+        if (changed.contains(QStringLiteral("LicenseBasePath"))) {
             updateHereLicensePath();
         }
     }
