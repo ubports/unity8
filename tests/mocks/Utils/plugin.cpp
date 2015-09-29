@@ -27,6 +27,7 @@
 #include "constants.h"
 
 // plugin
+#include <activefocuslogger.h>
 #include <inputwatcher.h>
 #include <qlimitproxymodelqml.h>
 #include <unitysortfilterproxymodelqml.h>
@@ -61,6 +62,7 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
+    qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
 }
 
 void FakeUtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

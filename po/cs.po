@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-07 10:44+0000\n"
 "Last-Translator: Vojtěch Daněk <vdanek@outlook.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 "Language: cs\n"
 
 #: plugins/LightDM/Greeter.cpp:112
@@ -722,8 +722,53 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Pokuste se odemknout telefon potažením prstu z pravého okraje."
+
+#~ msgid "Skip intro"
+#~ msgstr "Přeskočit intro"
+
+#~ msgid "Right edge"
+#~ msgstr "Pravý okraj"
+
+#~ msgid "Top edge"
+#~ msgstr "Horní okraj"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Pokuste se zpřístupnit indikátory potažením prstu z horního okraje"
+
+#~ msgid "Close"
+#~ msgstr "Uzavřít"
+
+#~ msgid "Left edge"
+#~ msgstr "Levý okraj"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Načítám. Čekejte prosím..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Mluvte..."
+
+#~ msgid "Confirm"
+#~ msgstr "Potvrdit"
+
+#~ msgid "Search"
+#~ msgstr "Hledat"
+
+#~ msgid "Speaking..."
+#~ msgstr "Mluvte..."
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Pro rychlý přístup k aplikacím potáhněte prst z levého okraje."
+
+#~ msgid "Well done"
+#~ msgstr "Výborně"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Napište nebo řekněte příkaz"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Přetažením nahoru dojde k uzavření obrazovky nastavení"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Vložte znovu"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Klikněte zde pro dokončení."

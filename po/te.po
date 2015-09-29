@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-07-19 10:04+0000\n"
 "Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
 "Language-Team: Telugu <te@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:43+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -701,3 +701,42 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Top edge"
+#~ msgstr "పై అంచు"
+
+#~ msgid "Close"
+#~ msgstr "మూసివేయి"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "అమరికల తెరను మూసివేయుటకు మరలా పైకి స్వైప్ చేయండి"
+
+#~ msgid "Left edge"
+#~ msgstr "ఎడమ అంచు"
+
+#~ msgid "Skip intro"
+#~ msgstr "పరిచయాన్ని దాటవేయి"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "ఫోను తాళంతీయుటకు కుడి అంచు నుండి స్వైప్ చేయ ప్రయత్నించండి"
+
+#~ msgid "Right edge"
+#~ msgstr "కుడి అంచు"
+
+#~ msgid "Well done"
+#~ msgstr "బాగా చేశారు"
+
+#~ msgid "Confirm"
+#~ msgstr "నిర్ధారించండి"
+
+#~ msgid "Search"
+#~ msgstr "వెతుకు"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "లోడవుతోంది. దయచేసి వేచివుండండి..."
+
+#~ msgid "Speaking..."
+#~ msgstr "మాట్లాడుతున్నారు..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "ఇప్పుడు మాట్లాడండి..."

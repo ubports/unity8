@@ -22,15 +22,15 @@ QString touchPointStateToString(Qt::TouchPointState state)
 {
     switch (state) {
     case Qt::TouchPointPressed:
-        return QString("pressed");
+        return QStringLiteral("pressed");
     case Qt::TouchPointMoved:
-        return QString("moved");
+        return QStringLiteral("moved");
     case Qt::TouchPointStationary:
-        return QString("stationary");
+        return QStringLiteral("stationary");
     case Qt::TouchPointReleased:
-        return QString("released");
+        return QStringLiteral("released");
     default:
-        return QString("INVALID_STATE");
+        return QStringLiteral("INVALID_STATE");
     }
 }
 
@@ -57,7 +57,7 @@ QString touchEventToString(const QTouchEvent *ev)
 
     foreach(const QTouchEvent::TouchPoint& touchPoint, ev->touchPoints()) {
         message.append(
-            QString("(id:%1, state:%2, scenePos:(%3,%4)) ")
+            QStringLiteral("(id:%1, state:%2, scenePos:(%3,%4)) ")
                 .arg(touchPoint.id())
                 .arg(touchPointStateToString(touchPoint.state()))
                 .arg(touchPoint.scenePos().x())
@@ -89,7 +89,7 @@ QString mouseEventToString(const QMouseEvent *ev)
         message.append("INVALID_MOUSE_EVENT_TYPE ");
     }
 
-    message.append(QString("pos(%1, %2)").arg(ev->x()).arg(ev->y()));
+    message.append(QStringLiteral("pos(%1, %2)").arg(ev->x()).arg(ev->y()));
 
     return message;
 }

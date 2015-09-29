@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,34 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CROPPEDIMAGESIZERASYNCWORKER_H
-#define CROPPEDIMAGESIZERASYNCWORKER_H
+#ifndef TIMEZONE_FORMATTER_H
+#define TIMEZONE_FORMATTER_H
 
-#include <QMutex>
 #include <QObject>
 
-class CroppedImageSizer;
-
-class QNetworkReply;
-
-class CroppedImageSizerAsyncWorker : public QObject
+class TimezoneFormatter : public QObject
 {
     Q_OBJECT
 public:
-    CroppedImageSizerAsyncWorker(CroppedImageSizer *sizer, QNetworkReply *reply);
+    TimezoneFormatter(QObject * parent = nullptr);
+    ~TimezoneFormatter() = default;
 
-    void abort();
-
-private Q_SLOTS:
-    void requestFinished();
-
-private:
-    static void processRequestFinished(CroppedImageSizerAsyncWorker *worker);
-
-    QMutex m_mutex;
-    CroppedImageSizer *m_sizer;
-    QNetworkReply *m_reply;
-    bool m_ignoreAbort;
+    Q_INVOKABLE QString currentTimeInTimezone(const QVariant &tzId) const;
 };
 
 #endif

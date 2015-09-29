@@ -30,7 +30,7 @@ WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)
 {
     QString dbPath = QDir::homePath() + "/.cache/unity8/";
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db = QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"));
     QDir dir;
     dir.mkpath(dbPath);
     m_db.setDatabaseName(dbPath + "windowstatestorage.sqlite");
@@ -51,7 +51,7 @@ void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect
 {
     QMutexLocker mutexLocker(&s_mutex);
 
-    QString queryString = QString("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
+    QString queryString = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
             .arg(windowId)
             .arg(rect.x())
             .arg(rect.y())
@@ -85,7 +85,7 @@ void WindowStateStorage::executeAsyncQuery(const QString &queryString)
 QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue)
 {
     QMutexLocker l(&s_mutex);
-    QString queryString = QString("SELECT * FROM geometry WHERE windowId = '%1';")
+    QString queryString = QStringLiteral("SELECT * FROM geometry WHERE windowId = '%1';")
             .arg(windowId);
     QSqlQuery query;
 
@@ -99,7 +99,7 @@ QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defa
     if (!query.first()) {
         return defaultValue;
     }
-    return QRect(query.value("x").toInt(), query.value("y").toInt(), query.value("width").toInt(), query.value("height").toInt());
+    return QRect(query.value(QStringLiteral("x")).toInt(), query.value(QStringLiteral("y")).toInt(), query.value(QStringLiteral("width")).toInt(), query.value(QStringLiteral("height")).toInt());
 }
 
 void WindowStateStorage::initdb()
@@ -110,8 +110,8 @@ void WindowStateStorage::initdb()
         return;
     }
 
-    if (!m_db.tables().contains("geometry")) {
+    if (!m_db.tables().contains(QStringLiteral("geometry"))) {
         QSqlQuery query;
-        query.exec("CREATE TABLE geometry(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER);");
+        query.exec(QStringLiteral("CREATE TABLE geometry(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER);"));
     }
 }

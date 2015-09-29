@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-29 09:41+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -730,8 +730,61 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
+#~ msgid "Confirm"
+#~ msgstr "التأكيد"
+
+#~ msgid "Type or say a command"
+#~ msgstr "اكتب أو قُل أمرا"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "يجري التحميل. برجاء الانتظار..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "تكلم الآن..."
+
+#~ msgid "Speaking..."
+#~ msgstr "تتكلم الآن..."
+
+#~ msgid "Search"
+#~ msgstr "ابحث"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "اسحب اصبعك من الحافة العلوية للوصول إلى المؤشرات"
+
+#~ msgid "Top edge"
+#~ msgstr "الحافة العلوية"
+
+#~ msgid "Close"
+#~ msgstr "أغلق"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "اسحب اصعبك لأعلى مرة أخرى لغلق شاشة الإعدادات"
+
+#~ msgid "Skip intro"
+#~ msgstr "تخطي المقدمة"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "اسحب اصبعك من الحافة اليمنى لفتح قفل الهاتف"
+
+#~ msgid "Right edge"
+#~ msgstr "الحافة اليمنى"
+
+#~ msgid "Left edge"
+#~ msgstr "الحافة اليسرى"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "اسحب أصبعك من الحافة اليسرى لإظهار شريط يونتي للوصول السريع للتطبيقات"
+
+#~ msgid "Well done"
+#~ msgstr "أحسنت!"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
+#~ "الشاشة للبدء"
+
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"
-
-#~ msgid "Click here to finish."
-#~ msgstr "انقر هنا للإنهاء."

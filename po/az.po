@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-09-03 16:39+0000\n"
 "Last-Translator: Nicat Məmmədov <n1c4t97@gmail.com>\n"
 "Language-Team: Azerbaijani <az@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -705,3 +705,83 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Confirm"
+#~ msgstr "Təsdiqlə"
+
+#~ msgid "Search"
+#~ msgstr "Axtar"
+
+#~ msgid "Top edge"
+#~ msgstr "Yuxarı künc"
+
+#~ msgid "Close"
+#~ msgstr "Bağla"
+
+#~ msgid "Left edge"
+#~ msgstr "Sol künc"
+
+#~ msgid "Well done"
+#~ msgstr "Təbriklər"
+
+#~ msgid "Right edge"
+#~ msgstr "Sağ Künc"
+
+#~ msgid "Speaking..."
+#~ msgstr "Danışır..."
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Yüklənir. Zəhmət olmasa, gözləyin..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Danışın..."
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Applikasiyalara sürətli keçid üçün paneli açmaq üçün sol küncdən çəkin"
+
+#~ msgid "Power off"
+#~ msgstr "Söndür"
+
+#~ msgid "All"
+#~ msgstr "Hamısı"
+
+#~ msgid "Favorites"
+#~ msgstr "Seçilmişlər"
+
+#~ msgid "Done"
+#~ msgstr "Başa çatdı"
+
+#~ msgid "Log out"
+#~ msgstr "Çıxış"
+
+#~ msgid "Shut down"
+#~ msgstr "Sistemi Söndür"
+
+#~ msgid "Reboot"
+#~ msgstr "Yenidən yüklə"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Göstəriciləri görmәk üçün yuxarı küncdən sürüşdürün"
+
+#~ msgid "Skip intro"
+#~ msgstr "Tәqdimatı keç"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Kilidi açmaq üçün sağ küncdən sürüşdürün"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Nizamlamalar ekranını bağlamaq üçün yenidən yuxarı sürüşdürün"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Siz künc hәrәkәtlәrini öyrәndiniz və telefonu istifadə etməyə başlaya "
+#~ "bilərsiniz.<br><br>Başlamaq üçün ekrana toxunun"
+
+#~ msgid "Settings"
+#~ msgstr "Tənzimləmələr"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Bir әmr söyləyin və ya yazın"

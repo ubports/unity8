@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-07-06 12:05+0000\n"
 "Last-Translator: Folmer Fredslund <Unknown>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -722,8 +722,60 @@ msgstr "〈 %1"
 msgid "%1  〉"
 msgstr "%1 〉"
 
+#~ msgid "Close"
+#~ msgstr "Luk"
+
+#~ msgid "Left edge"
+#~ msgstr "Venstre kant"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Prøv at stryge fra højre kant for at låse telefonen op"
+
+#~ msgid "Right edge"
+#~ msgstr "Højre kant"
+
+#~ msgid "Speaking..."
+#~ msgstr "Taler..."
+
+#~ msgid "Confirm"
+#~ msgstr "Bekræft"
+
+#~ msgid "Search"
+#~ msgstr "Søg"
+
+#~ msgid "Skip intro"
+#~ msgstr "Spring intro over"
+
+#~ msgid "Top edge"
+#~ msgstr "Øvre kant"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Prøv at stryge fra den øvre kant for at tilgå indikatorerne"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Stryg op igen for at låse indstillingsskærmen"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr "Stryg fra venstre for at vise opstarteren med hurtig adgang til apps"
+
+#~ msgid "Well done"
+#~ msgstr "Godt gjort"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Skriv eller indtal en kommando"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Indlæser. Vent venligst..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Tal nu..."
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Du mestrer nu kantbevægelserne og kan begynde at bruge telefonen<br><br>Tryk "
+#~ "på skærmen for at starte"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Vær venlig at genindtaste"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Tryk her for at afslutte."

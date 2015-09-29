@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-09-18 08:24+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -29,7 +29,7 @@ msgstr "Blocca scorciatoia"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Esci"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -463,7 +463,7 @@ msgstr "Rispondi"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
 msgid "Call back"
-msgstr ""
+msgstr "Richiama"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -722,8 +722,101 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Confirm"
+#~ msgstr "Conferma"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Scrivere o pronunciare un comando"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Caricamento. Attendere..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Parla ora..."
+
+#~ msgid "Speaking..."
+#~ msgstr "Sto parlando..."
+
+#~ msgid "Search"
+#~ msgstr "Cerca"
+
+#~ msgid "Right edge"
+#~ msgstr "Bordo destro"
+
+#~ msgid "Skip intro"
+#~ msgstr "Salta introduzione"
+
+#~ msgid "Top edge"
+#~ msgstr "Bordo superiore"
+
+#~ msgid "Close"
+#~ msgstr "Chiudi"
+
+#~ msgid "Left edge"
+#~ msgstr "Bordo sinistro"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr ""
+#~ "Provare a far scorrere dal bordo in alto per accedere agli indicatori"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Far scorrere il bordo sinistro per mostrare il Launcher e avere un rapido "
+#~ "accesso alle applicazioni"
+
+#~ msgid "Well done"
+#~ msgstr "Ben fatto"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Provare a far scorrere dal bordo destro per sbloccare il telefono"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "L'apprendimento dei gesti è stato  completato. È ora possibile iniziare a "
+#~ "usare il telefono.<br><br>Toccare lo schermo per iniziare"
+
+#~ msgid "All"
+#~ msgstr "Tutto"
+
+#~ msgid "Favorites"
+#~ msgstr "Preferiti"
+
+#~ msgid "Store"
+#~ msgstr "Store"
+
+#~ msgid "Power off"
+#~ msgstr "Spegni"
+
+#~ msgid "Done"
+#~ msgstr "Fatto"
+
+#~ msgid "Log out"
+#~ msgstr "Termina sessione"
+
+#~ msgid "Reboot"
+#~ msgstr "Riavvia"
+
+#~ msgid "Shut down"
+#~ msgstr "Spegni"
+
+#~ msgid "Settings"
+#~ msgstr "Impostazioni"
+
+#~ msgid "Power"
+#~ msgstr "Alimentazione"
+
+#~ msgid "Restart"
+#~ msgstr "Riavvia"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Gestisci Scope"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Inserire nuovamente"
 
-#~ msgid "Click here to finish."
-#~ msgstr "Fare clic qui per terminare."
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr ""
+#~ "Far scorrere nuovamente verso l'alto per chiudere la schermata delle "
+#~ "impostazioni"

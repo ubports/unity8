@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2013-11-23 11:44+0000\n"
 "Last-Translator: ST Alfas <Unknown>\n"
 "Language-Team: Malayalam <ml@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -701,3 +701,53 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Skip intro"
+#~ msgstr "ആമുഖം ഒഴിവാക്കുക"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "ഫോണ്‍ അണ്‍ലോക്ക് ചെയ്യാന്‍ വലതു വശത്തുനിന്ന് സ്വൈപ് ചെയ്ത് നോക്കുക"
+
+#~ msgid "Right edge"
+#~ msgstr "വലത് മൂല"
+
+#~ msgid "Top edge"
+#~ msgstr "മുകള്‍ വശം"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "സൂചകങ്ങള്‍ ലഭ്യമാക്കാന്‍ മുകള്‍ വശത്തുനിന്നും സ്വൈപ് ചെയ്യുക"
+
+#~ msgid "Close"
+#~ msgstr "അടക്കുക"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "ക്രമീകരണങ്ങളുടെ സ്ക്രീന്‍ അടക്കാന്‍ മുകളിലേക്ക് സ്വൈപ് ചെയ്യുക"
+
+#~ msgid "Left edge"
+#~ msgstr "ഇടത് വശം"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "പ്രയോഗങ്ങള്‍ പെട്ടെന്ന് ലഭ്യമാക്കുന്ന വിക്ഷേപിക ലഭ്യമാക്കാന്‍ ഇടതു വശത്ത് "
+#~ "നിന്നും സ്വൈപ് ചെയ്യുക"
+
+#~ msgid "Well done"
+#~ msgstr "നന്നായി ചെയ്തിരിക്കുന്നു"
+
+#~ msgid "Confirm"
+#~ msgstr "സ്ഥിരീകരിക്കുക"
+
+#~ msgid "Search"
+#~ msgstr "തിരയുക"
+
+#~ msgid "Type or say a command"
+#~ msgstr "ഒരു ആജ്ഞ പറയുകയോ ടൈപ്പുകയോ ചെയ്യുക"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "വരുന്നു. ദയവായി കാത്തിരിക്കുക..."
+
+#~ msgid "Speaking..."
+#~ msgstr "സംസാരിക്കുന്നു..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "ഇപ്പോള്‍ സംസാരിക്കുക..."

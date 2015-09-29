@@ -22,7 +22,7 @@ MirSurface::MirSurface(const QString& name,
         Mir::Type type,
         Mir::State state,
         const QUrl& screenshot,
-        const QString &qmlFilePath)
+        const QUrl &qmlFilePath)
     : unity::shell::application::MirSurfaceInterface(nullptr)
     , m_name(name)
     , m_type(type)
@@ -36,12 +36,12 @@ MirSurface::MirSurface(const QString& name,
     , m_width(-1)
     , m_height(-1)
 {
-    qDebug() << "MirSurface::MirSurface() " << name;
+//    qDebug() << "MirSurface::MirSurface() " << name;
 }
 
 MirSurface::~MirSurface()
 {
-    qDebug() << "MirSurface::~MirSurface() " << name();
+//    qDebug() << "MirSurface::~MirSurface() " << name();
 }
 
 QString MirSurface::name() const
@@ -75,7 +75,7 @@ bool MirSurface::live() const
 
 void MirSurface::setLive(bool live)
 {
-    qDebug().nospace() << "MirSurface::setLive("<<live<<") " << name();
+//    qDebug().nospace() << "MirSurface::setLive("<<live<<") " << name();
     if (live == m_live)
         return;
 
@@ -87,7 +87,7 @@ void MirSurface::setLive(bool live)
     }
 }
 
-QString MirSurface::qmlFilePath() const
+QUrl MirSurface::qmlFilePath() const
 {
     return m_qmlFilePath;
 }
@@ -123,13 +123,13 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
 void MirSurface::incrementViewCount()
 {
     ++m_viewCount;
-    qDebug().nospace() << "MirSurface::incrementViewCount() viewCount(after)=" << m_viewCount << " " << name();
+//    qDebug().nospace() << "MirSurface::incrementViewCount() viewCount(after)=" << m_viewCount << " " << name();
 }
 
 void MirSurface::decrementViewCount()
 {
     --m_viewCount;
-    qDebug().nospace() << "MirSurface::decrementViewCount() viewCount(after)=" << m_viewCount << " " << name();
+//    qDebug().nospace() << "MirSurface::decrementViewCount() viewCount(after)=" << m_viewCount << " " << name();
 
     Q_ASSERT(m_viewCount >= 0);
 
@@ -170,13 +170,20 @@ int MirSurface::height() const
 
 void MirSurface::resize(int width, int height)
 {
+    bool changed = false;
     if (width != m_width) {
         m_width = width;
         Q_EMIT widthChanged();
+        changed = true;
     }
 
     if (m_height != height) {
         m_height = height;
         Q_EMIT heightChanged();
+        changed = true;
+    }
+
+    if (changed) {
+        Q_EMIT sizeChanged(QSize(width, height));
     }
 }

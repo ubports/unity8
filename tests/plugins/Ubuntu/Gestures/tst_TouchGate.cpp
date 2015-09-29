@@ -119,7 +119,6 @@ QQuickView *tst_TouchGate::createView()
     QQuickView *window = new QQuickView(0);
     window->setResizeMode(QQuickView::SizeRootObjectToView);
     window->resize(720, 720);
-    window->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
 
     return window;
 }

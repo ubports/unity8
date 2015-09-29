@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-06-11 23:39+0000\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -716,8 +716,98 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
-#~ msgid "Click here to finish."
-#~ msgstr "Primi equí pa finar."
+#~ msgid "Skip intro"
+#~ msgstr "Omitir la intro"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Esliza'l deu dende'l berbesu drechu pa desbloquiar el teléfonu"
+
+#~ msgid "Right edge"
+#~ msgstr "Berbesu drechu"
+
+#~ msgid "Top edge"
+#~ msgstr "Berbesu superior"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Esliza'l deu dende'l berbesu superior p'acceder a los menús"
+
+#~ msgid "Close"
+#~ msgstr "Zarrar"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Esliza hacia arriba pa zarrar la pantalla d'axustes"
+
+#~ msgid "Left edge"
+#~ msgstr "Berbesu esquierdu"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Esliza'l deu dende la esquierda p'amosar el llanzador y acceder rápidamente "
+#~ "a les aplicaciones"
+
+#~ msgid "Well done"
+#~ msgstr "Bien fecho"
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmar"
+
+#~ msgid "Speaking..."
+#~ msgstr "Falando…"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Cargando, espera…"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Escribi o di una orde"
+
+#~ msgid "Speak Now..."
+#~ msgstr "Fala agora…"
+
+#~ msgid "Search"
+#~ msgstr "Guetar"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Agora yá domines los xestos de los berbesos y pues entamar a usar el "
+#~ "teléfonu<br><br>Toca la pantalla pa comenzar"
+
+#~ msgid "Power"
+#~ msgstr "Enerxía"
+
+#~ msgid "Log out"
+#~ msgstr "Zarrar sesión"
+
+#~ msgid "Reboot"
+#~ msgstr "Reaniciar"
+
+#~ msgid "Shut down"
+#~ msgstr "Apagar"
+
+#~ msgid "Settings"
+#~ msgstr "Axustes"
+
+#~ msgid "Power off"
+#~ msgstr "Apagar"
+
+#~ msgid "Done"
+#~ msgstr "Fecho"
+
+#~ msgid "Favorites"
+#~ msgstr "Favoritos"
+
+#~ msgid "All"
+#~ msgstr "Too"
+
+#~ msgid "Store"
+#~ msgstr "Tienda"
+
+#~ msgid "Restart"
+#~ msgstr "Reaniciar"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Xestionar ámbitos"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Por favor, reintroduzla"

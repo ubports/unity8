@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2015-03-22 15:56+0000\n"
 "Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:43+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -716,8 +716,88 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Confirm"
+#~ msgstr "Onayla"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Bir komut yazın veya söyleyin"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Yükleniyor. Lütfen Bekleyin..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Şimdi Konuşun..."
+
+#~ msgid "Speaking..."
+#~ msgstr "Konuşuyor..."
+
+#~ msgid "Search"
+#~ msgstr "Ara"
+
+#~ msgid "Top edge"
+#~ msgstr "Üst kenar"
+
+#~ msgid "Close"
+#~ msgstr "Kapat"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "Ayarlar ekranını kapatmak için tekrar yukarı kaydırın"
+
+#~ msgid "Right edge"
+#~ msgstr "Sağ kenar"
+
+#~ msgid "Left edge"
+#~ msgstr "Sol kenar"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Uygulamalara hızlı erişim çalıştırıcısını açmak için sol kenarı sürükleyin"
+
+#~ msgid "Well done"
+#~ msgstr "Tebrikler"
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Bildiricilere erişmek için üst kenarı sürükleyin"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "Kilidi açmak için sağ kenardan sürüklemeyi deneyin"
+
+#~ msgid "Skip intro"
+#~ msgstr "Tanıtımı geç"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Kenar haraketlerini öğrendiniz ve telefonu kullanmaya "
+#~ "başlayabilirsiniz<br><br>Başlamak için ekrana dokunun"
+
+#~ msgid "Done"
+#~ msgstr "Bitti"
+
+#~ msgid "Store"
+#~ msgstr "Mağaza"
+
+#~ msgid "Reboot"
+#~ msgstr "Yeniden başlat"
+
+#~ msgid "Shut down"
+#~ msgstr "Bilgisayarı Kapat"
+
+#~ msgid "Power"
+#~ msgstr "Güç"
+
+#~ msgid "Log out"
+#~ msgstr "Oturumu kapat"
+
+#~ msgid "Power off"
+#~ msgstr "Kapat"
+
+#~ msgid "Settings"
+#~ msgstr "Ayarlar"
+
+#~ msgid "Restart"
+#~ msgstr "Yeniden başlat"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Lütfen yeniden girin"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Bitirmek için buraya tıklayın."

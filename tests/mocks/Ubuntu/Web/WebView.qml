@@ -12,26 +12,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-#ifndef ACTIVE_FOCUS_LOGGER_H
-#define ACTIVE_FOCUS_LOGGER_H
+import QtQuick 2.0
 
-#include <QObject>
-#include <QQuickWindow>
-#include <QPointer>
+Item {
+    property url url
+    property int loadProgress: 0
 
-class ActiveFocusLogger : public QObject {
-    Q_OBJECT
-
-public:
-    void setWindow(QQuickWindow *window);
-
-private Q_SLOTS:
-    void printActiveFocusInfo();
-
-private:
-    QPointer<QQuickWindow> m_window;
-};
-
-#endif // ACTIVE_FOCUS_LOGGER_H
+    onUrlChanged: loadProgress = 100
+}

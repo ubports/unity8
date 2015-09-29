@@ -31,10 +31,10 @@ class ApplicationArguments : public QObject
 public:
     ApplicationArguments(QObject *parent = nullptr);
 
-    void setDeviceName(QString deviceName) { m_deviceName = deviceName; }
+    void setDeviceName(const QString &deviceName) { m_deviceName = deviceName; }
     QString deviceName() const { return m_deviceName; }
 
-    void setMode(QString mode) { m_mode = mode; }
+    void setMode(const QString &mode) { m_mode = mode; }
     QString mode() const { return m_mode; }
 
 private:

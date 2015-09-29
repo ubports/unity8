@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"PO-Revision-Date: 2014-10-28 06:34+0000\n"
 "Last-Translator: Vahan Harutyunyan <Unknown>\n"
 "Language-Team: Armenian <hy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-12 05:42+0000\n"
-"X-Generator: Launchpad (build 17720)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -706,5 +706,74 @@ msgstr ""
 msgid "%1  〉"
 msgstr ""
 
+#~ msgid "Confirm"
+#~ msgstr "Հաստատել"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Գրիր կամ ասա կոմմենտը"
+
+#~ msgid "Speaking..."
+#~ msgstr "Խոսում եմ..."
+
+#~ msgid "Search"
+#~ msgstr "Որոնում"
+
+#~ msgid "Log out"
+#~ msgstr "Ելք"
+
+#~ msgid "Reboot"
+#~ msgstr "Վերաբեռնել"
+
+#~ msgid "Shut down"
+#~ msgstr "Անջատել"
+
+#~ msgid "Power"
+#~ msgstr "Էլեկտրասնուցում"
+
+#~ msgid "Restart"
+#~ msgstr "Վերագործարկել"
+
+#~ msgid "Power off"
+#~ msgstr "Անջատել սնուցման աղբյուրից"
+
+#~ msgid "Top edge"
+#~ msgstr "Վերին եզրը"
+
+#~ msgid "Close"
+#~ msgstr "Փակել"
+
+#~ msgid "Left edge"
+#~ msgstr "Ձախ եզրը"
+
+#~ msgid "Well done"
+#~ msgstr "Լավ է"
+
+#~ msgid "Right edge"
+#~ msgstr "Աջ եզրը"
+
+#~ msgid "Settings"
+#~ msgstr "Կարգավորումներ"
+
+#~ msgid "Favorites"
+#~ msgstr "Նախընտրելի"
+
+#~ msgid "Store"
+#~ msgstr "Խանութ"
+
+#~ msgid "Done"
+#~ msgstr "Կատարված է"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Բեռնվում է: Խնդրում ենք սպասել..."
+
+#~ msgid "Speak Now..."
+#~ msgstr "Հիմա խոսեք..."
+
+#~ msgid "All"
+#~ msgstr "Բոլորը"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Խնդրում ենք նորից մուտքագրել"
+
+#~ msgid "Skip intro"
+#~ msgstr "Բաց թողնել ներածությունը"

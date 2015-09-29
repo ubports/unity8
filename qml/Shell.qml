@@ -63,6 +63,7 @@ Item {
     function updateFocusedAppOrientationAnimated() {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
+    property bool hasMouse
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -383,7 +384,7 @@ Item {
             // more clever here.
             active: usageScenario != "desktop" && AccountsService.demoEdges
 
-            paused: LightDM.Greeter.active
+            paused: lightDM.greeter.active
             launcher: launcher
             panel: panel
             edgeSize: shell.edgeSize
@@ -636,6 +637,7 @@ Item {
 
             model: NotificationBackend.Model
             margin: units.gu(1)
+            hasMouse: shell.hasMouse
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)

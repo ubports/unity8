@@ -34,8 +34,8 @@ static QObject *greeter_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(scriptEngine)
 
     Greeter *greeter = new Greeter();
-    new DBusGreeter(greeter, "/");
-    new DBusGreeterList(greeter, "/list");
+    new DBusGreeter(greeter, QStringLiteral("/"));
+    new DBusGreeterList(greeter, QStringLiteral("/list"));
 
     return greeter;
 }
@@ -64,6 +64,6 @@ void IntegratedLightDMPlugin::registerTypes(const char *uri)
     qRegisterMetaType<QLightDM::Greeter::PromptType>("QLightDM::Greeter::PromptType");
     qmlRegisterSingletonType<Greeter>(uri, 0, 1, "Greeter", greeter_provider);
     qmlRegisterSingletonType<UsersModel>(uri, 0, 1, "Users", users_provider);
-    qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", "Type is not instantiable");
+    qmlRegisterUncreatableType<QLightDM::UsersModel>(uri, 0, 1, "UserRoles", QStringLiteral("Type is not instantiable"));
     qmlRegisterSingletonType<UserMetricsOutput::UserMetrics>(uri, 0, 1, "Infographic", infographic_provider);
 }

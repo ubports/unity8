@@ -21,5 +21,5 @@ import QtQuick 2.0
 
 IndicatorBase {
     readonly property bool indicatorVisible: rootActionState.indicatorVisible
-    readonly property string title: rootActionState.title
+    readonly property string title: rootActionState.title || rootActionState.accessibleName
 }
