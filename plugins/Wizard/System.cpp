@@ -42,7 +42,7 @@ System::System()
 QString System::wizardEnabledPath()
 {
     // Uses ubuntu-system-settings namespace for historic compatibility reasons
-    return QDir::home().filePath(".config/ubuntu-system-settings/wizard-has-run");
+    return QDir::home().filePath(QStringLiteral(".config/ubuntu-system-settings/wizard-has-run"));
 }
 
 bool System::wizardEnabled() const
@@ -58,7 +58,7 @@ void System::setWizardEnabled(bool enabled)
     if (enabled) {
         QFile::remove(wizardEnabledPath());
     } else {
-        QDir(wizardEnabledPath()).mkpath("..");
+        QDir(wizardEnabledPath()).mkpath(QStringLiteral(".."));
         QFile(wizardEnabledPath()).open(QIODevice::WriteOnly);
         m_fsWatcher.addPath(wizardEnabledPath());
         Q_EMIT wizardEnabledChanged();
@@ -79,10 +79,10 @@ void System::setSessionVariable(const QString &variable, const QString &value)
     QMap<QString,QString> valueMap;
     valueMap.insert(variable, value);
 
-    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.DBus",
-                                                      "/org/freedesktop/DBus",
-                                                      "org.freedesktop.DBus",
-                                                      "UpdateActivationEnvironment");
+    QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DBus"),
+                                                      QStringLiteral("/org/freedesktop/DBus"),
+                                                      QStringLiteral("org.freedesktop.DBus"),
+                                                      QStringLiteral("UpdateActivationEnvironment"));
 
     msg << QVariant::fromValue(valueMap);
     QDBusConnection::sessionBus().asyncCall(msg);
@@ -90,21 +90,21 @@ void System::setSessionVariable(const QString &variable, const QString &value)
 
 void System::updateSessionLanguage(const QString &locale)
 {
-    const QString language = locale.split(".")[0];
+    const QString language = locale.split(QStringLiteral("."))[0];
 
-    setSessionVariable("LANGUAGE", language);
-    setSessionVariable("LANG", locale);
-    setSessionVariable("LC_ALL", locale);
+    setSessionVariable(QStringLiteral("LANGUAGE"), language);
+    setSessionVariable(QStringLiteral("LANG"), locale);
+    setSessionVariable(QStringLiteral("LC_ALL"), locale);
 
     // QLocale caches the default locale on startup, and Qt uses that cached
     // copy when formatting dates.  So manually update it here.
     QLocale::setDefault(QLocale(locale));
 
     // Restart bits of the session to pick up new language.
-    QProcess::startDetached("sh -c \"initctl emit indicator-services-end; \
+    QProcess::startDetached(QStringLiteral("sh -c \"initctl emit indicator-services-end; \
                                      initctl stop scope-registry; \
                                      initctl stop smart-scopes-proxy; \
                                      initctl emit --no-wait indicator-services-start; \
                                      initctl restart --no-wait maliit-server; \
-                                     initctl restart --no-wait unity8-dash\"");
+                                     initctl restart --no-wait unity8-dash\""));
 }

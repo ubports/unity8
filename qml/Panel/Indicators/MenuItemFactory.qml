@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 import QtQuick 2.0
@@ -23,7 +20,8 @@ import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.2
+import Unity.Session 0.1
 
 Item {
     id: menuFactory
@@ -60,6 +58,12 @@ Item {
             "unity.widgets.systemsettings.tablet.wifisection" : wifiSection,
             "unity.widgets.systemsettings.tablet.accesspoint" : accessPoint,
             "com.canonical.indicator.network.modeminfoitem" : modeminfoitem,
+
+            "com.canonical.indicator.calendar": calendarMenu,
+            "com.canonical.indicator.location": timezoneMenu,
+
+            "indicator.user-menu-item": userMenuItem,
+            "indicator.guest-menu-item": userMenuItem
         },
         "indicator-messages" : {
             "com.canonical.indicator.button"         : messagesButtonMenu
@@ -418,6 +422,90 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-color': 'string',
                                                              'x-canonical-time': 'int64',
                                                              'x-canonical-time-format': 'string'});
+            }
+        }
+    }
+
+    Component {
+        id: userMenuItem
+
+        Menus.UserSessionMenu {
+            objectName: "userSessionMenu"
+            highlightWhenPressed: false
+
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+
+            name: menuData && menuData.label || "" // label is the user's real name
+            iconSource: menuData && menuData.icon || ""
+
+            // would be better to compare with the logname but sadly the indicator doesn't expose that
+            active: DBusUnitySessionService.RealName() !== "" ? DBusUnitySessionService.RealName() == name
+                                                              : DBusUnitySessionService.UserName() == name
+
+            onTriggered: {
+                menuModel.activate(menuIndex);
+            }
+        }
+    }
+
+    Component {
+        id: calendarMenu
+
+        Menus.CalendarMenu {
+            objectName: "calendarMenu"
+            highlightWhenPressed: false
+            focus: true
+        }
+    }
+
+    Component {
+        id: timezoneMenu
+
+        Menus.TimeZoneMenu {
+            id: tzMenuItem
+            objectName: "timezoneMenu"
+
+            property QtObject menuData: null
+            property var menuModel: menuFactory.menuModel
+            property int menuIndex: -1
+            property var extendedData: menuData && menuData.ext || undefined
+            readonly property string tz: getExtendedProperty(extendedData, "xCanonicalTimezone", "UTC")
+            property var updateTimer: Timer {
+                repeat: true
+                running: tzMenuItem.visible // only run when we're open
+                onTriggered: tzMenuItem.time = Utils.TimezoneFormatter.currentTimeInTimezone(tzMenuItem.tz)
+            }
+
+            city: menuData && menuData.label || ""
+            time: Utils.TimezoneFormatter.currentTimeInTimezone(tz)
+            enabled: menuData && menuData.sensitive || false
+
+            onMenuModelChanged: {
+                loadAttributes();
+            }
+            onMenuIndexChanged: {
+                loadAttributes();
+            }
+            onTriggered: {
+                tzActionGroup.setLocation.activate(tz);
+            }
+
+            QDBusActionGroup {
+                id: tzActionGroup
+                busType: DBus.SessionBus
+                busName: "com.canonical.indicator.datetime"
+                objectPath: "/com/canonical/indicator/datetime"
+
+                property variant setLocation: action("set-location")
+
+                Component.onCompleted: tzActionGroup.start()
+            }
+
+            function loadAttributes() {
+                if (!menuModel || menuIndex == -1) return;
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-timezone': 'string'});
             }
         }
     }

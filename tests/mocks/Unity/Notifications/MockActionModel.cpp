@@ -59,7 +59,7 @@ QHash<int, QByteArray> ActionModel::roleNames() const {
     return roles;
 }
 
-Q_INVOKABLE QVariant ActionModel::data(int row, int role) const
+QVariant ActionModel::data(int row, int role) const
 {
     return data(index(row, 0), role);
 }

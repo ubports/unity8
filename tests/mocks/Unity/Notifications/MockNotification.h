@@ -30,7 +30,7 @@ struct MockNotificationPrivate;
 
 class MockNotification : public QObject {
     Q_OBJECT
-    Q_ENUMS(Type)
+    Q_ENUMS(Type Urgency)
     Q_PROPERTY(QString summary READ getSummary WRITE setSummary NOTIFY summaryChanged)
     Q_PROPERTY(QString body READ getBody WRITE setBody NOTIFY bodyChanged)
     Q_PROPERTY(int nid READ getID WRITE setID NOTIFY idChanged)

@@ -21,7 +21,7 @@
 #include <QStringList>
 
 DBusGreeterList::DBusGreeterList(Greeter *greeter, const QString &path)
- : UnityDBusObject(path, "com.canonical.UnityGreeter", true, greeter),
+ : UnityDBusObject(path, QStringLiteral("com.canonical.UnityGreeter"), true, greeter),
    m_greeter(greeter)
 {
     connect(m_greeter, &Greeter::authenticationUserChanged, this, &DBusGreeterList::authenticationUserChangedHandler);
@@ -45,12 +45,12 @@ bool DBusGreeterList::entryIsLocked() const
 
 void DBusGreeterList::authenticationUserChangedHandler(const QString &user)
 {
-    notifyPropertyChanged("ActiveEntry", user);
+    notifyPropertyChanged(QStringLiteral("ActiveEntry"), user);
     Q_EMIT EntrySelected(user);
 }
 
 void DBusGreeterList::promptlessChangedHandler()
 {
-    notifyPropertyChanged("EntryIsLocked", entryIsLocked());
+    notifyPropertyChanged(QStringLiteral("EntryIsLocked"), entryIsLocked());
     Q_EMIT entryIsLockedChanged();
 }
