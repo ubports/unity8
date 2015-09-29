@@ -200,7 +200,10 @@ Item {
             verify(!!panel);
 
             // wait until it gets fully extended
-            tryCompare(panel, "x", 0);
+            // a tryCompare doesn't work since
+            //    compare(-0.000005917593600024418, 0);
+            // is true and in this case we want exactly 0 or will have pain later on
+            tryCompareFunction( function(){ return panel.x === 0; }, true );
             tryCompare(launcher, "state", "visible");
         }
 
