@@ -377,6 +377,8 @@ Rectangle {
             LightDM.Greeter.authenticate(""); // reset greeter
 
             sessionSpy.clear();
+
+            GSettingsController.setLifecycleExemptAppids([]);
         }
 
         function killApps() {
@@ -1730,6 +1732,22 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
             keyRelease(Qt.Key_Control);
+        }
+
+        function test_lifecyclePolicy() {
+            loadShell("desktop");
+
+            GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
+
+            var app1 = ApplicationManager.startApplication("camera-app");
+            tryCompare(app1, "canSuspend", true);
+
+            var app2 = ApplicationManager.startApplication("webbrowser-app");
+            tryCompare(app2, "canSuspend", false);
+
+            var app3 = ApplicationManager.startApplication("libreoffice");
+            compare(app3.isTouchApp, false); // sanity check our mock, which sets this for us
+            tryCompare(app3, "canSuspend", false);
         }
     }
 }
