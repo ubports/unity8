@@ -21,7 +21,7 @@
 #include <QDebug>
 
 DBusDashCommunicatorService::DBusDashCommunicatorService(QObject *parent):
-    UnityDBusObject("/com/canonical/UnityDash", "com.canonical.UnityDash", false, parent)
+    UnityDBusObject(QStringLiteral("/com/canonical/UnityDash"), QStringLiteral("com.canonical.UnityDash"), false, parent)
 {
 }
 

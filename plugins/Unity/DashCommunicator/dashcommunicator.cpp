@@ -41,9 +41,9 @@ void DashCommunicator::setCurrentScope(int index, bool animate, bool isSwipe)
 
 void DashCommunicator::run()
 {
-    m_dashConnection = new DashConnection("com.canonical.UnityDash",
-                                 "/com/canonical/UnityDash",
-                                 "", this);
+    m_dashConnection = new DashConnection(QStringLiteral("com.canonical.UnityDash"),
+                                 QStringLiteral("/com/canonical/UnityDash"),
+                                 QLatin1String(""), this);
     m_mutex.lock();
     m_created = true;
     m_mutex.unlock();
