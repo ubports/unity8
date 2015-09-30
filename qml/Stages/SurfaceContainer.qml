@@ -38,13 +38,6 @@ FocusScope {
         }
     }
 
-    Connections {
-        target: root.surface
-        onNameChanged: {
-            root.name = name;
-        }
-    }
-
     InputWatcher {
         target: surfaceItem
         onTargetPressedChanged: {
