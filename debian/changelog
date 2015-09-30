@@ -1,3 +1,16 @@
+unity8 (8.11+15.10.20150930.1-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make Launcher::test_quickListMenuOnRMB stable (LP: #1500359)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Michael Zanetti ]
+  * Stabilize Launcher DND test
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 30 Sep 2015 10:09:33 +0000
+
 unity8 (8.11+15.10.20150925-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]
