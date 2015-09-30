@@ -465,7 +465,7 @@ void AccountsService::onPropertiesChanged(const QString &user, const QString &in
         if (changed.contains("demo-edges")) {
             updateDemoEdges();
         }
-        if (changed.contains("DemoEdgesCompleted")) {
+        if (changed.contains(QStringLiteral("DemoEdgesCompleted"))) {
             updateDemoEdgesCompleted();
         }
     } else if (interface == "com.canonical.unity.AccountsService.Private") {
