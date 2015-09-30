@@ -41,9 +41,7 @@ FocusScope {
     Connections {
         target: root.surface
         onNameChanged: {
-            if (name !== "") {
-                root.name = name;
-            }
+            root.name = name;
         }
     }
 
