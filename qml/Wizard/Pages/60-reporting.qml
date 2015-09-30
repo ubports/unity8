@@ -25,10 +25,12 @@ LocalComponents.Page {
     title: i18n.tr("Improving your experience")
     forwardButtonSourceComponent: forwardButton
 
+    skipValid: false
     skip: !diagnostics.reportCrashes // skip the page when the system is configured not to report crashes
 
     UbuntuDiagnostics {
         id: diagnostics
+        Component.onCompleted: skipValid = true;
     }
 
     Column {
