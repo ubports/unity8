@@ -62,7 +62,7 @@ LocalComponents.Page {
             showDivider: false
             text: i18n.tr("Improve system performance by sending us crashes and error reports.") + "<br><br><a href='#'>" +
                   i18n.tr("Privacy policy") + "</a>"
-            checked: true
+            checked: diagnostics.reportCrashes
             onLinkActivated: {
                 webview.url = "http://www.ubuntu.com/legal/terms-and-policies/privacy-policy";
                 webview.visible = true;
