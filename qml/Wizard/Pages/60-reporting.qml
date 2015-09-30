@@ -20,6 +20,7 @@ import Ubuntu.SystemSettings.Diagnostics 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
+    id: reportingPage
     objectName: "reportingPage"
 
     title: i18n.tr("Improving your experience")
@@ -30,7 +31,7 @@ LocalComponents.Page {
 
     UbuntuDiagnostics {
         id: diagnostics
-        Component.onCompleted: skipValid = true;
+        Component.onCompleted: reportingPage.skipValid = true;
     }
 
     Column {
