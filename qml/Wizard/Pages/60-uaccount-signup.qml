@@ -23,7 +23,7 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "ubuntuAccountSignUpPage"
 
-    title: i18n.tr("Create Account")
+    title: i18n.tr("Create Device Account")
     customTitle: true
     buttonBarVisible: false
 

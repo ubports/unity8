@@ -104,8 +104,8 @@ LocalComponents.Page {
             border.width: units.dp(1)
             border.color: 'white'
             radius: units.dp(4)
-            width: buttonLabel.paintedWidth + units.gu(3)
-            height: buttonLabel.paintedHeight + units.gu(1.5)
+            width: buttonLabel.paintedWidth + units.gu(6)
+            height: buttonLabel.paintedHeight + units.gu(1.7)
 
             Label {
                 id: buttonLabel

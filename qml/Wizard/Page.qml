@@ -141,7 +141,7 @@ Item {
             text: title
             color: customTitle ? textColor : backgroundColor
             fontSize: customTitle ? "large" : "x-large"
-            font.weight: customTitle ? Font.Light : Font.Normal
+            font.weight: Font.Light
         }
 
         // indicators

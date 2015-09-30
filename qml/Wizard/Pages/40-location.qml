@@ -234,7 +234,7 @@ LocalComponents.Page {
             }
             wrapMode: Text.Wrap
             textFormat: Text.RichText
-            text: i18n.tr("You can change it later in <em>System Settings</em>.")
+            text: i18n.tr("You can change it later in System Settings.")
             color: textColor
             fontSize: "small"
             font.weight: Font.Light

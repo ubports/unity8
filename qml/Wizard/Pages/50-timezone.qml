@@ -109,7 +109,7 @@ LocalComponents.Page {
             fill: content
             topMargin: customMargin
         }
-        spacing: units.gu(2)
+        spacing: units.gu(3)
 
         LocalComponents.WizardTextField {
             id: searchField

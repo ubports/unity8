@@ -57,7 +57,7 @@ LocalComponents.Page {
         if (secure) {
             imageName += "-secure";
         }
-        return "image://theme/" + imageName;
+        return imageName;
     }
 
     QMenuModel.UnityMenuModel {
@@ -96,17 +96,17 @@ LocalComponents.Page {
                                                           'x-canonical-wifi-ap-strength-action': 'string'});
             }
 
-            Image {
+            Icon {
                 id: apIcon
                 anchors {
                     left: parent.left
                     verticalCenter: parent.verticalCenter
                     leftMargin: leftMargin
                 }
-                fillMode: Image.PreserveAspectFit
-                height: accessPoint.height
-
-                source: getAPIcon(accessPoint.adHoc, accessPoint.signalStrength, accessPoint.secure)
+                height: units.gu(2)
+                width: height
+                name: getAPIcon(accessPoint.adHoc, accessPoint.signalStrength, accessPoint.secure)
+                color: textColor
             }
 
             Column {
