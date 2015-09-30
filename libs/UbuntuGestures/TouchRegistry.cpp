@@ -105,7 +105,7 @@ void TouchRegistry::deliverTouchUpdatesToUndecidedCandidatesAndWatchers(const QT
     // E.g.: a QTouchEvent might have three touches but a given item might be interested in only
     // one of them. So he will get a UnownedTouchEvent from this QTouchEvent containing only that
     // touch point.
-    QMap<QQuickItem*, QList<int>> touchIdsForItems;
+    QHash<QQuickItem*, QList<int>> touchIdsForItems;
 
     // Build touchIdsForItems
     m_touchInfoPool.forEach([&](Pool<TouchInfo>::Iterator &touchInfo) {

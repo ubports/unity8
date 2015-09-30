@@ -25,9 +25,9 @@ Connectivity::Connectivity(QObject *parent)
 
 void Connectivity::unlockAllModems()
 {
-    const QDBusMessage msg = QDBusMessage::createMethodCall("com.ubuntu.connectivity1",
-                                                            "/com/ubuntu/connectivity1/Private",
-                                                            "com.ubuntu.connectivity1.Private",
-                                                            "UnlockAllModems");
+    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.ubuntu.connectivity1"),
+                                                            QStringLiteral("/com/ubuntu/connectivity1/Private"),
+                                                            QStringLiteral("com.ubuntu.connectivity1.Private"),
+                                                            QStringLiteral("UnlockAllModems"));
     QDBusConnection::sessionBus().asyncCall(msg);
 }

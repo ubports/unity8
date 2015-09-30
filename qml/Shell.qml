@@ -63,6 +63,7 @@ Item {
     function updateFocusedAppOrientationAnimated() {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
+    property bool hasMouse
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -213,6 +214,20 @@ Item {
         width: parent.width
         height: parent.height
 
+        GSettings {
+            id: lifecycleExceptions
+            schema.id: "com.canonical.qtmir"
+        }
+
+        function isExemptFromLifecycle(appId) {
+            for (var i = 0; i < lifecycleExceptions.lifecycleExemptAppids.length; i++) {
+                if (appId === lifecycleExceptions.lifecycleExemptAppids[i]) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         Connections {
             target: ApplicationManager
 
@@ -242,6 +257,17 @@ Item {
 
             onApplicationAdded: {
                 launcher.hide();
+
+                // Apply lifecycle policy when an app is opened
+                var app = ApplicationManager.findApplication(appId);
+                if (app) {
+                    // We don't bother with a Qt.binding because isTouchApp is
+                    // marked as CONSTANT by unity-api, and we neither expect
+                    // the gsettings to change on us during the life of the app,
+                    // nor does it make a whole lot of sense to adjust the
+                    // lifecycle policy while the app is running.
+                    app.canSuspend = app.isTouchApp && !stages.isExemptFromLifecycle(appId);
+                }
             }
         }
 
@@ -636,6 +662,7 @@ Item {
 
             model: NotificationBackend.Model
             margin: units.gu(1)
+            hasMouse: shell.hasMouse
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)

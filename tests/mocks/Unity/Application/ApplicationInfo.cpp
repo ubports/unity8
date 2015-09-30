@@ -41,6 +41,8 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
             Qt::InvertedLandscapeOrientation)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
+    , m_isTouchApp(true)
+    , m_canSuspend(true)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -58,6 +60,8 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
             Qt::InvertedLandscapeOrientation)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
+    , m_isTouchApp(true)
+    , m_canSuspend(true)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -243,6 +247,27 @@ void ApplicationInfo::setRequestedState(RequestedState value)
             setState(Suspended);
         }
     }
+}
+
+bool ApplicationInfo::isTouchApp() const
+{
+    return m_isTouchApp;
+}
+
+void ApplicationInfo::setIsTouchApp(bool isTouchApp)
+{
+    m_isTouchApp = isTouchApp;
+}
+
+bool ApplicationInfo::canSuspend() const
+{
+    return m_canSuspend;
+}
+
+void ApplicationInfo::setCanSuspend(bool canSuspend)
+{
+    m_canSuspend = canSuspend;
+    Q_EMIT canSuspendChanged(canSuspend);
 }
 
 void ApplicationInfo::onSessionSurfaceChanged(MirSurface* surface)

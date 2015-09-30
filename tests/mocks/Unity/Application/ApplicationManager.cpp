@@ -458,6 +458,13 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("YouTube");
     application->setIconId("youtube");
     m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("libreoffice");
+    application->setName("LibreOffice");
+    application->setIconId("libreoffice");
+    application->setIsTouchApp(false);
+    m_availableApplications.append(application);
 }
 
 

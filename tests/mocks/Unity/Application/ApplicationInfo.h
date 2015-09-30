@@ -89,6 +89,12 @@ public:
     bool manualSurfaceCreation() const { return m_manualSurfaceCreation; }
     void setManualSurfaceCreation(bool value);
 
+    bool isTouchApp() const override;
+    void setIsTouchApp(bool isTouchApp); // only in mock
+
+    bool canSuspend() const override;
+    void setCanSuspend(bool canSuspend) override;
+
 public:
     void setSession(Session* session);
     Session* session() const { return m_session; }
@@ -121,6 +127,8 @@ private:
     Qt::ScreenOrientations m_supportedOrientations;
     bool m_rotatesWindowContents;
     RequestedState m_requestedState;
+    bool m_isTouchApp;
+    bool m_canSuspend;
 
     bool m_manualSurfaceCreation;
 };
