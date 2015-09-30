@@ -39,6 +39,7 @@ public:
         Proximity       = 3, // Display changed state due to proximity events
         Notification    = 4, // Display changed state due to user notification
         SnapDecision    = 5, // Display changed state due to snap decision prompt
+        CallDone        = 6, // Display changed state due to voice call end
     };
 
     enum Status {
