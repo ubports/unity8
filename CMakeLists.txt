@@ -101,6 +101,9 @@ add_definitions(-DQT_NO_KEYWORDS)
 # Save a few container detach and conversions
 add_definitions(-DQT_STRICT_ITERATORS)
 
+# Use the fast string builder
+add_definitions(-DQT_USE_QSTRINGBUILDER)
+
 # Autopilot tests
 include(autopilot)
 declare_autopilot_test(shell unity8.shell ${CMAKE_SOURCE_DIR}/tests/autopilot/)
