@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import AccountsService 0.1
+import Unity.Application 0.1
 
 Item {
     id: root
@@ -51,15 +52,14 @@ Item {
         launcher: root.launcher
         hides: [launcher, panel.indicators]
 
-        Component.onCompleted: {
+        function showIfReady() {
             if (AccountsService.demoEdgesCompleted.indexOf("left") == -1) {
                 show();
             }
         }
 
-        onFinished: {
-            AccountsService.markDemoEdgeCompleted("left");
-        }
+        Component.onCompleted: showIfReady()
+        onFinished: AccountsService.markDemoEdgeCompleted("left")
     }
 
     TutorialTop {
@@ -69,24 +69,32 @@ Item {
         panel: root.panel
         hides: [launcher, panel.indicators]
 
-        Connections {
-            target: AccountsService
-            onDemoEdgesCompletedChanged: {
-                if (AccountsService.demoEdgesCompleted.indexOf("left") != -1 &&
-                        AccountsService.demoEdgesCompleted.indexOf("top") == -1) {
-                    tutorialTopTimer.start();
-                }
-            }
+        function isReady() {
+            return AccountsService.demoEdgesCompleted.indexOf("left") != -1 &&
+                   AccountsService.demoEdgesCompleted.indexOf("top") == -1;
         }
 
         Timer {
             id: tutorialTopTimer
-            interval: 1
-            onTriggered: tutorialTop.show()
+            interval: 60000
+            onTriggered: if (isReady()) tutorialTop.show()
         }
 
-        onFinished: {
-            AccountsService.markDemoEdgeCompleted("top");
+        Connections {
+            target: AccountsService
+            onDemoEdgesCompletedChanged: if (isReady()) tutorialTopTimer.start()
+        }
+
+        Component.onCompleted: if (isReady()) tutorialTopTimer.start()
+        onFinished: AccountsService.markDemoEdgeCompleted("top")
+
+        Connections {
+            target: panel.indicators
+            onFullyOpenedChanged: {
+                if (panel.indicators.fullyOpened) {
+                    AccountsService.markDemoEdgeCompleted("top");
+                }
+            }
         }
     }
 
@@ -97,24 +105,38 @@ Item {
         stage: root.stage
         hides: [launcher, panel.indicators]
 
-        Connections {
-            target: AccountsService
-            onDemoEdgesCompletedChanged: {
-                if (AccountsService.demoEdgesCompleted.indexOf("top") != -1 &&
-                        AccountsService.demoEdgesCompleted.indexOf("right") == -1) {
-                    tutorialRightTimer.start();
-                }
-            }
+        function isReady() {
+            return AccountsService.demoEdgesCompleted.indexOf("left") != -1 &&
+                   AccountsService.demoEdgesCompleted.indexOf("top") != -1 &&
+                   AccountsService.demoEdgesCompleted.indexOf("right") == -1 &&
+                   ApplicationManager.count >= 3;
         }
 
         Timer {
             id: tutorialRightTimer
-            interval: 1
-            onTriggered: tutorialRight.show()
+            interval: 3000
+            onTriggered: if (isReady()) tutorialRight.show()
         }
 
-        onFinished: {
-            AccountsService.markDemoEdgeCompleted("right");
+        Connections {
+            target: AccountsService
+            onDemoEdgesCompletedChanged: if (isReady()) tutorialRightTimer.start()
+        }
+
+        Connections {
+            target: ApplicationManager
+            onApplicationAdded: if (isReady()) tutorialRight.show()
+        }
+
+        onFinished: AccountsService.markDemoEdgeCompleted("right")
+
+        Connections {
+            target: stage
+            onDragProgressChanged: {
+                if (stage.dragProgress >= 0.1) {
+                    AccountsService.markDemoEdgeCompleted("right");
+                }
+            }
         }
     }
 
@@ -124,20 +146,33 @@ Item {
         anchors.fill: parent
         hides: [launcher, panel.indicators]
 
-        Connections {
-            target: AccountsService
-            onDemoEdgesCompletedChanged: {
-                if (AccountsService.demoEdgesCompleted.indexOf("right") != -1 &&
-                        AccountsService.demoEdgesCompleted.indexOf("bottom") == -1) {
-                    tutorialBottomTimer.start();
-                }
-            }
+        function isReady() {
+            return AccountsService.demoEdgesCompleted.indexOf("left") != -1 &&
+                   AccountsService.demoEdgesCompleted.indexOf("top") != -1 &&
+                   AccountsService.demoEdgesCompleted.indexOf("right") != -1 &&
+                   AccountsService.demoEdgesCompleted.indexOf("bottom") == -1 &&
+                   // focused app is an app known to have a bottom edge
+                   (ApplicationManager.focusedApplicationId == "dialer-app" ||
+                    ApplicationManager.focusedApplicationId == "webbrowser-app" ||
+                    ApplicationManager.focusedApplicationId == "messaging-app" ||
+                    ApplicationManager.focusedApplicationId == "camera-app" ||
+                    ApplicationManager.focusedApplicationId == "clock-app");
         }
 
         Timer {
             id: tutorialBottomTimer
-            interval: 1
-            onTriggered: tutorialBottom.show()
+            interval: 3000
+            onTriggered: if (isReady()) tutorialBottom.show()
+        }
+
+        Connections {
+            target: AccountsService
+            onDemoEdgesCompletedChanged: if (isReady()) tutorialBottomTimer.start()
+        }
+
+        Connections {
+            target: ApplicationManager
+            onFocusedApplicationIdChanged: if (isReady()) tutorialBottom.show()
         }
 
         onFinished: {

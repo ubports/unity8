@@ -44,11 +44,6 @@ Item {
         }
     }
 
-    Connections {
-        target: panel.indicators
-        onFullyOpenedChanged: AccountsService.markDemoEdgeCompleted("top")
-    }
-
     Loader {
         id: loader
         anchors.fill: parent
