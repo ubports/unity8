@@ -98,7 +98,7 @@ Rectangle {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
-                    orientations: Orientations{ id: orientations }
+                    orientations: Orientations{} // Defaults are fine for testing
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
