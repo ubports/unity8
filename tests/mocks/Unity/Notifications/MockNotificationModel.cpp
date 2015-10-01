@@ -35,6 +35,10 @@ MockNotificationModel::MockNotificationModel(QObject *parent) : QAbstractListMod
 }
 
 MockNotificationModel::~MockNotificationModel() {
+    Q_FOREACH(MockNotification *n, m_queue) {
+        n->deleteLater();
+    }
+    m_queue.clear();
 }
 
 int MockNotificationModel::rowCount(const QModelIndex &) const {
@@ -47,7 +51,7 @@ int MockNotificationModel::getCount() const {
 
 QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid())
-            return QVariant();
+        return QVariant();
 
     switch(role) {
         case ModelInterface::RoleType:

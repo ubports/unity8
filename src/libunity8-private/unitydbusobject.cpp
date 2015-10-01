@@ -64,8 +64,8 @@ void UnityDBusObject::notifyPropertyChanged(const QString& propertyName, const Q
     changedProps.insert(propertyName, value);
 
     message = QDBusMessage::createSignal(path(),
-                                         "org.freedesktop.DBus.Properties",
-                                         "PropertiesChanged");
+                                         QStringLiteral("org.freedesktop.DBus.Properties"),
+                                         QStringLiteral("PropertiesChanged"));
     message << interface;
     message << changedProps;
     message << QStringList();

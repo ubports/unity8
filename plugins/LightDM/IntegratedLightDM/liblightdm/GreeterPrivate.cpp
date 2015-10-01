@@ -90,7 +90,7 @@ connect(&futureWatcher, &QFutureWatcher<int>::finished, this, &GreeterImpl::fini
         } else {
             delete appData;
             greeterPrivate->authenticated = false;
-            Q_EMIT greeter->showMessage("Internal error: could not start PAM authentication", QLightDM::Greeter::MessageTypeError);
+            Q_EMIT greeter->showMessage(QStringLiteral("Internal error: could not start PAM authentication"), QLightDM::Greeter::MessageTypeError);
             Q_EMIT greeter->authenticationComplete();
         }
     }

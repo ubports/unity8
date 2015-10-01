@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-09-30 05:42+0000\n"
+"X-Generator: Launchpad (build 17768)\n"
 
 #: plugins/LightDM/Greeter.cpp:112
 msgid "Password: "
@@ -31,7 +31,7 @@ msgstr "تثبيت الاختصار"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "خروج"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -347,12 +347,16 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"إذا تم إدخال العبارة السرية بشكل خاطئ، فسوف يتم إعادة الهاتف لحالة ضبط "
+"المصنع وسيتم حذف كافة البيانات الشخصية."
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"إذا تم إدخال العبارة السرية بشكل خاطئ، فسوف يتم إعادة الهاتف لحالة ضبط "
+"المصنع وسيتم حذف كافة البيانات الشخصية."
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
@@ -479,7 +483,7 @@ msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "فتح قفل بطاقة SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
@@ -673,6 +677,8 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"باختيارك لهذا الخيار فإنك توافق على <a href='#'>الشروط والأحكام</a> الخاصة "
+"بـ Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"

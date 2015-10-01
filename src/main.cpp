@@ -44,7 +44,7 @@ int main(int argc, const char *argv[])
         isMirServer = true;
     }
 
-    QGuiApplication::setApplicationName("unity8");
+    QGuiApplication::setApplicationName(QStringLiteral("unity8"));
     QGuiApplication *application;
 
     application = new QGuiApplication(argc, (char**)argv);
@@ -66,7 +66,7 @@ int main(int argc, const char *argv[])
     // The testability driver is only loaded by QApplication but not by QGuiApplication.
     // However, QApplication depends on QWidget which would add some unneeded overhead => Let's load the testability driver on our own.
     if (parser.hasTestability() || getenv("QT_LOAD_TESTABILITY")) {
-        QLibrary testLib(QLatin1String("qttestability"));
+        QLibrary testLib(QStringLiteral("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);
             TasInitialize initFunction = (TasInitialize)testLib.resolve("qt_testability_init");
@@ -86,7 +86,7 @@ int main(int argc, const char *argv[])
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setColor("black");
-    view->setTitle("Unity8 Shell");
+    view->setTitle(QStringLiteral("Unity8 Shell"));
 
     if (parser.windowGeometry().isValid()) {
         view->setWidth(parser.windowGeometry().width());
@@ -94,7 +94,7 @@ int main(int argc, const char *argv[])
     }
 
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
-    view->rootContext()->setContextProperty("applicationArguments", &qmlArgs);
+    view->rootContext()->setContextProperty(QStringLiteral("applicationArguments"), &qmlArgs);
     if (parser.hasFrameless()) {
         view->setFlags(Qt::FramelessWindowHint);
     }
