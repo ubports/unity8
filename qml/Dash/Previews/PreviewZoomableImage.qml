@@ -39,6 +39,7 @@ PreviewWidget {
         anchors {
             left: parent.left
             right: parent.right
+            margins: -units.gu(2) // to counterbalance the margins of each Preview and have them touch the edges
         }
         scaleTo: "width"
         source: widgetData["source"]
