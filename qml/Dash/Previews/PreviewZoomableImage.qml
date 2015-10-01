@@ -35,7 +35,6 @@ PreviewWidget {
     LazyImage {
         id: lazyImage
         objectName: "lazyImage"
-
         anchors {
             left: parent.left
             right: parent.right
