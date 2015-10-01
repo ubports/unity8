@@ -632,12 +632,13 @@ Rectangle {
                     Binding {
                         target: spreadTile.application
                         property: "requestedState"
-                        value: (spreadTile.isDash && root.keepDashRunning)
-                            ||
-                            (!root.suspended && (model.appId == priv.mainStageAppId
-                                                 || model.appId == priv.sideStageAppId))
-                            ? ApplicationInfoInterface.RequestedRunning
-                            : ApplicationInfoInterface.RequestedSuspended
+                        value: !model.isTouchApp
+                                   || stages.isExemptFromLifecycle(model.appId)
+                                   || (isDash && root.keepDashRunning)
+                                   || (!root.suspended && (model.appId == priv.mainStageAppId
+                                                           || model.appId == priv.sideStageAppId))
+                               ? ApplicationInfoInterface.RequestedRunning
+                               : ApplicationInfoInterface.RequestedSuspended
                     }
 
                     // FIXME: A regular binding doesn't update any more after closing an app.

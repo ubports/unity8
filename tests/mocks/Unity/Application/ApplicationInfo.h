@@ -92,9 +92,6 @@ public:
     bool isTouchApp() const override;
     void setIsTouchApp(bool isTouchApp); // only in mock
 
-    bool canSuspend() const override;
-    void setCanSuspend(bool canSuspend) override;
-
 public:
     void setSession(Session* session);
     Session* session() const { return m_session; }
@@ -128,7 +125,6 @@ private:
     bool m_rotatesWindowContents;
     RequestedState m_requestedState;
     bool m_isTouchApp;
-    bool m_canSuspend;
 
     bool m_manualSurfaceCreation;
 };

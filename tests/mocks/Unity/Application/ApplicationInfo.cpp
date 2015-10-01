@@ -42,7 +42,6 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
     , m_isTouchApp(true)
-    , m_canSuspend(true)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -61,7 +60,6 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
     , m_isTouchApp(true)
-    , m_canSuspend(true)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -257,17 +255,6 @@ bool ApplicationInfo::isTouchApp() const
 void ApplicationInfo::setIsTouchApp(bool isTouchApp)
 {
     m_isTouchApp = isTouchApp;
-}
-
-bool ApplicationInfo::canSuspend() const
-{
-    return m_canSuspend;
-}
-
-void ApplicationInfo::setCanSuspend(bool canSuspend)
-{
-    m_canSuspend = canSuspend;
-    Q_EMIT canSuspendChanged(canSuspend);
 }
 
 void ApplicationInfo::onSessionSurfaceChanged(MirSurface* surface)

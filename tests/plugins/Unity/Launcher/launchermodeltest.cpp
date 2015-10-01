@@ -58,8 +58,6 @@ public:
     Qt::ScreenOrientations supportedOrientations() const override { return Qt::PortraitOrientation; }
     bool rotatesWindowContents() const override { return false; }
     bool isTouchApp() const override { return true; }
-    bool canSuspend() const override { return true; }
-    void setCanSuspend(bool) override {}
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }

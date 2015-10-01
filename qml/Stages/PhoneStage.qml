@@ -441,9 +441,12 @@ Rectangle {
                     Binding {
                         target: appDelegate.application
                         property: "requestedState"
-                        value: (isDash && root.keepDashRunning) || (!root.suspended && appDelegate.focus)
-                            ? ApplicationInfoInterface.RequestedRunning
-                            : ApplicationInfoInterface.RequestedSuspended
+                        value: !model.isTouchApp
+                                   || stages.isExemptFromLifecycle(model.appId)
+                                   || (isDash && root.keepDashRunning)
+                                   || (!root.suspended && appDelegate.focus)
+                               ? ApplicationInfoInterface.RequestedRunning
+                               : ApplicationInfoInterface.RequestedSuspended
                     }
 
                     readonly property bool isDash: model.appId == "unity8-dash"

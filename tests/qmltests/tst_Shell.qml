@@ -1734,20 +1734,39 @@ Rectangle {
             keyRelease(Qt.Key_Control);
         }
 
-        function test_lifecyclePolicy() {
-            loadShell("desktop");
+        function test_lifecyclePolicy_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true},
+                {tag: "desktop", formFactor: "tablet", usageScenario: "desktop", suspendsApps: false}
+            ]
+        }
+
+        function test_lifecyclePolicy(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
 
             GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
 
             var app1 = ApplicationManager.startApplication("camera-app");
-            tryCompare(app1, "canSuspend", true);
-
+            waitUntilAppWindowIsFullyLoaded(app1);
             var app2 = ApplicationManager.startApplication("webbrowser-app");
-            tryCompare(app2, "canSuspend", false);
-
+            waitUntilAppWindowIsFullyLoaded(app2);
             var app3 = ApplicationManager.startApplication("libreoffice");
+            waitUntilAppWindowIsFullyLoaded(app3);
+            var app4 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app4);
+
+            compare(app1.requestedState, data.suspendsApps ?
+                                         ApplicationInfoInterface.RequestedSuspended :
+                                         ApplicationInfoInterface.RequestedRunning);
+
+            compare(app2.requestedState, ApplicationInfoInterface.RequestedRunning);
+
             compare(app3.isTouchApp, false); // sanity check our mock, which sets this for us
-            tryCompare(app3, "canSuspend", false);
+            compare(app3.requestedState, ApplicationInfoInterface.RequestedRunning);
+
+            compare(app4.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
     }
 }

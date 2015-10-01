@@ -219,6 +219,7 @@ Item {
             schema.id: "com.canonical.qtmir"
         }
 
+        // Used by stage code
         function isExemptFromLifecycle(appId) {
             var shortAppId = appId.split('_')[0];
             for (var i = 0; i < lifecycleExceptions.lifecycleExemptAppids.length; i++) {
@@ -258,17 +259,6 @@ Item {
 
             onApplicationAdded: {
                 launcher.hide();
-
-                // Apply lifecycle policy when an app is opened
-                var app = ApplicationManager.findApplication(appId);
-                if (app) {
-                    // We don't bother with a Qt.binding because isTouchApp is
-                    // marked as CONSTANT by unity-api, and we neither expect
-                    // the gsettings to change on us during the life of the app,
-                    // nor does it make a whole lot of sense to adjust the
-                    // lifecycle policy while the app is running.
-                    app.canSuspend = app.isTouchApp && !stages.isExemptFromLifecycle(appId);
-                }
             }
         }
 
