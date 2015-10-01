@@ -104,6 +104,7 @@ Item {
             property url nextSource
             property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
+            anchors.fill: parent
             visible: !useUbuntuShape
             fillMode: Image.PreserveAspectFit
             asynchronous: true

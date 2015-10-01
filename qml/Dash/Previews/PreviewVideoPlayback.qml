@@ -51,6 +51,7 @@ PreviewWidget {
             return "";
         }
         initialHeight: width * 10 / 16
+        useUbuntuShape: false
 
         Image {
             objectName: "playButton"

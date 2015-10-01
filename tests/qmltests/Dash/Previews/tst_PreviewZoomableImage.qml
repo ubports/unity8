@@ -41,7 +41,7 @@ Rectangle {
 
     Loader {
         id: loader
-        anchors.centerIn: parent
+        width: parent.width
         sourceComponent: PreviewZoomableImage {
             widgetData: widgetData0
         }
