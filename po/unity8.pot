@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-22 04:33+0200\n"
+"POT-Creation-Date: 2015-10-02 00:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,8 +69,8 @@ msgstr ""
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
 msgstr ""
@@ -109,8 +109,8 @@ msgstr ""
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
 msgstr ""
@@ -1149,7 +1149,7 @@ msgstr ""
 #: qml/Components/Dialogs.qml:224 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32 qml/Wizard/Pages/password-set.qml:137
 #: qml/Wizard/Pages/uaccount-signin.qml:26
-#: qml/Wizard/Pages/60-uaccount-signup.qml:29
+#: qml/Wizard/Pages/60-uaccount-signup.qml:151
 msgid "Cancel"
 msgstr ""
 
@@ -1268,6 +1268,8 @@ msgstr ""
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr ""
 
@@ -1382,62 +1384,62 @@ msgstr ""
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:718
+#: qml/Panel/Indicators/MenuItemFactory.qml:727
 msgid "Nothing is playing"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:851
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:865
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:859
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "0 seconds"
 msgstr ""
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:861
+#: qml/Panel/Indicators/MenuItemFactory.qml:870
 #, qt-format
 msgid "%1 remaining"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:867
+#: qml/Panel/Indicators/MenuItemFactory.qml:876
 msgid "In queue…"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:871
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "Downloading"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:873
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:875
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Canceled"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:877
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Finished"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:879
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Failed, tap to retry"
 msgstr ""
 
@@ -1624,7 +1626,7 @@ msgstr ""
 msgid "Sign In"
 msgstr ""
 
-#: qml/Wizard/Pages/uaccount.qml:67 qml/Wizard/Pages/60-uaccount-signup.qml:26
+#: qml/Wizard/Pages/uaccount.qml:67
 msgid "Create Account"
 msgstr ""
 
@@ -1637,12 +1639,12 @@ msgid "Privacy policy"
 msgstr ""
 
 #: qml/Wizard/Pages/uaccount-signin.qml:42
-#: qml/Wizard/Pages/60-uaccount-signup.qml:55
+#: qml/Wizard/Pages/60-uaccount-signup.qml:45
 msgid "Email:"
 msgstr ""
 
 #: qml/Wizard/Pages/uaccount-signin.qml:67
-#: qml/Wizard/Pages/60-uaccount-signup.qml:103
+#: qml/Wizard/Pages/60-uaccount-signup.qml:93
 msgid "Password:"
 msgstr ""
 
@@ -1710,7 +1712,7 @@ msgid "Don't use my location"
 msgstr ""
 
 #: qml/Wizard/Pages/40-location.qml:237
-msgid "You can change it later in <em>System Settings</em>."
+msgid "You can change it later in System Settings."
 msgstr ""
 
 #: qml/Wizard/Pages/50-timezone.qml:27
@@ -1722,22 +1724,18 @@ msgid "Enter your city"
 msgstr ""
 
 #: qml/Wizard/Pages/60-uaccount-signup.qml:26
-msgid "Terms And Conditions"
+msgid "Create Device Account"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:29
-msgid "Back"
-msgstr ""
-
-#: qml/Wizard/Pages/60-uaccount-signup.qml:81
+#: qml/Wizard/Pages/60-uaccount-signup.qml:71
 msgid "Your name:"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:136
+#: qml/Wizard/Pages/60-uaccount-signup.qml:126
 msgid "Repeat password:"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:204
+#: qml/Wizard/Pages/60-uaccount-signup.qml:164
 msgid "Sign Up"
 msgstr ""
 
