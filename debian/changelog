@@ -1,3 +1,14 @@
+unity8 (8.11+15.10.20151001-0ubuntu1) wily; urgency=medium
+
+  [ Alexandros Frantzis ]
+  * Use power state change reason SnapDecision to turn screen on when a
+    SnapDecision arrives (LP: #1291455)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- Alexandros Frantzis <alexandros.frantzis@canonical.com>  Thu, 01 Oct 2015 12:04:04 +0000
+
 unity8 (8.11+15.10.20150930.1-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]
