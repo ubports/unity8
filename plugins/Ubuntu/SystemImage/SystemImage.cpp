@@ -25,9 +25,9 @@ SystemImage::SystemImage(QObject *parent)
 
 void SystemImage::factoryReset()
 {
-    const QDBusMessage msg = QDBusMessage::createMethodCall("com.canonical.SystemImage",
-                                                            "/Service",
-                                                            "com.canonical.SystemImage",
-                                                            "FactoryReset");
+    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.canonical.SystemImage"),
+                                                            QStringLiteral("/Service"),
+                                                            QStringLiteral("com.canonical.SystemImage"),
+                                                            QStringLiteral("FactoryReset"));
     QDBusConnection::systemBus().asyncCall(msg);
 }

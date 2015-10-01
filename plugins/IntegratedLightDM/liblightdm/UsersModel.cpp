@@ -55,7 +55,7 @@ UsersModel::UsersModel(QObject *parent) :
     setRoleNames(roles);
 
     // Now modify our mock user backgrounds
-    QDir bgdir = QDir("/usr/share/demo-assets/shell/backgrounds/");
+    QDir bgdir = QDir(QStringLiteral("/usr/share/demo-assets/shell/backgrounds/"));
     QStringList backgrounds = bgdir.entryList(QDir::Files | QDir::NoDotAndDotDot);
 
     for (int i = 0, j = 0; i < d->entries.size(); i++) {

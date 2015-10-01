@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-09-24 05:55+0000\n"
+"POT-Creation-Date: 2015-09-16 00:49+0200\n"
+"PO-Revision-Date: 2015-09-24 05:59+0000\n"
 "Last-Translator: eltikin <eltikinuyghur@hotmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-24 05:56+0000\n"
-"X-Generator: Launchpad (build 17749)\n"
+"X-Launchpad-Export-Date: 2015-09-30 05:43+0000\n"
+"X-Generator: Launchpad (build 17768)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "ئىم: "
 
@@ -133,72 +133,72 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "%1 مىنۇت كۈتۈپ ئاندىن قايتا سىناڭ…"
 
-#: qml/Components/Dialogs.qml:112
+#: qml/Components/Dialogs.qml:115
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "تىزىمدىن چىق"
 
-#: qml/Components/Dialogs.qml:113
+#: qml/Components/Dialogs.qml:116
 msgid "Are you sure you want to log out?"
 msgstr "راستلا چىقىپ كېتەمسىز؟"
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "قۇلۇپلا"
 
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "تىزىمدىن چىق"
 
-#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
-#: qml/Components/Dialogs.qml:221
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224
 msgid "Cancel"
 msgstr "بولدىلا"
 
-#: qml/Components/Dialogs.qml:141
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "تاقا"
 
-#: qml/Components/Dialogs.qml:142
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to shut down?"
 msgstr "راستلا تاقامسىز؟"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "قايتا قوزغات"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "تاقا"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "قايتا قوزغات"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "راستلا قايتا قوزغىتامسىز؟"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "ياق"
 
-#: qml/Components/Dialogs.qml:185
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
 msgstr "ھەئە"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "توك مەنبە"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -206,12 +206,12 @@ msgstr ""
 "راستلا\n"
 "توكنى ئۈزەمسىز؟"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "توكنى ئۈز"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "قايتا قوزغات"
@@ -272,8 +272,10 @@ msgstr "تېخىمۇ كۆپ…"
 msgid "Less..."
 msgstr "ئازراق..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "يوللا"
 
@@ -295,7 +297,7 @@ msgstr "قويۇۋەتسە يېڭىلىنىدۇ…"
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "ئۇرۇن سانلىق مەلۇمات ئىلىتشكە باشلىدى"
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
@@ -392,59 +394,59 @@ msgstr "سۆزلىشىشكە قايتىش ئۈچۈن چېكىڭ…"
 msgid "Conference"
 msgstr "يىغىن"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:674
+#: qml/Panel/Indicators/MenuItemFactory.qml:718
 msgid "Nothing is playing"
 msgstr "ھېچ نېمە قويۇلمايۋاتىدۇ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 سائەت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:807
+#: qml/Panel/Indicators/MenuItemFactory.qml:851
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 مىنۇت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:812
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 سېكۇنت"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:815
+#: qml/Panel/Indicators/MenuItemFactory.qml:859
 msgid "0 seconds"
 msgstr "0 سېكۇنت"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:817
+#: qml/Panel/Indicators/MenuItemFactory.qml:861
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1  قالدۇقى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:823
+#: qml/Panel/Indicators/MenuItemFactory.qml:867
 msgid "In queue…"
 msgstr "قاتاردا…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:827
+#: qml/Panel/Indicators/MenuItemFactory.qml:871
 msgid "Downloading"
 msgstr "چۈشۈرۈۋاتىدۇ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:829
+#: qml/Panel/Indicators/MenuItemFactory.qml:873
 msgid "Paused, tap to resume"
 msgstr "توختىتىلغان، چەكسە داۋاملىشىدۇ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:831
+#: qml/Panel/Indicators/MenuItemFactory.qml:875
 msgid "Canceled"
 msgstr "قالدۇرۇۋېتىلدى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:833
+#: qml/Panel/Indicators/MenuItemFactory.qml:877
 msgid "Finished"
 msgstr "تاماملاندى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:835
+#: qml/Panel/Indicators/MenuItemFactory.qml:879
 msgid "Failed, tap to retry"
 msgstr "مەغلۇپ بولدى، چېكىپ قايتا سىناڭ"
 
@@ -504,11 +506,11 @@ msgstr ""
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "قايتا سىناڭ"
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "قوزغىتىلغان دېتاللارنى كۆرۈش"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
@@ -516,7 +518,7 @@ msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "ئىجىرا بۇلۇۋاتقان بارلىق ۋەزىپىلەرنى كۆرۈش"
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
@@ -590,60 +592,62 @@ msgstr "تېلېفوننى قانداق قۇلۇپسىزلاشنى تاللاڭ.
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "تېز سىيرىش"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "بىخەتەرلىكى يوق"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "ئىم"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "4 خانىلىق سان"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "ئىم"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "رەقەم ۋە ھەرپلەر"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "سىمسىز تورغا(Wi-Fi) باغلان"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "ئىشلەتكىلى بولىدىغان تورلار…"
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "ئىشلەتكىلى بولىدىغان تور يوق."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "ئورنى"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "تىلفۇن ئورنىڭزنى بىكتىۋاتدۇ:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "GPS ئىشلىتىش (توپ توغرا چىقمايدۇ)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"GPS ئىشلىەتكەندە سېمسىز تور ياكى كۆچمە تىلفۇن تورنى ئېچىش كېرەك (تەۋسىيە "
+"قىلىندۇ)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -654,55 +658,59 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "پەقەت ئۇنداق ئەمەس"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "سىز <b>سىستېما تەڭشەك</b> تىن ھەرخىل ئۆزگەرتىشلەرنى ئىلىپ بارالايسىز"
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "سەۋىيەيىڭىز ئاشىدۇ"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"تېلېفونىڭىز خاتالىقلارنى Canonical ۋە ئۇنىڭ بىلەن ھەمكارلاشقانلارغا ۋە "
+"مەشغۇلات سىستېمىسىنى ياسىغۇچىلارغا ئاپتوماتىك مەلۇم قىلىدىغان قىلىپ تەڭشەلدى."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"بۇنى <b>بىخەتەرلىك &amp; شەخسىيەت</b>نىڭ ئاستىدىكى <b>سىستېما تەڭشىكى</b>دە "
+"ئىناۋەتسىز قىلىشقا بولىدۇ."
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "ھەممىسى تامام"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "جاپا چەكتىڭىز!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "تېلېفونىڭىز ئىشلىتىشكە ھازىرلاندى."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "تامام"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "جەزملە"

@@ -33,8 +33,6 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
-static const qreal bufferRatio = 0.5;
-
 HorizontalJournal::HorizontalJournal()
  : m_firstVisibleIndex(-1)
  , m_rowHeight(0)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"POT-Creation-Date: 2015-09-22 04:33+0200\n"
 "PO-Revision-Date: 2015-08-25 14:12+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
@@ -16,10 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-09-30 05:43+0000\n"
+"X-Generator: Launchpad (build 17768)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Ger-tremen : "
 
@@ -116,6 +116,998 @@ msgstr "%a %H:%M"
 msgid "%a %d %b %H:%M"
 msgstr "%a  %b %d %H:%M"
 
+#: plugins/Wizard/LocalePlugin.cpp:28
+msgid "Ivory Coast"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:29
+msgid "Ghana"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:30
+msgid "Ethiopia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:31
+msgid "Algeria"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:32
+msgid "Eritrea"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:33
+msgid "Mali"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:34
+msgid "Central African Republic"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:35
+msgid "Gambia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:36
+msgid "Guinea Bissau"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:37
+msgid "Malawi"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:38
+msgid "Congo Brazzaville"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:39
+msgid "Burundi"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:40
+msgid "Egypt"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:41
+msgid "Morocco"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:42
+msgid "Spain"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:43
+msgid "Guinea"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:44
+msgid "Senegal"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:45
+msgid "Tanzania"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:46
+msgid "Djibouti"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:47
+msgid "Cameroon"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:48
+msgid "Western Sahara"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:49
+msgid "Sierra Leone"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:50
+msgid "Botswana"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:51
+msgid "Zimbabwe"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:52
+msgid "South Africa"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:53
+msgid "South Sudan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:54
+msgid "Uganda"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:55
+msgid "Sudan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:56
+msgid "Rwanda"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:57
+msgid "Congo (Kinshasa)"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:58
+msgid "Nigeria"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:59
+msgid "Gabon"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:60
+msgid "Togo"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:61
+msgid "Angola"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:62
+msgid "Zambia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:63
+msgid "Equatorial Guinea"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:64
+msgid "Mozambique"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:65
+msgid "Lesotho"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:66
+msgid "Swaziland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:67
+msgid "Somalia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:68
+msgid "Liberia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:69
+msgid "Kenya"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:70
+msgid "Chad"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:71
+msgid "Niger"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:72
+msgid "Mauritania"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:73
+msgid "Burkina Faso"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:74
+msgid "Benin"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:75
+msgid "Sao Tome And Principe"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:76
+msgid "Libya"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:77
+msgid "Tunisia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:78
+msgid "Namibia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:79
+msgid "United States"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:80
+msgid "Anguilla"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:81
+msgid "Antigua And Barbuda"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:82
+msgid "Brazil"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:83
+msgid "Argentina"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:84
+msgid "Aruba"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:85
+msgid "Paraguay"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:86
+msgid "Canada"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:87
+msgid "Mexico"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:88
+msgid "Barbados"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:89
+msgid "Belize"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:90
+msgid "Colombia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:91
+msgid "Venezuela"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:92
+msgid "French Guiana"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:93
+msgid "Cayman Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:94
+msgid "Costa Rica"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:95
+msgid "Cura Sao"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:96
+msgid "Greenland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:97
+msgid "Dominica"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:98
+msgid "El Salvador"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:99
+msgid "Turks And Caicos Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:100
+msgid "Grenada"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:101
+msgid "Guadeloupe"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:102
+msgid "Guatemala"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:103
+msgid "Ecuador"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:104
+msgid "Guyana"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:105
+msgid "Cuba"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:106
+msgid "Jamaica"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:107
+msgid "Bonaire"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:108
+msgid "Bolivia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:109
+msgid "Peru"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:110
+msgid "Sint Maarten"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:111
+msgid "Nicaragua"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:112
+msgid "Saint Martin"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:113
+msgid "Martinique"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:114
+msgid "Saint Pierre And Miquelon"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:115
+msgid "Uruguay"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:116
+msgid "Montserrat"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:117
+msgid "Bahamas"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:118
+msgid "Panama"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:119
+msgid "Suriname"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:120
+msgid "Haiti"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:121
+msgid "Trinidad And Tobago"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:122
+msgid "Puerto Rico"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:123
+msgid "Chile"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:124
+msgid "Dominican Republic"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:125
+msgid "Saint Barthelemy"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:126
+msgid "Saint Kitts And Nevis"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:127
+msgid "Saint Lucia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:128
+msgid "United States Virgin Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:129
+msgid "Saint Vincent And The Grenadines"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:130
+msgid "Honduras"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:131
+msgid "British Virgin Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:132
+msgid "Antarctica"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:133
+msgid "Australia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:134
+msgid "Svalbard And Jan Mayen Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:135
+msgid "Yemen"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:136
+msgid "Kazakhstan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:137
+msgid "Jordan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:138
+msgid "Russia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:139
+msgid "Turkmenistan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:140
+msgid "Iraq"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:141
+msgid "Bahrain"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:142
+msgid "Azerbaijan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:143
+msgid "Thailand"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:144
+msgid "Lebanon"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:145
+msgid "Kyrgyzstan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:146
+msgid "Brunei"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:147
+msgid "Mongolia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:148
+msgid "China"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:149
+msgid "Sri Lanka"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:150
+msgid "Syria"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:151
+msgid "Bangladesh"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:152
+msgid "East Timor"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:153
+msgid "United Arab Emirates"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:154
+msgid "Tajikistan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:155
+msgid "Palestinian Territories"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:156
+msgid "Vietnam"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:157
+msgid "Hong Kong"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:158
+msgid "Indonesia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:159
+msgid "Israel"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:160
+msgid "Afghanistan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:161
+msgid "Pakistan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:162
+msgid "Nepal"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:163
+msgid "India"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:164
+msgid "Malaysia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:165
+msgid "Kuwait"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:166
+msgid "Macau"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:167
+msgid "Philippines"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:168
+msgid "Oman"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:169
+msgid "Cyprus"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:170
+msgid "Cambodia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:171
+msgid "North Korea"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:172
+msgid "Qatar"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:173
+msgid "Myanmar"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:174
+msgid "Saudi Arabia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:175
+msgid "Uzbekistan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:176
+msgid "South Korea"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:177
+msgid "Singapore"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:178
+msgid "Taiwan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:179
+msgid "Georgia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:180
+msgid "Iran"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:181
+msgid "Bhutan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:182
+msgid "Japan"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:183
+msgid "Laos"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:184
+msgid "Armenia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:185
+msgid "Portugal"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:186
+msgid "Bermuda"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:187
+msgid "Cape Verde"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:188
+msgid "Faroe Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:189
+msgid "Iceland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:190
+msgid "South Georgia And The South Sandwich Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:191
+msgid "Saint Helena"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:192
+msgid "Falkland Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:193
+msgid "Netherlands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:194
+msgid "Andorra"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:195
+msgid "Greece"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:196
+msgid "Serbia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:197
+msgid "Germany"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:198
+msgid "Slovakia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:199
+msgid "Belgium"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:200
+msgid "Romania"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:201
+msgid "Hungary"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:202
+msgid "Moldova"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:203
+msgid "Denmark"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:204
+msgid "Ireland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:205
+msgid "Gibraltar"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:206
+msgid "Guernsey"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:207
+msgid "Finland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:208
+msgid "Isle Of Man"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:209
+msgid "Turkey"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:210
+msgid "Jersey"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:211
+msgid "Ukraine"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:212
+msgid "Slovenia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:213
+msgid "United Kingdom"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:214
+msgid "Luxembourg"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:215
+msgid "Malta"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:216
+msgid "Aland Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:217
+msgid "Belarus"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:218
+msgid "Monaco"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:219
+msgid "Norway"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:220
+msgid "France"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:221
+msgid "Montenegro"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:222
+msgid "Czech Republic"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:223
+msgid "Latvia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:224
+msgid "Italy"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:225
+msgid "San Marino"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:226
+msgid "Bosnia And Herzegowina"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:227
+msgid "Macedonia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:228
+msgid "Bulgaria"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:229
+msgid "Sweden"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:230
+msgid "Estonia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:231
+msgid "Albania"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:232
+msgid "Liechtenstein"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:233
+msgid "Vatican City State"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:234
+msgid "Austria"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:235
+msgid "Lithuania"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:236
+msgid "Poland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:237
+msgid "Croatia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:238
+msgid "Switzerland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:239
+msgid "Madagascar"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:240
+msgid "British Indian Ocean Territory"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:241
+msgid "ChristmasIsland"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:242
+msgid "CocosIslands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:243
+msgid "Comoros"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:244
+msgid "French Southern Territories"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:245
+msgid "Seychelles"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:246
+msgid "Maldives"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:247
+msgid "Mauritius"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:248
+msgid "Mayotte"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:249
+msgid "Reunion"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:250
+msgid "Samoa"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:251
+msgid "New Zealand"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:252
+msgid "Micronesia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:253
+msgid "Vanuatu"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:254
+msgid "Kiribati"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:255
+msgid "Tokelau"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:256
+msgid "Fiji"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:257
+msgid "Tuvalu"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:258
+msgid "French Polynesia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:259
+msgid "Solomon Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:260
+msgid "Guam"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:261
+msgid "United States Minor Outlying Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:262
+msgid "Marshall Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:263
+msgid "Nauru"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:264
+msgid "Niue"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:265
+msgid "Norfolk Island"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:266
+msgid "New Caledonia"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:267
+msgid "American Samoa"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:268
+msgid "Palau"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:269
+msgid "Pitcairn"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:270
+msgid "Papua New Guinea"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:271
+msgid "Cook Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:272
+msgid "Northern Mariana Islands"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:273
+msgid "Tonga"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:274
+msgid "Kosovo"
+msgstr ""
+
+#: plugins/Wizard/LocalePlugin.cpp:275
+msgid "Wallis And Futuna Islands"
+msgstr ""
+
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
 msgstr "Benveg prennet"
@@ -139,72 +1131,75 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Gortozit %1 vunutenn, mar plij, hag esaeit en-dro..."
 msgstr[1] "Gortozit %1 a vunutoù, mar plij, hag esaeit en-dro..."
 
-#: qml/Components/Dialogs.qml:112
+#: qml/Components/Dialogs.qml:115
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:113
+#: qml/Components/Dialogs.qml:116
 msgid "Are you sure you want to log out?"
 msgstr "Ha sur oc'h e fell deoc'h digevreañ ?"
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Prennañ"
 
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
-#: qml/Components/Dialogs.qml:221
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Wizard/Pages/passcode-set.qml:32 qml/Wizard/Pages/password-set.qml:137
+#: qml/Wizard/Pages/uaccount-signin.qml:26
+#: qml/Wizard/Pages/60-uaccount-signup.qml:29
 msgid "Cancel"
 msgstr "Nullañ"
 
-#: qml/Components/Dialogs.qml:141
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Lazhañ ar benveg"
 
-#: qml/Components/Dialogs.qml:142
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to shut down?"
 msgstr "Ha sur oc'h e fell deoc'h lazhañ ar benveg ?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Adloc'hañ"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Lazhañ ar benveg"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Adloc'hañ"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Ha sur oc'h e fell deoc'h adloc'hañ ?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "N'on ket"
 
-#: qml/Components/Dialogs.qml:185
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
 msgstr "Ya"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Enaouiñ"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -212,12 +1207,12 @@ msgstr ""
 "Ha sur oc'h e fell deoc'h\n"
 "troc'hañ an tredan ?"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Lazhañ"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Adloc'hañ"
@@ -230,7 +1225,7 @@ msgstr "Distreiñ d'ar bellgomzadenn"
 msgid "Emergency Call"
 msgstr "Pellgomzadenn vallus"
 
-#: qml/Components/Lockscreen.qml:277
+#: qml/Components/Lockscreen.qml:277 qml/Wizard/Pages/password-set.qml:159
 msgid "OK"
 msgstr "Mat eo"
 
@@ -278,8 +1273,9 @@ msgstr "Muioc'h..."
 msgid "Less..."
 msgstr "Nebeutoc'h..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Kas"
 
@@ -327,11 +1323,11 @@ msgstr "Esaeañ en-dro"
 msgid "Tap to unlock"
 msgstr "Pouezañ evit dibrennañ"
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Siwazh, kod-tremen direizh"
 
@@ -360,7 +1356,7 @@ msgstr ""
 msgid "Enter %1"
 msgstr "Merkañ  %1"
 
-#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
 msgstr "Merkañ ar frazenn-dremen"
 
@@ -398,62 +1394,62 @@ msgstr "Touchit evit distreiñ d'ar bellgomzadenn..."
 msgid "Conference"
 msgstr "Kendiviz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:674
+#: qml/Panel/Indicators/MenuItemFactory.qml:639
 msgid "Nothing is playing"
 msgstr "Ne lenner netra bremañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:768
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 eur"
 msgstr[1] "%1 eur"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:807
+#: qml/Panel/Indicators/MenuItemFactory.qml:772
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 vunutenn"
 msgstr[1] "%1 vunutenn"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:812
+#: qml/Panel/Indicators/MenuItemFactory.qml:777
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 eilenn"
 msgstr[1] "%1 eilenn"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:815
+#: qml/Panel/Indicators/MenuItemFactory.qml:780
 msgid "0 seconds"
 msgstr "0 eilenn"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:817
+#: qml/Panel/Indicators/MenuItemFactory.qml:782
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 o chom"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:823
+#: qml/Panel/Indicators/MenuItemFactory.qml:788
 msgid "In queue…"
 msgstr "El lostennad..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:827
+#: qml/Panel/Indicators/MenuItemFactory.qml:792
 msgid "Downloading"
 msgstr "O pellgargañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:829
+#: qml/Panel/Indicators/MenuItemFactory.qml:794
 msgid "Paused, tap to resume"
 msgstr "Ehanet, touchit evit adkregiñ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:831
+#: qml/Panel/Indicators/MenuItemFactory.qml:796
 msgid "Canceled"
 msgstr "Nullet"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:833
+#: qml/Panel/Indicators/MenuItemFactory.qml:798
 msgid "Finished"
 msgstr "Echu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:835
+#: qml/Panel/Indicators/MenuItemFactory.qml:800
 msgid "Failed, tap to retry"
 msgstr "C'hwitet, touchit evit adkregiñ"
 
@@ -527,197 +1523,406 @@ msgstr "Riklit pell adalek ar bord dehoù."
 msgid "View all your running tasks."
 msgstr "Gwelet an holl drevelloù a ya en-dro."
 
-#: qml/Wizard/Page.qml:89
+#: qml/Wizard/Page.qml:51
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Distreiñ"
 
-#: qml/Wizard/Pages/here-terms.qml:27
+#: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
 msgstr "Penndivizoù implij"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Kadarnaat ar frazenn-dremen"
+#: qml/Wizard/Pages/here-terms.qml:70
+msgid "Your device uses positioning technologies provided by HERE."
+msgstr ""
 
-#: qml/Wizard/Pages/passwd-confirm.qml:50
+#: qml/Wizard/Pages/here-terms.qml:81
+msgid ""
+"To provide you with positioning services and to improve their quality, HERE "
+"collects "
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:94
+msgid "The information collected is used to analyze the service and to "
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:107
+msgid "By continuing, you agree to the HERE Platform Service Terms:"
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:124
+msgid "and Privacy Policy:"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-confirm.qml:47
 msgid "Confirm passcode"
 msgstr "Kadarnaat ar c'hod-tremen"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Esaeit en-dro, mar plij."
+#: qml/Wizard/Pages/passcode-confirm.qml:49
+msgid "Incorrect passcode."
+msgstr ""
 
-#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50
-msgid "Continue"
-msgstr "Kenderc'hel"
+#: qml/Wizard/Pages/passcode-confirm.qml:49
+msgid "Please re-enter."
+msgstr ""
 
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Choaz ho kod-tremen"
+#: qml/Wizard/Pages/passcode-set.qml:58
+msgid "Choose passcode"
+msgstr ""
 
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "4 arouezenn a rank bezañ er frazenn-dremen"
+#: qml/Wizard/Pages/passcode-set.qml:66
+msgid "Passcode must be 4 characters long"
+msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:27
-msgid "Hi!"
-msgstr "Salud deoc'h !"
+#: qml/Wizard/Pages/password-set.qml:32
+msgid "Confirm Password"
+msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Deuet-mat oc'h en ho pellgomzer Ubuntu."
+#: qml/Wizard/Pages/password-set.qml:32
+msgid "Choose Password"
+msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:52
-msgid "Let’s get started."
-msgstr "Krogomp ganti."
+#: qml/Wizard/Pages/password-set.qml:72
+msgid "Enter at least 6 characters"
+msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:25
-msgid "Add a SIM card and restart your device"
-msgstr "Lakait ur gartenn SIM hag adloc'hit ho penveg"
+#: qml/Wizard/Pages/password-set.qml:108
+msgid "Passwords do not match"
+msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:59
-msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "Ne vioc'h ket evit pellgomz pe kas kemennadennoù hepti."
+#: qml/Wizard/Pages/password-set.qml:110
+msgid "Passwords match"
+msgstr ""
 
-#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/sim.qml:27
+msgid "No SIM card installed"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:58
+msgid "SIM card added"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:59
+msgid "You must restart the device to access the mobile network."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:63
+msgid "Restart"
+msgstr "Adloc'hañ"
+
+#: qml/Wizard/Pages/sim.qml:82
+msgid "You won’t be able to make calls or use text messaging without a SIM."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:93
+msgid "To proceed with no SIM tap <em>Skip</em>."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:103 qml/Wizard/Pages/uaccount.qml:116
+#: qml/Wizard/Pages/30-wifi.qml:204
 msgid "Skip"
 msgstr "Tremen hebiou"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:39
-msgid "Lock security"
-msgstr "Surentez ar prennañ"
+#: qml/Wizard/Pages/uaccount.qml:24
+msgid "Ubuntu Account"
+msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:74
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
+#: qml/Wizard/Pages/uaccount.qml:37
+msgid "Secure my device using my Ubuntu account"
+msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:97
-msgctxt "Label: Type of security method"
-msgid "Swipe"
-msgstr "Riklañ"
+#: qml/Wizard/Pages/uaccount.qml:52 qml/Wizard/Pages/uaccount-signin.qml:24
+#: qml/Wizard/Pages/uaccount-signin.qml:87
+msgid "Sign In"
+msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:98
-msgctxt "Label: Description of security method"
-msgid "No security"
-msgstr "Tamm surentez ebet"
+#: qml/Wizard/Pages/uaccount.qml:67 qml/Wizard/Pages/60-uaccount-signup.qml:26
+msgid "Create Account"
+msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:100
-msgctxt "Label: Type of security method"
-msgid "Passcode"
-msgstr "Kod-tremen"
+#: qml/Wizard/Pages/uaccount.qml:84 qml/Wizard/Pages/75-report-check.qml:63
+msgid "Improve system performance by sending us crashes and error reports."
+msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:101
-msgctxt "Label: Description of security method"
-msgid "4 digits only"
-msgstr "4 sifr hepken"
+#: qml/Wizard/Pages/uaccount.qml:98 qml/Wizard/Pages/75-report-check.qml:64
+msgid "Privacy policy"
+msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:103
-msgctxt "Label: Type of security method"
-msgid "Passphrase"
-msgstr "Frazenn-dremen"
+#: qml/Wizard/Pages/uaccount-signin.qml:42
+#: qml/Wizard/Pages/60-uaccount-signup.qml:55
+msgid "Email:"
+msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:104
-msgctxt "Label: Description of security method"
-msgid "Numbers and letters"
-msgstr "Sifroù ha lizherennoù"
+#: qml/Wizard/Pages/uaccount-signin.qml:67
+#: qml/Wizard/Pages/60-uaccount-signup.qml:103
+msgid "Password:"
+msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:29
+#: qml/Wizard/Pages/10-language.qml:26
+msgid "Language"
+msgstr ""
+
+#: qml/Wizard/Pages/10-language.qml:177 qml/Wizard/Pages/30-wifi.qml:204
+#: qml/Wizard/Pages/40-location.qml:248 qml/Wizard/Pages/50-timezone.qml:150
+#: qml/Wizard/Pages/70-passwd-type.qml:159
+#: qml/Wizard/Pages/75-report-check.qml:83
+msgid "Next"
+msgstr ""
+
+#: qml/Wizard/Pages/20-finished.qml:86 qml/Wizard/Pages/80-finished.qml:86
+msgid "Welcome to Ubuntu"
+msgstr ""
+
+#: qml/Wizard/Pages/20-finished.qml:96 qml/Wizard/Pages/80-finished.qml:96
+msgid "You are ready to use your device now"
+msgstr ""
+
+#: qml/Wizard/Pages/20-finished.qml:113 qml/Wizard/Pages/80-finished.qml:113
+msgid "Get Started"
+msgstr ""
+
+#: qml/Wizard/Pages/30-wifi.qml:28
 msgid "Connect to Wi‑Fi"
 msgstr "Kevreañ ouzh ar Wi-Fi"
 
-#: qml/Wizard/Pages/40-wifi.qml:168
-msgid "Available networks…"
-msgstr "Rouedadoù a c'haller kaout..."
+#: qml/Wizard/Pages/30-wifi.qml:125
+msgid "Connected"
+msgstr ""
 
-#: qml/Wizard/Pages/40-wifi.qml:169
-msgid "No available networks."
-msgstr "N'eus rouedad ebet da gaout."
+#: qml/Wizard/Pages/30-wifi.qml:162
+msgid "Available Wi-Fi networks"
+msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:27
-msgid "Location"
-msgstr "Lec'h"
+#: qml/Wizard/Pages/30-wifi.qml:163
+msgid "No available Wi-Fi networks"
+msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:62
-msgid "Let the phone detect your location:"
-msgstr "Lezel ar pellgomzer da gavout pelec'h emaoc'h :"
+#: qml/Wizard/Pages/40-location.qml:27
+msgid "Location Services"
+msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:69
-msgid "Using GPS only (less accurate)"
-msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
+#: qml/Wizard/Pages/40-location.qml:71
+msgid ""
+"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+"(recommended)"
+msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:86
-msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr "Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
-
-#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
-#: qml/Wizard/Pages/50-location.qml:103
+#: qml/Wizard/Pages/40-location.qml:102
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
 "Pa ziuzit an dibarzh-mañ ez asantit da <a href='#'>zivizoù implij</a> Nokia."
 
-#: qml/Wizard/Pages/50-location.qml:112
-msgid "Not at all"
-msgstr "Tamm ebet"
-
-#: qml/Wizard/Pages/50-location.qml:124
-msgid "You can change your mind later in <b>System Settings</b>."
+#: qml/Wizard/Pages/40-location.qml:137
+msgid "GPS only"
 msgstr ""
-"Gallout a rit cheñch soñj diwezhatoc'h en <b>Arventennoù ar reizhad</b>."
 
-#: qml/Wizard/Pages/60-reporting.qml:24
-msgid "Improving your experience"
-msgstr "Gwellaat ho skiant-prenet"
-
-#: qml/Wizard/Pages/60-reporting.qml:36
-msgid ""
-"Your phone is set up to automatically report errors to Canonical and its "
-"partners, the makers of the operating system."
+#: qml/Wizard/Pages/40-location.qml:190
+msgid "Don't use my location"
 msgstr ""
-"Arventennet eo ho pellgomzer evit titourañ ent emgefre ar fazioù da "
-"gCanonical ha d'e gevelerien, ar re o deus savet ar reizhiad korvoiñ."
 
-#: qml/Wizard/Pages/60-reporting.qml:43
-msgid ""
-"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-"Privacy</b>"
+#: qml/Wizard/Pages/40-location.qml:237
+msgid "You can change it later in <em>System Settings</em>."
 msgstr ""
-"Gallout a ra bezañ diweredekaet e-barzh <b>Arventennoù ar reizhiad</b> "
-"dindan <b>Surentez &amp; Prevezded</b>"
 
-#: qml/Wizard/Pages/80-finished.qml:24
-msgid "All done"
-msgstr "Echu penn-da-benn"
+#: qml/Wizard/Pages/50-timezone.qml:27
+msgid "Time Zone"
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:39
-msgid "Nice work!"
-msgstr "Gwellat labour !"
+#: qml/Wizard/Pages/50-timezone.qml:120
+msgid "Enter your city"
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Prest eo ho pellgomzer da vezañ implijet bremañ."
+#: qml/Wizard/Pages/60-uaccount-signup.qml:26
+msgid "Terms And Conditions"
+msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:53
-msgid "Finish"
-msgstr "Echuiñ"
+#: qml/Wizard/Pages/60-uaccount-signup.qml:29
+msgid "Back"
+msgstr ""
 
-#. Translators: This is the arrow for "Back" buttons
-#: qml/Wizard/StackButton.qml:39
-#, qt-format
-msgid "〈  %1"
-msgstr "〈  %1"
+#: qml/Wizard/Pages/60-uaccount-signup.qml:81
+msgid "Your name:"
+msgstr ""
 
-#. Translators: This is the arrow for "Forward" buttons
-#: qml/Wizard/StackButton.qml:42
-#, qt-format
-msgid "%1  〉"
-msgstr "%1  〉"
+#: qml/Wizard/Pages/60-uaccount-signup.qml:136
+msgid "Repeat password:"
+msgstr ""
+
+#: qml/Wizard/Pages/60-uaccount-signup.qml:204
+msgid "Sign Up"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:38
+msgid "Lock Screen"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:68
+msgid "Choose lock screen security"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:115
+msgctxt "Label: Type of security method"
+msgid "Device account password"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:117
+msgctxt "Label: Type of security method"
+msgid "New password"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:119
+msgctxt "Label: Type of security method"
+msgid "Passcode"
+msgstr "Kod-tremen"
+
+#: qml/Wizard/Pages/70-passwd-type.qml:121
+msgctxt "Label: Type of security method"
+msgid "Swipe"
+msgstr "Riklañ"
+
+#: qml/Wizard/Pages/75-report-check.qml:27
+msgid "Privacy Policy"
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:27
+msgid "Help Us Improve"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:84
+msgid "Password too short"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:86
+msgid "Strong password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:88
+msgid "Fair password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:90
+msgid "Weak password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:92
+msgid "Very weak password"
+msgstr ""
+
+#~ msgid "Confirm passphrase"
+#~ msgstr "Kadarnaat ar frazenn-dremen"
+
+#~ msgid "Please try again."
+#~ msgstr "Esaeit en-dro, mar plij."
+
+#~ msgid "Continue"
+#~ msgstr "Kenderc'hel"
+
+#~ msgid "Choose your passcode"
+#~ msgstr "Choaz ho kod-tremen"
+
+#~ msgid "Passphrase must be 4 characters long"
+#~ msgstr "4 arouezenn a rank bezañ er frazenn-dremen"
+
+#~ msgid "Hi!"
+#~ msgstr "Salud deoc'h !"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Deuet-mat oc'h en ho pellgomzer Ubuntu."
+
+#~ msgid "Let’s get started."
+#~ msgstr "Krogomp ganti."
+
+#~ msgid "Add a SIM card and restart your device"
+#~ msgstr "Lakait ur gartenn SIM hag adloc'hit ho penveg"
+
+#~ msgid "Without it, you won’t be able to make calls or use text messaging."
+#~ msgstr "Ne vioc'h ket evit pellgomz pe kas kemennadennoù hepti."
+
+#~ msgid "Lock security"
+#~ msgstr "Surentez ar prennañ"
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr ""
+#~ "Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "No security"
+#~ msgstr "Tamm surentez ebet"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "4 digits only"
+#~ msgstr "4 sifr hepken"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passphrase"
+#~ msgstr "Frazenn-dremen"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "Numbers and letters"
+#~ msgstr "Sifroù ha lizherennoù"
+
+#~ msgid "Available networks…"
+#~ msgstr "Rouedadoù a c'haller kaout..."
+
+#~ msgid "No available networks."
+#~ msgstr "N'eus rouedad ebet da gaout."
+
+#~ msgid "Location"
+#~ msgstr "Lec'h"
+
+#~ msgid "Let the phone detect your location:"
+#~ msgstr "Lezel ar pellgomzer da gavout pelec'h emaoc'h :"
+
+#~ msgid "Using GPS only (less accurate)"
+#~ msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
+
+#~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+#~ msgstr ""
+#~ "Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
+
+#~ msgid "Not at all"
+#~ msgstr "Tamm ebet"
+
+#~ msgid "You can change your mind later in <b>System Settings</b>."
+#~ msgstr ""
+#~ "Gallout a rit cheñch soñj diwezhatoc'h en <b>Arventennoù ar reizhad</b>."
+
+#~ msgid "Improving your experience"
+#~ msgstr "Gwellaat ho skiant-prenet"
+
+#~ msgid ""
+#~ "Your phone is set up to automatically report errors to Canonical and its "
+#~ "partners, the makers of the operating system."
+#~ msgstr ""
+#~ "Arventennet eo ho pellgomzer evit titourañ ent emgefre ar fazioù da "
+#~ "gCanonical ha d'e gevelerien, ar re o deus savet ar reizhiad korvoiñ."
+
+#~ msgid ""
+#~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+#~ "Privacy</b>"
+#~ msgstr ""
+#~ "Gallout a ra bezañ diweredekaet e-barzh <b>Arventennoù ar reizhiad</b> "
+#~ "dindan <b>Surentez &amp; Prevezded</b>"
+
+#~ msgid "All done"
+#~ msgstr "Echu penn-da-benn"
+
+#~ msgid "Nice work!"
+#~ msgstr "Gwellat labour !"
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Prest eo ho pellgomzer da vezañ implijet bremañ."
+
+#~ msgid "Finish"
+#~ msgstr "Echuiñ"
+
+#~ msgid "〈  %1"
+#~ msgstr "〈  %1"
+
+#~ msgid "%1  〉"
+#~ msgstr "%1  〉"
 
 #~ msgid "Close"
 #~ msgstr "Serriñ"
@@ -810,9 +2015,6 @@ msgstr "%1  〉"
 
 #~ msgid "Settings"
 #~ msgstr "Arventennoù"
-
-#~ msgid "Restart"
-#~ msgstr "Adloc'hañ"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Merañ ar c'hefluskerioù enklask"

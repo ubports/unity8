@@ -185,8 +185,8 @@ char* generate_full_format_string_at_time (GDateTime* now,
                     /* Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
                        This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
-                       en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-                       en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM" */
+                       en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+                       en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM" */
                     g_string_assign (ret, dgettext_datetime("%a %d %b\u2003%l:%M %p"));
                     break;
             }
@@ -229,8 +229,8 @@ char* generate_full_format_string_at_time (GDateTime* now,
                     /* Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
                        This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
                        (\u2003 is a unicode em space which is slightly wider than a normal space.)
-                       en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
-                       en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00" */
+                       en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
+                       en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00" */
                     g_string_assign (ret, dgettext_datetime("%a %d %b\u2003%H:%M"));
                     break;
             }

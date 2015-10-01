@@ -39,6 +39,7 @@ MockNotification::MockNotification(QObject *parent) : QObject(parent), p(new Moc
 }
 
 MockNotification::~MockNotification() {
+    delete p->actionsModel;
 }
 
 QString MockNotification::getSummary() const {
