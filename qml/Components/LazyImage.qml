@@ -37,7 +37,8 @@ Item {
     property alias horizontalAlignment: image.horizontalAlignment
     property alias verticalAlignment: image.verticalAlignment
     property alias sourceImage: image
-    property alias borderSource: shape.borderSource
+    property bool useUbuntuShape: true
+    property string borderSource: "radius_idle.sci"
 
     state: "default"
 
@@ -78,7 +79,7 @@ Item {
         }
     }
 
-    UbuntuShape {
+    Loader {
         id: shape
         objectName: "shape"
         height: root.initialHeight
@@ -88,13 +89,22 @@ Item {
         opacity: 0
         visible: opacity != 0
 
-        image: Image {
+        sourceComponent: useUbuntuShape ? ubuntuShapeComponent : itemComponent
+        onLoaded: {
+            if (sourceComponent === ubuntuShapeComponent) {
+                item.image = image;
+                item.borderSource = Qt.binding(function() { return root.borderSource })
+            }
+        }
+
+        Image {
             id: image
             objectName: "image"
 
             property url nextSource
             property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
+            visible: !useUbuntuShape
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
@@ -107,6 +117,16 @@ Item {
                                 : root.scaleTo == "fit" && root.height <= root.width ? root.height
                                 : 0
         }
+    }
+
+    Component {
+        id: itemComponent
+        Item {}
+    }
+
+    Component {
+        id: ubuntuShapeComponent
+        UbuntuShape {}
     }
 
     states: [
