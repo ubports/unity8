@@ -214,22 +214,6 @@ Item {
         width: parent.width
         height: parent.height
 
-        GSettings {
-            id: lifecycleExceptions
-            schema.id: "com.canonical.qtmir"
-        }
-
-        // Used by stage code
-        function isExemptFromLifecycle(appId) {
-            var shortAppId = appId.split('_')[0];
-            for (var i = 0; i < lifecycleExceptions.lifecycleExemptAppids.length; i++) {
-                if (shortAppId === lifecycleExceptions.lifecycleExemptAppids[i]) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         Connections {
             target: ApplicationManager
 

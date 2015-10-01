@@ -25,7 +25,7 @@ import "../Components/PanelState"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
-Rectangle {
+AbstractStage {
     id: root
     anchors.fill: parent
 

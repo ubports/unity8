@@ -22,7 +22,7 @@ import Unity.Session 0.1
 import Utils 0.1
 import "../Components"
 
-Rectangle {
+AbstractStage {
     id: root
 
     // Controls to be set from outside
@@ -442,7 +442,7 @@ Rectangle {
                         target: appDelegate.application
                         property: "requestedState"
                         value: !model.isTouchApp
-                                   || stages.isExemptFromLifecycle(model.appId)
+                                   || isExemptFromLifecycle(model.appId)
                                    || (isDash && root.keepDashRunning)
                                    || (!root.suspended && appDelegate.focus)
                                ? ApplicationInfoInterface.RequestedRunning
