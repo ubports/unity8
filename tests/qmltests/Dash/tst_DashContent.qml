@@ -495,6 +495,26 @@ Item {
             compare(peExtraPanel.visible, true);
         }
 
+        function test_clearSearchWithNavigationClosed() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
+
+            compare(peExtraPanel.visible, false);
+            mouseClick(searchButton);
+            tryCompare(peExtraPanel, "visible", true);
+
+            typeString("A");
+            compare(peExtraPanel.visible, false);
+
+            var clearIcon = findChild(searchTextField, "clearIcon");
+            mouseClick(clearIcon);
+
+            expectFail("", "Extra panel should not be visible after clearing search if it was not visible before");
+            tryCompare(peExtraPanel, "visible", true);
+        }
+
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);

@@ -637,11 +637,12 @@ FocusScope {
             onSettingsClicked: subPageLoader.openSubPage("settings")
             onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
             onSearchTextFieldFocused: scopeView.showHeader()
-            onClearSearch: {
+            onClearSearch: { // keepPanelOpen
+                var panelOpen = peExtraPanel.visible;
                 resetSearch(keepPanelOpen);
                 scopeView.scope.resetPrimaryNavigationTag();
                 peExtraPanel.resetNavigation();
-                if (keepPanelOpen) {
+                if (panelOpen && keepPanelOpen) {
                     openPopup();
                 }
             }
