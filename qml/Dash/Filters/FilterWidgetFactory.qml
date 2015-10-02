@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import Unity 0.2
 
-//! \brief This component loads the widgets based on widgetData["type"].
+//! \brief This component loads the widgets based on widgetType.
 
 Loader {
     id: root
