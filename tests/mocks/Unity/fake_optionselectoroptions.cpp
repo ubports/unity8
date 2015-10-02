@@ -54,6 +54,9 @@ QVariant FakeOptionSelectorOptions::data(const QModelIndex &index, int role) con
 void FakeOptionSelectorOptions::setChecked(int row, bool checked)
 {
     if (checked) {
+        if (!static_cast<FakeOptionSelectorFilter*>(parent())->multiSelect()) {
+            m_checkedIndexes.clear();
+        }
         m_checkedIndexes << row;
     } else {
         m_checkedIndexes.remove(row);
