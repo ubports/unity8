@@ -129,6 +129,6 @@ endfunction()
 
 # Actual test definitions
 add_subdirectory(libs)
-#add_subdirectory(plugins)
+add_subdirectory(plugins)
 add_subdirectory(qmltests)
-#add_subdirectory(whitespace)
+add_subdirectory(whitespace)
