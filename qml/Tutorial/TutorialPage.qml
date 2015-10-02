@@ -59,7 +59,7 @@ Showable {
     MouseArea { // eat any errant presses
         id: mouseArea
         anchors.fill: parent
-        onClicked: root.hide()
+        onPressAndHold: root.hide()
     }
 
     Image {

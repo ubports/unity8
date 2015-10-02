@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Ubuntu.Gestures 0.1
 import "." as LocalComponents
 
 TutorialPage {
@@ -44,11 +45,11 @@ TutorialPage {
         width: root.width - units.gu(8)
     }
 
-    DirectionalDragArea {
+    /*DirectionalDragArea {
         direction: Direction.Upwards
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         height: units.gu(1)
-    }
+    }*/
 }
