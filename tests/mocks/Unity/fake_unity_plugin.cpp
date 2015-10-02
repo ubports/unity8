@@ -24,6 +24,7 @@
 #include "fake_categories.h"
 #include "fake_filters.h"
 #include "fake_navigation.h"
+#include "fake_optionselectoroptions.h"
 #include "fake_previewmodel.h"
 #include "fake_previewwidgetmodel.h"
 #include "fake_resultsmodel.h"
@@ -55,4 +56,5 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<PreviewWidgetModel>(uri, 0, 2, "PreviewWidgetModel", "Can't create new PreviewWidgetModel in QML. Get them from PreviewModel instance.");
     qmlRegisterUncreatableType<PreviewStack>(uri, 0, 2, "PreviewStack", "Can't create new PreviewStack in QML. Get them from Scope instance.");
     qmlRegisterUncreatableType<unity::shell::scopes::FiltersInterface>(uri, 0, 2, "Filters", "Can't create Filters object in QML. Get them from Scope instance.");
+    qmlRegisterUncreatableType<unity::shell::scopes::OptionSelectorOptionsInterface>(uri, 0, 2, "OptionSelectorOptions", "Can't create Filters object in QML. Get them from OptionSelector instance.");
 }
