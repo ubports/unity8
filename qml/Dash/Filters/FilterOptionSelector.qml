@@ -15,10 +15,49 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.2
+import Ubuntu.Components.ListItems 1.2 as ListItems
 
-/*! Interface for filter widgets. */
+/*! Option Selector Filter Widget. */
 
 FilterWidget {
-    // TODO
-    implicitHeight: units.gu(4)
+    implicitHeight: expandingItem.height
+
+    ListItems.Expandable {
+        id: expandingItem
+        // TODO ↑ ↓ button
+
+        expandedHeight: collapsedHeight + column.height
+        width: parent.width
+
+        onClicked: {
+            expanded = !expanded;
+        }
+
+        Item {
+            id: holder
+            anchors.top: parent.top
+            height: expandingItem.collapsedHeight
+            width: parent.width
+
+            Label {
+                anchors.verticalCenter: parent.verticalCenter
+                text: widgetData.label
+            }
+        }
+
+        Column {
+            id: column
+            anchors.top: holder.bottom
+            width: parent.width
+            Repeater {
+                model: widgetData.options
+
+                ListItems.Standard {
+                    // TODO checked
+                    text: label
+                }
+            }
+        }
+    }
 }
