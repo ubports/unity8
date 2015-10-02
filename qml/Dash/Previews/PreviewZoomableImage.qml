@@ -63,6 +63,29 @@ PreviewWidget {
             // But at the moment the model never changes
             onStatusChanged: if (lazyImage.sourceImage.status === Image.Error) lazyImage.sourceImage.source = widgetData["fallback"];
         }
+
+        Rectangle {
+            id: toolbar
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            height: units.gu(6)
+            color: Qt.rgba(0, 0, 0, 0.8)
+
+            visible: sharingWidget.url != ""
+
+            PreviewSharing {
+                id: sharingWidget
+                anchors {
+                    left: parent.left
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: units.gu(1)
+                }
+                shareUris: widgetData["shareUris"]
+            }
+        }
     }
 
     PreviewOverlay {

@@ -72,5 +72,28 @@ PreviewWidget {
             anchors.fill: parent
             onClicked: Qt.openUrlExternally(widgetData["source"])
         }
+
+        Rectangle {
+            id: toolbar
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            height: units.gu(6)
+            color: Qt.rgba(0, 0, 0, 0.8)
+
+            visible: sharingWidget.url != ""
+
+            PreviewSharing {
+                id: sharingWidget
+                anchors {
+                    left: parent.left
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: units.gu(1)
+                }
+                shareUris: widgetData["shareUris"]
+            }
+        }
     }
 }
