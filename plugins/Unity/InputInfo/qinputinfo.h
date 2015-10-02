@@ -42,7 +42,6 @@
 #ifndef QINPUTINFO_H
 #define QINPUTINFO_H
 
-#include <QtSystemInfo/qsysteminfoglobal.h>
 #include <QObject>
 #include <QVector>
 #include <QMap>
@@ -55,7 +54,7 @@ class QInputDevice;
 
 class QInputDeviceManager;
 
-class Q_SYSTEMINFO_EXPORT QInputDevice : public QObject
+class QInputDevice : public QObject
 {
     Q_OBJECT
     Q_ENUMS(InputType)
@@ -103,7 +102,7 @@ Q_DECLARE_METATYPE(QInputDevice::InputTypeFlags)
 
 class QInputDeviceManagerPrivate;
 
-class Q_SYSTEMINFO_EXPORT QInputDeviceManager : public QObject
+class QInputDeviceManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int deviceCount READ deviceCount NOTIFY deviceCountChanged)
