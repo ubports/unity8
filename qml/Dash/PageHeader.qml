@@ -17,7 +17,6 @@
 import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Ubuntu.Components.Themes.Ambiance 1.1
-import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0
 import "../Components"
 
@@ -27,6 +26,7 @@ Item {
     implicitHeight: headerContainer.height + bottomContainer.height + signatureLineHeight
     readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
 
+    property bool scopeHasFilters: false
     property bool showBackButton: false
     property bool backIsClose: false
     property string title
@@ -55,6 +55,7 @@ Item {
     signal settingsClicked()
     signal favoriteClicked()
     signal searchTextFieldFocused()
+    signal showFiltersPopup(var item)
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -204,15 +205,18 @@ Item {
                         }
 
                         secondaryItem: AbstractButton {
+                            id: clearOrSettingsButton
                             height: searchTextField.height
                             width: height
                             enabled: searchTextField.text.length > 0 || root.navigationTag != ""
+
+                            readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
 
                             Image {
                                 objectName: "clearIcon"
                                 anchors.fill: parent
                                 anchors.margins: units.gu(.75)
-                                source: "image://theme/clear"
+                                source: parent.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
                                 opacity: parent.enabled
                                 visible: opacity > 0
                                 Behavior on opacity {
@@ -221,7 +225,11 @@ Item {
                             }
 
                             onClicked: {
-                                root.clearSearch(true);
+                                if (clearIsSettings) {
+                                    root.showFiltersPopup(clearOrSettingsButton);
+                                } else {
+                                    root.clearSearch(true);
+                                }
                             }
                         }
 

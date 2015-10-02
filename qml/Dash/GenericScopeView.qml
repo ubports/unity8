@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 1.2
 import "../Components/SearchHistoryModel"
 import Utils 0.1
 import Unity 0.2
@@ -621,6 +622,7 @@ FocusScope {
             extraPanel: peExtraPanel
             searchHistory: SearchHistoryModel
             searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
+            scopeHasFilters: scopeView.scope.filters != null
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
@@ -642,6 +644,9 @@ FocusScope {
                 if (keepPanelOpen) {
                     openPopup();
                 }
+            }
+            onShowFiltersPopup: { // item
+                PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
             }
         }
 
