@@ -46,7 +46,7 @@ Q_SIGNALS:
 private:
     QString getModelDataString(UnityMenuModel* sourceModel, int level);
     QString getRowSring(UnityMenuModel* sourceModel, int index, int depth) const;
-    QString getVariantString(const QString& roleName, const QVariant vData ) const;
+    QString getVariantString(const QString& roleName, const QVariant &vData) const;
 
     UnityMenuModel* m_model;
     QList<UnityMenuModel*> m_children;

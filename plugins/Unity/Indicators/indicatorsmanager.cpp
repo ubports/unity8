@@ -44,7 +44,7 @@ public:
 IndicatorsManager::IndicatorsManager(QObject* parent)
     : QObject(parent)
     , m_loaded(false)
-    , m_profile("phone")
+    , m_profile(QStringLiteral("phone"))
 {
 }
 
@@ -115,7 +115,7 @@ void IndicatorsManager::loadDir(const QDir& dir)
 void IndicatorsManager::loadFile(const QFileInfo& file_info)
 {
     QSettings indicator_settings(file_info.absoluteFilePath(), QSettings::IniFormat, this);
-    QString name = indicator_settings.value("Indicator Service/Name").toString();
+    QString name = indicator_settings.value(QStringLiteral("Indicator Service/Name")).toString();
 
     auto iter = m_indicatorsData.find(name);
     if (iter != m_indicatorsData.end())
@@ -286,9 +286,9 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     return new_indicator;
 }
 
-QList<Indicator::Ptr> IndicatorsManager::indicators()
+QVector<Indicator::Ptr> IndicatorsManager::indicators()
 {
-    QList<Indicator::Ptr> list;
+    QVector<Indicator::Ptr> list;
     Q_FOREACH(IndicatorData* data, m_indicatorsData)
     {
         Indicator::Ptr ret = indicator(data->m_name);

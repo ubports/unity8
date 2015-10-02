@@ -41,68 +41,68 @@ public Q_SLOTS: // METHODS
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(allowed);
-        return asyncCallWithArgumentList(QLatin1String("allowGSMDownload"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("allowGSMDownload"), argumentList);
     }
 
     inline QDBusPendingReply<> cancel()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("cancel"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("cancel"), argumentList);
     }
 
     inline QDBusPendingReply<bool> isGSMDownloadAllowed()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("isGSMDownloadAllowed"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("isGSMDownloadAllowed"), argumentList);
     }
 
     inline QDBusPendingReply<QVariantMap> metadata()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("metadata"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("metadata"), argumentList);
     }
 
     inline QDBusPendingReply<> pause()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("pause"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("pause"), argumentList);
     }
 
     inline QDBusPendingReply<qulonglong> progress()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("progress"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("progress"), argumentList);
     }
 
     inline QDBusPendingReply<> resume()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("resume"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("resume"), argumentList);
     }
 
     inline QDBusPendingReply<> setThrottle(qulonglong speed)
     {
         QList<QVariant> argumentList;
         argumentList << QVariant::fromValue(speed);
-        return asyncCallWithArgumentList(QLatin1String("setThrottle"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("setThrottle"), argumentList);
     }
 
     inline QDBusPendingReply<> start()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("start"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("start"), argumentList);
     }
 
     inline QDBusPendingReply<qulonglong> throttle()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("throttle"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("throttle"), argumentList);
     }
 
     inline QDBusPendingReply<qulonglong> totalSize()
     {
         QList<QVariant> argumentList;
-        return asyncCallWithArgumentList(QLatin1String("totalSize"), argumentList);
+        return asyncCallWithArgumentList(QStringLiteral("totalSize"), argumentList);
     }
 
 Q_SIGNALS: // SIGNALS

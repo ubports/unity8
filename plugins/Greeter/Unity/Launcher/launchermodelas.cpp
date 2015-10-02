@@ -122,7 +122,7 @@ void LauncherModel::quickListActionInvoked(const QString &appId, int actionIndex
         QString actionId = model->get(actionIndex).actionId();
 
         // Check if this is one of the launcher actions we handle ourselves
-        if (actionId == "launch_item") {
+        if (actionId == QLatin1String("launch_item")) {
             QDesktopServices::openUrl(getUrlForAppId(appId));
 
         // Nope, we don't know this action, let the backend forward it to the application
@@ -147,13 +147,13 @@ QString LauncherModel::getUrlForAppId(const QString &appId) const
         return QString();
     }
 
-    if (!appId.contains("_")) {
+    if (!appId.contains('_')) {
         return "application:///" + appId + ".desktop";
     }
 
     QStringList parts = appId.split('_');
     QString package = parts.value(0);
-    QString app = parts.value(1, "first-listed-app");
+    QString app = parts.value(1, QStringLiteral("first-listed-app"));
     return "appid://" + package + "/" + app + "/current-user-version";
 }
 
@@ -200,7 +200,7 @@ void LauncherModel::refresh()
     QList<QVariantMap> items;
 
     if (m_accounts && !m_user.isEmpty()) {
-        items = m_accounts->getUserProperty<VariantMapList>(m_user, "com.canonical.unity.AccountsService", "LauncherItems");
+        items = m_accounts->getUserProperty<VariantMapList>(m_user, QStringLiteral("com.canonical.unity.AccountsService"), QStringLiteral("LauncherItems"));
     }
 
     // First walk through all the existing items and see if we need to remove something
@@ -210,16 +210,16 @@ void LauncherModel::refresh()
         bool found = false;
         Q_FOREACH(const QVariant &asItem, items) {
             QVariantMap cachedMap = asItem.toMap();
-            if (cachedMap.value("id").toString() == item->appId()) {
+            if (cachedMap.value(QStringLiteral("id")).toString() == item->appId()) {
                 // Only keep and update it if we either show unpinned or it is pinned
-                if (!m_onlyPinned || cachedMap.value("pinned").toBool()) {
+                if (!m_onlyPinned || cachedMap.value(QStringLiteral("pinned")).toBool()) {
                     found = true;
-                    item->setName(cachedMap.value("name").toString());
-                    item->setIcon(cachedMap.value("icon").toString());
-                    item->setCount(cachedMap.value("count").toInt());
-                    item->setCountVisible(cachedMap.value("countVisible").toBool());
-                    item->setProgress(cachedMap.value("progress").toInt());
-                    item->setRunning(cachedMap.value("running").toBool());
+                    item->setName(cachedMap.value(QStringLiteral("name")).toString());
+                    item->setIcon(cachedMap.value(QStringLiteral("icon")).toString());
+                    item->setCount(cachedMap.value(QStringLiteral("count")).toInt());
+                    item->setCountVisible(cachedMap.value(QStringLiteral("countVisible")).toBool());
+                    item->setProgress(cachedMap.value(QStringLiteral("progress")).toInt());
+                    item->setRunning(cachedMap.value(QStringLiteral("running")).toBool());
 
                     int idx = m_list.indexOf(item);
                     Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon, RoleCount, RoleCountVisible, RoleRunning, RoleProgress});
@@ -244,7 +244,7 @@ void LauncherModel::refresh()
     for (int asIndex = 0; asIndex < items.count(); ++asIndex) {
         QVariant entry = items.at(asIndex);
 
-        if (m_onlyPinned && !entry.toMap().value("pinned").toBool()) {
+        if (m_onlyPinned && !entry.toMap().value(QStringLiteral("pinned")).toBool()) {
             // Skipping it as we only show pinned and it is not
             skipped++;
             continue;
@@ -253,7 +253,7 @@ void LauncherModel::refresh()
 
         int itemIndex = -1;
         for (int i = 0; i < m_list.count(); ++i) {
-            if (m_list.at(i)->appId() == entry.toMap().value("id").toString()) {
+            if (m_list.at(i)->appId() == entry.toMap().value(QStringLiteral("id")).toString()) {
                 itemIndex = i;
                 break;
             }
@@ -262,15 +262,15 @@ void LauncherModel::refresh()
         if (itemIndex == -1) {
             QVariantMap cachedMap = entry.toMap();
             // Need to add it. Just add it into the addedIndex to keep same ordering as the list in AS.
-            LauncherItem *item = new LauncherItem(cachedMap.value("id").toString(),
-                                                  cachedMap.value("name").toString(),
-                                                  cachedMap.value("icon").toString(),
+            LauncherItem *item = new LauncherItem(cachedMap.value(QStringLiteral("id")).toString(),
+                                                  cachedMap.value(QStringLiteral("name")).toString(),
+                                                  cachedMap.value(QStringLiteral("icon")).toString(),
                                                   this);
             item->setPinned(true);
-            item->setCount(cachedMap.value("count").toInt());
-            item->setCountVisible(cachedMap.value("countVisible").toBool());
-            item->setProgress(cachedMap.value("progress").toInt());
-            item->setRunning(cachedMap.value("running").toBool());
+            item->setCount(cachedMap.value(QStringLiteral("count")).toInt());
+            item->setCountVisible(cachedMap.value(QStringLiteral("countVisible")).toBool());
+            item->setProgress(cachedMap.value(QStringLiteral("progress")).toInt());
+            item->setRunning(cachedMap.value(QStringLiteral("running")).toBool());
             beginInsertRows(QModelIndex(), newPosition, newPosition);
             m_list.insert(newPosition, item);
             endInsertRows();
@@ -286,7 +286,7 @@ void LauncherModel::refresh()
 
 void LauncherModel::propertiesChanged(const QString &user, const QString &interface, const QStringList &changed)
 {
-    if (user != m_user || interface != "com.canonical.unity.AccountsService" || !changed.contains("LauncherItems")) {
+    if (user != m_user || interface != QLatin1String("com.canonical.unity.AccountsService") || !changed.contains(QStringLiteral("LauncherItems"))) {
         return;
     }
     refresh();

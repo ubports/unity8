@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Unity/Application">
+        <file>VirtualKeyboard.qml</file>
+        <file>MirSurfaceItem.qml</file>
+        <file>vkb_portrait.png</file>
+    </qresource>
+</RCC>
