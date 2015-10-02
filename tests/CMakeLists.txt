@@ -46,8 +46,8 @@ macro(unity8_parse_arguments)
     set(ld_paths)
     if(U8TEST_LIGHTDM)
         list(APPEND ld_paths
-            ${UNITY_MOCKPATH}/tests/mocks/libusermetrics
-            ${UNITY_MOCKPATH}/tests/mocks/LightDM/IntegratedLightDM/liblightdm
+            ${UNITY_MOCKPATH}/libusermetrics
+            ${UNITY_MOCKPATH}/LightDM/IntegratedLightDM/liblightdm
         )
     endif()
 

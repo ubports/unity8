@@ -30,7 +30,7 @@ qt5_use_modules(MockLightDM-demo-shared Concurrent Gui)
 
 set_target_properties(integratedLightDM PROPERTIES COMPILE_FLAGS -fPIC)
 set_target_properties(MockLightDM-demo-shared PROPERTIES
-                      OUTPUT_NAME lightdm-qt5-2)
+                      OUTPUT_NAME lightdm-qt5-3)
 
 install(TARGETS MockLightDM-demo-shared
     DESTINATION ${SHELL_INSTALL_QML}/mocks/LightDM/IntegratedLightDM/demo
