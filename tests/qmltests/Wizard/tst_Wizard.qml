@@ -157,12 +157,15 @@ Item {
             return stack.currentPage;
         }
 
-        function goToPage(name, skipSim, skipLocation) {
+        function goToPage(name, skipSim, skipLocation, skipReporting) {
             if (skipSim === undefined) {
                 skipSim = false;
             }
             if (skipLocation === undefined) {
                 skipLocation = false;
+            }
+            if (skipReporting === undefined) {
+                skipReporting = false;
             }
 
             var page = waitForPage("languagePage");
@@ -190,9 +193,11 @@ Item {
                 tap(findChild(page, "forwardButton"));
             }
 
-            page = waitForPage("reportingPage");
-            if (name === page.objectName) return page;
-            tap(findChild(page, "forwardButton"));
+            if (!skipReporting) {
+                page = waitForPage("reportingPage");
+                if (name === page.objectName) return page;
+                tap(findChild(page, "forwardButton"));
+            }
 
             page = waitForPage("finishedPage");
             if (name === page.objectName) return page;
@@ -336,8 +341,6 @@ Item {
             tap(findChild(page, "forwardButton"));
             page = waitForPage("locationPage");
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("reportingPage");
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             tap(findChild(page, "forwardButton"));
 
@@ -389,8 +392,6 @@ Item {
             tap(findChild(page, "forwardButton"));
             page = waitForPage("locationPage");
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("reportingPage");
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             tap(findChild(page, "forwardButton"));
 
@@ -401,7 +402,7 @@ Item {
         }
 
         function test_passwdSwipe() {
-            goToPage(null);
+            goToPage(null, false, false, true);
 
             tryCompare(setSecuritySpy, "count", 1);
             compare(setSecuritySpy.signalArguments[0][0], "");
@@ -411,12 +412,12 @@ Item {
 
         function test_locationSkipNoPath() {
             AccountsService.hereLicensePath = "";
-            goToPage("reportingPage", false, true);
+            goToPage("finishedPage", false, true, true);
         }
 
         function test_locationSkipNoFiles() {
             AccountsService.hereLicensePath = Qt.resolvedUrl("nolicenses");
-            goToPage("reportingPage", false, true);
+            goToPage("finishedPage", false, true, true);
         }
 
         function test_locationWaitOnPath() {
@@ -433,7 +434,7 @@ Item {
             compare(stack.currentPage.skipValid, false);
 
             AccountsService.hereLicensePath = "";
-            waitForPage("reportingPage");
+            waitForPage("finishedPage", false, false, true);
         }
 
         function test_locationGpsOnly() {
