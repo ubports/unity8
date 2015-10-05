@@ -26,6 +26,6 @@ SecondaryWindow::SecondaryWindow(QQmlEngine *engine)
     setColor("black");
     setTitle(QStringLiteral("Unity8 Shell - Secundary Screen"));
 
-    QUrl source(::qmlDirectory() + "/SecondaryDisplay.qml");
+    QUrl source(::qmlDirectory() + "/DisabledScreenNotice.qml");
     setSource(source);
 }

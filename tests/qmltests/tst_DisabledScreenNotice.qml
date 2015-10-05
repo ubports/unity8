@@ -25,13 +25,13 @@ Item {
     width: units.gu(70)
     height: units.gu(70)
 
-    SecondaryDisplay {
+    DisabledScreenNotice {
         anchors.fill: parent
     }
 
     UnityTestCase {
         id: testCase
-        name: "SecondaryDisplay"
+        name: "DisabledScreenNotice"
         when: windowShown
     }
 }
