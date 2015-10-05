@@ -35,11 +35,6 @@ class GreeterArgsTest(GreeterTestCase):
         shell = self.get_shell(unity_proxy)
         self.assertTrue(shell.mode == 'full-shell')
 
-    def test_greeter_mode(self):
-        unity_proxy = self.launch_unity(mode='greeter')
-        shell = self.get_shell(unity_proxy)
-        self.assertTrue(shell.mode == 'greeter')
-
     def test_nonexistent_mode(self):
         unity_proxy = self.launch_unity(mode=self.NONEXISTENT_MODE)
         shell = self.get_shell(unity_proxy)
