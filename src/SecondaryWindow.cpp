@@ -24,7 +24,7 @@ SecondaryWindow::SecondaryWindow(QQmlEngine *engine)
 {
     setResizeMode(QQuickView::SizeRootObjectToView);
     setColor("black");
-    setTitle(QStringLiteral("Unity8 Shell - Secundary Screen"));
+    setTitle(QStringLiteral("Unity8 Shell - Secondary Screen"));
 
     QUrl source(::qmlDirectory() + "/DisabledScreenNotice.qml");
     setSource(source);
