@@ -76,6 +76,12 @@ Rectangle {
         oskSettings.disableHeight = shell.usageScenario == "desktop"
     }
 
+    // we must rotate to a supported orientation regardless of shell's preference
+    property bool orientationChangesEnabled:
+        (orientation & supportedOrientations) === 0 ? true
+                                                    : shell.orientationChangesEnabled
+
+
     Binding {
         target: oskSettings
         property: "stayHidden"
