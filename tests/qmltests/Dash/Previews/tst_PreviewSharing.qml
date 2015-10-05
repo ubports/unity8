@@ -39,18 +39,18 @@ Rectangle {
     PreviewSharing {
         id: previewSharing
         anchors { left: parent.left; bottom: parent.bottom; }
-        shareUris: shareUris
+        shareUris: root.shareUris
     }
 
     UT.UnityTestCase {
         name: "PreviewSharingTest"
         when: windowShown
 
-        property Item peerPicker: findChild(previewSharing, "peerPicker")
+        property Item peerPicker: findChild(previewSharing.rootItem, "peerPicker")
 
         function cleanup() {
             peerPicker.visible = false;
-            previewSharing.shareUris = shareUris;
+            previewSharing.shareUris = root.shareUris;
         }
 
         function test_visible() {
