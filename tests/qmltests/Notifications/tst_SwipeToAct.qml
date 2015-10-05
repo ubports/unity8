@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,10 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
+import "../../../qml/Components/UnityInputInfo"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1
 import Unity.Notifications 1.0
@@ -74,7 +76,10 @@ Item {
                 icon: "../graphics/avatars/amanda.png",
                 secondaryIcon: "incoming-call",
                 actions: [{ id: "ok_id", label: "Ok"},
-                    { id: "cancel_id", label: "Cancel"}]
+                    { id: "cancel_id", label: "Cancel"},
+                    { id: "foo_id", label: "Foo"},
+                    { id: "bar_id", label: "Bar"}
+                ]
             }
 
             mockModel.append(n)
@@ -97,7 +102,6 @@ Item {
 
             MouseArea{
                 id: clickThroughCatcher
-
                 anchors.fill: parent
             }
 
@@ -108,6 +112,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
+                hasMouse: UnityInputInfo.mice > 0 // for testing, we add/remove only a mock mouse
             }
         }
 
@@ -139,6 +144,24 @@ Item {
                     width: parent.width
                     text: "clear model"
                     onClicked: rootRow.clearNotifications()
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    CheckBox {
+                        id: fakeMouseCB
+                        onClicked: {
+                            if (checked) {
+                                UnityInputInfo.inputInfo.addMockMouse();
+                            } else {
+                                UnityInputInfo.inputInfo.removeMockMouse();
+                            }
+                        }
+                    }
+                    Label {
+                        text: "With fake mouse"
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
                 }
             }
         }
@@ -258,21 +281,42 @@ Item {
 
                 if(data.buttonRowVisible) {
                     var swipeButton = findChild(buttonRow, "notify_swipe_button")
-                    var slider = findChild(swipeButton, "slider")
-                    var swipeMouseArea = findChild(swipeButton, "swipeMouseArea")
-                    var x = swipeMouseArea.width / 2
-                    var y = swipeMouseArea.height / 2
+
+                    if (!swipeButton.clickToAct) { // don't run if there's a real mouse
+                        var slider = findChild(swipeButton, "slider")
+                        var swipeMouseArea = findChild(swipeButton, "swipeMouseArea")
+                        var x = swipeMouseArea.width / 2
+                        var y = swipeMouseArea.height / 2
+
+                        if(data.checkSwipeToActAccept) {
+                            tryCompareFunction(function() { mouseDrag(slider, x, y, (swipeMouseArea.width / 2) - slider.width, 0); return actionSpy.signalArguments.length > 0; }, true);
+                            compare(actionSpy.signalArguments[0][0], data.actions.data(0, ActionModel.RoleActionId), "got wrong id for positive action");
+                            actionSpy.clear();
+                        }
+                        if(data.checkSwipeToActReject) {
+                            tryCompareFunction(function() { mouseDrag(slider, x, y, -(swipeMouseArea.width / 2), 0); return actionSpy.signalArguments.length > 0; }, true);
+                            compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action");
+                            actionSpy.clear();
+                        }
+                    }
+
+                    // add a mock mouse, test clicking the left/right buttons
+                    UnityInputInfo.inputInfo.addMockMouse();
+                    var leftButton = findChild(swipeButton, "leftButton");
+                    var rightButton = findChild(swipeButton, "rightButton");
 
                     if(data.checkSwipeToActAccept) {
-                        tryCompareFunction(function() { mouseDrag(slider, x, y, (swipeMouseArea.width / 2) - slider.width, 0); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions.data(0, ActionModel.RoleActionId), "got wrong id for positive action")
-                        actionSpy.clear()
+                        mouseClick(rightButton);
+                        compare(actionSpy.signalArguments[0][0], data.actions.data(0, ActionModel.RoleActionId), "got wrong id for positive action");
+                        actionSpy.clear();
                     }
+
                     if(data.checkSwipeToActReject) {
-                        tryCompareFunction(function() { mouseDrag(slider, x, y, -(swipeMouseArea.width / 2), 0); return actionSpy.signalArguments.length > 0; }, true);
-                        compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
-                        actionSpy.clear()
+                        mouseClick(leftButton);
+                        compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action");
+                        actionSpy.clear();
                     }
+                    UnityInputInfo.inputInfo.removeMockMouse();
                 }
             }
         }

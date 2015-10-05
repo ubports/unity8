@@ -16,13 +16,23 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.SystemSettings.Diagnostics 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
+    id: reportingPage
     objectName: "reportingPage"
 
     title: i18n.tr("Improving your experience")
     forwardButtonSourceComponent: forwardButton
+
+    skipValid: false
+    skip: !diagnostics.reportCrashes // skip the page when the system is configured not to report crashes
+
+    UbuntuDiagnostics {
+        id: diagnostics
+        Component.onCompleted: reportingPage.skipValid = true;
+    }
 
     Column {
         id: column

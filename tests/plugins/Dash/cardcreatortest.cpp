@@ -35,7 +35,6 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/cardcreatortest.qml"));
         view->show();
         QTest::qWaitForWindowExposed(view);

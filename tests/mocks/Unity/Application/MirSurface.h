@@ -38,7 +38,7 @@ public:
             Mir::Type type,
             Mir::State state,
             const QUrl& screenshot,
-            const QString &qmlFilePath = QString());
+            const QUrl &qmlFilePath = QUrl());
     virtual ~MirSurface();
 
     ////
@@ -78,7 +78,7 @@ public:
     /////
     // internal mock stuff
 
-    QString qmlFilePath() const;
+    QUrl qmlFilePath() const;
 
     QUrl screenshotUrl() const;
     void setScreenshotUrl(QUrl);
@@ -106,7 +106,7 @@ private:
     Mir::State m_state;
     Mir::OrientationAngle m_orientationAngle;
     QUrl m_screenshotUrl;
-    QString m_qmlFilePath;
+    QUrl m_qmlFilePath;
     bool m_live;
     bool m_visible;
     int m_viewCount;

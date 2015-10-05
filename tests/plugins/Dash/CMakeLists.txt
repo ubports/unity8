@@ -23,7 +23,6 @@ include_directories(
 remove_definitions(-DQT_NO_KEYWORDS)
 
 add_definitions(-DDASHVIEWSTEST_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
-add_definitions(-DBUILT_PLUGINS_DIR="${CMAKE_BINARY_DIR}/plugins")
 
 macro(add_lvwph_test FILENAME TESTNAME)
     add_executable(${TESTNAME}TestExec
