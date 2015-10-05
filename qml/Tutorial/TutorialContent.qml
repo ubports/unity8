@@ -29,10 +29,10 @@ Item {
     readonly property bool launcherEnabled: !running || tutorialLeft.shown
     readonly property bool spreadEnabled: !running || tutorialRight.shown
     readonly property bool panelEnabled: !running || tutorialTop.shown
-    readonly property alias running: tutorialLeft.shown
-                                     || tutorialTop.shown
-                                     || tutorialRight.shown
-                                     || tutorialBottom.shown
+    readonly property bool running: tutorialLeft.shown
+                                    || tutorialTop.shown
+                                    || tutorialRight.shown
+                                    || tutorialBottom.shown
 
     signal finished()
 
@@ -53,7 +53,7 @@ Item {
             return AccountsService.demoEdgesCompleted.indexOf("left") == -1;
         }
 
-        Component.onCompleted: if (parent.isReady()) show()
+        Component.onCompleted: if (tutorialLeft.isReady()) show()
         onFinished: AccountsService.markDemoEdgeCompleted("left")
     }
 
@@ -72,15 +72,15 @@ Item {
         Timer {
             id: tutorialTopTimer
             interval: 60000
-            onTriggered: if (parent.isReady()) tutorialTop.show()
+            onTriggered: if (tutorialTop.isReady()) tutorialTop.show()
         }
 
         Connections {
             target: AccountsService
-            onDemoEdgesCompletedChanged: if (parent.isReady()) tutorialTopTimer.start()
+            onDemoEdgesCompletedChanged: if (tutorialTop.isReady()) tutorialTopTimer.start()
         }
 
-        Component.onCompleted: if (parent.isReady()) tutorialTopTimer.start()
+        Component.onCompleted: if (tutorialTop.isReady()) tutorialTopTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("top")
 
         Connections {
@@ -110,17 +110,17 @@ Item {
         Timer {
             id: tutorialRightTimer
             interval: 3000
-            onTriggered: if (parent.isReady()) tutorialRight.show()
+            onTriggered: if (tutorialRight.isReady()) tutorialRight.show()
         }
 
         Connections {
             target: AccountsService
-            onDemoEdgesCompletedChanged: if (parent.isReady()) tutorialRightTimer.start()
+            onDemoEdgesCompletedChanged: if (tutorialRight.isReady()) tutorialRightTimer.start()
         }
 
         Connections {
             target: ApplicationManager
-            onApplicationAdded: if (parent.isReady()) tutorialRight.show()
+            onApplicationAdded: if (tutorialRight.isReady()) tutorialRight.show()
         }
 
         onFinished: AccountsService.markDemoEdgeCompleted("right")
@@ -157,17 +157,17 @@ Item {
         Timer {
             id: tutorialBottomTimer
             interval: 3000
-            onTriggered: if (parent.isReady()) tutorialBottom.show()
+            onTriggered: if (tutorialBottom.isReady()) tutorialBottom.show()
         }
 
         Connections {
             target: AccountsService
-            onDemoEdgesCompletedChanged: if (parent.isReady()) tutorialBottomTimer.start()
+            onDemoEdgesCompletedChanged: if (tutorialBottom.isReady()) tutorialBottomTimer.start()
         }
 
         Connections {
             target: ApplicationManager
-            onFocusedApplicationIdChanged: if (parent.isReady()) tutorialBottom.show()
+            onFocusedApplicationIdChanged: if (tutorialBottom.isReady()) tutorialBottom.show()
         }
 
         onFinished: {
