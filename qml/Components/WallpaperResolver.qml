@@ -26,17 +26,13 @@ import Ubuntu.Components 1.3
         - Background set in GSettings, if any
  */
 QtObject {
-    /*
-        Users should set their UI width here.
-     */
+    // Users should set their UI width here.
     property real width
 
     property url defaultBackground: Qt.resolvedUrl(width >= units.gu(60) ? "../graphics/tablet_background.jpg"
                                                                          : "../graphics/phone_background.jpg")
 
-    /*
-        That's the property users of this component are going to consume.
-     */
+    // That's the property users of this component are going to consume.
     readonly property url background: asImageTester.status == Image.Ready ? asImageTester.source
                                     : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
 

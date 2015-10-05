@@ -21,12 +21,12 @@ import "Components"
 Image {
     id: root
 
-    BackgroundResolver {
+    WallpaperResolver {
         width: root.width
-        id: bgResolver
+        id: wallpaperResolver
     }
 
-    source: bgResolver.background
+    source: wallpaperResolver.background
 
     UbuntuShape {
         anchors.fill: text

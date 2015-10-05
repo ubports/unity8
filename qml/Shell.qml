@@ -108,8 +108,8 @@ Item {
 
     property real edgeSize: units.gu(2)
 
-    BackgroundResolver {
-        id: bgResolver
+    WallpaperResolver {
+        id: wallpaperResolver
         width: shell.width
     }
 
@@ -299,7 +299,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "background"
-                value: bgResolver.background
+                value: wallpaperResolver.background
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -404,7 +404,7 @@ Item {
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: tutorial.running
-            background: bgResolver.background
+            background: wallpaperResolver.background
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
@@ -579,7 +579,7 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: bgResolver.background
+            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
