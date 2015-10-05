@@ -42,6 +42,7 @@ private Q_SLOTS:
 
 private:
     void setupQmlEngine(bool isMirServer);
+    QString m_deviceName;
     ApplicationArguments m_qmlArgs;
     QScopedPointer<ShellView> m_shellView;
     QScopedPointer<SecondaryWindow> m_secondaryWindow;

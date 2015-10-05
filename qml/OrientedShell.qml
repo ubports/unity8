@@ -89,7 +89,10 @@ Rectangle {
     }
 
     readonly property int supportedOrientations: shell.supportedOrientations
-                                               & deviceConfiguration.supportedOrientations
+        & (deviceConfiguration.supportedOrientations == deviceConfiguration.useNativeOrientation
+                ? nativeOrientation
+                : deviceConfiguration.supportedOrientations)
+
     property int acceptedOrientationAngle: {
         if (orientation & supportedOrientations) {
             return Screen.angleBetween(nativeOrientation, orientation);
