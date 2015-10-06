@@ -20,6 +20,7 @@ import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Utils 0.1
+import Powerd 0.1
 import "../Components"
 
 Rectangle {
@@ -538,8 +539,8 @@ Rectangle {
                         return true;
                     }
 
-                    visible: !occluded
-                            || (isDash && priv.focusedAppDelegateIsDislocated)
+                    visible: Powerd.status == Powerd.On &&
+                             (!occluded || (isDash && priv.focusedAppDelegateIsDislocated))
 
 
                     shellOrientationAngle: root.shellOrientationAngle
