@@ -39,7 +39,7 @@ QtObject {
     // This is a dummy image to detect if the custom AS set wallpaper loads successfully.
     property var _asImageTester: Image {
         id: asImageTester
-        source: "Adas"//AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
+        source: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
         height: 0
         width: 0
         sourceSize.height: 0
