@@ -20,10 +20,10 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowscreenshotprovider.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/timezoneFormatter.cpp
     constants.cpp
     plugin.cpp
     windowstatestorage.cpp
-    plugin.cpp
     )
 
 add_library(FakeUtils-qml SHARED

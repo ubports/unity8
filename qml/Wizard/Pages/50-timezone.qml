@@ -18,6 +18,7 @@ import QtQuick 2.3
 import Ubuntu.Components 1.2
 import Wizard 0.1
 import Ubuntu.SystemSettings.TimeDate 1.0
+import Utils 0.1 as Utils
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -27,21 +28,11 @@ LocalComponents.Page {
     title: i18n.tr("Time Zone")
     forwardButtonSourceComponent: forwardButton
 
-    property alias selectedTimeZone: tzModel.selectedZoneId
+    property string selectedTimeZone: ""
 
     UbuntuTimeDatePanel {
         id: timeDatePanel
-    }
-
-    TimeZoneModel {
-        id: tzModel
-    }
-
-    TimeZoneFilterModel {
-        id: tzFilterModel
-        sourceModel: tzModel
         filter: searchField.text
-        country: root.countryCode
     }
 
     Component.onCompleted: {
@@ -61,28 +52,34 @@ LocalComponents.Page {
             id: tz
             objectName: "tz"
             highlightColor: backgroundColor
-            readonly property bool currentTz: !!id ? selectedTimeZone === id : false
+            readonly property bool currentTz: ListView.view.currentIndex === index
 
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: leftMargin
+                anchors.right: image.left
+                anchors.rightMargin: rightMargin
                 Label {
                     id: cityLabel
-                    text: !!city ? city : ""
+                    text: displayName
                     font.weight: tz.currentTz ? Font.Normal : Font.Light
                     fontSize: "medium"
                     color: textColor
+                    elide: Text.ElideMiddle
+                    maximumLineCount: 1
+                    width: parent.width
                 }
                 Label {
                     id: timeLabel
-                    text: !!time ? time + " " + abbreviation : ""
+                    text: Utils.TimezoneFormatter.currentTimeInTimezoneWithAbbrev(timeZone)
                     font.weight: tz.currentTz ? Font.Normal : Font.Light
                     fontSize: "small"
                     color: textColor
                 }
             }
             Image {
+                id: image
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
@@ -96,9 +93,10 @@ LocalComponents.Page {
             }
 
             onClicked: {
-                selectedTimeZone = id
-                print("Selected tz: " + selectedTimeZone)
-                print("Clicked country", countryCode)
+                print("Clicked index", index)
+                ListView.view.currentIndex = index
+                selectedTimeZone = timeZone
+                print("Clicked country", country)
             }
         }
     }
@@ -121,7 +119,9 @@ LocalComponents.Page {
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: {
                 // reset when switching between filter modes (text/country)
+                print("Filter:", text)
                 selectedTimeZone = ""
+                tzList.currentIndex = -1
             }
         }
 
@@ -139,7 +139,7 @@ LocalComponents.Page {
             }
 
             height: column.height - searchField.height - column.spacing - topMargin
-            model: tzFilterModel
+            model: timeDatePanel.timeZoneModel
             delegate: tzComponent
         }
     }
