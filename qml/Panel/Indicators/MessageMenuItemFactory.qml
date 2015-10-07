@@ -40,11 +40,12 @@ Loader {
         property var extendedData: menuData && menuData.ext || undefined
         property var actionsDescription: getExtendedProperty(extendedData, "xCanonicalMessageActions", undefined)
         property date time: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) / 1000)
+        property string timeString: i18n.relativeDateTime(time)
     }
     LiveTimer {
         frequency: LiveTimer.Relative
         relativeTime: priv.time
-        onTrigger: priv.time = new Date(getExtendedProperty(priv.extendedData, "xCanonicalTime", 0) / 1000)
+        onTrigger: priv.timeString = Qt.binding(function() { return i18n.relativeDateTime(priv.time); })
     }
 
     onMenuModelChanged: {
@@ -104,7 +105,7 @@ Loader {
             objectName: "simpleTextMessage"
             // text
             title: menuData && menuData.label || ""
-            time: i18n.relativeDateTime(priv.time)
+            time: priv.timeString
             body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
             // icons
             avatar: getExtendedProperty(priv.extendedData, "icon", "image://theme/contact")
@@ -149,7 +150,7 @@ Loader {
 
             // text
             title: menuData && menuData.label || ""
-            time: i18n.relativeDateTime(priv.time)
+            time: priv.timeString
             body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
             replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.ctr("Button: Send a reply message", "Send"))
             replyHintText: i18n.ctr("Label: Hint in message indicator line edit", "Reply")
@@ -207,7 +208,7 @@ Loader {
 
             // text
             title: menuData && menuData.label || ""
-            time: i18n.relativeDateTime(priv.time)
+            time: priv.timeString
             body: getExtendedProperty(priv.extendedData, "xCanonicalText", "")
             actionButtonText: getExtendedProperty(activateActionDescription, "label", i18n.ctr("Button: Call back on phone", "Call back"))
             replyButtonText: getExtendedProperty(replyActionDescription, "label", i18n.ctr("Button: Send a reply message", "Send"))
