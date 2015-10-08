@@ -43,6 +43,8 @@ private Q_SLOTS:
     {
         delete m_model;
         m_model = nullptr;
+        // quick wait cycle for deleteLaters to act.
+        waitFor([]{ return false;}, 1);
     }
 
     void testHeadOnSetHead()
