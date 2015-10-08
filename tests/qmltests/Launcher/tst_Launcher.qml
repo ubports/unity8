@@ -200,7 +200,10 @@ Item {
             verify(!!panel);
 
             // wait until it gets fully extended
-            tryCompare(panel, "x", 0);
+            // a tryCompare doesn't work since
+            //    compare(-0.000005917593600024418, 0);
+            // is true and in this case we want exactly 0 or will have pain later on
+            tryCompareFunction( function(){ return panel.x === 0; }, true );
             tryCompare(launcher, "state", "visible");
         }
 
@@ -479,16 +482,21 @@ Item {
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
 
             // Doing longpress
-            var currentMouseX = draggedItem.width / 2
-            var currentMouseY = draggedItem.height / 2
-            mousePress(draggedItem, currentMouseX, currentMouseY)
+            var mouseOnLauncher = launcher.mapFromItem(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            var currentMouseX = mouseOnLauncher.x
+            var currentMouseY = mouseOnLauncher.y
+            var newMouseX = currentMouseX
+            var newMouseY = currentMouseY
+            mousePress(launcher, currentMouseX, currentMouseY)
             // DraggedItem needs to hide and fakeDragItem become visible
             tryCompare(draggedItem, "itemOpacity", 0)
             tryCompare(fakeDragItem, "visible", true)
 
             // Dragging a bit (> 1.5 gu)
-            currentMouseX -= units.gu(2)
-            mouseMove(draggedItem, currentMouseX, currentMouseY)
+            newMouseX -= units.gu(2)
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            currentMouseX = newMouseX
+
             // Other items need to expand and become 0.6 opaque
             tryCompare(item0, "angle", 0)
             tryCompare(item0, "itemOpacity", 0.6)
@@ -496,18 +504,21 @@ Item {
             if (data.fullDrag) {
                 // Dragging a bit more
                 if (data.orientation == ListView.Horizontal) {
-                    currentMouseX -= units.gu(15)
-                    mouseMove(draggedItem, currentMouseX, currentMouseY, 100)
+                    newMouseX += units.gu(15)
+                    mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+                    currentMouseX = newMouseX
 
                     tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
                     tryCompare(draggedItem, "height", units.gu(1))
 
                     // Dragging downwards. Item needs to move in the model
-                    currentMouseY -= initialItemHeight * 1.5
-                    mouseMove(draggedItem, currentMouseX, currentMouseY)
+                    newMouseY -= initialItemHeight * 1.5
+                    mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+                    currentMouseY = newMouseY
                 } else if (data.orientation == ListView.Vertical) {
-                    currentMouseY -= initialItemHeight * 1.5
-                    mouseMove(draggedItem, currentMouseX, currentMouseY, 100)
+                    newMouseY -= initialItemHeight * 1.5
+                    mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+                    currentMouseY = newMouseY
 
                     tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
                     tryCompare(draggedItem, "height", units.gu(1))
@@ -519,7 +530,7 @@ Item {
             }
 
             // Releasing and checking if initial values are restored
-            mouseRelease(draggedItem)
+            mouseRelease(launcher)
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
             tryCompare(draggedItem, "itemOpacity", 1)
             tryCompare(fakeDragItem, "visible", false)
