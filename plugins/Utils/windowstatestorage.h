@@ -33,16 +33,16 @@ public:
     virtual ~WindowStateStorage();
 
     Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
-    Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue);
+    Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue) const;
 
     Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect &rect);
-    Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue);
+    Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue) const;
 
 private:
     void initdb();
 
     void saveValue(const QString &queryString);
-    QSqlQuery getValue(const QString &queryString);
+    QSqlQuery getValue(const QString &queryString) const;
 
     static void executeAsyncQuery(const QString &queryString);
     static QMutex s_mutex;

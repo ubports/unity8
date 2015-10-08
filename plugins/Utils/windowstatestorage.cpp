@@ -49,16 +49,16 @@ WindowStateStorage::~WindowStateStorage()
 
 void WindowStateStorage::saveState(const QString &windowId, WindowStateStorage::WindowState state)
 {
-    QString queryString = QString("INSERT OR REPLACE INTO state (windowId, state) values ('%1', '%2');")
+    const QString queryString = QStringLiteral("INSERT OR REPLACE INTO state (windowId, state) values ('%1', '%2');")
             .arg(windowId)
             .arg((int)state);
 
     saveValue(queryString);
 }
 
-WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue)
+WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue) const
 {
-    QString queryString = QString("SELECT * FROM state WHERE windowId = '%1';")
+    const QString queryString = QStringLiteral("SELECT * FROM state WHERE windowId = '%1';")
             .arg(windowId);
 
     QSqlQuery query = getValue(queryString);
@@ -71,7 +71,7 @@ WindowStateStorage::WindowState WindowStateStorage::getState(const QString &wind
 
 void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect)
 {
-    QString queryString = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
+    const QString queryString = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
             .arg(windowId)
             .arg(rect.x())
             .arg(rect.y())
@@ -94,7 +94,7 @@ void WindowStateStorage::executeAsyncQuery(const QString &queryString)
     }
 }
 
-QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue)
+QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue) const
 {
     QString queryString = QStringLiteral("SELECT * FROM geometry WHERE windowId = '%1';")
             .arg(windowId);
@@ -141,7 +141,7 @@ void WindowStateStorage::saveValue(const QString &queryString)
         futureWatcher->deleteLater(); });
 }
 
-QSqlQuery WindowStateStorage::getValue(const QString &queryString)
+QSqlQuery WindowStateStorage::getValue(const QString &queryString) const
 {
     QMutexLocker l(&s_mutex);
     QSqlQuery query;
