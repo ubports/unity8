@@ -283,7 +283,7 @@ Item {
                         fontSize: "medium"
                         color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
-                        textFormat: Text.StyledText
+                        textFormat: Text.PlainText
                     }
 
                     Label {
@@ -300,7 +300,7 @@ Item {
                         wrapMode: Text.WordWrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
-                        textFormat: Text.StyledText
+                        textFormat: Text.PlainText
                     }
                 }
 
