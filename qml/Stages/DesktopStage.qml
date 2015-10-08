@@ -161,17 +161,17 @@ Rectangle {
                 }
 
                 function maximize(animated) {
-                    animationsEnabled = (animated === undefined) | animated;
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
                 }
                 function minimize(animated) {
-                    animationsEnabled = (animated === undefined) | animated;
+                    animationsEnabled = (animated === undefined) || animated;
                     maximized = false;
                     minimized = true;
                 }
                 function unmaximize(animated) {
-                    animationsEnabled = (animated === undefined) | animated;
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                 }
