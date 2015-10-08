@@ -55,7 +55,10 @@ void FakeOptionSelectorOptions::setChecked(int row, bool checked)
 {
     if (checked) {
         if (!static_cast<FakeOptionSelectorFilter*>(parent())->multiSelect()) {
-            m_checkedIndexes.clear();
+            if (!m_checkedIndexes.isEmpty()) {
+                setChecked(*m_checkedIndexes.begin(), false);
+            }
+            Q_ASSERT(m_checkedIndexes.isEmpty());
         }
         m_checkedIndexes << row;
     } else {
