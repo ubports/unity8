@@ -25,7 +25,6 @@ FilterWidget {
 
     ListItems.Expandable {
         id: expandingItem
-        // TODO ↑ ↓ button
 
         expandedHeight: collapsedHeight + column.height
         width: parent.width
@@ -41,8 +40,19 @@ FilterWidget {
             width: parent.width
 
             Label {
+                anchors.left: parent.left
+                anchors.right: dropDown.left
                 anchors.verticalCenter: parent.verticalCenter
                 text: widgetData.label
+            }
+
+            Image {
+                id: dropDown
+                height: units.gu(3)
+                fillMode: Image.PreserveAspectFit
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                source: expandingItem.expanded ? "image://theme/up" : "image://theme/down"
             }
         }
 
