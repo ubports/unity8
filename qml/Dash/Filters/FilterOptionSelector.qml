@@ -64,8 +64,21 @@ FilterWidget {
                 model: widgetData.options
 
                 ListItems.Standard {
-                    // TODO checked
                     text: label
+
+                    Image {
+                        id: dropDown
+                        height: units.gu(3)
+                        fillMode: Image.PreserveAspectFit
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: "image://theme/tick"
+                        visible: checked
+                    }
+
+                    onClicked: {
+                        widgetData.options.setChecked(index, !checked);
+                    }
                 }
             }
         }
