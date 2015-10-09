@@ -80,6 +80,7 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
             password_page = next_page
         wifi_connect_page = self._test_password_page(password_page)
 
+        reportingPage = None
         locationPageEnabled, reportingPageEnabled, next_page = self._test_wifi_connect_page(wifi_connect_page)
         if locationPageEnabled:
             location_page = next_page
