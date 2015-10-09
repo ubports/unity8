@@ -324,7 +324,6 @@ Item {
                     ]
 
                     contents: Label {
-                        objectName: "header_title_label"
                         LayoutMirroring.enabled: Qt.application.layoutDirection == Qt.RightToLeft
                         anchors {
                             left: parent.left

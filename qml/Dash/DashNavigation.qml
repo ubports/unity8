@@ -52,8 +52,25 @@ Item {
 
     Column {
         id: headersColumn
-        anchors.top: parent.top
-        width: parent.width
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+
+        function pop(popsNeeded) {
+            if (popsNeeded == 0)
+                return;
+            isEnteringChildren = false;
+            navigationListView.currentIndex = navigationListView.currentIndex - popsNeeded;
+            navigationModel.setProperty(navigationListView.currentIndex, "nullifyNavigation", false);
+            navigationModel.remove(navigationModel.count - popsNeeded, popsNeeded);
+
+            popsNeeded = Math.min(headersModel.count, popsNeeded);
+            // This is effectively deleting ourselves, so needs to be the last thing of the function
+            headersModel.remove(headersModel.count - popsNeeded, popsNeeded);
+        }
+
         Repeater {
             model: ListModel {
                 id: headersModel
@@ -71,31 +88,18 @@ Item {
                 text: headerText
                 foregroundColor: d.foregroundColor
 
-                function pop(popsNeeded) {
-                    if (popsNeeded == 0)
-                        return;
-                    isEnteringChildren = false;
-                    navigationListView.currentIndex = navigationListView.currentIndex - popsNeeded;
-                    navigationModel.setProperty(navigationListView.currentIndex, "nullifyNavigation", false);
-                    navigationModel.remove(navigationModel.count - popsNeeded, popsNeeded);
-
-                    popsNeeded = Math.min(headersModel.count, popsNeeded);
-                    // This is effectively deleting ourselves, so needs to be the last thing of the function
-                    headersModel.remove(headersModel.count - popsNeeded, popsNeeded);
-                }
-
                 onBackClicked: {
                     scope.setNavigationState(parentNavigationId);
 
                     var popsNeeded = headersModel.count - index;
-                    pop(popsNeeded);
+                    headersColumn.pop(popsNeeded);
                 }
 
                 onTextClicked: {
                     scope.setNavigationState(navigationId);
 
                     var popsNeeded = headersModel.count - index - 1;
-                    pop(popsNeeded);
+                    headersColumn.pop(popsNeeded);
                     
                     root.leafClicked();
                 }
@@ -115,7 +119,11 @@ Item {
             // nullifyNavigation: overrides navigationId to be null
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
-        anchors.top: headersColumn.bottom
+        anchors {
+            top: headersColumn.bottom
+            left: parent.left
+            right: parent.right
+        }
         property int maxHeight: -1
         Component.onCompleted: updateMaxHeight();
         function updateMaxHeight()
@@ -124,7 +132,6 @@ Item {
         }
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
-        width: parent.width
 
         onHeightChanged: {
             if (currentItem) {
