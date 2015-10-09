@@ -52,8 +52,11 @@ Item {
 
     Column {
         id: headersColumn
-        anchors.top: parent.top
-        width: parent.width
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
 
         function pop(popsNeeded) {
             if (popsNeeded == 0)
@@ -116,7 +119,11 @@ Item {
             // nullifyNavigation: overrides navigationId to be null
             //                    This is used to "clear" the delegate when going "right" on the tree
         }
-        anchors.top: headersColumn.bottom
+        anchors {
+            top: headersColumn.bottom
+            left: parent.left
+            right: parent.right
+        }
         property int maxHeight: -1
         Component.onCompleted: updateMaxHeight();
         function updateMaxHeight()
@@ -125,7 +132,6 @@ Item {
         }
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
-        width: parent.width
 
         onHeightChanged: {
             if (currentItem) {
