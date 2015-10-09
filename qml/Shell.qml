@@ -729,4 +729,9 @@ Item {
         }
     }
 
+    ApplicationsFilterModel {
+        id: legacyAppsModel
+        applicationsModel: ApplicationManager
+        filterTouchApps: true
+    }
 }
