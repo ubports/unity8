@@ -14,31 +14,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.2
+import GSettings 1.0
 
-AbstractStage {
-    id: shimStage
+Rectangle {
+    id: root
 
-    anchors.fill: parent
-    color: UbuntuColors.lightAubergine
-
-    Text {
-        id: greeterModeText
-
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: units.gu(10)
-        font.bold: true
-        horizontalAlignment: Text.AlignHCenter
-        text: "Shell is in \"greeter\" mode"
+    GSettings {
+        id: lifecycleExceptions
+        schema.id: "com.canonical.qtmir"
     }
 
-    Text {
-        anchors.centerIn: parent
-        color: UbuntuColors.orange
-        font.pointSize: units.gu(8)
-        horizontalAlignment: Text.AlignHCenter
-        text: "Shim \nStage"
+    function isExemptFromLifecycle(appId) {
+        var shortAppId = appId.split('_')[0];
+        for (var i = 0; i < lifecycleExceptions.lifecycleExemptAppids.length; i++) {
+            if (shortAppId === lifecycleExceptions.lifecycleExemptAppids[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
