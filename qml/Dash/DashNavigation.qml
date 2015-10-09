@@ -54,6 +54,20 @@ Item {
         id: headersColumn
         anchors.top: parent.top
         width: parent.width
+
+        function pop(popsNeeded) {
+            if (popsNeeded == 0)
+                return;
+            isEnteringChildren = false;
+            navigationListView.currentIndex = navigationListView.currentIndex - popsNeeded;
+            navigationModel.setProperty(navigationListView.currentIndex, "nullifyNavigation", false);
+            navigationModel.remove(navigationModel.count - popsNeeded, popsNeeded);
+
+            popsNeeded = Math.min(headersModel.count, popsNeeded);
+            // This is effectively deleting ourselves, so needs to be the last thing of the function
+            headersModel.remove(headersModel.count - popsNeeded, popsNeeded);
+        }
+
         Repeater {
             model: ListModel {
                 id: headersModel
@@ -71,31 +85,18 @@ Item {
                 text: headerText
                 foregroundColor: d.foregroundColor
 
-                function pop(popsNeeded) {
-                    if (popsNeeded == 0)
-                        return;
-                    isEnteringChildren = false;
-                    navigationListView.currentIndex = navigationListView.currentIndex - popsNeeded;
-                    navigationModel.setProperty(navigationListView.currentIndex, "nullifyNavigation", false);
-                    navigationModel.remove(navigationModel.count - popsNeeded, popsNeeded);
-
-                    popsNeeded = Math.min(headersModel.count, popsNeeded);
-                    // This is effectively deleting ourselves, so needs to be the last thing of the function
-                    headersModel.remove(headersModel.count - popsNeeded, popsNeeded);
-                }
-
                 onBackClicked: {
                     scope.setNavigationState(parentNavigationId);
 
                     var popsNeeded = headersModel.count - index;
-                    pop(popsNeeded);
+                    headersColumn.pop(popsNeeded);
                 }
 
                 onTextClicked: {
                     scope.setNavigationState(navigationId);
 
                     var popsNeeded = headersModel.count - index - 1;
-                    pop(popsNeeded);
+                    headersColumn.pop(popsNeeded);
                     
                     root.leafClicked();
                 }
