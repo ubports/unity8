@@ -194,4 +194,3 @@ void QDeclarativeInputDeviceModel::setDeviceFilter(QInputDevice::InputType filte
         Q_EMIT deviceFilterChanged(filter);
     }
 }
-
