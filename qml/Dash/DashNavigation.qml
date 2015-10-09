@@ -35,7 +35,7 @@ Item {
     property bool isEnteringChildren: false
 
     visible: height != 0
-    implicitHeight: navigationListView.y + navigationListView.height
+    implicitHeight: scope && scope.hasNavigation ? navigationListView.y + navigationListView.height : 0
 
     function resetNavigation() {
         if (navigationModel.count > 1) {

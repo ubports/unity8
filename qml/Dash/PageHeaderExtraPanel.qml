@@ -17,13 +17,14 @@
 import QtQuick 2.2
 import Ubuntu.Components 1.1
 import Ubuntu.Components.ListItems 1.0
+import "Filters" as Filters
 
 Item {
     id: root
 
     readonly property real searchesHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.margins : 0
 
-    implicitHeight: searchesHeight + dashNavigation.implicitHeight
+    implicitHeight: searchesHeight + dashNavigation.implicitHeight + primaryFilter.height
 
     // Set by parent
     property ListModel searchHistory
@@ -32,7 +33,7 @@ Item {
     property real windowHeight
 
     // Used by PageHeader
-    readonly property bool hasContents: searchHistory.count > 0 || scope && scope.hasNavigation
+    readonly property bool hasContents: searchHistory.count > 0 || scope && scope.hasNavigation || scope && scope.primaryNavigationFilter
 
     signal historyItemClicked(string text)
     signal dashNavigationLeafClicked()
@@ -109,5 +110,22 @@ Item {
         availableHeight: windowHeight * 4 / 6 - searchesHeight
 
         onLeafClicked: root.dashNavigationLeafClicked();
+    }
+
+    Filters.FilterWidgetFactory {
+        id: primaryFilter
+        active: scope && !scope.hasNavigation
+
+        property var filter: active ? scope.primaryNavigationFilter : null
+
+        anchors {
+            top: recentSearchesRepeater.count > 0 ? searchColumn.bottom : parent.top
+            left: parent.left
+            right: parent.right
+        }
+
+        widgetId: filter ? filter.filterId : ""
+        widgetType: filter ? filter.filterType : -1
+        widgetData: filter
     }
 }

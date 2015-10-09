@@ -25,6 +25,7 @@
 #include <QTimer>
 
 class Scopes;
+class FakeOptionSelectorFilter;
 
 class Scope : public unity::shell::scopes::ScopeInterface
 {
@@ -108,6 +109,7 @@ protected:
     unity::shell::scopes::ScopeInterface* m_openScope;
     unity::shell::scopes::SettingsModelInterface* m_settings;
     unity::shell::scopes::FiltersInterface* m_filters;
+    FakeOptionSelectorFilter* m_primaryNavigationFilter;
 
     bool m_returnNullPreview;
 };

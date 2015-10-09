@@ -21,6 +21,7 @@
 
 #include "fake_filters.h"
 #include "fake_navigation.h"
+#include "fake_optionselectorfilter.h"
 #include "fake_resultsmodel.h"
 #include "fake_scopes.h"
 #include "fake_settingsmodel.h"
@@ -46,6 +47,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
 {
+    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF2", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
 }
 
 QString Scope::id() const
@@ -288,7 +290,7 @@ void Scope::setNavigationState(const QString &navigationId)
 
 unity::shell::scopes::FilterBaseInterface* Scope::primaryNavigationFilter() const
 {
-    return nullptr;
+    return m_primaryNavigationFilter;
 }
 
 unity::shell::scopes::FiltersInterface* Scope::filters() const
