@@ -192,6 +192,7 @@ Item {
 
     ScreenGrabber {
         id: screenGrabber
+        rotationAngle: -shell.orientationAngle
         z: dialogs.z + 10
     }
 
