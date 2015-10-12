@@ -62,8 +62,6 @@ ScreenGrabber::ScreenGrabber(QObject *parent)
 
 void ScreenGrabber::captureAndSave(int angle)
 {
-    qDebug() << Q_FUNC_INFO << angle;
-
     if (fileNamePrefix.isEmpty())
     {
         qWarning() << "ScreenShotter: no directory to save screenshot";
