@@ -52,6 +52,8 @@ LocalComponents.Page {
             id: tz
             objectName: "tz"
             highlightColor: backgroundColor
+            divider.colorFrom: dividerColor
+            divider.colorTo: backgroundColor
             readonly property bool currentTz: ListView.view.currentIndex === index
 
             Column {
@@ -86,7 +88,7 @@ LocalComponents.Page {
                     rightMargin: rightMargin
                 }
                 fillMode: Image.PreserveAspectFit
-                height: cityLabel.height / 2
+                height: units.gu(1.5)
 
                 source: "data/Tick@30.png"
                 visible: tz.currentTz
@@ -101,13 +103,12 @@ LocalComponents.Page {
         }
     }
 
-    Column {
+    Item {
         id: column
         anchors {
             fill: content
             topMargin: customMargin
         }
-        spacing: units.gu(3)
 
         LocalComponents.WizardTextField {
             id: searchField
@@ -125,6 +126,17 @@ LocalComponents.Page {
             }
         }
 
+        Rectangle {
+            id: divider
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: searchField.bottom
+            anchors.topMargin: units.gu(3)
+            height: units.dp(1)
+            color: dividerColor
+            visible: tzList.count > 0
+        }
+
         ListView {
             id: tzList;
 
@@ -136,9 +148,10 @@ LocalComponents.Page {
             anchors {
                 left: parent.left
                 right: parent.right
+                top: divider.bottom
             }
 
-            height: column.height - searchField.height - column.spacing - topMargin
+            height: column.height - searchField.height - customMargin - topMargin - divider.height
             model: timeDatePanel.timeZoneModel
             delegate: tzComponent
         }

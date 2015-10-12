@@ -126,7 +126,7 @@ LocalComponents.Page {
                 right: parent.right
             }
 
-            height: column.height - column.spacing
+            height: column.height
 
             model: plugin.languageNames
 
@@ -157,7 +157,7 @@ LocalComponents.Page {
                         rightMargin: rightMargin
                     }
                     fillMode: Image.PreserveAspectFit
-                    height: langLabel.height / 2
+                    height: units.gu(1.5)
 
                     source: "data/Tick@30.png"
                     visible: itemDelegate.isCurrent

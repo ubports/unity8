@@ -74,6 +74,8 @@ LocalComponents.Page {
             objectName: "accessPoint"
             highlightColor: backgroundColor
             enabled: menuData && menuData.sensitive || false
+            divider.colorFrom: dividerColor
+            divider.colorTo: backgroundColor
 
             property QtObject menuData: null
             property var unityMenuModel: menuModel
@@ -103,7 +105,7 @@ LocalComponents.Page {
                     verticalCenter: parent.verticalCenter
                     leftMargin: leftMargin
                 }
-                height: units.gu(2)
+                height: units.gu(2.5)
                 width: height
                 name: getAPIcon(accessPoint.adHoc, accessPoint.signalStrength, accessPoint.secure)
                 color: textColor
@@ -112,7 +114,7 @@ LocalComponents.Page {
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: apIcon.right
-                anchors.leftMargin: leftMargin
+                anchors.leftMargin: units.gu(2)
                 Label {
                     id: apName
                     text: menuData && menuData.label || ""

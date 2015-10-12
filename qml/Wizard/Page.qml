@@ -128,11 +128,12 @@ Item {
         Label {
             id: titleLabel
             property real animatedMargin: 0
-            property real animatedTopMargin: titleRect.height - customMargin - titleLabel.height
+            property real animatedTopMargin: customTitle ? customMargin :
+                                                           titleRect.height - customMargin - titleLabel.height
             anchors {
                 left: parent.left
                 right: parent.right
-                top: parent.top
+                bottom: parent.bottom
                 bottomMargin: bottomMargin
                 leftMargin: leftMargin + titleLabel.animatedMargin
                 rightMargin: rightMargin
@@ -335,7 +336,7 @@ Item {
             target: titleLabel
             property: 'animatedTopMargin'
             from: content.height
-            to: titleRect.height - customMargin - titleLabel.height
+            to: customMargin
             duration: UbuntuAnimation.BriskDuration
             easing: UbuntuAnimation.StandardEasing
         }

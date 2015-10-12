@@ -106,7 +106,7 @@ LocalComponents.Page {
         Image {
             id: hereTermsCheck
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height
+            height: units.gu(1.5)
             source: "data/Tick@30.png"
             opacity: hereCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
@@ -155,7 +155,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height
+            height: units.gu(1.5)
             source: "data/Tick@30.png"
             opacity: gpsCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
@@ -204,7 +204,7 @@ LocalComponents.Page {
 
         Image {
             fillMode: Image.PreserveAspectFit
-            height: nopeCheckLabel.height
+            height: units.gu(1.5)
             source: "data/Tick@30.png"
             opacity: nopeCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
@@ -228,7 +228,7 @@ LocalComponents.Page {
                 left: parent.left
                 right: parent.right
                 top: divider3.bottom
-                topMargin: units.gu(3)
+                topMargin: units.gu(4)
                 leftMargin: leftMargin
                 rightMargin: rightMargin
             }

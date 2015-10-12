@@ -92,7 +92,7 @@ LocalComponents.Page {
 
             // this is the order we want to display it; cf indexToMethod()
             model: [UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Passphrase,
-                UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Swipe]
+                    UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Swipe]
 
             delegate: ListItem {
                 id: itemDelegate
@@ -130,7 +130,7 @@ LocalComponents.Page {
                         rightMargin: rightMargin
                     }
                     fillMode: Image.PreserveAspectFit
-                    height: methodLabel.height / 2
+                    height: units.gu(1.5)
 
                     source: "data/Tick@30.png"
                     visible: itemDelegate.isCurrent

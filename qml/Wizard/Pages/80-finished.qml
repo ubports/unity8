@@ -42,15 +42,16 @@ LocalComponents.Page {
         ParallelAnimation {
             AnchorAnimation {
                 targets: [bgImage, column]
-                duration: UbuntuAnimation.BriskDuration
-                easing.type: Easing.OutCubic
+                duration: UbuntuAnimation.SlowDuration
+                easing.type: Easing.OutCirc
             }
-            NumberAnimation { // opacity animation
+            NumberAnimation {
                 targets: [bgImage,column]
-                property: 'opacity'
+                property: "opacity"
                 from: 0
                 to: 1
-                duration: UbuntuAnimation.BriskDuration
+                duration: UbuntuAnimation.SlowDuration
+                easing.type: Easing.OutCirc
             }
         }
     }
@@ -65,14 +66,14 @@ LocalComponents.Page {
         visible: opacity > 0
     }
 
-    Column {
+    Item {
         id: column
         anchors.leftMargin: leftMargin
         anchors.rightMargin: rightMargin
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.bottom // outside to let it slide in
-        spacing: units.gu(2)
+        height: childrenRect.height
         visible: opacity > 0
 
         Label {
@@ -87,8 +88,11 @@ LocalComponents.Page {
         }
 
         Label {
+            id: welcomeText
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.top: welcomeLabel.bottom
+            anchors.topMargin: units.gu(2)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
             fontSize: "large"
@@ -98,18 +102,20 @@ LocalComponents.Page {
 
         Rectangle {
             anchors {
+                top: welcomeText.bottom
                 horizontalCenter: parent.horizontalCenter
+                topMargin: units.gu(4)
             }
-            color: 'transparent'
+            color: "transparent"
             border.width: units.dp(1)
-            border.color: 'white'
+            border.color: "white"
             radius: units.dp(4)
             width: buttonLabel.paintedWidth + units.gu(6)
-            height: buttonLabel.paintedHeight + units.gu(1.7)
+            height: buttonLabel.paintedHeight + units.gu(1.8)
 
             Label {
                 id: buttonLabel
-                color: 'white'
+                color: "white"
                 text: i18n.tr("Get Started")
                 fontSize: "medium"
                 anchors.centerIn: parent
