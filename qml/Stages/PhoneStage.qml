@@ -532,7 +532,7 @@ Rectangle {
                         return progress;
                     }
 
-                    // Hiding tiles when their progress is negative or reached the maximum
+                    // Hide tile when progress is such that it will be off screen.
                     property bool occluded: {
                         if (spreadView.active && (progress >= 0 && progress < 1.7)) return false;
                         if (!spreadView.active && isFocused) return false;
