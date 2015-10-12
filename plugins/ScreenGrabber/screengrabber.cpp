@@ -60,8 +60,10 @@ ScreenGrabber::ScreenGrabber(QObject *parent)
     }
 }
 
-void ScreenGrabber::captureAndSave()
+void ScreenGrabber::captureAndSave(int angle)
 {
+    qDebug() << Q_FUNC_INFO << angle;
+
     if (fileNamePrefix.isEmpty())
     {
         qWarning() << "ScreenShotter: no directory to save screenshot";
@@ -82,7 +84,7 @@ void ScreenGrabber::captureAndSave()
         return;
     }
 
-    const QImage screenshot = main_window->grabWindow();
+    const QImage screenshot = main_window->grabWindow().transformed(QTransform().rotate(angle));
     const QString filename = makeFileName();
     qDebug() << "Saving screenshot to" << filename;
     auto saveOp = QtConcurrent::run(saveScreenshot, screenshot, filename, getFormat(), screenshotQuality);
