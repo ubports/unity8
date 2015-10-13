@@ -83,7 +83,7 @@ PreviewWidget {
                     verticalCenter: parent.verticalCenter
                     leftMargin: units.gu(1)
                 }
-                shareUris: widgetData["shareUris"]
+                shareData: widgetData["shareData"]
             }
         }
     }

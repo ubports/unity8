@@ -23,10 +23,10 @@ Item {
     implicitHeight: button.height
     implicitWidth: button.width
 
-    property var shareUris
+    property var shareData
     readonly property bool isUrlExternal: url && url.indexOf("file:///") != 0 && url.indexOf("/") != 0
-    readonly property string contentType: shareUris ? shareUris["contentType"] : ""
-    readonly property string url: shareUris ? shareUris["uri"] : ""
+    readonly property string contentType: shareData ? shareData["contentType"] : ""
+    readonly property var url: shareData ? shareData["uri"] : ""
     readonly property Item rootItem: QuickUtils.rootItem(root)
 
     visible: url != ""
@@ -78,9 +78,11 @@ Item {
                 var transfer = peer.request();
                 if (transfer.state === ContentTransfer.InProgress) {
                     var items = new Array();
-                    var exportItem = exportItemComponent.createObject();
-                    exportItem.url = url;
-                    items.push(exportItem);
+                    for (var i = 0; i < url.length; i++) {
+                        var exportItem = exportItemComponent.createObject();
+                        exportItem.url = url[i];
+                        items.push(exportItem);
+                    }
                     transfer.items = items;
                     transfer.state = ContentTransfer.Charged;
                 }

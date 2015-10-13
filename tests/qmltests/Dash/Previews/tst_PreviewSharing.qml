@@ -24,14 +24,18 @@ Rectangle {
     id: root
     width: units.gu(40)
     height: units.gu(80)
-    color: Theme.palette.selected.background
+    color: "black"
 
-    property var shareUris: {
-        "uri": "Text here",
+    property var shareData: {
+        "uri": [
+                    "Text here",
+                    "text here 2",
+                    "text here 3"
+                ],
         "contentType": "text"
     }
 
-    property var shareUrisNoUri: {
+    property var shareDataNoUri: {
         "uri": "",
         "contentType": "text"
     }
@@ -39,7 +43,7 @@ Rectangle {
     PreviewSharing {
         id: previewSharing
         anchors { left: parent.left; bottom: parent.bottom; }
-        shareUris: root.shareUris
+        shareData: root.shareData
     }
 
     UT.UnityTestCase {
@@ -50,12 +54,12 @@ Rectangle {
 
         function cleanup() {
             peerPicker.visible = false;
-            previewSharing.shareUris = root.shareUris;
+            previewSharing.shareData = root.shareData;
         }
 
         function test_visible() {
             compare(previewSharing.visible, true);
-            previewSharing.shareUris = shareUrisNoUri;
+            previewSharing.shareData = shareDataNoUri;
             compare(previewSharing.visible, false);
         }
 
