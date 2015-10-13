@@ -21,6 +21,8 @@ import Ubuntu.Components.ListItems 1.2 as ListItems
 /*! Option Selector Filter Widget. */
 
 FilterWidget {
+    id: root
+
     implicitHeight: expandingItem.height
 
     ListItems.Expandable {
@@ -65,6 +67,7 @@ FilterWidget {
 
                 ListItems.Standard {
                     text: label
+                    objectName: root.objectName + "label" + index;
 
                     Image {
                         id: dropDown
