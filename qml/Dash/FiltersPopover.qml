@@ -20,6 +20,7 @@ import Ubuntu.Components.Popups 1.2
 import "Filters" as Filters
 
 Popover {
+    objectName: "filtersPopover"
     Column {
         anchors {
             top: parent.top

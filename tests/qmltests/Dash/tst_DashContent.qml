@@ -530,6 +530,23 @@ Item {
             verify(!searchTextField.clearIsSettings)
         }
 
+        function test_navigationShowFilterPopup() {
+            goToSecondLevel();
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
+            var clearIcon = findChild(searchTextField, "clearIcon");
+
+            var filtersPopover = findChild(shell, "filtersPopover")
+            verify(!filtersPopover);
+
+            mouseClick(clearIcon);
+
+            filtersPopover = findChild(shell, "filtersPopover")
+
+            verify(filtersPopover);
+        }
+
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);
