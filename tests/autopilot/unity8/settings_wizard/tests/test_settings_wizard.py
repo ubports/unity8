@@ -87,10 +87,12 @@ class SkipThroughSettingsWizardTestCase(tests.UnityTestCase):
             if reportingPageEnabled:
                 reporting_page = self._test_location_page(location_page)
             else:
-                finish_page = nextPage
+                finish_page = next_page
 
         if reporting_page is not None:
             finish_page = self._test_reporting_page(reporting_page)
+        else:
+            finish_page = next_page
 
         finish_page.finish()
         self.assertFalse(
