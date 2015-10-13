@@ -43,7 +43,7 @@ FilterWidget {
                 anchors.left: parent.left
                 anchors.right: dropDown.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: widgetData.label
+                text: widgetData.label || ""
             }
 
             Image {
