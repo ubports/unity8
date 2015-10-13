@@ -26,6 +26,7 @@ Item {
     implicitHeight: headerContainer.height + bottomContainer.height + signatureLineHeight
     readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
 
+    property int activeFiltersCount: 0
     property bool scopeHasFilters: false
     property bool showBackButton: false
     property bool backIsClose: false
@@ -206,30 +207,41 @@ Item {
                             text: root.navigationTag
                         }
 
-                        secondaryItem: AbstractButton {
-                            id: clearOrSettingsButton
+                        secondaryItem: Row {
                             height: searchTextField.height
-                            width: height
-                            enabled: searchTextField.text.length > 0 || root.navigationTag != ""
 
-                            Image {
-                                objectName: "clearIcon"
-                                anchors.fill: parent
-                                anchors.margins: units.gu(.75)
-                                source: searchTextField.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
-                                opacity: parent.enabled
-                                visible: opacity > 0
-                                Behavior on opacity {
-                                    UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                            AbstractButton {
+                                id: clearOrSettingsButton
+                                height: parent.height
+                                width: height
+                                enabled: searchTextField.text.length > 0 || root.navigationTag != ""
+
+                                Image {
+                                    objectName: "clearIcon"
+                                    anchors.fill: parent
+                                    anchors.margins: units.gu(.75)
+                                    source: searchTextField.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
+                                    opacity: parent.enabled
+                                    visible: opacity > 0
+                                    Behavior on opacity {
+                                        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                                    }
+                                }
+
+                                onClicked: {
+                                    if (searchTextField.clearIsSettings) {
+                                        root.showFiltersPopup(clearOrSettingsButton);
+                                    } else {
+                                        root.clearSearch(true);
+                                    }
                                 }
                             }
 
-                            onClicked: {
-                                if (searchTextField.clearIsSettings) {
-                                    root.showFiltersPopup(clearOrSettingsButton);
-                                } else {
-                                    root.clearSearch(true);
-                                }
+                            Label {
+                                visible: searchTextField.clearIsSettings && root.activeFiltersCount > 0
+                                height: parent.height
+                                text: root.activeFiltersCount
+                                verticalAlignment: Text.AlignVCenter
                             }
                         }
 

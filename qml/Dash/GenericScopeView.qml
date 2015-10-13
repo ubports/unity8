@@ -623,6 +623,7 @@ FocusScope {
             searchHistory: SearchHistoryModel
             searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
             scopeHasFilters: scopeView.scope.filters != null
+            activeFiltersCount: scopeView.scope.activeFiltersCount
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false

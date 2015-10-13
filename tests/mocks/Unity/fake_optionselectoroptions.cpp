@@ -53,7 +53,6 @@ QVariant FakeOptionSelectorOptions::data(const QModelIndex &index, int role) con
 
 void FakeOptionSelectorOptions::setChecked(int row, bool checked)
 {
-    const bool wasChecked = anyChecked();
     if (checked) {
         if (!static_cast<FakeOptionSelectorFilter*>(parent())->multiSelect()) {
             if (!m_checkedIndexes.isEmpty()) {
@@ -67,9 +66,7 @@ void FakeOptionSelectorOptions::setChecked(int row, bool checked)
     }
     const QModelIndex idx = index(row, 0);
     Q_EMIT dataChanged(idx, idx,  QVector<int>() << RoleOptionChecked);
-    if (wasChecked != anyChecked()) {
-        Q_EMIT anyCheckedChanged();
-    }
+    Q_EMIT anyCheckedChanged();
 }
 
 bool FakeOptionSelectorOptions::anyChecked() const
