@@ -200,6 +200,8 @@ Item {
                             rightMargin: units.gu(1)
                         }
 
+                        readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
+
                         primaryItem: Label {
                             text: root.navigationTag
                         }
@@ -210,13 +212,11 @@ Item {
                             width: height
                             enabled: searchTextField.text.length > 0 || root.navigationTag != ""
 
-                            readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
-
                             Image {
                                 objectName: "clearIcon"
                                 anchors.fill: parent
                                 anchors.margins: units.gu(.75)
-                                source: parent.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
+                                source: searchTextField.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
                                 opacity: parent.enabled
                                 visible: opacity > 0
                                 Behavior on opacity {
@@ -225,7 +225,7 @@ Item {
                             }
 
                             onClicked: {
-                                if (clearIsSettings) {
+                                if (searchTextField.clearIsSettings) {
                                     root.showFiltersPopup(clearOrSettingsButton);
                                 } else {
                                     root.clearSearch(true);

@@ -515,6 +515,21 @@ Item {
             tryCompare(peExtraPanel, "visible", true);
         }
 
+        function test_navigationShowFilterButton() {
+            goToSecondLevel();
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
+
+            verify(!searchTextField.focus)
+            verify(searchTextField.clearIsSettings)
+
+            mouseClick(searchTextField)
+
+            verify(searchTextField.focus)
+            verify(!searchTextField.clearIsSettings)
+        }
+
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);
