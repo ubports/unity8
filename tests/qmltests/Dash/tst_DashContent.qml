@@ -510,8 +510,6 @@ Item {
 
             var clearIcon = findChild(searchTextField, "clearIcon");
             mouseClick(clearIcon);
-
-            expectFail("", "Extra panel should not be visible after clearing search if it was not visible before");
             tryCompare(peExtraPanel, "visible", true);
         }
 

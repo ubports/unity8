@@ -78,7 +78,7 @@ Item {
         } else if (!keepFocus) {
             unfocus();
         }
-        if (!searchTextField.text && !root.navigationTag) {
+        if (!searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
             headerContainer.showSearch = false;
         }
     }

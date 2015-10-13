@@ -642,7 +642,7 @@ FocusScope {
                 resetSearch(keepPanelOpen);
                 scopeView.scope.resetPrimaryNavigationTag();
                 peExtraPanel.resetNavigation();
-                if (panelOpen && keepPanelOpen) {
+                if ((panelOpen || searchHistory.count > 0) && keepPanelOpen) {
                     openPopup();
                 }
             }
