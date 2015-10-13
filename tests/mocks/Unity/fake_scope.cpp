@@ -50,6 +50,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_returnNullPreview(returnNullPreview)
 {
     m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
+    connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
 }
 
 QString Scope::id() const
@@ -316,8 +317,7 @@ QString Scope::primaryNavigationTag() const
 
 int Scope::activeFiltersCount() const
 {
-    // TODO
-    return 0;
+    return m_filters->activeFiltersCount();
 }
 
 void Scope::resetPrimaryNavigationTag()

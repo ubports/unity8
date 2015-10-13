@@ -18,9 +18,9 @@
 #define FAKE_FILTERS_H
 
 #include <unity/shell/scopes/FiltersInterface.h>
-#include <unity/shell/scopes/FilterBaseInterface.h>
 
 class Scope;
+class FakeOptionSelectorFilter;
 
 class Filters : public unity::shell::scopes::FiltersInterface
 {
@@ -32,8 +32,15 @@ public:
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    int activeFiltersCount() const;
+
+Q_SIGNALS:
+    void activeFiltersCountChanged();
+
 private:
-    QVector<unity::shell::scopes::FilterBaseInterface*> m_filters;
+    void addFilter(FakeOptionSelectorFilter* f);
+
+    QVector<FakeOptionSelectorFilter*> m_filters;
 };
 
 #endif
