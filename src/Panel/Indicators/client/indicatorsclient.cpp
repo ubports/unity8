@@ -40,16 +40,16 @@ IndicatorsClient::IndicatorsClient(int &argc, char **argv)
     prependImportPaths(m_view->engine(), ::overrideImportPaths());
     appendImportPaths(m_view->engine(), ::fallbackImportPaths());
 
-    QString profile = "phone";
-    if (args.contains(QLatin1String("-profile")) && args.size() > args.indexOf(QLatin1String("-profile")) + 1) {
-        profile = args.at(args.indexOf(QLatin1String("-profile")) + 1);
+    QString profile = QStringLiteral("phone");
+    if (args.contains(QStringLiteral("-profile")) && args.size() > args.indexOf(QStringLiteral("-profile")) + 1) {
+        profile = args.at(args.indexOf(QStringLiteral("-profile")) + 1);
     }
-    m_view->rootContext()->setContextProperty("indicatorProfile", profile);
+    m_view->rootContext()->setContextProperty(QStringLiteral("indicatorProfile"), profile);
 
-    m_view->setSource(QUrl("IndicatorsClient.qml"));
+    m_view->setSource(QUrl(QStringLiteral("IndicatorsClient.qml")));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    if (args.contains(QLatin1String("-windowgeometry")) && args.size() > args.indexOf(QLatin1String("-windowgeometry")) + 1) {
-        QStringList geometryArg = args.at(args.indexOf(QLatin1String("-windowgeometry")) + 1).split('x');
+    if (args.contains(QStringLiteral("-windowgeometry")) && args.size() > args.indexOf(QStringLiteral("-windowgeometry")) + 1) {
+        QStringList geometryArg = args.at(args.indexOf(QStringLiteral("-windowgeometry")) + 1).split('x');
         if (geometryArg.size() == 2) {
             m_view->resize(geometryArg.at(0).toInt(), geometryArg.at(1).toInt());
         }

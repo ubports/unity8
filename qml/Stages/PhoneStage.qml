@@ -48,17 +48,12 @@ Rectangle {
     onBeingResizedChanged: {
         if (beingResized) {
             // Brace yourselves for impact!
-            spreadView.selectedIndex = -1;
-            spreadView.phase = 0;
-            spreadView.contentX = -spreadView.shift;
+            priv.reset();
         }
     }
     onSpreadEnabledChanged: {
         if (!spreadEnabled) {
-            // reset. go back to display the focused app
-            spreadView.selectedIndex = -1;
-            spreadView.phase = 0;
-            spreadView.contentX = -spreadView.shift;
+            priv.reset();
         }
     }
     function updateFocusedAppOrientation() {
@@ -94,6 +89,7 @@ Rectangle {
     readonly property var mainApp: applicationManager.focusedApplicationId
             ? applicationManager.findApplication(applicationManager.focusedApplicationId)
             : null
+
     property int mainAppWindowOrientationAngle: 0
     readonly property bool orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
                                                    && !priv.focusedAppDelegateIsDislocated
@@ -216,6 +212,18 @@ Rectangle {
         // Is more stable than "spreadView.shiftedContentX === 0" as it filters out noise caused by
         // Flickable.contentX changing due to resizes.
         property bool fullyShowingFocusedApp: true
+
+        function reset() {
+            // The app that's about to go to foreground has to be focused, otherwise
+            // it would leave us in an inconsistent state.
+            if (!root.applicationManager.focusedApplicationId && root.applicationManager.count > 0) {
+                root.applicationManager.focusApplication(root.applicationManager.get(0).appId);
+            }
+
+            spreadView.selectedIndex = -1;
+            spreadView.phase = 0;
+            spreadView.contentX = -spreadView.shift;
+        }
     }
     Timer {
         id: fullyShowingFocusedAppUpdateTimer

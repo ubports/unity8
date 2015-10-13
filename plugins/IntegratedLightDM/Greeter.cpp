@@ -113,7 +113,7 @@ void Greeter::showPromptFilter(const QString &text, QLightDM::Greeter::PromptTyp
 
     // Strip prompt of any colons at the end
     QString trimmedText = text.trimmed();
-    if (trimmedText.endsWith(":") || trimmedText.endsWith("：")) {
+    if (trimmedText.endsWith(':') || trimmedText.endsWith(QStringLiteral("："))) {
         trimmedText.chop(1);
     }
 

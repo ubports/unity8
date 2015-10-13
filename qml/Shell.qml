@@ -62,6 +62,7 @@ Item {
     function updateFocusedAppOrientationAnimated() {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
+    property bool hasMouse
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -630,6 +631,7 @@ Item {
 
             model: NotificationBackend.Model
             margin: units.gu(1)
+            hasMouse: shell.hasMouse
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
