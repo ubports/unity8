@@ -65,6 +65,11 @@ Rectangle {
 
             ApplicationManager.requestFocusApplication(appId)
         }
+        onApplicationRemoved: {
+            if (priv.foregroundMaximizedAppId === appId) {
+                priv.foregroundMaximizedAppId = "";
+            }
+        }
 
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
@@ -86,6 +91,7 @@ Rectangle {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
+        property string foregroundMaximizedAppId: ""
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -149,6 +155,18 @@ Rectangle {
                         ApplicationManager.focusApplication(model.appId);
                     }
                 }
+
+                readonly property bool foregroundMaximized: maximized && index == 0
+                onForegroundMaximizedChanged: {
+                    if (foregroundMaximized) {
+                        priv.foregroundMaximizedAppId = model.appId;
+                    } else if (priv.foregroundMaximizedAppId === model.appId) {
+                        priv.foregroundMaximizedAppId = "";
+                    }
+                }
+
+                visible: !minimized &&
+                         (priv.foregroundMaximizedAppId === "" || priv.foregroundMaximizedAppId === model.appId)
 
                 Binding {
                     target: ApplicationManager.get(index)
