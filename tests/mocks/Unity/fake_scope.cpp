@@ -39,6 +39,8 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_searching(false)
     , m_favorite(favorite)
     , m_isActive(false)
+    , m_hasNavigation(true)
+    , m_hasPrimaryFilter(true)
     , m_currentNavigationId("root")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
@@ -227,7 +229,12 @@ QString Scope::currentNavigationId() const
 
 bool Scope::hasNavigation() const
 {
-    return true;
+    return m_hasNavigation;
+}
+
+void Scope::setHasNavigation(bool hasNavigation)
+{
+    m_hasNavigation = hasNavigation;
 }
 
 Scope::Status Scope::status() const
@@ -290,7 +297,7 @@ void Scope::setNavigationState(const QString &navigationId)
 
 unity::shell::scopes::FilterBaseInterface* Scope::primaryNavigationFilter() const
 {
-    return m_primaryNavigationFilter;
+    return m_hasPrimaryFilter ? m_primaryNavigationFilter : nullptr;
 }
 
 unity::shell::scopes::FiltersInterface* Scope::filters() const
@@ -317,6 +324,11 @@ void Scope::resetPrimaryNavigationTag()
     if (m_currentNavigationId != "root") {
         setNavigationState("root");
     }
+}
+
+void Scope::setHasPrimaryFilter(bool hasPrimaryFilter)
+{
+    m_hasPrimaryFilter = hasPrimaryFilter;
 }
 
 void Scope::performQuery(const QString& query)

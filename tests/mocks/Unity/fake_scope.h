@@ -70,12 +70,14 @@ public:
     bool hasNavigation() const  override;
     Q_INVOKABLE unity::shell::scopes::NavigationInterface* getNavigation(QString const& navigationId) override;
     Q_INVOKABLE void setNavigationState(const QString &navigationId) override;
+    Q_INVOKABLE void setHasNavigation(bool hasNavigation); // This is not invokable in the Interface, here for testing benefits
 
     unity::shell::scopes::FilterBaseInterface* primaryNavigationFilter() const override;
     unity::shell::scopes::FiltersInterface* filters() const override;
     QString primaryNavigationTag() const override;
     int activeFiltersCount() const override;
     Q_INVOKABLE void resetPrimaryNavigationTag() override;
+    Q_INVOKABLE void setHasPrimaryFilter(bool hasPrimaryFilter); // This is not invokable in the Interface, here for testing benefits
     
     void performQuery(const QString& query) override;
 
@@ -101,6 +103,8 @@ protected:
     bool m_searching;
     bool m_favorite;
     bool m_isActive;
+    bool m_hasNavigation;
+    bool m_hasPrimaryFilter;
     QString m_currentNavigationId;
 
     QString m_previewRendererName;
