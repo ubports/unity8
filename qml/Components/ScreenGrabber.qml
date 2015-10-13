@@ -18,6 +18,7 @@ import QtQuick 2.0
 import QtMultimedia 5.0
 import ScreenGrabber 0.1
 import GlobalShortcut 1.0
+import QtQuick.Window 2.2
 
 Rectangle {
     id: root
