@@ -547,6 +547,20 @@ Item {
             verify(filtersPopover);
         }
 
+        function test_primaryFilter() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            dashContentList.currentItem.item.scope.setHasNavigation(false);
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+
+            compare(peExtraPanel.visible, false);
+            mouseClick(searchButton);
+            tryCompare(peExtraPanel, "visible", true);
+
+            tryCompareFunction(function() { return findChild(peExtraPanel, "OSF3") != null; }, true);
+        }
+
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);

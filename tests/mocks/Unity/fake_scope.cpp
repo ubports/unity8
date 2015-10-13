@@ -49,7 +49,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
 {
-    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF2", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
+    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
 }
 
 QString Scope::id() const
@@ -235,6 +235,7 @@ bool Scope::hasNavigation() const
 void Scope::setHasNavigation(bool hasNavigation)
 {
     m_hasNavigation = hasNavigation;
+    Q_EMIT hasNavigationChanged();
 }
 
 Scope::Status Scope::status() const
@@ -329,6 +330,7 @@ void Scope::resetPrimaryNavigationTag()
 void Scope::setHasPrimaryFilter(bool hasPrimaryFilter)
 {
     m_hasPrimaryFilter = hasPrimaryFilter;
+    Q_EMIT primaryNavigationFilterChanged();
 }
 
 void Scope::performQuery(const QString& query)
