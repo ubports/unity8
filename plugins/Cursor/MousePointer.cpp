@@ -34,7 +34,7 @@ MousePointer::MousePointer(QQuickItem *parent)
 {
 }
 
-void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButton buttons,
+void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
         Qt::KeyboardModifiers modifiers)
 {
     if (!parentItem()) {
