@@ -692,7 +692,14 @@ Rectangle {
 
                     shellOrientationAngle: wantsMainStage ? root.shellOrientationAngle : 0
                     shellOrientation: wantsMainStage ? root.shellOrientation : Qt.PortraitOrientation
-                    orientations: root.orientations
+		            orientations: Orientations {
+                        primary: spreadTile.wantsMainStage ? root.orientations.primary : Qt.PortraitOrientation
+                        native_: spreadTile.wantsMainStage ? root.orientations.native_ : Qt.PortraitOrientation
+                        portrait: root.orientations.portrait
+                        invertedPortrait: root.orientations.invertedPortrait
+                        landscape: root.orientations.landscape
+                        invertedLandscape: root.orientations.invertedLandscape
+                    }
 
                     onClicked: {
                         if (spreadView.phase == 2) {
