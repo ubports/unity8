@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// local
-#include "ShellApplication.h"
+import QtQuick 2.4
 
-int main(int argc, const char *argv[])
-{
-    bool isMirServer = false;
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
-        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
-        isMirServer = true;
-    }
-
-    ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
-
-    int result = application->exec();
-
-    delete application;
-
-    return result;
+Item {
 }

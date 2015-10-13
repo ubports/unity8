@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "SecondaryWindow.h"
+
 // local
-#include "ShellApplication.h"
+#include <paths.h>
 
-int main(int argc, const char *argv[])
+SecondaryWindow::SecondaryWindow(QQmlEngine *engine)
+    : QQuickView(engine, nullptr)
 {
-    bool isMirServer = false;
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
-        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
-        isMirServer = true;
-    }
+    setResizeMode(QQuickView::SizeRootObjectToView);
+    setColor("black");
+    setTitle(QStringLiteral("Unity8 Shell - Secondary Screen"));
 
-    ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
-
-    int result = application->exec();
-
-    delete application;
-
-    return result;
+    QUrl source(::qmlDirectory() + "/DisabledScreenNotice.qml");
+    setSource(source);
 }

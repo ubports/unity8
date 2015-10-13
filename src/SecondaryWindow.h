@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// local
-#include "ShellApplication.h"
+#ifndef UNITY_SECONDARY_WINDOW_H
+#define UNITY_SECONDARY_WINDOW_H
 
-int main(int argc, const char *argv[])
+#include <QQuickView>
+
+class SecondaryWindow : public QQuickView
 {
-    bool isMirServer = false;
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
-        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
-        isMirServer = true;
-    }
+    Q_OBJECT
 
-    ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
+public:
+    SecondaryWindow(QQmlEngine *engine);
+};
 
-    int result = application->exec();
-
-    delete application;
-
-    return result;
-}
+#endif // UNITY_SECONDARY_WINDOW_H
