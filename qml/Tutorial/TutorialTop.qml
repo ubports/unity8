@@ -25,6 +25,12 @@ TutorialPage {
 
     opacityOverride: 1 - panel.indicators.unitProgress
 
+    QtObject {
+        id: d
+        readonly property bool landscape: root.width > units.gu(50)
+        readonly property real columnWidth: landscape ? panel.indicators.width : root.width
+    }
+
     mouseArea {
         anchors.topMargin: panel.indicators.minimizedPanelHeight
     }
@@ -38,16 +44,18 @@ TutorialPage {
     arrow {
         anchors.top: root.top
         anchors.topMargin: units.gu(4)
-        anchors.horizontalCenter: root.horizontalCenter
+        anchors.horizontalCenter: root.right
+        anchors.horizontalCenterOffset: - d.columnWidth / 2
         rotation: 90
     }
 
     label {
-        text: i18n.tr("Swipe from the top edge to open the notification bar")
+        text: d.landscape ? i18n.tr("Swipe from the top right edge to open the notification bar")
+                          : i18n.tr("Swipe from the top edge to open the notification bar")
         anchors.top: arrow.bottom
         anchors.topMargin: units.gu(3)
-        anchors.horizontalCenter: root.horizontalCenter
-        anchors.horizontalCenterOffset: (label.width - label.contentWidth) / 2
-        width: root.width - units.gu(8)
+        anchors.horizontalCenter: arrow.horizontalCenter
+        anchors.horizontalCenterOffset: (width - contentWidth) / 2
+        width: d.columnWidth - units.gu(8)
     }
 }
