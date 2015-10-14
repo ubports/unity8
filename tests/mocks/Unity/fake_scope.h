@@ -75,7 +75,7 @@ public:
     QString primaryNavigationTag() const override;
     int activeFiltersCount() const override;
     Q_INVOKABLE void resetPrimaryNavigationTag() override;
-    
+
     void performQuery(const QString& query) override;
 
     Status status() const override;

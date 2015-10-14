@@ -100,7 +100,7 @@ Item {
 
                     var popsNeeded = headersModel.count - index - 1;
                     headersColumn.pop(popsNeeded);
-                    
+
                     root.leafClicked();
                 }
             }
