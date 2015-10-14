@@ -52,4 +52,3 @@ unity::shell::scopes::OptionSelectorOptionsInterface* FakeOptionSelectorFilter::
 {
     return m_options;
 }
-
