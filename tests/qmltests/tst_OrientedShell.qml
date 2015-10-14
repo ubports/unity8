@@ -798,7 +798,7 @@ Rectangle {
             // shell should remain in its primery orientation as the app in the main stage
             // is the one that dictates its orientation. In this case it's unity8-dash
             // which supports only primary orientation
-            compare(shell.orientation, orientedShell.primaryOrientation);
+            compare(shell.orientation, orientedShell.orientations.primary);
         }
 
         function test_sideStageAppsRemainPortraitInSpread_data() {
