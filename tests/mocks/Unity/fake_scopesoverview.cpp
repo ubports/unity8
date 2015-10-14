@@ -74,11 +74,6 @@ int ScopesOverviewCategories::rowCount(const QModelIndex& /*parent*/) const
     return 2;
 }
 
-void ScopesOverviewCategories::addSpecialCategory(QString const&, QString const&, QString const&, QString const&, QObject*)
-{
-    qFatal("Using un-implemented ScopesOverviewCategories::addSpecialCategory");
-}
-
 bool ScopesOverviewCategories::overrideCategoryJson(QString const& /* categoryId */, QString const& /* json */)
 {
     qFatal("Using un-implemented ScopesOverviewCategories::overrideCategoryJson");
@@ -173,11 +168,6 @@ ScopesOverviewSearchCategories::ScopesOverviewSearchCategories(Scopes *scopes, Q
 int ScopesOverviewSearchCategories::rowCount(const QModelIndex& /*parent*/) const
 {
     return 2;
-}
-
-void ScopesOverviewSearchCategories::addSpecialCategory(QString const&, QString const&, QString const&, QString const&, QObject*)
-{
-    qFatal("Using un-implemented ScopesOverviewSearchCategories::addSpecialCategory");
 }
 
 bool ScopesOverviewSearchCategories::overrideCategoryJson(QString const& /* categoryId */, QString const& /* json */)
