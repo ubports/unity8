@@ -63,18 +63,23 @@ LocalComponents.Page {
             text: i18n.tr("Improve system performance by sending us crashes and error reports.") + "<br><br><a href='#'>" +
                   i18n.tr("Privacy policy") + "</a>"
             checked: diagnostics.reportCrashes
+            visible: !webview.visible
             onLinkActivated: {
                 webview.url = "http://www.ubuntu.com/legal/terms-and-policies/privacy-policy";
                 webview.visible = true;
             }
         }
-    }
 
-    WebView {
-        id: webview
-        objectName: "webview"
-        anchors.fill: content
-        visible: false
+        WebView {
+            id: webview
+            objectName: "webview"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: -leftMargin
+            anchors.rightMargin: -rightMargin
+            height: parent.height
+            visible: false
+        }
     }
 
     Component {
