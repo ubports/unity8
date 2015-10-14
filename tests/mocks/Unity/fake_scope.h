@@ -79,7 +79,7 @@ public:
     int activeFiltersCount() const override;
     Q_INVOKABLE void resetPrimaryNavigationTag() override;
     Q_INVOKABLE void setHasPrimaryFilter(bool hasPrimaryFilter); // This is not invokable in the Interface, here for testing benefits
-    
+
     void performQuery(const QString& query) override;
 
     Status status() const override;
