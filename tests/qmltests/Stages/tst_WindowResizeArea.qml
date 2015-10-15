@@ -147,25 +147,6 @@ Item {
             compare(fakeWindow.y, Math.min(initialWindowY + data.dy, initialWindowY + maxMoveY));
         }
 
-        function test_saveRestorePosition() {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
-
-            var moveDelta = units.gu(5);
-
-            fakeWindow.x = initialWindowX + moveDelta
-            fakeWindow.y = initialWindowY + moveDelta
-
-            // This will destroy the window and recreate it
-            windowLoader.active = false;
-            waitForRendering(root);
-            windowLoader.active = true;
-
-            // Make sure it's again where we left it before destroying
-            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
-            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
-        }
-
         function test_saveRestoreSize() {
             var initialWindowX = fakeWindow.x;
             var initialWindowY = fakeWindow.y;
