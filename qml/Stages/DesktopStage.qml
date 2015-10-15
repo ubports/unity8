@@ -29,32 +29,13 @@ AbstractStage {
     id: root
     anchors.fill: parent
 
-    // Controls to be set from outside
-    property int dragAreaWidth // just to comply with the interface shared between stages
-    property real maximizedAppTopMargin
-    property bool interactive
-    property bool spreadEnabled // just to comply with the interface shared between stages
-    property real inverseProgress: 0 // just to comply with the interface shared between stages
-    property int shellOrientationAngle: 0
-    property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
-    property bool beingResized: false
-    property bool keepDashRunning: true
-    property bool suspended: false
-    property alias background: wallpaper.source
-    property alias altTabPressed: spread.altTabPressed
-
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
 
-    // To be read from outside
-    readonly property var mainApp: ApplicationManager.focusedApplicationId
+    mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null
-    property int mainAppWindowOrientationAngle: 0
-    readonly property bool orientationChangesEnabled: false
 
     Connections {
         target: ApplicationManager
@@ -121,6 +102,7 @@ AbstractStage {
         CrossFadeImage {
             id: wallpaper
             anchors.fill: parent
+            source: root.background
             sourceSize { height: root.height; width: root.width }
             fillMode: Image.PreserveAspectCrop
         }
@@ -272,5 +254,6 @@ AbstractStage {
         anchors.fill: parent
         workspace: appContainer
         focus: state == "altTab"
+        altTabPressed: root.altTabPressed
     }
 }
