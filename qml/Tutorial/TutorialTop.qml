@@ -55,7 +55,7 @@ TutorialPage {
         anchors.top: arrow.bottom
         anchors.topMargin: units.gu(3)
         anchors.horizontalCenter: arrow.horizontalCenter
-        anchors.horizontalCenterOffset: (width - contentWidth) / 2
+        anchors.horizontalCenterOffset: (label.width - label.contentWidth) / 2
         width: d.columnWidth - units.gu(8)
     }
 }

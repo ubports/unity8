@@ -25,6 +25,7 @@ Item {
     property Item launcher
     property Item panel
     property Item stage
+    property string usageScenario
 
     readonly property bool launcherEnabled: !running || tutorialLeft.shown
     readonly property bool spreadEnabled: !running || tutorialRight.shown
@@ -49,9 +50,13 @@ Item {
         launcher: root.launcher
         hides: [launcher, panel.indicators]
 
-        readonly property bool isReady: AccountsService.demoEdgesCompleted.indexOf("left") == -1
+        readonly property bool skipped: (root.usageScenario !== "phone"
+                                         && root.usageScenario !== "tablet")
+                                        || AccountsService.demoEdgesCompleted.indexOf("left") != -1
+        readonly property bool isReady: !skipped
 
-        Component.onCompleted: if (tutorialLeft.isReady) show()
+        onSkippedChanged: if (skipped && shown) hide()
+        onIsReadyChanged: if (isReady) show()
         onFinished: AccountsService.markDemoEdgeCompleted("left")
     }
 
@@ -62,21 +67,24 @@ Item {
         panel: root.panel
         hides: [launcher, panel.indicators]
 
-        readonly property bool isReady: AccountsService.demoEdgesCompleted.indexOf("left") != -1 &&
-                                        AccountsService.demoEdgesCompleted.indexOf("top") == -1
+        readonly property bool skipped: (root.usageScenario !== "phone"
+                                         && root.usageScenario !== "tablet")
+                                        || AccountsService.demoEdgesCompleted.indexOf("top") != -1
+        readonly property bool isReady: tutorialLeft.skipped && !skipped
 
         Timer {
             id: tutorialTopTimer
             interval: 60000
-            onTriggered: if (tutorialTop.isReady) tutorialTop.show()
+            onTriggered: if (tutorialTop.isReady && !tutorialTop.shown) tutorialTop.show()
         }
 
         Connections {
             target: AccountsService
-            onDemoEdgesCompletedChanged: if (tutorialTop.isReady) tutorialTopTimer.start()
+            onDemoEdgesCompletedChanged: if (tutorialTop.isReady && !tutorialTop.shown) tutorialTopTimer.start()
         }
 
-        Component.onCompleted: if (tutorialTop.isReady) tutorialTopTimer.start()
+        onSkippedChanged: if (skipped && shown) hide()
+        onIsReadyChanged: if (isReady) tutorialTopTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("top")
 
         Connections {
@@ -94,29 +102,26 @@ Item {
         objectName: "tutorialRight"
         anchors.fill: parent
         stage: root.stage
+        usageScenario: root.usageScenario
         hides: [launcher, panel.indicators]
 
-        readonly property bool isReady: AccountsService.demoEdgesCompleted.indexOf("left") != -1 &&
-                                        AccountsService.demoEdgesCompleted.indexOf("top") != -1 &&
-                                        AccountsService.demoEdgesCompleted.indexOf("right") == -1 &&
-                                        ApplicationManager.count >= 3
+        readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("right") != -1
+        readonly property bool isReady: tutorialTop.skipped && !skipped
+                                        && ApplicationManager.count >= 3
 
         Timer {
             id: tutorialRightTimer
             interval: 3000
-            onTriggered: if (tutorialRight.isReady) tutorialRight.show()
-        }
-
-        Connections {
-            target: AccountsService
-            onDemoEdgesCompletedChanged: if (tutorialRight.isReady) tutorialRightTimer.start()
+            onTriggered: if (tutorialRight.isReady && !tutorialRight.shown) tutorialRight.show()
         }
 
         Connections {
             target: ApplicationManager
-            onApplicationAdded: if (tutorialRight.isReady) tutorialRight.show()
+            onApplicationAdded: if (tutorialRight.isReady && !tutorialRight.shown) tutorialRight.show()
         }
 
+        onSkippedChanged: if (skipped && shown) hide()
+        onIsReadyChanged: if (isReady) tutorialRightTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("right")
 
         Connections {
@@ -135,10 +140,8 @@ Item {
         anchors.fill: parent
         hides: [launcher, panel.indicators]
 
-        readonly property bool isReady: AccountsService.demoEdgesCompleted.indexOf("left") != -1 &&
-                                        AccountsService.demoEdgesCompleted.indexOf("top") != -1 &&
-                                        AccountsService.demoEdgesCompleted.indexOf("right") != -1 &&
-                                        AccountsService.demoEdgesCompleted.indexOf("bottom") == -1 &&
+        readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("bottom") != -1 
+        readonly property bool isReady: tutorialRight.skipped && !skipped &&
                                         // focused app is an app known to have a bottom edge
                                         (ApplicationManager.focusedApplicationId == "dialer-app" ||
                                          ApplicationManager.focusedApplicationId == "webbrowser-app" ||
@@ -149,19 +152,16 @@ Item {
         Timer {
             id: tutorialBottomTimer
             interval: 3000
-            onTriggered: if (tutorialBottom.isReady) tutorialBottom.show()
-        }
-
-        Connections {
-            target: AccountsService
-            onDemoEdgesCompletedChanged: if (tutorialBottom.isReady) tutorialBottomTimer.start()
+            onTriggered: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
         }
 
         Connections {
             target: ApplicationManager
-            onFocusedApplicationIdChanged: if (tutorialBottom.isReady) tutorialBottom.show()
+            onFocusedApplicationIdChanged: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
         }
 
+        onSkippedChanged: if (skipped && shown) hide()
+        onIsReadyChanged: if (isReady) tutorialBottomTimer.start()
         onFinished: {
             AccountsService.markDemoEdgeCompleted("bottom");
             root.finish();

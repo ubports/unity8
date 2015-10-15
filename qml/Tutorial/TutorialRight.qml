@@ -22,8 +22,16 @@ TutorialPage {
     id: root
 
     property var stage
+    property string usageScenario
 
-    opacityOverride: 1 - stage.dragProgress * 2
+    // When on phone or tablet, fade out as the drag progresses
+    opacityOverride: usageScenario === "desktop" ? 1 : 1 - stage.dragProgress * 2
+
+    // Else on desktop, fade out when the spread is shown
+    Connections {
+        target: usageScenario === "desktop" ? stage : null
+        onSpreadShownChanged: if (stage.spreadShown && root.shown) root.hide()
+    }
 
     mouseArea {
         anchors.rightMargin: stage.dragAreaWidth
@@ -43,11 +51,13 @@ TutorialPage {
     }
 
     label {
-        text: i18n.tr("Short or long swipe from the right edge to view your open apps")
+        text: root.usageScenario === "desktop" ?
+                    i18n.tr("Hover your mouse on the right edge to view your open apps") :
+                    i18n.tr("Short or long swipe from the right edge to view your open apps")
         anchors.right: arrow.left
         anchors.rightMargin: units.gu(3)
-        anchors.left: root.left
-        anchors.leftMargin: units.gu(4)
         anchors.verticalCenter: arrow.verticalCenter
+        width: Math.min(units.gu(40), arrow.x - units.gu(4))
+        horizontalAlignment: Text.AlignRight
     }
 }

@@ -570,7 +570,7 @@ Item {
             objectName: "tutorial"
             anchors.fill: parent
 
-            usageScenario: usageScenario
+            usageScenario: shell.usageScenario
             launcher: launcher
             panel: panel
             stage: applicationsDisplayLoader.item

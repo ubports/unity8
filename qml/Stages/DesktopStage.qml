@@ -44,6 +44,7 @@ Rectangle {
     property bool suspended: false
     property alias background: wallpaper.source
     property alias altTabPressed: spread.altTabPressed
+    property bool spreadShown: spread.state == "altTab"
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }

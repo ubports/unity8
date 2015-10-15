@@ -48,14 +48,7 @@ Item {
         id: loader
         anchors.fill: parent
         source: "TutorialContent.qml"
-
-        // DirectionalDragAreas don't work with mice.  So to avoid trapping the
-        // user, we skip the tutorial on the Desktop to avoid using them.  The
-        // Desktop doesn't use the same spread design anyway.  The tutorial is
-        // all a bit of a placeholder on non-phone form factors right now.
-        // When the design team gives us more guidance, we can do something
-        // more clever here.
-        active: usageScenario != "desktop" && AccountsService.demoEdges
+        active: AccountsService.demoEdges
 
         Binding {
             target: loader.item
@@ -73,6 +66,12 @@ Item {
             target: loader.item
             property: "stage"
             value: root.stage
+        }
+
+        Binding {
+            target: loader.item
+            property: "usageScenario"
+            value: root.usageScenario
         }
 
         Connections {
