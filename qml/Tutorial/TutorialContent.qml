@@ -140,7 +140,7 @@ Item {
         anchors.fill: parent
         hides: [launcher, panel.indicators]
 
-        readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("bottom") != -1 
+        readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
         readonly property bool isReady: tutorialRight.skipped && !skipped &&
                                         // focused app is an app known to have a bottom edge
                                         (ApplicationManager.focusedApplicationId == "dialer-app" ||
