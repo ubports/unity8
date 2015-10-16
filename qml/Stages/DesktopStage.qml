@@ -86,6 +86,11 @@ Rectangle {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
+        onFocusedAppDelegateChanged: { // restore the window from minimization when we focus it (e.g. using spread)
+            if (priv.focusedAppDelegate.minimized) {
+                priv.focusedAppDelegate.unmaximize()
+            }
+        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -222,8 +227,7 @@ Rectangle {
                     minHeight: appDelegate.minHeight
                     resizeHandleWidth: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
-
-                    onPressed: { ApplicationManager.focusApplication(model.appId) }
+                    appId: model.appId
                 }
 
                 DecoratedWindow {

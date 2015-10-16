@@ -19,6 +19,7 @@
 import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Utils 0.1
+import Unity.Application 0.1
 
 MouseArea {
     id: root
@@ -31,6 +32,7 @@ MouseArea {
     // The area will anchor to it and manage move and resize events
     property Item target: null
     property string windowId: ""
+    property string appId: ""
     property int resizeHandleWidth: 0
     property int minWidth: 0
     property int minHeight: 0
@@ -46,7 +48,6 @@ MouseArea {
         property bool resizeBottom: false
         property bool resizeLeft: false
         property bool resizeRight: false
-
     }
 
     Component.onCompleted: {
@@ -60,6 +61,7 @@ MouseArea {
     }
 
     onPressed: {
+        ApplicationManager.focusApplication(root.appId)
         priv.startPoint = Qt.point(mouse.x, mouse.y);
         priv.resizeTop = mouseY < root.resizeHandleWidth;
         priv.resizeBottom = mouseY > (root.height - root.resizeHandleWidth);
