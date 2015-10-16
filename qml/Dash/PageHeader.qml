@@ -65,6 +65,12 @@ Item {
             headerContainer.showSearch = true;
         }
     }
+    onNavigationTagChanged: {
+        // Make sure we are at the search page if the navigation tag changes behind our feet
+        if (navigationTag) {
+            headerContainer.showSearch = true;
+        }
+    }
 
     function triggerSearch() {
         if (searchEntryEnabled) {
