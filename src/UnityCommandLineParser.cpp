@@ -26,36 +26,36 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
     m_gridUnit = getenvFloat(ENV_GRID_UNIT_PX, DEFAULT_GRID_UNIT_PX);
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Description: Unity 8 Shell");
+    parser.setApplicationDescription(QStringLiteral("Description: Unity 8 Shell"));
     parser.addHelpOption();
 
-    QCommandLineOption fullscreenOption("fullscreen",
-        "Run in fullscreen");
+    QCommandLineOption fullscreenOption(QStringLiteral("fullscreen"),
+        QStringLiteral("Run in fullscreen"));
     parser.addOption(fullscreenOption);
 
-    QCommandLineOption framelessOption("frameless",
-        "Run without window borders");
+    QCommandLineOption framelessOption(QStringLiteral("frameless"),
+        QStringLiteral("Run without window borders"));
     parser.addOption(framelessOption);
 
-    QCommandLineOption mousetouchOption("mousetouch",
-        "Allow the mouse to provide touch input");
+    QCommandLineOption mousetouchOption(QStringLiteral("mousetouch"),
+        QStringLiteral("Allow the mouse to provide touch input"));
     parser.addOption(mousetouchOption);
 
-    QCommandLineOption windowGeometryOption(QStringList() << "windowgeometry",
-            "Specify the window geometry as [<width>x<height>]", "windowgeometry", "1");
+    QCommandLineOption windowGeometryOption(QStringList() << QStringLiteral("windowgeometry"),
+            QStringLiteral("Specify the window geometry as [<width>x<height>]"), QStringLiteral("windowgeometry"), QStringLiteral("1"));
     parser.addOption(windowGeometryOption);
 
-    QCommandLineOption testabilityOption("testability",
-        "DISCOURAGED: Please set QT_LOAD_TESTABILITY instead.\nLoad the testability driver");
+    QCommandLineOption testabilityOption(QStringLiteral("testability"),
+        QStringLiteral("DISCOURAGED: Please set QT_LOAD_TESTABILITY instead.\nLoad the testability driver"));
     parser.addOption(testabilityOption);
 
-    QCommandLineOption devicenameOption(QStringList() << "devicename",
-            "Specify the device name instead of letting Unity 8 find it out", "devicename", "");
+    QCommandLineOption devicenameOption(QStringList() << QStringLiteral("devicename"),
+            QStringLiteral("Specify the device name instead of letting Unity 8 find it out"), QStringLiteral("devicename"), QLatin1String(""));
     parser.addOption(devicenameOption);
 
-    QCommandLineOption modeOption("mode",
-        "Whether to run greeter and/or shell [full-greeter, full-shell, greeter, shell]",
-        "mode", "full-greeter");
+    QCommandLineOption modeOption(QStringLiteral("mode"),
+        QStringLiteral("Whether to run greeter and/or shell [full-greeter, full-shell, greeter, shell]"),
+        QStringLiteral("mode"), QStringLiteral("full-greeter"));
     parser.addOption(modeOption);
 
     // Treat args with single dashes the same as arguments with two dashes
@@ -83,7 +83,7 @@ UnityCommandLineParser::UnityCommandLineParser(const QCoreApplication &app)
 
 int UnityCommandLineParser::parsePixelsValue(const QString &str)
 {
-    if (str.endsWith("gu", Qt::CaseInsensitive)) {
+    if (str.endsWith(QLatin1String("gu"), Qt::CaseInsensitive)) {
         QString numStr = str;
         numStr.remove(numStr.size() - 2, 2);
         return numStr.toInt() * m_gridUnit;
@@ -105,13 +105,14 @@ void UnityCommandLineParser::resolveMode(QCommandLineParser &parser, QCommandLin
     // If an invalid option was specified, set it to the default
     // If no default was provided in the QCommandLineOption constructor, abort.
     if (!parser.isSet(modeOption) ||
-        (parser.value(modeOption) != "full-greeter" &&
-         parser.value(modeOption) != "full-shell" &&
-         parser.value(modeOption) != "greeter" &&
-         parser.value(modeOption) != "shell")) {
+        (parser.value(modeOption) != QLatin1String("full-greeter") &&
+         parser.value(modeOption) != QLatin1String("full-shell") &&
+         parser.value(modeOption) != QLatin1String("greeter") &&
+         parser.value(modeOption) != QLatin1String("shell"))) {
 
-        if (modeOption.defaultValues().first() != nullptr) {
-            m_mode = modeOption.defaultValues().first();
+        const QStringList defaultValues = modeOption.defaultValues();
+        if (!defaultValues.isEmpty()) {
+            m_mode = defaultValues.first();
             qWarning() << "Mode argument was not provided or was set to an illegal value."
                 " Using default value of --mode=" << m_mode;
         } else {

@@ -32,20 +32,22 @@ QStringList GSettings::storedApplications() const
 {
     QStringList storedApps;
 
-    Q_FOREACH(const QString &entry, m_gSettings->get("items").toStringList()) {
-        if (entry.startsWith("application:///")) {
+    const QString items = QStringLiteral("items");
+    Q_FOREACH(const QString &entry, m_gSettings->get(items).toStringList()) {
+        if (entry.startsWith(QLatin1String("application:///"))) {
             // convert legacy entries to new world appids
             QString appId = entry;
             // Transform "application://foobar.desktop" to "foobar"
-            appId.remove(QRegExp("^application:///"));
-            appId.remove(QRegExp(".desktop$"));
+            appId.remove(QRegExp(QStringLiteral("^application:///")));
+            appId.remove(QRegExp(QStringLiteral(".desktop$")));
             storedApps << appId;
-        } else if (entry.startsWith("appid://")) {
+        } else if (entry.startsWith(QLatin1String("appid://"))) {
             QString appId = entry;
-            appId.remove("appid://");
-            if (appId.split('/').count() == 3) {
+            appId.remove(QStringLiteral("appid://"));
+            const QStringList splittedAppId = appId.split('/');
+            if (splittedAppId.count() == 3) {
                 // Strip current-user-version in case its there
-                appId = appId.split('/').first() +  "_" + appId.split('/').at(1);
+                appId = splittedAppId.first() +  "_" + splittedAppId.at(1);
             }
             storedApps << appId;
         }
@@ -56,19 +58,20 @@ QStringList GSettings::storedApplications() const
 void GSettings::setStoredApplications(const QStringList &storedApplications)
 {
     QStringList gSettingsList;
+    gSettingsList.reserve(storedApplications.count());
     Q_FOREACH(const QString &entry, storedApplications) {
-        gSettingsList << QString("appid://%1").arg(entry);
+        gSettingsList << QStringLiteral("appid://%1").arg(entry);
     }
     // GSettings will emit a changed signal to ourselves. Let's cache the items
     // and only forward the changed signal when the list did actually change.
     m_cachedItems = gSettingsList;
-    m_gSettings->set("items", gSettingsList);
+    m_gSettings->set(QStringLiteral("items"), gSettingsList);
 }
 
 void GSettings::onSettingsChanged(const QString &key)
 {
-    if (key == "items") {
-        const QStringList cachedItems = m_gSettings->get("items").toStringList();
+    if (key == QLatin1String("items")) {
+        const QStringList cachedItems = m_gSettings->get(QStringLiteral("items")).toStringList();
         if (m_cachedItems != cachedItems) {
             m_cachedItems = cachedItems;
             Q_EMIT changed();

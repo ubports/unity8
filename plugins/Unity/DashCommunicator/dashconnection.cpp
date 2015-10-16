@@ -58,6 +58,6 @@ QDBusAbstractInterface* DashConnection::createInterface(const QString &service, 
 void DashConnection::setCurrentScope(int index, bool animate, bool isSwipe)
 {
     if (dbusInterface()) {
-        dbusInterface()->asyncCall("SetCurrentScope", index, animate, isSwipe);
+        dbusInterface()->asyncCall(QStringLiteral("SetCurrentScope"), index, animate, isSwipe);
     }
 }

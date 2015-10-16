@@ -30,10 +30,10 @@ AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
 {
     QDBusConnection connection = QDBusConnection::SM_BUSNAME();
     QDBusConnectionInterface *interface = connection.interface();
-    interface->startService("org.freedesktop.Accounts");
-    m_accountsManager = new QDBusInterface("org.freedesktop.Accounts",
-                                           "/org/freedesktop/Accounts",
-                                           "org.freedesktop.Accounts",
+    interface->startService(QStringLiteral("org.freedesktop.Accounts"));
+    m_accountsManager = new QDBusInterface(QStringLiteral("org.freedesktop.Accounts"),
+                                           QStringLiteral("/org/freedesktop/Accounts"),
+                                           QStringLiteral("org.freedesktop.Accounts"),
                                            connection, this);
 }
 
@@ -41,7 +41,7 @@ QVariant AccountsServiceDBusAdaptor::getUserProperty(const QString &user, const 
 {
     QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
-        QDBusReply<QVariant> answer = iface->call("Get", interface, property);
+        QDBusReply<QVariant> answer = iface->call(QStringLiteral("Get"), interface, property);
         if (answer.isValid()) {
             return answer;
         }
@@ -53,9 +53,9 @@ QDBusPendingReply<QVariant> AccountsServiceDBusAdaptor::getUserPropertyAsync(con
 {
     QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
-        return iface->asyncCall("Get", interface, property);
+        return iface->asyncCall(QStringLiteral("Get"), interface, property);
     }
-    return QDBusPendingReply<QVariant>(QDBusMessage::createError(QDBusError::Other, "Invalid Interface"));
+    return QDBusPendingReply<QVariant>(QDBusMessage::createError(QDBusError::Other, QStringLiteral("Invalid Interface")));
 }
 
 void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
@@ -63,7 +63,7 @@ void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QStr
     QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
         // The value needs to be carefully wrapped
-        iface->call("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
+        iface->call(QStringLiteral("Set"), interface, property, QVariant::fromValue(QDBusVariant(value)));
     }
 }
 
@@ -72,9 +72,9 @@ QDBusPendingCall AccountsServiceDBusAdaptor::setUserPropertyAsync(const QString 
     QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
         // The value needs to be carefully wrapped
-        return iface->asyncCall("Set", interface, property, QVariant::fromValue(QDBusVariant(value)));
+        return iface->asyncCall(QStringLiteral("Set"), interface, property, QVariant::fromValue(QDBusVariant(value)));
     }
-    return QDBusPendingCall::fromCompletedCall(QDBusMessage::createError(QDBusError::Other, "Invalid Interface"));
+    return QDBusPendingCall::fromCompletedCall(QDBusMessage::createError(QDBusError::Other, QStringLiteral("Invalid Interface")));
 }
 
 void AccountsServiceDBusAdaptor::propertiesChangedSlot(const QString &interface, const QVariantMap &changed, const QStringList &invalid)
@@ -116,13 +116,13 @@ QDBusInterface *AccountsServiceDBusAdaptor::getUserInterface(const QString &user
 {
     QDBusInterface *iface = m_users.value(user);
     if (iface == nullptr && m_accountsManager->isValid()) {
-        QDBusReply<QDBusObjectPath> answer = m_accountsManager->asyncCall("FindUserByName", user);
+        QDBusReply<QDBusObjectPath> answer = m_accountsManager->asyncCall(QStringLiteral("FindUserByName"), user);
         if (answer.isValid()) {
             const QString path = answer.value().path();
 
-            iface = new QDBusInterface("org.freedesktop.Accounts",
+            iface = new QDBusInterface(QStringLiteral("org.freedesktop.Accounts"),
                                        path,
-                                       "org.freedesktop.DBus.Properties",
+                                       QStringLiteral("org.freedesktop.DBus.Properties"),
                                        m_accountsManager->connection(), this);
 
             // With its own pre-defined properties, AccountsService is oddly
@@ -132,8 +132,8 @@ QDBusInterface *AccountsServiceDBusAdaptor::getUserInterface(const QString &user
             iface->connection().connect(
                 iface->service(),
                 path,
-                "org.freedesktop.Accounts.User",
-                "Changed",
+                QStringLiteral("org.freedesktop.Accounts.User"),
+                QStringLiteral("Changed"),
                 this,
                 SLOT(maybeChangedSlot()));
 
@@ -142,8 +142,8 @@ QDBusInterface *AccountsServiceDBusAdaptor::getUserInterface(const QString &user
             iface->connection().connect(
                 iface->service(),
                 path,
-                "org.freedesktop.DBus.Properties",
-                "PropertiesChanged",
+                QStringLiteral("org.freedesktop.DBus.Properties"),
+                QStringLiteral("PropertiesChanged"),
                 this,
                 SLOT(propertiesChangedSlot(QString, QVariantMap, QStringList)));
 
