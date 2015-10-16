@@ -18,6 +18,7 @@
 
 // Qt
 #include <QQmlContext>
+#include <QQuickItem>
 
 // local
 #include <paths.h>
@@ -33,4 +34,26 @@ ShellView::ShellView(QQmlEngine *engine, QObject *qmlArgs)
 
     QUrl source(::qmlDirectory() + "/OrientedShell.qml");
     setSource(source);
+
+    connect(this, &QWindow::widthChanged, this, &ShellView::onWidthChanged);
+    connect(this, &QWindow::heightChanged, this, &ShellView::onHeightChanged);
+}
+
+void ShellView::onWidthChanged(int w)
+{
+    // For good measure in case SizeRootObjectToView doesn't fulfill its promise.
+    //
+    // There's at least one situation that's know to leave the root object with an outdated size.
+    // (really looks like Qt bug)
+    // Happens when starting unity8 with an external monitor already connected.
+    // The QResizeEvent we get still has the size of the first screen and since the resize move is triggered
+    // from the resize event handler, the root item doesn't get resized.
+    // TODO: Confirm the Qt bug and submit a patch upstream
+    rootObject()->setWidth(w);
+}
+
+void ShellView::onHeightChanged(int h)
+{
+    // See comment in ShellView::onWidthChanged()
+    rootObject()->setHeight(h);
 }

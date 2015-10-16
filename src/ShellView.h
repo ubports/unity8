@@ -25,6 +25,10 @@ class ShellView : public QQuickView
 
 public:
     ShellView(QQmlEngine *engine, QObject *qmlArgs);
+
+private Q_SLOTS:
+    void onWidthChanged(int);
+    void onHeightChanged(int);
 };
 
 #endif // UNITY_SHELL_VIEW_H
