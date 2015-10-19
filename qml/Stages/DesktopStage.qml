@@ -63,17 +63,23 @@ Rectangle {
                 spread.state = "";
             }
 
-            ApplicationManager.requestFocusApplication(appId)
+            priv.addToFocusStack(appId);
+            priv.focusFirstInStack();
+        }
+
+        onApplicationRemoved: {
+            priv.removeAndFocusPreviousInStack(appId);
         }
 
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
             appDelegate.minimized = false;
-            ApplicationManager.focusApplication(appId)
+            ApplicationManager.focusApplication(appId);
+            priv.addToFocusStack(appId);
 
             if (spread.state == "altTab") {
-                spread.cancel()
+                spread.cancel();
             }
         }
     }
@@ -88,7 +94,7 @@ Rectangle {
         }
         onFocusedAppDelegateChanged: { // restore the window from minimization when we focus it (e.g. using spread)
             if (priv.focusedAppDelegate && priv.focusedAppDelegate.minimized) {
-                priv.focusedAppDelegate.unmaximize()
+                priv.focusedAppDelegate.restore()
             }
         }
 
@@ -100,6 +106,35 @@ Rectangle {
             }
             return -1;
         }
+
+        property var focusStack: []
+
+        function addToFocusStack(appId) {
+            if (appId === "unity8-dash")
+                return;
+            priv.focusStack.unshift(appId); // append to the top of the focus stack
+        }
+
+        function removeAndFocusPreviousInStack(appId) {
+            if (appId === "unity8-dash")
+                return;
+
+            var removedIndex = priv.focusStack.indexOf(appId);
+            if (removedIndex != -1) {
+                priv.focusStack.splice(removedIndex, 1); // remove one item from the focus stack
+                if (removedIndex > 1)
+                    ApplicationManager.focusApplication(priv.focusStack[removedIndex-1]); // focus the previous one
+                else
+                    focusFirstInStack();  // focus the next/first one
+            }
+        }
+
+        function focusFirstInStack() {
+            var newHead = priv.focusStack[0];
+            if (newHead !== "") {
+                ApplicationManager.focusApplication(newHead);
+            }
+        }
     }
 
     Connections {
@@ -108,7 +143,7 @@ Rectangle {
             ApplicationManager.stopApplication(ApplicationManager.focusedApplicationId)
         }
         onMinimize: appRepeater.itemAt(0).minimize();
-        onMaximize: appRepeater.itemAt(0).unmaximize();
+        onMaximize: appRepeater.itemAt(0).restore();
     }
 
     Binding {
@@ -170,10 +205,12 @@ Rectangle {
                 function minimize() {
                     maximized = false;
                     minimized = true;
+                    priv.removeAndFocusPreviousInStack(model.appId);
                 }
-                function unmaximize() {
+                function restore() {
                     minimized = false;
                     maximized = false;
+                    priv.addToFocusStack(model.appId);
                 }
 
                 states: [
