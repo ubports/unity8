@@ -51,7 +51,7 @@ MouseArea {
             Mir.cursorName = "";
         }
     }
-    onMouseXChanged: {
+    onPositionChanged: {
         if (priv.dragging) {
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             root.target.x = pos.x - priv.distanceX;
