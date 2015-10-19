@@ -147,10 +147,7 @@ Item {
         }
 
         function test_appFocusSwitch(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
 
             ApplicationManager.requestFocusApplication(data.apps[data.focusfrom]);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
@@ -167,10 +164,7 @@ Item {
         }
 
         function test_tappingOnWindowChangesFocusedApp(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
             var fromAppId = data.apps[data.focusfrom];
             var toAppId = data.apps[data.focusTo]
 
@@ -187,18 +181,37 @@ Item {
             compare(ApplicationManager.focusedApplicationId, toAppId);
         }
 
+        function test_clickingOnWindowChangesFocusedApp_data() {
+            return test_tappingOnWindowChangesFocusedApp_data(); // reuse test data
+        }
+
+        function test_clickingOnWindowChangesFocusedApp(data) {
+            data.apps.forEach(startApplication);
+            var fromAppId = data.apps[data.focusfrom];
+            var toAppId = data.apps[data.focusTo]
+
+            var fromAppWindow = findChild(desktopStage, "appWindow_" + fromAppId);
+            verify(fromAppWindow);
+            mouseClick(fromAppWindow);
+            compare(fromAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, fromAppId);
+
+            var toAppWindow = findChild(desktopStage, "appWindow_" + toAppId);
+            verify(toAppWindow);
+            mouseClick(toAppWindow);
+            compare(toAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, toAppId);
+        }
+
         function test_tappingOnDecorationFocusesApplication_data() {
             return [
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
             ]
         }
 
         function test_tappingOnDecorationFocusesApplication(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
 
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
@@ -208,6 +221,24 @@ Item {
             var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
             verify(toAppDecoration);
             tap(toAppDecoration);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+        }
+
+        function test_clickingOnDecorationFocusesApplication_data() {
+            return test_tappingOnDecorationFocusesApplication_data(); // reuse test data
+        }
+
+        function test_clickingOnDecorationFocusesApplication(data) {
+            data.apps.forEach(startApplication);
+
+            var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
+            verify(fromAppDecoration);
+            mouseClick(fromAppDecoration);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+
+            var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
+            verify(toAppDecoration);
+            mouseClick(toAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
     }
