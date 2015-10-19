@@ -87,7 +87,7 @@ Rectangle {
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
         onFocusedAppDelegateChanged: { // restore the window from minimization when we focus it (e.g. using spread)
-            if (priv.focusedAppDelegate.minimized) {
+            if (priv.focusedAppDelegate && priv.focusedAppDelegate.minimized) {
                 priv.focusedAppDelegate.unmaximize()
             }
         }
