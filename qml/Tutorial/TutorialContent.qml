@@ -89,6 +89,7 @@ Item {
 
         Connections {
             target: panel.indicators
+            ignoreUnknownSignals: true // panel might be null initially
             onFullyOpenedChanged: {
                 if (panel.indicators.fullyOpened) {
                     AccountsService.markDemoEdgeCompleted("top");
