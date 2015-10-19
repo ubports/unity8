@@ -30,12 +30,13 @@ PreviewWidget {
     implicitWidth: units.gu(35)
     implicitHeight: childrenRect.height
 
+    widgetMargins: -units.gu(1)
+
     LazyImage {
         objectName: "screenshot"
         anchors {
             left: parent.left
             right: parent.right
-            margins: -units.gu(2) // to counterbalance the margins of each Preview and have them touch the edges
         }
         scaleTo: "width"
         source: {

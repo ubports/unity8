@@ -85,16 +85,13 @@ Item {
         height: root.initialHeight
         width: root.initialWidth
         anchors.centerIn: root.scaleTo == "fit" ? parent : undefined
-
+        active: useUbuntuShape
         opacity: 0
         visible: opacity != 0
-
-        sourceComponent: useUbuntuShape ? ubuntuShapeComponent : itemComponent
+        sourceComponent: UbuntuShape {}
         onLoaded: {
-            if (sourceComponent === ubuntuShapeComponent) {
-                item.image = image;
-                item.borderSource = Qt.binding(function() { return root.borderSource })
-            }
+            item.image = image;
+            item.borderSource = Qt.binding(function() { return root.borderSource })
         }
 
         Image {
@@ -118,11 +115,6 @@ Item {
                                 : root.scaleTo == "fit" && root.height <= root.width ? root.height
                                 : 0
         }
-    }
-
-    Component {
-        id: itemComponent
-        Item {}
     }
 
     Component {
