@@ -45,14 +45,15 @@ MouseArea {
             priv.distanceX = pos.x;
             priv.distanceY = pos.y;
             priv.dragging = true;
-            Mir.cursorName = "grabbing";
         } else {
             priv.dragging = false;
             Mir.cursorName = "";
         }
     }
-    onMouseXChanged: {
+
+    onPositionChanged: {
         if (priv.dragging) {
+            Mir.cursorName = "grabbing";
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             root.target.x = pos.x - priv.distanceX;
             root.target.y = pos.y - priv.distanceY;
