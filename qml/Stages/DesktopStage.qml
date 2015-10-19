@@ -223,6 +223,8 @@ Rectangle {
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
+
+                    onPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
 
                 DecoratedWindow {
