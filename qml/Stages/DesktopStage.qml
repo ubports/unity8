@@ -71,6 +71,10 @@ Rectangle {
             priv.removeAndFocusPreviousInStack(appId);
         }
 
+        onFocusedApplicationIdChanged: {
+            priv.addToFocusStack(priv.focusedAppId);
+        }
+
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
@@ -94,7 +98,7 @@ Rectangle {
         }
         onFocusedAppDelegateChanged: { // restore the window from minimization when we focus it (e.g. using spread)
             if (priv.focusedAppDelegate && priv.focusedAppDelegate.minimized) {
-                priv.focusedAppDelegate.restore()
+                priv.focusedAppDelegate.restore();
             }
         }
 
@@ -107,12 +111,19 @@ Rectangle {
             return -1;
         }
 
-        property var focusStack: []
+        property var focusStack: [] // focus stack of appIds
 
         function addToFocusStack(appId) {
             if (appId === "unity8-dash")
                 return;
-            priv.focusStack.unshift(appId); // append to the top of the focus stack
+
+            var oldIndex = priv.focusStack.indexOf(appId);
+            if (oldIndex != -1) {
+                // remove the old item
+                priv.focusStack.splice(oldIndex, 1);
+            }
+            // append to the top of the focus stack
+            priv.focusStack.unshift(appId);
         }
 
         function removeAndFocusPreviousInStack(appId) {
