@@ -98,7 +98,8 @@ Item {
         parent: rootItem
         anchors.fill: parent
         visible: false
+        active: root.visible
 
-        sourceComponent: root.visible ? contentPeerComponent : undefined
+        sourceComponent: contentPeerComponent
     }
 }
