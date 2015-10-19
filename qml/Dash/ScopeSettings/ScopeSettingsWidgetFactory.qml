@@ -30,6 +30,9 @@ Loader {
     //! Triggered signal forwarded from the widgets.
     signal updated(var value)
 
+    //! makeSureVisible signal forwarded from the widgets.
+    signal makeSureVisible(var item)
+
     source: widgetSource
 
     //! \cond private
@@ -53,5 +56,6 @@ Loader {
     Connections {
         target: root.item
         onUpdated: if (value !== widgetData.value) root.updated(value)
+        onMakeSureVisible: root.makeSureVisible(item)
     }
 }

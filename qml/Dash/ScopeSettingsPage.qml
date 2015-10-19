@@ -50,6 +50,20 @@ Item {
         }
         model: root.scope ? root.scope.settings : null
         clip: true
+        bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
+
+        property var makeSureVisibleItem
+        property real previousVisibleHeight: 0
+        readonly property real visibleHeight: height - bottomMargin
+        onVisibleHeightChanged: {
+            if (makeSureVisibleItem && makeSureVisibleItem.activeFocus && previousVisibleHeight > visibleHeight) {
+                var textAreaPos = makeSureVisibleItem.mapToItem(scopeSettings, 0, 0);
+                if (textAreaPos.y + makeSureVisibleItem.height > scopeSettings.visibleHeight) {
+                    scopeSettings.contentY += textAreaPos.y + makeSureVisibleItem.height - scopeSettings.visibleHeight
+                }
+            }
+            previousVisibleHeight = visibleHeight;
+        }
 
         delegate: ScopeSettingsWidgetFactory {
             objectName: "scopeSettingItem" + index
@@ -58,6 +72,11 @@ Item {
             scopeStyle: root.scopeStyle
 
             onUpdated: model.value = value;
+
+            onMakeSureVisible: { // var item
+                scopeSettings.previousVisibleHeight = scopeSettings.visibleHeight;
+                scopeSettings.makeSureVisibleItem = item;
+            }
         }
     }
 }
