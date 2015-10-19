@@ -236,6 +236,7 @@ Rectangle {
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
+                    onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
             }
         }
