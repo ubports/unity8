@@ -143,9 +143,6 @@ Rectangle {
                 height: units.gu(50)
                 focus: model.appId === priv.focusedAppId
 
-                readonly property int minWidth: units.gu(10)
-                readonly property int minHeight: units.gu(10)
-
                 property bool maximized: false
                 property bool minimized: false
 
@@ -220,14 +217,12 @@ Rectangle {
                     when: index == spread.highlightedIndex && blurLayer.ready
                 }
 
-                WindowMoveResizeArea {
-                    id: windowMoveResizeArea
+                WindowResizeArea {
                     target: appDelegate
-                    minWidth: appDelegate.minWidth
-                    minHeight: appDelegate.minHeight
-                    resizeHandleWidth: units.gu(2)
+                    minWidth: units.gu(10)
+                    minHeight: units.gu(10)
+                    borderThickness: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
-                    appId: model.appId
                 }
 
                 DecoratedWindow {
@@ -244,6 +239,7 @@ Rectangle {
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
+                    onDecorationPressed: ApplicationManager.focusApplication(model.appId)
                 }
             }
         }
