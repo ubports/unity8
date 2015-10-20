@@ -232,7 +232,7 @@ Item {
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
 
-        function test_maximizeApp() {
+        function test_windowMaximize() {
             var apps = ["unity8-dash", "dialer-app", "camera-app"];
             apps.forEach(startApplication);
             var appName = "dialer-app";
@@ -244,7 +244,7 @@ Item {
             tryCompare(appDelegate, "minimized", false);
         }
 
-        function test_minimizeApp() {
+        function test_windowMinimize() {
             var apps = ["unity8-dash", "dialer-app", "camera-app"];
             apps.forEach(startApplication);
             var appName = "dialer-app";
@@ -255,6 +255,27 @@ Item {
             tryCompare(appDelegate, "maximized", false);
             tryCompare(appDelegate, "minimized", true);
             verify(ApplicationManager.focusedApplicationId != ""); // verify we don't lose focus when minimizing an app
+        }
+
+        function test_windowMinimizeAll() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            keyClick(Qt.Key_D, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+D shortcut to minimize all
+            tryCompare(ApplicationManager, "focusedApplicationId", ""); // verify no app is focused
+        }
+
+        function test_windowClose() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_F4, Qt.AltModifier); // Alt+F4 shortcut to close
+            verify(ApplicationManager.count == 2); // verify the app is gone
+            verify(ApplicationManager.findApplication(appName) === null); // and it's not in running apps
         }
     }
 }
