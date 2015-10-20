@@ -32,7 +32,6 @@ MirSurface::MirSurface(const QString& name,
     , m_qmlFilePath(qmlFilePath)
     , m_live(true)
     , m_visible(true)
-    , m_viewCount(0)
     , m_activeFocus(false)
     , m_width(-1)
     , m_height(-1)
@@ -88,7 +87,7 @@ void MirSurface::setLive(bool live)
     m_live = live;
     Q_EMIT liveChanged(live);
 
-    if (!m_live && m_viewCount == 0) {
+    if (!m_live && m_views.count() == 0) {
         deleteLater();
     }
 }
@@ -126,27 +125,49 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
     Q_EMIT orientationAngleChanged(angle);
 }
 
-void MirSurface::incrementViewCount()
+
+
+void MirSurface::registerView(qintptr viewId)
 {
-    ++m_viewCount;
-//    qDebug().nospace() << "MirSurface::incrementViewCount() viewCount(after)=" << m_viewCount << " " << name();
+    m_views.insert(viewId, MirSurface::View{false});
+    qDebug().nospace() << "MirSurface[" << name() << "]::registerView(" << viewId << ")"
+                                      << " after=" << m_views.count();
 }
 
-void MirSurface::decrementViewCount()
+void MirSurface::unregisterView(qintptr viewId)
 {
-    --m_viewCount;
-//    qDebug().nospace() << "MirSurface::decrementViewCount() viewCount(after)=" << m_viewCount << " " << name();
-
-    Q_ASSERT(m_viewCount >= 0);
-
-    if (!m_live && m_viewCount == 0) {
+    qDebug().nospace() << "MirSurface[" << name() << "]::unregisterView(" << viewId << ")"
+                                      << " after=" << m_views.count() << " live=" << m_live;
+    m_views.remove(viewId);
+    if (!m_live && m_views.count() == 0) {
         deleteLater();
     }
+    updateVisibility();
 }
 
-int MirSurface::viewCount() const
+void MirSurface::setViewVisibility(qintptr viewId, bool visible)
 {
-    return m_viewCount;
+    if (!m_views.contains(viewId)) return;
+
+    m_views[viewId].visible = visible;
+    updateVisibility();
+}
+
+void MirSurface::updateVisibility()
+{
+    bool newVisible = false;
+    QHashIterator<qintptr, View> i(m_views);
+    while (i.hasNext()) {
+        i.next();
+        newVisible |= i.value().visible;
+    }
+
+    if (newVisible != visible()) {
+//        qDebug().nospace() << "MirSurface[" << name() << "]::updateVisibility(" << newVisible << ")";
+
+        m_visible = newVisible;
+        Q_EMIT visibleChanged(m_visible);
+    }
 }
 
 bool MirSurface::activeFocus() const
@@ -162,18 +183,6 @@ void MirSurface::setActiveFocus(bool value)
     m_activeFocus = value;
 
     Q_EMIT activeFocusChanged(value);
-}
-
-void MirSurface::setVisible(bool visible)
-{
-    qDebug() << "MirSurface::setVisible(visible=" << visible << ")";
-
-    if (m_visible == visible)
-        return;
-
-    m_visible = visible;
-
-    Q_EMIT visibleChanged(m_visible);
 }
 
 int MirSurface::width() const

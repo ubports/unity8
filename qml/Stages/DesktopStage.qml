@@ -150,13 +150,16 @@ Rectangle {
                 property bool maximized: false
                 property bool minimized: false
 
+                property bool visuallyMaximized: false
+                property bool visuallyMinimized: false
+
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.focusApplication(model.appId);
                     }
                 }
 
-                readonly property bool foregroundMaximized: maximized && index == 0
+                readonly property bool foregroundMaximized: visuallyMaximized && index == 0
                 onForegroundMaximizedChanged: {
                     if (foregroundMaximized) {
                         priv.foregroundMaximizedAppId = model.appId;
@@ -165,8 +168,9 @@ Rectangle {
                     }
                 }
 
-                visible: !minimized &&
+                visible: !visuallyMinimized &&
                          (priv.foregroundMaximizedAppId === "" || priv.foregroundMaximizedAppId === model.appId)
+                         || (spread.focus && index === spread.highlightedIndex)
 
                 Binding {
                     target: ApplicationManager.get(index)
@@ -207,9 +211,25 @@ Rectangle {
                 ]
                 transitions: [
                     Transition {
-                        from: "maximized,minimized,normal,"
-                        to: "maximized,minimized,normal,"
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                        to: "normal"
+                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized"; value: false }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale," }
+                    },
+                    Transition {
+                        to: "maximized"
+                        SequentialAnimation {
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized"; value: false }
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized"; value: true }
+                        }
+                    },
+                    Transition {
+                        to: "minimized"
+                        SequentialAnimation {
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized"; value: false }
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized"; value: true }
+                        }
                     },
                     Transition {
                         from: ""
