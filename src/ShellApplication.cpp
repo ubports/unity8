@@ -36,6 +36,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     , m_shellView(nullptr)
     , m_secondaryWindow(nullptr)
     , m_mouseTouchAdaptor(nullptr)
+    , m_qmlEngine(nullptr)
 {
 
     setApplicationName(QStringLiteral("unity8"));
@@ -135,6 +136,9 @@ void ShellApplication::destroyResources()
 
     delete m_mouseTouchAdaptor;
     m_mouseTouchAdaptor = nullptr;
+
+    delete m_qmlEngine;
+    m_qmlEngine = nullptr;
 }
 
 void ShellApplication::setupQmlEngine(bool isMirServer)

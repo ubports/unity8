@@ -31,5 +31,7 @@ int main(int argc, const char *argv[])
 
     application->destroyResources();
 
+    delete application;
+
     return result;
 }
