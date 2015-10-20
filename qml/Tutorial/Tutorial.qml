@@ -32,6 +32,8 @@ Item {
     property Item panel
     property Item stage
     property string usageScenario
+    property bool paused
+    property bool keyboardVisible
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
     readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
@@ -72,6 +74,18 @@ Item {
             target: loader.item
             property: "usageScenario"
             value: root.usageScenario
+        }
+
+        Binding {
+            target: loader.item
+            property: "paused"
+            value: root.paused
+        }
+
+        Binding {
+            target: loader.item
+            property: "keyboardVisible"
+            value: root.keyboardVisible
         }
 
         Connections {

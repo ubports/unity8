@@ -26,6 +26,8 @@ Item {
     property Item panel
     property Item stage
     property string usageScenario
+    property bool paused
+    property bool keyboardVisible
 
     readonly property bool launcherEnabled: !running || tutorialLeft.shown
     readonly property bool spreadEnabled: !running || tutorialRight.shown
@@ -49,14 +51,15 @@ Item {
         anchors.fill: parent
         launcher: root.launcher
         hides: [launcher, panel.indicators]
+        paused: root.paused
 
         readonly property bool skipped: (root.usageScenario !== "phone"
                                          && root.usageScenario !== "tablet")
                                         || AccountsService.demoEdgesCompleted.indexOf("left") != -1
-        readonly property bool isReady: !skipped
+        isReady: !skipped && !paused && !keyboardVisible
 
         onSkippedChanged: if (skipped && shown) hide()
-        onIsReadyChanged: if (isReady) show()
+        onIsReadyChanged: if (isReady && !shown) show()
         onFinished: AccountsService.markDemoEdgeCompleted("left")
     }
 
@@ -66,11 +69,12 @@ Item {
         anchors.fill: parent
         panel: root.panel
         hides: [launcher, panel.indicators]
+        paused: root.paused
 
         readonly property bool skipped: (root.usageScenario !== "phone"
                                          && root.usageScenario !== "tablet")
                                         || AccountsService.demoEdgesCompleted.indexOf("top") != -1
-        readonly property bool isReady: tutorialLeft.skipped && !skipped
+        isReady: tutorialLeft.skipped && !skipped && !paused && !keyboardVisible
 
         Timer {
             id: tutorialTopTimer
@@ -85,7 +89,7 @@ Item {
         }
 
         onSkippedChanged: if (skipped && shown) hide()
-        onIsReadyChanged: if (isReady) tutorialTopTimer.start()
+        onIsReadyChanged: if (isReady && !shown) tutorialTopTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("top")
     }
 
@@ -96,10 +100,10 @@ Item {
         stage: root.stage
         usageScenario: root.usageScenario
         hides: [launcher, panel.indicators]
+        paused: root.paused
 
         readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("right") != -1
-        readonly property bool isReady: tutorialTop.skipped && !skipped
-                                        && ApplicationManager.count >= 3
+        isReady: tutorialTop.skipped && !skipped && !paused && !keyboardVisible && ApplicationManager.count >= 3
 
         Timer {
             id: tutorialRightTimer
@@ -114,7 +118,7 @@ Item {
         }
 
         onSkippedChanged: if (skipped && shown) hide()
-        onIsReadyChanged: if (isReady) tutorialRightTimer.start()
+        onIsReadyChanged: if (isReady && !shown) tutorialRightTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("right")
     }
 
@@ -123,17 +127,20 @@ Item {
         objectName: "tutorialBottom"
         anchors.fill: parent
         hides: [launcher, panel.indicators]
+        paused: root.paused
 
-        readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
-        readonly property bool isReady: tutorialRight.skipped && !skipped &&
-                                        // focused app is an app known to have a bottom edge
-                                        (ApplicationManager.focusedApplicationId == "dialer-app" ||
-                                         ApplicationManager.focusedApplicationId == "webbrowser-app" ||
-                                         ApplicationManager.focusedApplicationId == "messaging-app" ||
-                                         ApplicationManager.focusedApplicationId == "address-book-app" ||
-                                         ApplicationManager.focusedApplicationId == "camera-app" ||
-                                         ApplicationManager.focusedApplicationId == "calculator-app" ||
-                                         ApplicationManager.focusedApplicationId == "ubuntu-clock-app")
+        readonly property bool skipped: (root.usageScenario !== "phone"
+                                         && root.usageScenario !== "tablet")
+                                        || AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
+        isReady: tutorialRight.skipped && !skipped && !paused && !keyboardVisible &&
+                 // focused app is an app known to have a bottom edge
+                 (ApplicationManager.focusedApplicationId == "dialer-app" ||
+                  ApplicationManager.focusedApplicationId == "webbrowser-app" ||
+                  ApplicationManager.focusedApplicationId == "messaging-app" ||
+                  ApplicationManager.focusedApplicationId == "address-book-app" ||
+                  ApplicationManager.focusedApplicationId == "camera-app" ||
+                  ApplicationManager.focusedApplicationId == "ubuntu-calculator-app" ||
+                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app")
 
         Timer {
             id: tutorialBottomTimer
@@ -148,7 +155,7 @@ Item {
         }
 
         onSkippedChanged: if (skipped && shown) hide()
-        onIsReadyChanged: if (isReady) tutorialBottomTimer.start()
+        onIsReadyChanged: if (isReady && !shown) tutorialBottomTimer.start()
         onFinished: {
             AccountsService.markDemoEdgeCompleted("bottom");
             root.finish();

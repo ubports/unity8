@@ -19,6 +19,7 @@ import QtTest 1.0
 import AccountsService 0.1
 import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.1
+import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 
@@ -43,6 +44,11 @@ Item {
         function height() {
             return 0;
         }
+    }
+
+    Telephony.CallEntry {
+        id: phoneCall
+        phoneNumber: "+447812221111"
     }
 
     Component.onCompleted: {
@@ -77,13 +83,29 @@ Item {
 
         Rectangle {
             id: buttons
-            color: "white"
+            color: "black"
             width: units.gu(30)
             height: shellLoader.height
 
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    Button {
+                        text: "Hide Greeter"
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
+
+                            var greeter = testCase.findChild(shellLoader.item, "greeter");
+                            if (greeter.shown) {
+                                greeter.hide();
+                            }
+                        }
+                    }
+                }
+
                 Row {
                     anchors { left: parent.left; right: parent.right }
                     Button {
@@ -96,6 +118,62 @@ Item {
                             AccountsService.demoEdgesCompleted = [];
                             AccountsService.demoEdges = true;
                         }
+                    }
+                }
+
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    CheckBox {
+                        onCheckedChanged: {
+                            if (checked) {
+                                callManager.foregroundCall = phoneCall;
+                            } else {
+                                callManager.foregroundCall = null;
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Active Call"
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    CheckBox {
+                        activeFocusOnPress: false
+                        onCheckedChanged: {
+                            var surface = SurfaceManager.inputMethodSurface();
+                            if (checked) {
+                                surface.setState(Mir.RestoredState);
+                            } else {
+                                surface.setState(Mir.MinimizedState);
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Input Method"
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    CheckBox {
+                        onCheckedChanged: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
+
+                            if (checked) {
+                                shellLoader.item.usageScenario = "desktop";
+                            } else {
+                                shellLoader.item.usageScenario = "phone";
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Desktop Mode"
+                        anchors.verticalCenter: parent.verticalCenter
                     }
                 }
             }
@@ -114,14 +192,16 @@ Item {
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
 
-            var greeter = findChild(shell, "greeter");
-            tryCompare(greeter, "shown", true);
-
+            shell.usageScenario = "phone";
+            callManager.foregroundCall = null;
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             AccountsService.demoEdges = true;
 
-            tryCompare(greeter, "shown", false);
+            LightDM.Greeter.hideGreeter();
+
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            tryCompare(tutorialLeft, "opacity", 1);
         }
 
         function cleanup() {
@@ -485,20 +565,121 @@ Item {
             tryCompare(tutorialBottom, "shown", true);
         }
 
-        function disabled_test_skipOnDesktop() {
-            var tutorial = findChild(shell, "tutorial");
-            tryCompare(tutorial, "active", true);
-            tryCompare(tutorial, "running", true);
+        function test_activeCallInterruptsTutorial() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            verify(tutorialLeft.shown);
+            verify(!tutorialLeft.paused);
 
-            shell.usageScenario = "desktop";
-            tryCompare(tutorial, "active", false);
-            tryCompare(tutorial, "running", false);
+            callManager.foregroundCall = phoneCall;
+            verify(!tutorialLeft.shown);
+            verify(tutorialLeft.paused);
+            tryCompare(tutorialLeft, "visible", false);
+
+            callManager.foregroundCall = null;
+            verify(tutorialLeft.shown);
+            verify(!tutorialLeft.paused);
         }
 
-        function disabled_test_interrupted() {
-            goToPage("tutorialLeft");
+        function test_greeterInterruptsTutorial() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            verify(tutorialLeft.shown);
+            verify(!tutorialLeft.paused);
+
+            LightDM.Greeter.showGreeter();
+            verify(!tutorialLeft.shown);
+            verify(tutorialLeft.paused);
+            tryCompare(tutorialLeft, "visible", false);
+
+            LightDM.Greeter.hideGreeter();
+            tryCompare(tutorialLeft, "shown", true);
+            verify(!tutorialLeft.paused);
+        }
+
+        function test_interruptionChecksReadyStateWhenDone() {
+            // If we're done with an interruption (like active call), make sure
+            // that we don't blindly resume the tutorial -- our trigger
+            // conditions still need to be met.  For example, there need to be
+            // enough apps open for the right edge tutorial.
+
+            openTutorialRight();
+
+            var tutorialRight = findChild(shell, "tutorialRight");
+            verify(tutorialRight.isReady);
+            verify(tutorialRight.shown);
+            verify(!tutorialRight.paused);
+
+            callManager.foregroundCall = phoneCall;
+            killApps();
+            callManager.foregroundCall = null;
+
+            verify(!tutorialRight.isReady);
+            verify(!tutorialRight.shown);
+            verify(!tutorialRight.paused);
+            compare(AccountsService.demoEdgesCompleted, ["left", "top"]);
+        }
+
+        function test_desktopOnlyShowsTutorialRight() {
+            shell.usageScenario = "desktop";
+
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialTop = findChild(shell, "tutorialTop");
+            var tutorialRight = findChild(shell, "tutorialRight");
+            var tutorialBottom = findChild(shell, "tutorialBottom");
+            verify(tutorialLeft.skipped);
+            verify(tutorialTop.skipped);
+            verify(!tutorialRight.skipped);
+            verify(tutorialBottom.skipped);
+            compare(AccountsService.demoEdgesCompleted, []);
+
             ApplicationManager.startApplication("dialer-app");
-            checkFinished();
+            ApplicationManager.startApplication("camera-app");
+            ApplicationManager.startApplication("messaging-app");
+            tryCompare(tutorialRight, "isReady", true);
+            tryCompare(tutorialRight, "shown", true);
+        }
+
+        function test_oskDoesNotHideTutorial() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            verify(tutorialLeft.shown);
+
+            var surface = SurfaceManager.inputMethodSurface();
+            surface.setState(Mir.RestoredState);
+
+            var inputMethod = findInvisibleChild(shell, "inputMethod");
+            tryCompare(inputMethod, "state", "shown");
+
+            verify(tutorialLeft.shown);
+        }
+
+        function test_oskPreventsTutorial() {
+            var surface = SurfaceManager.inputMethodSurface();
+            var inputMethod = findInvisibleChild(shell, "inputMethod");
+
+            AccountsService.demoEdges = false;
+            surface.setState(Mir.RestoredState);
+            tryCompare(inputMethod, "state", "shown");
+
+            AccountsService.demoEdges = true;
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            verify(!tutorialLeft.shown);
+
+            surface.setState(Mir.MinimizedState);
+            tryCompare(inputMethod, "state", "hidden");
+            verify(tutorialLeft.shown);
+        }
+
+        function test_accountsServiceSettings() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            verify(tutorialLeft != null);
+            verify(tutorialLeft.shown);
+
+            AccountsService.demoEdges = false;
+            verify(findChild(shell, "tutorialLeft") == null);
+
+            AccountsService.demoEdges = true;
+            tutorialLeft = findChild(shell, "tutorialLeft");
+            verify(tutorialLeft != null);
+            verify(tutorialLeft.shown);
         }
     }
 }

@@ -30,6 +30,7 @@ TutorialPage {
     // Else on desktop, fade out when the spread is shown
     Connections {
         target: usageScenario === "desktop" ? stage : null
+        ignoreUnknownSignals: true
         onSpreadShownChanged: if (stage.spreadShown && root.shown) root.hide()
     }
 

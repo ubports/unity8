@@ -376,7 +376,7 @@ Item {
         id: inputMethod
         objectName: "inputMethod"
         anchors { fill: parent; topMargin: panel.panelHeight }
-        z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running ? overlay.z + 1 : overlay.z - 1
     }
 
     Connections {
@@ -407,7 +407,7 @@ Item {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: wizard.active || tutorial.running
+            forcedUnlock: wizard.active
             background: shell.background
 
             // avoid overlapping with Launcher's edge drag area
@@ -570,6 +570,8 @@ Item {
             objectName: "tutorial"
             anchors.fill: parent
 
+            paused: callManager.hasCalls || greeter.shown
+            keyboardVisible: inputMethod.state === "shown"
             usageScenario: shell.usageScenario
             launcher: launcher
             panel: panel

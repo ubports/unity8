@@ -26,10 +26,17 @@ Showable {
     property alias background: background
     property alias mouseArea: mouseArea
     property real opacityOverride: 1
+    property bool paused
+    property bool isReady
 
     signal finished()
 
     ////
+
+    QtObject {
+        id: d
+        property bool showOnUnpause
+    }
 
     visible: false
     shown: false
@@ -37,6 +44,17 @@ Showable {
     opacity: Math.min(_showOpacity, opacityOverride)
     onOpacityOverrideChanged: if (opacityOverride <= 0) hide()
     property real _showOpacity: 0
+
+    onPausedChanged: {
+        if (paused && shown) {
+            hide();
+        } else if (!paused && d.showOnUnpause) {
+            d.showOnUnpause = false;
+            if (isReady) {
+                show();
+            }
+        }
+    }
 
     showAnimation: StandardAnimation {
         property: "_showOpacity"
@@ -52,7 +70,11 @@ Showable {
         duration: UbuntuAnimation.BriskDuration
         onStopped: {
             root.visible = false;
-            root.finished();
+            if (root.paused) {
+                d.showOnUnpause = true;
+            } else {
+                root.finished();
+            }
         }
     }
 

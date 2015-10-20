@@ -56,6 +56,7 @@ MirSurface *SurfaceManager::inputMethodSurface()
         m_virtualKeyboard = new VirtualKeyboard;
         connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
             MirSurface* surface = qobject_cast<MirSurface*>(obj);
+            m_virtualKeyboard = nullptr;
             Q_EMIT surfaceDestroyed(surface);
         });
         Q_EMIT surfaceCreated(m_virtualKeyboard);
