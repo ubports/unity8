@@ -322,6 +322,7 @@ Item {
                     ]
 
                     contents: Label {
+                        visible: header.contents === null
                         LayoutMirroring.enabled: Qt.application.layoutDirection == Qt.RightToLeft
                         anchors {
                             left: parent.left
@@ -331,7 +332,7 @@ Item {
                         text: header.title
                         font.weight: header.fontWeight
                         fontSize: header.fontSize
-                        color: header.titleColor
+                        color: header.panelForegroundColor
                         elide: Text.ElideRight
                         AbstractButton {
                             anchors.fill: parent
