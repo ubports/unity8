@@ -1,3 +1,22 @@
+unity8 (8.11+15.10.20151009-0ubuntu1) wily; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Pawel Stolowski ]
+  * Store unity8 package version in /var/lib/.../version file for fast
+    retrieval from the shell plugin.
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Fri, 09 Oct 2015 09:13:03 +0000
+
+unity8 (8.11+15.10.20151008-0ubuntu1) wily; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Revert to using plaintext instead of HTML-like markup for the
+    notifications (LP: #1504256)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 08 Oct 2015 20:46:26 +0000
+
 unity8 (8.11+15.10.20151002-0ubuntu1) wily; urgency=medium
 
   [ CI Train Bot ]
