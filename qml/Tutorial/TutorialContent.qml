@@ -142,20 +142,20 @@ Item {
                   ApplicationManager.focusedApplicationId == "ubuntu-calculator-app" ||
                   ApplicationManager.focusedApplicationId == "ubuntu-clock-app")
 
-        Timer {
+        /*Timer {
             id: tutorialBottomTimer
             objectName: "tutorialBottomTimer"
             interval: 3000
             onTriggered: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
-        }
+        }*/
 
         Connections {
             target: ApplicationManager
-            onFocusedApplicationIdChanged: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
+            onApplicationAdded: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
         }
 
         onSkippedChanged: if (skipped && shown) hide()
-        onIsReadyChanged: if (isReady && !shown) tutorialBottomTimer.start()
+        //onIsReadyChanged: if (isReady && !shown) tutorialBottomTimer.start()
         onFinished: {
             AccountsService.markDemoEdgeCompleted("bottom");
             root.finish();

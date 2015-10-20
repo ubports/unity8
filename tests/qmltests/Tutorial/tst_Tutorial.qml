@@ -548,7 +548,7 @@ Item {
             tryCompare(AccountsService, "demoEdges", false);
         }*/
 
-        function test_tutorialBottomDelay() {
+        /*function test_tutorialBottomDelay() {
             // Test that if we exit the right tutorial, we don't immediately
             // jump into bottom tutorial.
             var tutorialBottom = findChild(shell, "tutorialBottom");
@@ -563,7 +563,7 @@ Item {
             verify(tutorialBottomTimer.running);
             verify(!tutorialBottom.shown);
             tryCompare(tutorialBottom, "shown", true);
-        }
+        }*/
 
         function test_activeCallInterruptsTutorial() {
             var tutorialLeft = findChild(shell, "tutorialLeft");
