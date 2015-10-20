@@ -114,10 +114,14 @@ Item {
         function init() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
 
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "shown", true);
+
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
             AccountsService.demoEdges = true;
-            //swipeAwayGreeter();
+
+            tryCompare(greeter, "shown", false);
         }
 
         function cleanup() {
@@ -165,6 +169,45 @@ Item {
             waitForRendering(greeter);
         }
 
+        function openTutorialTop() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialTop = findChild(shell, "tutorialTop");
+            var tutorialTopTimer = findInvisibleChild(tutorialTop, "tutorialTopTimer");
+
+            tutorialTopTimer.interval = 1;
+            AccountsService.demoEdgesCompleted = ["left"];
+
+            tryCompare(tutorialLeft, "visible", false);
+            tryCompare(tutorialTop, "shown", true);
+            tryCompare(tutorialTop, "opacity", 1);
+        }
+
+        function openTutorialRight() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialRight = findChild(shell, "tutorialRight");
+
+            AccountsService.demoEdgesCompleted = ["left", "top"];
+            ApplicationManager.startApplication("dialer-app");
+            ApplicationManager.startApplication("camera-app");
+            ApplicationManager.startApplication("messaging-app");
+
+            tryCompare(tutorialLeft, "visible", false);
+            tryCompare(tutorialRight, "shown", true);
+            tryCompare(tutorialRight, "opacity", 1);
+        }
+
+        function openTutorialBottom() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialBottom = findChild(shell, "tutorialBottom");
+
+            AccountsService.demoEdgesCompleted = ["left", "top", "right"];
+            ApplicationManager.startApplication("dialer-app");
+
+            tryCompare(tutorialLeft, "visible", false);
+            tryCompare(tutorialBottom, "shown", true);
+            tryCompare(tutorialBottom, "opacity", 1);
+        }
+
         function test_longPressDismissesTutorialPage() {
             var tutorialLeft = findChild(shell, "tutorialLeft");
 
@@ -196,104 +239,250 @@ Item {
             verify(!panel.indicators.available);
         }
 
-        function waitForPage(name) {
-            waitForRendering(findChild(shell, name));
-            var page = findChild(shell, name);
-            tryCompare(page, "shown", true);
-            tryCompare(page.showAnimation, "running", false);
-            return page;
-        }
-
-        function checkTopEdge() {
-            touchFlick(shell, halfWidth, 0, halfWidth, halfHeight);
-
-            var panel = findChild(shell, "panel");
-            tryCompare(panel.indicators, "fullyClosed", true);
-        }
-
-        function checkLeftEdge() {
-            touchFlick(shell, 0, halfHeight, halfWidth, halfHeight);
-
-            var launcher = findChild(shell, "launcher");
-            tryCompare(launcher, "state", "");
-        }
-
-        function checkRightEdge() {
-            if (shell.usageScenario === "phone") {
-                touchFlick(shell, shell.width, halfHeight, halfWidth, halfHeight);
-
-                var stage = findChild(shell, "stage");
-                var spreadView = findChild(stage, "spreadView");
-                tryCompare(spreadView, "phase", 0);
-            }
-        }
-
-        function checkBottomEdge() {
-            // Can't actually check effect of swipe, since dash isn't really loaded
-            var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader");
-            tryCompare(applicationsDisplayLoader, "interactive", false);
-        }
-
-        function checkFinished() {
-            tryCompare(AccountsService, "demoEdges", false);
-
+        function test_tutorialLeftFinish() {
             var tutorial = findChild(shell, "tutorial");
-            tryCompare(tutorial, "running", false);
-
+            var tutorialLeft = findChild(tutorial, "tutorialLeft");
             var launcher = findChild(shell, "launcher");
-            tryCompare(launcher, "shown", false);
-        }
 
-        function goToPage(name) {
-            var page = waitForPage("tutorialLeft");
-            checkTopEdge();
-            checkRightEdge();
-            checkBottomEdge();
-            if (name === "tutorialLeft") return page;
             touchFlick(shell, 0, halfHeight, halfWidth, halfHeight);
 
-            page = waitForPage("tutorialLeftFinish");
-            if (name === "tutorialLeftFinish") return page;
-            var tick = findChild(page, "tick");
-            tap(tick);
+            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
+            tryCompare(launcher, "state", "visible");
+        }
 
-            page = waitForPage("tutorialRight");
-            checkTopEdge();
-            checkLeftEdge();
-            checkBottomEdge();
-            if (name === "tutorialRight") return page;
-            touchFlick(shell,
-                shell.width, halfHeight,
-                halfWidth, halfHeight,
-                true /* beginTouch */, true /* endTouch */,
-                20 /* speed */, 50 /* iterations */);
-            var overlay = findChild(page, "overlay");
-            tryCompare(overlay, "shown", true);
-            var tick = findChild(page, "tick");
-            tap(tick);
+        function test_tutorialLeftShortDrag() {
+            // Here we want to test just barely pulling the launcher out and
+            // letting go (i.e. not triggering the "progress" property of
+            // Launcher).
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var launcher = findChild(shell, "launcher");
 
-            var page = waitForPage("tutorialBottom");
-            checkTopEdge();
-            checkLeftEdge();
-            checkRightEdge();
-            if (name === "tutorialBottom") return page;
+            // Confirm fade during drag
+            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight, true, false);
+            // compare opacity with a bound rather than hard 0.6 because progress doesn't
+            // always match the drag perfectly (takes a moment for drag to kick in)
+            tryCompareFunction(function() {
+                return tutorialLeft.opacity >= 0.6 && tutorialLeft.opacity < 0.7;
+            }, true);
+            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight, false, true);
+
+
+            // Make sure we don't do anything if we don't pull the launcher
+            // out much.
+            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight);
+            tryCompare(launcher, "state", ""); // should remain hidden
+            tryCompare(tutorialLeft, "shown", true); // and we should still be on left
+
+
+            // Now drag out but not past launcher itself
+            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.9, halfHeight);
+
+            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
+            tryCompare(launcher, "state", "visible");
+        }
+
+        function test_tutorialLeftLongDrag() {
+            // Just confirm that a long drag ("dash" drag) doesn't confuse us
+
+            // So that we actually switch to dash and launcher hides
+            ApplicationManager.startApplication("dialer-app");
+
+            var launcher = findChild(shell, "launcher");
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
+
+            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
+        }
+
+        function test_tutorialTopEdges() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialTop = findChild(tutorial, "tutorialTop");
+            var launcher = findChild(shell, "launcher");
+            var stage = findChild(shell, "stage");
+            var panel = findChild(shell, "panel");
+
+            openTutorialTop();
+
+            tryCompare(tutorial, "running", true);
+            verify(!tutorial.launcherEnabled);
+            verify(!tutorial.spreadEnabled);
+            verify(tutorial.panelEnabled);
+            verify(tutorialTop.shown);
+            verify(!launcher.available);
+            verify(!stage.spreadEnabled);
+            verify(panel.indicators.available);
+        }
+
+        function test_tutorialTopFinish() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialTop = findChild(tutorial, "tutorialTop");
+            var panel = findChild(shell, "panel");
+
+            openTutorialTop();
+            touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
+
+            tryCompare(tutorialTop, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
+            tryCompare(panel.indicators, "fullyOpened", true);
+        }
+
+        function test_tutorialTopShortDrag() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialTop = findChild(tutorial, "tutorialTop");
+            var panel = findChild(shell, "panel");
+
+            openTutorialTop();
+            touchFlick(shell, halfWidth, 0, halfWidth, shell.height * 0.4, true, false);
+            // compare opacity with a bound rather than hard 0.6 because progress doesn't
+            // always match the drag perfectly (takes a moment for drag to kick in)
+            tryCompareFunction(function() {
+                return tutorialTop.opacity >= 0.6 && tutorialTop.opacity < 0.7;
+            }, true);
+            touchFlick(shell, halfWidth, 0, halfWidth, shell.height * 0.4, false, true);
+
+            compare(tutorialTop.shown, true);
+        }
+
+        function test_tutorialTopAutoSkipped() {
+            // Test that we skip the tutorial if user uses top edge themselves
+
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialTop = findChild(shell, "tutorialTop");
+            AccountsService.demoEdgesCompleted = ["left"];
+            tryCompare(tutorialLeft, "visible", false);
+            verify(!tutorialTop.shown);
+
+            touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
+        }
+
+        function test_tutorialRightEdges() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialRight = findChild(tutorial, "tutorialRight");
+            var launcher = findChild(shell, "launcher");
+            var stage = findChild(shell, "stage");
+            var panel = findChild(shell, "panel");
+
+            openTutorialRight();
+
+            tryCompare(tutorial, "running", true);
+            verify(!tutorial.launcherEnabled);
+            verify(tutorial.spreadEnabled);
+            verify(!tutorial.panelEnabled);
+            verify(tutorialRight.shown);
+            verify(!launcher.available);
+            verify(stage.spreadEnabled);
+            verify(!panel.indicators.available);
+        }
+
+        function test_tutorialRightFinish() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialRight = findChild(tutorial, "tutorialRight");
+            var stage = findChild(shell, "stage");
+
+            openTutorialRight();
+            touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
+
+            tryCompare(tutorialRight, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "right"]);
+        }
+
+        function test_tutorialRightShortDrag() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialRight = findChild(tutorial, "tutorialRight");
+            var stage = findChild(shell, "stage");
+
+            openTutorialRight();
+            touchFlick(shell, shell.width, halfHeight, shell.width * 0.8, halfHeight, true, false);
+            // compare opacity with a bound rather than hard 0.6 because progress doesn't
+            // always match the drag perfectly (takes a moment for drag to kick in)
+            tryCompareFunction(function() {
+                return tutorialRight.opacity >= 0.6 && tutorialRight.opacity < 0.8;
+            }, true);
+            touchFlick(shell, shell.width, halfHeight, shell.width * 0.8, halfHeight, false, true);
+
+            compare(tutorialRight.shown, true);
+        }
+
+        function test_tutorialRightDelay() {
+            // Test that if we exit the top tutorial, we don't immediately
+            // jump into right tutorial.
+            var tutorialRight = findChild(shell, "tutorialRight");
+            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
+
+            tutorialRightTimer.interval = 1;
+            openTutorialTop();
+            ApplicationManager.startApplication("dialer-app");
+            ApplicationManager.startApplication("camera-app");
+            ApplicationManager.startApplication("messaging-app");
+            tryCompare(ApplicationManager, "count", 3);
+
+            AccountsService.demoEdgesCompleted = ["left", "top"];
+            verify(tutorialRightTimer.running);
+            verify(!tutorialRight.shown);
+            tryCompare(tutorialRight, "shown", true);
+        }
+
+        function test_tutorialRightAutoSkipped() {
+            // Test that we skip the tutorial if user uses right edge themselves
+
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            AccountsService.demoEdgesCompleted = ["left"];
+            tryCompare(tutorialLeft, "visible", false);
+
+            touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "right"]);
+        }
+
+        function test_tutorialBottomEdges() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialBottom = findChild(tutorial, "tutorialBottom");
+            var launcher = findChild(shell, "launcher");
+            var stage = findChild(shell, "stage");
+            var panel = findChild(shell, "panel");
+
+            openTutorialBottom();
+
+            tryCompare(tutorial, "running", true);
+            verify(!tutorial.launcherEnabled);
+            verify(!tutorial.spreadEnabled);
+            verify(!tutorial.panelEnabled);
+            verify(tutorialBottom.shown);
+            verify(!launcher.available);
+            verify(!stage.spreadEnabled);
+            verify(!panel.indicators.available);
+        }
+
+        /*function test_tutorialBottomFinish() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialBottom = findChild(tutorial, "tutorialBottom");
+
+            openTutorialBottom();
             touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
 
-            var page = waitForPage("tutorialBottomFinish");
-            checkTopEdge();
-            checkLeftEdge();
-            checkRightEdge();
-            checkBottomEdge();
-            if (name === "tutorialBottomFinish") return page;
-            var tick = findChild(page, "tick");
-            tap(tick);
+            tryCompare(tutorialBottom, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "right", "bottom"]);
+            tryCompare(AccountsService, "demoEdges", false);
+        }*/
 
-            checkFinished();
-            return null;
-        }
+        function test_tutorialBottomDelay() {
+            // Test that if we exit the right tutorial, we don't immediately
+            // jump into bottom tutorial.
+            var tutorialBottom = findChild(shell, "tutorialBottom");
+            var tutorialBottomTimer = findInvisibleChild(tutorialBottom, "tutorialBottomTimer");
 
-        function disabled_test_walkthrough() {
-            goToPage(null);
+            tutorialBottomTimer.interval = 1;
+            openTutorialRight();
+            ApplicationManager.requestFocusApplication("dialer-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+
+            AccountsService.demoEdgesCompleted = ["left", "top", "right"];
+            verify(tutorialBottomTimer.running);
+            verify(!tutorialBottom.shown);
+            tryCompare(tutorialBottom, "shown", true);
         }
 
         function disabled_test_skipOnDesktop() {
@@ -304,120 +493,6 @@ Item {
             shell.usageScenario = "desktop";
             tryCompare(tutorial, "active", false);
             tryCompare(tutorial, "running", false);
-        }
-
-        function disabled_test_launcherShortDrag() {
-            // goToPage does a normal launcher pull.  But here we want to test
-            // just barely pulling the launcher out and letting go (i.e. not
-            // triggering the "progress" property of Launcher).
-
-            var left = goToPage("tutorialLeft");
-
-            // Make sure we don't do anything if we don't pull the launcher
-            // out much.
-            var launcher = findChild(shell, "launcher");
-            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight);
-            tryCompare(launcher, "state", ""); // should remain hidden
-            tryCompare(left, "shown", true); // and we should still be on left
-
-            // Now drag out but not past launcher itself
-            touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.9, halfHeight);
-
-            waitForPage("tutorialLeftFinish");
-        }
-
-        function disabled_test_launcherLongDrag() {
-            // goToPage does a normal launcher pull.  But here we want to test
-            // a full pull across the page.
-
-            var left = goToPage("tutorialLeft");
-
-            var launcher = findChild(shell, "launcher");
-            touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
-
-            var errorTextLabel = findChild(left, "errorTextLabel");
-            var errorTitleLabel = findChild(left, "errorTitleLabel");
-            tryCompare(launcher, "state", ""); // launcher goes away
-            tryCompare(left, "shown", true); // still on left page
-            tryCompare(errorTextLabel, "opacity", 1); // show error
-            tryCompare(errorTitleLabel, "opacity", 1); // show error
-        }
-
-        function disabled_test_launcherDragBack() {
-            // goToPage does a full launcher pull.  But here we test pulling
-            // all the way out, then dragging back into place.
-
-            var left = goToPage("tutorialLeft");
-            touchFlick(shell, 0, halfHeight, halfWidth, halfHeight, true, false);
-            touchFlick(shell, halfWidth, halfHeight, 0, halfHeight, false, true);
-
-            tryCompare(left, "shown", true); // and we should still be on left
-        }
-
-        function disabled_test_launcherNoDragGap() {
-            // See bug 1454882, where if you dragged the launcher while it was
-            // visible, you could pull it further than the edge of the screen.
-
-            var left = goToPage("tutorialLeft");
-            var launcher = findChild(shell, "launcher");
-            var teaseAnimation = findInvisibleChild(left, "teaseAnimation");
-
-            // Wait for launcher to be really out there
-            tryCompareFunction(function() {return launcher.x > teaseAnimation.maxBounce/2}, true);
-            verify(teaseAnimation.running);
-
-            // Start a drag, make sure animation stops
-            touchFlick(shell, 0, halfHeight, units.gu(4), halfHeight, true, false);
-            verify(!teaseAnimation.running);
-            verify(launcher.visibleWidth > 0);
-            verify(launcher.x > 0);
-            compare(launcher.x, teaseAnimation.bounce);
-
-            // Continue drag, make sure we don't create a gap on the left hand side
-            touchFlick(shell, units.gu(4), halfHeight, shell.width, halfHeight, false, false);
-            verify(!teaseAnimation.running);
-            compare(launcher.visibleWidth, launcher.panelWidth);
-            compare(launcher.x, 0);
-
-            // Finish and make sure we continue animation
-            touchFlick(shell, shell.width, halfHeight, shell.width, halfHeight, false, true);
-            tryCompare(teaseAnimation, "running", true);
-        }
-
-        function disabled_test_spread() {
-            // Unfortunately, most of what we want to test of the spread is
-            // "did it render correctly?" but that's hard to test.  So instead,
-            // just poke and prod it a little bit to see if some of the values
-            // we'd expect to be correct, are so.
-
-            var right = goToPage("tutorialRight");
-            var stage = findChild(right, "stage");
-            var delegate0 = findChild(right, "appDelegate0");
-
-            tryCompare(stage, "dragProgress", 0);
-            touchFlick(shell, shell.width, halfHeight, shell.width * 0.8, halfHeight, true, false);
-            verify(stage.dragProgress > 0);
-            compare(stage.dragProgress, -delegate0.xTranslate);
-            touchFlick(shell, shell.width * 0.8, halfHeight, shell.width, halfHeight, false, true);
-            tryCompare(stage, "dragProgress", 0);
-
-            tryCompare(delegate0, "x", shell.width);
-
-            var screenshotImage = findChild(right, "screenshotImage");
-            tryCompare(screenshotImage, "source", Qt.resolvedUrl("../../../qml/Tutorial/graphics/facebook.png"));
-            tryCompare(screenshotImage, "visible", true);
-        }
-
-        function disabled_test_bottomShortDrag() {
-            var bottom = goToPage("tutorialBottom");
-
-            touchFlick(shell, halfWidth, shell.height, halfWidth, shell.height * 0.8);
-
-            var errorTextLabel = findChild(bottom, "errorTextLabel");
-            var errorTitleLabel = findChild(bottom, "errorTitleLabel");
-            tryCompare(bottom, "shown", true); // still on bottom page
-            tryCompare(errorTextLabel, "opacity", 1); // show error
-            tryCompare(errorTitleLabel, "opacity", 1); // show error
         }
 
         function disabled_test_interrupted() {

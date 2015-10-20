@@ -74,6 +74,7 @@ Item {
 
         Timer {
             id: tutorialTopTimer
+            objectName: "tutorialTopTimer"
             interval: 60000
             onTriggered: if (tutorialTop.isReady && !tutorialTop.shown) tutorialTop.show()
         }
@@ -86,16 +87,6 @@ Item {
         onSkippedChanged: if (skipped && shown) hide()
         onIsReadyChanged: if (isReady) tutorialTopTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("top")
-
-        Connections {
-            target: panel.indicators
-            ignoreUnknownSignals: true // panel might be null initially
-            onFullyOpenedChanged: {
-                if (panel.indicators.fullyOpened) {
-                    AccountsService.markDemoEdgeCompleted("top");
-                }
-            }
-        }
     }
 
     TutorialRight {
@@ -112,6 +103,7 @@ Item {
 
         Timer {
             id: tutorialRightTimer
+            objectName: "tutorialRightTimer"
             interval: 3000
             onTriggered: if (tutorialRight.isReady && !tutorialRight.shown) tutorialRight.show()
         }
@@ -124,15 +116,6 @@ Item {
         onSkippedChanged: if (skipped && shown) hide()
         onIsReadyChanged: if (isReady) tutorialRightTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("right")
-
-        Connections {
-            target: stage
-            onDragProgressChanged: {
-                if (stage.dragProgress >= 0.1) {
-                    AccountsService.markDemoEdgeCompleted("right");
-                }
-            }
-        }
     }
 
     TutorialBottom {
@@ -147,11 +130,14 @@ Item {
                                         (ApplicationManager.focusedApplicationId == "dialer-app" ||
                                          ApplicationManager.focusedApplicationId == "webbrowser-app" ||
                                          ApplicationManager.focusedApplicationId == "messaging-app" ||
+                                         ApplicationManager.focusedApplicationId == "address-book-app" ||
                                          ApplicationManager.focusedApplicationId == "camera-app" ||
-                                         ApplicationManager.focusedApplicationId == "clock-app")
+                                         ApplicationManager.focusedApplicationId == "calculator-app" ||
+                                         ApplicationManager.focusedApplicationId == "ubuntu-clock-app")
 
         Timer {
             id: tutorialBottomTimer
+            objectName: "tutorialBottomTimer"
             interval: 3000
             onTriggered: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
         }
