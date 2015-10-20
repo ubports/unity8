@@ -244,6 +244,34 @@ Item {
             tryCompare(appDelegate, "minimized", false);
         }
 
+        function test_windowMaximizeLeft() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Left, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Left shortcut to maximizeLeft
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", false);
+            tryCompare(appDelegate, "maximizedLeft", true);
+            tryCompare(appDelegate, "maximizedRight", false);
+        }
+
+        function test_windowMaximizeRight() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Right shortcut to maximizeRight
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", false);
+            tryCompare(appDelegate, "maximizedLeft", false);
+            tryCompare(appDelegate, "maximizedRight", true);
+        }
+
         function test_windowMinimize() {
             var apps = ["unity8-dash", "dialer-app", "camera-app"];
             apps.forEach(startApplication);
