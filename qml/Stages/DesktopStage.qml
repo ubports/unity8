@@ -167,7 +167,7 @@ Rectangle {
                 // remove the old item
                 focusStack.splice(oldIndex, 1);
             }
-            // append to the top of the focus stack
+            // insert to the top of the focus stack
             focusStack.unshift(appId);
         }
 
@@ -175,10 +175,7 @@ Rectangle {
             var removedIndex = focusStack.indexOf(appId);
             if (removedIndex != -1) {
                 focusStack.splice(removedIndex, 1); // remove one item from the focus stack
-                if (removedIndex > 1)
-                    ApplicationManager.focusApplication(focusStack[removedIndex-1]); // focus the previous one
-                else
-                    focusFirstInStack();  // focus the next/first one
+                focusFirstInStack();  // focus the first one
             }
         }
 
