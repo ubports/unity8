@@ -162,9 +162,6 @@ Rectangle {
         property var focusStack: [] // focus stack of appIds
 
         function addToFocusStack(appId) {
-            if (appId === "unity8-dash")
-                return;
-
             var oldIndex = focusStack.indexOf(appId);
             if (oldIndex != -1) {
                 // remove the old item
@@ -175,9 +172,6 @@ Rectangle {
         }
 
         function removeAndFocusPreviousInStack(appId) {
-            if (appId === "unity8-dash")
-                return;
-
             var removedIndex = focusStack.indexOf(appId);
             if (removedIndex != -1) {
                 focusStack.splice(removedIndex, 1); // remove one item from the focus stack
@@ -199,10 +193,12 @@ Rectangle {
             focusStack.forEach(function(appId) {
                 var appDelegate = appRepeater.itemAt(indexOf(appId));
                 if (appDelegate && !appDelegate.minimized) {
-                    // we don't want to mess with the focuStack itself or change the focus to a different window
+                    // we don't want to change the focus to a different window
                     appDelegate.minimized = true;
                 }
             });
+            ApplicationManager.unfocusCurrentApplication(); // no app should have focus at this point
+            focusStack = [];
         }
     }
 
