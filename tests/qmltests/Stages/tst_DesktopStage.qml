@@ -53,14 +53,10 @@ Item {
 
         focus: true
 
-        property bool itemDestroyed: false
         sourceComponent: Component {
             DesktopStage {
                 color: "darkblue"
                 anchors.fill: parent
-                Component.onDestruction: {
-                    desktopStageLoader.itemDestroyed = true;
-                }
             }
         }
     }
@@ -95,16 +91,10 @@ Item {
         property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
 
         function cleanup() {
-            desktopStageLoader.itemDestroyed = false;
             desktopStageLoader.active = false;
 
             tryCompare(desktopStageLoader, "status", Loader.Null);
             tryCompare(desktopStageLoader, "item", null);
-            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
-            // actually took place. Likely because Loader waits until the next event loop
-            // iteration to do its work. So to ensure the reload, we will wait until the
-            // Shell instance gets destroyed.
-            tryCompare(desktopStageLoader, "itemDestroyed", true);
 
             killAllRunningApps();
 
@@ -117,7 +107,7 @@ Item {
                 var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
                 ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
             }
-            compare(ApplicationManager.count, 1)
+            compare(ApplicationManager.count, 1);
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -240,6 +230,31 @@ Item {
             verify(toAppDecoration);
             mouseClick(toAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+        }
+
+        function test_maximizeApp() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Up, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Up shortcut to maximize
+            tryCompare(appDelegate, "maximized", true);
+            tryCompare(appDelegate, "minimized", false);
+        }
+
+        function test_minimizeApp() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Down, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Down shortcut to minimize
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", true);
+            verify(ApplicationManager.focusedApplicationId != ""); // verify we don't lose focus when minimizing an app
         }
     }
 }

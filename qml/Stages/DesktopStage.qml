@@ -237,6 +237,7 @@ Rectangle {
 
             delegate: FocusScope {
                 id: appDelegate
+                objectName: "appDelegate_" + appId
                 z: ApplicationManager.count - index
                 y: units.gu(3)
                 width: units.gu(60)
