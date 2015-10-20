@@ -1,1 +1,1 @@
-singleton TheLightDM 0.1 TheLightDM.qml
+singleton LightDMService 0.1 LightDMService.qml
