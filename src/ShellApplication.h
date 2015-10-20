@@ -34,6 +34,7 @@ public:
     ShellApplication(int & argc, char ** argv, bool isMirServer);
     virtual ~ShellApplication();
 
+    void destroyResources();
 public Q_SLOTS:
     // called by qtmir
     void onScreenAboutToBeRemoved(QScreen *screen);

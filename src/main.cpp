@@ -29,7 +29,7 @@ int main(int argc, const char *argv[])
 
     int result = application->exec();
 
-    delete application;
+    application->destroyResources();
 
     return result;
 }

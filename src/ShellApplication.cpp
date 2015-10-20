@@ -33,6 +33,9 @@
 
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
+    , m_shellView(nullptr)
+    , m_secondaryWindow(nullptr)
+    , m_mouseTouchAdaptor(nullptr)
 {
 
     setApplicationName(QStringLiteral("unity8"));
@@ -117,11 +120,21 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
 
 ShellApplication::~ShellApplication()
 {
+    destroyResources();
+}
+
+void ShellApplication::destroyResources()
+{
     // Deletion order is important. Don't use QScopedPointers and the like
     // Otherwise the process will hang on shutdown (bug somewhere I guess).
     delete m_shellView;
+    m_shellView = nullptr;
+
     delete m_secondaryWindow;
+    m_secondaryWindow = nullptr;
+
     delete m_mouseTouchAdaptor;
+    m_mouseTouchAdaptor = nullptr;
 }
 
 void ShellApplication::setupQmlEngine(bool isMirServer)
