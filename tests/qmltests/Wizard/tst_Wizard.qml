@@ -30,12 +30,6 @@ Item {
     width: units.gu(40)
     height: units.gu(71)
 
-    // For testing only as wizard depends on this property
-    Item {
-        id: shell
-        property string mode: "full-greeter"
-    }
-
     Loader {
         id: wizardLoader
         anchors.fill: parent
