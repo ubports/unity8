@@ -74,7 +74,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
     textdomain("unity8");
 
-    m_shellView.reset(new ShellView(m_qmlEngine, &m_qmlArgs));
+    m_shellView = new ShellView(m_qmlEngine, &m_qmlArgs);
 
     if (parser.windowGeometry().isValid()) {
         m_shellView->setWidth(parser.windowGeometry().width());
@@ -88,7 +88,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     if (parser.hasMouseToTouch()) {
-        m_mouseTouchAdaptor.reset(MouseTouchAdaptor::instance());
+        m_mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
 
 
@@ -101,7 +101,7 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
         m_shellView->setScreen(screens().at(1));
         m_qmlArgs.setDeviceName("desktop");
 
-        m_secondaryWindow.reset(new SecondaryWindow(m_qmlEngine));
+        m_secondaryWindow = new SecondaryWindow(m_qmlEngine);
         m_secondaryWindow->setScreen(screens().at(0));
         // QWindow::showFullScreen() also calls QWindow::requestActivate() and we don't want that!
         m_secondaryWindow->setWindowState(Qt::WindowFullScreen);
@@ -113,6 +113,15 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     } else {
         m_shellView->show();
     }
+}
+
+ShellApplication::~ShellApplication()
+{
+    // Deletion order is important. Don't use QScopedPointers and the like
+    // Otherwise the process will hang on shutdown (bug somewhere I guess).
+    delete m_shellView;
+    delete m_secondaryWindow;
+    delete m_mouseTouchAdaptor;
 }
 
 void ShellApplication::setupQmlEngine(bool isMirServer)
@@ -143,7 +152,7 @@ void ShellApplication::onScreenAdded(QScreen * /*screen*/)
         // its backing QPlatformWindow recreated). So lets refocus it.
         m_shellView->requestActivate();
 
-        m_secondaryWindow.reset(new SecondaryWindow(m_qmlEngine));
+        m_secondaryWindow = new SecondaryWindow(m_qmlEngine);
         m_secondaryWindow->setScreen(screens().at(0));
 
         // QWindow::showFullScreen() also calls QWindow::requestActivate() and we don't want that!
@@ -159,8 +168,9 @@ void ShellApplication::onScreenAboutToBeRemoved(QScreen *screen)
     if (screen == m_shellView->screen()) {
         Q_ASSERT(screens().count() > 1);
         Q_ASSERT(screens().at(0) != screen);
-        Q_ASSERT(!m_secondaryWindow.isNull());
-        m_secondaryWindow.reset();
+        Q_ASSERT(m_secondaryWindow);
+        delete m_secondaryWindow;
+        m_secondaryWindow = nullptr;
         m_shellView->setScreen(screens().first());
         m_qmlArgs.setDeviceName(m_deviceName);
         // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having

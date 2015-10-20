@@ -32,6 +32,7 @@ class ShellApplication : public QGuiApplication
     Q_OBJECT
 public:
     ShellApplication(int & argc, char ** argv, bool isMirServer);
+    virtual ~ShellApplication();
 
 public Q_SLOTS:
     // called by qtmir
@@ -44,9 +45,9 @@ private:
     void setupQmlEngine(bool isMirServer);
     QString m_deviceName;
     ApplicationArguments m_qmlArgs;
-    QScopedPointer<ShellView> m_shellView;
-    QScopedPointer<SecondaryWindow> m_secondaryWindow;
-    QScopedPointer<MouseTouchAdaptor> m_mouseTouchAdaptor;
+    ShellView *m_shellView;
+    SecondaryWindow *m_secondaryWindow;
+    MouseTouchAdaptor *m_mouseTouchAdaptor;
     QQmlEngine *m_qmlEngine;
 };
 
