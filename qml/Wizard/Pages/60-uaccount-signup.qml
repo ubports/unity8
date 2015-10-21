@@ -42,7 +42,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Email:")
+            text: i18n.tr("Email")
             color: textColor
             font.weight: Font.Light
         }
@@ -68,7 +68,7 @@ LocalComponents.Page {
             anchors.top: emailInput.bottom
             anchors.topMargin: units.gu(2)
             wrapMode: Text.Wrap
-            text: i18n.tr("Your name:")
+            text: i18n.tr("Your name")
             color: textColor
             font.weight: Font.Light
         }
@@ -90,7 +90,7 @@ LocalComponents.Page {
             anchors.top: nameInput.bottom
             anchors.topMargin: units.gu(2)
             wrapMode: Text.Wrap
-            text: i18n.tr("Password:")
+            text: i18n.tr("Password")
             color: textColor
             font.weight: Font.Light
         }
@@ -123,7 +123,7 @@ LocalComponents.Page {
             anchors.top: passMeter.bottom
             anchors.topMargin: passInput.text !== "" ? units.gu(4) : units.gu(2)
             wrapMode: Text.Wrap
-            text: i18n.tr("Repeat password:")
+            text: i18n.tr("Repeat password")
             color: textColor
             font.weight: Font.Light
         }
