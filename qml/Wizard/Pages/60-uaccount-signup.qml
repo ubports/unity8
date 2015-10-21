@@ -135,7 +135,7 @@ LocalComponents.Page {
             anchors.top: pass2Label.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
-            KeyNavigation.tab: emailInput
+            KeyNavigation.tab: cancelButton
         }
 
         // buttons
@@ -150,6 +150,7 @@ LocalComponents.Page {
             }
             text: i18n.tr("Cancel")
             onClicked: pageStack.prev()
+            KeyNavigation.tab: okButton
         }
 
         Button {
@@ -170,6 +171,7 @@ LocalComponents.Page {
                 AccountsService.email = emailInput.text;
                 pageStack.next() // TODO sign up against U1 in Phase 2
             }
+            KeyNavigation.tab: emailInput
         }
     }
 }

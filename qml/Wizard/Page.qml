@@ -121,15 +121,14 @@ Item {
             right: parent.right
         }
         source: customTitle ? "" : "Pages/data/Phone header bkg.png"
-        height: units.gu(16)
+        height: customTitle ? units.gu(10) : units.gu(16)
         clip: true
 
         // page title
         Label {
             id: titleLabel
             property real animatedMargin: 0
-            property real animatedTopMargin: customTitle ? customMargin :
-                                                           titleRect.height - customMargin - titleLabel.height
+            property real animatedTopMargin: 0
             anchors {
                 left: parent.left
                 right: parent.right
