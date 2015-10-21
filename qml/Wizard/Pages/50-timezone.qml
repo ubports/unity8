@@ -62,7 +62,7 @@ LocalComponents.Page {
                 anchors.left: parent.left
                 anchors.leftMargin: leftMargin
                 anchors.right: image.left
-                anchors.rightMargin: rightMargin
+                anchors.rightMargin: rightMargin/2
                 Label {
                     id: cityLabel
                     text: displayName

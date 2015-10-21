@@ -62,7 +62,7 @@ LocalComponents.Page {
                 right: hereTermsCheck.left
                 top: parent.top
                 leftMargin: leftMargin
-                rightMargin: units.gu(1)
+                rightMargin: rightMargin/2
             }
 
             wrapMode: Text.WordWrap
@@ -91,7 +91,7 @@ LocalComponents.Page {
                 top: hereCheckLabel.bottom
                 topMargin: units.gu(1)
                 leftMargin: leftMargin
-                rightMargin: units.gu(1)
+                rightMargin: rightMargin/2
             }
 
             wrapMode: Text.WordWrap
@@ -132,7 +132,7 @@ LocalComponents.Page {
                 top: divider.bottom
                 topMargin: units.gu(3)
                 leftMargin: leftMargin
-                rightMargin: rightMargin
+                rightMargin: rightMargin/2
             }
             text: i18n.tr("GPS only")
             wrapMode: Text.WordWrap
@@ -181,7 +181,7 @@ LocalComponents.Page {
                 top: divider2.bottom
                 topMargin: units.gu(3)
                 leftMargin: leftMargin
-                rightMargin: rightMargin
+                rightMargin: rightMargin/2
             }
             wrapMode: Text.WordWrap
             color: textColor
