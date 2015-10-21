@@ -90,7 +90,7 @@ Item {
         // Turn on screen as needed (Powerd.Notification means the screen
         // stays on for a shorter amount of time)
         if (type == Notification.SnapDecision) {
-            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+            Powerd.setStatus(Powerd.On, Powerd.SnapDecision);
         } else if (type != Notification.Confirmation) {
             Powerd.setStatus(Powerd.On, Powerd.Notification);
         }
@@ -283,7 +283,7 @@ Item {
                         fontSize: "medium"
                         color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
-                        textFormat: Text.StyledText
+                        textFormat: Text.PlainText
                     }
 
                     Label {
@@ -300,7 +300,7 @@ Item {
                         wrapMode: Text.WordWrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
-                        textFormat: Text.StyledText
+                        textFormat: Text.PlainText
                     }
                 }
 
