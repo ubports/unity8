@@ -64,8 +64,7 @@ Rectangle {
                 spread.state = "";
             }
 
-            priv.addToFocusStack(appId);
-            priv.focusFirstInStack();
+            ApplicationManager.focusApplication(appId);
         }
 
         onApplicationRemoved: {
@@ -80,11 +79,10 @@ Rectangle {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
             appDelegate.minimized = false;
-            ApplicationManager.focusApplication(appId);
-            priv.addToFocusStack(appId);
+            ApplicationManager.focusApplication(appId)
 
             if (spread.state == "altTab") {
-                spread.cancel();
+                spread.cancel()
             }
         }
     }
