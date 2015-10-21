@@ -65,7 +65,7 @@ TestCase {
 
     function test_powerKeyLongPressed(data) {
         Powerd.setStatus(data.status, Powerd.Unknown);
-        physicalKeysMapper.powerKeyLongPressTime = 500;
+        physicalKeysMapper.powerKeyLongPressCount = 5;
 
         physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
 
@@ -73,19 +73,19 @@ TestCase {
         // and the rest of keypresses are auto repeat
         Powerd.setStatus(Powerd.On, Powerd.Unknown);
 
-        for (var i = 0; i < 3; ++i) {
-            wait(10);
+        for (var i = 0; i < 4; ++i) {
             physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
         }
 
         // powerKeyLongPressed should not have been emitted yet.
         compare(powerSpy.count, 0);
 
-        for (var i = 0; i < 10; ++i) {
-            wait(50);
-            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
-        }
+        // Fifth repeat event will trigger emission
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
+        compare(powerSpy.count, 1);
 
+        // Make sure we don't double-emit
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
         compare(powerSpy.count, 1);
     }
 

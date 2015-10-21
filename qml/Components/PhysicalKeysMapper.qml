@@ -42,7 +42,7 @@ Item {
 
     readonly property bool altTabPressed: d.altTabPressed
 
-    property int powerKeyLongPressTime: 2000
+    property int powerKeyLongPressCount: 31 // about 2s
 
     // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
     // running desktop, set this to true to use Ctrl+Tab instead.
@@ -57,27 +57,26 @@ Item {
 
         property bool altPressed: false
         property bool altTabPressed: false
-    }
 
-    Timer {
-        id: powerKeyLongPressTimer
-        interval: root.powerKeyLongPressTime
-        onTriggered: root.powerKeyLongPressed();
+        property int powerButtonCount
     }
 
     function onKeyPressed(event) {
-        if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)
-            && (!event.isAutoRepeat || !powerKeyLongPressTimer.running)) {
+        if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
+            if (event.isAutoRepeat) {
+                d.powerButtonCount++;
 
-            // FIXME: We only consider power key presses if the screen is
-            // on because of bugs 1410830/1409003.  The theory is that when
-            // those bugs are encountered, there is a >2s delay between the
-            // power press event and the power release event, which causes
-            // the shutdown dialog to appear on resume.  So to avoid that
-            // symptom while we investigate the root cause, we simply won't
-            // initiate any dialogs when the screen is off.
-            if (Powerd.status === Powerd.On) {
-                powerKeyLongPressTimer.restart();
+                // We count repeats rather than watch the time because if the
+                // system is loaded, we may misinterpret a long wall-clock
+                // delay as a long press, when in fact we just didn't get
+                // around to noticing the key-release event in time.  But if we
+                // count events instead, we will be in sync with the event
+                // queue.
+                if (d.powerButtonCount === powerKeyLongPressCount) {
+                    root.powerKeyLongPressed();
+                }
+            } else {
+                d.powerButtonCount = 0;
             }
         } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) && !event.isAutoRepeat) {
             event.accepted = callManager.handleMediaKey(false);
@@ -115,7 +114,6 @@ Item {
 
     function onKeyReleased(event) {
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
-            powerKeyLongPressTimer.stop();
             event.accepted = true;
         } else if (event.key == Qt.Key_VolumeDown) {
             if (!d.ignoreVolumeEvents) root.volumeDownTriggered();
