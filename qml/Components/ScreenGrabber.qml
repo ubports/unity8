@@ -37,9 +37,8 @@ Rectangle {
         onTriggered: capture()
     }
 
-    Audio {
+    AlarmAudio {
         id: shutterSound
-        audioRole: MediaPlayer.alert
         source: "/system/media/audio/ui/camera_click.ogg"
     }
 

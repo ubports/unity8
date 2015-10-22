@@ -22,6 +22,7 @@ import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import "../Components"
 
 Item {
     id: notification
@@ -79,10 +80,9 @@ Item {
         return result;
     }
 
-    Audio {
+    AlarmAudio {
         id: sound
         objectName: "sound"
-        audioRole: MediaPlayer.alert
         source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
     }
 
