@@ -16,7 +16,6 @@
 
 import QtQuick 2.0
 import Powerd 0.1
-import Utils 0.1 as Utils
 
 /*!
  \brief A mapper for the physical keys on the device
