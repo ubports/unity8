@@ -43,7 +43,7 @@ Item {
 
     signal backClicked()
 
-    PageHeader {
+    DashPageHeader {
         id: header
         objectName: "pageHeader"
         width: parent.width
