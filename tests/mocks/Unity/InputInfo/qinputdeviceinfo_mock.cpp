@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 Canonical, Ltd. and/or its subsidiary(-ies).
+** Copyright (C) 2014 Canonical, Ltd. and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -39,86 +39,42 @@
 **
 ****************************************************************************/
 
-#include "mockqinputinfo.h"
+#include "qinputdeviceinfo_mock_p.h"
 
+#include <QTimer>
+#include <QDebug>
 
-QInputDevice::QInputDevice(QObject *parent) :
-    QObject(parent)
+QInputDeviceManagerPrivate::QInputDeviceManagerPrivate(QObject *parent) :
+    QObject(parent),
+    currentFilter(QInputDevice::Unknown)
+{
+    QTimer::singleShot(1, SIGNAL(ready()));
+}
+
+QInputDeviceManagerPrivate::~QInputDeviceManagerPrivate()
 {
 }
 
-QString QInputDevice::name() const
+QInputDevice *QInputDeviceManagerPrivate::addMockDevice(const QString &devicePath, QInputDevice::InputType type)
 {
-    return m_name;
+    QInputDevice *inputDevice = new QInputDevice(this);
+    inputDevice->setDevicePath(devicePath);
+    inputDevice->setName("Mock Device " + devicePath);
+    inputDevice->setType(type);
+    deviceMap.insert(devicePath, inputDevice);
+    qDebug() << "Adding mock input device" << devicePath << type;
+    Q_EMIT deviceAdded(devicePath);
+    return inputDevice;
 }
 
-void QInputDevice::setName(const QString &name)
+void QInputDeviceManagerPrivate::removeDevice(const QString &path)
 {
-    m_name = name;
-}
-
-QString QInputDevice::devicePath() const
-{
-    return m_devicePath;
-}
-
-void QInputDevice::setDevicePath(const QString &path)
-{
-    m_devicePath = path;
-}
-
-QList <int> QInputDevice::buttons() const
-{
-    return {1, 2 ,3};
-}
-
-QList <int> QInputDevice::switches() const
-{
-    return {};
-}
-
-QList <int> QInputDevice::relativeAxis() const
-{
-    return {};
-}
-
-QList <int> QInputDevice::absoluteAxis() const
-{
-    return {};
-}
-
-QInputDeviceInfo::InputTypes QInputDevice::types()
-{
-    return m_types;
-}
-
-void QInputDevice::setTypes(QInputDeviceInfo::InputTypes types)
-{
-    m_types = types;
-}
-
-QInputDeviceInfo::QInputDeviceInfo(QObject *parent) :
-    QObject(parent)
-{
-}
-
-QVector <QInputDevice *> QInputDeviceInfo::deviceList()
-{
-    return m_list;
-}
-
-void QInputDeviceInfo::removeMockDevice(int index)
-{
-    QInputDevice *device = m_list.takeAt(index);
-    Q_EMIT deviceRemoved(device->devicePath());
-    device->deleteLater();
-}
-
-void QInputDeviceInfo::addMockDevice(QInputDeviceInfo::InputType inputType)
-{
-    QInputDevice *device = new QInputDevice(this);
-    device->setDevicePath("/mock/device/" + QString::number(m_counter++));
-    device->setTypes({inputType});
-    m_list.append(device);
-    Q_EMIT deviceAdded(device->devicePath());
+    qDebug() << "should remove" << path;
+    Q_FOREACH (const QString devicePath, deviceMap.keys()) {
+        qDebug() << "comparing" << devicePath << path;
+        if (devicePath.contains(path)) {
+            deviceMap.remove(devicePath);
+            Q_EMIT deviceRemoved(devicePath);
+        }
+    }
 }

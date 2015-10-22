@@ -1,7 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 Jolla.
-** Copyright (C) 2015 Canoncal Ltd.
+** Copyright (C) 2014 Canonical, Ltd. and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -40,55 +39,45 @@
 **
 ****************************************************************************/
 
-#ifndef QDECLARATIVEINPUTDEVICEINFO_H
-#define QDECLARATIVEINPUTDEVICEINFO_H
+#ifndef QINPUTDEVICEINFO_MOCK_H
+#define QINPUTDEVICEINFO_MOCK_H
 
 #include <QObject>
-#include <QAbstractListModel>
-#include "mockqinputinfo.h"
+#include "qinputinfo.h"
 
-class QDeclarativeInputDeviceInfo : public QAbstractListModel
+class QInputDevicePrivate : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QDeclarativeInputDeviceInfo)
-
 public:
-    enum ItemRoles {
-        ServiceRole = Qt::UserRole + 1
-    };
+    explicit QInputDevicePrivate(QObject *parent = 0);
 
-    explicit QDeclarativeInputDeviceInfo(QObject *parent = 0);
-    virtual ~QDeclarativeInputDeviceInfo();
-
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-
-    QHash<int, QByteArray> roleNames() const;
-
-    Q_INVOKABLE int indexOf(const QString &devicePath) const;
-
-    Q_INVOKABLE QInputDevice *get(int index) const;
-
-    // For testing
-    Q_INVOKABLE void addMockMouse();
-    Q_INVOKABLE void addMockKeyboard();
-    Q_INVOKABLE void removeMockMouse();
-    Q_INVOKABLE void removeMockKeyboard();
-
-Q_SIGNALS:
-    void newDevice(const QString &devicePath);
-    void deviceRemoved(const QString &devicePath);
-
-public Q_SLOTS:
-    void updateDeviceList();
-
-private:
-    QInputDeviceInfo *deviceInfo;
-    QVector<QInputDevice *> inputDevices;
-private Q_SLOTS:
-    void addedDevice(const QString &);
-    void removedDevice(const QString &path);
-
+    QString name;
+    QString devicePath;
+    QList <int> buttons; //keys
+    QList <int> switches;
+    QList <int> relativeAxis;
+    QList <int> absoluteAxis;
+    QInputDevice::InputTypeFlags type;
 };
 
-#endif // QDECLARATIVEINPUTDEVICEINFO_H
+class QInputDeviceManagerPrivate : public QObject
+{
+    Q_OBJECT
+public:
+    explicit QInputDeviceManagerPrivate(QObject *parent = 0);
+    ~QInputDeviceManagerPrivate();
+    QVector <QInputDevice *> deviceList;
+    QMap <QString, QInputDevice *> deviceMap;
+    static QInputDeviceManagerPrivate * instance();
+    QInputDevice::InputType currentFilter;
+
+    Q_INVOKABLE QInputDevice* addMockDevice(const QString &devicePath, QInputDevice::InputType type);
+    Q_INVOKABLE void removeDevice(const QString &devicePath);
+
+Q_SIGNALS:
+    void deviceAdded(const QString &);
+    void deviceRemoved(const QString &);
+    void ready();
+};
+
+#endif // QINPUTDEVICEINFO_MOCK_H

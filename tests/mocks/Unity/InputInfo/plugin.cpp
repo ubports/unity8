@@ -21,12 +21,22 @@
 #include "plugin.h"
 
 // local
-#include "mockqdeclarativeinputdeviceinfo_p.h"
+#include "qdeclarativeinputdevicemodel_p.h"
+#include "qinputdeviceinfo_mock_p.h"
+
+static QObject *backendProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return QInputDeviceManagerPrivate::instance();
+}
 
 void InputInfoPlugin::registerTypes(const char *uri)
 {
     int major = 0;
     int minor = 1;
-    qmlRegisterType<QDeclarativeInputDeviceInfo>(uri, major, minor, "InputDeviceInfo");
+    qmlRegisterType<QDeclarativeInputDeviceModel>(uri, major, minor, "InputDeviceModel");
     qmlRegisterType<QInputDevice>(uri, major, minor, "InputInfo");
+
+    qmlRegisterSingletonType<QInputDeviceManagerPrivate>(uri, major, minor, "MockInputDeviceBackend", backendProvider);
 }
