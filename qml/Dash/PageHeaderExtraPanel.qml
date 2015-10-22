@@ -110,4 +110,15 @@ Item {
 
         onLeafClicked: root.dashNavigationLeafClicked();
     }
+
+    // This is outside the item
+    Image {
+        anchors {
+            top: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        fillMode: Image.Stretch
+        source: "graphics/navigation_shadow.png"
+    }
 }

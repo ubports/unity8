@@ -187,16 +187,6 @@ Item {
         }
     }
 
-    Image {
-        anchors {
-            top: navigationListView.bottom
-            left: navigationListView.left
-            right: navigationListView.right
-        }
-        fillMode: Image.Stretch
-        source: "graphics/navigation_shadow.png"
-    }
-
     property bool isFirstLoad: false
     onScopeChanged: clear();
     function clear() {
