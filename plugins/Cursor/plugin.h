@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,24 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// local
-#include "ShellApplication.h"
+#ifndef CURSOR_PLUGIN_H
+#define CURSOR_PLUGIN_H
 
-int main(int argc, const char *argv[])
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
+
+class CursorPlugin : public QQmlExtensionPlugin
 {
-    bool isMirServer = false;
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
-        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
-        isMirServer = true;
-    }
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
+public:
+    void registerTypes(const char *uri) override;
+    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+};
 
-    int result = application->exec();
-
-    application->destroyResources();
-
-    delete application;
-
-    return result;
-}
+#endif // CURSOR_PLUGIN_H

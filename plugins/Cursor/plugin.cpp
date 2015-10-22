@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2015 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,24 +14,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Qt
+#include <QtQml/qqml.h>
+#include <QQmlContext>
+
+// self
+#include "plugin.h"
+
 // local
-#include "ShellApplication.h"
+#include "CursorImageProvider.h"
+#include "MousePointer.h"
 
-int main(int argc, const char *argv[])
+void CursorPlugin::registerTypes(const char *uri)
 {
-    bool isMirServer = false;
-    if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
-        setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
-        isMirServer = true;
-    }
+    Q_ASSERT(uri == QLatin1String("Cursor"));
+    qmlRegisterType<MousePointer>(uri, 1, 0, "MousePointer");
+}
 
-    ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
+void CursorPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    int result = application->exec();
-
-    application->destroyResources();
-
-    delete application;
-
-    return result;
+    engine->addImageProvider(QLatin1String("cursor"), new CursorImageProvider());
 }
