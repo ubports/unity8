@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Powerd 0.1
+import Utils 0.1 as Utils
 
 /*!
  \brief A mapper for the physical keys on the device
@@ -42,7 +43,7 @@ Item {
 
     readonly property bool altTabPressed: d.altTabPressed
 
-    property int powerKeyLongPressCount: 31 // about 2s
+    property int powerKeyLongPressTime: 2000
 
     // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
     // running desktop, set this to true to use Ctrl+Tab instead.
@@ -58,25 +59,19 @@ Item {
         property bool altPressed: false
         property bool altTabPressed: false
 
-        property int powerButtonCount
+        property var powerButtonPressStart: 0
     }
 
-    function onKeyPressed(event) {
+    function onKeyPressed(event, currentEventTimestamp) {
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             if (event.isAutoRepeat) {
-                d.powerButtonCount++;
-
-                // We count repeats rather than watch the time because if the
-                // system is loaded, we may misinterpret a long wall-clock
-                // delay as a long press, when in fact we just didn't get
-                // around to noticing the key-release event in time.  But if we
-                // count events instead, we will be in sync with the event
-                // queue.
-                if (d.powerButtonCount === powerKeyLongPressCount) {
+                if (d.powerButtonPressStart > 0
+                        && currentEventTimestamp - d.powerButtonPressStart >= powerKeyLongPressTime) {
+                    d.powerButtonPressStart = 0;
                     root.powerKeyLongPressed();
                 }
             } else {
-                d.powerButtonCount = 0;
+                d.powerButtonPressStart = currentEventTimestamp;
             }
         } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) && !event.isAutoRepeat) {
             event.accepted = callManager.handleMediaKey(false);
@@ -112,8 +107,9 @@ Item {
         }
     }
 
-    function onKeyReleased(event) {
+    function onKeyReleased(event, currentEventTimestamp) {
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
+            d.powerButtonPressStart = 0;
             event.accepted = true;
         } else if (event.key == Qt.Key_VolumeDown) {
             if (!d.ignoreVolumeEvents) root.volumeDownTriggered();

@@ -65,27 +65,24 @@ TestCase {
 
     function test_powerKeyLongPressed(data) {
         Powerd.setStatus(data.status, Powerd.Unknown);
-        physicalKeysMapper.powerKeyLongPressCount = 5;
+        physicalKeysMapper.powerKeyLongPressTime = 500;
 
-        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false }, 100);
 
         // After the first key press the screen is always on
         // and the rest of keypresses are auto repeat
         Powerd.setStatus(Powerd.On, Powerd.Unknown);
 
-        for (var i = 0; i < 4; ++i) {
-            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
-        }
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 300);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 400);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 500);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 599);
 
         // powerKeyLongPressed should not have been emitted yet.
         compare(powerSpy.count, 0);
 
-        // Fifth repeat event will trigger emission
-        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
-        compare(powerSpy.count, 1);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 600);
 
-        // Make sure we don't double-emit
-        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
         compare(powerSpy.count, 1);
     }
 

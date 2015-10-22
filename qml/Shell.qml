@@ -200,8 +200,8 @@ Item {
     }
 
     WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
     }
 
     HomeKeyWatcher {
