@@ -198,7 +198,6 @@ Item {
         }
 
         function test_resizeSmallerAndLarger(data) {
-            console.log("windowLoader="+windowLoader + ", windowLoader.item="+windowLoader.item + ", windowLoader.active="+windowLoader.active);
             var initialWindowX = fakeWindow.x;
             var initialWindowY = fakeWindow.y;
             var initialWindowWidth = fakeWindow.width

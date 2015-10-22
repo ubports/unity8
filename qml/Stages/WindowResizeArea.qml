@@ -44,18 +44,8 @@ MouseArea {
 
         target.x = windowState.x;
         target.y = windowState.y;
-
-        if (windowState.width >= minWidth) {
-            target.requestedWidth = windowState.width;
-        } else {
-            target.requestedWidth = minWidth;
-        }
-
-        if (windowState.height >= minHeight) {
-            target.requestedHeight = windowState.height;
-        } else {
-            target.requestedHeight = minHeight;
-        }
+        target.requestedWidth = Math.max(windowState.width, minWidth);
+        target.requestedHeight = Math.max(windowState.height, minHeight);
     }
 
     Component.onDestruction: {
