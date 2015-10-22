@@ -1762,20 +1762,43 @@ Rectangle {
             var appRepeater = findChild(shell, "appRepeater")
             var appId = ApplicationManager.get(0).appId;
             var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
 
             tryCompare(appDelegate, "state", "normal");
-            tryCompare(PanelState, "buttonsVisible", false);
+            tryCompare(panelButtons, "visible", false);
 
             appDelegate.maximize(false);
-            tryCompare(PanelState, "buttonsVisible", true);
+            tryCompare(panelButtons, "visible", true);
 
             shell.usageScenario = "phone";
             waitForRendering(shell);
-            tryCompare(PanelState, "buttonsVisible", false);
+            tryCompare(panelButtons, "visible", false);
 
             shell.usageScenario = "desktop";
             waitForRendering(shell);
-            tryCompare(PanelState, "buttonsVisible", true);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lockingGreeterHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            LightDM.Greeter.showGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            LightDM.Greeter.hideGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
         }
     }
 }

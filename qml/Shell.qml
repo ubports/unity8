@@ -561,6 +561,8 @@ Item {
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
+            locked: greeter && greeter.active
+            onLockedChanged: print("**********************", greeter.locked, greeter)
         }
 
         Launcher {
