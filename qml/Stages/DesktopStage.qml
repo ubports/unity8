@@ -134,8 +134,10 @@ Rectangle {
                 id: appDelegate
                 z: ApplicationManager.count - index
                 y: units.gu(3)
-                width: units.gu(60)
-                height: units.gu(50)
+                width: decoratedWindow.width
+                height: decoratedWindow.height
+                property alias requestedWidth: decoratedWindow.requestedWidth
+                property alias requestedHeight: decoratedWindow.requestedHeight
                 focus: model.appId === priv.focusedAppId
 
                 property bool maximized: false
@@ -177,7 +179,7 @@ Rectangle {
                     },
                     State {
                         name: "maximized"; when: appDelegate.maximized
-                        PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
+                        PropertyChanges { target: appDelegate; x: 0; y: 0; requestedWidth: root.width; requestedHeight: root.height }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -188,7 +190,7 @@ Rectangle {
                     Transition {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale" }
                     },
                     Transition {
                         from: ""
@@ -227,8 +229,6 @@ Rectangle {
                     objectName: "decoratedWindow"
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
-                    width: appDelegate.width
-                    height: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true

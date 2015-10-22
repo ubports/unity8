@@ -35,14 +35,26 @@ MouseArea {
     property int borderThickness: 0
     property int minWidth: 0
     property int minHeight: 0
+    property int defaultWidth: units.gu(60)
+    property int defaultHeight: units.gu(50)
 
     Component.onCompleted: {
-        var windowState = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
-        if (windowState !== undefined) {
-            target.x = windowState.x
-            target.y = windowState.y
-            target.width = windowState.width
-            target.height = windowState.height
+        var windowState = windowStateStorage.getGeometry(root.windowId,
+                Qt.rect(target.x, target.y, defaultWidth, defaultHeight) /* default geometry */);
+
+        target.x = windowState.x;
+        target.y = windowState.y;
+
+        if (windowState.width >= minWidth) {
+            target.requestedWidth = windowState.width;
+        } else {
+            target.requestedWidth = minWidth;
+        }
+
+        if (windowState.height >= minHeight) {
+            target.requestedHeight = windowState.height;
+        } else {
+            target.requestedHeight = minHeight;
         }
     }
 
@@ -64,6 +76,8 @@ MouseArea {
         property real startY
         property real startWidth
         property real startHeight
+        property real currentWidth
+        property real currentHeight
 
         property string cursorName: {
             if (root.containsMouse || root.pressed) {
@@ -114,6 +128,8 @@ MouseArea {
             d.startY = target.y;
             d.startWidth = target.width;
             d.startHeight = target.height;
+            d.currentWidth = target.width;
+            d.currentHeight = target.height;
             d.dragging = true;
         } else {
             d.dragging = false;
@@ -146,37 +162,49 @@ MouseArea {
         if (d.leftBorder) {
             var newTargetX = d.startX + deltaX;
             if (target.x + target.width > newTargetX + minWidth) {
-                target.width = target.x + target.width - newTargetX;
-                target.x = newTargetX;
+                target.requestedWidth = target.x + target.width - newTargetX;
             } else {
-                target.x = target.x + target.width - minWidth;
-                target.width = minWidth;
+                target.requestedWidth = minWidth;
             }
 
         } else if (d.rightBorder) {
             if (d.startWidth + deltaX >= minWidth) {
-                target.width = d.startWidth + deltaX;
+                target.requestedWidth = d.startWidth + deltaX;
             } else {
-                target.width = minWidth;
+                target.requestedWidth = minWidth;
             }
         }
 
         if (d.topBorder) {
             var newTargetY = d.startY + deltaY;
             if (target.y + target.height > newTargetY + minHeight) {
-                target.height = target.y + target.height - newTargetY;
-                target.y = newTargetY;
+                target.requestedHeight = target.y + target.height - newTargetY;
             } else {
-                target.y = target.y + target.height - minHeight;
-                target.height = minHeight;
+                target.requestedHeight = minHeight;
             }
 
         } else if (d.bottomBorder) {
             if (d.startHeight + deltaY >= minHeight) {
-                target.height = d.startHeight + deltaY;
+                target.requestedHeight = d.startHeight + deltaY;
             } else {
-                target.height = minHeight;
+                target.requestedHeight = minHeight;
             }
+        }
+    }
+
+    Connections {
+        target: root.target
+        onWidthChanged: {
+            if (root.pressed && d.leftBorder) {
+                target.x += d.currentWidth - target.width;
+            }
+            d.currentWidth = target.width;
+        }
+        onHeightChanged: {
+            if (root.pressed && d.topBorder) {
+                target.y += d.currentHeight - target.height;
+            }
+            d.currentHeight = target.height;
         }
     }
 }
