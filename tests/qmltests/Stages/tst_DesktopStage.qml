@@ -35,12 +35,15 @@ Item {
         value: false
     }
 
-    Component.onCompleted: {
+    Component.onCompleted: resetGeometry()
+
+    function resetGeometry() {
         // ensures apps which are tested decorations are in view.
         WindowStateStorage.geometry = {
             'unity8-dash': Qt.rect(0, units.gu(3), units.gu(50), units.gu(40)),
             'dialer-app': Qt.rect(units.gu(51), units.gu(3), units.gu(50), units.gu(40)),
             'camera-app': Qt.rect(0, units.gu(44), units.gu(50), units.gu(40)),
+            'gallery-app': Qt.rect(units.gu(51), units.gu(44), units.gu(50), units.gu(40))
         }
     }
 
@@ -110,14 +113,14 @@ Item {
 
             desktopStageLoader.active = true;
             tryCompare(desktopStageLoader, "status", Loader.Ready);
+            root.resetGeometry();
         }
 
         function killAllRunningApps() {
-            while (ApplicationManager.count > 1) {
-                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
-                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
+            while (ApplicationManager.count > 0) {
+                ApplicationManager.stopApplication(ApplicationManager.get(0).appId);
             }
-            compare(ApplicationManager.count, 1)
+            compare(ApplicationManager.count, 0)
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -209,6 +212,70 @@ Item {
             verify(toAppDecoration);
             tap(toAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+        }
+
+        function test_minimizeApplicationHidesSurface(data) {
+            var dashApp = startApplication("unity8-dash");
+
+            var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
+            verify(dashDelegate);
+
+            dashDelegate.minimize();
+            tryCompare(dashApp.session.surface, "visible", false);
+        }
+
+        function test_maximizeApplicationHidesSurfacesBehindIt(data) {
+            var dashApp = startApplication("unity8-dash");
+            var dialerApp = startApplication("dialer-app");
+            var cameraApp = startApplication("camera-app");
+
+            var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
+            verify(dashDelegate);
+            var dialerDelegate = findChild(desktopStage, "stageDelegate_dialer-app");
+            verify(dialerDelegate);
+            var cameraDelegate = findChild(desktopStage, "stageDelegate_camera-app");
+            verify(cameraDelegate);
+
+            dialerDelegate.maximize();
+            tryCompare(dialerDelegate, "visuallyMaximized", true);
+
+            tryCompare(dashApp.session.surface, "visible", false);
+            compare(cameraApp.session.surface.visible, true);
+
+            dialerDelegate.unmaximize();
+            compare(dashApp.session.surface.visible, true);
+            compare(cameraApp.session.surface.visible, true);
+        }
+
+        function test_applicationsBecomeVisibleWhenOccludingAppRemoved(data) {
+            var dashApp = startApplication("unity8-dash");
+            var dialerApp = startApplication("dialer-app");
+            var cameraApp = startApplication("camera-app");
+            var galleryApp = startApplication("gallery-app");
+
+            var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
+            verify(dashDelegate);
+            var dialerDelegate = findChild(desktopStage, "stageDelegate_dialer-app");
+            verify(dialerDelegate);
+            var cameraDelegate = findChild(desktopStage, "stageDelegate_camera-app");
+            verify(cameraDelegate);
+            var galleryDelegate = findChild(desktopStage, "stageDelegate_gallery-app");
+            verify(galleryDelegate);
+
+            dialerDelegate.maximize();
+            galleryDelegate.maximize();
+            tryCompare(dialerDelegate, "visuallyMaximized", true);
+            tryCompare(galleryDelegate, "visuallyMaximized", true);
+
+            tryCompare(dashApp.session.surface, "visible", false);
+            tryCompare(dialerApp.session.surface, "visible", false);
+            tryCompare(cameraApp.session.surface, "visible", false);
+
+            ApplicationManager.stopApplication("gallery-app");
+
+            compare(cameraApp.session.surface.visible, true);
+            tryCompare(dialerApp.session.surface, "visible", true);
+            tryCompare(dashApp.session.surface, "visible", false); // still occluded by maximised dialer
         }
     }
 }

@@ -130,14 +130,14 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
 void MirSurface::registerView(qintptr viewId)
 {
     m_views.insert(viewId, MirSurface::View{false});
-    qDebug().nospace() << "MirSurface[" << name() << "]::registerView(" << viewId << ")"
-                                      << " after=" << m_views.count();
+//    qDebug().nospace() << "MirSurface[" << name() << "]::registerView(" << viewId << ")"
+//                                      << " after=" << m_views.count();
 }
 
 void MirSurface::unregisterView(qintptr viewId)
 {
-    qDebug().nospace() << "MirSurface[" << name() << "]::unregisterView(" << viewId << ")"
-                                      << " after=" << m_views.count() << " live=" << m_live;
+//    qDebug().nospace() << "MirSurface[" << name() << "]::unregisterView(" << viewId << ")"
+//                                      << " after=" << m_views.count() << " live=" << m_live;
     m_views.remove(viewId);
     if (!m_live && m_views.count() == 0) {
         deleteLater();

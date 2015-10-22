@@ -67,7 +67,7 @@ Rectangle {
         }
         onApplicationRemoved: {
             if (priv.foregroundMaximizedAppId === appId) {
-                priv.foregroundMaximizedAppId = "";
+                priv.foregroundMaximizedAppIdIndex = -1;
             }
         }
 
@@ -91,7 +91,17 @@ Rectangle {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
-        property string foregroundMaximizedAppId: ""
+        readonly property string foregroundMaximizedAppId: {
+            if (foregroundMaximizedAppIdIndex == -1) {
+                return "";
+            }
+            var app = ApplicationManager.get(foregroundMaximizedAppIdIndex);
+            if (app) {
+                return app.appId;
+            }
+            return "";
+        }
+        property int foregroundMaximizedAppIdIndex: -1
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -138,6 +148,7 @@ Rectangle {
 
             delegate: FocusScope {
                 id: appDelegate
+                objectName: "stageDelegate_" + model.appId
                 z: ApplicationManager.count - index
                 y: units.gu(3)
                 width: units.gu(60)
@@ -159,18 +170,37 @@ Rectangle {
                     }
                 }
 
-                readonly property bool foregroundMaximized: visuallyMaximized && index == 0
-                onForegroundMaximizedChanged: {
-                    if (foregroundMaximized) {
-                        priv.foregroundMaximizedAppId = model.appId;
+                onZChanged: updateMaximized()
+                onVisuallyMaximizedChanged: updateMaximized()
+                Connections {
+                    target: priv
+                    onForegroundMaximizedAppIdIndexChanged: updateMaximized()
+                }
+
+                property bool connectMaxEnabled: true
+                function updateMaximized() {
+                    if (!connectMaxEnabled) return;
+                    connectMaxEnabled = false;
+
+                    // work out if this is the top maximized app.
+                    if (visuallyMaximized) {
+                        if (priv.foregroundMaximizedAppId === model.appId) {
+                            priv.foregroundMaximizedAppIdIndex = index;
+                        }
+                        else if (priv.foregroundMaximizedAppIdIndex == -1 ||
+                                 (index >= 0 && index <= priv.foregroundMaximizedAppIdIndex)) {
+                            priv.foregroundMaximizedAppIdIndex = index;
+                        }
                     } else if (priv.foregroundMaximizedAppId === model.appId) {
-                        priv.foregroundMaximizedAppId = "";
+                        priv.foregroundMaximizedAppIdIndex = -1;
                     }
+
+                    connectMaxEnabled = true;
                 }
 
                 visible: !visuallyMinimized &&
-                         (priv.foregroundMaximizedAppId === "" || priv.foregroundMaximizedAppId === model.appId)
-                         || (spread.focus && index === spread.highlightedIndex)
+                         (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
+                         (spread.focus && index === spread.highlightedIndex)
 
                 Binding {
                     target: ApplicationManager.get(index)
