@@ -84,6 +84,10 @@ TestCase {
         physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 600);
 
         compare(powerSpy.count, 1);
+
+        // Confirm we only emit once
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 601);
+        compare(powerSpy.count, 1);
     }
 
     function test_screenshotButtons_data() {
