@@ -42,7 +42,7 @@
 #include "qinputinfo.h"
 
 #if defined(UNITY_MOCKS)
-#include "qinputdeviceinfo_mock.h"
+#include "qinputdeviceinfo_mock_p.h"
 #elif defined(Q_OS_LINUX)
 #include "linux/qinputdeviceinfo_linux_p.h"
 #endif
