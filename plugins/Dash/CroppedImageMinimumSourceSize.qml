@@ -24,6 +24,8 @@ Image    {
     property bool useHeight: false
     function updateUseHeight()
     {
+        // Do not turn into a binding since otherwise the qml
+        // engine complains about binding loops
         useHeight = (implicitWidth / implicitHeight) > (width / height);
     }
 
