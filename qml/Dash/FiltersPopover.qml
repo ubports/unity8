@@ -20,24 +20,35 @@ import Ubuntu.Components.Popups 1.2
 import "Filters" as Filters
 
 Popover {
+    id: root
     objectName: "filtersPopover"
-    Column {
+
+    Flickable {
+        id: flickable
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
         }
+        // Popover doesn't like being 75% or bigger than the screen (counting the "empty" part on top)
+        height: Math.min(root.parent.height * 3 / 4 - flickable.mapToItem(null, 0, 0).y - 1, column.height);
+        contentHeight: column.height
+        contentWidth: width
 
-        Repeater {
-            id: repeater
-            model: scopeView.scope.filters
+        Column {
+            id: column
+            width: parent.width
 
-            delegate: Filters.FilterWidgetFactory {
-                width: parent.width
+            Repeater {
+                model: scopeView.scope.filters
 
-                widgetId: id
-                widgetType: type
-                widgetData: filter
+                delegate: Filters.FilterWidgetFactory {
+                    width: parent.width
+
+                    widgetId: id
+                    widgetType: type
+                    widgetData: filter
+                }
             }
         }
     }
