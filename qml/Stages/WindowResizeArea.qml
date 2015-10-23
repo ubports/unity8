@@ -59,6 +59,18 @@ MouseArea {
         property bool topBorder: false
         property bool bottomBorder: false
 
+        // true  - A change in surface size will cause the left border of the window to move accordingly.
+        //         The window's right border will stay in the same position.
+        // false - a change in surface size will cause the right border of the window to move accordingly.
+        //         The window's left border will stay in the same position.
+        property bool moveLeftBorder: false
+
+        // true  - A change in surface size will cause the top border of the window to move accordingly.
+        //         The window's bottom border will stay in the same position.
+        // false - a change in surface size will cause the bottom border of the window to move accordingly.
+        //         The window's top border will stay in the same position.
+        property bool moveTopBorder: false
+
         property bool dragging: false
         property real startMousePosX
         property real startMousePosY
@@ -106,11 +118,24 @@ MouseArea {
         }
     }
 
+    Timer {
+        id: resetBordersToMoveTimer
+        interval: 2000
+        onTriggered: {
+            d.moveLeftBorder = false;
+            d.moveTopBorder = false;
+        }
+    }
+
     onPressedChanged: {
         var pos = mapToItem(target.parent, mouseX, mouseY);
 
         if (pressed) {
             d.updateBorders();
+            resetBordersToMoveTimer.stop();
+            d.moveLeftBorder = d.leftBorder;
+            d.moveTopBorder = d.topBorder;
+
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             d.startMousePosX = pos.x;
             d.startMousePosY = pos.y;
@@ -122,6 +147,7 @@ MouseArea {
             d.currentHeight = target.height;
             d.dragging = true;
         } else {
+            resetBordersToMoveTimer.start();
             d.dragging = false;
             if (containsMouse) {
                 d.updateBorders();
@@ -185,13 +211,13 @@ MouseArea {
     Connections {
         target: root.target
         onWidthChanged: {
-            if (root.pressed && d.leftBorder) {
+            if (d.moveLeftBorder) {
                 target.x += d.currentWidth - target.width;
             }
             d.currentWidth = target.width;
         }
         onHeightChanged: {
-            if (root.pressed && d.topBorder) {
+            if (d.moveTopBorder) {
                 target.y += d.currentHeight - target.height;
             }
             d.currentHeight = target.height;
