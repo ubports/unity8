@@ -117,11 +117,6 @@ Item {
         }
     }
 
-    Component {
-        id: ubuntuShapeComponent
-        UbuntuShape {}
-    }
-
     states: [
         State {
             name: "default"
