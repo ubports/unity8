@@ -24,7 +24,6 @@ import "../../../qml/Notifications"
 import Ubuntu.Components 0.1
 import Unity.Test 0.1
 import Unity.Notifications 1.0
-import QtMultimedia 5.0
 
 Row {
     id: rootRow

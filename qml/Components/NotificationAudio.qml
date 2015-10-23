@@ -19,6 +19,7 @@ import QtQuick 2.4
 Item {
     id: root
     property string source: ""
+    readonly property var playbackState: priv.realAudio ? priv.realAudio.playbackState : 0
 
     function play() {
         priv.audio.play();
@@ -29,15 +30,17 @@ Item {
 
     QtObject {
         id: priv
-        property var audio: null
-    }
-
-    Component.onCompleted: {
-        try {
-            priv.audio = Qt.createQmlObject("import QtMultimedia 5.6; Audio { source: root.source; audioRole: MediaPlayer.NotificationRole }", priv)
-        } catch(err) {
-            console.log("Upstream audioRole enum not available, falling back to old role name.");
-            priv.audio = Qt.createQmlObject("import QtMultimedia 5.4; Audio { source: root.source; audioRole: MediaPlayer.alert }", priv)
+        property var realAudio: null
+        property var audio: {
+            if (realAudio === null) {
+                try {
+                    realAudio = Qt.createQmlObject("import QtMultimedia 5.6; Audio { source: root.source; audioRole: MediaPlayer.NotificationRole }", priv)
+                } catch(err) {
+                    console.log("Upstream audioRole enum not available, falling back to old role name.");
+                    realAudio = Qt.createQmlObject("import QtMultimedia 5.0; Audio { source: root.source; audioRole: MediaPlayer.alert; onPlaybackStateChanged: console.log('sdfasdfasfd', playbackState); }", priv)
+                }
+            }
+            return realAudio;
         }
     }
 }

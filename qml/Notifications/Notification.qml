@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.0
-import QtMultimedia 5.0
 import Powerd 0.1
 import Ubuntu.Components 1.2
 import Unity.Notifications 1.0
