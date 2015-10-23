@@ -80,7 +80,7 @@ Item {
         return result;
     }
 
-    AlarmAudio {
+    NotificationAudio {
         id: sound
         objectName: "sound"
         source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""

@@ -37,7 +37,7 @@ Rectangle {
         onTriggered: capture()
     }
 
-    AlarmAudio {
+    NotificationAudio {
         id: shutterSound
         source: "/system/media/audio/ui/camera_click.ogg"
     }
