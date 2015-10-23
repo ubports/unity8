@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 20014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,13 +20,15 @@ import Ubuntu.Components 1.3
 Item {
     id: swipeToAct
 
-    height: childrenRect.height
+    height: clickToAct ? leftButton.height : childrenRect.height
 
     signal leftTriggered()
     signal rightTriggered()
 
     property string leftIconName
     property string rightIconName
+
+    property bool clickToAct
 
     QtObject {
         id: priv
@@ -64,15 +66,45 @@ Item {
         }
     }
 
+    Button {
+        id: leftButton
+        objectName: "leftButton"
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        iconName: leftIconName
+        visible: clickToAct
+        width: (parent.width / 2) - priv.gap
+        color: UbuntuColors.red
+        onClicked: {
+            leftTriggered()
+        }
+    }
+
+    Button {
+        id: rightButton
+        objectName: "rightButton"
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        iconName: rightIconName
+        visible: clickToAct
+        width: (parent.width / 2) - priv.gap
+        color: UbuntuColors.green
+        onClicked: {
+            rightTriggered()
+        }
+    }
+
     UbuntuShape {
         id: row
         width: parent.width
         height: priv.sliderHeight
         backgroundColor: priv.sliderBGColor
         aspect: UbuntuShape.Flat
+        visible: !clickToAct
 
         UbuntuShape {
             id: leftShape
+            objectName: "leftArea"
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: priv.gap
@@ -167,6 +199,7 @@ Item {
                 color: "white"
             }
         }
+
         Row {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: slider.right
@@ -189,6 +222,7 @@ Item {
 
         UbuntuShape {
             id: rightShape
+            objectName: "rightArea"
             anchors.top: parent.top
             anchors.right: parent.right
             anchors.margins: priv.gap
@@ -214,6 +248,7 @@ Item {
     MouseArea {
         id: mouseArea
         objectName: "swipeMouseArea"
+        enabled: !clickToAct
 
         anchors.fill: row
         drag.target: slider

@@ -23,7 +23,7 @@ IndicatorBase {
     id: main
 
     //const
-    property string title: rootActionState.title
+    property string title: rootActionState.title || rootActionState.accessibleName // some indicators don't expose a title but only the accessible-desc
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
     readonly property alias factory: _factory
 

@@ -14,9 +14,6 @@ include_directories(
 
 export_qmlfiles(UbuntuGesturesTest .)
 
-add_definitions(-DUBUNTU_GESTURES_PLUGIN_DIR="${CMAKE_BINARY_DIR}/plugins")
-add_definitions(-DTESTS_UTILS_MODULES_DIR="${CMAKE_BINARY_DIR}/tests/utils/modules")
-
 macro(build_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp TestItem.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
@@ -26,7 +23,7 @@ endmacro()
 macro(add_gesture_unit_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
     add_unity8_unittest(${CLASSNAME} ${CLASSNAME}TestExec
-        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures
+        ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Ubuntu/Gestures
         DEPENDS UbuntuGesturesTest-qmlfiles
         ${ARGN}
     )
@@ -35,12 +32,11 @@ endmacro()
 macro(add_gesture_ui_test CLASSNAME)
     build_gesture_test(${CLASSNAME})
     add_unity8_uitest(${CLASSNAME} ${CLASSNAME}TestExec
-        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures
+        ENVIRONMENT LD_LIBRARY_PATH=${UNITY_PLUGINPATH}/Ubuntu/Gestures
         DEPENDS UbuntuGesturesTest-qmlfiles
         ${ARGN}
     )
-    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${CMAKE_BINARY_DIR}/plugins
-                                                    ${CMAKE_BINARY_DIR}/tests/utils/modules)
+    add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${UNITY_PLUGINPATH})
 endmacro()
 
 add_gesture_ui_test(DirectionalDragArea)

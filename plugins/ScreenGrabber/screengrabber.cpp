@@ -19,6 +19,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <QStandardPaths>
+#include <QTemporaryDir>
 #include <QtGui/QImage>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickWindow>
@@ -42,14 +43,15 @@ ScreenGrabber::ScreenGrabber(QObject *parent)
     QDir screenshotsDir;
     if (qEnvironmentVariableIsSet("UNITY_TESTING")) {
         qDebug() << "Using test environment";
-        QStandardPaths::setTestModeEnabled(true);
-        screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+        QTemporaryDir tDir;
+        tDir.setAutoRemove(false);
+        screenshotsDir = tDir.path();
     } else {
         qDebug() << "Using real environment";
         screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     }
-    screenshotsDir.mkpath("Screenshots");
-    screenshotsDir.cd("Screenshots");
+    screenshotsDir.mkpath(QStringLiteral("Screenshots"));
+    screenshotsDir.cd(QStringLiteral("Screenshots"));
     if (screenshotsDir.exists()) {
         fileNamePrefix = screenshotsDir.absolutePath();
         fileNamePrefix.append("/screenshot");
@@ -92,7 +94,7 @@ void ScreenGrabber::captureAndSave()
 QString ScreenGrabber::makeFileName() const
 {
     QString fileName(fileNamePrefix);
-    fileName.append(QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz"));
+    fileName.append(QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd_hhmmsszzz")));
     fileName.append(".");
     fileName.append(getFormat());
     return fileName;
@@ -101,5 +103,5 @@ QString ScreenGrabber::makeFileName() const
 QString ScreenGrabber::getFormat() const
 {
     //TODO: This should be configurable (perhaps through gsettings?)
-    return "png";
+    return QStringLiteral("png");
 }

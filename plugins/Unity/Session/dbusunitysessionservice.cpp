@@ -28,6 +28,7 @@
 #include <QDBusReply>
 #include <QElapsedTimer>
 #include <QDateTime>
+#include <QDBusUnixFileDescriptor>
 
 #define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
 #define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
@@ -44,6 +45,7 @@ public:
     QString logindSessionPath;
     bool isSessionActive = true;
     QElapsedTimer screensaverActiveTimer;
+    QDBusUnixFileDescriptor m_systemdInhibitFd;
 
     DBusUnitySessionServicePrivate(): QObject() {
         init();
@@ -56,7 +58,7 @@ public:
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                                           LOGIN1_PATH,
                                                           LOGIN1_IFACE,
-                                                          "GetSessionByPID");
+                                                          QStringLiteral("GetSessionByPID"));
         msg << (quint32) getpid();
 
         QDBusReply<QDBusObjectPath> reply = QDBusConnection::systemBus().asyncCall(msg);
@@ -64,12 +66,41 @@ public:
             logindSessionPath = reply.value().path();
 
             // start watching the Active property
-            QDBusConnection::systemBus().connect(LOGIN1_SERVICE, logindSessionPath, "org.freedesktop.DBus.Properties", "PropertiesChanged",
+            QDBusConnection::systemBus().connect(LOGIN1_SERVICE, logindSessionPath, QStringLiteral("org.freedesktop.DBus.Properties"), QStringLiteral("PropertiesChanged"),
                                                  this, SLOT(onPropertiesChanged(QString,QVariantMap,QStringList)));
+
+            setupSystemdInhibition();
+
+            // re-enable the inhibition upon resume from sleep
+            QDBusConnection::systemBus().connect(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("PrepareForSleep"),
+                                                 this, SLOT(onResuming(bool)));
         } else {
             qWarning() << "Failed to get logind session path" << reply.error().message();
         }
     }
+
+    void setupSystemdInhibition()
+    {
+        if (m_systemdInhibitFd.isValid())
+            return;
+
+        // inhibit systemd handling of power/sleep/lid buttons
+        // http://www.freedesktop.org/wiki/Software/systemd/inhibit
+
+        QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("Inhibit"));
+        msg << "handle-power-key:handle-suspend-key:handle-hibernate-key:handle-lid-switch"; // what
+        msg << "Unity"; // who
+        msg << "Unity8 handles power events"; // why
+        msg << "block"; // mode
+        QDBusReply<QDBusUnixFileDescriptor> desc = QDBusConnection::systemBus().asyncCall(msg);
+
+        if (desc.isValid()) {
+            m_systemdInhibitFd = desc.value();
+        } else {
+            qWarning() << "failed to inhibit systemd powersave handling";
+        }
+    }
+
 
     bool checkLogin1Call(const QString &method) const
     {
@@ -97,15 +128,14 @@ public:
 
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                                           logindSessionPath,
-                                                          "org.freedesktop.DBus.Properties",
-                                                          "Get");
+                                                          QStringLiteral("org.freedesktop.DBus.Properties"),
+                                                          QStringLiteral("Get"));
         msg << LOGIN1_SESSION_IFACE;
         msg << ACTIVE_KEY;
 
         QDBusReply<QVariant> reply = QDBusConnection::systemBus().asyncCall(msg);
         if (reply.isValid()) {
             isSessionActive = reply.value().toBool();
-            qDebug() << "Session" << logindSessionPath << "is active:" << isSessionActive;
         } else {
             qWarning() << "Failed to get Active property" << reply.error().message();
         }
@@ -124,8 +154,8 @@ public:
     {
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                                           logindSessionPath,
-                                                          "org.freedesktop.DBus.Properties",
-                                                          "Get");
+                                                          QStringLiteral("org.freedesktop.DBus.Properties"),
+                                                          QStringLiteral("Get"));
         msg << LOGIN1_SESSION_IFACE;
         msg << IDLE_SINCE_KEY;
 
@@ -144,7 +174,7 @@ public:
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                                           logindSessionPath,
                                                           LOGIN1_SESSION_IFACE,
-                                                          "SetIdleHint");
+                                                          QStringLiteral("SetIdleHint"));
         msg << idle;
         QDBusConnection::systemBus().asyncCall(msg);
     }
@@ -173,6 +203,13 @@ private Q_SLOTS:
         }
     }
 
+    void onResuming(bool active)
+    {
+        if (!active) {
+            setupSystemdInhibition();
+        }
+    }
+
 Q_SIGNALS:
     void screensaverActiveChanged(bool active);
 };
@@ -180,14 +217,14 @@ Q_SIGNALS:
 Q_GLOBAL_STATIC(DBusUnitySessionServicePrivate, d)
 
 DBusUnitySessionService::DBusUnitySessionService()
-    : UnityDBusObject("/com/canonical/Unity/Session", "com.canonical.Unity")
+    : UnityDBusObject(QStringLiteral("/com/canonical/Unity/Session"), QStringLiteral("com.canonical.Unity"))
 {
     if (!d->logindSessionPath.isEmpty()) {
         // connect our Lock() slot to the logind's session Lock() signal
-        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, "Lock", this, SLOT(Lock()));
+        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Lock"), this, SLOT(Lock()));
         // ... and our Unlocked() signal to the logind's session Unlock() signal
         // (lightdm handles the unlocking by calling logind's Unlock method which in turn emits this signal we connect to)
-        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, "Unlock", this, SIGNAL(Unlocked()));
+        QDBusConnection::systemBus().connect(LOGIN1_SERVICE, d->logindSessionPath, LOGIN1_SESSION_IFACE, QStringLiteral("Unlock"), this, SIGNAL(Unlocked()));
     } else {
         qWarning() << "Failed to connect to logind's session Lock/Unlock signals";
     }
@@ -202,36 +239,36 @@ void DBusUnitySessionService::Logout()
 
 void DBusUnitySessionService::EndSession()
 {
-    const QDBusMessage msg = QDBusMessage::createMethodCall("com.ubuntu.Upstart",
-                                                            "/com/ubuntu/Upstart",
-                                                            "com.ubuntu.Upstart0_6",
-                                                            "EndSession");
+    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.ubuntu.Upstart"),
+                                                            QStringLiteral("/com/ubuntu/Upstart"),
+                                                            QStringLiteral("com.ubuntu.Upstart0_6"),
+                                                            QStringLiteral("EndSession"));
     QDBusConnection::sessionBus().asyncCall(msg);
 }
 
 bool DBusUnitySessionService::CanHibernate() const
 {
-    return d->checkLogin1Call("CanHibernate");
+    return d->checkLogin1Call(QStringLiteral("CanHibernate"));
 }
 
 bool DBusUnitySessionService::CanSuspend() const
 {
-    return d->checkLogin1Call("CanSuspend");
+    return d->checkLogin1Call(QStringLiteral("CanSuspend"));
 }
 
 bool DBusUnitySessionService::CanHybridSleep() const
 {
-    return d->checkLogin1Call("CanHybridSleep");
+    return d->checkLogin1Call(QStringLiteral("CanHybridSleep"));
 }
 
 bool DBusUnitySessionService::CanReboot() const
 {
-    return d->checkLogin1Call("CanReboot");
+    return d->checkLogin1Call(QStringLiteral("CanReboot"));
 }
 
 bool DBusUnitySessionService::CanShutdown() const
 {
-    return d->checkLogin1Call("CanPowerOff");
+    return d->checkLogin1Call(QStringLiteral("CanPowerOff"));
 }
 
 bool DBusUnitySessionService::CanLock() const
@@ -283,11 +320,10 @@ void DBusUnitySessionService::Lock()
 {
     // lock the session using the org.freedesktop.DisplayManager system DBUS service
     const QString sessionPath = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
-    QDBusMessage msg = QDBusMessage::createMethodCall("org.freedesktop.DisplayManager",
+    QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DisplayManager"),
                                                       sessionPath,
-                                                      "org.freedesktop.DisplayManager.Session",
-                                                      "Lock");
-    qDebug() << "Locking session" << msg.path();
+                                                      QStringLiteral("org.freedesktop.DisplayManager.Session"),
+                                                      QStringLiteral("Lock"));
     QDBusReply<void> reply = QDBusConnection::systemBus().asyncCall(msg);
     if (!reply.isValid()) {
         qWarning() << "Lock call failed" << reply.error().message();
@@ -310,7 +346,7 @@ void DBusUnitySessionService::RequestLogout()
 
 void DBusUnitySessionService::Reboot()
 {
-    d->makeLogin1Call("Reboot", {false});
+    d->makeLogin1Call(QStringLiteral("Reboot"), {false});
 }
 
 void DBusUnitySessionService::RequestReboot()
@@ -321,22 +357,22 @@ void DBusUnitySessionService::RequestReboot()
 
 void DBusUnitySessionService::Shutdown()
 {
-    d->makeLogin1Call("PowerOff", {false});
+    d->makeLogin1Call(QStringLiteral("PowerOff"), {false});
 }
 
 void DBusUnitySessionService::Suspend()
 {
-    d->makeLogin1Call("Suspend", {false});
+    d->makeLogin1Call(QStringLiteral("Suspend"), {false});
 }
 
 void DBusUnitySessionService::Hibernate()
 {
-    d->makeLogin1Call("Hibernate", {false});
+    d->makeLogin1Call(QStringLiteral("Hibernate"), {false});
 }
 
 void DBusUnitySessionService::HybridSleep()
 {
-    d->makeLogin1Call("HybridSleep", {false});
+    d->makeLogin1Call(QStringLiteral("HybridSleep"), {false});
 }
 
 void DBusUnitySessionService::RequestShutdown()
@@ -356,16 +392,16 @@ enum class Action : unsigned
 
 void performAsyncUnityCall(const QString &method)
 {
-    const QDBusMessage msg = QDBusMessage::createMethodCall("com.canonical.Unity",
-                                                            "/com/canonical/Unity/Session",
-                                                            "com.canonical.Unity.Session",
+    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.canonical.Unity"),
+                                                            QStringLiteral("/com/canonical/Unity/Session"),
+                                                            QStringLiteral("com.canonical.Unity.Session"),
                                                             method);
     QDBusConnection::sessionBus().asyncCall(msg);
 }
 
 
 DBusGnomeSessionManagerWrapper::DBusGnomeSessionManagerWrapper()
-    : UnityDBusObject("/org/gnome/SessionManager/EndSessionDialog", "com.canonical.Unity")
+    : UnityDBusObject(QStringLiteral("/org/gnome/SessionManager/EndSessionDialog"), QStringLiteral("com.canonical.Unity"))
 {
 }
 
@@ -378,15 +414,15 @@ void DBusGnomeSessionManagerWrapper::Open(const unsigned type, const unsigned ar
     switch (static_cast<Action>(type))
     {
     case Action::LOGOUT:
-        performAsyncUnityCall("RequestLogout");
+        performAsyncUnityCall(QStringLiteral("RequestLogout"));
         break;
 
     case Action::REBOOT:
-        performAsyncUnityCall("RequestReboot");
+        performAsyncUnityCall(QStringLiteral("RequestReboot"));
         break;
 
     case Action::SHUTDOWN:
-        performAsyncUnityCall("RequestShutdown");
+        performAsyncUnityCall(QStringLiteral("RequestShutdown"));
         break;
 
     default:
@@ -396,7 +432,7 @@ void DBusGnomeSessionManagerWrapper::Open(const unsigned type, const unsigned ar
 
 
 DBusGnomeScreensaverWrapper::DBusGnomeScreensaverWrapper()
-    : UnityDBusObject("/org/gnome/ScreenSaver", "org.gnome.ScreenSaver")
+    : UnityDBusObject(QStringLiteral("/org/gnome/ScreenSaver"), QStringLiteral("org.gnome.ScreenSaver"))
 {
     connect(d, &DBusUnitySessionServicePrivate::screensaverActiveChanged, this, &DBusGnomeScreensaverWrapper::ActiveChanged);
 }
@@ -415,7 +451,7 @@ void DBusGnomeScreensaverWrapper::SetActive(bool lock)
 
 void DBusGnomeScreensaverWrapper::Lock()
 {
-    performAsyncUnityCall("Lock");
+    performAsyncUnityCall(QStringLiteral("Lock"));
 }
 
 quint32 DBusGnomeScreensaverWrapper::GetActiveTime() const
@@ -430,9 +466,9 @@ void DBusGnomeScreensaverWrapper::SimulateUserActivity()
 
 
 DBusScreensaverWrapper::DBusScreensaverWrapper()
-    : UnityDBusObject("/org/freedesktop/ScreenSaver", "org.freedesktop.ScreenSaver")
+    : UnityDBusObject(QStringLiteral("/org/freedesktop/ScreenSaver"), QStringLiteral("org.freedesktop.ScreenSaver"))
 {
-    QDBusConnection::sessionBus().registerObject("/ScreenSaver", this, QDBusConnection::ExportScriptableContents); // compat path, also register here
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/ScreenSaver"), this, QDBusConnection::ExportScriptableContents); // compat path, also register here
     connect(d, &DBusUnitySessionServicePrivate::screensaverActiveChanged, this, &DBusScreensaverWrapper::ActiveChanged);
 }
 
@@ -452,7 +488,7 @@ bool DBusScreensaverWrapper::SetActive(bool lock)
 
 void DBusScreensaverWrapper::Lock()
 {
-    performAsyncUnityCall("Lock");
+    performAsyncUnityCall(QStringLiteral("Lock"));
 }
 
 quint32 DBusScreensaverWrapper::GetActiveTime() const

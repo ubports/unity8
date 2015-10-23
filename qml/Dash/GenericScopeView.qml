@@ -624,7 +624,7 @@ FocusScope {
             sourceComponent: scopeView.showPageHeader ? pageHeaderComponent : undefined
             Component {
                 id: pageHeaderComponent
-                PageHeader {
+                DashPageHeader {
                     objectName: "scopePageHeader"
                     width: parent.width
                     title: scopeView.scope ? scopeView.scope.name : ""

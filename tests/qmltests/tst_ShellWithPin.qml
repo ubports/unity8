@@ -501,13 +501,13 @@ Item {
             var applicationsDisplayLoader = findChild(shell, "applicationsDisplayLoader")
 
             // Put it to sleep
-            Powerd.status = Powerd.Off;
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
 
             // If locked, applicationsDisplayLoader.item.suspended should be true
             tryCompare(applicationsDisplayLoader.item, "suspended", true);
 
             // And wake up
-            Powerd.status = Powerd.On;
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
             tryCompare(greeter, "fullyShown", true);
 
             // Swipe away greeter to focus app

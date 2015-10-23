@@ -34,11 +34,11 @@ Loader {
                         id: mascotShapeLoader; 
                         objectName: "mascotShapeLoader"; 
                         asynchronous: root.asynchronous; 
-                        active: mascotImage.image.status === Image.Ready;
+                        active: mascotImage.status === Image.Ready;
                         visible: showHeader && active && status == Loader.Ready; 
                         width: units.gu(6); 
                         height: units.gu(5.625); 
-                        sourceComponent: UbuntuShape { image: mascotImage.image }
+                        sourceComponent: UbuntuShape { image: mascotImage }
                         anchors { verticalCenter: parent.verticalCenter; }
                     }
 

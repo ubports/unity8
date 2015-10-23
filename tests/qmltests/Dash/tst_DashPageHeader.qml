@@ -244,7 +244,7 @@ Item {
         anchors.fill: parent
         spacing: units.gu(1)
 
-        PageHeader {
+        DashPageHeader {
             id: pageHeader
             anchors {
                 left: parent.left

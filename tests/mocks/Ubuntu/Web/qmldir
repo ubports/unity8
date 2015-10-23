@@ -1,0 +1,4 @@
+module Ubuntu.Web
+typeinfo Web.qmltypes
+
+WebView 0.2 WebView.qml

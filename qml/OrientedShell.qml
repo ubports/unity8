@@ -103,7 +103,7 @@ Rectangle {
             // TODO: Choose the closest to the current one
             if (supportedOrientations & Qt.PortraitOrientation) {
                 return Screen.angleBetween(nativeOrientation, Qt.PortraitOrientation);
-            } else if (supportedOrientations & Qt.LandcscapeOrientation) {
+            } else if (supportedOrientations & Qt.LandscapeOrientation) {
                 return Screen.angleBetween(nativeOrientation, Qt.LandscapeOrientation);
             } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
                 return Screen.angleBetween(nativeOrientation, Qt.InvertedPortraitOrientation);
@@ -120,19 +120,15 @@ Rectangle {
         switch (angle) {
         case 0:
             return nativeOrientation;
-            break;
         case 90:
             return nativeOrientation === Qt.PortraitOrientation ? Qt.InvertedLandscapeOrientation
                                                                 : Qt.PortraitOrientation;
-            break;
         case 180:
             return nativeOrientation === Qt.PortraitOrientation ? Qt.InvertedPortraitOrientation
                                                                 : Qt.InvertedLandscapeOrientation;
-            break;
         case 270:
             return nativeOrientation === Qt.PortraitOrientation ? Qt.LandscapeOrientation
                                                                 : Qt.InvertedPortraitOrientation;
-            break;
         default:
             console.warn("angleToOrientation: Invalid orientation angle: " + angle);
             return primaryOrientation;
@@ -159,6 +155,7 @@ Rectangle {
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode
+        hasMouse: UnityInputInfo.mice > deviceConfiguration.ignoredMice
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.

@@ -31,7 +31,7 @@ Item  {
                                     objectName: "artShape";
                                     readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true;
                                     visible: image.status == Image.Ready;
-                                    readonly property alias image: artImage.image;
+                                    readonly property alias image: artImage;
                                     ShaderEffectSource {
                                         id: artShapeSource;
                                         sourceItem: artImage;

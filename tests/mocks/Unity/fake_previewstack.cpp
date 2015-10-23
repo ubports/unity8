@@ -21,8 +21,8 @@
 #include "fake_previewmodel.h"
 #include "fake_scope.h"
 
-PreviewStack::PreviewStack(QObject* parent, Scope *scope)
- : unity::shell::scopes::PreviewStackInterface(parent)
+PreviewStack::PreviewStack(Scope *scope)
+ : unity::shell::scopes::PreviewStackInterface(nullptr)
 {
     m_previews << new PreviewModel(this, scope);
 }

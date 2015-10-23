@@ -35,13 +35,16 @@ Loader {
     property var scopeStyle: null
 
     //! Should the widget show in expanded mode (For those that support it)
-    property bool expanded: widgetType !== "expandable"
+    property bool expanded: widgetType !== "expandable" || widgetData["expanded"] === true
 
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false
 
     //! Triggered signal forwarded from the widgets.
     signal triggered(string widgetId, string actionId, var data)
+
+    //! MakesureVisible signal forwarded from the widgets.
+    signal makeSureVisible(var item)
 
     source: widgetSource
 
@@ -81,5 +84,6 @@ Loader {
     Connections {
         target: root.item
         onTriggered: root.triggered(widgetId, actionId, data)
+        onMakeSureVisible: root.makeSureVisible(item)
     }
 }

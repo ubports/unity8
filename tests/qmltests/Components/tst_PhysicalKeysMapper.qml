@@ -39,25 +39,13 @@ TestCase {
     }
 
     SignalSpy {
-        id: volumeDownSpy
-        target: physicalKeysMapper
-        signalName: "volumeDownTriggered"
-    }
-
-    SignalSpy {
-        id: volumeUpSpy
-        target: physicalKeysMapper
-        signalName: "volumeUpTriggered"
-    }
-
-    SignalSpy {
         id: screenshotSpy
         target: physicalKeysMapper
         signalName: "screenshotTriggered"
     }
 
     function init() {
-        Powerd.status = Powerd.On;
+        Powerd.setStatus(Powerd.On, Powerd.Unknown);
         loader.active = true;
         tryCompare(loader.status == Loader.Ready);
     }
@@ -65,8 +53,6 @@ TestCase {
     function cleanup() {
         loader.active = false;
         powerSpy.clear();
-        volumeDownSpy.clear();
-        volumeUpSpy.clear();
         screenshotSpy.clear();
     }
 
@@ -78,14 +64,14 @@ TestCase {
     }
 
     function test_powerKeyLongPressed(data) {
-        Powerd.status = data.status;
+        Powerd.setStatus(data.status, Powerd.Unknown);
         physicalKeysMapper.powerKeyLongPressTime = 500;
 
         physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
 
         // After the first key press the screen is always on
         // and the rest of keypresses are auto repeat
-        Powerd.status = Powerd.On;
+        Powerd.setStatus(Powerd.On, Powerd.Unknown);
 
         for (var i = 0; i < 3; ++i) {
             wait(10);
@@ -103,11 +89,6 @@ TestCase {
         compare(powerSpy.count, 1);
     }
 
-    function test_screenshotPrtScr() {
-        physicalKeysMapper.onKeyPressed({ key: Qt.Key_Print })
-        tryCompare(screenshotSpy, "count", 1) // verify the screenshotTriggered signal has been called, exactly once
-    }
-
     function test_screenshotButtons_data() {
         return [
             { tag: "UpFirst", first: Qt.Key_VolumeUp, second: Qt.Key_VolumeDown },
@@ -121,30 +102,6 @@ TestCase {
         screenshotSpy.wait();
         physicalKeysMapper.onKeyReleased({ key: data.first });
         physicalKeysMapper.onKeyReleased({ key: data.second });
-
-        wait(100);
-        compare(volumeUpSpy.count, 0);
-        compare(volumeDownSpy.count, 0);
-    }
-
-    function test_volumeButton_data() {
-        return [
-            { tag: "Down", key: Qt.Key_VolumeDown, spy: volumeDownSpy },
-            { tag: "Up", key: Qt.Key_VolumeUp, spy: volumeUpSpy },
-        ];
-    }
-
-    function test_volumeButton(data) {
-        physicalKeysMapper.onKeyPressed({ key: data.key });
-
-        wait(100);
-        compare(data.spy.count, 0);
-
-        physicalKeysMapper.onKeyReleased({ key: data.key });
-        data.spy.wait();
-
-        physicalKeysMapper.onKeyPressed({ key: data.key });
-        physicalKeysMapper.onKeyPressed({ key: data.key, isAutoRepeat: true });
-        data.spy.wait();
+        compare(screenshotSpy.count, 1);
     }
 }

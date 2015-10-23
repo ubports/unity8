@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-05-14 09:20+0000\n"
+"POT-Creation-Date: 2015-09-16 00:49+0200\n"
+"PO-Revision-Date: 2015-09-21 12:40+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-02 05:56+0000\n"
-"X-Generator: Launchpad (build 17706)\n"
+"X-Launchpad-Export-Date: 2015-09-30 05:43+0000\n"
+"X-Generator: Launchpad (build 17768)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Jelszó: "
 
@@ -29,7 +29,7 @@ msgstr "Indító rögzítése"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Kilépés"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -73,7 +73,7 @@ msgstr "%a %p. %I.%M"
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr "%d. %b. %a, %p. %I.%M"
+msgstr "%b. %d., %a %p. %I.%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -113,11 +113,11 @@ msgstr "%a %H.%M"
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr "%d. %b., %a  %H.%M"
+msgstr "%b. %d., %a  %H.%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
-msgstr "Eszköz lezárva"
+msgstr "Az eszköz zárolva"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
@@ -134,72 +134,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Várjon %1 percet és próbálja újra…"
 msgstr[1] "Várjon %1 percet és próbálja újra…"
 
-#: qml/Components/Dialogs.qml:69
+#: qml/Components/Dialogs.qml:115
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:70
+#: qml/Components/Dialogs.qml:116
 msgid "Are you sure you want to log out?"
 msgstr "Biztos benne, hogy kijelentkezik?"
 
-#: qml/Components/Dialogs.qml:72
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Zárolás"
 
-#: qml/Components/Dialogs.qml:79
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:86 qml/Components/Dialogs.qml:117
-#: qml/Components/Dialogs.qml:173
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224
 msgid "Cancel"
 msgstr "Mégse"
 
-#: qml/Components/Dialogs.qml:98
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Leállítás"
 
-#: qml/Components/Dialogs.qml:99
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to shut down?"
 msgstr "Biztosan le szeretné állítani?"
 
-#: qml/Components/Dialogs.qml:101
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:109
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Leállítás"
 
-#: qml/Components/Dialogs.qml:129
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:130
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Biztosan újra szeretné indítani?"
 
-#: qml/Components/Dialogs.qml:132
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Nem"
 
-#: qml/Components/Dialogs.qml:138
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
 msgstr "Igen"
 
-#: qml/Components/Dialogs.qml:152
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Menü"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -207,12 +207,12 @@ msgstr ""
 "Biztos benne, hogy ki\n"
 "szeretné kapcsolni?"
 
-#: qml/Components/Dialogs.qml:155
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Kikapcsolás"
 
-#: qml/Components/Dialogs.qml:164
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Újraindítás"
@@ -273,8 +273,10 @@ msgstr "Több…"
 msgid "Less..."
 msgstr "Kevesebb…"
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Küldés"
 
@@ -393,62 +395,62 @@ msgstr "Ide koppintva visszatérhet a híváshoz"
 msgid "Conference"
 msgstr "Konferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:639
+#: qml/Panel/Indicators/MenuItemFactory.qml:718
 msgid "Nothing is playing"
 msgstr "Nincs lejátszás"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:768
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 óra"
 msgstr[1] "%1 óra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:772
+#: qml/Panel/Indicators/MenuItemFactory.qml:851
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 perc"
 msgstr[1] "%1 perc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:777
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 másodperc"
 msgstr[1] "%1 másodperc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:780
+#: qml/Panel/Indicators/MenuItemFactory.qml:859
 msgid "0 seconds"
 msgstr "0 másodperc"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:782
+#: qml/Panel/Indicators/MenuItemFactory.qml:861
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 van hátra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:788
+#: qml/Panel/Indicators/MenuItemFactory.qml:867
 msgid "In queue…"
 msgstr "Sorban…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:792
+#: qml/Panel/Indicators/MenuItemFactory.qml:871
 msgid "Downloading"
 msgstr "Letöltés"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:794
+#: qml/Panel/Indicators/MenuItemFactory.qml:873
 msgid "Paused, tap to resume"
 msgstr "Szüneteltetve, koppintson a folytatáshoz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:796
+#: qml/Panel/Indicators/MenuItemFactory.qml:875
 msgid "Canceled"
 msgstr "Megszakítva"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:798
+#: qml/Panel/Indicators/MenuItemFactory.qml:877
 msgid "Finished"
 msgstr "Befejeződött"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:800
+#: qml/Panel/Indicators/MenuItemFactory.qml:879
 msgid "Failed, tap to retry"
 msgstr "Sikertelen, koppintson az újrapróbáláshoz"
 
@@ -456,6 +458,10 @@ msgstr "Sikertelen, koppintson az újrapróbáláshoz"
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Válasz"
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+msgid "Call back"
+msgstr "Visszahívás"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -523,33 +529,58 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Vissza"
 
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Felhasználási feltételek"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Jelmondat megerősítése"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Jelkód megerősítése"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Próbálja újra."
+
+#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50
+msgid "Continue"
+msgstr "Folytatás"
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Jelkód megadása"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "A jelmondat legalább 4 karakter hosszú legyen"
+
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr "Üdv!"
+msgstr "Üdvözöljük!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr "Üdvözöljük az Ubuntu telefonos változatában."
+msgstr "Köszöntjük az Ubuntu telefonos változatában."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "Kezdjünk is bele."
 
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "Folytatás"
-
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr "Helyezzen be egy SIM kártyát és indítsa újra az eszközét"
+msgstr "Helyezzen be egy SIM kártyát és indítsa újra az eszközt"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr ""
-"Anélkül nem indíthat vagy fogadhat hívásokat és nem küldhet vagy fogadhat "
+"Anélkül nem indíthat vagy fogadhat hívásokat, és nem küldhet vagy fogadhat "
 "üzeneteket."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
@@ -675,31 +706,6 @@ msgstr "A telefonja készen áll a használatra."
 msgid "Finish"
 msgstr "Befejezés"
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "Felhasználási feltételek"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Jelmondat megerősítése"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "Jelkód megerősítése"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Próbálja újra."
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Jelkód kiválasztása"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "A jelmondat legalább 4 karakter hosszú legyen"
-
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
@@ -712,8 +718,98 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid "Confirm"
+#~ msgstr "Megerősítés"
+
+#~ msgid "Type or say a command"
+#~ msgstr "Írjon be vagy mondjon ki egy parancsot"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "Betöltés, kis türelmet…"
+
+#~ msgid "Speaking..."
+#~ msgstr "Beszéd…"
+
+#~ msgid "Search"
+#~ msgstr "Keresés"
+
+#~ msgid "Top edge"
+#~ msgstr "Felső szél"
+
+#~ msgid "Close"
+#~ msgstr "Bezárás"
+
+#~ msgid "Swipe up again to close the settings screen"
+#~ msgstr "A beállítások bezárásához csúsztassa ujját újra felfelé"
+
+#~ msgid "Left edge"
+#~ msgstr "Bal szél"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Csúsztassa ujját a bal szélről az indítón található alkalmazások gyors "
+#~ "eléréséhez"
+
+#~ msgid "Well done"
+#~ msgstr "Rendben"
+
+#~ msgid "Skip intro"
+#~ msgstr "A bemutató kihagyása"
+
+#~ msgid "Try swiping from the right edge to unlock the phone"
+#~ msgstr "A telefon feloldásához csúsztassa ujját a jobb szélről"
+
+#~ msgid "Right edge"
+#~ msgstr "Jobb szél"
+
+#~ msgid "Speak Now..."
+#~ msgstr "Most beszéljen…"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Elsajátította a gesztusokat, és megkezdheti a telefon "
+#~ "használatát.<br><br>Koppintson a képernyőre a kezdéshez."
+
+#~ msgid "Try swiping from the top edge to access the indicators"
+#~ msgstr "Az állapotmenük eléréséhez csúsztassa ujját a felső szélről"
+
+#~ msgid "Power off"
+#~ msgstr "Kikapcsolás"
+
+#~ msgid "All"
+#~ msgstr "Összes"
+
+#~ msgid "Favorites"
+#~ msgstr "Kedvencek"
+
+#~ msgid "Store"
+#~ msgstr "Áruház"
+
+#~ msgid "Done"
+#~ msgstr "Kész"
+
+#~ msgid "Log out"
+#~ msgstr "Kijelentkezés"
+
+#~ msgid "Reboot"
+#~ msgstr "Újraindítás"
+
+#~ msgid "Shut down"
+#~ msgstr "Leállítás"
+
+#~ msgid "Settings"
+#~ msgstr "Beállítások"
+
+#~ msgid "Power"
+#~ msgstr "Kikapcsolás"
+
+#~ msgid "Restart"
+#~ msgstr "Újraindítás"
+
+#~ msgid "Manage Scopes"
+#~ msgstr "Lencsék kezelése"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Próbálja újra"
-
-#~ msgid "Click here to finish."
-#~ msgstr "Kattintson ide a befejezéshez."

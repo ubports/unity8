@@ -66,10 +66,25 @@ Item {
             delegate: ListView {
                 id: column
                 objectName: "previewListRow" + index
-                anchors { top: parent.top; bottom: parent.bottom }
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
                 width: row.columnWidth
                 spacing: row.spacing
                 bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
+                property var makeSureVisibleItem
+                property real previousVisibleHeight: 0
+                property real visibleHeight: height - bottomMargin
+                onVisibleHeightChanged: {
+                    if (makeSureVisibleItem && makeSureVisibleItem.activeFocus && previousVisibleHeight > visibleHeight) {
+                        var textAreaPos = makeSureVisibleItem.mapToItem(column, 0, 0);
+                        if (textAreaPos.y + makeSureVisibleItem.height > column.visibleHeight) {
+                            column.contentY += textAreaPos.y + makeSureVisibleItem.height - column.visibleHeight
+                        }
+                    }
+                    previousVisibleHeight = visibleHeight;
+                }
 
                 model: columnModel
                 cacheBuffer: height
@@ -92,6 +107,10 @@ Item {
                     onTriggered: {
                         previewModel.triggered(widgetId, actionId, data);
                     }
+                     onMakeSureVisible: {
+                         column.previousVisibleHeight=column.visibleHeight
+                         column.makeSureVisibleItem=item
+                     }
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
 
