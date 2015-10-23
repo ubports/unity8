@@ -268,6 +268,7 @@ Item {
                     Label {
                         id: cancelLabel
                         text: i18n.tr("Cancel")
+                        color: header.panelForegroundColor
                         verticalAlignment: Text.AlignVCenter
                         anchors {
                             top: parent.top
