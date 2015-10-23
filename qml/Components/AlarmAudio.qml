@@ -34,7 +34,7 @@ Item {
 
     Component.onCompleted: {
         try {
-            priv.audio = Qt.createQmlObject("import QtMultimedia 5.6; Audio { source: root.source; audioRole: MediaPlayer.AlarmRole }", priv)
+            priv.audio = Qt.createQmlObject("import QtMultimedia 5.6; Audio { source: root.source; audioRole: MediaPlayer.NotificationRole }", priv)
         } catch(err) {
             console.log("Upstream audioRole enum not available, falling back to old role name.");
             priv.audio = Qt.createQmlObject("import QtMultimedia 5.4; Audio { source: root.source; audioRole: MediaPlayer.alert }", priv)
