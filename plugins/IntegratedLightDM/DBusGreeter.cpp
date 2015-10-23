@@ -21,7 +21,7 @@
 #include <QStringList>
 
 DBusGreeter::DBusGreeter(Greeter *greeter, const QString &path)
- : UnityDBusObject(path, "com.canonical.UnityGreeter", true, greeter),
+ : UnityDBusObject(path, QStringLiteral("com.canonical.UnityGreeter"), true, greeter),
    m_greeter(greeter)
 {
     connect(m_greeter, &Greeter::isActiveChanged, this, &DBusGreeter::isActiveChangedHandler);
@@ -44,6 +44,6 @@ void DBusGreeter::HideGreeter()
 
 void DBusGreeter::isActiveChangedHandler()
 {
-    notifyPropertyChanged("IsActive", isActive());
+    notifyPropertyChanged(QStringLiteral("IsActive"), isActive());
     Q_EMIT isActiveChanged();
 }

@@ -9,6 +9,7 @@ include_directories(
 )
 
 set(QMLPLUGIN_SRC
+    activefocuslogger.cpp
     constants.cpp
     HomeKeyWatcher.cpp
     inputwatcher.cpp
@@ -22,6 +23,7 @@ set(QMLPLUGIN_SRC
     windowscreenshotprovider.cpp
     easingcurve.cpp
     windowstatestorage.cpp
+    timezoneFormatter.cpp
     plugin.cpp
     )
 

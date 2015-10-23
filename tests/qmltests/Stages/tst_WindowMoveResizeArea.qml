@@ -42,6 +42,10 @@ Item {
             y: units.gu(20)
             height: units.gu(20)
             width: units.gu(20)
+            property int windowHeight: height
+            property int windowWidth: width
+            onWindowHeightChanged: height = windowHeight
+            onWindowWidthChanged: width = windowWidth
 
             WindowMoveResizeArea {
                 id: moveResizeArea

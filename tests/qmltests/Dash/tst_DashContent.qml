@@ -552,13 +552,13 @@ Item {
         }
 
         function getSettledButtons() {
-            var buttons = findChildsByType(dashContent, "AbstractButton");
+            var buttons = findChildsByType(dashContent, "UCAbstractButton");
             wait(2500);
-            var aux = findChildsByType(dashContent, "AbstractButton");
+            var aux = findChildsByType(dashContent, "UCAbstractButton");
             while (!compareArrays(aux, buttons)) {
                 buttons = aux;
                 wait(2500);
-                aux = findChildsByType(dashContent, "AbstractButton");
+                aux = findChildsByType(dashContent, "UCAbstractButton");
             }
             return buttons;
         }

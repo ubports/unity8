@@ -99,7 +99,6 @@ QQuickView *tst_EdgeDragEvaluator::createView()
 {
     QQuickView *window = new QQuickView(0);
     window->setResizeMode(QQuickView::SizeRootObjectToView);
-    window->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
     window->engine()->addImportPath(QLatin1String(TEST_DIR));
 
     return window;
