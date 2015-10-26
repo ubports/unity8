@@ -211,6 +211,7 @@ Rectangle {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized
     }
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
@@ -244,6 +245,7 @@ Rectangle {
                 property bool maximizedRight: false
                 property bool minimized: false
                 readonly property string appId: model.appId
+                property bool animationsEnabled: true
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== appId) {
@@ -262,7 +264,8 @@ Rectangle {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
                     maximizedLeft = false;
@@ -280,14 +283,16 @@ Rectangle {
                     maximizedLeft = false;
                     maximizedRight = true;
                 }
-                function minimize() {
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     maximized = false;
                     minimized = true;
                     maximizedLeft = false;
                     maximizedRight = false;
                     priv.removeAndFocusPreviousInStack(appId);
                 }
-                function restore() {
+                function restore(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                     maximizedLeft = false;
@@ -321,6 +326,7 @@ Rectangle {
                     Transition {
                         from: "maximized,maximized_left,maximized_right,minimized,normal,"
                         to: "maximized,maximized_left,maximized_right,minimized,normal,"
+                        enabled: appDelegate.animationsEnabled
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
