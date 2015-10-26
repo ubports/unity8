@@ -211,6 +211,14 @@ Rectangle {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized
     }
+
+    Binding {
+        target: PanelState
+        property: "title"
+        value: priv.focusedAppDelegate.title
+        when: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
+    }
+
     Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
@@ -246,6 +254,7 @@ Rectangle {
                 property bool minimized: false
                 readonly property string appId: model.appId
                 property bool animationsEnabled: true
+                property alias title: decoratedWindow.title
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== appId) {

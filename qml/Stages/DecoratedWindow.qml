@@ -26,6 +26,7 @@ FocusScope {
     property alias window: applicationWindow
     property alias application: applicationWindow.application
     property alias active: decoration.active
+    property alias title: decoration.title
 
     property bool decorationShown: true
     property bool highlightShown: false
