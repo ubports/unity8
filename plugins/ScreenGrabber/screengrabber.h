@@ -29,7 +29,7 @@ public:
     ~ScreenGrabber() = default;
 
 public Q_SLOTS:
-    void captureAndSave();
+    void captureAndSave(int angle = 0);
 
 Q_SIGNALS:
     void screenshotSaved(const QString &filename);
