@@ -1,3 +1,57 @@
+unity8 (8.11+15.10.20151009-0ubuntu1) wily; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Pawel Stolowski ]
+  * Store unity8 package version in /var/lib/.../version file for fast
+    retrieval from the shell plugin.
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Fri, 09 Oct 2015 09:13:03 +0000
+
+unity8 (8.11+15.10.20151008-0ubuntu1) wily; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Revert to using plaintext instead of HTML-like markup for the
+    notifications (LP: #1504256)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 08 Oct 2015 20:46:26 +0000
+
+unity8 (8.11+15.10.20151002-0ubuntu1) wily; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Lukáš Tinkl ]
+  * Wizard: skip the reporting page if the system is configured not to
+    report crashes (LP: #1494442)
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Fri, 02 Oct 2015 13:24:03 +0000
+
+unity8 (8.11+15.10.20151001-0ubuntu1) wily; urgency=medium
+
+  [ Alexandros Frantzis ]
+  * Use power state change reason SnapDecision to turn screen on when a
+    SnapDecision arrives (LP: #1291455)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- Alexandros Frantzis <alexandros.frantzis@canonical.com>  Thu, 01 Oct 2015 12:04:04 +0000
+
+unity8 (8.11+15.10.20150930.1-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make Launcher::test_quickListMenuOnRMB stable (LP: #1500359)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Michael Zanetti ]
+  * Stabilize Launcher DND test
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 30 Sep 2015 10:09:33 +0000
+
 unity8 (8.11+15.10.20150925-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]

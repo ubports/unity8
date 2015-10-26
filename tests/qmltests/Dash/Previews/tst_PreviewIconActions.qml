@@ -104,7 +104,7 @@ Rectangle {
 
             var button = findChild(root, "button" + buttonId);
             var image = findChildsByType(button, "QQuickImage")[0];
-            var label = findChildsByType(button, "Label")[0];
+            var label = findChildsByType(button, "UCLabel")[0];
 
             compare(image.source, buttonIcon);
             compare(label.text, buttonLabel);

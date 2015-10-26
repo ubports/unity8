@@ -61,7 +61,7 @@ Item {
         value: root.scope ? root.scope.searchQuery : ""
     }
 
-    PageHeader {
+    DashPageHeader {
         id: header
         objectName: "pageHeader"
         title: i18n.tr("Manage")
