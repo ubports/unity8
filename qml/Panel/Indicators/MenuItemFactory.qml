@@ -20,7 +20,7 @@ import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
 import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 0.1 as ListItems
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Unity.Session 0.1
 
 Item {
@@ -350,20 +350,23 @@ Item {
         id: alarmMenu;
 
         Menus.EventMenu {
+            id: alarmItem
             objectName: "alarmMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
-            // TODO - bug #1260728
-            property var timeFormatter: Utils.GDateTimeFormatter {
-                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
-                format: getExtendedProperty(extendedData, "xCanonicalTimeFormat", "")
+
+            property date serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
+            LiveTimer {
+                frequency: LiveTimer.Relative
+                relativeTime: alarmItem.serverTime
+                onTrigger: alarmItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
             }
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || "image://theme/alarm-clock"
-            time: timeFormatter.timeString
+            time: i18n.relativeDateTime(serverTime)
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
 
@@ -379,8 +382,7 @@ Item {
 
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
-                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-time': 'int64',
-                                                             'x-canonical-time-format': 'string'});
+                menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-time': 'int64'});
             }
         }
     }
@@ -389,20 +391,23 @@ Item {
         id: appointmentMenu;
 
         Menus.EventMenu {
+            id: appointmentItem
             objectName: "appointmentMenu"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
-            // TODO - bug #1260728
-            property var timeFormatter: Utils.GDateTimeFormatter {
-                time: getExtendedProperty(extendedData, "xCanonicalTime", 0)
-                format: getExtendedProperty(extendedData, "xCanonicalTimeFormat", "")
+
+            property date serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
+            LiveTimer {
+                frequency: LiveTimer.Relative
+                relativeTime: appointmentItem.serverTime
+                onTrigger: appointmentItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
             }
 
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || "image://theme/calendar"
-            time: timeFormatter.timeString
+            time: i18n.relativeDateTime(serverTime)
             eventColor: getExtendedProperty(extendedData, "xCanonicalColor", Qt.rgba(0.0, 0.0, 0.0, 0.0))
             enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
@@ -420,8 +425,7 @@ Item {
             function loadAttributes() {
                 if (!menuModel || menuIndex == -1) return;
                 menuModel.loadExtendedAttributes(menuIndex, {'x-canonical-color': 'string',
-                                                             'x-canonical-time': 'int64',
-                                                             'x-canonical-time-format': 'string'});
+                                                             'x-canonical-time': 'int64'});
             }
         }
     }
