@@ -17,7 +17,6 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import AccountsService 0.1
-import GSettings 1.0
 import Unity.Application 0.1
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 1.0
@@ -41,6 +40,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
+import Cursor 1.0
 
 
 Item {
@@ -63,7 +63,7 @@ Item {
     function updateFocusedAppOrientationAnimated() {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
-    property bool hasMouse
+    property bool hasMouse: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -107,9 +107,11 @@ Item {
     enabled: greeter && !greeter.waiting
 
     property real edgeSize: units.gu(2)
-    property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
-    property url background: asImageTester.status == Image.Ready ? asImageTester.source
-                             : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
+
+    WallpaperResolver {
+        id: wallpaperResolver
+        width: shell.width
+    }
 
     readonly property alias greeter: greeterLoader.item
 
@@ -128,31 +130,6 @@ Item {
             greeter.lockedApp = app;
         }
         shell.activateApplication(app);
-    }
-
-    // This is a dummy image to detect if the custom AS set wallpaper loads successfully.
-    Image {
-        id: asImageTester
-        source: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-    }
-
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-
-    // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
-    Image {
-        id: gsImageTester
-        source: backgroundSettings.pictureUri && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
     }
 
     Binding {
@@ -188,11 +165,6 @@ Item {
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
-    }
-
-    ScreenGrabber {
-        id: screenGrabber
-        z: dialogs.z + 10
     }
 
     GlobalShortcut {
@@ -327,7 +299,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "background"
-                value: shell.background
+                value: wallpaperResolver.background
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -432,7 +404,7 @@ Item {
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: tutorial.running
-            background: shell.background
+            background: wallpaperResolver.background
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
@@ -607,7 +579,7 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: shell.background
+            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
@@ -638,6 +610,7 @@ Item {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
+            background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
@@ -684,9 +657,21 @@ Item {
         onShowHome: showHome()
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        rotationAngle: -shell.orientationAngle
+        z: dialogs.z + 10
+    }
+
+    Cursor {
+        id: cursor
+        visible: shell.hasMouse
+        z: screenGrabber.z + 1
+    }
+
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: screenGrabber.z + 10
+        z: cursor.z + 1
         enabled: false
         visible: false
         color: "black"
@@ -703,5 +688,4 @@ Item {
             }
         }
     }
-
 }
