@@ -50,6 +50,7 @@ Item {
     readonly property real contentSpacing: units.gu(2)
     readonly property bool canBeClosed: type === Notification.Ephemeral
     property bool hasMouse
+    property url background: ""
 
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
@@ -401,6 +402,7 @@ Item {
                         menuData: model
                         menuIndex: index
                         maxHeight: notification.maxHeight
+                        background: notification.background
 
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });

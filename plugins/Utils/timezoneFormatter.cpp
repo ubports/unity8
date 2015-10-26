@@ -29,7 +29,7 @@ QString TimezoneFormatter::currentTimeInTimezone(const QVariant &tzId) const
     if (tz.isValid()) {
         const QDateTime now = QDateTime::currentDateTime().toTimeZone(tz);
         // return locale-aware string in the form "day, hh:mm", e.g. "Mon 14:30" or "Mon 1:30 pm"
-        return QStringLiteral("%1 %2").arg(now.toString("ddd")).arg(now.time().toString(Qt::DefaultLocaleShortDate));
+        return QStringLiteral("%1 %2").arg(now.toString(QStringLiteral("ddd"))).arg(now.time().toString(Qt::DefaultLocaleShortDate));
     }
     return QString();
 }
