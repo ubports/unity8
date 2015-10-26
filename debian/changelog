@@ -1,3 +1,58 @@
+unity8 (8.11+15.10.20151021-0ubuntu1) wily; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Clazy fixes
+  * Enable Efficient String Construction by default
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Daniel d'Andrada ]
+  * Have unity8 drawing its own cursor (LP: #1488417)
+  * Initial multi-monitor support
+
+  [ Daniel van Vugt ]
+  * Disable Qt's stuttering 'touch compression' to fix scrolling
+    smoothness (LP: #1486341, #1488327)
+
+  [ Lukáš Tinkl ]
+  * Fix autopilot wizard test skipping the reporting page
+  * Implement Unity.Platform plugin wrapping org.freedesktop.hostname1
+    (LP: #1504318)
+  * React to window title (aka surface name) changes (LP: #1497092)
+  * Rotate the screenshots according to the actual orientation
+
+  [ Michał Sawicz ]
+  * Fix application API dependency
+  * Have unity8 drawing its own cursor (LP: #1488417)
+  * Initial multi-monitor support
+  * Rotate the screenshots according to the actual orientation
+
+  [ Nick Dedekind ]
+  * Fixed leak in UnityMenuModelStackTest
+  * Moved time translation to SDK (LP: #1372061)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 21 Oct 2015 11:51:53 +0000
+
+unity8 (8.11+15.10.20151009-0ubuntu1) wily; urgency=medium
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Pawel Stolowski ]
+  * Store unity8 package version in /var/lib/.../version file for fast
+    retrieval from the shell plugin.
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Fri, 09 Oct 2015 09:13:03 +0000
+
+unity8 (8.11+15.10.20151008-0ubuntu1) wily; urgency=medium
+
+  [ Lukáš Tinkl ]
+  * Revert to using plaintext instead of HTML-like markup for the
+    notifications (LP: #1504256)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 08 Oct 2015 20:46:26 +0000
+
 unity8 (8.11+15.10.20151002-0ubuntu1) wily; urgency=medium
 
   [ CI Train Bot ]
