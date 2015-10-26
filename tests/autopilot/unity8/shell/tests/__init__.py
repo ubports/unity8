@@ -297,7 +297,7 @@ class UnityTestCase(AutopilotTestCase):
 
     @property
     def main_window(self):
-        return self._proxy.select_single(shell.QQuickView)
+        return self._proxy.select_single(shell.ShellView)
 
 
 class DashBaseTestCase(AutopilotTestCase):

@@ -43,6 +43,8 @@ private Q_SLOTS:
     {
         delete m_model;
         m_model = nullptr;
+        // send deleteLaters to avoid leaks.
+        QCoreApplication::sendPostedEvents(0, QEvent::DeferredDelete);
     }
 
     void testHeadOnSetHead()
@@ -146,19 +148,10 @@ private Q_SLOTS:
 
         m_model->removeRow(removeIndex);
 
-        waitFor([&stack, resultCount]() { return stack.count() == resultCount; }, 1000);
         QCOMPARE(stack.count(), resultCount);
     }
 
 private:
-    bool waitFor(std::function<bool()> functor, int ms) {
-
-        QElapsedTimer timer;
-        timer.start();
-        while(!functor() && timer.elapsed() < ms) { QTest::qWait(10); }
-        return functor();
-    }
-
     QVariant recuseAddMenu(int subMenuCount, int depth_remaining)
     {
         QVariantList rows;
