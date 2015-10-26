@@ -16,7 +16,7 @@
 
 import QtQuick 2.3
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 
 MouseArea {
     id: root
@@ -49,10 +49,10 @@ MouseArea {
             width: units.gu(5)
             height: units.gu(5)
             visible: !hideChildren
-            image: Image {
+            sourceFillMode: UbuntuShape.PreserveAspectCrop
+            source: Image {
                 id: shapeImage
                 cache: true
-                fillMode: Image.PreserveAspectCrop
                 sourceSize { width: shape.width; height: shape.height }
             }
         }

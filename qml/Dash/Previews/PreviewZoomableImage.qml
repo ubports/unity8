@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import "../../Components"
 
 /*! \brief Preview widget for image.
@@ -45,7 +45,7 @@ PreviewWidget {
         source: widgetData["source"]
         asynchronous: true
         useUbuntuShape: false
-        borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
+        pressed: mouseArea.pressed
 
         MouseArea {
             id: mouseArea

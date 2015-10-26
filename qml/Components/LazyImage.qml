@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 
 Item {
     id: root
@@ -31,14 +31,12 @@ Item {
     property real initialHeight: scaleTo == "height" || scaleTo == "fit" ? height : units.gu(10)
 
     property alias sourceSize: image.sourceSize
-    property alias fillMode: image.fillMode
     property alias asynchronous: image.asynchronous
     property alias cache: image.cache
-    property alias horizontalAlignment: image.horizontalAlignment
-    property alias verticalAlignment: image.verticalAlignment
     property alias sourceImage: image
+
     property bool useUbuntuShape: true
-    property string borderSource: "radius_idle.sci"
+    property bool pressed: false
 
     state: "default"
 
@@ -54,7 +52,7 @@ Item {
     UbuntuShape {
         id: placeholder
         objectName: "placeholder"
-        color: "#22FFFFFF"
+        backgroundColor: "#22FFFFFF"
         anchors.fill: shape
         visible: opacity != 0
 
@@ -88,10 +86,14 @@ Item {
         active: useUbuntuShape
         opacity: 0
         visible: opacity != 0
-        sourceComponent: UbuntuShape {}
+        sourceComponent: UbuntuShapeOverlay {
+            property bool pressed: false
+            overlayColor: Qt.rgba(0, 0, 0, pressed ? 0.1 : 0)
+            overlayRect: Qt.rect(0.0, 0.0, 1.0, 1.0)
+        }
         onLoaded: {
-            item.image = image;
-            item.borderSource = Qt.binding(function() { return root.borderSource })
+            item.source = image;
+            item.pressed = Qt.binding(function() { return shape.pressed; });
         }
 
         Image {
@@ -106,8 +108,6 @@ Item {
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
-            horizontalAlignment: Image.AlignHCenter
-            verticalAlignment: Image.AlignVCenter
             sourceSize.width: root.scaleTo == "width" ? root.width
                                 : root.scaleTo == "fit" && root.width <= root.height ? root.width
                                 : 0
