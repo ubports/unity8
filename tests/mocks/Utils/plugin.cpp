@@ -23,14 +23,6 @@
 
 // local
 #include "plugin.h"
-#include "inputwatcher.h"
-#include "qlimitproxymodelqml.h"
-#include "unitysortfilterproxymodelqml.h"
-#include "relativetimeformatter.h"
-#include "timeformatter.h"
-#include "unitymenumodelpaths.h"
-#include "windowkeysfilter.h"
-#include "easingcurve.h"
 #include "windowstatestorage.h"
 #include "constants.h"
 
@@ -39,8 +31,6 @@
 #include <inputwatcher.h>
 #include <qlimitproxymodelqml.h>
 #include <unitysortfilterproxymodelqml.h>
-#include <relativetimeformatter.h>
-#include <timeformatter.h>
 #include <unitymenumodelpaths.h>
 #include <windowkeysfilter.h>
 #include <windowscreenshotprovider.h>
@@ -67,11 +57,8 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
-    qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
     qmlRegisterType<WindowKeysFilter>(uri, 0, 1, "WindowKeysFilter");
-    qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
-    qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
