@@ -26,16 +26,24 @@
 class ApplicationArguments : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString deviceName READ deviceName CONSTANT)
+    Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceNameChanged)
     Q_PROPERTY(QString mode READ mode CONSTANT)
 public:
     ApplicationArguments(QObject *parent = nullptr);
 
-    void setDeviceName(const QString &deviceName) { m_deviceName = deviceName; }
+    void setDeviceName(const QString &deviceName) {
+        if (deviceName != m_deviceName) {
+            m_deviceName = deviceName;
+            Q_EMIT deviceNameChanged(m_deviceName);
+        }
+    }
     QString deviceName() const { return m_deviceName; }
 
     void setMode(const QString &mode) { m_mode = mode; }
     QString mode() const { return m_mode; }
+
+Q_SIGNALS:
+    void deviceNameChanged(const QString&);
 
 private:
     QString m_deviceName;

@@ -88,13 +88,13 @@ void PageListTest::testIterate()
 
     PageList pageList;
     QCOMPARE(pageList.index(), -1);
-    QCOMPARE(pageList.next(), root.path() + "/a/" + PAGES_PATH + "/1.qml");
+    QCOMPARE(pageList.next(), QString(root.path() + "/a/" + PAGES_PATH + "/1.qml"));
     QCOMPARE(pageList.prev(), QString());
-    QCOMPARE(pageList.next(), root.path() + "/a/" + PAGES_PATH + "/2.qml");
-    QCOMPARE(pageList.prev(), root.path() + "/a/" + PAGES_PATH + "/1.qml");
+    QCOMPARE(pageList.next(), QString(root.path() + "/a/" + PAGES_PATH + "/2.qml"));
+    QCOMPARE(pageList.prev(), QString(root.path() + "/a/" + PAGES_PATH + "/1.qml"));
     QCOMPARE(pageList.index(), 0);
-    QCOMPARE(pageList.next(), root.path() + "/a/" + PAGES_PATH + "/2.qml");
-    QCOMPARE(pageList.next(), root.path() + "/a/" + PAGES_PATH + "/3.qml");
+    QCOMPARE(pageList.next(), QString(root.path() + "/a/" + PAGES_PATH + "/2.qml"));
+    QCOMPARE(pageList.next(), QString(root.path() + "/a/" + PAGES_PATH + "/3.qml"));
     QCOMPARE(pageList.index(), 2);
     QCOMPARE(pageList.next(), QString());
     QCOMPARE(pageList.index(), 2);
