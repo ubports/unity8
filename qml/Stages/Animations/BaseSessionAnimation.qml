@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 /* This is the base case for surface animations, used when adding/removing * child surfaces.
  * The class is meant to be overridden and changes/animations provided for state changes.

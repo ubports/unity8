@@ -480,20 +480,20 @@ function cardString(template, components) {
         }
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white")';
 
     var hasTitleContainer = hasTitle && (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes)));
     var titleSubtitleCode = '';
     if (hasTitle) {
         var titleColor;
         if (headerAsOverlay) {
-            titleColor = 'root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
+            titleColor = 'root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white")';
         } else if (hasSummary) {
             titleColor = 'summary.color';
         } else if (hasBackground) {
             titleColor = summaryColorWithBackground;
         } else {
-            titleColor = 'root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText';
+            titleColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
         }
 
         var titleAnchors;
@@ -649,7 +649,7 @@ function cardString(template, components) {
         if (hasBackground) {
             summaryColor = summaryColorWithBackground;
         } else {
-            summaryColor = 'root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText';
+            summaryColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
         }
 
         var summaryTopMargin = (hasMascot || hasSubtitle || hasAttributes ? 'anchors.margins' : '0');
@@ -697,8 +697,8 @@ function cardString(template, components) {
 }
 
 function createCardComponent(parent, template, components) {
-    var imports = 'import QtQuick 2.2; \n\
-                   import Ubuntu.Components 1.1; \n\
+    var imports = 'import QtQuick 2.4; \n\
+                   import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
