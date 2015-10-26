@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
-"PO-Revision-Date: 2015-08-25 14:12+0000\n"
+"POT-Creation-Date: 2015-09-16 00:49+0200\n"
+"PO-Revision-Date: 2015-10-05 06:47+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
+"X-Generator: Launchpad (build 17812)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Ger-tremen : "
 
@@ -29,7 +29,7 @@ msgstr "Spilhennañ ar verradenn"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Mont kuit"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -138,72 +138,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Gortozit %1 vunutenn, mar plij, hag esaeit en-dro..."
 msgstr[1] "Gortozit %1 a vunutoù, mar plij, hag esaeit en-dro..."
 
-#: qml/Components/Dialogs.qml:112
+#: qml/Components/Dialogs.qml:115
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:113
+#: qml/Components/Dialogs.qml:116
 msgid "Are you sure you want to log out?"
 msgstr "Ha sur oc'h e fell deoc'h digevreañ ?"
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Prennañ"
 
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
-#: qml/Components/Dialogs.qml:221
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224
 msgid "Cancel"
 msgstr "Nullañ"
 
-#: qml/Components/Dialogs.qml:141
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Lazhañ ar benveg"
 
-#: qml/Components/Dialogs.qml:142
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to shut down?"
 msgstr "Ha sur oc'h e fell deoc'h lazhañ ar benveg ?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Adloc'hañ"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Lazhañ ar benveg"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Adloc'hañ"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Ha sur oc'h e fell deoc'h adloc'hañ ?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "N'on ket"
 
-#: qml/Components/Dialogs.qml:185
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
 msgstr "Ya"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Enaouiñ"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -211,12 +211,12 @@ msgstr ""
 "Ha sur oc'h e fell deoc'h\n"
 "troc'hañ an tredan ?"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Lazhañ"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Adloc'hañ"
@@ -277,8 +277,10 @@ msgstr "Muioc'h..."
 msgid "Less..."
 msgstr "Nebeutoc'h..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Kas"
 
@@ -397,62 +399,62 @@ msgstr "Touchit evit distreiñ d'ar bellgomzadenn..."
 msgid "Conference"
 msgstr "Kendiviz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:674
+#: qml/Panel/Indicators/MenuItemFactory.qml:718
 msgid "Nothing is playing"
 msgstr "Ne lenner netra bremañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 eur"
 msgstr[1] "%1 eur"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:807
+#: qml/Panel/Indicators/MenuItemFactory.qml:851
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 vunutenn"
 msgstr[1] "%1 vunutenn"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:812
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 eilenn"
 msgstr[1] "%1 eilenn"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:815
+#: qml/Panel/Indicators/MenuItemFactory.qml:859
 msgid "0 seconds"
 msgstr "0 eilenn"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:817
+#: qml/Panel/Indicators/MenuItemFactory.qml:861
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 o chom"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:823
+#: qml/Panel/Indicators/MenuItemFactory.qml:867
 msgid "In queue…"
 msgstr "El lostennad..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:827
+#: qml/Panel/Indicators/MenuItemFactory.qml:871
 msgid "Downloading"
 msgstr "O pellgargañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:829
+#: qml/Panel/Indicators/MenuItemFactory.qml:873
 msgid "Paused, tap to resume"
 msgstr "Ehanet, touchit evit adkregiñ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:831
+#: qml/Panel/Indicators/MenuItemFactory.qml:875
 msgid "Canceled"
 msgstr "Nullet"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:833
+#: qml/Panel/Indicators/MenuItemFactory.qml:877
 msgid "Finished"
 msgstr "Echu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:835
+#: qml/Panel/Indicators/MenuItemFactory.qml:879
 msgid "Failed, tap to retry"
 msgstr "C'hwitet, touchit evit adkregiñ"
 
@@ -463,7 +465,7 @@ msgstr "Respont"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
 msgid "Call back"
-msgstr ""
+msgstr "Gervel en-dro"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"

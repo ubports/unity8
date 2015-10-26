@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"POT-Creation-Date: 2015-09-16 00:49+0200\n"
 "PO-Revision-Date: 2015-07-31 09:29+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-10-16 05:58+0000\n"
+"X-Generator: Launchpad (build 17812)\n"
 "Language: zh_TW\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "密碼： "
 
@@ -134,83 +134,83 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "請等候 %1 分鐘再試…"
 
-#: qml/Components/Dialogs.qml:112
+#: qml/Components/Dialogs.qml:115
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "登出"
 
-#: qml/Components/Dialogs.qml:113
+#: qml/Components/Dialogs.qml:116
 msgid "Are you sure you want to log out?"
 msgstr "確定要登出？"
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "上鎖"
 
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "登出"
 
-#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
-#: qml/Components/Dialogs.qml:221
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224
 msgid "Cancel"
 msgstr "取消"
 
-#: qml/Components/Dialogs.qml:141
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "關機"
 
-#: qml/Components/Dialogs.qml:142
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to shut down?"
 msgstr "確定要關機？"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "重新開機"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "關機"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "重新開機"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "確定要重新開機？"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "否"
 
-#: qml/Components/Dialogs.qml:185
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
 msgstr "是"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "電源"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "確定要關閉電源？"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "關閉電源"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "重新啟動"
@@ -271,8 +271,10 @@ msgstr "更多…"
 msgid "Less..."
 msgstr "縮減…"
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "發送"
 
@@ -387,59 +389,59 @@ msgstr "點按可返回通話…"
 msgid "Conference"
 msgstr "會議"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:674
+#: qml/Panel/Indicators/MenuItemFactory.qml:718
 msgid "Nothing is playing"
 msgstr "無影音播放中"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 小時"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:807
+#: qml/Panel/Indicators/MenuItemFactory.qml:851
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 分鐘"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:812
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 秒鐘"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:815
+#: qml/Panel/Indicators/MenuItemFactory.qml:859
 msgid "0 seconds"
 msgstr "0 秒鐘"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:817
+#: qml/Panel/Indicators/MenuItemFactory.qml:861
 #, qt-format
 msgid "%1 remaining"
 msgstr "還剩下 %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:823
+#: qml/Panel/Indicators/MenuItemFactory.qml:867
 msgid "In queue…"
 msgstr "佇列中…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:827
+#: qml/Panel/Indicators/MenuItemFactory.qml:871
 msgid "Downloading"
 msgstr "下載中"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:829
+#: qml/Panel/Indicators/MenuItemFactory.qml:873
 msgid "Paused, tap to resume"
 msgstr "已暫停，點按可繼續"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:831
+#: qml/Panel/Indicators/MenuItemFactory.qml:875
 msgid "Canceled"
 msgstr "已取消"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:833
+#: qml/Panel/Indicators/MenuItemFactory.qml:877
 msgid "Finished"
 msgstr "已完成"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:835
+#: qml/Panel/Indicators/MenuItemFactory.qml:879
 msgid "Failed, tap to retry"
 msgstr "失敗，點按可重試"
 

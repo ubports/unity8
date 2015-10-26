@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,23 +12,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#ifndef RELATIVETIMEFORMATTER_H
-#define RELATIVETIMEFORMATTER_H
+import QtQuick 2.4
 
-#include "timeformatter.h"
-
-// TODO - move this to the sdk
-// https://blueprints.launchpad.net/ubuntu-ui-toolkit/+spec/time-formatter
-class RelativeTimeFormatter : public GDateTimeFormatter
-{
-    Q_OBJECT
-public:
-    RelativeTimeFormatter(QObject *parent = 0);
-
-    QString format() const override;
-};
-
-#endif // RELATIVETIMEFORMATTER_H
+Item {
+}

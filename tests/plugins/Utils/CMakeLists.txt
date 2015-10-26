@@ -7,7 +7,6 @@ include_directories(
 foreach(util_test
     QLimitProxyModel
     UnitySortFilterProxyModel
-    TimeFormatter
     HomeKeyWatcher
 )
     add_executable(${util_test}TestExec ${util_test}Test.cpp ModelTest.cpp)

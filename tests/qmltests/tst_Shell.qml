@@ -1242,30 +1242,6 @@ Rectangle {
             tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
 
-        function test_background_data() {
-            return [
-                {tag: "color", accounts: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>"), gsettings: "", output: Qt.resolvedUrl("data:image/svg+xml,<svg><rect width='100%' height='100%' fill='#dd4814'/></svg>")},
-                {tag: "empty", accounts: "", gsettings: "", output: "defaultBackground"},
-                {tag: "as-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: "", output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
-                {tag: "gs-specified", accounts: "", gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
-                {tag: "both-specified", accounts: Qt.resolvedUrl("../data/unity/backgrounds/blue.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/blue.png")},
-                {tag: "invalid-as", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/red.png"), output: Qt.resolvedUrl("../data/unity/backgrounds/red.png")},
-                {tag: "invalid-both", accounts: Qt.resolvedUrl("../data/unity/backgrounds/nope.png"), gsettings: Qt.resolvedUrl("../data/unity/backgrounds/stillnope.png"), output: "defaultBackground"},
-            ]
-        }
-        function test_background(data) {
-            loadShell("phone");
-            swipeAwayGreeter();
-            AccountsService.backgroundFile = data.accounts;
-            GSettingsController.setPictureUri(data.gsettings);
-
-            if (data.output === "defaultBackground") {
-                tryCompare(shell, "background", shell.defaultBackground);
-            } else {
-                tryCompare(shell, "background", data.output);
-            }
-        }
-
         function test_tabletLogin_data() {
             return [
                 {tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
