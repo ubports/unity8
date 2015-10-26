@@ -86,6 +86,7 @@ StateGroup {
             PropertyChanges {
                 target: root
                 category: "desktop"
+                supportedOrientations: root.useNativeOrientation
             }
         }
     ]

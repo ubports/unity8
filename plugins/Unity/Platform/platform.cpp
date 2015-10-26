@@ -14,15 +14,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import Cursor 1.0 // For MousePointer
+#include "platform.h"
 
-MousePointer {
-    id: mousePointer
+#include <QDBusConnection>
 
-    Image {
-        x: -mousePointer.hotspotX
-        y: -mousePointer.hotspotY
-        source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
-    }
+Platform::Platform(QObject *parent)
+    : QObject(parent)
+    , m_iface("org.freedesktop.hostname1", "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
+              QDBusConnection::systemBus(), this)
+{
+    QMetaObject::invokeMethod(this, "init");
+}
+
+void Platform::init()
+{
+    m_chassis = m_iface.property("Chassis").toString();
+    m_isPC = (m_chassis == "desktop" || m_chassis == "laptop" || m_chassis == "server");
+}
+
+QString Platform::chassis() const
+{
+    return m_chassis;
+}
+
+bool Platform::isPC() const
+{
+    return m_isPC;
 }

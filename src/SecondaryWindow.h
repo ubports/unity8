@@ -14,15 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import Cursor 1.0 // For MousePointer
+#ifndef UNITY_SECONDARY_WINDOW_H
+#define UNITY_SECONDARY_WINDOW_H
 
-MousePointer {
-    id: mousePointer
+#include <QQuickView>
 
-    Image {
-        x: -mousePointer.hotspotX
-        y: -mousePointer.hotspotY
-        source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
-    }
-}
+class SecondaryWindow : public QQuickView
+{
+    Q_OBJECT
+
+public:
+    SecondaryWindow(QQmlEngine *engine);
+};
+
+#endif // UNITY_SECONDARY_WINDOW_H

@@ -50,7 +50,7 @@ Build-Depends: cmake,
                qtdeclarative5-private-dev (>= 5.2.1),
                qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-ubuntu-settings-components (>= 0.6),
-               qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
+               qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1627) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1627),
                qtdeclarative5-ubuntu-web-plugin,
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4
@@ -65,7 +65,7 @@ X-Ubuntu-Use-Langpack: yes
 Package: indicators-client
 Architecture: amd64 armhf i386
 Depends: qmenumodel-qml (>= 0.2.9),
-         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
+         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1627) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1627),
          unity8 (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends},
@@ -124,7 +124,7 @@ Architecture: all
 Depends: qml-module-qtquick-layouts,
          qtdeclarative5-ubuntu-settings-components (>= 0.6),
          qtdeclarative5-ubuntu-thumbnailer0.1 | ubuntu-thumbnailer-impl,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.1.1239) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.1.1239),
+         qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1627) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1627),
          qtdeclarative5-unity-notifications-plugin (>= 0.1.2) | unity-notifications-impl,
          ubuntu-thumbnailer-impl-0,
          unity-application-impl-9,

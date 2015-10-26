@@ -14,15 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import Cursor 1.0 // For MousePointer
+#include "SecondaryWindow.h"
 
-MousePointer {
-    id: mousePointer
+// local
+#include <paths.h>
 
-    Image {
-        x: -mousePointer.hotspotX
-        y: -mousePointer.hotspotY
-        source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
-    }
+SecondaryWindow::SecondaryWindow(QQmlEngine *engine)
+    : QQuickView(engine, nullptr)
+{
+    setResizeMode(QQuickView::SizeRootObjectToView);
+    setColor("black");
+    setTitle(QStringLiteral("Unity8 Shell - Secondary Screen"));
+
+    QUrl source(::qmlDirectory() + "/DisabledScreenNotice.qml");
+    setSource(source);
 }
