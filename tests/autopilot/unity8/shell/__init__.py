@@ -93,7 +93,7 @@ def _get_urgency(urgency):
     return _urgency_enums.get(urgency.upper())
 
 
-class QQuickView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+class ShellView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     """An helper class that makes it easy to interact with the shell"""
 
     def get_greeter(self):
