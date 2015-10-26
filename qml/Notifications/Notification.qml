@@ -17,11 +17,11 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
 import Powerd 0.1
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Item {
     id: notification
@@ -152,10 +152,10 @@ Item {
             rightMargin: notification.margins
             topMargin: type === Notification.Confirmation ? units.gu(.5) : 0
         }
-        color: parent.color
+        backgroundColor: parent.color
         opacity: parent.opacity
         radius: "medium"
-        borderSource: "none"
+        aspect: UbuntuShape.Flat
     }
 
     Rectangle {
@@ -281,7 +281,7 @@ Item {
                         }
                         visible: type !== Notification.Confirmation
                         fontSize: "medium"
-                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -296,7 +296,7 @@ Item {
                         }
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
-                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
@@ -337,7 +337,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
                 fontSize: "medium"
-                color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                 wrapMode: Text.WordWrap
                 maximumLineCount: 1
                 elide: Text.ElideRight
@@ -357,8 +357,8 @@ Item {
                 }
 
                 height: units.gu(1)
-                color: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
-                borderSource: "none"
+                backgroundColor: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
+                aspect: UbuntuShape.Flat
                 radius: "small"
 
                 UbuntuShape {
@@ -366,8 +366,8 @@ Item {
                     objectName: "innerBar"
                     width: valueIndicator.width * valueIndicator.value / 100
                     height: units.gu(1)
-                    color: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
-                    borderSource: "none"
+                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
+                    aspect: UbuntuShape.Flat
                     radius: "small"
                 }
             }

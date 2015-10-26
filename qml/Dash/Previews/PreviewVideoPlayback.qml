@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Ubuntu.Thumbnailer 0.1
 import "../../Components"
 
@@ -29,6 +29,8 @@ PreviewWidget {
     id: root
     implicitWidth: units.gu(35)
     implicitHeight: childrenRect.height
+
+    widgetMargins: -units.gu(1)
 
     LazyImage {
         objectName: "screenshot"
@@ -51,6 +53,7 @@ PreviewWidget {
             return "";
         }
         initialHeight: width * 10 / 16
+        useUbuntuShape: false
 
         Image {
             objectName: "playButton"

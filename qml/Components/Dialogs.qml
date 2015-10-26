@@ -18,8 +18,8 @@ import QtQuick 2.0
 
 import Unity.Application 0.1
 import Unity.Session 0.1
-import Ubuntu.Components 1.1
 import GlobalShortcut 1.0
+import Ubuntu.Components 1.3
 import "../Greeter"
 
 Item {

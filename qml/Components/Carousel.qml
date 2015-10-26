@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.3
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import "carousel.js" as CarouselJS
 
 /*! The Carousel component presents the items of a model in a carousel view. It's similar to a

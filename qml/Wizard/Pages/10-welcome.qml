@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.3
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3
 import Ubuntu.SystemSettings.LanguagePlugin 1.0
 import Wizard 0.1
 import ".." as LocalComponents
