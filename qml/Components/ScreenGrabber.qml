@@ -26,6 +26,9 @@ Rectangle {
     anchors.fill: parent
     opacity: 0.0
 
+    // to be set from outside
+    property int rotationAngle: 0
+
     ScreenGrabber {
         id: screenGrabber
         objectName: "screenGrabber"
@@ -67,7 +70,7 @@ Rectangle {
         to: 0.0
         onStopped: {
             if (visible) {
-                screenGrabber.captureAndSave();
+                screenGrabber.captureAndSave(root.rotationAngle);
                 visible = false;
             }
         }

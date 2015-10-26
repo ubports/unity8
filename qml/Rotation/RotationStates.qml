@@ -83,7 +83,7 @@ StateGroup {
         }
 
         function tryUpdateState() {
-            if (d.transitioning || (!d.startingUp && !root.shell.orientationChangesEnabled)) {
+            if (d.transitioning || (!d.startingUp && !root.orientedShell.orientationChangesEnabled)) {
                 return;
             }
 
@@ -95,7 +95,7 @@ StateGroup {
         }
 
         property Connections shellConnections: Connections {
-            target: root.shell
+            target: root.orientedShell
             onOrientationChangesEnabledChanged: {
                 d.tryUpdateState();
             }

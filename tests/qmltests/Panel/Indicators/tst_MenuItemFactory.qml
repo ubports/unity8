@@ -50,10 +50,6 @@ Item {
         }
     }
 
-    Utils.GDateTimeFormatter {
-        id: timeFormatter
-    }
-
     UT.UnityTestCase {
         name: "MenuItemFactory"
         when: windowShown
@@ -374,9 +370,9 @@ Item {
         function test_create_alarmMenu_data() {
             return [
                 {label: "testLabel1", enabled: true, icon: "file:///testIcon1", color: Qt.rgba(0, 0, 0, 0),
-                            time: new Date(2014, 04, 14), timeFormat: "%a %d %b %l:%M %p"},
+                            time: new Date(2014, 04, 14)},
                 {label: "testLabel2", enabled: false, icon: "file:///testIcon2", color: Qt.rgba(1, 0, 0, 0),
-                            time: new Date(2015, 11, 31), timeFormat: "%A" },
+                            time: new Date(2015, 11, 31) },
             ];
         }
 
@@ -386,11 +382,8 @@ Item {
             menuData.sensitive = data.enabled;
             menuData.icon = data.icon;
             menuData.ext = {
-                'xCanonicalTime': data.time.getTime() / 1000,
-                'xCanonicalTimeFormat': data.timeFormat
+                'xCanonicalTime': data.time.getTime() / 1000 // expected in seconds
             };
-            timeFormatter.format = data.timeFormat;
-            timeFormatter.time = data.time.getTime() / 1000;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -399,7 +392,7 @@ Item {
 
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(loader.item.time, i18n.relativeDateTime(data.time), "Time does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
@@ -419,11 +412,8 @@ Item {
             menuData.icon = data.icon;
             menuData.ext = {
                 'xCanonicalColor': data.colour,
-                'xCanonicalTime': data.time.getTime() / 1000,
-                'xCanonicalTimeFormat': data.timeFormat
+                'xCanonicalTime': data.time.getTime() / 1000 // expected in seconds
             };
-            timeFormatter.format = data.timeFormat;
-            timeFormatter.time = data.time.getTime() / 1000;
 
             loader.data = menuData;
             loader.sourceComponent = factory.load(menuData);
@@ -432,7 +422,7 @@ Item {
 
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.iconSource, data.icon, "Icon does not match data");
-            compare(loader.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(loader.item.time, i18n.relativeDateTime(data.time), "Time does not match data");
             compare(loader.item.eventColor, data.color, "Colour does not match data");
             compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }

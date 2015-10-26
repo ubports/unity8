@@ -251,7 +251,7 @@ Showable {
 
     // event eater
     // Nothing should leak to items behind the greeter
-    MouseArea { anchors.fill: parent }
+    MouseArea { anchors.fill: parent; hoverEnabled: true }
 
     Loader {
         id: loader
