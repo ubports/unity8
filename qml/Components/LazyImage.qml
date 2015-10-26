@@ -93,7 +93,7 @@ Item {
         }
         onLoaded: {
             item.source = image;
-            item.pressed = Qt.binding(function() { return shape.pressed; });
+            item.pressed = Qt.binding(function() { return root.pressed; });
         }
 
         Image {
