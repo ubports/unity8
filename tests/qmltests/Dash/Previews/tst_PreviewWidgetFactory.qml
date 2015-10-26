@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(80)
-    color: Theme.palette.selected.background
+    color: theme.palette.selected.background
 
     PreviewWidgetFactory {
         id: factory

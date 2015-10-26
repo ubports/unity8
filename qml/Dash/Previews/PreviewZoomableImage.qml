@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import "../../Components"
 
 /*! \brief Preview widget for image.
@@ -30,6 +30,8 @@ PreviewWidget {
     implicitWidth: units.gu(35)
     implicitHeight: lazyImage.height
 
+    widgetMargins: -units.gu(1)
+
     property Item rootItem: QuickUtils.rootItem(root)
 
     LazyImage {
@@ -38,13 +40,12 @@ PreviewWidget {
         anchors {
             left: parent.left
             right: parent.right
-            margins: -units.gu(2) // to counterbalance the margins of each Preview and have them touch the edges
         }
         scaleTo: "width"
         source: widgetData["source"]
         asynchronous: true
         useUbuntuShape: false
-        borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
+        pressed: mouseArea.pressed
 
         MouseArea {
             id: mouseArea

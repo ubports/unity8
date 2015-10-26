@@ -34,6 +34,9 @@ Item {
     //! Should the widget show in expanded mode (For those that support it)
     property bool expanded: true
 
+    //! Set margins width.
+    property real widgetMargins: units.gu(1)
+
     /*! \brief This signal should be emitted when a preview action was triggered.
      *
      *  \param widgetId, actionId Respective identifiers from widgetData.

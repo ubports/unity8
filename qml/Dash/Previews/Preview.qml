@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 
 /*! \brief This component constructs the Preview UI.
  *
@@ -100,8 +100,8 @@ Item {
                     anchors {
                         left: parent.left
                         right: parent.right
-                        leftMargin: units.gu(1)
-                        rightMargin: units.gu(1)
+                        leftMargin: widgetMargins
+                        rightMargin: widgetMargins
                     }
 
                     onTriggered: {
