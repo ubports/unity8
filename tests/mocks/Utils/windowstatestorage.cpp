@@ -45,6 +45,12 @@ QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defa
     return m_geometry.value(windowId).toRect();
 }
 
+void WindowStateStorage::clear()
+{
+    m_state.clear();
+    m_geometry.clear();
+}
+
 void WindowStateStorage::saveState(const QString &windowId, WindowState state)
 {
     m_state[windowId] = state;

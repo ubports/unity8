@@ -36,6 +36,9 @@ public:
     Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect &rect);
     Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue);
 
+    // Only in the mock, to easily restore a fresh state
+    Q_INVOKABLE void clear();
+
 Q_SIGNALS:
     void geometryChanged(const QVariantMap& geometry);
 
