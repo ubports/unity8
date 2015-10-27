@@ -29,6 +29,7 @@ macro(add_unity8_mock PLUGIN VERSION PATH)
 endmacro()
 
 add_subdirectory(AccountsService)
+add_subdirectory(Cursor)
 add_subdirectory(GSettings.1.0)
 add_subdirectory(indicator-service)
 add_subdirectory(libusermetrics)

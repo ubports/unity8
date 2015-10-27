@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"POT-Creation-Date: 2015-09-16 00:49+0200\n"
 "PO-Revision-Date: 2015-09-21 12:40+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -15,10 +15,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-22 06:01+0000\n"
-"X-Generator: Launchpad (build 17749)\n"
+"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
+"X-Generator: Launchpad (build 17812)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Jelszó: "
 
@@ -134,72 +134,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Várjon %1 percet és próbálja újra…"
 msgstr[1] "Várjon %1 percet és próbálja újra…"
 
-#: qml/Components/Dialogs.qml:112
+#: qml/Components/Dialogs.qml:115
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:113
+#: qml/Components/Dialogs.qml:116
 msgid "Are you sure you want to log out?"
 msgstr "Biztos benne, hogy kijelentkezik?"
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Zárolás"
 
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
-#: qml/Components/Dialogs.qml:221
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224
 msgid "Cancel"
 msgstr "Mégse"
 
-#: qml/Components/Dialogs.qml:141
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Leállítás"
 
-#: qml/Components/Dialogs.qml:142
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to shut down?"
 msgstr "Biztosan le szeretné állítani?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Leállítás"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Biztosan újra szeretné indítani?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Nem"
 
-#: qml/Components/Dialogs.qml:185
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
 msgstr "Igen"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Menü"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -207,12 +207,12 @@ msgstr ""
 "Biztos benne, hogy ki\n"
 "szeretné kapcsolni?"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Kikapcsolás"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Újraindítás"
@@ -273,8 +273,10 @@ msgstr "Több…"
 msgid "Less..."
 msgstr "Kevesebb…"
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Küldés"
 
@@ -393,62 +395,62 @@ msgstr "Ide koppintva visszatérhet a híváshoz"
 msgid "Conference"
 msgstr "Konferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:674
+#: qml/Panel/Indicators/MenuItemFactory.qml:718
 msgid "Nothing is playing"
 msgstr "Nincs lejátszás"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 óra"
 msgstr[1] "%1 óra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:807
+#: qml/Panel/Indicators/MenuItemFactory.qml:851
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 perc"
 msgstr[1] "%1 perc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:812
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 másodperc"
 msgstr[1] "%1 másodperc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:815
+#: qml/Panel/Indicators/MenuItemFactory.qml:859
 msgid "0 seconds"
 msgstr "0 másodperc"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:817
+#: qml/Panel/Indicators/MenuItemFactory.qml:861
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 van hátra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:823
+#: qml/Panel/Indicators/MenuItemFactory.qml:867
 msgid "In queue…"
 msgstr "Sorban…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:827
+#: qml/Panel/Indicators/MenuItemFactory.qml:871
 msgid "Downloading"
 msgstr "Letöltés"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:829
+#: qml/Panel/Indicators/MenuItemFactory.qml:873
 msgid "Paused, tap to resume"
 msgstr "Szüneteltetve, koppintson a folytatáshoz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:831
+#: qml/Panel/Indicators/MenuItemFactory.qml:875
 msgid "Canceled"
 msgstr "Megszakítva"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:833
+#: qml/Panel/Indicators/MenuItemFactory.qml:877
 msgid "Finished"
 msgstr "Befejeződött"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:835
+#: qml/Panel/Indicators/MenuItemFactory.qml:879
 msgid "Failed, tap to retry"
 msgstr "Sikertelen, koppintson az újrapróbáláshoz"
 

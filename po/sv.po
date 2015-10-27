@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"POT-Creation-Date: 2015-09-16 00:49+0200\n"
 "PO-Revision-Date: 2015-07-12 22:17+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish\n"
@@ -15,11 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-10-16 05:58+0000\n"
+"X-Generator: Launchpad (build 17812)\n"
 "Language: sv\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Lösenord: "
 
@@ -30,7 +30,7 @@ msgstr "Fäst genväg"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Avsluta"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -135,72 +135,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Vänta %1 minut och prova sedan igen…"
 msgstr[1] "Vänta %1 minuter och prova sedan igen…"
 
-#: qml/Components/Dialogs.qml:112
+#: qml/Components/Dialogs.qml:115
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Logga ut"
 
-#: qml/Components/Dialogs.qml:113
+#: qml/Components/Dialogs.qml:116
 msgid "Are you sure you want to log out?"
 msgstr "Är du säker på att du vill logga ut?"
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Lås"
 
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Logga ut"
 
-#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
-#: qml/Components/Dialogs.qml:221
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: qml/Components/Dialogs.qml:141
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Stäng av"
 
-#: qml/Components/Dialogs.qml:142
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to shut down?"
 msgstr "Är du säker på att du vill stänga av?"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Starta om"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Stäng av"
 
-#: qml/Components/Dialogs.qml:175
+#: qml/Components/Dialogs.qml:178
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Starta om"
 
-#: qml/Components/Dialogs.qml:176
+#: qml/Components/Dialogs.qml:179
 msgid "Are you sure you want to reboot?"
 msgstr "Är du säker på att du vill starta om?"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:181
 msgid "No"
 msgstr "Nej"
 
-#: qml/Components/Dialogs.qml:185
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
 msgstr "Ja"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Ström"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -208,12 +208,12 @@ msgstr ""
 "Är du säker på att du vill \n"
 "stänga av?"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Stäng av"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Starta om"
@@ -274,8 +274,10 @@ msgstr "Mer…"
 msgid "Less..."
 msgstr "Mindre…"
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Skicka"
 
@@ -394,62 +396,62 @@ msgstr "Tryck för att återgå till samtal…"
 msgid "Conference"
 msgstr "Konferens"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:674
+#: qml/Panel/Indicators/MenuItemFactory.qml:718
 msgid "Nothing is playing"
 msgstr "Inget spelas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 timme"
 msgstr[1] "%1 timmar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:807
+#: qml/Panel/Indicators/MenuItemFactory.qml:851
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minut"
 msgstr[1] "%1 minuter"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:812
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 sekund"
 msgstr[1] "%1 sekunder"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:815
+#: qml/Panel/Indicators/MenuItemFactory.qml:859
 msgid "0 seconds"
 msgstr "0 sekunder"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:817
+#: qml/Panel/Indicators/MenuItemFactory.qml:861
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 återstår"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:823
+#: qml/Panel/Indicators/MenuItemFactory.qml:867
 msgid "In queue…"
 msgstr "I kö…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:827
+#: qml/Panel/Indicators/MenuItemFactory.qml:871
 msgid "Downloading"
 msgstr "Hämtar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:829
+#: qml/Panel/Indicators/MenuItemFactory.qml:873
 msgid "Paused, tap to resume"
 msgstr "Pausad, tryck för att fortsätta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:831
+#: qml/Panel/Indicators/MenuItemFactory.qml:875
 msgid "Canceled"
 msgstr "Avbröt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:833
+#: qml/Panel/Indicators/MenuItemFactory.qml:877
 msgid "Finished"
 msgstr "Klart"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:835
+#: qml/Panel/Indicators/MenuItemFactory.qml:879
 msgid "Failed, tap to retry"
 msgstr "Misslyckades, tryck för att försöka igen"
 
@@ -460,7 +462,7 @@ msgstr "Svara"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
 msgid "Call back"
-msgstr ""
+msgstr "Ring upp"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
