@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,23 +12,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-#ifndef RELATIVETIMEFORMATTER_H
-#define RELATIVETIMEFORMATTER_H
+#include "plugin.h"
+#include "platform.h"
 
-#include "timeformatter.h"
+#include <QtQml>
 
-// TODO - move this to the sdk
-// https://blueprints.launchpad.net/ubuntu-ui-toolkit/+spec/time-formatter
-class RelativeTimeFormatter : public GDateTimeFormatter
+void GlobalShortcutPlugin::registerTypes(const char *uri)
 {
-    Q_OBJECT
-public:
-    RelativeTimeFormatter(QObject *parent = 0);
+    Q_ASSERT(uri == QLatin1String("Unity.Platform"));
 
-    QString format() const override;
-};
-
-#endif // RELATIVETIMEFORMATTER_H
+    qmlRegisterSingletonType<Platform>(uri, 1, 0, "Platform", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Platform; });
+}

@@ -14,15 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import Cursor 1.0 // For MousePointer
+#ifndef PLATFORMPLUGIN_H
+#define PLATFORMPLUGIN_H
 
-MousePointer {
-    id: mousePointer
+#include <QQmlExtensionPlugin>
 
-    Image {
-        x: -mousePointer.hotspotX
-        y: -mousePointer.hotspotY
-        source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
-    }
-}
+class GlobalShortcutPlugin: public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
+
+public:
+    void registerTypes(const char *uri) override;
+};
+
+
+#endif // PLATFORMPLUGIN_H
