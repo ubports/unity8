@@ -30,6 +30,7 @@ AbstractStage {
     property bool altTabEnabled: true
     property real startScale: 1.1
     property real endScale: 0.7
+
     onBeingResizedChanged: {
         if (beingResized) {
             // Brace yourselves for impact!
@@ -58,7 +59,7 @@ AbstractStage {
 
             var supportedOrientations = spreadDelegate.application.supportedOrientations;
             if (supportedOrientations === Qt.PrimaryOrientation) {
-                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+                supportedOrientations = root.orientations.primary;
             }
 
             if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
@@ -523,11 +524,9 @@ AbstractStage {
                     visible: (progress >= 0 && progress < 1.7)
                             || (isDash && priv.focusedAppDelegateIsDislocated)
 
-
                     shellOrientationAngle: root.shellOrientationAngle
                     shellOrientation: root.shellOrientation
-                    shellPrimaryOrientation: root.shellPrimaryOrientation
-                    nativeOrientation: root.nativeOrientation
+                    orientations: root.orientations
 
                     onClicked: {
                         if (root.altTabEnabled && spreadView.phase == 2) {

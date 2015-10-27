@@ -22,6 +22,7 @@ import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
+import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
@@ -92,6 +93,7 @@ AbstractStage {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
@@ -120,11 +122,9 @@ AbstractStage {
                 height: units.gu(50)
                 focus: model.appId === priv.focusedAppId
 
-                readonly property int minWidth: units.gu(10)
-                readonly property int minHeight: units.gu(10)
-
                 property bool maximized: false
                 property bool minimized: false
+                property bool animationsEnabled: true
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
@@ -143,15 +143,18 @@ AbstractStage {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
                 }
-                function minimize() {
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     maximized = false;
                     minimized = true;
                 }
-                function unmaximize() {
+                function unmaximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                 }
@@ -173,6 +176,7 @@ AbstractStage {
                     Transition {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
+                        enabled: appDelegate.animationsEnabled
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
@@ -197,12 +201,11 @@ AbstractStage {
                     when: index == spread.highlightedIndex && blurLayer.ready
                 }
 
-                WindowMoveResizeArea {
-                    id: windowMoveResizeArea
+                WindowResizeArea {
                     target: appDelegate
-                    minWidth: appDelegate.minWidth
-                    minHeight: appDelegate.minHeight
-                    resizeHandleWidth: units.gu(2)
+                    minWidth: units.gu(10)
+                    minHeight: units.gu(10)
+                    borderThickness: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
                     onPressed: { ApplicationManager.focusApplication(model.appId) }
@@ -222,6 +225,7 @@ AbstractStage {
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
+                    onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
             }
         }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-25 14:53+0200\n"
+"POT-Creation-Date: 2015-09-16 00:49+0200\n"
 "PO-Revision-Date: 2013-06-27 04:14+0000\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -16,25 +16,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-09-19 05:37+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
+"X-Generator: Launchpad (build 17812)\n"
 
-#: plugins/LightDM/Greeter.cpp:112
+#: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
-msgstr ""
+msgstr "Lozinka: "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:47
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
-msgstr ""
+msgstr "Pričvrsti kraticu"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Zatvori"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
-msgstr ""
+msgstr "Ukloni kraticu"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
@@ -42,14 +42,14 @@ msgstr ""
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:157
 msgid "Yesterday %l:%M %p"
-msgstr ""
+msgstr "Jučer %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened today.
 #. en_US example: "%l:%M %p" --> "1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:164
 msgid "%l:%M %p"
-msgstr ""
+msgstr "%l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
@@ -57,7 +57,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:172
 msgid "Tomorrow %l:%M %p"
-msgstr ""
+msgstr "Sutra %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
@@ -65,7 +65,7 @@ msgstr ""
 #. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:181
 msgid "%a %l:%M %p"
-msgstr ""
+msgstr "%a %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
@@ -74,7 +74,7 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
-msgstr ""
+msgstr "%a %d %b %l:%M %p"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
@@ -82,14 +82,14 @@ msgstr ""
 #. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:201
 msgid "Yesterday %H:%M"
-msgstr ""
+msgstr "Jučer %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened today.
 #. en_US example: "%H:%M" --> "13:00"
 #: plugins/Utils/relativetimeformatter.cpp:208
 msgid "%H:%M"
-msgstr ""
+msgstr "%H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
@@ -97,7 +97,7 @@ msgstr ""
 #. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:216
 msgid "Tomorrow %H:%M"
-msgstr ""
+msgstr "Sutra %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
@@ -105,7 +105,7 @@ msgstr ""
 #. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:225
 msgid "%a %H:%M"
-msgstr ""
+msgstr "%a %H:%M"
 
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
@@ -114,216 +114,221 @@ msgstr ""
 #. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
-msgstr ""
+msgstr "%a %d %b %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
-msgstr ""
+msgstr "Uređaj zaključan"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr ""
+msgstr "Previše pogrešnih pokušaja otključavanja."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr ""
+msgstr "Previše pogrešnih pokušaja otključavanja."
 
 #: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] ""
-msgstr[1] ""
-
-#: qml/Components/Dialogs.qml:112
-msgctxt "Title: Lock/Log out dialog"
-msgid "Log out"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:113
-msgid "Are you sure you want to log out?"
-msgstr ""
+msgstr[0] "Pričekajte %1 minutu a zatim ponovno pokušajte…"
+msgstr[1] "Pričekajte %1 minute a zatim ponovno pokušajte…"
+msgstr[2] "Pričekajte %1 minutua a zatim ponovno pokušajte…"
 
 #: qml/Components/Dialogs.qml:115
+msgctxt "Title: Lock/Log out dialog"
+msgid "Log out"
+msgstr "Odjava"
+
+#: qml/Components/Dialogs.qml:116
+msgid "Are you sure you want to log out?"
+msgstr "Sigurno se želite odjaviti?"
+
+#: qml/Components/Dialogs.qml:118
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Zaključaj"
 
-#: qml/Components/Dialogs.qml:122
+#: qml/Components/Dialogs.qml:125
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Odjava"
 
-#: qml/Components/Dialogs.qml:129 qml/Components/Dialogs.qml:162
-#: qml/Components/Dialogs.qml:221
+#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
+#: qml/Components/Dialogs.qml:224
 msgid "Cancel"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:141
-msgctxt "Title: Reboot/Shut down dialog"
-msgid "Shut down"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:142
-msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Odustani"
 
 #: qml/Components/Dialogs.qml:144
+msgctxt "Title: Reboot/Shut down dialog"
+msgid "Shut down"
+msgstr "Isključi"
+
+#: qml/Components/Dialogs.qml:145
+msgid "Are you sure you want to shut down?"
+msgstr "Sigurno želite isključiti?"
+
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Ponovno pokreni"
 
-#: qml/Components/Dialogs.qml:153
+#: qml/Components/Dialogs.qml:156
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:175
-msgctxt "Title: Reboot dialog"
-msgid "Reboot"
-msgstr ""
-
-#: qml/Components/Dialogs.qml:176
-msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Isključi"
 
 #: qml/Components/Dialogs.qml:178
+msgctxt "Title: Reboot dialog"
+msgid "Reboot"
+msgstr "Ponovno pokreni"
+
+#: qml/Components/Dialogs.qml:179
+msgid "Are you sure you want to reboot?"
+msgstr "Sigurno želite ponovno pokrenuti?"
+
+#: qml/Components/Dialogs.qml:181
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
-#: qml/Components/Dialogs.qml:185
+#: qml/Components/Dialogs.qml:188
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
-#: qml/Components/Dialogs.qml:200
+#: qml/Components/Dialogs.qml:203
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Isključivanje"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:204
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
+"Sigurno želite\n"
+"isključiti?"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:206
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Isključi"
 
-#: qml/Components/Dialogs.qml:212
+#: qml/Components/Dialogs.qml:215
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Ponovo pokreni"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr ""
+msgstr "Vrati na poziv"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
-msgstr ""
+msgstr "Hitni poziv"
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
-msgstr ""
+msgstr "U redu"
 
 #: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
-msgstr ""
+msgstr "Prikaži manje"
 
 #: qml/Dash/GenericScopeView.qml:569
 msgid "See all"
-msgstr ""
+msgstr "Prikaži sve"
 
 #: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Pretraži"
 
 #: qml/Dash/PageHeader.qml:269
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Trgovina"
 
 #: qml/Dash/PageHeader.qml:276
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Pretraži"
 
 #: qml/Dash/PageHeader.qml:286
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "Postavke"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Ukloni iz omiljenih"
 
 #: qml/Dash/PageHeader.qml:293
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Dodaj u omiljene"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr ""
+msgstr "Više..."
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr ""
+msgstr "Manje..."
 
-#: qml/Dash/Previews/PreviewCommentInput.qml:61
-#: qml/Dash/Previews/PreviewRatingInput.qml:169
+#: qml/Dash/Previews/PreviewCommentInput.qml:68
+#: qml/Dash/Previews/PreviewRatingInput.qml:174
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
-msgstr ""
+msgstr "Pošalji"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
-msgstr ""
+msgstr "Ocijeni ovo"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
-msgstr ""
+msgstr "Dodaj recenziju"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr ""
+msgstr "Povuci za osvježavanje..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr ""
+msgstr "Otpusti za osvježavanje..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr ""
+msgstr "Omogući podatke lokacije"
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
-msgstr ""
+msgstr "Upravljaj"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr ""
+msgstr "Naslovnica"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
-msgstr ""
+msgstr "Također instalirano"
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
-msgstr ""
+msgstr "Otključaj"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Pokušaj ponovno"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Dodirni za otključavanje"
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr ""
+msgstr "Isprika, netočna lozinka."
 
 #: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
@@ -331,13 +336,15 @@ msgstr ""
 
 #: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
-msgstr ""
+msgstr "Ovo je vaš posljednji pokušaj."
 
 #: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
+"Ako netočno upišete lozinku, vaš telefon će pokrenuti vraćanje na tvorničke "
+"postavke i svi osobni podaci će biti obrisani."
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
@@ -348,11 +355,11 @@ msgstr ""
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "Upišite %1"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Upišite lozinku"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
@@ -361,149 +368,152 @@ msgstr ""
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr ""
+msgstr "Isprika, netočna %1"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
-msgstr ""
+msgstr "Isprika, netočna lozinka"
 
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Ponovno upišite"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
-msgstr ""
+msgstr "Isprika, netočna lozinka"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
-msgstr ""
+msgstr "Prikaži lozinku"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr ""
+msgstr "Dodirni za povratak pozivu..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr ""
+msgstr "Konferencija"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:674
+#: qml/Panel/Indicators/MenuItemFactory.qml:718
 msgid "Nothing is playing"
-msgstr ""
+msgstr "Ništa se ne reproducira"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:803
+#: qml/Panel/Indicators/MenuItemFactory.qml:847
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 sat"
+msgstr[1] "%1 sata"
+msgstr[2] "%1 sati"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:807
+#: qml/Panel/Indicators/MenuItemFactory.qml:851
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 minuta"
+msgstr[1] "%1 minute"
+msgstr[2] "%1 minuta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:812
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 sekunda"
+msgstr[1] "%1 sekunde"
+msgstr[2] "%1 sekundi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:815
+#: qml/Panel/Indicators/MenuItemFactory.qml:859
 msgid "0 seconds"
-msgstr ""
+msgstr "0 sekundi"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:817
+#: qml/Panel/Indicators/MenuItemFactory.qml:861
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "%1 preostalo"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:823
+#: qml/Panel/Indicators/MenuItemFactory.qml:867
 msgid "In queue…"
-msgstr ""
+msgstr "Na čekanju..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:827
+#: qml/Panel/Indicators/MenuItemFactory.qml:871
 msgid "Downloading"
-msgstr ""
+msgstr "Preuzimanje"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:829
+#: qml/Panel/Indicators/MenuItemFactory.qml:873
 msgid "Paused, tap to resume"
-msgstr ""
+msgstr "Pauzirano, dodirni za nastavak"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:831
+#: qml/Panel/Indicators/MenuItemFactory.qml:875
 msgid "Canceled"
-msgstr ""
+msgstr "Prekinuto"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:833
+#: qml/Panel/Indicators/MenuItemFactory.qml:877
 msgid "Finished"
-msgstr ""
+msgstr "Završeno"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:835
+#: qml/Panel/Indicators/MenuItemFactory.qml:879
 msgid "Failed, tap to retry"
-msgstr ""
+msgstr "Neuspjelo, dodirni za ponovni pokušaj"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Odgovori"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
 msgid "Call back"
-msgstr ""
+msgstr "Uzvrati poziv"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr ""
+msgstr "Otključaj SIM"
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr ""
+msgstr "Roaming"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr ""
+msgstr "Ova radnja izvršava različite stvari za različite aplikacije"
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr ""
+msgstr "Dodirni za završetak."
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr ""
+msgstr "Otvori posebne izbornike"
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr ""
+msgstr "Povuci s donjeg ruba."
 
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
+msgstr "Dodirni ovdje za nastavak."
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr ""
+msgstr "Ovo su prečaci do omiljenih aplikacija"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr ""
+msgstr "Otvori pokretač"
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr ""
+msgstr "Povuci kratko s lijevog ruba"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr ""
+msgstr "Još malo i završili ste!"
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr ""
+msgstr "Pokušaj ponovno."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
@@ -520,63 +530,63 @@ msgstr ""
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Natrag"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr ""
+msgstr "Uvjeti i odredbe"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr ""
+msgstr "Potvrdi lozinku"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr ""
+msgstr "Potvrdi lozinku"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr ""
+msgstr "Pokušajte ponovno."
 
 #: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:50
 msgid "Continue"
-msgstr ""
+msgstr "Nastavi"
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr ""
+msgstr "Odaberite vašu lozinku"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr ""
+msgstr "Lozinka mora biti dugačka 4 znamenke"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Bok!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Dobrodošli u vaš Ubuntu telefon."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Započnimo."
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr ""
+msgstr "Dodajte SIM karticu i ponovno pokrenite svoj uređaj"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
+msgstr "Bez nje, nećete moći pozivati i slati tekstovne poruke."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr ""
+msgstr "Preskoči"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"

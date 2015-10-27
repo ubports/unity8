@@ -33,11 +33,10 @@ Rectangle {
     property bool keepDashRunning: true
     property real maximizedAppTopMargin
     property real nativeHeight
-    property int nativeOrientation
     property real nativeWidth
+    property QtObject orientations
     property int shellOrientation
     property int shellOrientationAngle
-    property int shellPrimaryOrientation
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property bool suspended
 
