@@ -19,8 +19,8 @@
 #include <DBusGreeterList.h>
 #include "MockGreeter.h"
 #include "MockUsersModel.h"
-#include <libusermetricsoutput/ColorTheme.h>
-#include <libusermetricsoutput/UserMetrics.h>
+#include "ColorTheme.h"
+#include "UserMetrics.h"
 #include <QLightDM/UsersModel>
 
 #include <QAbstractItemModel>
