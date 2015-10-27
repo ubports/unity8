@@ -55,6 +55,17 @@ private Q_SLOTS:
         QVERIFY(!args.first().toString().isEmpty());
     }
 
+    void testRotatedScreenshot()
+    {
+        QSignalSpy grabberSpy(m_grabber, &ScreenGrabber::screenshotSaved);
+        m_grabber->captureAndSave(90); // rotate by 90°
+        const QVariantList args = grabberSpy.takeFirst();
+        const QString filename = args.first().toString();
+        QVERIFY(!filename.isEmpty());
+        QImage img(filename);
+        QVERIFY(img.height() > img.width()); // verify that the image got rotated by 90° (height > width)
+    }
+
 private:
     QQuickView *m_view;
     ScreenGrabber *m_grabber = nullptr;

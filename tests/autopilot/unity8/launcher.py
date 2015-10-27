@@ -42,7 +42,7 @@ class Launcher(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
             logger.debug('The launcher is already opened.')
 
     def _swipe_to_show_launcher(self):
-        view = self.get_root_instance().select_single('QQuickView')
+        view = self.get_root_instance().select_single('ShellView')
         start_y = stop_y = view.y + view.height // 2
 
         start_x = view.x + 1
