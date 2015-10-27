@@ -29,6 +29,7 @@ import Unity.Notifications 1.0
 import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
+import Utils 0.1
 
 import "../../qml"
 import "../../qml/Components"
@@ -303,6 +304,7 @@ Rectangle {
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
+            WindowStateStorage.clear();
         }
 
         function loadShell(formFactor) {
@@ -1718,9 +1720,11 @@ Rectangle {
             var appDelegate = appRepeater.itemAt(0);
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
 
+            wait(5000)
             tryCompare(appDelegate, "state", "normal");
             tryCompare(PanelState, "buttonsVisible", false)
 
+            wait(5000)
             mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
             tryCompare(appDelegate, "state", "maximized");
             tryCompare(PanelState, "buttonsVisible", true)
