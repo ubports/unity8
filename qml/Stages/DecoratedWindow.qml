@@ -67,6 +67,7 @@ FocusScope {
         objectName: application ? "appWindowDecoration_" + application.appId : "appWindowDecoration_null"
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
+        width: root.width
         title: window.title !== "" ? window.title : model.name
         onClose: root.close();
         onMaximize: root.maximize();
