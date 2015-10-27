@@ -23,29 +23,15 @@ import Utils 0.1
 import Powerd 0.1
 import "../Components"
 
-Rectangle {
+AbstractStage {
     id: root
 
-    // Controls to be set from outside
-    property int dragAreaWidth
-    property real maximizedAppTopMargin
-    property bool interactive
-    property bool spreadEnabled: true // If false, animations and right edge will be disabled
-    property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
     property QtObject applicationManager: ApplicationManager
     property bool focusFirstApp: true // If false, focused app will appear on right edge like other apps
     property bool altTabEnabled: true
     property real startScale: 1.1
     property real endScale: 0.7
-    property bool keepDashRunning: true
-    property bool suspended: false
-    property int shellOrientationAngle: 0
-    property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
-    property real nativeWidth
-    property real nativeHeight
-    property bool beingResized: false
+
     onBeingResizedChanged: {
         if (beingResized) {
             // Brace yourselves for impact!
@@ -57,6 +43,8 @@ Rectangle {
             priv.reset();
         }
     }
+
+    // Functions to be called from outside
     function updateFocusedAppOrientation() {
         if (spreadRepeater.count > 0) {
             spreadRepeater.itemAt(0).matchShellOrientation();
@@ -72,7 +60,7 @@ Rectangle {
 
             var supportedOrientations = spreadDelegate.application.supportedOrientations;
             if (supportedOrientations === Qt.PrimaryOrientation) {
-                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+                supportedOrientations = root.orientations.primary;
             }
 
             if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
@@ -86,16 +74,14 @@ Rectangle {
         }
     }
 
-    // To be read from outside
-    readonly property var mainApp: applicationManager.focusedApplicationId
+    mainApp: applicationManager.focusedApplicationId
             ? applicationManager.findApplication(applicationManager.focusedApplicationId)
             : null
 
-    property int mainAppWindowOrientationAngle: 0
-    readonly property bool orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
-                                                   && !priv.focusedAppDelegateIsDislocated
-                                                   && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
-                                                   && spreadView.phase === 0
+    orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
+                               && !priv.focusedAppDelegateIsDislocated
+                               && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
+                               && spreadView.phase === 0
 
     // How far left the stage has been dragged
     readonly property real dragProgress: spreadRepeater.count > 0 ? -spreadRepeater.itemAt(0).xTranslate : 0
@@ -106,8 +92,6 @@ Rectangle {
     property real dragAreaOverlap
 
     signal opened()
-
-    color: "#111111"
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
@@ -439,15 +423,20 @@ Rectangle {
                     dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
                     focusFirstApp: root.focusFirstApp
 
+                    readonly property bool isDash: model.appId == "unity8-dash"
+
+                    readonly property bool canSuspend: model.isTouchApp
+                            && !isExemptFromLifecycle(model.appId)
+
                     Binding {
                         target: appDelegate.application
                         property: "requestedState"
-                        value: (isDash && root.keepDashRunning) || (!root.suspended && appDelegate.focus)
-                            ? ApplicationInfoInterface.RequestedRunning
-                            : ApplicationInfoInterface.RequestedSuspended
+                        value: !canSuspend
+                                   || (isDash && root.keepDashRunning)
+                                   || (!root.suspended && appDelegate.focus)
+                               ? ApplicationInfoInterface.RequestedRunning
+                               : ApplicationInfoInterface.RequestedSuspended
                     }
-
-                    readonly property bool isDash: model.appId == "unity8-dash"
 
                     z: isDash && !spreadView.active ? -1 : behavioredIndex
 
@@ -542,11 +531,9 @@ Rectangle {
                     visible: Powerd.status == Powerd.On &&
                              (!occluded || (isDash && priv.focusedAppDelegateIsDislocated))
 
-
                     shellOrientationAngle: root.shellOrientationAngle
                     shellOrientation: root.shellOrientation
-                    shellPrimaryOrientation: root.shellPrimaryOrientation
-                    nativeOrientation: root.nativeOrientation
+                    orientations: root.orientations
 
                     onClicked: {
                         if (root.altTabEnabled && spreadView.phase == 2) {

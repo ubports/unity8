@@ -50,6 +50,7 @@ Item {
     readonly property real contentSpacing: units.gu(2)
     readonly property bool canBeClosed: type === Notification.Ephemeral
     property bool hasMouse
+    property url background: ""
 
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
@@ -283,7 +284,7 @@ Item {
                         fontSize: "medium"
                         color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
                         elide: Text.ElideRight
-                        textFormat: Text.StyledText
+                        textFormat: Text.PlainText
                     }
 
                     Label {
@@ -300,7 +301,7 @@ Item {
                         wrapMode: Text.WordWrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
-                        textFormat: Text.StyledText
+                        textFormat: Text.PlainText
                     }
                 }
 
@@ -401,6 +402,7 @@ Item {
                         menuData: model
                         menuIndex: index
                         maxHeight: notification.maxHeight
+                        background: notification.background
 
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });

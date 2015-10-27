@@ -22,39 +22,21 @@ import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
+import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
-Rectangle {
+AbstractStage {
     id: root
     anchors.fill: parent
-
-    // Controls to be set from outside
-    property int dragAreaWidth // just to comply with the interface shared between stages
-    property real maximizedAppTopMargin
-    property bool interactive
-    property bool spreadEnabled // just to comply with the interface shared between stages
-    property real inverseProgress: 0 // just to comply with the interface shared between stages
-    property int shellOrientationAngle: 0
-    property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
-    property bool beingResized: false
-    property bool keepDashRunning: true
-    property bool suspended: false
-    property alias background: wallpaper.source
-    property alias altTabPressed: spread.altTabPressed
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
 
-    // To be read from outside
-    readonly property var mainApp: ApplicationManager.focusedApplicationId
+    mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null
-    property int mainAppWindowOrientationAngle: 0
-    readonly property bool orientationChangesEnabled: false
 
     Connections {
         target: ApplicationManager
@@ -127,6 +109,7 @@ Rectangle {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
@@ -137,6 +120,7 @@ Rectangle {
         CrossFadeImage {
             id: wallpaper
             anchors.fill: parent
+            source: root.background
             sourceSize { height: root.height; width: root.width }
             fillMode: Image.PreserveAspectCrop
         }
@@ -155,11 +139,9 @@ Rectangle {
                 height: units.gu(50)
                 focus: model.appId === priv.focusedAppId
 
-                readonly property int minWidth: units.gu(10)
-                readonly property int minHeight: units.gu(10)
-
                 property bool maximized: false
                 property bool minimized: false
+                property bool animationsEnabled: true
 
                 property bool visuallyMaximized: false
                 property bool visuallyMinimized: false
@@ -213,15 +195,18 @@ Rectangle {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
                 }
-                function minimize() {
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     maximized = false;
                     minimized = true;
                 }
-                function unmaximize() {
+                function unmaximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                 }
@@ -242,11 +227,13 @@ Rectangle {
                 transitions: [
                     Transition {
                         to: "normal"
+                        enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized"; value: false }
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale," }
                     },
                     Transition {
                         to: "maximized"
+                        enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMinimized"; value: false }
                             PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
@@ -255,6 +242,7 @@ Rectangle {
                     },
                     Transition {
                         to: "minimized"
+                        enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
                             PropertyAction { target: appDelegate; property: "visuallyMaximized"; value: false }
                             PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
@@ -283,12 +271,11 @@ Rectangle {
                     when: index == spread.highlightedIndex && blurLayer.ready
                 }
 
-                WindowMoveResizeArea {
-                    id: windowMoveResizeArea
+                WindowResizeArea {
                     target: appDelegate
-                    minWidth: appDelegate.minWidth
-                    minHeight: appDelegate.minHeight
-                    resizeHandleWidth: units.gu(2)
+                    minWidth: units.gu(10)
+                    minHeight: units.gu(10)
+                    borderThickness: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
 
                     onPressed: { ApplicationManager.focusApplication(model.appId) }
@@ -308,6 +295,7 @@ Rectangle {
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
+                    onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
             }
         }
@@ -340,5 +328,6 @@ Rectangle {
         anchors.fill: parent
         workspace: appContainer
         focus: state == "altTab"
+        altTabPressed: root.altTabPressed
     }
 }
