@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,24 +12,52 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 import QtQuick 2.3
+import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.1
 import "../Components"
 
-Item {
+MouseArea {
     id: root
     clip: true
 
+    property Item target
     property alias title: titleLabel.text
     property bool active: false
+    hoverEnabled: true
 
     signal close()
     signal minimize()
     signal maximize()
+
+    QtObject {
+        id: priv
+        property real distanceX
+        property real distanceY
+        property bool dragging
+    }
+
+    onPressedChanged: {
+        if (pressed) {
+            var pos = mapToItem(root.target, mouseX, mouseY);
+            priv.distanceX = pos.x;
+            priv.distanceY = pos.y;
+            priv.dragging = true;
+            Mir.cursorName = "grabbing";
+        } else {
+            priv.dragging = false;
+            Mir.cursorName = "";
+        }
+    }
+    onPositionChanged: {
+        if (priv.dragging) {
+            var pos = mapToItem(root.target.parent, mouseX, mouseY);
+            root.target.x = pos.x - priv.distanceX;
+            root.target.y = pos.y - priv.distanceY;
+        }
+    }
 
     Rectangle {
         anchors.fill: parent

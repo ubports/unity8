@@ -20,6 +20,7 @@ import Unity.Application 0.1
 import Unity.Session 0.1
 import Ubuntu.Components 1.1
 import GlobalShortcut 1.0
+import Unity.Platform 1.0
 import "../Greeter"
 
 Item {
@@ -46,13 +47,13 @@ Item {
 
     GlobalShortcut { // reboot/shutdown dialog
         shortcut: Qt.Key_PowerDown
-        active: root.usageScenario === "desktop"
+        active: Platform.isPC
         onTriggered: root.unitySessionService.RequestShutdown()
     }
 
     GlobalShortcut { // reboot/shutdown dialog
         shortcut: Qt.Key_PowerOff
-        active: root.usageScenario === "desktop"
+        active: Platform.isPC
         onTriggered: root.unitySessionService.RequestShutdown()
     }
 
