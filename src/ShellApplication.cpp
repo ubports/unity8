@@ -113,10 +113,10 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     }
 
     if (parser.mode().compare("greeter") == 0) {
-        QSize primaryScreenSize = application->primaryScreen()->size();
-        view->setHeight(primaryScreenSize.height());
-        view->setWidth(primaryScreenSize.width());
-        view->show();
+        QSize primaryScreenSize = this->primaryScreen()->size();
+        m_shellView->setHeight(primaryScreenSize.height());
+        m_shellView->setWidth(primaryScreenSize.width());
+        m_shellView->show();
     } else if (isMirServer || parser.hasFullscreen()) {
         m_shellView->showFullScreen();
     } else {
