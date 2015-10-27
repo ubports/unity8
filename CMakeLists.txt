@@ -57,7 +57,7 @@ find_package(Qt5DBus 5.2 REQUIRED)
 find_package(Qt5Concurrent 5.2 REQUIRED)
 find_package(Qt5Sql 5.2 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application>=8)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=9)
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -100,6 +100,9 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 # Save a few container detach and conversions
 add_definitions(-DQT_STRICT_ITERATORS)
+
+# Use the fast string builder
+add_definitions(-DQT_USE_QSTRINGBUILDER)
 
 # Autopilot tests
 include(autopilot)

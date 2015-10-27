@@ -48,6 +48,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: if (indicators.fullyOpened) indicators.hide();
+            hoverEnabled: true // should also eat hover events, otherwise they will pass through
         }
     }
 

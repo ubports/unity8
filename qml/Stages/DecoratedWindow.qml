@@ -31,9 +31,10 @@ FocusScope {
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    signal close();
-    signal maximize();
-    signal minimize();
+    signal close()
+    signal maximize()
+    signal minimize()
+    signal decorationPressed()
 
     BorderImage {
         anchors {
@@ -61,13 +62,15 @@ FocusScope {
 
     WindowDecoration {
         id: decoration
+        target: root.parent
         objectName: application ? "appWindowDecoration_" + application.appId : "appWindowDecoration_null"
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
-        title: model.name
+        title: window.title !== "" ? window.title : model.name
         onClose: root.close();
         onMaximize: root.maximize();
         onMinimize: root.minimize();
+        onPressed: root.decorationPressed();
         visible: decorationShown
     }
 
