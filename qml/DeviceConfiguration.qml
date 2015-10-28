@@ -107,6 +107,7 @@ QtObject {
                 PropertyChanges {
                     target: priv
                     category: "desktop"
+                    supportedOrientations: root.useNativeOrientation
                 }
             }
         ]
