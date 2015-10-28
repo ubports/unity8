@@ -55,7 +55,6 @@ Rectangle {
     InputDeviceModel {
         id: miceModel
         deviceFilter: InputInfo.Mouse
-        onCountChanged: print("*****************", count)
     }
 
     InputDeviceModel {
