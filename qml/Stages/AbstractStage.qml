@@ -21,6 +21,32 @@ import GSettings 1.0
 Rectangle {
     id: root
 
+    color: "#111111"
+
+    // Controls to be set from outside
+    property bool altTabPressed
+    property url background
+    property bool beingResized
+    property int dragAreaWidth
+    property bool interactive
+    property real inverseProgress // This is the progress for left edge drags, in pixels.
+    property bool keepDashRunning: true
+    property real maximizedAppTopMargin
+    property real nativeHeight
+    property int nativeOrientation
+    property real nativeWidth
+    property int shellOrientation
+    property int shellOrientationAngle
+    property int shellPrimaryOrientation
+    property bool spreadEnabled: true // If false, animations and right edge will be disabled
+    property bool suspended
+
+    // To be read from outside
+    property var mainApp: null
+    property int mainAppWindowOrientationAngle
+    property bool orientationChangesEnabled
+
+    // Shared code for use in stage implementations
     GSettings {
         id: lifecycleExceptions
         schema.id: "com.canonical.qtmir"
