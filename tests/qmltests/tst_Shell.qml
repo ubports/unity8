@@ -29,8 +29,11 @@ import Unity.Notifications 1.0
 import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
+import Utils 0.1
 
 import "../../qml"
+import "../../qml/Components"
+import "../../qml/Components/PanelState"
 import "Stages"
 
 Rectangle {
@@ -97,8 +100,7 @@ Rectangle {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
-                    primaryOrientation: Qt.PortraitOrientation
-                    nativeOrientation: Qt.PortraitOrientation
+                    orientations: Orientations{} // Defaults are fine for testing
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -302,6 +304,7 @@ Rectangle {
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
+            WindowStateStorage.clear();
         }
 
         function loadShell(formFactor) {
@@ -1708,6 +1711,76 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
             keyRelease(Qt.Key_Control);
+        }
+
+        // regression test for http://pad.lv/1443319
+        function test_closeMaximizedAndRestart() {
+            loadDesktopShellWithApps();
+
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+
+            wait(5000)
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            wait(5000)
+            mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
+            tryCompare(appDelegate, "state", "maximized");
+            tryCompare(PanelState, "buttonsVisible", true)
+
+            ApplicationManager.stopApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            ApplicationManager.startApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", true)
+        }
+
+        // bug http://pad.lv/1431566
+        function test_switchToStagedHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lockingGreeterHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            LightDM.Greeter.showGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            LightDM.Greeter.hideGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
         }
 
         function test_lifecyclePolicy_data() {

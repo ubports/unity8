@@ -48,14 +48,14 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
-    property int primaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
     property real nativeWidth
     property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
+    property bool cursorVisible: false
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
@@ -317,18 +317,13 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "orientations"
+                value: shell.orientations
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "background"
                 value: wallpaperResolver.background
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shellPrimaryOrientation"
-                value: shell.primaryOrientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeOrientation"
-                value: shell.nativeOrientation
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -555,6 +550,7 @@ Item {
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
+            locked: greeter && greeter.active
         }
 
         Launcher {

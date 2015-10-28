@@ -22,6 +22,7 @@ import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
+import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
@@ -92,6 +93,7 @@ AbstractStage {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
@@ -122,6 +124,7 @@ AbstractStage {
 
                 property bool maximized: false
                 property bool minimized: false
+                property bool animationsEnabled: true
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
@@ -140,15 +143,18 @@ AbstractStage {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
                 }
-                function minimize() {
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     maximized = false;
                     minimized = true;
                 }
-                function unmaximize() {
+                function unmaximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                 }
@@ -170,6 +176,7 @@ AbstractStage {
                     Transition {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
+                        enabled: appDelegate.animationsEnabled
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
