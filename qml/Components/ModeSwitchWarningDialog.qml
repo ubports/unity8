@@ -6,6 +6,7 @@ import Ubuntu.Components.Popups 1.2
 
 Dialog {
     id: root
+    objectName: "modeSwitchWarningDialog"
 
     property alias model: appRepeater.model
 
