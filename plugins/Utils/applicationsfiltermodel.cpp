@@ -12,7 +12,6 @@ ApplicationsFilterModel::ApplicationsFilterModel(QObject *parent):
     m_filterTouchApps(false),
     m_filterLegacyApps(false)
 {
-
 }
 
 ApplicationManagerInterface *ApplicationsFilterModel::applicationsModel() const
@@ -22,9 +21,14 @@ ApplicationManagerInterface *ApplicationsFilterModel::applicationsModel() const
 
 void ApplicationsFilterModel::setApplicationsModel(ApplicationManagerInterface *applicationsModel)
 {
+    if (m_appModel) {
+        disconnect(m_appModel, &ApplicationManagerInterface::countChanged, this, &ApplicationsFilterModel::countChanged);
+    }
     if (m_appModel != applicationsModel) {
         m_appModel = applicationsModel;
+        setSourceModel(m_appModel);
         Q_EMIT applicationsModelChanged();
+        connect(m_appModel, &ApplicationManagerInterface::countChanged, this, &ApplicationsFilterModel::countChanged);
     }
 }
 
@@ -40,6 +44,7 @@ void ApplicationsFilterModel::setFilterTouchApps(bool filterTouchApps)
         Q_EMIT filterTouchAppsChanged();
 
         invalidateFilter();
+        Q_EMIT countChanged();
     }
 }
 
@@ -55,6 +60,7 @@ void ApplicationsFilterModel::setFilterLegacyApps(bool filterLegacyApps)
         Q_EMIT filterLegacyAppsChanged();
 
         invalidateFilter();
+        Q_EMIT countChanged();
     }
 }
 
@@ -71,4 +77,9 @@ bool ApplicationsFilterModel::filterAcceptsRow(int source_row, const QModelIndex
         return false;
     }
     return true;
+}
+
+ApplicationInfoInterface *ApplicationsFilterModel::get(int index) const
+{
+    return m_appModel->get(mapToSource(this->index(index, 0)).row());
 }

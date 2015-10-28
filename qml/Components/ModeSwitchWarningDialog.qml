@@ -14,6 +14,7 @@ Dialog {
     Label {
         text: i18n.tr("Apps may have unsaved data:")
         fontSize: "large"
+        color: "#5D5D5D"
     }
 
     Repeater {
@@ -30,6 +31,7 @@ Dialog {
             Label {
                 Layout.fillWidth: true
                 text: model.name
+                color: "#888888"
             }
         }
     }
@@ -37,11 +39,13 @@ Dialog {
     Label {
         text: i18n.tr("Re-dock, save your work and close these apps to continue.")
         wrapMode: Text.WordWrap
+        color: "#888888"
     }
 
     Label {
         text: i18n.tr("Or force close now (unsaved data will be lost).")
         wrapMode: Text.WordWrap
+        color: "#888888"
     }
 
     ThinDivider {}
@@ -54,6 +58,7 @@ Dialog {
             property string notClickedText: i18n.tr("OK, I will reconnect")
             property string clickedText: i18n.tr("Reconnect now!")
             text: clicked ? clickedText : notClickedText
+            color: "#333333"
 
             MouseArea {
                 anchors.fill: parent
