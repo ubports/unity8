@@ -1799,6 +1799,7 @@ Rectangle {
             var app2 = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
+            // Make sure app1 is unfocused but still running
             compare(app1.session.surface.activeFocus, false);
             compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
             compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -1822,6 +1823,7 @@ Rectangle {
             var app2 = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
+            // Make sure app1 is unfocused but still running
             compare(app1.session.surface.activeFocus, false);
             compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
