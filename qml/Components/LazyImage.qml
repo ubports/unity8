@@ -49,12 +49,15 @@ Item {
         }
     }
 
-    UbuntuShape {
+    Loader {
         id: placeholder
         objectName: "placeholder"
-        backgroundColor: "#22FFFFFF"
         anchors.fill: shape
+        active: useUbuntuShape
         visible: opacity != 0
+        sourceComponent: UbuntuShape {
+            backgroundColor: "#22FFFFFF"
+        }
 
         ActivityIndicator {
             id: activity
