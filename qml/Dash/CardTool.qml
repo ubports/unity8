@@ -80,7 +80,8 @@ Item {
 
      If undefined, should use implicit width of the actual card.
      */
-    property var cardWidth: {
+    property real cardWidth: {
+        console.log("Evaluating cardWidth of", cardTool);
         switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
@@ -115,7 +116,7 @@ Item {
 
      If undefined, should use implicit height of the actual card.
      */
-    readonly property var cardHeight: {
+    readonly property real cardHeight: {
         switch (categoryLayout) {
             case "journal":
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
