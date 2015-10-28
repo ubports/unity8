@@ -39,6 +39,7 @@ Item {
 
     function resetGeometry() {
         // ensures apps which are tested decorations are in view.
+        WindowStateStorage.clear();
         WindowStateStorage.geometry = {
             'unity8-dash': Qt.rect(0, units.gu(3), units.gu(50), units.gu(40)),
             'dialer-app': Qt.rect(units.gu(51), units.gu(3), units.gu(50), units.gu(40)),
