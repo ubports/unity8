@@ -78,7 +78,7 @@ Item {
     /*!
      type:real \brief Width to be enforced on the card in this configuration.
 
-     If undefined, should use implicit width of the actual card.
+     If -1, should use implicit width of the actual card.
      */
     property real cardWidth: {
         switch (categoryLayout) {
@@ -106,14 +106,14 @@ Item {
             case "organic-grid":
             case "journal":
             default:
-                return undefined;
+                return -1;
         }
     }
 
     /*!
      type:real \brief Height to be enforced on the card in this configuration.
 
-     If undefined, should use implicit height of the actual card.
+     If -1, should use implicit height of the actual card.
      */
     readonly property real cardHeight: {
         switch (categoryLayout) {
@@ -129,7 +129,7 @@ Item {
             case "organic-grid":
             case "vertical-journal":
             default:
-                return undefined;
+                return -1;
         }
     }
 
@@ -221,8 +221,8 @@ Item {
             item.objectName = "cardToolCard";
             item.asynchronous = false;
             item.components = Qt.binding(function() { return cardTool.components; });
-            item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
-            item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
+            item.width = Qt.binding(function() { return cardTool.cardWidth !== -1 ? cardTool.cardWidth : item.implicitWidth; });
+            item.height = Qt.binding(function() { return cardTool.cardHeight !== -1 ? cardTool.cardHeight : item.implicitHeight; });
         }
         Connections {
             target: cardTool

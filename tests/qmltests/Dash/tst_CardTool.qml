@@ -107,8 +107,8 @@ Rectangle {
         Repeater {
             model: [
                 { label: "View width", value: cardTool.viewWidth && cardTool.viewWidth / units.gu(1) },
-                { label: "Card width", value: cardTool.cardWidth && cardTool.cardWidth / units.gu(1) },
-                { label: "Card height", value: cardTool.cardHeight && cardTool.cardHeight / units.gu(1) },
+                { label: "Card width", value: cardTool.cardWidth !== -1 ? cardTool.cardWidth / units.gu(1) : undefined },
+                { label: "Card height", value: cardTool.cardHeight !== -1 ? cardTool.cardHeight / units.gu(1) : undefined },
             ]
 
             delegate: Row {
@@ -265,10 +265,10 @@ Rectangle {
                 { tag: "Small", width: units.gu(12), height: function() { return internalCard ? internalCard.height : 0 }, index: 7 },
                 { tag: "Large", width: units.gu(38), height: function() { return internalCard ? internalCard.height : 0 }, index: 8 },
                 { tag: "Horizontal", width: units.gu(38), height: function() { return internalCard ? internalCard.height : 0 }, index: 9 },
-                { tag: "OrganicGrid", width: undefined, height: undefined, index: 0, layout_index: 1},
-                { tag: "Journal", width: undefined, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
-                { tag: "OversizedJournal", width: undefined, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
-                { tag: "VerticalJournal", width: units.gu(18), height: undefined, index: 0, layout_index: 3 },
+                { tag: "OrganicGrid", width: -1, height: -1, index: 0, layout_index: 1},
+                { tag: "Journal", width: -1, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
+                { tag: "OversizedJournal", width: -1, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
+                { tag: "VerticalJournal", width: units.gu(18), height: -1, index: 0, layout_index: 3 },
                 { tag: "SmallCarousel", width: units.gu(18), height: units.gu(18), viewWidth: 30, index: 0, layout_index: 4},
                 { tag: "MediumCarousel", width: units.gu(22), height: units.gu(22), viewWidth: 84, index: 0, layout_index: 4},
                 { tag: "LargeCarousel", width: units.gu(26), height: units.gu(26), viewWidth: 140, index: 0, layout_index: 4},
