@@ -81,7 +81,6 @@ Item {
      If undefined, should use implicit width of the actual card.
      */
     property real cardWidth: {
-        console.log("Evaluating cardWidth of", cardTool);
         switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
