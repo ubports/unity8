@@ -1783,39 +1783,45 @@ Rectangle {
             tryCompare(panelButtons, "visible", true);
         }
 
-        function test_lifecyclePolicy_data() {
+        function test_lifecyclePolicyForNonTouchApp_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
-                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true},
-                {tag: "desktop", formFactor: "tablet", usageScenario: "desktop", suspendsApps: false}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"}
             ]
         }
 
-        function test_lifecyclePolicy(data) {
+        function test_lifecyclePolicyForNonTouchApp(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            var app1 = ApplicationManager.startApplication("libreoffice");
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+
+            compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_lifecyclePolicyExemption_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true}
+            ]
+        }
+
+        function test_lifecyclePolicyExemption(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
 
             GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
 
-            var app1 = ApplicationManager.startApplication("camera-app");
+            var app1 = ApplicationManager.startApplication("webbrowser-app");
             waitUntilAppWindowIsFullyLoaded(app1);
-            var app2 = ApplicationManager.startApplication("webbrowser-app");
+            var app2 = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app2);
-            var app3 = ApplicationManager.startApplication("libreoffice");
-            waitUntilAppWindowIsFullyLoaded(app3);
-            var app4 = ApplicationManager.startApplication("dialer-app");
-            waitUntilAppWindowIsFullyLoaded(app4);
 
-            compare(app1.requestedState, data.suspendsApps ?
-                                         ApplicationInfoInterface.RequestedSuspended :
-                                         ApplicationInfoInterface.RequestedRunning);
-
-            compare(app2.requestedState, ApplicationInfoInterface.RequestedRunning);
-
-            compare(app3.isTouchApp, false); // sanity check our mock, which sets this for us
-            compare(app3.requestedState, ApplicationInfoInterface.RequestedRunning);
-
-            compare(app4.requestedState, ApplicationInfoInterface.RequestedRunning);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
     }
 }
