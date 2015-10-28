@@ -42,6 +42,7 @@ import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.0
 
+
 Item {
     id: shell
 
@@ -97,14 +98,15 @@ Item {
     property var modeSwitchWarningPopup: null
     onUsageScenarioChanged: {
         if (usageScenario != "desktop" && legacyAppsModel.count > 0 && !modeSwitchWarningPopup) {
-            var popup = PopupUtils.open(Qt.resolvedUrl("Components/ModeSwitchWarningDialog.qml"), shell, {model: legacyAppsModel})
+            var popup = PopupUtils.open(Qt.resolvedUrl("Components/ModeSwitchWarningDialog.qml"), shell, {model: legacyAppsModel});
             popup.forceClose.connect(function() {
                 while (legacyAppsModel.count > 0) {
-                    ApplicationManager.stopApplication(legacyAppsModel.get(0).appId)
+                    ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
                 }
             })
         } else if (usageScenario == "desktop" && modeSwitchWarningPopup) {
-            PopupUtls.close(modeSwitchWarningPopup)
+            PopupUtls.close(modeSwitchWarningPopup);
+            modeSwitchWarningPopup = null;
         }
     }
 
