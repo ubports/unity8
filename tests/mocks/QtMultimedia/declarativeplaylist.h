@@ -37,6 +37,7 @@ public:
 public Q_SLOTS:
     QUrl source(int index) const;
     bool addSource(const QUrl &source);
+    bool addSources(const QList<QUrl> &sources);
     bool clear();
 
 Q_SIGNALS:

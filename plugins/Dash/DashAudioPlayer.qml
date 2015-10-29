@@ -54,14 +54,16 @@ QtObject {
                     break;
                 }
             }
+            var urls = [];
             if (sourceIndex === -1 && newSource != "") {
                 // If the playing song is not in the playlist, add it
-                playlist.addSource(newSource);
+                urls.push(newSource);
                 sourceIndex = 0;
             }
             for (var i in newPlaylist) {
-                playlist.addSource(newPlaylist[i]);
+                urls.push(newPlaylist[i]);
             }
+            playlist.addSources(urls);
             playlist.currentIndex = sourceIndex;
         } else {
             audio.source = newSource;

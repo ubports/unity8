@@ -53,6 +53,11 @@ bool DeclarativePlaylist::addSource(const QUrl &source)
     return true;
 }
 
+bool DeclarativePlaylist::addSources(const QList<QUrl> &sources)
+{
+    m_medias << sources;
+    return true;
+}
 
 bool DeclarativePlaylist::clear()
 {
