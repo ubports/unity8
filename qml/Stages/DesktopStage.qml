@@ -69,7 +69,6 @@ AbstractStage {
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
         property string foregroundMaximizedAppId: ""
-        onForegroundMaximizedAppIdChanged: console.log("MAXIMISED APP CHANGED", foregroundMaximizedAppId)
         property int foregroundMaximizedAppIdIndex: -1
 
         function updateForegroundMaximizedApp() {
@@ -192,12 +191,6 @@ AbstractStage {
                     minimized = false;
                     maximized = false;
                 }
-
-//                Connections {
-//                    target: appDelegate
-//                    onVisuallyMaximizedChanged: console.log("MAXIMISED", appDelegate.visuallyMaximized)
-//                    onVisuallyMinimizedChanged: console.log("MINIMIZED", appDelegate.visuallyMinimized)
-//                }
 
                 states: [
                     State {
