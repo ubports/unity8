@@ -294,13 +294,7 @@ AbstractStage {
                     focus: true
 
                     onClose: ApplicationManager.stopApplication(model.appId)
-                    onMaximize: {
-                        if (appDelegate.maximized) {
-                            appDelegate.unmaximize()
-                        } else {
-                            appDelegate.maximize()
-                        }
-                    }
+                    onMaximize: appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
