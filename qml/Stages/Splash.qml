@@ -29,7 +29,7 @@ Item {
     property color footerColor: d.undefinedColor
     property alias imageSource: overlaidImage.source
     property url icon
-    property alias title: header.title
+    property alias title: headerConfig.title
     property alias showHeader: header.visible
 
     Ambiance.Palette {
@@ -75,27 +75,23 @@ Item {
         style: Component { MainViewStyle {theme: styledItem.fakeTheme} }
     }
 
-    StyledItem {
+    Ambiance.PageHeadStyle {
         id: header
         anchors {
-            left: parent.left
+            left: parent.left;
             right: parent.right
         }
-        visible: false
-
-        // mimic API of toolkit's AppHeader component required by PageHeadStyle
-        property Item pageStack
-        property Item contents
-        property string title
-        property var tabsModel
-        property var config: QtObject {
-            property color foregroundColor: styledItem.fakeTheme.palette.selected.backgroundText
-            property var sections: QtObject {}
+        property var styledItem: header
+        // FIXME Keep in sync with SDK's MainView.qml values of these two colors
+        property color dividerColor: Qt.darker(styledItem.backgroundColor, 1.1)
+        property color panelColor: Qt.lighter(styledItem.backgroundColor, 1.1)
+        panelForegroundColor: config.foregroundColor
+        config: PageHeadConfiguration {
+            id: headerConfig
+            foregroundColor: styledItem.fakeTheme.palette.selected.backgroundText
         }
 
-        // FIXME: should instead use future toolkit API:
-        // style: theme.createStyleComponent("PageHeadStyle.qml", header)
-        style: Component { PageHeadStyle {theme: styledItem.fakeTheme} }
+        property var contents: null
     }
 
     Image {
