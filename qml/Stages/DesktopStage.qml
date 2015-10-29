@@ -164,7 +164,7 @@ AbstractStage {
 
                 visible: !visuallyMinimized &&
                          (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
-                         (spread.focus && index === spread.highlightedIndex)
+                         (spread.state == "altTab" && index === spread.highlightedIndex)
 
                 Binding {
                     target: ApplicationManager.get(index)

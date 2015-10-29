@@ -215,7 +215,7 @@ Item {
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
 
-        function test_minimizeApplicationHidesSurface(data) {
+        function test_minimizeApplicationHidesSurface() {
             var dashApp = startApplication("unity8-dash");
 
             var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
@@ -225,7 +225,7 @@ Item {
             tryCompare(dashApp.session.surface, "visible", false);
         }
 
-        function test_maximizeApplicationHidesSurfacesBehindIt(data) {
+        function test_maximizeApplicationHidesSurfacesBehindIt() {
             var dashApp = startApplication("unity8-dash");
             var dialerApp = startApplication("dialer-app");
             var cameraApp = startApplication("camera-app");
@@ -248,23 +248,25 @@ Item {
             compare(cameraApp.session.surface.visible, true);
         }
 
-        function test_applicationsBecomeVisibleWhenOccludingAppRemoved(data) {
+        function test_applicationsBecomeVisibleWhenOccludingAppRemoved() {
             var dashApp = startApplication("unity8-dash");
-            var dialerApp = startApplication("dialer-app");
-            var cameraApp = startApplication("camera-app");
-            var galleryApp = startApplication("gallery-app");
-
             var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
             verify(dashDelegate);
+
+            var dialerApp = startApplication("dialer-app");
             var dialerDelegate = findChild(desktopStage, "stageDelegate_dialer-app");
             verify(dialerDelegate);
+
+            var cameraApp = startApplication("camera-app");
             var cameraDelegate = findChild(desktopStage, "stageDelegate_camera-app");
             verify(cameraDelegate);
+            dialerDelegate.maximize();
+
+            var galleryApp = startApplication("gallery-app");
             var galleryDelegate = findChild(desktopStage, "stageDelegate_gallery-app");
             verify(galleryDelegate);
-
-            dialerDelegate.maximize();
             galleryDelegate.maximize();
+
             tryCompare(dialerDelegate, "visuallyMaximized", true);
             tryCompare(galleryDelegate, "visuallyMaximized", true);
 
