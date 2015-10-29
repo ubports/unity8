@@ -57,7 +57,7 @@ Item {
             right: parent.right
         }
         width: parent.width
-        height: units.gu(1)
+        height: units.gu(0.5)
         color: {
             if (passwordScore > 80)
                 return okColor;
