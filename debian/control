@@ -8,7 +8,7 @@ Build-Depends: cmake,
                doxyqml,
 # To allow cross-compiling to work, we also must append :native
 # to g++ so we don't try to run armhf g++
-# on an x86 CPU for eaxmple, when cross-compiling.
+# on an x86 CPU for example, when cross-compiling.
                g++:native,
                libandroid-properties-dev,
                graphviz,
@@ -28,6 +28,7 @@ Build-Depends: cmake,
                libqt5svg5-dev,
                libqt5xmlpatterns5-dev,
                libsystemsettings-dev,
+               libtimezonemap1-dev,
                libudev-dev,
                libunity-api-dev (>= 7.101),
                libusermetricsoutput1-dev,

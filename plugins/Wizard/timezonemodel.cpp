@@ -14,94 +14,141 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QTimeZone>
 #include <QDebug>
+
+#include <glib.h>
+#include <glib-object.h>
+#include <timezonemap/tz.h>
 
 #include "LocalePlugin.h"
 #include "timezonemodel.h"
 
 
-TimeZoneModel::TimeZoneModel(QObject *parent)
-    : QAbstractListModel(parent)
+TimeZoneLocationModel::TimeZoneLocationModel(QObject *parent):
+    QAbstractListModel(parent),
+    m_workerThread(new TimeZonePopulateWorker())
 {
-    m_roleNames = {{IdRole, "id"},
-                   {Abbreviation, "abbreviation"},
-                   {Country, "country"},
-                   {CountryCode, "countryCode"},
-                   {City, "city"},
-                   {Comment, "comment"},
-                   {Time, "time"}};
+    qRegisterMetaType<TzLocation>();
+
+    m_roleNames[Qt::DisplayRole] = "displayName";
+    m_roleNames[TimeZoneRole] = "timeZone";
+    m_roleNames[CityRole] = "city";
+    m_roleNames[CountryRole] = "country";
+
+    QObject::connect(m_workerThread,
+                     &TimeZonePopulateWorker::resultReady,
+                     this,
+                     &TimeZoneLocationModel::processModelResult);
+    QObject::connect(m_workerThread,
+                     &TimeZonePopulateWorker::finished,
+                     this,
+                     &TimeZoneLocationModel::store);
+    QObject::connect(m_workerThread,
+                     &TimeZonePopulateWorker::finished,
+                     m_workerThread,
+                     &QObject::deleteLater);
+
     init();
 }
 
-QString TimeZoneModel::selectedZoneId() const
+void TimeZoneLocationModel::init()
 {
-    return m_selectedZoneId;
+    beginResetModel();
+    m_workerThread->start();
 }
 
-void TimeZoneModel::setSelectedZoneId(const QString &selectedZoneId)
+void TimeZoneLocationModel::store()
 {
-    if (m_selectedZoneId == selectedZoneId)
-        return;
-
-    m_selectedZoneId = selectedZoneId;
-    Q_EMIT selectedZoneIdChanged(selectedZoneId);
+    m_workerThread = nullptr;
+    endResetModel();
 }
 
-int TimeZoneModel::rowCount(const QModelIndex &parent) const
+void TimeZoneLocationModel::processModelResult(const TzLocation &location)
 {
-    Q_UNUSED(parent)
-    return m_zoneIds.count();
+    m_locations.append(location);
 }
 
-QVariant TimeZoneModel::data(const QModelIndex &index, int role) const
+int TimeZoneLocationModel::rowCount(const QModelIndex &parent) const
 {
-    if (index.isValid()) {
-        const QByteArray tzid = m_zoneIds.at(index.row());
-        QTimeZone tz(tzid);
+    if (parent.isValid())
+        return 0;
+    return m_locations.count();
+}
 
-        if (!tz.isValid()) {
-            qWarning() << Q_FUNC_INFO << "Invalid timezone" << tzid;
-            return QVariant();
-        }
+QVariant TimeZoneLocationModel::data(const QModelIndex &index, int role) const
+{
+    if (index.row() >= m_locations.count() || index.row() < 0)
+        return QVariant();
 
-        switch (role) {
-        case IdRole:
-            return QString(tz.id()); // to let QML compare it effortlessly with a QString
-        case Abbreviation:
-            return tz.abbreviation(QDateTime::currentDateTime());
-        case Country:
-            return LocaleAttached::countryToString(tz.country());
-        case CountryCode: {
-            return LocaleAttached::qlocToCountryCode(tz.country());
-        }
-        case City: {
-            const QString cityName = QString::fromUtf8(tzid.split('/').last().replace('_', ' ')); // take the last part, replace _ by a space
-            return cityName;
-        }
-        case Comment:
-            return tz.comment();
-        case Time:
-            return QDateTime::currentDateTime().toTimeZone(tz).toString("h:mm");
-        default:
-            qWarning() << Q_FUNC_INFO << "Unsupported data role" << role;
-            break;
-        }
+    const TzLocation tz = m_locations.at(index.row());
+
+    const QString country(tz.full_country.isEmpty() ? tz.country : tz.full_country);
+
+    switch (role) {
+    case Qt::DisplayRole:
+        if (!tz.state.isEmpty())
+            return QStringLiteral("%1, %2, %3").arg(tz.city).arg(tz.state).arg(country);
+        else
+            return QStringLiteral("%1, %2").arg(tz.city).arg(country);
+    case SimpleRole:
+        return QStringLiteral("%1, %2").arg(tz.city).arg(country);
+    case TimeZoneRole:
+        return tz.timezone;
+    case CountryRole:
+        return tz.country;
+    case CityRole:
+        return tz.city;
+    default:
+        qWarning() << Q_FUNC_INFO << "Unknown role";
+        return QVariant();
     }
-
-    return QVariant();
 }
 
-QHash<int, QByteArray> TimeZoneModel::roleNames() const
+QHash<int, QByteArray> TimeZoneLocationModel::roleNames() const
 {
     return m_roleNames;
 }
 
-void TimeZoneModel::init()
+void TimeZonePopulateWorker::run()
 {
-    beginResetModel();
-    m_zoneIds = QTimeZone::availableTimeZoneIds();
-    endResetModel();
+    buildCityMap();
+}
+
+void TimeZonePopulateWorker::buildCityMap()
+{
+    TzDB *tzdb = tz_load_db();
+    GPtrArray *tz_locations = tz_get_locations(tzdb);
+
+    TimeZoneLocationModel::TzLocation tmpTz;
+
+    for (guint i = 0; i < tz_locations->len; ++i) {
+        auto tmp = static_cast<CcTimezoneLocation *>(g_ptr_array_index(tz_locations, i));
+        gchar *en_name, *country, *zone, *state, *full_country;
+        g_object_get (tmp, "en_name", &en_name,
+                      "country", &country,
+                      "zone", &zone,
+                      "state", &state,
+                      "full_country", &full_country,
+                      nullptr);
+        // There are empty entries in the DB
+        if (g_strcmp0(en_name, "") != 0) {
+            tmpTz.city = en_name;
+            tmpTz.country = country;
+            tmpTz.timezone = zone;
+            tmpTz.state = state;
+            tmpTz.full_country = full_country;
+        }
+        g_free (en_name);
+        g_free (country);
+        g_free (zone);
+        g_free (state);
+        g_free (full_country);
+
+        Q_EMIT (resultReady(tmpTz));
+    }
+
+    g_ptr_array_free (tz_locations, TRUE);
+    tz_db_free(tzdb);
 }
 
 
@@ -110,7 +157,7 @@ TimeZoneFilterModel::TimeZoneFilterModel(QObject *parent)
 {
     setDynamicSortFilter(false);
     setSortLocaleAware(true);
-    setSortRole(TimeZoneModel::City);
+    setSortRole(TimeZoneLocationModel::CityRole);
     m_stringMatcher.setCaseSensitivity(Qt::CaseInsensitive);
     sort(0);
 }
@@ -122,14 +169,14 @@ bool TimeZoneFilterModel::filterAcceptsRow(int row, const QModelIndex &parentInd
     }
 
     if (!m_filter.isEmpty()) { // filtering by freeform text input, cf setFilter(QString)
-        const QString city = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::City).toString();
-        //const QString country = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::Country).toString();
+        const QString city = sourceModel()->index(row, 0, parentIndex).data(TimeZoneLocationModel::CityRole).toString();
+        //const QString country = sourceModel()->index(row, 0, parentIndex).data(TimeZoneLocationModel::CountryRole).toString();
 
         if (m_stringMatcher.indexIn(city) == 0 /*|| m_stringMatcher.indexIn(country) == 0*/) { // match at the beginning of the city name
             return true;
         }
     } else if (!m_country.isEmpty()) { // filter by country code
-        const QString countryCode = sourceModel()->index(row, 0, parentIndex).data(TimeZoneModel::CountryCode).toString();
+        const QString countryCode = sourceModel()->index(row, 0, parentIndex).data(TimeZoneLocationModel::CountryRole).toString();
         return m_country.compare(countryCode, Qt::CaseInsensitive) == 0;
     }
 

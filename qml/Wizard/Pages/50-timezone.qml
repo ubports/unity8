@@ -32,7 +32,17 @@ LocalComponents.Page {
 
     UbuntuTimeDatePanel {
         id: timeDatePanel
+    }
+
+    TimeZoneModel {
+        id: tzModel
+    }
+
+    TimeZoneFilterModel {
+        id: tzFilterModel
+        sourceModel: tzModel
         filter: searchField.text
+        country: root.countryCode
     }
 
     Component.onCompleted: {
@@ -99,6 +109,7 @@ LocalComponents.Page {
                 print("Clicked index", index)
                 ListView.view.currentIndex = index
                 selectedTimeZone = timeZone
+                print("Clicked city", city)
                 print("Clicked country", country)
             }
         }
@@ -153,7 +164,7 @@ LocalComponents.Page {
             }
 
             height: column.height - searchField.height - customMargin - topMargin - divider.height
-            model: timeDatePanel.timeZoneModel
+            model: tzFilterModel
             delegate: tzComponent
         }
     }

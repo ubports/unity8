@@ -19,6 +19,70 @@
 
 #include <QAbstractListModel>
 #include <QSortFilterProxyModel>
+#include <QThread>
+#include <QtConcurrent>
+
+class TimeZonePopulateWorker;
+
+class TimeZoneLocationModel: public QAbstractListModel
+{
+    Q_OBJECT
+    Q_ENUMS(Roles)
+public:
+    explicit TimeZoneLocationModel(QObject *parent = 0);
+    ~TimeZoneLocationModel() = default;
+
+    enum Roles {
+        TimeZoneRole = Qt::UserRole + 1,
+        CityRole,
+        CountryRole,
+        SimpleRole
+    };
+
+    struct TzLocation {
+        bool operator<(const TzLocation &other) const
+        {
+            QString pattern("%1, %2");
+            return pattern.arg(city).arg(country) <
+                    pattern.arg(other.city).arg(other.country);
+        }
+
+        QString city;
+        QString country;
+        QString timezone;
+        QString state;
+        QString full_country;
+    };
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
+
+private Q_SLOTS:
+    void processModelResult(const TzLocation &location);
+    void store();
+
+private:
+    void init();
+    QHash<int, QByteArray> m_roleNames;
+    QList<TzLocation> m_locations;
+    TimeZonePopulateWorker *m_workerThread;
+};
+
+Q_DECLARE_METATYPE (TimeZoneLocationModel::TzLocation)
+
+class TimeZonePopulateWorker: public QThread
+{
+    Q_OBJECT
+public:
+    void run() override;
+
+Q_SIGNALS:
+    void resultReady(const TimeZoneLocationModel::TzLocation &tz);
+
+private:
+    void buildCityMap();
+};
 
 class TimeZoneFilterModel: public QSortFilterProxyModel
 {
@@ -45,43 +109,6 @@ private:
     QString m_filter;
     QStringMatcher m_stringMatcher;
     QString m_country;
-};
-
-class TimeZoneModel: public QAbstractListModel
-{
-    Q_OBJECT
-    Q_PROPERTY(QString selectedZoneId READ selectedZoneId WRITE setSelectedZoneId NOTIFY selectedZoneIdChanged)
-    Q_ENUMS(Roles)
-public:
-    enum Roles {
-        IdRole = Qt::UserRole + 1,
-        Abbreviation,
-        Country,
-        CountryCode,
-        City,
-        Comment,
-        Time
-    };
-
-    explicit TimeZoneModel(QObject *parent = nullptr);
-    ~TimeZoneModel() = default;
-
-    QString selectedZoneId() const;
-    void setSelectedZoneId(const QString &selectedZoneId);
-
-protected:
-    int rowCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override;
-
-Q_SIGNALS:
-    void selectedZoneIdChanged(const QString &selectedZoneId);
-
-private:
-    void init();
-    QByteArrayList m_zoneIds;
-    QString m_selectedZoneId;
-    QHash<int, QByteArray> m_roleNames;
 };
 
 #endif
