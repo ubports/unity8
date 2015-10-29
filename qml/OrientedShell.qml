@@ -107,7 +107,7 @@ Rectangle {
 
     readonly property int supportedOrientations: shell.supportedOrientations
         & (deviceConfiguration.supportedOrientations == deviceConfiguration.useNativeOrientation
-                ? nativeOrientation
+                ? orientations.native_
                 : deviceConfiguration.supportedOrientations)
 
     property int acceptedOrientationAngle: {
