@@ -47,11 +47,6 @@ AbstractStage {
 
             ApplicationManager.requestFocusApplication(appId)
         }
-        onApplicationRemoved: {
-            if (priv.foregroundMaximizedAppId === appId) {
-                priv.foregroundMaximizedAppIdIndex = -1;
-            }
-        }
 
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
@@ -73,17 +68,26 @@ AbstractStage {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
-        readonly property string foregroundMaximizedAppId: {
-            if (foregroundMaximizedAppIdIndex == -1) {
-                return "";
-            }
-            var app = ApplicationManager.get(foregroundMaximizedAppIdIndex);
-            if (app) {
-                return app.appId;
-            }
-            return "";
-        }
+        property string foregroundMaximizedAppId: ""
+        onForegroundMaximizedAppIdChanged: console.log("MAXIMISED APP CHANGED", foregroundMaximizedAppId)
         property int foregroundMaximizedAppIdIndex: -1
+
+        function updateForegroundMaximizedApp() {
+            for (var i = 0; i < appRepeater.count; i++) {
+                var item = appRepeater.itemAt(i);
+
+                if (item && item.visuallyMaximized) {
+                    var app = ApplicationManager.get(i);
+                    if (app) {
+                        foregroundMaximizedAppIdIndex = i;
+                        foregroundMaximizedAppId = app.appId;
+                        return;
+                    }
+                }
+            }
+            foregroundMaximizedAppIdIndex = -1;
+            foregroundMaximizedAppId = "";
+        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -130,6 +134,9 @@ AbstractStage {
             model: ApplicationManager
             objectName: "appRepeater"
 
+            onItemAdded: priv.updateForegroundMaximizedApp()
+            onItemRemoved: priv.updateForegroundMaximizedApp()
+
             delegate: FocusScope {
                 id: appDelegate
                 objectName: "stageDelegate_" + model.appId
@@ -152,33 +159,8 @@ AbstractStage {
                     }
                 }
 
-                onZChanged: updateMaximized()
-                onVisuallyMaximizedChanged: updateMaximized()
-                Connections {
-                    target: priv
-                    onForegroundMaximizedAppIdIndexChanged: updateMaximized()
-                }
-
-                property bool connectMaxEnabled: true
-                function updateMaximized() {
-                    if (!connectMaxEnabled) return;
-                    connectMaxEnabled = false;
-
-                    // work out if this is the top maximized app.
-                    if (visuallyMaximized) {
-                        if (priv.foregroundMaximizedAppId === model.appId) {
-                            priv.foregroundMaximizedAppIdIndex = index;
-                        }
-                        else if (priv.foregroundMaximizedAppIdIndex == -1 ||
-                                 (index >= 0 && index <= priv.foregroundMaximizedAppIdIndex)) {
-                            priv.foregroundMaximizedAppIdIndex = index;
-                        }
-                    } else if (priv.foregroundMaximizedAppId === model.appId) {
-                        priv.foregroundMaximizedAppIdIndex = -1;
-                    }
-
-                    connectMaxEnabled = true;
-                }
+                onZChanged: priv.updateForegroundMaximizedApp()
+                onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
 
                 visible: !visuallyMinimized &&
                          (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
@@ -211,43 +193,62 @@ AbstractStage {
                     maximized = false;
                 }
 
+//                Connections {
+//                    target: appDelegate
+//                    onVisuallyMaximizedChanged: console.log("MAXIMISED", appDelegate.visuallyMaximized)
+//                    onVisuallyMinimizedChanged: console.log("MINIMIZED", appDelegate.visuallyMinimized)
+//                }
+
                 states: [
                     State {
-                        name: "normal"; when: !appDelegate.maximized && !appDelegate.minimized
+                        name: "normal";
+                        when: !appDelegate.maximized && !appDelegate.minimized
+                        PropertyChanges {
+                            target: appDelegate;
+                            visuallyMinimized: false;
+                            visuallyMaximized: false
+                        }
                     },
                     State {
                         name: "maximized"; when: appDelegate.maximized
-                        PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: 0; y: 0;
+                            width: root.width; height: root.height;
+                            visuallyMinimized: false;
+                            visuallyMaximized: true
+                        }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: -appDelegate.width / 2;
+                            scale: units.gu(5) / appDelegate.width;
+                            opacity: 0
+                            visuallyMinimized: true;
+                            visuallyMaximized: false
+                        }
                     }
                 ]
                 transitions: [
                     Transition {
                         to: "normal"
                         enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized"; value: false }
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale," }
+                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
                     },
                     Transition {
                         to: "maximized"
                         enabled: appDelegate.animationsEnabled
-                        SequentialAnimation {
-                            PropertyAction { target: appDelegate; property: "visuallyMinimized"; value: false }
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
-                            PropertyAction { target: appDelegate; property: "visuallyMaximized"; value: true }
-                        }
+                        PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity,visuallyMaximized" }
                     },
                     Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
-                        SequentialAnimation {
-                            PropertyAction { target: appDelegate; property: "visuallyMaximized"; value: false }
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
-                            PropertyAction { target: appDelegate; property: "visuallyMinimized"; value: true }
-                        }
+                        PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity,visuallyMinimized" }
                     },
                     Transition {
                         from: ""
@@ -293,7 +294,13 @@ AbstractStage {
                     focus: true
 
                     onClose: ApplicationManager.stopApplication(model.appId)
-                    onMaximize: appDelegate.maximize()
+                    onMaximize: {
+                        if (appDelegate.maximized) {
+                            appDelegate.unmaximize()
+                        } else {
+                            appDelegate.maximize()
+                        }
+                    }
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
