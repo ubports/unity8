@@ -38,6 +38,7 @@ MouseArea {
 
     QtObject {
         id: priv
+        objectName: "priv"
 
         property int normalX: 0
         property int normalY: 0
@@ -74,6 +75,7 @@ MouseArea {
         if (windowState === WindowStateStorage.WindowStateMaximized) {
             target.maximize(false)
         }
+        priv.updateNormalGeometry();
     }
 
     Component.onDestruction: {

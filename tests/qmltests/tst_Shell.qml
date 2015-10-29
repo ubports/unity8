@@ -1720,11 +1720,9 @@ Rectangle {
             var appDelegate = appRepeater.itemAt(0);
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
 
-            wait(5000)
             tryCompare(appDelegate, "state", "normal");
             tryCompare(PanelState, "buttonsVisible", false)
 
-            wait(5000)
             mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
             tryCompare(appDelegate, "state", "maximized");
             tryCompare(PanelState, "buttonsVisible", true)
@@ -1734,6 +1732,22 @@ Rectangle {
 
             ApplicationManager.startApplication(appId);
             tryCompare(PanelState, "buttonsVisible", true)
+        }
+
+        function test_newAppHasValidGeometry() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater");
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            var resizeArea = findChild(appDelegate, "windowResizeArea");
+            var priv = findInvisibleChild(resizeArea, "priv");
+
+            // Make sure windows are at 0,0 or greater and they have a size that's > 0
+            compare(priv.normalX >= 0, true)
+            compare(priv.normalY >= 0, true)
+            compare(priv.normalWidth > 0, true)
+            compare(priv.normalHeight > 0, true)
         }
 
         // bug http://pad.lv/1431566

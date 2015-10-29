@@ -219,6 +219,7 @@ Rectangle {
                 }
 
                 WindowResizeArea {
+                    objectName: "windowResizeArea"
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
