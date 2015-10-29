@@ -68,7 +68,6 @@ AbstractStage {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
-        property string foregroundMaximizedAppId: ""
         property int foregroundMaximizedAppIdIndex: -1
 
         function updateForegroundMaximizedApp() {
@@ -79,13 +78,11 @@ AbstractStage {
                     var app = ApplicationManager.get(i);
                     if (app) {
                         foregroundMaximizedAppIdIndex = i;
-                        foregroundMaximizedAppId = app.appId;
                         return;
                     }
                 }
             }
             foregroundMaximizedAppIdIndex = -1;
-            foregroundMaximizedAppId = "";
         }
 
         function indexOf(appId) {
