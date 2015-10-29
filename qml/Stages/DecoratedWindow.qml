@@ -68,7 +68,7 @@ FocusScope {
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
         width: root.width
-        title: window.title !== "" ? window.title : model.name
+        title: window.title !== "" ? window.title : ""
         onClose: root.close();
         onMaximize: root.maximize();
         onMinimize: root.minimize();

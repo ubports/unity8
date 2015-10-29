@@ -215,7 +215,7 @@ Rectangle {
     Binding {
         target: PanelState
         property: "title"
-        value: priv.focusedAppDelegate.title
+        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.title
         when: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
