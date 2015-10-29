@@ -98,6 +98,7 @@ QtObject {
                 PropertyChanges {
                     target: priv
                     landscapeOrientation: Qt.InvertedLandscapeOrientation
+                    invertedLandscapeOrientation: Qt.LandscapeOrientation
                     primaryOrientation: Qt.InvertedLandscapeOrientation
                     category: "tablet"
                 }

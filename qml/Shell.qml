@@ -85,7 +85,7 @@ Item {
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
         } else if (mainApp) {
-            return mainApp.supportedOrientations;
+            return shell.orientations.map(mainApp.supportedOrientations);
         } else {
             // we just don't care
             return Qt.PortraitOrientation
