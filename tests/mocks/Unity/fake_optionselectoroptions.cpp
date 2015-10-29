@@ -39,8 +39,10 @@ QVariant FakeOptionSelectorOptions::data(const QModelIndex &index, int role) con
         return QVariant();
 
     switch (role) {
-        case RoleOptionId:
-            return static_cast<FakeOptionSelectorFilter*>(parent())->filterId() + QString::number(row);
+        case RoleOptionId: {
+            const QString id = static_cast<FakeOptionSelectorFilter*>(parent())->filterId() + QString::number(row);
+            return id;
+        }
         case RoleOptionLabel:
             return m_optionLabels[row];
         case RoleOptionChecked:

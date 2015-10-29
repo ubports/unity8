@@ -104,7 +104,7 @@ QVariant Navigation::data(const QModelIndex &index, int role) const
         case RoleLabel:
             return QString("%1Child%2").arg(m_navigationId).arg(index.row());
         case RoleAllLabel:
-            return "all"+QString("%1Child%2").arg(m_navigationId).arg(index.row());
+            return QString("all%1Child%2").arg(m_navigationId).arg(index.row());
         case RoleHasChildren:
             return m_navigationId == "root" && index.row() != 3;
         case RoleIsActive:
