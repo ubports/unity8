@@ -15,12 +15,14 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.2
 
 Image {
     source: anchors.fill.width > anchors.fill.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
     fillMode: Image.PreserveAspectCrop
     horizontalAlignment: Image.AlignRight
     verticalAlignment: Image.AlignTop
-    sourceSize.width: anchors.fill.width
+    property int maxSize: Math.max(Screen.width, Screen.height)
+    sourceSize.width: maxSize
     sourceSize.height: 0
 }
