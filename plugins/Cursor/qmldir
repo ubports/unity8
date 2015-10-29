@@ -1,0 +1,3 @@
+module Cursor
+plugin Cursor-qml
+Cursor 1.0 Cursor.qml
