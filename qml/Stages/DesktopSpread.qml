@@ -87,7 +87,7 @@ FocusScope {
     function focusSelected() {
         if (spreadRepeater.highlightedIndex != -1) {
             var application = ApplicationManager.get(spreadRepeater.highlightedIndex);
-            ApplicationManager.focusApplication(application.appId);
+            ApplicationManager.requestFocusApplication(application.appId);
         }
     }
 

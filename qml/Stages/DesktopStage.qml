@@ -104,7 +104,7 @@ Rectangle {
     GlobalShortcut {
         id: maximizeWindowShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Up
-        onTriggered: priv.focusedAppDelegate.minimized ? priv.focusedAppDelegate.restoreFromMinimized() : priv.focusedAppDelegate.maximize()
+        onTriggered: priv.focusedAppDelegate.maximize()
         active: priv.focusedAppDelegate !== null
     }
 
@@ -138,11 +138,6 @@ Rectangle {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
-        onFocusedAppDelegateChanged: { // restore the window from minimization when we focus it (e.g. using spread)
-            if (focusedAppDelegate && focusedAppDelegate.minimized) {
-                focusedAppDelegate.restore();
-            }
-        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -157,7 +152,7 @@ Rectangle {
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
-                    appDelegate.minimize(false);
+                    appDelegate.minimize(false); // minimize but don't switch focus
                 }
             }
 
@@ -165,6 +160,7 @@ Rectangle {
         }
 
         function focusNext() {
+            ApplicationManager.unfocusCurrentApplication();
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
@@ -234,12 +230,6 @@ Rectangle {
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
 
-                onFocusChanged: {
-                    if (focus && ApplicationManager.focusedApplicationId !== appId) {
-                        ApplicationManager.focusApplication(appId);
-                    }
-                }
-
                 Binding {
                     target: ApplicationManager.get(index)
                     property: "requestedState"
@@ -274,7 +264,6 @@ Rectangle {
                     animationsEnabled = (animated === undefined) || animated;
                     minimized = true;
                     if (!!animated) {
-                        ApplicationManager.unfocusCurrentApplication();
                         priv.focusNext();
                     }
                 }
