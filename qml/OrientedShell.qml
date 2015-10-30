@@ -89,8 +89,8 @@ Rectangle {
 
     // we must rotate to a supported orientation regardless of shell's preference
     property bool orientationChangesEnabled:
-        (orientation & supportedOrientations) === 0 ? true
-                                                    : shell.orientationChangesEnabled
+        (shell.orientation & supportedOrientations) === 0 ? true
+                                                          : shell.orientationChangesEnabled
 
 
     Binding {
