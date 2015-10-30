@@ -221,7 +221,7 @@ Item {
             var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
             verify(dashDelegate);
 
-            dashDelegate.minimize();
+            findChild(dashDelegate, "decoratedWindow").minimize();
             tryCompare(dashApp.session.surface, "visible", false);
         }
 
@@ -237,13 +237,15 @@ Item {
             var cameraDelegate = findChild(desktopStage, "stageDelegate_camera-app");
             verify(cameraDelegate);
 
-            dialerDelegate.maximize();
+            // maximize
+            findChild(dialerDelegate, "decoratedWindow").maximize();
             tryCompare(dialerDelegate, "visuallyMaximized", true);
 
             tryCompare(dashApp.session.surface, "visible", false);
             compare(cameraApp.session.surface.visible, true);
 
-            dialerDelegate.unmaximize();
+            // restore
+            findChild(dialerDelegate, "decoratedWindow").maximize();
             compare(dashApp.session.surface.visible, true);
             compare(cameraApp.session.surface.visible, true);
         }
@@ -260,12 +262,12 @@ Item {
             var cameraApp = startApplication("camera-app");
             var cameraDelegate = findChild(desktopStage, "stageDelegate_camera-app");
             verify(cameraDelegate);
-            dialerDelegate.maximize();
+            findChild(dialerDelegate, "decoratedWindow").maximize();
 
             var galleryApp = startApplication("gallery-app");
             var galleryDelegate = findChild(desktopStage, "stageDelegate_gallery-app");
             verify(galleryDelegate);
-            galleryDelegate.maximize();
+            findChild(galleryDelegate, "decoratedWindow").maximize();
 
             tryCompare(dialerDelegate, "visuallyMaximized", true);
             tryCompare(galleryDelegate, "visuallyMaximized", true);
