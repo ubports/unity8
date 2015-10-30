@@ -22,7 +22,8 @@ Image {
     fillMode: Image.PreserveAspectCrop
     horizontalAlignment: Image.AlignRight
     verticalAlignment: Image.AlignTop
-    property int maxSize: Math.max(Screen.width, Screen.height)
+    // avoid CPU scaling when window size changes
+    readonly property int maxSize: Math.max(Screen.width, Screen.height)
     sourceSize.width: maxSize
     sourceSize.height: 0
 }
