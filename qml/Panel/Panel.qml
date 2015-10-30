@@ -32,6 +32,12 @@ Item {
 
     opacity: fullscreenMode && indicators.fullyClosed ? 0.0 : 1.0
 
+    Binding {
+        target: PanelState
+        property: "panelHeight"
+        value: root.panelHeight
+    }
+
     Rectangle {
         id: darkenedArea
         property real darkenedOpacity: 0.6

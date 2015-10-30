@@ -18,6 +18,7 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Utils 0.1
 import Unity.Application 0.1 // for Mir.cursorName
+import "../Components/PanelState"
 
 MouseArea {
     id: root
@@ -66,7 +67,7 @@ MouseArea {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
         if (windowGeometry !== undefined) {
             target.x = windowGeometry.x
-            target.y = windowGeometry.y
+            target.y = Math.max(windowGeometry.y, PanelState.panelHeight)
             target.width = windowGeometry.width
             target.height = windowGeometry.height
         }
