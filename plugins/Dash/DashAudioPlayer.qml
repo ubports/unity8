@@ -39,13 +39,8 @@ QtObject {
 
     function playSource(newSource, newPlaylist) {
         stop();
-        // Make sure we change the source, even if two items point to the same uri location
-        audio.source = "";
-        audio.playlist = null;
+        audio.playlist.clear();
         if (newPlaylist) {
-            playlist.clear();
-            audio.playlist = playlist;
-
             // Look for newSource in newPlaylist
             var sourceIndex = -1;
             for (var i in newPlaylist) {
@@ -63,10 +58,11 @@ QtObject {
             for (var i in newPlaylist) {
                 urls.push(newPlaylist[i]);
             }
-            playlist.addSources(urls);
-            playlist.currentIndex = sourceIndex;
+            audio.playlist.addSources(urls);
+            audio.playlist.currentIndex = sourceIndex;
         } else {
-            audio.source = newSource;
+            audio.playlist.addSource(newSource);
+            audio.playlist.currentIndex = 0;
         }
         play();
     }
@@ -86,12 +82,11 @@ QtObject {
     property QtObject audio: Audio {
         id: audio
         objectName: "audio"
+        playlist: Playlist {
+            objectName: "playlist"
+        }
 
         onErrorStringChanged: console.warn("Dash Audio player error:", errorString)
-    }
-    property QtObject playlist: Playlist {
-        id: playlist
-        objectName: "playlist"
     }
 
     function lengthToString(s) {
