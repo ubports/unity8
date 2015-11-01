@@ -230,6 +230,12 @@ Rectangle {
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
 
+                onFocusChanged: {
+                    if (focus && ApplicationManager.focusedApplicationId !== appId) {
+                        ApplicationManager.focusApplication(appId);
+                    }
+                }
+
                 Binding {
                     target: ApplicationManager.get(index)
                     property: "requestedState"
