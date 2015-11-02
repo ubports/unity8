@@ -29,8 +29,10 @@ import Unity.Notifications 1.0
 import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
+import Utils 0.1
 
 import "../../qml"
+import "../../qml/Components/PanelState"
 import "Stages"
 
 Rectangle {
@@ -302,6 +304,7 @@ Rectangle {
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
+            WindowStateStorage.clear();
         }
 
         function loadShell(formFactor) {
@@ -329,9 +332,9 @@ Rectangle {
             var app2 = ApplicationManager.startApplication("webbrowser-app")
             var app3 = ApplicationManager.startApplication("camera-app")
             var app4 = ApplicationManager.startApplication("facebook-webapp")
-            var app5 = ApplicationManager.startApplication("calendar-app")
-            var app6 = ApplicationManager.startApplication("gallery-app")
             var app7 = ApplicationManager.startApplication("camera-app")
+            var app6 = ApplicationManager.startApplication("gallery-app")
+            var app5 = ApplicationManager.startApplication("calendar-app")
             waitUntilAppWindowIsFullyLoaded(app7);
         }
 
@@ -1693,11 +1696,11 @@ Rectangle {
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
 
-
             tryCompare(desktopSpread, "state", "altTab")
 
-            mouseMove(shell, 0, 0);
+            mouseMove(shell, 0, shell.height / 2);
             tryCompare(launcher, "state", "visibleTemporary")
+            waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
             tryCompare(launcher, "state", "")
@@ -1706,6 +1709,107 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
             keyRelease(Qt.Key_Control);
+        }
+
+        // regression test for http://pad.lv/1443319
+        function test_closeMaximizedAndRestart() {
+            loadDesktopShellWithApps();
+
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+
+            wait(5000)
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            wait(5000)
+            mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
+            tryCompare(appDelegate, "state", "maximized");
+            tryCompare(PanelState, "buttonsVisible", true)
+
+            ApplicationManager.stopApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            ApplicationManager.startApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", true)
+        }
+
+        // bug http://pad.lv/1431566
+        function test_switchToStagedHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lockingGreeterHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            LightDM.Greeter.showGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            LightDM.Greeter.hideGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_cantMoveWindowUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appDelegate = appRepeater.itemAt(0);
+
+            mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
+            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
+
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
+        function test_restoreWindowStateFixesIfUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            // Move it under the panel programmatically (might happen later with an alt+drag)
+            appDelegate.y = -units.gu(10)
+
+            ApplicationManager.stopApplication(appId)
+            ApplicationManager.startApplication(appId)
+            waitForRendering(shell)
+
+            // Make sure the newly started one is at index 0 again
+            tryCompare(ApplicationManager.get(0), "appId", appId);
+
+            appDelegate = appRepeater.itemAt(0);
+            compare(appDelegate.y >= PanelState.panelHeight, true);
         }
     }
 }

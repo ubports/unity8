@@ -24,6 +24,7 @@ import "../Components"
 import "../Components/PanelState"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
+import GlobalShortcut 1.0
 
 Rectangle {
     id: root
@@ -63,7 +64,15 @@ Rectangle {
                 spread.state = "";
             }
 
-            ApplicationManager.requestFocusApplication(appId)
+            ApplicationManager.focusApplication(appId);
+        }
+
+        onApplicationRemoved: {
+            priv.removeAndFocusPreviousInStack(appId);
+        }
+
+        onFocusedApplicationIdChanged: {
+            priv.addToFocusStack(priv.focusedAppId);
         }
 
         onFocusRequested: {
@@ -78,6 +87,53 @@ Rectangle {
         }
     }
 
+    GlobalShortcut {
+        id: closeWindowShortcut
+        shortcut: Qt.AltModifier|Qt.Key_F4
+        onTriggered: ApplicationManager.stopApplication(priv.focusedAppId)
+        active: priv.focusedAppId !== ""
+    }
+
+    GlobalShortcut {
+        id: showSpreadShortcut
+        shortcut: Qt.MetaModifier|Qt.Key_W
+        onTriggered: spread.state = "altTab"
+    }
+
+    GlobalShortcut {
+        id: minimizeAllShortcut
+        shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_D
+        onTriggered: priv.minimizeAllWindows()
+    }
+
+    GlobalShortcut {
+        id: maximizeWindowShortcut
+        shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Up
+        onTriggered: priv.focusedAppDelegate.minimized ? priv.focusedAppDelegate.restore() : priv.focusedAppDelegate.maximize()
+        active: priv.focusedAppDelegate !== null
+    }
+
+    GlobalShortcut {
+        id: maximizeWindowLeftShortcut
+        shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Left
+        onTriggered: priv.focusedAppDelegate.maximizeLeft()
+        active: priv.focusedAppDelegate !== null
+    }
+
+    GlobalShortcut {
+        id: maximizeWindowRightShortcut
+        shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Right
+        onTriggered: priv.focusedAppDelegate.maximizeRight()
+        active: priv.focusedAppDelegate !== null
+    }
+
+    GlobalShortcut {
+        id: minimizeRestoreShortcut
+        shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
+        onTriggered: priv.focusedAppDelegate.maximized ? priv.focusedAppDelegate.restore() : priv.focusedAppDelegate.minimize()
+        active: priv.focusedAppDelegate !== null
+    }
+
     QtObject {
         id: priv
 
@@ -85,6 +141,11 @@ Rectangle {
         readonly property var focusedAppDelegate: {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
+        }
+        onFocusedAppDelegateChanged: { // restore the window from minimization when we focus it (e.g. using spread)
+            if (focusedAppDelegate && focusedAppDelegate.minimized) {
+                focusedAppDelegate.restore();
+            }
         }
 
         function indexOf(appId) {
@@ -95,6 +156,45 @@ Rectangle {
             }
             return -1;
         }
+
+        property var focusStack: [] // focus stack of appIds
+
+        function addToFocusStack(appId) {
+            var oldIndex = focusStack.indexOf(appId);
+            if (oldIndex != -1) {
+                // remove the old item
+                focusStack.splice(oldIndex, 1);
+            }
+            // insert to the top of the focus stack
+            focusStack.unshift(appId);
+        }
+
+        function removeAndFocusPreviousInStack(appId) {
+            var removedIndex = focusStack.indexOf(appId);
+            if (removedIndex != -1) {
+                focusStack.splice(removedIndex, 1); // remove one item from the focus stack
+                focusFirstInStack();  // focus the first one
+            }
+        }
+
+        function focusFirstInStack() {
+            var newHead = focusStack[0];
+            if (newHead !== "") {
+                ApplicationManager.focusApplication(newHead);
+            }
+        }
+
+        function minimizeAllWindows() {
+            focusStack.forEach(function(appId) {
+                var appDelegate = appRepeater.itemAt(indexOf(appId));
+                if (appDelegate && !appDelegate.minimized) {
+                    // we don't want to change the focus to a different window
+                    appDelegate.minimized = true;
+                }
+            });
+            ApplicationManager.unfocusCurrentApplication(); // no app should have focus at this point
+            focusStack = [];
+        }
     }
 
     Connections {
@@ -103,14 +203,23 @@ Rectangle {
             ApplicationManager.stopApplication(ApplicationManager.focusedApplicationId)
         }
         onMinimize: appRepeater.itemAt(0).minimize();
-        onMaximize: appRepeater.itemAt(0).unmaximize();
+        onMaximize: appRepeater.itemAt(0).restore();
     }
 
     Binding {
         target: PanelState
         property: "buttonsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
+        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized
     }
+
+    Binding {
+        target: PanelState
+        property: "title"
+        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.title
+        when: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
+    }
+
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
@@ -132,18 +241,24 @@ Rectangle {
 
             delegate: FocusScope {
                 id: appDelegate
+                objectName: "appDelegate_" + appId
                 z: ApplicationManager.count - index
                 y: units.gu(3)
                 width: units.gu(60)
                 height: units.gu(50)
-                focus: model.appId === priv.focusedAppId
+                focus: appId === priv.focusedAppId
 
                 property bool maximized: false
+                property bool maximizedLeft: false
+                property bool maximizedRight: false
                 property bool minimized: false
+                readonly property string appId: model.appId
+                property bool animationsEnabled: true
+                property alias title: decoratedWindow.title
 
                 onFocusChanged: {
-                    if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
-                        ApplicationManager.focusApplication(model.appId);
+                    if (focus && ApplicationManager.focusedApplicationId !== appId) {
+                        ApplicationManager.focusApplication(appId);
                     }
                 }
 
@@ -158,26 +273,58 @@ Rectangle {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
+                    maximizedLeft = false;
+                    maximizedRight = false;
                 }
-                function minimize() {
-                    maximized = false;
-                    minimized = true;
-                }
-                function unmaximize() {
+                function maximizeLeft() {
                     minimized = false;
                     maximized = false;
+                    maximizedLeft = true;
+                    maximizedRight = false;
+                }
+                function maximizeRight() {
+                    minimized = false;
+                    maximized = false;
+                    maximizedLeft = false;
+                    maximizedRight = true;
+                }
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    maximized = false;
+                    minimized = true;
+                    maximizedLeft = false;
+                    maximizedRight = false;
+                    priv.removeAndFocusPreviousInStack(appId);
+                }
+                function restore(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
+                    minimized = false;
+                    maximized = false;
+                    maximizedLeft = false;
+                    maximizedRight = false;
+                    priv.addToFocusStack(appId);
                 }
 
                 states: [
                     State {
                         name: "normal"; when: !appDelegate.maximized && !appDelegate.minimized
+                                              && !appDelegate.maximizedLeft && !appDelegate.maximizedRight
                     },
                     State {
                         name: "maximized"; when: appDelegate.maximized
                         PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
+                    },
+                    State {
+                        name: "maximized_left"; when: appDelegate.maximizedLeft
+                        PropertyChanges { target: appDelegate; x: 0; y: units.gu(3); width: root.width/2; height: root.height }
+                    },
+                    State {
+                        name: "maximized_right"; when: appDelegate.maximizedRight
+                        PropertyChanges { target: appDelegate; x: root.width/2; y: units.gu(3); width: root.width/2; height: root.height }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -186,8 +333,9 @@ Rectangle {
                 ]
                 transitions: [
                     Transition {
-                        from: "maximized,minimized,normal,"
-                        to: "maximized,minimized,normal,"
+                        from: "maximized,maximized_left,maximized_right,minimized,normal,"
+                        to: "maximized,maximized_left,maximized_right,minimized,normal,"
+                        enabled: appDelegate.animationsEnabled
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
@@ -218,6 +366,8 @@ Rectangle {
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
+                    screenWidth: root.width
+                    screenHeight: root.height
 
                     onPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
@@ -234,7 +384,7 @@ Rectangle {
                     focus: true
 
                     onClose: ApplicationManager.stopApplication(model.appId)
-                    onMaximize: appDelegate.maximize()
+                    onMaximize: appDelegate.maximized ? appDelegate.restore() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }

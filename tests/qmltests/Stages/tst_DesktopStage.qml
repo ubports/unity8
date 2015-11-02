@@ -53,14 +53,10 @@ Item {
 
         focus: true
 
-        property bool itemDestroyed: false
         sourceComponent: Component {
             DesktopStage {
                 color: "darkblue"
                 anchors.fill: parent
-                Component.onDestruction: {
-                    desktopStageLoader.itemDestroyed = true;
-                }
             }
         }
     }
@@ -95,16 +91,10 @@ Item {
         property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
 
         function cleanup() {
-            desktopStageLoader.itemDestroyed = false;
             desktopStageLoader.active = false;
 
             tryCompare(desktopStageLoader, "status", Loader.Null);
             tryCompare(desktopStageLoader, "item", null);
-            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
-            // actually took place. Likely because Loader waits until the next event loop
-            // iteration to do its work. So to ensure the reload, we will wait until the
-            // Shell instance gets destroyed.
-            tryCompare(desktopStageLoader, "itemDestroyed", true);
 
             killAllRunningApps();
 
@@ -117,7 +107,7 @@ Item {
                 var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
                 ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
             }
-            compare(ApplicationManager.count, 1)
+            compare(ApplicationManager.count, 1);
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -147,10 +137,7 @@ Item {
         }
 
         function test_appFocusSwitch(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
 
             ApplicationManager.requestFocusApplication(data.apps[data.focusfrom]);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
@@ -167,10 +154,7 @@ Item {
         }
 
         function test_tappingOnWindowChangesFocusedApp(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
             var fromAppId = data.apps[data.focusfrom];
             var toAppId = data.apps[data.focusTo]
 
@@ -187,18 +171,37 @@ Item {
             compare(ApplicationManager.focusedApplicationId, toAppId);
         }
 
+        function test_clickingOnWindowChangesFocusedApp_data() {
+            return test_tappingOnWindowChangesFocusedApp_data(); // reuse test data
+        }
+
+        function test_clickingOnWindowChangesFocusedApp(data) {
+            data.apps.forEach(startApplication);
+            var fromAppId = data.apps[data.focusfrom];
+            var toAppId = data.apps[data.focusTo]
+
+            var fromAppWindow = findChild(desktopStage, "appWindow_" + fromAppId);
+            verify(fromAppWindow);
+            mouseClick(fromAppWindow);
+            compare(fromAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, fromAppId);
+
+            var toAppWindow = findChild(desktopStage, "appWindow_" + toAppId);
+            verify(toAppWindow);
+            mouseClick(toAppWindow);
+            compare(toAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, toAppId);
+        }
+
         function test_tappingOnDecorationFocusesApplication_data() {
             return [
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
             ]
         }
 
         function test_tappingOnDecorationFocusesApplication(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
 
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
@@ -209,6 +212,98 @@ Item {
             verify(toAppDecoration);
             tap(toAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+        }
+
+        function test_clickingOnDecorationFocusesApplication_data() {
+            return test_tappingOnDecorationFocusesApplication_data(); // reuse test data
+        }
+
+        function test_clickingOnDecorationFocusesApplication(data) {
+            data.apps.forEach(startApplication);
+
+            var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
+            verify(fromAppDecoration);
+            mouseClick(fromAppDecoration);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+
+            var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
+            verify(toAppDecoration);
+            mouseClick(toAppDecoration);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+        }
+
+        function test_windowMaximize() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Up, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Up shortcut to maximize
+            tryCompare(appDelegate, "maximized", true);
+            tryCompare(appDelegate, "minimized", false);
+        }
+
+        function test_windowMaximizeLeft() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Left, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Left shortcut to maximizeLeft
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", false);
+            tryCompare(appDelegate, "maximizedLeft", true);
+            tryCompare(appDelegate, "maximizedRight", false);
+        }
+
+        function test_windowMaximizeRight() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Right shortcut to maximizeRight
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", false);
+            tryCompare(appDelegate, "maximizedLeft", false);
+            tryCompare(appDelegate, "maximizedRight", true);
+        }
+
+        function test_windowMinimize() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Down, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Down shortcut to minimize
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", true);
+            verify(ApplicationManager.focusedApplicationId != ""); // verify we don't lose focus when minimizing an app
+        }
+
+        function test_windowMinimizeAll() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            keyClick(Qt.Key_D, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+D shortcut to minimize all
+            tryCompare(ApplicationManager, "focusedApplicationId", ""); // verify no app is focused
+        }
+
+        function test_windowClose() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_F4, Qt.AltModifier); // Alt+F4 shortcut to close
+            verify(ApplicationManager.count == 2); // verify the app is gone
+            verify(ApplicationManager.findApplication(appName) === null); // and it's not in running apps
         }
     }
 }

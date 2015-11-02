@@ -18,6 +18,7 @@ import QtQuick 2.3
 import Ubuntu.Components 1.1
 import Utils 0.1
 import Unity.Application 0.1 // for Mir.cursorName
+import "../Components/PanelState"
 
 MouseArea {
     id: root
@@ -35,19 +36,52 @@ MouseArea {
     property int borderThickness: 0
     property int minWidth: 0
     property int minHeight: 0
+    property int screenWidth: 0
+    property int screenHeight: 0
+
+    QtObject {
+        id: priv
+
+        property int normalX: 0
+        property int normalY: 0
+        property int normalWidth: 0
+        property int normalHeight: 0
+
+        function updateNormalGeometry() {
+            if (root.target.state == "normal") {
+                normalX = root.target.x
+                normalY = root.target.y
+                normalWidth = root.target.width
+                normalHeight = root.target.height
+            }
+        }
+    }
+
+    Connections {
+        target: root.target
+        onXChanged: priv.updateNormalGeometry();
+        onYChanged: priv.updateNormalGeometry();
+        onWidthChanged: priv.updateNormalGeometry();
+        onHeightChanged: priv.updateNormalGeometry();
+    }
 
     Component.onCompleted: {
-        var windowState = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
-        if (windowState !== undefined) {
-            target.x = windowState.x
-            target.y = windowState.y
-            target.width = windowState.width
-            target.height = windowState.height
+        var windowGeometry = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
+        if (windowGeometry !== undefined) {
+            target.width = Math.min(windowGeometry.width, root.screenWidth)
+            target.height = Math.min(windowGeometry.height, root.screenHeight - PanelState.panelHeight)
+            target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - target.width), 0)
+            target.y = Math.max(Math.min(windowGeometry.y, root.screenHeight - target.height), PanelState.panelHeight)
+        }
+        var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
+        if (windowState === WindowStateStorage.WindowStateMaximized) {
+            target.maximize(false)
         }
     }
 
     Component.onDestruction: {
-        windowStateStorage.saveGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
+        windowStateStorage.saveState(root.windowId, target.state == "maximized" ? WindowStateStorage.WindowStateMaximized : WindowStateStorage.WindowStateNormal)
+        windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight))
     }
 
     QtObject {
