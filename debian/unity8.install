@@ -6,7 +6,6 @@ usr/bin/unity8
 usr/bin/unity8-dash
 usr/share/applications/unity8-dash.desktop
 usr/share/applications/unity8.desktop
-usr/share/unity8/Dash/unity8-dash.png
 usr/share/unity8/Greeter
 usr/share/unity8/Launcher
 usr/share/unity8/Panel
