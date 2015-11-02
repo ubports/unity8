@@ -28,6 +28,7 @@ Item {
     property alias callHint: __callHint
     property bool fullscreenMode: false
     property real indicatorAreaShowProgress: 1.0
+    property bool locked: false
 
     opacity: fullscreenMode && indicators.fullyClosed ? 0.0 : 1.0
 
@@ -136,7 +137,7 @@ Item {
             }
 
             shown: false
-            width: root.width - (PanelState.buttonsVisible ? windowControlButtons.width : 0)
+            width: root.width - (windowControlButtons.visible ? windowControlButtons.width + titleLabel.width : 0)
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
             openedHeight: root.height - indicatorOrangeLine.height
@@ -164,16 +165,34 @@ Item {
 
         WindowControlButtons {
             id: windowControlButtons
+            objectName: "panelWindowControlButtons"
             anchors {
                 left: parent.left
                 top: parent.top
                 margins: units.gu(0.7)
             }
             height: indicators.minimizedPanelHeight - anchors.margins * 2
-            visible: PanelState.buttonsVisible
+            visible: PanelState.buttonsVisible && !root.locked
             onClose: PanelState.close()
             onMinimize: PanelState.minimize()
             onMaximize: PanelState.maximize()
+        }
+
+        Label {
+            id: titleLabel
+            objectName: "windowDecorationTitle"
+            anchors {
+                left: windowControlButtons.right
+                top: parent.top
+                margins: units.gu(0.7)
+            }
+            color: "#DFDBD2"
+            height: windowControlButtons.height
+            visible: windowControlButtons.visible
+            verticalAlignment: Text.AlignVCenter
+            fontSize: "small"
+            font.bold: true
+            text: PanelState.title
         }
 
         PanelSeparatorLine {
@@ -189,7 +208,7 @@ Item {
             id: __callHint
             anchors {
                 top: parent.top
-                left: PanelState.buttonsVisible ? windowControlButtons.right : parent.left
+                left: windowControlButtons.visible ? windowControlButtons.right : parent.left
             }
             height: indicators.minimizedPanelHeight
             visible: active && indicators.state == "initial"

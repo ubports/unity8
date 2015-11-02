@@ -45,14 +45,15 @@ MouseArea {
             priv.distanceX = pos.x;
             priv.distanceY = pos.y;
             priv.dragging = true;
-            Mir.cursorName = "grabbing";
         } else {
             priv.dragging = false;
             Mir.cursorName = "";
         }
     }
+
     onPositionChanged: {
         if (priv.dragging) {
+            Mir.cursorName = "grabbing";
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             root.target.x = pos.x - priv.distanceX;
             root.target.y = pos.y - priv.distanceY;
@@ -70,11 +71,12 @@ MouseArea {
     }
 
     Row {
-        anchors { left: parent.left; top: parent.top; bottom: parent.bottom; margins: units.gu(0.7) }
+        anchors { fill: parent; margins: units.gu(0.7) }
         spacing: units.gu(1)
         opacity: root.active ? 1 : 0.5
 
         WindowControlButtons {
+            id: buttons
             height: parent.height
             onClose: root.close();
             onMinimize: root.minimize();
@@ -86,9 +88,11 @@ MouseArea {
             objectName: "windowDecorationTitle"
             color: "#DFDBD2"
             height: parent.height
+            width: parent.width - buttons.width - parent.anchors.rightMargin - parent.anchors.leftMargin
             verticalAlignment: Text.AlignVCenter
             fontSize: "small"
             font.bold: true
+            elide: Text.ElideRight
         }
     }
 }

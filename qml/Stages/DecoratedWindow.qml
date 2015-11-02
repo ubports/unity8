@@ -26,6 +26,7 @@ FocusScope {
     property alias window: applicationWindow
     property alias application: applicationWindow.application
     property alias active: decoration.active
+    property alias title: decoration.title
 
     property bool decorationShown: true
     property bool highlightShown: false
@@ -66,7 +67,8 @@ FocusScope {
         objectName: application ? "appWindowDecoration_" + application.appId : "appWindowDecoration_null"
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
-        title: window.title !== "" ? window.title : model.name
+        width: root.width
+        title: window.title !== "" ? window.title : ""
         onClose: root.close();
         onMaximize: root.maximize();
         onMinimize: root.minimize();
