@@ -17,6 +17,7 @@ add_definitions(-DUNITY_MOCKS)
 set(MockInputInfo_SOURCES
     plugin.cpp
     qinputdeviceinfo_mock.cpp
+    mockcontroller.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/InputInfo/qinputinfo.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Unity/InputInfo/qdeclarativeinputdevicemodel.cpp
 )
