@@ -85,6 +85,12 @@ Rectangle {
         oskSettings.disableHeight = shell.usageScenario == "desktop"
     }
 
+    // we must rotate to a supported orientation regardless of shell's preference
+    property bool orientationChangesEnabled:
+        (orientation & supportedOrientations) === 0 ? true
+                                                    : shell.orientationChangesEnabled
+
+
     Binding {
         target: oskSettings
         property: "stayHidden"
@@ -98,7 +104,10 @@ Rectangle {
     }
 
     readonly property int supportedOrientations: shell.supportedOrientations
-                                               & deviceConfiguration.supportedOrientations
+        & (deviceConfiguration.supportedOrientations == deviceConfiguration.useNativeOrientation
+                ? nativeOrientation
+                : deviceConfiguration.supportedOrientations)
+
     property int acceptedOrientationAngle: {
         if (orientation & supportedOrientations) {
             return Screen.angleBetween(nativeOrientation, orientation);

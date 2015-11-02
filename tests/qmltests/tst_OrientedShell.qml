@@ -118,6 +118,22 @@ Rectangle {
                 physicalOrientation180: Qt.LandscapeOrientation
                 primaryOrientationAngle: 90
             }
+        },
+        State {
+            name: "desktop"
+            PropertyChanges {
+                target: orientedShellLoader
+                width: units.gu(100)
+                height: units.gu(56)
+            }
+            PropertyChanges {
+                target: root
+                physicalOrientation270: Qt.InvertedPortraitOrientation
+                physicalOrientation0:  Qt.LandscapeOrientation
+                physicalOrientation90: Qt.PortraitOrientation
+                physicalOrientation180: Qt.InvertedLandscapeOrientation
+                primaryOrientationAngle: 0
+            }
         }
     ]
 
@@ -258,7 +274,7 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Device Name"
-                model: ["mako", "manta", "flo"]
+                model: ["mako", "manta", "flo", "desktop"]
                 onSelectedIndexChanged: {
                     testCase.tearDown();
                     applicationArguments.deviceName = model[selectedIndex];
@@ -271,6 +287,10 @@ Rectangle {
                 activeFocusOnPress: false
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
+            }
+            MouseTouchEmulationCheckbox {
+                checked: true
+                color: "white"
             }
             Button {
                 text: "Switch fullscreen"
@@ -314,12 +334,14 @@ Rectangle {
             Row {
                 Button {
                     text: "Add mouse"
+                    activeFocusOnPress: false
                     onClicked: {
                         MockInputDeviceBackend.addMockDevice("/mouse" + miceModel.count, InputInfo.Mouse)
                     }
                 }
                 Button {
                     text: "Remove mouse"
+                    activeFocusOnPress: false
                     onClicked: {
                         MockInputDeviceBackend.removeDevice("/mouse" + (miceModel.count - 1))
                     }
@@ -328,14 +350,34 @@ Rectangle {
             Row {
                 Button {
                     text: "Add kbd"
+                    activeFocusOnPress: false
                     onClicked: {
                         MockInputDeviceBackend.addMockDevice("/kbd" + keyboardsModel.count, InputInfo.Keyboard)
                     }
                 }
                 Button {
+                    activeFocusOnPress: false
                     text: "Remove kbd"
                     onClicked: {
                         MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
+                    }
+                }
+            }
+
+            // Simulates what happens when the shell is moved to an external monitor and back
+            Button {
+                id: moveToFromMonitorButton
+                text: applicationArguments.deviceName === "desktop" ? "Move to " + prevDevName + " screen" : "Move to desktop screen"
+                activeFocusOnPress: false
+                property string prevDevName: "mako"
+                onClicked: {
+                    usageModeSelector.selectedIndex = 2; // "Automatic"
+
+                    if (applicationArguments.deviceName === "desktop") {
+                        applicationArguments.deviceName = prevDevName;
+                    } else {
+                        prevDevName = applicationArguments.deviceName;
+                        applicationArguments.deviceName = "desktop"
                     }
                 }
             }
@@ -1056,6 +1098,18 @@ Rectangle {
 
             // shell shouldn't have change its orientation at any moment
             compare(signalSpy.count, 0);
+        }
+
+        function test_moveToExternalMonitor() {
+            loadShell("flo");
+
+            compare(orientedShell.orientation, Qt.InvertedLandscapeOrientation);
+            compare(shell.transformRotationAngle, 90);
+
+            moveToFromMonitorButton.clicked();
+
+            tryCompare(orientedShell, "orientation", Qt.LandscapeOrientation);
+            tryCompare(shell, "transformRotationAngle" , 0);
         }
 
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
