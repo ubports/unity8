@@ -50,7 +50,7 @@ public:
     {
         qRegisterMetaType<QLightDM::GreeterImpl::ResponseFuture>("QLightDM::GreeterImpl::ResponseFuture");
 
-connect(&futureWatcher, &QFutureWatcher<int>::finished, this, &GreeterImpl::finishPam);
+        connect(&futureWatcher, &QFutureWatcher<int>::finished, this, &GreeterImpl::finishPam);
         connect(this, SIGNAL(showMessage(pam_handle *, QString, QLightDM::Greeter::MessageType)),
                 this, SLOT(handleMessage(pam_handle *, QString, QLightDM::Greeter::MessageType)));
         // This next connect is how we pass ResponseFutures between threads
