@@ -37,16 +37,13 @@ QInputDevice *QInputDeviceManagerPrivate::addMockDevice(const QString &devicePat
     inputDevice->setName("Mock Device " + devicePath);
     inputDevice->setType(type);
     deviceMap.insert(devicePath, inputDevice);
-    qDebug() << "Adding mock input device" << devicePath << type << inputDevice << this;
     Q_EMIT deviceAdded(devicePath);
     return inputDevice;
 }
 
 void QInputDeviceManagerPrivate::removeDevice(const QString &path)
 {
-    qDebug() << "should remove" << path;
     Q_FOREACH (const QString devicePath, deviceMap.keys()) {
-        qDebug() << "comparing" << devicePath << path;
         if (devicePath.contains(path)) {
             deviceMap.remove(devicePath);
             Q_EMIT deviceRemoved(devicePath);
