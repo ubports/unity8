@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-16 00:49+0200\n"
 "PO-Revision-Date: 2015-07-06 17:47+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
-"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -590,7 +589,8 @@ msgstr "Adăugați un card SIM și reporniți dispozitivul dumneavoastră"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "Fără acesta, nu veți putea efectua apeluri sau utiliza mesajele text."
+msgstr ""
+"Fără acesta, nu veți putea efectua apeluri sau utiliza mesajele text."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -679,7 +679,8 @@ msgstr "Deloc"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "Puteți să modificați opțiunea utilizând <b>Configurări de sistem</b>."
+msgstr ""
+"Puteți să modificați opțiunea utilizând <b>Configurări de sistem</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"

@@ -6,12 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-16 00:49+0200\n"
 "PO-Revision-Date: 2015-07-11 15:43+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
-"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -122,7 +121,8 @@ msgstr "دستگاه قفل شد"
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "شما به دلیل تلاش‌های بسیار زیاد شکست خورده برای عبارت‌عبور قفل شده‌اید."
+msgstr ""
+"شما به دلیل تلاش‌های بسیار زیاد شکست خورده برای عبارت‌عبور قفل شده‌اید."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
@@ -576,7 +576,8 @@ msgstr "سیم‌کارتی افزوده و دستگاهتان را شروع م�
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "بدون آن، نخواهید توانست تماس گرفته با از پیام‌رسانی متنی استفاده کنید."
+msgstr ""
+"بدون آن، نخواهید توانست تماس گرفته با از پیام‌رسانی متنی استفاده کنید."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -646,7 +647,8 @@ msgstr "فقط با استفاده از جی‌پی‌اس (دقّت کم‌تر
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr "با استفاده از جی‌پی‌اس، بی‌سیم ناشناس و اطّلاعات شبکه‌ی سلّولی (پیشنهاد شده)"
+msgstr ""
+"با استفاده از جی‌پی‌اس، بی‌سیم ناشناس و اطّلاعات شبکه‌ی سلّولی (پیشنهاد شده)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -682,7 +684,8 @@ msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"این می‌تواند در <b>تنظیمات سامانه</b> ذیل <b>امنیت و محرمانگی</b> غیرفعَال شود"
+"این می‌تواند در <b>تنظیمات سامانه</b> ذیل <b>امنیت و محرمانگی</b> غیرفعَال "
+"شود"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
@@ -749,8 +752,8 @@ msgstr "%1  〉"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید "
-#~ "استفاده از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
+#~ "هم اکنون در استفاده از ژست های حرکتی مهارت لازم را دارید و می‌توانید استفاده "
+#~ "از تلفن را آغاز کنید<br><br>برای شروع صفحه را لمس کنید"
 
 #~ msgid "Confirm"
 #~ msgstr "تأیید"
