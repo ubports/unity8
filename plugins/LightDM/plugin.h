@@ -21,15 +21,6 @@
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlExtensionPlugin>
 
-#if defined INTEGRATED_LIGHTDM
-    #define PLUGIN_CLASSNAME FullLightDMPlugin
-#elif defined FULL_LIGHTDM
-    #define PLUGIN_CLASSNAME IntegratedLightDMPlugin
-#else
-    #error No library defined in LightDM plugin
-#endif
-
-
 class PLUGIN_CLASSNAME : public QQmlExtensionPlugin
 {
     Q_OBJECT
