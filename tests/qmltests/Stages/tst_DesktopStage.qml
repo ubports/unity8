@@ -305,5 +305,17 @@ Item {
             verify(ApplicationManager.count == 2); // verify the app is gone
             verify(ApplicationManager.findApplication(appName) === null); // and it's not in running apps
         }
+
+        function test_smashCursorKeys() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            keyClick(Qt.Key_D, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+D shortcut to minimize all
+            tryCompare(ApplicationManager, "focusedApplicationId", ""); // verify no app is focused
+
+            // now try pressing all 4 arrow keys + ctrl + meta
+            keyClick(Qt.Key_Up | Qt.Key_Down | Qt.Key_Left | Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // smash it!!!
+            tryCompare(ApplicationManager, "focusedApplicationId", ""); // verify still no app is focused
+        }
     }
 }
