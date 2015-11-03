@@ -36,13 +36,10 @@ Item {
         id: darkenedArea
         property real darkenedOpacity: 0.6
         anchors {
-            top: parent.top
+            fill: parent
             topMargin: panelHeight
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
         }
-        color: "black"
+        color: "#333333"
         opacity: indicators.unitProgress * darkenedOpacity
         visible: !indicators.fullyClosed
 
@@ -82,7 +79,7 @@ Item {
 
         Rectangle {
             id: indicatorAreaBackground
-            color: callHint.visible ? "green" : "black"
+            color: callHint.visible ? "green" : "#333333"
             anchors {
                 top: parent.top
                 left: parent.left
@@ -182,16 +179,16 @@ Item {
             id: titleLabel
             objectName: "windowDecorationTitle"
             anchors {
-                left: windowControlButtons.right
+                left: PanelState.buttonsVisible ? windowControlButtons.right : parent.left // FIXME this should be separate from the buttons, also based on LIM
                 top: parent.top
                 margins: units.gu(0.7)
             }
-            color: "#DFDBD2"
+            color: PanelState.buttonsVisible ? "#ffffff" : "#5d5d5d"
             height: windowControlButtons.height
-            visible: windowControlButtons.visible
+            visible: true // TODO the title should exchange with the menu on mouse hover
             verticalAlignment: Text.AlignVCenter
-            fontSize: "small"
-            font.bold: true
+            fontSize: "medium"
+            font.weight: Font.Light
             text: PanelState.title
         }
 

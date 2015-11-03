@@ -183,7 +183,7 @@ Rectangle {
     Binding {
         target: PanelState
         property: "buttonsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized
+        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for LIM
     }
 
     Binding {

@@ -58,7 +58,7 @@ FocusScope {
         anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
         height: units.dp(2)
         color: UbuntuColors.orange
-        visible: root.highlightShown
+        visible: highlightShown
     }
 
     WindowDecoration {
