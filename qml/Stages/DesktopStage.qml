@@ -325,7 +325,7 @@ Rectangle {
                         to: "maximized,maximizedLeft,maximizedRight,minimized,normal,"
                         enabled: appDelegate.animationsEnabled
                         SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
                             ScriptAction {
                                 script: {
                                     if (animationsEnabled && state === "minimized" ) {
@@ -340,7 +340,7 @@ Rectangle {
                         to: "altTab"
                         PropertyAction { target: appDelegate; properties: "y,angle,z,itemScale,itemScaleOriginY" }
                         PropertyAction { target: decoratedWindow; properties: "anchors.topMargin" }
-                        PropertyAnimation {
+                        UbuntuNumberAnimation {
                             target: appDelegate; properties: "x"
                             from: root.width
                             duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
