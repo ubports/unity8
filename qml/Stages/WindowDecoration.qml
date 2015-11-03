@@ -93,7 +93,7 @@ MouseArea {
             width: parent.width - buttons.width - parent.anchors.rightMargin - parent.anchors.leftMargin
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: Font.Light
+            font.weight: root.active ? Font.Light : Font.Normal
             elide: Text.ElideRight
         }
     }

@@ -16,8 +16,9 @@
  * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import QtGraphicalEffects 1.0
+import Ubuntu.Components 1.2
 import Unity.Application 0.1
 
 FocusScope {
@@ -37,15 +38,6 @@ FocusScope {
     signal minimize()
     signal decorationPressed()
 
-    BorderImage {
-        anchors {
-            fill: root
-            margins: -units.gu(2)
-        }
-        source: "graphics/dropshadow2gu.sci"
-        opacity: root.shadowOpacity * .3
-    }
-
     Rectangle {
         id: selectionHighlight
         anchors.fill: parent
@@ -59,6 +51,12 @@ FocusScope {
         height: units.dp(2)
         color: UbuntuColors.orange
         visible: highlightShown
+    }
+
+    RectangularGlow {
+        anchors.fill: parent
+        color: "#333333"
+        glowRadius: active ? units.dp(6) : units.dp(4)
     }
 
     WindowDecoration {
