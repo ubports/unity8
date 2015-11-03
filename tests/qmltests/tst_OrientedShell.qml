@@ -52,7 +52,8 @@ Rectangle {
 
     QtObject{
         id: mockOskSettings
-        property bool stayHidden: false;
+        property bool stayHidden: false
+        property bool disableHeight: false
     }
 
     property int physicalOrientation0
