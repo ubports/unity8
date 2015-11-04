@@ -51,6 +51,11 @@ Item {
         model: root.scope ? root.scope.settings : null
         clip: true
 
+        ListViewOSKScroller {
+            id: oskScroller
+            list: scopeSettings
+        }
+
         delegate: ScopeSettingsWidgetFactory {
             objectName: "scopeSettingItem" + index
             width: root.width
@@ -58,6 +63,10 @@ Item {
             scopeStyle: root.scopeStyle
 
             onUpdated: model.value = value;
+
+            onMakeSureVisible: { // var item
+                oskScroller.setMakeSureVisibleItem(item);
+            }
         }
     }
 }

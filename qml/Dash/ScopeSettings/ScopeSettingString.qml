@@ -78,6 +78,12 @@ ScopeSetting {
                     updateText();
                 }
             }
+
+            readonly property bool inputMethodVisible: Qt.inputMethod.visible
+            onInputMethodVisibleChanged: {
+                if(inputMethodVisible && activeFocus)
+                    root.makeSureVisible(control);
+            }
         }
     }
 }

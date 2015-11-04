@@ -32,6 +32,15 @@ Item {
      */
     signal updated(var value)
 
+    /*! \brief This signal should be emitted when widget gains the focus
+     *  and input method popups.
+     *  And preview widget should reposition in visible area to avoid
+     *  keyboard appears over the widget.
+     *
+     *  \param item, id of specified item which is needed to reposition.
+     */
+    signal makeSureVisible(var item)
+
     //! \internal
     readonly property real settingMargins: units.gu(2)
 }
