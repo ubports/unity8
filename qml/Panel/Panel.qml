@@ -115,7 +115,6 @@ Item {
         }
 
         MouseArea {
-            id: mouseArea
             anchors {
                 top: parent.top
                 left: parent.left
@@ -125,6 +124,26 @@ Item {
             hoverEnabled: true
             onClicked: { if (callHint.visible) { callHint.showLiveCall(); } }
             onDoubleClicked: PanelState.maximize()
+
+            // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
+            // cf. https://bugreports.qt.io/browse/QTBUG-32909
+            WindowControlButtons {
+                id: windowControlButtons
+                objectName: "panelWindowControlButtons"
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    leftMargin: units.gu(1)
+                    topMargin: units.gu(0.5)
+                    bottomMargin: units.gu(0.5)
+                }
+                height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+                visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
+                active: PanelState.buttonsVisible
+                onClose: PanelState.close()
+                onMinimize: PanelState.minimize()
+                onMaximize: PanelState.maximize()
+            }
         }
 
         IndicatorsMenu {
@@ -163,24 +182,6 @@ Item {
             }
         }
 
-        WindowControlButtons {
-            id: windowControlButtons
-            objectName: "panelWindowControlButtons"
-            anchors {
-                left: parent.left
-                top: parent.top
-                leftMargin: units.gu(1)
-                topMargin: units.gu(0.5)
-                bottomMargin: units.gu(0.5)
-            }
-            height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
-            visible: PanelState.buttonsVisible && mouseArea.containsMouse && !root.locked && !callHint.visible
-            active: PanelState.buttonsVisible
-            onClose: PanelState.close()
-            onMinimize: PanelState.minimize()
-            onMaximize: PanelState.maximize()
-        }
-
         Label {
             id: titleLabel
             objectName: "windowDecorationTitle"
@@ -215,7 +216,7 @@ Item {
             id: __callHint
             anchors {
                 top: parent.top
-                left: windowControlButtons.visible ? windowControlButtons.right : parent.left
+                left: parent.left
             }
             height: indicators.minimizedPanelHeight
             visible: active && indicators.state == "initial"
