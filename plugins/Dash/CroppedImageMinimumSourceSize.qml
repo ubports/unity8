@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,18 @@ Image    {
 
     fillMode: Image.PreserveAspectCrop
 
-    readonly property real itemAspectRatio: width / height
-    readonly property real imageAspectRatio: implicitWidth / implicitHeight
-    sourceSize: (imageAspectRatio > itemAspectRatio) ? Qt.size(0, height) : Qt.size(width, 0)
+    property bool useHeight: false
+    function updateUseHeight()
+    {
+        // Do not turn into a binding since otherwise the qml
+        // engine complains about binding loops
+        useHeight = (implicitWidth / implicitHeight) > (width / height);
+    }
+
+    onHeightChanged: updateUseHeight();
+    onWidthChanged: updateUseHeight();
+    onImplicitHeightChanged: updateUseHeight();
+    onImplicitWidthChanged: updateUseHeight();
+
+    sourceSize: useHeight ? Qt.size(0, height) : Qt.size(width, 0)
 }
