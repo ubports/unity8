@@ -53,7 +53,10 @@ Rectangle {
                 shellOrientation: Qt.LandscapeOrientation
                 nativeWidth: width
                 nativeHeight: height
-                orientations: Orientations{} // Defaults are fine for testing
+                orientations: Orientations {
+                    native_: Qt.LandscapeOrientation
+                    primary: Qt.LandscapeOrientation
+                }
                 focus: true
             }
         }
