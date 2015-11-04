@@ -81,6 +81,7 @@ Depends: unity8 (= ${binary:Version}),
 Recommends: lightdm
 Provides: lightdm-greeter
 Description: The Unity8 Greeter
+ The Unity 8 greeter is the primary login greeter for Ubuntu devices.
 
 Package: unity-scope-tool
 Architecture: any
