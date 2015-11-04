@@ -20,7 +20,7 @@ import Ubuntu.Components 1.2
 import Ubuntu.Components.ListItems 1.2
 import Ubuntu.Components.Popups 1.2
 
-Dialog {
+ShellDialog {
     id: root
     objectName: "modeSwitchWarningDialog"
 

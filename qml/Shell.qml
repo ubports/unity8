@@ -98,14 +98,16 @@ Item {
     property var modeSwitchWarningPopup: null
     onUsageScenarioChanged: {
         if (usageScenario != "desktop" && legacyAppsModel.count > 0 && !modeSwitchWarningPopup) {
-            var popup = PopupUtils.open(Qt.resolvedUrl("Components/ModeSwitchWarningDialog.qml"), shell, {model: legacyAppsModel});
-            popup.forceClose.connect(function() {
+            var comp = Qt.createComponent(Qt.resolvedUrl("Components/ModeSwitchWarningDialog.qml"))
+            modeSwitchWarningPopup = comp.createObject(shell, {model: legacyAppsModel});
+            modeSwitchWarningPopup.forceClose.connect(function() {
                 while (legacyAppsModel.count > 0) {
                     ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
                 }
             })
         } else if (usageScenario == "desktop" && modeSwitchWarningPopup) {
-            PopupUtls.close(modeSwitchWarningPopup);
+            modeSwitchWarningPopup.hide();
+            modeSwitchWarningPopup.destroy();
             modeSwitchWarningPopup = null;
         }
     }
