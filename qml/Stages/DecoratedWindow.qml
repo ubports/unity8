@@ -17,7 +17,6 @@
  */
 
 import QtQuick 2.4
-import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.2
 import Unity.Application 0.1
 
@@ -31,6 +30,7 @@ FocusScope {
 
     property bool decorationShown: true
     property bool highlightShown: false
+    property real shadowOpacity: 1
 
     signal close()
     signal maximize()
@@ -52,10 +52,13 @@ FocusScope {
         visible: highlightShown
     }
 
-    RectangularGlow { // drop shadow around the window
-        anchors.fill: parent
-        color: "#333333"
-        glowRadius: active ? units.dp(6) : units.dp(4)
+    BorderImage {
+        anchors {
+            fill: root
+            margins: active ? -units.gu(2) : -units.gu(1.5)
+        }
+        source: "graphics/dropshadow2gu.sci"
+        opacity: root.shadowOpacity * .3
     }
 
     WindowDecoration {
