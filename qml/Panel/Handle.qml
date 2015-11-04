@@ -19,7 +19,7 @@ import Ubuntu.Components 1.1
 
 Rectangle {
     id: handle
-    color: "#333333"
+    color: "#5d5d5d"
     height: units.gu(2)
     property bool active: false
 
