@@ -64,6 +64,16 @@ PreviewWidget {
             // But at the moment the model never changes
             onStatusChanged: if (lazyImage.sourceImage.status === Image.Error) lazyImage.sourceImage.source = widgetData["fallback"];
         }
+
+        PreviewMediaToolbar {
+            id: toolbar
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            shareData: widgetData["shareData"]
+        }
     }
 
     PreviewOverlay {

@@ -73,5 +73,15 @@ PreviewWidget {
             anchors.fill: parent
             onClicked: Qt.openUrlExternally(widgetData["source"])
         }
+
+        PreviewMediaToolbar {
+            id: toolbar
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            shareData: widgetData["shareData"]
+        }
     }
 }
