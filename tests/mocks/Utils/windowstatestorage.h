@@ -22,11 +22,22 @@ class WindowStateStorage: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariantMap geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
+    Q_ENUMS(WindowState)
 public:
+    enum WindowState {
+        WindowStateNormal,
+        WindowStateMaximized
+    };
     WindowStateStorage(QObject *parent = 0);
+
+    Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
+    Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue);
 
     Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect &rect);
     Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue);
+
+    // Only in the mock, to easily restore a fresh state
+    Q_INVOKABLE void clear();
 
 Q_SIGNALS:
     void geometryChanged(const QVariantMap& geometry);
@@ -35,5 +46,6 @@ private:
     void setGeometry(const QVariantMap& geometry);
     QVariantMap geometry() const;
 
+    QHash<QString, WindowState> m_state;
     QVariantMap m_geometry;
 };
