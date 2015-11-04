@@ -3,7 +3,4 @@ Type=Application
 Name=Unity 8 Greeter
 Comment=The converged Unity shell's Greeter
 Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8 --mode=greeter
-Terminal=false
-Icon=
-NoDisplay=true
 X-Ubuntu-Touch=true
