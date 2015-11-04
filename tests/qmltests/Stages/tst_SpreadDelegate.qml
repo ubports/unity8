@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
+import "../../../qml/Components"
 import "../../../qml/Stages"
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
@@ -73,8 +74,11 @@ Rectangle {
                         return Qt.LandscapeOrientation;
                     }
                 }
-                shellPrimaryOrientation: Qt.PortraitOrientation
-                nativeOrientation: Qt.PortraitOrientation
+
+                orientations: Orientations {
+                    // the default values will do
+                }
+
                 maximizedAppTopMargin: units.gu(3)
                 Component.onDestruction: {
                     spreadDelegateLoader.itemDestroyed = true;

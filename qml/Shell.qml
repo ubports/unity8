@@ -49,8 +49,7 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
-    property int primaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
     property real nativeWidth
     property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
@@ -86,7 +85,7 @@ Item {
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
         } else if (mainApp) {
-            return mainApp.supportedOrientations;
+            return shell.orientations.map(mainApp.supportedOrientations);
         } else {
             // we just don't care
             return Qt.PortraitOrientation
@@ -299,18 +298,13 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "orientations"
+                value: shell.orientations
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "background"
                 value: wallpaperResolver.background
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shellPrimaryOrientation"
-                value: shell.primaryOrientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeOrientation"
-                value: shell.nativeOrientation
             }
             Binding {
                 target: applicationsDisplayLoader.item

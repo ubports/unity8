@@ -34,8 +34,6 @@ Item {
         maximizedAppTopMargin: units.gu(3) + units.dp(2)
         interactive: true
         shellOrientation: Qt.PortraitOrientation
-        shellPrimaryOrientation: Qt.PortraitOrientation
-        nativeOrientation: Qt.PortraitOrientation
     }
 
     Binding {

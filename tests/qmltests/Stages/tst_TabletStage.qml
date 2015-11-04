@@ -22,6 +22,7 @@ import Unity.Application 0.1
 import Unity.Test 0.1
 
 import "../../../qml/Stages"
+import "../../../qml/Components"
 
 Rectangle {
     id: root
@@ -50,10 +51,9 @@ Rectangle {
                 maximizedAppTopMargin: units.gu(3) + units.dp(2)
                 interactive: true
                 shellOrientation: Qt.LandscapeOrientation
-                shellPrimaryOrientation: Qt.LandscapeOrientation
-                nativeOrientation: Qt.LandscapeOrientation
                 nativeWidth: width
                 nativeHeight: height
+                orientations: Orientations{} // Defaults are fine for testing
                 focus: true
             }
         }

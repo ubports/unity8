@@ -32,6 +32,7 @@ import Wizard 0.1 as Wizard
 import Utils 0.1
 
 import "../../qml"
+import "../../qml/Components"
 import "../../qml/Components/PanelState"
 import "Stages"
 
@@ -99,8 +100,7 @@ Rectangle {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
-                    primaryOrientation: Qt.PortraitOrientation
-                    nativeOrientation: Qt.PortraitOrientation
+                    orientations: Orientations{} // Defaults are fine for testing
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }

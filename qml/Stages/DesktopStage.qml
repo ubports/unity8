@@ -22,6 +22,7 @@ import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
+import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
@@ -37,8 +38,7 @@ Rectangle {
     property real inverseProgress: 0 // just to comply with the interface shared between stages
     property int shellOrientationAngle: 0
     property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
+    property QtObject orientations
     property bool beingResized: false
     property bool keepDashRunning: true
     property bool suspended: false

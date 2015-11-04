@@ -39,11 +39,12 @@ Rectangle {
     property bool keepDashRunning: true
     property bool suspended: false
     property int shellOrientationAngle: 0
+
     property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
+    property QtObject orientations
     property real nativeWidth
     property real nativeHeight
+
     function updateFocusedAppOrientation() {
         var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
         if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
@@ -64,7 +65,7 @@ Rectangle {
 
             var supportedOrientations = spreadDelegate.application.supportedOrientations;
             if (supportedOrientations === Qt.PrimaryOrientation) {
-                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+                supportedOrientations = spreadDelegate.orientations.primary;
             }
 
             if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
@@ -130,7 +131,7 @@ Rectangle {
         property string oldFocusedAppId: ""
         property bool mainAppOrientationChangesEnabled: false
 
-        property real landscapeHeight: root.nativeOrientation == Qt.LandscapeOrientation ?
+        property real landscapeHeight: root.orientations.native_ == Qt.LandscapeOrientation ?
                 root.nativeHeight : root.nativeWidth
 
         property bool shellIsLandscape: root.shellOrientation === Qt.LandscapeOrientation
@@ -691,9 +692,14 @@ Rectangle {
 
                     shellOrientationAngle: wantsMainStage ? root.shellOrientationAngle : 0
                     shellOrientation: wantsMainStage ? root.shellOrientation : Qt.PortraitOrientation
-                    shellPrimaryOrientation: wantsMainStage ? root.shellPrimaryOrientation : Qt.PortraitOrientation
-                    nativeOrientation: wantsMainStage ? root.nativeOrientation : Qt.PortraitOrientation
-
+                    orientations: Orientations {
+                        primary: spreadTile.wantsMainStage ? root.orientations.primary : Qt.PortraitOrientation
+                        native_: spreadTile.wantsMainStage ? root.orientations.native_ : Qt.PortraitOrientation
+                        portrait: root.orientations.portrait
+                        invertedPortrait: root.orientations.invertedPortrait
+                        landscape: root.orientations.landscape
+                        invertedLandscape: root.orientations.invertedLandscape
+                    }
 
                     onClicked: {
                         if (spreadView.phase == 2) {
