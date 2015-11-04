@@ -175,7 +175,8 @@ Rectangle {
             ApplicationManager.stopApplication(ApplicationManager.focusedApplicationId)
         }
         onMinimize: appRepeater.itemAt(0).minimize(true);
-        onMaximize: appRepeater.itemAt(0).restore();
+        onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
+                    && priv.focusedAppDelegate.restore();
     }
 
     Binding {
@@ -187,8 +188,16 @@ Rectangle {
     Binding {
         target: PanelState
         property: "title"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.title
-        when: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
+        value: {
+            if (priv.focusedAppDelegate !== null) {
+                if (priv.focusedAppDelegate.maximized)
+                    return priv.focusedAppDelegate.title
+                else
+                    return priv.focusedAppDelegate.appName
+            }
+            return ""
+        }
+        when: priv.focusedAppDelegate
     }
 
     Component.onDestruction: PanelState.buttonsVisible = false;
@@ -227,6 +236,7 @@ Rectangle {
                 readonly property string appId: model.appId
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
+                readonly property string appName: model.name
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== appId) {

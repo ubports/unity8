@@ -39,7 +39,7 @@ Item {
             fill: parent
             topMargin: panelHeight
         }
-        color: "#333333"
+        color: "black"
         opacity: indicators.unitProgress * darkenedOpacity
         visible: !indicators.fullyClosed
 
@@ -57,7 +57,7 @@ Item {
         anchors.fill: parent
 
         Behavior on anchors.topMargin {
-            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            UbuntuNumberAnimation {}
         }
 
         transform: Translate {
@@ -115,13 +115,16 @@ Item {
         }
 
         MouseArea {
+            id: mouseArea
             anchors {
                 top: parent.top
                 left: parent.left
                 right: indicators.left
             }
             height: indicators.minimizedPanelHeight
+            hoverEnabled: true
             onClicked: { if (callHint.visible) { callHint.showLiveCall(); } }
+            onDoubleClicked: PanelState.maximize()
         }
 
         IndicatorsMenu {
@@ -166,10 +169,13 @@ Item {
             anchors {
                 left: parent.left
                 top: parent.top
-                margins: units.gu(0.7)
+                leftMargin: units.gu(1)
+                topMargin: units.gu(0.5)
+                bottomMargin: units.gu(0.5)
             }
-            height: indicators.minimizedPanelHeight - anchors.margins * 2
-            visible: PanelState.buttonsVisible && !root.locked
+            height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+            visible: PanelState.buttonsVisible && mouseArea.containsMouse && !root.locked && !callHint.visible
+            active: PanelState.buttonsVisible
             onClose: PanelState.close()
             onMinimize: PanelState.minimize()
             onMaximize: PanelState.maximize()
@@ -179,18 +185,22 @@ Item {
             id: titleLabel
             objectName: "windowDecorationTitle"
             anchors {
-                left: PanelState.buttonsVisible ? windowControlButtons.right : parent.left // FIXME this should be separate from the buttons, also based on LIM
+                left: parent.left
                 top: parent.top
-                margins: units.gu(0.7)
+                leftMargin: units.gu(1)
+                topMargin: units.gu(0.5)
+                bottomMargin: units.gu(0.5)
             }
             color: PanelState.buttonsVisible ? "#ffffff" : "#5d5d5d"
-            height: windowControlButtons.height
-            visible: true // TODO the title should exchange with the menu on mouse hover
+            height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+            visible: !windowControlButtons.visible && !root.locked && !callHint.visible
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: Font.Light
+            font.weight: Font.Normal
             text: PanelState.title
         }
+
+        // TODO here would the LIM come
 
         PanelSeparatorLine {
             id: indicatorOrangeLine

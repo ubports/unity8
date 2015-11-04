@@ -31,7 +31,6 @@ FocusScope {
 
     property bool decorationShown: true
     property bool highlightShown: false
-    property real shadowOpacity: 1
 
     signal close()
     signal maximize()
@@ -53,7 +52,7 @@ FocusScope {
         visible: highlightShown
     }
 
-    RectangularGlow {
+    RectangularGlow { // drop shadow around the window
         anchors.fill: parent
         color: "#333333"
         glowRadius: active ? units.dp(6) : units.dp(4)

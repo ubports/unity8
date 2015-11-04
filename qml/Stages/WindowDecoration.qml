@@ -32,6 +32,8 @@ MouseArea {
     signal minimize()
     signal maximize()
 
+    onDoubleClicked: root.maximize()
+
     QtObject {
         id: priv
         property real distanceX
@@ -71,6 +73,7 @@ MouseArea {
         anchors {
             fill: parent
             leftMargin: units.gu(1)
+            rightMargin: units.gu(1)
             topMargin: units.gu(0.5)
             bottomMargin: units.gu(0.5)
         }
