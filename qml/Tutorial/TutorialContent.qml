@@ -119,7 +119,10 @@ Item {
 
         onSkippedChanged: if (skipped && shown) hide()
         onIsReadyChanged: if (isReady && !shown) tutorialRightTimer.start()
-        onFinished: AccountsService.markDemoEdgeCompleted("right")
+        onFinished: {
+            AccountsService.markDemoEdgeCompleted("right");
+            root.finish();
+        }
     }
 
     TutorialBottom {
@@ -132,7 +135,7 @@ Item {
         readonly property bool skipped: (root.usageScenario !== "phone"
                                          && root.usageScenario !== "tablet")
                                         || AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
-        isReady: tutorialRight.skipped && !skipped && !paused && !keyboardVisible &&
+        isReady: false /* tutorialRight.skipped && !skipped && !paused && !keyboardVisible &&
                  // focused app is an app known to have a bottom edge
                  (ApplicationManager.focusedApplicationId == "dialer-app" ||
                   ApplicationManager.focusedApplicationId == "webbrowser-app" ||
@@ -140,7 +143,7 @@ Item {
                   ApplicationManager.focusedApplicationId == "address-book-app" ||
                   ApplicationManager.focusedApplicationId == "camera-app" ||
                   ApplicationManager.focusedApplicationId == "ubuntu-calculator-app" ||
-                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app")
+                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app") */
 
         /*Timer {
             id: tutorialBottomTimer

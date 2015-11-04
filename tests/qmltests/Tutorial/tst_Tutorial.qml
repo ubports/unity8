@@ -517,7 +517,7 @@ Item {
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "right"]);
         }
 
-        function test_tutorialBottomEdges() {
+        /*function test_tutorialBottomEdges() {
             var tutorial = findChild(shell, "tutorial");
             var tutorialBottom = findChild(tutorial, "tutorialBottom");
             var launcher = findChild(shell, "launcher");
@@ -534,7 +534,7 @@ Item {
             verify(!launcher.available);
             verify(!stage.spreadEnabled);
             verify(!panel.indicators.available);
-        }
+        }*/
 
         /*function test_tutorialBottomFinish() {
             var tutorial = findChild(shell, "tutorial");
@@ -624,11 +624,11 @@ Item {
             var tutorialLeft = findChild(shell, "tutorialLeft");
             var tutorialTop = findChild(shell, "tutorialTop");
             var tutorialRight = findChild(shell, "tutorialRight");
-            var tutorialBottom = findChild(shell, "tutorialBottom");
+            //var tutorialBottom = findChild(shell, "tutorialBottom");
             verify(tutorialLeft.skipped);
             verify(tutorialTop.skipped);
             verify(!tutorialRight.skipped);
-            verify(tutorialBottom.skipped);
+            //verify(tutorialBottom.skipped);
             compare(AccountsService.demoEdgesCompleted, []);
 
             ApplicationManager.startApplication("dialer-app");
