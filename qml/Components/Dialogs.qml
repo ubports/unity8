@@ -49,7 +49,7 @@ Item {
     onUsageScenarioChanged: {
         if (usageScenario != "desktop" && legacyAppsModel.count > 0 && !d.modeSwitchWarningPopup) {
             var comp = Qt.createComponent(Qt.resolvedUrl("ModeSwitchWarningDialog.qml"))
-            d.modeSwitchWarningPopup = comp.createObject(shell, {model: legacyAppsModel});
+            d.modeSwitchWarningPopup = comp.createObject(root, {model: legacyAppsModel});
             d.modeSwitchWarningPopup.forceClose.connect(function() {
                 while (legacyAppsModel.count > 0) {
                     ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
