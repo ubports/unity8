@@ -96,7 +96,7 @@ Showable {
 
     Image {
         id: arrow
-        width: units.gu(1)
+        width: units.gu(1.5)
         source: Qt.resolvedUrl("graphics/arrow.svg")
         fillMode: Image.PreserveAspectFit
         mipmap: true
