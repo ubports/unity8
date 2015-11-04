@@ -149,7 +149,7 @@ Rectangle {
             tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
             var mascot = findChild(previewHeader, "mascotShape");
             tryCompare(mascot, "visible", true);
-            tryCompare(mascot.image, "status", Image.Ready);
+            tryCompare(mascot.source, "status", Image.Ready);
         }
     }
 }

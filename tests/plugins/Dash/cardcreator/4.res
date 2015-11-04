@@ -2,7 +2,7 @@ AbstractButton {
                 id: root; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource: undefined; 
+                property string artShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
                 property int titleAlignment: Text.AlignLeft;

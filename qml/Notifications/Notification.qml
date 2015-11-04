@@ -153,10 +153,10 @@ Item {
             rightMargin: notification.margins
             topMargin: type === Notification.Confirmation ? units.gu(.5) : 0
         }
-        color: parent.color
+        backgroundColor: parent.color
         opacity: parent.opacity
         radius: "medium"
-        borderSource: "none"
+        aspect: UbuntuShape.Flat
     }
 
     Rectangle {
@@ -358,8 +358,8 @@ Item {
                 }
 
                 height: units.gu(1)
-                color: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
-                borderSource: "none"
+                backgroundColor: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
+                aspect: UbuntuShape.Flat
                 radius: "small"
 
                 UbuntuShape {
@@ -367,8 +367,8 @@ Item {
                     objectName: "innerBar"
                     width: valueIndicator.width * valueIndicator.value / 100
                     height: units.gu(1)
-                    color: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
-                    borderSource: "none"
+                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
+                    aspect: UbuntuShape.Flat
                     radius: "small"
                 }
             }

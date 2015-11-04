@@ -62,7 +62,7 @@ PreviewWidget {
             source: modelData ? modelData : ""
             scaleTo: "height"
             initialWidth: units.gu(13)
-            borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
+            pressed: mouseArea.pressed
 
             MouseArea {
                 id: mouseArea

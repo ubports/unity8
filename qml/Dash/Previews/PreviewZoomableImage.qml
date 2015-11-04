@@ -43,7 +43,7 @@ PreviewWidget {
         source: widgetData["source"]
         asynchronous: true
 
-        borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
+        pressed: mouseArea.pressed
 
         MouseArea {
             id: mouseArea

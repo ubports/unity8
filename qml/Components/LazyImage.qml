@@ -31,13 +31,10 @@ Item {
     property real initialHeight: scaleTo == "height" || scaleTo == "fit" ? height : units.gu(10)
 
     property alias sourceSize: image.sourceSize
-    property alias fillMode: image.fillMode
     property alias asynchronous: image.asynchronous
     property alias cache: image.cache
-    property alias horizontalAlignment: image.horizontalAlignment
-    property alias verticalAlignment: image.verticalAlignment
     property alias sourceImage: image
-    property alias borderSource: shape.borderSource
+    property bool pressed: false
 
     state: "default"
 
@@ -53,7 +50,7 @@ Item {
     UbuntuShape {
         id: placeholder
         objectName: "placeholder"
-        color: "#22FFFFFF"
+        backgroundColor: "#22FFFFFF"
         anchors.fill: shape
         visible: opacity != 0
 
@@ -78,7 +75,7 @@ Item {
         }
     }
 
-    UbuntuShape {
+    UbuntuShapeOverlay {
         id: shape
         objectName: "shape"
         height: root.initialHeight
@@ -87,19 +84,20 @@ Item {
 
         opacity: 0
         visible: opacity != 0
-
-        image: Image {
+        overlayColor: Qt.rgba(0, 0, 0, root.pressed ? 0.1 : 0)
+        overlayRect: Qt.rect(0.0, 0.0, 1.0, 1.0)
+        sourceFillMode: UbuntuShape.PreserveAspectCrop
+        sourceHorizontalAlignment: UbuntuShape.AlignHCenter
+        sourceVerticalAlignment: UbuntuShape.AlignVCenter
+        source: Image {
             id: image
             objectName: "image"
 
             property url nextSource
             property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
-            fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
-            horizontalAlignment: Image.AlignHCenter
-            verticalAlignment: Image.AlignVCenter
             sourceSize.width: root.scaleTo == "width" ? root.width
                                 : root.scaleTo == "fit" && root.width <= root.height ? root.width
                                 : 0

@@ -49,10 +49,10 @@ MouseArea {
             width: units.gu(5)
             height: units.gu(5)
             visible: !hideChildren
-            image: Image {
+            sourceFillMode: UbuntuShape.PreserveAspectCrop
+            source: Image {
                 id: shapeImage
                 cache: true
-                fillMode: Image.PreserveAspectCrop
                 sourceSize { width: shape.width; height: shape.height }
             }
         }
