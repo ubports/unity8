@@ -277,9 +277,6 @@ Rectangle {
                 function minimize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
                     minimized = true;
-                    if (!!animated) {
-                        priv.focusNext();
-                    }
                 }
                 function restore(animated) {
                     animationsEnabled = (animated === undefined) || animated;
@@ -327,7 +324,16 @@ Rectangle {
                         from: "maximized,maximizedLeft,maximizedRight,minimized,normal,"
                         to: "maximized,maximizedLeft,maximizedRight,minimized,normal,"
                         enabled: appDelegate.animationsEnabled
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                        SequentialAnimation {
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            ScriptAction {
+                                script: {
+                                    if (animationsEnabled && state === "minimized" ) {
+                                        priv.focusNext();
+                                    }
+                                }
+                            }
+                        }
                     },
                     Transition {
                         from: ""
