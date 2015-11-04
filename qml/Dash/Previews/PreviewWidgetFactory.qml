@@ -15,7 +15,7 @@
  *
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 //! \brief This component loads the widgets based on widgetData["type"].
 
