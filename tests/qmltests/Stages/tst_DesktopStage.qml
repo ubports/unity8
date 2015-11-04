@@ -23,11 +23,14 @@ import Unity.Test 0.1
 import Utils 0.1
 
 import "../../../qml/Stages"
+import "../../../qml/Components"
 
 Item {
     id: root
     width:  desktopStageLoader.width + controls.width
     height: desktopStageLoader.height
+
+    property var greeter: { fullyShown: true }
 
     Binding {
         target: MouseTouchAdaptor
@@ -65,6 +68,7 @@ Item {
                 Component.onDestruction: {
                     desktopStageLoader.itemDestroyed = true;
                 }
+                orientations: Orientations {}
             }
         }
     }

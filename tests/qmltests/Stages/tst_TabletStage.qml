@@ -30,6 +30,8 @@ Rectangle {
     width:  tabletStageLoader.width + controls.width
     height: tabletStageLoader.height
 
+    property var greeter: { fullyShown: true }
+
     Loader {
         id: tabletStageLoader
 

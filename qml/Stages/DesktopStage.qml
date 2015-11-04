@@ -159,8 +159,11 @@ AbstractStage {
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
 
                 visible: !visuallyMinimized &&
+                         !greeter.fullyShown &&
                          (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
                          (spread.state == "altTab" && index === spread.highlightedIndex)
+
+                onVisibleChanged: console.log("VISIBLE", model.appId, visible)
 
                 Binding {
                     target: ApplicationManager.get(index)

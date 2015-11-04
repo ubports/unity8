@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Utils 0.1
+import Powerd 0.1
 import "../Components"
 
 AbstractStage {
@@ -146,6 +147,8 @@ AbstractStage {
             }
         }
 
+        property bool focusedAppDelegateIsDislocated: focusedAppDelegate &&
+                                                      (focusedAppDelegate.dragOffset !== 0 || focusedAppDelegate.xTranslateAnimating)
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
                 if (ApplicationManager.get(i).appId == appId) {
@@ -663,9 +666,14 @@ AbstractStage {
                     property bool occluded: {
                         if (spreadView.active) return false;
                         else if (spreadTile.active) return false;
+                        else if (xTranslateAnimating) return false;
+                        else if (z <= 1 && priv.focusedAppDelegateIsDislocated) return false;
                         return true;
                     }
-                    visible: !occluded
+
+                    visible: Powerd.status == Powerd.On &&
+                             !greeter.fullyShown &&
+                             !occluded
 
                     animatedProgress: {
                         if (spreadView.phase == 0 && (spreadTile.active || spreadView.nextInStack == index)) {
