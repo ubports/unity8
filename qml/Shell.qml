@@ -95,29 +95,6 @@ Item {
         }
     }
 
-    property var modeSwitchWarningPopup: null
-    onUsageScenarioChanged: {
-        if (usageScenario != "desktop" && legacyAppsModel.count > 0 && !modeSwitchWarningPopup) {
-            var comp = Qt.createComponent(Qt.resolvedUrl("Components/ModeSwitchWarningDialog.qml"))
-            modeSwitchWarningPopup = comp.createObject(shell, {model: legacyAppsModel});
-            modeSwitchWarningPopup.forceClose.connect(function() {
-                while (legacyAppsModel.count > 0) {
-                    ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
-                }
-            })
-        } else if (usageScenario == "desktop" && modeSwitchWarningPopup) {
-            modeSwitchWarningPopup.hide();
-            modeSwitchWarningPopup.destroy();
-            modeSwitchWarningPopup = null;
-        }
-    }
-
-    ApplicationsFilterModel {
-        id: legacyAppsModel
-        applicationsModel: ApplicationManager
-        filterTouchApps: true
-    }
-
     // For autopilot consumption
     readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
