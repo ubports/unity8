@@ -61,6 +61,10 @@ Rectangle {
 
             anchors.centerIn: parent
 
+            property int shellOrientation: Qt.PortraitOrientation
+            property int nativeOrientation: Qt.PortraitOrientation
+            property int primaryOrientation: Qt.PortraitOrientation
+
             state: "phone"
             states: [
                 State {
@@ -77,6 +81,9 @@ Rectangle {
                         target: shellLoader
                         width: units.gu(100)
                         height: units.gu(71)
+                        shellOrientation: Qt.LandscapeOrientation
+                        nativeOrientation: Qt.LandscapeOrientation
+                        primaryOrientation: Qt.LandscapeOrientation
                     }
                 },
                 State {
@@ -99,8 +106,13 @@ Rectangle {
                 Shell {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
-                    orientation: Qt.PortraitOrientation
-                    orientations: Orientations{} // Defaults are fine for testing
+                    nativeWidth: width
+                    nativeHeight: height
+                    orientation: shellLoader.shellOrientation
+                    orientations: Orientations {
+                        native_: shellLoader.nativeOrientation
+                        primary: shellLoader.primaryOrientation
+                    }
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }

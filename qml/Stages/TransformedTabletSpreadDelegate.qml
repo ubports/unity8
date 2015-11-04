@@ -48,6 +48,7 @@ SpreadDelegate {
     property bool isInSideStage: false
 
     property int dragOffset: 0
+    readonly property alias xTranslateAnimating: xTranslateAnimation.running
 
     dropShadow: spreadView.active ||
                 (active
@@ -144,6 +145,7 @@ SpreadDelegate {
                      spreadView.animateX &&
                      !spreadView.beingResized
             UbuntuNumberAnimation {
+                id: xTranslateAnimation
                 duration: UbuntuAnimation.FastDuration
             }
         }

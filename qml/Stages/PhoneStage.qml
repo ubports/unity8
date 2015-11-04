@@ -20,6 +20,7 @@ import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Utils 0.1
+import Powerd 0.1
 import "../Components"
 
 AbstractStage {
@@ -182,7 +183,8 @@ AbstractStage {
             }
         }
 
-        property bool focusedAppDelegateIsDislocated: focusedAppDelegate && focusedAppDelegate.x !== 0
+        property bool focusedAppDelegateIsDislocated: focusedAppDelegate &&
+                                                      (focusedAppDelegate.x !== 0 || focusedAppDelegate.xBehavior.running)
 
         function indexOf(appId) {
             for (var i = 0; i < root.applicationManager.count; i++) {
@@ -473,7 +475,6 @@ AbstractStage {
 
                     property var xBehavior: xBehavior
                     Behavior on x {
-                        id: xBehavior
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
                                  !snapAnimation.running &&
@@ -481,6 +482,7 @@ AbstractStage {
                                  priv.animateX &&
                                  !root.beingResized
                         UbuntuNumberAnimation {
+                            id: xBehavior
                             duration: UbuntuAnimation.BriskDuration
                         }
                     }
@@ -520,9 +522,18 @@ AbstractStage {
                         return progress;
                     }
 
-                    // Hiding tiles when their progress is negative or reached the maximum
-                    visible: (progress >= 0 && progress < 1.7)
-                            || (isDash && priv.focusedAppDelegateIsDislocated)
+                    // Hide tile when progress is such that it will be off screen.
+                    property bool occluded: {
+                        if (spreadView.active && (progress >= 0 && progress < 1.7)) return false;
+                        else if (!spreadView.active && isFocused) return false;
+                        else if (xBehavior.running) return false;
+                        else if (z <= 1 && priv.focusedAppDelegateIsDislocated) return false;
+                        return true;
+                    }
+
+                    visible: Powerd.status == Powerd.On &&
+                             !greeter.fullyShown &&
+                             !occluded
 
                     shellOrientationAngle: root.shellOrientationAngle
                     shellOrientation: root.shellOrientation
