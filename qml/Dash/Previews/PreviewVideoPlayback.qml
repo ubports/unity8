@@ -30,6 +30,8 @@ PreviewWidget {
     implicitWidth: units.gu(35)
     implicitHeight: childrenRect.height
 
+    widgetMargins: -units.gu(1)
+
     LazyImage {
         objectName: "screenshot"
         anchors {
@@ -51,6 +53,7 @@ PreviewWidget {
             return "";
         }
         initialHeight: width * 10 / 16
+        useUbuntuShape: false
 
         Image {
             objectName: "playButton"

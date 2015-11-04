@@ -27,7 +27,10 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: units.gu(22)
+    implicitWidth: units.gu(35)
+    implicitHeight: lazyImage.height
+
+    widgetMargins: -units.gu(1)
 
     property Item rootItem: QuickUtils.rootItem(root)
 
@@ -35,14 +38,13 @@ PreviewWidget {
         id: lazyImage
         objectName: "lazyImage"
         anchors {
-            top: parent.top
-            bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
+            left: parent.left
+            right: parent.right
         }
-        scaleTo: "height"
+        scaleTo: "width"
         source: widgetData["source"]
         asynchronous: true
-
+        useUbuntuShape: false
         pressed: mouseArea.pressed
 
         MouseArea {
