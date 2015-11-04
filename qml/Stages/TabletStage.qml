@@ -21,30 +21,12 @@ import Unity.Application 0.1
 import Utils 0.1
 import "../Components"
 
-Rectangle {
+AbstractStage {
     id: root
     objectName: "stages"
     anchors.fill: parent
-    color: "#111111"
 
-    // Controls to be set from outside
-    property int dragAreaWidth
-    property real maximizedAppTopMargin
-    property bool interactive
-    property alias beingResized: spreadView.beingResized
-
-    property bool spreadEnabled: true // If false, animations and right edge will be disabled
-
-    property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
-    property bool keepDashRunning: true
-    property bool suspended: false
-    property int shellOrientationAngle: 0
-
-    property int shellOrientation
-    property QtObject orientations
-    property real nativeWidth
-    property real nativeHeight
-
+    // Functions to be called from outside
     function updateFocusedAppOrientation() {
         var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
         if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
@@ -87,10 +69,7 @@ Rectangle {
         }
     }
 
-    // To be read from outside
-    property var mainApp: null
-    property int mainAppWindowOrientationAngle: 0
-    readonly property bool orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
+    orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
 
     onWidthChanged: {
         spreadView.selectedIndex = -1;
@@ -303,7 +282,7 @@ Rectangle {
         }
 
         property bool animateX: true
-        property bool beingResized: false
+        property bool beingResized: root.beingResized
         onBeingResizedChanged: {
             if (beingResized) {
                 // Brace yourselves for impact!
@@ -630,15 +609,18 @@ Rectangle {
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
+                    readonly property bool canSuspend: model.isTouchApp
+                            && !isExemptFromLifecycle(model.appId)
+
                     Binding {
                         target: spreadTile.application
                         property: "requestedState"
-                        value: (spreadTile.isDash && root.keepDashRunning)
-                            ||
-                            (!root.suspended && (model.appId == priv.mainStageAppId
-                                                 || model.appId == priv.sideStageAppId))
-                            ? ApplicationInfoInterface.RequestedRunning
-                            : ApplicationInfoInterface.RequestedSuspended
+                        value: !canSuspend
+                                   || (isDash && root.keepDashRunning)
+                                   || (!root.suspended && (model.appId == priv.mainStageAppId
+                                                           || model.appId == priv.sideStageAppId))
+                               ? ApplicationInfoInterface.RequestedRunning
+                               : ApplicationInfoInterface.RequestedSuspended
                     }
 
                     // FIXME: A regular binding doesn't update any more after closing an app.

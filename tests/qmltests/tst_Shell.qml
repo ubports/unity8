@@ -380,6 +380,8 @@ Rectangle {
             LightDM.Greeter.authenticate(""); // reset greeter
 
             sessionSpy.clear();
+
+            GSettingsController.setLifecycleExemptAppids([]);
         }
 
         function killApps() {
@@ -1793,6 +1795,51 @@ Rectangle {
             LightDM.Greeter.hideGreeter();
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lifecyclePolicyForNonTouchApp_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"}
+            ]
+        }
+
+        function test_lifecyclePolicyForNonTouchApp(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            var app1 = ApplicationManager.startApplication("libreoffice");
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+
+            // Make sure app1 is unfocused but still running
+            compare(app1.session.surface.activeFocus, false);
+            compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_lifecyclePolicyExemption_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true}
+            ]
+        }
+
+        function test_lifecyclePolicyExemption(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
+
+            var app1 = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+
+            // Make sure app1 is unfocused but still running
+            compare(app1.session.surface.activeFocus, false);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
     }
 }

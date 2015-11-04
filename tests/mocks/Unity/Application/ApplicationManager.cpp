@@ -105,6 +105,8 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
         return app->state();
     case RoleFocused:
         return app->focused();
+    case RoleIsTouchApp:
+        return app->isTouchApp();
     case RoleSession:
         return QVariant::fromValue(app->session());
     case RoleFullscreen:
@@ -457,6 +459,13 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("youtube");
     application->setName("YouTube");
     application->setIconId("youtube");
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("libreoffice");
+    application->setName("LibreOffice");
+    application->setIconId("libreoffice");
+    application->setIsTouchApp(false);
     m_availableApplications.append(application);
 }
 
