@@ -292,7 +292,8 @@ QString DBusUnitySessionService::RealName() const
     if (p) {
         const QString gecos = QString::fromLocal8Bit(p->pw_gecos);
         if (!gecos.isEmpty()) {
-            return gecos.split(QLatin1Char(',')).first();
+            const QStringList splitGecos = gecos.split(QLatin1Char(','));
+            return splitGecos.first();
         }
     }
 

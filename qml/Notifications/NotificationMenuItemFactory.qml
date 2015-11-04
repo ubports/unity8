@@ -30,6 +30,7 @@ Loader {
     property int menuIndex : -1
     property int maxHeight
     readonly property bool fullscreen: menuData.type === "com.canonical.snapdecision.pinlock"
+    property url background: ""
 
     signal accepted()
 
@@ -149,7 +150,7 @@ Loader {
             infoText: notification.summary
             errorText: errorAction.valid ? errorAction.state : ""
             retryText: notification.body
-            background: shell.background
+            background: menuFactory.background
             darkenBackground: 0.4
 
             onEntered: {

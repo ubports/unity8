@@ -20,7 +20,7 @@ import ScreenGrabber 0.1
 Rectangle {
     property var grabber: screenGrabber
 
-    width: 100
+    width: 101 // width intentionally bigger than height to test rotation
     height: 100
     color: "green"
 

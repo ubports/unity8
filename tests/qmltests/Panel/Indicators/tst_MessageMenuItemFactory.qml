@@ -32,10 +32,6 @@ Item {
         menuIndex: 0
     }
 
-    Utils.RelativeTimeFormatter {
-        id: timeFormatter
-    }
-
     UT.UnityTestCase {
         name: "MessageMenuItemFactory"
         when: windowShown
@@ -82,17 +78,16 @@ Item {
             menuData.label = data.title;
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalTime': data.time.getTime()*1000,
+                'xCanonicalTime': data.time.getTime()*1000, // expected in microseconds
                 'xCanonicalText': data.body,
                 'icon': data.avatar,
                 'xCanonicalAppIcon': data.icon,
             };
             factory.menuData = menuData;
-            timeFormatter.time = data.time.getTime()/1000;
 
             tryCompare(factory.item, "objectName", "simpleTextMessage");
             compare(factory.item.title, data.title, "Title does not match data");
-            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.time, i18n.relativeDateTime(data.time), "Time does not match data");
             compare(factory.item.body, data.body, "Message does not match data");
             compare(factory.item.avatar, data.avatar, "Avatar does not match data");
             compare(factory.item.icon, data.icon, "App icon does not match data");
@@ -111,7 +106,7 @@ Item {
             menuData.label = data.title;
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalTime': data.time.getTime()*1000,
+                'xCanonicalTime': data.time.getTime()*1000, // expected in microseconds
                 'xCanonicalText': data.body,
                 'icon': data.avatar,
                 'xCanonicalAppIcon': data.icon,
@@ -123,11 +118,10 @@ Item {
                 ]
             };
             factory.menuData = menuData;
-            timeFormatter.time = data.time.getTime()/1000;
 
             tryCompare(factory.item, "objectName", "textMessage");
             compare(factory.item.title, data.title, "Title does not match data");
-            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.time, i18n.relativeDateTime(data.time), "Time does not match data");
             compare(factory.item.body, data.body, "Message does not match data");
             compare(factory.item.avatar, data.avatar, "Avatar does not match data");
             compare(factory.item.icon, data.icon, "App icon does not match data");
@@ -147,7 +141,7 @@ Item {
             menuData.label = data.title;
             menuData.sensitive = data.enabled;
             menuData.ext = {
-                'xCanonicalTime': data.time.getTime()*1000,
+                'xCanonicalTime': data.time.getTime()*1000, // expected in microseconds
                 'xCanonicalText': data.body,
                 'icon': data.avatar,
                 'xCanonicalAppIcon': data.icon,
@@ -162,11 +156,10 @@ Item {
                 ]
             };
             factory.menuData = menuData;
-            timeFormatter.time = data.time.getTime()/1000;
 
             tryCompare(factory.item, "objectName", "snapDecision");
             compare(factory.item.title, data.title, "Title does not match data");
-            compare(factory.item.time, timeFormatter.timeString, "Time does not match data");
+            compare(factory.item.time, i18n.relativeDateTime(data.time), "Time does not match data");
             compare(factory.item.body, data.body, "Message does not match data");
             compare(factory.item.avatar, data.avatar, "Avatar does not match data");
             compare(factory.item.icon, data.icon, "App icon does not match data");
