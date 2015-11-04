@@ -18,7 +18,7 @@ import QtQuick 2.0
 import QtTest 1.0
 import "../../../../qml/Dash/Previews"
 import Unity.Test 0.1 as UT
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 
 
 Rectangle {
@@ -104,7 +104,7 @@ Rectangle {
 
             var button = findChild(root, "button" + buttonId);
             var image = findChildsByType(button, "QQuickImage")[0];
-            var label = findChildsByType(button, "Label")[0];
+            var label = findChildsByType(button, "UCLabel")[0];
 
             compare(image.source, buttonIcon);
             compare(label.text, buttonLabel);

@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 1.0
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 
 Showable {

@@ -50,7 +50,7 @@ Build-Depends: cmake,
                qtdeclarative5-private-dev (>= 5.2.1),
                qtdeclarative5-qtmultimedia-plugin,
                qtdeclarative5-ubuntu-settings-components (>= 0.6),
-               qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1627) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1627),
+               qtdeclarative5-ubuntu-ui-toolkit-plugin (>= 1.3.1676) | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles (>= 1.3.1676),
                qtdeclarative5-ubuntu-web-plugin,
                ttf-ubuntu-font-family,
 Standards-Version: 3.9.4

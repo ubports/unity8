@@ -16,7 +16,7 @@
 
 import QtQuick 2.3
 import Unity.Application 0.1 // For Mir singleton
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import "../Components"
 
 MouseArea {

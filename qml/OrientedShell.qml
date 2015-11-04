@@ -23,7 +23,7 @@ import "Components/UnityInputInfo"
 import "Rotation"
 // Backup Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
 // in case we remove the UnityInputInfo import
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 
 Rectangle {
     id: root

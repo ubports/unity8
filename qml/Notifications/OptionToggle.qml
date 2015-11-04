@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,9 +15,9 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Components.Popups 1.3
 
 UbuntuShape {
     id: optionToggle
@@ -29,7 +29,7 @@ UbuntuShape {
 
     signal triggered(string id)
 
-    color: Theme.palette.normal.base
+    color: theme.palette.normal.base
     borderSource: "none"
     height: expanded ? (optionToggleRepeater.count - startIndex) * itemHeight : itemHeight
     width: parent.width
