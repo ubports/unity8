@@ -225,8 +225,8 @@ Item {
                                 Image {
                                     objectName: "clearIcon"
                                     anchors.fill: parent
-                                    anchors.margins: units.gu(.75)
-                                    source: searchTextField.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
+                                    anchors.margins: units.gu(1)
+                                    source: searchTextField.clearIsSettings ? "image://theme/filters" : "image://theme/clear"
                                     opacity: parent.enabled
                                     visible: opacity > 0
                                     Behavior on opacity {
