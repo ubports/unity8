@@ -22,6 +22,7 @@ QtObject {
 
     property string title: ""
     property bool buttonsVisible: false
+    property bool dropShadow: false
 
     signal close()
     signal minimize()

@@ -69,21 +69,10 @@ Item {
         BorderImage {
             id: dropShadow
             anchors {
-                fill: indicators
-                leftMargin: -units.gu(1)
-                bottomMargin: -units.gu(1)
-            }
-            visible: !indicators.fullyClosed
-            source: "graphics/rectangular_dropshadow.sci"
-        }
-
-        BorderImage {
-            id: dropShadow2
-            anchors {
                 fill: indicatorAreaBackground
                 bottomMargin: -units.gu(1)
             }
-            visible: true // FIXME only for an unfocused maximized window
+            visible: PanelState.dropShadow && !callHint.visible
             source: "graphics/rectangular_dropshadow.sci"
         }
 
