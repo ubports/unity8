@@ -204,7 +204,7 @@ Item {
                             bottom: parent.bottom
                             bottomMargin: units.gu(1)
                             right: cancelLabel.left
-                            rightMargin: units.gu(1)
+                            rightMargin: units.gu(2)
                         }
 
                         readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
@@ -274,10 +274,13 @@ Item {
                             top: parent.top
                             right: parent.right
                             bottom: parent.bottom
-                            margins: units.gu(1)
+                            margins: units.gu(2)
                         }
                         AbstractButton {
                             anchors.fill: parent
+                            // So that clicking in the empty area on the left of Cancel
+                            // has the same effect as clicking on the empty area on the right
+                            anchors.leftMargin: units.gu(-2)
                             onClicked: {
                                 root.clearSearch(false);
                                 headerContainer.showSearch = false;
