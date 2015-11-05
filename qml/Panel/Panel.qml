@@ -77,6 +77,16 @@ Item {
             source: "graphics/rectangular_dropshadow.sci"
         }
 
+        BorderImage {
+            id: dropShadow2
+            anchors {
+                fill: indicatorAreaBackground
+                bottomMargin: -units.gu(1)
+            }
+            visible: true // FIXME only for an unfocused maximized window
+            source: "graphics/rectangular_dropshadow.sci"
+        }
+
         Rectangle {
             id: indicatorAreaBackground
             color: callHint.visible ? "green" : "#333333"
@@ -88,19 +98,6 @@ Item {
             height: indicators.minimizedPanelHeight
 
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
-        }
-
-        PanelSeparatorLine {
-            id: orangeLine
-            anchors {
-                top: indicatorAreaBackground.bottom
-                left: parent.left
-                right: indicators.left
-            }
-            saturation: 1 - indicators.unitProgress
-
-            // Don't let input event pass trough
-            MouseArea { anchors.fill: parent }
         }
 
         Image {
@@ -159,7 +156,7 @@ Item {
             width: root.width - (windowControlButtons.visible ? windowControlButtons.width + titleLabel.width : 0)
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
-            openedHeight: root.height - indicatorOrangeLine.height
+            openedHeight: root.height
 
             overFlowWidth: {
                 if (callHint.visible) {
@@ -175,10 +172,6 @@ Item {
                 if (callHint.active) {
                     callHint.showLiveCall();
                 }
-            }
-
-            hideDragHandle {
-                anchors.bottomMargin: -indicatorOrangeLine.height
             }
         }
 
@@ -203,15 +196,6 @@ Item {
 
         // TODO here would the LIM come
 
-        PanelSeparatorLine {
-            id: indicatorOrangeLine
-            anchors {
-                top: indicators.bottom
-                left: indicators.left
-                right: indicators.right
-            }
-        }
-
         ActiveCallHint {
             id: __callHint
             anchors {
@@ -226,7 +210,7 @@ Item {
     QtObject {
         id: d
         objectName: "panelPriv"
-        readonly property real indicatorHeight: indicators.minimizedPanelHeight + indicatorOrangeLine.height
+        readonly property real indicatorHeight: indicators.minimizedPanelHeight
     }
 
     states: [
