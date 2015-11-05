@@ -254,7 +254,7 @@ Item {
                             Label {
                                 visible: searchTextField.clearIsSettings && root.activeFiltersCount > 0
                                 height: parent.height
-                                text: root.activeFiltersCount
+                                text: "(" + root.activeFiltersCount + ")"
                                 verticalAlignment: Text.AlignVCenter
                             }
                         }
