@@ -37,10 +37,10 @@ ApplicationManagerInterface *ApplicationsFilterModel::applicationsModel() const
 
 void ApplicationsFilterModel::setApplicationsModel(ApplicationManagerInterface *applicationsModel)
 {
-    if (m_appModel) {
-        disconnect(m_appModel, &ApplicationManagerInterface::countChanged, this, &ApplicationsFilterModel::countChanged);
-    }
     if (m_appModel != applicationsModel) {
+        if (m_appModel) {
+            disconnect(m_appModel, &ApplicationManagerInterface::countChanged, this, &ApplicationsFilterModel::countChanged);
+        }
         m_appModel = applicationsModel;
         setSourceModel(m_appModel);
         Q_EMIT applicationsModelChanged();
