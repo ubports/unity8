@@ -1874,7 +1874,7 @@ Rectangle {
 
             // Popup must be gone now
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup !== null, true);
+            compare(popup === null, true);
 
             if (data.replug) {
                 // Libreoffice must still be running

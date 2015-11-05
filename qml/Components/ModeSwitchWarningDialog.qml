@@ -89,7 +89,6 @@ ShellDialog {
             color: UbuntuColors.red
             onClicked: {
                 root.forceClose();
-                PopupUtils.close(root);
             }
         }
     }

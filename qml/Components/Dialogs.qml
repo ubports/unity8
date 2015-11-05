@@ -54,6 +54,9 @@ Item {
                 while (legacyAppsModel.count > 0) {
                     ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
                 }
+                d.modeSwitchWarningPopup.hide();
+                d.modeSwitchWarningPopup.destroy();
+                d.modeSwitchWarningPopup = null;
             })
         } else if (usageScenario == "desktop" && d.modeSwitchWarningPopup) {
             d.modeSwitchWarningPopup.hide();
