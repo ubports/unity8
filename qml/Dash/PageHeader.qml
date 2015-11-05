@@ -209,8 +209,16 @@ Item {
 
                         readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
 
-                        primaryItem: Label {
-                            text: root.navigationTag
+                        primaryItem: Rectangle {
+                            color: "#F5F4F5"
+                            width: root.navigationTag != "" ? childrenRect.width + units.gu(2) : 0
+                            height: root.navigationTag != "" ? childrenRect.height + units.gu(1) : 0
+                            radius: units.gu(0.5)
+                            Label {
+                                text: root.navigationTag
+                                anchors.centerIn: parent
+                                color: "#333333"
+                            }
                         }
 
                         secondaryItem: Row {
