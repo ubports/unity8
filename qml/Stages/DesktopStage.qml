@@ -22,39 +22,21 @@ import Ubuntu.Components 1.1
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
+import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
-Rectangle {
+AbstractStage {
     id: root
     anchors.fill: parent
-
-    // Controls to be set from outside
-    property int dragAreaWidth // just to comply with the interface shared between stages
-    property real maximizedAppTopMargin
-    property bool interactive
-    property bool spreadEnabled // just to comply with the interface shared between stages
-    property real inverseProgress: 0 // just to comply with the interface shared between stages
-    property int shellOrientationAngle: 0
-    property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
-    property bool beingResized: false
-    property bool keepDashRunning: true
-    property bool suspended: false
-    property alias background: wallpaper.source
-    property alias altTabPressed: spread.altTabPressed
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
 
-    // To be read from outside
-    readonly property var mainApp: ApplicationManager.focusedApplicationId
+    mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null
-    property int mainAppWindowOrientationAngle: 0
-    readonly property bool orientationChangesEnabled: false
 
     Connections {
         target: ApplicationManager
@@ -111,6 +93,7 @@ Rectangle {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
@@ -121,6 +104,7 @@ Rectangle {
         CrossFadeImage {
             id: wallpaper
             anchors.fill: parent
+            source: root.background
             sourceSize { height: root.height; width: root.width }
             fillMode: Image.PreserveAspectCrop
         }
@@ -140,6 +124,7 @@ Rectangle {
 
                 property bool maximized: false
                 property bool minimized: false
+                property bool animationsEnabled: true
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
@@ -158,15 +143,18 @@ Rectangle {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
                 }
-                function minimize() {
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     maximized = false;
                     minimized = true;
                 }
-                function unmaximize() {
+                function unmaximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                 }
@@ -188,6 +176,7 @@ Rectangle {
                     Transition {
                         from: "maximized,minimized,normal,"
                         to: "maximized,minimized,normal,"
+                        enabled: appDelegate.animationsEnabled
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
@@ -269,5 +258,6 @@ Rectangle {
         anchors.fill: parent
         workspace: appContainer
         focus: state == "altTab"
+        altTabPressed: root.altTabPressed
     }
 }

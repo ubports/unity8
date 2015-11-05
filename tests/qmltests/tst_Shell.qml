@@ -29,8 +29,11 @@ import Unity.Notifications 1.0
 import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
+import Utils 0.1
 
 import "../../qml"
+import "../../qml/Components"
+import "../../qml/Components/PanelState"
 import "Stages"
 
 Rectangle {
@@ -97,8 +100,7 @@ Rectangle {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
                     orientation: Qt.PortraitOrientation
-                    primaryOrientation: Qt.PortraitOrientation
-                    nativeOrientation: Qt.PortraitOrientation
+                    orientations: Orientations{} // Defaults are fine for testing
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -302,6 +304,7 @@ Rectangle {
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
+            WindowStateStorage.clear();
         }
 
         function loadShell(formFactor) {
@@ -377,6 +380,8 @@ Rectangle {
             LightDM.Greeter.authenticate(""); // reset greeter
 
             sessionSpy.clear();
+
+            GSettingsController.setLifecycleExemptAppids([]);
         }
 
         function killApps() {
@@ -1706,6 +1711,178 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
             keyRelease(Qt.Key_Control);
+        }
+
+        // regression test for http://pad.lv/1443319
+        function test_closeMaximizedAndRestart() {
+            loadDesktopShellWithApps();
+
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+
+            wait(5000)
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            wait(5000)
+            mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
+            tryCompare(appDelegate, "state", "maximized");
+            tryCompare(PanelState, "buttonsVisible", true)
+
+            ApplicationManager.stopApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            ApplicationManager.startApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", true)
+        }
+
+        // bug http://pad.lv/1431566
+        function test_switchToStagedHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lockingGreeterHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            LightDM.Greeter.showGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            LightDM.Greeter.hideGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lifecyclePolicyForNonTouchApp_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"}
+            ]
+        }
+
+        function test_lifecyclePolicyForNonTouchApp(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            var app1 = ApplicationManager.startApplication("libreoffice");
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+
+            // Make sure app1 is unfocused but still running
+            compare(app1.session.surface.activeFocus, false);
+            compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_lifecyclePolicyExemption_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true}
+            ]
+        }
+
+        function test_lifecyclePolicyExemption(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
+
+            var app1 = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+
+            // Make sure app1 is unfocused but still running
+            compare(app1.session.surface.activeFocus, false);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_switchToStagedForcesLegacyAppClosing_data() {
+            return [
+                {tag: "forceClose", replug: false },
+                {tag: "replug", replug: true }
+            ];
+        }
+
+        function test_switchToStagedForcesLegacyAppClosing(data) {
+            loadShell("desktop")
+            shell.usageScenario = "desktop"
+            waitForRendering(shell);
+
+            ApplicationManager.startApplication("camera-app")
+
+            shell.usageScenario = "phone"
+            waitForRendering(shell);
+
+            // No legacy app running yet... Popup must *not* show.
+            var popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup, null);
+
+            shell.usageScenario = "desktop"
+            waitForRendering(shell);
+
+            // Now start a legacy app
+            ApplicationManager.startApplication("libreoffice")
+
+            shell.usageScenario = "phone"
+            waitForRendering(shell);
+
+            // The popup must appear now
+            popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup !== null, true);
+
+            if (data.replug) {
+                shell.usageScenario = "desktop"
+                waitForRendering(shell);
+
+            } else {
+                var forceCloseButton = findChild(popup, "forceCloseButton");
+                mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
+                waitForRendering(root);
+            }
+
+            // Popup must be gone now
+            popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup === null, true);
+
+            if (data.replug) {
+                // Libreoffice must still be running
+                compare(ApplicationManager.findApplication("libreoffice") !== null, true);
+            } else {
+                // Libreoffice must be gone now
+                compare(ApplicationManager.findApplication("libreoffice") === null, true);
+            }
         }
     }
 }
