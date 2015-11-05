@@ -392,7 +392,7 @@ Rectangle {
             compare(ApplicationManager.count, 1)
         }
 
-        function atest_snapDecisionDismissalReturnsFocus() {
+        function test_snapDecisionDismissalReturnsFocus() {
             loadShell("phone");
             swipeAwayGreeter();
             var notifications = findChild(shell, "notificationList");
@@ -453,7 +453,7 @@ Rectangle {
             mockNotificationsModel.append(n)
         }
 
-        function atest_phoneLeftEdgeDrag_data() {
+        function test_phoneLeftEdgeDrag_data() {
             return [
                 {tag: "without launcher",
                  revealLauncher: false, swipeLength: units.gu(30), appHides: true, focusedApp: "dialer-app",
@@ -485,7 +485,7 @@ Rectangle {
             ];
         }
 
-        function atest_phoneLeftEdgeDrag(data) {
+        function test_phoneLeftEdgeDrag(data) {
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
@@ -520,7 +520,7 @@ Rectangle {
             compare(animateTimer.nextState, "visible");
         }
 
-        function atest_tabletLeftEdgeDrag_data() {
+        function test_tabletLeftEdgeDrag_data() {
             return [
                 {tag: "without password", user: "no-password", loggedIn: true, demo: false},
                 {tag: "with password", user: "has-password", loggedIn: false, demo: false},
@@ -528,7 +528,7 @@ Rectangle {
             ]
         }
 
-        function atest_tabletLeftEdgeDrag(data) {
+        function test_tabletLeftEdgeDrag(data) {
             setLightDMMockMode("full");
             loadShell("tablet");
 
@@ -543,7 +543,7 @@ Rectangle {
             confirmLoggedIn(data.loggedIn)
         }
 
-        function atest_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
+        function test_longLeftEdgeSwipeTakesToAppsAndResetSearchString() {
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
@@ -562,7 +562,7 @@ Rectangle {
             compare(dashCommunicatorSpy.count, 1);
         }
 
-        function atest_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
+        function test_ClickUbuntuIconInLauncherTakesToAppsAndResetSearchString() {
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
@@ -578,7 +578,7 @@ Rectangle {
             compare(dashCommunicatorSpy.count, 1);
         }
 
-        function atest_suspend() {
+        function test_suspend() {
             loadShell("phone");
             swipeAwayGreeter();
             var greeter = findChild(shell, "greeter");
@@ -704,7 +704,7 @@ Rectangle {
           - perform long left edge swipe to go minimize the app and go back to the dash.
           - verify the setCurrentScope() D-Bus call to the dash has been called for the correct scope id.
          */
-        function atest_minimizingAppTakesToDashApps() {
+        function test_minimizingAppTakesToDashApps() {
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
@@ -726,7 +726,7 @@ Rectangle {
             compare(dashCommunicatorSpy.signalArguments[0][0], 0);
         }
 
-        function atest_showInputMethod() {
+        function test_showInputMethod() {
             loadShell("phone");
             swipeAwayGreeter();
             var item = findChild(shell, "inputMethod");
@@ -757,7 +757,7 @@ Rectangle {
             waitUntilTransitionsEnd(appWindowStateGroup);
         }
 
-        function atest_surfaceLosesActiveFocusWhilePanelIsOpen() {
+        function test_surfaceLosesActiveFocusWhilePanelIsOpen() {
             loadShell("phone");
             swipeAwayGreeter();
             var app = ApplicationManager.startApplication("dialer-app");
@@ -790,7 +790,7 @@ Rectangle {
             tryCompare(app.session.surface, "activeFocus", true);
         }
 
-        function atest_launchedAppHasActiveFocus_data() {
+        function test_launchedAppHasActiveFocus_data() {
             return [
                 {tag: "phone", formFactor: "phone", usageScenario: "phone"},
                 {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"},
@@ -798,7 +798,7 @@ Rectangle {
             ]
         }
 
-        function atest_launchedAppHasActiveFocus(data) {
+        function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
             waitForGreeterToStabilize();
@@ -813,7 +813,7 @@ Rectangle {
             tryCompare(webApp.session.surface, "activeFocus", true);
         }
 
-        function atest_launchedAppKeepsActiveFocusOnUsageModeChange() {
+        function test_launchedAppKeepsActiveFocusOnUsageModeChange() {
             loadShell("tablet");
             swipeAwayGreeter();
 
@@ -941,7 +941,7 @@ Rectangle {
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
         }
 
-        function atest_focusRequestedHidesGreeter() {
+        function test_focusRequestedHidesGreeter() {
             loadShell("phone");
             swipeAwayGreeter();
             var greeter = findChild(shell, "greeter");
@@ -963,7 +963,7 @@ Rectangle {
             waitForRendering(greeter);
         }
 
-        function atest_focusRequestedHidesIndicators() {
+        function test_focusRequestedHidesIndicators() {
             loadShell("phone");
             swipeAwayGreeter();
             var indicators = findChild(shell, "indicators");
@@ -977,7 +977,7 @@ Rectangle {
             tryCompare(indicators, "fullyClosed", true);
         }
 
-        function atest_showAndHideGreeterDBusCalls() {
+        function test_showAndHideGreeterDBusCalls() {
             loadShell("phone");
             swipeAwayGreeter();
             var greeter = findChild(shell, "greeter")
@@ -990,7 +990,7 @@ Rectangle {
             tryCompare(greeter, "shown", false)
         }
 
-        function atest_greeterLoginsAutomaticallyWhenNoPasswordSet() {
+        function test_greeterLoginsAutomaticallyWhenNoPasswordSet() {
             loadShell("phone");
             swipeAwayGreeter();
 
@@ -1002,7 +1002,7 @@ Rectangle {
             tryCompare(sessionSpy, "count", 1);
         }
 
-        function atest_fullscreen() {
+        function test_fullscreen() {
             loadShell("phone");
             swipeAwayGreeter();
             var panel = findChild(shell, "panel");
@@ -1017,7 +1017,7 @@ Rectangle {
             tryCompare(panel, "fullscreenMode", false);
         }
 
-        function atest_leftEdgeDragFullscreen() {
+        function test_leftEdgeDragFullscreen() {
             loadShell("phone");
             swipeAwayGreeter();
             var panel = findChild(shell, "panel");
@@ -1040,7 +1040,7 @@ Rectangle {
             touchRelease(shell);
         }
 
-        function atest_unlockedProperties() {
+        function test_unlockedProperties() {
             loadShell("phone");
             swipeAwayGreeter();
             // Confirm that various properties have the correct values when unlocked
@@ -1054,13 +1054,13 @@ Rectangle {
             tryCompare(indicators, "available", true)
         }
 
-        function atest_unlockAllModemsOnBoot() {
+        function test_unlockAllModemsOnBoot() {
             loadShell("phone");
             swipeAwayGreeter();
             tryCompare(unlockAllModemsSpy, "count", 1)
         }
 
-        function atest_unlockAllModemsAfterWizard() {
+        function test_unlockAllModemsAfterWizard() {
             Wizard.System.wizardEnabled = true;
             loadShell("phone");
 
@@ -1075,7 +1075,7 @@ Rectangle {
             compare(unlockAllModemsSpy.count, 1);
         }
 
-        function atest_wizardEarlyExit() {
+        function test_wizardEarlyExit() {
             Wizard.System.wizardEnabled = true;
             AccountsService.demoEdges = true;
             loadShell("phone");
@@ -1111,7 +1111,7 @@ Rectangle {
             compare(tutorialLeft, null); // should be destroyed with tutorial
         }
 
-        function atest_tutorialPausedDuringGreeter() {
+        function test_tutorialPausedDuringGreeter() {
             loadShell("phone");
 
             var tutorial = findChild(shell, "tutorial");
@@ -1124,7 +1124,7 @@ Rectangle {
             tryCompare(tutorial, "paused", false);
         }
 
-        function atest_tapOnRightEdgeReachesApplicationSurface() {
+        function test_tapOnRightEdgeReachesApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
@@ -1153,7 +1153,7 @@ Rectangle {
             that no touch event was sent to it (ie, they were all consumed
             by the right-edge drag area)
          */
-        function atest_rightEdgeDragDoesNotReachApplicationSurface() {
+        function test_rightEdgeDragDoesNotReachApplicationSurface() {
             loadShell("phone");
             swipeAwayGreeter();
             var topmostSpreadDelegate = findChild(shell, "appDelegate0");
@@ -1199,7 +1199,7 @@ Rectangle {
             tryCompare(spreadView, "phase", 2);
         }
 
-        function atest_tapUbuntuIconInLauncherOverAppSpread() {
+        function test_tapUbuntuIconInLauncherOverAppSpread() {
             launcherShowDashHomeSpy.clear();
 
             loadShell("phone");
@@ -1245,7 +1245,7 @@ Rectangle {
             tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
 
-        function atest_tabletLogin_data() {
+        function test_tabletLogin_data() {
             return [
                 {tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
                 {tag: "with password", user: "has-password", loggedIn: true, password: "password"},
@@ -1253,7 +1253,7 @@ Rectangle {
             ]
         }
 
-        function atest_tabletLogin(data) {
+        function test_tabletLogin(data) {
             setLightDMMockMode("full");
             loadShell("tablet");
 
@@ -1269,7 +1269,7 @@ Rectangle {
             confirmLoggedIn(data.loggedIn);
         }
 
-        function atest_appLaunchDuringGreeter_data() {
+        function test_appLaunchDuringGreeter_data() {
             return [
                 {tag: "auth error", user: "auth-error", loggedIn: false, passwordFocus: false},
                 {tag: "without password", user: "no-password", loggedIn: true, passwordFocus: false},
@@ -1277,7 +1277,7 @@ Rectangle {
             ]
         }
 
-        function atest_appLaunchDuringGreeter(data) {
+        function test_appLaunchDuringGreeter(data) {
             setLightDMMockMode("full");
             loadShell("tablet");
 
@@ -1294,7 +1294,7 @@ Rectangle {
             }
         }
 
-        function atest_stageLoader_data() {
+        function test_stageLoader_data() {
             return [
                 {tag: "phone", source: "Stages/PhoneStage.qml", formFactor: "phone", usageScenario: "phone"},
                 {tag: "tablet", source: "Stages/TabletStage.qml", formFactor: "tablet", usageScenario: "tablet"},
@@ -1302,14 +1302,14 @@ Rectangle {
             ]
         }
 
-        function atest_stageLoader(data) {
+        function test_stageLoader(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
             var stageLoader = findChild(shell, "applicationsDisplayLoader");
             verify(String(stageLoader.source).indexOf(data.source) >= 0);
         }
 
-        function atest_launcherInverted_data() {
+        function test_launcherInverted_data() {
             return [
                 {tag: "phone", formFactor: "phone", usageScenario: "phone", launcherInverted: true},
                 {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", launcherInverted: true},
@@ -1317,7 +1317,7 @@ Rectangle {
             ]
         }
 
-        function atest_launcherInverted(data) {
+        function test_launcherInverted(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
 
@@ -1325,7 +1325,7 @@ Rectangle {
             compare(launcher.inverted, data.launcherInverted);
         }
 
-        function atest_unfocusedAppsGetSuspendedAfterEnteringStagedMode() {
+        function test_unfocusedAppsGetSuspendedAfterEnteringStagedMode() {
             loadShell("tablet");
             shell.usageScenario = "desktop";
 
@@ -1347,7 +1347,7 @@ Rectangle {
             tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedSuspended);
         }
 
-        function atest_unfocusedAppsAreResumedWhenEnteringWindowedMode() {
+        function test_unfocusedAppsAreResumedWhenEnteringWindowedMode() {
             loadShell("tablet");
             shell.usageScenario = "tablet";
 
@@ -1369,7 +1369,7 @@ Rectangle {
             tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
 
-        function atest_altTabSwitchesFocus() {
+        function test_altTabSwitchesFocus() {
             loadShell("desktop");
             shell.usageScenario = "desktop"
             waitForRendering(root)
@@ -1406,7 +1406,7 @@ Rectangle {
             tryCompare(app3.session.surface, "activeFocus", true)
         }
 
-        function atest_altTabWrapAround() {
+        function test_altTabWrapAround() {
             loadDesktopShellWithApps();
 
             var desktopStage = findChild(shell, "stage");
@@ -1455,7 +1455,7 @@ Rectangle {
             tryCompare(focused.session.surface, "activeFocus", true)
         }
 
-        function atest_altBackTabNavigation() {
+        function test_altBackTabNavigation() {
             loadDesktopShellWithApps();
 
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
@@ -1486,7 +1486,7 @@ Rectangle {
             keyRelease(Qt.Key_Control);
         }
 
-        function atest_highlightFollowsMouse() {
+        function test_highlightFollowsMouse() {
             loadDesktopShellWithApps()
 
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
@@ -1514,7 +1514,7 @@ Rectangle {
             keyRelease(Qt.Key_Control);
         }
 
-        function atest_closeFromSpread() {
+        function test_closeFromSpread() {
             loadDesktopShellWithApps()
 
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
@@ -1550,14 +1550,14 @@ Rectangle {
             keyRelease(Qt.Key_Control);
         }
 
-        function atest_selectFromSpreadWithMouse_data() {
+        function test_selectFromSpreadWithMouse_data() {
             return [
                 {tag: "click on tileInfo", tileInfo: true },
                 {tag: "click on surface", tileInfo: false },
             ]
         }
 
-        function atest_selectFromSpreadWithMouse(data) {
+        function test_selectFromSpreadWithMouse(data) {
             loadDesktopShellWithApps()
 
             var stage = findChild(shell, "stage");
@@ -1597,7 +1597,7 @@ Rectangle {
             keyRelease(Qt.Key_Control);
         }
 
-        function atest_progressiveAutoScrolling() {
+        function test_progressiveAutoScrolling() {
             loadDesktopShellWithApps()
 
             var appRepeater = findInvisibleChild(shell, "appRepeater");
@@ -1634,7 +1634,7 @@ Rectangle {
 
         // This makes sure the hoverMouseArea is set to invisible AND disabled
         // when not needed. Otherwise it'll eat mouse hover events for the rest of the shell/apps
-        function atest_hoverMouseAreaDisabledAndInvisible() {
+        function test_hoverMouseAreaDisabledAndInvisible() {
             loadDesktopShellWithApps()
 
             var hoverMouseArea = findChild(shell, "hoverMouseArea");
@@ -1653,7 +1653,7 @@ Rectangle {
             tryCompare(hoverMouseArea, "visible", false)
         }
 
-        function atest_workspacePreviewsHighlightedApp() {
+        function test_workspacePreviewsHighlightedApp() {
             loadDesktopShellWithApps()
 
             var targetZ = ApplicationManager.count + 1;
@@ -1688,7 +1688,7 @@ Rectangle {
             keyRelease(Qt.Key_Control);
         }
 
-        function atest_focusAppFromLauncherExitsSpread() {
+        function test_focusAppFromLauncherExitsSpread() {
             loadDesktopShellWithApps()
 
             var desktopSpread = findChild(shell, "spread");
@@ -1714,7 +1714,7 @@ Rectangle {
         }
 
         // regression test for http://pad.lv/1443319
-        function atest_closeMaximizedAndRestart() {
+        function test_closeMaximizedAndRestart() {
             loadDesktopShellWithApps();
 
             var appRepeater = findChild(shell, "appRepeater")
@@ -1739,7 +1739,7 @@ Rectangle {
         }
 
         // bug http://pad.lv/1431566
-        function atest_switchToStagedHidesPanelButtons() {
+        function test_switchToStagedHidesPanelButtons() {
             loadDesktopShellWithApps();
             var appRepeater = findChild(shell, "appRepeater")
             var appId = ApplicationManager.get(0).appId;
@@ -1761,7 +1761,7 @@ Rectangle {
             tryCompare(panelButtons, "visible", true);
         }
 
-        function atest_lockingGreeterHidesPanelButtons() {
+        function test_lockingGreeterHidesPanelButtons() {
             loadDesktopShellWithApps();
             var appRepeater = findChild(shell, "appRepeater")
             var appId = ApplicationManager.get(0).appId;
