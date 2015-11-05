@@ -32,6 +32,7 @@ MouseArea {
     signal minimize()
     signal maximize()
 
+    acceptedButtons: Qt.LeftButton
     onDoubleClicked: root.maximize()
 
     QtObject {

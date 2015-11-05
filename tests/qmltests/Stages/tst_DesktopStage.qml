@@ -149,7 +149,7 @@ Item {
         function test_tappingOnWindowChangesFocusedApp_data() {
             return [
                 {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 }
             ]
         }
 
@@ -196,7 +196,7 @@ Item {
         function test_tappingOnDecorationFocusesApplication_data() {
             return [
                 {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 }
             ]
         }
 
@@ -206,12 +206,16 @@ Item {
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
             tap(fromAppDecoration);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+            var fromApp = ApplicationManager.findApplication(data.apps[data.focusfrom]);
+            verify(fromApp);
+            tryCompare(fromApp.session.surface, "activeFocus", true);
 
             var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
             verify(toAppDecoration);
             tap(toAppDecoration);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+            var toApp = ApplicationManager.findApplication(data.apps[data.focusTo]);
+            verify(toApp);
+            tryCompare(toApp.session.surface, "activeFocus", true);
         }
 
         function test_clickingOnDecorationFocusesApplication_data() {

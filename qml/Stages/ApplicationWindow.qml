@@ -54,7 +54,7 @@ FocusScope {
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
-        property bool needToTakeScreenshot:
+        readonly property bool needToTakeScreenshot:
             ((sessionContainer.surface && d.surfaceInitialized) || d.hadSurface)
             && screenshotImage.status === Image.Null
             && d.applicationState === ApplicationInfoInterface.Stopped
@@ -69,7 +69,7 @@ FocusScope {
         // Remove this when possible
         property bool surfaceInitialized: false
 
-        property bool supportsSurfaceResize:
+        readonly property bool supportsSurfaceResize:
                 application &&
                 ((application.supportedOrientations & Qt.PortraitOrientation)
                   || (application.supportedOrientations & Qt.InvertedPortraitOrientation))
