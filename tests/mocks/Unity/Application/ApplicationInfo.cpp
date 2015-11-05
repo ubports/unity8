@@ -101,6 +101,7 @@ void ApplicationInfo::setSession(Session* session)
     if (m_session) {
         m_session->setApplication(this);
         m_session->setParent(this);
+        m_session->setScreenshot(m_screenshotFileName);
         SessionManager::singleton()->registerSession(m_session);
         connect(m_session, &Session::surfaceChanged,
                 this, &ApplicationInfo::onSessionSurfaceChanged);
@@ -125,21 +126,18 @@ void ApplicationInfo::setScreenshotId(const QString &screenshotId)
     QString screenshotFileName;
 
     if (screenshotId.endsWith(".svg")) {
-        screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2")
-            .arg(qmlDirectory())
+        screenshotFileName = QString("qrc:///Unity/Application/screenshots/%2")
             .arg(screenshotId);
     } else {
-        screenshotFileName = QString("%1/Dash/graphics/phone/screenshots/%2@12.png")
-            .arg(qmlDirectory())
+        screenshotFileName = QString("qrc:///Unity/Application/screenshots/%2@12.png")
             .arg(screenshotId);
     }
 
     if (screenshotFileName != m_screenshotFileName) {
         m_screenshotFileName = screenshotFileName;
 
-        QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
         if (m_session) {
-            m_session->setScreenshot(screenshotUrl);
+            m_session->setScreenshot(screenshotFileName);
         }
     }
 }
