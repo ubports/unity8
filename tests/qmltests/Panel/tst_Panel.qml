@@ -55,7 +55,7 @@ IndicatorTest {
                     indicatorsModel: root.indicatorsModel
                 }
 
-                property real panelAndSeparatorHeight: panel.indicators.minimizedPanelHeight + units.dp(2)
+                property real panelAndSeparatorHeight: panel.indicators.minimizedPanelHeight
             }
         }
 
