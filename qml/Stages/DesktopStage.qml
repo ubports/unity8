@@ -20,7 +20,6 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
-import "../Components"
 import "../Components/PanelState"
 import "../Components"
 import Utils 0.1
@@ -191,7 +190,6 @@ AbstractStage {
         when: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
-    Component.onCompleted: priv.updateForegroundMaximizedApp();
     Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
@@ -374,18 +372,6 @@ AbstractStage {
                                     }
                                 }
                             }
-                        }
-                    },
-                    Transition {
-                        from: ""
-                        to: "altTab"
-                        PropertyAction { target: appDelegate; properties: "y,angle,z,itemScale,itemScaleOriginY" }
-                        PropertyAction { target: decoratedWindow; properties: "anchors.topMargin" }
-                        PropertyAnimation {
-                            target: appDelegate; properties: "x"
-                            from: root.width
-                            duration: rightEdgePushArea.containsMouse ? UbuntuAnimation.FastDuration :0
-                            easing: UbuntuAnimation.StandardEasing
                         }
                     }
                 ]
