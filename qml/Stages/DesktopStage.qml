@@ -326,6 +326,10 @@ AbstractStage {
 
                 states: [
                     State {
+                        name: "fullscreen"; when: decoratedWindow.fullscreen
+                        extend: "maximized"
+                    },
+                    State {
                         name: "normal";
                         when: !appDelegate.maximized && !appDelegate.minimized
                               && !appDelegate.maximizedLeft && !appDelegate.maximizedRight
@@ -373,15 +377,6 @@ AbstractStage {
                         PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
-                        to: "maximized"
-                        enabled: appDelegate.animationsEnabled
-                        PropertyAction { target: appDelegate; property: "visuallyMinimized" }
-                        SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
-                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
-                        }
-                    },
-                    Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
@@ -396,6 +391,15 @@ AbstractStage {
                                 }
                             }
                         }
+                    },
+                    Transition {
+                        to: "*" //maximized and fullscreen
+                        enabled: appDelegate.animationsEnabled
+                        PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        SequentialAnimation {
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                        }
                     }
                 ]
 
@@ -405,17 +409,6 @@ AbstractStage {
                     property: "z"
                     value: ApplicationManager.count + 1
                     when: index == spread.highlightedIndex && blurLayer.ready
-                }
-
-                Connections {
-                    target: decoratedWindow
-                    onFullscreenChanged: {
-                        if (decoratedWindow.fullscreen) {
-                            appDelegate.maximize();
-                        } else {
-                            appDelegate.restoreFromMinimized();
-                        }
-                    }
                 }
 
                 WindowResizeArea {
