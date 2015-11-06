@@ -27,8 +27,8 @@ FocusScope {
     property alias application: applicationWindow.application
     property alias active: decoration.active
     property alias title: decoration.title
+    property alias fullscreen: applicationWindow.fullscreen
 
-    property bool decorationShown: true
     property bool highlightShown: false
     property real shadowOpacity: 1
 
@@ -73,7 +73,7 @@ FocusScope {
         onMaximize: root.maximize();
         onMinimize: root.minimize();
         onPressed: root.decorationPressed();
-        visible: decorationShown
+        visible: window && !window.fullscreen
     }
 
     ApplicationWindow {

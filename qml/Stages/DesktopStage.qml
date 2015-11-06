@@ -15,7 +15,6 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components/PanelState"
@@ -406,6 +405,17 @@ AbstractStage {
                     property: "z"
                     value: ApplicationManager.count + 1
                     when: index == spread.highlightedIndex && blurLayer.ready
+                }
+
+                Connections {
+                    target: decoratedWindow
+                    onFullscreenChanged: {
+                        if (decoratedWindow.fullscreen) {
+                            appDelegate.maximize();
+                        } else {
+                            appDelegate.restoreFromMinimized();
+                        }
+                    }
                 }
 
                 WindowResizeArea {
