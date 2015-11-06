@@ -163,16 +163,6 @@ AbstractStage {
                 }
             }
         }
-
-        function isAnyMaximized() {
-            for (var i = 0; i < appRepeater.count; i++) {
-                var appDelegate = appRepeater.itemAt(i);
-                if (appDelegate && appDelegate.maximized) {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 
     Connections {
@@ -209,7 +199,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "dropShadow"
-        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.isAnyMaximized()
+        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIdIndex !== -1
     }
 
     Component.onDestruction: PanelState.buttonsVisible = false;
