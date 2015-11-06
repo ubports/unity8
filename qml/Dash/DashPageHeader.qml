@@ -24,7 +24,7 @@ import "../Components"
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + bottomContainer.height + signatureLineHeight
+    implicitHeight: headerContainer.height + signatureLineHeight
     readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
 
     property bool showBackButton: false
@@ -43,7 +43,6 @@ Item {
     property alias searchHint: searchTextField.placeholderText
     property bool showSignatureLine: true
 
-    property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
     property int paginationIndex: -1
 
@@ -127,9 +126,10 @@ Item {
     }
 
     InverseMouseArea {
-        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
+        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
+            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
             mouse.accepted = false;
         }
@@ -276,7 +276,6 @@ Item {
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
                 config: PageHeadConfiguration {
-                    title: root.title
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                     backAction: Action {
                         iconName: backIsClose ? "close" : "back"
@@ -326,7 +325,7 @@ Item {
                             right: parent.right
                             verticalCenter: parent.verticalCenter
                         }
-                        text: header.title
+                        text: root.title
                         font.weight: header.fontWeight
                         fontSize: header.fontSize
                         color: header.panelForegroundColor
@@ -372,7 +371,7 @@ Item {
             top: headerContainer.bottom
             left: parent.left
             right: parent.right
-            bottom: bottomContainer.top
+            bottom: parent.bottom
         }
 
         color: root.scopeStyle ? root.scopeStyle.headerDividerColor : "#e0e0e0"
@@ -413,7 +412,7 @@ Item {
         id: bottomHighlight
         visible: bottomBorder.visible
         anchors {
-            top: bottomContainer.top
+            top: parent.bottom
             left: parent.left
             right: parent.right
         }
@@ -435,16 +434,5 @@ Item {
                                           root.scopeStyle.background.b, 1.0), 1.2);
                    } else "#CCFFFFFF"
         }
-    }
-
-    Item {
-        id: bottomContainer
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-        height: childrenRect.height
     }
 }

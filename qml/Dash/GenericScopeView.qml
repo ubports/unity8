@@ -626,7 +626,7 @@ FocusScope {
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
             favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
             favorite: scopeView.scope && scopeView.scope.favorite
-            navigationTag: scopeView.scope && scopeView.scope.primaryNavigationTag
+            navigationTag: scopeView.scope ? scopeView.scope.primaryNavigationTag : ""
             scopeStyle: scopeView.scopeStyle
             paginationCount: scopeView.paginationCount
             paginationIndex: scopeView.paginationIndex
@@ -669,6 +669,7 @@ FocusScope {
 
             onDashNavigationLeafClicked: {
                 categoryView.pageHeader.closePopup();
+                categoryView.pageHeader.unfocus();
             }
         }
     }
