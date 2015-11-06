@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import "../../../../qml/Dash/Previews"
 import Unity.Test 0.1 as UT
 
@@ -24,7 +24,7 @@ Rectangle {
     id: root
     width: units.gu(40)
     height: units.gu(80)
-    color: Theme.palette.selected.background
+    color: theme.palette.selected.background
 
     property string longText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh.\nLorem ipsum dolor sit amet, consectetur adipiscing elit.\nPhasellus a mi vitae augue rhoncus lobortis ut rutrum metus.\nCurabitur tortor leo, tristique sed mollis quis, condimentum venenatis nibh."
     property string longText2: "This is a very very very long text. 1 This is a very very very long text. 2 This is a very very very long text. 3 This is a very very very long text. 4 This is a very very very long text. 5 This is a very very very long text. 6 This is a very very very long text. 7 This is a very very very long text. 8 This is a very very very long text. 9 This is a very very very long text. 10 This is a very very very long text. 11 This is a very very very long text."
@@ -319,9 +319,9 @@ Rectangle {
                 previewWidgetFactory.widgetType = allWidgetsModel.get(i).type;
                 previewWidgetFactory.active = true;
 
-                // Wait for the height ot settle by waiting twice the time of the
+                // Wait for the height ot settle by waiting four times the time of the
                 // longest of the height behaviour animations
-                wait(UbuntuAnimation.SnapDuration * 2);
+                wait(UbuntuAnimation.SnapDuration * 4);
 
                 // Check the item inside the expandable has the same height
                 // as the one straight from the factory

@@ -14,13 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
 import IntegratedLightDM 0.1 as LightDM
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
@@ -29,8 +29,11 @@ import Unity.Notifications 1.0
 import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
+import Utils 0.1
 
 import "../../qml"
+import "../../qml/Components"
+import "../../qml/Components/PanelState"
 import "Stages"
 
 Rectangle {
@@ -58,6 +61,10 @@ Rectangle {
 
             anchors.centerIn: parent
 
+            property int shellOrientation: Qt.PortraitOrientation
+            property int nativeOrientation: Qt.PortraitOrientation
+            property int primaryOrientation: Qt.PortraitOrientation
+
             state: "phone"
             states: [
                 State {
@@ -74,6 +81,9 @@ Rectangle {
                         target: shellLoader
                         width: units.gu(100)
                         height: units.gu(71)
+                        shellOrientation: Qt.LandscapeOrientation
+                        nativeOrientation: Qt.LandscapeOrientation
+                        primaryOrientation: Qt.LandscapeOrientation
                     }
                 },
                 State {
@@ -96,9 +106,13 @@ Rectangle {
                 Shell {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
-                    orientation: Qt.PortraitOrientation
-                    primaryOrientation: Qt.PortraitOrientation
-                    nativeOrientation: Qt.PortraitOrientation
+                    nativeWidth: width
+                    nativeHeight: height
+                    orientation: shellLoader.shellOrientation
+                    orientations: Orientations {
+                        native_: shellLoader.nativeOrientation
+                        primary: shellLoader.primaryOrientation
+                    }
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -302,6 +316,7 @@ Rectangle {
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
+            WindowStateStorage.clear();
         }
 
         function loadShell(formFactor) {
@@ -377,6 +392,8 @@ Rectangle {
             LightDM.Greeter.authenticate(""); // reset greeter
 
             sessionSpy.clear();
+
+            GSettingsController.setLifecycleExemptAppids([]);
         }
 
         function killApps() {
@@ -1706,6 +1723,135 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
             keyRelease(Qt.Key_Control);
+        }
+
+        // regression test for http://pad.lv/1443319
+        function test_closeMaximizedAndRestart() {
+            loadDesktopShellWithApps();
+
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
+            tryCompare(appDelegate, "state", "maximized");
+            tryCompare(PanelState, "buttonsVisible", true)
+
+            ApplicationManager.stopApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", false)
+
+            ApplicationManager.startApplication(appId);
+            tryCompare(PanelState, "buttonsVisible", true)
+        }
+
+        function test_newAppHasValidGeometry() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater");
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            var resizeArea = findChild(appDelegate, "windowResizeArea");
+            var priv = findInvisibleChild(resizeArea, "priv");
+
+            // Make sure windows are at 0,0 or greater and they have a size that's > 0
+            compare(priv.normalX >= 0, true)
+            compare(priv.normalY >= 0, true)
+            compare(priv.normalWidth > 0, true)
+            compare(priv.normalHeight > 0, true)
+        }
+
+        // bug http://pad.lv/1431566
+        function test_switchToStagedHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            shell.usageScenario = "phone";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lockingGreeterHidesPanelButtons() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+            var panelButtons = findChild(shell, "panelWindowControlButtons")
+
+            tryCompare(appDelegate, "state", "normal");
+            tryCompare(panelButtons, "visible", false);
+
+            appDelegate.maximize(false);
+            tryCompare(panelButtons, "visible", true);
+
+            LightDM.Greeter.showGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", false);
+
+            LightDM.Greeter.hideGreeter();
+            waitForRendering(shell);
+            tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_lifecyclePolicyForNonTouchApp_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"}
+            ]
+        }
+
+        function test_lifecyclePolicyForNonTouchApp(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            var app1 = ApplicationManager.startApplication("libreoffice");
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+
+            // Make sure app1 is unfocused but still running
+            compare(app1.session.surface.activeFocus, false);
+            compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_lifecyclePolicyExemption_data() {
+            return [
+                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true}
+            ]
+        }
+
+        function test_lifecyclePolicyExemption(data) {
+            loadShell(data.formFactor);
+            shell.usageScenario = data.usageScenario;
+
+            GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
+
+            var app1 = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppWindowIsFullyLoaded(app1);
+            var app2 = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+
+            // Make sure app1 is unfocused but still running
+            compare(app1.session.surface.activeFocus, false);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
     }
 }

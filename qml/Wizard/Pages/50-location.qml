@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import AccountsService 0.1
 import QMenuModel 0.1 as QMenuModel
 import Qt.labs.folderlistmodel 2.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -98,7 +98,7 @@ LocalComponents.Page {
                 anchors.leftMargin: hereCheck.labelOffset
                 anchors.right: parent.right
                 wrapMode: Text.Wrap
-                linkColor: Theme.palette.normal.foregroundText
+                linkColor: theme.palette.normal.foregroundText
                 // Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
                 text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
                 onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
