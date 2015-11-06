@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 import "../../../qml/Dash"
 import "CardHelpers.js" as Helpers
@@ -443,11 +443,11 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("color")) {
-                tryCompare(background, "color", data.color);
+                tryCompare(background, "backgroundColor", data.color);
             }
 
             if (data.hasOwnProperty("gradientColor")) {
-                tryCompare(background, "gradientColor", data.gradientColor);
+                tryCompare(background, "secondaryBackgroundColor", data.gradientColor);
             }
 
             if (data.hasOwnProperty("image")) {
@@ -520,9 +520,9 @@ Rectangle {
             waitForRendering(selector);
             waitForRendering(card);
 
-            background.color = data.tag;
+            background.backgroundColor = data.tag;
 
-            var fontColor = data.dark ? Theme.palette.normal.baseText : "white";
+            var fontColor = data.dark ? theme.palette.normal.baseText : "white";
 
             tryCompareFunction(function() { return Qt.colorEqual(summary.color, fontColor); }, true);
             tryCompareFunction(function() { return Qt.colorEqual(title.color, fontColor); }, true);

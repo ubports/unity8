@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import Dash 0.1
 
 Item {
@@ -61,7 +61,7 @@ Item {
         value: root.scope ? root.scope.searchQuery : ""
     }
 
-    PageHeader {
+    DashPageHeader {
         id: header
         objectName: "pageHeader"
         title: i18n.tr("Manage")

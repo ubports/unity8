@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 
 Item {
     id: root
@@ -31,13 +31,12 @@ Item {
     property real initialHeight: scaleTo == "height" || scaleTo == "fit" ? height : units.gu(10)
 
     property alias sourceSize: image.sourceSize
-    property alias fillMode: image.fillMode
     property alias asynchronous: image.asynchronous
     property alias cache: image.cache
-    property alias horizontalAlignment: image.horizontalAlignment
-    property alias verticalAlignment: image.verticalAlignment
     property alias sourceImage: image
-    property alias borderSource: shape.borderSource
+
+    property bool useUbuntuShape: true
+    property bool pressed: false
 
     state: "default"
 
@@ -50,12 +49,15 @@ Item {
         }
     }
 
-    UbuntuShape {
+    Loader {
         id: placeholder
         objectName: "placeholder"
-        color: "#22FFFFFF"
         anchors.fill: shape
+        active: useUbuntuShape
         visible: opacity != 0
+        sourceComponent: UbuntuShape {
+            backgroundColor: "#22FFFFFF"
+        }
 
         ActivityIndicator {
             id: activity
@@ -78,28 +80,37 @@ Item {
         }
     }
 
-    UbuntuShape {
+    Loader {
         id: shape
         objectName: "shape"
         height: root.initialHeight
         width: root.initialWidth
         anchors.centerIn: root.scaleTo == "fit" ? parent : undefined
-
+        active: useUbuntuShape
         opacity: 0
         visible: opacity != 0
+        sourceComponent: UbuntuShapeOverlay {
+            property bool pressed: false
+            overlayColor: Qt.rgba(0, 0, 0, pressed ? 0.1 : 0)
+            overlayRect: Qt.rect(0.0, 0.0, 1.0, 1.0)
+        }
+        onLoaded: {
+            item.source = image;
+            item.pressed = Qt.binding(function() { return root.pressed; });
+        }
 
-        image: Image {
+        Image {
             id: image
             objectName: "image"
 
             property url nextSource
             property string format: image.implicitWidth > image.implicitHeight ? "landscape" : "portrait"
 
+            anchors.fill: parent
+            visible: !useUbuntuShape
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: false
-            horizontalAlignment: Image.AlignHCenter
-            verticalAlignment: Image.AlignVCenter
             sourceSize.width: root.scaleTo == "width" ? root.width
                                 : root.scaleTo == "fit" && root.width <= root.height ? root.width
                                 : 0
