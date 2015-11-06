@@ -215,7 +215,7 @@ Item {
             verify(pageHeader, "Could not find the scope page header.");
             var innerHeader = findChild(pageHeader, "innerPageHeader");
             verify(innerHeader, "Could not find the scope page header.");
-            compare(innerHeader.config.title, scopesModel.getScope(data.index).name);
+            compare(innerHeader.config.contents.text, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
@@ -285,7 +285,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
@@ -405,7 +405,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
@@ -497,7 +497,7 @@ Item {
 
         function test_clearSearchWithNavigationClosed() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
 
