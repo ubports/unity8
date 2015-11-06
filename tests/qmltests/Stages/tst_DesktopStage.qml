@@ -244,24 +244,6 @@ Item {
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
         }
 
-        function test_clickingOnDecorationFocusesApplication_data() {
-            return test_tappingOnDecorationFocusesApplication_data(); // reuse test data
-        }
-
-        function test_clickingOnDecorationFocusesApplication(data) {
-            data.apps.forEach(startApplication);
-
-            var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
-            verify(fromAppDecoration);
-            mouseClick(fromAppDecoration);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
-
-            var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
-            verify(toAppDecoration);
-            mouseClick(toAppDecoration);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
-        }
-
         function test_windowMaximize() {
             var apps = ["unity8-dash", "dialer-app", "camera-app"];
             apps.forEach(startApplication);
@@ -391,11 +373,11 @@ Item {
             var dialerApp = startApplication("dialer-app");
             var dialerDelegate = findChild(desktopStage, "appDelegate_dialer-app");
             verify(dialerDelegate);
+            findChild(dialerDelegate, "decoratedWindow").maximize();
 
             var cameraApp = startApplication("camera-app");
             var cameraDelegate = findChild(desktopStage, "appDelegate_camera-app");
             verify(cameraDelegate);
-            findChild(dialerDelegate, "decoratedWindow").maximize();
 
             var galleryApp = startApplication("gallery-app");
             var galleryDelegate = findChild(desktopStage, "appDelegate_gallery-app");
@@ -414,6 +396,22 @@ Item {
             compare(cameraApp.session.surface.visible, true);
             tryCompare(dialerApp.session.surface, "visible", true);
             tryCompare(dashApp.session.surface, "visible", false); // still occluded by maximised dialer
+        }
+
+        function test_maximisedAppStaysVisibleWhenAppStarts() {
+            var dashApp = startApplication("unity8-dash");
+            var dashDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
+            verify(dashDelegate);
+            // maximize
+            findChild(dashDelegate, "decoratedWindow").maximize();
+            tryCompare(dashDelegate, "visuallyMaximized", true);
+
+            var dialerApp = startApplication("dialer-app");
+            var dialerDelegate = findChild(desktopStage, "appDelegate_dialer-app");
+            verify(dialerDelegate);
+
+            compare(dialerDelegate.visible, true, "Dialer should be visible");
+            compare(dashDelegate.visible, true, "Dash should still be visible");
         }
     }
 }

@@ -58,6 +58,10 @@ AbstractStage {
                 spread.cancel();
             }
         }
+
+        onRowsInserted: priv.updateForegroundMaximizedApp()
+        onRowsRemoved: priv.updateForegroundMaximizedApp()
+        onRowsMoved: priv.updateForegroundMaximizedApp()
     }
 
     GlobalShortcut {
@@ -123,9 +127,9 @@ AbstractStage {
                 var item = appRepeater.itemAt(i);
 
                 if (item && item.visuallyMaximized) {
-                    var app = ApplicationManager.get(i);
-                    if (app) {
-                        foregroundMaximizedAppIdIndex = i;
+                    var index = priv.indexOf(item.appId);
+                    if (index !== -1) {
+                        foregroundMaximizedAppIdIndex = index;
                         return;
                     }
                 }
@@ -146,7 +150,7 @@ AbstractStage {
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
-                    appDelegate.minimize(false); // minimize but don't switch focus
+                    appDelegate.minimize();
                 }
             }
 
@@ -170,7 +174,7 @@ AbstractStage {
         onClose: {
             ApplicationManager.stopApplication(ApplicationManager.focusedApplicationId)
         }
-        onMinimize: appRepeater.itemAt(0).minimize(true);
+        onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
         onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
                     && priv.focusedAppDelegate.restore();
     }
@@ -223,9 +227,6 @@ AbstractStage {
             model: ApplicationManager
             objectName: "appRepeater"
 
-            onItemAdded: priv.updateForegroundMaximizedApp()
-            onItemRemoved: priv.updateForegroundMaximizedApp()
-
             delegate: FocusScope {
                 id: appDelegate
                 objectName: "appDelegate_" + appId
@@ -252,7 +253,6 @@ AbstractStage {
                     }
                 }
 
-                onZChanged: priv.updateForegroundMaximizedApp()
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
 
                 visible: !visuallyMinimized &&
