@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 QtObject {
     id: root
@@ -98,6 +98,7 @@ QtObject {
                 PropertyChanges {
                     target: priv
                     landscapeOrientation: Qt.InvertedLandscapeOrientation
+                    invertedLandscapeOrientation: Qt.LandscapeOrientation
                     primaryOrientation: Qt.InvertedLandscapeOrientation
                     category: "tablet"
                 }
@@ -107,6 +108,7 @@ QtObject {
                 PropertyChanges {
                     target: priv
                     category: "desktop"
+                    supportedOrientations: root.useNativeOrientation
                 }
             }
         ]

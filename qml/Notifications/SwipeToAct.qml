@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.2
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 
 Item {
     id: swipeToAct
@@ -98,8 +98,8 @@ Item {
         id: row
         width: parent.width
         height: priv.sliderHeight
-        color: priv.sliderBGColor
-        borderSource: "none"
+        backgroundColor: priv.sliderBGColor
+        aspect: UbuntuShape.Flat
         visible: !clickToAct
 
         UbuntuShape {
@@ -108,8 +108,8 @@ Item {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: priv.gap
-            color: UbuntuColors.red
-            borderSource: "none"
+            backgroundColor: UbuntuColors.red
+            aspect: UbuntuShape.Flat
 
             state: "normal"
             height: units.gu(6)
@@ -187,10 +187,10 @@ Item {
             }
 
             z: 1
-            color: priv.sliderMainColor
+            backgroundColor: priv.sliderMainColor
             height: units.gu(6)
             width: units.gu(6)
-            borderSource: "none"
+            aspect: UbuntuShape.Flat
             radius: "medium"
             Icon {
                 anchors.fill: parent
@@ -226,8 +226,8 @@ Item {
             anchors.top: parent.top
             anchors.right: parent.right
             anchors.margins: priv.gap
-            color: UbuntuColors.green
-            borderSource: "none"
+            backgroundColor: UbuntuColors.green
+            aspect: UbuntuShape.Flat
 
             state: "normal"
             height: units.gu(6)

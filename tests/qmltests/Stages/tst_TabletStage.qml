@@ -14,10 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 
@@ -29,6 +29,8 @@ Rectangle {
     color: "grey"
     width:  tabletStageLoader.width + controls.width
     height: tabletStageLoader.height
+
+    property var greeter: { fullyShown: true }
 
     Loader {
         id: tabletStageLoader
@@ -53,7 +55,10 @@ Rectangle {
                 shellOrientation: Qt.LandscapeOrientation
                 nativeWidth: width
                 nativeHeight: height
-                orientations: Orientations{} // Defaults are fine for testing
+                orientations: Orientations {
+                    native_: Qt.LandscapeOrientation
+                    primary: Qt.LandscapeOrientation
+                }
                 focus: true
             }
         }

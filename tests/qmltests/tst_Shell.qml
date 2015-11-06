@@ -14,13 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import GSettings 1.0
 import IntegratedLightDM 0.1 as LightDM
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
@@ -61,6 +61,10 @@ Rectangle {
 
             anchors.centerIn: parent
 
+            property int shellOrientation: Qt.PortraitOrientation
+            property int nativeOrientation: Qt.PortraitOrientation
+            property int primaryOrientation: Qt.PortraitOrientation
+
             state: "phone"
             states: [
                 State {
@@ -77,6 +81,9 @@ Rectangle {
                         target: shellLoader
                         width: units.gu(100)
                         height: units.gu(71)
+                        shellOrientation: Qt.LandscapeOrientation
+                        nativeOrientation: Qt.LandscapeOrientation
+                        primaryOrientation: Qt.LandscapeOrientation
                     }
                 },
                 State {
@@ -99,8 +106,13 @@ Rectangle {
                 Shell {
                     id: __shell
                     usageScenario: usageScenarioSelector.model[usageScenarioSelector.selectedIndex]
-                    orientation: Qt.PortraitOrientation
-                    orientations: Orientations{} // Defaults are fine for testing
+                    nativeWidth: width
+                    nativeHeight: height
+                    orientation: shellLoader.shellOrientation
+                    orientations: Orientations {
+                        native_: shellLoader.nativeOrientation
+                        primary: shellLoader.primaryOrientation
+                    }
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
@@ -1722,11 +1734,9 @@ Rectangle {
             var appDelegate = appRepeater.itemAt(0);
             var maximizeButton = findChild(appDelegate, "maximizeWindowButton");
 
-            wait(5000)
             tryCompare(appDelegate, "state", "normal");
             tryCompare(PanelState, "buttonsVisible", false)
 
-            wait(5000)
             mouseClick(maximizeButton, maximizeButton.width / 2, maximizeButton.height / 2);
             tryCompare(appDelegate, "state", "maximized");
             tryCompare(PanelState, "buttonsVisible", true)
@@ -1736,6 +1746,22 @@ Rectangle {
 
             ApplicationManager.startApplication(appId);
             tryCompare(PanelState, "buttonsVisible", true)
+        }
+
+        function test_newAppHasValidGeometry() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater");
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            var resizeArea = findChild(appDelegate, "windowResizeArea");
+            var priv = findInvisibleChild(resizeArea, "priv");
+
+            // Make sure windows are at 0,0 or greater and they have a size that's > 0
+            compare(priv.normalX >= 0, true)
+            compare(priv.normalY >= 0, true)
+            compare(priv.normalWidth > 0, true)
+            compare(priv.normalHeight > 0, true)
         }
 
         // bug http://pad.lv/1431566

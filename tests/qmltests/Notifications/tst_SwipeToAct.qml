@@ -20,7 +20,7 @@ import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
 import "../../../qml/Components/UnityInputInfo"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1
 import Unity.Notifications 1.0
 

@@ -17,6 +17,8 @@
 import QtQuick 2.4
 
 QtObject {
+    id: root
+
     // Just because "native" is a reserved keyword :(
     property int native_: Qt.PortraitOrientation
 
@@ -26,4 +28,30 @@ QtObject {
     property int invertedLandscape: Qt.InvertedLandscapeOrientation
     property int portrait: Qt.PortraitOrientation
     property int invertedPortrait: Qt.InvertedPortraitOrientation
+
+    function map(orientations) {
+        var result = 0;
+
+        if (orientations & Qt.PortraitOrientation) {
+            result |= root.portrait;
+        }
+
+        if (orientations & Qt.InvertedPortraitOrientation) {
+            result |= root.invertedPortrait;
+        }
+
+        if (orientations & Qt.LandscapeOrientation) {
+            result |= root.landscape;
+        }
+
+        if (orientations & Qt.InvertedLandscapeOrientation) {
+            result |= root.invertedLandscape;
+        }
+
+        if (result == 0) {
+            result = root.primary;
+        }
+
+        return result;
+    }
 }
