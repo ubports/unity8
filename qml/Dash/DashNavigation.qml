@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Dash 0.1
 import "../Components"
 
@@ -48,7 +48,7 @@ Item {
         id: d
         readonly property color foregroundColor: root.scopeStyle
                                                  ? root.scopeStyle.getTextColor(backgroundItem.luminance)
-                                                 : Theme.palette.normal.baseText
+                                                 : theme.palette.normal.baseText
         readonly property bool bothVisible: altNavigationButton.visible && navigationButton.visible
         readonly property real navigationWidth: root.width >= units.gu(60) ? units.gu(40) : root.width
         readonly property real buttonWidth: navigationWidth / (bothVisible ? 2 : 1)

@@ -19,6 +19,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QHash>
 
 // unity-api
 #include <unity/shell/application/MirSurfaceInterface.h>
@@ -58,6 +59,8 @@ public:
 
     bool live() const override;
 
+    bool visible() const override;
+
     Mir::OrientationAngle orientationAngle() const override;
     void setOrientationAngle(Mir::OrientationAngle) override;
 
@@ -66,9 +69,10 @@ public:
 
     Q_INVOKABLE void setLive(bool live);
 
-    void incrementViewCount();
-    void decrementViewCount();
-    int viewCount() const;
+    void registerView(qintptr viewId);
+    void unregisterView(qintptr viewId);
+    void setViewVisibility(qintptr viewId, bool visible);
+    int viewCount() const { return m_views.count(); }
 
     int width() const;
     int height() const;
@@ -97,6 +101,8 @@ Q_SIGNALS:
     void activeFocusChanged(bool);
 
 private:
+    void updateVisibility();
+
     const QString m_name;
     const Mir::Type m_type;
     Mir::State m_state;
@@ -104,10 +110,14 @@ private:
     QUrl m_screenshotUrl;
     QUrl m_qmlFilePath;
     bool m_live;
-    int m_viewCount;
+    bool m_visible;
     bool m_activeFocus;
     int m_width;
     int m_height;
+    struct View {
+        bool visible;
+    };
+    QHash<qintptr, View> m_views;
 };
 
 #endif // MOCK_MIR_SURFACE_H

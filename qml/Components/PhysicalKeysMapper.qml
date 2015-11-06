@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Powerd 0.1
 
 /*!
@@ -57,27 +57,20 @@ Item {
 
         property bool altPressed: false
         property bool altTabPressed: false
+
+        property var powerButtonPressStart: 0
     }
 
-    Timer {
-        id: powerKeyLongPressTimer
-        interval: root.powerKeyLongPressTime
-        onTriggered: root.powerKeyLongPressed();
-    }
-
-    function onKeyPressed(event) {
-        if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)
-            && (!event.isAutoRepeat || !powerKeyLongPressTimer.running)) {
-
-            // FIXME: We only consider power key presses if the screen is
-            // on because of bugs 1410830/1409003.  The theory is that when
-            // those bugs are encountered, there is a >2s delay between the
-            // power press event and the power release event, which causes
-            // the shutdown dialog to appear on resume.  So to avoid that
-            // symptom while we investigate the root cause, we simply won't
-            // initiate any dialogs when the screen is off.
-            if (Powerd.status === Powerd.On) {
-                powerKeyLongPressTimer.restart();
+    function onKeyPressed(event, currentEventTimestamp) {
+        if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
+            if (event.isAutoRepeat) {
+                if (d.powerButtonPressStart > 0
+                        && currentEventTimestamp - d.powerButtonPressStart >= powerKeyLongPressTime) {
+                    d.powerButtonPressStart = 0;
+                    root.powerKeyLongPressed();
+                }
+            } else {
+                d.powerButtonPressStart = currentEventTimestamp;
             }
         } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) && !event.isAutoRepeat) {
             event.accepted = callManager.handleMediaKey(false);
@@ -113,9 +106,9 @@ Item {
         }
     }
 
-    function onKeyReleased(event) {
+    function onKeyReleased(event, currentEventTimestamp) {
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
-            powerKeyLongPressTimer.stop();
+            d.powerButtonPressStart = 0;
             event.accepted = true;
         } else if (event.key == Qt.Key_VolumeDown) {
             if (!d.ignoreVolumeEvents) root.volumeDownTriggered();

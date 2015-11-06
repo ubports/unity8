@@ -17,7 +17,7 @@
  *      Renato Araujo Oliveira Filho <renato@canonical.com>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Powerd 0.1
 import Lights 0.1
 import QMenuModel 0.1 as QMenuModel
