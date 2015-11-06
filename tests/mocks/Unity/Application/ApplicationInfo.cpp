@@ -73,8 +73,7 @@ void ApplicationInfo::createSession()
 {
     if (m_session || state() == ApplicationInfo::Stopped) { return; }
 
-    QUrl screenshotUrl = QString("file://%1").arg(m_screenshotFileName);
-    setSession(SessionManager::singleton()->createSession(appId(), screenshotUrl));
+    setSession(SessionManager::singleton()->createSession(appId(), m_screenshotFileName));
 }
 
 void ApplicationInfo::destroySession()
@@ -101,7 +100,6 @@ void ApplicationInfo::setSession(Session* session)
     if (m_session) {
         m_session->setApplication(this);
         m_session->setParent(this);
-        m_session->setScreenshot(m_screenshotFileName);
         SessionManager::singleton()->registerSession(m_session);
         connect(m_session, &Session::surfaceChanged,
                 this, &ApplicationInfo::onSessionSurfaceChanged);
