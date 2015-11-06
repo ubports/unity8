@@ -104,7 +104,7 @@ AbstractStage {
         id: minimizeRestoreShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
         onTriggered: priv.focusedAppDelegate.maximized || priv.focusedAppDelegate.maximizedLeft || priv.focusedAppDelegate.maximizedRight
-                     ? priv.focusedAppDelegate.restore() : priv.focusedAppDelegate.minimize(true)
+                     ? priv.focusedAppDelegate.restore() : priv.focusedAppDelegate.minimize()
         active: priv.focusedAppDelegate !== null
     }
 
@@ -302,7 +302,6 @@ AbstractStage {
                 }
                 function minimize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    maximized = false;
                     minimized = true;
                 }
                 function restore(animated) {
@@ -340,7 +339,7 @@ AbstractStage {
                         }
                     },
                     State {
-                        name: "maximized"; when: appDelegate.maximized
+                        name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
                             x: 0; y: 0;
@@ -436,7 +435,7 @@ AbstractStage {
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
                                 ? appDelegate.restore() : appDelegate.maximize()
-                    onMinimize: appDelegate.minimize(true)
+                    onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
             }
