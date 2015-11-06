@@ -57,6 +57,7 @@ public:
     QColor splashColorFooter() const override { return QColor(0,0,0,0); }
     Qt::ScreenOrientations supportedOrientations() const override { return Qt::PortraitOrientation; }
     bool rotatesWindowContents() const override { return false; }
+    bool isTouchApp() const override { return true; }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }

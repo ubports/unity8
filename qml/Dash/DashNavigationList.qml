@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import "../Components"
 
 Item {
@@ -24,7 +24,7 @@ Item {
     property var navigation: null
     property var currentNavigation: null
     property var scopeStyle: null
-    property color foregroundColor: Theme.palette.normal.baseText
+    property color foregroundColor: theme.palette.normal.baseText
     signal enterNavigation(var newNavigationId, bool hasChildren)
     signal goBackToParentClicked()
     signal allNavigationClicked()

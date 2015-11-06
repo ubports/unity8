@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Ubuntu.Components 1.1
-import Ubuntu.Components.Themes.Ambiance 1.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Themes.Ambiance 1.3
 
 PageHeadStyle {
     id: root

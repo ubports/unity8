@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
 import ".."
 import "../../../qml/Stages"
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 
 Item {
@@ -44,8 +44,11 @@ Item {
             width: units.gu(20)
             property int windowHeight: height
             property int windowWidth: width
-            onWindowHeightChanged: height = windowHeight
-            onWindowWidthChanged: width = windowWidth
+            state: "normal"
+
+            function maximize() {
+                state = "maximized"
+            }
 
             WindowResizeArea {
                 id: windowResizeArea
@@ -194,6 +197,36 @@ Item {
             mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true, units.gu(.05), 10);
             tryCompare(fakeWindow, "width", initialWindowWidth);
             tryCompare(fakeWindow, "height", initialWindowHeight);
+        }
+
+        function test_saveRestoreMaximized() {
+            var initialWindowX = fakeWindow.x;
+            var initialWindowY = fakeWindow.y;
+
+            var moveDelta = units.gu(5);
+
+            fakeWindow.x = initialWindowX + moveDelta
+            fakeWindow.y = initialWindowY + moveDelta
+
+            // Now change the state to maximized. The window should not keep updating the stored values
+            fakeWindow.state = "maximized"
+            fakeWindow.x = 31415 // 0 is too risky to pass the test even when broken
+            fakeWindow.y = 31415
+
+            // This will destroy the window and recreate it
+            windowLoader.active = false;
+            waitForRendering(root);
+            windowLoader.active = true;
+
+            // Make sure it's again where we left it in normal state before destroying
+            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
+            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
+
+            // Make sure maximize() has been called after restoring
+            tryCompare(fakeWindow, "state", "maximized")
+
+            // clean up
+            fakeWindow.state = "normal"
         }
     }
 }

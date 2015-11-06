@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 /*! Interface for preview widgets. */
 
@@ -33,6 +33,9 @@ Item {
 
     //! Should the widget show in expanded mode (For those that support it)
     property bool expanded: true
+
+    //! Set margins width.
+    property real widgetMargins: units.gu(1)
 
     /*! \brief This signal should be emitted when a preview action was triggered.
      *

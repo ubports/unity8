@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../../Components"
 
 /*! \brief Preview widget for image.
@@ -27,7 +27,10 @@ import "../../Components"
 
 PreviewWidget {
     id: root
-    implicitHeight: units.gu(22)
+    implicitWidth: units.gu(35)
+    implicitHeight: lazyImage.height
+
+    widgetMargins: -units.gu(1)
 
     property Item rootItem: QuickUtils.rootItem(root)
 
@@ -35,15 +38,14 @@ PreviewWidget {
         id: lazyImage
         objectName: "lazyImage"
         anchors {
-            top: parent.top
-            bottom: parent.bottom
-            horizontalCenter: parent.horizontalCenter
+            left: parent.left
+            right: parent.right
         }
-        scaleTo: "height"
+        scaleTo: "width"
         source: widgetData["source"]
         asynchronous: true
-
-        borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
+        useUbuntuShape: false
+        pressed: mouseArea.pressed
 
         MouseArea {
             id: mouseArea
@@ -61,6 +63,16 @@ PreviewWidget {
             // reloaded since the source binding is destroyed by the source = fallback
             // But at the moment the model never changes
             onStatusChanged: if (lazyImage.sourceImage.status === Image.Error) lazyImage.sourceImage.source = widgetData["fallback"];
+        }
+
+        PreviewMediaToolbar {
+            id: toolbar
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            shareData: widgetData["shareData"]
         }
     }
 

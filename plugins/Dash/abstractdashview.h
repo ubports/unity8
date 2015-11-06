@@ -109,11 +109,7 @@ private:
     virtual void doRelayout() = 0;
     virtual void updateItemCulling(qreal visibleFromY, qreal visibleToY) = 0;
     virtual void calculateImplicitHeight() = 0;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 0))
-    virtual void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) = 0;
-#else
     virtual void processModelRemoves(const QVector<QQmlChangeSet::Change> &removes) = 0;
-#endif
 
     QQmlDelegateModel *m_delegateModel;
 
