@@ -14,8 +14,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Unity.Application 0.1
 
 FocusScope {
@@ -27,6 +27,8 @@ FocusScope {
     readonly property bool fullscreen: application ? application.fullscreen : false
     property alias interactive: sessionContainer.interactive
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
+    readonly property string title: sessionContainer.surface && sessionContainer.surface.name !== "" ?
+                                        sessionContainer.surface.name : d.name
 
     // to be set from outside
     property QtObject application

@@ -2,7 +2,7 @@ AbstractButton {
                 id: root; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource: undefined; 
+                property string artShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 property int titleAlignment: Text.AlignLeft; 
@@ -14,7 +14,6 @@ AbstractButton {
                 implicitWidth: childrenRect.width; 
                 enabled: true;
 
-onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } 
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
                             id: artShapeHolder; 
@@ -30,10 +29,9 @@ Item  {
                                 sourceComponent: Item {
                                     id: artShape;
                                     objectName: "artShape";
-                                    property bool doShapeItem: components["art"]["conciergeMode"] !== true;
+                                    readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true;
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage;
-                                    property alias borderSource: artShapeShape.borderSource;
                                     ShaderEffectSource {
                                         id: artShapeSource;
                                         sourceItem: artImage;
@@ -42,16 +40,17 @@ Item  {
                                         height: 1;
                                         hideSource: doShapeItem;
                                     }
-                                    Shape {
+                                    UbuntuShape {
                                         id: artShapeShape;
-                                        image: artShapeSource;
+                                        source: artShapeSource;
                                         anchors.fill: parent;
                                         visible: doShapeItem;
                                         radius: "medium";
+                                        aspect: root.artShapeStyle === "inset" ? UbuntuShape.Inset : UbuntuShape.Flat;
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; 
-                                    Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
+                                    Component.onCompleted: { updateWidthHeightBindings(); }
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
                                     function updateWidthHeightBindings() { 
                                         if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { 
@@ -87,7 +86,7 @@ Label {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                        color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                         visible: showHeader ; 
                         width: undefined;
                         text: root.title; 

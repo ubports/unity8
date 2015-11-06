@@ -60,7 +60,7 @@ ScreenGrabber::ScreenGrabber(QObject *parent)
     }
 }
 
-void ScreenGrabber::captureAndSave()
+void ScreenGrabber::captureAndSave(int angle)
 {
     if (fileNamePrefix.isEmpty())
     {
@@ -82,7 +82,7 @@ void ScreenGrabber::captureAndSave()
         return;
     }
 
-    const QImage screenshot = main_window->grabWindow();
+    const QImage screenshot = main_window->grabWindow().transformed(QTransform().rotate(angle));
     const QString filename = makeFileName();
     qDebug() << "Saving screenshot to" << filename;
     auto saveOp = QtConcurrent::run(saveScreenshot, screenshot, filename, getFormat(), screenshotQuality);

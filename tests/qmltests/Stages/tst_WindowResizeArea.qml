@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Unity.Test 0.1 as UT
+import Unity.Test 0.1
 import ".."
 import "../../../qml/Stages"
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 
 Item {
@@ -36,34 +36,41 @@ Item {
 
         Item {
             id: fakeWindow
-            property alias minWidth: moveResizeArea.minWidth
-            property alias minHeight: moveResizeArea.minHeight
+            property alias minWidth: windowResizeArea.minWidth
+            property alias minHeight: windowResizeArea.minHeight
             x: units.gu(20)
             y: units.gu(20)
             height: units.gu(20)
             width: units.gu(20)
             property int windowHeight: height
             property int windowWidth: width
-            onWindowHeightChanged: height = windowHeight
-            onWindowWidthChanged: width = windowWidth
+            state: "normal"
 
-            WindowMoveResizeArea {
-                id: moveResizeArea
+            function maximize() {
+                state = "maximized"
+            }
+
+            WindowResizeArea {
+                id: windowResizeArea
                 target: fakeWindow
-                resizeHandleWidth: units.gu(0.5)
+                borderThickness: units.gu(2)
                 minWidth: units.gu(15)
                 minHeight: units.gu(10)
                 windowId: "test-window-id"
             }
 
             Rectangle {
-                anchors.fill: moveResizeArea
+                anchors.fill: windowResizeArea
                 color: "red"
             }
 
             Rectangle {
                 anchors.fill: fakeWindow
                 color: "blue"
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
             }
         }
     }
@@ -73,8 +80,13 @@ Item {
         sourceComponent: fakeWindowComponent
     }
 
-    UT.UnityTestCase {
-        name: "WindowMoveResizeArea"
+    MouseTouchEmulationCheckbox {
+        checked: false
+        color: "black"
+    }
+
+    UnityTestCase {
+        name: "WindowResizeArea"
         when: windowShown
 
         function init() {
@@ -82,34 +94,6 @@ Item {
             fakeWindow.y = units.gu(20)
             fakeWindow.width = units.gu(20)
             fakeWindow.height = units.gu(20)
-        }
-
-        function test_dragWindow_data() {
-            return [
-                { tag: "up", dx: 0, dy: units.gu(-10) },
-                { tag: "down", dx: 0, dy: units.gu(10) },
-                { tag: "left", dx: units.gu(-10), dy: 0 },
-                { tag: "right", dx: units.gu(10), dy: 0 },
-                { tag: "right/down", dx: units.gu(10), dy: units.gu(10) },
-                { tag: "left/down", dx: units.gu(-10), dy: units.gu(10) }
-            ]
-        }
-
-        function test_dragWindow(data) {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
-            var initialWindowWidth = fakeWindow.width
-            var initialWindowHeight = fakeWindow.height
-
-            var startDragX = initialWindowX + fakeWindow.width / 2;
-            var startDragY = initialWindowY + fakeWindow.height / 2;
-            mouseFlick(root, startDragX, startDragY, startDragX + data.dx, startDragY + data.dy, true, true, units.gu(.5), 10)
-
-            tryCompare(fakeWindow, "x", initialWindowX + data.dx)
-            tryCompare(fakeWindow, "y", initialWindowX + data.dy)
-
-            compare(fakeWindow.height, initialWindowHeight);
-            compare(fakeWindow.width, initialWindowWidth);
         }
 
         function test_resizeWindowRightBottom_data() {
@@ -166,30 +150,6 @@ Item {
             compare(fakeWindow.y, Math.min(initialWindowY + data.dy, initialWindowY + maxMoveY));
         }
 
-        function test_saveRestorePosition() {
-            var initialWindowX = fakeWindow.x;
-            var initialWindowY = fakeWindow.y;
-            var initialWindowWidth = fakeWindow.width;
-            var initialWindowHeight = fakeWindow.height;
-
-            var moveDelta = units.gu(5);
-            var startDragX = initialWindowX + fakeWindow.width / 2;
-            var startDragY = initialWindowY + fakeWindow.height / 2;
-            mouseFlick(root, startDragX, startDragY, startDragX + moveDelta, startDragY + moveDelta, true, true, units.gu(.5), 10)
-
-            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
-            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
-
-            // This will destroy the window and recreate it
-            windowLoader.active = false;
-            waitForRendering(root);
-            windowLoader.active = true;
-
-            // Make sure it's again where we left it before destroying
-            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
-            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
-        }
-
         function test_saveRestoreSize() {
             var initialWindowX = fakeWindow.x;
             var initialWindowY = fakeWindow.y;
@@ -237,6 +197,36 @@ Item {
             mouseFlick(root, startDragX + data.dx, startDragY + data.dy, startDragX, startDragY, false, true, units.gu(.05), 10);
             tryCompare(fakeWindow, "width", initialWindowWidth);
             tryCompare(fakeWindow, "height", initialWindowHeight);
+        }
+
+        function test_saveRestoreMaximized() {
+            var initialWindowX = fakeWindow.x;
+            var initialWindowY = fakeWindow.y;
+
+            var moveDelta = units.gu(5);
+
+            fakeWindow.x = initialWindowX + moveDelta
+            fakeWindow.y = initialWindowY + moveDelta
+
+            // Now change the state to maximized. The window should not keep updating the stored values
+            fakeWindow.state = "maximized"
+            fakeWindow.x = 31415 // 0 is too risky to pass the test even when broken
+            fakeWindow.y = 31415
+
+            // This will destroy the window and recreate it
+            windowLoader.active = false;
+            waitForRendering(root);
+            windowLoader.active = true;
+
+            // Make sure it's again where we left it in normal state before destroying
+            tryCompare(fakeWindow, "x", initialWindowX + moveDelta)
+            tryCompare(fakeWindow, "y", initialWindowX + moveDelta)
+
+            // Make sure maximize() has been called after restoring
+            tryCompare(fakeWindow, "state", "maximized")
+
+            // clean up
+            fakeWindow.state = "normal"
         }
     }
 }

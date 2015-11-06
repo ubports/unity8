@@ -43,16 +43,17 @@ MangleModel::MangleModel(QObject* parent)
 
 QVariant MangleModel::data(const QModelIndex &index, int role) const
 {
-    QVariant data = QSortFilterProxyModel::data(index, role);
+    QVariant variantData = QSortFilterProxyModel::data(index, role);
 
     // If user's real name is empty, switch to unix name
-    if (role == QLightDM::UsersModel::RealNameRole && data.toString().isEmpty()) {
-        data = QSortFilterProxyModel::data(index, QLightDM::UsersModel::NameRole);
-    } else if (role == QLightDM::UsersModel::BackgroundPathRole && data.toString().startsWith('#')) {
-        data = "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='" + data.toString() + "'/></svg>";
+    if (role == QLightDM::UsersModel::RealNameRole && variantData.toString().isEmpty()) {
+        variantData = QSortFilterProxyModel::data(index, QLightDM::UsersModel::NameRole);
+    } else if (role == QLightDM::UsersModel::BackgroundPathRole && variantData.toString().startsWith('#')) {
+        const QString stringData = "data:image/svg+xml,<svg><rect width='100%' height='100%' fill='" + variantData.toString() + "'/></svg>";
+        variantData = stringData;
     }
 
-    return data;
+    return variantData;
 }
 
 // **** Now we continue with actual UsersModel class ****
