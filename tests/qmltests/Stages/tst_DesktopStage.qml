@@ -60,10 +60,14 @@ Item {
 
         focus: true
 
+        property bool itemDestroyed: false
         sourceComponent: Component {
             DesktopStage {
                 color: "darkblue"
                 anchors.fill: parent
+                Component.onDestruction: {
+                    desktopStageLoader.itemDestroyed = true;
+                }
                 orientations: Orientations {}
             }
         }
@@ -99,10 +103,16 @@ Item {
         property Item desktopStage: desktopStageLoader.status === Loader.Ready ? desktopStageLoader.item : null
 
         function cleanup() {
+            desktopStageLoader.itemDestroyed = false;
             desktopStageLoader.active = false;
 
             tryCompare(desktopStageLoader, "status", Loader.Null);
             tryCompare(desktopStageLoader, "item", null);
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // Shell instance gets destroyed.
+            tryCompare(desktopStageLoader, "itemDestroyed", true);
 
             killAllRunningApps();
 
