@@ -14,12 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Window 2.0
+import QtQuick 2.4
+import QtQuick.Window 2.2
 import AccountsService 0.1
 import Unity.Application 0.1
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
@@ -49,14 +49,14 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
-    property int primaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
     property real nativeWidth
     property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
+    property bool cursorVisible: false
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
@@ -85,7 +85,7 @@ Item {
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
         } else if (mainApp) {
-            return mainApp.supportedOrientations;
+            return shell.orientations.map(mainApp.supportedOrientations);
         } else {
             // we just don't care
             return Qt.PortraitOrientation
@@ -139,7 +139,7 @@ Item {
     }
 
     Component.onCompleted: {
-        Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        theme.name = "Ubuntu.Components.Themes.SuruGradient"
         if (ApplicationManager.count > 0) {
             ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
         }
@@ -172,8 +172,8 @@ Item {
     }
 
     WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
     }
 
     HomeKeyWatcher {
@@ -298,18 +298,13 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "orientations"
+                value: shell.orientations
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "background"
                 value: wallpaperResolver.background
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shellPrimaryOrientation"
-                value: shell.primaryOrientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeOrientation"
-                value: shell.nativeOrientation
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -536,6 +531,7 @@ Item {
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
+            locked: greeter && greeter.active
         }
 
         Launcher {
