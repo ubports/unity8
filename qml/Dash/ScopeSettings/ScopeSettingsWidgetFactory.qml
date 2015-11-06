@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
+import QtQuick 2.4
 
 //! \brief This component loads the widgets based on type.
 
@@ -29,6 +29,9 @@ Loader {
 
     //! Triggered signal forwarded from the widgets.
     signal updated(var value)
+
+    //! makeSureVisible signal forwarded from the widgets.
+    signal makeSureVisible(var item)
 
     source: widgetSource
 
@@ -53,5 +56,6 @@ Loader {
     Connections {
         target: root.item
         onUpdated: if (value !== widgetData.value) root.updated(value)
+        onMakeSureVisible: root.makeSureVisible(item)
     }
 }

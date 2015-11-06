@@ -375,12 +375,17 @@ class WifiConnectPage(UbuntuUIToolkitCustomProxyObjectBase):
         wizard = get_wizard(self)
         next_page = wizard.get_current_page()
         locationPageEnabled = True
+        reportingPageEnabled = True
         if next_page.objectName == 'locationPage':
             next_page = wizard.get_location_page()
         else:
             locationPageEnabled = False
-            next_page = wizard.get_reporting_page()
-        return locationPageEnabled, next_page
+            if next_page.objectName == 'reportingPage':
+                next_page = wizard.get_reporting_page()
+            else:
+                reportingPageEnabled = False
+                next_page = wizard.get_finished_page()
+        return locationPageEnabled, reportingPageEnabled, next_page
 
     def _get_notification(self, unity):
         logger.info('Waiting longer for notification object')

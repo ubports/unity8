@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import IntegratedLightDM 0.1 as LightDM
@@ -109,6 +109,22 @@ Rectangle {
                 physicalOrientation90: Qt.InvertedPortraitOrientation
                 physicalOrientation180: Qt.LandscapeOrientation
                 primaryOrientationAngle: 90
+            }
+        },
+        State {
+            name: "desktop"
+            PropertyChanges {
+                target: orientedShellLoader
+                width: units.gu(100)
+                height: units.gu(56)
+            }
+            PropertyChanges {
+                target: root
+                physicalOrientation270: Qt.InvertedPortraitOrientation
+                physicalOrientation0:  Qt.LandscapeOrientation
+                physicalOrientation90: Qt.PortraitOrientation
+                physicalOrientation180: Qt.InvertedLandscapeOrientation
+                primaryOrientationAngle: 0
             }
         }
     ]
@@ -250,7 +266,7 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Device Name"
-                model: ["mako", "manta", "flo"]
+                model: ["mako", "manta", "flo", "desktop"]
                 onSelectedIndexChanged: {
                     testCase.tearDown();
                     applicationArguments.deviceName = model[selectedIndex];
@@ -263,6 +279,10 @@ Rectangle {
                 activeFocusOnPress: false
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
+            }
+            MouseTouchEmulationCheckbox {
+                checked: true
+                color: "white"
             }
             Button {
                 text: "Switch fullscreen"
@@ -306,12 +326,14 @@ Rectangle {
             Row {
                 Button {
                     text: "Add mouse"
+                    activeFocusOnPress: false
                     onClicked: {
                         UnityInputInfo.inputInfo.addMockMouse()
                     }
                 }
                 Button {
                     text: "Remove mouse"
+                    activeFocusOnPress: false
                     onClicked: {
                         UnityInputInfo.inputInfo.removeMockMouse()
                     }
@@ -320,14 +342,34 @@ Rectangle {
             Row {
                 Button {
                     text: "Add kbd"
+                    activeFocusOnPress: false
                     onClicked: {
                         UnityInputInfo.inputInfo.addMockKeyboard()
                     }
                 }
                 Button {
+                    activeFocusOnPress: false
                     text: "Remove kbd"
                     onClicked: {
                         UnityInputInfo.inputInfo.removeMockKeyboard()
+                    }
+                }
+            }
+
+            // Simulates what happens when the shell is moved to an external monitor and back
+            Button {
+                id: moveToFromMonitorButton
+                text: applicationArguments.deviceName === "desktop" ? "Move to " + prevDevName + " screen" : "Move to desktop screen"
+                activeFocusOnPress: false
+                property string prevDevName: "mako"
+                onClicked: {
+                    usageModeSelector.selectedIndex = 2; // "Automatic"
+
+                    if (applicationArguments.deviceName === "desktop") {
+                        applicationArguments.deviceName = prevDevName;
+                    } else {
+                        prevDevName = applicationArguments.deviceName;
+                        applicationArguments.deviceName = "desktop"
                     }
                 }
             }
@@ -798,7 +840,7 @@ Rectangle {
             // shell should remain in its primery orientation as the app in the main stage
             // is the one that dictates its orientation. In this case it's unity8-dash
             // which supports only primary orientation
-            compare(shell.orientation, orientedShell.primaryOrientation);
+            compare(shell.orientation, orientedShell.orientations.primary);
         }
 
         function test_sideStageAppsRemainPortraitInSpread_data() {
@@ -1048,6 +1090,18 @@ Rectangle {
 
             // shell shouldn't have change its orientation at any moment
             compare(signalSpy.count, 0);
+        }
+
+        function test_moveToExternalMonitor() {
+            loadShell("flo");
+
+            compare(orientedShell.orientation, Qt.InvertedLandscapeOrientation);
+            compare(shell.transformRotationAngle, 90);
+
+            moveToFromMonitorButton.clicked();
+
+            tryCompare(orientedShell, "orientation", Qt.LandscapeOrientation);
+            tryCompare(shell, "transformRotationAngle" , 0);
         }
 
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.

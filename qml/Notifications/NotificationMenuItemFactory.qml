@@ -17,8 +17,8 @@
  *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import QMenuModel 0.1
 import "../Components"
 
@@ -30,6 +30,7 @@ Loader {
     property int menuIndex : -1
     property int maxHeight
     readonly property bool fullscreen: menuData.type === "com.canonical.snapdecision.pinlock"
+    property url background: ""
 
     signal accepted()
 
@@ -149,7 +150,7 @@ Loader {
             infoText: notification.summary
             errorText: errorAction.valid ? errorAction.state : ""
             retryText: notification.body
-            background: shell.background
+            background: menuFactory.background
             darkenBackground: 0.4
 
             onEntered: {

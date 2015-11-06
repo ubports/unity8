@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Powerd 0.1
 
 // Why the state machine is done that way:
@@ -83,7 +83,7 @@ StateGroup {
         }
 
         function tryUpdateState() {
-            if (d.transitioning || (!d.startingUp && !root.shell.orientationChangesEnabled)) {
+            if (d.transitioning || (!d.startingUp && !root.orientedShell.orientationChangesEnabled)) {
                 return;
             }
 
@@ -95,7 +95,7 @@ StateGroup {
         }
 
         property Connections shellConnections: Connections {
-            target: root.shell
+            target: root.orientedShell
             onOrientationChangesEnabledChanged: {
                 d.tryUpdateState();
             }

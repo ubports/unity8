@@ -14,13 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Window 2.0
+import QtQuick 2.4
+import QtQuick.Window 2.2
 import AccountsService 0.1
-import GSettings 1.0
 import Unity.Application 0.1
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
@@ -41,6 +40,7 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
+import Cursor 1.0
 
 
 Item {
@@ -49,21 +49,21 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
-    property int primaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
     property real nativeWidth
     property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
+    property bool cursorVisible: false
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
     function updateFocusedAppOrientationAnimated() {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
-    property bool hasMouse
+    property bool hasMouse: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -85,7 +85,7 @@ Item {
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
         } else if (mainApp) {
-            return mainApp.supportedOrientations;
+            return shell.orientations.map(mainApp.supportedOrientations);
         } else {
             // we just don't care
             return Qt.PortraitOrientation
@@ -107,9 +107,11 @@ Item {
     enabled: greeter && !greeter.waiting
 
     property real edgeSize: units.gu(2)
-    property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
-    property url background: asImageTester.status == Image.Ready ? asImageTester.source
-                             : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
+
+    WallpaperResolver {
+        id: wallpaperResolver
+        width: shell.width
+    }
 
     readonly property alias greeter: greeterLoader.item
 
@@ -130,31 +132,6 @@ Item {
         shell.activateApplication(app);
     }
 
-    // This is a dummy image to detect if the custom AS set wallpaper loads successfully.
-    Image {
-        id: asImageTester
-        source: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-    }
-
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-
-    // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
-    Image {
-        id: gsImageTester
-        source: backgroundSettings.pictureUri && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-    }
-
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -162,7 +139,7 @@ Item {
     }
 
     Component.onCompleted: {
-        Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        theme.name = "Ubuntu.Components.Themes.SuruGradient"
         if (ApplicationManager.count > 0) {
             ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
         }
@@ -190,18 +167,13 @@ Item {
         onScreenshotTriggered: screenGrabber.capture();
     }
 
-    ScreenGrabber {
-        id: screenGrabber
-        z: dialogs.z + 10
-    }
-
     GlobalShortcut {
         // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
     }
 
     WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
     }
 
     HomeKeyWatcher {
@@ -326,18 +298,13 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "orientations"
+                value: shell.orientations
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "background"
-                value: shell.background
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shellPrimaryOrientation"
-                value: shell.primaryOrientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeOrientation"
-                value: shell.nativeOrientation
+                value: wallpaperResolver.background
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -432,7 +399,7 @@ Item {
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: tutorial.running
-            background: shell.background
+            background: wallpaperResolver.background
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
@@ -564,6 +531,7 @@ Item {
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
+            locked: greeter && greeter.active
         }
 
         Launcher {
@@ -607,7 +575,7 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: shell.background
+            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
@@ -638,6 +606,7 @@ Item {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
+            background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
@@ -684,9 +653,21 @@ Item {
         onShowHome: showHome()
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        rotationAngle: -shell.orientationAngle
+        z: dialogs.z + 10
+    }
+
+    Cursor {
+        id: cursor
+        visible: shell.hasMouse
+        z: screenGrabber.z + 1
+    }
+
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: screenGrabber.z + 10
+        z: cursor.z + 1
         enabled: false
         visible: false
         color: "black"
@@ -703,5 +684,4 @@ Item {
             }
         }
     }
-
 }
