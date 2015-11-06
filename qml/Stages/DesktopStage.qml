@@ -347,14 +347,14 @@ AbstractStage {
                         to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                     },
                     Transition {
                         to: "maximized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     },
@@ -363,7 +363,7 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
