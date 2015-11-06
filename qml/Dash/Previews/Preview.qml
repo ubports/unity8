@@ -14,8 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import "../../Components"
 
 /*! \brief This component constructs the Preview UI.
  *
@@ -72,18 +73,10 @@ Item {
                 }
                 width: row.columnWidth
                 spacing: row.spacing
-                bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
-                property var makeSureVisibleItem
-                property real previousVisibleHeight: 0
-                property real visibleHeight: height - bottomMargin
-                onVisibleHeightChanged: {
-                    if (makeSureVisibleItem && makeSureVisibleItem.activeFocus && previousVisibleHeight > visibleHeight) {
-                        var textAreaPos = makeSureVisibleItem.mapToItem(column, 0, 0);
-                        if (textAreaPos.y + makeSureVisibleItem.height > column.visibleHeight) {
-                            column.contentY += textAreaPos.y + makeSureVisibleItem.height - column.visibleHeight
-                        }
-                    }
-                    previousVisibleHeight = visibleHeight;
+
+                ListViewOSKScroller {
+                    id: oskScroller
+                    list: column
                 }
 
                 model: columnModel
@@ -100,17 +93,17 @@ Item {
                     anchors {
                         left: parent.left
                         right: parent.right
-                        leftMargin: units.gu(1)
-                        rightMargin: units.gu(1)
+                        leftMargin: widgetMargins
+                        rightMargin: widgetMargins
                     }
 
                     onTriggered: {
                         previewModel.triggered(widgetId, actionId, data);
                     }
-                     onMakeSureVisible: {
-                         column.previousVisibleHeight=column.visibleHeight
-                         column.makeSureVisibleItem=item
-                     }
+
+                    onMakeSureVisible: {
+                        oskScroller.setMakeSureVisibleItem(item);
+                    }
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
 

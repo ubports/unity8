@@ -14,12 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
 import MeeGo.QOfono 0.2
 import QMenuModel 0.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import Unity.Test 0.1 as UT
 import Wizard 0.1
@@ -96,7 +96,7 @@ Item {
     }
 
     Component.onCompleted: {
-        Theme.name = "Ubuntu.Components.Themes.SuruGradient";
+        theme.name = "Ubuntu.Components.Themes.SuruGradient";
         setup();
     }
 

@@ -90,6 +90,7 @@ protected:
 private Q_SLOTS:
     void onComponentStatusChanged(QQmlComponent::Status status);
     void updateScreenshot(QUrl screenshot);
+    void updateMirSurfaceVisibility();
 
 private:
     void createQmlContentItem();
