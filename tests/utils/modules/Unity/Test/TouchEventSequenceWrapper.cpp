@@ -27,12 +27,10 @@ TouchEventSequenceWrapper::TouchEventSequenceWrapper(QTest::QTouchEventSequence 
 void TouchEventSequenceWrapper::commit(bool processEvents)
 {
     m_eventSequence.commit(processEvents);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
     if (m_item->window()) {
         QQuickWindowPrivate *wp = QQuickWindowPrivate::get(m_item->window());
         wp->flushDelayedTouchEvent();
     }
-#endif
 }
 
 void TouchEventSequenceWrapper::move(int touchId, int x, int y)

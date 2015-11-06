@@ -16,8 +16,8 @@
  * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 
 Row {
     id: root
@@ -28,6 +28,7 @@ Row {
     signal maximize()
 
     Rectangle {
+        objectName: "closeWindowButton"
         height: parent.height; width: height; radius: height / 2
         gradient: Gradient {
             GradientStop { color: "#F49073"; position: 0 }
@@ -38,6 +39,7 @@ Row {
         MouseArea { anchors.fill: parent; onClicked: root.close() }
     }
     Rectangle {
+        objectName: "minimizeWindowButton"
         height: parent.height; width: height; radius: height / 2
         gradient: Gradient {
             GradientStop { color: "#92918C"; position: 0 }
@@ -48,6 +50,7 @@ Row {
         MouseArea { anchors.fill: parent; onClicked: root.minimize() }
     }
     Rectangle {
+        objectName: "maximizeWindowButton"
         height: parent.height; width: height; radius: height / 2
         gradient: Gradient {
             GradientStop { color: "#92918C"; position: 0 }
