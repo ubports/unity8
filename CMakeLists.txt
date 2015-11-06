@@ -49,15 +49,15 @@ add_custom_target(cppcheck COMMAND cppcheck --enable=all -q --error-exitcode=2
                                        ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/tests)
 
 include(FindPkgConfig)
-find_package(Qt5Core 5.2 REQUIRED)
-find_package(Qt5Qml 5.2 REQUIRED)
-find_package(Qt5Quick 5.2 REQUIRED)
-find_package(Qt5Gui 5.2 REQUIRED)
-find_package(Qt5DBus 5.2 REQUIRED)
-find_package(Qt5Concurrent 5.2 REQUIRED)
-find_package(Qt5Sql 5.2 REQUIRED)
+find_package(Qt5Core 5.4 REQUIRED)
+find_package(Qt5Qml 5.4 REQUIRED)
+find_package(Qt5Quick 5.4 REQUIRED)
+find_package(Qt5Gui 5.4 REQUIRED)
+find_package(Qt5DBus 5.4 REQUIRED)
+find_package(Qt5Concurrent 5.4 REQUIRED)
+find_package(Qt5Sql 5.4 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application>=8)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=10)
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -100,6 +100,9 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 # Save a few container detach and conversions
 add_definitions(-DQT_STRICT_ITERATORS)
+
+# Use the fast string builder
+add_definitions(-DQT_USE_QSTRINGBUILDER)
 
 # Autopilot tests
 include(autopilot)

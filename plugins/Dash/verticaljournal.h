@@ -90,11 +90,7 @@ private:
     void calculateImplicitHeight() override;
     void doRelayout() override;
     void updateItemCulling(qreal visibleFromY, qreal visibleToY) override;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 0))
-    void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) override;
-#else
     void processModelRemoves(const QVector<QQmlChangeSet::Change> &removes) override;
-#endif
 
     QVector<QList<ViewItem>> m_columnVisibleItems;
     QHash<int, int> m_indexColumnMap;

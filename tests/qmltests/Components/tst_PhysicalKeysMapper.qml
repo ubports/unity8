@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Components"
 import Powerd 0.1
@@ -67,25 +67,26 @@ TestCase {
         Powerd.setStatus(data.status, Powerd.Unknown);
         physicalKeysMapper.powerKeyLongPressTime = 500;
 
-        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false });
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: false }, 100);
 
         // After the first key press the screen is always on
         // and the rest of keypresses are auto repeat
         Powerd.setStatus(Powerd.On, Powerd.Unknown);
 
-        for (var i = 0; i < 3; ++i) {
-            wait(10);
-            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
-        }
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 300);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 400);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 500);
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 599);
 
         // powerKeyLongPressed should not have been emitted yet.
         compare(powerSpy.count, 0);
 
-        for (var i = 0; i < 10; ++i) {
-            wait(50);
-            physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true});
-        }
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 600);
 
+        compare(powerSpy.count, 1);
+
+        // Confirm we only emit once
+        physicalKeysMapper.onKeyPressed({ key: Qt.Key_PowerDown, isAutoRepeat: true}, 601);
         compare(powerSpy.count, 1);
     }
 

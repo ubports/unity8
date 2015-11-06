@@ -14,37 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import Unity.Session 0.1
 import Utils 0.1
+import Powerd 0.1
 import "../Components"
 
-Rectangle {
+AbstractStage {
     id: root
 
-    // Controls to be set from outside
-    property int dragAreaWidth
-    property real maximizedAppTopMargin
-    property bool interactive
-    property bool spreadEnabled: true // If false, animations and right edge will be disabled
-    property real inverseProgress: 0 // This is the progress for left edge drags, in pixels.
     property QtObject applicationManager: ApplicationManager
     property bool focusFirstApp: true // If false, focused app will appear on right edge like other apps
     property bool altTabEnabled: true
     property real startScale: 1.1
     property real endScale: 0.7
-    property bool keepDashRunning: true
-    property bool suspended: false
-    property int shellOrientationAngle: 0
-    property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
-    property real nativeWidth
-    property real nativeHeight
-    property bool beingResized: false
+
     onBeingResizedChanged: {
         if (beingResized) {
             // Brace yourselves for impact!
@@ -56,6 +43,8 @@ Rectangle {
             priv.reset();
         }
     }
+
+    // Functions to be called from outside
     function updateFocusedAppOrientation() {
         if (spreadRepeater.count > 0) {
             spreadRepeater.itemAt(0).matchShellOrientation();
@@ -71,7 +60,7 @@ Rectangle {
 
             var supportedOrientations = spreadDelegate.application.supportedOrientations;
             if (supportedOrientations === Qt.PrimaryOrientation) {
-                supportedOrientations = spreadDelegate.shellPrimaryOrientation;
+                supportedOrientations = root.orientations.primary;
             }
 
             if (delta === 180 && (supportedOrientations & spreadDelegate.shellOrientation)) {
@@ -85,16 +74,14 @@ Rectangle {
         }
     }
 
-    // To be read from outside
-    readonly property var mainApp: applicationManager.focusedApplicationId
+    mainApp: applicationManager.focusedApplicationId
             ? applicationManager.findApplication(applicationManager.focusedApplicationId)
             : null
 
-    property int mainAppWindowOrientationAngle: 0
-    readonly property bool orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
-                                                   && !priv.focusedAppDelegateIsDislocated
-                                                   && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
-                                                   && spreadView.phase === 0
+    orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
+                               && !priv.focusedAppDelegateIsDislocated
+                               && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
+                               && spreadView.phase === 0
 
     // How far left the stage has been dragged
     readonly property real dragProgress: spreadRepeater.count > 0 ? -spreadRepeater.itemAt(0).xTranslate : 0
@@ -105,8 +92,6 @@ Rectangle {
     property real dragAreaOverlap
 
     signal opened()
-
-    color: "#111111"
 
     function select(appId) {
         spreadView.snapTo(priv.indexOf(appId));
@@ -198,7 +183,8 @@ Rectangle {
             }
         }
 
-        property bool focusedAppDelegateIsDislocated: focusedAppDelegate && focusedAppDelegate.x !== 0
+        property bool focusedAppDelegateIsDislocated: focusedAppDelegate &&
+                                                      (focusedAppDelegate.x !== 0 || focusedAppDelegate.xBehavior.running)
 
         function indexOf(appId) {
             for (var i = 0; i < root.applicationManager.count; i++) {
@@ -438,15 +424,20 @@ Rectangle {
                     dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
                     focusFirstApp: root.focusFirstApp
 
+                    readonly property bool isDash: model.appId == "unity8-dash"
+
+                    readonly property bool canSuspend: model.isTouchApp
+                            && !isExemptFromLifecycle(model.appId)
+
                     Binding {
                         target: appDelegate.application
                         property: "requestedState"
-                        value: (isDash && root.keepDashRunning) || (!root.suspended && appDelegate.focus)
-                            ? ApplicationInfoInterface.RequestedRunning
-                            : ApplicationInfoInterface.RequestedSuspended
+                        value: !canSuspend
+                                   || (isDash && root.keepDashRunning)
+                                   || (!root.suspended && appDelegate.focus)
+                               ? ApplicationInfoInterface.RequestedRunning
+                               : ApplicationInfoInterface.RequestedSuspended
                     }
-
-                    readonly property bool isDash: model.appId == "unity8-dash"
 
                     z: isDash && !spreadView.active ? -1 : behavioredIndex
 
@@ -484,7 +475,6 @@ Rectangle {
 
                     property var xBehavior: xBehavior
                     Behavior on x {
-                        id: xBehavior
                         enabled: root.spreadEnabled &&
                                  !spreadView.active &&
                                  !snapAnimation.running &&
@@ -492,6 +482,7 @@ Rectangle {
                                  priv.animateX &&
                                  !root.beingResized
                         UbuntuNumberAnimation {
+                            id: xBehavior
                             duration: UbuntuAnimation.BriskDuration
                         }
                     }
@@ -531,15 +522,22 @@ Rectangle {
                         return progress;
                     }
 
-                    // Hiding tiles when their progress is negative or reached the maximum
-                    visible: (progress >= 0 && progress < 1.7)
-                            || (isDash && priv.focusedAppDelegateIsDislocated)
+                    // Hide tile when progress is such that it will be off screen.
+                    property bool occluded: {
+                        if (spreadView.active && (progress >= 0 && progress < 1.7)) return false;
+                        else if (!spreadView.active && isFocused) return false;
+                        else if (xBehavior.running) return false;
+                        else if (z <= 1 && priv.focusedAppDelegateIsDislocated) return false;
+                        return true;
+                    }
 
+                    visible: Powerd.status == Powerd.On &&
+                             !greeter.fullyShown &&
+                             !occluded
 
                     shellOrientationAngle: root.shellOrientationAngle
                     shellOrientation: root.shellOrientation
-                    shellPrimaryOrientation: root.shellPrimaryOrientation
-                    nativeOrientation: root.nativeOrientation
+                    orientations: root.orientations
 
                     onClicked: {
                         if (root.altTabEnabled && spreadView.phase == 2) {
