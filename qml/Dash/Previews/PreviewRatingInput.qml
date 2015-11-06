@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../../Components"
 
 /*! \brief Preview widget for rating.
@@ -79,7 +79,7 @@ PreviewWidget {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
             }
-            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
             opacity: .8
             text: widgetData["rating-label"] || i18n.tr("Rate this")
         }
@@ -124,7 +124,7 @@ PreviewWidget {
                 left: parent.left
                 right: parent.right
             }
-            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
             opacity: .8
             text: widgetData["review-label"] || i18n.tr("Add a review")
         }
@@ -170,7 +170,7 @@ PreviewWidget {
                     top: parent.top
                     right: parent.right
                 }
-                color: readyToSubmit ? Theme.palette.selected.base : Theme.palette.normal.base
+                color: readyToSubmit ? theme.palette.selected.base : theme.palette.normal.base
                 text: widgetData["submit-label"] || i18n.tr("Send")
                 onClicked: {
                     if (readyToSubmit) root.submit()

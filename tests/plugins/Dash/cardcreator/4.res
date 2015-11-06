@@ -2,7 +2,7 @@ AbstractButton {
                 id: root; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource: undefined; 
+                property string artShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
                 property int titleAlignment: Text.AlignLeft;
@@ -72,7 +72,7 @@ Label {
                     wrapMode: Text.Wrap; 
                     maximumLineCount: 2; 
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                    color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                    color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                     visible: showHeader ; 
                     width: undefined;
                     text: root.title; 
@@ -92,7 +92,7 @@ Label {
                         maximumLineCount: 1; 
                         fontSize: "x-small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                        color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                         visible: titleLabel.visible && titleLabel.text; 
                         text: cardData && cardData["subtitle"] || ""; 
                         font.weight: Font.Light; 

@@ -1,3 +1,61 @@
+unity8 (8.11+16.04.20151104-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add an Item that proxies for old and new audio roles (LP: #1493851)
+  * CroppedImageMinimumSourceSize: Fix 'Binding loop detected for
+    property "imageAspectRatio"'
+  * Make the scope settings list scroll to text visible area (LP:
+    #1499084)
+  * Move to importing QtQuick 2.4 & friends
+  * Use SDK 1.3 across all files (LP: #1503498, #1508363, #1449628)
+
+  [ Andrea Cimitan ]
+  * Add sharing widget to zoomable image and video playback
+  * Make zoomable and video playback widgets edge to edge
+  * Updated all 1.3 UbuntuShape to use new APIs where possible
+  * Use SDK 1.3 across all files (LP: #1503498, #1508363, #1449628)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Christopher Lee ]
+  * Quick spelling fix in process control output.
+
+  [ Daniel d'Andrada ]
+  * Enable support for overriding application orientations based on
+    device type (LP: #1478637)
+  * Use SDK 1.3 across all files (LP: #1503498, #1508363, #1449628)
+  * Use SDK 1.3 across all files (LP: #1503498, #1508363, #1449628)
+
+  [ Josh Arenson ]
+  * Enable support for overriding application orientations based on
+    device type (LP: #1478637)
+
+  [ Michael Terry ]
+  * Avoid showing the shutdown dialog when turning on the screen if your
+    device is under heavy load. (LP: #1508563)
+  * Handle lifecycle policy exceptions ourselves, instead of letting
+    qtmir do it for us and allow non-Touch apps to opt-out of the Touch
+    lifecycle.
+
+  [ Michael Zanetti ]
+  * Fixes for the panel buttons (LP: #1510360, #1504269, #1431566,
+    #1443319)
+  * Use SDK 1.3 across all files (LP: #1503498, #1508363, #1449628)
+
+  [ Michał Sawicz ]
+  * Add missing copyright to Cursor.qml
+  * Enable support for overriding application orientations based on
+    device type (LP: #1478637)
+  * Support server->client visibility change to stop rendering
+    (lp:#1475678) (LP: #1475678)
+
+  [ Nick Dedekind ]
+  * Support server->client visibility change to stop rendering
+    (lp:#1475678) (LP: #1475678)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 04 Nov 2015 14:58:41 +0000
+
 unity8 (8.11+15.10.20151021-0ubuntu1) wily; urgency=medium
 
   [ Albert Astals Cid ]

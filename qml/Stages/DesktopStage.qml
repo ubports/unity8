@@ -18,7 +18,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
@@ -68,6 +68,22 @@ AbstractStage {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
+        property int foregroundMaximizedAppIdIndex: -1
+
+        function updateForegroundMaximizedApp() {
+            for (var i = 0; i < appRepeater.count; i++) {
+                var item = appRepeater.itemAt(i);
+
+                if (item && item.visuallyMaximized) {
+                    var app = ApplicationManager.get(i);
+                    if (app) {
+                        foregroundMaximizedAppIdIndex = i;
+                        return;
+                    }
+                }
+            }
+            foregroundMaximizedAppIdIndex = -1;
+        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -114,8 +130,12 @@ AbstractStage {
             model: ApplicationManager
             objectName: "appRepeater"
 
+            onItemAdded: priv.updateForegroundMaximizedApp()
+            onItemRemoved: priv.updateForegroundMaximizedApp()
+
             delegate: FocusScope {
                 id: appDelegate
+                objectName: "stageDelegate_" + model.appId
                 z: ApplicationManager.count - index
                 y: units.gu(3)
                 width: units.gu(60)
@@ -126,11 +146,24 @@ AbstractStage {
                 property bool minimized: false
                 property bool animationsEnabled: true
 
+                property bool visuallyMaximized: false
+                property bool visuallyMinimized: false
+
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.focusApplication(model.appId);
                     }
                 }
+
+                onZChanged: priv.updateForegroundMaximizedApp()
+                onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
+
+                visible: !visuallyMinimized &&
+                         !greeter.fullyShown &&
+                         (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
+                         (spread.state == "altTab" && index === spread.highlightedIndex)
+
+                onVisibleChanged: console.log("VISIBLE", model.appId, visible)
 
                 Binding {
                     target: ApplicationManager.get(index)
@@ -161,23 +194,60 @@ AbstractStage {
 
                 states: [
                     State {
-                        name: "normal"; when: !appDelegate.maximized && !appDelegate.minimized
+                        name: "normal";
+                        when: !appDelegate.maximized && !appDelegate.minimized
+                        PropertyChanges {
+                            target: appDelegate;
+                            visuallyMinimized: false;
+                            visuallyMaximized: false
+                        }
                     },
                     State {
                         name: "maximized"; when: appDelegate.maximized
-                        PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: 0; y: 0;
+                            width: root.width; height: root.height;
+                            visuallyMinimized: false;
+                            visuallyMaximized: true
+                        }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: -appDelegate.width / 2;
+                            scale: units.gu(5) / appDelegate.width;
+                            opacity: 0
+                            visuallyMinimized: true;
+                            visuallyMaximized: false
+                        }
                     }
                 ]
                 transitions: [
                     Transition {
-                        from: "maximized,minimized,normal,"
-                        to: "maximized,minimized,normal,"
+                        to: "normal"
                         enabled: appDelegate.animationsEnabled
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                    },
+                    Transition {
+                        to: "maximized"
+                        enabled: appDelegate.animationsEnabled
+                        PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        SequentialAnimation {
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                        }
+                    },
+                    Transition {
+                        to: "minimized"
+                        enabled: appDelegate.animationsEnabled
+                        PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                        SequentialAnimation {
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        }
                     },
                     Transition {
                         from: ""
@@ -202,6 +272,7 @@ AbstractStage {
                 }
 
                 WindowResizeArea {
+                    objectName: "windowResizeArea"
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
@@ -223,7 +294,7 @@ AbstractStage {
                     focus: true
 
                     onClose: ApplicationManager.stopApplication(model.appId)
-                    onMaximize: appDelegate.maximize()
+                    onMaximize: appDelegate.maximized ? appDelegate.unmaximize() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }

@@ -17,9 +17,9 @@
  *          Daniel d'Andrada <daniel.dandrada@canonical.com>
  */
 
-import QtQuick 2.0
-import QtQuick.Window 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import QtQuick.Window 2.2
+import Ubuntu.Components 1.3
 import "../Components"
 
 FocusScope {
