@@ -550,7 +550,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             dashContentList.currentItem.item.scope.setHasNavigation(false);
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
 
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
