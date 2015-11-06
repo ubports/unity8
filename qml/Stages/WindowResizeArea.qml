@@ -67,7 +67,7 @@ MouseArea {
 
     Component.onCompleted: {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
-                                                            Qt.rect(target.x, target.y, defaultWidth, detaultHeight));
+                                                            Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
 
         target.x = windowGeometry.x;
         target.y = windowGeometry.y;
