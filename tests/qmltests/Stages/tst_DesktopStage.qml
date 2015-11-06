@@ -156,8 +156,8 @@ Item {
 
         function test_tappingOnWindowChangesFocusedApp_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 }
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
@@ -203,8 +203,8 @@ Item {
 
         function test_tappingOnDecorationFocusesApplication_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 }
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
