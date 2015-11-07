@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import IntegratedLightDM 0.1 as LightDM
+import LightDM.IntegratedLightDM 0.1 as LightDM
 
 Item{
     id: implementation
