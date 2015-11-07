@@ -363,15 +363,15 @@ Item {
             verify(cameraDelegate);
 
             // maximize
-            findChild(dialerDelegate, "decoratedWindow").maximize();
+            dialerDelegate.maximize();
             tryCompare(dialerDelegate, "visuallyMaximized", true);
 
             tryCompare(dashApp.session.surface, "visible", false);
             compare(cameraApp.session.surface.visible, true);
 
             // restore
-            findChild(dialerDelegate, "decoratedWindow").maximize();
-            compare(dashApp.session.surface.visible, true);
+            dialerDelegate.restore();
+            compare(dashApp.session.surface.visible, false); // dash is occluded by the fullscreen camera ;)
             compare(cameraApp.session.surface.visible, true);
         }
 
@@ -385,9 +385,9 @@ Item {
             verify(dialerDelegate);
             findChild(dialerDelegate, "decoratedWindow").maximize();
 
-            var cameraApp = startApplication("camera-app");
-            var cameraDelegate = findChild(desktopStage, "appDelegate_camera-app");
-            verify(cameraDelegate);
+            var mapApp = startApplication("map");
+            var mapDelegate = findChild(desktopStage, "appDelegate_map");
+            verify(mapDelegate);
 
             var galleryApp = startApplication("gallery-app");
             var galleryDelegate = findChild(desktopStage, "appDelegate_gallery-app");
@@ -399,11 +399,11 @@ Item {
 
             tryCompare(dashApp.session.surface, "visible", false);
             tryCompare(dialerApp.session.surface, "visible", false);
-            tryCompare(cameraApp.session.surface, "visible", false);
+            tryCompare(mapApp.session.surface, "visible", false);
 
             ApplicationManager.stopApplication("gallery-app");
 
-            compare(cameraApp.session.surface.visible, true);
+            compare(mapApp.session.surface.visible, true);
             tryCompare(dialerApp.session.surface, "visible", true);
             tryCompare(dashApp.session.surface, "visible", false); // still occluded by maximised dialer
         }
