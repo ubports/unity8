@@ -24,7 +24,7 @@ MouseArea {
     anchors.fill: target
     anchors.margins: -borderThickness
 
-    hoverEnabled: true
+    hoverEnabled: target && !target.maximized // don't grab the resize under the panel
 
     property var windowStateStorage: WindowStateStorage
 

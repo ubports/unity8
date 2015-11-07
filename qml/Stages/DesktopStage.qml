@@ -58,10 +58,6 @@ AbstractStage {
                 spread.cancel();
             }
         }
-
-        onRowsInserted: priv.updateForegroundMaximizedApp()
-        onRowsRemoved: priv.updateForegroundMaximizedApp()
-        onRowsMoved: priv.updateForegroundMaximizedApp()
     }
 
     GlobalShortcut {
@@ -120,6 +116,8 @@ AbstractStage {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
+        onFocusedAppDelegateChanged: updateForegroundMaximizedApp();
+
         property int foregroundMaximizedAppIdIndex: -1
 
         function updateForegroundMaximizedApp() {
@@ -177,6 +175,7 @@ AbstractStage {
         onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
         onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
                     && priv.focusedAppDelegate.restore();
+        onFocusMaximizedApp: ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIdIndex).appId)
     }
 
     Binding {

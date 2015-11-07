@@ -59,6 +59,7 @@ FocusScope {
         }
         source: "graphics/dropshadow2gu.sci"
         opacity: root.shadowOpacity * .3
+        enabled: !fullscreen
     }
 
     WindowDecoration {
@@ -68,12 +69,13 @@ FocusScope {
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
         width: root.width
-        title: window.title !== "" ? window.title : ""
+        title: window.title
+        visible: !root.fullscreen
+
         onClose: root.close();
         onMaximize: { root.decorationPressed(); root.maximize(); }
         onMinimize: root.minimize();
         onPressed: root.decorationPressed();
-        visible: window && !window.fullscreen
     }
 
     ApplicationWindow {
