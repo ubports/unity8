@@ -70,7 +70,7 @@ FocusScope {
         width: root.width
         title: window.title !== "" ? window.title : ""
         onClose: root.close();
-        onMaximize: root.maximize();
+        onMaximize: { root.decorationPressed(); root.maximize(); }
         onMinimize: root.minimize();
         onPressed: root.decorationPressed();
         visible: window && !window.fullscreen
