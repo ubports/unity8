@@ -344,9 +344,9 @@ Rectangle {
             var app2 = ApplicationManager.startApplication("webbrowser-app")
             var app3 = ApplicationManager.startApplication("camera-app")
             var app4 = ApplicationManager.startApplication("facebook-webapp")
-            var app7 = ApplicationManager.startApplication("camera-app")
+            var app5 = ApplicationManager.startApplication("camera-app")
             var app6 = ApplicationManager.startApplication("gallery-app")
-            var app5 = ApplicationManager.startApplication("calendar-app")
+            var app7 = ApplicationManager.startApplication("calendar-app")
             waitUntilAppWindowIsFullyLoaded(app7);
         }
 

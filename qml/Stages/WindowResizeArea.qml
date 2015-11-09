@@ -41,32 +41,6 @@ MouseArea {
 
     QtObject {
         id: priv
-
-        property int normalX: 0
-        property int normalY: 0
-        property int normalWidth: 0
-        property int normalHeight: 0
-
-        function updateNormalGeometry() {
-            if (root.target.state == "normal") {
-                normalX = root.target.x
-                normalY = root.target.y
-                normalWidth = root.target.width
-                normalHeight = root.target.height
-            }
-        }
-    }
-
-    Connections {
-        target: root.target
-        onXChanged: priv.updateNormalGeometry();
-        onYChanged: priv.updateNormalGeometry();
-        onWidthChanged: priv.updateNormalGeometry();
-        onHeightChanged: priv.updateNormalGeometry();
-    }
-
-    QtObject {
-        id: priv
         objectName: "priv"
 
         property int normalX: 0
