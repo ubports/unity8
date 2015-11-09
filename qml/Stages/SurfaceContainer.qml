@@ -81,7 +81,6 @@ FocusScope {
             }
         }
 
-        fillMode: root.resizeSurface ? MirSurfaceItem.PadOrCrop : MirSurfaceItem.Stretch
         enabled: root.interactive
         focus: true
         antialiasing: !root.interactive

@@ -37,7 +37,6 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_surfaceHeight(0)
     , m_touchPressCount(0)
     , m_touchReleaseCount(0)
-    , m_fillMode(Stretch)
 {
 //    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
@@ -304,18 +303,5 @@ void MirSurfaceItem::updateSurfaceSize()
 {
     if (m_qmlSurface && m_surfaceWidth > 0 && m_surfaceHeight > 0) {
         m_qmlSurface->resize(m_surfaceWidth, m_surfaceHeight);
-    }
-}
-
-MirSurfaceItem::FillMode MirSurfaceItem::fillMode() const
-{
-    return m_fillMode;
-}
-
-void MirSurfaceItem::setFillMode(FillMode value)
-{
-    if (m_fillMode != value) {
-        m_fillMode = value;
-        Q_EMIT fillModeChanged(m_fillMode);
     }
 }
