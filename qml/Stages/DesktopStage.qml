@@ -362,7 +362,7 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     },
@@ -371,7 +371,7 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
