@@ -30,8 +30,6 @@ Item {
     property real indicatorAreaShowProgress: 1.0
     property bool locked: false
 
-    opacity: fullscreenMode && indicators.fullyClosed ? 0.0 : 1.0
-
     Rectangle {
         id: darkenedArea
         property real darkenedOpacity: 0.6
@@ -55,10 +53,6 @@ Item {
         objectName: "indicatorArea"
 
         anchors.fill: parent
-
-        Behavior on anchors.topMargin {
-            UbuntuNumberAnimation {}
-        }
 
         transform: Translate {
             y: indicators.state === "initial"
@@ -209,6 +203,7 @@ Item {
             PropertyChanges {
                 target: indicatorArea;
                 anchors.topMargin: 0
+                opacity: 1;
             }
         },
         State {
@@ -217,11 +212,23 @@ Item {
             PropertyChanges {
                 target: indicatorArea;
                 anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0
+                opacity: indicators.fullyClosed ? 0.0 : 1.0
             }
             PropertyChanges {
                 target: indicators.showDragHandle;
                 anchors.bottomMargin: -units.gu(1)
             }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            to: "onscreen"
+            UbuntuNumberAnimation { target: indicatorArea; properties: "anchors.topMargin,opacity" }
+        },
+        Transition {
+            to: "offscreen"
+            UbuntuNumberAnimation { target: indicatorArea; properties: "anchors.topMargin,opacity" }
         }
     ]
 }
