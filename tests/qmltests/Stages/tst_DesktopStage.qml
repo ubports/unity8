@@ -370,7 +370,7 @@ Item {
             compare(cameraApp.session.surface.visible, true);
 
             // restore
-            dialerDelegate.restore();
+            dialerDelegate.restoreFromMaximized();
             compare(dashApp.session.surface.visible, false); // dash is occluded by the fullscreen camera ;)
             compare(cameraApp.session.surface.visible, true);
         }

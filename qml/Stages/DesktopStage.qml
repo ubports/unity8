@@ -52,7 +52,7 @@ AbstractStage {
         onFocusRequested: {
             var appIndex = priv.indexOf(appId);
             var appDelegate = appRepeater.itemAt(appIndex);
-            appDelegate.restoreFromMinimized();
+            appDelegate.restore();
 
             if (spread.state == "altTab") {
                 spread.cancel();
@@ -104,7 +104,7 @@ AbstractStage {
         id: minimizeRestoreShortcut
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
         onTriggered: priv.focusedAppDelegate.maximized || priv.focusedAppDelegate.maximizedLeft || priv.focusedAppDelegate.maximizedRight
-                     ? priv.focusedAppDelegate.restore() : priv.focusedAppDelegate.minimize()
+                     ? priv.focusedAppDelegate.restoreFromMaximized() : priv.focusedAppDelegate.minimize()
         active: priv.focusedAppDelegate !== null
     }
 
@@ -174,7 +174,7 @@ AbstractStage {
         }
         onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
         onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
-                    && priv.focusedAppDelegate.restore();
+                    && priv.focusedAppDelegate.restoreFromMaximized();
         onFocusMaximizedApp: ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIdIndex).appId)
     }
 
@@ -293,14 +293,14 @@ AbstractStage {
                     animationsEnabled = (animated === undefined) || animated;
                     minimized = true;
                 }
-                function restore(animated) {
+                function restoreFromMaximized(animated) {
                     animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                     maximizedLeft = false;
                     maximizedRight = false;
                 }
-                function restoreFromMinimized(animated) {
+                function restore(animated) {
                     animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     if (maximized)
@@ -423,7 +423,7 @@ AbstractStage {
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
-                                ? appDelegate.restore() : appDelegate.maximize()
+                                ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
