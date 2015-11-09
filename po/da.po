@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-09-16 00:49+0200\n"
+"POT-Creation-Date: 2015-10-19 14:34+0100\n"
 "PO-Revision-Date: 2015-07-06 12:05+0000\n"
 "Last-Translator: Folmer Fredslund <Unknown>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
-"X-Generator: Launchpad (build 17812)\n"
+"X-Launchpad-Export-Date: 2015-11-07 05:13+0000\n"
+"X-Generator: Launchpad (build 17838)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -70,8 +70,8 @@ msgstr "%a %l:%M %p"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
 msgstr "%a %b. %d %l:%M %p"
@@ -110,8 +110,8 @@ msgstr "%a %H:%M"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
 msgstr "%a %b. %d %H:%M"
@@ -293,6 +293,10 @@ msgstr "Bedøm dette"
 msgid "Add a review"
 msgstr "Tilføj en anmeldelse"
 
+#: qml/Dash/Previews/PreviewSharing.qml:51
+msgid "Preview Share Item"
+msgstr ""
+
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Træk ned for at genindlæse..."
@@ -400,62 +404,62 @@ msgstr "Tryk for at vende tilbage til opkaldet..."
 msgid "Conference"
 msgstr "Konference"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:718
+#: qml/Panel/Indicators/MenuItemFactory.qml:727
 msgid "Nothing is playing"
 msgstr "Intet afspilles"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 time"
 msgstr[1] "%1 timer"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:851
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minut"
 msgstr[1] "%1 minutter"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:865
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 sekund"
 msgstr[1] "%1 sekunder"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:859
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "0 seconds"
 msgstr "0 sekunder"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:861
+#: qml/Panel/Indicators/MenuItemFactory.qml:870
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 tilbage"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:867
+#: qml/Panel/Indicators/MenuItemFactory.qml:876
 msgid "In queue…"
 msgstr "I kø…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:871
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "Downloading"
 msgstr "Henter"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:873
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 msgid "Paused, tap to resume"
 msgstr "På pause - tryk for at fortsætte"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:875
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Canceled"
 msgstr "Annulleret"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:877
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Finished"
 msgstr "Færdig"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:879
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Failed, tap to retry"
 msgstr "Mislykkedes - tryk for at prøve igen"
 
@@ -534,38 +538,6 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Tilbage"
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "Betingelser og vilkår"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Bekæft adgangsfrase"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "Bekræft adgangskode"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Forsøg venligst igen."
-
-#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50
-msgid "Continue"
-msgstr "Fortsæt"
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Vælg din adgangskode"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "Adgangsfrasen skal være mindst 4 tegn"
-
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr "Hej!"
@@ -577,6 +549,13 @@ msgstr "Velkommen til din Ubuntu-telefon."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "Lad os komme i gang."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Fortsæt"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -711,6 +690,31 @@ msgstr "Din telefon er nu klar til brug."
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
 msgstr "Afslut"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Betingelser og vilkår"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Bekæft adgangsfrase"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Bekræft adgangskode"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Forsøg venligst igen."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Vælg din adgangskode"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Adgangsfrasen skal være mindst 4 tegn"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
