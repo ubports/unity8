@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Dash"
 import "../../../qml/Components"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity 0.2
 import Unity.Test 0.1 as UT
 import Utils 0.1
@@ -215,7 +215,7 @@ Item {
             verify(pageHeader, "Could not find the scope page header.");
             var innerHeader = findChild(pageHeader, "innerPageHeader");
             verify(innerHeader, "Could not find the scope page header.");
-            compare(innerHeader.title, scopesModel.getScope(data.index).name);
+            compare(innerHeader.config.contents.text, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
@@ -285,7 +285,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
@@ -405,7 +405,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
@@ -497,7 +497,7 @@ Item {
 
         function test_clearSearchWithNavigationClosed() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
 
@@ -550,7 +550,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             dashContentList.currentItem.item.scope.setHasNavigation(false);
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_header_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
 
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
@@ -580,13 +580,13 @@ Item {
         }
 
         function getSettledButtons() {
-            var buttons = findChildsByType(dashContent, "AbstractButton");
+            var buttons = findChildsByType(dashContent, "UCAbstractButton");
             wait(2500);
-            var aux = findChildsByType(dashContent, "AbstractButton");
+            var aux = findChildsByType(dashContent, "UCAbstractButton");
             while (!compareArrays(aux, buttons)) {
                 buttons = aux;
                 wait(2500);
-                aux = findChildsByType(dashContent, "AbstractButton");
+                aux = findChildsByType(dashContent, "UCAbstractButton");
             }
             return buttons;
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,16 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 1.1
-import Ubuntu.Components.Themes.Ambiance 1.1
-import Ubuntu.Components.ListItems 1.0
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Themes.Ambiance 1.3
+import Ubuntu.Components.ListItems 1.3
 import "../Components"
 
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + bottomContainer.height + signatureLineHeight
+    implicitHeight: headerContainer.height + signatureLineHeight
     readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
 
     property int activeFiltersCount: 0
@@ -44,7 +44,6 @@ Item {
     property alias searchHint: searchTextField.placeholderText
     property bool showSignatureLine: true
 
-    property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
     property int paginationIndex: -1
 
@@ -129,9 +128,10 @@ Item {
     }
 
     InverseMouseArea {
-        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
+        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
+            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
             mouse.accepted = false;
         }
@@ -142,7 +142,7 @@ Item {
         objectName: "headerContainer"
         clip: contentY < height
         anchors { left: parent.left; top: parent.top; right: parent.right }
-        height: units.gu(7)
+        height: header.contentHeight
         contentHeight: headersColumn.height
         interactive: false
         contentY: showSearch ? 0 : height
@@ -176,18 +176,15 @@ Item {
             PageHeadStyle {
                 id: searchHeader
                 anchors { left: parent.left; right: parent.right }
-                height: headerContainer.height
-                contentHeight: height
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 __separator_visible: false
                 // Required to keep PageHeadStyle noise down as it expects the Page's properties around.
                 property var styledItem: searchHeader
-                property string title
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
-                property var config: PageHeadConfiguration {
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
+                config: PageHeadConfiguration {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                 }
                 property var contents: Item {
                     anchors.fill: parent
@@ -303,16 +300,14 @@ Item {
                 objectName: "innerPageHeader"
                 anchors { left: parent.left; right: parent.right }
                 height: headerContainer.height
-                contentHeight: height
                 opacity: headerContainer.clip || !headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
                 __separator_visible: false
                 property var styledItem: header
-                property string title: root.title
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
-                property var config: PageHeadConfiguration {
-                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : Theme.palette.normal.baseText
+                config: PageHeadConfiguration {
+                    foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                     backAction: Action {
                         iconName: backIsClose ? "close" : "back"
                         visible: root.showBackButton
@@ -361,7 +356,7 @@ Item {
                             right: parent.right
                             verticalCenter: parent.verticalCenter
                         }
-                        text: header.title
+                        text: root.title
                         font.weight: header.fontWeight
                         fontSize: header.fontSize
                         color: header.panelForegroundColor
@@ -407,7 +402,7 @@ Item {
             top: headerContainer.bottom
             left: parent.left
             right: parent.right
-            bottom: bottomContainer.top
+            bottom: parent.bottom
         }
 
         color: root.scopeStyle ? root.scopeStyle.headerDividerColor : "#e0e0e0"
@@ -448,7 +443,7 @@ Item {
         id: bottomHighlight
         visible: bottomBorder.visible
         anchors {
-            top: bottomContainer.top
+            top: parent.bottom
             left: parent.left
             right: parent.right
         }
@@ -470,16 +465,5 @@ Item {
                                           root.scopeStyle.background.b, 1.0), 1.2);
                    } else "#CCFFFFFF"
         }
-    }
-
-    Item {
-        id: bottomContainer
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-        height: childrenRect.height
     }
 }

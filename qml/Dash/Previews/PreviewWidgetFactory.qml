@@ -15,7 +15,7 @@
  *
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 //! \brief This component loads the widgets based on widgetData["type"].
 
@@ -39,6 +39,9 @@ Loader {
 
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false
+
+    //! Set margins width.
+    property real widgetMargins: status === Loader.Ready ? item.widgetMargins : units.gu(1)
 
     //! Triggered signal forwarded from the widgets.
     signal triggered(string widgetId, string actionId, var data)

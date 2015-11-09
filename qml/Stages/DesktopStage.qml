@@ -18,43 +18,25 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
+import "../Components"
 import Utils 0.1
 import Ubuntu.Gestures 0.1
 
-Rectangle {
+AbstractStage {
     id: root
     anchors.fill: parent
-
-    // Controls to be set from outside
-    property int dragAreaWidth // just to comply with the interface shared between stages
-    property real maximizedAppTopMargin
-    property bool interactive
-    property bool spreadEnabled // just to comply with the interface shared between stages
-    property real inverseProgress: 0 // just to comply with the interface shared between stages
-    property int shellOrientationAngle: 0
-    property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
-    property bool beingResized: false
-    property bool keepDashRunning: true
-    property bool suspended: false
-    property alias background: wallpaper.source
-    property alias altTabPressed: spread.altTabPressed
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
 
-    // To be read from outside
-    readonly property var mainApp: ApplicationManager.focusedApplicationId
+    mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null
-    property int mainAppWindowOrientationAngle: 0
-    readonly property bool orientationChangesEnabled: false
 
     Connections {
         target: ApplicationManager
@@ -86,6 +68,22 @@ Rectangle {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
+        property int foregroundMaximizedAppIdIndex: -1
+
+        function updateForegroundMaximizedApp() {
+            for (var i = 0; i < appRepeater.count; i++) {
+                var item = appRepeater.itemAt(i);
+
+                if (item && item.visuallyMaximized) {
+                    var app = ApplicationManager.get(i);
+                    if (app) {
+                        foregroundMaximizedAppIdIndex = i;
+                        return;
+                    }
+                }
+            }
+            foregroundMaximizedAppIdIndex = -1;
+        }
 
         function indexOf(appId) {
             for (var i = 0; i < ApplicationManager.count; i++) {
@@ -111,6 +109,7 @@ Rectangle {
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.state === "maximized"
     }
+    Component.onDestruction: PanelState.buttonsVisible = false;
 
     FocusScope {
         id: appContainer
@@ -121,6 +120,7 @@ Rectangle {
         CrossFadeImage {
             id: wallpaper
             anchors.fill: parent
+            source: root.background
             sourceSize { height: root.height; width: root.width }
             fillMode: Image.PreserveAspectCrop
         }
@@ -130,8 +130,12 @@ Rectangle {
             model: ApplicationManager
             objectName: "appRepeater"
 
+            onItemAdded: priv.updateForegroundMaximizedApp()
+            onItemRemoved: priv.updateForegroundMaximizedApp()
+
             delegate: FocusScope {
                 id: appDelegate
+                objectName: "stageDelegate_" + model.appId
                 z: ApplicationManager.count - index
                 y: units.gu(3)
                 width: units.gu(60)
@@ -140,12 +144,26 @@ Rectangle {
 
                 property bool maximized: false
                 property bool minimized: false
+                property bool animationsEnabled: true
+
+                property bool visuallyMaximized: false
+                property bool visuallyMinimized: false
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== model.appId) {
                         ApplicationManager.focusApplication(model.appId);
                     }
                 }
+
+                onZChanged: priv.updateForegroundMaximizedApp()
+                onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
+
+                visible: !visuallyMinimized &&
+                         !greeter.fullyShown &&
+                         (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
+                         (spread.state == "altTab" && index === spread.highlightedIndex)
+
+                onVisibleChanged: console.log("VISIBLE", model.appId, visible)
 
                 Binding {
                     target: ApplicationManager.get(index)
@@ -158,37 +176,78 @@ Rectangle {
                     value: ApplicationInfoInterface.RequestedRunning // Always running for now
                 }
 
-                function maximize() {
+                function maximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = true;
                 }
-                function minimize() {
+                function minimize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     maximized = false;
                     minimized = true;
                 }
-                function unmaximize() {
+                function unmaximize(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     minimized = false;
                     maximized = false;
                 }
 
                 states: [
                     State {
-                        name: "normal"; when: !appDelegate.maximized && !appDelegate.minimized
+                        name: "normal";
+                        when: !appDelegate.maximized && !appDelegate.minimized
+                        PropertyChanges {
+                            target: appDelegate;
+                            visuallyMinimized: false;
+                            visuallyMaximized: false
+                        }
                     },
                     State {
                         name: "maximized"; when: appDelegate.maximized
-                        PropertyChanges { target: appDelegate; x: 0; y: 0; width: root.width; height: root.height }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: 0; y: 0;
+                            width: root.width; height: root.height;
+                            visuallyMinimized: false;
+                            visuallyMaximized: true
+                        }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: -appDelegate.width / 2; scale: units.gu(5) / appDelegate.width; opacity: 0 }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: -appDelegate.width / 2;
+                            scale: units.gu(5) / appDelegate.width;
+                            opacity: 0
+                            visuallyMinimized: true;
+                            visuallyMaximized: false
+                        }
                     }
                 ]
                 transitions: [
                     Transition {
-                        from: "maximized,minimized,normal,"
-                        to: "maximized,minimized,normal,"
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                        to: "normal"
+                        enabled: appDelegate.animationsEnabled
+                        PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
+                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                    },
+                    Transition {
+                        to: "maximized"
+                        enabled: appDelegate.animationsEnabled
+                        PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        SequentialAnimation {
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                            PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                        }
+                    },
+                    Transition {
+                        to: "minimized"
+                        enabled: appDelegate.animationsEnabled
+                        PropertyAction { target: appDelegate; property: "visuallyMaximized" }
+                        SequentialAnimation {
+                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale,opacity" }
+                            PropertyAction { target: appDelegate; property: "visuallyMinimized" }
+                        }
                     },
                     Transition {
                         from: ""
@@ -213,6 +272,7 @@ Rectangle {
                 }
 
                 WindowResizeArea {
+                    objectName: "windowResizeArea"
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
@@ -234,7 +294,7 @@ Rectangle {
                     focus: true
 
                     onClose: ApplicationManager.stopApplication(model.appId)
-                    onMaximize: appDelegate.maximize()
+                    onMaximize: appDelegate.maximized ? appDelegate.unmaximize() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
@@ -269,5 +329,6 @@ Rectangle {
         anchors.fill: parent
         workspace: appContainer
         focus: state == "altTab"
+        altTabPressed: root.altTabPressed
     }
 }

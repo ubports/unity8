@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import "../../Components"
 
 /*! \brief Preview widget for editable rating.
@@ -56,7 +56,7 @@ PreviewWidget {
         urlIconEmpty: widgetData["rating-icon-empty"]
         urlIconFull: widgetData["rating-icon-full"]
         urlIconHalf: widgetData["rating-icon-half"]
-        labelColor: scopeStyle ? scopeStyle.foreground : Theme.palette.normal.baseText
+        labelColor: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
     }
 
     PreviewRatingInput {
