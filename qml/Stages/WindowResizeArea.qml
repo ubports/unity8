@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Utils 0.1
 import Unity.Application 0.1 // for Mir.cursorName
 import "../Components/PanelState"
@@ -41,6 +41,7 @@ MouseArea {
 
     QtObject {
         id: priv
+        objectName: "priv"
 
         property int normalX: 0
         property int normalY: 0
@@ -68,15 +69,16 @@ MouseArea {
     Component.onCompleted: {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
         if (windowGeometry !== undefined) {
-            target.width = Math.min(windowGeometry.width, root.screenWidth)
-            target.height = Math.min(windowGeometry.height, root.screenHeight - PanelState.panelHeight)
-            target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - target.width), 0)
-            target.y = Math.max(Math.min(windowGeometry.y, root.screenHeight - target.height), PanelState.panelHeight)
+            target.x = windowGeometry.x
+            target.y = windowGeometry.y
+            target.width = windowGeometry.width
+            target.height = windowGeometry.height
         }
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
         if (windowState === WindowStateStorage.WindowStateMaximized) {
             target.maximize(false)
         }
+        priv.updateNormalGeometry();
     }
 
     Component.onDestruction: {

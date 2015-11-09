@@ -14,10 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Dash"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
 Item {
@@ -319,7 +319,7 @@ Item {
 
             // Click on the store
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
-            var searchButton = findChild(scopesListPageHeader, "store_header_button");
+            var searchButton = findChild(scopesListPageHeader, "store_action_button");
             mouseClick(searchButton);
 
             spy.wait();
