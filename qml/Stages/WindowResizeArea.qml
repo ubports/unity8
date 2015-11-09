@@ -69,10 +69,10 @@ MouseArea {
     Component.onCompleted: {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
         if (windowGeometry !== undefined) {
-            target.x = windowGeometry.x
-            target.y = windowGeometry.y
-            target.width = windowGeometry.width
-            target.height = windowGeometry.height
+            target.width = Math.min(windowGeometry.width, root.screenWidth)
+            target.height = Math.min(windowGeometry.height, root.screenHeight - PanelState.panelHeight)
+            target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - target.width), 0)
+            target.y = Math.max(Math.min(windowGeometry.y, root.screenHeight - target.height), PanelState.panelHeight)
         }
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
         if (windowState === WindowStateStorage.WindowStateMaximized) {
