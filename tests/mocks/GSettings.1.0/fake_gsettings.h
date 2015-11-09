@@ -19,6 +19,7 @@
 
 #include <QList>
 #include <QObject>
+#include <QStringList>
 
 class GSettingsSchemaQml: public QObject
 {
@@ -48,6 +49,7 @@ class GSettingsQml: public QObject
     Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
     Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
     Q_PROPERTY(qint64 lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY lockedOutTimeChanged)
+    Q_PROPERTY(QStringList lifecycleExemptAppids READ lifecycleExemptAppids WRITE setLifecycleExemptAppids NOTIFY lifecycleExemptAppidsChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -56,16 +58,19 @@ public:
     QString pictureUri() const;
     QString usageMode() const;
     qint64 lockedOutTime() const;
+    QStringList lifecycleExemptAppids() const;
 
     void setPictureUri(const QString &str);
     void setUsageMode(const QString &usageMode);
     void setLockedOutTime(qint64 timestamp);
+    void setLifecycleExemptAppids(const QStringList &appIds);
 
 Q_SIGNALS:
     void schemaChanged();
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
     void lockedOutTimeChanged(qint64);
+    void lifecycleExemptAppidsChanged(const QStringList &);
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -90,10 +95,14 @@ public:
     qint64 lockedOutTime() const;
     Q_INVOKABLE void setLockedOutTime(qint64 timestamp);
 
+    QStringList lifecycleExemptAppids() const;
+    Q_INVOKABLE void setLifecycleExemptAppids(const QStringList &appIds);
+
 Q_SIGNALS:
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
     void lockedOutTimeChanged(qint64 timestamp);
+    void lifecycleExemptAppidsChanged(const QStringList&);
 
 private:
     GSettingsControllerQml();
@@ -101,6 +110,7 @@ private:
     QString m_pictureUri;
     QString m_usageMode;
     qint64 m_lockedOutTime;
+    QStringList m_lifecycleExemptAppids;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

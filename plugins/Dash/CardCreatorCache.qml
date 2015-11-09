@@ -15,7 +15,7 @@
  */
 
 pragma Singleton
-import QtQuick 2.2
+import QtQuick 2.4
 import "CardCreator.js" as CardCreator
 
 QtObject {

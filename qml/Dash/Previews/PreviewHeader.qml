@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Dash 0.1
 import "../"
 
@@ -40,10 +40,10 @@ PreviewWidget {
         readonly property string title: root.widgetData["title"] || ""
         readonly property string subtitle: root.widgetData["subtitle"] || ""
         readonly property var attributes: root.widgetData["attributes"] || null
-        readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+        readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
 
         // Rewire the source since we may have unwired it on onStatusChanged
-        onMascotChanged: if (mascotShapeLoader.item) mascotShapeLoader.item.image.source = mascot;
+        onMascotChanged: if (mascotShapeLoader.item) mascotShapeLoader.item.source.source = mascot;
 
         implicitHeight: row.height + row.margins * 2
         width: parent.width
@@ -77,16 +77,16 @@ PreviewWidget {
 
                 sourceComponent: UbuntuShape {
                     objectName: "mascotShape"
-                    visible: image.status === Image.Ready
-                    image: Image {
+                    visible: source.status === Image.Ready
+                    sourceFillMode: UbuntuShape.PreserveAspectCrop
+                    sourceHorizontalAlignment: UbuntuShape.AlignHCenter
+                    sourceVerticalAlignment: UbuntuShape.AlignVCenter
+                    source: Image {
                         source: headerRoot.mascot
                         width: source ? mascotShapeLoader.width : 0
                         height: mascotShapeLoader.height
 
                         sourceSize { width: mascotShapeLoader.maxSize; height: mascotShapeLoader.maxSize }
-                        fillMode: Image.PreserveAspectCrop
-                        horizontalAlignment: Image.AlignHCenter
-                        verticalAlignment: Image.AlignVCenter
                         onStatusChanged: if (status === Image.Error) source = headerRoot.fallback;
                     }
                 }
