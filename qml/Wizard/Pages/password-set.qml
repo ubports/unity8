@@ -69,7 +69,7 @@ LocalComponents.Page {
         if (!!text) {
             infoLabel.text = text;
         } else {
-            infoLabel.text = i18n.tr("Enter at least 6 characters");
+            infoLabel.text = i18n.tr("Enter at least 8 characters");
         }
     }
 
@@ -158,7 +158,7 @@ LocalComponents.Page {
             }
             text: i18n.tr("OK")
             color: okColor
-            enabled: confirmPhase ? password === root.password : password.length > 5 // TODO set more sensible restrictions for the length?
+            enabled: confirmPhase ? password === root.password : password.length > 7 // TODO set more sensible restrictions for the length?
             onClicked: {
                 if (confirmPhase) {
                     pageStack.next();

@@ -57,35 +57,11 @@ LocalComponents.Page {
     Item {
         id: column
         anchors.fill: content
-        anchors.topMargin: customMargin
-
-        Label {
-            id: infoLabel
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.leftMargin: leftMargin
-            wrapMode: Text.Wrap
-            text: i18n.tr("Choose lock screen security")
-            color: textColor
-            fontSize: "small"
-            font.weight: Font.Light
-        }
-
-        Rectangle {
-            id: divider
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: infoLabel.bottom
-            anchors.topMargin: units.gu(3)
-            height: units.dp(1)
-            color: dividerColor
-        }
 
         ListView {
             id: selector
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: divider.bottom
             boundsBehavior: Flickable.StopAtBounds
             clip: true
             height: childrenRect.height
@@ -116,9 +92,9 @@ LocalComponents.Page {
                         case 1:
                             return i18n.ctr("Label: Type of security method", "New password");
                         case 2:
-                            return i18n.ctr("Label: Type of security method", "Passcode");
+                            return i18n.ctr("Label: Type of security method", "Passcode (numbers only)");
                         case 3:
-                            return i18n.ctr("Label: Type of security method", "Swipe");
+                            return i18n.ctr("Label: Type of security method", "No lock code");
                         }
                     }
                 }
