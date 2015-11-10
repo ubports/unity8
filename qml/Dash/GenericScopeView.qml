@@ -665,7 +665,6 @@ FocusScope {
 
             searchHistory: SearchHistoryModel
             scope: scopeView.scope
-            scopeStyle: scopeView.scopeStyle
             windowHeight: scopeView.height
 
             onHistoryItemClicked: {

@@ -22,7 +22,6 @@ Row {
     id: root
 
     property alias backVisible: backImageItem.visible
-    property alias foregroundColor: backImage.color
     property alias textEnabled: textItem.enabled
     property alias text: textLabel.text
 
@@ -63,8 +62,7 @@ Row {
                 leftMargin: backImageItem.visible ? 0 : units.gu(2)
                 rightMargin: units.gu(2)
             }
-            font.bold: true
-            color: root.foregroundColor
+            color: "#5D5D5D"
             wrapMode: Text.Wrap
             maximumLineCount: 2
             elide: Text.ElideMiddle

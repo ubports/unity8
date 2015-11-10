@@ -24,7 +24,6 @@ Item {
 
     // set by parent
     property var scope: null
-    property var scopeStyle: null
     property real availableHeight
 
     signal leafClicked()
@@ -41,13 +40,6 @@ Item {
         if (navigationModel.count > 1) {
             clear();
         }
-    }
-
-    QtObject {
-        id: d
-        readonly property color foregroundColor: root.scopeStyle
-                                                 ? root.scopeStyle.getTextColor(backgroundItem.luminance)
-                                                 : theme.palette.normal.baseText
     }
 
     Column {
@@ -86,7 +78,6 @@ Item {
 
                 backVisible: index != 0
                 text: headerText
-                foregroundColor: d.foregroundColor
 
                 onBackClicked: {
                     scope.setNavigationState(parentNavigationId);
@@ -143,9 +134,6 @@ Item {
             objectName: "navigation" + index
             visible: height > 0
             width: navigationListView.width
-            itemsIndent: index != 0 ? units.gu(5) : 0
-            scopeStyle: root.scopeStyle
-            foregroundColor: d.foregroundColor
             property real desiredHeight: {
                 if (navigation && navigation.loaded && x == navigationListView.contentX)
                 {
