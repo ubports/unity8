@@ -16,6 +16,7 @@
 
 #include "CursorImageProvider.h"
 
+#include <QCursor>
 #include <QDebug>
 #include <QFile>
 #include <QPainter>
@@ -47,6 +48,26 @@ BuiltInCursorImage::BuiltInCursorImage()
     QSvgRenderer *svgRenderer = new QSvgRenderer(QByteArray(svgString));
     svgRenderer->render(&imagePainter);
     delete svgRenderer;
+}
+
+/////
+// BlankCursorImage
+
+
+BlankCursorImage::BlankCursorImage()
+{
+    qimage = QImage(1, 1, QImage::Format_ARGB32);
+    qimage.fill(Qt::transparent);
+}
+
+/////
+// CustomCursorImage
+
+
+CustomCursorImage::CustomCursorImage(const QCursor &cursor)
+{
+    qimage = cursor.pixmap().toImage();
+    hotspot = cursor.hotSpot();
 }
 
 /////
@@ -91,6 +112,35 @@ CursorImageProvider::CursorImageProvider()
         qFatal("Cannot have multiple CursorImageProvider instances");
     }
     m_instance = this;
+
+    m_fallbackNames[QLatin1String("ibeam")].append(QLatin1String("xterm"));
+    m_fallbackNames[QLatin1String("xterm")].append(QLatin1String("ibeam"));
+    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("dnd-none"));
+    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("grabbing"));
+    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("closedhand"));
+    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("dnd-none"));
+    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("grabbing"));
+    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("closedhand"));
+    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("dnd-none"));
+    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("grabbing"));
+    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("closedhand"));
+    m_fallbackNames[QLatin1String("closedhand")].append(QLatin1String("grabbing"));
+    m_fallbackNames[QLatin1String("closedhand")].append(QLatin1String("dnd-none"));
+
+    // Needed for DMZ-White and DMZ-Black xcursor themes at least.
+    // Ideally those themes would have symbolic links to achieve the same, but that's not the case.
+    m_fallbackNames[QLatin1String("up_arrow")].append(QLatin1String("sb_up_arrow"));
+    m_fallbackNames[QLatin1String("size_ver")].append(QLatin1String("sb_v_double_arrow"));
+    m_fallbackNames[QLatin1String("size_hor")].append(QLatin1String("sb_h_double_arrow"));
+    m_fallbackNames[QLatin1String("size_bdiag")].append(QLatin1String("fd_double_arrow"));
+    m_fallbackNames[QLatin1String("size_fdiag")].append(QLatin1String("bd_double_arrow"));
+    m_fallbackNames[QLatin1String("split_v")].append(QLatin1String("sb_v_double_arrow"));
+    m_fallbackNames[QLatin1String("split_h")].append(QLatin1String("sb_h_double_arrow"));
+    m_fallbackNames[QLatin1String("forbidden")].append(QLatin1String("crossed_circle"));
+
+    m_fallbackNames[QLatin1String("whats_this")].append(QLatin1String("left_ptr_help"));
+    m_fallbackNames[QLatin1String("whats_this")].append(QLatin1String("help"));
+    m_fallbackNames[QLatin1String("whats_this")].append(QLatin1String("question_arrow"));
 }
 
 CursorImageProvider::~CursorImageProvider()
@@ -151,12 +201,14 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
 
     // Try some fallbacks
     if (cursorImage->qimage.isNull()) {
-        if (cursorName == "ibeam") {
-            qDebug() << "CursorImageProvider: \"ibeam\" not found, falling back to \"xterm\"";
-            cursorImage = fetchCursorHelper(themeName, "xterm");
-        } else if (cursorName == "xterm") {
-            qDebug() << "CursorImageProvider: \"xterm\" not found, falling back to \"ibeam\"";
-            cursorImage = fetchCursorHelper(themeName, "ibeam");
+        if (m_fallbackNames.contains(cursorName)) {
+            const QList<QString> &fallbackNames = m_fallbackNames[cursorName];
+            int i = 0;
+            while (cursorImage->qimage.isNull() && i < fallbackNames.count()) {
+                qDebug().nospace() << "CursorImageProvider: "<< cursorName <<" not found, trying " << fallbackNames.at(i);
+                cursorImage = fetchCursorHelper(themeName, fallbackNames.at(i));
+                ++i;
+            }
         }
     }
 
@@ -181,11 +233,26 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
 
 CursorImage *CursorImageProvider::fetchCursorHelper(const QString &themeName, const QString &cursorName)
 {
-    QMap<QString, CursorImage*> &themeCursors = m_cursors[themeName];
+    if (cursorName == QLatin1String("blank")) {
+        return &m_blankCursorImage;
+    } else if (cursorName == QLatin1String("custom")) {
+        return m_customCursorImage.data();
+    } else {
+        QMap<QString, CursorImage*> &themeCursors = m_cursors[themeName];
 
-    if (!themeCursors.contains(cursorName)) {
-        themeCursors[cursorName] = new XCursorImage(themeName, cursorName);
+        if (!themeCursors.contains(cursorName)) {
+            themeCursors[cursorName] = new XCursorImage(themeName, cursorName);
+        }
+
+        return themeCursors[cursorName];
     }
+}
 
-    return themeCursors[cursorName];
+void CursorImageProvider::setCustomCursor(const QCursor &customCursor)
+{
+    if (customCursor.pixmap().isNull()) {
+        m_customCursorImage.reset();
+    } else {
+        m_customCursorImage.reset(new CustomCursorImage(customCursor));
+    }
 }

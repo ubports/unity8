@@ -123,3 +123,8 @@ void MousePointer::setThemeName(const QString &themeName)
         Q_EMIT themeNameChanged(m_themeName);
     }
 }
+
+void MousePointer::setCustomCursor(const QCursor &customCursor)
+{
+    CursorImageProvider::instance()->setCustomCursor(customCursor);
+}
