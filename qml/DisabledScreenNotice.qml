@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import UInput 0.1
 import "Components"
 
 Image {
@@ -29,21 +30,44 @@ Image {
     source: wallpaperResolver.background
 
     UbuntuShape {
-        anchors.fill: text
-        anchors.margins: -units.gu(2)
+        anchors.fill: virtualTouchPad
         backgroundColor: "black"
         opacity: 0.4
     }
 
-    Label {
-        id: text
-        anchors.centerIn: parent
-        width: parent.width / 2
-        text: i18n.tr("Your device is now connected to an external display.")
-        color: "white"
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        fontSize: "x-large"
-        wrapMode: Text.Wrap
+    UInput {
+        id: uinput
+        Component.onCompleted: createMouse();
+        Component.onDestruction: removeMouse();
     }
+
+    MouseArea {
+        id: virtualTouchPad
+        anchors.fill: parent
+        anchors.margins: units.gu(2)
+
+        property int oldX
+        property int oldY
+
+        onPressed: {
+            oldX = mouseX;
+            oldY = mouseY;
+        }
+
+        onPositionChanged: {
+            uinput.moveMouse(mouseX - oldX, mouseY - oldY)
+        }
+    }
+
+//    Label {
+//        id: text
+//        anchors.centerIn: parent
+//        width: parent.width / 2
+//        text: i18n.tr("Your device is now connected to an external display.")
+//        color: "white"
+//        horizontalAlignment: Text.AlignHCenter
+//        verticalAlignment: Text.AlignVCenter
+//        fontSize: "x-large"
+//        wrapMode: Text.Wrap
+//    }
 }
