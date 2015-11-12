@@ -181,7 +181,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "buttonsVisible"
-        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for LIM
+        value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
     }
 
     Binding {

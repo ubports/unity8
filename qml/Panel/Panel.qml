@@ -177,7 +177,7 @@ Item {
             text: PanelState.title
         }
 
-        // TODO here would the LIM come
+        // TODO here would the Locally integrated menus come
 
         ActiveCallHint {
             id: __callHint
