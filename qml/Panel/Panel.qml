@@ -94,17 +94,6 @@ Item {
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
         }
 
-        Image {
-            anchors {
-                top: indicators.top
-                bottom: indicators.bottom
-                right: indicators.left
-                topMargin: indicatorArea.anchors.topMargin + indicators.minimizedPanelHeight
-            }
-            width: units.dp(2)
-            source: "graphics/VerticalDivider.png"
-        }
-
         MouseArea {
             anchors {
                 top: parent.top
