@@ -175,7 +175,9 @@ AbstractStage {
         onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
         onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
                     && priv.focusedAppDelegate.restoreFromMaximized();
-        onFocusMaximizedApp: ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIdIndex).appId)
+        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIdIndex != -1) {
+                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIdIndex).appId);
+                             }
     }
 
     Binding {
