@@ -313,6 +313,7 @@ Rectangle {
         }
 
         function cleanup() {
+            waitForRendering(shell);
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
