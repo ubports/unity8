@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.3
 import "../Components"
+import "../Components/PanelState"
 
 MouseArea {
     id: root
@@ -56,7 +57,7 @@ MouseArea {
             Mir.cursorName = "grabbing";
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             root.target.x = pos.x - priv.distanceX;
-            root.target.y = pos.y - priv.distanceY;
+            root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
         }
     }
 

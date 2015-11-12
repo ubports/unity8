@@ -344,9 +344,9 @@ Rectangle {
             var app2 = ApplicationManager.startApplication("webbrowser-app")
             var app3 = ApplicationManager.startApplication("camera-app")
             var app4 = ApplicationManager.startApplication("facebook-webapp")
-            var app5 = ApplicationManager.startApplication("calendar-app")
+            var app5 = ApplicationManager.startApplication("camera-app")
             var app6 = ApplicationManager.startApplication("gallery-app")
-            var app7 = ApplicationManager.startApplication("camera-app")
+            var app7 = ApplicationManager.startApplication("calendar-app")
             waitUntilAppWindowIsFullyLoaded(app7);
         }
 
@@ -1710,11 +1710,11 @@ Rectangle {
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
 
-
             tryCompare(desktopSpread, "state", "altTab")
 
-            mouseMove(shell, 0, 0);
+            mouseMove(shell, 0, shell.height / 2);
             tryCompare(launcher, "state", "visibleTemporary")
+            waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
             tryCompare(launcher, "state", "")
@@ -1807,6 +1807,37 @@ Rectangle {
             LightDM.Greeter.hideGreeter();
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", true);
+        }
+
+        function test_cantMoveWindowUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appDelegate = appRepeater.itemAt(0);
+
+            mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
+            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
+
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
+        function test_restoreWindowStateFixesIfUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            // Move it under the panel programmatically (might happen later with an alt+drag)
+            appDelegate.y = -units.gu(10)
+
+            ApplicationManager.stopApplication(appId)
+            ApplicationManager.startApplication(appId)
+            waitForRendering(shell)
+
+            // Make sure the newly started one is at index 0 again
+            tryCompare(ApplicationManager.get(0), "appId", appId);
+
+            appDelegate = appRepeater.itemAt(0);
+            compare(appDelegate.y >= PanelState.panelHeight, true);
         }
 
         function test_lifecyclePolicyForNonTouchApp_data() {
