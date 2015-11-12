@@ -123,13 +123,9 @@ AbstractStage {
         function updateForegroundMaximizedApp() {
             for (var i = 0; i < appRepeater.count; i++) {
                 var item = appRepeater.itemAt(i);
-
                 if (item && item.visuallyMaximized) {
-                    var index = priv.indexOf(item.appId);
-                    if (index !== -1) {
-                        foregroundMaximizedAppIdIndex = index;
-                        return;
-                    }
+                    foregroundMaximizedAppIdIndex = i;
+                    return;
                 }
             }
             foregroundMaximizedAppIdIndex = -1;
