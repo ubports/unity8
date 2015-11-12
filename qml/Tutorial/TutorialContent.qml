@@ -79,7 +79,7 @@ Item {
         Timer {
             id: tutorialTopTimer
             objectName: "tutorialTopTimer"
-            interval: 60000
+            interval: 30000
             onTriggered: if (tutorialTop.isReady && !tutorialTop.shown) tutorialTop.show()
         }
 
