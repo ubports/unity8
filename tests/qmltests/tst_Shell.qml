@@ -1885,5 +1885,62 @@ Rectangle {
             compare(app1.session.surface.activeFocus, false);
             compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
+
+        function test_switchToStagedForcesLegacyAppClosing_data() {
+            return [
+                {tag: "forceClose", replug: false },
+                {tag: "replug", replug: true }
+            ];
+        }
+
+        function test_switchToStagedForcesLegacyAppClosing(data) {
+            loadShell("desktop")
+            shell.usageScenario = "desktop"
+            waitForRendering(shell);
+
+            ApplicationManager.startApplication("camera-app")
+
+            shell.usageScenario = "phone"
+            waitForRendering(shell);
+
+            // No legacy app running yet... Popup must *not* show.
+            var popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup, null);
+
+            shell.usageScenario = "desktop"
+            waitForRendering(shell);
+
+            // Now start a legacy app
+            ApplicationManager.startApplication("libreoffice")
+
+            shell.usageScenario = "phone"
+            waitForRendering(shell);
+
+            // The popup must appear now
+            popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup !== null, true);
+
+            if (data.replug) {
+                shell.usageScenario = "desktop"
+                waitForRendering(shell);
+
+            } else {
+                var forceCloseButton = findChild(popup, "forceCloseButton");
+                mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
+                waitForRendering(root);
+            }
+
+            // Popup must be gone now
+            popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup === null, true);
+
+            if (data.replug) {
+                // Libreoffice must still be running
+                compare(ApplicationManager.findApplication("libreoffice") !== null, true);
+            } else {
+                // Libreoffice must be gone now
+                compare(ApplicationManager.findApplication("libreoffice") === null, true);
+            }
+        }
     }
 }
