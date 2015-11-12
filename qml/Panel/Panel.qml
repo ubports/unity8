@@ -61,7 +61,18 @@ Item {
         }
 
         BorderImage {
-            id: dropShadow
+            id: indicatorsDropShadow
+            anchors {
+                fill: indicators
+                leftMargin: -units.gu(1)
+                bottomMargin: -units.gu(1)
+            }
+            visible: !indicators.fullyClosed
+            source: "graphics/rectangular_dropshadow.sci"
+        }
+
+        BorderImage {
+            id: panelDropShadow
             anchors {
                 fill: indicatorAreaBackground
                 bottomMargin: -units.gu(1)
