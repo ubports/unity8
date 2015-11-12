@@ -223,10 +223,18 @@ AbstractStage {
                 height: units.gu(50)
                 focus: appId === priv.focusedAppId
 
-                property bool maximized: false
-                property bool maximizedLeft: false
-                property bool maximizedRight: false
-                property bool minimized: false
+                QtObject {
+                    id: appDelegatePrivate
+                    property bool maximized: false
+                    property bool maximizedLeft: false
+                    property bool maximizedRight: false
+                    property bool minimized: false
+                }
+                readonly property alias maximized: appDelegatePrivate.maximized
+                readonly property alias maximizedLeft: appDelegatePrivate.maximizedLeft
+                readonly property alias maximizedRight: appDelegatePrivate.maximizedRight
+                readonly property alias minimized: appDelegatePrivate.minimized
+
                 readonly property string appId: model.appId
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
@@ -260,38 +268,38 @@ AbstractStage {
 
                 function maximize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    minimized = false;
-                    maximized = true;
-                    maximizedLeft = false;
-                    maximizedRight = false;
+                    appDelegatePrivate.minimized = false;
+                    appDelegatePrivate.maximized = true;
+                    appDelegatePrivate.maximizedLeft = false;
+                    appDelegatePrivate.maximizedRight = false;
                 }
                 function maximizeLeft() {
-                    minimized = false;
-                    maximized = false;
-                    maximizedLeft = true;
-                    maximizedRight = false;
+                    appDelegatePrivate.minimized = false;
+                    appDelegatePrivate.maximized = false;
+                    appDelegatePrivate.maximizedLeft = true;
+                    appDelegatePrivate.maximizedRight = false;
                 }
                 function maximizeRight() {
-                    minimized = false;
-                    maximized = false;
-                    maximizedLeft = false;
-                    maximizedRight = true;
+                    appDelegatePrivate.minimized = false;
+                    appDelegatePrivate.maximized = false;
+                    appDelegatePrivate.maximizedLeft = false;
+                    appDelegatePrivate.maximizedRight = true;
                 }
                 function minimize(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    maximized = false;
-                    minimized = true;
+                    appDelegatePrivate.maximized = false;
+                    appDelegatePrivate.minimized = true;
                 }
                 function restore(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    minimized = false;
-                    maximized = false;
-                    maximizedLeft = false;
-                    maximizedRight = false;
+                    appDelegatePrivate.minimized = false;
+                    appDelegatePrivate.maximized = false;
+                    appDelegatePrivate.maximizedLeft = false;
+                    appDelegatePrivate.maximizedRight = false;
                 }
                 function restoreFromMinimized(animated) {
                     animationsEnabled = (animated === undefined) || animated;
-                    minimized = false;
+                    appDelegatePrivate.minimized = false;
                     if (maximized)
                         maximize();
                     else if (maximizedLeft)
@@ -347,14 +355,14 @@ AbstractStage {
                         to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
                     },
                     Transition {
                         to: "maximized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     },
@@ -363,7 +371,7 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            PropertyAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale" }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
