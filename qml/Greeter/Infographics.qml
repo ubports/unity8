@@ -16,8 +16,8 @@
 
 import "../Components"
 import "Gradient.js" as Gradient
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 
 Item {
     id: infographic

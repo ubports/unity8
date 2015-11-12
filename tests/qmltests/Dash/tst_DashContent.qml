@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import "../../../qml/Dash"
 import "../../../qml/Components"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity 0.2
 import Unity.Test 0.1 as UT
 import Utils 0.1
@@ -215,7 +215,7 @@ Item {
             verify(pageHeader, "Could not find the scope page header.");
             var innerHeader = findChild(pageHeader, "innerPageHeader");
             verify(innerHeader, "Could not find the scope page header.");
-            compare(innerHeader.title, scopesModel.getScope(data.index).name);
+            compare(innerHeader.config.title, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
@@ -552,13 +552,13 @@ Item {
         }
 
         function getSettledButtons() {
-            var buttons = findChildsByType(dashContent, "AbstractButton");
+            var buttons = findChildsByType(dashContent, "UCAbstractButton");
             wait(2500);
-            var aux = findChildsByType(dashContent, "AbstractButton");
+            var aux = findChildsByType(dashContent, "UCAbstractButton");
             while (!compareArrays(aux, buttons)) {
                 buttons = aux;
                 wait(2500);
-                aux = findChildsByType(dashContent, "AbstractButton");
+                aux = findChildsByType(dashContent, "UCAbstractButton");
             }
             return buttons;
         }

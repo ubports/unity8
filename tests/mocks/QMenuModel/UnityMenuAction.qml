@@ -17,7 +17,7 @@
  *   Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QMenuModel 0.1
 
 QtObject {

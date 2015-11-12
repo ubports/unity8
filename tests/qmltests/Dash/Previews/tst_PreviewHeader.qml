@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import "../../../../qml/Dash/Previews"
 import Unity.Test 0.1 as UT
@@ -149,7 +149,7 @@ Rectangle {
             tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
             var mascot = findChild(previewHeader, "mascotShape");
             tryCompare(mascot, "visible", true);
-            tryCompare(mascot.image, "status", Image.Ready);
+            tryCompare(mascot.source, "status", Image.Ready);
         }
     }
 }
