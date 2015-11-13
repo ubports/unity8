@@ -1715,6 +1715,7 @@ Rectangle {
 
             mouseMove(shell, 0, shell.height / 2);
             tryCompare(launcher, "state", "visibleTemporary")
+            waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
             tryCompare(launcher, "state", "")
