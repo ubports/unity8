@@ -344,9 +344,9 @@ Rectangle {
             var app2 = ApplicationManager.startApplication("webbrowser-app")
             var app3 = ApplicationManager.startApplication("camera-app")
             var app4 = ApplicationManager.startApplication("facebook-webapp")
-            var app5 = ApplicationManager.startApplication("calendar-app")
+            var app5 = ApplicationManager.startApplication("camera-app")
             var app6 = ApplicationManager.startApplication("gallery-app")
-            var app7 = ApplicationManager.startApplication("camera-app")
+            var app7 = ApplicationManager.startApplication("calendar-app")
             waitUntilAppWindowIsFullyLoaded(app7);
         }
 
@@ -1776,15 +1776,10 @@ Rectangle {
             tryCompare(panelButtons, "visible", false);
 
             appDelegate.maximize(false);
-            tryCompare(panelButtons, "visible", true);
 
             shell.usageScenario = "phone";
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", false);
-
-            shell.usageScenario = "desktop";
-            waitForRendering(shell);
-            tryCompare(panelButtons, "visible", true);
         }
 
         function test_lockingGreeterHidesPanelButtons() {
@@ -1798,15 +1793,10 @@ Rectangle {
             tryCompare(panelButtons, "visible", false);
 
             appDelegate.maximize(false);
-            tryCompare(panelButtons, "visible", true);
 
             LightDM.Greeter.showGreeter();
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", false);
-
-            LightDM.Greeter.hideGreeter();
-            waitForRendering(shell);
-            tryCompare(panelButtons, "visible", true);
         }
 
         function test_lifecyclePolicyForNonTouchApp_data() {
