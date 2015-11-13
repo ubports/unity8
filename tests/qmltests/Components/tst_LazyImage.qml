@@ -112,6 +112,11 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: signalSpy
+        signalName: "readyTransitionRunning"
+    }
+
     UT.UnityTestCase {
         name: "LazyImage"
         when: windowShown
@@ -144,8 +149,8 @@ Rectangle {
                 {tag: "Height-bound Bad path", image: lazy3, func: controls3.badpath, transition: "genericTransition", width: units.gu(10), height: units.gu(12), imageWidth: units.gu(10), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12), placeholder: true, error: true},
                 {tag: "Fit Blank", image: lazy4, func: controls4.blank, width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12), placeholder: true},
                 {tag: "Fit Wide", image: lazy4, func: controls4.wide, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(6), initialWidth: units.gu(12), initialHeight: units.gu(12)},
-                {tag: "Fit Square", image: lazy4, func: controls4.square, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
-                {tag: "Fit Portrait", image: lazy4, func: controls4.portrait, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(6), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
+                {tag: "Fit Square", image: lazy4, func: controls4.square, transition: "readyTransition", transitionCount: 4, width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
+                {tag: "Fit Portrait", image: lazy4, func: controls4.portrait, transition: "readyTransition", transitionCount: 4, width: units.gu(12), height: units.gu(12), imageWidth: units.gu(6), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
                 {tag: "Fit Bad path", image: lazy4, func: controls4.badpath, transition: "genericTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12), placeholder: true, error: true},
             ]
         }
@@ -154,10 +159,19 @@ Rectangle {
             data.func();
 
             if (data.transition) {
-                // wait for the transition to complete
-                var transition = findChildIn(data.image, "transitions", data.transition);
-                tryCompare(transition, "running", true);
-                tryCompare(transition, "running", false);
+                if (data.transition == "readyTransition") {
+                    signalSpy.target = data.image;
+                    signalSpy.clear();
+                    tryCompare(signalSpy, "count", data.transitionCount ? data.transitionCount : 2);
+                    for (var i = 0; i < signalSpy.count; i++) {
+                        compare(signalSpy.signalArguments[i][0], i % 2 == 0 ? true : false);
+                    }
+                } else {
+                    // wait for the transition to complete
+                    var transition = findChildIn(data.image, "transitions", data.transition);
+                    tryCompare(transition, "running", true);
+                    tryCompare(transition, "running", false);
+                }
             }
 
             // check the dimensions

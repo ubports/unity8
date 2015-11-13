@@ -40,6 +40,8 @@ Item {
 
     state: "default"
 
+    signal readyTransitionRunning(bool running)
+
     onSourceChanged: {
         if (state === "ready") {
             state = "default";
@@ -157,6 +159,7 @@ Item {
         Transition {
             to: "ready"
             objectName: "readyTransition"
+            onRunningChanged: root.readyTransitionRunning(running)
             SequentialAnimation {
                 PropertyAction { target: shape; property: "visible" }
                 ParallelAnimation {
