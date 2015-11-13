@@ -180,13 +180,14 @@ AbstractStage {
         target: PanelState
         property: "buttonsVisible"
         value: priv.focusedAppDelegate !== null && priv.focusedAppDelegate.maximized // FIXME for Locally integrated menus
+               && spread.state == ""
     }
 
     Binding {
         target: PanelState
         property: "title"
         value: {
-            if (priv.focusedAppDelegate !== null) {
+            if (priv.focusedAppDelegate !== null && spread.state == "") {
                 if (priv.focusedAppDelegate.maximized)
                     return priv.focusedAppDelegate.title
                 else
