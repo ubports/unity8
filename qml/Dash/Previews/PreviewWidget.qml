@@ -37,6 +37,9 @@ Item {
     //! Set margins width.
     property real widgetMargins: units.gu(1)
 
+    /// The parent (vertical) list this widget is in (if any)
+    property var parentList: null
+
     /*! \brief This signal should be emitted when a preview action was triggered.
      *
      *  \param widgetId, actionId Respective identifiers from widgetData.

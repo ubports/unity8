@@ -90,6 +90,8 @@ Item {
                     widgetData: model.properties
                     isCurrentPreview: root.isCurrent
                     scopeStyle: root.scopeStyle
+                    parentList: column
+
                     anchors {
                         left: parent.left
                         right: parent.right
