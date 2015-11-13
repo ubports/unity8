@@ -75,6 +75,19 @@ void GSettingsControllerQml::setLockedOutTime(qint64 timestamp)
     }
 }
 
+QStringList GSettingsControllerQml::lifecycleExemptAppids() const
+{
+    return m_lifecycleExemptAppids;
+}
+
+void GSettingsControllerQml::setLifecycleExemptAppids(const QStringList &appIds)
+{
+    if (m_lifecycleExemptAppids != appIds) {
+        m_lifecycleExemptAppids = appIds;
+        Q_EMIT lifecycleExemptAppidsChanged(m_lifecycleExemptAppids);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -114,6 +127,8 @@ GSettingsQml::GSettingsQml(QObject *parent)
             this, &GSettingsQml::usageModeChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::lockedOutTimeChanged,
             this, &GSettingsQml::lockedOutTimeChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::lifecycleExemptAppidsChanged,
+            this, &GSettingsQml::lifecycleExemptAppidsChanged);
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -165,5 +180,21 @@ void GSettingsQml::setLockedOutTime(qint64 timestamp)
 {
     if (m_schema->id() == "com.canonical.Unity8.Greeter") {
         GSettingsControllerQml::instance()->setLockedOutTime(timestamp);
+    }
+}
+
+QStringList GSettingsQml::lifecycleExemptAppids() const
+{
+    if (m_schema->id() == "com.canonical.qtmir") {
+        return GSettingsControllerQml::instance()->lifecycleExemptAppids();
+    } else {
+        return QStringList();
+    }
+}
+
+void GSettingsQml::setLifecycleExemptAppids(const QStringList &appIds)
+{
+    if (m_schema->id() == "com.canonical.qtmir") {
+        GSettingsControllerQml::instance()->setLifecycleExemptAppids(appIds);
     }
 }

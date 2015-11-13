@@ -17,9 +17,9 @@
  *          Daniel d'Andrada <daniel.dandrada@canonical.com>
  */
 
-import QtQuick 2.0
-import QtQuick.Window 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import QtQuick.Window 2.2
+import Ubuntu.Components 1.3
 import "../Components"
 
 FocusScope {
@@ -42,8 +42,7 @@ FocusScope {
     property alias application: appWindow.application
     property int shellOrientationAngle
     property int shellOrientation
-    property int shellPrimaryOrientation
-    property int nativeOrientation
+    property QtObject orientations
 
     function matchShellOrientation() {
         if (!root.application)
@@ -157,7 +156,7 @@ FocusScope {
                             var supportedOrientations = root.application.supportedOrientations;
 
                             if (supportedOrientations === Qt.PrimaryOrientation) {
-                                supportedOrientations = root.shellPrimaryOrientation;
+                                supportedOrientations = root.orientations.primary;
                             }
 
                             // If it doesn't support shell's current orientation
@@ -166,18 +165,18 @@ FocusScope {
                             if (supportedOrientations & root.shellOrientation) {
                                 chosenOrientation = root.shellOrientation;
                             } else if (supportedOrientations & Qt.PortraitOrientation) {
-                                chosenOrientation = Qt.PortraitOrientation;
+                                chosenOrientation = root.orientations.portrait;
                             } else if (supportedOrientations & Qt.LandscapeOrientation) {
-                                chosenOrientation = Qt.LandscapeOrientation;
+                                chosenOrientation = root.orientations.landscape;
                             } else if (supportedOrientations & Qt.InvertedPortraitOrientation) {
-                                chosenOrientation = Qt.InvertedPortraitOrientation;
+                                chosenOrientation = root.orientations.invertedPortrait;
                             } else if (supportedOrientations & Qt.InvertedLandscapeOrientation) {
-                                chosenOrientation = Qt.InvertedLandscapeOrientation;
+                                chosenOrientation = root.orientations.invertedLandscape;
                             } else {
-                                chosenOrientation = root.shellPrimaryOrientation;
+                                chosenOrientation = root.orientations.primary;
                             }
 
-                            return Screen.angleBetween(root.nativeOrientation, chosenOrientation);
+                            return Screen.angleBetween(root.orientations.native_, chosenOrientation);
                         }
 
                         rotation: normalizeAngle(appWindowWithShadow.orientationAngle - root.shellOrientationAngle)

@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
-"X-Generator: Launchpad (build 17812)\n"
+"X-Launchpad-Export-Date: 2015-11-07 05:13+0000\n"
+"X-Generator: Launchpad (build 17838)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -1804,21 +1804,6 @@ msgstr ""
 msgid "Very weak password"
 msgstr ""
 
-#~ msgid "Confirm passphrase"
-#~ msgstr "Jelmondat megerősítése"
-
-#~ msgid "Please try again."
-#~ msgstr "Próbálja újra."
-
-#~ msgid "Continue"
-#~ msgstr "Folytatás"
-
-#~ msgid "Choose your passcode"
-#~ msgstr "Jelkód megadása"
-
-#~ msgid "Passphrase must be 4 characters long"
-#~ msgstr "A jelmondat legalább 4 karakter hosszú legyen"
-
 #~ msgid "Hi!"
 #~ msgstr "Üdvözöljük!"
 
@@ -1827,6 +1812,9 @@ msgstr ""
 
 #~ msgid "Let’s get started."
 #~ msgstr "Kezdjünk is bele."
+
+#~ msgid "Continue"
+#~ msgstr "Folytatás"
 
 #~ msgid "Add a SIM card and restart your device"
 #~ msgstr "Helyezzen be egy SIM kártyát és indítsa újra az eszközt"
@@ -1910,6 +1898,18 @@ msgstr ""
 
 #~ msgid "Finish"
 #~ msgstr "Befejezés"
+
+#~ msgid "Confirm passphrase"
+#~ msgstr "Jelmondat megerősítése"
+
+#~ msgid "Please try again."
+#~ msgstr "Próbálja újra."
+
+#~ msgid "Choose your passcode"
+#~ msgstr "Jelkód megadása"
+
+#~ msgid "Passphrase must be 4 characters long"
+#~ msgstr "A jelmondat legalább 4 karakter hosszú legyen"
 
 #~ msgid "〈  %1"
 #~ msgstr "〈  %1"

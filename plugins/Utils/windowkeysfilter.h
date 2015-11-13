@@ -36,16 +36,23 @@
 class WindowKeysFilter : public QQuickItem
 {
     Q_OBJECT
+    Q_PROPERTY(ulong currentEventTimestamp READ currentEventTimestamp NOTIFY currentEventTimestampChanged)
 public:
     WindowKeysFilter(QQuickItem *parent = 0);
 
     bool eventFilter(QObject *watched, QEvent *event) override;
+
+    ulong currentEventTimestamp() const;
+
+Q_SIGNALS:
+    void currentEventTimestampChanged();
 
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
 
 private:
     QPointer<QQuickWindow> m_filteredWindow;
+    ulong m_currentEventTimestamp;
 };
 
 #endif // UNITY_WINDOWKEYSFILTER_H

@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../../Components"
 
 /*! This preview widget shows a horizontal list of images.
@@ -62,7 +62,7 @@ PreviewWidget {
             source: modelData ? modelData : ""
             scaleTo: "height"
             initialWidth: units.gu(13)
-            borderSource: mouseArea.pressed ? "radius_pressed.sci" : "radius_idle.sci"
+            pressed: mouseArea.pressed
 
             MouseArea {
                 id: mouseArea

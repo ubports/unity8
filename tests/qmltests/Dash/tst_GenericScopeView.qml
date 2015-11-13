@@ -14,13 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import Unity 0.2
 import ".."
 import "../../../qml/Dash"
 import "../../../qml/Components"
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 
 Item {
@@ -429,7 +429,7 @@ Item {
                 // open
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
-                var settings = findChild(innerHeader, "settings_header_button");
+                var settings = findChild(innerHeader, "settings_action_button");
                 mouseClick(settings);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompareFunction(function() { return (String(subPageLoader.source)).indexOf("ScopeSettingsPage.qml") != -1; }, true);
@@ -500,7 +500,7 @@ Item {
                 mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
-                tryCompare(genericScopeView.categoryView, "contentY", units.gu(14));
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(13));
 
                 scrollToEnd();
 
@@ -577,7 +577,7 @@ Item {
                 verify(innerHeader, "Could not find the inner header");
 
                 expectFail("Apps", "Click scope should not have a favorite button");
-                var favoriteAction = findChild(innerHeader, "favorite_header_button");
+                var favoriteAction = findChild(innerHeader, "favorite_action_button");
                 verify(favoriteAction, "Could not find the favorite action.");
                 mouseClick(favoriteAction);
 

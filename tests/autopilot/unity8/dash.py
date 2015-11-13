@@ -158,7 +158,7 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     def enter_search_query(self, query, keyboard):
         current_header = self._get_current_page_header()
         search_button = \
-            current_header.select_single(objectName="search_header_button")
+            current_header.select_single(objectName="search_action_button")
         self.pointing_device.move(
             search_button.globalRect.x + search_button.width / 2,
             search_button.globalRect.y + search_button.height / 2)
@@ -224,7 +224,7 @@ class GenericScopeView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         """
         category_element = self._get_category_element(category)
         icon = category_element.wait_select_single(
-            'AbstractButton', title=title)
+            'UCAbstractButton', title=title)
         list_view = self.select_single(
             ListViewWithPageHeader, objectName='categoryListView')
         list_view.swipe_child_into_view(icon)
@@ -247,7 +247,7 @@ class GenericScopeView(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         """
         category_element = self._get_category_element(category)
         see_all = category_element.select_single(objectName='seeAll')
-        application_cards = category_element.select_many('AbstractButton')
+        application_cards = category_element.select_many('UCAbstractButton')
 
         application_cards = sorted(
             (card for card in application_cards

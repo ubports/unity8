@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-09-16 00:49+0200\n"
-"PO-Revision-Date: 2015-07-27 11:47+0000\n"
-"Last-Translator: Anne <anneonyme017@gmail.com>\n"
+"POT-Creation-Date: 2015-10-19 14:34+0100\n"
+"PO-Revision-Date: 2015-11-07 19:43+0000\n"
+"Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
-"X-Generator: Launchpad (build 17812)\n"
+"X-Launchpad-Export-Date: 2015-11-08 05:45+0000\n"
+"X-Generator: Launchpad (build 17838)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -69,8 +69,8 @@ msgstr "%a %l:%M"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
 msgstr "%a %b %d %l:%M"
@@ -109,8 +109,8 @@ msgstr "%a %H:%M"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
 msgstr "%a %b %d %H:%M"
@@ -292,6 +292,10 @@ msgstr "Évaluez ceci"
 msgid "Add a review"
 msgstr "Ajouter un avis"
 
+#: qml/Dash/Previews/PreviewSharing.qml:51
+msgid "Preview Share Item"
+msgstr "Aperçu de l'élément partagé"
+
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Tirer pour actualiser..."
@@ -401,62 +405,62 @@ msgstr "Appuyez pour revenir à l'appel…"
 msgid "Conference"
 msgstr "Conférence"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:718
+#: qml/Panel/Indicators/MenuItemFactory.qml:727
 msgid "Nothing is playing"
 msgstr "Rien n'est en cours de lecture"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 heure"
 msgstr[1] "%1 heures"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:851
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minute"
 msgstr[1] "%1 minutes"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:865
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 seconde"
 msgstr[1] "%1 secondes"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:859
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "0 seconds"
 msgstr "0 seconde"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:861
+#: qml/Panel/Indicators/MenuItemFactory.qml:870
 #, qt-format
 msgid "%1 remaining"
 msgstr "Il reste %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:867
+#: qml/Panel/Indicators/MenuItemFactory.qml:876
 msgid "In queue…"
 msgstr "Dans la file d'attente..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:871
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "Downloading"
 msgstr "Téléchargement en cours"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:873
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 msgid "Paused, tap to resume"
 msgstr "En pause, appuyez pour reprendre"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:875
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Canceled"
 msgstr "Annulé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:877
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Finished"
 msgstr "Terminé"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:879
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Failed, tap to retry"
 msgstr "Échec, appuyez pour réessayer"
 
@@ -535,38 +539,6 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Précédent"
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "Conditions générales d'utilisation"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Confirmez votre phrase de passe"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "Confirmez votre code"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Veuillez réessayer."
-
-#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50
-msgid "Continue"
-msgstr "Continuer"
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Choisissez votre code"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "La phrase de passe doit comporter 4 caractères"
-
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr "Salut !"
@@ -578,6 +550,13 @@ msgstr "Bienvenue sur votre téléphone Ubuntu."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "Commençons."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Continuer"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -715,6 +694,31 @@ msgstr "Votre téléphone est maintenant prêt à être utilisé."
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
 msgstr "Terminer"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Conditions générales d'utilisation"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Confirmez votre phrase de passe"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Confirmez votre code"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Veuillez réessayer."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Choisissez votre code"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "La phrase de passe doit comporter 4 caractères"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
