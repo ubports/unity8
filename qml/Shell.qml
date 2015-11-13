@@ -247,8 +247,7 @@ Item {
                 }
             }
 
-            property bool interactive: tutorial.spreadEnabled
-                    && (!greeter || !greeter.shown)
+            property bool interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
                     && launcher.progress == 0
                     && !notifications.useModal

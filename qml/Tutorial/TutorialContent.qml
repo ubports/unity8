@@ -74,7 +74,7 @@ Item {
         readonly property bool skipped: (root.usageScenario !== "phone"
                                          && root.usageScenario !== "tablet")
                                         || AccountsService.demoEdgesCompleted.indexOf("top") != -1
-        isReady: tutorialLeft.skipped && !skipped && !paused && !keyboardVisible
+        isReady: tutorialLeft.skipped && !skipped && !paused && !keyboardVisible && !tutorialBottom.shown
 
         Timer {
             id: tutorialTopTimer
@@ -103,7 +103,8 @@ Item {
         paused: root.paused
 
         readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("right") != -1
-        isReady: tutorialTop.skipped && !skipped && !paused && !keyboardVisible && ApplicationManager.count >= 3
+        isReady: tutorialTop.skipped && !skipped && !paused && !keyboardVisible && !tutorialBottom.shown &&
+                 ApplicationManager.count >= 3
 
         Timer {
             id: tutorialRightTimer
@@ -119,10 +120,7 @@ Item {
 
         onSkippedChanged: if (skipped && shown) hide()
         onIsReadyChanged: if (isReady && !shown) tutorialRightTimer.start()
-        onFinished: {
-            AccountsService.markDemoEdgeCompleted("right");
-            root.finish();
-        }
+        onFinished: AccountsService.markDemoEdgeCompleted("right")
     }
 
     TutorialBottom {
@@ -135,30 +133,16 @@ Item {
         readonly property bool skipped: (root.usageScenario !== "phone"
                                          && root.usageScenario !== "tablet")
                                         || AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
-        isReady: false /* tutorialRight.skipped && !skipped && !paused && !keyboardVisible &&
+        isReady: !skipped && !paused && !keyboardVisible && !tutorialTop.shown && !tutorialRight.shown &&
                  // focused app is an app known to have a bottom edge
                  (ApplicationManager.focusedApplicationId == "dialer-app" ||
-                  ApplicationManager.focusedApplicationId == "webbrowser-app" ||
                   ApplicationManager.focusedApplicationId == "messaging-app" ||
                   ApplicationManager.focusedApplicationId == "address-book-app" ||
-                  ApplicationManager.focusedApplicationId == "camera-app" ||
                   ApplicationManager.focusedApplicationId == "ubuntu-calculator-app" ||
-                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app") */
-
-        /*Timer {
-            id: tutorialBottomTimer
-            objectName: "tutorialBottomTimer"
-            interval: 3000
-            onTriggered: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
-        }*/
-
-        Connections {
-            target: ApplicationManager
-            onApplicationAdded: if (tutorialBottom.isReady && !tutorialBottom.shown) tutorialBottom.show()
-        }
+                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app")
 
         onSkippedChanged: if (skipped && shown) hide()
-        //onIsReadyChanged: if (isReady && !shown) tutorialBottomTimer.start()
+        onIsReadyChanged: if (isReady && !shown) show()
         onFinished: {
             AccountsService.markDemoEdgeCompleted("bottom");
             root.finish();

@@ -41,7 +41,7 @@ Showable {
     visible: false
     shown: false
 
-    opacity: Math.min(_showOpacity, opacityOverride)
+    opacity: Math.max(Math.min(_showOpacity, opacityOverride), 0)
     onOpacityOverrideChanged: if (opacityOverride <= 0) hide()
     property real _showOpacity: 0
 

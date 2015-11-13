@@ -436,11 +436,14 @@ void DirectionalDragAreaPrivate::touchEvent_absent(QTouchEvent *event)
         if (recognitionIsDisabled()) {
             // Behave like a dumb TouchArea
             ddaDebug("Gesture recognition is disabled. Requesting touch ownership immediately.");
-            if (!monitorOnly) {
-                TouchRegistry::instance()->requestTouchOwnership(touchId, q);
-            }
             setStatus(Recognized);
-            event->accept();
+            if (monitorOnly) {
+                watchPressedTouchPoints(touchPoints);
+                event->ignore();
+            } else {
+                TouchRegistry::instance()->requestTouchOwnership(touchId, q);
+                event->accept();
+            }
         } else {
             // just monitor the touch points for now.
             if (monitorOnly) {
