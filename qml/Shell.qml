@@ -24,7 +24,7 @@ import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
-import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
+import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -171,9 +171,9 @@ Item {
         // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
     }
 
-    WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
+    WindowInputFilter {
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, lastInputTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, lastInputTimestamp);
     }
 
     HomeKeyWatcher {

@@ -17,7 +17,7 @@ set(QMLPLUGIN_SRC
     unitysortfilterproxymodelqml.cpp
     Timer.cpp
     unitymenumodelpaths.cpp
-    windowkeysfilter.cpp
+    windowinputfilter.cpp
     windowscreenshotprovider.cpp
     easingcurve.cpp
     windowstatestorage.cpp

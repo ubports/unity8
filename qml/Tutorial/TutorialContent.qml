@@ -28,6 +28,7 @@ Item {
     property string usageScenario
     property bool paused
     property bool keyboardVisible
+    property var lastInputTimestamp
 
     readonly property bool launcherEnabled: !running || tutorialLeft.shown
     readonly property bool spreadEnabled: !running || tutorialRight.shown
@@ -76,16 +77,36 @@ Item {
                                         || AccountsService.demoEdgesCompleted.indexOf("top") != -1
         isReady: tutorialLeft.skipped && !skipped && !paused && !keyboardVisible && !tutorialBottom.shown
 
+        // We fire 30s after left edge tutorial, with at least 3s of inactivity
+
+        Timer {
+            id: tutorialTopInactivityTimer
+            objectName: "tutorialTopInactivityTimer"
+            interval: 3000
+
+            Connections {
+                target: root
+                onLastInputTimestampChanged: {
+                    if (tutorialTopInactivityTimer.running) {
+                        tutorialTopInactivityTimer.restart();
+                    }
+                }
+            }
+
+            onTriggered: {
+                if (tutorialTop.isReady) {
+                    tutorialTop.show();
+                } else {
+                    restart();
+                }
+            }
+        }
+
         Timer {
             id: tutorialTopTimer
             objectName: "tutorialTopTimer"
-            interval: 30000
-            onTriggered: if (tutorialTop.isReady && !tutorialTop.shown) tutorialTop.show()
-        }
-
-        Connections {
-            target: AccountsService
-            onDemoEdgesCompletedChanged: if (tutorialTop.isReady && !tutorialTop.shown) tutorialTopTimer.start()
+            interval: 27000
+            onTriggered: tutorialTopInactivityTimer.start()
         }
 
         onSkippedChanged: if (skipped && shown) hide()
@@ -110,7 +131,15 @@ Item {
             id: tutorialRightTimer
             objectName: "tutorialRightTimer"
             interval: 3000
-            onTriggered: if (tutorialRight.isReady && !tutorialRight.shown) tutorialRight.show()
+            onTriggered: {
+                if (tutorialRight.isReady) {
+                    if (!tutorialRight.shown) {
+                        tutorialRight.show();
+                    }
+                } else {
+                    restart();
+                }
+            }
         }
 
         Connections {

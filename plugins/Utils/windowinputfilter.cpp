@@ -16,36 +16,34 @@
  * Author: Daniel d'Andrada <daniel.dandrada@canonical.com>
  */
 
-#include "windowkeysfilter.h"
+#include "windowinputfilter.h"
 
 #include <QQuickWindow>
 
-WindowKeysFilter::WindowKeysFilter(QQuickItem *parent)
+WindowInputFilter::WindowInputFilter(QQuickItem *parent)
     : QQuickItem(parent),
-      m_currentEventTimestamp(0)
+      m_lastInputTimestamp(0)
 {
     connect(this, &QQuickItem::windowChanged,
-            this, &WindowKeysFilter::setupFilterOnWindow);
+            this, &WindowInputFilter::setupFilterOnWindow);
 }
 
-bool WindowKeysFilter::eventFilter(QObject *watched, QEvent *event)
+bool WindowInputFilter::eventFilter(QObject *watched, QEvent *event)
 {
     Q_ASSERT(!m_filteredWindow.isNull());
     Q_ASSERT(watched == static_cast<QObject*>(m_filteredWindow.data()));
     Q_UNUSED(watched);
 
+    QInputEvent *inputEvent = dynamic_cast<QInputEvent*>(event);
+    if (inputEvent) {
+        m_lastInputTimestamp = inputEvent->timestamp();
+        Q_EMIT lastInputTimestampChanged();
+    }
+
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         // Let QML see this event and decide if it does not want it
         event->accept();
-
-        m_currentEventTimestamp = static_cast<QInputEvent*>(event)->timestamp();
-        Q_EMIT currentEventTimestampChanged();
-
         QCoreApplication::sendEvent(this, event);
-
-        m_currentEventTimestamp = 0;
-        Q_EMIT currentEventTimestampChanged();
-
         return event->isAccepted();
     } else {
         // Not interested
@@ -53,7 +51,7 @@ bool WindowKeysFilter::eventFilter(QObject *watched, QEvent *event)
     }
 }
 
-void WindowKeysFilter::setupFilterOnWindow(QQuickWindow *window)
+void WindowInputFilter::setupFilterOnWindow(QQuickWindow *window)
 {
     if (!m_filteredWindow.isNull()) {
         m_filteredWindow->removeEventFilter(this);
@@ -66,7 +64,7 @@ void WindowKeysFilter::setupFilterOnWindow(QQuickWindow *window)
     }
 }
 
-ulong WindowKeysFilter::currentEventTimestamp() const
+ulong WindowInputFilter::lastInputTimestamp() const
 {
-    return m_currentEventTimestamp;
+    return m_lastInputTimestamp;
 }
