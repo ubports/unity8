@@ -139,7 +139,8 @@ Item {
                   ApplicationManager.focusedApplicationId == "messaging-app" ||
                   ApplicationManager.focusedApplicationId == "address-book-app" ||
                   ApplicationManager.focusedApplicationId == "ubuntu-calculator-app" ||
-                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app")
+                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app") &&
+                 (stage.mainApp && stage.mainApp.state === ApplicationInfoInterface.Running)
 
         onSkippedChanged: if (skipped && shown) hide()
         onIsReadyChanged: if (isReady && !shown) show()
