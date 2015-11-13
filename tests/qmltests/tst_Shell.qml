@@ -1713,7 +1713,7 @@ Rectangle {
 
             tryCompare(desktopSpread, "state", "altTab")
 
-            mouseMove(shell, 0, 0);
+            mouseMove(shell, 0, shell.height / 2);
             tryCompare(launcher, "state", "visibleTemporary")
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
