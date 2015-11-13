@@ -40,6 +40,8 @@ void UInput::createMouse()
     ioctl(m_uinput.handle(), UI_SET_EVBIT, EV_REL);
     ioctl(m_uinput.handle(), UI_SET_RELBIT, REL_X);
     ioctl(m_uinput.handle(), UI_SET_RELBIT, REL_Y);
+    ioctl(m_uinput.handle(), UI_SET_RELBIT, REL_HWHEEL);
+    ioctl(m_uinput.handle(), UI_SET_RELBIT, REL_WHEEL);
 
     ioctl(m_uinput.handle(), UI_SET_EVBIT, EV_KEY);
     ioctl(m_uinput.handle(), UI_SET_KEYBIT, BTN_MOUSE);
@@ -107,36 +109,58 @@ void UInput::moveMouse(int dx, int dy)
     write(m_uinput.handle(), &event, sizeof(event));
 }
 
-void UInput::pressMouse(Qt::MouseButton button)
+void UInput::pressMouse(Button button)
 {
     injectMouse(button, 1);
 }
 
-void UInput::releaseMouse(Qt::MouseButton button)
+void UInput::releaseMouse(Button button)
 {
     injectMouse(button, 0);
 }
 
-void UInput::injectMouse(Qt::MouseButton button, int down)
+void UInput::scrollMouse(int dh, int dv)
+{
+    struct input_event event;
+    memset(&event, 0, sizeof(event));
+    gettimeofday(&event.time, 0);
+    event.type = EV_REL;
+    event.code = REL_HWHEEL;
+    event.value = dh;
+    write(m_uinput.handle(), &event, sizeof(event));
+
+    event.code = REL_WHEEL;
+    event.value = dv;
+    write(m_uinput.handle(), &event, sizeof(event));
+
+    event.type = EV_SYN;
+    event.code = SYN_REPORT;
+    event.value = 0;
+    write(m_uinput.handle(), &event, sizeof(event));
+}
+
+void UInput::injectMouse(Button button, int down)
 {
     struct input_event event;
     memset(&event, 0, sizeof(event));
     gettimeofday(&event.time, 0);
     event.type = EV_KEY;
     switch (button) {
-    case Qt::LeftButton:
+    case ButtonLeft:
         event.code = BTN_LEFT;
         break;
-    case Qt::RightButton:
+    case ButtonRight:
         event.code = BTN_RIGHT;
         break;
-    case Qt::MiddleButton:
+    case ButtonMiddle:
         event.code = BTN_MIDDLE;
         break;
-    default:
-        qWarning() << "Unsupported mouse button.";
-        return;
     }
     event.value = down;
+    write(m_uinput.handle(), &event, sizeof(event));
+
+    event.type = EV_SYN;
+    event.code = SYN_REPORT;
+    event.value = 0;
     write(m_uinput.handle(), &event, sizeof(event));
 }

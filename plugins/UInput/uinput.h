@@ -10,7 +10,15 @@
 class UInput : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(Button)
+
 public:
+    enum Button {
+        ButtonLeft,
+        ButtonRight,
+        ButtonMiddle
+    };
+
     explicit UInput(QObject *parent = 0);
     ~UInput();
 
@@ -18,11 +26,12 @@ public:
     Q_INVOKABLE void removeMouse();
 
     Q_INVOKABLE void moveMouse(int dx, int dy);
-    Q_INVOKABLE void pressMouse(Qt::MouseButton button);
-    Q_INVOKABLE void releaseMouse(Qt::MouseButton button);
+    Q_INVOKABLE void pressMouse(Button button);
+    Q_INVOKABLE void releaseMouse(Button button);
+    Q_INVOKABLE void scrollMouse(int dh, int dv);
 
 private:
-    void injectMouse(Qt::MouseButton button, int down);
+    void injectMouse(Button button, int down);
 
 private:
     QFile m_uinput;
