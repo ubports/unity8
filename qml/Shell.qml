@@ -172,6 +172,7 @@ Item {
     }
 
     WindowInputFilter {
+        id: inputFilter
         Keys.onPressed: physicalKeysMapper.onKeyPressed(event, lastInputTimestamp);
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event, lastInputTimestamp);
     }
@@ -424,7 +425,7 @@ Item {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    !callManager.hasCalls && !tutorial.running) {
+                    !callManager.hasCalls && !wizard.active) {
                 // We don't want to simply call greeter.showNow() here, because
                 // that will take too long.  Qt will delay button event
                 // handling until the greeter is done loading and may think the
@@ -540,6 +541,7 @@ Item {
             paused: callManager.hasCalls || greeter.shown
             keyboardVisible: inputMethod.state === "shown"
             usageScenario: shell.usageScenario
+            lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
             panel: panel
             stage: applicationsDisplayLoader.item

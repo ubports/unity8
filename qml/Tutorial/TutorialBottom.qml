@@ -32,11 +32,19 @@ TutorialPage {
     // eventually consolidate on a version of DirectionalDragArea that will
     // land in the SDK (making our guessing job easier).  Though, also in the
     // future, this whole bottom tutorial component will also land in the SDK,
-    // rending our version here obsolete.
+    // rendering our version here obsolete.
     //
     // Anyway, for the moment, we base our guesses on the copied-and-pasted
     // code used in several of the core apps and only bring this component
     // up if we are in those core apps.
+
+    function canShowForApp(appId) {
+        return appId === "address-book-app" ||
+               appId === "com.ubuntu.calculator_calculator" ||
+               appId === "com.ubuntu.clock_clock" ||
+               appId === "dialer-app" ||
+               appId === "messaging-app";
+    }
 
     readonly property real dragAreaHeight: units.gu(3) // based on PageWithBottomEdge.qml
     readonly property real targetDistance: height * 0.2 + dragAreaHeight // based on PageWithBottomEdge.qml

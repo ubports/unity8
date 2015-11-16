@@ -46,6 +46,19 @@ Item {
 
     ////
 
+    QtObject {
+        id: d
+
+        // We allow "" because it is briefly empty on startup, and we don't
+        // want to improperly skip any mobile tutorials.
+        property bool mobileScenario: root.usageScenario === "" ||
+                                      root.usageScenario === "phone" ||
+                                      root.usageScenario === "tablet"
+
+        property bool endPointsFinished: tutorialRight.skipped && tutorialBottom.skipped
+        onEndPointsFinishedChanged: if (endPointsFinished) root.finish()
+    }
+
     TutorialLeft {
         id: tutorialLeft
         objectName: "tutorialLeft"
@@ -54,9 +67,8 @@ Item {
         hides: [launcher, panel.indicators]
         paused: root.paused
 
-        readonly property bool skipped: (root.usageScenario !== "phone"
-                                         && root.usageScenario !== "tablet")
-                                        || AccountsService.demoEdgesCompleted.indexOf("left") != -1
+        readonly property bool skipped: !d.mobileScenario ||
+                                        AccountsService.demoEdgesCompleted.indexOf("left") != -1
         isReady: !skipped && !paused && !keyboardVisible
 
         onSkippedChanged: if (skipped && shown) hide()
@@ -72,34 +84,17 @@ Item {
         hides: [launcher, panel.indicators]
         paused: root.paused
 
-        readonly property bool skipped: (root.usageScenario !== "phone"
-                                         && root.usageScenario !== "tablet")
-                                        || AccountsService.demoEdgesCompleted.indexOf("top") != -1
-        isReady: tutorialLeft.skipped && !skipped && !paused && !keyboardVisible && !tutorialBottom.shown
+        readonly property bool skipped: !d.mobileScenario ||
+                                        AccountsService.demoEdgesCompleted.indexOf("top") != -1
+        isReady: tutorialLeft.skipped && !skipped && !paused && !keyboardVisible &&
+                 !tutorialBottom.shown && !tutorialBottom.mightShow
 
         // We fire 30s after left edge tutorial, with at least 3s of inactivity
 
-        Timer {
+        InactivityTimer {
             id: tutorialTopInactivityTimer
-            objectName: "tutorialTopInactivityTimer"
-            interval: 3000
-
-            Connections {
-                target: root
-                onLastInputTimestampChanged: {
-                    if (tutorialTopInactivityTimer.running) {
-                        tutorialTopInactivityTimer.restart();
-                    }
-                }
-            }
-
-            onTriggered: {
-                if (tutorialTop.isReady) {
-                    tutorialTop.show();
-                } else {
-                    restart();
-                }
-            }
+            lastInputTimestamp: root.lastInputTimestamp
+            page: parent
         }
 
         Timer {
@@ -124,31 +119,28 @@ Item {
         paused: root.paused
 
         readonly property bool skipped: AccountsService.demoEdgesCompleted.indexOf("right") != -1
-        isReady: tutorialTop.skipped && !skipped && !paused && !keyboardVisible && !tutorialBottom.shown &&
+        isReady: tutorialTop.skipped && !skipped && !paused && !keyboardVisible &&
+                 !tutorialBottom.shown && !tutorialBottom.mightShow &&
                  ApplicationManager.count >= 3
 
-        Timer {
-            id: tutorialRightTimer
-            objectName: "tutorialRightTimer"
-            interval: 3000
-            onTriggered: {
-                if (tutorialRight.isReady) {
-                    if (!tutorialRight.shown) {
-                        tutorialRight.show();
-                    }
-                } else {
-                    restart();
+        InactivityTimer {
+            id: tutorialRightInactivityTimer
+            lastInputTimestamp: root.lastInputTimestamp
+            page: parent
+        }
+
+        Connections {
+            target: stage
+            onMainAppChanged: {
+                if (tutorialRight.isReady && !tutorialRight.shown && stage.mainApp
+                        && stage.mainApp.state === ApplicationInfoInterface.Starting) {
+                    tutorialRight.show();
                 }
             }
         }
 
-        Connections {
-            target: ApplicationManager
-            onApplicationAdded: if (tutorialRight.isReady && !tutorialRight.shown) tutorialRight.show()
-        }
-
         onSkippedChanged: if (skipped && shown) hide()
-        onIsReadyChanged: if (isReady && !shown) tutorialRightTimer.start()
+        onIsReadyChanged: if (isReady && !shown) tutorialRightInactivityTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("right")
     }
 
@@ -159,23 +151,15 @@ Item {
         hides: [launcher, panel.indicators]
         paused: root.paused
 
-        readonly property bool skipped: (root.usageScenario !== "phone"
-                                         && root.usageScenario !== "tablet")
-                                        || AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
-        isReady: !skipped && !paused && !keyboardVisible && !tutorialTop.shown && !tutorialRight.shown &&
-                 // focused app is an app known to have a bottom edge
-                 (ApplicationManager.focusedApplicationId == "dialer-app" ||
-                  ApplicationManager.focusedApplicationId == "messaging-app" ||
-                  ApplicationManager.focusedApplicationId == "address-book-app" ||
-                  ApplicationManager.focusedApplicationId == "ubuntu-calculator-app" ||
-                  ApplicationManager.focusedApplicationId == "ubuntu-clock-app") &&
-                 (stage.mainApp && stage.mainApp.state === ApplicationInfoInterface.Running)
+        readonly property bool skipped: !d.mobileScenario ||
+                                        AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
+        readonly property bool mightShow: !skipped && stage.mainApp && canShowForApp(stage.mainApp.appId)
+        isReady: !skipped && !paused && !keyboardVisible &&
+                 !tutorialTop.shown && !tutorialRight.shown &&
+                 mightShow && stage.mainApp.state === ApplicationInfoInterface.Running
 
         onSkippedChanged: if (skipped && shown) hide()
         onIsReadyChanged: if (isReady && !shown) show()
-        onFinished: {
-            AccountsService.markDemoEdgeCompleted("bottom");
-            root.finish();
-        }
+        onFinished: AccountsService.markDemoEdgeCompleted("bottom")
     }
 }
