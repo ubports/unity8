@@ -14,24 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-import QtTest 1.0
-import Unity.Test 0.1
-import "../../qml"
+#ifndef UINPUT_PLUGIN_H
+#define UINPUT_PLUGIN_H
 
-Item {
-    id: root
-    width: units.gu(70)
-    height: units.gu(70)
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-    DisabledScreenNotice {
-        id: touchScreenPad
-        anchors.fill: parent
-    }
+class UInputPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    UnityTestCase {
-        id: testCase
-        name: "DisabledScreenNotice"
-        when: windowShown
-    }
-}
+public:
+    void registerTypes(const char *uri) override;
+};
+
+#endif
