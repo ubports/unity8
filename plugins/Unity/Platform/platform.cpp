@@ -17,19 +17,25 @@
 #include "platform.h"
 
 #include <QDBusConnection>
+#include <QDebug>
 
 Platform::Platform(QObject *parent)
     : QObject(parent)
-    , m_iface("org.freedesktop.hostname1", "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
-              QDBusConnection::systemBus(), this)
 {
     QMetaObject::invokeMethod(this, "init");
 }
 
 void Platform::init()
 {
-    m_chassis = m_iface.property("Chassis").toString();
+    m_iface = new QDBusInterface("org.freedesktop.hostname1", "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
+                                 QDBusConnection::systemBus(), this);
+    m_seatIface = new QDBusInterface("org.freedesktop.login1", "/org/freedesktop/login1/seat/self", "org.freedesktop.login1.Seat",
+                                     QDBusConnection::systemBus(), this);
+
+    m_chassis = m_iface->property("Chassis").toString();
     m_isPC = (m_chassis == "desktop" || m_chassis == "laptop" || m_chassis == "server");
+    m_isMultiSession = m_seatIface->property("CanMultiSession").toBool() && m_seatIface->property("CanGraphical").toBool();
+    qDebug() << "Unity8 platform initialized, form factor" << m_chassis << ", multisession capable:" << m_isMultiSession;
 }
 
 QString Platform::chassis() const
@@ -40,4 +46,9 @@ QString Platform::chassis() const
 bool Platform::isPC() const
 {
     return m_isPC;
+}
+
+bool Platform::isMultiSession() const
+{
+    return m_isMultiSession;
 }

@@ -44,7 +44,7 @@ void Indicator::init(const QString& busName, const QSettings& settings)
 
     setId(settings.value(QStringLiteral("Indicator Service/Name")).toString());
 
-    QString actionObjectPath = settings.value(QStringLiteral("Indicator Service/ObjectPath")).toString();
+    const QString actionObjectPath = settings.value(QStringLiteral("Indicator Service/ObjectPath")).toString();
 
     QVariantMap properties;
     properties.clear();
@@ -87,7 +87,7 @@ void Indicator::setProfile(const QString& profile)
         pos = m_settings.value(QStringLiteral("Indicator Service/Position"), QVariant::fromValue(0));
     setPosition(pos.toInt());
 
-    QString menuObjectPath = m_settings.value(profile + "/ObjectPath").toString();
+    const QString menuObjectPath = m_settings.value(profile + "/ObjectPath").toString();
     QVariantMap map = m_properties.toMap();
     map.insert(QStringLiteral("menuObjectPath"), menuObjectPath);
     setIndicatorProperties(map);
