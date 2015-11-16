@@ -202,7 +202,7 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
     // Try some fallbacks
     if (cursorImage->qimage.isNull()) {
         if (m_fallbackNames.contains(cursorName)) {
-            const QList<QString> &fallbackNames = m_fallbackNames[cursorName];
+            const QStringList &fallbackNames = m_fallbackNames[cursorName];
             int i = 0;
             while (cursorImage->qimage.isNull() && i < fallbackNames.count()) {
                 qDebug().nospace() << "CursorImageProvider: "<< cursorName <<" not found, trying " << fallbackNames.at(i);

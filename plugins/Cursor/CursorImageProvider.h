@@ -84,7 +84,7 @@ private:
     BlankCursorImage m_blankCursorImage;
     QScopedPointer<CursorImage> m_customCursorImage;
 
-    QMap<QString, QList<QString>> m_fallbackNames;
+    QMap<QString, QStringList> m_fallbackNames;
 
     static CursorImageProvider *m_instance;
 };
