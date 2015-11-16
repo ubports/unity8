@@ -24,6 +24,9 @@ override_dh_auto_build:
 	# doc is not a default target
 	dh_auto_build -- all doc
 
+override_dh_auto_test:
+    # temporarily disable tests
+
 override_dh_install:
 	# install autopilot tests
 	cd tests/autopilot; \
