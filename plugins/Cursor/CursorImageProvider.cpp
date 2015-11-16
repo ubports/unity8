@@ -113,34 +113,67 @@ CursorImageProvider::CursorImageProvider()
     }
     m_instance = this;
 
-    m_fallbackNames[QLatin1String("ibeam")].append(QLatin1String("xterm"));
-    m_fallbackNames[QLatin1String("xterm")].append(QLatin1String("ibeam"));
-    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("dnd-none"));
-    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("grabbing"));
-    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("closedhand"));
-    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("dnd-none"));
-    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("grabbing"));
-    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("closedhand"));
-    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("dnd-none"));
-    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("grabbing"));
-    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("closedhand"));
     m_fallbackNames[QLatin1String("closedhand")].append(QLatin1String("grabbing"));
     m_fallbackNames[QLatin1String("closedhand")].append(QLatin1String("dnd-none"));
 
-    // Needed for DMZ-White and DMZ-Black xcursor themes at least.
-    // Ideally those themes would have symbolic links to achieve the same, but that's not the case.
-    m_fallbackNames[QLatin1String("up_arrow")].append(QLatin1String("sb_up_arrow"));
-    m_fallbackNames[QLatin1String("size_ver")].append(QLatin1String("sb_v_double_arrow"));
-    m_fallbackNames[QLatin1String("size_hor")].append(QLatin1String("sb_h_double_arrow"));
+    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("dnd-none"));
+    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("grabbing"));
+    m_fallbackNames[QLatin1String("dnd-copy")].append(QLatin1String("closedhand"));
+
+    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("dnd-none"));
+    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("grabbing"));
+    m_fallbackNames[QLatin1String("dnd-move")].append(QLatin1String("closedhand"));
+
+    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("dnd-none"));
+    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("grabbing"));
+    m_fallbackNames[QLatin1String("dnd-link")].append(QLatin1String("closedhand"));
+
+    m_fallbackNames[QLatin1String("forbidden")].append(QLatin1String("crossed_circle")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QLatin1String("forbidden")].append(QLatin1String("not-allowed"));
+    m_fallbackNames[QLatin1String("forbidden")].append(QLatin1String("circle"));
+
+    m_fallbackNames[QLatin1String("hand")].append(QLatin1String("pointing_hand"));
+    m_fallbackNames[QLatin1String("hand")].append(QLatin1String("pointer"));
+
+    m_fallbackNames[QLatin1String("ibeam")].append(QLatin1String("xterm"));
+    m_fallbackNames[QLatin1String("ibeam")].append(QLatin1String("text"));
+
+    m_fallbackNames[QLatin1String("left_ptr")].append(QLatin1String("default"));
+    m_fallbackNames[QLatin1String("left_ptr")].append(QLatin1String("top_left_arrow"));
+    m_fallbackNames[QLatin1String("left_ptr")].append(QLatin1String("left_arrow"));
+
+    m_fallbackNames[QLatin1String("left_ptr_watch")].append(QLatin1String("half-busy"));
+    m_fallbackNames[QLatin1String("left_ptr_watch")].append(QLatin1String("progress"));
+
     m_fallbackNames[QLatin1String("size_bdiag")].append(QLatin1String("fd_double_arrow"));
-    m_fallbackNames[QLatin1String("size_fdiag")].append(QLatin1String("bd_double_arrow"));
-    m_fallbackNames[QLatin1String("split_v")].append(QLatin1String("sb_v_double_arrow"));
-    m_fallbackNames[QLatin1String("split_h")].append(QLatin1String("sb_h_double_arrow"));
-    m_fallbackNames[QLatin1String("forbidden")].append(QLatin1String("crossed_circle"));
+    m_fallbackNames[QLatin1String("size_bdiag")].append(QLatin1String("nesw-resize"));
+
+    m_fallbackNames[QLatin1String("size_fdiag")].append(QLatin1String("bd_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QLatin1String("size_fdiag")].append(QLatin1String("nwse-resize"));
+
+    m_fallbackNames[QLatin1String("size_hor")].append(QLatin1String("sb_h_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QLatin1String("size_hor")].append(QLatin1String("ew-resize"));
+    m_fallbackNames[QLatin1String("size_hor")].append(QLatin1String("h_double_arrow"));
+
+    m_fallbackNames[QLatin1String("size_ver")].append(QLatin1String("sb_v_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QLatin1String("size_ver")].append(QLatin1String("ns-resize"));
+    m_fallbackNames[QLatin1String("size_ver")].append(QLatin1String("v_double_arrow"));
+
+    m_fallbackNames[QLatin1String("split_h")].append(QLatin1String("sb_h_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QLatin1String("split_h")].append(QLatin1String("col-resize"));
+
+    m_fallbackNames[QLatin1String("split_v")].append(QLatin1String("sb_v_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QLatin1String("split_v")].append(QLatin1String("row-resize"));
+
+    m_fallbackNames[QLatin1String("up_arrow")].append(QLatin1String("sb_up_arrow")); // DMZ-White and DMZ-Black themes
+
+    m_fallbackNames[QLatin1String("watch")].append(QLatin1String("wait"));
 
     m_fallbackNames[QLatin1String("whats_this")].append(QLatin1String("left_ptr_help"));
     m_fallbackNames[QLatin1String("whats_this")].append(QLatin1String("help"));
     m_fallbackNames[QLatin1String("whats_this")].append(QLatin1String("question_arrow"));
+
+    m_fallbackNames[QLatin1String("xterm")].append(QLatin1String("ibeam"));
 }
 
 CursorImageProvider::~CursorImageProvider()
