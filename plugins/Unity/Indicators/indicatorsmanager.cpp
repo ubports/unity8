@@ -286,11 +286,19 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     data->m_indicator = new_indicator;
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
     new_indicator->init(data->m_fileInfo.fileName(), settings);
-    if (new_indicator->identifier() == QStringLiteral("indicator-session") && m_platform.isMultiSession()) {
-        new_indicator->setProfile("desktop"); // convergence: enable session indicator conditionally
+
+    // convergence:
+    // 1) enable session indicator conditionally, typically when running on desktop
+    // 2) switch the battery/power indicator to desktop mode, can't control brightness for now and phone-on-desktop broken (FIXME)
+    //
+    // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
+    if ((new_indicator->identifier() == QStringLiteral("indicator-session") && m_platform.isMultiSession())
+            || (new_indicator->identifier() == QStringLiteral("indicator-power") && m_platform.isPC())) {
+        new_indicator->setProfile("desktop");
     } else {
         new_indicator->setProfile(m_profile);
     }
+
     QObject::connect(this, &IndicatorsManager::profileChanged, new_indicator.data(), &Indicator::setProfile);
     return new_indicator;
 }
