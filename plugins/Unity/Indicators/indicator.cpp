@@ -47,7 +47,6 @@ void Indicator::init(const QString& busName, const QSettings& settings)
     const QString actionObjectPath = settings.value(QStringLiteral("Indicator Service/ObjectPath")).toString();
 
     QVariantMap properties;
-    properties.clear();
     properties.insert(QStringLiteral("busType"), 1);
     properties.insert(QStringLiteral("busName"), busName);
     properties.insert(QStringLiteral("actionsObjectPath"), actionObjectPath);
