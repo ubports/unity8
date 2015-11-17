@@ -451,15 +451,9 @@ Item {
         height: units.dp(1)
         opacity: 0.6
 
-        // FIXME this should be a shader when bottomItem exists
-        // to support image backgrounds
         Rectangle {
             anchors.fill: parent
-            color: if (bottomItem && bottomItem.background) {
-                       Qt.lighter(Qt.rgba(bottomItem.background.topColor.r,
-                                          bottomItem.background.topColor.g,
-                                          bottomItem.background.topColor.b, 1.0), 1.2);
-                   } else if (!bottomItem && root.scopeStyle) {
+            color: if (root.scopeStyle) {
                        Qt.lighter(Qt.rgba(root.scopeStyle.background.r,
                                           root.scopeStyle.background.g,
                                           root.scopeStyle.background.b, 1.0), 1.2);
