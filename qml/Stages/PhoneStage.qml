@@ -84,7 +84,7 @@ AbstractStage {
                                && spreadView.phase === 0
 
     // How far left the stage has been dragged
-    readonly property real dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).progress : 0
+    dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0
 
     readonly property alias dragging: spreadDragArea.dragging
 

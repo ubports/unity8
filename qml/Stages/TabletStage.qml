@@ -27,6 +27,9 @@ AbstractStage {
     objectName: "stages"
     anchors.fill: parent
 
+    property bool sideStageVisible: priv.sideStageAppId
+    property real sideStageWidth: units.gu(40)
+
     // Functions to be called from outside
     function updateFocusedAppOrientation() {
         var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
@@ -71,6 +74,7 @@ AbstractStage {
     }
 
     orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
+    dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0
 
     onWidthChanged: {
         spreadView.selectedIndex = -1;
@@ -233,8 +237,6 @@ AbstractStage {
         contentX: -shift
 
         property int tileDistance: units.gu(20)
-        property int sideStageWidth: units.gu(40)
-        property bool sideStageVisible: priv.sideStageAppId
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
@@ -254,14 +256,14 @@ AbstractStage {
         // 2: The list is dragged further and snaps into the spread view when entering phase 2
         property int phase
 
-        readonly property int phase0Width: sideStageWidth
-        readonly property int phase1Width: sideStageWidth
+        readonly property int phase0Width: root.sideStageWidth
+        readonly property int phase1Width: root.sideStageWidth
 
         // Those markers mark the various positions in the spread (ratio to screen width from right to left):
         // 0 - 1: following finger, snap back to the beginning on release
         readonly property real positionMarker1: 0.2
         // 1 - 2: curved snapping movement, snap to nextInStack on release
-        readonly property real positionMarker2: sideStageWidth / spreadView.width
+        readonly property real positionMarker2: root.sideStageWidth / spreadView.width
         // 2 - 3: movement follows finger, snaps to phase 2 (full spread) on release
         readonly property real positionMarker3: 0.6
         // passing 3, we detach movement from the finger and snap to phase 2 (full spread)
@@ -490,7 +492,7 @@ AbstractStage {
             Rectangle {
                 id: sideStageBackground
                 color: "black"
-                width: spreadView.sideStageWidth * (1 - sideStageDragHandle.progress)
+                width: root.sideStageWidth * (1 - sideStageDragHandle.progress)
                 height: priv.landscapeHeight
                 x: spreadView.width - width
                 z: spreadView.indexToZIndex(priv.indexOf(priv.sideStageAppId))
@@ -505,16 +507,16 @@ AbstractStage {
                 width: units.gu(2)
                 height: priv.landscapeHeight
                 z: sideStageBackground.z
-                opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
+                opacity: spreadView.phase <= 0 && root.sideStageVisible ? 1 : 0
                 property real progress: 0
                 property bool dragging: false
 
                 Behavior on opacity { UbuntuNumberAnimation {} }
 
                 Connections {
-                    target: spreadView
+                    target: root
                     onSideStageVisibleChanged: {
-                        if (spreadView.sideStageVisible) {
+                        if (root.sideStageVisible) {
                             sideStageDragHandle.progress = 0;
                         }
                     }
@@ -546,7 +548,7 @@ AbstractStage {
                     onMouseXChanged: {
                         totalDiff += mouseX - startX;
                         if (priv.mainStageAppId) {
-                            sideStageDragHandle.progress = Math.max(0, totalDiff / spreadView.sideStageWidth);
+                            sideStageDragHandle.progress = Math.max(0, totalDiff / root.sideStageWidth);
                         }
                         gesturePoints.push(mouseX);
                     }
@@ -586,7 +588,7 @@ AbstractStage {
                         if (wantsMainStage) {
                             return spreadView.width;
                         } else {
-                            return spreadView.sideStageWidth;
+                            return root.sideStageWidth;
                         }
                     }
                     height: {

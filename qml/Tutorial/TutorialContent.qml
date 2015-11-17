@@ -55,6 +55,10 @@ Item {
                                       root.usageScenario === "phone" ||
                                       root.usageScenario === "tablet"
 
+        property var focusedApp: ApplicationManager.focusedApplicationId
+                                 ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+                                 : null
+
         property bool endPointsFinished: tutorialRight.skipped && tutorialBottom.skipped
         onEndPointsFinishedChanged: if (endPointsFinished) root.finish()
     }
@@ -130,10 +134,10 @@ Item {
         }
 
         Connections {
-            target: stage
-            onMainAppChanged: {
-                if (tutorialRight.isReady && !tutorialRight.shown && stage.mainApp
-                        && stage.mainApp.state === ApplicationInfoInterface.Starting) {
+            target: d
+            onFocusedAppChanged: {
+                if (tutorialRight.isReady && !tutorialRight.shown && d.focusedApp
+                        && d.focusedApp.state === ApplicationInfoInterface.Starting) {
                     tutorialRight.show();
                 }
             }
@@ -150,13 +154,16 @@ Item {
         anchors.fill: parent
         hides: [launcher, panel.indicators]
         paused: root.paused
+        usageScenario: root.usageScenario
+        stage: root.stage
+        application: d.focusedApp
 
         readonly property bool skipped: !d.mobileScenario ||
                                         AccountsService.demoEdgesCompleted.indexOf("bottom") != -1
-        readonly property bool mightShow: !skipped && stage.mainApp && canShowForApp(stage.mainApp.appId)
+        readonly property bool mightShow: !skipped && d.focusedApp && canShowForApp(d.focusedApp.appId)
         isReady: !skipped && !paused && !keyboardVisible &&
                  !tutorialTop.shown && !tutorialRight.shown &&
-                 mightShow && stage.mainApp.state === ApplicationInfoInterface.Running
+                 mightShow && d.focusedApp.state === ApplicationInfoInterface.Running
 
         onSkippedChanged: if (skipped && shown) hide()
         onIsReadyChanged: if (isReady && !shown) show()

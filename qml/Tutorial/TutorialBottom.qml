@@ -17,9 +17,14 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
+import Unity.Application 0.1
 
 TutorialPage {
     id: root
+
+    property string usageScenario
+    property var stage
+    property var application: null
 
     // This page is a bit fragile.  It relies on knowing how the app beneath
     // the shell will react to a drag.  What we do is put a monitor-only DDA
@@ -46,6 +51,10 @@ TutorialPage {
                appId === "messaging-app";
     }
 
+    readonly property real mainStageWidth: stage.width - sideStageWidth
+    readonly property real sideStageWidth: root.usageScenario === "tablet" && stage.sideStageVisible ?
+                                           stage.sideStageWidth : 0
+    readonly property bool isMainStageApp: application.stage === ApplicationInfoInterface.MainStage
     readonly property real dragAreaHeight: units.gu(3) // based on PageWithBottomEdge.qml
     readonly property real targetDistance: height * 0.2 + dragAreaHeight // based on PageWithBottomEdge.qml
 
@@ -65,7 +74,8 @@ TutorialPage {
     arrow {
         anchors.bottom: root.bottom
         anchors.bottomMargin: units.gu(4)
-        anchors.horizontalCenter: root.horizontalCenter
+        anchors.horizontalCenter: label.horizontalCenter
+        anchors.horizontalCenterOffset: -(label.width - label.contentWidth) / 2
         rotation: -90
     }
 
@@ -73,9 +83,12 @@ TutorialPage {
         text: i18n.tr("Swipe from the bottom edge to manage the app")
         anchors.bottom: arrow.top
         anchors.bottomMargin: units.gu(3)
-        anchors.horizontalCenter: root.horizontalCenter
-        anchors.horizontalCenterOffset: (label.width - label.contentWidth) / 2
-        width: root.width - units.gu(8)
+        anchors.left: root.left
+        anchors.leftMargin: (label.width - label.contentWidth) / 2 + sideMargin +
+                            (isMainStageApp ? 0 : mainStageWidth)
+        width: (isMainStageApp ? mainStageWidth : sideStageWidth) - sideMargin * 2
+
+        readonly property real sideMargin: units.gu(4)
     }
 
     // Watches drag events but does not intercept them, so that the app beneath
@@ -89,9 +102,21 @@ TutorialPage {
         anchors.bottom: parent.bottom
         height: root.dragAreaHeight
 
-        // Because apps currently don't use DDA, and DDA will stop a gesture if
-        // horizontal motion is detected.  But our apps wont'.  So turn off
+        // Apps currently don't use DDA.  DDA will stop a gesture if
+        // horizontal motion is detected.  But our apps won't.  So turn off
         // that gesture cleverness on our part, it will only get us out of sync.
         immediateRecognition: true
+    }
+
+    MouseArea {
+        // A second mouse area because in tablet mode, we only want to let the
+        // user drag up on one of the stages, not both.  So we want to cover
+        // the second bottom edge with an event eater.
+        enabled: root.usageScenario === "tablet"
+        height: root.dragAreaHeight
+        width: isMainStageApp ? sideStageWidth : mainStageWidth
+        anchors.bottom: parent.bottom
+        anchors.left: isMainStageApp ? undefined : parent.left
+        anchors.right: isMainStageApp ? parent.right : undefined
     }
 }
