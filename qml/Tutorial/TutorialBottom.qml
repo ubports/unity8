@@ -54,7 +54,8 @@ TutorialPage {
     readonly property real mainStageWidth: stage.width - sideStageWidth
     readonly property real sideStageWidth: root.usageScenario === "tablet" && stage.sideStageVisible ?
                                            stage.sideStageWidth : 0
-    readonly property bool isMainStageApp: application.stage === ApplicationInfoInterface.MainStage
+    readonly property bool isMainStageApp: usageScenario !== "tablet" ||
+                                           application.stage === ApplicationInfoInterface.MainStage
     readonly property real dragAreaHeight: units.gu(3) // based on PageWithBottomEdge.qml
     readonly property real targetDistance: height * 0.2 + dragAreaHeight // based on PageWithBottomEdge.qml
 
