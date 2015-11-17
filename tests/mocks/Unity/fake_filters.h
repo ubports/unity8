@@ -18,9 +18,9 @@
 #define FAKE_FILTERS_H
 
 #include <unity/shell/scopes/FiltersInterface.h>
+#include <unity/shell/scopes/FilterBaseInterface.h>
 
 class Scope;
-class FakeOptionSelectorFilter;
 
 class Filters : public unity::shell::scopes::FiltersInterface
 {
@@ -38,9 +38,9 @@ Q_SIGNALS:
     void activeFiltersCountChanged();
 
 private:
-    void addFilter(FakeOptionSelectorFilter* f);
+    void addFilter(unity::shell::scopes::FilterBaseInterface* f);
 
-    QVector<FakeOptionSelectorFilter*> m_filters;
+    QVector<unity::shell::scopes::FilterBaseInterface*> m_filters;
 };
 
 #endif

@@ -37,6 +37,7 @@ Loader {
     readonly property url widgetSource: {
         switch (widgetType) {
             case Filters.OptionSelectorFilter: return "FilterOptionSelector.qml";
+            case Filters.RangeInputFilter: return "FilterRangeInput.qml";
             default: return "";
         }
     }
