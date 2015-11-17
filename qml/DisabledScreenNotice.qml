@@ -22,6 +22,8 @@ import "Components"
 Image {
     id: root
 
+    property bool infoNoteDisplayed: true
+
     WallpaperResolver {
         width: root.width
         id: wallpaperResolver
@@ -29,25 +31,38 @@ Image {
 
     source: wallpaperResolver.background
 
-    ColumnLayout {
+
+    VirtualTouchPad {
         anchors.fill: parent
-        anchors.margins: units.gu(2)
-        spacing: units.gu(2)
+    }
+
+
+    MouseArea {
+        anchors.fill: parent
+        opacity: infoNoteDisplayed ? 1 : 0
+        visible: opactiy > 0
+        Behavior on opacity {
+            UbuntuNumberAnimation { }
+        }
+
+        onClicked: root.infoNoteDisplayed = false;
+
+        Rectangle {
+            anchors.fill: parent
+            color: "black"
+            opacity: 0.4
+        }
 
         Label {
             id: text
-            Layout.fillWidth: true
-            text: i18n.tr("Your device is now connected to an external display.")
+            anchors.centerIn: parent
+            width: parent.width - units.gu(8)
+            text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the mouse.")
             color: "white"
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             fontSize: "x-large"
             wrapMode: Text.Wrap
-        }
-
-        VirtualTouchPad {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
     }
 }

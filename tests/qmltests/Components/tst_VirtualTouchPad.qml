@@ -108,30 +108,5 @@ Item {
             tryCompare(mouseEventSpy2, "count", 0)
             mouseRelease(touchPadArea)
         }
-
-        function test_buttons_data() {
-            return [
-                { tag: "left", button: UInput.ButtonLeft },
-                { tag: "left", button: UInput.ButtonRight }
-            ]
-        }
-
-        function test_buttons(data) {
-            mouseEventSpy1.signalName = "mousePressed"
-            mouseEventSpy2.signalName = "mouseReleased"
-
-            var button = findChild(touchScreenPad, data.button === UInput.ButtonLeft ? "leftButton" : "rightButton");
-
-            mousePress(button);
-            tryCompare(mouseEventSpy1, "count", 1)
-            tryCompare(mouseEventSpy2, "count", 0)
-            compare(mouseEventSpy1.signalArguments[0][0], data.button)
-
-            mouseRelease(button);
-            tryCompare(mouseEventSpy1, "count", 1)
-            tryCompare(mouseEventSpy2, "count", 1)
-            compare(mouseEventSpy2.signalArguments[0][0], data.button)
-
-        }
     }
 }

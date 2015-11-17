@@ -21,7 +21,7 @@ import "../../qml"
 
 Item {
     id: root
-    width: units.gu(70)
+    width: units.gu(40)
     height: units.gu(70)
 
     DisabledScreenNotice {
