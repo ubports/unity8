@@ -15,13 +15,10 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import UInput 0.1
 
-ColumnLayout {
-    spacing: units.gu(2)
-
+Item {
     property var uinput: UInput {
         Component.onCompleted: createMouse();
         Component.onDestruction: removeMouse();

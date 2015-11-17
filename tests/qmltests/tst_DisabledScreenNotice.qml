@@ -33,5 +33,12 @@ Item {
         id: testCase
         name: "DisabledScreenNotice"
         when: windowShown
+
+        function test_mouseAreaHidesOnFirstTap() {
+            var mouseArea = findChild(touchScreenPad, "infoNoticeMouseArea")
+            compare(mouseArea.enabled, true)
+            tap(root)
+            tryCompare(mouseArea, "enabled", false)
+        }
     }
 }

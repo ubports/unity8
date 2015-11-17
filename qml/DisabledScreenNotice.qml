@@ -36,11 +36,12 @@ Image {
         anchors.fill: parent
     }
 
-
     MouseArea {
+        objectName: "infoNoticeMouseArea"
         anchors.fill: parent
         opacity: infoNoteDisplayed ? 1 : 0
-        visible: opactiy > 0
+        visible: opacity > 0
+        enabled: visible
         Behavior on opacity {
             UbuntuNumberAnimation { }
         }
