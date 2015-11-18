@@ -39,6 +39,11 @@ QString FakeOptionSelectorFilter::filterTag() const
     return m_filterTag;
 }
 
+QString FakeOptionSelectorFilter::title() const
+{
+    return m_title;
+}
+
 QString FakeOptionSelectorFilter::label() const
 {
     return m_label;
