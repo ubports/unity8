@@ -29,7 +29,7 @@ Item {
     property real maxAngle: 0
     property bool inverted: false
     property bool alerting: false
-    readonly property alias wiggling: wiggleAnim.running
+    property bool highlighted: false
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -126,6 +126,15 @@ Item {
         anchors.centerIn: parent
 
         UbuntuShape {
+            anchors.fill: parent
+            anchors.margins: units.gu(.5)
+            backgroundColor: "#1986ee"
+            aspect: UbuntuShape.Flat
+            radius: "medium"
+            visible: root.highlighted
+        }
+
+        UbuntuShape {
             id: iconShape
             anchors.fill: parent
             anchors.margins: units.gu(1)
@@ -216,25 +225,32 @@ Item {
             }
         }
 
-        Image {
-            objectName: "runningHighlight"
+        Column {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
             }
-            visible: root.itemRunning
-            rotation: 180
-            source: "graphics/focused_app_arrow.png"
+            spacing: units.gu(.5)
+            Repeater {
+                model: 1
+                Rectangle {
+                    width: units.gu(0.25)
+                    height: units.gu(.5)
+                    color: "white"
+                    visible: root.itemRunning
+                }
+            }
         }
 
-        Image {
-            objectName: "focusedHighlight"
+        Rectangle {
             anchors {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
+            width: units.gu(0.25)
+            height: units.gu(.5)
+            color: "white"
             visible: root.itemFocused
-            source: "graphics/focused_app_arrow.png"
         }
     }
 

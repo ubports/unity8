@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
+import GlobalShortcut 1.0
 import "../Components/ListItems"
 import "../Components/"
 
@@ -33,7 +34,7 @@ Rectangle {
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
-    property int highlightIndex: -1
+    property int highlightIndex: -2
 
     signal applicationSelected(string appId)
     signal showDashHome()
@@ -42,6 +43,26 @@ Rectangle {
         if (quickList.state == "open") {
             quickList.state = ""
         }
+    }
+
+    function highlightNext() {
+        highlightIndex++;
+        if (highlightIndex >= launcherListView.count) {
+            highlightIndex = -1;
+        }
+        moveAnimation.moveToIndex(Math.max(highlightIndex, 0));
+    }
+    function highlightPrevious() {
+        highlightIndex--;
+        if (highlightIndex <= -2) {
+            highlightIndex = launcherListView.count - 1;
+        }
+        moveAnimation.moveToIndex(Math.max(highlightIndex, 0));
+    }
+    function openQuicklist(index) {
+        quickList.open(index);
+        quickList.selectedIndex = 0;
+        quickList.focus = true;
     }
 
     Column {
@@ -172,6 +193,16 @@ Rectangle {
                             to = contentY;
                             start();
                         }
+                        function moveToIndex(index) {
+                            var itemPosition = index * launcherListView.itemHeight;
+                            var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+                            var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
+                            if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
+                                moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
+                            } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
+                                moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
+                            }
+                        }
                     }
 
                     displaced: Transition {
@@ -197,6 +228,7 @@ Rectangle {
                         itemFocused: model.focused
                         inverted: root.inverted
                         alerting: model.alerting
+                        highlighted: root.highlightIndex == index
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
@@ -234,14 +266,7 @@ Rectangle {
                         onAlertingChanged: {
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
-                                      var itemPosition = index * launcherListView.itemHeight;
-                                      var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
-                                      var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
-                                      if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
-                                          moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
-                                      } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
-                                          moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
-                                      }
+                                    moveAnimation.moveToIndex(index)
                                     if (!dragging && launcher.state !== "visible") {
                                         peekingAnimation.start()
                                     }
@@ -392,10 +417,7 @@ Rectangle {
 
                             if (mouse.button & Qt.RightButton) { // context menu
                                 // Opening QuickList
-                                quickList.item = clickedItem;
-                                quickList.model = launcherListView.model.get(index).quickList;
-                                quickList.appId = launcherListView.model.get(index).appId;
-                                quickList.state = "open";
+                                quickList.open(index);
                                 return
                             }
 
@@ -465,11 +487,7 @@ Rectangle {
 
                             draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
 
-                            // Opening QuickList
-                            quickList.item = selectedItem;
-                            quickList.model = launcherListView.model.get(draggedIndex).quickList;
-                            quickList.appId = launcherListView.model.get(draggedIndex).appId;
-                            quickList.state = "open";
+                            quickList.open(draggedIndex)
 
                             launcherListView.interactive = false
 
@@ -647,11 +665,54 @@ Rectangle {
         property var model
         property string appId
         property var item
+        property int selectedIndex: -1
+
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_Down:
+                selectedIndex++;
+                if (selectedIndex >= popoverRepeater.count) {
+                    selectedIndex = 0;
+                }
+                event.accepted = true;
+                break;
+            case Qt.Key_Up:
+                selectedIndex--;
+                if (selectedIndex < 0) {
+                    selectedIndex = popoverRepeater.count - 1;
+                }
+                event.accepted = true;
+                break;
+            case Qt.Key_Left:
+            case Qt.Key_Escape:
+                quickList.selectedIndex = -1;
+                // Falling through intentionally
+            case Qt.Key_Enter:
+            case Qt.Key_Return:
+            case Qt.Key_Space:
+                if (quickList.selectedIndex >= 0) {
+                    LauncherModel.quickListActionInvoked(quickList.appId, quickList.selectedIndex)
+                }
+                quickList.focus = false;
+                quickList.state = ""
+                // Don't consume the event. We want to close the Launcher too, not just the quicklist.
+                break;
+            }
+        }
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
+
+        function open(index) {
+            var itemPosition = index * launcherListView.itemHeight;
+            var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+            item = launcherListView.itemAt(launcherListView.width / 2, itemPosition + launcherListView.itemHeight / 2);
+            quickList.model = launcherListView.model.get(index).quickList;
+            quickList.appId = launcherListView.model.get(index).appId;
+            quickList.state = "open";
+        }
 
         Column {
             id: quickListColumn
@@ -666,6 +727,7 @@ Rectangle {
                     objectName: "quickListEntry" + index
                     text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
                     highlightWhenPressed: model.clickable
+                    selected: index === quickList.selectedIndex
 
                     // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
                     // ListItems don't know that they are sitting in a themed Popover where the color

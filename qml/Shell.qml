@@ -550,6 +550,7 @@ Item {
                     && !greeter.hasLockedApp
             inverted: shell.usageScenario !== "desktop"
             shadeBackground: !tutorial.running
+            metaTabPressed: physicalKeysMapper.metaTabPressed
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -567,6 +568,11 @@ Item {
             onShownChanged: {
                 if (shown) {
                     panel.indicators.hide()
+                }
+            }
+            onFocusChanged: {
+                if (!focus) {
+                    applicationsDisplayLoader.focus = true;
                 }
             }
         }

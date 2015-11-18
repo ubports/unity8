@@ -19,8 +19,9 @@ import "../Components"
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import GlobalShortcut 1.0
 
-Item {
+FocusScope {
     id: root
 
     property bool autohideEnabled: false
@@ -33,6 +34,8 @@ Item {
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
+
+    property bool metaTabPressed: false
 
     readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
@@ -54,6 +57,25 @@ Item {
             dismissTimer.stop()
         } else {
             dismissTimer.restart()
+        }
+    }
+
+    onMetaTabPressedChanged: {
+        if (metaTabPressed) {
+            print("meta tab pressed")
+            switchToNextState("visible")
+            panel.highlightIndex = -1;
+            root.focus = true;
+        } else {
+            print("meta tab released")
+            if (panel.highlightIndex == -1) {
+                showDashHome();
+            } else if (panel.highlightIndex >= 0){
+                launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
+            }
+            panel.highlightIndex = -2;
+            switchToNextState("");
+            root.focus = false;
         }
     }
 
@@ -81,6 +103,66 @@ Item {
         if (available && root.state == "") {
             teaseTimer.mode = "hinting"
             teaseTimer.start();
+        }
+    }
+
+    Keys.onPressed: {
+        print("blubb")
+        switch (event.key) {
+        case Qt.Key_Backtab:
+            panel.highlightPrevious();
+            event.accepted = true;
+            break;
+        case Qt.Key_Up:
+            if (root.inverted) {
+                panel.highlightNext()
+            } else {
+                panel.highlightPrevious();
+            }
+            event.accepted = true;
+            break;
+        case Qt.Key_Tab:
+            panel.highlightNext();
+            event.accepted = true;
+            break;
+        case Qt.Key_Down:
+            if (root.inverted) {
+                panel.highlightPrevious();
+            } else {
+                panel.highlightNext();
+            }
+            event.accepted = true;
+            break;
+        case Qt.Key_Right:
+            panel.openQuicklist(panel.highlightIndex)
+            event.accepted = true;
+            break;
+        case Qt.Key_Escape:
+            panel.highlightIndex = -2
+            // Falling through intentionally
+        case Qt.Key_Enter:
+        case Qt.Key_Return:
+        case Qt.Key_Space:
+            if (panel.highlightIndex == -1) {
+                showDashHome();
+            } else if (panel.highlightIndex >= 0) {
+                launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
+            }
+            root.state = ""
+            event.accepted = true;
+            root.focus = false;
+        }
+    }
+
+    GlobalShortcut {
+//        shortcut: Qt.AltModifier|Qt.Key_F1
+        shortcut: Qt.Key_F1
+        onTriggered: {
+            panel.highlightIndex = -1; // The BFB
+            root.focus = true;
+            switchToNextState("visible")
+            root.focus = true;
+            print("root has focus", root.focus, root.activeFocus)
         }
     }
 

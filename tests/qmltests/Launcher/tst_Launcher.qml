@@ -30,9 +30,11 @@ Item {
     width: units.gu(50)
     height: units.gu(55)
 
+    Keys.onPressed: print("waaah")
     Loader {
         id: launcherLoader
         anchors.fill: parent
+        focus: true
         property bool itemDestroyed: false
         sourceComponent: Component {
             Launcher {

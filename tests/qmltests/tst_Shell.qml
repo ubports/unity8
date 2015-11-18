@@ -116,10 +116,6 @@ Rectangle {
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
                     }
-                    Component.onCompleted: {
-                        var keyMapper = testCase.findChild(__shell, "physicalKeysMapper");
-                        keyMapper.controlInsteadOfAlt = true;
-                    }
                 }
             }
         }
@@ -207,6 +203,18 @@ Rectangle {
                     id: mouseEmulation
                     checked: true
                     color: "white"
+                }
+                ListItem.ItemSelector {
+                    id: ctrlModifier
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "Ctrl key as"
+                    model: ["Ctrl", "Alt", "Meta"]
+                    onSelectedIndexChanged: {
+                        var keyMapper = testCase.findChild(shellContainer, "physicalKeysMapper");
+                        keyMapper.controlInsteadOfAlt = selectedIndex == 1;
+                        keyMapper.controlInsteadOfMeta = selectedIndex == 2;
+                    }
                 }
 
                 Label { text: "Applications"; font.bold: true }
