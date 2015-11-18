@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2012,2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
 /* This class is a really tiny filter around QLightDM::Greeter.  There are some
@@ -37,6 +36,7 @@ class Greeter : public QObject
     Q_PROPERTY(bool active READ isActive WRITE setIsActive NOTIFY isActiveChanged)
     Q_PROPERTY(bool authenticated READ isAuthenticated NOTIFY isAuthenticatedChanged)
     Q_PROPERTY(QString authenticationUser READ authenticationUser NOTIFY authenticationUserChanged)
+    Q_PROPERTY(QString defaultSession READ defaultSessionHint CONSTANT)
     Q_PROPERTY(bool promptless READ promptless NOTIFY promptlessChanged)
 
 public:
@@ -45,6 +45,7 @@ public:
     bool isActive() const;
     bool isAuthenticated() const;
     QString authenticationUser() const;
+    QString defaultSessionHint() const;
     bool promptless() const;
 
 public Q_SLOTS:

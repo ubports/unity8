@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "Greeter.h"
@@ -70,6 +69,12 @@ QString Greeter::authenticationUser() const
 {
     Q_D(const Greeter);
     return d->m_greeter->authenticationUser();
+}
+
+QString Greeter::defaultSessionHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->defaultSessionHint();
 }
 
 bool Greeter::promptless() const
