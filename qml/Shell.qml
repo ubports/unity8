@@ -387,6 +387,12 @@ Item {
                 launcher.hide();
             }
 
+            onTease: {
+                if (!tutorial.running) {
+                    launcher.tease();
+                }
+            }
+
             onEmergencyCall: startLockedApp("dialer-app")
         }
     }
