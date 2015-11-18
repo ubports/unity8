@@ -29,9 +29,6 @@ class MockSessionsModel : public SessionsModel
 public:
     QString testScenario() const;
     void setTestScenario(QString testScenario);
-
-private:
-    QString m_testScenario;
 };
 
 #endif // MOCK_UNITY_SESSIONSMODEL_H
