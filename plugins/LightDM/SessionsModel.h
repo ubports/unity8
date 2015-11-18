@@ -53,8 +53,9 @@ private:
     QLightDM::SessionsModel* m_model;
     QHash<int, QByteArray> m_roleNames;
 
-    // FIXME make this the correct paths
-    const QList<QUrl> m_iconSearchDirectories{QUrl("/usr/share/unity8/Greeter/graphics/session_icons")};
+    const QList<QUrl> m_iconSearchDirectories{QUrl("/usr/share/unity8/Greeter/graphics/session_icons"),
+                                              QUrl("/usr/local/share/unity-greeter"),
+                                              QUrl("/usr/share/unity-greeter/")};
 };
 
 #endif // UNITY_SESSIONSMODEL_H
