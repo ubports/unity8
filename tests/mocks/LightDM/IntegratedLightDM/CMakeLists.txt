@@ -23,7 +23,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/LightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     MockGreeter.cpp
-    MockSessionsModel.h
+    MockSessionsModel.cpp
     MockUsersModel.cpp
     plugin.cpp
     )

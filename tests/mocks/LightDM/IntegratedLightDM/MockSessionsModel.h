@@ -19,15 +19,19 @@
 #define MOCK_UNITY_SESSIONSMODEL_H
 
 #include <SessionsModel.h>
-#include <QLightDM/SessionsModel>
 
-// A wrapper class to preserve naming conventions, thus
-// enhancing code readability
 class MockSessionsModel : public SessionsModel
 {
     Q_OBJECT
 
-    using SessionsModel::SessionsModel;
+    Q_PROPERTY(QString testScenario READ testScenario WRITE setTestScenario)
+
+public:
+    QString testScenario() const;
+    void setTestScenario(QString testScenario);
+
+private:
+    QString m_testScenario;
 };
 
 #endif // MOCK_UNITY_SESSIONSMODEL_H
