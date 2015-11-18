@@ -48,6 +48,7 @@ public:
     // Not part of the iface, for mock/testing purposes
     bool isActive() const;
 
+    void setTitle(const QString &title);
     void setStartPrefixLabel(const QString &startPrefixLabel);
     void setStartPostfixLabel(const QString &startPostfixLabel);
     void setCentralLabel(const QString &centralLabel);

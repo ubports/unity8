@@ -27,6 +27,7 @@ Filters::Filters(Scope* parent)
     addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
 
     FakeRangeInputFilter *rif = new FakeRangeInputFilter("RIF1", "Tag3", this);
+    rif->setTitle("How much do you want to walk?");
     rif->setCentralLabel("to");
     rif->setStartPostfixLabel("m");
     rif->setEndPostfixLabel("m");

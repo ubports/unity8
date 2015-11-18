@@ -30,6 +30,7 @@ Rectangle {
     QtObject {
         id: widgetData1
 
+        property string title
         property real startValue
         property real endValue
         property bool hasStartValue
@@ -62,6 +63,7 @@ Rectangle {
     }
 
     function generateData() {
+        widgetData1.title = title.text
         widgetData1.startValue = startValue.text;
         widgetData1.endValue = endValue.text;
         widgetData1.hasStartValue = startValueHasValue.checked;
@@ -93,6 +95,19 @@ Rectangle {
 
         Text {
             text: "Values"
+        }
+
+        Row {
+            spacing: units.gu(1)
+            Text {
+                text: "Title"
+                verticalAlignment: Text.AlignVCenter
+                height: parent.height
+            }
+            TextField {
+                id: title
+                text: ""
+            }
         }
 
         Row {

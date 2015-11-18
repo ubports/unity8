@@ -130,6 +130,12 @@ bool FakeRangeInputFilter::isActive() const
     return hasStartValue() && hasEndValue();
 }
 
+void FakeRangeInputFilter::setTitle(const QString &title)
+{
+    m_title = title;
+    Q_EMIT titleChanged();
+}
+
 void FakeRangeInputFilter::setStartPrefixLabel(const QString &startPrefixLabel)
 {
     m_startPrefixLabel = startPrefixLabel;
