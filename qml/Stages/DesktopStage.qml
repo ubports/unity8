@@ -204,7 +204,11 @@ AbstractStage {
         value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIdIndex !== -1
     }
 
-    Component.onDestruction: PanelState.buttonsVisible = false;
+    Component.onDestruction: {
+        PanelState.title = "";
+        PanelState.buttonsVisible = false;
+        PanelState.dropShadow = false;
+    }
 
     FocusScope {
         id: appContainer
