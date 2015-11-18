@@ -24,6 +24,7 @@ import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 
 import "../../../qml"
+import "../../../qml/Components"
 
 Item {
     id: root
@@ -73,6 +74,10 @@ Item {
             sourceComponent: Component {
                 Shell {
                     property string indicatorProfile: "phone"
+                    orientations: Orientations {
+                        native_: Qt.PortraitOrientation
+                        primary: Qt.PortraitOrientation
+                    }
 
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
@@ -221,6 +226,7 @@ Item {
 
             // kill all (fake) running apps
             killApps();
+            SurfaceManager.inputMethodSurface().destroy(); // so that InputMethod will notice new one
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true;
@@ -286,20 +292,6 @@ Item {
             tryCompare(tutorialLeft, "visible", false);
             tryCompare(tutorialBottom, "shown", true);
             tryCompare(tutorialBottom, "opacity", 1);
-        }
-
-        function test_longPressDismissesTutorialPage() {
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-
-            verify(tutorialLeft.shown);
-            compare(AccountsService.demoEdgesCompleted, []);
-
-            mousePress(tutorialLeft);
-            wait(1000);
-            mouseRelease(tutorialLeft);
-
-            tryCompare(tutorialLeft, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
         }
 
         function test_tutorialLeftEdges() {
@@ -374,6 +366,18 @@ Item {
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeft, "shown", false);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
+        }
+
+        function test_tutorialLeftAutoSkipped() {
+            // Test that we skip the tutorial if user uses left edge themselves
+
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            LightDM.Greeter.showGreeter();
+            tryCompare(tutorialLeft, "visible", false);
+            compare(AccountsService.demoEdgesCompleted, []);
+
+            touchFlick(shell, 0, halfHeight, halfWidth, halfHeight);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
         }
 
@@ -491,17 +495,16 @@ Item {
             // Test that if we exit the top tutorial, we don't immediately
             // jump into right tutorial.
             var tutorialRight = findChild(shell, "tutorialRight");
-            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
+            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightInactivityTimer");
 
             tutorialRightTimer.interval = 1;
             openTutorialTop();
-            ApplicationManager.startApplication("dialer-app");
-            ApplicationManager.startApplication("camera-app");
-            ApplicationManager.startApplication("messaging-app");
+            ApplicationManager.startApplication("gallery-app");
+            ApplicationManager.startApplication("facebook-webapp");
             tryCompare(ApplicationManager, "count", 3);
 
             AccountsService.demoEdgesCompleted = ["left", "top"];
-            verify(tutorialRightTimer.running);
+            verify(tutorialRightTimer.running, true);
             verify(!tutorialRight.shown);
             tryCompare(tutorialRight, "shown", true);
         }
@@ -576,7 +579,7 @@ Item {
             tryCompare(tutorialLeft, "visible", false);
 
             callManager.foregroundCall = null;
-            verify(tutorialLeft.shown);
+            tryCompare(tutorialLeft, "shown", true);
             verify(!tutorialLeft.paused);
         }
 
@@ -659,13 +662,16 @@ Item {
             surface.setState(Mir.RestoredState);
             tryCompare(inputMethod, "state", "shown");
 
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "keyboardVisible", true);
+
             AccountsService.demoEdges = true;
             var tutorialLeft = findChild(shell, "tutorialLeft");
             verify(!tutorialLeft.shown);
 
             surface.setState(Mir.MinimizedState);
             tryCompare(inputMethod, "state", "hidden");
-            verify(tutorialLeft.shown);
+            tryCompare(tutorialLeft, "shown", false);
         }
 
         function test_accountsServiceSettings() {
@@ -679,7 +685,7 @@ Item {
             AccountsService.demoEdges = true;
             tutorialLeft = findChild(shell, "tutorialLeft");
             verify(tutorialLeft != null);
-            verify(tutorialLeft.shown);
+            tryCompare(tutorialLeft, "shown", true);
         }
     }
 }

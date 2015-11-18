@@ -42,17 +42,25 @@ Showable {
     shown: false
 
     opacity: Math.max(Math.min(_showOpacity, opacityOverride), 0)
-    onOpacityOverrideChanged: if (opacityOverride <= 0) hide()
+    onOpacityOverrideChanged: {
+        if (opacityOverride <= 0) {
+            d.showOnUnpause = false;
+            hide();
+        }
+    }
     property real _showOpacity: 0
 
     onPausedChanged: {
         if (paused && shown) {
+            d.showOnUnpause = true;
             hide();
         } else if (!paused && d.showOnUnpause) {
-            d.showOnUnpause = false;
             if (isReady) {
                 show();
+            } else if (hideAnimation.running) {
+                hideAnimation.stop();
             }
+            d.showOnUnpause = false;
         }
     }
 
@@ -70,9 +78,7 @@ Showable {
         duration: UbuntuAnimation.BriskDuration
         onStopped: {
             root.visible = false;
-            if (root.paused) {
-                d.showOnUnpause = true;
-            } else {
+            if (!d.showOnUnpause) {
                 root.finished();
             }
         }

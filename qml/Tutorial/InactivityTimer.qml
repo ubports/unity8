@@ -18,6 +18,8 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 Item {
+    readonly property alias running: internalTimer.running
+    property alias interval: internalTimer.interval
     property var page
     property int lastInputTimestamp
 

@@ -75,8 +75,16 @@ Item {
                                         AccountsService.demoEdgesCompleted.indexOf("left") != -1
         isReady: !skipped && !paused && !keyboardVisible
 
+        // Use an idle timer here, because when constructed, all our isReady variables will be false.
+        // Qml needs a moment to copy their values from Tutorial.qml.  So we idle it and recheck.
+        Timer {
+            id: tutorialLeftTimer
+            interval: 0
+            onTriggered: if (tutorialLeft.isReady && !tutorialLeft.shown) tutorialLeft.show()
+        }
+
         onSkippedChanged: if (skipped && shown) hide()
-        onIsReadyChanged: if (isReady && !shown) show()
+        onIsReadyChanged: if (isReady && !shown) tutorialLeftTimer.start()
         onFinished: AccountsService.markDemoEdgeCompleted("left")
     }
 
@@ -129,6 +137,7 @@ Item {
 
         InactivityTimer {
             id: tutorialRightInactivityTimer
+            objectName: "tutorialRightInactivityTimer"
             lastInputTimestamp: root.lastInputTimestamp
             page: parent
         }
