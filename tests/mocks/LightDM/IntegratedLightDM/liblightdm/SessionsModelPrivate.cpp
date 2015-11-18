@@ -21,8 +21,7 @@ namespace QLightDM
 {
 
 SessionsModelPrivate::SessionsModelPrivate(SessionsModel* parent)
-    : testScenario("multipleSessions")
-    , q_ptr(parent)
+    : q_ptr(parent)
 {
     resetEntries();
 }
@@ -32,35 +31,14 @@ void SessionsModelPrivate::resetEntries()
     Q_Q(SessionsModel);
 
     q->beginResetModel();
-        if(testScenario == "multipleSessions") {
-            resetEntries_multipleSessions();
-        } else if (testScenario == "singleSessions") {
-            resetEntries_singleSession();
-        } else {
-            resetEntries_noSessions();
-        }
+        sessionItems =
+            {
+                {"", "", "Ubuntu", ""},
+                {"", "", "GNOME", ""},
+                {"", "", "Plasma", ""},
+                {"", "", "Unknown?", ""}
+            };
     q->endResetModel();
-}
-
-void SessionsModelPrivate::resetEntries_multipleSessions()
-{
-    sessionItems =
-        {
-            {"", "", "Ubuntu", ""},
-            {"", "", "GNOME", ""},
-            {"", "", "Plasma", ""},
-            {"", "", "Unknown?", ""}
-        };
-}
-
-void SessionsModelPrivate::resetEntries_noSessions()
-{
-    sessionItems = {};
-}
-
-void SessionsModelPrivate::resetEntries_singleSession()
-{
-    sessionItems = {{"", "", "Ubuntu", ""}};
 }
 
 } // namespace QLightDM

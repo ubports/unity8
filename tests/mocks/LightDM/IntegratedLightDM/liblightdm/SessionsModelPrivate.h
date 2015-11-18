@@ -41,7 +41,6 @@ public:
     virtual ~SessionsModelPrivate() = default;
 
     QList<SessionItem> sessionItems;
-    QString testScenario;
 
     void resetEntries();
 protected:
