@@ -19,6 +19,7 @@ import QtTest 1.0
 import AccountsService 0.1
 import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
@@ -26,10 +27,11 @@ import Unity.Test 0.1 as UT
 import "../../../qml"
 import "../../../qml/Components"
 
-Item {
+Rectangle {
     id: root
-    width: shellLoader.width + buttons.width
-    height: shellLoader.height
+    color: UbuntuColors.lightGrey
+    width: units.gu(100) + buttons.width
+    height: units.gu(71)
 
     QtObject {
         id: applicationArguments
@@ -59,24 +61,62 @@ Item {
         shellLoader.active = true;
     }
 
-    Row {
-        spacing: 0
-        anchors.fill: parent
+    Item {
+        id: shellContainer
+        anchors.left: root.left
+        anchors.right: buttons.left
+        anchors.top: root.top
+        anchors.bottom: root.bottom
 
         Loader {
             id: shellLoader
 
             active: false
-            width: units.gu(40)
-            height: units.gu(71)
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+
+            property int shellOrientation: Qt.PortraitOrientation
+            property int nativeOrientation: Qt.PortraitOrientation
+            property int primaryOrientation: Qt.PortraitOrientation
+
+            state: modeSelector.model[modeSelector.selectedIndex]
+            states: [
+                State {
+                    name: "phone"
+                    PropertyChanges {
+                        target: shellLoader
+                        width: units.gu(40)
+                    }
+                },
+                State {
+                    name: "tablet"
+                    PropertyChanges {
+                        target: shellLoader
+                        width: units.gu(100)
+                        shellOrientation: Qt.LandscapeOrientation
+                        nativeOrientation: Qt.LandscapeOrientation
+                        primaryOrientation: Qt.LandscapeOrientation
+                    }
+                },
+                State {
+                    name: "desktop"
+                    PropertyChanges {
+                        target: shellLoader
+                        width: units.gu(100)
+                    }
+                }
+            ]
 
             property bool itemDestroyed: false
             sourceComponent: Component {
                 Shell {
+                    usageScenario: shellLoader.state
                     property string indicatorProfile: "phone"
+                    orientation: shellLoader.shellOrientation
                     orientations: Orientations {
-                        native_: Qt.PortraitOrientation
-                        primary: Qt.PortraitOrientation
+                        native_: shellLoader.nativeOrientation
+                        primary: shellLoader.primaryOrientation
                     }
 
                     Component.onDestruction: {
@@ -85,102 +125,92 @@ Item {
                 }
             }
         }
+    }
 
-        Rectangle {
-            id: buttons
-            color: "black"
-            width: units.gu(30)
-            height: shellLoader.height
+    Rectangle {
+        id: buttons
+        color: UbuntuColors.darkGrey
+        width: units.gu(30)
+        anchors.top: root.top
+        anchors.bottom: root.bottom
+        anchors.right: root.right
 
-            Column {
-                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-                spacing: units.gu(1)
-                Row {
-                    anchors { left: parent.left; right: parent.right }
-                    Button {
-                        text: "Hide Greeter"
-                        onClicked: {
-                            if (shellLoader.status !== Loader.Ready)
-                                return;
+        Column {
+            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+            spacing: units.gu(1)
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                Button {
+                    text: "Hide Greeter"
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return;
 
-                            var greeter = testCase.findChild(shellLoader.item, "greeter");
-                            if (greeter.shown) {
-                                greeter.hide();
-                            }
+                        var greeter = testCase.findChild(shellLoader.item, "greeter");
+                        if (greeter.shown) {
+                            greeter.hide();
                         }
                     }
                 }
+            }
 
-                Row {
-                    anchors { left: parent.left; right: parent.right }
-                    Button {
-                        text: "Restart Tutorial"
-                        onClicked: {
-                            if (shellLoader.status !== Loader.Ready)
-                                return;
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                Button {
+                    text: "Restart Tutorial"
+                    onClicked: {
+                        if (shellLoader.status !== Loader.Ready)
+                            return;
 
-                            AccountsService.demoEdges = false;
-                            AccountsService.demoEdgesCompleted = [];
-                            AccountsService.demoEdges = true;
+                        AccountsService.demoEdges = false;
+                        AccountsService.demoEdgesCompleted = [];
+                        AccountsService.demoEdges = true;
+                    }
+                }
+            }
+
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                CheckBox {
+                    onCheckedChanged: {
+                        if (checked) {
+                            callManager.foregroundCall = phoneCall;
+                        } else {
+                            callManager.foregroundCall = null;
                         }
                     }
                 }
+                Label {
+                    text: "Active Call"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
 
-                Row {
-                    anchors { left: parent.left; right: parent.right }
-                    CheckBox {
-                        onCheckedChanged: {
-                            if (checked) {
-                                callManager.foregroundCall = phoneCall;
-                            } else {
-                                callManager.foregroundCall = null;
-                            }
+            Row {
+                anchors { left: parent.left; right: parent.right }
+                CheckBox {
+                    activeFocusOnPress: false
+                    onCheckedChanged: {
+                        var surface = SurfaceManager.inputMethodSurface();
+                        if (checked) {
+                            surface.setState(Mir.RestoredState);
+                        } else {
+                            surface.setState(Mir.MinimizedState);
                         }
                     }
-                    Label {
-                        text: "Active Call"
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
                 }
-
-                Row {
-                    anchors { left: parent.left; right: parent.right }
-                    CheckBox {
-                        activeFocusOnPress: false
-                        onCheckedChanged: {
-                            var surface = SurfaceManager.inputMethodSurface();
-                            if (checked) {
-                                surface.setState(Mir.RestoredState);
-                            } else {
-                                surface.setState(Mir.MinimizedState);
-                            }
-                        }
-                    }
-                    Label {
-                        text: "Input Method"
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
+                Label {
+                    text: "Input Method"
+                    anchors.verticalCenter: parent.verticalCenter
                 }
+            }
 
-                Row {
-                    anchors { left: parent.left; right: parent.right }
-                    CheckBox {
-                        onCheckedChanged: {
-                            if (shellLoader.status !== Loader.Ready)
-                                return;
-
-                            if (checked) {
-                                shellLoader.item.usageScenario = "desktop";
-                            } else {
-                                shellLoader.item.usageScenario = "phone";
-                            }
-                        }
-                    }
-                    Label {
-                        text: "Desktop Mode"
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
+            ItemSelector {
+                id: modeSelector
+                anchors { left: parent.left; right: parent.right }
+                activeFocusOnPress: false
+                text: "Mode"
+                model: ["phone", "tablet", "desktop"]
             }
         }
     }
@@ -195,24 +225,21 @@ Item {
         property real halfHeight: shell ? shell.height / 2 : 0
 
         function init() {
-            tryCompare(shell, "enabled", true); // enabled by greeter when ready
-
-            shell.usageScenario = "phone";
-            callManager.foregroundCall = null;
-            AccountsService.demoEdges = false;
-            AccountsService.demoEdgesCompleted = [];
-            AccountsService.demoEdges = true;
-
-            LightDM.Greeter.hideGreeter();
+            prepareShell();
 
             var tutorialLeft = findChild(shell, "tutorialLeft");
             tryCompare(tutorialLeft, "opacity", 1);
         }
 
         function cleanup() {
+            resetLoader("phone");
+        }
+
+        function resetLoader(state) {
             shellLoader.itemDestroyed = false;
 
             shellLoader.active = false;
+            shellLoader.state = state;
 
             tryCompare(shellLoader, "status", Loader.Null);
             tryCompare(shellLoader, "item", null);
@@ -224,15 +251,36 @@ Item {
             // Shell instance gets destroyed.
             tryCompare(shellLoader, "itemDestroyed", true);
 
+            // Reset any futzing our tests may have done with persistent objects
+            var app = ApplicationManager.findApplication("dialer-app");
+            if (app) {
+                app.setStage(ApplicationInfoInterface.SideStage);
+            }
+            SurfaceManager.inputMethodSurface().destroy(); // so that InputMethod will notice new one
             // kill all (fake) running apps
             killApps();
-            SurfaceManager.inputMethodSurface().destroy(); // so that InputMethod will notice new one
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true;
 
             tryCompare(shellLoader, "status", Loader.Ready);
             removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
+        }
+
+        function prepareShell() {
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+
+            callManager.foregroundCall = null;
+            AccountsService.demoEdges = false;
+            AccountsService.demoEdgesCompleted = [];
+            AccountsService.demoEdges = true;
+
+            LightDM.Greeter.hideGreeter();
+        }
+
+        function loadShell(state) {
+            resetLoader(state);
+            prepareShell();
         }
 
         function killApps() {
@@ -273,9 +321,8 @@ Item {
             var tutorialRight = findChild(shell, "tutorialRight");
 
             AccountsService.demoEdgesCompleted = ["left", "top"];
-            ApplicationManager.startApplication("dialer-app");
-            ApplicationManager.startApplication("camera-app");
-            ApplicationManager.startApplication("messaging-app");
+            ApplicationManager.startApplication("gallery-app");
+            ApplicationManager.startApplication("facebook-webapp");
 
             tryCompare(tutorialLeft, "visible", false);
             tryCompare(tutorialRight, "shown", true);
@@ -359,7 +406,7 @@ Item {
             // Just confirm that a long drag ("dash" drag) doesn't confuse us
 
             // So that we actually switch to dash and launcher hides
-            ApplicationManager.startApplication("dialer-app");
+            ApplicationManager.startApplication("gallery-app");
 
             var launcher = findChild(shell, "launcher");
             var tutorialLeft = findChild(shell, "tutorialLeft");
@@ -520,7 +567,7 @@ Item {
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "right"]);
         }
 
-        /*function test_tutorialBottomEdges() {
+        function test_tutorialBottomEdges() {
             var tutorial = findChild(shell, "tutorial");
             var tutorialBottom = findChild(tutorial, "tutorialBottom");
             var launcher = findChild(shell, "launcher");
@@ -537,9 +584,9 @@ Item {
             verify(!launcher.available);
             verify(!stage.spreadEnabled);
             verify(!panel.indicators.available);
-        }*/
+        }
 
-        /*function test_tutorialBottomFinish() {
+        function test_tutorialBottomFinish() {
             var tutorial = findChild(shell, "tutorial");
             var tutorialBottom = findChild(tutorial, "tutorialBottom");
 
@@ -549,24 +596,65 @@ Item {
             tryCompare(tutorialBottom, "shown", false);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "right", "bottom"]);
             tryCompare(AccountsService, "demoEdges", false);
-        }*/
+        }
 
-        /*function test_tutorialBottomDelay() {
-            // Test that if we exit the right tutorial, we don't immediately
-            // jump into bottom tutorial.
+        function test_tutorialBottomAppearsBeforeRight() {
+            // Confirm that if bottom edge and right edge would appear on the
+            // the same app open, bottom edge appears first. (this is a lightly
+            // edited version of openTutorialRight)
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialRight = findChild(shell, "tutorialRight");
             var tutorialBottom = findChild(shell, "tutorialBottom");
-            var tutorialBottomTimer = findInvisibleChild(tutorialBottom, "tutorialBottomTimer");
 
-            tutorialBottomTimer.interval = 1;
-            openTutorialRight();
-            ApplicationManager.requestFocusApplication("dialer-app");
-            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+            AccountsService.demoEdgesCompleted = ["left", "top"];
+            ApplicationManager.startApplication("gallery-app");
+            ApplicationManager.startApplication("dialer-app");
 
-            AccountsService.demoEdgesCompleted = ["left", "top", "right"];
-            verify(tutorialBottomTimer.running);
-            verify(!tutorialBottom.shown);
+            tryCompare(tutorialLeft, "visible", false);
+            tryCompare(tutorialRight, "visible", false);
             tryCompare(tutorialBottom, "shown", true);
-        }*/
+            tryCompare(tutorialBottom, "opacity", 1);
+        }
+
+        function test_tutorialBottomOnlyCoversSideStageOnTablet() {
+            loadShell("tablet");
+
+            var tutorialBottom = findChild(shell, "tutorialBottom");
+            var targetHeight = shell.height - units.gu(4);
+            var mainStageX = units.gu(20);
+            var sideStageX = shell.width - units.gu(20);
+
+            openTutorialBottom();
+
+            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, true, false);
+            compare(tutorialBottom.opacity, 1);
+            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, false, true);
+
+            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, true, false);
+            verify(tutorialBottom.opacity < 1);
+            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, false, true);
+        }
+
+        function test_tutorialBottomOnlyCoversMainStageOnTablet() {
+            loadShell("tablet");
+
+            var tutorialBottom = findChild(shell, "tutorialBottom");
+            var targetHeight = shell.height - units.gu(4);
+            var mainStageX = units.gu(20);
+            var sideStageX = shell.width - units.gu(20);
+
+            openTutorialBottom();
+            var app = ApplicationManager.findApplication("dialer-app");
+            app.setStage(ApplicationInfoInterface.MainStage);
+
+            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, true, false);
+            compare(tutorialBottom.opacity, 1);
+            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, false, true);
+
+            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, true, false);
+            verify(tutorialBottom.opacity < 1);
+            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, false, true);
+        }
 
         function test_activeCallInterruptsTutorial() {
             var tutorialLeft = findChild(shell, "tutorialLeft");
@@ -622,21 +710,20 @@ Item {
         }
 
         function test_desktopOnlyShowsTutorialRight() {
-            shell.usageScenario = "desktop";
+            loadShell("desktop");
 
             var tutorialLeft = findChild(shell, "tutorialLeft");
             var tutorialTop = findChild(shell, "tutorialTop");
             var tutorialRight = findChild(shell, "tutorialRight");
-            //var tutorialBottom = findChild(shell, "tutorialBottom");
+            var tutorialBottom = findChild(shell, "tutorialBottom");
             verify(tutorialLeft.skipped);
             verify(tutorialTop.skipped);
             verify(!tutorialRight.skipped);
-            //verify(tutorialBottom.skipped);
+            verify(tutorialBottom.skipped);
             compare(AccountsService.demoEdgesCompleted, []);
 
             ApplicationManager.startApplication("dialer-app");
             ApplicationManager.startApplication("camera-app");
-            ApplicationManager.startApplication("messaging-app");
             tryCompare(tutorialRight, "isReady", true);
             tryCompare(tutorialRight, "shown", true);
         }
