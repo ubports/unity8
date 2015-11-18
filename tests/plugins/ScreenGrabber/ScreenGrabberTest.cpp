@@ -59,6 +59,7 @@ private Q_SLOTS:
     {
         QSignalSpy grabberSpy(m_grabber, &ScreenGrabber::screenshotSaved);
         m_grabber->captureAndSave(90); // rotate by 90°
+        QTRY_VERIFY(grabberSpy.count() == 1);
         const QVariantList args = grabberSpy.takeFirst();
         const QString filename = args.first().toString();
         QVERIFY(!filename.isEmpty());
