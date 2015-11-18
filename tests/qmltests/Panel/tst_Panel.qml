@@ -112,6 +112,21 @@ IndicatorTest {
                 }
             }
 
+            RowLayout {
+                Layout.fillWidth: true
+                CheckBox {
+                    onClicked: {
+                        if (checked)
+                            PanelState.title = "Fake window title"
+                        else
+                            PanelState.title = ""
+                    }
+                }
+                Label {
+                    text: "Show fake window title"
+                }
+            }
+
             Rectangle {
                 Layout.preferredHeight: units.dp(1);
                 Layout.fillWidth: true;
