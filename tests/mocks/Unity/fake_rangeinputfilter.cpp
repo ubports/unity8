@@ -39,6 +39,11 @@ QString FakeRangeInputFilter::filterTag() const
     return m_filterTag;
 }
 
+QString FakeRangeInputFilter::title() const
+{
+    return m_title;
+}
+
 double FakeRangeInputFilter::startValue() const
 {
     return m_startValue;
@@ -128,29 +133,29 @@ bool FakeRangeInputFilter::isActive() const
 void FakeRangeInputFilter::setStartPrefixLabel(const QString &startPrefixLabel)
 {
     m_startPrefixLabel = startPrefixLabel;
-    Q_EMIT startPrefixLabelChanged(m_startPrefixLabel);
+    Q_EMIT startPrefixLabelChanged();
 }
 
 void FakeRangeInputFilter::setStartPostfixLabel(const QString &startPostfixLabel)
 {
     m_startPostfixLabel = startPostfixLabel;
-    Q_EMIT startPostfixLabelChanged(m_startPostfixLabel);
+    Q_EMIT startPostfixLabelChanged();
 }
 
 void FakeRangeInputFilter::setCentralLabel(const QString &centralLabel)
 {
     m_centralLabel = centralLabel;
-    Q_EMIT centralLabelChanged(m_centralLabel);
+    Q_EMIT centralLabelChanged();
 }
 
 void FakeRangeInputFilter::setEndPrefixLabel(const QString &endPrefixLabel)
 {
     m_endPrefixLabel = endPrefixLabel;
-    Q_EMIT endPrefixLabelChanged(m_endPrefixLabel);
+    Q_EMIT endPrefixLabelChanged();
 }
 
 void FakeRangeInputFilter::setEndPostfixLabel(const QString &endPostfixLabel)
 {
     m_endPostfixLabel = endPostfixLabel;
-    Q_EMIT endPostfixLabelChanged(m_endPostfixLabel);
+    Q_EMIT endPostfixLabelChanged();
 }

@@ -28,6 +28,7 @@ public:
 
     QString filterId() const override;
     QString filterTag() const override;
+    QString title() const override;
 
     double startValue() const override;
     double endValue() const override;
@@ -59,6 +60,7 @@ Q_SIGNALS:
 private:
     QString m_filterId;
     QString m_filterTag;
+    QString m_title;
 
     bool m_hasStartValue;
     bool m_hasEndValue;
