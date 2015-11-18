@@ -60,8 +60,10 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
         int rowCount(const QModelIndex& parent) const override;
         QVariant data(const QModelIndex& index, int role) const override;
 
-    private:
+    protected:
         SessionsModelPrivate* const d_ptr;
+
+    private:
         QHash<int, QByteArray> m_roleNames;
         Q_DECLARE_PRIVATE(SessionsModel)
     };

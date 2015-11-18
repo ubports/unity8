@@ -53,7 +53,6 @@ Item {
 
                 Component.onDestruction: {
                     loader.itemDestroyed = true;
-                    console.log("JOSH: " + LightDM.Sessions.testScenario)
                 }
             }
         }
