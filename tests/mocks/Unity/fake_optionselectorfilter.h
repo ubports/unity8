@@ -30,6 +30,7 @@ public:
 
     QString filterId() const override;
     QString filterTag() const override;
+    QString title() const override;
     QString label() const override;
     bool multiSelect() const override;
     unity::shell::scopes::OptionSelectorOptionsInterface* options() const override;
@@ -42,6 +43,7 @@ Q_SIGNALS:
 private:
     QString m_filterId;
     QString m_filterTag;
+    QString m_title;
     QString m_label;
     bool m_multiSelect;
     FakeOptionSelectorOptions* m_options;
