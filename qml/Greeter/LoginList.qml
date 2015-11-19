@@ -107,6 +107,7 @@ Item {
         // Use an AbstractButton due to icon limitations with Button
         AbstractButton {
             id: sessionChooser
+            objectName: "sessionChooserButton"
 
             visible: LightDMService.sessions.count > 1
 

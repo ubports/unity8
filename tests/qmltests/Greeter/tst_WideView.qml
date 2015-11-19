@@ -318,6 +318,7 @@ Item {
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
+            LightDM.Sessions.testScenario = "multipleSessions"
         }
 
         function cleanup() {
@@ -374,9 +375,25 @@ Item {
             ]
         }
 
+        function test_noSessionsDoesntBreakView() {
+            LightDM.Sessions.testScenario = "noSessions"
+            compare(LightDM.Sessions.count, 0)
+        }
+
         function test_sessionIconNotShownWithOneSession() {
             LightDM.Sessions.testScenario = "singleSession"
             compare(LightDM.Sessions.count, 1);
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            compare(sessionChooserButton.visible, false);
+        }
+
+        function test_sessionIconShownWithMultipleSessions() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            compare(LightDM.Sessions.count > 1, true);
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            compare(sessionChooserButton.visible, true);
         }
 
         function test_tease(data) {
