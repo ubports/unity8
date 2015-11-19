@@ -17,11 +17,13 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "../Components"
+import "." 0.1
 
 Item {
     id: root
 
     property alias model: userList.model
+    property url sessionIcon
     property int currentIndex
     property bool locked
 
@@ -29,11 +31,18 @@ Item {
     readonly property int cellHeight: units.gu(5)
     readonly property int highlightedHeight: units.gu(10)
     readonly property int moveDuration: 200
+    property string selectedSession
+    property string currentSession: selectedSession ?
+        selectedSession : userList.currentItem.userSession
     readonly property string currentUser: userList.currentItem.username
     property bool wasPrompted: false
 
-    signal selected(int index)
     signal responded(string response)
+    signal selected(int index)
+    signal sessionChooserButtonClicked()
+    signal loginListSessionChanged(string session)
+
+    onCurrentSessionChanged: loginListSessionChanged(currentSession)
 
     function tryToUnlock() {
         if (wasPrompted) {
@@ -85,19 +94,42 @@ Item {
         userList.currentIndex = currentIndex;
     }
 
-    Rectangle {
+    LoginAreaContainer {
         id: highlightItem
         anchors {
             left: parent.left
             right: parent.right
             verticalCenter: parent.verticalCenter
         }
-        height: root.highlightedHeight
-        color: Qt.rgba(0.1, 0.1, 0.1, 0.4)
-        border.color: Qt.rgba(0.4, 0.4, 0.4, 0.4)
-        border.width: units.dp(1)
-        radius: units.gu(1.5)
-        antialiasing: true
+
+        z: sessionChooser.visible ? userList.z + 1 : z
+
+        // Use an AbstractButton due to icon limitations with Button
+        AbstractButton {
+            id: sessionChooser
+
+            visible: LightDMService.sessions.count > 1
+
+            height: units.gu(2.5)
+            width: units.gu(2.5)
+
+            anchors {
+                right: parent.right
+                rightMargin: units.gu(1)
+
+                top: parent.top
+                topMargin: units.gu(1)
+            }
+
+            Image {
+                anchors.fill: parent
+                source: LightDMService.sessions.iconUrl(root.currentSession)
+            }
+
+            onClicked: {
+                sessionChooserButtonClicked();
+            }
+        }
     }
 
     ListView {
@@ -130,6 +162,7 @@ Item {
 
             readonly property bool belowHighlight: (userList.currentIndex < 0 && index > 0) || (userList.currentIndex >= 0 && index > userList.currentIndex)
             readonly property int belowOffset: root.highlightedHeight - root.cellHeight
+            readonly property string userSession: session
             readonly property string username: name
 
             opacity: {

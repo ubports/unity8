@@ -31,6 +31,7 @@ FocusScope {
     property bool alphanumeric
     property var userModel // unused
     property alias infographicModel: coverPage.infographicModel
+    property string sessionToStart
     readonly property bool fullyShown: coverPage.showProgress === 1 || lockscreen.shown
     readonly property bool required: coverPage.required || lockscreen.required
     readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
