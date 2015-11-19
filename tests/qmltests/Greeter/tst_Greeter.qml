@@ -34,6 +34,7 @@ Item {
         // set the mock mode before loading
         LightDM.Greeter.mockMode = "full";
         LightDM.Users.mockMode = "full";
+        console.log("TEST SAYS testScenario is: " + LightDM.Sessions.testScenario);
         loader.active = true;
     }
 
