@@ -74,6 +74,8 @@ AbstractStage {
     }
 
     orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
+
+    // How far left the stage has been dragged, used externally by tutorial code
     dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0
 
     onWidthChanged: {

@@ -38,8 +38,8 @@ TutorialPage {
     }
 
     background {
-        sourceSize.height: 1080
-        sourceSize.width: 1916
+        sourceSize.height: 1916
+        sourceSize.width: 1080
         source: Qt.resolvedUrl("graphics/background1.png")
     }
 

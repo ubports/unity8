@@ -83,7 +83,7 @@ AbstractStage {
                                && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
                                && spreadView.phase === 0
 
-    // How far left the stage has been dragged
+    // How far left the stage has been dragged, used externally by tutorial code
     dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0
 
     readonly property alias dragging: spreadDragArea.dragging

@@ -168,7 +168,7 @@ Item {
     }
 
     GlobalShortcut {
-        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
+        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowInputFilter
     }
 
     WindowInputFilter {
