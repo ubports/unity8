@@ -18,6 +18,7 @@
 #include "SessionsModel.h"
 #include <QtCore/QFile>
 #include <QtCore/QSortFilterProxyModel>
+
 QHash<int, QByteArray> SessionsModel::roleNames() const
 {
     return m_roleNames;
@@ -32,18 +33,6 @@ int SessionsModel::rowCount(const QModelIndex& parent) const
 QList<QUrl> SessionsModel::iconSearchDirectories() const
 {
     return m_iconSearchDirectories;
-}
-
-QModelIndex SessionsModel::sessionIndex(QString sessionName) const
-{
-    for (int i = 0; i < rowCount(QModelIndex()); i ++) {
-        QModelIndex index = m_model->index(i, Qt::DisplayRole);
-        QString aSession(this->data(index, Qt::DisplayRole).toString());
-        if (!QString::compare(aSession, sessionName, Qt::CaseInsensitive)) {
-            return index;
-        }
-    }
-    return QModelIndex();
 }
 
 QUrl SessionsModel::iconUrl(QString sessionName) const

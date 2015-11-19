@@ -45,7 +45,6 @@ public:
 
     QHash<int, QByteArray>  roleNames() const override;
     int rowCount(const QModelIndex& parent) const override;
-    QModelIndex sessionIndex(QString sessionName) const;
     QVariant data(const QModelIndex& index, int role) const override;
     QList<QUrl> iconSearchDirectories() const;
     Q_INVOKABLE QUrl iconUrl(QString sessionName) const;

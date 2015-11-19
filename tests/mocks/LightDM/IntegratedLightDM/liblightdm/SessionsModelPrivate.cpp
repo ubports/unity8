@@ -16,7 +16,7 @@
 
 #include "SessionsModel.h"
 #include "SessionsModelPrivate.h"
-#include <QDebug>
+
 namespace QLightDM
 {
 

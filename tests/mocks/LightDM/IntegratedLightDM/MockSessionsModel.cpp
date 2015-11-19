@@ -17,7 +17,6 @@
 
 #include "MockSessionsModel.h"
 #include <QLightDM/SessionsModel>
-#include <QSortFilterProxyModel>
 
 QString MockSessionsModel::testScenario() const
 {

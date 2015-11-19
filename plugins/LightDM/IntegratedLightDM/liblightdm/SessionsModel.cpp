@@ -30,7 +30,6 @@
 #include "SessionsModelPrivate.h"
 #include <QtCore/QDir>
 #include <QtCore/QString>
-#include <QtGui/QIcon>
 
 namespace QLightDM
 {

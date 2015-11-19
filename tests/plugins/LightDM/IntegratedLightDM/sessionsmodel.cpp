@@ -20,7 +20,7 @@
 #include <QtCore/QModelIndex>
 #include <QtTest>
 #include <QString>
-#include <QDebug>
+
 class GreeterSessionsModelTest : public QObject
 {
     Q_OBJECT
