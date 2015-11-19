@@ -48,13 +48,15 @@ public:
     QVariant data(const QModelIndex& index, int role) const override;
     QList<QUrl> iconSearchDirectories() const;
     Q_INVOKABLE QUrl iconUrl(QString sessionName) const;
+    Q_INVOKABLE QUrl iconUrl(QString sessionName, QList<QUrl> searchDirectories) const;
 
 private:
     QLightDM::SessionsModel* m_model;
     QHash<int, QByteArray> m_roleNames;
-    const QList<QUrl> m_iconSearchDirectories{QUrl("/usr/share/unity8/Greeter/graphics/session_icons"),
-                                              QUrl("/usr/local/share/unity-greeter"),
-                                              QUrl("/usr/share/unity-greeter/")};
+    const QList<QUrl> m_iconSearchDirectories{
+        QUrl("/usr/share/unity8/Greeter/graphics/session_icons"),
+        QUrl("/usr/local/share/unity-greeter"),
+        QUrl("/usr/share/unity-greeter/")};
 
 };
 

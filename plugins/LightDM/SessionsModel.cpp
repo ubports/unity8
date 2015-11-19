@@ -35,9 +35,10 @@ QList<QUrl> SessionsModel::iconSearchDirectories() const
     return m_iconSearchDirectories;
 }
 
-QUrl SessionsModel::iconUrl(QString sessionName) const
+// Allow providing an exteral directories list, mostly for testing
+QUrl SessionsModel::iconUrl(QString sessionName, QList<QUrl> sessionDirectories) const
 {
-    Q_FOREACH(const QUrl& searchDirectory, m_iconSearchDirectories)
+    Q_FOREACH(const QUrl& searchDirectory, sessionDirectories)
     {
         // This is an established icon naming convention
         QString iconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
@@ -50,6 +51,11 @@ QUrl SessionsModel::iconUrl(QString sessionName) const
 
     // FIXME make this smarter
     return QUrl("./graphics/session_icons/unknown_badge.png");
+}
+
+QUrl SessionsModel::iconUrl(QString sessionName) const
+{
+     return iconUrl(sessionName, m_iconSearchDirectories);
 }
 
 QVariant SessionsModel::data(const QModelIndex& index, int role) const
