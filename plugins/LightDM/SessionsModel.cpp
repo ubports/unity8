@@ -28,6 +28,12 @@ int SessionsModel::rowCount(const QModelIndex& parent) const
     return m_model->rowCount(parent);
 }
 
+// Used for testing
+QList<QUrl> SessionsModel::iconSearchDirectories() const
+{
+    return m_iconSearchDirectories;
+}
+
 QModelIndex SessionsModel::sessionIndex(QString sessionName) const
 {
     for (int i = 0; i < rowCount(QModelIndex()); i ++) {

@@ -19,7 +19,8 @@
 #include <QLightDM/SessionsModel>
 #include <QtCore/QModelIndex>
 #include <QtTest>
-
+#include <QString>
+#include <QDebug>
 class GreeterSessionsModelTest : public QObject
 {
     Q_OBJECT
@@ -38,6 +39,14 @@ private Q_SLOTS:
     {
         delete model;
         delete sourceModel;
+    }
+
+    void testIconDirectoriesAreValid()
+    {
+        Q_FOREACH(const QUrl& searchDirectory, model->iconSearchDirectories())
+        {
+            QVERIFY(searchDirectory.isValid());
+        }
     }
 
     void testMultupleSessionsCountIsCorrect()
