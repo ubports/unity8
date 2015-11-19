@@ -373,6 +373,12 @@ Item {
                 {tag: "right", x: view.width, offset: 0, count: 1, locked: false},
             ]
         }
+
+        function test_sessionIconNotShownWithOneSession() {
+            LightDM.Sessions.testScenario = "singleSession"
+            compare(LightDM.Sessions.count, 1);
+        }
+
         function test_tease(data) {
             view.locked = data.locked;
             view.dragHandleLeftMargin = data.offset;
@@ -503,7 +509,7 @@ Item {
         }
 
         function test_loginListNotCoveredByKeyboard() {
-            var loginList = findChild(view, "loginList");
+            var loginList = findChild(view, "loginAreaLoader").item;
             compare(loginList.height, view.height);
 
             // when the vkb shows up, loginList is moved up to remain fully uncovered

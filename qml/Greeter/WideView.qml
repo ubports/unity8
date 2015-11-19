@@ -132,6 +132,7 @@ FocusScope {
 
         Loader {
             id: loginAreaLoader
+            objectName: "loginAreaLoader"
 
             // True when LoginList is shown, false when SessionList is shown
             property bool loginListShown: true
