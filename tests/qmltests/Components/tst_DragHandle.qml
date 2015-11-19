@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import "../../../qml/Components"
 import "tst_DragHandle"
 import Ubuntu.Components 1.3

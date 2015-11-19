@@ -688,7 +688,7 @@ function cardString(template, components) {
 }
 
 function createCardComponent(parent, template, components) {
-    var imports = 'import QtQuick 2.2; \n\
+    var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\

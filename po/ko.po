@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-09-16 00:49+0200\n"
+"POT-Creation-Date: 2015-10-19 14:34+0100\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
-"X-Generator: Launchpad (build 17812)\n"
+"X-Launchpad-Export-Date: 2015-11-07 05:13+0000\n"
+"X-Generator: Launchpad (build 17838)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -69,8 +69,8 @@ msgstr "%p %l:%M (%"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
 msgstr "%d %b %p %l:%M (%a)"
@@ -109,8 +109,8 @@ msgstr "%H:%M (%a)"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
 msgstr "%d %b %H:%M (%a)"
@@ -285,6 +285,10 @@ msgstr "이 프로그램 평가"
 msgid "Add a review"
 msgstr "평가 추가"
 
+#: qml/Dash/Previews/PreviewSharing.qml:51
+msgid "Preview Share Item"
+msgstr ""
+
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "당기면 새로 고침..."
@@ -388,59 +392,59 @@ msgstr "다시 통화하려면 두드려주십시오."
 msgid "Conference"
 msgstr "회의"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:718
+#: qml/Panel/Indicators/MenuItemFactory.qml:727
 msgid "Nothing is playing"
 msgstr "연주하는 항목 없음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1시간"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:851
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1분"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:865
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1초"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:859
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "0 seconds"
 msgstr "0초"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:861
+#: qml/Panel/Indicators/MenuItemFactory.qml:870
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 남음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:867
+#: qml/Panel/Indicators/MenuItemFactory.qml:876
 msgid "In queue…"
 msgstr "대기 중..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:871
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:873
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 msgid "Paused, tap to resume"
 msgstr "일시 중지하였습니다. 계속하려면 두드려주십시오."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:875
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Canceled"
 msgstr "취소함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:877
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Finished"
 msgstr "완료함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:879
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Failed, tap to retry"
 msgstr "실패, 두드리면 다시 시도합니다."
 
@@ -519,38 +523,6 @@ msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "뒤로"
 
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "사용 약관"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "암호문 확인"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "패스코드 확인"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "다시 시도해주십시오."
-
-#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50
-msgid "Continue"
-msgstr "계속"
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "패스코드 선택"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "암호문의 최소 길이는 네 문자입니다."
-
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
 msgstr "안녕!"
@@ -562,6 +534,13 @@ msgstr "우분투 폰을 사용해주셔서 감사합니다."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "자 시작합니다."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "계속"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -687,6 +666,31 @@ msgstr "이제 전화를 사용할 수 있습니다."
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
 msgstr "완료"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "사용 약관"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "암호문 확인"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "패스코드 확인"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "다시 시도해주십시오."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "패스코드 선택"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "암호문의 최소 길이는 네 문자입니다."
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39

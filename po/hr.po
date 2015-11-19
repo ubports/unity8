@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-09-16 00:49+0200\n"
+"POT-Creation-Date: 2015-10-19 14:34+0100\n"
 "PO-Revision-Date: 2013-06-27 04:14+0000\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-10-16 05:57+0000\n"
-"X-Generator: Launchpad (build 17812)\n"
+"X-Launchpad-Export-Date: 2015-11-07 05:13+0000\n"
+"X-Generator: Launchpad (build 17838)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -70,8 +70,8 @@ msgstr "%a %l:%M %p"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %b %d\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
+#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
+#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
 #: plugins/Utils/relativetimeformatter.cpp:190
 msgid "%a %d %b %l:%M %p"
 msgstr "%a %d %b %l:%M %p"
@@ -110,8 +110,8 @@ msgstr "%a %H:%M"
 #. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
 #. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
 #. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %d %b\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %b %d\u2003%H:%M" --> "Fri 31 Oct  13:00"
+#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
+#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
 #: plugins/Utils/relativetimeformatter.cpp:234
 msgid "%a %d %b %H:%M"
 msgstr "%a %d %b %H:%M"
@@ -290,6 +290,10 @@ msgstr "Ocijeni ovo"
 msgid "Add a review"
 msgstr "Dodaj recenziju"
 
+#: qml/Dash/Previews/PreviewSharing.qml:51
+msgid "Preview Share Item"
+msgstr ""
+
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
 msgstr "Povuci za osvježavanje..."
@@ -332,7 +336,7 @@ msgstr "Isprika, netočna lozinka."
 
 #: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr ""
+msgstr "Isprika, netočan kôd."
 
 #: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
@@ -351,6 +355,8 @@ msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
+"Ako je netočno upisan kôd, vaš telefon će pokrenuti vraćanje na tvorničke "
+"postavke i svi osobni podaci biti će obrisani."
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
@@ -363,7 +369,7 @@ msgstr "Upišite lozinku"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
-msgstr ""
+msgstr "Upišite kôd"
 
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
@@ -381,7 +387,7 @@ msgstr "Ponovno upišite"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
-msgstr "Isprika, netočna lozinka"
+msgstr "Isprika, netočan kôd"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:128
 msgid "Show password"
@@ -395,11 +401,11 @@ msgstr "Dodirni za povratak pozivu..."
 msgid "Conference"
 msgstr "Konferencija"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:718
+#: qml/Panel/Indicators/MenuItemFactory.qml:727
 msgid "Nothing is playing"
 msgstr "Ništa se ne reproducira"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:847
+#: qml/Panel/Indicators/MenuItemFactory.qml:856
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -407,7 +413,7 @@ msgstr[0] "%1 sat"
 msgstr[1] "%1 sata"
 msgstr[2] "%1 sati"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:851
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -415,7 +421,7 @@ msgstr[0] "%1 minuta"
 msgstr[1] "%1 minute"
 msgstr[2] "%1 minuta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:865
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -423,37 +429,37 @@ msgstr[0] "%1 sekunda"
 msgstr[1] "%1 sekunde"
 msgstr[2] "%1 sekundi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:859
+#: qml/Panel/Indicators/MenuItemFactory.qml:868
 msgid "0 seconds"
 msgstr "0 sekundi"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:861
+#: qml/Panel/Indicators/MenuItemFactory.qml:870
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 preostalo"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:867
+#: qml/Panel/Indicators/MenuItemFactory.qml:876
 msgid "In queue…"
 msgstr "Na čekanju..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:871
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "Downloading"
 msgstr "Preuzimanje"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:873
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 msgid "Paused, tap to resume"
 msgstr "Pauzirano, dodirni za nastavak"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:875
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Canceled"
 msgstr "Prekinuto"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:877
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Finished"
 msgstr "Završeno"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:879
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Failed, tap to retry"
 msgstr "Neuspjelo, dodirni za ponovni pokušaj"
 
@@ -517,52 +523,20 @@ msgstr "Pokušaj ponovno."
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr ""
+msgstr "Za pregled otvori aplikaciju"
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr ""
+msgstr "Povuci dugo s desnog ruba"
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr ""
+msgstr "Pogledajte sve vaše pokrenute zadatke."
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Natrag"
-
-#: qml/Wizard/Pages/here-terms.qml:27
-msgid "Terms & Conditions"
-msgstr "Uvjeti i odredbe"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Potvrdi lozinku"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:50
-msgid "Confirm passcode"
-msgstr "Potvrdi lozinku"
-
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Pokušajte ponovno."
-
-#: qml/Wizard/Pages/passwd-confirm.qml:82 qml/Wizard/Pages/passwd-set.qml:90
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50
-msgid "Continue"
-msgstr "Nastavi"
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Odaberite vašu lozinku"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "Lozinka mora biti dugačka 4 znamenke"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -575,6 +549,13 @@ msgstr "Dobrodošli u vaš Ubuntu telefon."
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
 msgstr "Započnimo."
+
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
+#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/passwd-set.qml:90
+msgid "Continue"
+msgstr "Nastavi"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -590,69 +571,70 @@ msgstr "Preskoči"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr ""
+msgstr "Sigurnosno zaključavanje"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
+msgstr "Odaberite kako želite otključati vaš telefon."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Klizno"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Neosigurano"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Kôdom"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "4 znamenke samo"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Lozinka"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Brojevi ili slova"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr ""
+msgstr "Povezivanje s Wi‑Fi"
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr ""
+msgstr "Dostupne mreže..."
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr ""
+msgstr "Nema dostupnih mreža."
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr ""
+msgstr "Lokacija"
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr ""
+msgstr "Neka telefon odredi vašu lokaciju:"
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr ""
+msgstr "Korištenje samo GPS-a (manje preciznije)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
 msgstr ""
+"Korištenje GPS-a, anonimne Wi-Fi i informacije mobilne mreže (preporučljivo)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -660,58 +642,89 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
+"Odabirom ove mogućnosti prihvaćate Nokia HERE <a href='#'>uvjete i "
+"odredbe</a>."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr ""
+msgstr "Nikako"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
+msgstr "Možete se kasnije predomisliti u <b>Postavkama sustava</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:24
 msgid "Improving your experience"
-msgstr ""
+msgstr "Poboljšava vaše iskustvo"
 
 #: qml/Wizard/Pages/60-reporting.qml:36
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
+"Vaš telefon je postavljen da automatski prijavljuje greške Canonicalu i "
+"njegovim partnerima, razvijateljima operativnog sustava."
 
 #: qml/Wizard/Pages/60-reporting.qml:43
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
+"Ovo može biti onemogućeno u <b>Postavkama sustava</b> pod <b>Sigurnost i "
+"privatnost</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr ""
+msgstr "Sve učinjeno"
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr ""
+msgstr "Dobro obavljeno!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your phone is now ready to use."
-msgstr ""
+msgstr "Vaš telefon je sada spreman za korištenje."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr ""
+msgstr "Završi"
+
+#: qml/Wizard/Pages/here-terms.qml:27
+msgid "Terms & Conditions"
+msgstr "Uvjeti i odredbe"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:49
+msgid "Confirm passphrase"
+msgstr "Potvrdi lozinku"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:50
+msgid "Confirm passcode"
+msgstr "Potvrdi kôd"
+
+#: qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Wizard/Pages/passwd-confirm.qml:54
+msgid "Please try again."
+msgstr "Pokušajte ponovno."
+
+#: qml/Wizard/Pages/passwd-set.qml:61
+msgid "Choose your passcode"
+msgstr "Odaberite vašu lozinku"
+
+#: qml/Wizard/Pages/passwd-set.qml:68
+msgid "Passphrase must be 4 characters long"
+msgstr "Lozinka mora biti dugačka 4 znamenke"
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr ""
+msgstr "〈  %1"
 
 #. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr ""
+msgstr "%1  〉"
 
 #~ msgid "Confirm"
 #~ msgstr "Potvrdi"

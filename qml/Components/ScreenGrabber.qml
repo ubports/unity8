@@ -14,8 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtMultimedia 5.0
+import QtQuick 2.4
 import ScreenGrabber 0.1
 import GlobalShortcut 1.0
 
@@ -40,9 +39,8 @@ Rectangle {
         onTriggered: capture()
     }
 
-    Audio {
+    NotificationAudio {
         id: shutterSound
-        audioRole: MediaPlayer.alert
         source: "/system/media/audio/ui/camera_click.ogg"
     }
 
