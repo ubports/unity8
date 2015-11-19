@@ -18,23 +18,21 @@
 #include "MockSessionsModel.h"
 #include <QLightDM/SessionsModel>
 #include <QSortFilterProxyModel>
-#include <QDebug>
+
 QString MockSessionsModel::testScenario() const
 {
-    /*QLightDM::UsersModel* qUsersModel =
-        static_cast<QLightDM::UsersModel*>(static_cast<QSortFilterProxyModel*>(sourceModel())->sourceModel());*/
+    QLightDM::SessionsModel* qSessionsModel =
+        static_cast<QLightDM::SessionsModel*>(sourceModel());
 
-    return QString("Hello MockSessionsModel");
+    return qSessionsModel->testScenario();
 }
 
 void MockSessionsModel::setTestScenario(QString testScenario)
 {
-    /*QLightDM::UsersModel* qUsersModel =
-        static_cast<QLightDM::UsersModel*>(static_cast<QSortFilterProxyModel*>(sourceModel())->sourceModel());
+    QLightDM::SessionsModel* qSessionsModel =
+        static_cast<QLightDM::SessionsModel*>(sourceModel());
 
-    if (qUsersModel->mockMode() != mockMode) {
-        qUsersModel->setMockMode(mockMode);
-        Q_EMIT mockModeChanged(mockMode);
-    }*/
-    qDebug() << "Setting MockSessionsModel::testScenario";
+    if (qSessionsModel->testScenario() != testScenario) {
+        qSessionsModel->setTestScenario(testScenario);
+    }
 }

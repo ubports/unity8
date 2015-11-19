@@ -76,6 +76,7 @@ SessionsModel::SessionsModel(QObject* parent)
     m_roleNames[IconRole] = "icon_url";
 
     setModel(m_model);
+    setSourceModel(m_model);
     setSortCaseSensitivity(Qt::CaseInsensitive);
     setSortLocaleAware(true);
     setSortRole(Qt::DisplayRole);
