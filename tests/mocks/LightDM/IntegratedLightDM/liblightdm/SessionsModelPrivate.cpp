@@ -16,7 +16,7 @@
 
 #include "SessionsModel.h"
 #include "SessionsModelPrivate.h"
-
+#include <QDebug>
 namespace QLightDM
 {
 
@@ -32,14 +32,35 @@ void SessionsModelPrivate::resetEntries()
     Q_Q(SessionsModel);
 
     q->beginResetModel();
-        sessionItems =
-            {
-                {"", "", "Ubuntu", ""},
-                {"", "", "GNOME", ""},
-                {"", "", "Plasma", ""},
-                {"", "", "Unknown?", ""}
-            };
+        if (testScenario == "multipleSessions") {
+            resetEntries_multipleSessions();
+        } else if (testScenario == "noSessions") {
+            resetEntries_noSessions();
+        } else {
+            resetEntries_singleSession();
+        }
     q->endResetModel();
+}
+
+void SessionsModelPrivate::resetEntries_multipleSessions()
+{
+    sessionItems =
+        {
+            {"", "", "Ubuntu", ""},
+            {"", "", "GNOME", ""},
+            {"", "", "Plasma", ""},
+            {"", "", "Unknown?", ""}
+        };
+}
+
+void SessionsModelPrivate::resetEntries_noSessions()
+{
+    sessionItems = {};
+}
+
+void SessionsModelPrivate::resetEntries_singleSession()
+{
+    sessionItems = {{"", "", "Ubuntu", ""}};
 }
 
 } // namespace QLightDM

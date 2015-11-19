@@ -34,7 +34,6 @@ Item {
         // set the mock mode before loading
         LightDM.Greeter.mockMode = "full";
         LightDM.Users.mockMode = "full";
-        console.log("TEST SAYS testScenario is: " + LightDM.Sessions.testScenario);
         loader.active = true;
     }
 
@@ -199,6 +198,30 @@ Item {
             verify(viewAuthenticationSucceededSpy.count > 0);
             compare(LightDM.Greeter.authenticated, true);
             compare(greeter.shown, false);
+        }
+
+        function test_multipleSessionsReportsValidCount() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            var sessionsCount = LightDM.Sessions.count
+            compare(sessionsCount > 1, true,
+                "Sessions count was reported incorrectly. It was reported as: " +
+                sessionsCount);
+        }
+
+        function test_noSessionsReportsValidCount() {
+            LightDM.Sessions.testScenario = "noSessions"
+            var sessionsCount = LightDM.Sessions.count
+            compare(sessionsCount == 0, true,
+                "Sessions count was reported incorrectly. It was reported as: " +
+                sessionsCount);
+        }
+
+        function test_singleSessionReportsValidCount() {
+            LightDM.Sessions.testScenario = "singleSession"
+            var sessionsCount = LightDM.Sessions.count
+            compare(sessionsCount == 1, true,
+                "Sessions count was reported incorrectly. It was reported as: " +
+                sessionsCount);
         }
 
         function test_unlockPass() {
