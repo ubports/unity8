@@ -114,5 +114,6 @@ Showable {
         font.weight: Font.Light
         color: "#333333"
         wrapMode: Text.Wrap
+        lineHeight: 1.2
     }
 }
