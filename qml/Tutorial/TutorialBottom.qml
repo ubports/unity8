@@ -43,14 +43,6 @@ TutorialPage {
     // code used in several of the core apps and only bring this component
     // up if we are in those core apps.
 
-    function canShowForApp(appId) {
-        return appId === "address-book-app" ||
-               appId === "com.ubuntu.calculator_calculator" ||
-               appId === "com.ubuntu.clock_clock" ||
-               appId === "dialer-app" ||
-               appId === "messaging-app";
-    }
-
     readonly property real mainStageWidth: stage.width - sideStageWidth
     readonly property real sideStageWidth: root.usageScenario === "tablet" && stage.sideStageVisible ?
                                            stage.sideStageWidth : 0
@@ -81,7 +73,18 @@ TutorialPage {
     }
 
     label {
-        text: i18n.tr("Swipe from the bottom edge to manage the app")
+        text: !application ? "" :
+              application.appId === "address-book-app" ?
+                                    i18n.tr("Swipe up to add a contact") :
+              application.appId === "com.ubuntu.calculator_calculator" ?
+                                    i18n.tr("Swipe up for favorite calculations") :
+              application.appId === "com.ubuntu.clock_clock" ?
+                                    i18n.tr("Swipe up to manage alarms") :
+              application.appId === "dialer-app" ?
+                                    i18n.tr("Swipe up for recent calls") :
+              application.appId === "messaging-app" ?
+                                    i18n.tr("Swipe up to create a message") :
+              i18n.tr("Swipe up to manage the app") // shouldn't be used
         anchors.bottom: arrow.top
         anchors.bottomMargin: units.gu(3)
         anchors.left: root.left

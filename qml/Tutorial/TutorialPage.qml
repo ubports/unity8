@@ -110,6 +110,7 @@ Showable {
 
     Label {
         id: label
+        objectName: "tutorialLabel"
         fontSize: "large"
         font.weight: Font.Light
         color: "#333333"
