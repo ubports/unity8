@@ -31,6 +31,9 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
 
         Q_ENUMS(SessionModelRoles SessionType)
 
+        // Mock-only API for testing purposes
+        Q_PROPERTY(QString testScenario READ testScenario WRITE setTestScenario)
+
     public:
 
         enum SessionModelRoles {
@@ -53,6 +56,9 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
         QHash<int, QByteArray> roleNames() const override;
         int rowCount(const QModelIndex& parent) const override;
         QVariant data(const QModelIndex& index, int role) const override;
+
+        QString testScenario() const;
+        void setTestScenario(QString testScenario);
 
     protected:
         SessionsModelPrivate* const d_ptr;

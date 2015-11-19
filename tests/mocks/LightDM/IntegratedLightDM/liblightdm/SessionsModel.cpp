@@ -79,4 +79,20 @@ int SessionsModel::rowCount(const QModelIndex& parent) const
     }
 }
 
+QString SessionsModel::testScenario() const
+{
+    Q_D(const SessionsModel);
+    return d->testScenario;
+}
+
+void SessionsModel::setTestScenario(QString testScenario)
+{
+    Q_D(SessionsModel);
+
+    if (d->testScenario != testScenario) {
+        d->testScenario = testScenario;
+        d->resetEntries();
+    }
+}
+
 } // namespace QLightDM
