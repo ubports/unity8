@@ -23,9 +23,7 @@ QtObject {
     property string title: ""
     property bool buttonsVisible: false
     property bool dropShadow: false
-    property real panelHeight: units.gu(3)
-
-    property int panelHeight: 0
+    property int panelHeight: units.gu(3)
 
     signal close()
     signal minimize()
