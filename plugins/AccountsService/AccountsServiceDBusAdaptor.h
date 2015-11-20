@@ -35,19 +35,7 @@ public:
     explicit AccountsServiceDBusAdaptor(QObject *parent = 0);
     ~AccountsServiceDBusAdaptor() = default;
 
-    Q_INVOKABLE QVariant getUserProperty(const QString &user, const QString &interface, const QString &property);
     Q_INVOKABLE QDBusPendingReply<QVariant> getUserPropertyAsync(const QString &user, const QString &interface, const QString &property);
-
-    template <typename T>
-    inline T getUserProperty(const QString &user, const QString &interface, const QString &property) {
-        const QVariant variant = getUserProperty(user, interface, property);
-        if (variant.isValid() && variant.canConvert<QDBusArgument>()) {
-            return qdbus_cast<T>(variant.value<QDBusArgument>());
-        }
-        return T();
-    }
-
-    Q_INVOKABLE void setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value);
     Q_INVOKABLE QDBusPendingCall setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
 
 Q_SIGNALS:

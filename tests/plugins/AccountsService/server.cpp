@@ -19,11 +19,9 @@
 
 #include "AccountsAdaptor.h"
 #include "AccountsServer.h"
-#include "PropertiesAdaptor.h"
 #include "PropertiesServer.h"
 #include "SecurityPrivacyAdaptor.h"
 #include "LocationAdaptor.h"
-#include "AccountsUserAdaptor.h"
 #include "AccountsPrivateAdaptor.h"
 #include <QCoreApplication>
 
@@ -31,11 +29,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    auto props = new PropertiesServer(&a);
-    new PropertiesAdaptor(props);
-    new AccountsUserAdaptor(props);
-
-    auto accounts = new AccountsServer(props, &a);
+    auto accounts = new AccountsServer(&a);
     new AccountsAdaptor(accounts);
     new SecurityPrivacyAdaptor(accounts);
     new LocationAdaptor(accounts);

@@ -9,12 +9,17 @@ find_package(Qt5Quick REQUIRED)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/InputInfo/
 )
+
+add_definitions(-DUNITY_MOCKS)
 
 set(MockInputInfo_SOURCES
     plugin.cpp
-    mockqinputinfo.cpp
-    mockqdeclarativeinputdeviceinfo.cpp
+    qinputdeviceinfo_mock.cpp
+    mockcontroller.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/InputInfo/qinputinfo.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/InputInfo/qdeclarativeinputdevicemodel.cpp
 )
 
 add_library(MockInputInfo SHARED
