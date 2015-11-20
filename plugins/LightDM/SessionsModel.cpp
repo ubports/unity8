@@ -36,7 +36,14 @@ QList<QUrl> SessionsModel::iconSearchDirectories() const
 
 void SessionsModel::setIconSearchDirectories(QList<QUrl> searchDirectories)
 {
-    m_iconSearchDirectories = searchDirectories;
+    // QML gives us a url with file:// prepended which breaks QFile::exists()
+    // so convert the url to a local file
+    QList<QUrl> localList = {};
+    Q_FOREACH(const QUrl& searchDirectory, searchDirectories)
+    {
+        localList.append(searchDirectory.toLocalFile());
+    }
+    m_iconSearchDirectories = localList;
     Q_EMIT iconSearchDirectoriesChanged();
 }
 
