@@ -18,7 +18,7 @@
 #include "SessionsModel.h"
 #include <QtCore/QFile>
 #include <QtCore/QSortFilterProxyModel>
-#include <QDebug>
+
 QHash<int, QByteArray> SessionsModel::roleNames() const
 {
     return m_roleNames;
@@ -44,7 +44,6 @@ QUrl SessionsModel::iconUrl(QString sessionName) const
 {
     Q_FOREACH(const QUrl& searchDirectory, m_iconSearchDirectories)
     {
-        qDebug() << "LOOKING IN: " << searchDirectory.toString();
         // This is an established icon naming convention
         QString iconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
             "/" + sessionName.toLower()  + "_badge.png";
