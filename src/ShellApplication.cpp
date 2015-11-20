@@ -183,12 +183,13 @@ void ShellApplication::onScreenAboutToBeRemoved(QScreen *screen)
     // TODO: Support an arbitrary number of screens and different policies
     //       (eg cloned desktop, several desktops, etc)
     if (screen == m_shellView->screen()) {
-        Q_ASSERT(screens().count() > 1);
-        Q_ASSERT(screens().at(0) != screen);
+        const QList<QScreen *> allScreens = screens();
+        Q_ASSERT(allScreens.count() > 1);
+        Q_ASSERT(allScreens.at(0) != screen);
         Q_ASSERT(m_secondaryWindow);
         delete m_secondaryWindow;
         m_secondaryWindow = nullptr;
-        m_shellView->setScreen(screens().at(0));
+        m_shellView->setScreen(allScreens.first());
         m_qmlArgs.setDeviceName(m_deviceName);
         // Changing the QScreen where a QWindow is drawn makes it also lose focus (besides having
         // its backing QPlatformWindow recreated). So lets refocus it.
