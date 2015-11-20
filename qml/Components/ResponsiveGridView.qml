@@ -50,7 +50,6 @@ Item {
     property alias highlightIndex: gridView.highlightIndex
     property alias cacheBuffer: gridView.cacheBuffer
     readonly property alias currentItem: gridView.currentItem
-    property alias topMargin: gridView.topMargin
 
     function contentHeightForRows(rows, height) {
         return rows * height
