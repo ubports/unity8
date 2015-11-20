@@ -311,6 +311,7 @@ Item {
         when: windowShown
 
         property Item view: loader.status === Loader.Ready ? loader.item : null
+        property url testIconDirectory: "./test_session_badges"
 
         function init() {
             selectIndex(0); // break binding with text field
@@ -376,9 +377,16 @@ Item {
         }
 
         function test_sessionIconsAreValid() {
+            var originalDirectories = LightDM.Sessions.iconSearchDirectories
+            var sessionChooserButton = findChild(view, "sessionChooserButton")
             LightDM.Sessions.testScenario = "multipleSessions"
-            console.log("THE URL IS: " + LightDM.Sessions.iconUrl("Ubuntu"));
-            compare(false, true);
+            console.log("FIRST JOSH: " + sessionChooserButton.imageSource)
+            LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton")
+            compare(sessionChooserButton.visible, true)
+            console.log("JOSH: " + sessionChooserButton.imageSource)
+            compare(true, false)
         }
 
         function test_noSessionsDoesntBreakView() {

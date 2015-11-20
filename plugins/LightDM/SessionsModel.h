@@ -30,6 +30,11 @@ class SessionsModel : public UnitySortFilterProxyModelQML
 
     Q_ENUMS(SessionModelRoles)
 
+    Q_PROPERTY(QList<QUrl> iconSearchDirectories READ iconSearchDirectories
+            WRITE setIconSearchDirectories NOTIFY iconSearchDirectoriesChanged)
+Q_SIGNALS:
+    void iconSearchDirectoriesChanged();
+
 public:
     enum SessionModelRoles {
         /* This is tricky / ugly. Since we are ultimately chaining 3 enums together,

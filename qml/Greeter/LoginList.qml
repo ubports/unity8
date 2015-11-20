@@ -109,6 +109,8 @@ Item {
             id: sessionChooser
             objectName: "sessionChooserButton"
 
+            readonly property alias imageSource: badge.source
+
             visible: LightDMService.sessions.count > 1
 
             height: units.gu(2.5)
@@ -123,12 +125,22 @@ Item {
             }
 
             Image {
+                id: badge
                 anchors.fill: parent
                 source: LightDMService.sessions.iconUrl(root.currentSession)
             }
 
             onClicked: {
                 sessionChooserButtonClicked();
+            }
+
+            // Refresh the icon path if looking at different places at runtime
+            // this is meainly for testing
+            Connections {
+                target: LightDMService.sessions
+                onIconSearchDirectoriesChanged: {
+                    badge.source = LightDMService.sessions.iconUrl(root.currentSession)
+                }
             }
         }
     }

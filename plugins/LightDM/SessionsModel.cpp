@@ -18,7 +18,7 @@
 #include "SessionsModel.h"
 #include <QtCore/QFile>
 #include <QtCore/QSortFilterProxyModel>
-
+#include <QDebug>
 QHash<int, QByteArray> SessionsModel::roleNames() const
 {
     return m_roleNames;
@@ -29,7 +29,6 @@ int SessionsModel::rowCount(const QModelIndex& parent) const
     return m_model->rowCount(parent);
 }
 
-// Used for testing
 QList<QUrl> SessionsModel::iconSearchDirectories() const
 {
     return m_iconSearchDirectories;
@@ -38,12 +37,14 @@ QList<QUrl> SessionsModel::iconSearchDirectories() const
 void SessionsModel::setIconSearchDirectories(QList<QUrl> searchDirectories)
 {
     m_iconSearchDirectories = searchDirectories;
+    Q_EMIT iconSearchDirectoriesChanged();
 }
 
 QUrl SessionsModel::iconUrl(QString sessionName) const
 {
     Q_FOREACH(const QUrl& searchDirectory, m_iconSearchDirectories)
     {
+        qDebug() << "LOOKING IN: " << searchDirectory.toString();
         // This is an established icon naming convention
         QString iconUrl = searchDirectory.toString(QUrl::StripTrailingSlash) +
             "/" + sessionName.toLower()  + "_badge.png";
