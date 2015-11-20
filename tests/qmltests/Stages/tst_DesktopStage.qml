@@ -392,22 +392,22 @@ Item {
             var mapDelegate = findChild(desktopStage, "appDelegate_map");
             verify(mapDelegate);
 
-            var galleryApp = startApplication("gallery-app");
-            var galleryDelegate = findChild(desktopStage, "appDelegate_gallery-app");
-            verify(galleryDelegate);
+            var gmailApp = startApplication("gmail-webapp");
+            var gmailDelegate = findChild(desktopStage, "appDelegate_gmail-webapp");
+            verify(gmailDelegate);
 
-            var galleryMaximizeButton = findChild(galleryDelegate, "maximizeWindowButton");
-            verify(galleryMaximizeButton);
-            mouseClick(galleryMaximizeButton);
+            var gmailMaximizeButton = findChild(gmailDelegate, "maximizeWindowButton");
+            verify(gmailMaximizeButton);
+            mouseClick(gmailMaximizeButton);
 
             tryCompare(dialerDelegate, "visuallyMaximized", true);
-            tryCompare(galleryDelegate, "visuallyMaximized", true);
+            tryCompare(gmailDelegate, "visuallyMaximized", true);
 
             tryCompare(dashApp.session.surface, "visible", false);
             tryCompare(dialerApp.session.surface, "visible", false);
             tryCompare(mapApp.session.surface, "visible", false);
 
-            ApplicationManager.stopApplication("gallery-app");
+            ApplicationManager.stopApplication("gmail-webapp");
 
             compare(mapApp.session.surface.visible, true);
             tryCompare(dialerApp.session.surface, "visible", true);
