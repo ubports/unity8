@@ -29,7 +29,6 @@ int SessionsModel::rowCount(const QModelIndex& parent) const
     return m_model->rowCount(parent);
 }
 
-// Used for testing
 QList<QUrl> SessionsModel::iconSearchDirectories() const
 {
     return m_iconSearchDirectories;
@@ -38,6 +37,7 @@ QList<QUrl> SessionsModel::iconSearchDirectories() const
 void SessionsModel::setIconSearchDirectories(QList<QUrl> searchDirectories)
 {
     m_iconSearchDirectories = searchDirectories;
+    Q_EMIT iconSearchDirectoriesChanged();
 }
 
 QUrl SessionsModel::iconUrl(QString sessionName) const
