@@ -353,26 +353,26 @@ Item {
         function test_maximizeApplicationHidesSurfacesBehindIt() {
             var dashApp = startApplication("unity8-dash");
             var dialerApp = startApplication("dialer-app");
-            var cameraApp = startApplication("camera-app");
+            var gmailApp = startApplication("gmail-webapp");
 
             var dashDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
             verify(dashDelegate);
             var dialerDelegate = findChild(desktopStage, "appDelegate_dialer-app");
             verify(dialerDelegate);
-            var cameraDelegate = findChild(desktopStage, "appDelegate_camera-app");
-            verify(cameraDelegate);
+            var gmailDelegate = findChild(desktopStage, "appDelegate_gmail-webapp");
+            verify(gmailDelegate);
 
             // maximize
             dialerDelegate.maximize();
             tryCompare(dialerDelegate, "visuallyMaximized", true);
 
             tryCompare(dashApp.session.surface, "visible", false);
-            compare(cameraApp.session.surface.visible, true);
+            compare(gmailApp.session.surface.visible, true);
 
             // restore
             dialerDelegate.restoreFromMaximized();
-            compare(dashApp.session.surface.visible, false); // dash is occluded by the fullscreen camera ;)
-            compare(cameraApp.session.surface.visible, true);
+            compare(dashApp.session.surface.visible, true);
+            compare(gmailApp.session.surface.visible, true);
         }
 
         function test_applicationsBecomeVisibleWhenOccludingAppRemoved() {
