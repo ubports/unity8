@@ -375,6 +375,12 @@ Item {
             ]
         }
 
+        function test_sessionIconsAreValid() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            console.log("THE URL IS: " + LightDM.Sessions.iconUrl("Ubuntu"));
+            compare(false, true);
+        }
+
         function test_noSessionsDoesntBreakView() {
             LightDM.Sessions.testScenario = "noSessions"
             compare(LightDM.Sessions.count, 0)

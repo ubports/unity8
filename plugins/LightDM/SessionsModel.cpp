@@ -35,6 +35,11 @@ QList<QUrl> SessionsModel::iconSearchDirectories() const
     return m_iconSearchDirectories;
 }
 
+void SessionsModel::setIconSearchDirectories(QList<QUrl> searchDirectories)
+{
+    m_iconSearchDirectories = searchDirectories;
+}
+
 QUrl SessionsModel::iconUrl(QString sessionName) const
 {
     Q_FOREACH(const QUrl& searchDirectory, m_iconSearchDirectories)
