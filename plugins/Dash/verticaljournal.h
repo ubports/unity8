@@ -76,7 +76,7 @@ private:
             qreal x() const { return m_item->x(); }
             qreal y() const { return m_item->y(); }
             qreal height() const { return m_item->height(); }
-            bool operator<(const ViewItem &v) const { return m_modelIndex < v.m_modelIndex; }
+            bool operator<(const ViewItem v) const { return m_modelIndex < v.m_modelIndex; }
 
             QQuickItem *m_item;
             int m_modelIndex;

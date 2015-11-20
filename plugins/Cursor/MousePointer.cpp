@@ -27,8 +27,8 @@
 
 MousePointer::MousePointer(QQuickItem *parent)
     : MirMousePointerInterface(parent)
-    , m_cursorName("left_ptr")
-    , m_themeName("default")
+    , m_cursorName(QStringLiteral("left_ptr"))
+    , m_themeName(QStringLiteral("default"))
     , m_hotspotX(0)
     , m_hotspotY(0)
 {

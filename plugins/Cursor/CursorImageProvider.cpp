@@ -134,7 +134,7 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &cursorThemeAndName)
     QString themeName;
     QString cursorName;
     {
-        QStringList themeAndNameList = cursorThemeAndName.split("/");
+        QStringList themeAndNameList = cursorThemeAndName.split('/');
         if (themeAndNameList.size() != 2) {
             return nullptr;
         }
@@ -151,20 +151,20 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
 
     // Try some fallbacks
     if (cursorImage->qimage.isNull()) {
-        if (cursorName == "ibeam") {
+        if (cursorName == QLatin1String("ibeam")) {
             qDebug() << "CursorImageProvider: \"ibeam\" not found, falling back to \"xterm\"";
-            cursorImage = fetchCursorHelper(themeName, "xterm");
-        } else if (cursorName == "xterm") {
+            cursorImage = fetchCursorHelper(themeName, QStringLiteral("xterm"));
+        } else if (cursorName == QLatin1String("xterm")) {
             qDebug() << "CursorImageProvider: \"xterm\" not found, falling back to \"ibeam\"";
-            cursorImage = fetchCursorHelper(themeName, "ibeam");
+            cursorImage = fetchCursorHelper(themeName, QStringLiteral("ibeam"));
         }
     }
 
     // if it all fails, there must be at least a left_ptr
-    if (cursorImage->qimage.isNull() && cursorName != "left_ptr") {
+    if (cursorImage->qimage.isNull() && cursorName != QLatin1String("left_ptr")) {
         qDebug() << "CursorImageProvider:" << cursorName
             << "not found (nor its fallbacks, if any). Going for \"left_ptr\" as a last resort.";
-        cursorImage = fetchCursorHelper(themeName, "left_ptr");
+        cursorImage = fetchCursorHelper(themeName, QStringLiteral("left_ptr"));
     }
 
     if (cursorImage->qimage.isNull()) {
