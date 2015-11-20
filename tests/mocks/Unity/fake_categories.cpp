@@ -32,11 +32,6 @@ int Categories::rowCount(const QModelIndex& /*parent*/) const
     return m_category_count;
 }
 
-void Categories::addSpecialCategory(QString const& /*categoryId*/, QString const& /*name*/, QString const& /*icon*/, QString const& /*rawTemplate*/, QObject* /*countObject*/)
-{
-    qFatal("Using un-implemented Categories::addSpecialCategory");
-}
-
 bool Categories::overrideCategoryJson(QString const& /* categoryId */, QString const& /* json */)
 {
     qFatal("Using un-implemented Categories::overrideCategoryJson");
