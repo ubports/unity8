@@ -23,10 +23,12 @@
 // Qt
 #include <QDebug>
 #include <QDBusMessage>
+#include <QDBusMetaType>
 
 PropertiesServer::PropertiesServer(QObject *parent)
     : QObject(parent)
 {
+    qDBusRegisterMetaType<QList<QVariantMap>>();
     Reset();
 }
 
@@ -47,6 +49,12 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
     if (m_properties[interface].contains(property)) {
         QVariant& oldValue = m_properties[interface][property];
         if (oldValue != newValue) {
+            // complex types have an extra layer of wrapping via QDBusArgument
+            if (interface == QStringLiteral("com.canonical.unity.AccountsService") &&
+                    property == QStringLiteral("LauncherItems")) {
+                newValue = QVariant::fromValue(qdbus_cast<QList<QVariantMap>>(newValue.value<QDBusArgument>()));
+            }
+
             oldValue = newValue;
 
             // Special case for Background file.
@@ -71,6 +79,7 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 void PropertiesServer::Reset()
 {
     m_properties["com.canonical.unity.AccountsService"]["demo-edges"] = false;
+    m_properties["com.canonical.unity.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;

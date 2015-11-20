@@ -25,6 +25,8 @@ QtObject {
     property bool dropShadow: false
     property real panelHeight: units.gu(3)
 
+    property int panelHeight: 0
+
     signal close()
     signal minimize()
     signal maximize()
