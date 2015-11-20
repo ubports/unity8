@@ -14,19 +14,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Qt
-#include <QtQml/qqml.h>
+#include "mockcontroller.h"
 
-// self
-#include "plugin.h"
+#include "qinputdeviceinfo_mock_p.h"
 
-// local
-#include "qdeclarativeinputdevicemodel_p.h"
-
-void InputInfoPlugin::registerTypes(const char *uri)
+MockController::MockController(QObject *parent):
+    QObject(parent)
 {
-    int major = 0;
-    int minor = 1;
-    qmlRegisterType<QDeclarativeInputDeviceModel>(uri, major, minor, "InputDeviceModel");
-    qmlRegisterType<QInputDevice>(uri, major, minor, "InputInfo");
+
+}
+
+QInputDevice *MockController::addMockDevice(const QString &devicePath, QInputDevice::InputType type)
+{
+    return QInputDeviceManagerPrivate::instance()->addMockDevice(devicePath, type);
+}
+
+void MockController::removeDevice(const QString &devicePath)
+{
+    QInputDeviceManagerPrivate::instance()->removeDevice(devicePath);
 }
