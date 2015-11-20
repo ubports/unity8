@@ -46,8 +46,8 @@ Item {
         WindowStateStorage.geometry = {
             'unity8-dash': Qt.rect(0, units.gu(3), units.gu(50), units.gu(40)),
             'dialer-app': Qt.rect(units.gu(51), units.gu(3), units.gu(50), units.gu(40)),
-            'camera-app': Qt.rect(0, units.gu(44), units.gu(50), units.gu(40)),
-            'gallery-app': Qt.rect(units.gu(51), units.gu(44), units.gu(50), units.gu(40))
+            'gmail-webapp': Qt.rect(0, units.gu(44), units.gu(50), units.gu(40)),
+            'twitter-webapp': Qt.rect(units.gu(51), units.gu(44), units.gu(50), units.gu(40))
         }
     }
 
@@ -166,8 +166,8 @@ Item {
 
         function test_tappingOnWindowChangesFocusedApp_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app"], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app"], focusfrom: 1, focusTo: 0 }
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
@@ -213,8 +213,8 @@ Item {
 
         function test_tappingOnDecorationFocusesApplication_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app"], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app"], focusfrom: 1, focusTo: 0 }
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
@@ -383,7 +383,10 @@ Item {
             var dialerApp = startApplication("dialer-app");
             var dialerDelegate = findChild(desktopStage, "appDelegate_dialer-app");
             verify(dialerDelegate);
-            findChild(dialerDelegate, "decoratedWindow").maximize();
+
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            verify(dialerMaximizeButton);
+            mouseClick(dialerMaximizeButton);
 
             var mapApp = startApplication("map");
             var mapDelegate = findChild(desktopStage, "appDelegate_map");
@@ -392,7 +395,10 @@ Item {
             var galleryApp = startApplication("gallery-app");
             var galleryDelegate = findChild(desktopStage, "appDelegate_gallery-app");
             verify(galleryDelegate);
-            findChild(galleryDelegate, "decoratedWindow").maximize();
+
+            var galleryMaximizeButton = findChild(galleryDelegate, "maximizeWindowButton");
+            verify(galleryMaximizeButton);
+            mouseClick(galleryMaximizeButton);
 
             tryCompare(dialerDelegate, "visuallyMaximized", true);
             tryCompare(galleryDelegate, "visuallyMaximized", true);
@@ -413,7 +419,9 @@ Item {
             var dashDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
             verify(dashDelegate);
             // maximize
-            findChild(dashDelegate, "decoratedWindow").maximize();
+            var dashMaximizeButton = findChild(dashDelegate, "maximizeWindowButton");
+            verify(dashMaximizeButton);
+            mouseClick(dashMaximizeButton);
             tryCompare(dashDelegate, "visuallyMaximized", true);
 
             var dialerApp = startApplication("dialer-app");
