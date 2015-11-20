@@ -27,7 +27,6 @@ class MockSessionsModel : public SessionsModel
     Q_PROPERTY(QString testScenario READ testScenario WRITE setTestScenario)
 
 public:
-    QUrl iconUrl(QString sessionName) const override;
     QString testScenario() const;
     void setTestScenario(QString testScenario);
 };

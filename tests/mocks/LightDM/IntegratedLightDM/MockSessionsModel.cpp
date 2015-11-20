@@ -17,12 +17,6 @@
 
 #include "MockSessionsModel.h"
 #include <QLightDM/SessionsModel>
-#include <QDebug>
-QUrl MockSessionsModel::iconUrl(QString sessionName) const
-{
-    qDebug() << "JOSH INSIDE THE MOCK ICONURL";
-    return QUrl();
-}
 
 QString MockSessionsModel::testScenario() const
 {
