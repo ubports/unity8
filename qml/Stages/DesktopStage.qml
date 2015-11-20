@@ -233,7 +233,7 @@ AbstractStage {
                 id: appDelegate
                 objectName: "appDelegate_" + appId
                 z: ApplicationManager.count - index
-                y: units.gu(3)
+                y: PanelState.panelHeight
                 width: units.gu(60)
                 height: units.gu(50)
                 focus: appId === priv.focusedAppId
@@ -319,6 +319,10 @@ AbstractStage {
                     State {
                         name: "fullscreen"; when: decoratedWindow.fullscreen
                         extend: "maximized"
+                        PropertyChanges {
+                            target: appDelegate;
+                            y: -PanelState.panelHeight
+                        }
                     },
                     State {
                         name: "normal";
@@ -342,11 +346,13 @@ AbstractStage {
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: 0; y: units.gu(3); width: root.width/2; height: root.height - units.gu(3) }
+                        PropertyChanges { target: appDelegate; x: 0; y: PanelState.panelHeight;
+                            width: root.width/2; height: root.height - PanelState.panelHeight }
                     },
                     State {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.width/2; y: units.gu(3); width: root.width/2; height: root.height - units.gu(3) }
+                        PropertyChanges { target: appDelegate; x: root.width/2; y: PanelState.panelHeight;
+                            width: root.width/2; height: root.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized

@@ -48,6 +48,12 @@ Item {
         }
     }
 
+    Binding {
+        target: PanelState
+        property: "panelHeight"
+        value: indicators.minimizedPanelHeight
+    }
+
     Item {
         id: indicatorArea
         objectName: "indicatorArea"
