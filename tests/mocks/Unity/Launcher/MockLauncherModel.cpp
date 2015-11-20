@@ -75,6 +75,9 @@ MockLauncherModel::MockLauncherModel(QObject* parent): LauncherModelInterface(pa
     item = new MockLauncherItem("calendar-app", "/usr/share/applications/calendar-app.desktop","Calendar", "calendar", this);
     item->setPinned(true);
     m_list.append(item);
+    item = new MockLauncherItem("libreoffice", "/usr/share/applications/libreoffice.desktop","Libre Office", "libreoffice", this);
+    item->setPinned(true);
+    m_list.append(item);
 }
 
 MockLauncherModel::~MockLauncherModel()
