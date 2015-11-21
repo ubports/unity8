@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Utils 0.1
 import Unity.Application 0.1 // for Mir.cursorName
+import "../Components/PanelState"
 
 MouseArea {
     id: root
@@ -35,6 +36,8 @@ MouseArea {
     property int borderThickness: 0
     property int minWidth: 0
     property int minHeight: 0
+    property int screenWidth: 0
+    property int screenHeight: 0
 
     QtObject {
         id: priv
@@ -66,10 +69,10 @@ MouseArea {
     Component.onCompleted: {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId, Qt.rect(target.x, target.y, target.width, target.height))
         if (windowGeometry !== undefined) {
-            target.x = windowGeometry.x
-            target.y = windowGeometry.y
-            target.width = windowGeometry.width
-            target.height = windowGeometry.height
+            target.width = Math.min(windowGeometry.width, root.screenWidth)
+            target.height = Math.min(windowGeometry.height, root.screenHeight - PanelState.panelHeight)
+            target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - target.width), 0)
+            target.y = Math.max(Math.min(windowGeometry.y, root.screenHeight - target.height), PanelState.panelHeight)
         }
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
         if (windowState === WindowStateStorage.WindowStateMaximized) {

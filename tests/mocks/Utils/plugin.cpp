@@ -36,6 +36,7 @@
 #include <windowscreenshotprovider.h>
 #include <easingcurve.h>
 #include <timezoneFormatter.h>
+#include <applicationsfiltermodel.h>
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -66,6 +67,7 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<TimezoneFormatter>(uri, 0, 1, "TimezoneFormatter",
                                                 [](QQmlEngine*, QJSEngine*) -> QObject* { return new TimezoneFormatter; });
     qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
+    qmlRegisterType<ApplicationsFilterModel>(uri, 0, 1, "ApplicationsFilterModel");
 }
 
 void FakeUtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
