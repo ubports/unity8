@@ -391,7 +391,7 @@ Item {
         }
 
         function test_sessionIconsAreValid() {
-            /*LightDM.Sessions.testScenario = "multipleSessions"
+            LightDM.Sessions.testScenario = "multipleSessions"
             var originalDirectories = LightDM.Sessions.iconSearchDirectories
             LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
 
@@ -401,31 +401,23 @@ Item {
 
             var session = String(view.sessionToStart).toLowerCase()
             var icon = String(sessionChooserButton.icon)
-            compare(icon.indexOf(session) > -1, true)*/
+            compare(icon.indexOf(session) > -1, true)
+
             // Test the session list icons are valid
-            //mouseClick(sessionChooserButton)
-            //view.loginListShown = false
-            view.testThing = false
-           sleep(50000) 
-            console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n")
-            loader.active = false
-            loader.active = true
             view.loginListShown = false
-            var sessionList = findChild(view, "sessionsList");
-            compare(sessionList.expanded, true)
-            compare(sessionList.visible, true)
+            var sessionsList = findChild(view, "sessionsList");
+            var sessionsListSelector = findChild(view, "sessionsListSelector");
+            waitForRendering(sessionsList)
+            compare(sessionsListSelector.expanded, true)
+            compare(sessionsList.visible, true)
 
-
-            //compare(true, false)
-
-/*            for (var i = 0; i < LightDM.Sessions.count; i++) {
+            for (var i = 0; i < LightDM.Sessions.count; i++) {
                 var delegateName = "sessionDelegate" + String(i);
                 var currentDelegate = findChild(view, delegateName)
                 var session = String(currentDelegate.text).toLowerCase()
-                console.log("\n\n SESSION NAME: " + session)
                 var icon = String(currentDelegate.iconSource)
                 compare(icon.indexOf(session) > -1, true)
-            } */
+            }
         }
 
         function test_noSessionsDoesntBreakView() {

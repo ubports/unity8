@@ -21,6 +21,7 @@ import "." 0.1
 
 Item {
     id: root
+    objectName: "sessionsList"
 
     property string initiallySelectedSession
     property alias selectedIndex: sessionsList.selectedIndex
@@ -37,7 +38,7 @@ Item {
 
         ItemSelector {
             id: sessionsList
-            objectName: "sessionsList"
+            objectName: "sessionsListSelector"
 
             property color originalBackground
             anchors.centerIn: parent
@@ -51,12 +52,6 @@ Item {
                 iconSource: icon_url
                 text: display
                 selected: display.toLowerCase() === initiallySelectedSession.toLowerCase()
-                Component.onCompleted: {
-                    console.log("ADDED A SESSION DELEGATE: " + display)
-                    if (text === "Plasma") {
-                        console.log("PLASMA PLASMA PLASMA PLASMA!!!!!")
-                    }
-                }
             }
 
             Component.onCompleted: {

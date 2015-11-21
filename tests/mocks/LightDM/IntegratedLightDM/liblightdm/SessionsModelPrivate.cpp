@@ -49,7 +49,7 @@ void SessionsModelPrivate::resetEntries_multipleSessions()
             {"", "", "Ubuntu", ""},
             {"", "", "GNOME", ""},
             {"", "", "Plasma", ""},
-            {"", "", "Unknown?", ""}
+            {"", "", "Unknown", ""}
         };
 }
 
