@@ -110,7 +110,6 @@ Item {
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
-
                 Row {
                     Button {
                         text: "Show Last Chance"
@@ -262,6 +261,21 @@ Item {
                     }
                 }
                 Row {
+                    CheckBox {
+                        id: multipleSessions
+                        onClicked: {
+                            if (checked) {
+                                LightDM.Sessions.testScenario = "multipleSessions"
+                            } else {
+                                LightDM.Sessions.testScenario = "singleSession"
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Multiple sessions"
+                    }
+                }
+                Row {
                     Button {
                         text: "Reload View"
                         onClicked: {
@@ -377,16 +391,41 @@ Item {
         }
 
         function test_sessionIconsAreValid() {
+            /*LightDM.Sessions.testScenario = "multipleSessions"
             var originalDirectories = LightDM.Sessions.iconSearchDirectories
-            var sessionChooserButton = findChild(view, "sessionChooserButton")
-            LightDM.Sessions.testScenario = "multipleSessions"
-            console.log("FIRST JOSH: " + sessionChooserButton.imageSource)
             LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
 
+            // Test the login list icon is valid
             var sessionChooserButton = findChild(view, "sessionChooserButton")
             compare(sessionChooserButton.visible, true)
-            console.log("JOSH: " + sessionChooserButton.imageSource)
-            compare(true, false)
+
+            var session = String(view.sessionToStart).toLowerCase()
+            var icon = String(sessionChooserButton.icon)
+            compare(icon.indexOf(session) > -1, true)*/
+            // Test the session list icons are valid
+            //mouseClick(sessionChooserButton)
+            //view.loginListShown = false
+            view.testThing = false
+           sleep(50000) 
+            console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            loader.active = false
+            loader.active = true
+            view.loginListShown = false
+            var sessionList = findChild(view, "sessionsList");
+            compare(sessionList.expanded, true)
+            compare(sessionList.visible, true)
+
+
+            //compare(true, false)
+
+/*            for (var i = 0; i < LightDM.Sessions.count; i++) {
+                var delegateName = "sessionDelegate" + String(i);
+                var currentDelegate = findChild(view, delegateName)
+                var session = String(currentDelegate.text).toLowerCase()
+                console.log("\n\n SESSION NAME: " + session)
+                var icon = String(currentDelegate.iconSource)
+                compare(icon.indexOf(session) > -1, true)
+            } */
         }
 
         function test_noSessionsDoesntBreakView() {

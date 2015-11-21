@@ -109,7 +109,7 @@ Item {
             id: sessionChooser
             objectName: "sessionChooserButton"
 
-            readonly property alias imageSource: badge.source
+            readonly property alias icon: badge.source
 
             visible: LightDMService.sessions.count > 1
 

@@ -37,6 +37,8 @@ Item {
 
         ItemSelector {
             id: sessionsList
+            objectName: "sessionsList"
+
             property color originalBackground
             anchors.centerIn: parent
             width: parent.width - units.gu(1)
@@ -45,9 +47,16 @@ Item {
 
             model: LightDMService.sessions
             delegate: OptionSelectorDelegate {
+                objectName: "sessionDelegate" + index
                 iconSource: icon_url
                 text: display
                 selected: display.toLowerCase() === initiallySelectedSession.toLowerCase()
+                Component.onCompleted: {
+                    console.log("ADDED A SESSION DELEGATE: " + display)
+                    if (text === "Plasma") {
+                        console.log("PLASMA PLASMA PLASMA PLASMA!!!!!")
+                    }
+                }
             }
 
             Component.onCompleted: {
