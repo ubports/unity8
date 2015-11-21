@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-10-19 14:34+0100\n"
+"POT-Creation-Date: 2015-11-04 15:02+0000\n"
 "PO-Revision-Date: 2015-07-06 17:47+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2015-11-07 05:13+0000\n"
-"X-Generator: Launchpad (build 17838)\n"
+"X-Launchpad-Export-Date: 2015-11-21 05:34+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -35,86 +35,6 @@ msgstr ""
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Eliberează scurtătura"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:157
-msgid "Yesterday %l:%M %p"
-msgstr "ieri %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened today.
-#. en_US example: "%l:%M %p" --> "1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:164
-msgid "%l:%M %p"
-msgstr "%l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:172
-msgid "Tomorrow %l:%M %p"
-msgstr "Mâine %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:181
-msgid "%a %l:%M %p"
-msgstr "%a %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:190
-msgid "%a %d %b %l:%M %p"
-msgstr "%a %d %b %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:201
-msgid "Yesterday %H:%M"
-msgstr "Ieri %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened today.
-#. en_US example: "%H:%M" --> "13:00"
-#: plugins/Utils/relativetimeformatter.cpp:208
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:216
-msgid "Tomorrow %H:%M"
-msgstr "Mâine %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:225
-msgid "%a %H:%M"
-msgstr "%a %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:234
-msgid "%a %d %b %H:%M"
-msgstr "%a %d %b %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -139,72 +59,72 @@ msgstr[0] "Așteptați %1 minut și apoi încercați din nou..."
 msgstr[1] "Așteptați %1 minute și apoi încercați din nou..."
 msgstr[2] "Așteptați %1 de minute și apoi încercați din nou..."
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:116
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Închide sesiunea"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:117
 msgid "Are you sure you want to log out?"
 msgstr "Sunteți sigur că doriți să închideți sesiunea?"
 
-#: qml/Components/Dialogs.qml:118
+#: qml/Components/Dialogs.qml:119
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Blocare"
 
-#: qml/Components/Dialogs.qml:125
+#: qml/Components/Dialogs.qml:126
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Ieșire din cont"
 
-#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
-#: qml/Components/Dialogs.qml:224
+#: qml/Components/Dialogs.qml:133 qml/Components/Dialogs.qml:166
+#: qml/Components/Dialogs.qml:225
 msgid "Cancel"
 msgstr "Anulează"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:145
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Închidere"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:146
 msgid "Are you sure you want to shut down?"
 msgstr "Sunteți sigur că doriți să închideți?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:148
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Repornire"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:157
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Închidere"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:179
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Repornire"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:180
 msgid "Are you sure you want to reboot?"
 msgstr "Sunteți sigur că doriți să reporniți?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:182
 msgid "No"
 msgstr "Nu"
 
-#: qml/Components/Dialogs.qml:188
+#: qml/Components/Dialogs.qml:189
 msgid "Yes"
 msgstr "Da"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:204
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Alimentare"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:205
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -212,12 +132,12 @@ msgstr ""
 "Sunteți sigur că doriți să\n"
 "opriți alimentarea?"
 
-#: qml/Components/Dialogs.qml:206
+#: qml/Components/Dialogs.qml:207
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Oprire"
 
-#: qml/Components/Dialogs.qml:215
+#: qml/Components/Dialogs.qml:216
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Repornire"
@@ -234,6 +154,29 @@ msgstr "Apel de urgență"
 msgid "OK"
 msgstr "În regulă"
 
+#: qml/Dash/DashPageHeader.qml:265
+msgctxt "Button: Open the Ubuntu Store"
+msgid "Store"
+msgstr "Magazin"
+
+#: qml/Dash/DashPageHeader.qml:272
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "Căutare"
+
+#: qml/Dash/DashPageHeader.qml:282
+msgctxt "Button: Show the current dash scope settings"
+msgid "Settings"
+msgstr "Configurări"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Remove from Favorites"
+msgstr "Șterge din favorite"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Add to Favorites"
+msgstr "Adaugă la favorite"
+
 #: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Afișează mai puține"
@@ -247,29 +190,6 @@ msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Căutare"
 
-#: qml/Dash/PageHeader.qml:269
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Magazin"
-
-#: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Căutare"
-
-#: qml/Dash/PageHeader.qml:286
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Configurări"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Remove from Favorites"
-msgstr "Șterge din favorite"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Add to Favorites"
-msgstr "Adaugă la favorite"
-
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Mai mult ..."
@@ -280,8 +200,6 @@ msgstr "Mai puțin..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:174
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Trimite"
 
@@ -320,6 +238,10 @@ msgstr "Acasă"
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "Alte programe instalate"
+
+#: qml/DisabledScreenNotice.qml:42
+msgid "Your device is now connected to an external display."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -394,7 +316,7 @@ msgstr ""
 msgid "Sorry, incorrect passcode"
 msgstr "Parolă incorectă"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:128
+#: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
 msgstr "Arată parola"
 
@@ -406,11 +328,11 @@ msgstr "Atingeți pentru a vă întoarce la convorbire..."
 msgid "Conference"
 msgstr "Conferință"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:727
+#: qml/Panel/Indicators/MenuItemFactory.qml:731
 msgid "Nothing is playing"
 msgstr "Nu se redă nimic"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -418,7 +340,7 @@ msgstr[0] "%1 oră"
 msgstr[1] "%1 ore"
 msgstr[2] "%1 de ore"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:860
+#: qml/Panel/Indicators/MenuItemFactory.qml:864
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -426,7 +348,7 @@ msgstr[0] "%1 minut"
 msgstr[1] "%1 minute"
 msgstr[2] "%1 de minute"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:865
+#: qml/Panel/Indicators/MenuItemFactory.qml:869
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -434,46 +356,53 @@ msgstr[0] "%1 secundă"
 msgstr[1] "%1 secunde"
 msgstr[2] "%1 de secunde"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/MenuItemFactory.qml:872
 msgid "0 seconds"
 msgstr "0 secunde"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:870
+#: qml/Panel/Indicators/MenuItemFactory.qml:874
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 rămase"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "In queue…"
 msgstr "În așteptare..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:880
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Downloading"
 msgstr "Se descarcă"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Paused, tap to resume"
 msgstr "În pauză, atingeți pentru a relua"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Canceled"
 msgstr "Anulată"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 msgid "Finished"
 msgstr "Finalizată"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:888
+#: qml/Panel/Indicators/MenuItemFactory.qml:892
 msgid "Failed, tap to retry"
 msgstr "Eșec, atingeți pentru a încerca din nou"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+msgctxt "Button: Send a reply message"
+msgid "Send"
+msgstr ""
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Răspuns"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr ""
 
@@ -557,7 +486,7 @@ msgstr "Să începem."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
 msgstr "Continuare"
@@ -661,11 +590,11 @@ msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
 "Puteți să modificați opțiunea utilizând <b>Configurări de sistem</b>."
 
-#: qml/Wizard/Pages/60-reporting.qml:24
+#: qml/Wizard/Pages/60-reporting.qml:26
 msgid "Improving your experience"
 msgstr "Îmbunătățirea experienței în utilizare"
 
-#: qml/Wizard/Pages/60-reporting.qml:36
+#: qml/Wizard/Pages/60-reporting.qml:46
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
@@ -674,7 +603,7 @@ msgstr ""
 "de erori către Canonical și partenerii săi, producătorii sistemului de "
 "operare."
 
-#: qml/Wizard/Pages/60-reporting.qml:43
+#: qml/Wizard/Pages/60-reporting.qml:53
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
@@ -831,3 +760,33 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Introduceți din nou"
+
+#~ msgid "%a %d %b %H:%M"
+#~ msgstr "%a %d %b %H:%M"
+
+#~ msgid "%a %H:%M"
+#~ msgstr "%a %H:%M"
+
+#~ msgid "%a %l:%M %p"
+#~ msgstr "%a %l:%M %p"
+
+#~ msgid "Tomorrow %l:%M %p"
+#~ msgstr "Mâine %l:%M %p"
+
+#~ msgid "%l:%M %p"
+#~ msgstr "%l:%M %p"
+
+#~ msgid "Yesterday %l:%M %p"
+#~ msgstr "ieri %l:%M %p"
+
+#~ msgid "Tomorrow %H:%M"
+#~ msgstr "Mâine %H:%M"
+
+#~ msgid "%H:%M"
+#~ msgstr "%H:%M"
+
+#~ msgid "%a %d %b %l:%M %p"
+#~ msgstr "%a %d %b %l:%M %p"
+
+#~ msgid "Yesterday %H:%M"
+#~ msgstr "Ieri %H:%M"
