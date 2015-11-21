@@ -35,7 +35,7 @@ class UNITYINDICATORS_EXPORT IndicatorsManager : public QObject
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
 public:
-    explicit IndicatorsManager(QObject* parent = 0);
+    explicit IndicatorsManager(QObject* parent = nullptr);
     ~IndicatorsManager();
 
     Q_INVOKABLE void load();

@@ -116,8 +116,6 @@ void IndicatorsManager::loadFile(const QFileInfo& file_info)
     QSettings indicator_settings(file_info.absoluteFilePath(), QSettings::IniFormat, this);
     const QString name = indicator_settings.value(QStringLiteral("Indicator Service/Name")).toString();
 
-    qDebug() << "!!! Loading indicator" << name << ", profile" << m_profile;
-
     if (m_platform.isPC() && name == "indicator-keyboard") {
         return; // convergence: skip this indicator until it works in Mir
     }
@@ -288,8 +286,9 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     new_indicator->init(data->m_fileInfo.fileName(), settings);
 
     // convergence:
-    // 1) enable session indicator conditionally, typically when running on desktop
-    // 2) switch the battery/power indicator to desktop mode, can't control brightness for now and phone-on-desktop broken (FIXME)
+    // 1) enable session indicator conditionally, typically when running in a multisession/multiuser environment
+    // 2) on a PC, switch the battery/power indicator to desktop mode,
+    //    can't control brightness for now and phone-on-desktop broken (FIXME)
     //
     // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
     if ((new_indicator->identifier() == QStringLiteral("indicator-session") && m_platform.isMultiSession())
