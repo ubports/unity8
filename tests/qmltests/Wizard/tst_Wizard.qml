@@ -178,11 +178,6 @@ Item {
                 tap(findChild(page, "forwardButton"));
             }
 
-            page = waitForPage("passwdPage");
-            if (name === page.objectName) return page;
-            tap(findChild(page, "passwdDelegate0"));
-            tap(findChild(page, "forwardButton"));
-
             page = waitForPage("wifiPage");
             if (name === page.objectName) return page;
             tap(findChild(page, "forwardButton"));
@@ -192,6 +187,22 @@ Item {
                 if (name === page.objectName) return page;
                 tap(findChild(page, "forwardButton"));
             }
+
+            page = waitForPage("tzPage");
+            if (name === page.objectName) return page;
+            tap(findChild(page, "tzFilter"));
+            typeString("London");
+            var tzList = findChild(page, "tzList");
+            verify(tzList);
+            tzList.itemAt(0, 0).clicked();
+            tap(findChild(page, "forwardButton"));
+
+            // TODO account page
+
+            page = waitForPage("passwdPage");
+            if (name === page.objectName) return page;
+            tap(findChild(page, "passwdDelegate3")); // swipe
+            tap(findChild(page, "forwardButton"));
 
             if (!skipReporting) {
                 page = waitForPage("reportingPage");
@@ -237,27 +248,27 @@ Item {
 
         function test_simUnavailableSkip() {
             MockQOfono.available = false;
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simNoModemsSkip() {
             MockQOfono.setModems([], [], []);
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simFirstSkip() {
             MockQOfono.setModems(["a", "b"], [true, false], []);
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simSecondSkip() {
             MockQOfono.setModems(["a", "b"], [false, true], []);
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simBothSkip() {
             MockQOfono.setModems(["a", "b"], [true, true], []);
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simWaitOnManagerAsync() {
@@ -302,7 +313,7 @@ Item {
 
             // Now just wait for timeout
             compare(timeout.running, true);
-            waitForPage("passwdPage");
+            waitForPage("wifiPage");
             compare(timeout.running, false);
         }
 
@@ -339,7 +350,7 @@ Item {
 
             // now finish up
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("locationPage");
+            page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             tap(findChild(page, "forwardButton"));
@@ -390,7 +401,7 @@ Item {
 
             // now finish up
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("locationPage");
+            page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
             tap(findChild(page, "forwardButton"));
@@ -439,9 +450,9 @@ Item {
 
         function test_locationGpsOnly() {
             var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheck");
-            var hereCheck = findChild(page, "hereCheck");
-            var nopeCheck = findChild(page, "nopeCheck");
+            var gpsCheck = findChild(page, "gpsCheckLabel");
+            var hereCheck = findChild(page, "hereCheckLabel");
+            var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
             activateLocationSpy.target = locationActionGroup.location;
@@ -460,9 +471,9 @@ Item {
 
         function test_locationNope() {
             var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheck");
-            var hereCheck = findChild(page, "hereCheck");
-            var nopeCheck = findChild(page, "nopeCheck");
+            var gpsCheck = findChild(page, "gpsCheckLabel");
+            var hereCheck = findChild(page, "hereCheckLabel");
+            var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
             activateLocationSpy.target = locationActionGroup.location;
@@ -481,9 +492,9 @@ Item {
 
         function test_locationHere() {
             var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheck");
-            var hereCheck = findChild(page, "hereCheck");
-            var nopeCheck = findChild(page, "nopeCheck");
+            var gpsCheck = findChild(page, "gpsCheckLabel");
+            var hereCheck = findChild(page, "hereCheckLabel");
+            var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
             activateLocationSpy.target = locationActionGroup.location;

@@ -21,7 +21,7 @@ import AccountsService 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    objectName: "ubuntuAccountSignUpPage"
+    objectName: "accountPage"
 
     title: i18n.tr("Create Device Account")
     customTitle: true

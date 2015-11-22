@@ -124,6 +124,7 @@ LocalComponents.Page {
 
         LocalComponents.WizardTextField {
             id: searchField
+            objectName: "tzFilter"
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: leftMargin
@@ -151,7 +152,7 @@ LocalComponents.Page {
 
         ListView {
             id: tzList;
-
+            objectName: "tzList"
             boundsBehavior: Flickable.StopAtBounds
             clip: true
             currentIndex: -1

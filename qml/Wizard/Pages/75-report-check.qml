@@ -22,7 +22,7 @@ import ".." as LocalComponents
 
 LocalComponents.Page {
     id: reportCheckPage
-    objectName: "reportCheckPage"
+    objectName: "reportingPage"
 
     title: webview.visible ? i18n.tr("Privacy Policy") : i18n.tr("Help Us Improve")
     forwardButtonSourceComponent: !webview.visible ? forwardButton : null
