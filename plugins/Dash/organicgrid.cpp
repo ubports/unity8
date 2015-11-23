@@ -246,7 +246,9 @@ void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Change> &remo
                 releaseItem(m_visibleItems.takeLast());
             } else {
                 if (indexToRemove < lastIndex) {
-                    qFatal("OrganicGrid only supports removal from the end of the model");
+                    qDebug() << "OrganicGrid only supports removal from the end of the model, resetting instead";
+                    cleanupExistingItems();
+                    break;
                 }
             }
         }

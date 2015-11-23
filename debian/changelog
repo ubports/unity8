@@ -1,3 +1,35 @@
+unity8 (8.11+16.04.20151112.1-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make cardWidth and cardHeight real
+  * Reset instead of qFatal when removing things from the middle (LP:
+    #1238979)
+  * Warn we're using only the cache when not connected to the interwebs
+
+  [ Andrea Cimitan ]
+  * Add sharing widget to zoomable image and video playback
+
+  [ Daniel d'Andrada ]
+  * Cursor: properly initialize hotspot position (LP: #1510407)
+  * Update GSettings mock in tst_OrientedShell
+
+  [ Lukáš Tinkl ]
+  * Restore windows when activating from the spread, maintain a focus
+    stack
+
+  [ Michael Terry ]
+  * Make a few DBus calls asynchronous, for a smoother UX.
+
+  [ Michael Zanetti ]
+  * Add a warning dialog when disconnecting the external monitor.
+  * added icon for the dash (LP: #1488146)
+  * prevent windows to be moved under the panel (LP: #1438465)
+  * update inputinfo api to the latest upstream snapshot
+  * use UbuntuNumberAnimations instead of linear ones for window state
+    transitions (LP: #1497097)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Thu, 12 Nov 2015 20:41:02 +0000
+
 unity8 (8.11+16.04.20151104-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
