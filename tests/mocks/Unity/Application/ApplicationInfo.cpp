@@ -114,8 +114,7 @@ void ApplicationInfo::setSession(Session* session)
 
 void ApplicationInfo::setIconId(const QString &iconId)
 {
-    setIcon(QString("file://%1/graphics/applicationIcons/%2@18.png")
-            .arg(qmlDirectory())
+    setIcon(QString("../../tests/graphics/applicationIcons/%2@18.png")
             .arg(iconId));
 }
 
