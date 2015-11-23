@@ -57,7 +57,6 @@ Item {
         }
 
         onReleased: {
-            var tp = touchPoints[0]
             if (isClick) {
                 if (pressed) {
                     uinput.releaseMouse(UInput.ButtonLeft)
