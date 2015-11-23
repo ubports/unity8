@@ -26,7 +26,6 @@ import Powerd 0.1
 import Unity.InputInfo 0.1
 
 import "../../qml"
-import "../../qml/Components/UnityInputInfo"
 
 Rectangle {
     id: root
@@ -52,7 +51,17 @@ Rectangle {
 
     QtObject{
         id: mockOskSettings
-        property bool stayHidden: false;
+        property bool stayHidden: false
+        property bool disableHeight: false
+    }
+
+    InputDeviceModel {
+        id: miceModel
+        deviceFilter: InputInfo.Mouse
+    }
+    InputDeviceModel {
+        id: keyboardsModel
+        deviceFilter: InputInfo.Keyboard
     }
 
     property int physicalOrientation0
@@ -328,14 +337,14 @@ Rectangle {
                     text: "Add mouse"
                     activeFocusOnPress: false
                     onClicked: {
-                        UnityInputInfo.inputInfo.addMockMouse()
+                        MockInputDeviceBackend.addMockDevice("/mouse" + miceModel.count, InputInfo.Mouse)
                     }
                 }
                 Button {
                     text: "Remove mouse"
                     activeFocusOnPress: false
                     onClicked: {
-                        UnityInputInfo.inputInfo.removeMockMouse()
+                        MockInputDeviceBackend.removeDevice("/mouse" + (miceModel.count - 1))
                     }
                 }
             }
@@ -344,14 +353,14 @@ Rectangle {
                     text: "Add kbd"
                     activeFocusOnPress: false
                     onClicked: {
-                        UnityInputInfo.inputInfo.addMockKeyboard()
+                        MockInputDeviceBackend.addMockDevice("/kbd" + keyboardsModel.count, InputInfo.Keyboard)
                     }
                 }
                 Button {
                     activeFocusOnPress: false
                     text: "Remove kbd"
                     onClicked: {
-                        UnityInputInfo.inputInfo.removeMockKeyboard()
+                        MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
                     }
                 }
             }
@@ -976,19 +985,19 @@ Rectangle {
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", false);
 
-            UnityInputInfo.inputInfo.addMockKeyboard();
+            MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", true);
 
-            UnityInputInfo.inputInfo.addMockMouse();
+            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
             tryCompare(shell, "usageScenario", "desktop");
             tryCompare(mockOskSettings, "stayHidden", true);
 
-            UnityInputInfo.inputInfo.removeMockKeyboard();
+            MockInputDeviceBackend.removeDevice("/kbd0");
             tryCompare(shell, "usageScenario", "desktop");
             tryCompare(mockOskSettings, "stayHidden", false);
 
-            UnityInputInfo.inputInfo.removeMockMouse();
+            MockInputDeviceBackend.removeDevice("/mouse0");
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", false);
         }

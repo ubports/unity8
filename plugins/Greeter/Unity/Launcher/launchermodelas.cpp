@@ -194,15 +194,30 @@ int LauncherModel::findApplication(const QString &appId)
     return -1;
 }
 
-typedef QList<QVariantMap> VariantMapList;
 void LauncherModel::refresh()
 {
-    QList<QVariantMap> items;
+    if (!m_accounts || m_user.isEmpty()) {
+        refreshWithItems(QList<QVariantMap>());
+    } else {
+        QDBusPendingCall pendingCall = m_accounts->getUserPropertyAsync(m_user, QStringLiteral("com.canonical.unity.AccountsService"), QStringLiteral("LauncherItems"));
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
+        connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
 
-    if (m_accounts && !m_user.isEmpty()) {
-        items = m_accounts->getUserProperty<VariantMapList>(m_user, QStringLiteral("com.canonical.unity.AccountsService"), QStringLiteral("LauncherItems"));
+            QDBusPendingReply<QVariant> reply = *watcher;
+            watcher->deleteLater();
+            if (reply.isError()) {
+                qWarning() << "Failed to refresh LauncherItems" << reply.error().message();
+                return;
+            }
+
+            refreshWithItems(qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>()));
+        });
     }
+}
 
+void LauncherModel::refreshWithItems(const QList<QVariantMap> &items)
+{
     // First walk through all the existing items and see if we need to remove something
     QList<LauncherItem*> toBeRemoved;
 
