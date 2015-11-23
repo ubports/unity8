@@ -76,6 +76,7 @@ Rectangle {
             width: parent.width
             height: units.gu(7)
             clip: true
+            property bool highlighted: root.highlightIndex == -1;
 
             UbuntuShape {
                 anchors {

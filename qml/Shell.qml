@@ -550,7 +550,7 @@ Item {
                     && !greeter.hasLockedApp
             inverted: shell.usageScenario !== "desktop"
             shadeBackground: !tutorial.running
-            metaTabPressed: physicalKeysMapper.metaTabPressed
+            superTabPressed: physicalKeysMapper.superTabPressed
 
             onShowDashHome: showHome()
             onDash: showDash()

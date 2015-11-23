@@ -35,7 +35,7 @@ FocusScope {
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
-    property bool metaTabPressed: false
+    property bool superTabPressed: false
 
     readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
@@ -60,14 +60,14 @@ FocusScope {
         }
     }
 
-    onMetaTabPressedChanged: {
-        if (metaTabPressed) {
-            print("meta tab pressed")
+    onSuperTabPressedChanged: {
+        if (superTabPressed) {
+            print("super tab pressed")
             switchToNextState("visible")
             panel.highlightIndex = -1;
             root.focus = true;
         } else {
-            print("meta tab released")
+            print("super tab released")
             if (panel.highlightIndex == -1) {
                 showDashHome();
             } else if (panel.highlightIndex >= 0){
@@ -103,6 +103,18 @@ FocusScope {
         if (available && root.state == "") {
             teaseTimer.mode = "hinting"
             teaseTimer.start();
+        }
+    }
+
+    GlobalShortcut {
+//        shortcut: Qt.AltModifier|Qt.Key_F1
+        shortcut: Qt.Key_F1
+        onTriggered: {
+            panel.highlightIndex = -1; // The BFB
+            root.focus = true;
+            switchToNextState("visible")
+            root.focus = true;
+            print("root has focus", root.focus, root.activeFocus)
         }
     }
 
@@ -151,18 +163,6 @@ FocusScope {
             root.state = ""
             event.accepted = true;
             root.focus = false;
-        }
-    }
-
-    GlobalShortcut {
-//        shortcut: Qt.AltModifier|Qt.Key_F1
-        shortcut: Qt.Key_F1
-        onTriggered: {
-            panel.highlightIndex = -1; // The BFB
-            root.focus = true;
-            switchToNextState("visible")
-            root.focus = true;
-            print("root has focus", root.focus, root.activeFocus)
         }
     }
 

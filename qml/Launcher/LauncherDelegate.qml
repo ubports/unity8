@@ -125,12 +125,11 @@ Item {
         height: parent.itemHeight + units.gu(1)
         anchors.centerIn: parent
 
-        UbuntuShape {
+        Image {
+            objectName: "focusRing"
             anchors.fill: parent
             anchors.margins: units.gu(.5)
-            backgroundColor: "#1986ee"
-            aspect: UbuntuShape.Flat
-            radius: "medium"
+            source: "graphics/launcher-app-focus-ring.svg"
             visible: root.highlighted
         }
 

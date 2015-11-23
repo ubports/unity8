@@ -26,6 +26,7 @@ import Unity.Application 0.1
 import Unity.Connectivity 0.1
 import Unity.Indicators 0.1
 import Unity.Notifications 1.0
+import Unity.Launcher 0.1
 import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
@@ -209,11 +210,11 @@ Rectangle {
                     anchors { left: parent.left; right: parent.right }
                     activeFocusOnPress: false
                     text: "Ctrl key as"
-                    model: ["Ctrl", "Alt", "Meta"]
+                    model: ["Ctrl", "Alt", "Super"]
                     onSelectedIndexChanged: {
                         var keyMapper = testCase.findChild(shellContainer, "physicalKeysMapper");
                         keyMapper.controlInsteadOfAlt = selectedIndex == 1;
-                        keyMapper.controlInsteadOfMeta = selectedIndex == 2;
+                        keyMapper.controlInsteadOfSuper = selectedIndex == 2;
                     }
                 }
 
@@ -1860,6 +1861,43 @@ Rectangle {
             // Make sure app1 is unfocused but still running
             compare(app1.session.surface.activeFocus, false);
             compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_superTabToCycleLauncher() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            var firstAppInLauncher = LauncherModel.get(0).appId;
+
+            compare(launcher.state, "");
+            compare(launcherPanel.highlightIndex, -2);
+            compare(ApplicationManager.focusedApplicationId, "unity8-dash");
+
+            // Use Super + Tab Tab to cycle to the first entry in the launcher
+            keyPress(Qt.Key_Super_L);
+            keyClick(Qt.Key_Tab);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(launcherPanel, "highlightIndex", -1);
+            keyClick(Qt.Key_Tab);
+            tryCompare(launcherPanel, "highlightIndex", 0);
+            keyRelease(Qt.Key_Super_L);
+            tryCompare(launcher, "state", "");
+            tryCompare(launcherPanel, "highlightIndex", -2);
+            tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
+
+            // No go back to the dash
+            keyPress(Qt.Key_Super_L);
+            keyClick(Qt.Key_Tab);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(launcherPanel, "highlightIndex", -1);
+            keyRelease(Qt.Key_Super_L);
+            tryCompare(launcher, "state", "");
+            tryCompare(launcherPanel, "highlightIndex", -2);
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+
+
         }
     }
 }

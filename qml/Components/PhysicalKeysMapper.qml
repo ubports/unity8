@@ -41,14 +41,14 @@ Item {
     signal screenshotTriggered;
 
     readonly property bool altTabPressed: d.altTabPressed
-    readonly property bool metaTabPressed: d.metaTabPressed
+    readonly property bool superTabPressed: d.superTabPressed
 
     property int powerKeyLongPressTime: 2000
 
     // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
     // running desktop, set this to true to use Ctrl+Tab instead.
     property bool controlInsteadOfAlt: false
-    property bool controlInsteadOfMeta: false
+    property bool controlInsteadOfSuper: false
 
     QtObject {
         id: d
@@ -60,14 +60,14 @@ Item {
         property bool altPressed: false
         property bool altTabPressed: false
 
-        property bool metaPressed: false
-        property bool metaTabPressed: false
+        property bool superPressed: false
+        property bool superTabPressed: false
 
         property var powerButtonPressStart: 0
     }
 
     function onKeyPressed(event, currentEventTimestamp) {
-        print("key pressed", event.key, Qt.Key_Tab)
+        print("key pressed", event.key, "Tab is", Qt.Key_Tab, "Meta is", Qt.Key_Meta)
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             if (event.isAutoRepeat) {
                 if (d.powerButtonPressStart > 0
@@ -104,18 +104,18 @@ Item {
             }
         } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
             d.altPressed = true;
-        } else if (event.key == Qt.Key_Meta || (root.controlInsteadOfMeta && event.key == Qt.Key_Control)) {
+        } else if (event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)) {
             print("meta pressed")
-            d.metaPressed = true;
+            d.superPressed = true;
         } else if (event.key == Qt.Key_Tab) {
             if (d.altPressed && !d.altTabPressed) {
                 d.altTabPressed = true;
                 event.accepted = true;
             }
-            print("huh", d.metaPressed)
-            if (d.metaPressed && !d.metaTabPressed) {
-                print("metaTab pressed")
-                d.metaTabPressed = true;
+            print("huh", d.superPressed, d.superTabPressed)
+            if (d.superPressed && !d.superTabPressed) {
+                print("superTab pressed")
+                d.superTabPressed = true;
                 event.accepted = true;
             }
         }
@@ -139,10 +139,10 @@ Item {
                 d.altTabPressed = false;
                 event.accepted = true;
             }
-        } else if (event.key == Qt.Key_Meta || (root.controlInsteadOfMeta && event.key == Qt.Key_Control)) {
-            d.metaPressed = false;
-            if (d.metaTabPressed) {
-                d.metaTabPressed = false;
+        } else if (event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)) {
+            d.superPressed = false;
+            if (d.superTabPressed) {
+                d.superTabPressed = false;
                 event.accepted = true;
             }
         }

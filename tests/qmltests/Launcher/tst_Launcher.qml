@@ -883,5 +883,40 @@ Item {
             LauncherModel.setCountVisible(LauncherModel.get(1).appId, 0)
             LauncherModel.setCount(LauncherModel.get(1).appId, oldCount)
         }
+
+        function test_focusRingFollowsHighlightIndex() {
+            var bfb = findChild(launcher, "buttonShowDashHome");
+            var focusRing0 = findChild(findChild(launcher, "launcherDelegate0"), "focusRing");
+            var focusRing1 = findChild(findChild(launcher, "launcherDelegate1"), "focusRing");
+            var focusRing2 = findChild(findChild(launcher, "launcherDelegate2"), "focusRing");
+
+            compare(bfb.highlighted, false);
+            compare(focusRing0.visible, false);
+            compare(focusRing1.visible, false);
+            compare(focusRing2.visible, false);
+
+            launcher.superTabPressed = true;
+            tryCompare(bfb, "highlighted", true);
+            keyClick(Qt.Key_Tab);
+            tryCompare(bfb, "highlighted", false);
+            tryCompare(focusRing0, "visible", true);
+            keyClick(Qt.Key_Tab);
+            tryCompare(focusRing0, "visible", false);
+            tryCompare(focusRing1, "visible", true);
+            keyClick(Qt.Key_Tab);
+            tryCompare(focusRing1, "visible", false);
+            tryCompare(focusRing2, "visible", true);
+
+            keyClick(Qt.Key_Backtab);
+            tryCompare(focusRing2, "visible", false);
+            tryCompare(focusRing1, "visible", true);
+            keyClick(Qt.Key_Backtab);
+            tryCompare(focusRing1, "visible", false);
+            tryCompare(focusRing0, "visible", true);
+            keyClick(Qt.Key_Backtab);
+            tryCompare(focusRing1, "visible", false);
+            tryCompare(focusRing1, "visible", true);
+            tryCompare(bfb, "highlighted", true);
+        }
     }
 }
