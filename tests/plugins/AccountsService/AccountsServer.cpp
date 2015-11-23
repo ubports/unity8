@@ -18,13 +18,14 @@
  */
 
 #include "AccountsServer.h"
+#include "AccountsUserAdaptor.h"
+#include "PropertiesAdaptor.h"
 #include "PropertiesServer.h"
 #include <QDBusConnection>
 #include <QDebug>
 
-AccountsServer::AccountsServer(PropertiesServer* propServer, QObject *parent)
+AccountsServer::AccountsServer(QObject *parent)
     : QObject(parent)
-    , m_propServer(propServer)
 {
 }
 
@@ -36,16 +37,21 @@ QDBusObjectPath AccountsServer::FindUserByName(const QString &user)
 bool AccountsServer::AddUser(const QString &user)
 {
     QString path(QString("/%1").arg(user));
-    if (QDBusConnection::sessionBus().objectRegisteredAt(path) == m_propServer)
+    if (QDBusConnection::sessionBus().objectRegisteredAt(path) != nullptr)
         return true;
-    return QDBusConnection::sessionBus().registerObject(path, m_propServer);
+
+    auto props = new PropertiesServer(this);
+    new PropertiesAdaptor(props);
+    new AccountsUserAdaptor(props);
+    return QDBusConnection::sessionBus().registerObject(path, props);
 }
 
 bool AccountsServer::RemoveUser(const QString &user)
 {
     QString path(QString("/%1").arg(user));
-    if (QDBusConnection::sessionBus().objectRegisteredAt(path) != m_propServer)
+    if (QDBusConnection::sessionBus().objectRegisteredAt(path) == nullptr)
         return false;
+
     QDBusConnection::sessionBus().unregisterObject(path);
     return true;
 }
