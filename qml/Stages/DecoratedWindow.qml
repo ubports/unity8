@@ -23,6 +23,9 @@ import Unity.Application 0.1
 FocusScope {
     id: root
 
+    width: applicationWindow.width
+    height: (decoration.visible ? decoration.height : 0) + applicationWindow.height
+
     property alias window: applicationWindow
     property alias application: applicationWindow.application
     property alias active: decoration.active
@@ -31,6 +34,9 @@ FocusScope {
 
     property bool highlightShown: false
     property real shadowOpacity: 1
+
+    property alias requestedWidth: applicationWindow.requestedWidth
+    property real requestedHeight
 
     signal close()
     signal maximize()
@@ -86,6 +92,7 @@ FocusScope {
         anchors.left: parent.left
         width: root.width
         height: fullscreen ? root.height : root.height - decoration.height
+        requestedHeight: root.requestedHeight - (decoration.visible ? decoration.height : 0)
         interactive: true
         focus: true
     }

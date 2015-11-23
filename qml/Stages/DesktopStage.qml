@@ -234,9 +234,11 @@ AbstractStage {
                 objectName: "appDelegate_" + appId
                 z: ApplicationManager.count - index
                 y: PanelState.panelHeight
-                width: units.gu(60)
-                height: units.gu(50)
                 focus: appId === priv.focusedAppId
+                width: decoratedWindow.width
+                height: decoratedWindow.height
+                property alias requestedWidth: decoratedWindow.requestedWidth
+                property alias requestedHeight: decoratedWindow.requestedHeight
 
                 QtObject {
                     id: appDelegatePrivate
@@ -347,7 +349,7 @@ AbstractStage {
                         PropertyChanges {
                             target: appDelegate;
                             x: 0; y: 0;
-                            width: root.width; height: root.height;
+                            requestedWidth: root.width; requestedHeight: root.height;
                             visuallyMinimized: false;
                             visuallyMaximized: true
                         }
@@ -355,12 +357,12 @@ AbstractStage {
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
                         PropertyChanges { target: appDelegate; x: 0; y: PanelState.panelHeight;
-                            width: root.width/2; height: root.height - PanelState.panelHeight }
+                            requestedWidth: root.width/2; requestedHeight: root.height - PanelState.panelHeight }
                     },
                     State {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
                         PropertyChanges { target: appDelegate; x: root.width/2; y: PanelState.panelHeight;
-                            width: root.width/2; height: root.height - PanelState.panelHeight }
+                            requestedWidth: root.width/2; requestedHeight: root.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -379,14 +381,14 @@ AbstractStage {
                         to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
                     },
                     Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
@@ -402,7 +404,7 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     }
@@ -434,8 +436,6 @@ AbstractStage {
                     objectName: "decoratedWindow"
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
-                    width: appDelegate.width
-                    height: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
