@@ -3,6 +3,7 @@ pkg_check_modules(LAUNCHER_API REQUIRED unity-shell-launcher=7)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher
     ${libunity8-private_SOURCE_DIR}
     )
@@ -14,7 +15,7 @@ add_definitions(-DLAUNCHER_TESTING)
 ### LauncherModelASTest
 add_executable(launchermodelastestExec
     launchermodelastest.cpp
-    AccountsServiceDBusAdaptor.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher/launchermodelas.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher/launcheritem.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Greeter/Unity/Launcher/quicklistmodel.cpp
@@ -29,10 +30,15 @@ target_link_libraries(launchermodelastestExec
     unity8-private
     ${GSETTINGS_QT_LDFLAGS}
     )
+add_dependencies(launchermodelastestExec mock-server)
 qt5_use_modules(launchermodelastestExec Test Core DBus Gui)
 add_unity8_unittest(LauncherModelAS dbus-test-runner
     ARG_PREFIX "--parameter"
-    ARGS --task $<TARGET_FILE:launchermodelastestExec>
+    ARGS
+        --task $<TARGET_FILE:mock-server>
+        --ignore-return
+        --task $<TARGET_FILE:launchermodelastestExec>
+        --wait-for org.freedesktop.Accounts
 )
 
 # copy .desktop files into build directory for shadow builds

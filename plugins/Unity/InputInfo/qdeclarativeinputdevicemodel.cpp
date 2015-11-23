@@ -1,7 +1,6 @@
 /****************************************************************************
 **
 ** Copyright (C) 2015 Jolla.
-** Copyright (C) 2015 Canonical Ltd.
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -39,39 +38,64 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-#include "mockqdeclarativeinputdeviceinfo_p.h"
+#include "qdeclarativeinputdevicemodel_p.h"
+#include "qinputinfo.h"
 
-QDeclarativeInputDeviceInfo::QDeclarativeInputDeviceInfo(QObject *parent) :
+QDeclarativeInputDeviceModel::QDeclarativeInputDeviceModel(QObject *parent) :
     QAbstractListModel(parent),
-    deviceInfo(new QInputDeviceInfo)
+    deviceInfo(new QInputDeviceManager),
+    currentFilter(QInputDevice::Unknown)
 {
-    connect(deviceInfo, &QInputDeviceInfo::deviceAdded,this,&QDeclarativeInputDeviceInfo::addedDevice);
-    connect(deviceInfo, &QInputDeviceInfo::deviceRemoved,this,&QDeclarativeInputDeviceInfo::removedDevice);
+    connect(deviceInfo,SIGNAL(ready()),this,SLOT(updateDeviceList()));
+    connect(deviceInfo, &QInputDeviceManager::deviceAdded,this,&QDeclarativeInputDeviceModel::addedDevice);
+    connect(deviceInfo, &QInputDeviceManager::deviceRemoved,this,&QDeclarativeInputDeviceModel::removedDevice);
 }
 
-QDeclarativeInputDeviceInfo::~QDeclarativeInputDeviceInfo()
+QDeclarativeInputDeviceModel::~QDeclarativeInputDeviceModel()
 {
     delete deviceInfo;
 }
 
-QVariant QDeclarativeInputDeviceInfo::data(const QModelIndex &index, int role) const
+QVariant QDeclarativeInputDeviceModel::data(const QModelIndex &index, int role) const
 {
     switch (role) {
     case ServiceRole:
         return QVariant::fromValue(static_cast<QObject *>(inputDevices.value(index.row())));
-    }
+        break;
+    case NameRole:
+        return QVariant::fromValue(static_cast<QString>(inputDevices.value(index.row())->name()));
+        break;
+    case DevicePathRole:
+        return QVariant::fromValue(static_cast<QString>(inputDevices.value(index.row())->devicePath()));
+        break;
+    case ButtonsRole:
+        return QVariant::fromValue(static_cast<QList <int> >(inputDevices.value(index.row())->buttons()));
+        break;
+    case SwitchesRole:
+        return QVariant::fromValue(static_cast<QList <int> >(inputDevices.value(index.row())->switches()));
+        break;
+    case RelativeAxisRole:
+        return QVariant::fromValue(static_cast<QList <int> >(inputDevices.value(index.row())->relativeAxis()));
+        break;
+    case AbsoluteAxisRole:
+        return QVariant::fromValue(static_cast<QList <int> >(inputDevices.value(index.row())->absoluteAxis()));
+        break;
+    case TypesRole:
+        return QVariant::fromValue(static_cast<int>(inputDevices.value(index.row())->type()));
+        break;
+    };
 
     return QVariant();
 }
 
-int QDeclarativeInputDeviceInfo::rowCount(const QModelIndex &parent) const
+int QDeclarativeInputDeviceModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
     return inputDevices.count();
 }
 
-int QDeclarativeInputDeviceInfo::indexOf(const QString &devicePath) const
+int QDeclarativeInputDeviceModel::indexOf(const QString &devicePath) const
 {
     int idx(-1);
     Q_FOREACH (QInputDevice *device, inputDevices) {
@@ -82,56 +106,27 @@ int QDeclarativeInputDeviceInfo::indexOf(const QString &devicePath) const
     return -1;
 }
 
-QInputDevice *QDeclarativeInputDeviceInfo::get(int index) const
+QInputDevice *QDeclarativeInputDeviceModel::get(int index) const
 {
     if (index < 0 || index > inputDevices.count())
         return 0;
     return inputDevices.value(index);
 }
 
-void QDeclarativeInputDeviceInfo::addMockMouse()
+void QDeclarativeInputDeviceModel::updateDeviceList()
 {
-    deviceInfo->addMockDevice(QInputDeviceInfo::Mouse);
-}
-
-void QDeclarativeInputDeviceInfo::addMockKeyboard()
-{
-    deviceInfo->addMockDevice(QInputDeviceInfo::Keyboard);
-}
-
-void QDeclarativeInputDeviceInfo::removeMockMouse()
-{
-    for (int i = 0; i < inputDevices.count(); i++) {
-        if (inputDevices.at(i)->types().testFlag(QInputDeviceInfo::Mouse)) {
-            deviceInfo->removeMockDevice(i);
-            return;
-        }
-    }
-}
-
-void QDeclarativeInputDeviceInfo::removeMockKeyboard()
-{
-    for (int i = 0; i < inputDevices.count(); i++) {
-        if (inputDevices.at(i)->types().testFlag(QInputDeviceInfo::Keyboard)) {
-            deviceInfo->removeMockDevice(i);
-            return;
-        }
-    }
-}
-
-void QDeclarativeInputDeviceInfo::updateDeviceList()
-{
-   QVector <QInputDevice *> newDevices = deviceInfo->deviceList();
+    QVector <QInputDevice *> newDevices = deviceInfo->deviceListOfType(currentFilter);
 
     int numNew = newDevices.count();
 
     for (int i = 0; i < numNew; i++) {
         int j = inputDevices.indexOf(newDevices.value(i));
+
         if (j == -1) {
-            // not found -> remove from list
             beginInsertRows(QModelIndex(), i, i);
             inputDevices.insert(i, newDevices.value(i));
             endInsertRows();
+            Q_EMIT countChanged();
         } else if (i != j) {
             // changed its position -> move it
             QInputDevice* device = inputDevices.value(j);
@@ -139,10 +134,10 @@ void QDeclarativeInputDeviceInfo::updateDeviceList()
             inputDevices.remove(j);
             inputDevices.insert(i, device);
             endMoveRows();
-        } else {
-            QModelIndex changedIndex(this->index(j, 0, QModelIndex()));
-            Q_EMIT dataChanged(changedIndex, changedIndex);
-        }
+            Q_EMIT countChanged();
+        } //else {
+        QModelIndex changedIndex(this->index(j, 0, QModelIndex()));
+        Q_EMIT dataChanged(changedIndex, changedIndex);
     }
 
     int numOld = inputDevices.count();
@@ -150,24 +145,52 @@ void QDeclarativeInputDeviceInfo::updateDeviceList()
         beginRemoveRows(QModelIndex(), numNew, numOld - 1);
         inputDevices.remove(numNew, numOld - numNew);
         endRemoveRows();
+        Q_EMIT countChanged();
     }
 }
 
-void QDeclarativeInputDeviceInfo::addedDevice(const QString &devicePath)
+void QDeclarativeInputDeviceModel::addedDevice(const QString &devicePath)
 {
     updateDeviceList();
-    Q_EMIT newDevice(devicePath);
+    Q_EMIT deviceAdded(devicePath);
 }
 
-void QDeclarativeInputDeviceInfo::removedDevice(const QString &devicePath)
+void QDeclarativeInputDeviceModel::removedDevice(const QString &devicePath)
 {
     updateDeviceList();
     Q_EMIT deviceRemoved(devicePath);
 }
 
-QHash<int, QByteArray> QDeclarativeInputDeviceInfo::roleNames() const
+QHash<int,QByteArray> QDeclarativeInputDeviceModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles.insert(ServiceRole, "service");
+    roles[NameRole] = "name";
+    roles[DevicePathRole] = "devicePath";
+    roles[ButtonsRole] = "buttons";
+    roles[SwitchesRole] = "switches";
+    roles[RelativeAxisRole] = "rAxis";
+    roles[AbsoluteAxisRole] = "aAxis";
+    roles[TypesRole] = "types";
     return roles;
+}
+
+/*
+ * Returns the currently set device filter.
+ * */
+QInputDevice::InputType QDeclarativeInputDeviceModel::deviceFilter()
+{
+    return currentFilter;
+}
+
+/*
+ * Sets the current  input device filter to filter.
+ * */
+void QDeclarativeInputDeviceModel::setDeviceFilter(QInputDevice::InputType filter)
+{
+    if (filter != currentFilter) {
+        deviceInfo->setDeviceFilter(filter);
+        currentFilter = filter;
+        updateDeviceList();
+        Q_EMIT deviceFilterChanged(filter);
+    }
 }

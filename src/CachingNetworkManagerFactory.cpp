@@ -30,6 +30,7 @@ CachingNetworkAccessManager::CachingNetworkAccessManager(QObject *parent)
 QNetworkReply* CachingNetworkAccessManager::createRequest(Operation op, const QNetworkRequest &request, QIODevice *outgoingData)
 {
     if (m_networkingStatus->status() != ubuntu::connectivity::NetworkingStatus::Status::Online) {
+        qDebug() << "Not connected to the internet. Request for" << request.url().toString() << "will be served only from the cache.";
         QNetworkRequest req(request);
         req.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::AlwaysCache);
         return QNetworkAccessManager::createRequest(op, req, outgoingData);
