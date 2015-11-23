@@ -24,7 +24,7 @@ FocusScope {
     id: root
 
     width: applicationWindow.width
-    height: (decoration.visible ? decoration.height : 0) + applicationWindow.height
+    height: (decorationShown ? decoration.height : 0) + applicationWindow.height
 
     property alias window: applicationWindow
     property alias application: applicationWindow.application
@@ -32,6 +32,7 @@ FocusScope {
     property alias title: decoration.title
     property alias fullscreen: applicationWindow.fullscreen
 
+    readonly property bool decorationShown: !fullscreen
     property bool highlightShown: false
     property real shadowOpacity: 1
 
@@ -76,7 +77,7 @@ FocusScope {
         height: units.gu(3)
         width: root.width
         title: window.title
-        visible: !root.fullscreen
+        visible: root.decorationShown
 
         onClose: root.close();
         onMaximize: { root.decorationPressed(); root.maximize(); }
@@ -90,7 +91,7 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: decoration.height
         anchors.left: parent.left
-        requestedHeight: root.requestedHeight - (decoration.visible ? decoration.height : 0)
+        requestedHeight: root.requestedHeight - (root.decorationShown ? decoration.height : 0)
         interactive: true
         focus: true
     }
