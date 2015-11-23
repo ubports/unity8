@@ -15,7 +15,7 @@
  */
 
 
-#include "uinput.h"
+#include "mockuinput.h"
 
 #include <QFile>
 #include <QDebug>
@@ -23,16 +23,16 @@
 
 #include <unistd.h>
 
-UInput::UInput(QObject *parent) :
+MockUInput::MockUInput(QObject *parent) :
     QObject(parent)
 {
 }
 
-UInput::~UInput()
+MockUInput::~MockUInput()
 {
 }
 
-void UInput::createMouse()
+void MockUInput::createMouse()
 {
     if (m_mouseCreated) {
         qDebug() << "Already have a virtual device. Not creating another one.";
@@ -42,7 +42,7 @@ void UInput::createMouse()
     Q_EMIT mouseCreated();
 }
 
-void UInput::removeMouse()
+void MockUInput::removeMouse()
 {
     if (!m_mouseCreated) {
         return;
@@ -52,31 +52,24 @@ void UInput::removeMouse()
     Q_EMIT mouseRemoved();
 }
 
-void UInput::moveMouse(int dx, int dy)
+void MockUInput::moveMouse(int dx, int dy)
 {
-    qDebug() << "moving mouse" << dx << dy;
     Q_EMIT mouseMoved(dx, dy);
 }
 
-void UInput::pressMouse(Button button)
+void MockUInput::pressMouse(Button button)
 {
     injectMouse(button, 1);
     Q_EMIT mousePressed(button);
 }
 
-void UInput::releaseMouse(Button button)
+void MockUInput::releaseMouse(Button button)
 {
     injectMouse(button, 0);
     Q_EMIT mouseReleased(button);
 }
 
-void UInput::scrollMouse(int dh, int dv)
+void MockUInput::scrollMouse(int dh, int dv)
 {
-    qDebug() << "scrolling" << dh << dv;
     Q_EMIT mouseScrolled(dh, dv);
-}
-
-void UInput::injectMouse(Button button, int down)
-{
-    qDebug() << "mouse event" << button << down;
 }

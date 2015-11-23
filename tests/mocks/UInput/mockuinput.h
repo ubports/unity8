@@ -15,8 +15,8 @@
  */
 
 
-#ifndef UINPUT_H
-#define UINPUT_H
+#ifndef MOCKUINPUT_H
+#define MOCKUINPUT_H
 
 #include <QObject>
 #include <QFile>
@@ -24,7 +24,7 @@
 #include <linux/uinput.h>
 
 
-class UInput : public QObject
+class MockUInput : public QObject
 {
     Q_OBJECT
     Q_ENUMS(Button)
@@ -36,7 +36,7 @@ public:
         ButtonMiddle
     };
 
-    explicit UInput(QObject *parent = 0);
+    explicit MockUInput(QObject *parent = 0);
     ~UInput();
 
     Q_INVOKABLE void createMouse();
@@ -57,10 +57,7 @@ Q_SIGNALS:
     void mouseScrolled(int dh, int dv);
 
 private:
-    void injectMouse(Button button, int down);
-
-private:
     bool m_mouseCreated = false;
 };
 
-#endif // UINPUT_H
+#endif // MOCKUINPUT_H

@@ -32,7 +32,6 @@ UInput::UInput(QObject *parent) :
     m_uinput_mouse_dev.id.bustype = BUS_USB;
     m_uinput_mouse_dev.id.version = 1;
     strncpy(m_uinput_mouse_dev.name, m_devName.toLocal8Bit().data(), m_devName.length());
-
 }
 
 UInput::~UInput()
@@ -91,7 +90,7 @@ void UInput::removeMouse()
     }
 
     if (!m_uinput.isOpen() && !m_uinput.open(QFile::WriteOnly)) {
-        qDebug() << "cannot open uinput... ";
+        qWarning() << "cannot open uinput... ";
         return;
     }
 

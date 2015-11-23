@@ -34,7 +34,6 @@ Item {
         property bool pressed: false
 
         onPressed: {
-            print("pressed", point1.pressed, point2.pressed)
             // If double-tapping *really* fast, it could happen that we end up having only point2 pressed
             // Make sure we check for both combos, only point1 or only point2
             if (((point1.pressed && !point2.pressed) || (!point1.pressed && point2.pressed))

@@ -14,13 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UINPUT_PLUGIN_H
-#define UINPUT_PLUGIN_H
+#ifndef MOCKUINPUT_PLUGIN_H
+#define MOCKUINPUT_PLUGIN_H
 
 #include <QtQml/QQmlEngine>
 #include <QtQml/QQmlExtensionPlugin>
 
-class UInputPlugin : public QQmlExtensionPlugin
+class MockUInputPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")

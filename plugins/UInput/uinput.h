@@ -36,7 +36,7 @@ public:
         ButtonMiddle
     };
 
-    explicit UInput(QObject *parent = 0);
+    explicit UInput(QObject *parent = nullptr);
     ~UInput();
 
     Q_INVOKABLE void createMouse();

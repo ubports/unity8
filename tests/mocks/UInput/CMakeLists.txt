@@ -1,6 +1,6 @@
 add_library(FakeUInput-qml MODULE
     plugin.cpp
-    uinput.cpp
+    mockuinput.cpp
 )
 
 qt5_use_modules(FakeUInput-qml Qml)

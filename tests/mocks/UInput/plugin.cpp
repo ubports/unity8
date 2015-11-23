@@ -15,12 +15,12 @@
  */
 
 #include "plugin.h"
-#include "uinput.h"
+#include "mockuinput.h"
 
 #include <QtQml/qqml.h>
 
 void UInputPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("UInput"));
-    qmlRegisterType<UInput>(uri, 0, 1, "UInput");
+    qmlRegisterType<MockUInput>(uri, 0, 1, "UInput");
 }
