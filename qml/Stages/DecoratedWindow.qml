@@ -90,8 +90,6 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: decoration.height
         anchors.left: parent.left
-        width: root.width
-        height: fullscreen ? root.height : root.height - decoration.height
         requestedHeight: root.requestedHeight - (decoration.visible ? decoration.height : 0)
         interactive: true
         focus: true
