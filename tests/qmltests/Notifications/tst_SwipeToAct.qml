@@ -19,7 +19,6 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
-import "../../../qml/Components/UnityInputInfo"
 import Ubuntu.Components 1.3
 import Unity.Test 0.1
 import Unity.Notifications 1.0
@@ -112,7 +111,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
-                hasMouse: UnityInputInfo.mice > 0 // for testing, we add/remove only a mock mouse
+                hasMouse: false
             }
         }
 
@@ -152,9 +151,9 @@ Item {
                         id: fakeMouseCB
                         onClicked: {
                             if (checked) {
-                                UnityInputInfo.inputInfo.addMockMouse();
+                                notifications.hasMouse = true;
                             } else {
-                                UnityInputInfo.inputInfo.removeMockMouse();
+                                notifications.hasMouse = false;
                             }
                         }
                     }
@@ -301,7 +300,7 @@ Item {
                     }
 
                     // add a mock mouse, test clicking the left/right buttons
-                    UnityInputInfo.inputInfo.addMockMouse();
+                    notifications.hasMouse = true;
                     var leftButton = findChild(swipeButton, "leftButton");
                     var rightButton = findChild(swipeButton, "rightButton");
 
@@ -316,7 +315,7 @@ Item {
                         compare(actionSpy.signalArguments[0][0], data.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action");
                         actionSpy.clear();
                     }
-                    UnityInputInfo.inputInfo.removeMockMouse();
+                    notifications.hasMouse = false;
                 }
             }
         }
