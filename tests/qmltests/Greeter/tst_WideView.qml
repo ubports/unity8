@@ -396,28 +396,57 @@ Item {
             LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
 
             // Test the login list icon is valid
-            var sessionChooserButton = findChild(view, "sessionChooserButton")
-            compare(sessionChooserButton.visible, true)
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            compare(sessionChooserButton.visible, true);
 
-            var session = String(view.sessionToStart).toLowerCase()
-            var icon = String(sessionChooserButton.icon)
-            compare(icon.indexOf(session) > -1, true)
+            var session = String(view.sessionToStart).toLowerCase();
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf(session) > -1, true);
 
             // Test the session list icons are valid
-            view.loginListShown = false
+            view.loginListShown = false;
             var sessionsList = findChild(view, "sessionsList");
             var sessionsListSelector = findChild(view, "sessionsListSelector");
-            waitForRendering(sessionsList)
-            compare(sessionsListSelector.expanded, true)
-            compare(sessionsList.visible, true)
+            waitForRendering(sessionsList);
+            compare(sessionsListSelector.expanded, true);
+            compare(sessionsList.visible, true);
 
             for (var i = 0; i < LightDM.Sessions.count; i++) {
                 var delegateName = "sessionDelegate" + String(i);
-                var currentDelegate = findChild(view, delegateName)
-                var session = String(currentDelegate.text).toLowerCase()
-                var icon = String(currentDelegate.iconSource)
-                compare(icon.indexOf(session) > -1, true)
+                var currentDelegate = findChild(view, delegateName);
+                var session = String(currentDelegate.text).toLowerCase();
+                var icon = String(currentDelegate.iconSource);
+                compare(icon.indexOf(session) > -1, true);
             }
+        }
+
+        function test_choosingNewSessionChangesLoginListIcon() {
+            // Ensure the default session is selected (Ubuntu)
+            loader.active = false;
+            loader.active = true;
+
+            LightDM.Sessions.testScenario = "multipleSessions";
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf("ubuntu") > -1, true);
+
+            tap(sessionChooserButton)
+            var sessionsListSelector = findChild(view, "sessionsListSelector");
+            waitForRendering(sessionsListSelector);
+            for(var i = 0; i < LightDM.Sessions.count; i++) {
+                var delegateName = "sessionDelegate" + String(i);
+                var currentDelegate = findChild(view, delegateName);
+                if (currentDelegate.text === "GNOME") {
+                    tap(currentDelegate);
+                    var sessionChooserButton = findChild(view, "sessionChooserButton");
+                    var icon = String(sessionChooserButton.icon);
+                    waitForRendering(sessionChooserButton);
+                    break;
+                }
+            }
+
+            compare(icon.indexOf("gnome") > -1, true,
+                "Expected icon to contain gnome but it was " + icon);
         }
 
         function test_noSessionsDoesntBreakView() {
