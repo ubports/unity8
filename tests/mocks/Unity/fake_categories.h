@@ -34,7 +34,6 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    Q_INVOKABLE void addSpecialCategory(QString const& categoryId, QString const& name, QString const& icon, QString const& rawTemplate, QObject* countObject) override;
     Q_INVOKABLE bool overrideCategoryJson(QString const& categoryId, QString const& json) override;
 
     Q_INVOKABLE QVariant data(int row, int role) const;
