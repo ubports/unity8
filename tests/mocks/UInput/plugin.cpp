@@ -19,7 +19,7 @@
 
 #include <QtQml/qqml.h>
 
-void UInputPlugin::registerTypes(const char *uri)
+void MockUInputPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("UInput"));
     qmlRegisterType<MockUInput>(uri, 0, 1, "UInput");

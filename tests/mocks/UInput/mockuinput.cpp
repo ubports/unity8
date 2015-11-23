@@ -59,13 +59,11 @@ void MockUInput::moveMouse(int dx, int dy)
 
 void MockUInput::pressMouse(Button button)
 {
-    injectMouse(button, 1);
     Q_EMIT mousePressed(button);
 }
 
 void MockUInput::releaseMouse(Button button)
 {
-    injectMouse(button, 0);
     Q_EMIT mouseReleased(button);
 }
 

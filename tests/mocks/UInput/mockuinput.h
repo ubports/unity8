@@ -37,7 +37,7 @@ public:
     };
 
     explicit MockUInput(QObject *parent = 0);
-    ~UInput();
+    ~MockUInput();
 
     Q_INVOKABLE void createMouse();
     Q_INVOKABLE void removeMouse();
