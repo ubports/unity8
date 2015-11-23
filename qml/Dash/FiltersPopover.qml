@@ -39,6 +39,43 @@ Popover {
             id: column
             width: parent.width
 
+            Item {
+                width: parent.width
+                height: resetLabel.height + units.gu(3)
+
+                Label {
+                    anchors {
+                        left: parent.left
+                        right: resetLabel.left
+                        margins: units.gu(2)
+                        verticalCenter: parent.verticalCenter
+                    }
+                    text: i18n.tr("Refine your results")
+                }
+                Label {
+                    id: resetLabel
+                    anchors {
+                        right: parent.right
+                        rightMargin: units.gu(2)
+                        verticalCenter: parent.verticalCenter
+                    }
+                    text: i18n.tr("Reset")
+
+                    AbstractButton {
+                        anchors {
+                            fill: parent
+                            rightMargin: units.gu(-2)
+                            leftMargin: units.gu(-2)
+                            topMargin: units.gu(-1)
+                            bottomMargin: units.gu(-1)
+                        }
+                        onClicked: {
+                            scopeView.scope.resetFilters();
+                        }
+                    }
+                }
+            }
+
             Repeater {
                 model: scopeView.scope.filters
 
