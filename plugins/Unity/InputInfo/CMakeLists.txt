@@ -21,7 +21,7 @@ include_directories(
 set(InputInfo_SOURCES
     plugin.cpp
     qinputinfo.cpp
-    qdeclarativeinputdeviceinfo.cpp
+    qdeclarativeinputdevicemodel.cpp
     linux/qinputdeviceinfo_linux.cpp
 )
 
