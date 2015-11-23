@@ -91,7 +91,7 @@ void AccountsService::markDemoEdgeCompleted(const QString &edge)
 {
     if (!m_demoEdgesCompleted.contains(edge)) {
         m_demoEdgesCompleted << edge;
-        m_service->setUserProperty(m_user, "com.canonical.unity.AccountsService", "DemoEdgesCompleted", m_demoEdgesCompleted);
+        m_service->setUserPropertyAsync(m_user, "com.canonical.unity.AccountsService", "DemoEdgesCompleted", m_demoEdgesCompleted);
 
         Q_EMIT demoEdgesCompletedChanged();
     }
