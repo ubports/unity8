@@ -52,9 +52,9 @@ public:
     int rowCount(const QModelIndex& parent) const override;
     QVariant data(const QModelIndex& index, int role) const override;
     QList<QUrl> iconSearchDirectories() const;
-    Q_INVOKABLE QUrl iconUrl(QString sessionName) const;
+    Q_INVOKABLE QUrl iconUrl(const QString sessionName) const;
 
-    void setIconSearchDirectories(QList<QUrl> searchDirectories);
+    void setIconSearchDirectories(const QList<QUrl> searchDirectories);
 private:
     QLightDM::SessionsModel* m_model;
     QHash<int, QByteArray> m_roleNames;
