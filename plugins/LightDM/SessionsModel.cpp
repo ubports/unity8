@@ -68,7 +68,7 @@ QVariant SessionsModel::data(const QModelIndex& index, int role) const
 {
     switch (role) {
         case SessionsModel::IconRole:
-            return QVariant(iconUrl(m_model->data(index, Qt::DisplayRole).toString()));
+            return iconUrl(m_model->data(index, Qt::DisplayRole).toString());
         default:
             return m_model->data(index, role);
     }

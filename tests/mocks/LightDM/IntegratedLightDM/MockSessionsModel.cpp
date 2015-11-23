@@ -26,7 +26,7 @@ QString MockSessionsModel::testScenario() const
     return qSessionsModel->testScenario();
 }
 
-void MockSessionsModel::setTestScenario(QString testScenario)
+void MockSessionsModel::setTestScenario(const QString testScenario)
 {
     QLightDM::SessionsModel* qSessionsModel =
         static_cast<QLightDM::SessionsModel*>(sourceModel());
