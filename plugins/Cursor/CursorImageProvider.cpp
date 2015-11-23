@@ -16,6 +16,7 @@
 
 #include "CursorImageProvider.h"
 
+#include <QCursor>
 #include <QDebug>
 #include <QFile>
 #include <QPainter>
@@ -47,6 +48,26 @@ BuiltInCursorImage::BuiltInCursorImage()
     QSvgRenderer *svgRenderer = new QSvgRenderer(QByteArray(svgString));
     svgRenderer->render(&imagePainter);
     delete svgRenderer;
+}
+
+/////
+// BlankCursorImage
+
+
+BlankCursorImage::BlankCursorImage()
+{
+    qimage = QImage(1, 1, QImage::Format_ARGB32);
+    qimage.fill(Qt::transparent);
+}
+
+/////
+// CustomCursorImage
+
+
+CustomCursorImage::CustomCursorImage(const QCursor &cursor)
+{
+    qimage = cursor.pixmap().toImage();
+    hotspot = cursor.hotSpot();
 }
 
 /////
@@ -91,6 +112,68 @@ CursorImageProvider::CursorImageProvider()
         qFatal("Cannot have multiple CursorImageProvider instances");
     }
     m_instance = this;
+
+    m_fallbackNames[QStringLiteral("closedhand")].append(QStringLiteral("grabbing"));
+    m_fallbackNames[QStringLiteral("closedhand")].append(QStringLiteral("dnd-none"));
+
+    m_fallbackNames[QStringLiteral("dnd-copy")].append(QStringLiteral("dnd-none"));
+    m_fallbackNames[QStringLiteral("dnd-copy")].append(QStringLiteral("grabbing"));
+    m_fallbackNames[QStringLiteral("dnd-copy")].append(QStringLiteral("closedhand"));
+
+    m_fallbackNames[QStringLiteral("dnd-move")].append(QStringLiteral("dnd-none"));
+    m_fallbackNames[QStringLiteral("dnd-move")].append(QStringLiteral("grabbing"));
+    m_fallbackNames[QStringLiteral("dnd-move")].append(QStringLiteral("closedhand"));
+
+    m_fallbackNames[QStringLiteral("dnd-link")].append(QStringLiteral("dnd-none"));
+    m_fallbackNames[QStringLiteral("dnd-link")].append(QStringLiteral("grabbing"));
+    m_fallbackNames[QStringLiteral("dnd-link")].append(QStringLiteral("closedhand"));
+
+    m_fallbackNames[QStringLiteral("forbidden")].append(QStringLiteral("crossed_circle")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QStringLiteral("forbidden")].append(QStringLiteral("not-allowed"));
+    m_fallbackNames[QStringLiteral("forbidden")].append(QStringLiteral("circle"));
+
+    m_fallbackNames[QStringLiteral("hand")].append(QStringLiteral("pointing_hand"));
+    m_fallbackNames[QStringLiteral("hand")].append(QStringLiteral("pointer"));
+
+    m_fallbackNames[QStringLiteral("ibeam")].append(QStringLiteral("xterm"));
+    m_fallbackNames[QStringLiteral("ibeam")].append(QStringLiteral("text"));
+
+    m_fallbackNames[QStringLiteral("left_ptr")].append(QStringLiteral("default"));
+    m_fallbackNames[QStringLiteral("left_ptr")].append(QStringLiteral("top_left_arrow"));
+    m_fallbackNames[QStringLiteral("left_ptr")].append(QStringLiteral("left_arrow"));
+
+    m_fallbackNames[QStringLiteral("left_ptr_watch")].append(QStringLiteral("half-busy"));
+    m_fallbackNames[QStringLiteral("left_ptr_watch")].append(QStringLiteral("progress"));
+
+    m_fallbackNames[QStringLiteral("size_bdiag")].append(QStringLiteral("fd_double_arrow"));
+    m_fallbackNames[QStringLiteral("size_bdiag")].append(QStringLiteral("nesw-resize"));
+
+    m_fallbackNames[QStringLiteral("size_fdiag")].append(QStringLiteral("bd_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QStringLiteral("size_fdiag")].append(QStringLiteral("nwse-resize"));
+
+    m_fallbackNames[QStringLiteral("size_hor")].append(QStringLiteral("sb_h_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QStringLiteral("size_hor")].append(QStringLiteral("ew-resize"));
+    m_fallbackNames[QStringLiteral("size_hor")].append(QStringLiteral("h_double_arrow"));
+
+    m_fallbackNames[QStringLiteral("size_ver")].append(QStringLiteral("sb_v_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QStringLiteral("size_ver")].append(QStringLiteral("ns-resize"));
+    m_fallbackNames[QStringLiteral("size_ver")].append(QStringLiteral("v_double_arrow"));
+
+    m_fallbackNames[QStringLiteral("split_h")].append(QStringLiteral("sb_h_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QStringLiteral("split_h")].append(QStringLiteral("col-resize"));
+
+    m_fallbackNames[QStringLiteral("split_v")].append(QStringLiteral("sb_v_double_arrow")); // DMZ-White and DMZ-Black themes
+    m_fallbackNames[QStringLiteral("split_v")].append(QStringLiteral("row-resize"));
+
+    m_fallbackNames[QStringLiteral("up_arrow")].append(QStringLiteral("sb_up_arrow")); // DMZ-White and DMZ-Black themes
+
+    m_fallbackNames[QStringLiteral("watch")].append(QStringLiteral("wait"));
+
+    m_fallbackNames[QStringLiteral("whats_this")].append(QStringLiteral("left_ptr_help"));
+    m_fallbackNames[QStringLiteral("whats_this")].append(QStringLiteral("help"));
+    m_fallbackNames[QStringLiteral("whats_this")].append(QStringLiteral("question_arrow"));
+
+    m_fallbackNames[QStringLiteral("xterm")].append(QStringLiteral("ibeam"));
 }
 
 CursorImageProvider::~CursorImageProvider()
@@ -151,12 +234,14 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
 
     // Try some fallbacks
     if (cursorImage->qimage.isNull()) {
-        if (cursorName == QLatin1String("ibeam")) {
-            qDebug() << "CursorImageProvider: \"ibeam\" not found, falling back to \"xterm\"";
-            cursorImage = fetchCursorHelper(themeName, QStringLiteral("xterm"));
-        } else if (cursorName == QLatin1String("xterm")) {
-            qDebug() << "CursorImageProvider: \"xterm\" not found, falling back to \"ibeam\"";
-            cursorImage = fetchCursorHelper(themeName, QStringLiteral("ibeam"));
+        if (m_fallbackNames.contains(cursorName)) {
+            const QStringList &fallbackNames = m_fallbackNames[cursorName];
+            int i = 0;
+            while (cursorImage->qimage.isNull() && i < fallbackNames.count()) {
+                qDebug().nospace() << "CursorImageProvider: "<< cursorName <<" not found, trying " << fallbackNames.at(i);
+                cursorImage = fetchCursorHelper(themeName, fallbackNames.at(i));
+                ++i;
+            }
         }
     }
 
@@ -181,11 +266,26 @@ CursorImage *CursorImageProvider::fetchCursor(const QString &themeName, const QS
 
 CursorImage *CursorImageProvider::fetchCursorHelper(const QString &themeName, const QString &cursorName)
 {
-    QMap<QString, CursorImage*> &themeCursors = m_cursors[themeName];
+    if (cursorName == QLatin1String("blank")) {
+        return &m_blankCursorImage;
+    } else if (cursorName == QLatin1String("custom")) {
+        return m_customCursorImage.data();
+    } else {
+        QMap<QString, CursorImage*> &themeCursors = m_cursors[themeName];
 
-    if (!themeCursors.contains(cursorName)) {
-        themeCursors[cursorName] = new XCursorImage(themeName, cursorName);
+        if (!themeCursors.contains(cursorName)) {
+            themeCursors[cursorName] = new XCursorImage(themeName, cursorName);
+        }
+
+        return themeCursors[cursorName];
     }
+}
 
-    return themeCursors[cursorName];
+void CursorImageProvider::setCustomCursor(const QCursor &customCursor)
+{
+    if (customCursor.pixmap().isNull()) {
+        m_customCursorImage.reset();
+    } else {
+        m_customCursorImage.reset(new CustomCursorImage(customCursor));
+    }
 }
