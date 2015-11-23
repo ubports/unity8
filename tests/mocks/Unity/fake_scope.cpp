@@ -262,6 +262,11 @@ void Scope::refresh()
     Q_EMIT refreshed();
 }
 
+void Scope::resetFilters()
+{
+    qWarning() << "Scope::resetFilters is unimplemented";
+}
+
 void Scope::activateAction(QVariant const& /*result*/, QString const& /*categoryId*/, QString const& /*actionId*/)
 {
     qFatal("Using Scope::activateAction");
