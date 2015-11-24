@@ -15,8 +15,8 @@
  *
  */
 
-#ifndef UNITY_MOCK_SESSIONSMODEL_H
-#define UNITY_MOCK_SESSIONSMODEL_H
+#ifndef UNITY_INTEGRATED_SESSIONSMODEL_H
+#define UNITY_INTEGRATED_SESSIONSMODEL_H
 
 #include <QtCore/QAbstractListModel>
 #include <QtCore/QString>
@@ -69,4 +69,4 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
     };
 }
 
-#endif // UNITY_MOCK_SESSIONSMODEL_H
+#endif // UNITY_INTEGRATED_SESSIONSMODEL_H

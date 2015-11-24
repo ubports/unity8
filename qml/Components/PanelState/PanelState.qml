@@ -23,6 +23,8 @@ QtObject {
     property string title: ""
     property bool buttonsVisible: false
 
+    property int panelHeight: 0
+
     signal close()
     signal minimize()
     signal maximize()

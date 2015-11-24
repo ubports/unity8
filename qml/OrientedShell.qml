@@ -16,13 +16,12 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import Unity.InputInfo 0.1
 import Unity.Session 0.1
 import GSettings 1.0
 import "Components"
-import "Components/UnityInputInfo"
 import "Rotation"
-// Backup Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
-// in case we remove the UnityInputInfo import
+// Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
 import Ubuntu.Components 1.3
 
 Rectangle {
@@ -64,6 +63,16 @@ Rectangle {
     property bool orientationLocked: OrientationLock.enabled
     property var orientationLock: OrientationLock
 
+    InputDeviceModel {
+        id: miceModel
+        deviceFilter: InputInfo.Mouse
+    }
+
+    InputDeviceModel {
+        id: keyboardsModel
+        deviceFilter: InputInfo.Keyboard
+    }
+
     property int orientation
     onPhysicalOrientationChanged: {
         if (!orientationLocked) {
@@ -83,7 +92,7 @@ Rectangle {
         }
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
-        oskSettings.stayHidden = UnityInputInfo.keyboards > 0
+        oskSettings.stayHidden = keyboardsModel.count > 0
         oskSettings.disableHeight = shell.usageScenario == "desktop"
     }
 
@@ -96,7 +105,7 @@ Rectangle {
     Binding {
         target: oskSettings
         property: "stayHidden"
-        value: UnityInputInfo.keyboards > 0
+        value: keyboardsModel.count > 0
     }
 
     Binding {
@@ -174,7 +183,7 @@ Rectangle {
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode
-        hasMouse: UnityInputInfo.mice > deviceConfiguration.ignoredMice
+        hasMouse: miceModel.count > deviceConfiguration.ignoredMice
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
@@ -188,7 +197,7 @@ Rectangle {
                     return "tablet";
                 }
             } else { // automatic
-                if (UnityInputInfo.mice > deviceConfiguration.ignoredMice) {
+                if (miceModel.count > deviceConfiguration.ignoredMice) {
                     return "desktop";
                 } else {
                     return deviceConfiguration.category;

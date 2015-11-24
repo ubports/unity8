@@ -32,6 +32,7 @@ MousePointer::MousePointer(QQuickItem *parent)
     , m_hotspotX(0)
     , m_hotspotY(0)
 {
+    updateHotspot();
 }
 
 void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,

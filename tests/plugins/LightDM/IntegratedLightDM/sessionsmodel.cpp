@@ -49,7 +49,7 @@ private Q_SLOTS:
         }
     }
 
-    void testMultupleSessionsCountIsCorrect()
+    void testMultipleSessionsCountIsCorrect()
     {
         sourceModel->setTestScenario("multipleSessions");
         QVERIFY(sourceModel->rowCount(QModelIndex()) > 1);

@@ -32,6 +32,12 @@ Item {
 
     opacity: fullscreenMode && indicators.fullyClosed ? 0.0 : 1.0
 
+    Binding {
+        target: PanelState
+        property: "panelHeight"
+        value: root.panelHeight
+    }
+
     Rectangle {
         id: darkenedArea
         property real darkenedOpacity: 0.6
@@ -137,7 +143,7 @@ Item {
             }
 
             shown: false
-            width: root.width - (windowControlButtons.visible ? windowControlButtons.width : 0)
+            width: root.width - (windowControlButtons.visible ? windowControlButtons.width + titleLabel.width : 0)
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
             openedHeight: root.height - indicatorOrangeLine.height
@@ -176,6 +182,23 @@ Item {
             onClose: PanelState.close()
             onMinimize: PanelState.minimize()
             onMaximize: PanelState.maximize()
+        }
+
+        Label {
+            id: titleLabel
+            objectName: "windowDecorationTitle"
+            anchors {
+                left: windowControlButtons.right
+                top: parent.top
+                margins: units.gu(0.7)
+            }
+            color: "#DFDBD2"
+            height: windowControlButtons.height
+            visible: windowControlButtons.visible
+            verticalAlignment: Text.AlignVCenter
+            fontSize: "small"
+            font.bold: true
+            text: PanelState.title
         }
 
         PanelSeparatorLine {

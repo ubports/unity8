@@ -49,8 +49,8 @@ class Q_DECL_EXPORT SessionsModel : public QAbstractListModel
             RemoteSessions
         };
 
-        explicit SessionsModel(QObject* parent=0); /** Deprecated. Loads local sessions*/
-        explicit SessionsModel(SessionsModel::SessionType, QObject* parent=0);
+        explicit SessionsModel(QObject* parent=nullptr); /** Deprecated. Loads local sessions*/
+        explicit SessionsModel(SessionsModel::SessionType, QObject* parent=nullptr);
         virtual ~SessionsModel();
 
         QHash<int, QByteArray> roleNames() const override;
