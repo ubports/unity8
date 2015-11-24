@@ -465,6 +465,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("libreoffice");
     application->setName("LibreOffice");
     application->setIconId("libreoffice");
+    application->setScreenshotId("libreoffice");
     application->setIsTouchApp(false);
     m_availableApplications.append(application);
 }

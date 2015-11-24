@@ -65,6 +65,8 @@ private Q_SLOTS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
 
 private:
+    void refreshWithItems(const QList<QVariantMap> &items);
+
     QString m_user;
     QList<LauncherItem*> m_list;
     AccountsServiceDBusAdaptor *m_accounts;
