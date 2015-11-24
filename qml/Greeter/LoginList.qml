@@ -23,7 +23,6 @@ Item {
     id: root
 
     property alias model: userList.model
-    property url sessionIcon
     property int currentIndex
     property bool locked
 
