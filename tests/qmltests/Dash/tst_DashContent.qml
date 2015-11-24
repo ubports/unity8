@@ -609,7 +609,6 @@ Item {
             compare(dashContentList.indexAt(dashContentList.width * 1.5, 0), 1);
             var nextScopeId = dashContentList.itemAt(dashContentList.width * 1.5, 0).item.scope.id;
             mouseClick(favoriteAction);
-            expectFail("", "QTBUG-49330 makes this fail.");
             tryCompareFunction(function() { return dashContentList.currentItem.item.scope.id == nextScopeId; }, true);
             compare(dashContentList.currentIndex, 0);
         }
