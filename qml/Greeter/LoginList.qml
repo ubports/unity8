@@ -134,7 +134,7 @@ Item {
             }
 
             // Refresh the icon path if looking at different places at runtime
-            // this is meainly for testing
+            // this is mainly for testing
             Connections {
                 target: LightDMService.sessions
                 onIconSearchDirectoriesChanged: {
