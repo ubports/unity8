@@ -1265,7 +1265,7 @@ Rectangle {
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
             // wait until the animation has finished
-            //tryCompare(greeter, "shown", false);
+            tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
