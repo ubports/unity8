@@ -355,10 +355,11 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             verify(greeter);
 
-            var loginList = findChild(greeter, "loginList");
+            var greeterViewLoader = findChild(greeter, "loader").item
+            var loginAreaLoader = findChild(greeterViewLoader, "loginAreaLoader");
             // Only present in WideView
-            if (loginList) {
-                var userList = findChild(loginList, "userList");
+            if (loginAreaLoader) {
+                var userList = findChild(loginAreaLoader, "userList");
                 verify(userList);
                 tryCompare(userList, "movingInternally", false);
             }
