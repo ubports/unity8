@@ -42,6 +42,10 @@ public Q_SLOTS:
     void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
             Qt::KeyboardModifiers modifiers) override;
 
+Q_SIGNALS:
+    void pushedLeftBoundary(qreal amount, Qt::MouseButtons buttons);
+    void pushedRightBoundary(qreal amount, Qt::MouseButtons buttons);
+
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
 

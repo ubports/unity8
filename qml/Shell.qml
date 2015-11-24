@@ -663,6 +663,19 @@ Item {
         id: cursor
         visible: shell.hasMouse
         z: screenGrabber.z + 1
+
+        onPushedLeftBoundary: {
+            if (buttons === Qt.NoButton) {
+                launcher.pushEdge(amount);
+            }
+        }
+
+        onPushedRightBoundary: {
+            if (buttons === Qt.NoButton && applicationsDisplayLoader.item
+                    && applicationsDisplayLoader.item.pushRightEdge) {
+                applicationsDisplayLoader.item.pushRightEdge(amount);
+            }
+        }
     }
 
     Rectangle {

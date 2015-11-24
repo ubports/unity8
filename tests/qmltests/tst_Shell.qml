@@ -954,6 +954,22 @@ Rectangle {
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
         }
 
+        function revealLauncherByEdgePushWithMouse() {
+            var launcher = findChild(shell, "launcher");
+            verify(launcher);
+
+            // Place the mouse against the window/screen edge and push beyond the barrier threshold
+            mouseMove(shell, 0, shell.height / 2);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel);
+
+            // wait until it gets fully extended
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visibleTemporary");
+        }
+
         function test_focusRequestedHidesGreeter() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1713,8 +1729,7 @@ Rectangle {
 
             tryCompare(desktopSpread, "state", "altTab")
 
-            mouseMove(shell, 0, shell.height / 2);
-            tryCompare(launcher, "state", "visibleTemporary")
+            revealLauncherByEdgePushWithMouse();
             waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
