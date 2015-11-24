@@ -17,7 +17,7 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Components.ListItems 1.3
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
@@ -82,6 +82,21 @@ Item {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
+
+            Button {
+                color: "white"
+                text: "Make surface slow to resize"
+                activeFocusOnPress: false
+                onClicked: {
+                    if (ApplicationManager.focusedApplicationId) {
+                        var surface = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).session.surface;
+                        surface.slowToResize = true;
+                    }
+                }
+            }
+
+            Divider {}
+
             Repeater {
                 model: ApplicationManager.availableApplications
                 ApplicationCheckBox {

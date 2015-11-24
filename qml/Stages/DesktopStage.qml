@@ -219,9 +219,11 @@ AbstractStage {
                 objectName: "appDelegate_" + appId
                 z: ApplicationManager.count - index
                 y: units.gu(3)
-                width: units.gu(60)
-                height: units.gu(50)
-                focus: appId === priv.focusedAppId
+                width: decoratedWindow.width
+                height: decoratedWindow.height
+                property alias requestedWidth: decoratedWindow.requestedWidth
+                property alias requestedHeight: decoratedWindow.requestedHeight
+                focus: model.appId === priv.focusedAppId
 
                 QtObject {
                     id: appDelegatePrivate
@@ -325,7 +327,7 @@ AbstractStage {
                         PropertyChanges {
                             target: appDelegate;
                             x: 0; y: 0;
-                            width: root.width; height: root.height;
+                            requestedWidth: root.width; requestedHeight: root.height;
                             visuallyMinimized: false;
                             visuallyMaximized: true
                         }
@@ -355,14 +357,14 @@ AbstractStage {
                         to: "normal"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
-                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
+                        UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
                     },
                     Transition {
                         to: "maximized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     },
@@ -371,7 +373,7 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,width,height,scale"; duration: UbuntuAnimation.FastDuration }
+                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
@@ -410,8 +412,6 @@ AbstractStage {
                     objectName: "decoratedWindow"
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
-                    width: appDelegate.width
-                    height: appDelegate.height
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
