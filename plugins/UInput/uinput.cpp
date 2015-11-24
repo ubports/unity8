@@ -21,6 +21,7 @@
 #include <QDateTime>
 
 #include <unistd.h>
+#include <time.h>
 
 UInput::UInput(QObject *parent) :
     QObject(parent)
@@ -108,7 +109,7 @@ void UInput::moveMouse(int dx, int dy)
 {
     struct input_event event;
     memset(&event, 0, sizeof(event));
-    gettimeofday(&event.time, 0);
+    clock_gettime(CLOCK_MONOTONIC, (timespec*)&event.time);
     event.type = EV_REL;
     event.code = REL_X;
     event.value = dx;
@@ -138,7 +139,7 @@ void UInput::scrollMouse(int dh, int dv)
 {
     struct input_event event;
     memset(&event, 0, sizeof(event));
-    gettimeofday(&event.time, 0);
+    clock_gettime(CLOCK_MONOTONIC, (timespec*)&event.time);
     event.type = EV_REL;
     event.code = REL_HWHEEL;
     event.value = dh;
@@ -158,7 +159,7 @@ void UInput::injectMouse(Button button, int down)
 {
     struct input_event event;
     memset(&event, 0, sizeof(event));
-    gettimeofday(&event.time, 0);
+    clock_gettime(CLOCK_MONOTONIC, (timespec*)&event.time);
     event.type = EV_KEY;
     switch (button) {
     case ButtonLeft:
