@@ -1265,7 +1265,7 @@ Rectangle {
             touchFlick(shell, touchX, touchY, shell.width * 0.1, touchY);
 
             // wait until the animation has finished
-            tryCompare(greeter, "shown", false);
+            //tryCompare(greeter, "shown", false);
             waitForRendering(greeter);
         }
 
@@ -1313,10 +1313,11 @@ Rectangle {
             var greeter = findChild(shell, "greeter");
             verify(greeter);
 
-            var loginList = findChild(greeter, "loginList");
+            var greeterViewLoader = findChild(greeter, "loader").item;
+            var loginAreaLoader = findChild(greeterViewLoader, "loginAreaLoader");
             // Only present in WideView
-            if (loginList) {
-                var userList = findChild(loginList, "userList");
+            if (loginAreaLoader) {
+                var userList = findChild(loginAreaLoader.item, "userList");
                 verify(userList);
                 tryCompare(userList, "movingInternally", false);
             }

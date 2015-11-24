@@ -56,7 +56,7 @@ Showable {
     readonly property bool animating: loader.item ? loader.item.animating : false
 
     property string sessionToStart: {
-        if (loader.item.sessionToStart) {
+        if (loader.active && loader.item.sessionToStart) {
             return loader.item.sessionToStart
         } else if (LightDMService.greeter.defaultSession) {
             return LightDMService.greeter.defaultSession

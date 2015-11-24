@@ -137,7 +137,7 @@ FocusScope {
             // True when LoginList is shown, false when SessionList is shown
             property bool loginListShown: true
             property bool sessionUpdated: false
-            property string currentSession // Set as soon as LoginList is loaded
+            property string currentSession: LightDMService.sessions.defaultSession // Set as soon as LoginList is loaded
 
             source: loginListShown ? "LoginList.qml" : "SessionsList.qml"
             onSourceChanged: loadingAnimation.running = true
@@ -158,7 +158,7 @@ FocusScope {
                 id: loadingAnimation
                 target: loginAreaLoader.item
                 property: "x"
-                from: loader.item.width
+                from: loader.item ? loader.item.width : 0
                 to: 0
                 running: false
             }
