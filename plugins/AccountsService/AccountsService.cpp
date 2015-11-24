@@ -74,7 +74,7 @@ void AccountsService::setDemoEdges(bool demoEdges)
 {
     if (m_demoEdges != demoEdges) {
         m_demoEdges = demoEdges;
-        m_service->setUserProperty(m_user, QStringLiteral("com.canonical.unity.AccountsService"), QStringLiteral("demo-edges"), demoEdges);
+        m_service->setUserPropertyAsync(m_user, QStringLiteral("com.canonical.unity.AccountsService"), QStringLiteral("demo-edges"), demoEdges);
 
         Q_EMIT demoEdgesChanged();
     }
@@ -114,7 +114,7 @@ void AccountsService::setHereEnabled(bool enabled)
 {
     if (m_hereEnabled != enabled) {
         m_hereEnabled = enabled;
-        m_service->setUserProperty(m_user, QStringLiteral("com.ubuntu.location.providers.here.AccountsService"), QStringLiteral("LicenseAccepted"), enabled);
+        m_service->setUserPropertyAsync(m_user, QStringLiteral("com.ubuntu.location.providers.here.AccountsService"), QStringLiteral("LicenseAccepted"), enabled);
 
         Q_EMIT hereEnabledChanged();
     }
@@ -403,7 +403,7 @@ void AccountsService::setFailedLogins(uint failedLogins)
 {
     if (m_failedLogins != failedLogins) {
         m_failedLogins = failedLogins;
-        m_service->setUserProperty(m_user, QStringLiteral("com.canonical.unity.AccountsService.Private"), QStringLiteral("FailedLogins"), failedLogins);
+        m_service->setUserPropertyAsync(m_user, QStringLiteral("com.canonical.unity.AccountsService.Private"), QStringLiteral("FailedLogins"), failedLogins);
 
         Q_EMIT failedLoginsChanged();
     }
