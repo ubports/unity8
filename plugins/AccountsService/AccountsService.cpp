@@ -137,7 +137,7 @@ void AccountsService::setRealName(const QString &realName)
 {
     if (realName != m_realName) {
         m_realName = realName;
-        m_service->setUserProperty(m_user, "org.freedesktop.Accounts.User", "RealName", m_realName);
+        m_service->setUserPropertyAsync(m_user, "org.freedesktop.Accounts.User", "RealName", m_realName);
         Q_EMIT realNameChanged();
     }
 }
@@ -151,7 +151,7 @@ void AccountsService::setEmail(const QString &email)
 {
     if (email != m_email) {
         m_email = email;
-        m_service->setUserProperty(m_user, "org.freedesktop.Accounts.User", "Email", m_email);
+        m_service->setUserPropertyAsync(m_user, "org.freedesktop.Accounts.User", "Email", m_email);
         Q_EMIT emailChanged();
     }
 }
@@ -166,14 +166,14 @@ void AccountsService::updateDemoEdges(bool async)
     connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QDBusVariant> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
         watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Failed to get 'demo-edges' property - " << reply.error().message();
             return;
         }
 
-        auto demoEdges = reply.value().variant().toBool();
+        const bool demoEdges = reply.value().toBool();
         if (m_demoEdges != demoEdges) {
             m_demoEdges = demoEdges;
             Q_EMIT demoEdgesChanged();
