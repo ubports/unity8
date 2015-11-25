@@ -53,7 +53,7 @@ private:
 private:
     QFile m_uinput;
     uinput_user_dev m_uinput_mouse_dev;
-    QString m_devName;
+    QByteArray m_devName;
 
     bool m_mouseCreated = false;
 };

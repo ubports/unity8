@@ -26,13 +26,13 @@
 UInput::UInput(QObject *parent) :
     QObject(parent)
 {
-    m_devName = QStringLiteral("unity8-simulated-mouse");
-    m_uinput.setFileName("/dev/uinput");
+    m_devName = QByteArrayLiteral("unity8-simulated-mouse");
+    m_uinput.setFileName(QStringLiteral("/dev/uinput"));
 
     memset(&m_uinput_mouse_dev, 0, sizeof(m_uinput_mouse_dev));
     m_uinput_mouse_dev.id.bustype = BUS_USB;
     m_uinput_mouse_dev.id.version = 1;
-    strncpy(m_uinput_mouse_dev.name, m_devName.toLocal8Bit().data(), m_devName.length());
+    strncpy(m_uinput_mouse_dev.name, m_devName.constData(), m_devName.length());
 }
 
 UInput::~UInput()

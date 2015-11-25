@@ -1,3 +1,2 @@
 module UInput
 plugin FakeUInput-qml
-typeinfo UInput.qmltypes
