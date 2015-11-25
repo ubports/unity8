@@ -927,6 +927,10 @@ Item {
             launcher.superPressed = true;
             tryCompare(launcher, "state", "visible");
             tryCompare(shortCutHint0, "visible", true);
+
+            launcher.superPressed = false;
+            tryCompare(launcher, "state", "");
+            tryCompare(shortCutHint0, "visible", false);
         }
     }
 }

@@ -218,6 +218,7 @@ Rectangle {
                         // the right app when running autopilot tests for
                         // multiple apps.
                         readonly property string appId: model.appId
+                        itemIndex: index
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
                         width: itemWidth

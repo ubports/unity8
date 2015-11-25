@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 Item {
     id: root
 
+    property int itemIndex: 0
     property string iconName
     property int count: 0
     property bool countVisible: false
@@ -264,7 +265,7 @@ Item {
             visible: root.shortcutHintShown
             Label {
                 anchors.centerIn: parent
-                text: index + 1
+                text: itemIndex + 1
                 color: "white"
             }
         }
