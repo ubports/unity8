@@ -78,5 +78,24 @@ Rectangle {
             slider.value = 50
             compare(widgetData1.value, 50);
         }
+
+        function test_labelPositions() {
+            var slider = findChild(factory, "slider");
+            var repeater = findChild(factory, "repeater");
+
+            // It's very hard to check the position of the
+            // labels is right, but at least we can check
+            // they all have different X positions and the
+            // same Y one
+            compare(repeater.count, 4);
+            for (var i = 0; i < repeater.count; ++i) {
+                var itemI = repeater.itemAt(i);
+                for (var j = i + 1; j < repeater.count; ++j) {
+                    var itemJ = repeater.itemAt(j);
+                    verify(itemI.x != itemJ.x);
+                    verify(itemI.y == itemJ.y);
+                }
+            }
+        }
     }
 }

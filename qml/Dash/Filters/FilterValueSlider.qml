@@ -43,14 +43,12 @@ FilterWidget {
             widgetData.value = value;
         }
 
-        // TODO SDK
-        readonly property Item bar: __styleInstance ? __styleInstance.bar : null
-        readonly property Item thumb: __styleInstance ? __styleInstance.thumb :  null
-        readonly property real thumbSpacing: __styleInstance ? __styleInstance.thumbSpacing : 0
-        readonly property real barMinusThumb: bar && thumb ? bar.width - (thumb.width + 2.0*thumbSpacing) : 0.0
+        readonly property Item thumb: __internals.thumb
+        readonly property real barMinusThumb: __internals.barMinusThumb
     }
 
     Repeater {
+        objectName: "repeater"
         model: widgetData.values
         delegate: Label {
             anchors {
