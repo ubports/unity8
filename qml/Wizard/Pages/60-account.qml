@@ -22,10 +22,13 @@ import ".." as LocalComponents
 
 LocalComponents.Page {
     objectName: "accountPage"
+    title: i18n.tr("Set Administrator Details")
 
-    title: i18n.tr("Create Device Account")
-    customTitle: true
-    buttonBarVisible: false
+    forwardButtonSourceComponent: forwardButton
+
+    Component.onCompleted: {
+        theme.palette.normal.backgroundText = "#cdcdcd";
+    }
 
     Flickable
     {
@@ -35,40 +38,53 @@ LocalComponents.Page {
         anchors.fill: content
         anchors.leftMargin: parent.leftMargin
         anchors.rightMargin: parent.rightMargin
+        anchors.topMargin: customMargin
 
-        // email
+//        // email
+//        Label {
+//            id: emailLabel
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            wrapMode: Text.Wrap
+//            text: i18n.tr("Email")
+//            color: textColor
+//            font.weight: Font.Light
+//        }
+
+//        LocalComponents.WizardTextField {
+//            id: emailInput
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: emailLabel.bottom
+//            anchors.topMargin: units.gu(1)
+//            inputMethodHints: Qt.ImhEmailCharactersOnly
+//            validator: RegExpValidator {
+//                regExp: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+//            }
+//            KeyNavigation.tab: nameInput
+//        }
+
+        // notice
         Label {
-            id: emailLabel
+            id: noticeLabel
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Email")
+            text: i18n.tr("Please enter a password to create your user account. You need this password to administer your device.")
             color: textColor
+            fontSize: "small"
             font.weight: Font.Light
+            width: content.width
         }
 
-        LocalComponents.WizardTextField {
-            id: emailInput
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: emailLabel.bottom
-            anchors.topMargin: units.gu(1)
-            inputMethodHints: Qt.ImhEmailCharactersOnly
-            validator: RegExpValidator {
-                regExp: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-            }
-            KeyNavigation.tab: nameInput
-        }
-
-        // name
+        // username
         Label {
             id: nameLabel
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: emailInput.bottom
-            anchors.topMargin: units.gu(2)
-            wrapMode: Text.Wrap
-            text: i18n.tr("Your name")
+            anchors.top: noticeLabel.bottom
+            anchors.topMargin: units.gu(3)
+            text: i18n.tr("User name")
             color: textColor
             font.weight: Font.Light
         }
@@ -89,7 +105,6 @@ LocalComponents.Page {
             anchors.right: parent.right
             anchors.top: nameInput.bottom
             anchors.topMargin: units.gu(2)
-            wrapMode: Text.Wrap
             text: i18n.tr("Password")
             color: textColor
             font.weight: Font.Light
@@ -102,6 +117,7 @@ LocalComponents.Page {
             anchors.top: passLabel.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
+            placeholderText: i18n.tr("Use a combination of letters and numbers.")
             KeyNavigation.tab: pass2Input
         }
 
@@ -135,43 +151,22 @@ LocalComponents.Page {
             anchors.top: pass2Label.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
-            KeyNavigation.tab: cancelButton
+            KeyNavigation.tab: nameInput
         }
+    }
 
-        // buttons
-        Button {
-            id: cancelButton
-            anchors {
-                top: pass2Input.bottom
-                left: parent.left
-                right: parent.horizontalCenter
-                rightMargin: units.gu(1)
-                topMargin: units.gu(4)
-            }
-            text: i18n.tr("Cancel")
-            onClicked: pageStack.prev()
-            KeyNavigation.tab: okButton
-        }
-
-        Button {
-            id: okButton
-            anchors {
-                top: pass2Input.bottom
-                left: parent.horizontalCenter
-                right: parent.right
-                leftMargin: units.gu(1)
-                topMargin: units.gu(4)
-            }
-            text: i18n.tr("Sign Up")
-            enabled: emailInput.acceptableInput && nameInput.text !== "" &&
+    Component {
+        id: forwardButton
+        LocalComponents.StackButton {
+            enabled: /*emailInput.acceptableInput && */nameInput.text !== "" &&
                      pass2Input.text.length > 7 && passInput.text === pass2Input.text
+            text: i18n.tr("Next")
             onClicked: {
                 root.password = passInput.text;
                 AccountsService.realName = nameInput.text;
-                AccountsService.email = emailInput.text;
-                pageStack.next() // TODO sign up against U1 in Phase 2
+                //AccountsService.email = emailInput.text;
+                pageStack.next();
             }
-            KeyNavigation.tab: emailInput
         }
     }
 }

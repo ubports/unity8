@@ -82,7 +82,7 @@ Item {
         }
 
         function prev() {
-            var isPrimaryPage = !currentPage.customTitle;
+            var isPrimaryPage = currentPage && !currentPage.customTitle;
             if (pageList.index >= pageStack.depth - 1) {
                 pageList.prev(); // update pageList.index, but not for extra pages
             }

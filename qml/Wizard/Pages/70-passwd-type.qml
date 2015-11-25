@@ -89,11 +89,11 @@ LocalComponents.Page {
                     text: {
                         switch (index) {
                         case 0:
-                            return i18n.ctr("Label: Type of security method", "Device account password");
+                            return i18n.ctr("Label: Type of security method", "Ubuntu administrator password");
                         case 1:
-                            return i18n.ctr("Label: Type of security method", "New password");
+                            return i18n.ctr("Label: Type of security method", "Create new password");
                         case 2:
-                            return i18n.ctr("Label: Type of security method", "Passcode (numbers only)");
+                            return i18n.ctr("Label: Type of security method", "Create passcode (numbers only)");
                         case 3:
                             return i18n.ctr("Label: Type of security method", "No lock code");
                         }

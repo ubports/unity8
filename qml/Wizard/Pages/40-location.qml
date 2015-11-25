@@ -233,7 +233,6 @@ LocalComponents.Page {
                 rightMargin: rightMargin
             }
             wrapMode: Text.Wrap
-            textFormat: Text.RichText
             text: i18n.tr("You can change it later in System Settings.")
             color: textColor
             fontSize: "small"
@@ -260,7 +259,7 @@ LocalComponents.Page {
                     locationActionGroup.gps.activate();
                 }
                 AccountsService.hereEnabled = hereOn;
-                pageStack.next()
+                pageStack.next();
             }
         }
     }

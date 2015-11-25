@@ -53,7 +53,7 @@ LocalComponents.Page {
             }
         }
 
-        theme.palette.normal.backgroundText = textColor;
+        theme.palette.normal.backgroundText = "#cdcdcd";
         searchField.forceActiveFocus();
     }
 
