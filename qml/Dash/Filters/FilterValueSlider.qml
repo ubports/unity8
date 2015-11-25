@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 
-/*! Range Input Filter Widget. */
+/*! Value Slider Filter Widget. */
 
 FilterWidget {
     id: root
