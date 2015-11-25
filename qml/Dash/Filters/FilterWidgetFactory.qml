@@ -66,6 +66,7 @@ Item {
             switch (widgetType) {
                 case Filters.OptionSelectorFilter: return "FilterOptionSelector.qml";
                 case Filters.RangeInputFilter: return "FilterRangeInput.qml";
+                case Filters.ValueSliderFilter: return "FilterValueSlider.qml";
                 default: return "";
             }
         }
