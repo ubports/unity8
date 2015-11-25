@@ -31,7 +31,7 @@ Item {
     //! Widget data, forwarded to the widget as is.
     property var widgetData: null
 
-    implicitHeight: childrenRect.height + title.anchors.topMargin
+    implicitHeight: title.height + title.anchors.topMargin + loader.height
 
     Label {
         id: title
