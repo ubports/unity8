@@ -119,21 +119,17 @@ AbstractStage {
             var index = indexOf(focusedAppId);
             return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
         }
-        property int foregroundMaximizedAppIdIndex: -1
+        property int foregroundMaximizedAppZ: -1
 
         function updateForegroundMaximizedApp() {
-            for (var i = 0; i < appRepeater.count; i++) {
+            var tmp = -1;
+            for (var i = appRepeater.count - 1; i >= 0; i--) {
                 var item = appRepeater.itemAt(i);
-
                 if (item && item.visuallyMaximized) {
-                    var app = ApplicationManager.get(i);
-                    if (app) {
-                        foregroundMaximizedAppIdIndex = i;
-                        return;
-                    }
+                    tmp = Math.max(tmp, item.normalZ);
                 }
             }
-            foregroundMaximizedAppIdIndex = -1;
+            foregroundMaximizedAppZ = tmp;
         }
 
         function indexOf(appId) {
@@ -217,7 +213,10 @@ AbstractStage {
             delegate: FocusScope {
                 id: appDelegate
                 objectName: "appDelegate_" + appId
-                z: ApplicationManager.count - index
+                // z might be overriden in some cases by effects, but we need z ordering
+                // to calculate occlusion detection
+                property int normalZ: ApplicationManager.count - index
+                z: normalZ
                 y: units.gu(3)
                 width: units.gu(60)
                 height: units.gu(50)
@@ -252,7 +251,7 @@ AbstractStage {
 
                 visible: !visuallyMinimized &&
                          !greeter.fullyShown &&
-                         (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
+                         (priv.foregroundMaximizedAppZ === -1 || priv.foregroundMaximizedAppZ <= z) ||
                          (spread.state == "altTab" && index === spread.highlightedIndex)
 
                 Binding {
