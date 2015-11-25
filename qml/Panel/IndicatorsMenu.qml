@@ -116,15 +116,6 @@ Showable {
         }
     }
 
-    PanelSeparatorLine {
-        id: indicatorOrangeLine
-        anchors {
-            bottom: handle.top
-            left: handle.left
-            right: handle.right
-        }
-    }
-
     Rectangle {
         anchors.fill: bar
         color: panelColor

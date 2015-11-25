@@ -35,7 +35,7 @@ Rectangle {
                 id: dot
                 width: units.dp(3)
                 height: width
-                color: handle.active ? UbuntuColors.orange : "#717171"
+                color: handle.active ? UbuntuColors.orange : "#888888"
                 radius: units.dp(1)
             }
         }
