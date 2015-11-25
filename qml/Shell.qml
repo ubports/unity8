@@ -575,6 +575,13 @@ Item {
                     applicationsDisplayLoader.focus = true;
                 }
             }
+
+            GlobalShortcut {
+                shortcut: Qt.AltModifier|Qt.Key_F1
+                onTriggered: {
+                    launcher.openForKeyboardNavigation();
+                }
+            }
         }
 
         Wizard {

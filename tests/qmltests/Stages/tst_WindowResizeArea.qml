@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
 import ".."
+import "../../../qml/Components/PanelState"
 import "../../../qml/Stages"
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
@@ -30,6 +31,12 @@ Item {
     width: units.gu(60)
 
     property var fakeWindow: windowLoader.item
+
+    Binding {
+        target: PanelState
+        property: "panelHeight"
+        value: units.gu(2)
+    }
 
     Component {
         id: fakeWindowComponent
@@ -57,6 +64,8 @@ Item {
                 minWidth: units.gu(15)
                 minHeight: units.gu(10)
                 windowId: "test-window-id"
+                screenWidth: root.width
+                screenHeight: root.height
             }
 
             Rectangle {
@@ -227,6 +236,40 @@ Item {
 
             // clean up
             fakeWindow.state = "normal"
+        }
+
+
+        function test_restoreMovesIntoBounds_data() {
+            return [
+                        {tag: "left off", x: -units.gu(5), y: units.gu(5), w: units.gu(10), h: units.gu(10)},
+                        {tag: "top off", x: units.gu(5), y: -units.gu(5), w: units.gu(10), h: units.gu(10)},
+                        {tag: "right off", x: root.width - units.gu(5), y: units.gu(5), w: units.gu(10), h: units.gu(10)},
+                        {tag: "bottom off", x: units.gu(5), y: root.height - units.gu(5), w: units.gu(10), h: units.gu(10)},
+                        {tag: "width too large", x: units.gu(5), y: units.gu(5), w: root.width * 2, h: units.gu(10)},
+                        {tag: "height too large", x: units.gu(5), y: units.gu(5), w: units.gu(10), h: root.height * 2}
+                ]
+        }
+
+        function test_restoreMovesIntoBounds(data) {
+            fakeWindow.x = data.x;
+            fakeWindow.y = data.y;
+            fakeWindow.width = data.w;
+            fakeWindow.height = data.h;
+            waitForRendering(root);
+
+            // This will destroy the window and recreate it
+            windowLoader.active = false;
+            waitForRendering(root);
+            windowLoader.active = true;
+            waitForRendering(root)
+
+            // Make sure it's again where we left it in normal state before destroying
+            compare(fakeWindow.x >= 0, true)
+            compare(fakeWindow.y >= PanelState.panelHeight, true)
+            compare(fakeWindow.x + fakeWindow.width <= root.width, true)
+            compare(fakeWindow.y + fakeWindow.height <= root.height, true)
+
+            waitForRendering(root)
         }
     }
 }

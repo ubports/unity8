@@ -195,7 +195,9 @@ void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change>
                 m_lastInRowIndexPosition.remove(indexToRemove);
             } else {
                 if (indexToRemove < lastIndex) {
-                    qFatal("HorizontalJournal only supports removal from the end of the model");
+                    qDebug() << "HorizontalJournal only supports removal from the end of the model, resetting instead";
+                    cleanupExistingItems();
+                    break;
                 } else {
                     setImplicitHeightDirty();
                 }

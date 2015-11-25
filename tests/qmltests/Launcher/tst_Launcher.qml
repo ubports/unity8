@@ -69,6 +69,7 @@ Item {
 
                 Component.onCompleted: {
                     launcherLoader.itemDestroyed = false;
+                    launcherLoader.focus = true
                 }
                 Component.onDestruction: {
                     launcherLoader.itemDestroyed = true;
@@ -392,7 +393,7 @@ Item {
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "runningHighlight").visible, LauncherModel.get(i).running)
+                compare(findChild(delegate, "runningHighlight0").visible, LauncherModel.get(i).running)
             }
         }
 
@@ -885,6 +886,7 @@ Item {
         }
 
         function test_focusRingFollowsHighlightIndex() {
+            launcherLoader.forceActiveFocus()
             var bfb = findChild(launcher, "buttonShowDashHome");
             var focusRing0 = findChild(findChild(launcher, "launcherDelegate0"), "focusRing");
             var focusRing1 = findChild(findChild(launcher, "launcherDelegate1"), "focusRing");
@@ -914,8 +916,7 @@ Item {
             tryCompare(focusRing1, "visible", false);
             tryCompare(focusRing0, "visible", true);
             keyClick(Qt.Key_Backtab);
-            tryCompare(focusRing1, "visible", false);
-            tryCompare(focusRing1, "visible", true);
+            tryCompare(focusRing0, "visible", false);
             tryCompare(bfb, "highlighted", true);
         }
     }

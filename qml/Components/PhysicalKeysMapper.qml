@@ -67,7 +67,6 @@ Item {
     }
 
     function onKeyPressed(event, currentEventTimestamp) {
-        print("key pressed", event.key, "Tab is", Qt.Key_Tab, "Meta is", Qt.Key_Meta)
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             if (event.isAutoRepeat) {
                 if (d.powerButtonPressStart > 0
@@ -105,16 +104,13 @@ Item {
         } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
             d.altPressed = true;
         } else if (event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)) {
-            print("meta pressed")
             d.superPressed = true;
         } else if (event.key == Qt.Key_Tab) {
             if (d.altPressed && !d.altTabPressed) {
                 d.altTabPressed = true;
                 event.accepted = true;
             }
-            print("huh", d.superPressed, d.superTabPressed)
             if (d.superPressed && !d.superTabPressed) {
-                print("superTab pressed")
                 d.superTabPressed = true;
                 event.accepted = true;
             }

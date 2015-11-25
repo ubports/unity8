@@ -322,6 +322,7 @@ Rectangle {
         }
 
         function cleanup() {
+            waitForRendering(shell);
             mouseEmulation.checked = true;
             tryCompare(shell, "enabled", true); // make sure greeter didn't leave us in disabled state
             tearDown();
@@ -353,9 +354,9 @@ Rectangle {
             var app2 = ApplicationManager.startApplication("webbrowser-app")
             var app3 = ApplicationManager.startApplication("camera-app")
             var app4 = ApplicationManager.startApplication("facebook-webapp")
-            var app5 = ApplicationManager.startApplication("calendar-app")
+            var app5 = ApplicationManager.startApplication("camera-app")
             var app6 = ApplicationManager.startApplication("gallery-app")
-            var app7 = ApplicationManager.startApplication("camera-app")
+            var app7 = ApplicationManager.startApplication("calendar-app")
             waitUntilAppWindowIsFullyLoaded(app7);
         }
 
@@ -1719,11 +1720,11 @@ Rectangle {
             keyPress(Qt.Key_Control)
             keyClick(Qt.Key_Tab);
 
-
             tryCompare(desktopSpread, "state", "altTab")
 
-            mouseMove(shell, 0, 0);
+            mouseMove(shell, 0, shell.height / 2);
             tryCompare(launcher, "state", "visibleTemporary")
+            waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
             tryCompare(launcher, "state", "")
@@ -1818,6 +1819,37 @@ Rectangle {
             tryCompare(panelButtons, "visible", true);
         }
 
+        function test_cantMoveWindowUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appDelegate = appRepeater.itemAt(0);
+
+            mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
+            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
+
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
+        function test_restoreWindowStateFixesIfUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            // Move it under the panel programmatically (might happen later with an alt+drag)
+            appDelegate.y = -units.gu(10)
+
+            ApplicationManager.stopApplication(appId)
+            ApplicationManager.startApplication(appId)
+            waitForRendering(shell)
+
+            // Make sure the newly started one is at index 0 again
+            tryCompare(ApplicationManager.get(0), "appId", appId);
+
+            appDelegate = appRepeater.itemAt(0);
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
         function test_lifecyclePolicyForNonTouchApp_data() {
             return [
                 {tag: "phone", formFactor: "phone", usageScenario: "phone"},
@@ -1863,6 +1895,63 @@ Rectangle {
             compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
 
+        function test_switchToStagedForcesLegacyAppClosing_data() {
+            return [
+                {tag: "forceClose", replug: false },
+                {tag: "replug", replug: true }
+            ];
+        }
+
+        function test_switchToStagedForcesLegacyAppClosing(data) {
+            loadShell("desktop")
+            shell.usageScenario = "desktop"
+            waitForRendering(shell);
+
+            ApplicationManager.startApplication("camera-app")
+
+            shell.usageScenario = "phone"
+            waitForRendering(shell);
+
+            // No legacy app running yet... Popup must *not* show.
+            var popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup, null);
+
+            shell.usageScenario = "desktop"
+            waitForRendering(shell);
+
+            // Now start a legacy app
+            ApplicationManager.startApplication("libreoffice")
+
+            shell.usageScenario = "phone"
+            waitForRendering(shell);
+
+            // The popup must appear now
+            popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup !== null, true);
+
+            if (data.replug) {
+                shell.usageScenario = "desktop"
+                waitForRendering(shell);
+
+            } else {
+                var forceCloseButton = findChild(popup, "forceCloseButton");
+                mouseClick(forceCloseButton, forceCloseButton.width / 2, forceCloseButton.height / 2);
+                waitForRendering(root);
+            }
+
+            // Popup must be gone now
+            popup = findChild(root, "modeSwitchWarningDialog");
+            compare(popup === null, true);
+
+            if (data.replug) {
+                // Libreoffice must still be running
+                compare(ApplicationManager.findApplication("libreoffice") !== null, true);
+            } else {
+                // Libreoffice must be gone now
+                compare(ApplicationManager.findApplication("libreoffice") === null, true);
+            }
+        }
+
         function test_superTabToCycleLauncher() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
@@ -1896,8 +1985,6 @@ Rectangle {
             tryCompare(launcher, "state", "");
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
-
-
         }
     }
 }

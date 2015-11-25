@@ -62,12 +62,10 @@ FocusScope {
 
     onSuperTabPressedChanged: {
         if (superTabPressed) {
-            print("super tab pressed")
             switchToNextState("visible")
             panel.highlightIndex = -1;
             root.focus = true;
         } else {
-            print("super tab released")
             if (panel.highlightIndex == -1) {
                 showDashHome();
             } else if (panel.highlightIndex >= 0){
@@ -106,20 +104,14 @@ FocusScope {
         }
     }
 
-    GlobalShortcut {
-//        shortcut: Qt.AltModifier|Qt.Key_F1
-        shortcut: Qt.Key_F1
-        onTriggered: {
-            panel.highlightIndex = -1; // The BFB
-            root.focus = true;
-            switchToNextState("visible")
-            root.focus = true;
-            print("root has focus", root.focus, root.activeFocus)
-        }
+    function openForKeyboardNavigation() {
+        panel.highlightIndex = -1; // The BFB
+        root.focus = true;
+        switchToNextState("visible")
+        root.focus = true;
     }
 
     Keys.onPressed: {
-        print("blubb")
         switch (event.key) {
         case Qt.Key_Backtab:
             panel.highlightPrevious();

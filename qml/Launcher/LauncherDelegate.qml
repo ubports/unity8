@@ -33,6 +33,7 @@ Item {
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
+    readonly property alias wiggling: wiggleAnim.running
 
     property int itemWidth
     property int itemHeight
@@ -231,8 +232,9 @@ Item {
             }
             spacing: units.gu(.5)
             Repeater {
-                model: 1
+                model: 1 // TODO: This should be "Math.min(3, app.surfaceCount)" once we have multiple surfaces
                 Rectangle {
+                    objectName: "runningHighlight" + index
                     width: units.gu(0.25)
                     height: units.gu(.5)
                     color: "white"
@@ -242,6 +244,7 @@ Item {
         }
 
         Rectangle {
+            objectName: "focusedHighlight"
             anchors {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
