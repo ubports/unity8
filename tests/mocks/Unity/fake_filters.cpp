@@ -24,7 +24,6 @@ Filters::Filters(Scope* parent)
  : unity::shell::scopes::FiltersInterface(parent)
 {
     addFilter(new FakeOptionSelectorFilter("OSF1", "Tag1", "Which Cake you like More", false, QStringList() << "cheese" << "carrot" << "chocolate", this));
-    addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
 
     FakeRangeInputFilter *rif = new FakeRangeInputFilter("RIF1", "Tag3", this);
     rif->setTitle("How much do you want to walk?");
@@ -32,6 +31,8 @@ Filters::Filters(Scope* parent)
     rif->setStartPostfixLabel("m");
     rif->setEndPostfixLabel("m");
     addFilter(rif);
+
+    addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
 }
 
 void Filters::addFilter(unity::shell::scopes::FilterBaseInterface *f)
