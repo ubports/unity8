@@ -30,6 +30,7 @@ Item {
     property bool inverted: false
     property bool alerting: false
     property bool highlighted: false
+    property bool shortcutHintShown: false
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
@@ -253,6 +254,19 @@ Item {
             height: units.gu(.5)
             color: "white"
             visible: root.itemFocused
+        }
+
+        Rectangle {
+            objectName: "shortcutHint"
+            anchors.fill: parent
+            anchors.margins: units.gu(2)
+            color: UbuntuColors.lightGrey
+            visible: root.shortcutHintShown
+            Label {
+                anchors.centerIn: parent
+                text: index + 1
+                color: "white"
+            }
         }
     }
 

@@ -41,6 +41,7 @@ Item {
     signal screenshotTriggered;
 
     readonly property bool altTabPressed: d.altTabPressed
+    readonly property bool superPressed: d.superPressed
     readonly property bool superTabPressed: d.superTabPressed
 
     property int powerKeyLongPressTime: 2000

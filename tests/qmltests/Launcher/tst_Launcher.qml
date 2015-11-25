@@ -919,5 +919,15 @@ Item {
             tryCompare(focusRing0, "visible", false);
             tryCompare(bfb, "highlighted", true);
         }
+
+        function test_longpressSuperKeyShowsHints() {
+            var shortCutHint0 = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint");
+
+            tryCompare(shortCutHint0, "visible", false);
+
+            launcher.superPressed = true;
+            tryCompare(launcher, "state", "visible");
+            tryCompare(shortCutHint0, "visible", true);
+        }
     }
 }

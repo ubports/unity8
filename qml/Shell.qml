@@ -550,6 +550,7 @@ Item {
                     && !greeter.hasLockedApp
             inverted: shell.usageScenario !== "desktop"
             shadeBackground: !tutorial.running
+            superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
 
             onShowDashHome: showHome()
@@ -577,9 +578,21 @@ Item {
             }
 
             GlobalShortcut {
-                shortcut: Qt.AltModifier|Qt.Key_F1
+                shortcut: Qt.AltModifier | Qt.Key_F1
                 onTriggered: {
                     launcher.openForKeyboardNavigation();
+                }
+            }
+
+            Repeater {
+                model: 9
+                GlobalShortcut {
+                    shortcut: Qt.MetaModifier | (Qt.Key_1 +  index)
+                    onTriggered: {
+                        if (LauncherModel.get(index)) {
+                            activateApplication(LauncherModel.get(index).appId);
+                        }
+                    }
                 }
             }
         }

@@ -35,6 +35,7 @@ Rectangle {
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
     property int highlightIndex: -2
+    property bool shortcutHintsShown: false
 
     signal applicationSelected(string appId)
     signal showDashHome()
@@ -230,6 +231,7 @@ Rectangle {
                         inverted: root.inverted
                         alerting: model.alerting
                         highlighted: root.highlightIndex == index
+                        shortcutHintShown: root.shortcutHintsShown && index <= 9
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false

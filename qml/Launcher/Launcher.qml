@@ -35,6 +35,7 @@ FocusScope {
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
 
+    property bool superPressed: false
     property bool superTabPressed: false
 
     readonly property bool dragging: dragArea.dragging
@@ -60,11 +61,25 @@ FocusScope {
         }
     }
 
+    onSuperPressedChanged: {
+        if (superPressed) {
+            superPressTimer.start();
+            superLongPressTimer.start();
+        } else {
+            superPressTimer.stop();
+            superLongPressTimer.stop();
+            launcher.switchToNextState("");
+            panel.shortcutHintsShown = false;
+        }
+    }
+
     onSuperTabPressedChanged: {
         if (superTabPressed) {
             switchToNextState("visible")
             panel.highlightIndex = -1;
             root.focus = true;
+            superPressTimer.stop();
+            superLongPressTimer.stop();
         } else {
             if (panel.highlightIndex == -1) {
                 showDashHome();
@@ -155,6 +170,23 @@ FocusScope {
             root.state = ""
             event.accepted = true;
             root.focus = false;
+        }
+    }
+
+    Timer {
+        id: superPressTimer
+        interval: 200
+        onTriggered: {
+            switchToNextState("visible")
+        }
+    }
+
+    Timer {
+        id: superLongPressTimer
+        interval: 1000
+        onTriggered: {
+            switchToNextState("visible")
+            panel.shortcutHintsShown = true;
         }
     }
 
