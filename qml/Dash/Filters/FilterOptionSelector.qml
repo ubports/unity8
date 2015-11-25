@@ -30,6 +30,7 @@ FilterWidget {
 
         expandedHeight: collapsedHeight + column.height
         width: parent.width
+        showDivider: false
 
         onClicked: {
             expanded = !expanded;

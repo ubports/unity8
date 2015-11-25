@@ -25,7 +25,6 @@ Filters::Filters(Scope* parent)
  : unity::shell::scopes::FiltersInterface(parent)
 {
     addFilter(new FakeOptionSelectorFilter("OSF1", "Tag1", "Which Cake you like More", false, QStringList() << "cheese" << "carrot" << "chocolate", this));
-    addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
 
     FakeRangeInputFilter *rif = new FakeRangeInputFilter("RIF1", "Tag3", this);
     rif->setTitle("How much do you want to walk?");
@@ -40,6 +39,8 @@ Filters::Filters(Scope* parent)
     labels[100] = "100";
     FakeValueSliderFilter *vsf = new FakeValueSliderFilter("VS1", "Tag4", 15, 10, 150, labels, this);
     addFilter(vsf);
+
+    addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
 }
 
 void Filters::addFilter(unity::shell::scopes::FilterBaseInterface *f)
