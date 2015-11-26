@@ -40,7 +40,6 @@ LocalComponents.Page {
             label2.visible = false
             label3.visible = false
             label4.visible = false
-            label5.visible = false
             webview.visible = true
         } else {
             webview.visible = false
@@ -48,7 +47,6 @@ LocalComponents.Page {
             label2.visible = true
             label3.visible = true
             label4.visible = true
-            label5.visible = true
         }
     }
 
@@ -104,28 +102,11 @@ LocalComponents.Page {
             fontSize: "small"
             font.weight: Font.Light
             linkColor: UbuntuColors.orange
-            text: i18n.tr("By continuing, you agree to the HERE Platform Service Terms:") +
-                  " <a href=\"http://here.com/terms/service-terms\">http://here.com/terms/service-terms</a>"
+            text: i18n.tr("By continuing, you agree to the <a href=\"http://here.com/terms/service-terms\">HERE Platform Service Terms</a> " +
+                          "and <a href=\"http://here.com/privacy/privacy-policy\">Privacy Policy</a>.");
             onLinkActivated: {
                 showBrowser(true)
                 webview.url = link
-            }
-        }
-
-        Label {
-            id: label5
-            anchors.left: parent.left
-            anchors.right: parent.right
-            wrapMode: Text.Wrap
-            color: textColor
-            fontSize: "small"
-            font.weight: Font.Light
-            linkColor: UbuntuColors.orange
-            text: i18n.tr("and Privacy Policy:") +
-                  " <a href=\"http://here.com/privacy/privacy-policy\">http://here.com/privacy/privacy-policy</a>"
-            onLinkActivated: {
-                showBrowser(true);
-                webview.url = link;
             }
         }
 
