@@ -117,7 +117,7 @@ LocalComponents.Page {
             anchors.top: passLabel.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
-            placeholderText: i18n.tr("Use a combination of letters and numbers.")
+            placeholderText: i18n.tr("Use a combination of letters and numbers")
             KeyNavigation.tab: pass2Input
         }
 

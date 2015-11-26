@@ -77,6 +77,7 @@ Item {
             left: parent.left
             right: parent.right
             top: passwordStrengthMeter.bottom
+            topMargin: units.gu(.5)
         }
         wrapMode: Text.Wrap
         text: {
