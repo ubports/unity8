@@ -41,10 +41,10 @@ PreviewWidget {
     implicitHeight: childrenRect.height
 
     onIsCurrentPreviewChanged: ratingsList.updateRanges();
-    onParentListChanged: ratingsList.updateRanges();
+    onParentFlickableChanged: ratingsList.updateRanges();
 
     Connections {
-        target: parentList
+        target: parentFlickable
         onOriginYChanged: ratingsList.updateRanges();
         onContentYChanged: ratingsList.updateRanges();
         onHeightChanged: ratingsList.updateRanges();
@@ -78,19 +78,19 @@ PreviewWidget {
 
         function updateRanges() {
             var baseItem = root.parent;
-            if (!parentList || !baseItem) {
+            if (!parentFlickable || !baseItem) {
                 ratingsList.displayMarginBeginning = 0;
                 ratingsList.displayMarginEnd = 0;
                 return;
             }
 
-            if (parentList.moving) {
+            if (parentFlickable.moving) {
                 // Do not update the range if we are overshooting up or down, since we'll come back
                 // to the stable position and delete/create items without any reason
-                if (parentList.contentY < parentList.originY) {
+                if (parentFlickable.contentY < parentFlickable.originY) {
                     return;
-                } else if (parentList.contentHeight - parentList.originY > parentList.height &&
-                            parentList.contentY + parentList.height > parentList.contentHeight) {
+                } else if (parentFlickable.contentHeight - parentFlickable.originY > parentFlickable.height &&
+                            parentFlickable.contentY + parentFlickable.height > parentFlickable.contentHeight) {
                     return;
                 }
             }
@@ -106,8 +106,8 @@ PreviewWidget {
             // Ideally we would also use displayMarginBeginning
             // so that delegates at the beginning get destroyed but that causes issues with
             // listview and is not really necessary to provide the better experience we're after
-            var itemYOnViewPort = baseItem.y - parentList.contentY;
-            var displayMarginEnd = -ratingsList.contentHeight + parentList.height - itemYOnViewPort;
+            var itemYOnViewPort = baseItem.y - parentFlickable.contentY;
+            var displayMarginEnd = -ratingsList.contentHeight + parentFlickable.height - itemYOnViewPort;
             displayMarginEnd = -Math.max(-displayMarginEnd, 0);
             displayMarginEnd = -Math.min(-displayMarginEnd, ratingsList.contentHeight);
             displayMarginEnd = Math.round(displayMarginEnd);

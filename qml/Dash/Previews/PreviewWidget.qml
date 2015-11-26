@@ -37,8 +37,8 @@ Item {
     //! Set margins width.
     property real widgetMargins: units.gu(1)
 
-    /// The parent (vertical) list this widget is in (if any)
-    property var parentList: null
+    /// The parent (vertical) flickable this widget is in (if any)
+    property var parentFlickable: null
 
     /*! \brief This signal should be emitted when a preview action was triggered.
      *

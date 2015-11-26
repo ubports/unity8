@@ -90,7 +90,7 @@ Item {
                     widgetData: model.properties
                     isCurrentPreview: root.isCurrent
                     scopeStyle: root.scopeStyle
-                    parentList: column
+                    parentFlickable: column
 
                     anchors {
                         left: parent.left
