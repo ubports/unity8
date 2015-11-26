@@ -55,24 +55,72 @@ LocalComponents.Page {
         anchors.fill: content
         anchors.topMargin: customMargin
 
-        Label {
-            id: hereCheckLabel
+        Item {
+            id: hereCheckGroup
             anchors {
                 left: parent.left
-                right: hereTermsCheck.left
+                right: parent.right
                 top: parent.top
-                leftMargin: leftMargin
-                rightMargin: rightMargin/2
             }
-            lineHeight: 1.2
-            wrapMode: Text.WordWrap
-            color: textColor
-            font.weight: checked ? Font.Normal : Font.Light
-            text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")
-            property bool checked: true
+            height: childrenRect.height
+
+            Label {
+                id: hereCheckLabel
+                anchors {
+                    left: parent.left
+                    right: hereTermsCheck.left
+                    top: parent.top
+                    leftMargin: leftMargin
+                    rightMargin: rightMargin/2
+                }
+                lineHeight: 1.2
+                wrapMode: Text.WordWrap
+                color: textColor
+                font.weight: checked ? Font.Normal : Font.Light
+                text: i18n.tr("Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location (recommended)")
+                property bool checked: true
+            }
+
+            Label {
+                id: hereTermsLabel
+                anchors {
+                    left: parent.left
+                    right: hereTermsCheck.left
+                    top: hereCheckLabel.bottom
+                    topMargin: units.gu(1)
+                    leftMargin: leftMargin
+                    rightMargin: rightMargin/2
+                }
+
+                wrapMode: Text.WordWrap
+                color: textColor
+                font.weight: Font.Light
+                fontSize: "small"
+                lineHeight: 1.2
+                linkColor: UbuntuColors.orange
+                text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
+                Mouse.forwardTo: hereCheckArea // clicking on the link also selects this group
+                Mouse.priority: Mouse.AfterItem
+                onLinkActivated: {
+                    pageStack.load(Qt.resolvedUrl("here-terms.qml"));
+                }
+            }
+
+            Image {
+                id: hereTermsCheck
+                fillMode: Image.PreserveAspectFit
+                height: units.gu(1.5)
+                source: "data/Tick@30.png"
+                opacity: hereCheckLabel.checked ? 1 : 0
+                anchors.right: parent.right
+                anchors.verticalCenter: hereCheckLabel.verticalCenter
+                anchors.rightMargin: rightMargin
+            }
 
             MouseArea {
+                id: hereCheckArea
                 anchors.fill: parent
+                z: hereCheckGroup.z - 1 // so that the link can be activated
                 onClicked: {
                     if (!hereCheckLabel.checked) {
                         hereCheckLabel.checked = true;
@@ -83,43 +131,11 @@ LocalComponents.Page {
             }
         }
 
-        Label {
-            id: hereTermsLabel
-            anchors {
-                left: parent.left
-                right: hereTermsCheck.left
-                top: hereCheckLabel.bottom
-                topMargin: units.gu(1)
-                leftMargin: leftMargin
-                rightMargin: rightMargin/2
-            }
-
-            wrapMode: Text.WordWrap
-            color: textColor
-            font.weight: Font.Light
-            fontSize: "small"
-            lineHeight: 1.2
-            linkColor: UbuntuColors.orange
-            text: i18n.tr("By selecting this option you agree to the Nokia HERE <a href='#'>terms and conditions</a>.")
-            onLinkActivated: pageStack.load(Qt.resolvedUrl("here-terms.qml"))
-        }
-
-        Image {
-            id: hereTermsCheck
-            fillMode: Image.PreserveAspectFit
-            height: units.gu(1.5)
-            source: "data/Tick@30.png"
-            opacity: hereCheckLabel.checked ? 1 : 0
-            anchors.right: parent.right
-            anchors.verticalCenter: hereCheckLabel.verticalCenter
-            anchors.rightMargin: rightMargin
-        }
-
         Rectangle {
             id: divider
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: hereTermsLabel.bottom
+            anchors.top: hereCheckGroup.bottom
             anchors.topMargin: units.gu(3)
             height: units.dp(1)
             color: dividerColor
