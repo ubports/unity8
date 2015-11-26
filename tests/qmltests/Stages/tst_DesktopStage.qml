@@ -22,6 +22,7 @@ import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
 
+import ".." // For EdgeBarrierControls
 import "../../../qml/Stages"
 import "../../../qml/Components"
 
@@ -65,6 +66,10 @@ Item {
             DesktopStage {
                 color: "darkblue"
                 anchors.fill: parent
+
+                Component.onCompleted: {
+                    edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
+                }
                 Component.onDestruction: {
                     desktopStageLoader.itemDestroyed = true;
                 }
@@ -97,6 +102,13 @@ Item {
                         surface.slowToResize = true;
                     }
                 }
+            }
+
+            EdgeBarrierControls {
+                id: edgeBarrierControls
+                text: "Drag here to pull out spread"
+                backgroundColor: "blue"
+                onDragged: { desktopStageLoader.item.pushRightEdge(amount); }
             }
 
             Divider {}

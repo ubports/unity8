@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+pragma Singleton
 import QtQuick 2.4
 
-Item {
-    signal pushedLeftBoundary(real amount, int buttons)
-    signal pushedRightBoundary(real amount, int buttons)
+QtObject {
+    readonly property real pushThreshold: units.gu(8)
 }

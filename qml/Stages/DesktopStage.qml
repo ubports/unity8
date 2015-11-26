@@ -30,6 +30,11 @@ AbstractStage {
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
     function updateFocusedAppOrientationAnimated() { /* TODO */}
+    function pushRightEdge(amount) {
+        if (spread.state === "") {
+            edgeBarrier.push(amount);
+        }
+    }
 
     mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
@@ -469,6 +474,29 @@ AbstractStage {
         anchors.fill: parent
         visible: spreadBackground.visible
         enabled: visible
+    }
+
+    EdgeBarrier {
+        id: edgeBarrier
+
+        // NB: it does its own positioning according to the specified edge
+        edge: Qt.RightEdge
+
+        onPassed: { spread.show(); }
+        material: Component {
+            Item {
+                Rectangle {
+                    width: parent.height
+                    height: parent.width
+                    rotation: 90
+                    anchors.centerIn: parent
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.7)}
+                        GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
+                    }
+                }
+            }
+        }
     }
 
     DesktopSpread {
