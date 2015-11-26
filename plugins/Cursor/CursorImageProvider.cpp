@@ -43,6 +43,7 @@ BuiltInCursorImage::BuiltInCursorImage()
          "</svg>";
 
     qimage = QImage(20, 32, QImage::Format_ARGB32);
+    qimage.fill(Qt::transparent);
     QPainter imagePainter(&qimage);
 
     QSvgRenderer *svgRenderer = new QSvgRenderer(QByteArray(svgString));
