@@ -22,10 +22,11 @@ QtObject {
 
     property string title: ""
     property bool buttonsVisible: false
-
-    property int panelHeight: 0
+    property bool dropShadow: false
+    property int panelHeight: units.gu(3)
 
     signal close()
     signal minimize()
     signal maximize()
+    signal focusMaximizedApp()
 }

@@ -1777,15 +1777,10 @@ Rectangle {
             tryCompare(panelButtons, "visible", false);
 
             appDelegate.maximize(false);
-            tryCompare(panelButtons, "visible", true);
 
             shell.usageScenario = "phone";
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", false);
-
-            shell.usageScenario = "desktop";
-            waitForRendering(shell);
-            tryCompare(panelButtons, "visible", true);
         }
 
         function test_lockingGreeterHidesPanelButtons() {
@@ -1799,15 +1794,10 @@ Rectangle {
             tryCompare(panelButtons, "visible", false);
 
             appDelegate.maximize(false);
-            tryCompare(panelButtons, "visible", true);
 
             LightDM.Greeter.showGreeter();
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", false);
-
-            LightDM.Greeter.hideGreeter();
-            waitForRendering(shell);
-            tryCompare(panelButtons, "visible", true);
         }
 
         function test_cantMoveWindowUnderPanel() {

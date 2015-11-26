@@ -24,14 +24,15 @@ FocusScope {
     id: root
 
     width: applicationWindow.width
-    height: (root.decorationShown ? decoration.height : 0) + applicationWindow.height
+    height: (decorationShown ? decoration.height : 0) + applicationWindow.height
 
     property alias window: applicationWindow
     property alias application: applicationWindow.application
     property alias active: decoration.active
     property alias title: decoration.title
+    property alias fullscreen: applicationWindow.fullscreen
 
-    property bool decorationShown: true
+    readonly property bool decorationShown: !fullscreen
     property bool highlightShown: false
     property real shadowOpacity: 1
 
@@ -42,15 +43,6 @@ FocusScope {
     signal maximize()
     signal minimize()
     signal decorationPressed()
-
-    BorderImage {
-        anchors {
-            fill: root
-            margins: -units.gu(2)
-        }
-        source: "graphics/dropshadow2gu.sci"
-        opacity: root.shadowOpacity * .3
-    }
 
     Rectangle {
         id: selectionHighlight
@@ -64,7 +56,17 @@ FocusScope {
         anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
         height: units.dp(2)
         color: UbuntuColors.orange
-        visible: root.highlightShown
+        visible: highlightShown
+    }
+
+    BorderImage {
+        anchors {
+            fill: root
+            margins: active ? -units.gu(2) : -units.gu(1.5)
+        }
+        source: "graphics/dropshadow2gu.sci"
+        opacity: root.shadowOpacity * .3
+        enabled: !fullscreen
     }
 
     WindowDecoration {
@@ -74,12 +76,13 @@ FocusScope {
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
         width: root.width
-        title: window.title !== "" ? window.title : ""
+        title: window.title
+        visible: root.decorationShown
+
         onClose: root.close();
-        onMaximize: root.maximize();
+        onMaximize: { root.decorationPressed(); root.maximize(); }
         onMinimize: root.minimize();
         onPressed: root.decorationPressed();
-        visible: decorationShown
     }
 
     ApplicationWindow {
