@@ -43,6 +43,7 @@ public:
 public Q_SLOTS:
     void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
             Qt::KeyboardModifiers modifiers) override;
+    void handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers) override;
 
 Q_SIGNALS:
     void pushedLeftBoundary(qreal amount, Qt::MouseButtons buttons);

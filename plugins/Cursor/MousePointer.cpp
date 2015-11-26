@@ -65,6 +65,17 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         buttons, modifiers);
 }
 
+void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers)
+{
+    if (!parentItem()) {
+        return;
+    }
+
+    QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
+    QWindowSystemInterface::handleWheelEvent(window(), timestamp, scenePosition /* local */, scenePosition /* global */,
+            QPoint() /* pixelDelta */, angleDelta, modifiers, Qt::ScrollUpdate);
+}
+
 void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
 {
     if (change == ItemSceneChange) {
