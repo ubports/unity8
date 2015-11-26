@@ -84,11 +84,11 @@ public:
         if (m_systemdInhibitFd.isValid())
             return;
 
-        // inhibit systemd handling of power/sleep/lid buttons
+        // inhibit systemd handling of power/sleep/hibernate buttons
         // http://www.freedesktop.org/wiki/Software/systemd/inhibit
 
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("Inhibit"));
-        msg << "handle-power-key:handle-suspend-key:handle-hibernate-key:handle-lid-switch"; // what
+        msg << "handle-power-key:handle-suspend-key:handle-hibernate-key"; // what
         msg << "Unity"; // who
         msg << "Unity8 handles power events"; // why
         msg << "block"; // mode
@@ -97,7 +97,6 @@ public:
         QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
         connect(watcher, &QDBusPendingCallWatcher::finished,
             this, [this](QDBusPendingCallWatcher* watcher) {
-
             QDBusPendingReply<QDBusUnixFileDescriptor> reply = *watcher;
             watcher->deleteLater();
             if (reply.isError()) {
@@ -108,7 +107,6 @@ public:
             m_systemdInhibitFd = reply.value();
         });
     }
-
 
     bool checkLogin1Call(const QString &method) const
     {
