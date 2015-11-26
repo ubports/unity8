@@ -31,7 +31,7 @@ Dialog {
     // NB: PopupBase, Dialog's superclass, will check for the existence of this property
     property bool reparentToRootItem: false
 
-    onVisibleChanged: { if (!visible) { dialogLoader.active = false; } }
+    onVisibleChanged: { if (!visible && dialogLoader) { dialogLoader.active = false; } }
 
     Keys.onEscapePressed: hide()
 

@@ -48,15 +48,19 @@
 #include <QSocketNotifier>
 #include <QDebug>
 
-class QInputDeviceInfoPrivate;
+class QInputDeviceManagerPrivate;
 class QInputDevicePrivate;
 class QInputDevice;
 
-class QInputDeviceInfoPrivate;
-class QInputDeviceInfo : public QObject
+class QInputDeviceManager;
+
+class QInputDevice : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int deviceCount READ deviceCount)
+    Q_ENUMS(InputType)
+    Q_FLAGS(InputType InputTypeFlags)
+    friend class QInputDeviceManagerPrivate;
+
 public:
 
     enum InputType {
@@ -69,67 +73,19 @@ public:
         Switch = 32
     };
     Q_ENUMS(InputType)
-    Q_FLAGS(InputTypes)
-    Q_DECLARE_FLAGS(InputTypes, InputType)
+    Q_DECLARE_FLAGS(InputTypeFlags, InputType)
 
-    explicit QInputDeviceInfo(QObject *parent = 0);
-
-    Q_INVOKABLE QVector <QInputDevice *> deviceList();
-
-    Q_INVOKABLE QMap <QString, QInputDevice *> deviceMap();
-    int deviceCount() { return deviceList().count(); }
-Q_SIGNALS:
-
-    void deviceAdded(const QString & devicePath);
-    void deviceRemoved(const QString & devicePath);
-
-    void ready();
-
-public Q_SLOTS:
-    void addedDevice(const QString & devicePath);
-
-private:
-    Q_DISABLE_COPY(QInputDeviceInfo)
-#if !defined(QT_SIMULATOR)
-    QInputDeviceInfoPrivate *const d_ptr;
-    Q_DECLARE_PRIVATE(QInputDeviceInfo)
-#endif
-};
-
-class QInputDevice : public QObject
-{
-    friend class QInputDeviceInfoPrivate;
-    Q_OBJECT
-    Q_ENUMS(InputType)
-    Q_FLAGS(InputTypes)
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    Q_PROPERTY(QString devicePath READ devicePath NOTIFY devicePathChanged)
-    Q_PROPERTY(QList <int> buttons READ buttons NOTIFY buttonsChanged)
-    Q_PROPERTY(QList <int> switches READ switches NOTIFY switchesChanged)
-    Q_PROPERTY(QList <int> relativeAxis READ relativeAxis NOTIFY relativeAxisChanged)
-    Q_PROPERTY(QList <int> absoluteAxis READ absoluteAxis NOTIFY absoluteAxisChanged)
-    Q_PROPERTY(QInputDeviceInfo::InputTypes types READ types NOTIFY typesChanged)
-
-public:
     explicit QInputDevice(QObject *parent = 0);
-
     QString name() const;
     QString devicePath() const;
     QList <int> buttons() const; //keys event code
     QList <int> switches() const;
     QList <int> relativeAxis() const;
     QList <int> absoluteAxis() const;
+    QInputDevice::InputTypeFlags type() const;
 
-    QInputDeviceInfo::InputTypes types();
-Q_SIGNALS:
-    void nameChanged();
-    void devicePathChanged();
-    void buttonsChanged();
-    void switchesChanged();
-    void relativeAxisChanged();
-    void absoluteAxisChanged();
-    void typesChanged();
 private:
+
     QInputDevicePrivate *d_ptr;
     void setName(const QString &);
     void setDevicePath(const QString &);
@@ -137,7 +93,51 @@ private:
     void addSwitch(int);
     void addRelativeAxis(int);
     void addAbsoluteAxis(int);
-    void setTypes(QInputDeviceInfo::InputTypes);
+    void setType(QInputDevice::InputTypeFlags flags);
+
+};
+
+Q_DECLARE_METATYPE(QInputDevice::InputType)
+Q_DECLARE_METATYPE(QInputDevice::InputTypeFlags)
+
+class QInputDeviceManagerPrivate;
+
+class QInputDeviceManager : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(int deviceCount READ deviceCount NOTIFY deviceCountChanged)
+    Q_PROPERTY(QInputDevice::InputType deviceFilter READ deviceFilter WRITE setDeviceFilter NOTIFY deviceFilterChanged)
+public:
+
+    explicit QInputDeviceManager(QObject *parent = 0);
+
+    int deviceCount() const;
+    int deviceCount(const QInputDevice::InputType filter) const;
+
+    void setDeviceFilter(QInputDevice::InputType filter);
+    QInputDevice::InputType deviceFilter();
+
+    QMap <QString, QInputDevice *> deviceMap();
+    Q_INVOKABLE QVector <QInputDevice *> deviceListOfType(QInputDevice::InputType filter);
+
+Q_SIGNALS:
+
+    void deviceAdded(const QString & devicePath);
+    void deviceRemoved(const QString & devicePath);
+
+    void ready();
+    void deviceCountChanged(int count);
+    void deviceFilterChanged(const QInputDevice::InputType filter);
+
+public Q_SLOTS:
+    void addedDevice(const QString & devicePath);
+
+private:
+    Q_DISABLE_COPY(QInputDeviceManager)
+#if !defined(QT_SIMULATOR)
+    QInputDeviceManagerPrivate *const d_ptr;
+    Q_DECLARE_PRIVATE(QInputDeviceManager)
+#endif
 };
 
 #endif // QINPUTINFO_H
