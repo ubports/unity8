@@ -35,8 +35,8 @@ public:
     Q_INVOKABLE void saveState(const QString &windowId, WindowState state);
     Q_INVOKABLE WindowState getState(const QString &windowId, WindowState defaultValue) const;
 
-    Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect &rect);
-    Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect &defaultValue) const;
+    Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect rect);
+    Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect defaultValue) const;
 
 private:
     void initdb();

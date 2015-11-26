@@ -28,6 +28,9 @@ public:
     ASAdapter();
     ~ASAdapter();
 
+    ASAdapter(const ASAdapter&) = delete;
+    ASAdapter& operator=(const ASAdapter&) = delete;
+
     void syncItems(const QList<LauncherItem*> &list);
 
 private:
