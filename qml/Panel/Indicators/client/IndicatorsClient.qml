@@ -22,7 +22,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 
 Rectangle {
-    color: "#333333"
+    color: "#292929"
     id: root
 
     Component.onCompleted: {

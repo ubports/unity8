@@ -89,7 +89,7 @@ Item {
 
         Rectangle {
             id: indicatorAreaBackground
-            color: callHint.visible ? "green" : "#333333"
+            color: callHint.visible ? "green" : "#292929"
             anchors {
                 top: parent.top
                 left: parent.left
