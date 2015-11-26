@@ -74,6 +74,7 @@ LocalComponents.Page {
             color: textColor
             fontSize: "small"
             font.weight: Font.Light
+            lineHeight: 1.2
             width: content.width
         }
 

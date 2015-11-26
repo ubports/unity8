@@ -65,6 +65,7 @@ LocalComponents.Page {
             color: textColor
             fontSize: "small"
             font.weight: Font.Light
+            lineHeight: 1.2
             text: i18n.tr("Your device uses positioning technologies provided by HERE.")
         }
 
@@ -76,6 +77,7 @@ LocalComponents.Page {
             color: textColor
             fontSize: "small"
             font.weight: Font.Light
+            lineHeight: 1.2
             text: i18n.tr("To provide you with positioning services and to improve their quality, HERE collects " +
                           "information about nearby cell towers and Wi-Fi hotspots around your current location " +
                           "whenever your position is being found.")
@@ -89,6 +91,7 @@ LocalComponents.Page {
             color: textColor
             fontSize: "small"
             font.weight: Font.Light
+            lineHeight: 1.2
             text: i18n.tr("The information collected is used to analyze the service and to " +
                           "improve the use of service, but not to identify you personally.")
         }
@@ -101,6 +104,7 @@ LocalComponents.Page {
             color: textColor
             fontSize: "small"
             font.weight: Font.Light
+            lineHeight: 1.2
             linkColor: UbuntuColors.orange
             text: i18n.tr("By continuing, you agree to the <a href=\"http://here.com/terms/service-terms\">HERE Platform Service Terms</a> " +
                           "and <a href=\"http://here.com/privacy/privacy-policy\">Privacy Policy</a>.");

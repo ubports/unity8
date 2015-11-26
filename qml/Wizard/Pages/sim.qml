@@ -73,7 +73,7 @@ LocalComponents.Page {
             leftMargin: leftMargin
             rightMargin: rightMargin
         }
-        spacing: units.gu(4)
+        spacing: units.gu(3)
 
         Label {
             anchors.left: parent.left
@@ -82,6 +82,7 @@ LocalComponents.Page {
             text: i18n.tr("You won’t be able to make calls or use text messaging without a SIM.")
             fontSize: "small"
             font.weight: Font.Light
+            lineHeight: 1.2
             color: restartDialog.visible ? theme.palette.normal.backgroundText : textColor
         }
 
@@ -93,6 +94,7 @@ LocalComponents.Page {
             text: i18n.tr("To proceed with no SIM tap Skip.")
             fontSize: "small"
             font.weight: Font.Light
+            lineHeight: 1.2
             color: restartDialog.visible ? theme.palette.normal.backgroundText : textColor
         }
     }

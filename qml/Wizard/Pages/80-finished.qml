@@ -84,6 +84,7 @@ LocalComponents.Page {
             wrapMode: Text.Wrap
             fontSize: "x-large"
             font.weight: Font.Light
+            lineHeight: 1.2
             text: i18n.tr("Welcome to Ubuntu")
         }
 
@@ -97,6 +98,7 @@ LocalComponents.Page {
             wrapMode: Text.Wrap
             fontSize: "large"
             font.weight: Font.Light
+            lineHeight: 1.2
             text: i18n.tr("You are ready to use your device now")
         }
 

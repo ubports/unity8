@@ -83,6 +83,7 @@ ListItem.Empty {
             color: textColor
             font.weight: Font.Light
             fontSize: "small"
+            lineHeight: 1.2
             onLinkActivated: listItem.linkActivated(link)
         }
 
