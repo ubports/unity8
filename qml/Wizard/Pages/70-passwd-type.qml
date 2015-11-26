@@ -58,6 +58,7 @@ LocalComponents.Page {
     Item {
         id: column
         anchors.fill: content
+        anchors.topMargin: customMargin
 
         ListView {
             id: selector
