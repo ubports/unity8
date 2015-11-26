@@ -499,6 +499,13 @@ AbstractStage {
         }
     }
 
+    DirectionalDragArea {
+        direction: Direction.Leftwards
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        width: units.gu(1)
+        onDraggingChanged: { if (dragging) { spread.show(); } }
+    }
+
     DesktopSpread {
         id: spread
         objectName: "spread"
