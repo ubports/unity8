@@ -44,8 +44,10 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
 
     qreal newX = x() + movement.x();
     if (newX < 0) {
+        Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
         newX = 0;
     } else if (newX > parentItem()->width()) {
+        Q_EMIT pushedRightBoundary(newX - parentItem()->width(), buttons);
         newX = parentItem()->width();
     }
     setX(newX);
