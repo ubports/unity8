@@ -38,6 +38,8 @@ public:
     qreal hotspotX() const override { return m_hotspotX; }
     qreal hotspotY() const override { return m_hotspotY; }
 
+    void setCustomCursor(const QCursor &) override;
+
 public Q_SLOTS:
     void handleMouseEvent(ulong timestamp, QPointF movement, Qt::MouseButtons buttons,
             Qt::KeyboardModifiers modifiers) override;
