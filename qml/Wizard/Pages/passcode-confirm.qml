@@ -58,9 +58,9 @@ LocalComponents.Page {
 
         onEntered: {
             if (passphrase === root.password) {
-                confirmTimer.start()
+                confirmTimer.start();
             } else {
-                clear(true)
+                clear(true);
             }
         }
 

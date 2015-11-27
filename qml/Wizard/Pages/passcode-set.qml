@@ -75,7 +75,7 @@ LocalComponents.Page {
             if (passphrase.length >= 4) {
                 passcodeSetPage.confirm();
             } else {
-                lockscreen.clear(true)
+                lockscreen.clear(true);
             }
         }
     }

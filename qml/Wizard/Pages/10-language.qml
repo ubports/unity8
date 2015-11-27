@@ -31,25 +31,6 @@ LocalComponents.Page {
         id: plugin
     }
 
-    Component.onCompleted: {
-        if (!modemManager.available) { // don't wait for the modem if it's not there
-            print("== Modem manager not available, init language manually")
-            init();
-        }
-    }
-
-    Connections {
-        target: modemManager
-        onGotSimCardChanged: {
-            print("== Got a usable SIM card, init language page");
-//            print("SIM 1 languages:", simManager0.preferredLanguages);
-//            print("SIM 1 country:", LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode));
-//            print("SIM 2 languages:", simManager1.preferredLanguages);
-//            print("SIM 2 country:", LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode));
-            init();
-        }
-    }
-
     function init()
     {
         var detectedLang = "";
@@ -61,7 +42,7 @@ LocalComponents.Page {
             detectedLang = simManager1.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode);
             print("SIM 1 detected lang:", detectedLang);
         } else if (plugin.currentLanguage != -1) {
-            detectedLang = plugin.languageCodes[plugin.currentLanguage];
+            detectedLang = plugin.languageCodes[plugin.currentLanguage].split(".")[0]; // remove the encoding part, after dot (en_US.utf8 -> en_US)
             print("Using current language", detectedLang, "as default");
         } else {
             print("No lang detected, falling back to default (en_US)");
@@ -109,6 +90,7 @@ LocalComponents.Page {
             from: 1
             to: 0
         }
+        onStopped: init();
     }
 
     Column {
@@ -119,7 +101,6 @@ LocalComponents.Page {
             id: languagesListView
             boundsBehavior: Flickable.StopAtBounds
             clip: true
-            currentIndex: plugin.currentLanguage
             snapMode: ListView.SnapToItem
 
             anchors {
