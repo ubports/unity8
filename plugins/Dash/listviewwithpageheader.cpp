@@ -775,7 +775,7 @@ void ListViewWithPageHeader::updateSectionItem(int modelIndex)
         const QString sectionText = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
 
         bool needSectionHeader = true;
-        // if it is the same section as the previous item need to our drop the section
+        // if it is the same section as the previous item need to drop the section
         if (modelIndex > 0) {
             const QString prevSection = m_delegateModel->stringValue(modelIndex - 1, m_sectionProperty);
             if (sectionText == prevSection) {
