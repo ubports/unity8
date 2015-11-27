@@ -66,7 +66,7 @@ TutorialPage {
 
     arrow {
         anchors.bottom: root.bottom
-        anchors.bottomMargin: units.gu(4)
+        anchors.bottomMargin: units.gu(3)
         anchors.horizontalCenter: label.horizontalCenter
         anchors.horizontalCenterOffset: -(label.width - label.contentWidth) / 2
         rotation: -90
