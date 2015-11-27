@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Web 0.2
 import AccountsService 0.1
 import ".." as LocalComponents
+import "../../Components"
 
 LocalComponents.Page {
     objectName: "accountPage"
@@ -30,6 +31,20 @@ LocalComponents.Page {
         theme.palette.normal.backgroundText = "#cdcdcd";
     }
 
+    QtObject {
+        id: d
+
+        readonly property bool validInput: /*emailInput.acceptableInput && */nameInput.text !== "" &&
+                                           pass2Input.text.length > 7 && passInput.text === pass2Input.text
+
+        function advance() {
+            root.password = passInput.text;
+            AccountsService.realName = nameInput.text;
+            //AccountsService.email = emailInput.text;
+            pageStack.next();
+        }
+    }
+
     Flickable
     {
         id: column
@@ -39,6 +54,11 @@ LocalComponents.Page {
         anchors.leftMargin: parent.leftMargin
         anchors.rightMargin: parent.rightMargin
         anchors.topMargin: customMargin
+
+        ListViewOSKScroller {
+            id: oskScroller
+            list: column
+        }
 
 //        // email
 //        Label {
@@ -97,6 +117,9 @@ LocalComponents.Page {
             anchors.top: nameLabel.bottom
             anchors.topMargin: units.gu(1)
             KeyNavigation.tab: passInput
+            onActiveFocusChanged: if (activeFocus) oskScroller.setMakeSureVisibleItem(nameInput)
+            inputMethodHints: Qt.ImhNoAutoUppercase
+            onAccepted: passInput.forceActiveFocus()
         }
 
         // password
@@ -120,6 +143,8 @@ LocalComponents.Page {
             echoMode: TextInput.Password
             placeholderText: i18n.tr("Use a combination of letters and numbers")
             KeyNavigation.tab: pass2Input
+            onActiveFocusChanged: if (activeFocus) oskScroller.setMakeSureVisibleItem(passInput)
+            onAccepted: pass2Input.forceActiveFocus()
         }
 
         // password meter
@@ -153,20 +178,18 @@ LocalComponents.Page {
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
             KeyNavigation.tab: nameInput
+            onActiveFocusChanged: if (activeFocus) oskScroller.setMakeSureVisibleItem(pass2Input)
+            onAccepted: if (d.validInput) d.advance();
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            enabled: /*emailInput.acceptableInput && */nameInput.text !== "" &&
-                     pass2Input.text.length > 7 && passInput.text === pass2Input.text
+            enabled: d.validInput
             text: i18n.tr("Next")
             onClicked: {
-                root.password = passInput.text;
-                AccountsService.realName = nameInput.text;
-                //AccountsService.email = emailInput.text;
-                pageStack.next();
+                d.advance();
             }
         }
     }
