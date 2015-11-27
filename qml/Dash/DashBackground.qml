@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 
 Image {
-    source: anchors.fill.width > anchors.fill.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+    source: "graphics/paper.png"
     fillMode: Image.PreserveAspectCrop
     horizontalAlignment: Image.AlignRight
     verticalAlignment: Image.AlignTop
