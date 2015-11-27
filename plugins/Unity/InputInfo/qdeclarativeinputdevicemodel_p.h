@@ -1,7 +1,6 @@
 /****************************************************************************
 **
 ** Copyright (C) 2015 Jolla.
-** Copyright (C) 2015 Canoncal Ltd.
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of the QtSystems module of the Qt Toolkit.
@@ -40,55 +39,64 @@
 **
 ****************************************************************************/
 
-#ifndef QDECLARATIVEINPUTDEVICEINFO_H
-#define QDECLARATIVEINPUTDEVICEINFO_H
+#ifndef QDECLARATIVEINPUTDEVICEMODEL_H
+#define QDECLARATIVEINPUTDEVICEMODEL_H
 
 #include <QObject>
 #include <QAbstractListModel>
-#include "mockqinputinfo.h"
+#include "qinputinfo.h"
 
-class QDeclarativeInputDeviceInfo : public QAbstractListModel
+class QDeclarativeInputDeviceModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QDeclarativeInputDeviceInfo)
+    Q_DISABLE_COPY(QDeclarativeInputDeviceModel)
+    Q_PROPERTY(QInputDevice::InputType deviceFilter READ deviceFilter WRITE setDeviceFilter NOTIFY deviceFilterChanged)
+
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 
 public:
     enum ItemRoles {
-        ServiceRole = Qt::UserRole + 1
+        ServiceRole = Qt::UserRole + 1,
+        NameRole,
+        DevicePathRole,
+        ButtonsRole,
+        SwitchesRole,
+        RelativeAxisRole,
+        AbsoluteAxisRole,
+        TypesRole
     };
 
-    explicit QDeclarativeInputDeviceInfo(QObject *parent = 0);
-    virtual ~QDeclarativeInputDeviceInfo();
+    explicit QDeclarativeInputDeviceModel(QObject *parent = 0);
+    virtual ~QDeclarativeInputDeviceModel();
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
-    QHash<int, QByteArray> roleNames() const;
+    void setDeviceFilter(QInputDevice::InputType filter);
+    QInputDevice::InputType deviceFilter();
 
     Q_INVOKABLE int indexOf(const QString &devicePath) const;
 
     Q_INVOKABLE QInputDevice *get(int index) const;
-
-    // For testing
-    Q_INVOKABLE void addMockMouse();
-    Q_INVOKABLE void addMockKeyboard();
-    Q_INVOKABLE void removeMockMouse();
-    Q_INVOKABLE void removeMockKeyboard();
+    QHash<int, QByteArray> roleNames() const;
 
 Q_SIGNALS:
-    void newDevice(const QString &devicePath);
+    void deviceAdded(const QString &devicePath);
     void deviceRemoved(const QString &devicePath);
+    void deviceFilterChanged(const QInputDevice::InputType filter);
+    void countChanged();
 
 public Q_SLOTS:
     void updateDeviceList();
-
 private:
-    QInputDeviceInfo *deviceInfo;
+    QInputDeviceManager *deviceInfo;
     QVector<QInputDevice *> inputDevices;
+    QInputDevice::InputType currentFilter;
+
 private Q_SLOTS:
     void addedDevice(const QString &);
     void removedDevice(const QString &path);
 
 };
 
-#endif // QDECLARATIVEINPUTDEVICEINFO_H
+#endif // QDECLARATIVEINPUTDEVICEMODEL_H

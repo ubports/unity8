@@ -261,7 +261,9 @@ void VerticalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &
             }
             if (!found) {
                 if (indexToRemove < lastCreatedIndex) {
-                    qFatal("VerticalJournal only supports removal from the end of the model");
+                    qDebug() << "VerticalJournal only supports removal from the end of the model, resetting instead";
+                    cleanupExistingItems();
+                    break;
                 } else {
                     setImplicitHeightDirty();
                 }

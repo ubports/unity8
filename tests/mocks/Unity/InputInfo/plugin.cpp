@@ -15,18 +15,32 @@
  */
 
 // Qt
-#include <QtQml/qqml.h>
+#include <QtQml>
 
 // self
 #include "plugin.h"
 
 // local
-#include "mockqdeclarativeinputdeviceinfo_p.h"
+#include "qdeclarativeinputdevicemodel_p.h"
+#include "mockcontroller.h"
+
+static QObject *backendProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new MockController(engine);
+}
 
 void InputInfoPlugin::registerTypes(const char *uri)
 {
     int major = 0;
     int minor = 1;
-    qmlRegisterType<QDeclarativeInputDeviceInfo>(uri, major, minor, "InputDeviceInfo");
+    qmlRegisterType<QDeclarativeInputDeviceModel>(uri, major, minor, "InputDeviceModel");
     qmlRegisterType<QInputDevice>(uri, major, minor, "InputInfo");
+
+    // We can't register the MockInputDeviceBackend directly because QML wants to delete singletons on its own
+    // Given that MockInputDeviceBackend is a Q_GLOBAL_STATIC it will also be cleaned up by other Qt internals
+    // This leads to a double-free on shutdown. So let's add a proxy to control the MockBackend through QML:
+    // MockController
+    qmlRegisterSingletonType<MockController>(uri, major, minor, "MockInputDeviceBackend", backendProvider);
 }

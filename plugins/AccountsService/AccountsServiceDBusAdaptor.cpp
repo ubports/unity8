@@ -37,18 +37,6 @@ AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
                                            connection, this);
 }
 
-QVariant AccountsServiceDBusAdaptor::getUserProperty(const QString &user, const QString &interface, const QString &property)
-{
-    QDBusInterface *iface = getUserInterface(user);
-    if (iface != nullptr && iface->isValid()) {
-        QDBusReply<QVariant> answer = iface->call(QStringLiteral("Get"), interface, property);
-        if (answer.isValid()) {
-            return answer;
-        }
-    }
-    return QVariant();
-}
-
 QDBusPendingReply<QVariant> AccountsServiceDBusAdaptor::getUserPropertyAsync(const QString &user, const QString &interface, const QString &property)
 {
     QDBusInterface *iface = getUserInterface(user);
@@ -56,15 +44,6 @@ QDBusPendingReply<QVariant> AccountsServiceDBusAdaptor::getUserPropertyAsync(con
         return iface->asyncCall(QStringLiteral("Get"), interface, property);
     }
     return QDBusPendingReply<QVariant>(QDBusMessage::createError(QDBusError::Other, QStringLiteral("Invalid Interface")));
-}
-
-void AccountsServiceDBusAdaptor::setUserProperty(const QString &user, const QString &interface, const QString &property, const QVariant &value)
-{
-    QDBusInterface *iface = getUserInterface(user);
-    if (iface != nullptr && iface->isValid()) {
-        // The value needs to be carefully wrapped
-        iface->call(QStringLiteral("Set"), interface, property, QVariant::fromValue(QDBusVariant(value)));
-    }
 }
 
 QDBusPendingCall AccountsServiceDBusAdaptor::setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value)
@@ -116,7 +95,7 @@ QDBusInterface *AccountsServiceDBusAdaptor::getUserInterface(const QString &user
 {
     QDBusInterface *iface = m_users.value(user);
     if (iface == nullptr && m_accountsManager->isValid()) {
-        QDBusReply<QDBusObjectPath> answer = m_accountsManager->asyncCall(QStringLiteral("FindUserByName"), user);
+        QDBusReply<QDBusObjectPath> answer = m_accountsManager->call(QStringLiteral("FindUserByName"), user);
         if (answer.isValid()) {
             const QString path = answer.value().path();
 
