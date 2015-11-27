@@ -44,9 +44,6 @@ Item {
     property bool skipValid: true
     property bool skip: false
 
-    property bool mobileOnly: true
-    property bool desktopOnly: false
-
     property bool hasBackButton: true
     property string backButtonText: i18n.ctr("Button: Go back one page in the Wizard", "Back")
     property bool customBack: false
