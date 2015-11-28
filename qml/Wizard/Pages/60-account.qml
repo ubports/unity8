@@ -19,7 +19,6 @@ import Ubuntu.Components 1.3
 import Ubuntu.Web 0.2
 import AccountsService 0.1
 import ".." as LocalComponents
-import "../../Components"
 
 LocalComponents.Page {
     objectName: "accountPage"
@@ -34,13 +33,12 @@ LocalComponents.Page {
     QtObject {
         id: d
 
-        readonly property bool validInput: /*emailInput.acceptableInput && */nameInput.text !== "" &&
+        readonly property bool validInput: nameInput.text !== "" &&
                                            pass2Input.text.length > 7 && passInput.text === pass2Input.text
 
         function advance() {
             root.password = passInput.text;
             AccountsService.realName = nameInput.text;
-            //AccountsService.email = emailInput.text;
             pageStack.next();
         }
     }
@@ -54,35 +52,8 @@ LocalComponents.Page {
         anchors.leftMargin: parent.leftMargin
         anchors.rightMargin: parent.rightMargin
         anchors.topMargin: customMargin
-
-        ListViewOSKScroller {
-            id: oskScroller
-            list: column
-        }
-
-//        // email
-//        Label {
-//            id: emailLabel
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            wrapMode: Text.Wrap
-//            text: i18n.tr("Email")
-//            color: textColor
-//            font.weight: Font.Light
-//        }
-
-//        LocalComponents.WizardTextField {
-//            id: emailInput
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            anchors.top: emailLabel.bottom
-//            anchors.topMargin: units.gu(1)
-//            inputMethodHints: Qt.ImhEmailCharactersOnly
-//            validator: RegExpValidator {
-//                regExp: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-//            }
-//            KeyNavigation.tab: nameInput
-//        }
+        height: contentHeight - buttonBarHeight - (Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0) - titleRectHeight
+        contentHeight: contentItem.childrenRect.height
 
         // notice
         Label {
@@ -116,9 +87,13 @@ LocalComponents.Page {
             anchors.right: parent.right
             anchors.top: nameLabel.bottom
             anchors.topMargin: units.gu(1)
-            KeyNavigation.tab: passInput
-            onActiveFocusChanged: if (activeFocus) oskScroller.setMakeSureVisibleItem(nameInput)
-            inputMethodHints: Qt.ImhNoAutoUppercase
+            onActiveFocusChanged: {
+                if (activeFocus) {
+                    print("Name got focused", focus);
+                    column.contentY = nameLabel.y
+                }
+            }
+            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
             onAccepted: passInput.forceActiveFocus()
         }
 
@@ -142,8 +117,13 @@ LocalComponents.Page {
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
             placeholderText: i18n.tr("Use a combination of letters and numbers")
-            KeyNavigation.tab: pass2Input
-            onActiveFocusChanged: if (activeFocus) oskScroller.setMakeSureVisibleItem(passInput)
+            inputMethodHints: Qt.ImhNoPredictiveText
+            onActiveFocusChanged: {
+                if (activeFocus) {
+                    print("Password got focused", focus);
+                    column.contentY = passLabel.y
+                }
+            }
             onAccepted: pass2Input.forceActiveFocus()
         }
 
@@ -177,8 +157,13 @@ LocalComponents.Page {
             anchors.top: pass2Label.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
-            KeyNavigation.tab: nameInput
-            onActiveFocusChanged: if (activeFocus) oskScroller.setMakeSureVisibleItem(pass2Input)
+            inputMethodHints: Qt.ImhNoPredictiveText
+            onActiveFocusChanged: {
+                if (activeFocus) {
+                    print("Password 2 got focused", focus);
+                    column.contentY = pass2Label.y
+                }
+            }
             onAccepted: if (d.validInput) d.advance();
         }
     }

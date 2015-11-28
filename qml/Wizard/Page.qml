@@ -24,6 +24,7 @@ Item {
     readonly property real buttonWidth: (width - buttonMargin * 2) / 2 -
                                         buttonMargin / 2
     readonly property real buttonBarHeight: units.gu(5)
+    readonly property real titleRectHeight: customTitle ? units.gu(10) : units.gu(16)
 
     readonly property real topMargin: units.gu(11)
     readonly property real bottomMargin: units.gu(3)
@@ -118,7 +119,7 @@ Item {
             right: parent.right
         }
         source: customTitle ? "" : "Pages/data/Phone header bkg.png"
-        height: customTitle ? units.gu(10) : units.gu(16)
+        height: titleRectHeight
         clip: true
 
         // page title
@@ -211,9 +212,10 @@ Item {
     // button bar
     Rectangle {
         id: buttonRect
-        visible: !lastPage && buttonBarVisible
+        visible: buttonBarVisible
         anchors {
-            bottom: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.top : parent.bottom
+            bottom: parent.bottom
+            bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
             left: parent.left
             right: parent.right
         }
