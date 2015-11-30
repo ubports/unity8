@@ -1,3 +1,71 @@
+unity8 (8.11+16.04.20151126-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Initialize the image to be transparent (LP: #1517128)
+  * Update pot file
+  * clazy improvements
+
+  [ Andrea Cimitan ]
+  * Shadows in launcher and dash using UbuntuShapeIcon
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Cursor plugin: add scroll wheel handling (LP: #1497091)
+  * Cursor: Add more fallback names, a blank and custom cursor support
+  * DesktopStage: swiping from right edge shows window spread
+  * Don't stretch application surfaces when resizing (LP: #1497083)
+  * Mouse has to push against edges to show launcher or apps spread (LP:
+    #1510969)
+
+  [ Josh Arenson ]
+  * Don't let IntegratedLightDM muck with the username (LP: #1497081)
+
+  [ Lukáš Tinkl ]
+  * Implement new visuals for panel and window decorations (LP:
+    #1493066, #1511020, #1497095)
+  * Let systemd/logind handle the lid-close action
+  * Make saving screenshots really async
+
+  [ Michael Zanetti ]
+  * detect touchpads too, not only mice (LP: #1518395)
+  * move screenshots out of the Dash dir
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 26 Nov 2015 13:52:00 +0000
+
+unity8 (8.11+16.04.20151112.1-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make cardWidth and cardHeight real
+  * Reset instead of qFatal when removing things from the middle (LP:
+    #1238979)
+  * Warn we're using only the cache when not connected to the interwebs
+
+  [ Andrea Cimitan ]
+  * Add sharing widget to zoomable image and video playback
+
+  [ Daniel d'Andrada ]
+  * Cursor: properly initialize hotspot position (LP: #1510407)
+  * Update GSettings mock in tst_OrientedShell
+
+  [ Lukáš Tinkl ]
+  * Restore windows when activating from the spread, maintain a focus
+    stack
+
+  [ Michael Terry ]
+  * Make a few DBus calls asynchronous, for a smoother UX.
+
+  [ Michael Zanetti ]
+  * Add a warning dialog when disconnecting the external monitor.
+  * added icon for the dash (LP: #1488146)
+  * prevent windows to be moved under the panel (LP: #1438465)
+  * update inputinfo api to the latest upstream snapshot
+  * use UbuntuNumberAnimations instead of linear ones for window state
+    transitions (LP: #1497097)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Thu, 12 Nov 2015 20:41:02 +0000
+
 unity8 (8.11+16.04.20151104-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

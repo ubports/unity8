@@ -184,7 +184,7 @@ void HorizontalJournal::calculateImplicitHeight()
 
 void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &removes)
 {
-    Q_FOREACH(const QQmlChangeSet::Change &remove, removes) {
+    Q_FOREACH(const QQmlChangeSet::Change remove, removes) {
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // We only support removing from the end so
@@ -195,7 +195,9 @@ void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change>
                 m_lastInRowIndexPosition.remove(indexToRemove);
             } else {
                 if (indexToRemove < lastIndex) {
-                    qFatal("HorizontalJournal only supports removal from the end of the model");
+                    qDebug() << "HorizontalJournal only supports removal from the end of the model, resetting instead";
+                    cleanupExistingItems();
+                    break;
                 } else {
                     setImplicitHeightDirty();
                 }

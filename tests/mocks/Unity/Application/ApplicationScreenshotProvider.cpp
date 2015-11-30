@@ -44,9 +44,13 @@ QImage ApplicationScreenshotProvider::requestImage(const QString &imageId, QSize
         return QImage();
     }
 
+    QString screenshot = app->screenshot();
+    // QImage doesn't understand qrc:/// but we have QUrls in use which don't like the empty protcol ":/"
+    screenshot.replace("qrc:///", ":/");
+
     QImage image;
-    if (!image.load(app->screenshot())) {
-        qWarning() << "failed loading app image" << app->screenshot();
+    if (!image.load(screenshot)) {
+        qWarning() << "failed loading app image" << screenshot;
     }
 
 

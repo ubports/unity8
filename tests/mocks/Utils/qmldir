@@ -3,3 +3,4 @@ plugin FakeUtils-qml
 typeinfo Utils.qmltypes
 Style 0.1 Style.js
 HomeKeyWatcher 0.1 HomeKeyWatcher.qml
+singleton EdgeBarrierSettings 0.1 EdgeBarrierSettings.qml

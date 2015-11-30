@@ -36,7 +36,7 @@ Rectangle {
     }
 
     property var widgetData2: {
-        "source": "../../../qml/Dash/graphics/phone/screenshots/gallery@12.png",
+        "source": "../../mocks/Unity/Application/resources/screenshots/gallery@12.png",
         "zoomable": true
     }
 

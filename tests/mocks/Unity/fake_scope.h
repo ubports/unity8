@@ -79,6 +79,8 @@ public:
 
     Q_INVOKABLE void refresh() override;
 
+    Q_INVOKABLE virtual void activateAction(QVariant const& result, QString const& categoryId, QString const& actionId) override;
+
 Q_SIGNALS:
     // These are not in the Interface, here for testing benefits
     void refreshed();

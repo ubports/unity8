@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.3
 import "../Components"
+import "../Components/PanelState"
 
 MouseArea {
     id: root
@@ -32,6 +33,8 @@ MouseArea {
     signal minimize()
     signal maximize()
 
+    onDoubleClicked: root.maximize()
+
     QtObject {
         id: priv
         property real distanceX
@@ -45,17 +48,18 @@ MouseArea {
             priv.distanceX = pos.x;
             priv.distanceY = pos.y;
             priv.dragging = true;
-            Mir.cursorName = "grabbing";
         } else {
             priv.dragging = false;
             Mir.cursorName = "";
         }
     }
+
     onPositionChanged: {
         if (priv.dragging) {
+            Mir.cursorName = "grabbing";
             var pos = mapToItem(root.target.parent, mouseX, mouseY);
             root.target.x = pos.x - priv.distanceX;
-            root.target.y = pos.y - priv.distanceY;
+            root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
         }
     }
 
@@ -63,19 +67,23 @@ MouseArea {
         anchors.fill: parent
         anchors.bottomMargin: -radius
         radius: units.gu(.5)
-        gradient: Gradient {
-            GradientStop { color: "#626055"; position: 0 }
-            GradientStop { color: "#3C3B37"; position: 1 }
-        }
+        color: "#292929"
     }
 
     Row {
-        anchors { left: parent.left; top: parent.top; bottom: parent.bottom; margins: units.gu(0.7) }
-        spacing: units.gu(1)
-        opacity: root.active ? 1 : 0.5
+        anchors {
+            fill: parent
+            leftMargin: units.gu(1)
+            rightMargin: units.gu(1)
+            topMargin: units.gu(0.5)
+            bottomMargin: units.gu(0.5)
+        }
+        spacing: units.gu(3)
 
         WindowControlButtons {
+            id: buttons
             height: parent.height
+            active: root.active
             onClose: root.close();
             onMinimize: root.minimize();
             onMaximize: root.maximize();
@@ -84,11 +92,13 @@ MouseArea {
         Label {
             id: titleLabel
             objectName: "windowDecorationTitle"
-            color: "#DFDBD2"
+            color: root.active ? "white" : "#5d5d5d"
             height: parent.height
+            width: parent.width - buttons.width - parent.anchors.rightMargin - parent.anchors.leftMargin
             verticalAlignment: Text.AlignVCenter
-            fontSize: "small"
-            font.bold: true
+            fontSize: "medium"
+            font.weight: root.active ? Font.Light : Font.Normal
+            elide: Text.ElideRight
         }
     }
 }

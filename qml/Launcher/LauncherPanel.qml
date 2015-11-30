@@ -33,6 +33,7 @@ Rectangle {
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
+                              || mouseEventEater.containsMouse || dashItem.hovered
     property int highlightIndex: -1
 
     signal applicationSelected(string appId)
@@ -42,6 +43,12 @@ Rectangle {
         if (quickList.state == "open") {
             quickList.state = ""
         }
+    }
+
+    MouseArea {
+        id: mouseEventEater
+        anchors.fill: parent
+        hoverEnabled: true
     }
 
     Column {
