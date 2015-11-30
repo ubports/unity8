@@ -35,8 +35,12 @@ MirSurface::MirSurface(const QString& name,
     , m_activeFocus(false)
     , m_width(-1)
     , m_height(-1)
+    , m_slowToResize(false)
 {
 //    qDebug() << "MirSurface::MirSurface() " << name;
+    m_delayedResizeTimer.setInterval(600);
+    m_delayedResizeTimer.setSingleShot(true);
+    connect(&m_delayedResizeTimer, &QTimer::timeout, this, &MirSurface::applyDelayedResize);
 }
 
 MirSurface::~MirSurface()
@@ -197,7 +201,38 @@ int MirSurface::height() const
 
 void MirSurface::resize(int width, int height)
 {
+    if (m_slowToResize) {
+        if (!m_delayedResizeTimer.isActive()) {
+            m_delayedResize.setWidth(width);
+            m_delayedResize.setHeight(height);
+            m_delayedResizeTimer.start();
+        } else {
+            m_pendingResize.setWidth(width);
+            m_pendingResize.setHeight(height);
+        }
+    } else {
+        doResize(width, height);
+    }
+}
+
+void MirSurface::applyDelayedResize()
+{
+    doResize(m_delayedResize.width(), m_delayedResize.height());
+    m_delayedResize.setWidth(-1);
+    m_delayedResize.setHeight(-1);
+
+    if (m_pendingResize.isValid()) {
+        QSize size = m_pendingResize;
+        m_pendingResize.setWidth(-1);
+        m_pendingResize.setHeight(-1);
+        resize(size.width(), size.height());
+    }
+}
+
+void MirSurface::doResize(int width, int height)
+{
     bool changed = false;
+
     if (width != m_width) {
         m_width = width;
         Q_EMIT widthChanged();
@@ -212,5 +247,22 @@ void MirSurface::resize(int width, int height)
 
     if (changed) {
         Q_EMIT sizeChanged(QSize(width, height));
+    }
+}
+
+bool MirSurface::isSlowToResize() const
+{
+    return m_slowToResize;
+}
+
+void MirSurface::setSlowToResize(bool value)
+{
+    if (m_slowToResize != value) {
+        m_slowToResize = value;
+        Q_EMIT slowToResizeChanged();
+        if (!m_slowToResize && m_delayedResizeTimer.isActive()) {
+            m_delayedResizeTimer.stop();
+            applyDelayedResize();
+        }
     }
 }

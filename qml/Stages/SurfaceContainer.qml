@@ -31,6 +31,9 @@ FocusScope {
     property string name: surface ? surface.name : ""
     property bool resizeSurface: true
 
+    property int requestedWidth: -1
+    property int requestedHeight: -1
+
     onSurfaceChanged: {
         if (surface) {
             surfaceItem.surface = surface;
@@ -54,15 +57,64 @@ FocusScope {
 
         consumesInput: true
 
-        surfaceWidth: root.resizeSurface ? width : -1
-        surfaceHeight: root.resizeSurface ? height : -1
+        surfaceWidth: {
+            if (root.resizeSurface) {
+                if (root.requestedWidth >= 0) {
+                    return root.requestedWidth;
+                } else {
+                    return width;
+                }
+            } else {
+                return -1;
+            }
+        }
 
-        anchors.fill: root
+        surfaceHeight: {
+            if (root.resizeSurface) {
+                if (root.requestedHeight >= 0) {
+                    return root.requestedHeight;
+                } else {
+                    return height;
+                }
+            } else {
+                return -1;
+            }
+        }
+
         enabled: root.interactive
         focus: true
         antialiasing: !root.interactive
         orientationAngle: root.surfaceOrientationAngle
     }
+
+    // MirSurface size drives SurfaceContainer size
+    Binding {
+        target: surfaceItem; property: "width"; value: root.surface ? root.surface.size.width : 0
+        when: root.requestedWidth >= 0 && root.surface
+    }
+    Binding {
+        target: surfaceItem; property: "height"; value: root.surface ? root.surface.size.height : 0
+        when: root.requestedHeight >= 0 && root.surface
+    }
+    Binding {
+        target: root; property: "width"; value: surfaceItem.width
+        when: root.requestedWidth >= 0
+    }
+    Binding {
+        target: root; property: "height"; value: surfaceItem.height
+        when: root.requestedHeight >= 0
+    }
+
+    // SurfaceContainer size drives MirSurface size
+    Binding {
+        target: surfaceItem; property: "width"; value: root.width
+        when: root.requestedWidth < 0
+    }
+    Binding {
+        target: surfaceItem; property: "height"; value: root.height
+        when: root.requestedHeight < 0
+    }
+
 
     TouchGate {
         targetItem: surfaceItem
