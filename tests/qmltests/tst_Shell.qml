@@ -954,6 +954,22 @@ Rectangle {
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
         }
 
+        function revealLauncherByEdgePushWithMouse() {
+            var launcher = findChild(shell, "launcher");
+            verify(launcher);
+
+            // Place the mouse against the window/screen edge and push beyond the barrier threshold
+            mouseMove(shell, 0, shell.height / 2);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(panel);
+
+            // wait until it gets fully extended
+            tryCompare(panel, "x", 0);
+            tryCompare(launcher, "state", "visibleTemporary");
+        }
+
         function test_focusRequestedHidesGreeter() {
             loadShell("phone");
             swipeAwayGreeter();
@@ -1713,8 +1729,7 @@ Rectangle {
 
             tryCompare(desktopSpread, "state", "altTab")
 
-            mouseMove(shell, 0, shell.height / 2);
-            tryCompare(launcher, "state", "visibleTemporary")
+            revealLauncherByEdgePushWithMouse();
             waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
@@ -1777,15 +1792,10 @@ Rectangle {
             tryCompare(panelButtons, "visible", false);
 
             appDelegate.maximize(false);
-            tryCompare(panelButtons, "visible", true);
 
             shell.usageScenario = "phone";
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", false);
-
-            shell.usageScenario = "desktop";
-            waitForRendering(shell);
-            tryCompare(panelButtons, "visible", true);
         }
 
         function test_lockingGreeterHidesPanelButtons() {
@@ -1799,15 +1809,41 @@ Rectangle {
             tryCompare(panelButtons, "visible", false);
 
             appDelegate.maximize(false);
-            tryCompare(panelButtons, "visible", true);
 
             LightDM.Greeter.showGreeter();
             waitForRendering(shell);
             tryCompare(panelButtons, "visible", false);
+        }
 
-            LightDM.Greeter.hideGreeter();
-            waitForRendering(shell);
-            tryCompare(panelButtons, "visible", true);
+        function test_cantMoveWindowUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appDelegate = appRepeater.itemAt(0);
+
+            mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
+            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
+
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
+        function test_restoreWindowStateFixesIfUnderPanel() {
+            loadDesktopShellWithApps();
+            var appRepeater = findChild(shell, "appRepeater")
+            var appId = ApplicationManager.get(0).appId;
+            var appDelegate = appRepeater.itemAt(0);
+
+            // Move it under the panel programmatically (might happen later with an alt+drag)
+            appDelegate.y = -units.gu(10)
+
+            ApplicationManager.stopApplication(appId)
+            ApplicationManager.startApplication(appId)
+            waitForRendering(shell)
+
+            // Make sure the newly started one is at index 0 again
+            tryCompare(ApplicationManager.get(0), "appId", appId);
+
+            appDelegate = appRepeater.itemAt(0);
+            compare(appDelegate.y >= PanelState.panelHeight, true);
         }
 
         function test_cantMoveWindowUnderPanel() {

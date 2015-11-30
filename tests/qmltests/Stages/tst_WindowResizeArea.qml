@@ -30,8 +30,6 @@ Item {
     height: units.gu(60)
     width: units.gu(60)
 
-    property var fakeWindow: windowLoader.item
-
     Binding {
         target: PanelState
         property: "panelHeight"
@@ -47,10 +45,10 @@ Item {
             property alias minHeight: windowResizeArea.minHeight
             x: units.gu(20)
             y: units.gu(20)
-            height: units.gu(20)
-            width: units.gu(20)
-            property int windowHeight: height
-            property int windowWidth: width
+            width: requestedWidth
+            height: requestedHeight
+            property real requestedWidth
+            property real requestedHeight
             state: "normal"
 
             function maximize() {
@@ -63,6 +61,8 @@ Item {
                 borderThickness: units.gu(2)
                 minWidth: units.gu(15)
                 minHeight: units.gu(10)
+                defaultWidth: units.gu(20)
+                defaultHeight: units.gu(20)
                 windowId: "test-window-id"
                 screenWidth: root.width
                 screenHeight: root.height
@@ -87,22 +87,41 @@ Item {
     Loader {
         id: windowLoader
         sourceComponent: fakeWindowComponent
+        active: windowLoaderCheckbox.checked
     }
 
-    MouseTouchEmulationCheckbox {
-        checked: false
-        color: "black"
+    Column {
+        MouseTouchEmulationCheckbox {
+            checked: false
+            color: "black"
+        }
+        RowLayout {
+            Layout.fillWidth: true
+            CheckBox {
+                id: windowLoaderCheckbox
+                checked: true
+                activeFocusOnPress: false
+            }
+            Label {
+                id: label
+                color: "black"
+                text: "Window loader active"
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
     }
 
     UnityTestCase {
         name: "WindowResizeArea"
         when: windowShown
 
+        property var fakeWindow: windowLoader.item
+
         function init() {
             fakeWindow.x = units.gu(20)
             fakeWindow.y = units.gu(20)
-            fakeWindow.width = units.gu(20)
-            fakeWindow.height = units.gu(20)
+            fakeWindow.requestedWidth = units.gu(20)
+            fakeWindow.requestedHeight = units.gu(20)
         }
 
         function test_resizeWindowRightBottom_data() {
@@ -188,7 +207,7 @@ Item {
         function test_resizeSmallerAndLarger_data() {
             return [
                 { tag: "topLeft", startX: -1, startY: -1, dx: units.gu(15), dy: units.gu(15) },
-                { tag: "bottomRight", startX: fakeWindow.width + 1, startY: fakeWindow.height + 1, dx: -units.gu(15), dy: -units.gu(15) }
+                { tag: "bottomRight", startX: units.gu(20) + 1, startY: units.gu(20) + 1, dx: -units.gu(15), dy: -units.gu(15) }
             ]
         }
 
