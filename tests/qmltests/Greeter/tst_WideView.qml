@@ -407,10 +407,10 @@ Item {
             view.loginListShown = false;
             var sessionsList = findChild(view, "sessionsList");
             var sessionsListSelector = findChild(view, "sessionsListSelector");
-            waitForRendering(sessionsList);
-            compare(sessionsListSelector.expanded, true);
-            compare(sessionsList.visible, true);
+            tryCompare(sessionsList, "visible", true);
+            tryCompare(sessionsListSelector, "expanded", true);
 
+            waitForRendering(sessionsList)
             for (var i = 0; i < LightDM.Sessions.count; i++) {
                 var delegateName = "sessionDelegate" + String(i);
                 var currentDelegate = findChild(view, delegateName);
@@ -459,7 +459,7 @@ Item {
             compare(LightDM.Sessions.count, 1);
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
-            compare(sessionChooserButton.visible, false);
+            tryCompare(sessionChooserButton, "visible", false);
         }
 
         function test_sessionIconShownWithMultipleSessions() {
@@ -467,7 +467,7 @@ Item {
             compare(LightDM.Sessions.count > 1, true);
 
             var sessionChooserButton = findChild(view, "sessionChooserButton");
-            compare(sessionChooserButton.visible, true);
+            tryCompare(sessionChooserButton, "visible", true);
         }
 
         function test_tease(data) {
