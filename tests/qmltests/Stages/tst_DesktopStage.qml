@@ -458,5 +458,45 @@ Item {
             compare(dialerDelegate.visible, true, "Dialer should be visible");
             compare(dashDelegate.visible, true, "Dash should still be visible");
         }
+
+        function test_occlusionWithMultipleMaximized() {
+            var dashApp = startApplication("unity8-dash");
+            var dashAppDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
+
+            var dialerApp = startApplication("dialer-app");
+            var dialerAppDelegate = findChild(desktopStage, "appDelegate_dialer-app");
+
+            var facebookApp = startApplication("facebook-webapp");
+            var facebookAppDelegate = findChild(desktopStage, "appDelegate_facebook-webapp");
+
+            // all of them are in restored state now. all should be visible
+            tryCompare(dashAppDelegate, "visible", true);
+            tryCompare(dialerAppDelegate, "visible", true);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Maximize the topmost and make sure the other two are hidden
+            facebookAppDelegate.maximize();
+            tryCompare(dashAppDelegate, "visible", false);
+            tryCompare(dialerAppDelegate, "visible", false);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Bring dash to front. make sure dash and the maximized facebook are visible, the restored one behind is hidden
+            ApplicationManager.focusApplication("unity8-dash");
+            tryCompare(dashAppDelegate, "visible", true);
+            tryCompare(dialerAppDelegate, "visible", false);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Now focus the dialer app. all 3 should be visible again
+            ApplicationManager.focusApplication("dialer-app");
+            tryCompare(dashAppDelegate, "visible", true);
+            tryCompare(dialerAppDelegate, "visible", true);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Maximize the dialer app. The other 2 should hide
+            dialerAppDelegate.maximize();
+            tryCompare(dashAppDelegate, "visible", false);
+            tryCompare(dialerAppDelegate, "visible", true);
+            tryCompare(facebookAppDelegate, "visible", false);
+        }
     }
 }
