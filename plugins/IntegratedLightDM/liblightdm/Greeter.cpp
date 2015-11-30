@@ -173,7 +173,7 @@ void Greeter::respond(const QString &response)
 
 void Greeter::sendAuthenticationComplete()
 {
-    if (qgetenv("UNITY_TESTING").isEmpty()) {
+    if (qEnvironmentVariableIsEmpty("UNITY_TESTING")) {
         // simulate PAM's delay
         QTimer::singleShot(1000, this, &Greeter::authenticationComplete);
     } else {

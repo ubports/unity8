@@ -23,23 +23,27 @@
 #include <QtGui/QImage>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickWindow>
-#include <QtConcurrent/QtConcurrentRun>
 
 #include <QDebug>
 
-bool saveScreenshot(const QImage &screenshot, const QString &filename, const QString &format, int quality)
+QString saveScreenshot(const QImage &screenshot, const QString &filename, const QString &format, int quality)
 {
-    if (!screenshot.save(filename, format.toLatin1().data(), quality)) {
+    if (screenshot.save(filename, format.toLatin1().data(), quality)) {
+        return filename;
+    } else {
         qWarning() << "ScreenGrabber: failed to save snapshot!";
-        return false;
     }
-
-    return true;
+    return QString();
 }
 
 ScreenGrabber::ScreenGrabber(QObject *parent)
     : QObject(parent)
 {
+    QObject::connect(&m_watcher,
+                     &QFutureWatcher<QString>::finished,
+                     this,
+                     &ScreenGrabber::onScreenshotSaved);
+
     QDir screenshotsDir;
     if (qEnvironmentVariableIsSet("UNITY_TESTING")) {
         qDebug() << "Using test environment";
@@ -85,8 +89,14 @@ void ScreenGrabber::captureAndSave(int angle)
     const QImage screenshot = main_window->grabWindow().transformed(QTransform().rotate(angle));
     const QString filename = makeFileName();
     qDebug() << "Saving screenshot to" << filename;
-    auto saveOp = QtConcurrent::run(saveScreenshot, screenshot, filename, getFormat(), screenshotQuality);
-    if (saveOp.result()) {
+    QFuture<QString> saveFuture(QtConcurrent::run(saveScreenshot, screenshot, filename, getFormat(), screenshotQuality));
+    m_watcher.setFuture(saveFuture);
+}
+
+void ScreenGrabber::onScreenshotSaved()
+{
+    const QString filename = m_watcher.future().result();
+    if (!filename.isEmpty()) {
         Q_EMIT screenshotSaved(filename);
     }
 }

@@ -20,7 +20,7 @@
 
 Platform::Platform(QObject *parent)
     : QObject(parent)
-    , m_iface("org.freedesktop.hostname1", "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
+    , m_iface(QStringLiteral("org.freedesktop.hostname1"), QStringLiteral("/org/freedesktop/hostname1"), QStringLiteral("org.freedesktop.hostname1"),
               QDBusConnection::systemBus(), this)
 {
     QMetaObject::invokeMethod(this, "init");
@@ -29,7 +29,7 @@ Platform::Platform(QObject *parent)
 void Platform::init()
 {
     m_chassis = m_iface.property("Chassis").toString();
-    m_isPC = (m_chassis == "desktop" || m_chassis == "laptop" || m_chassis == "server");
+    m_isPC = (m_chassis == QLatin1String("desktop") || m_chassis == QLatin1String("laptop") || m_chassis == QLatin1String("server"));
 }
 
 QString Platform::chassis() const

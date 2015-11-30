@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-23 18:01+0100\n"
+"POT-Creation-Date: 2015-11-30 10:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,15 +194,15 @@ msgstr ""
 msgid "Add to Favorites"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:728
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:570
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:632
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""

@@ -40,7 +40,7 @@ Session* ApplicationTestInterface::addChildSession(Session* existingSession, con
 {
     if (!existingSession) return nullptr;
 
-    QUrl screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%2@12.png")
             .arg(qmlDirectory())
             .arg(surfaceImage);
 
@@ -90,7 +90,7 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
         return 0;
     }
 
-    QUrl screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%2@12.png")
             .arg(qmlDirectory())
             .arg(surfaceImage);
 
