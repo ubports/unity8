@@ -35,5 +35,5 @@ void CursorPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    engine->addImageProvider(QLatin1String("cursor"), new CursorImageProvider());
+    engine->addImageProvider(QStringLiteral("cursor"), new CursorImageProvider());
 }
