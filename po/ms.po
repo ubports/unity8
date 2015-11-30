@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-04 15:02+0000\n"
+"POT-Creation-Date: 2015-11-20 14:45+0100\n"
 "PO-Revision-Date: 2014-01-17 09:05+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-21 05:34+0000\n"
+"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
 "X-Generator: Launchpad (build 17850)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -56,83 +56,83 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Sila tunggu %1 minit kemudian cuba lagi..."
 msgstr[1] "Sila tunggu %1 minit kemudian cuba lagi..."
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Daftar keluar"
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Anda pasti mahu mendaftar keluar?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Kunci"
 
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Daftar Keluar"
 
-#: qml/Components/Dialogs.qml:133 qml/Components/Dialogs.qml:166
-#: qml/Components/Dialogs.qml:225
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "Batal"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Matikan"
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "Anda pasti mahu matikan?"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "But Semula"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Matikan"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "But Semula"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "Anda pasti mahu but semula?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "Tidak"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "Ya"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Kuasa"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Anda pasti mahu tutup?"
 
-#: qml/Components/Dialogs.qml:207
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Padam"
 
-#: qml/Components/Dialogs.qml:216
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Mula Semula"
@@ -148,6 +148,30 @@ msgstr "panggilan Kecemasan"
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "OK"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr "Apl mungkin mempunyai data tidak disimpan:"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr "Labuh-semula, simpan kerja anda dan tutup apl ini untuk teruskan."
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr "Atau paksa tutup sekarang (data belum disimpan akan hilang)."
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr "OK, Saya akan sambung semula"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr "Sambung semula sekarang!"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr "Tutup semua"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -208,7 +232,7 @@ msgstr "Tambah ulasan"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Pratonton Item Kongsi"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -236,7 +260,7 @@ msgstr "Juga dipasang"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr ""
+msgstr "Peranti anda kini bersambung dengan paparan luar."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -384,7 +408,7 @@ msgstr "Gagal, ketuk untuk cuba lagi"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Hantar"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -394,7 +418,7 @@ msgstr "Balas"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Panggilan semula"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"

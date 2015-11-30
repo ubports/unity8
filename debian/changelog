@@ -1,3 +1,39 @@
+unity8 (8.11+16.04.20151126-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Initialize the image to be transparent (LP: #1517128)
+  * Update pot file
+  * clazy improvements
+
+  [ Andrea Cimitan ]
+  * Shadows in launcher and dash using UbuntuShapeIcon
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Cursor plugin: add scroll wheel handling (LP: #1497091)
+  * Cursor: Add more fallback names, a blank and custom cursor support
+  * DesktopStage: swiping from right edge shows window spread
+  * Don't stretch application surfaces when resizing (LP: #1497083)
+  * Mouse has to push against edges to show launcher or apps spread (LP:
+    #1510969)
+
+  [ Josh Arenson ]
+  * Don't let IntegratedLightDM muck with the username (LP: #1497081)
+
+  [ Lukáš Tinkl ]
+  * Implement new visuals for panel and window decorations (LP:
+    #1493066, #1511020, #1497095)
+  * Let systemd/logind handle the lid-close action
+  * Make saving screenshots really async
+
+  [ Michael Zanetti ]
+  * detect touchpads too, not only mice (LP: #1518395)
+  * move screenshots out of the Dash dir
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 26 Nov 2015 13:52:00 +0000
+
 unity8 (8.11+16.04.20151112.1-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
