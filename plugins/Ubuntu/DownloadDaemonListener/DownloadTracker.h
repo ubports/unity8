@@ -48,7 +48,7 @@ public:
 Q_SIGNALS:
     void serviceChanged(const QString &service);
     void dbusPathChanged(const QString &dbusPath);
-    void serviceReadyChanged(const bool &serviceReady);
+    void serviceReadyChanged(const bool serviceReady);
 
     void canceled(bool success);
     void error(const QString &error);

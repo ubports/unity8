@@ -648,7 +648,7 @@ void DirectionalDragAreaPrivate::setStatus(Status newStatus)
     }
 }
 
-void DirectionalDragAreaPrivate::setPublicPos(const QPointF &point)
+void DirectionalDragAreaPrivate::setPublicPos(const QPointF point)
 {
     bool xChanged = publicPos.x() != point.x();
     bool yChanged = publicPos.y() != point.y();
@@ -687,7 +687,7 @@ void DirectionalDragAreaPrivate::setPublicPos(const QPointF &point)
     }
 }
 
-void DirectionalDragAreaPrivate::setPublicScenePos(const QPointF &point)
+void DirectionalDragAreaPrivate::setPublicScenePos(const QPointF point)
 {
     bool xChanged = publicScenePos.x() != point.x();
     bool yChanged = publicScenePos.y() != point.y();
@@ -897,7 +897,7 @@ void DirectionalDragAreaPrivate::updateSceneDirectionVector()
     sceneDirectionVector = sceneDirection - sceneOrigin;
 }
 
-qreal DirectionalDragAreaPrivate::projectOntoDirectionVector(const QPointF &sceneVector) const
+qreal DirectionalDragAreaPrivate::projectOntoDirectionVector(const QPointF sceneVector) const
 {
     // same as dot product as sceneDirectionVector is a unit vector
     return  sceneVector.x() * sceneDirectionVector.x() +

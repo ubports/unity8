@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-10-19 14:34+0100\n"
+"POT-Creation-Date: 2015-11-20 14:45+0100\n"
 "PO-Revision-Date: 2015-03-22 15:56+0000\n"
 "Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-07 05:13+0000\n"
-"X-Generator: Launchpad (build 17838)\n"
+"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -34,86 +34,6 @@ msgstr "Çıkış"
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Kısayol iğnesini kaldır"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:157
-msgid "Yesterday %l:%M %p"
-msgstr "Dün %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened today.
-#. en_US example: "%l:%M %p" --> "1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:164
-msgid "%l:%M %p"
-msgstr "%l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:172
-msgid "Tomorrow %l:%M %p"
-msgstr "Yarın %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:181
-msgid "%a %l:%M %p"
-msgstr "%l:%M %p  %a"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:190
-msgid "%a %d %b %l:%M %p"
-msgstr "%a %d %b %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:201
-msgid "Yesterday %H:%M"
-msgstr "Dün %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened today.
-#. en_US example: "%H:%M" --> "13:00"
-#: plugins/Utils/relativetimeformatter.cpp:208
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:216
-msgid "Tomorrow %H:%M"
-msgstr "Yarın %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:225
-msgid "%a %H:%M"
-msgstr "%H:%M  %a"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:234
-msgid "%a %d %b %H:%M"
-msgstr "%a %b %d\\u2003%H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -134,83 +54,83 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Lütfen %1 dakika bekleyin ve yeniden deneyin..."
 msgstr[1] "Lütfen %1 dakika bekleyin ve yeniden deneyin..."
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Oturumu kapat"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Oturumu kapatmak istediğinize emin misiniz?"
 
-#: qml/Components/Dialogs.qml:118
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Kilitle"
 
-#: qml/Components/Dialogs.qml:125
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Oturumu Kapat"
 
-#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
-#: qml/Components/Dialogs.qml:224
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "İptal"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Kapat"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "Kapatmak istediğinize emin misiniz?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Yeniden başlat"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Kapat"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Yeniden başlat"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "Bilgisayarı yeniden başlatmak istediğinize emin misiniz?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "Hayır"
 
-#: qml/Components/Dialogs.qml:188
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "Evet"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Güç"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Bilgisayarı kapatmak istediğinize emin misiniz?"
 
-#: qml/Components/Dialogs.qml:206
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Sistemi Kapat"
 
-#: qml/Components/Dialogs.qml:215
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Yeniden başlat"
@@ -227,6 +147,53 @@ msgstr "Acil Arama"
 msgid "OK"
 msgstr "Tamam"
 
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr ""
+
+#: qml/Dash/DashPageHeader.qml:265
+msgctxt "Button: Open the Ubuntu Store"
+msgid "Store"
+msgstr "Mağaza"
+
+#: qml/Dash/DashPageHeader.qml:272
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "Ara"
+
+#: qml/Dash/DashPageHeader.qml:282
+msgctxt "Button: Show the current dash scope settings"
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Remove from Favorites"
+msgstr "Sık kullanılanlardan kaldır"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Add to Favorites"
+msgstr "Yer İmlerine Ekle"
+
 #: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Daha azını gör"
@@ -240,29 +207,6 @@ msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Ara"
 
-#: qml/Dash/PageHeader.qml:269
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Mağaza"
-
-#: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Ara"
-
-#: qml/Dash/PageHeader.qml:286
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Ayarlar"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Remove from Favorites"
-msgstr "Sık kullanılanlardan kaldır"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Add to Favorites"
-msgstr "Yer İmlerine Ekle"
-
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Daha Fazla..."
@@ -273,8 +217,6 @@ msgstr "Daha az.."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:174
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Gönder"
 
@@ -313,6 +255,10 @@ msgstr "Ev"
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "Ayrıca kurulan"
+
+#: qml/DisabledScreenNotice.qml:42
+msgid "Your device is now connected to an external display."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -385,7 +331,7 @@ msgstr "Lütfen yeniden girin"
 msgid "Sorry, incorrect passcode"
 msgstr "Üzgünüm, hatalı parola"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:128
+#: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
 msgstr "Parolayı göster"
 
@@ -397,73 +343,80 @@ msgstr "Çağrıya dönmek için dokunun..."
 msgid "Conference"
 msgstr "Konferans"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:727
+#: qml/Panel/Indicators/MenuItemFactory.qml:731
 msgid "Nothing is playing"
 msgstr "Hiçbir şey çalmıyor"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 saat"
 msgstr[1] "%1 saat"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:860
+#: qml/Panel/Indicators/MenuItemFactory.qml:864
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 dakika"
 msgstr[1] "%1 dakika"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:865
+#: qml/Panel/Indicators/MenuItemFactory.qml:869
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 saniye"
 msgstr[1] "%1 saniye"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/MenuItemFactory.qml:872
 msgid "0 seconds"
 msgstr "0 saniye"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:870
+#: qml/Panel/Indicators/MenuItemFactory.qml:874
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 kaldı"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "In queue…"
 msgstr "Beklemede..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:880
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Downloading"
 msgstr "İndiriliyor"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Paused, tap to resume"
 msgstr "Duraklatıldı, devam etmek için dokunun"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Canceled"
 msgstr "İptal edildi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 msgid "Finished"
 msgstr "Bitti"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:888
+#: qml/Panel/Indicators/MenuItemFactory.qml:892
 msgid "Failed, tap to retry"
 msgstr "Başarısız, yeniden denemek için dokunun"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+msgctxt "Button: Send a reply message"
+msgid "Send"
+msgstr ""
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Yanıtla"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr "Geri ara"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -545,7 +498,7 @@ msgstr "Hadi başlayalım."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
 msgstr "Devam Et"
@@ -649,11 +602,11 @@ msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
 "Kararınızı daha sonra <b>Sistem Ayarları</b> içerisinden değiştirebilirsiniz."
 
-#: qml/Wizard/Pages/60-reporting.qml:24
+#: qml/Wizard/Pages/60-reporting.qml:26
 msgid "Improving your experience"
 msgstr "Deneyiminizi arttırmak"
 
-#: qml/Wizard/Pages/60-reporting.qml:36
+#: qml/Wizard/Pages/60-reporting.qml:46
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
@@ -661,7 +614,7 @@ msgstr ""
 "Telefonunuz, işletim sisteminin üreticileri olan Canonical ve ortaklarına "
 "hataları otomatik olarak bildirmek üzere yapılandırıldı."
 
-#: qml/Wizard/Pages/60-reporting.qml:43
+#: qml/Wizard/Pages/60-reporting.qml:53
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
@@ -807,3 +760,36 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Lütfen yeniden girin"
+
+#~ msgid "%a %H:%M"
+#~ msgstr "%H:%M  %a"
+
+#~ msgid "%a %d %b %H:%M"
+#~ msgstr "%a %b %d\\u2003%H:%M"
+
+#~ msgid "%a %l:%M %p"
+#~ msgstr "%l:%M %p  %a"
+
+#~ msgid "Tomorrow %l:%M %p"
+#~ msgstr "Yarın %l:%M %p"
+
+#~ msgid "%l:%M %p"
+#~ msgstr "%l:%M %p"
+
+#~ msgid "Yesterday %l:%M %p"
+#~ msgstr "Dün %l:%M %p"
+
+#~ msgid "Tomorrow %H:%M"
+#~ msgstr "Yarın %H:%M"
+
+#~ msgid "%H:%M"
+#~ msgstr "%H:%M"
+
+#~ msgid "Yesterday %H:%M"
+#~ msgstr "Dün %H:%M"
+
+#~ msgid "%a %d %b %l:%M %p"
+#~ msgstr "%a %d %b %l:%M %p"
+
+#~ msgid "Call back"
+#~ msgstr "Geri ara"

@@ -50,7 +50,7 @@ Rectangle {
                     tabletStageLoader.itemDestroyed = true;
                 }
                 dragAreaWidth: units.gu(2)
-                maximizedAppTopMargin: units.gu(3) + units.dp(2)
+                maximizedAppTopMargin: units.gu(3)
                 interactive: true
                 shellOrientation: Qt.LandscapeOrientation
                 nativeWidth: width

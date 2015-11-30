@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-10-19 14:34+0100\n"
+"POT-Creation-Date: 2015-11-20 14:45+0100\n"
 "PO-Revision-Date: 2015-07-29 09:41+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2015-11-07 05:12+0000\n"
-"X-Generator: Launchpad (build 17838)\n"
+"X-Launchpad-Export-Date: 2015-11-30 05:29+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -35,86 +35,6 @@ msgstr "خروج"
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "إزالة تثبيت الاختصار"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:157
-msgid "Yesterday %l:%M %p"
-msgstr "أمس %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened today.
-#. en_US example: "%l:%M %p" --> "1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:164
-msgid "%l:%M %p"
-msgstr "%l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:172
-msgid "Tomorrow %l:%M %p"
-msgstr "غدًا %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:181
-msgid "%a %l:%M %p"
-msgstr "%a %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:190
-msgid "%a %d %b %l:%M %p"
-msgstr "%a %d %b %l:%M %p"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:201
-msgid "Yesterday %H:%M"
-msgstr "أمس %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened today.
-#. en_US example: "%H:%M" --> "13:00"
-#: plugins/Utils/relativetimeformatter.cpp:208
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:216
-msgid "Tomorrow %H:%M"
-msgstr "غدًا %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:225
-msgid "%a %H:%M"
-msgstr "%a %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:234
-msgid "%a %d %b %H:%M"
-msgstr "%a %d %b %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -141,72 +61,72 @@ msgstr[3] "برجاء الانتظار %1 دقائق ثم المحاولة مج�
 msgstr[4] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
 msgstr[5] "برجاء الانتظار %1 دقيقة ثم المحاولة مجددًا..."
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "هل أنت متأكد من رغبتك في تسجيل الخروج؟"
 
-#: qml/Components/Dialogs.qml:118
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "أوصِد"
 
-#: qml/Components/Dialogs.qml:125
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
-#: qml/Components/Dialogs.qml:224
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "إطفاء الجهاز"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "هل أنت متأكد من رغبتك في إطفاء الجهاز؟"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "إطفاء الجهاز"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "هل أنت متأكد من رغبتك في إعادة تشغيل الجهاز؟"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "لا"
 
-#: qml/Components/Dialogs.qml:188
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "نعم"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "الطاقة"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -214,12 +134,12 @@ msgstr ""
 "هل أنت متأكد من رغبتك\n"
 "في إيقاف التشغيل؟"
 
-#: qml/Components/Dialogs.qml:206
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "إيقاف التشغيل"
 
-#: qml/Components/Dialogs.qml:215
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "إعادة التشغيل"
@@ -236,6 +156,53 @@ msgstr "مكالمة طوارئ"
 msgid "OK"
 msgstr "موافق"
 
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr ""
+
+#: qml/Dash/DashPageHeader.qml:265
+msgctxt "Button: Open the Ubuntu Store"
+msgid "Store"
+msgstr "المتجر"
+
+#: qml/Dash/DashPageHeader.qml:272
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "بحث"
+
+#: qml/Dash/DashPageHeader.qml:282
+msgctxt "Button: Show the current dash scope settings"
+msgid "Settings"
+msgstr "الإعدادات"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Remove from Favorites"
+msgstr "حذف من المفضلات"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Add to Favorites"
+msgstr "إضافة إلى المفضلات"
+
 #: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "شاهد أقل"
@@ -249,29 +216,6 @@ msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "بحث"
 
-#: qml/Dash/PageHeader.qml:269
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "المتجر"
-
-#: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "بحث"
-
-#: qml/Dash/PageHeader.qml:286
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "الإعدادات"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Remove from Favorites"
-msgstr "حذف من المفضلات"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Add to Favorites"
-msgstr "إضافة إلى المفضلات"
-
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "المزيد..."
@@ -282,8 +226,6 @@ msgstr "أقل..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:174
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "أرسل"
 
@@ -322,6 +264,10 @@ msgstr "الرئيسية"
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "أيضا تم تثبيت"
+
+#: qml/DisabledScreenNotice.qml:42
+msgid "Your device is now connected to an external display."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -394,7 +340,7 @@ msgstr "برجاء إعادة إدخالها"
 msgid "Sorry, incorrect passcode"
 msgstr "نأسف، الرمز السري غير صحيح"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:128
+#: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
 msgstr "عرض كلمة السر"
 
@@ -406,11 +352,11 @@ msgstr "انقر للعودة إلى المكالمة..."
 msgid "Conference"
 msgstr "مؤتمر"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:727
+#: qml/Panel/Indicators/MenuItemFactory.qml:731
 msgid "Nothing is playing"
 msgstr "لا شيء مُشغّل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -421,7 +367,7 @@ msgstr[3] "%1 ساعات"
 msgstr[4] "%1 ساعة"
 msgstr[5] "%1 ساعة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:860
+#: qml/Panel/Indicators/MenuItemFactory.qml:864
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -432,7 +378,7 @@ msgstr[3] "%1 دقائق"
 msgstr[4] "%1 دقيقة"
 msgstr[5] "%1 دقيقة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:865
+#: qml/Panel/Indicators/MenuItemFactory.qml:869
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -443,46 +389,53 @@ msgstr[3] "%1 ثوان"
 msgstr[4] "%1 ثانية"
 msgstr[5] "%1 ثانية"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/MenuItemFactory.qml:872
 msgid "0 seconds"
 msgstr "أقل من ثانية"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:870
+#: qml/Panel/Indicators/MenuItemFactory.qml:874
 #, qt-format
 msgid "%1 remaining"
 msgstr "باق %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "In queue…"
 msgstr "في الانتظار..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:880
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Downloading"
 msgstr "التنزيل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Paused, tap to resume"
 msgstr "مُلبث، انقر للاستئناف"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Canceled"
 msgstr "تم إلغائه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 msgid "Finished"
 msgstr "انتهى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:888
+#: qml/Panel/Indicators/MenuItemFactory.qml:892
 msgid "Failed, tap to retry"
 msgstr "فشل، انقل لإعادة المحاولة"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+msgctxt "Button: Send a reply message"
+msgid "Send"
+msgstr ""
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "رد"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr ""
 
@@ -566,7 +519,7 @@ msgstr "هيا بنا نبدأ."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
 msgstr "متابعة"
@@ -669,11 +622,11 @@ msgstr ""
 msgid "You can change your mind later in <b>System Settings</b>."
 msgstr "يمكنك تغيير رأيك في وقت لاحق عن طريق <b>إعدادات النظام</b>."
 
-#: qml/Wizard/Pages/60-reporting.qml:24
+#: qml/Wizard/Pages/60-reporting.qml:26
 msgid "Improving your experience"
 msgstr "تحسين تجربتك"
 
-#: qml/Wizard/Pages/60-reporting.qml:36
+#: qml/Wizard/Pages/60-reporting.qml:46
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
@@ -681,7 +634,7 @@ msgstr ""
 "هاتفك مُعدّ لإرسال تقارير آلية بالأخطاء إلى كانونيكال وشركائها (صانعي نظام "
 "التشغيل)."
 
-#: qml/Wizard/Pages/60-reporting.qml:43
+#: qml/Wizard/Pages/60-reporting.qml:53
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
@@ -797,6 +750,36 @@ msgstr ""
 #~ msgstr ""
 #~ "أنت الآن بارع في إيماءات الحواف ويمكنك البدء باستخدام هاتفك<br><br>انقر على "
 #~ "الشاشة للبدء"
+
+#~ msgid "%a %l:%M %p"
+#~ msgstr "%a %l:%M %p"
+
+#~ msgid "Tomorrow %l:%M %p"
+#~ msgstr "غدًا %l:%M %p"
+
+#~ msgid "%l:%M %p"
+#~ msgstr "%l:%M %p"
+
+#~ msgid "Yesterday %l:%M %p"
+#~ msgstr "أمس %l:%M %p"
+
+#~ msgid "%H:%M"
+#~ msgstr "%H:%M"
+
+#~ msgid "Yesterday %H:%M"
+#~ msgstr "أمس %H:%M"
+
+#~ msgid "%a %d %b %l:%M %p"
+#~ msgstr "%a %d %b %l:%M %p"
+
+#~ msgid "%a %d %b %H:%M"
+#~ msgstr "%a %d %b %H:%M"
+
+#~ msgid "%a %H:%M"
+#~ msgstr "%a %H:%M"
+
+#~ msgid "Tomorrow %H:%M"
+#~ msgstr "غدًا %H:%M"
 
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"
