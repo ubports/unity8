@@ -32,7 +32,7 @@ QSizeF OrganicGrid::smallDelegateSize() const
     return m_smallDelegateSize;
 }
 
-void OrganicGrid::setSmallDelegateSize(const QSizeF &size)
+void OrganicGrid::setSmallDelegateSize(const QSizeF size)
 {
     if (m_smallDelegateSize != size) {
         m_smallDelegateSize = size;
@@ -49,7 +49,7 @@ QSizeF OrganicGrid::bigDelegateSize() const
     return m_bigDelegateSize;
 }
 
-void OrganicGrid::setBigDelegateSize(const QSizeF &size)
+void OrganicGrid::setBigDelegateSize(const QSizeF size)
 {
     if (m_bigDelegateSize != size) {
         m_bigDelegateSize = size;
@@ -237,7 +237,7 @@ void OrganicGrid::calculateImplicitHeight()
 
 void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Change> &removes)
 {
-    Q_FOREACH(const QQmlChangeSet::Change &remove, removes) {
+    Q_FOREACH(const QQmlChangeSet::Change remove, removes) {
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // We only support removing from the end

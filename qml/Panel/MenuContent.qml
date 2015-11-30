@@ -27,7 +27,7 @@ Rectangle {
 
     property QtObject indicatorsModel: null
     property int currentMenuIndex: -1
-    color: "#221e1c" // FIXME not in palette yet
+    color: "#292929" // FIXME not in palette yet
 
     width: units.gu(40)
     height: units.gu(42)

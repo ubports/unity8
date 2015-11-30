@@ -47,6 +47,16 @@ public:
     BuiltInCursorImage();
 };
 
+class BlankCursorImage  : public CursorImage {
+public:
+    BlankCursorImage();
+};
+
+class CustomCursorImage  : public CursorImage {
+public:
+    CustomCursorImage(const QCursor &cursor);
+};
+
 class CursorImageProvider : public QQuickImageProvider
 {
 public:
@@ -60,6 +70,8 @@ public:
 
     QPoint hotspot(const QString &themeName, const QString &cursorName);
 
+    void setCustomCursor(const QCursor &customCursor);
+
 private:
     CursorImage *fetchCursor(const QString &cursorThemeAndName);
     CursorImage *fetchCursor(const QString &themeName, const QString &cursorName);
@@ -69,6 +81,10 @@ private:
     QMap<QString, QMap<QString, CursorImage*> > m_cursors;
 
     QScopedPointer<CursorImage> m_builtInCursorImage;
+    BlankCursorImage m_blankCursorImage;
+    QScopedPointer<CursorImage> m_customCursorImage;
+
+    QMap<QString, QStringList> m_fallbackNames;
 
     static CursorImageProvider *m_instance;
 };

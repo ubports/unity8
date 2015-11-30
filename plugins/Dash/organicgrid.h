@@ -59,10 +59,10 @@ public:
     OrganicGrid();
 
     QSizeF smallDelegateSize() const;
-    void setSmallDelegateSize(const QSizeF &size);
+    void setSmallDelegateSize(const QSizeF size);
 
     QSizeF bigDelegateSize() const;
-    void setBigDelegateSize(const QSizeF &size);
+    void setBigDelegateSize(const QSizeF size);
 
 Q_SIGNALS:
     void smallDelegateSizeChanged();

@@ -60,14 +60,6 @@ public:
         ItemType &operator*() const { return *item; }
         ItemType &value() const { return *item; }
 
-        Iterator &operator= (const Iterator& other) {
-            index = other.index;
-            item = other.item;
-
-            // by convention, always return *this
-            return *this;
-        }
-
         operator bool() const { return item != nullptr; }
 
         int index;

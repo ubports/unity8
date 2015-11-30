@@ -27,6 +27,7 @@ FilterWidget {
 
     ListItems.Expandable {
         id: expandingItem
+        objectName: "expandingItem"
 
         expandedHeight: collapsedHeight + column.height
         width: parent.width
@@ -70,7 +71,6 @@ FilterWidget {
                     objectName: root.objectName + "label" + index;
 
                     Image {
-                        id: dropDown
                         height: units.gu(3)
                         fillMode: Image.PreserveAspectFit
                         anchors.right: parent.right
