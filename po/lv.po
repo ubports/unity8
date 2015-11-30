@@ -1,22 +1,24 @@
 # Latvian translation for unity
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-04 15:02+0000\n"
-"PO-Revision-Date: 2015-02-28 16:18+0000\n"
-"Last-Translator: Rūdolfs Mazurs <Unknown>\n"
-"Language-Team: Latvian <lv@li.org>\n"
+"POT-Creation-Date: 2015-11-20 14:45+0100\n"
+"PO-Revision-Date: 2015-11-22 19:13+0000\n"
+"Last-Translator: Klavs Anson <anson.klavs@gmail.com>\n"
+"Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-11-21 05:34+0000\n"
+"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
 "X-Generator: Launchpad (build 17850)\n"
+"Language: lv\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -29,7 +31,7 @@ msgstr "Piespraust īsceļu"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Iziet"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -55,72 +57,72 @@ msgstr[0] "Lūdzu, uzgaidiet %1 minūti un tad mēģiniet vēlreiz..."
 msgstr[1] "Lūdzu, uzgaidiet %1 minūtes un tad mēģiniet vēlreiz..."
 msgstr[2] "Lūdzu, uzgaidiet %1 minūtes un tad mēģiniet vēlreiz..."
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr ""
+msgstr "Izrakstīties"
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Vai tiešām vēlaties izrakstīties?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Bloķēt"
 
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Izrakstīties"
 
-#: qml/Components/Dialogs.qml:133 qml/Components/Dialogs.qml:166
-#: qml/Components/Dialogs.qml:225
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Izslēgt"
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "Vai tiešām vēlaties izslēgt?"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Pārstartēt"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Izslēgt"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Pārstartēt"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "Vai tiešām vēlaties pārstartēt?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "Nē"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "Jā"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Izslēgšana"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -128,15 +130,15 @@ msgstr ""
 "Vai tiešām vēlaties\n"
 "izslēgt?"
 
-#: qml/Components/Dialogs.qml:207
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Izslēgt"
 
-#: qml/Components/Dialogs.qml:216
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Pārstartēt"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
@@ -150,20 +152,44 @@ msgstr "Ārkārtas situācijas zvans"
 msgid "OK"
 msgstr "Labi"
 
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr ""
+
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr ""
+msgstr "Veikals"
 
 #: qml/Dash/DashPageHeader.qml:272
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Meklēt"
 
 #: qml/Dash/DashPageHeader.qml:282
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "Iestatījumi"
 
 #: qml/Dash/DashPageHeader.qml:289
 msgid "Remove from Favorites"
@@ -184,7 +210,7 @@ msgstr "Skatīt visus"
 #: qml/Dash/GenericScopeView.qml:631
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Meklēt"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -209,7 +235,7 @@ msgstr "Pievienot atsauksmi"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Priekšskatīt koplietojuma vienumu"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -237,7 +263,7 @@ msgstr "Arī instalēja"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr ""
+msgstr "Šī ierīce tagad ir savienota ar ārējo displeju."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -245,11 +271,11 @@ msgstr "Atbloķēt"
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Mēģināt vēlreiz"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
-msgstr ""
+msgstr "Uzsitiet, lai atbloķētu"
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
@@ -304,7 +330,7 @@ msgstr "Piedodiet, nepareiza parole"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Ievadiet vēlreiz"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -330,36 +356,39 @@ msgstr "Nekas netiek atskaņots"
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 stunda"
+msgstr[1] "%1 stundas"
+msgstr[2] "%1 stundu"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:864
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 minūte"
+msgstr[1] "%1 minūtes"
+msgstr[2] "%1 minūšu"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:869
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 sekunde"
+msgstr[1] "%1 sekundes"
+msgstr[2] "%1 sekunžu"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:872
 msgid "0 seconds"
-msgstr ""
+msgstr "0 sekunžu"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:874
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "Atlicis: %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "In queue…"
-msgstr "Sarakstā..."
+msgstr "Rindā..."
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Downloading"
@@ -385,17 +414,17 @@ msgstr "Neizdevās, uzsitiet, lai mēģinātu vēlreiz"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Sūtīt"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr ""
+msgstr "Atbildēt"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Atzvanīt"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -461,7 +490,7 @@ msgstr "Redzēt visus palaistos uzdevumus."
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Atpakaļ"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
@@ -505,32 +534,32 @@ msgstr "Lūdzu, izvēlieties, kā vēlaties atbloķēt savu tālruni."
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Vilkt"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:98
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr ""
+msgstr "Bez drošības"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:100
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr ""
+msgstr "Piekļuves kods"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:101
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr ""
+msgstr "Tikai 4 cipari"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr ""
+msgstr "Parole"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:104
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr ""
+msgstr "Skaitļi un burti"
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"

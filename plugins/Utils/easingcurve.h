@@ -46,7 +46,7 @@ public:
     EasingCurve(QObject *parent = 0);
 
     QEasingCurve::Type type() const;
-    void setType(const QEasingCurve::Type &type);
+    void setType(const QEasingCurve::Type type);
 
     qreal period() const;
     void setPeriod(qreal period);
