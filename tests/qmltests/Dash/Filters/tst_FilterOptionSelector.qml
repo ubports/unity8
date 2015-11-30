@@ -70,16 +70,11 @@ Rectangle {
         when: windowShown
 
         function test_optionSelector() {
-            var initialHeight = factory.implicitHeight;
-            var currentHeight = 0;
+            var expandingItem = findChild(factory, "expandingItem");
             // Open the selector
             mouseClick(factory);
             // wait for it to stop growing
-            while (currentHeight != factory.implicitHeight) {
-                currentHeight = factory.implicitHeight;
-                wait(250);
-            }
-            verify(initialHeight < currentHeight);
+            tryCompare(factory, "implicitHeight", expandingItem.expandedHeight);
 
             // Check the first option
             var option0 = findChild(factory, "testOptionSelectorFilterlabel0");

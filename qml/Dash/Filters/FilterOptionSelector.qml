@@ -27,6 +27,7 @@ FilterWidget {
 
     ListItems.Expandable {
         id: expandingItem
+        objectName: "expandingItem"
 
         expandedHeight: collapsedHeight + column.height
         width: parent.width
