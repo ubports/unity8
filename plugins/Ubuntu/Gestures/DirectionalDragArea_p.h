@@ -84,13 +84,13 @@ public:
     bool isPastMaxDistance() const;
     const QTouchEvent::TouchPoint *fetchTargetTouchPoint(QTouchEvent *event);
     void setStatus(Status newStatus);
-    void setPublicPos(const QPointF &point);
-    void setPublicScenePos(const QPointF &point);
+    void setPublicPos(const QPointF point);
+    void setPublicScenePos(const QPointF point);
     bool isWithinTouchCompositionWindow();
     void updateSceneDirectionVector();
     // returns the scalar projection between the given vector (in scene coordinates)
     // and m_sceneDirectionVector
-    qreal projectOntoDirectionVector(const QPointF &sceneVector) const;
+    qreal projectOntoDirectionVector(const QPointF sceneVector) const;
     void touchOwnershipEvent(TouchOwnershipEvent *event);
     void unownedTouchEvent(UnownedTouchEvent *event);
     void unownedTouchEvent_undecided(UnownedTouchEvent *unownedTouchEvent);

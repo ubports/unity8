@@ -69,6 +69,11 @@ Rectangle {
     }
 
     InputDeviceModel {
+        id: touchPadModel
+        deviceFilter: InputInfo.TouchPad
+    }
+
+    InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
     }
@@ -183,7 +188,7 @@ Rectangle {
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode
-        hasMouse: miceModel.count > deviceConfiguration.ignoredMice
+        hasMouse: miceModel.count + touchPadModel.count > deviceConfiguration.ignoredMice
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
@@ -197,7 +202,7 @@ Rectangle {
                     return "tablet";
                 }
             } else { // automatic
-                if (miceModel.count > deviceConfiguration.ignoredMice) {
+                if (miceModel.count + touchPadModel.count > deviceConfiguration.ignoredMice) {
                     return "desktop";
                 } else {
                     return deviceConfiguration.category;

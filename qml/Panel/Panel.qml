@@ -30,23 +30,12 @@ Item {
     property real indicatorAreaShowProgress: 1.0
     property bool locked: false
 
-    opacity: fullscreenMode && indicators.fullyClosed ? 0.0 : 1.0
-
-    Binding {
-        target: PanelState
-        property: "panelHeight"
-        value: root.panelHeight
-    }
-
     Rectangle {
         id: darkenedArea
         property real darkenedOpacity: 0.6
         anchors {
-            top: parent.top
+            fill: parent
             topMargin: panelHeight
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
         }
         color: "black"
         opacity: indicators.unitProgress * darkenedOpacity
@@ -59,15 +48,17 @@ Item {
         }
     }
 
+    Binding {
+        target: PanelState
+        property: "panelHeight"
+        value: indicators.minimizedPanelHeight
+    }
+
     Item {
         id: indicatorArea
         objectName: "indicatorArea"
 
         anchors.fill: parent
-
-        Behavior on anchors.topMargin {
-            NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
-        }
 
         transform: Translate {
             y: indicators.state === "initial"
@@ -76,7 +67,7 @@ Item {
         }
 
         BorderImage {
-            id: dropShadow
+            id: indicatorsDropShadow
             anchors {
                 fill: indicators
                 leftMargin: -units.gu(1)
@@ -86,9 +77,19 @@ Item {
             source: "graphics/rectangular_dropshadow.sci"
         }
 
+        BorderImage {
+            id: panelDropShadow
+            anchors {
+                fill: indicatorAreaBackground
+                bottomMargin: -units.gu(1)
+            }
+            visible: PanelState.dropShadow && !callHint.visible
+            source: "graphics/rectangular_dropshadow.sci"
+        }
+
         Rectangle {
             id: indicatorAreaBackground
-            color: callHint.visible ? "green" : "black"
+            color: callHint.visible ? "green" : "#292929"
             anchors {
                 top: parent.top
                 left: parent.left
@@ -99,30 +100,6 @@ Item {
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration } }
         }
 
-        PanelSeparatorLine {
-            id: orangeLine
-            anchors {
-                top: indicatorAreaBackground.bottom
-                left: parent.left
-                right: indicators.left
-            }
-            saturation: 1 - indicators.unitProgress
-
-            // Don't let input event pass trough
-            MouseArea { anchors.fill: parent }
-        }
-
-        Image {
-            anchors {
-                top: indicators.top
-                bottom: indicators.bottom
-                right: indicators.left
-                topMargin: indicatorArea.anchors.topMargin + indicators.minimizedPanelHeight
-            }
-            width: units.dp(2)
-            source: "graphics/VerticalDivider.png"
-        }
-
         MouseArea {
             anchors {
                 top: parent.top
@@ -130,7 +107,29 @@ Item {
                 right: indicators.left
             }
             height: indicators.minimizedPanelHeight
-            onClicked: { if (callHint.visible) { callHint.showLiveCall(); } }
+            hoverEnabled: true
+            onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
+            onDoubleClicked: PanelState.maximize()
+
+            // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
+            // cf. https://bugreports.qt.io/browse/QTBUG-32909
+            WindowControlButtons {
+                id: windowControlButtons
+                objectName: "panelWindowControlButtons"
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    leftMargin: units.gu(1)
+                    topMargin: units.gu(0.5)
+                    bottomMargin: units.gu(0.5)
+                }
+                height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+                visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
+                active: PanelState.buttonsVisible
+                onClose: PanelState.close()
+                onMinimize: PanelState.minimize()
+                onMaximize: PanelState.maximize()
+            }
         }
 
         IndicatorsMenu {
@@ -146,7 +145,7 @@ Item {
             width: root.width - (windowControlButtons.visible ? windowControlButtons.width + titleLabel.width : 0)
             minimizedPanelHeight: units.gu(3)
             expandedPanelHeight: units.gu(7)
-            openedHeight: root.height - indicatorOrangeLine.height
+            openedHeight: root.height
 
             overFlowWidth: {
                 if (callHint.visible) {
@@ -163,58 +162,34 @@ Item {
                     callHint.showLiveCall();
                 }
             }
-
-            hideDragHandle {
-                anchors.bottomMargin: -indicatorOrangeLine.height
-            }
-        }
-
-        WindowControlButtons {
-            id: windowControlButtons
-            objectName: "panelWindowControlButtons"
-            anchors {
-                left: parent.left
-                top: parent.top
-                margins: units.gu(0.7)
-            }
-            height: indicators.minimizedPanelHeight - anchors.margins * 2
-            visible: PanelState.buttonsVisible && !root.locked
-            onClose: PanelState.close()
-            onMinimize: PanelState.minimize()
-            onMaximize: PanelState.maximize()
         }
 
         Label {
             id: titleLabel
             objectName: "windowDecorationTitle"
             anchors {
-                left: windowControlButtons.right
+                left: parent.left
                 top: parent.top
-                margins: units.gu(0.7)
+                leftMargin: units.gu(1)
+                topMargin: units.gu(0.5)
+                bottomMargin: units.gu(0.5)
             }
-            color: "#DFDBD2"
-            height: windowControlButtons.height
-            visible: windowControlButtons.visible
+            color: PanelState.buttonsVisible ? "#ffffff" : "#5d5d5d"
+            height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
+            visible: !windowControlButtons.visible && !root.locked && !callHint.visible
             verticalAlignment: Text.AlignVCenter
-            fontSize: "small"
-            font.bold: true
+            fontSize: "medium"
+            font.weight: Font.Normal
             text: PanelState.title
         }
 
-        PanelSeparatorLine {
-            id: indicatorOrangeLine
-            anchors {
-                top: indicators.bottom
-                left: indicators.left
-                right: indicators.right
-            }
-        }
+        // TODO here would the Locally integrated menus come
 
         ActiveCallHint {
             id: __callHint
             anchors {
                 top: parent.top
-                left: windowControlButtons.visible ? windowControlButtons.right : parent.left
+                left: parent.left
             }
             height: indicators.minimizedPanelHeight
             visible: active && indicators.state == "initial"
@@ -224,7 +199,7 @@ Item {
     QtObject {
         id: d
         objectName: "panelPriv"
-        readonly property real indicatorHeight: indicators.minimizedPanelHeight + indicatorOrangeLine.height
+        readonly property real indicatorHeight: indicators.minimizedPanelHeight
     }
 
     states: [
@@ -234,6 +209,7 @@ Item {
             PropertyChanges {
                 target: indicatorArea;
                 anchors.topMargin: 0
+                opacity: 1;
             }
         },
         State {
@@ -242,11 +218,23 @@ Item {
             PropertyChanges {
                 target: indicatorArea;
                 anchors.topMargin: indicators.state === "initial" ? -d.indicatorHeight : 0
+                opacity: indicators.fullyClosed ? 0.0 : 1.0
             }
             PropertyChanges {
                 target: indicators.showDragHandle;
                 anchors.bottomMargin: -units.gu(1)
             }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            to: "onscreen"
+            UbuntuNumberAnimation { target: indicatorArea; properties: "anchors.topMargin,opacity" }
+        },
+        Transition {
+            to: "offscreen"
+            UbuntuNumberAnimation { target: indicatorArea; properties: "anchors.topMargin,opacity" }
         }
     ]
 }

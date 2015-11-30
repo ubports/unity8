@@ -34,6 +34,8 @@ FocusScope {
     property QtObject application
     property int surfaceOrientationAngle
     property alias resizeSurface: sessionContainer.resizeSurface
+    property int requestedWidth: -1
+    property int requestedHeight: -1
 
     QtObject {
         id: d
@@ -54,7 +56,7 @@ FocusScope {
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
-        property bool needToTakeScreenshot:
+        readonly property bool needToTakeScreenshot:
             ((sessionContainer.surface && d.surfaceInitialized) || d.hadSurface)
             && screenshotImage.status === Image.Null
             && d.applicationState === ApplicationInfoInterface.Stopped
@@ -69,7 +71,7 @@ FocusScope {
         // Remove this when possible
         property bool surfaceInitialized: false
 
-        property bool supportsSurfaceResize:
+        readonly property bool supportsSurfaceResize:
                 application &&
                 ((application.supportedOrientations & Qt.PortraitOrientation)
                   || (application.supportedOrientations & Qt.InvertedPortraitOrientation))
@@ -135,7 +137,9 @@ FocusScope {
         id: sessionContainer
         // A fake application might not even have a session property.
         session: application && application.session ? application.session : null
-        anchors.fill: parent
+
+        requestedWidth: root.requestedWidth
+        requestedHeight: root.requestedHeight
 
         surfaceOrientationAngle: application && application.rotatesWindowContents ? root.surfaceOrientationAngle : 0
 
@@ -148,6 +152,28 @@ FocusScope {
         }
 
         focus: true
+    }
+
+    // SessionContainer size drives ApplicationWindow size
+    Binding {
+        target: root; property: "width"
+        value: stateGroup.state === "surface" ? sessionContainer.width : root.requestedWidth
+        when: root.requestedWidth >= 0
+    }
+    Binding {
+        target: root; property: "height"
+        value: stateGroup.state === "surface" ? sessionContainer.height : root.requestedHeight
+        when: root.requestedHeight >= 0
+    }
+
+    // ApplicationWindow size drives SessionContainer size
+    Binding {
+        target: sessionContainer; property: "width"; value: root.width
+        when: root.requestedWidth < 0
+    }
+    Binding {
+        target: sessionContainer; property: "height"; value: root.height
+        when: root.requestedHeight < 0
     }
 
     StateGroup {

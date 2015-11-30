@@ -66,10 +66,10 @@ WindowStateStorage::WindowState WindowStateStorage::getState(const QString &wind
     if (!query.first()) {
         return defaultValue;
     }
-    return (WindowState)query.value("state").toInt();
+    return (WindowState)query.value(QStringLiteral("state")).toInt();
 }
 
-void WindowStateStorage::saveGeometry(const QString &windowId, const QRect &rect)
+void WindowStateStorage::saveGeometry(const QString &windowId, const QRect rect)
 {
     const QString queryString = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
             .arg(windowId)
@@ -94,7 +94,7 @@ void WindowStateStorage::executeAsyncQuery(const QString &queryString)
     }
 }
 
-QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defaultValue) const
+QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect defaultValue) const
 {
     QString queryString = QStringLiteral("SELECT * FROM geometry WHERE windowId = '%1';")
             .arg(windowId);
@@ -120,9 +120,9 @@ void WindowStateStorage::initdb()
         query.exec(QStringLiteral("CREATE TABLE geometry(windowId TEXT UNIQUE, x INTEGER, y INTEGER, width INTEGER, height INTEGER);"));
     }
 
-    if (!m_db.tables().contains("state")) {
+    if (!m_db.tables().contains(QStringLiteral("state"))) {
         QSqlQuery query;
-        query.exec("CREATE TABLE state(windowId TEXT UNIQUE, state INTEGER);");
+        query.exec(QStringLiteral("CREATE TABLE state(windowId TEXT UNIQUE, state INTEGER);"));
     }
 }
 

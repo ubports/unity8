@@ -50,7 +50,7 @@ void VerticalJournal::setColumnWidth(qreal columnWidth)
 
         if (isComponentComplete()) {
             Q_FOREACH(const auto &column, m_columnVisibleItems) {
-                Q_FOREACH(const ViewItem &item, column) {
+                Q_FOREACH(const ViewItem item, column) {
                     item.m_item->setWidth(columnWidth);
                 }
             }
@@ -172,7 +172,7 @@ void VerticalJournal::cleanupExistingItems()
     // Cleanup the existing items
     for (int i = 0; i < m_columnVisibleItems.count(); ++i) {
         QList<ViewItem> &column = m_columnVisibleItems[i];
-        Q_FOREACH(const ViewItem &item, column)
+        Q_FOREACH(const ViewItem item, column)
             releaseItem(item.m_item);
         column.clear();
     }
@@ -218,10 +218,10 @@ void VerticalJournal::doRelayout()
 
     if (!allItems.isEmpty()) {
         if (allItems.first().m_modelIndex == 0) {
-            Q_FOREACH(const ViewItem &item, allItems)
+            Q_FOREACH(const ViewItem item, allItems)
                 addItemToView(item.m_modelIndex, item.m_item);
         } else {
-            Q_FOREACH(const ViewItem &item, allItems)
+            Q_FOREACH(const ViewItem item, allItems)
                 releaseItem(item.m_item);
         }
     }
@@ -230,7 +230,7 @@ void VerticalJournal::doRelayout()
 void VerticalJournal::updateItemCulling(qreal visibleFromY, qreal visibleToY)
 {
     Q_FOREACH(const auto &column, m_columnVisibleItems) {
-        Q_FOREACH(const ViewItem &item, column) {
+        Q_FOREACH(const ViewItem item, column) {
             const bool cull = item.y() + item.height() <= visibleFromY || item.y() >= visibleToY;
             QQuickItemPrivate::get(item.m_item)->setCulled(cull);
         }
@@ -239,7 +239,7 @@ void VerticalJournal::updateItemCulling(qreal visibleFromY, qreal visibleToY)
 
 void VerticalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &removes)
 {
-    Q_FOREACH(const QQmlChangeSet::Change &remove, removes) {
+    Q_FOREACH(const QQmlChangeSet::Change remove, removes) {
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // Since we only support removing from the end, indexToRemove
