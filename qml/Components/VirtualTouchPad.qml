@@ -114,6 +114,10 @@ Item {
             dh += tp.x - tp.previousX;
             dv += tp.y - tp.previousY;
 
+            // As we added up the movement of the two fingers, let's divide it again by 2
+            dh /= 2;
+            dv /= 2;
+
             uinput.scrollMouse(dh, dv);
         }
 
