@@ -439,8 +439,8 @@ Item {
                 if (currentDelegate.text === "GNOME") {
                     tap(currentDelegate);
                     var sessionChooserButton = findChild(view, "sessionChooserButton");
-                    var icon = String(sessionChooserButton.icon);
                     waitForRendering(sessionChooserButton);
+                    var icon = String(sessionChooserButton.icon);
                     break;
                 }
             }
