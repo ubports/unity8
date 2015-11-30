@@ -23,12 +23,19 @@ import Unity.Application 0.1
 import Unity.Indicators 0.1 as Indicators
 import Ubuntu.Telephony 0.1 as Telephony
 import "../../../qml/Panel"
+import "../../../qml/Components/PanelState"
 
 IndicatorTest {
     id: root
     width: units.gu(100)
     height: units.gu(71)
     color: "white"
+
+    Binding {
+        target: mouseEmulation
+        property: "checked"
+        value: !windowControlsCB.checked
+    }
 
     RowLayout {
         anchors.fill: parent
@@ -45,17 +52,18 @@ IndicatorTest {
             MouseArea {
                 id: backgroundMouseArea
                 anchors.fill: parent
-            }
+                hoverEnabled: true
 
-            Panel {
-                id: panel
-                anchors.fill: parent
-                indicators {
-                    width: parent.width > units.gu(60) ? units.gu(40) : parent.width
-                    indicatorsModel: root.indicatorsModel
+                Panel {
+                    id: panel
+                    anchors.fill: parent
+                    indicators {
+                        width: parent.width > units.gu(60) ? units.gu(40) : parent.width
+                        indicatorsModel: root.indicatorsModel
+                    }
+
+                    property real panelAndSeparatorHeight: panel.indicators.minimizedPanelHeight
                 }
-
-                property real panelAndSeparatorHeight: panel.indicators.minimizedPanelHeight + units.dp(2)
             }
         }
 
@@ -93,6 +101,32 @@ IndicatorTest {
                 }
             }
 
+            RowLayout {
+                Layout.fillWidth: true
+                CheckBox {
+                    id: windowControlsCB
+                    onClicked: PanelState.buttonsVisible = checked
+                }
+                Label {
+                    text: "Show window controls"
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                CheckBox {
+                    onClicked: {
+                        if (checked)
+                            PanelState.title = "Fake window title"
+                        else
+                            PanelState.title = ""
+                    }
+                }
+                Label {
+                    text: "Show fake window title"
+                }
+            }
+
             Rectangle {
                 Layout.preferredHeight: units.dp(1);
                 Layout.fillWidth: true;
@@ -127,7 +161,7 @@ IndicatorTest {
                 color: "black"
             }
 
-            MouseTouchEmulationCheckbox {}
+            MouseTouchEmulationCheckbox { id: mouseEmulation }
         }
     }
 
