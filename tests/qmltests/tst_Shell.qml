@@ -1846,37 +1846,6 @@ Rectangle {
             compare(appDelegate.y >= PanelState.panelHeight, true);
         }
 
-        function test_cantMoveWindowUnderPanel() {
-            loadDesktopShellWithApps();
-            var appRepeater = findChild(shell, "appRepeater")
-            var appDelegate = appRepeater.itemAt(0);
-
-            mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
-            mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
-
-            compare(appDelegate.y >= PanelState.panelHeight, true);
-        }
-
-        function test_restoreWindowStateFixesIfUnderPanel() {
-            loadDesktopShellWithApps();
-            var appRepeater = findChild(shell, "appRepeater")
-            var appId = ApplicationManager.get(0).appId;
-            var appDelegate = appRepeater.itemAt(0);
-
-            // Move it under the panel programmatically (might happen later with an alt+drag)
-            appDelegate.y = -units.gu(10)
-
-            ApplicationManager.stopApplication(appId)
-            ApplicationManager.startApplication(appId)
-            waitForRendering(shell)
-
-            // Make sure the newly started one is at index 0 again
-            tryCompare(ApplicationManager.get(0), "appId", appId);
-
-            appDelegate = appRepeater.itemAt(0);
-            compare(appDelegate.y >= PanelState.panelHeight, true);
-        }
-
         function test_lifecyclePolicyForNonTouchApp_data() {
             return [
                 {tag: "phone", formFactor: "phone", usageScenario: "phone"},
