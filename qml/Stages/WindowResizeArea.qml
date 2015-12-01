@@ -118,8 +118,8 @@ MouseArea {
         property real currentWidth
         property real currentHeight
 
-        property string cursorName: {
-            if (root.containsMouse || root.pressed) {
+        readonly property string cursorName: {
+            if (root.containsMouse || dragging) {
                 if (leftBorder && !topBorder && !bottomBorder) {
                     return "left_side";
                 } else if (rightBorder && !topBorder && !bottomBorder) {
@@ -186,9 +186,7 @@ MouseArea {
         } else {
             resetBordersToMoveTimer.start();
             d.dragging = false;
-            if (containsMouse) {
-                d.updateBorders();
-            }
+            d.updateBorders();
         }
     }
 

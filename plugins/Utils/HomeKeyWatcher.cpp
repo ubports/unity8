@@ -86,11 +86,18 @@ void HomeKeyWatcher::update(QEvent *event)
 
         m_activationTimer->stop();
         m_windowBeingTouched = true;
+        Q_EMIT windowTouched();
 
     } else if (event->type() == QEvent::TouchEnd) {
 
         m_windowBeingTouched = false;
         m_windowLastTouchedTimer->start();
+
+        QTouchEvent * touchEv = static_cast<QTouchEvent *>(event);
+        if (touchEv && !touchEv->touchPoints().isEmpty()) {
+            const QPointF pos = touchEv->touchPoints().last().screenPos();
+            Q_EMIT windowReleased(pos);
+        }
     }
 }
 

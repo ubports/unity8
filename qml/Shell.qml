@@ -132,6 +132,24 @@ Item {
         shell.activateApplication(app);
     }
 
+    QtObject {
+        id: cursorPriv
+        property bool touchDetected: false;
+
+        function hideCursor() {
+            touchDetected = true;
+            shell.cursorVisible = false;
+        }
+
+        function revealCursor() {
+            if (touchDetected) {
+                touchDetected = false;
+                Mir.cursorName = "";
+                shell.cursorVisible = true;
+            }
+        }
+    }
+
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -147,6 +165,7 @@ Item {
     }
 
     LightDM{id: lightDM} // Provide backend access
+
     VolumeControl {
         id: volumeControl
         indicators: panel.indicators
@@ -178,6 +197,12 @@ Item {
 
     HomeKeyWatcher {
         onActivated: { launcher.fadeOut(); shell.showHome(); }
+        onWindowTouched: { cursorPriv.hideCursor(); }
+        onWindowReleased: {
+            // store the last known touch position
+            cursor.x = pos.x;
+            cursor.y = pos.y;
+        }
     }
 
     Item {
@@ -663,6 +688,7 @@ Item {
         id: cursor
         visible: shell.hasMouse
         z: screenGrabber.z + 1
+        opacity: shell.cursorVisible ? 1 : 0
 
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
@@ -675,6 +701,10 @@ Item {
                     && applicationsDisplayLoader.item.pushRightEdge) {
                 applicationsDisplayLoader.item.pushRightEdge(amount);
             }
+        }
+
+        onMouseMoved: {
+            cursorPriv.revealCursor();
         }
     }
 
