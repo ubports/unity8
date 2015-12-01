@@ -23,9 +23,9 @@ DeclarativePlaylist::DeclarativePlaylist(QObject *parent)
 {
 }
 
-QUrl DeclarativePlaylist::currentSource() const
+QUrl DeclarativePlaylist::currentItemSource() const
 {
-    return source(currentIndex());
+    return itemSource(currentIndex());
 }
 
 int DeclarativePlaylist::currentIndex() const
@@ -40,27 +40,34 @@ void DeclarativePlaylist::setCurrentIndex(int index)
 
     m_currentIndex = index;
     Q_EMIT currentIndexChanged();
+    Q_EMIT currentItemSourceChanged();
 }
 
-QUrl DeclarativePlaylist::source(int index) const
+QUrl DeclarativePlaylist::itemSource(int index) const
 {
+    if (index < 0 || index >= m_medias.count())
+        return QUrl();
     return m_medias[index];
 }
 
-bool DeclarativePlaylist::addSource(const QUrl &source)
+bool DeclarativePlaylist::addItem(const QUrl &source)
 {
     m_medias << source;
+    setCurrentIndex(0);
     return true;
 }
 
-bool DeclarativePlaylist::addSources(const QList<QUrl> &sources)
+bool DeclarativePlaylist::addItems(const QList<QUrl> &sources)
 {
     m_medias << sources;
+    if (!sources.isEmpty())
+        setCurrentIndex(0);
     return true;
 }
 
 bool DeclarativePlaylist::clear()
 {
     m_medias.clear();
+    setCurrentIndex(-1);
     return true;
 }

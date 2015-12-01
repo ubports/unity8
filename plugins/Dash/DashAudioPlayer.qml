@@ -25,17 +25,7 @@ QtObject {
     readonly property bool paused: audio.playbackState === Audio.PausedState
     readonly property bool stopped: audio.playbackState === Audio.StoppedState
     readonly property alias position: audio.position
-
-    function isCurrentSource(source) {
-        if (source != "") {
-            if (audio.playlist) {
-                return AudioUrlComparer.compare(source, audio.playlist.currentSource);
-            } else {
-                return AudioUrlComparer.compare(source, audio.source);
-            }
-        }
-        return false;
-    }
+    readonly property url currentSource: audio.playlist.currentItemSource
 
     function playSource(newSource, newPlaylist) {
         stop();
@@ -58,10 +48,10 @@ QtObject {
             for (var i in newPlaylist) {
                 urls.push(newPlaylist[i]);
             }
-            audio.playlist.addSources(urls);
+            audio.playlist.addItems(urls);
             audio.playlist.currentIndex = sourceIndex;
         } else {
-            audio.playlist.addSource(newSource);
+            audio.playlist.addItem(newSource);
             audio.playlist.currentIndex = 0;
         }
         play();

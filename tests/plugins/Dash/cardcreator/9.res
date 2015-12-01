@@ -2,7 +2,7 @@ AbstractButton {
                 id: root; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource: undefined; 
+                property string artShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 property int titleAlignment: Text.AlignLeft; 
@@ -31,7 +31,7 @@ top: parent.top;
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText; 
+                        color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText; 
                         visible: showHeader ; 
                         width: undefined; 
                         text: root.title; 
@@ -52,7 +52,7 @@ top: titleLabel.bottom;
                             maximumLineCount: 1; 
                             fontSize: "x-small"; 
                             font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText; 
+                            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText; 
                             visible: titleLabel.visible && titleLabel.text; 
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
@@ -74,7 +74,7 @@ CardAudioProgress {
                             width: height; 
                             height: (root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1); 
                             readonly property url source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; 
-                            UbuntuShape {
+                            UbuntuShape { 
                                 anchors.fill: parent; 
                                 visible: parent.pressed; 
                                 radius: "medium"; 
@@ -84,17 +84,17 @@ CardAudioProgress {
                                 anchors.fill: parent; 
                                 anchors.margins: parent.height > units.gu(5) ? units.gu(2) : units.gu(0); 
                                 opacity: 0.9; 
-                                name: DashAudioPlayer.isCurrentSource(parent.source) && DashAudioPlayer.playing ? "media-playback-pause" : "media-playback-start"; 
+                                name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; 
                             } 
                             onClicked: { 
-                                if (DashAudioPlayer.isCurrentSource(source)) { 
+                                if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { 
                                     if (DashAudioPlayer.playing) { 
                                         DashAudioPlayer.pause(); 
                                     } else { 
                                         DashAudioPlayer.play(); 
                                     } 
                                 } else { 
-                                    var playlist = (cardData["quickPreviewData"] && cardData["quickPreviewData"]["playlist"]) || null;
+                                    var playlist = (cardData["quickPreviewData"] && cardData["quickPreviewData"]["playlist"]) || null; 
                                     DashAudioPlayer.playSource(source, playlist); 
                                 } 
                             } 
@@ -105,7 +105,7 @@ CardAudioProgress {
                         id: touchdown; 
                         objectName: "touchdown"; 
                         anchors { fill: root } 
-                        visible: root.pressed; 
+                        visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed; 
                         radius: "medium"; 
                         borderSource: "radius_pressed.sci" 
                     }

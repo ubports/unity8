@@ -24,24 +24,24 @@
 class DeclarativePlaylist : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUrl currentSource READ currentSource NOTIFY currentSourceChanged)
+    Q_PROPERTY(QUrl currentItemSource READ currentItemSource NOTIFY currentItemSourceChanged)
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
 
 public:
     DeclarativePlaylist(QObject *parent = 0);
 
-    QUrl currentSource() const;
+    QUrl currentItemSource() const;
     int currentIndex() const;
     void setCurrentIndex(int currentIndex);
 
 public Q_SLOTS:
-    QUrl source(int index) const;
-    bool addSource(const QUrl &source);
-    bool addSources(const QList<QUrl> &sources);
+    QUrl itemSource(int index) const;
+    bool addItem(const QUrl &source);
+    bool addItems(const QList<QUrl> &sources);
     bool clear();
 
 Q_SIGNALS:
-    void currentSourceChanged();
+    void currentItemSourceChanged();
     void currentIndexChanged();
 
 private:

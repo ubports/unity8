@@ -102,7 +102,7 @@ Rectangle {
 
         function checkPlayerSource(index) {
             var modelFilename = previewAudioPlayback.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
-            var playerFilename = DashAudioPlayer.d.source.toString().replace(/^.*[\\\/]/, '');
+            var playerFilename = DashAudioPlayer.currentSource.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
         }
@@ -123,7 +123,7 @@ Rectangle {
             var track1PlayButton = findChild(track1Item, "playButton");
             var track2PlayButton = findChild(track2Item, "playButton");
 
-            var audio = DashAudioPlayer.d;
+            var audio = DashAudioPlayer.audio;
 
             // All progress bars must be hidden in the beginning
             compare(track0ProgressBar.visible, false);

@@ -50,7 +50,7 @@ PreviewWidget {
                 objectName: "trackItem" + index
 
                 readonly property url sourceUrl: modelData["source"]
-                readonly property bool isPlayingItem: DashAudioPlayer.isCurrentSource(sourceUrl)
+                readonly property bool isPlayingItem: AudioUrlComparer.compare(sourceUrl, DashAudioPlayer.currentSource)
 
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(5)

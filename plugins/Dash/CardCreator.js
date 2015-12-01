@@ -147,10 +147,10 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                 anchors.fill: parent; \n\
                                 anchors.margins: parent.height > units.gu(5) ? units.gu(2) : units.gu(0); \n\
                                 opacity: 0.9; \n\
-                                name: DashAudioPlayer.isCurrentSource(parent.source) && DashAudioPlayer.playing ? "media-playback-pause" : "media-playback-start"; \n\
+                                name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; \n\
                             } \n\
                             onClicked: { \n\
-                                if (DashAudioPlayer.isCurrentSource(source)) { \n\
+                                if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { \n\
                                     if (DashAudioPlayer.playing) { \n\
                                         DashAudioPlayer.pause(); \n\
                                     } else { \n\

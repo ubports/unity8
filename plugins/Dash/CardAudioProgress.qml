@@ -22,12 +22,12 @@ Item {
     id: root
 
     implicitHeight: positionLabel.y + positionLabel.height
-    visible: DashAudioPlayer.isCurrentSource(source)
+    visible: AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)
 
     property int duration: 0
     property url source
     property color color: theme.palette.normal.baseText
-    readonly property int position: DashAudioPlayer.isCurrentSource(source) ? DashAudioPlayer.position / 1000 : 0
+    readonly property int position: root.visible ? DashAudioPlayer.position / 1000 : 0
 
     AudioProgressBar {
         id: progress

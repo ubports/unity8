@@ -24,7 +24,7 @@ Item {
     height: progressBarImage.height
 
     property url source
-    readonly property double progress: DashAudioPlayer.isCurrentSource(source) ? DashAudioPlayer.progress : 0
+    readonly property double progress: AudioUrlComparer.compare(source, DashAudioPlayer.currentSource) ? DashAudioPlayer.progress : 0
 
     Image {
         id: progressBarImage

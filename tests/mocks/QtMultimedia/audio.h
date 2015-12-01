@@ -29,7 +29,6 @@ class Audio: public QObject
     Q_OBJECT
     Q_ENUMS(PlaybackState)
     Q_ENUMS(AudioRole)
-    Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(PlaybackState playbackState READ playbackState NOTIFY playbackStateChanged)
     Q_PROPERTY(int position READ position NOTIFY positionChanged)
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
@@ -51,9 +50,6 @@ public:
     };
 
     explicit Audio(QObject *parent = 0);
-
-    QUrl source() const;
-    void setSource(const QUrl &source);
 
     DeclarativePlaylist *playlist() const;
     void setPlaylist(DeclarativePlaylist *playlist);
@@ -86,7 +82,6 @@ private Q_SLOTS:
     void timerEvent();
 
 private:
-    QUrl m_source;
     PlaybackState m_playbackState;
     QTimer m_timer;
     int m_position;

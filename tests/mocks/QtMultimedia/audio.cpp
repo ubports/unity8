@@ -34,29 +34,6 @@ Audio::Audio(QObject* parent):
     Q_EMIT durationChanged(m_duration);
 }
 
-QUrl Audio::source() const
-{
-    return m_source;
-}
-
-void Audio::setSource(const QUrl &source)
-{
-    if (source == m_source && m_playlist == NULL)
-        return;
-
-    m_playlist = NULL;
-    Q_EMIT playlistChanged();
-
-    m_source = source;
-    Q_EMIT sourceChanged(source);
-
-    m_position = 0;
-    Q_EMIT positionChanged(m_position);
-
-    m_duration = (qrand() % 20000) + 10000;
-    Q_EMIT durationChanged(m_duration);
-}
-
 Audio::PlaybackState Audio::playbackState() const
 {
     return m_playbackState;
@@ -134,11 +111,9 @@ DeclarativePlaylist *Audio::playlist() const
 
 void Audio::setPlaylist(DeclarativePlaylist *playlist)
 {
-    if (playlist == m_playlist && m_source.isEmpty())
+    if (playlist == m_playlist)
         return;
 
-    m_source.clear();
-    Q_EMIT sourceChanged(m_source);
     m_playlist = playlist;
     Q_EMIT playlistChanged();
 }
