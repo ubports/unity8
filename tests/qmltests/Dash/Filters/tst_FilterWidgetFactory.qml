@@ -19,12 +19,13 @@ import QtTest 1.0
 import "../../../../qml/Dash/Filters"
 import Unity.Test 0.1 as UT
 import Unity 0.2
+import Ubuntu.Components 1.3
 
 Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(80)
-    color: Theme.palette.selected.background
+    color: theme.palette.selected.background
 
     FilterWidgetFactory {
         id: factory
