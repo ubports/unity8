@@ -66,4 +66,10 @@ Image {
             wrapMode: Text.Wrap
         }
     }
+
+    InputMethod {
+        id: inputMethod
+        objectName: "inputMethod"
+        anchors.fill: parent
+    }
 }

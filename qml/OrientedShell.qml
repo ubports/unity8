@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtQuick.Window 2.2
 import Unity.InputInfo 0.1
 import Unity.Session 0.1
+import Unity.Screens 0.1
 import GSettings 1.0
 import "Components"
 import "Rotation"
@@ -78,6 +79,15 @@ Rectangle {
         deviceFilter: InputInfo.Keyboard
     }
 
+    InputDeviceModel {
+        id: touchScreensModel
+        deviceFilter: InputInfo.TouchScreen
+    }
+
+    Screens {
+        id: screens
+    }
+
     property int orientation
     onPhysicalOrientationChanged: {
         if (!orientationLocked) {
@@ -105,13 +115,6 @@ Rectangle {
     property bool orientationChangesEnabled:
         (shell.orientation & supportedOrientations) === 0 ? true
                                                           : shell.orientationChangesEnabled
-
-
-    Binding {
-        target: oskSettings
-        property: "stayHidden"
-        value: keyboardsModel.count > 0
-    }
 
     Binding {
         target: oskSettings
@@ -189,6 +192,11 @@ Rectangle {
         nativeHeight: root.height
         mode: applicationArguments.mode
         hasMouse: miceModel.count + touchPadModel.count > deviceConfiguration.ignoredMice
+        // TODO: Factor in if the current screen is a touch screen and if the user wants to
+        //       have multiple keyboards around. For now we only enable one keyboard at a time
+        //       thus hiding it here if there is a physical one around or if we have a second
+        //       screen (the virtual touchpad & osk on the phone) attached.
+        oskVisible: keyboardsModel.count === 0 && screens.count === 1
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
