@@ -110,7 +110,7 @@ private:
     int m_touchPressCount;
     int m_touchReleaseCount;
 
-    FillMode m_fillMode;
+    FillMode m_fillMode{Stretch};
 
     friend class SurfaceManager;
 };
