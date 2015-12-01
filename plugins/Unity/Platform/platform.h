@@ -56,8 +56,6 @@ private Q_SLOTS:
     void init();
 
 private:
-    QDBusInterface *m_iface = nullptr;
-    QDBusInterface *m_seatIface = nullptr;
     QString m_chassis;
     bool m_isPC;
     bool m_isMultiSession;

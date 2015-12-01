@@ -27,15 +27,14 @@ Platform::Platform(QObject *parent)
 
 void Platform::init()
 {
-    m_iface = new QDBusInterface("org.freedesktop.hostname1", "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
-                                 QDBusConnection::systemBus(), this);
-    m_seatIface = new QDBusInterface("org.freedesktop.login1", "/org/freedesktop/login1/seat/self", "org.freedesktop.login1.Seat",
-                                     QDBusConnection::systemBus(), this);
+    QDBusInterface iface("org.freedesktop.hostname1", "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
+                         QDBusConnection::systemBus(), this);
+    QDBusInterface seatIface("org.freedesktop.login1", "/org/freedesktop/login1/seat/self", "org.freedesktop.login1.Seat",
+                             QDBusConnection::systemBus(), this);
 
-    m_chassis = m_iface->property("Chassis").toString();
+    m_chassis = iface.property("Chassis").toString();
     m_isPC = (m_chassis == "desktop" || m_chassis == "laptop" || m_chassis == "server");
-    m_isMultiSession = m_seatIface->property("CanMultiSession").toBool() && m_seatIface->property("CanGraphical").toBool();
-    qDebug() << "Unity8 platform initialized, form factor" << m_chassis << ", multisession capable:" << m_isMultiSession;
+    m_isMultiSession = seatIface.property("CanMultiSession").toBool() && seatIface.property("CanGraphical").toBool();
 }
 
 QString Platform::chassis() const

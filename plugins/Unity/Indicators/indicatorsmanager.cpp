@@ -116,10 +116,6 @@ void IndicatorsManager::loadFile(const QFileInfo& file_info)
     QSettings indicator_settings(file_info.absoluteFilePath(), QSettings::IniFormat, this);
     const QString name = indicator_settings.value(QStringLiteral("Indicator Service/Name")).toString();
 
-    if (m_platform.isPC() && name == "indicator-keyboard") {
-        return; // convergence: skip this indicator until it works in Mir
-    }
-
     auto iter = m_indicatorsData.constFind(name);
     if (iter != m_indicatorsData.constEnd())
     {
