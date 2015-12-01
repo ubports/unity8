@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-22 00:15+0100\n"
+"POT-Creation-Date: 2015-12-01 15:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1069,7 +1069,6 @@ msgstr ""
 #: qml/Components/Dialogs.qml:253 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32 qml/Wizard/Pages/password-set.qml:137
 #: qml/Wizard/Pages/uaccount-signin.qml:26
-#: qml/Wizard/Pages/60-uaccount-signup.qml:151
 msgid "Cancel"
 msgstr ""
 
@@ -1189,15 +1188,15 @@ msgstr ""
 msgid "Add to Favorites"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:728
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:570
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:632
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -1470,7 +1469,7 @@ msgstr ""
 msgid "View all your running tasks."
 msgstr ""
 
-#: qml/Wizard/Page.qml:51
+#: qml/Wizard/Page.qml:49
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr ""
@@ -1479,7 +1478,7 @@ msgstr ""
 msgid "Terms & Conditions"
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:70
+#: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
 msgstr ""
 
@@ -1489,16 +1488,14 @@ msgid ""
 "collects "
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:94
+#: qml/Wizard/Pages/here-terms.qml:95
 msgid "The information collected is used to analyze the service and to "
 msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:107
-msgid "By continuing, you agree to the HERE Platform Service Terms:"
-msgstr ""
-
-#: qml/Wizard/Pages/here-terms.qml:124
-msgid "and Privacy Policy:"
+#: qml/Wizard/Pages/here-terms.qml:109
+msgid ""
+"By continuing, you agree to the <a href=\"http://here.com/terms/service-terms"
+"\">HERE Platform Service Terms</a> "
 msgstr ""
 
 #: qml/Wizard/Pages/passcode-confirm.qml:47
@@ -1561,11 +1558,11 @@ msgstr ""
 msgid "You won’t be able to make calls or use text messaging without a SIM."
 msgstr ""
 
-#: qml/Wizard/Pages/sim.qml:93
+#: qml/Wizard/Pages/sim.qml:94
 msgid "To proceed with no SIM tap Skip."
 msgstr ""
 
-#: qml/Wizard/Pages/sim.qml:103 qml/Wizard/Pages/uaccount.qml:116
+#: qml/Wizard/Pages/sim.qml:105 qml/Wizard/Pages/uaccount.qml:116
 #: qml/Wizard/Pages/30-wifi.qml:207
 msgid "Skip"
 msgstr ""
@@ -1603,45 +1600,15 @@ msgstr ""
 msgid "Password:"
 msgstr ""
 
-#: qml/Wizard/Pages/01-passwd-type.qml:39
-#: qml/Wizard/Pages/70-passwd-type.qml:39
-msgid "Lock Screen"
-msgstr ""
-
-#: qml/Wizard/Pages/01-passwd-type.qml:92
-#: qml/Wizard/Pages/70-passwd-type.qml:92
-msgctxt "Label: Type of security method"
-msgid "Device account password"
-msgstr ""
-
-#: qml/Wizard/Pages/01-passwd-type.qml:94
-#: qml/Wizard/Pages/70-passwd-type.qml:94
-msgctxt "Label: Type of security method"
-msgid "New password"
-msgstr ""
-
-#: qml/Wizard/Pages/01-passwd-type.qml:96
-#: qml/Wizard/Pages/70-passwd-type.qml:96
-msgctxt "Label: Type of security method"
-msgid "Passcode (numbers only)"
-msgstr ""
-
-#: qml/Wizard/Pages/01-passwd-type.qml:98
-#: qml/Wizard/Pages/70-passwd-type.qml:98
-msgctxt "Label: Type of security method"
-msgid "No lock code"
-msgstr ""
-
-#: qml/Wizard/Pages/01-passwd-type.qml:136
-#: qml/Wizard/Pages/10-language.qml:178 qml/Wizard/Pages/30-wifi.qml:207
-#: qml/Wizard/Pages/40-location.qml:248 qml/Wizard/Pages/50-timezone.qml:175
-#: qml/Wizard/Pages/70-passwd-type.qml:136
-#: qml/Wizard/Pages/75-report-check.qml:88
-msgid "Next"
-msgstr ""
-
 #: qml/Wizard/Pages/10-language.qml:27
 msgid "Language"
+msgstr ""
+
+#: qml/Wizard/Pages/10-language.qml:159 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/40-location.qml:264 qml/Wizard/Pages/50-timezone.qml:176
+#: qml/Wizard/Pages/60-account.qml:175 qml/Wizard/Pages/70-passwd-type.qml:137
+#: qml/Wizard/Pages/75-report-check.qml:88
+msgid "Next"
 msgstr ""
 
 #: qml/Wizard/Pages/30-wifi.qml:29
@@ -1664,27 +1631,27 @@ msgstr ""
 msgid "Location Services"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:71
+#: qml/Wizard/Pages/40-location.qml:80
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:102
+#: qml/Wizard/Pages/40-location.qml:101
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:137
+#: qml/Wizard/Pages/40-location.qml:154
 msgid "GPS only"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:190
+#: qml/Wizard/Pages/40-location.qml:207
 msgid "Don't use my location"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:237
+#: qml/Wizard/Pages/40-location.qml:253
 msgid "You can change it later in System Settings."
 msgstr ""
 
@@ -1692,32 +1659,58 @@ msgstr ""
 msgid "Time Zone"
 msgstr ""
 
-#: qml/Wizard/Pages/50-timezone.qml:131
+#: qml/Wizard/Pages/50-timezone.qml:132
 msgid "Enter your city"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:26
-msgid "Create Device Account"
+#: qml/Wizard/Pages/60-account.qml:25
+msgid "Set Administrator Details"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:45
-msgid "Email"
+#: qml/Wizard/Pages/60-account.qml:64
+msgid ""
+"Please enter a password to create your user account. You need this password "
+"to administer your device."
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:71
-msgid "Your name"
+#: qml/Wizard/Pages/60-account.qml:79
+msgid "User name"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:93
+#: qml/Wizard/Pages/60-account.qml:107
 msgid "Password"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:126
+#: qml/Wizard/Pages/60-account.qml:119
+msgid "Use a combination of letters and numbers"
+msgstr ""
+
+#: qml/Wizard/Pages/60-account.qml:148
 msgid "Repeat password"
 msgstr ""
 
-#: qml/Wizard/Pages/60-uaccount-signup.qml:165
-msgid "Sign Up"
+#: qml/Wizard/Pages/70-passwd-type.qml:39
+msgid "Lock Screen"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:93
+msgctxt "Label: Type of security method"
+msgid "Ubuntu administrator password"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:95
+msgctxt "Label: Type of security method"
+msgid "Create new password"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:97
+msgctxt "Label: Type of security method"
+msgid "Create passcode (numbers only)"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:99
+msgctxt "Label: Type of security method"
+msgid "No lock code"
 msgstr ""
 
 #: qml/Wizard/Pages/75-report-check.qml:27
@@ -1728,34 +1721,34 @@ msgstr ""
 msgid "Help Us Improve"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:87
+#: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:100
+#: qml/Wizard/Pages/80-finished.qml:103
 msgid "You are ready to use your device now"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:119
+#: qml/Wizard/Pages/80-finished.qml:122
 msgid "Get Started"
 msgstr ""
 
-#: qml/Wizard/PasswordMeter.qml:84
+#: qml/Wizard/PasswordMeter.qml:85
 msgid "Password too short"
 msgstr ""
 
-#: qml/Wizard/PasswordMeter.qml:86
+#: qml/Wizard/PasswordMeter.qml:87
 msgid "Strong password"
 msgstr ""
 
-#: qml/Wizard/PasswordMeter.qml:88
+#: qml/Wizard/PasswordMeter.qml:89
 msgid "Fair password"
 msgstr ""
 
-#: qml/Wizard/PasswordMeter.qml:90
+#: qml/Wizard/PasswordMeter.qml:91
 msgid "Weak password"
 msgstr ""
 
-#: qml/Wizard/PasswordMeter.qml:92
+#: qml/Wizard/PasswordMeter.qml:93
 msgid "Very weak password"
 msgstr ""

@@ -32,7 +32,7 @@ QEasingCurve::Type EasingCurve::type() const
     return m_easingCurve.type();
 }
 
-void EasingCurve::setType(const QEasingCurve::Type &type)
+void EasingCurve::setType(const QEasingCurve::Type type)
 {
     // FIXME: Working around bug https://bugreports.qt-project.org/browse/QTBUG-38686 here
     QEasingCurve newCurve;

@@ -33,6 +33,8 @@ MouseArea {
     signal minimize()
     signal maximize()
 
+    onDoubleClicked: root.maximize()
+
     QtObject {
         id: priv
         property real distanceX
@@ -65,20 +67,23 @@ MouseArea {
         anchors.fill: parent
         anchors.bottomMargin: -radius
         radius: units.gu(.5)
-        gradient: Gradient {
-            GradientStop { color: "#626055"; position: 0 }
-            GradientStop { color: "#3C3B37"; position: 1 }
-        }
+        color: "#292929"
     }
 
     Row {
-        anchors { fill: parent; margins: units.gu(0.7) }
-        spacing: units.gu(1)
-        opacity: root.active ? 1 : 0.5
+        anchors {
+            fill: parent
+            leftMargin: units.gu(1)
+            rightMargin: units.gu(1)
+            topMargin: units.gu(0.5)
+            bottomMargin: units.gu(0.5)
+        }
+        spacing: units.gu(3)
 
         WindowControlButtons {
             id: buttons
             height: parent.height
+            active: root.active
             onClose: root.close();
             onMinimize: root.minimize();
             onMaximize: root.maximize();
@@ -87,12 +92,12 @@ MouseArea {
         Label {
             id: titleLabel
             objectName: "windowDecorationTitle"
-            color: "#DFDBD2"
+            color: root.active ? "white" : "#5d5d5d"
             height: parent.height
             width: parent.width - buttons.width - parent.anchors.rightMargin - parent.anchors.leftMargin
             verticalAlignment: Text.AlignVCenter
-            fontSize: "small"
-            font.bold: true
+            fontSize: "medium"
+            font.weight: root.active ? Font.Light : Font.Normal
             elide: Text.ElideRight
         }
     }
