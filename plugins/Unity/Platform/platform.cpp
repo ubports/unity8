@@ -17,7 +17,6 @@
 #include "platform.h"
 
 #include <QDBusConnection>
-#include <QDebug>
 
 Platform::Platform(QObject *parent)
     : QObject(parent)
