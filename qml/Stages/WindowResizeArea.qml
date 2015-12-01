@@ -95,33 +95,33 @@ MouseArea {
         readonly property int maxSafeInt: 2147483647
         readonly property int maxSizeIncrement: units.gu(40)
 
-        property int minimumWidth: root.target ? Math.max(root.minWidth, root.target.minimumWidth) : root.minWidth
+        readonly property int minimumWidth: root.target ? Math.max(root.minWidth, root.target.minimumWidth) : root.minWidth
         onMinimumWidthChanged: {
             if (target.requestedWidth < minimumWidth) {
                 target.requestedWidth = minimumWidth;
             }
         }
-        property int minimumHeight: root.target ? Math.max(root.minHeight, root.target.minimumHeight) : root.minHeight
+        readonly property int minimumHeight: root.target ? Math.max(root.minHeight, root.target.minimumHeight) : root.minHeight
         onMinimumHeightChanged: {
             if (target.requestedHeight < minimumHeight) {
                 target.requestedHeight = minimumHeight;
             }
         }
-        property int maximumWidth: root.target && root.target.maximumWidth >= minimumWidth && root.target.maximumWidth > 0
+        readonly property int maximumWidth: root.target && root.target.maximumWidth >= minimumWidth && root.target.maximumWidth > 0
             ? root.target.maximumWidth : maxSafeInt
         onMaximumWidthChanged: {
             if (target.requestedWidth > maximumWidth) {
                 target.requestedWidth = maximumWidth;
             }
         }
-        property int maximumHeight: root.target && root.target.maximumHeight >= minimumHeight && root.target.maximumHeight > 0
+        readonly property int maximumHeight: root.target && root.target.maximumHeight >= minimumHeight && root.target.maximumHeight > 0
             ? root.target.maximumHeight : maxSafeInt
         onMaximumHeightChanged: {
             if (target.requestedHeight > maximumHeight) {
                 target.requestedHeight = maximumHeight;
             }
         }
-        property int widthIncrement: {
+        readonly property int widthIncrement: {
             if (!root.target) {
                 return 1;
             }
@@ -135,7 +135,7 @@ MouseArea {
                 return 1;
             }
         }
-        property int heightIncrement: {
+        readonly property int heightIncrement: {
             if (!root.target) {
                 return 1;
             }
