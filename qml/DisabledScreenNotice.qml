@@ -15,11 +15,14 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import "Components"
 
 Image {
     id: root
+
+    property bool infoNoteDisplayed: true
 
     WallpaperResolver {
         width: root.width
@@ -28,22 +31,39 @@ Image {
 
     source: wallpaperResolver.background
 
-    UbuntuShape {
-        anchors.fill: text
-        anchors.margins: -units.gu(2)
-        backgroundColor: "black"
-        opacity: 0.4
+
+    VirtualTouchPad {
+        anchors.fill: parent
     }
 
-    Label {
-        id: text
-        anchors.centerIn: parent
-        width: parent.width / 2
-        text: i18n.tr("Your device is now connected to an external display.")
-        color: "white"
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        fontSize: "x-large"
-        wrapMode: Text.Wrap
+    MouseArea {
+        objectName: "infoNoticeMouseArea"
+        anchors.fill: parent
+        opacity: infoNoteDisplayed ? 1 : 0
+        visible: opacity > 0
+        enabled: visible
+        Behavior on opacity {
+            UbuntuNumberAnimation { }
+        }
+
+        onClicked: root.infoNoteDisplayed = false;
+
+        Rectangle {
+            anchors.fill: parent
+            color: "black"
+            opacity: 0.4
+        }
+
+        Label {
+            id: text
+            anchors.centerIn: parent
+            width: parent.width - units.gu(8)
+            text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the mouse.")
+            color: "white"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            fontSize: "x-large"
+            wrapMode: Text.Wrap
+        }
     }
 }
