@@ -193,6 +193,8 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
         }
     }
 
+    qDebug() << "Input device added:" << inputDevice->name() << inputDevice->devicePath() << inputDevice->type();
+
     return inputDevice;
 }
 
@@ -205,6 +207,7 @@ void QInputDeviceManagerPrivate::removeDevice(const QString &path)
     // this path is not a full evdev path
     Q_FOREACH (const QString devicePath, deviceMap.keys()) {
         if (devicePath.contains(path)) {
+            qDebug() << "Input device removed:" << deviceMap.value(devicePath)->name() << devicePath << deviceMap.value(devicePath)->type();
             deviceMap.remove(devicePath);
             Q_EMIT deviceRemoved(devicePath);
         }
