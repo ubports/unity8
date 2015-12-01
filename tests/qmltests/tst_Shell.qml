@@ -414,7 +414,7 @@ Rectangle {
             // Open an application and focus
             waitUntilApplicationWindowIsFullyVisible(app);
             ApplicationManager.focusApplication(app);
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
 
             notifications.model = mockNotificationsModel;
 
@@ -436,7 +436,7 @@ Rectangle {
             waitForRendering(notification);
 
             // Make sure activeFocus went away from the app window
-            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(app.session.lastSurface, "activeFocus", false);
             tryCompare(stage, "interactive", false);
 
             // Clicking the button should dismiss the notification and return focus
@@ -444,7 +444,7 @@ Rectangle {
             mouseClick(buttonAccept);
 
             // Make sure we're back to normal
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
             compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
         }
 
@@ -776,7 +776,7 @@ Rectangle {
             var app = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app);
 
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -787,7 +787,7 @@ Rectangle {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(app.session.lastSurface, "activeFocus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -796,11 +796,11 @@ Rectangle {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(app.session.lastSurface, "activeFocus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
         }
 
         function test_launchedAppHasActiveFocus_data() {
@@ -821,9 +821,9 @@ Rectangle {
             verify(webApp);
             waitUntilAppSurfaceShowsUp("webbrowser-app")
 
-            verify(webApp.session.surface);
+            verify(webApp.session.lastSurface);
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
         }
 
         function test_launchedAppKeepsActiveFocusOnUsageModeChange() {
@@ -834,9 +834,9 @@ Rectangle {
             verify(webApp);
             waitUntilAppSurfaceShowsUp("webbrowser-app")
 
-            verify(webApp.session.surface);
+            verify(webApp.session.lastSurface);
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
 
             shell.usageScenario = "desktop";
 
@@ -846,7 +846,7 @@ Rectangle {
                 verify(desktopWindow);
             }
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
 
             shell.usageScenario = "tablet";
 
@@ -856,7 +856,7 @@ Rectangle {
                 verify(desktopWindow);
             }
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -977,7 +977,7 @@ Rectangle {
 
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.lastSurface !== null }, true);
 
             // Minimize the application we just launched
             swipeFromLeftEdge(shell.width * 0.75);
@@ -1414,9 +1414,9 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app3);
 
             // Do a quick alt-tab and see if focus changes
-            tryCompare(app3.session.surface, "activeFocus", true)
+            tryCompare(app3.session.lastSurface, "activeFocus", true)
             keyClick(Qt.Key_Tab, Qt.ControlModifier)
-            tryCompare(app2.session.surface, "activeFocus", true)
+            tryCompare(app2.session.lastSurface, "activeFocus", true)
 
             var desktopSpread = findChild(shell, "spread")
 
@@ -1432,7 +1432,7 @@ Rectangle {
             tryCompare(desktopSpread, "state", "")
 
             // Focus should have switched back now
-            tryCompare(app3.session.surface, "activeFocus", true)
+            tryCompare(app3.session.lastSurface, "activeFocus", true)
         }
 
         function test_altTabWrapAround() {
@@ -1481,7 +1481,7 @@ Rectangle {
             tryCompare(desktopSpread, "state", "")
 
             // Make sure that after wrapping around once, we have the same one focused as at the beginning
-            tryCompare(focused.session.surface, "activeFocus", true)
+            tryCompare(focused.session.lastSurface, "activeFocus", true)
         }
 
         function test_altBackTabNavigation() {
@@ -1863,7 +1863,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2);
 
             // Make sure app1 is unfocused but still running
-            compare(app1.session.surface.activeFocus, false);
+            compare(app1.session.lastSurface.activeFocus, false);
             compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
             compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
@@ -1887,7 +1887,7 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app2);
 
             // Make sure app1 is unfocused but still running
-            compare(app1.session.surface.activeFocus, false);
+            compare(app1.session.lastSurface.activeFocus, false);
             compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
         }
 

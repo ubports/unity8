@@ -101,8 +101,8 @@ void ApplicationInfo::setSession(Session* session)
         m_session->setApplication(this);
         m_session->setParent(this);
         SessionManager::singleton()->registerSession(m_session);
-        connect(m_session, &Session::surfaceChanged,
-                this, &ApplicationInfo::onSessionSurfaceChanged);
+        connect(m_session, &Session::surfaceAdded,
+                this, &ApplicationInfo::onSessionSurfaceAdded);
 
         if (!m_manualSurfaceCreation) {
             QTimer::singleShot(500, m_session, &Session::createSurface);
@@ -253,7 +253,7 @@ void ApplicationInfo::setIsTouchApp(bool isTouchApp)
     m_isTouchApp = isTouchApp;
 }
 
-void ApplicationInfo::onSessionSurfaceChanged(MirSurface* surface)
+void ApplicationInfo::onSessionSurfaceAdded(MirSurface* surface)
 {
     if (surface != nullptr && m_state == Starting) {
         if (m_requestedState == RequestedRunning) {
