@@ -195,7 +195,7 @@ Item {
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
     }
 
-    HomeKeyWatcher {
+    WindowInputMonitor {
         onActivated: { launcher.fadeOut(); shell.showHome(); }
         onWindowTouched: { cursorPriv.hideCursor(); }
         onWindowReleased: {

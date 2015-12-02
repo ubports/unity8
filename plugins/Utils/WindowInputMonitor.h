@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UNITY_HOMEKEYWATCHER_H
-#define UNITY_HOMEKEYWATCHER_H
+#ifndef UNITY_WINDOWINPUTMONITOR_H
+#define UNITY_WINDOWINPUTMONITOR_H
 
 #include <QQuickItem>
 #include <QPointer>
@@ -35,19 +35,19 @@
   a swipe from a screen edge, for instance. That's particularly the case when the
   home key is a capacitive key.
  */
-class HomeKeyWatcher : public QQuickItem
+class WindowInputMonitor : public QQuickItem
 {
     Q_OBJECT
 public:
 
-    HomeKeyWatcher(QQuickItem *parent = 0);
+    WindowInputMonitor(QQuickItem *parent = 0);
 
     // for testing
-    HomeKeyWatcher(UnityUtil::AbstractTimer *timer,
+    WindowInputMonitor(UnityUtil::AbstractTimer *timer,
             UnityUtil::AbstractElapsedTimer *elapsedTimer,
             QQuickItem *parent = 0);
 
-    virtual ~HomeKeyWatcher();
+    virtual ~WindowInputMonitor();
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
@@ -74,4 +74,4 @@ private:
     UnityUtil::AbstractTimer *m_activationTimer;
 };
 
-#endif // UNITY_HOMEKEYWATCHER_H
+#endif // UNITY_WINDOWINPUTMONITOR_H
