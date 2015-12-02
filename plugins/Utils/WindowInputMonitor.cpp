@@ -86,7 +86,7 @@ void WindowInputMonitor::update(QEvent *event)
 
         m_activationTimer->stop();
         m_windowBeingTouched = true;
-        Q_EMIT windowTouched();
+        Q_EMIT touchBegun();
 
     } else if (event->type() == QEvent::TouchEnd) {
 
@@ -96,7 +96,7 @@ void WindowInputMonitor::update(QEvent *event)
         QTouchEvent * touchEv = static_cast<QTouchEvent *>(event);
         if (touchEv && !touchEv->touchPoints().isEmpty()) {
             const QPointF pos = touchEv->touchPoints().last().screenPos();
-            Q_EMIT windowReleased(pos);
+            Q_EMIT touchEnded(pos);
         }
     }
 }
@@ -118,6 +118,6 @@ void WindowInputMonitor::emitActivatedIfNoTouchesAround()
 {
     if (!m_homeKeyPressed && !m_windowBeingTouched &&
             (m_windowLastTouchedTimer->elapsed() > msecsWithoutTouches)) {
-        Q_EMIT activated();
+        Q_EMIT homeKeyActivated();
     }
 }

@@ -128,7 +128,7 @@ void WindowInputMonitorTest::touchTapTouch()
     QFETCH(int, silenceAfterTap);
     QFETCH(int, expectedActivatedCount);
     WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
-    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::activated);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
 
     {
@@ -189,7 +189,7 @@ void WindowInputMonitorTest::touchTapTouch()
 void WindowInputMonitorTest::tapWhileTouching()
 {
     WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
-    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::activated);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
 
     {

@@ -144,7 +144,7 @@ Item {
         function revealCursor() {
             if (touchDetected) {
                 touchDetected = false;
-                Mir.cursorName = "";
+                //Mir.cursorName = "";
                 shell.cursorVisible = true;
             }
         }
@@ -196,10 +196,10 @@ Item {
     }
 
     WindowInputMonitor {
-        onActivated: { launcher.fadeOut(); shell.showHome(); }
-        onWindowTouched: { cursorPriv.hideCursor(); }
-        onWindowReleased: {
-            // store the last known touch position
+        onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
+        onTouchBegun: { cursorPriv.hideCursor(); }
+        onTouchEnded: {
+            // move the (hidden) cursor to the last known touch position
             cursor.x = pos.x;
             cursor.y = pos.y;
         }

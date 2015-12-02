@@ -34,6 +34,9 @@
   Rationale being that it's easy to accidentally hit the home key while performing
   a swipe from a screen edge, for instance. That's particularly the case when the
   home key is a capacitive key.
+
+  Additionally, this class monitors for generic touch events on the screen, to
+  help with hiding/revealing the mouse pointer.
  */
 class WindowInputMonitor : public QQuickItem
 {
@@ -57,10 +60,10 @@ public:
 
 Q_SIGNALS:
     // Emitted when the home key has been intentionally tapped
-    void activated();
+    void homeKeyActivated();
 
-    void windowTouched();
-    void windowReleased(const QPointF &pos);
+    void touchBegun();
+    void touchEnded(const QPointF &pos);
 
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
