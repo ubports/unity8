@@ -1002,25 +1002,31 @@ Rectangle {
 
             loadShell("mako")
             var shell = findChild(orientedShell, "shell");
+            var inputMethod = findChild(shell, "inputMethod");
 
             tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", false);
+            tryCompare(inputMethod, "enabled", true);
+            tryCompare(mockOskSettings, "disableHeight", false);
 
             MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
             tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", true);
+            tryCompare(inputMethod, "enabled", false);
+            tryCompare(mockOskSettings, "disableHeight", true);
 
             MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
             tryCompare(shell, "usageScenario", "desktop");
-            tryCompare(mockOskSettings, "stayHidden", true);
+            tryCompare(inputMethod, "enabled", false);
+            tryCompare(mockOskSettings, "disableHeight", true);
 
             MockInputDeviceBackend.removeDevice("/kbd0");
             tryCompare(shell, "usageScenario", "desktop");
-            tryCompare(mockOskSettings, "stayHidden", false);
+            tryCompare(inputMethod, "enabled", true);
+            tryCompare(mockOskSettings, "disableHeight", true); // Still in windowed mode
 
             MockInputDeviceBackend.removeDevice("/mouse0");
             tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", false);
+            tryCompare(inputMethod, "enabled", true);
+            tryCompare(mockOskSettings, "disableHeight", false);
 
             MockInputDeviceBackend.addMockDevice("/touchpad0", InputInfo.TouchPad);
             tryCompare(shell, "usageScenario", "desktop");

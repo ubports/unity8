@@ -107,8 +107,7 @@ Rectangle {
         }
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
-        oskSettings.stayHidden = keyboardsModel.count > 0
-        oskSettings.disableHeight = shell.usageScenario == "desktop"
+        oskSettings.disableHeight = !shell.oskEnabled || shell.usageScenario == "desktop"
     }
 
     // we must rotate to a supported orientation regardless of shell's preference
@@ -119,7 +118,7 @@ Rectangle {
     Binding {
         target: oskSettings
         property: "disableHeight"
-        value: shell.usageScenario == "desktop"
+        value: !shell.oskEnabled || shell.usageScenario == "desktop"
     }
 
     readonly property int supportedOrientations: shell.supportedOrientations
@@ -196,7 +195,7 @@ Rectangle {
         //       have multiple keyboards around. For now we only enable one keyboard at a time
         //       thus hiding it here if there is a physical one around or if we have a second
         //       screen (the virtual touchpad & osk on the phone) attached.
-        oskVisible: keyboardsModel.count === 0 && screens.count === 1
+        oskEnabled: keyboardsModel.count === 0 && screens.count === 1
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
