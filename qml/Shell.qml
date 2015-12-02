@@ -56,7 +56,6 @@ Item {
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
-    property bool cursorVisible: false
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
@@ -132,24 +131,6 @@ Item {
         shell.activateApplication(app);
     }
 
-    QtObject {
-        id: cursorPriv
-        property bool touchDetected: false;
-
-        function hideCursor() {
-            touchDetected = true;
-            shell.cursorVisible = false;
-        }
-
-        function revealCursor() {
-            if (touchDetected) {
-                touchDetected = false;
-                //Mir.cursorName = "";
-                shell.cursorVisible = true;
-            }
-        }
-    }
-
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -197,7 +178,7 @@ Item {
 
     WindowInputMonitor {
         onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
-        onTouchBegun: { cursorPriv.hideCursor(); }
+        onTouchBegun: { cursor.hideCursor(); }
         onTouchEnded: {
             // move the (hidden) cursor to the last known touch position
             cursor.x = pos.x;
@@ -688,7 +669,6 @@ Item {
         id: cursor
         visible: shell.hasMouse
         z: screenGrabber.z + 1
-        opacity: shell.cursorVisible ? 1 : 0
 
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
@@ -704,7 +684,7 @@ Item {
         }
 
         onMouseMoved: {
-            cursorPriv.revealCursor();
+            cursor.revealCursor();
         }
     }
 
