@@ -106,11 +106,8 @@ LocalComponents.Page {
             }
 
             onClicked: {
-                print("Clicked index", index)
                 ListView.view.currentIndex = index
                 selectedTimeZone = timeZone
-                print("Clicked city", city)
-                print("Clicked country", country)
             }
         }
     }
@@ -133,7 +130,6 @@ LocalComponents.Page {
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: {
                 // reset when switching between filter modes (text/country)
-                print("Filter:", text)
                 selectedTimeZone = ""
                 tzList.currentIndex = -1
             }

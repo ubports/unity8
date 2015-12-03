@@ -37,15 +37,11 @@ LocalComponents.Page {
         // try to detect the language+country from the SIM card
         if (simManager0.present && simManager0.preferredLanguages.length > 0) {
             detectedLang = simManager0.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode);
-            print("SIM 0 detected lang:", detectedLang);
         } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
             detectedLang = simManager1.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode);
-            print("SIM 1 detected lang:", detectedLang);
         } else if (plugin.currentLanguage != -1) {
             detectedLang = plugin.languageCodes[plugin.currentLanguage].split(".")[0]; // remove the encoding part, after dot (en_US.utf8 -> en_US)
-            print("Using current language", detectedLang, "as default");
         } else {
-            print("No lang detected, falling back to default (en_US)");
             detectedLang = "en_US"; // fallback to default lang
         }
 
@@ -53,7 +49,6 @@ LocalComponents.Page {
         for (var i = 0; i < plugin.languageCodes.length; i++) {
             var code = plugin.languageCodes[i].split(".")[0]; // remove the encoding part, after dot (en_US.utf8 -> en_US)
             if (detectedLang === code) {
-                print("Found detected language", detectedLang, "at index", i);
                 languagesListView.currentIndex = i;
                 languagesListView.positionViewAtIndex(i, ListView.Center);
                 break;
@@ -160,7 +155,6 @@ LocalComponents.Page {
             onClicked: {
                 if (plugin.currentLanguage !== languagesListView.currentIndex) {
                     plugin.currentLanguage = languagesListView.currentIndex;
-                    print("Updating session locale:", plugin.languageCodes[plugin.currentLanguage]);
                     System.updateSessionLocale(plugin.languageCodes[plugin.currentLanguage]);
                 }
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)

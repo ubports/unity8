@@ -91,7 +91,6 @@ LocalComponents.Page {
             anchors.topMargin: units.gu(1)
             onActiveFocusChanged: {
                 if (activeFocus) {
-                    print("Name got focused", focus);
                     column.contentY = nameLabel.y
                 }
             }
@@ -122,7 +121,6 @@ LocalComponents.Page {
             inputMethodHints: Qt.ImhNoPredictiveText
             onActiveFocusChanged: {
                 if (activeFocus) {
-                    print("Password got focused", focus);
                     column.contentY = passLabel.y
                 }
             }
@@ -162,7 +160,6 @@ LocalComponents.Page {
             inputMethodHints: Qt.ImhNoPredictiveText
             onActiveFocusChanged: {
                 if (activeFocus) {
-                    print("Password 2 got focused", focus);
                     column.contentY = pass2Label.y
                 }
             }

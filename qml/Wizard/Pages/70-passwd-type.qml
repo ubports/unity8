@@ -116,7 +116,6 @@ LocalComponents.Page {
 
                 onClicked: {
                     selector.currentIndex = index;
-                    print("Current method: " + indexToMethod(index));
                 }
             }
         }
@@ -138,7 +137,6 @@ LocalComponents.Page {
             onClicked: {
                 var method = indexToMethod(selector.currentIndex);
                 root.passwordMethod = method;
-                print("Current method: " + root.passwordMethod);
 
                 if (method === UbuntuSecurityPrivacyPanel.Passphrase) { // any password
                     if (selector.currentIndex == 1)
