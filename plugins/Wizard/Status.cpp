@@ -65,8 +65,6 @@ QString Status::networkIcon()
     const QString primaryConn = m_nmIface->property("PrimaryConnection").value<QDBusObjectPath>().path();
     const QString primaryConnType = m_nmIface->property("PrimaryConnectionType").toString();
 
-    qDebug() << "NM init, primary connection type:" << primaryConnType << ", connection:" << primaryConn;
-
     if (primaryConn.isEmpty()) {
         qWarning() << "Empty primary connection";
         return iconName;
@@ -77,7 +75,6 @@ QString Status::networkIcon()
 
         if (activeConn.isValid()) {
             const QString apPath = activeConn.property("SpecificObject").value<QDBusObjectPath>().path();
-            qDebug() << "AP path:" << apPath;
 
             if (apPath.isEmpty()) {
                 qWarning() << "No AP path";
@@ -99,8 +96,6 @@ QString Status::networkIcon()
 
             const uint strength = ap.property("Strength").toUInt();
             const uint flags = ap.property("Flags").toUInt();
-            qDebug() << "Strength:" << strength;
-            qDebug() << "Flags:" << flags;
 
             if (strength == 0) {
                 iconName = "nm-signal-00";
@@ -144,6 +139,5 @@ void Status::onUPowerPropertiesChanged(const QString &iface, const QVariantMap &
 QString Status::batteryIcon() const
 {
     const QString iconName = m_upowerIface->property("IconName").toString();
-    qDebug() << "UPower icon name:" << iconName;
     return iconName;
 }
