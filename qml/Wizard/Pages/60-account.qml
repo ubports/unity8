@@ -55,6 +55,8 @@ LocalComponents.Page {
         height: contentHeight - buttonBarHeight - (Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0) - titleRectHeight
         contentHeight: contentItem.childrenRect.height
 
+        Behavior on contentY { UbuntuNumberAnimation{} }
+
         // notice
         Label {
             id: noticeLabel
