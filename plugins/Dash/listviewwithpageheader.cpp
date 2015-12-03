@@ -972,7 +972,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
 //     qDebug() << "ListViewWithPageHeader::onModelUpdated" << changeSet << reset;
     const auto oldFirstVisibleIndex = m_firstVisibleIndex;
 
-    Q_FOREACH(const QQmlChangeSet::Change &remove, changeSet.removes()) {
+    Q_FOREACH(const QQmlChangeSet::Change remove, changeSet.removes()) {
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Remove" << remove.index << remove.count;
         if (remove.index + remove.count > m_firstVisibleIndex && remove.index < m_firstVisibleIndex + m_visibleItems.count()) {
             const qreal oldFirstValidIndexPos = m_visibleItems.first()->y();
@@ -1025,7 +1025,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
-    Q_FOREACH(const QQmlChangeSet::Change &insert, changeSet.inserts()) {
+    Q_FOREACH(const QQmlChangeSet::Change insert, changeSet.inserts()) {
 //         qDebug() << "ListViewWithPageHeader::onModelUpdated Insert" << insert.index << insert.count;
         const bool insertingInValidIndexes = insert.index > m_firstVisibleIndex && insert.index < m_firstVisibleIndex + m_visibleItems.count();
         const bool firstItemWithViewOnTop = insert.index == 0 && m_firstVisibleIndex == 0 && m_visibleItems.first()->y() + m_clipItem->y() > contentY();
@@ -1083,7 +1083,7 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
         }
     }
 
-    Q_FOREACH(const QQmlChangeSet::Change &change, changeSet.changes()) {
+    Q_FOREACH(const QQmlChangeSet::Change change, changeSet.changes()) {
         for (int i = change.start(); i < change.end(); ++i) {
             updateSectionItem(i);
         }
