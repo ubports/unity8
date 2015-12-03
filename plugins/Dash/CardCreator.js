@@ -706,7 +706,7 @@ function cardString(template, components) {
     if (isAudio) {
         var audioProgressBarLeftAnchor = 'audioButton.right';
         var audioProgressBarBottomAnchor = 'audioButton.bottom';
-        var audioProgressBarTextColor = 'root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText';
+        var audioProgressBarTextColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
 
         code += kAudioProgressBarCode.arg(audioProgressBarBottomAnchor)
                                      .arg(audioProgressBarLeftAnchor)
