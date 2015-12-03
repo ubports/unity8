@@ -18,8 +18,9 @@
 #define SCREENS_H
 
 #include <QAbstractListModel>
+#include <QScreen>
 
-class QScreen;
+class Screen;
 
 class Screens : public QAbstractListModel
 {
@@ -67,12 +68,15 @@ Q_SIGNALS:
     void screenAdded(QScreen *screen);
     void screenRemoved(QScreen *screen);
 
-private Q_SLOTS:
-    void onScreenAdded(QScreen *screen);
-    void onScreenRemoved(QScreen *screen);
-
 private:
-    QList<QScreen *> m_screenList;
+    QList<Screen *> m_screenList;
+};
+
+class Screen
+{
+public:
+    Screens::OutputTypes outputTypes = Screens::Unknown;
+    QScreen *qScreen = nullptr;
 };
 
 #endif // SCREENS_H

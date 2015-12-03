@@ -19,12 +19,15 @@
 // Qt
 #include <QGuiApplication>
 #include <QScreen>
+#include <QDebug>
 
 Q_DECLARE_METATYPE(QScreen*)
 
 Screens::Screens(QObject *parent) :
     QAbstractListModel(parent)
 {
+    // start with one screen attached
+    m_screenList.append(new Screen());
 }
 
 Screens::~Screens()
@@ -48,9 +51,9 @@ QVariant Screens::data(const QModelIndex &index, int role) const
 
     switch(role) {
     case ScreenRole:
-        return QVariant::fromValue(m_screenList.at(index.row()));
+        return QVariant::fromValue(m_screenList.at(index.row())->qScreen);
     case OutputTypeRole:
-        return OutputTypes::Unknown;
+        return m_screenList.at(index.row())->outputTypes;
     }
 
     return QVariant();
@@ -64,29 +67,4 @@ int Screens::rowCount(const QModelIndex &) const
 int Screens::count() const
 {
     return m_screenList.size();
-}
-
-void Screens::onScreenAdded(QScreen *screen)
-{
-    if (m_screenList.contains(screen))
-        return;
-
-    beginInsertRows(QModelIndex(), count(), count());
-    m_screenList.push_back(screen);
-    endInsertRows();
-    Q_EMIT screenAdded(screen);
-    Q_EMIT countChanged();
-}
-
-void Screens::onScreenRemoved(QScreen *screen)
-{
-    int index = m_screenList.indexOf(screen);
-    if (index < 0)
-        return;
-
-    beginRemoveRows(QModelIndex(), index, index);
-    m_screenList.removeAt(index);
-    endRemoveRows();
-    Q_EMIT screenRemoved(screen);
-    Q_EMIT countChanged();
 }
