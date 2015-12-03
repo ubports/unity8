@@ -108,6 +108,7 @@ LocalComponents.Page {
 
             delegate: ListItem {
                 id: itemDelegate
+                objectName: "languageDelegate" + index
                 highlightColor: backgroundColor
                 readonly property bool isCurrent: index === ListView.view.currentIndex
 
@@ -151,7 +152,7 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            enabled: languagesListView.currentIndex
+            enabled: languagesListView.currentIndex != -1
             onClicked: {
                 if (plugin.currentLanguage !== languagesListView.currentIndex) {
                     plugin.currentLanguage = languagesListView.currentIndex;

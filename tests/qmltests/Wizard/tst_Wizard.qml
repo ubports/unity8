@@ -221,28 +221,17 @@ Item {
 
         function test_languageChange() {
             var page = goToPage("languagePage");
-            tap(findChild(page, "languageCombo"));
-            waitForRendering(findChild(page, "languageDelegate1"));
+            tap(findChild(page, "languageDelegate1")); // should invoke "fr" lang
 
-            // For some reason, the delegate *sometimes* (like 1 in 10 maybe)
-            // needs more time before it can process a tap() call.  I can't
-            // find a rhyme or reason, its properties all seem the same in
-            // cases where it works and does not.  This failure to receive a
-            // tap() call below does *not* happen when running in xvfb, so
-            // jenkins is unaffected (and we don't have to worry about 100 not
-            // being enough time in its slow environment).  This wait() call is
-            // just to help local runs not trip up.
-            wait(100);
-            tap(findChild(page, "languageDelegate1"));
-
-            tryCompare(i18n, "language", "fr");
+            tryCompare(i18n, "language", "fr_FR");
             tap(findChild(page, "forwardButton"));
             tryCompare(updateSessionLanguageSpy, "count", 1);
-            compare(updateSessionLanguageSpy.signalArguments[0][0], "fr");
+            compare(updateSessionLanguageSpy.signalArguments[0][0], "fr_FR");
         }
 
         function test_languageNoChange() {
-            goToPage("simPage"); // one past language page
+            var page = goToPage("languagePage"); // one past language page
+            tap(findChild(page, "forwardButton"));
             compare(updateSessionLanguageSpy.count, 0);
         }
 
@@ -449,7 +438,7 @@ Item {
         }
 
         function test_locationGpsOnly() {
-            var page = goToPage("locationPage");
+            var page = goToPage("locationPage", true);
             var gpsCheck = findChild(page, "gpsCheckLabel");
             var hereCheck = findChild(page, "hereCheckLabel");
             var nopeCheck = findChild(page, "nopeCheckLabel");
