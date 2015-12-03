@@ -153,7 +153,6 @@ LocalComponents.Page {
         ListView {
             id: tzList;
             objectName: "tzList"
-            boundsBehavior: Flickable.StopAtBounds
             clip: true
             currentIndex: -1
             snapMode: ListView.SnapToItem

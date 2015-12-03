@@ -99,7 +99,6 @@ LocalComponents.Page {
 
         ListView {
             id: languagesListView
-            boundsBehavior: Flickable.StopAtBounds
             clip: true
             snapMode: ListView.SnapToItem
 
