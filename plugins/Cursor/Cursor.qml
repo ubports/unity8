@@ -19,30 +19,10 @@ import Cursor 1.0 // For MousePointer
 
 MousePointer {
     id: mousePointer
-    opacity: cursorVisible ? 1 : 0
-
-    property bool cursorVisible: visible // initial value, based on shell.hasMouse
 
     Image {
         x: -mousePointer.hotspotX
         y: -mousePointer.hotspotY
         source: "image://cursor/" + mousePointer.themeName + "/" + mousePointer.cursorName
-    }
-
-    QtObject {
-        id: d
-        property bool touchDetected: false;
-    }
-
-    function hideCursor() {
-        d.touchDetected = true;
-        cursorVisible = false;
-    }
-
-    function revealCursor() {
-        if (d.touchDetected) {
-            d.touchDetected = false;
-            cursorVisible = true;
-        }
     }
 }

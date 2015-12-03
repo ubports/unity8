@@ -178,7 +178,7 @@ Item {
 
     WindowInputMonitor {
         onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
-        onTouchBegun: { cursor.hideCursor(); }
+        onTouchBegun: { cursor.opacity = 0; }
         onTouchEnded: {
             // move the (hidden) cursor to the last known touch position
             cursor.x = pos.x;
@@ -683,9 +683,7 @@ Item {
             }
         }
 
-        onMouseMoved: {
-            cursor.revealCursor();
-        }
+        onMouseMoved: { cursor.opacity = 1; }
     }
 
     Rectangle {
