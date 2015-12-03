@@ -129,6 +129,7 @@ Item {
             }
 
             ServerPropertySynchroniser {
+                id: sliderPropertySync
                 objectName: "sync"
                 syncTimeout: Utils.Constants.indicatorValueTimeout
                 bufferedSyncTimeout: true
@@ -140,6 +141,27 @@ Item {
                 userProperty: "value"
 
                 onSyncTriggered: menuModel.changeState(menuIndex, value)
+            }
+
+            // For volume resync.
+            Loader {
+                active: sliderItem.menuData ? sliderItem.menuData.action == "indicator.volume" : false
+                sourceComponent: QDBusActionGroup {
+                    busType: 1
+                    busName: rootModel.busName
+                    objectPath: rootModel.actions["indicator"]
+                    Component.onCompleted: start()
+
+                    property var syncAction: action("volume-sync")
+                    property int resync: {
+                        if (syncAction === null) return 0;
+                        return syncAction.valid ? syncAction.state : 0
+                    }
+                    onResyncChanged: {
+                        sliderPropertySync.reset();
+                        sliderPropertySync.updateUserValue();
+                    }
+                }
             }
         }
     }
