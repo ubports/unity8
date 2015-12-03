@@ -181,7 +181,7 @@ Item {
         onTouchBegun: { cursor.opacity = 0; }
         onTouchEnded: {
             // move the (hidden) cursor to the last known touch position
-            var mappedCoords = shell.parent ? mapFromItem(shell.parent, pos.x, pos.y) : Qt.point(pos.x, pos.y)
+            var mappedCoords = mapFromItem(shell.parent, pos.x, pos.y);
             cursor.x = mappedCoords.x;
             cursor.y = mappedCoords.y;
         }
