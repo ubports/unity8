@@ -25,14 +25,13 @@ Item {
     visible: AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)
 
     property int duration: 0
-    property url source
+    property alias source: progress.source
     property color color: theme.palette.normal.baseText
     readonly property int position: root.visible ? DashAudioPlayer.position / 1000 : 0
 
     AudioProgressBar {
         id: progress
         anchors { left: parent.left; right: parent.right }
-        source: root.source
     }
 
     Label {
