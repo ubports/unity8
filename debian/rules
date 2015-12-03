@@ -41,7 +41,8 @@ override_dh_makeshlibs:
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
 
-clean:
+override_dh_auto_clean:
+	dh_auto_clean
 	# only run under "CI Train"
 	if [ -n "$(SILONAME)" -a -x /usr/bin/bzr ]; then \
 	    ./po/update-unity-pot; \
