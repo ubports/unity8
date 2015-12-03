@@ -1857,15 +1857,21 @@ Rectangle {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
 
+            // Add two main stage apps, the second in order to suspend the first.
+            // LibreOffice has isTouchApp set to false by our mocks.
             var app1 = ApplicationManager.startApplication("libreoffice");
             waitUntilAppWindowIsFullyLoaded(app1);
             var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
+            // Sanity checking
+            compare(app1.stage, ApplicationInfoInterface.MainStage);
+            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            verify(!app1.isTouchApp);
+            verify(!app1.session.surface.activeFocus);
+
             // Make sure app1 is exempt with a requested suspend
             verify(app1.exemptFromLifecycle);
-            verify(!app1.isTouchApp); // sanity check our mock, which sets this for us
-            verify(!app1.session.surface.activeFocus);
             compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
@@ -1882,14 +1888,19 @@ Rectangle {
 
             GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
 
+            // Add two main stage apps, the second in order to suspend the first
             var app1 = ApplicationManager.startApplication("webbrowser-app");
             waitUntilAppWindowIsFullyLoaded(app1);
             var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
+            // Sanity checking
+            compare(app1.stage, ApplicationInfoInterface.MainStage);
+            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            verify(!app1.session.surface.activeFocus);
+
             // Make sure app1 is exempt with a requested suspend
             verify(app1.exemptFromLifecycle);
-            verify(!app1.session.surface.activeFocus);
             compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
