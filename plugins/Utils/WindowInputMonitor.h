@@ -23,20 +23,12 @@
 #include "Timer.h"
 #include "ElapsedTimer.h"
 
-/*
-  Signals when the home key seems to be have been intentionally tapped.
-
-  It only says the home key has been activated if it has been tapped in isolation,
-  that is, without being accompanied by touches on the screen. Home key taps that
-  happen along with (or immediately after, or immediately before) touches on the
-  screen are considered to have happened unintentionally and are thus ignored.
-
-  Rationale being that it's easy to accidentally hit the home key while performing
-  a swipe from a screen edge, for instance. That's particularly the case when the
-  home key is a capacitive key.
-
-  Additionally, this class monitors for generic touch events on the screen, to
-  help with hiding/revealing the mouse pointer.
+/**
+  * Monitors input events received by the window holding this item and the Home (Win aka Super_L)
+  * key presses.
+  *
+  * Additionally, this class monitors for generic touch events on the screen, to
+  * help with hiding/revealing the mouse pointer.
  */
 class WindowInputMonitor : public QQuickItem
 {
@@ -59,10 +51,29 @@ public:
     const qint64 msecsWithoutTouches = 150;
 
 Q_SIGNALS:
-    // Emitted when the home key has been intentionally tapped
+    /**
+     * Emitted when the home key has been intentionally tapped
+     *
+     * It only says the home key has been activated if it has been tapped in isolation,
+     * that is, without being accompanied by touches on the screen. Home key taps that
+     * happen along with (or immediately after, or immediately before) touches on the
+     * screen are considered to have happened unintentionally and are thus ignored.
+     *
+     * Rationale being that it's easy to accidentally hit the home key while performing
+     * a swipe from a screen edge, for instance. That's particularly the case when the
+     * home key is a capacitive key.
+     */
     void homeKeyActivated();
 
+    /**
+     * Emitted when a touch begin event is detected
+     */
     void touchBegun();
+
+    /**
+     * Emitted when a touch end event is detected
+     * @param pos the position in screen coordinates
+     */
     void touchEnded(const QPointF &pos);
 
 private Q_SLOTS:
