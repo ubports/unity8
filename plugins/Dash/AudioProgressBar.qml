@@ -21,7 +21,7 @@ import Dash 0.1
 Item {
     id: root
 
-    height: progressBarImage.height
+    implicitHeight: progressBarImage.height
 
     property url source
     readonly property double progress: AudioUrlComparer.compare(source, DashAudioPlayer.currentSource) ? DashAudioPlayer.progress : 0
