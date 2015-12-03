@@ -67,7 +67,7 @@ CardAudioProgress {
                                 right: parent.right; 
                                 margins: units.gu(1); 
                             } 
-                            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText; 
+                            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText; 
                          }AbstractButton { 
                             id: audioButton; 
                             anchors.fill: undefined; 
@@ -78,11 +78,10 @@ CardAudioProgress {
                                 anchors.fill: parent; 
                                 visible: parent.pressed; 
                                 radius: "medium"; 
-                                borderSource: "radius_pressed.sci" 
                             } 
                             Icon {  
                                 anchors.fill: parent; 
-                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : units.gu(0); 
+                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; 
                                 opacity: 0.9; 
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; 
                             } 
