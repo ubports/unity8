@@ -141,7 +141,6 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                 anchors.fill: parent; \n\
                                 visible: parent.pressed; \n\
                                 radius: "medium"; \n\
-                                borderSource: "radius_pressed.sci" \n\
                             } \n\
                             Icon {  \n\
                                 anchors.fill: parent; \n\
