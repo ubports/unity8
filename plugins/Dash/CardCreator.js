@@ -145,7 +145,7 @@ var kAudioButtonCode = 'AbstractButton { \n\
                             } \n\
                             Icon {  \n\
                                 anchors.fill: parent; \n\
-                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : units.gu(0); \n\
+                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; \n\
                                 opacity: 0.9; \n\
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; \n\
                             } \n\
