@@ -1859,19 +1859,20 @@ Rectangle {
 
             var app1 = ApplicationManager.startApplication("libreoffice");
             waitUntilAppWindowIsFullyLoaded(app1);
-            var app2 = ApplicationManager.startApplication("dialer-app");
+            var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
-            // Make sure app1 is unfocused but still running
-            compare(app1.session.surface.activeFocus, false);
-            compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
-            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+            // Make sure app1 is exempt with a requested suspend
+            verify(app1.exemptFromLifecycle);
+            verify(!app1.isTouchApp); // sanity check our mock, which sets this for us
+            verify(!app1.session.surface.activeFocus);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
         function test_lifecyclePolicyExemption_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
-                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"}
             ]
         }
 
@@ -1883,12 +1884,13 @@ Rectangle {
 
             var app1 = ApplicationManager.startApplication("webbrowser-app");
             waitUntilAppWindowIsFullyLoaded(app1);
-            var app2 = ApplicationManager.startApplication("dialer-app");
+            var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
-            // Make sure app1 is unfocused but still running
-            compare(app1.session.surface.activeFocus, false);
-            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+            // Make sure app1 is exempt with a requested suspend
+            verify(app1.exemptFromLifecycle);
+            verify(!app1.session.surface.activeFocus);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
         function test_switchToStagedForcesLegacyAppClosing_data() {

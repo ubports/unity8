@@ -42,6 +42,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
     , m_isTouchApp(true)
+    , m_exemptFromLifecycle(false)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -60,6 +61,7 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
     , m_isTouchApp(true)
+    , m_exemptFromLifecycle(false)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -251,6 +253,20 @@ bool ApplicationInfo::isTouchApp() const
 void ApplicationInfo::setIsTouchApp(bool isTouchApp)
 {
     m_isTouchApp = isTouchApp;
+}
+
+bool ApplicationInfo::exemptFromLifecycle() const
+{
+    return m_exemptFromLifecycle;
+}
+
+void ApplicationInfo::setExemptFromLifecycle(bool exemptFromLifecycle)
+{
+    if (m_exemptFromLifecycle != exemptFromLifecycle)
+    {
+        m_exemptFromLifecycle = exemptFromLifecycle;
+        Q_EMIT exemptFromLifecycleChanged(m_exemptFromLifecycle);
+    }
 }
 
 void ApplicationInfo::onSessionSurfaceChanged(MirSurface* surface)
