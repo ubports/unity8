@@ -197,7 +197,15 @@ Item {
             page.selectedTimeZone = "Pacific/Honolulu";
             tap(findChild(page, "forwardButton"));
 
-            // TODO account page
+            page = waitForPage("accountPage");
+            if (name === page.objectName) return page;
+            tap(findChild(page, "nameInput"));
+            typeString("foobar");
+            tap(findChild(page, "passInput"));
+            typeString("12345678");
+            tap(findChild(page, "pass2Input"));
+            typeString("12345678");
+            tap(findChild(page, "forwardButton"));
 
             page = waitForPage("passwdPage");
             if (name === page.objectName) return page;

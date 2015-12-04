@@ -85,6 +85,7 @@ LocalComponents.Page {
 
         LocalComponents.WizardTextField {
             id: nameInput
+            objectName: "nameInput"
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: nameLabel.bottom
@@ -112,6 +113,7 @@ LocalComponents.Page {
 
         LocalComponents.WizardTextField {
             id: passInput
+            objectName: "passInput"
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: passLabel.bottom
@@ -152,6 +154,7 @@ LocalComponents.Page {
 
         LocalComponents.WizardTextField {
             id: pass2Input
+            objectName: "pass2Input"
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: pass2Label.bottom
