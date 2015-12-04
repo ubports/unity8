@@ -159,6 +159,8 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
     }
     eventPath = inputDevice->devicePath();
 
+    qDebug() << "Input device added:" << inputDevice->name() << inputDevice->devicePath() << inputDevice->type();
+
     fd = open(eventPath.toLatin1(), O_RDONLY|O_NONBLOCK);
     if (fd == -1) {
         return inputDevice;
@@ -192,8 +194,6 @@ QInputDevice *QInputDeviceManagerPrivate::addDevice(struct udev_device *udev)
             }
         }
     }
-
-    qDebug() << "Input device added:" << inputDevice->name() << inputDevice->devicePath() << inputDevice->type();
 
     return inputDevice;
 }
