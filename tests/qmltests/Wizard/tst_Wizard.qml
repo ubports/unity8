@@ -220,7 +220,7 @@ Item {
 
             page = waitForPage("finishedPage");
             if (name === page.objectName) return page;
-            tap(findChild(page, "forwardButton"));
+            tap(findChild(page, "getStartedButton"));
 
             tryCompare(wizard, "shown", false);
             compare(name, null);
