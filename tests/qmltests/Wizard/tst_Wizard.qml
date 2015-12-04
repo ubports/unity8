@@ -190,11 +190,11 @@ Item {
 
             page = waitForPage("tzPage");
             if (name === page.objectName) return page;
-            tap(findChild(page, "tzFilter"));
-            typeString("London");
             var tzList = findChild(page, "tzList");
             verify(tzList);
-            tzList.itemAt(0, 0).clicked();
+            waitForRendering(tzList);
+            tzList.currentIndex = 0;
+            page.selectedTimeZone = "Pacific/Honolulu";
             tap(findChild(page, "forwardButton"));
 
             // TODO account page
@@ -410,33 +410,6 @@ Item {
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Swipe);
         }
 
-        function test_locationSkipNoPath() {
-            AccountsService.hereLicensePath = "";
-            goToPage("finishedPage", false, true, true);
-        }
-
-        function test_locationSkipNoFiles() {
-            AccountsService.hereLicensePath = Qt.resolvedUrl("nolicenses");
-            goToPage("finishedPage", false, true, true);
-        }
-
-        function test_locationWaitOnPath() {
-            AccountsService.hereLicensePath = " "; // means we're still getting the path from dbus
-
-            var page = goToPage("wifiPage");
-
-            var pages = findChild(wizard, "wizardPages");
-            var stack = findChild(pages, "pageStack");
-            tap(findChild(page, "forwardButton"));
-            // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
-            tryCompareFunction(function() { return stack.currentPage.objectName; }, "locationPage");
-            compare(stack.currentPage.enabled, false);
-            compare(stack.currentPage.skipValid, false);
-
-            AccountsService.hereLicensePath = "";
-            waitForPage("finishedPage", false, false, true);
-        }
-
         function test_locationGpsOnly() {
             var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheckLabel");
@@ -475,8 +448,8 @@ Item {
 
             tap(findChild(page, "forwardButton"));
             tryCompare(AccountsService, "hereEnabled", false);
-            tryCompare(activateLocationSpy, "count", 0)
-            tryCompare(activateGPSSpy, "count", 0)
+            tryCompare(activateLocationSpy, "count", 0);
+            tryCompare(activateGPSSpy, "count", 0);
         }
 
         function test_locationHere() {
@@ -496,68 +469,8 @@ Item {
 
             tap(findChild(page, "forwardButton"));
             tryCompare(AccountsService, "hereEnabled", true);
-            tryCompare(activateLocationSpy, "count", 1)
-            tryCompare(activateGPSSpy, "count", 1)
+            tryCompare(activateLocationSpy, "count", 1);
+            tryCompare(activateGPSSpy, "count", 1);
         }
-
-//        function test_locationHereTerms() {
-//            var page = goToPage("locationPage");
-
-//            var link = findChild(page, "hereTermsLabel");
-
-//            // Test our language lookup code a bit
-
-//            i18n.language = "fr_FR.UTF-8";
-//            link.linkActivated("not-used");
-//            page = waitForPage("hereTermsPage");
-//            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-//            tap(findChild(page, "backButton"));
-//            waitForPage("locationPage");
-
-//            i18n.language = "fr_CA";
-//            link.linkActivated("not-used");
-//            page = waitForPage("hereTermsPage");
-//            tryCompare(findChild(page, "termsLabel"), "text", "fr_CA\n");
-//            tap(findChild(page, "backButton"));
-//            waitForPage("locationPage");
-
-//            i18n.language = "fr_US";
-//            link.linkActivated("not-used");
-//            page = waitForPage("hereTermsPage");
-//            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-//            tap(findChild(page, "backButton"));
-//            waitForPage("locationPage");
-
-//            i18n.language = "fr.utf8";
-//            link.linkActivated("not-used");
-//            page = waitForPage("hereTermsPage");
-//            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-//            tap(findChild(page, "backButton"));
-//            waitForPage("locationPage");
-
-//            i18n.language = "es"; // will not be found
-//            link.linkActivated("not-used");
-//            page = waitForPage("hereTermsPage");
-//            tryCompare(findChild(page, "termsLabel"), "text", "en_US\n");
-
-//            // OK, done with languages, back to actual page
-
-//            var label = findChild(page, "termsLabel");
-//            label.linkActivated(Qt.resolvedUrl("licenses/en_US.html"));
-//            tryCompare(label, "visible", false);
-
-//            var webview = findChild(page, "webview");
-//            tryCompare(webview, "visible", true);
-//            tryCompare(webview, "url", Qt.resolvedUrl("licenses/en_US.html"));
-//            tryCompare(webview, "loadProgress", 100);
-
-//            tap(findChild(page, "backButton"));
-//            waitForPage("hereTermsPage"); // confirm we're on same page
-//            tryCompare(webview, "visible", false);
-//            tryCompare(label, "visible", true);
-
-//            tap(findChild(page, "backButton"));
-//            waitForPage("locationPage");
-//        }
     }
 }
