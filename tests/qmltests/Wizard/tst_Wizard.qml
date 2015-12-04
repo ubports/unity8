@@ -438,7 +438,7 @@ Item {
         }
 
         function test_locationGpsOnly() {
-            var page = goToPage("locationPage", true);
+            var page = goToPage("locationPage");
             var gpsCheck = findChild(page, "gpsCheckLabel");
             var hereCheck = findChild(page, "hereCheckLabel");
             var nopeCheck = findChild(page, "nopeCheckLabel");
@@ -500,64 +500,64 @@ Item {
             tryCompare(activateGPSSpy, "count", 1)
         }
 
-        function test_locationHereTerms() {
-            var page = goToPage("locationPage");
+//        function test_locationHereTerms() {
+//            var page = goToPage("locationPage");
 
-            var link = findChild(page, "hereTermsLink");
+//            var link = findChild(page, "hereTermsLabel");
 
-            // Test our language lookup code a bit
+//            // Test our language lookup code a bit
 
-            i18n.language = "fr_FR.UTF-8";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+//            i18n.language = "fr_FR.UTF-8";
+//            link.linkActivated("not-used");
+//            page = waitForPage("hereTermsPage");
+//            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
+//            tap(findChild(page, "backButton"));
+//            waitForPage("locationPage");
 
-            i18n.language = "fr_CA";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_CA\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+//            i18n.language = "fr_CA";
+//            link.linkActivated("not-used");
+//            page = waitForPage("hereTermsPage");
+//            tryCompare(findChild(page, "termsLabel"), "text", "fr_CA\n");
+//            tap(findChild(page, "backButton"));
+//            waitForPage("locationPage");
 
-            i18n.language = "fr_US";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+//            i18n.language = "fr_US";
+//            link.linkActivated("not-used");
+//            page = waitForPage("hereTermsPage");
+//            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
+//            tap(findChild(page, "backButton"));
+//            waitForPage("locationPage");
 
-            i18n.language = "fr.utf8";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+//            i18n.language = "fr.utf8";
+//            link.linkActivated("not-used");
+//            page = waitForPage("hereTermsPage");
+//            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
+//            tap(findChild(page, "backButton"));
+//            waitForPage("locationPage");
 
-            i18n.language = "es"; // will not be found
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "en_US\n");
+//            i18n.language = "es"; // will not be found
+//            link.linkActivated("not-used");
+//            page = waitForPage("hereTermsPage");
+//            tryCompare(findChild(page, "termsLabel"), "text", "en_US\n");
 
-            // OK, done with languages, back to actual page
+//            // OK, done with languages, back to actual page
 
-            var label = findChild(page, "termsLabel");
-            label.linkActivated(Qt.resolvedUrl("licenses/en_US.html"));
-            tryCompare(label, "visible", false);
+//            var label = findChild(page, "termsLabel");
+//            label.linkActivated(Qt.resolvedUrl("licenses/en_US.html"));
+//            tryCompare(label, "visible", false);
 
-            var webview = findChild(page, "webview");
-            tryCompare(webview, "visible", true);
-            tryCompare(webview, "url", Qt.resolvedUrl("licenses/en_US.html"));
-            tryCompare(webview, "loadProgress", 100);
+//            var webview = findChild(page, "webview");
+//            tryCompare(webview, "visible", true);
+//            tryCompare(webview, "url", Qt.resolvedUrl("licenses/en_US.html"));
+//            tryCompare(webview, "loadProgress", 100);
 
-            tap(findChild(page, "backButton"));
-            waitForPage("hereTermsPage"); // confirm we're on same page
-            tryCompare(webview, "visible", false);
-            tryCompare(label, "visible", true);
+//            tap(findChild(page, "backButton"));
+//            waitForPage("hereTermsPage"); // confirm we're on same page
+//            tryCompare(webview, "visible", false);
+//            tryCompare(label, "visible", true);
 
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
-        }
+//            tap(findChild(page, "backButton"));
+//            waitForPage("locationPage");
+//        }
     }
 }

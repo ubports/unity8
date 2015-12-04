@@ -66,6 +66,7 @@ LocalComponents.Page {
 
             Label {
                 id: hereCheckLabel
+                objectName: "hereCheckLabel"
                 anchors {
                     left: parent.left
                     right: hereTermsCheck.left
@@ -83,6 +84,7 @@ LocalComponents.Page {
 
             Label {
                 id: hereTermsLabel
+                objectName: "hereTermsLabel"
                 anchors {
                     left: parent.left
                     right: hereTermsCheck.left
@@ -143,6 +145,7 @@ LocalComponents.Page {
 
         Label {
             id: gpsCheckLabel
+            objectName: "gpsCheckLabel"
             anchors {
                 left: parent.left
                 right: parent.right
@@ -192,6 +195,7 @@ LocalComponents.Page {
 
         Label {
             id: nopeCheckLabel
+            objectName: "nopeCheckLabel"
             anchors {
                 left: parent.left
                 right: parent.right
