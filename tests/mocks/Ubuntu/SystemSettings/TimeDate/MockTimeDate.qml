@@ -17,5 +17,9 @@
 import QtQuick 2.4
 
 Item {
+    id: root
     property string timeZone: "Europe/Prague"
+    onTimeZoneChanged: root.timeZoneChangedCalled(root.timeZone);
+
+    signal timeZoneChangedCalled(string tz)
 }

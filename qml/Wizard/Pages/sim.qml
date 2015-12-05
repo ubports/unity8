@@ -33,7 +33,7 @@ LocalComponents.Page {
 
     Timer {
         id: timer
-        interval: 250
+        interval: 300
         running: true
         onTriggered: {
             print("=== SIM page: timer triggered");

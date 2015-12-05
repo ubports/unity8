@@ -81,6 +81,7 @@ LocalComponents.Page {
 
         Label {
             id: infoLabel
+            objectName: "infoLabel"
             property bool hasError: false
             anchors {
                 left: parent.left
@@ -93,6 +94,7 @@ LocalComponents.Page {
 
         LocalComponents.WizardTextField {
             id: passwordField
+            objectName: "passwordField"
             anchors {
                 left: parent.left
                 right: parent.right
@@ -127,6 +129,7 @@ LocalComponents.Page {
         // buttons
         Button {
             id: cancelButton
+            objectName: "cancelButton"
             anchors {
                 top: passMeter.bottom
                 left: parent.left
@@ -149,6 +152,7 @@ LocalComponents.Page {
 
         Button {
             id: okButton
+            objectName: "okButton"
             anchors {
                 top: passMeter.bottom
                 left: parent.horizontalCenter

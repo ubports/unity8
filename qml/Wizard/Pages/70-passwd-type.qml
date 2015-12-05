@@ -74,13 +74,13 @@ LocalComponents.Page {
 
             delegate: ListItem {
                 id: itemDelegate
+                objectName: "passwdDelegate" + index
                 readonly property bool isCurrent: index === ListView.view.currentIndex
                 highlightColor: backgroundColor
                 divider.colorFrom: dividerColor
                 divider.colorTo: backgroundColor
                 Label {
                     id: methodLabel
-                    objectName: "passwdDelegate" + index
                     anchors.verticalCenter: parent.verticalCenter;
                     anchors.left: parent.left
                     anchors.leftMargin: leftMargin

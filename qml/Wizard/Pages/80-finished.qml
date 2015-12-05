@@ -118,7 +118,7 @@ LocalComponents.Page {
 
             Label {
                 id: buttonLabel
-                objectName: "getStartedButton"
+                objectName: "finishButton"
                 color: "white"
                 text: i18n.tr("Get Started")
                 fontSize: "medium"

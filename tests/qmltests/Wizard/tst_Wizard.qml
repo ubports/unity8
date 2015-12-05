@@ -193,7 +193,7 @@ Item {
             var tzList = findChild(page, "tzList");
             verify(tzList);
             waitForRendering(tzList);
-            tzList.currentIndex = 0;
+            tzList.currentIndex = 0; // FIXME make it more generic
             page.selectedTimeZone = "Pacific/Honolulu";
             tap(findChild(page, "forwardButton"));
 
@@ -203,13 +203,14 @@ Item {
             typeString("foobar");
             tap(findChild(page, "passInput"));
             typeString("12345678");
-            tap(findChild(page, "pass2Input"));
+            var pass2Input = findChild(page, "pass2Input");
+            verify(pass2Input); // give it a bit of time to finish the scroll-into-view animation
+            tap(pass2Input);
             typeString("12345678");
             tap(findChild(page, "forwardButton"));
 
             page = waitForPage("passwdPage");
             if (name === page.objectName) return page;
-            tap(findChild(page, "passwdDelegate3")); // swipe
             tap(findChild(page, "forwardButton"));
 
             if (!skipReporting) {
@@ -220,7 +221,8 @@ Item {
 
             page = waitForPage("finishedPage");
             if (name === page.objectName) return page;
-            tap(findChild(page, "getStartedButton"));
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
 
             tryCompare(wizard, "shown", false);
             compare(name, null);
@@ -238,19 +240,19 @@ Item {
         }
 
         function test_languageNoChange() {
-            var page = goToPage("languagePage"); // one past language page
+            var page = goToPage("languagePage");
             tap(findChild(page, "forwardButton"));
             compare(updateSessionLanguageSpy.count, 0);
         }
 
         function test_simUnavailableSkip() {
             MockQOfono.available = false;
-            goToPage("wifiPage", true);
+            goToPage("wifiPage");
         }
 
         function test_simNoModemsSkip() {
             MockQOfono.setModems([], [], []);
-            goToPage("wifiPage", true);
+            goToPage("wifiPage");
         }
 
         function test_simFirstSkip() {
@@ -268,52 +270,6 @@ Item {
             goToPage("wifiPage", true);
         }
 
-        function test_simWaitOnManagerAsync() {
-            MockQOfono.ready = false;
-            MockQOfono.setModems(["a"], [false], []);
-
-            // Go to SIM page, which will be waiting for skip to be valid
-            var page = goToPage("languagePage");
-            tap(findChild(page, "forwardButton"));
-            verifyPageIsBlocked("simPage");
-
-            // Now release QOfono from blocking the page
-            MockQOfono.ready = true;
-
-            waitForPage("simPage");
-        }
-
-        function test_simWaitOnCardAsync() {
-            MockQOfono.setModems(["a"], [false], [false]);
-
-            // Go to SIM page, which will be waiting for skip to be valid
-            var page = goToPage("languagePage");
-            tap(findChild(page, "forwardButton"));
-            verifyPageIsBlocked("simPage");
-
-            // Now release QOfono from blocking the page
-            MockQOfono.setModems(["a"], [false], [true]);
-
-            waitForPage("simPage");
-        }
-
-        function test_simWaitTimeout() {
-            MockQOfono.setModems(["a"], [false], [false]);
-
-            // Go to SIM page, which will be waiting for skip to be valid
-            var page = goToPage("languagePage");
-            tap(findChild(page, "forwardButton"));
-            verifyPageIsBlocked("simPage");
-
-            var timeout = findInvisibleChild(wizard, "timeout");
-            timeout.interval = 100; // reduce our delay
-
-            // Now just wait for timeout
-            compare(timeout.running, true);
-            waitForPage("wifiPage");
-            compare(timeout.running, false);
-        }
-
         function enterPasscode(passcode) {
             for (var i = 0; i < passcode.length; ++i) {
                 var character = passcode.charAt(i);
@@ -324,33 +280,32 @@ Item {
 
         function test_passwdPasscode() {
             var page = goToPage("passwdPage");
-
+            tap(findChild(page, "passwdDelegate2")); // passcode option
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("passwdSetPage");
+            page = waitForPage("passcodeSetPage");
 
             enterPasscode("1111");
-            page = waitForPage("passwdConfirmPage");
+            page = waitForPage("passcodeConfirmPage");
 
             // make sure we go back to 'set' page not 'type' page
             tap(findChild(page, "backButton"));
-            page = waitForPage("passwdSetPage");
+            page = waitForPage("passcodeSetPage");
 
             enterPasscode("1111");
-            page = waitForPage("passwdConfirmPage");
+            page = waitForPage("passcodeConfirmPage");
 
             enterPasscode("1112");
             var error = findChild(page, "wrongNoticeLabel");
             tryCompareFunction(function() { return error.text !== ""; }, true);
 
             enterPasscode("1111");
-            page = waitForPage("wifiPage");
 
             // now finish up
-            tap(findChild(page, "forwardButton"));
             page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
-            tap(findChild(page, "forwardButton"));
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
 
             tryCompare(setSecuritySpy, "count", 1);
             compare(setSecuritySpy.signalArguments[0][0], "");
@@ -360,61 +315,77 @@ Item {
 
         function test_passwdPassphrase() {
             var page = goToPage("passwdPage");
-            tap(findChild(page, "passwdDelegate2"));
-
+            tap(findChild(page, "passwdDelegate1")); // password option
             tap(findChild(page, "forwardButton"));
             page = waitForPage("passwdSetPage");
 
+            var passwdField = findChild(page, "passwordField");
+            verify(passwdField);
+            tap(passwdField);
             typeString("aaa");
-            var continueButton = findChild(page, "forwardButton");
-            tryCompare(continueButton.item, "enabled", false);
-            keyClick(Qt.Key_Enter);
-            var error = findChild(page, "wrongNoticeLabel");
-            tryCompareFunction(function() { return error.text !== ""; }, true);
+            var continueButton = findChild(page, "okButton");
+            tryCompare(continueButton, "enabled", false);
 
-            typeString("aaaa");
+            tap(passwdField);
+            passwdField.selectAll(); // overwrite the text
+            typeString("12345678");
             tap(continueButton);
-            page = waitForPage("passwdConfirmPage");
+            wait(200);
 
             // make sure we go back to 'set' page not 'type' page
-            var back = findChild(page, "backButton");
+            var back = findChild(page, "cancelButton");
             tap(back);
-            page = waitForPage("passwdSetPage");
+            wait(200);
 
-            typeString("aaaa");
-            keyClick(Qt.Key_Enter);
-            page = waitForPage("passwdConfirmPage");
-
-            continueButton = findChild(page, "forwardButton");
+            passwdField = findChild(page, "passwordField");
+            tryCompareFunction(function() {return !!passwdField}, true);
+            tap(passwdField);
             typeString("aaab");
-            tryCompare(continueButton.item, "enabled", false);
-            keyClick(Qt.Key_Enter);
-            var error = findChild(page, "wrongNoticeLabel");
+
+            continueButton = findChild(page, "okButton");
+            tryCompare(continueButton, "enabled", false);
+            var error = findChild(page, "infoLabel");
             tryCompareFunction(function() { return error.text !== ""; }, true);
 
-            typeString("aaaa");
+            tap(passwdField);
+            passwdField.selectAll(); // overwrite the text
+            typeString("12345678");
             tap(continueButton);
-            page = waitForPage("wifiPage");
+            wait(200);
+
+            tap(passwdField);
+            passwdField.selectAll(); // overwrite the text
+            typeString("12345678");
+            tap(continueButton);
+
+            // now finish up
+            page = waitForPage("reportingPage");
+            tap(findChild(page, "forwardButton"));
+            page = waitForPage("finishedPage");
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
+
+            tryCompare(setSecuritySpy, "count", 1);
+            compare(setSecuritySpy.signalArguments[0][0], "");
+            compare(setSecuritySpy.signalArguments[0][1], "12345678");
+            compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
+        }
+
+        function test_passwdSwipe() {
+            var page = goToPage("passwdPage");
+            tap(findChild(page, "passwdDelegate3")); // swipe option
 
             // now finish up
             tap(findChild(page, "forwardButton"));
             page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
-            tap(findChild(page, "forwardButton"));
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
 
             tryCompare(setSecuritySpy, "count", 1);
-            compare(setSecuritySpy.signalArguments[0][0], "");
-            compare(setSecuritySpy.signalArguments[0][1], "aaaa");
-            compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
-        }
-
-        function test_passwdSwipe() {
-            goToPage(null, false, false, true);
-
-            tryCompare(setSecuritySpy, "count", 1);
-            compare(setSecuritySpy.signalArguments[0][0], "");
-            compare(setSecuritySpy.signalArguments[0][1], "");
+            //compare(setSecuritySpy.signalArguments[0][0], ""); // FIXME the swipe method collides with the account password
+            //compare(setSecuritySpy.signalArguments[0][1], "");
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Swipe);
         }
 
