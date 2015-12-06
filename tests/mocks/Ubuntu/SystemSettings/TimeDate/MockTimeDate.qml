@@ -21,5 +21,5 @@ Item {
     property string timeZone: "Europe/Prague"
     onTimeZoneChanged: root.timeZoneChangedCalled(root.timeZone);
 
-    signal timeZoneChangedCalled(string tz)
+    signal timeZoneChangedCalled(string tz);
 }

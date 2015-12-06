@@ -21,6 +21,7 @@ import MeeGo.QOfono 0.2
 import QMenuModel 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Ubuntu.SystemSettings.TimeDate 1.0
 import Unity.Test 0.1 as UT
 import Wizard 0.1
 import "../../../qml/Wizard"
@@ -68,6 +69,11 @@ Item {
         signalName: "activated"
     }
 
+    SignalSpy {
+        id: timezoneSpy
+        signalName: "timeZoneChangedCalled"
+    }
+
     function setup() {
         AccountsService.hereEnabled = false;
         AccountsService.hereLicensePath = Qt.resolvedUrl("licenses");
@@ -81,6 +87,7 @@ Item {
         setSecuritySpy.clear();
         activateLocationSpy.clear();
         activateGPSSpy.clear();
+        timezoneSpy.clear();
 
         ActionData.data = {
             "location-detection-enabled": {
@@ -193,7 +200,7 @@ Item {
             var tzList = findChild(page, "tzList");
             verify(tzList);
             waitForRendering(tzList);
-            tzList.currentIndex = 0; // FIXME make it more generic
+            tzList.currentIndex = 0;
             page.selectedTimeZone = "Pacific/Honolulu";
             tap(findChild(page, "forwardButton"));
 
@@ -450,6 +457,31 @@ Item {
             tryCompare(AccountsService, "hereEnabled", true);
             tryCompare(activateLocationSpy, "count", 1);
             tryCompare(activateGPSSpy, "count", 1);
+        }
+
+        function test_timezonePage() {
+            var page = goToPage("tzPage");
+            verify(page);
+            timezoneSpy.target = page.tdModule;
+
+            var tzFilter = findChild(page, "tzFilter");
+            verify(tzFilter);
+            tap(tzFilter);
+            typeString("London");
+
+            var tzList = findChild(page, "tzList");
+            verify(tzList);
+
+            // test filtering works and returns some results
+            tryCompareFunction(function() { return tzList.count > 0; }, true);
+
+            // just tap the first one
+            tap(findChild(page, "tz0"));
+
+            // go next and verify the (mock) signal got fired
+            tap(findChild(page, "forwardButton"));
+            tryCompare(timezoneSpy, "count", 1);
+            tryCompare(page.tdModule, "timeZone", timezoneSpy.signalArguments[0][0]);
         }
     }
 }

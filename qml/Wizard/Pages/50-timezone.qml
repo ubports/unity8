@@ -30,6 +30,9 @@ LocalComponents.Page {
 
     property string selectedTimeZone: ""
 
+    // for testing
+    readonly property alias tdModule: timeDatePanel
+
     UbuntuTimeDatePanel {
         id: timeDatePanel
     }
@@ -61,7 +64,7 @@ LocalComponents.Page {
         id: tzComponent
         ListItem {
             id: tz
-            objectName: "tz"
+            objectName: "tz" + index
             highlightColor: backgroundColor
             divider.colorFrom: dividerColor
             divider.colorTo: backgroundColor
@@ -106,8 +109,8 @@ LocalComponents.Page {
             }
 
             onClicked: {
-                ListView.view.currentIndex = index
-                selectedTimeZone = timeZone
+                ListView.view.currentIndex = index;
+                selectedTimeZone = timeZone;
             }
         }
     }
