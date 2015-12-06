@@ -200,7 +200,6 @@ Item {
             var tzList = findChild(page, "tzList");
             verify(tzList);
             waitForRendering(tzList);
-            tzList.currentIndex = 0;
             page.selectedTimeZone = "Pacific/Honolulu";
             tap(findChild(page, "forwardButton"));
 
@@ -211,7 +210,8 @@ Item {
             tap(findChild(page, "passInput"));
             typeString("12345678");
             var pass2Input = findChild(page, "pass2Input");
-            verify(pass2Input); // give it a bit of time to finish the scroll-into-view animation
+            // give it a bit of time to finish the scroll-into-view animation
+            tryCompareFunction(function() { return pass2Input !== null; }, true);
             tap(pass2Input);
             typeString("12345678");
             tap(findChild(page, "forwardButton"));
