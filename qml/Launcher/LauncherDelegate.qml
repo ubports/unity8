@@ -133,6 +133,8 @@ Item {
             anchors.fill: parent
             anchors.margins: units.gu(.5)
             source: "graphics/launcher-app-focus-ring.svg"
+            sourceSize.width: width
+            sourceSize.height: height
             visible: root.highlighted
         }
 
