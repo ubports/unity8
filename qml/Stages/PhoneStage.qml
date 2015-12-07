@@ -598,7 +598,6 @@ AbstractStage {
         property var gesturePoints: new Array()
 
         onTouchPositionChanged: {
-            console.log("onTouchPositionChanged", touchPosition, dragging);
             if (dragging) {
                 // Gesture recognized. Let's move the spreadView with the finger
                 var dragX = Math.min(touchPosition.x + width, width); // Prevent dragging rightwards
@@ -617,7 +616,6 @@ AbstractStage {
         }
 
         onDraggingChanged: {
-            console.log("onDraggingChanged", dragging);
             if (dragging) {
                 // A potential edge-drag gesture has started. Start recording it
                 gesturePoints = [];
@@ -632,7 +630,6 @@ AbstractStage {
                     }
                     smallestX = gesturePoints[i];
                 }
-                console.log("oneWayFlick", oneWayFlick, "smallestX", smallestX);
                 gesturePoints = [];
 
                 if (oneWayFlick && spreadView.shiftedContentX > units.gu(2) &&
