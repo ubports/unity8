@@ -104,6 +104,12 @@ Item {
             Layout.fillWidth: true
         }
 
+        Button {
+            text: "open for kbd navigation"
+            onClicked: launcherLoader.item.openForKeyboardNavigation()
+            Layout.fillWidth: true
+        }
+
         Row {
             spacing: units.gu(1)
 
@@ -254,6 +260,18 @@ Item {
             if ((listView.contentHeight + listView.topMargin + listView.bottomMargin) > listView.height) {
                 listView.contentY = listView.topMargin + listView.contentHeight
                     - listView.height;
+            }
+        }
+
+        function assertFocusOnIndex(index) {
+            var launcherListView = findChild(launcher, "launcherListView");
+            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+
+            waitForRendering(launcher);
+            tryCompare(bfbFocusHighlight, "visible", index === -1);
+            for (var i = 0; i < launcherListView.count; i++) {
+                var focusRing = findChild(findChild(launcher, "launcherDelegate" + i), "focusRing")
+                tryCompare(focusRing, "visible", index === i);
             }
         }
 
@@ -941,6 +959,89 @@ Item {
             launcher.superPressed = false;
             tryCompare(launcher, "state", "");
             tryCompare(shortCutHint0, "visible", false);
+        }
+
+        function test_keyboardNavigation() {
+            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+            var quickList = findChild(launcher, "quickList");
+            var launcherListView = findChild(launcher, "launcherListView");
+            var last = launcherListView.count - 1;
+
+            compare(bfbFocusHighlight.visible, false);
+
+            launcher.openForKeyboardNavigation();
+
+            assertFocusOnIndex(-1);
+
+            // Down should go down
+            keyClick(Qt.Key_Down);
+            assertFocusOnIndex(0);
+
+            // Tab should go down
+            keyClick(Qt.Key_Tab);
+            assertFocusOnIndex(1);
+
+            // Up should go up
+            keyClick(Qt.Key_Up);
+            assertFocusOnIndex(0);
+
+            // Backtab should go up
+            keyClick(Qt.Key_Backtab);
+            assertFocusOnIndex(-1); // BFB
+
+            // The list should wrap around
+            keyClick(Qt.Key_Up);
+            assertFocusOnIndex(last);
+
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
+            assertFocusOnIndex(0); // Back to Top
+
+            // Right opens the quicklist
+
+            keyClick(Qt.Key_Right);
+            assertFocusOnIndex(0); // Navigating the quicklist... the launcher focus should not move
+            tryCompare(quickList, "visible", true);
+            tryCompare(quickList, "selectedIndex", 0)
+
+            // Down should move down the quicklist
+            keyClick(Qt.Key_Down);
+            tryCompare(quickList, "selectedIndex", 1)
+
+            // The quicklist should wrap around too
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
+            tryCompare(quickList, "selectedIndex", 0)
+
+            // Left gets us back to the launcher
+            keyClick(Qt.Key_Left);
+            assertFocusOnIndex(0);
+            tryCompare(quickList, "visible", false);
+
+            // Launcher navigation should still work
+            // Go bar to top by wrapping around
+            keyClick(Qt.Key_Down);
+            assertFocusOnIndex(1);
+        }
+
+        function test_selectQuicklistItemByKeyboard() {
+            launcher.openForKeyboardNavigation();
+            waitForRendering(launcher);
+
+            signalSpy.clear();
+            signalSpy.signalName = "quickListTriggered"
+
+            keyClick(Qt.Key_Down); // Down to launcher item 0
+            keyClick(Qt.Key_Down); // Down to launcher item 1
+            keyClick(Qt.Key_Right); // Into quicklist
+            keyClick(Qt.Key_Down); // Down to quicklist item 1
+            keyClick(Qt.Key_Down); // Down to quicklist item 2
+            keyClick(Qt.Key_Enter); // Trigger it
+
+            compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
+            compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
+            compare(signalSpy.signalArguments[0][1], 2)
         }
     }
 }
