@@ -17,4 +17,6 @@
 import QtQuick 2.4
 
 Item {
+    signal pushedLeftBoundary(real amount, int buttons)
+    signal pushedRightBoundary(real amount, int buttons)
 }

@@ -39,7 +39,7 @@ Rectangle {
         id: surfaceContainerLoader
         anchors {
             top: parent.top
-            topMargin: fullscreenCheckbox.checked ? 0 : units.gu(3) + units.dp(2)
+            topMargin: fullscreenCheckbox.checked ? 0 : units.gu(3)
             bottom: parent.bottom
             left: parent.left
         }

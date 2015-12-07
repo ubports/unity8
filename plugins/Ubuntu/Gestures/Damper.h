@@ -67,12 +67,12 @@ public:
 
     qreal maxDelta() const { return m_x.maxDelta(); }
 
-    void reset(const QPointF &point) {
+    void reset(const QPointF point) {
         m_x.reset(point.x());
         m_y.reset(point.y());
     }
 
-    void update(const QPointF &point) {
+    void update(const QPointF point) {
         m_x.update(point.x());
         m_y.update(point.y());
     }

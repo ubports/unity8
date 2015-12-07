@@ -3,5 +3,18 @@
         <file>VirtualKeyboard.qml</file>
         <file>MirSurfaceItem.qml</file>
         <file>vkb_portrait.png</file>
+        <file>screenshots/browser@12.png</file>
+        <file>screenshots/camera@12.png</file>
+        <file>screenshots/dialer@12.png</file>
+        <file>screenshots/facebook@12.png</file>
+        <file>screenshots/gallery@12.png</file>
+        <file>screenshots/gmail-webapp.svg</file>
+        <file>screenshots/map@12.png</file>
+        <file>screenshots/music@12.png</file>
+        <file>screenshots/twitter@12.png</file>
+        <file>screenshots/ubuntu-weather-app.svg</file>
+        <file>screenshots/unity8-dash@12.png</file>
+        <file>screenshots/vkb_portrait.png</file>
+        <file>screenshots/libreoffice@12.png</file>
     </qresource>
 </RCC>

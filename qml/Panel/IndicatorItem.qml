@@ -66,6 +66,7 @@ IndicatorDelegate {
             opacity: 1.0
             font.family: "Ubuntu"
             fontSize: "medium"
+            font.weight: Font.Light
             color: root.color
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
         }
@@ -126,6 +127,7 @@ IndicatorDelegate {
             opacity: 1.0
             font.family: "Ubuntu"
             fontSize: "medium"
+            font.weight: Font.Light
             color: root.color
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
         }
@@ -142,6 +144,7 @@ IndicatorDelegate {
 
         text: title !== "" ? title : identifier
         fontSize: "x-small"
+        font.weight: Font.Light
         horizontalAlignment: Text.AlignHCenter
         opacity: 0
         color: root.color

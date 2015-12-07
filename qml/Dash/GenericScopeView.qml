@@ -370,6 +370,7 @@ FocusScope {
                             }
                         }
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
+                        item.artShapeStyle = "icon";
                     }
                     item.cardTool = cardTool;
                 }
