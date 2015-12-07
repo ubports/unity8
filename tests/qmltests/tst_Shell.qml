@@ -2007,9 +2007,6 @@ Rectangle {
             tryCompare(shortcutHint, "visible", false);
         }
 
-        /* This isn't working yet. keyClick doesn't eat Qt.MetaModifier and GlobalShortcut doesn't
-           act on keyPress(Qt.Key_Super_L) + keyPress(Qt.Key_1)
-
         function test_metaNumberLaunchesFromLauncher() {
             loadShell("desktop");
             var launcher = findChild(shell, "launcher");
@@ -2017,9 +2014,11 @@ Rectangle {
             var secondAppInLauncher = LauncherModel.get(1).appId;
             waitForRendering(shell);
 
-            keyClick(Qt.MetaModifier|Qt.Key_1);
+            keyClick(Qt.Key_1, Qt.MetaModifier);
             tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
+
+            keyClick(Qt.Key_2, Qt.MetaModifier);
+            tryCompare(ApplicationManager, "focusedApplicationId", secondAppInLauncher);
         }
-        */
     }
 }
