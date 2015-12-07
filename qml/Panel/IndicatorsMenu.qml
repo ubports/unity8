@@ -40,7 +40,7 @@ Showable {
     property bool showOnClick: true
     property color panelColor: "#292929"
 
-    signal showTapped(point position)
+    signal showTapped()
 
     // TODO: Perhaps we need a animation standard for showing/hiding? Each showable seems to
     // use its own values. Need to ask design about this.
@@ -196,7 +196,7 @@ Showable {
             } else {
                 var touchReleaseTime = new Date().getTime();
                 if (touchReleaseTime - touchPressTime <= 300) {
-                    root.showTapped(Qt.point(touchSceneX, touchSceneY));
+                    root.showTapped();
                 }
             }
         }
