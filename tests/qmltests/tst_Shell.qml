@@ -1424,7 +1424,7 @@ Rectangle {
 
             // Do a quick alt-tab and see if focus changes
             tryCompare(app3.session.surface, "activeFocus", true)
-            keyClick(Qt.Key_Tab, Qt.ControlModifier)
+            keyClick(Qt.Key_Tab, Qt.AltModifier)
             tryCompare(app2.session.surface, "activeFocus", true)
 
             var desktopSpread = findChild(shell, "spread")
@@ -1432,12 +1432,12 @@ Rectangle {
             tryCompare(desktopSpread, "state", "")
 
             // Just press Alt, make sure the spread comes up
-            keyPress(Qt.Key_Control);
+            keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
             tryCompare(desktopSpread, "state", "altTab")
 
             // Release control, check if spread disappears
-            keyRelease(Qt.Key_Control)
+            keyRelease(Qt.Key_Alt)
             tryCompare(desktopSpread, "state", "")
 
             // Focus should have switched back now
@@ -1465,7 +1465,7 @@ Rectangle {
             tryCompare(desktopSpread, "state", "")
 
             // Just press Alt, make sure the spread comes up
-            keyPress(Qt.Key_Control);
+            keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
             tryCompare(desktopSpread, "state", "altTab")
             tryCompare(spreadRepeater, "highlightedIndex", 1)
@@ -1486,7 +1486,7 @@ Rectangle {
             tryCompare(spreadRepeater, "highlightedIndex", 0)
 
             // Release control, check if spread disappears
-            keyRelease(Qt.Key_Control)
+            keyRelease(Qt.Key_Alt)
             tryCompare(desktopSpread, "state", "")
 
             // Make sure that after wrapping around once, we have the same one focused as at the beginning
@@ -1499,7 +1499,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
             tryCompare(spreadRepeater, "highlightedIndex", 1);
 
@@ -1521,7 +1521,7 @@ Rectangle {
             keyClick(Qt.Key_Backtab);
             tryCompare(spreadRepeater, "highlightedIndex", 1);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_highlightFollowsMouse() {
@@ -1530,7 +1530,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(spreadRepeater, "highlightedIndex", 1);
@@ -1549,7 +1549,7 @@ Rectangle {
 
             verify(y < 4000);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_closeFromSpread() {
@@ -1558,7 +1558,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             appRemovedSpy.clear();
@@ -1585,7 +1585,7 @@ Rectangle {
             tryCompare(appRemovedSpy, "count", 1)
             compare(appRemovedSpy.signalArguments[0][0], closedAppId);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_selectFromSpreadWithMouse_data() {
@@ -1605,7 +1605,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             var focusAppId = ApplicationManager.get(2).appId;
@@ -1632,7 +1632,7 @@ Rectangle {
             tryCompare(stage, "state", "");
             tryCompare(ApplicationManager, "focusedApplicationId", focusAppId);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_progressiveAutoScrolling() {
@@ -1641,7 +1641,7 @@ Rectangle {
             var appRepeater = findInvisibleChild(shell, "appRepeater");
             verify(appRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             var spreadFlickable = findChild(shell, "spreadFlickable")
@@ -1667,7 +1667,7 @@ Rectangle {
             }
             tryCompare(spreadFlickable, "contentX", 0);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         // This makes sure the hoverMouseArea is set to invisible AND disabled
@@ -1679,13 +1679,13 @@ Rectangle {
             tryCompare(hoverMouseArea, "enabled", false)
             tryCompare(hoverMouseArea, "visible", false)
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(hoverMouseArea, "enabled", true)
             tryCompare(hoverMouseArea, "visible", true)
 
-            keyRelease(Qt.Key_Control)
+            keyRelease(Qt.Key_Alt)
 
             tryCompare(hoverMouseArea, "enabled", false)
             tryCompare(hoverMouseArea, "visible", false)
@@ -1702,7 +1702,7 @@ Rectangle {
             var appRepeater = findInvisibleChild(shell, "appRepeater");
             verify(appRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(spreadRepeater, "highlightedIndex", 1);
@@ -1723,7 +1723,7 @@ Rectangle {
 
             verify(y < 4000);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_focusAppFromLauncherExitsSpread() {
@@ -1733,7 +1733,7 @@ Rectangle {
             var launcher = findChild(shell, "launcher");
             var bfb = findChild(launcher, "buttonShowDashHome");
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(desktopSpread, "state", "altTab")
@@ -1747,7 +1747,7 @@ Rectangle {
 
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         // regression test for http://pad.lv/1443319
