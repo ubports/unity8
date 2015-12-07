@@ -103,7 +103,7 @@ Rectangle {
                 objectName: "bfbFocusHighlight"
                 anchors.fill: parent
                 border.color: "white"
-                border.width: units.dp(2)
+                border.width: units.dp(1)
                 color: "transparent"
                 visible: parent.highlighted
             }
