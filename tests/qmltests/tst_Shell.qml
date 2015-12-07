@@ -2020,5 +2020,15 @@ Rectangle {
             keyClick(Qt.Key_2, Qt.MetaModifier);
             tryCompare(ApplicationManager, "focusedApplicationId", secondAppInLauncher);
         }
+
+        function test_altF1OpensLauncherForKeyboardNavigation() {
+            loadShell("desktop");
+            waitForRendering(shell);
+            var launcher = findChild(shell, "launcher");
+
+            keyClick(Qt.Key_F1, Qt.AltModifier);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(launcher, "focus", true)
+        }
     }
 }
