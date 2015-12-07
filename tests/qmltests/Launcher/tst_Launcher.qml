@@ -896,20 +896,20 @@ Item {
 
         function test_focusRingFollowsHighlightIndex() {
             launcherLoader.forceActiveFocus()
-            var bfb = findChild(launcher, "buttonShowDashHome");
+            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
             var focusRing0 = findChild(findChild(launcher, "launcherDelegate0"), "focusRing");
             var focusRing1 = findChild(findChild(launcher, "launcherDelegate1"), "focusRing");
             var focusRing2 = findChild(findChild(launcher, "launcherDelegate2"), "focusRing");
 
-            compare(bfb.highlighted, false);
+            compare(bfbFocusHighlight.visible, false);
             compare(focusRing0.visible, false);
             compare(focusRing1.visible, false);
             compare(focusRing2.visible, false);
 
             launcher.superTabPressed = true;
-            tryCompare(bfb, "highlighted", true);
+            tryCompare(bfbFocusHighlight, "visible", true);
             keyClick(Qt.Key_Tab);
-            tryCompare(bfb, "highlighted", false);
+            tryCompare(bfbFocusHighlight, "visible", false);
             tryCompare(focusRing0, "visible", true);
             keyClick(Qt.Key_Tab);
             tryCompare(focusRing0, "visible", false);
@@ -926,7 +926,7 @@ Item {
             tryCompare(focusRing0, "visible", true);
             keyClick(Qt.Key_Backtab);
             tryCompare(focusRing0, "visible", false);
-            tryCompare(bfb, "highlighted", true);
+            tryCompare(bfbFocusHighlight, "visible", true);
         }
 
         function test_longpressSuperKeyShowsHints() {

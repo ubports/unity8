@@ -79,21 +79,12 @@ Rectangle {
             fill: parent
         }
 
-        Item {
+        Rectangle {
             objectName: "buttonShowDashHome"
             width: parent.width
             height: units.gu(7)
-            clip: true
+            color: UbuntuColors.orange
             property bool highlighted: root.highlightIndex == -1;
-
-            UbuntuShape {
-                anchors {
-                    fill: parent
-                    topMargin: -units.gu(2)
-                }
-                aspect: UbuntuShape.Flat
-                backgroundColor: UbuntuColors.orange
-            }
 
             Image {
                 objectName: "dashItem"
@@ -107,6 +98,14 @@ Rectangle {
                 id: dashItem
                 anchors.fill: parent
                 onClicked: root.showDashHome()
+            }
+            Rectangle {
+                objectName: "bfbFocusHighlight"
+                anchors.fill: parent
+                border.color: "white"
+                border.width: units.dp(2)
+                color: "transparent"
+                visible: parent.highlighted
             }
         }
 
