@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-01 15:35+0100\n"
+"POT-Creation-Date: 2015-12-07 15:14+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,998 +33,6 @@ msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:28
-msgid "Ivory Coast"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:29
-msgid "Ghana"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:30
-msgid "Ethiopia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:31
-msgid "Algeria"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:32
-msgid "Eritrea"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:33
-msgid "Mali"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:34
-msgid "Central African Republic"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:35
-msgid "Gambia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:36
-msgid "Guinea Bissau"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:37
-msgid "Malawi"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:38
-msgid "Congo Brazzaville"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:39
-msgid "Burundi"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:40
-msgid "Egypt"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:41
-msgid "Morocco"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:42
-msgid "Spain"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:43
-msgid "Guinea"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:44
-msgid "Senegal"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:45
-msgid "Tanzania"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:46
-msgid "Djibouti"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:47
-msgid "Cameroon"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:48
-msgid "Western Sahara"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:49
-msgid "Sierra Leone"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:50
-msgid "Botswana"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:51
-msgid "Zimbabwe"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:52
-msgid "South Africa"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:53
-msgid "South Sudan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:54
-msgid "Uganda"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:55
-msgid "Sudan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:56
-msgid "Rwanda"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:57
-msgid "Congo (Kinshasa)"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:58
-msgid "Nigeria"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:59
-msgid "Gabon"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:60
-msgid "Togo"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:61
-msgid "Angola"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:62
-msgid "Zambia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:63
-msgid "Equatorial Guinea"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:64
-msgid "Mozambique"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:65
-msgid "Lesotho"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:66
-msgid "Swaziland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:67
-msgid "Somalia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:68
-msgid "Liberia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:69
-msgid "Kenya"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:70
-msgid "Chad"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:71
-msgid "Niger"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:72
-msgid "Mauritania"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:73
-msgid "Burkina Faso"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:74
-msgid "Benin"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:75
-msgid "Sao Tome And Principe"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:76
-msgid "Libya"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:77
-msgid "Tunisia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:78
-msgid "Namibia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:79
-msgid "United States"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:80
-msgid "Anguilla"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:81
-msgid "Antigua And Barbuda"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:82
-msgid "Brazil"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:83
-msgid "Argentina"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:84
-msgid "Aruba"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:85
-msgid "Paraguay"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:86
-msgid "Canada"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:87
-msgid "Mexico"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:88
-msgid "Barbados"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:89
-msgid "Belize"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:90
-msgid "Colombia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:91
-msgid "Venezuela"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:92
-msgid "French Guiana"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:93
-msgid "Cayman Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:94
-msgid "Costa Rica"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:95
-msgid "Cura Sao"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:96
-msgid "Greenland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:97
-msgid "Dominica"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:98
-msgid "El Salvador"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:99
-msgid "Turks And Caicos Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:100
-msgid "Grenada"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:101
-msgid "Guadeloupe"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:102
-msgid "Guatemala"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:103
-msgid "Ecuador"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:104
-msgid "Guyana"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:105
-msgid "Cuba"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:106
-msgid "Jamaica"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:107
-msgid "Bonaire"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:108
-msgid "Bolivia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:109
-msgid "Peru"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:110
-msgid "Sint Maarten"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:111
-msgid "Nicaragua"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:112
-msgid "Saint Martin"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:113
-msgid "Martinique"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:114
-msgid "Saint Pierre And Miquelon"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:115
-msgid "Uruguay"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:116
-msgid "Montserrat"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:117
-msgid "Bahamas"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:118
-msgid "Panama"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:119
-msgid "Suriname"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:120
-msgid "Haiti"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:121
-msgid "Trinidad And Tobago"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:122
-msgid "Puerto Rico"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:123
-msgid "Chile"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:124
-msgid "Dominican Republic"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:125
-msgid "Saint Barthelemy"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:126
-msgid "Saint Kitts And Nevis"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:127
-msgid "Saint Lucia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:128
-msgid "United States Virgin Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:129
-msgid "Saint Vincent And The Grenadines"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:130
-msgid "Honduras"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:131
-msgid "British Virgin Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:132
-msgid "Antarctica"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:133
-msgid "Australia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:134
-msgid "Svalbard And Jan Mayen Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:135
-msgid "Yemen"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:136
-msgid "Kazakhstan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:137
-msgid "Jordan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:138
-msgid "Russia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:139
-msgid "Turkmenistan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:140
-msgid "Iraq"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:141
-msgid "Bahrain"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:142
-msgid "Azerbaijan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:143
-msgid "Thailand"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:144
-msgid "Lebanon"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:145
-msgid "Kyrgyzstan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:146
-msgid "Brunei"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:147
-msgid "Mongolia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:148
-msgid "China"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:149
-msgid "Sri Lanka"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:150
-msgid "Syria"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:151
-msgid "Bangladesh"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:152
-msgid "East Timor"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:153
-msgid "United Arab Emirates"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:154
-msgid "Tajikistan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:155
-msgid "Palestinian Territories"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:156
-msgid "Vietnam"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:157
-msgid "Hong Kong"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:158
-msgid "Indonesia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:159
-msgid "Israel"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:160
-msgid "Afghanistan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:161
-msgid "Pakistan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:162
-msgid "Nepal"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:163
-msgid "India"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:164
-msgid "Malaysia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:165
-msgid "Kuwait"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:166
-msgid "Macau"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:167
-msgid "Philippines"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:168
-msgid "Oman"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:169
-msgid "Cyprus"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:170
-msgid "Cambodia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:171
-msgid "North Korea"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:172
-msgid "Qatar"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:173
-msgid "Myanmar"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:174
-msgid "Saudi Arabia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:175
-msgid "Uzbekistan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:176
-msgid "South Korea"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:177
-msgid "Singapore"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:178
-msgid "Taiwan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:179
-msgid "Georgia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:180
-msgid "Iran"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:181
-msgid "Bhutan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:182
-msgid "Japan"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:183
-msgid "Laos"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:184
-msgid "Armenia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:185
-msgid "Portugal"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:186
-msgid "Bermuda"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:187
-msgid "Cape Verde"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:188
-msgid "Faroe Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:189
-msgid "Iceland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:190
-msgid "South Georgia And The South Sandwich Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:191
-msgid "Saint Helena"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:192
-msgid "Falkland Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:193
-msgid "Netherlands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:194
-msgid "Andorra"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:195
-msgid "Greece"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:196
-msgid "Serbia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:197
-msgid "Germany"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:198
-msgid "Slovakia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:199
-msgid "Belgium"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:200
-msgid "Romania"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:201
-msgid "Hungary"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:202
-msgid "Moldova"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:203
-msgid "Denmark"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:204
-msgid "Ireland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:205
-msgid "Gibraltar"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:206
-msgid "Guernsey"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:207
-msgid "Finland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:208
-msgid "Isle Of Man"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:209
-msgid "Turkey"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:210
-msgid "Jersey"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:211
-msgid "Ukraine"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:212
-msgid "Slovenia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:213
-msgid "United Kingdom"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:214
-msgid "Luxembourg"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:215
-msgid "Malta"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:216
-msgid "Aland Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:217
-msgid "Belarus"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:218
-msgid "Monaco"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:219
-msgid "Norway"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:220
-msgid "France"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:221
-msgid "Montenegro"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:222
-msgid "Czech Republic"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:223
-msgid "Latvia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:224
-msgid "Italy"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:225
-msgid "San Marino"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:226
-msgid "Bosnia And Herzegowina"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:227
-msgid "Macedonia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:228
-msgid "Bulgaria"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:229
-msgid "Sweden"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:230
-msgid "Estonia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:231
-msgid "Albania"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:232
-msgid "Liechtenstein"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:233
-msgid "Vatican City State"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:234
-msgid "Austria"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:235
-msgid "Lithuania"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:236
-msgid "Poland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:237
-msgid "Croatia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:238
-msgid "Switzerland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:239
-msgid "Madagascar"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:240
-msgid "British Indian Ocean Territory"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:241
-msgid "ChristmasIsland"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:242
-msgid "CocosIslands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:243
-msgid "Comoros"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:244
-msgid "French Southern Territories"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:245
-msgid "Seychelles"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:246
-msgid "Maldives"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:247
-msgid "Mauritius"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:248
-msgid "Mayotte"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:249
-msgid "Reunion"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:250
-msgid "Samoa"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:251
-msgid "New Zealand"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:252
-msgid "Micronesia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:253
-msgid "Vanuatu"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:254
-msgid "Kiribati"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:255
-msgid "Tokelau"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:256
-msgid "Fiji"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:257
-msgid "Tuvalu"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:258
-msgid "French Polynesia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:259
-msgid "Solomon Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:260
-msgid "Guam"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:261
-msgid "United States Minor Outlying Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:262
-msgid "Marshall Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:263
-msgid "Nauru"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:264
-msgid "Niue"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:265
-msgid "Norfolk Island"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:266
-msgid "New Caledonia"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:267
-msgid "American Samoa"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:268
-msgid "Palau"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:269
-msgid "Pitcairn"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:270
-msgid "Papua New Guinea"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:271
-msgid "Cook Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:272
-msgid "Northern Mariana Islands"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:273
-msgid "Tonga"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:274
-msgid "Kosovo"
-msgstr ""
-
-#: plugins/Wizard/LocalePlugin.cpp:275
-msgid "Wallis And Futuna Islands"
 msgstr ""
 
 #: qml/Components/DelayedLockscreen.qml:49
@@ -1067,7 +75,7 @@ msgstr ""
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
 #: qml/Components/Dialogs.qml:253 qml/Wizard/Pages/passcode-confirm.qml:32
-#: qml/Wizard/Pages/passcode-set.qml:32 qml/Wizard/Pages/password-set.qml:137
+#: qml/Wizard/Pages/passcode-set.qml:32 qml/Wizard/Pages/password-set.qml:140
 #: qml/Wizard/Pages/uaccount-signin.qml:26
 msgid "Cancel"
 msgstr ""
@@ -1137,7 +145,7 @@ msgstr ""
 msgid "Emergency Call"
 msgstr ""
 
-#: qml/Components/Lockscreen.qml:277 qml/Wizard/Pages/password-set.qml:159
+#: qml/Components/Lockscreen.qml:277 qml/Wizard/Pages/password-set.qml:163
 msgid "OK"
 msgstr ""
 
@@ -1530,11 +538,11 @@ msgstr ""
 msgid "Enter at least 8 characters"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:108
+#: qml/Wizard/Pages/password-set.qml:110
 msgid "Passwords do not match"
 msgstr ""
 
-#: qml/Wizard/Pages/password-set.qml:110
+#: qml/Wizard/Pages/password-set.qml:112
 msgid "Passwords match"
 msgstr ""
 
@@ -1604,9 +612,9 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: qml/Wizard/Pages/10-language.qml:159 qml/Wizard/Pages/30-wifi.qml:207
-#: qml/Wizard/Pages/40-location.qml:264 qml/Wizard/Pages/50-timezone.qml:176
-#: qml/Wizard/Pages/60-account.qml:175 qml/Wizard/Pages/70-passwd-type.qml:137
+#: qml/Wizard/Pages/10-language.qml:154 qml/Wizard/Pages/30-wifi.qml:207
+#: qml/Wizard/Pages/40-location.qml:268 qml/Wizard/Pages/50-timezone.qml:174
+#: qml/Wizard/Pages/60-account.qml:177 qml/Wizard/Pages/70-passwd-type.qml:136
 #: qml/Wizard/Pages/75-report-check.qml:88
 msgid "Next"
 msgstr ""
@@ -1631,27 +639,27 @@ msgstr ""
 msgid "Location Services"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:80
+#: qml/Wizard/Pages/40-location.qml:81
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:101
+#: qml/Wizard/Pages/40-location.qml:103
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:154
+#: qml/Wizard/Pages/40-location.qml:157
 msgid "GPS only"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:207
+#: qml/Wizard/Pages/40-location.qml:211
 msgid "Don't use my location"
 msgstr ""
 
-#: qml/Wizard/Pages/40-location.qml:253
+#: qml/Wizard/Pages/40-location.qml:257
 msgid "You can change it later in System Settings."
 msgstr ""
 
@@ -1667,25 +675,25 @@ msgstr ""
 msgid "Set Administrator Details"
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:64
+#: qml/Wizard/Pages/60-account.qml:66
 msgid ""
 "Please enter a password to create your user account. You need this password "
 "to administer your device."
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:79
+#: qml/Wizard/Pages/60-account.qml:81
 msgid "User name"
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:107
+#: qml/Wizard/Pages/60-account.qml:109
 msgid "Password"
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:119
+#: qml/Wizard/Pages/60-account.qml:122
 msgid "Use a combination of letters and numbers"
 msgstr ""
 
-#: qml/Wizard/Pages/60-account.qml:148
+#: qml/Wizard/Pages/60-account.qml:150
 msgid "Repeat password"
 msgstr ""
 
@@ -1729,7 +737,7 @@ msgstr ""
 msgid "You are ready to use your device now"
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:122
+#: qml/Wizard/Pages/80-finished.qml:123
 msgid "Get Started"
 msgstr ""
 
