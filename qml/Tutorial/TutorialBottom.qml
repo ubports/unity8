@@ -63,7 +63,7 @@ TutorialPage {
                 active: dragArea.dragging
 
                 property real teaseOffset
-                property real dragOffset: dragArea.useTouchY ? -dragArea.touchY : 0
+                property real dragOffset: dragArea.useTouchY ? -dragArea.touchPosition.y : 0
 
                 Behavior on dragOffset {
                     id: offsetAnimation
