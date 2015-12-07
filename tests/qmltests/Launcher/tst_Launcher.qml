@@ -912,41 +912,6 @@ Item {
             LauncherModel.setCount(LauncherModel.get(1).appId, oldCount)
         }
 
-        function test_focusRingFollowsHighlightIndex() {
-            launcherLoader.forceActiveFocus()
-            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
-            var focusRing0 = findChild(findChild(launcher, "launcherDelegate0"), "focusRing");
-            var focusRing1 = findChild(findChild(launcher, "launcherDelegate1"), "focusRing");
-            var focusRing2 = findChild(findChild(launcher, "launcherDelegate2"), "focusRing");
-
-            compare(bfbFocusHighlight.visible, false);
-            compare(focusRing0.visible, false);
-            compare(focusRing1.visible, false);
-            compare(focusRing2.visible, false);
-
-            launcher.superTabPressed = true;
-            tryCompare(bfbFocusHighlight, "visible", true);
-            keyClick(Qt.Key_Tab);
-            tryCompare(bfbFocusHighlight, "visible", false);
-            tryCompare(focusRing0, "visible", true);
-            keyClick(Qt.Key_Tab);
-            tryCompare(focusRing0, "visible", false);
-            tryCompare(focusRing1, "visible", true);
-            keyClick(Qt.Key_Tab);
-            tryCompare(focusRing1, "visible", false);
-            tryCompare(focusRing2, "visible", true);
-
-            keyClick(Qt.Key_Backtab);
-            tryCompare(focusRing2, "visible", false);
-            tryCompare(focusRing1, "visible", true);
-            keyClick(Qt.Key_Backtab);
-            tryCompare(focusRing1, "visible", false);
-            tryCompare(focusRing0, "visible", true);
-            keyClick(Qt.Key_Backtab);
-            tryCompare(focusRing0, "visible", false);
-            tryCompare(bfbFocusHighlight, "visible", true);
-        }
-
         function test_longpressSuperKeyShowsHints() {
             var shortCutHint0 = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint");
 
@@ -998,7 +963,6 @@ Item {
             assertFocusOnIndex(0); // Back to Top
 
             // Right opens the quicklist
-
             keyClick(Qt.Key_Right);
             assertFocusOnIndex(0); // Navigating the quicklist... the launcher focus should not move
             tryCompare(quickList, "visible", true);
