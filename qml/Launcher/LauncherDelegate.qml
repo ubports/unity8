@@ -251,14 +251,16 @@ Item {
 
         Rectangle {
             objectName: "shortcutHint"
-            anchors.fill: parent
-            anchors.margins: units.gu(2)
-            color: UbuntuColors.lightGrey
+            anchors.centerIn: parent
+            width: units.gu(3)
+            height: width
+            color: "#E0292929"
             visible: root.shortcutHintShown
             Label {
                 anchors.centerIn: parent
                 text: (itemIndex + 1) % 10
                 color: "white"
+                font.weight: Font.DemiBold
             }
         }
     }
