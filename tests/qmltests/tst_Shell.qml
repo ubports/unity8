@@ -1991,5 +1991,35 @@ Rectangle {
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
+
+        function test_longpressSuperOpensLauncher() {
+            loadShell("desktop");
+            var launcher = findChild(shell, "launcher");
+            var shortcutHint = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint")
+
+            compare(launcher.state, "");
+            keyPress(Qt.Key_Super_L);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(shortcutHint, "visible", true);
+
+            keyRelease(Qt.Key_Super_L);
+            tryCompare(launcher, "state", "");
+            tryCompare(shortcutHint, "visible", false);
+        }
+
+        /* This isn't working yet. keyClick doesn't eat Qt.MetaModifier and GlobalShortcut doesn't
+           act on keyPress(Qt.Key_Super_L) + keyPress(Qt.Key_1)
+
+        function test_metaNumberLaunchesFromLauncher() {
+            loadShell("desktop");
+            var launcher = findChild(shell, "launcher");
+            var firstAppInLauncher = LauncherModel.get(0).appId;
+            var secondAppInLauncher = LauncherModel.get(1).appId;
+            waitForRendering(shell);
+
+            keyClick(Qt.MetaModifier|Qt.Key_1);
+            tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
+        }
+        */
     }
 }
