@@ -269,7 +269,7 @@ Showable {
 
         property real rowMappedLateralPosition: {
             if (!d.activeDragHandle) return -1;
-            return d.activeDragHandle.mapToItem(bar, d.activeDragHandle.touchX, 0).x;
+            return d.activeDragHandle.mapToItem(bar, d.activeDragHandle.touchPosition.x, 0).x;
         }
 
         function updateState() {
@@ -297,7 +297,7 @@ Showable {
                 script: {
                     yVelocityCalculator.reset();
                     // initial item selection
-                    if (!d.hasCommitted) bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchX : -1);
+                    if (!d.hasCommitted) bar.selectItemAt(d.activeDragHandle ? d.activeDragHandle.touchPosition.x : -1);
                     d.hasCommitted = false;
                 }
             }
@@ -315,7 +315,7 @@ Showable {
                 target: leftScroller
                 lateralPosition: {
                     if (!d.activeDragHandle) return -1;
-                    var mapped = d.activeDragHandle.mapToItem(leftScroller, d.activeDragHandle.touchX, 0);
+                    var mapped = d.activeDragHandle.mapToItem(leftScroller, d.activeDragHandle.touchPosition.x, 0);
                     return mapped.x;
                 }
             }
@@ -324,7 +324,7 @@ Showable {
                 target: rightScroller
                 lateralPosition: {
                     if (!d.activeDragHandle) return -1;
-                    var mapped = d.activeDragHandle.mapToItem(rightScroller, d.activeDragHandle.touchX, 0);
+                    var mapped = d.activeDragHandle.mapToItem(rightScroller, d.activeDragHandle.touchPosition.x, 0);
                     return mapped.x;
                 }
             }

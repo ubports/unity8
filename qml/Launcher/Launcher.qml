@@ -31,11 +31,11 @@ Item {
     property int panelWidth: units.gu(8)
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
-    property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
-                                (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
+    property real progress: dragArea.dragging && dragArea.touchPosition.x > panelWidth ?
+                                (width * (dragArea.touchPosition.x-panelWidth) / (width - panelWidth)) : 0
 
     readonly property bool dragging: dragArea.dragging
-    readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
+    readonly property real dragDistance: dragArea.dragging ? dragArea.touchPosition.x : 0
     readonly property real visibleWidth: panel.width + panel.x
 
     readonly property bool shown: panel.x > -panel.width
