@@ -106,7 +106,10 @@ Item {
 
         Button {
             text: "open for kbd navigation"
-            onClicked: launcherLoader.item.openForKeyboardNavigation()
+            onClicked: {
+                launcherLoader.item.openForKeyboardNavigation()
+                launcherLoader.item.forceActiveFocus();// = true
+            }
             Layout.fillWidth: true
         }
 
@@ -288,11 +291,8 @@ Item {
 
             dragLauncherIntoView()
 
-            wait(1000)
-
             // tapping on the center of the screen should dismiss the launcher
             mouseClick(launcher, panel.width + units.gu(5), launcher.height / 2)
-            wait(1000)
 
             // should eventually get fully retracted (hidden)
             tryCompare(panel, "x", -launcher.panelWidth, 2000)
@@ -962,6 +962,7 @@ Item {
             assertFocusOnIndex(last);
 
             keyClick(Qt.Key_Down);
+            waitForRendering(launcher);
             keyClick(Qt.Key_Down);
             assertFocusOnIndex(0); // Back to Top
 
