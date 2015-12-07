@@ -103,8 +103,8 @@ void ApplicationInfo::setSession(Session* session)
         m_session->setApplication(this);
         m_session->setParent(this);
         SessionManager::singleton()->registerSession(m_session);
-        connect(m_session, &Session::surfaceChanged,
-                this, &ApplicationInfo::onSessionSurfaceChanged);
+        connect(m_session, &Session::surfaceAdded,
+                this, &ApplicationInfo::onSessionSurfaceAdded);
 
         if (!m_manualSurfaceCreation) {
             QTimer::singleShot(500, m_session, &Session::createSurface);
@@ -255,6 +255,17 @@ void ApplicationInfo::setIsTouchApp(bool isTouchApp)
     m_isTouchApp = isTouchApp;
 }
 
+void ApplicationInfo::onSessionSurfaceAdded(MirSurface* surface)
+{
+    if (surface != nullptr && m_state == Starting) {
+        if (m_requestedState == RequestedRunning) {
+            setState(Running);
+        } else {
+            setState(Suspended);
+        }
+    }
+}
+
 bool ApplicationInfo::exemptFromLifecycle() const
 {
     return m_exemptFromLifecycle;
@@ -266,16 +277,5 @@ void ApplicationInfo::setExemptFromLifecycle(bool exemptFromLifecycle)
     {
         m_exemptFromLifecycle = exemptFromLifecycle;
         Q_EMIT exemptFromLifecycleChanged(m_exemptFromLifecycle);
-    }
-}
-
-void ApplicationInfo::onSessionSurfaceChanged(MirSurface* surface)
-{
-    if (surface != nullptr && m_state == Starting) {
-        if (m_requestedState == RequestedRunning) {
-            setState(Running);
-        } else {
-            setState(Suspended);
-        }
     }
 }

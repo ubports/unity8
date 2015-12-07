@@ -94,15 +94,15 @@ ColumnLayout {
                 onCheckedChanged: {
                     if (checked) {
                         root.session.createSurface();
-                    } else if (root.session && root.session.surface) {
-                        ApplicationTest.removeSurface(root.session.surface);
+                    } else if (root.session && root.session.lastSurface) {
+                        ApplicationTest.removeSurface(root.session.lastSurface);
                     }
                 }
 
                 Connections {
                     target: root.session ? root.session : null
                     onSurfaceChanged: {
-                        surfaceCheckbox.checked = root.session.surface !== null
+                        surfaceCheckbox.checked = root.session.lastSurface !== null
                     }
                 }
             }
@@ -123,7 +123,7 @@ ColumnLayout {
                 onClicked: {
                     if (removable) {
                         // release the surface first. simulates mir app closing
-                        if (root.session.surface) ApplicationTest.removeSurface(root.session.surface);
+                        if (root.session.lastSurface) ApplicationTest.removeSurface(root.session.lastSurface);
                         ApplicationTest.removeSession(root.session);
                     } else {
                         root.session.release();
