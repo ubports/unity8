@@ -171,6 +171,7 @@ SwipeArea {
         objectName: "edgeDragEvaluator"
         id: dragEvaluator
         // Effectively convert distance into the drag position projected onto the gesture direction axis
+        // TODO sceneDistance is gone
         trackedPosition: Direction.isPositive(dragArea.direction) ? sceneDistance : -sceneDistance
         maxDragDistance: maxTotalDragDistance
         direction: dragArea.direction
