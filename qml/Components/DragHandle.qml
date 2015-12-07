@@ -38,12 +38,12 @@ import Ubuntu.Gestures 0.1
         anchors.bottom: parent.bottom
         width: units.gu(2)
 
-        direction: DirectionalDragArea::Leftwards
+        direction: SwipeArea::Leftwards
     }
   }
 
  */
-DirectionalDragArea {
+SwipeArea {
     id: dragArea
 
     property bool stretch: false

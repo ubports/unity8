@@ -303,25 +303,32 @@ Item {
         }
 
         function test_manage_dash_store_no_favorites() {
+            console.log("A");
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
             var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
             tryCompare(bottomEdgeController, "progress", 1);
 
+            console.log("B");
             // clear the favorite scopes
             scopes.clearFavorites();
             var dashContentList = findChild(dash, "dashContentList");
             tryCompare(dashContentList, "count", 0);
 
+            console.log("C");
             var scopesList = findChild(dash, "scopesList");
             spy.target = scopesList.scope;
             spy.signalName = "queryPerformed";
 
+            console.log("D");
             // Click on the store
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
             var searchButton = findChild(scopesListPageHeader, "store_action_button");
+            console.log("D", searchButton, scopesListPageHeader);
+            wait(1000);
             mouseClick(searchButton);
 
+            console.log("E");
             spy.wait();
             compare(spy.signalArguments[0][0], "scope://com.canonical.scopes.clickstore");
             tryCompare(bottomEdgeController, "progress", 0);

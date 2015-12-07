@@ -23,7 +23,7 @@
 #include <QPointer>
 #include <QTimer>
 
-#include "UbuntuGesturesGlobal.h"
+#include <ubuntugesturesglobal.h>
 
 /*
    Notifies when a point, mouse or touch, is pressed outside its area.

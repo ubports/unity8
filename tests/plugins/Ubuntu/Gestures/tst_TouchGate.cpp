@@ -25,7 +25,7 @@
 #include <functional>
 
 #include <TouchGate.h>
-#include <TouchRegistry.h>
+#include <TouchRegistry>
 
 #include "TestItem.h"
 

@@ -23,9 +23,7 @@
 #include <private/qquickwindow_p.h>
 
 #include <AxisVelocityCalculator.h>
-#include <DirectionalDragArea.h>
-#include <DirectionalDragArea_p.h>
-#include <Timer.h>
+#include <Timer>
 
 using namespace UbuntuGestures;
 

@@ -225,6 +225,7 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - expandedPanelHeight - handle.height
 
+        // TODO touchScene is gone :/
         onTouchSceneXChanged: {
             if (root.state === "locked") {
                 d.xDisplacementSinceLock += (touchSceneX - d.lastHideTouchSceneX)

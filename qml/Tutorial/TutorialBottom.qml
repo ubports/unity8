@@ -73,7 +73,7 @@ TutorialPage {
         ]
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: dragArea
         direction: Direction.Upwards
         anchors {

@@ -275,7 +275,7 @@ Item {
         }
     }
 
-    DirectionalDragArea {
+    SwipeArea {
         id: dragArea
         objectName: "launcherDragArea"
 
