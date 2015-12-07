@@ -288,11 +288,14 @@ Item {
 
             dragLauncherIntoView()
 
+            wait(1000)
+
             // tapping on the center of the screen should dismiss the launcher
-            mouseClick(launcher)
+            mouseClick(launcher, panel.width + units.gu(5), launcher.height / 2)
+            wait(1000)
 
             // should eventually get fully retracted (hidden)
-            tryCompare(panel, "x", -launcher.panelWidth, 1000)
+            tryCompare(panel, "x", -launcher.panelWidth, 2000)
         }
 
         /* If I click on the icon of an application on the launcher
