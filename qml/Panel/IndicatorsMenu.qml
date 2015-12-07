@@ -225,11 +225,10 @@ Showable {
         stretch: true
         maxTotalDragDistance: openedHeight - expandedPanelHeight - handle.height
 
-        // TODO touchScene is gone :/
-        onTouchSceneXChanged: {
+        onTouchPositionChanged: {
             if (root.state === "locked") {
-                d.xDisplacementSinceLock += (touchSceneX - d.lastHideTouchSceneX)
-                d.lastHideTouchSceneX = touchSceneX;
+                d.xDisplacementSinceLock += (touchPosition.x - d.lastHideTouchX)
+                d.lastHideTouchX = touchPosition.x;
             }
         }
     }
@@ -264,7 +263,7 @@ Showable {
         id: d
         property var activeDragHandle: showDragHandle.dragging ? showDragHandle : hideDragHandle.dragging ? hideDragHandle : null
         property bool hasCommitted: false
-        property real lastHideTouchSceneX: 0
+        property real lastHideTouchX: 0
         property real xDisplacementSinceLock: 0
         onXDisplacementSinceLockChanged: d.updateState()
 
@@ -335,7 +334,7 @@ Showable {
             StateChangeScript {
                 script: {
                     d.xDisplacementSinceLock = 0;
-                    d.lastHideTouchSceneX = hideDragHandle.touchSceneX;
+                    d.lastHideTouchX = hideDragHandle.touchPosition.x;
                 }
             }
             PropertyChanges { target: bar; expanded: true }
@@ -347,7 +346,7 @@ Showable {
             PropertyChanges {
                 target: d;
                 hasCommitted: true
-                lastHideTouchSceneX: 0
+                lastHideTouchX: 0
                 xDisplacementSinceLock: 0
                 restoreEntryValues: false
             }
