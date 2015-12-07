@@ -2007,18 +2007,23 @@ Rectangle {
             tryCompare(shortcutHint, "visible", false);
         }
 
-        function test_metaNumberLaunchesFromLauncher() {
+        function test_metaNumberLaunchesFromLauncher_data() {
+            return [
+                {tag: "Meta+1", key: Qt.Key_1, index: 0},
+                {tag: "Meta+2", key: Qt.Key_2, index: 1},
+                {tag: "Meta+4", key: Qt.Key_5, index: 4},
+                {tag: "Meta+0", key: Qt.Key_0, index: 9},
+            ]
+        }
+
+        function test_metaNumberLaunchesFromLauncher(data) {
             loadShell("desktop");
             var launcher = findChild(shell, "launcher");
-            var firstAppInLauncher = LauncherModel.get(0).appId;
-            var secondAppInLauncher = LauncherModel.get(1).appId;
+            var appId = LauncherModel.get(data.index).appId;
             waitForRendering(shell);
 
-            keyClick(Qt.Key_1, Qt.MetaModifier);
-            tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
-
-            keyClick(Qt.Key_2, Qt.MetaModifier);
-            tryCompare(ApplicationManager, "focusedApplicationId", secondAppInLauncher);
+            keyClick(data.key, Qt.MetaModifier);
+            tryCompare(ApplicationManager, "focusedApplicationId", appId);
         }
 
         function test_altF1OpensLauncherForKeyboardNavigation() {

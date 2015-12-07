@@ -257,7 +257,7 @@ Item {
             visible: root.shortcutHintShown
             Label {
                 anchors.centerIn: parent
-                text: itemIndex + 1
+                text: (itemIndex + 1) % 10
                 color: "white"
             }
         }

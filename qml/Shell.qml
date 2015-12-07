@@ -583,11 +583,18 @@ Item {
                     launcher.openForKeyboardNavigation();
                 }
             }
-
+            GlobalShortcut {
+                shortcut: Qt.MetaModifier | Qt.Key_0
+                onTriggered: {
+                    if (LauncherModel.get(9)) {
+                        activateApplication(LauncherModel.get(9).appId);
+                    }
+                }
+            }
             Repeater {
                 model: 9
                 GlobalShortcut {
-                    shortcut: Qt.MetaModifier | (Qt.Key_1 +  index)
+                    shortcut: Qt.MetaModifier | (Qt.Key_1 + index)
                     onTriggered: {
                         if (LauncherModel.get(index)) {
                             activateApplication(LauncherModel.get(index).appId);
