@@ -1868,7 +1868,7 @@ Rectangle {
             compare(app1.stage, ApplicationInfoInterface.MainStage);
             compare(app2.stage, ApplicationInfoInterface.MainStage);
             verify(!app1.isTouchApp);
-            verify(!app1.session.surface.activeFocus);
+            verify(!app1.session.lastSurface.activeFocus);
 
             // Make sure app1 is exempt with a requested suspend
             verify(app1.exemptFromLifecycle);
@@ -1897,7 +1897,7 @@ Rectangle {
             // Sanity checking
             compare(app1.stage, ApplicationInfoInterface.MainStage);
             compare(app2.stage, ApplicationInfoInterface.MainStage);
-            verify(!app1.session.surface.activeFocus);
+            verify(!app1.session.lastSurface.activeFocus);
 
             // Make sure app1 is exempt with a requested suspend
             verify(app1.exemptFromLifecycle);
