@@ -298,7 +298,7 @@ QVariant ScopesOverviewResultsModel::data(const QModelIndex& index, int role) co
         case RoleSubtitle:
             return scope && scope->name() == "Videos this is long ab cd ef gh ij kl" ? "tube, movies, cinema, pictures, art, moving images, magic in a box" : QString();
         case RoleArt:
-            return QString(qmlDirectory() + "/graphics/applicationIcons/dash.png");
+            return QString("../../tests/graphics/applicationIcons/dash.png");
         case RoleMascot:
         case RoleEmblem:
         case RoleSummary:

@@ -29,7 +29,7 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_appId(appId),
     m_desktopFile(desktopFile),
     m_name(name),
-    m_icon(qmlDirectory() + "/graphics/applicationIcons/" + icon + ".png"),
+    m_icon("../../tests/graphics/applicationIcons/" + icon + ".png"),
     m_pinned(false),
     m_running(false),
     m_recent(false),
