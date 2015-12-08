@@ -92,6 +92,9 @@ public:
     bool isTouchApp() const override;
     void setIsTouchApp(bool isTouchApp); // only in mock
 
+    bool exemptFromLifecycle() const override;
+    void setExemptFromLifecycle(bool) override;
+
 public:
     void setSession(Session* session);
     Session* session() const { return m_session; }
@@ -125,6 +128,7 @@ private:
     bool m_rotatesWindowContents;
     RequestedState m_requestedState;
     bool m_isTouchApp;
+    bool m_exemptFromLifecycle;
 
     bool m_manualSurfaceCreation;
 };

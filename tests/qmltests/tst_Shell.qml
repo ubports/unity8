@@ -1857,21 +1857,28 @@ Rectangle {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
 
+            // Add two main stage apps, the second in order to suspend the first.
+            // LibreOffice has isTouchApp set to false by our mocks.
             var app1 = ApplicationManager.startApplication("libreoffice");
             waitUntilAppWindowIsFullyLoaded(app1);
-            var app2 = ApplicationManager.startApplication("dialer-app");
+            var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
-            // Make sure app1 is unfocused but still running
-            compare(app1.session.lastSurface.activeFocus, false);
-            compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
-            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+            // Sanity checking
+            compare(app1.stage, ApplicationInfoInterface.MainStage);
+            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            verify(!app1.isTouchApp);
+            verify(!app1.session.lastSurface.activeFocus);
+
+            // Make sure app1 is exempt with a requested suspend
+            verify(app1.exemptFromLifecycle);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
         function test_lifecyclePolicyExemption_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
-                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"}
             ]
         }
 
@@ -1881,14 +1888,20 @@ Rectangle {
 
             GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
 
+            // Add two main stage apps, the second in order to suspend the first
             var app1 = ApplicationManager.startApplication("webbrowser-app");
             waitUntilAppWindowIsFullyLoaded(app1);
-            var app2 = ApplicationManager.startApplication("dialer-app");
+            var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
-            // Make sure app1 is unfocused but still running
-            compare(app1.session.lastSurface.activeFocus, false);
-            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+            // Sanity checking
+            compare(app1.stage, ApplicationInfoInterface.MainStage);
+            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            verify(!app1.session.lastSurface.activeFocus);
+
+            // Make sure app1 is exempt with a requested suspend
+            verify(app1.exemptFromLifecycle);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
         function test_switchToStagedForcesLegacyAppClosing_data() {

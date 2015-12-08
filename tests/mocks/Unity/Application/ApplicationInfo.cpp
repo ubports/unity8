@@ -42,6 +42,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
     , m_isTouchApp(true)
+    , m_exemptFromLifecycle(false)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -60,6 +61,7 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_rotatesWindowContents(false)
     , m_requestedState(RequestedRunning)
     , m_isTouchApp(true)
+    , m_exemptFromLifecycle(false)
     , m_manualSurfaceCreation(false)
 {
 }
@@ -261,5 +263,19 @@ void ApplicationInfo::onSessionSurfaceAdded(MirSurface* surface)
         } else {
             setState(Suspended);
         }
+    }
+}
+
+bool ApplicationInfo::exemptFromLifecycle() const
+{
+    return m_exemptFromLifecycle;
+}
+
+void ApplicationInfo::setExemptFromLifecycle(bool exemptFromLifecycle)
+{
+    if (m_exemptFromLifecycle != exemptFromLifecycle)
+    {
+        m_exemptFromLifecycle = exemptFromLifecycle;
+        Q_EMIT exemptFromLifecycleChanged(m_exemptFromLifecycle);
     }
 }
