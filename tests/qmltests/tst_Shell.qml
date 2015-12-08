@@ -1730,6 +1730,7 @@ Rectangle {
             tryCompare(desktopSpread, "state", "altTab")
 
             revealLauncherByEdgePushWithMouse();
+            tryCompare(launcher, "x", 0);
             waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
