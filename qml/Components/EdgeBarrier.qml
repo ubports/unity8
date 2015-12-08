@@ -59,7 +59,7 @@ Item {
 
         visible: positionProgress > 0
 
-        width: units.gu(2)
+        width: units.gu(1)
     }
 
     EdgeBarrierController {

@@ -465,7 +465,7 @@ AbstractStage {
     Rectangle {
         id: spreadBackground
         anchors.fill: parent
-        color: "#55000000"
+        color: "#B3000000"
         visible: false
     }
 
