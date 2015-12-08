@@ -22,9 +22,12 @@
 #include "launchermodelas.h"
 #include "AccountsServiceDBusAdaptor.h"
 
+#include <QDBusInterface>
+#include <QDBusMetaType>
+#include <QDBusReply>
+#include <QSignalSpy>
 #include <QtTest>
 
-QHash<QString, QList<QVariantMap>> mockProperties;
 
 class LauncherModelASTest : public QObject
 {
@@ -32,8 +35,14 @@ class LauncherModelASTest : public QObject
 
 private:
     LauncherModel *launcherModel;
+    QStringList users;
+    QHash<QString, QList<QVariantMap>> mockProperties;
 
 private Q_SLOTS:
+
+    void initTestCase() {
+        qDBusRegisterMetaType<QList<QVariantMap>>();
+    }
 
     void init() {
         // Prepare some fake list
@@ -50,7 +59,63 @@ private Q_SLOTS:
         item["id"] = "appId2";
         item["name"] = "Item 2";
         list.append(item);
-        mockProperties["user1"] = list;
+        setASLauncherItems("user1", list);
+    }
+
+    void cleanup() {
+        Q_FOREACH(QString user, users) {
+            QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
+                                             QStringLiteral("/org/freedesktop/Accounts"),
+                                             QStringLiteral("org.freedesktop.Accounts"));
+            QDBusReply<bool> removeReply = accountsInterface.call(QStringLiteral("RemoveUser"),
+                                                                  user);
+            QVERIFY(removeReply.isValid());
+            QCOMPARE(removeReply.value(), true);
+        }
+
+        users.clear();
+        mockProperties.clear();
+    }
+
+    void addASUser(const QString &user)
+    {
+        QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
+                                         QStringLiteral("/org/freedesktop/Accounts"),
+                                         QStringLiteral("org.freedesktop.Accounts"));
+        QDBusReply<bool> addReply = accountsInterface.call(QStringLiteral("AddUser"),
+                                                           user);
+        QVERIFY(addReply.isValid());
+        QCOMPARE(addReply.value(), true);
+
+        users << user;
+        mockProperties[user] = QList<QVariantMap>();
+    }
+
+    void setASLauncherItems(const QString &user, const QList<QVariantMap> &items)
+    {
+        if (!users.contains(user)) {
+            addASUser(user);
+        }
+
+        QDBusInterface userInterface(QStringLiteral("org.freedesktop.Accounts"),
+                                     QString("/%1").arg(user),
+                                     QStringLiteral("org.freedesktop.DBus.Properties"));
+
+        QVariant wrapped = QVariant::fromValue(QDBusVariant(QVariant::fromValue(items)));
+        QDBusReply<void> setReply = userInterface.call(QStringLiteral("Set"),
+                                                       QStringLiteral("com.canonical.unity.AccountsService"),
+                                                       QStringLiteral("LauncherItems"),
+                                                       wrapped);
+        QVERIFY(setReply.isValid());
+
+        // Record what we set for comparison's sake
+        mockProperties[user] = items;
+    }
+
+    void setUser(LauncherModel *model, const QString &user) {
+        QSignalSpy spy(model, &QAbstractItemModel::rowsInserted);
+        model->setUser(user);
+        QTRY_COMPARE(spy.count(), mockProperties[user].count());
     }
 
     bool isInSync(LauncherModel *model, const QList<QVariantMap> &properties) {
@@ -81,7 +146,7 @@ private Q_SLOTS:
         // We didn't set a user yet. model should be empty
         QCOMPARE(model->rowCount(), 0);
 
-        model->setUser("user1");
+        setUser(model, "user1");
 
         QCOMPARE(isInSync(model, mockProperties["user1"]), true);
         model->deleteLater();
@@ -102,7 +167,7 @@ private Q_SLOTS:
         QFETCH(bool, inSync);
 
         LauncherModel* model = new LauncherModel(this);
-        model->setUser(modelUser);
+        setUser(model, modelUser);
 
         int oldCount = mockProperties[modelUser].count();
         QCOMPARE(model->rowCount(), oldCount);
@@ -117,17 +182,17 @@ private Q_SLOTS:
         newEntry.insert("countVisible", false);
         newEntry.insert("pinned", true);
         newList.append(newEntry);
-        model->m_accounts->simulatePropertyChange(changedUser, "LauncherItems", QVariant::fromValue(newList));
+        setASLauncherItems(changedUser, newList);
 
-        QCOMPARE(isInSync(model, mockProperties[modelUser]), true);
-        QCOMPARE(isInSync(model, mockProperties[changedUser]), inSync);
+        QTRY_COMPARE(isInSync(model, mockProperties[modelUser]), true);
+        QTRY_COMPARE(isInSync(model, mockProperties[changedUser]), inSync);
 
         model->deleteLater();
     }
 
     void testUpdateCount() {
         LauncherModel* model = new LauncherModel(this);
-        model->setUser("user1");
+        setUser(model, "user1");
 
         QCOMPARE(model->get(0)->countVisible(), false);
         QCOMPARE(model->get(0)->count(), 0);
@@ -137,34 +202,34 @@ private Q_SLOTS:
         entry["countVisible"] = true;
         entry["count"] = 55;
         newList[0] = entry;
-        model->m_accounts->simulatePropertyChange("user1", "LauncherItems", QVariant::fromValue(newList));
+        setASLauncherItems("user1", newList);
 
-        QCOMPARE(isInSync(model, mockProperties["user1"]), true);
+        QTRY_COMPARE(isInSync(model, mockProperties["user1"]), true);
 
         model->deleteLater();
     }
 
     void testOnlyPinned() {
         LauncherModel *model = new LauncherModel(this);
-        model->setUser("user1");
+        setUser(model, "user1");
         model->setOnlyPinned(true);
 
-        QCOMPARE(isInSync(model, mockProperties["user1"]), true);
+        QTRY_COMPARE(isInSync(model, mockProperties["user1"]), true);
 
         // Let's unpin one item
         QList<QVariantMap> newList = mockProperties["user1"];
         QVariantMap entry = newList.at(0);
         entry["pinned"] = false;
         newList[0] = entry;
-        model->m_accounts->simulatePropertyChange("user1", "LauncherItems", QVariant::fromValue(newList));
-        QCOMPARE(isInSync(model, mockProperties["user1"]), true);
+        setASLauncherItems("user1", newList);
+        QTRY_COMPARE(isInSync(model, mockProperties["user1"]), true);
 
         // Now toggle onlyPinned and make sure the model keeps up
         model->setOnlyPinned(false);
-        QCOMPARE(isInSync(model, mockProperties["user1"]), true);
+        QTRY_COMPARE(isInSync(model, mockProperties["user1"]), true);
 
         model->setOnlyPinned(true);
-        QCOMPARE(isInSync(model, mockProperties["user1"]), true);
+        QTRY_COMPARE(isInSync(model, mockProperties["user1"]), true);
     }
 };
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-10-19 14:34+0100\n"
+"POT-Creation-Date: 2015-11-20 14:45+0100\n"
 "PO-Revision-Date: 2015-07-04 05:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-11-07 05:13+0000\n"
-"X-Generator: Launchpad (build 17838)\n"
+"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -35,86 +35,6 @@ msgstr "Вийти"
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
 msgstr "Розблокувати кнопку"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:157
-msgid "Yesterday %l:%M %p"
-msgstr "Вчора %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened today.
-#. en_US example: "%l:%M %p" --> "1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:164
-msgid "%l:%M %p"
-msgstr "%H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:172
-msgid "Tomorrow %l:%M %p"
-msgstr "Взавтра %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%l:%M %p" --> "Fri  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:181
-msgid "%a %l:%M %p"
-msgstr "%a %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 12-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%l:%M %p" --> "Fri Oct 31  1:00 PM"
-#. en_GB example: "%a %d %b\u2003%l:%M %p" --> "Fri 31 Oct  1:00 PM"
-#: plugins/Utils/relativetimeformatter.cpp:190
-msgid "%a %d %b %l:%M %p"
-msgstr "%a, %b %d %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happen yesterday.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Yesterday\u2003%l:%M %p" --> "Yesterday  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:201
-msgid "Yesterday %H:%M"
-msgstr "Вчора %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened today.
-#. en_US example: "%H:%M" --> "13:00"
-#: plugins/Utils/relativetimeformatter.cpp:208
-msgid "%H:%M"
-msgstr "%H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, events/appointments that happen tomorrow.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "Tomorrow\u2003%l:%M %p" --> "Tomorrow  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:216
-msgid "Tomorrow %H:%M"
-msgstr "Взавтра %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened in the last week.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a\u2003%H:%M" --> "Fri  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:225
-msgid "%a %H:%M"
-msgstr "%a %H:%M"
-
-#. Translators, please edit/rearrange these strftime(3) tokens to suit your locale!
-#. This format string is used for showing, on a 24-hour clock, times that happened before a week from now.
-#. (\u2003 is a unicode em space which is slightly wider than a normal space.)
-#. en_US example: "%a %b %d\u2003%H:%M" --> "Fri Oct 31  13:00"
-#. en_GB example: "%a %d %b\u2003%H:%M" --> "Fri 31 Oct  13:00"
-#: plugins/Utils/relativetimeformatter.cpp:234
-msgid "%a %d %b %H:%M"
-msgstr "%a, %b %d %H:%M"
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
@@ -140,72 +60,72 @@ msgstr[0] "Зачекайте %1 хвилину і повторіть спроб
 msgstr[1] "Зачекайте %1 хвилини і повторіть спробу…"
 msgstr[2] "Зачекайте %1 хвилин і повторіть спробу…"
 
-#: qml/Components/Dialogs.qml:115
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Вийти"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Ви справді хочете вийти?"
 
-#: qml/Components/Dialogs.qml:118
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Заблокувати"
 
-#: qml/Components/Dialogs.qml:125
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Вийти"
 
-#: qml/Components/Dialogs.qml:132 qml/Components/Dialogs.qml:165
-#: qml/Components/Dialogs.qml:224
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: qml/Components/Dialogs.qml:144
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Вимкнути"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "Ви справді хочете вимкнути пристрій?"
 
-#: qml/Components/Dialogs.qml:147
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Перезавантажити"
 
-#: qml/Components/Dialogs.qml:156
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Вимкнути"
 
-#: qml/Components/Dialogs.qml:178
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Перезавантажити"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "Ви справді хочете перезавантажити пристрій?"
 
-#: qml/Components/Dialogs.qml:181
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "Ні"
 
-#: qml/Components/Dialogs.qml:188
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "Так"
 
-#: qml/Components/Dialogs.qml:203
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Живлення"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -213,12 +133,12 @@ msgstr ""
 "Ви справді хочете вимкнути\n"
 "живлення?"
 
-#: qml/Components/Dialogs.qml:206
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Вимкнути"
 
-#: qml/Components/Dialogs.qml:215
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Перезапустити"
@@ -235,6 +155,53 @@ msgstr "Терміновий виклик"
 msgid "OK"
 msgstr "Гаразд"
 
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr ""
+
+#: qml/Dash/DashPageHeader.qml:265
+msgctxt "Button: Open the Ubuntu Store"
+msgid "Store"
+msgstr "Крамниця"
+
+#: qml/Dash/DashPageHeader.qml:272
+msgctxt "Button: Start a search in the current dash scope"
+msgid "Search"
+msgstr "Пошук"
+
+#: qml/Dash/DashPageHeader.qml:282
+msgctxt "Button: Show the current dash scope settings"
+msgid "Settings"
+msgstr "Параметри"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Remove from Favorites"
+msgstr "Вилучити з вибраного"
+
+#: qml/Dash/DashPageHeader.qml:289
+msgid "Add to Favorites"
+msgstr "Додати до вибраного"
+
 #: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
 msgid "See less"
 msgstr "Стисліше"
@@ -248,29 +215,6 @@ msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Пошук"
 
-#: qml/Dash/PageHeader.qml:269
-msgctxt "Button: Open the Ubuntu Store"
-msgid "Store"
-msgstr "Крамниця"
-
-#: qml/Dash/PageHeader.qml:276
-msgctxt "Button: Start a search in the current dash scope"
-msgid "Search"
-msgstr "Пошук"
-
-#: qml/Dash/PageHeader.qml:286
-msgctxt "Button: Show the current dash scope settings"
-msgid "Settings"
-msgstr "Параметри"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Remove from Favorites"
-msgstr "Вилучити з вибраного"
-
-#: qml/Dash/PageHeader.qml:293
-msgid "Add to Favorites"
-msgstr "Додати до вибраного"
-
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
 msgstr "Більше…"
@@ -281,8 +225,6 @@ msgstr "Менше..."
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:174
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:148
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:205
 msgid "Send"
 msgstr "Надіслати"
 
@@ -296,7 +238,7 @@ msgstr "Додати рецензію"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Попередній перегляд спільного запису"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -321,6 +263,10 @@ msgstr "Домівка"
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
 msgstr "Також встановлено"
+
+#: qml/DisabledScreenNotice.qml:42
+msgid "Your device is now connected to an external display."
+msgstr "Ваш пристрій з’єднано із зовнішнім дисплеєм."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -393,7 +339,7 @@ msgstr "Введіть ще раз"
 msgid "Sorry, incorrect passcode"
 msgstr "Вибачте, помилковий код-пароль"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:128
+#: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
 msgstr "Показати пароль"
 
@@ -405,11 +351,11 @@ msgstr "Торкніться, щоб повернутися до дзвінка�
 msgid "Conference"
 msgstr "Конференція"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:727
+#: qml/Panel/Indicators/MenuItemFactory.qml:731
 msgid "Nothing is playing"
 msgstr "Нічого не відтворюється"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:856
+#: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -417,7 +363,7 @@ msgstr[0] "%1 година"
 msgstr[1] "%1 години"
 msgstr[2] "%1 годин"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:860
+#: qml/Panel/Indicators/MenuItemFactory.qml:864
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -425,7 +371,7 @@ msgstr[0] "%1 хвилина"
 msgstr[1] "%1 хвилини"
 msgstr[2] "%1 хвилин"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:865
+#: qml/Panel/Indicators/MenuItemFactory.qml:869
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -433,46 +379,53 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунди"
 msgstr[2] "%1 секунд"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:868
+#: qml/Panel/Indicators/MenuItemFactory.qml:872
 msgid "0 seconds"
 msgstr "0 секунд"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:870
+#: qml/Panel/Indicators/MenuItemFactory.qml:874
 #, qt-format
 msgid "%1 remaining"
 msgstr "Залишилося %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:880
 msgid "In queue…"
 msgstr "У черзі…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:880
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "Downloading"
 msgstr "Отримуємо"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Paused, tap to resume"
 msgstr "Призупинено, торкніться, щоб поновити"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Canceled"
 msgstr "Скасовано"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 msgid "Finished"
 msgstr "Завершено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:888
+#: qml/Panel/Indicators/MenuItemFactory.qml:892
 msgid "Failed, tap to retry"
 msgstr "Помилка, торкніться, щоб повторити спробу"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:149
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
+msgctxt "Button: Send a reply message"
+msgid "Send"
+msgstr "Надіслати"
+
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
 msgstr "Відповісти"
 
-#: qml/Panel/Indicators/MessageMenuItemFactory.qml:204
+#: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
+msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Зворотний виклик"
 
@@ -556,7 +509,7 @@ msgstr "Почнімо."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:50 qml/Wizard/Pages/passwd-confirm.qml:82
+#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
 msgstr "Продовжити"
@@ -659,11 +612,11 @@ msgid "You can change your mind later in <b>System Settings</b>."
 msgstr ""
 "Згодом змінити налаштування можна за допомогою <b>Системних параметрів</b>."
 
-#: qml/Wizard/Pages/60-reporting.qml:24
+#: qml/Wizard/Pages/60-reporting.qml:26
 msgid "Improving your experience"
 msgstr "Спрощення вашої роботи"
 
-#: qml/Wizard/Pages/60-reporting.qml:36
+#: qml/Wizard/Pages/60-reporting.qml:46
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
@@ -671,7 +624,7 @@ msgstr ""
 "Ваш телефон налаштовано на автоматичне надсилання звітів щодо помилок до "
 "Canonical та партнерських установ, виробників операційної системи."
 
-#: qml/Wizard/Pages/60-reporting.qml:43
+#: qml/Wizard/Pages/60-reporting.qml:53
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
@@ -828,3 +781,36 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Ввведіть ще раз"
+
+#~ msgid "%a %d %b %H:%M"
+#~ msgstr "%a, %b %d %H:%M"
+
+#~ msgid "%a %H:%M"
+#~ msgstr "%a %H:%M"
+
+#~ msgid "%a %l:%M %p"
+#~ msgstr "%a %H:%M"
+
+#~ msgid "Tomorrow %l:%M %p"
+#~ msgstr "Взавтра %H:%M"
+
+#~ msgid "%l:%M %p"
+#~ msgstr "%H:%M"
+
+#~ msgid "Yesterday %l:%M %p"
+#~ msgstr "Вчора %H:%M"
+
+#~ msgid "Tomorrow %H:%M"
+#~ msgstr "Взавтра %H:%M"
+
+#~ msgid "%H:%M"
+#~ msgstr "%H:%M"
+
+#~ msgid "Yesterday %H:%M"
+#~ msgstr "Вчора %H:%M"
+
+#~ msgid "%a %d %b %l:%M %p"
+#~ msgstr "%a, %b %d %H:%M"
+
+#~ msgid "Call back"
+#~ msgstr "Зворотний виклик"

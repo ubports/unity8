@@ -17,11 +17,12 @@
 import QtQuick 2.4
 import QtTest 1.0
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Components.ListItems 1.3
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
 
+import ".." // For EdgeBarrierControls
 import "../../../qml/Stages"
 import "../../../qml/Components"
 
@@ -46,8 +47,8 @@ Item {
         WindowStateStorage.geometry = {
             'unity8-dash': Qt.rect(0, units.gu(3), units.gu(50), units.gu(40)),
             'dialer-app': Qt.rect(units.gu(51), units.gu(3), units.gu(50), units.gu(40)),
-            'camera-app': Qt.rect(0, units.gu(44), units.gu(50), units.gu(40)),
-            'gallery-app': Qt.rect(units.gu(51), units.gu(44), units.gu(50), units.gu(40))
+            'gmail-webapp': Qt.rect(0, units.gu(44), units.gu(50), units.gu(40)),
+            'twitter-webapp': Qt.rect(units.gu(51), units.gu(44), units.gu(50), units.gu(40))
         }
     }
 
@@ -65,6 +66,10 @@ Item {
             DesktopStage {
                 color: "darkblue"
                 anchors.fill: parent
+
+                Component.onCompleted: {
+                    edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
+                }
                 Component.onDestruction: {
                     desktopStageLoader.itemDestroyed = true;
                 }
@@ -86,6 +91,28 @@ Item {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
+
+            Button {
+                color: "white"
+                text: "Make surface slow to resize"
+                activeFocusOnPress: false
+                onClicked: {
+                    if (ApplicationManager.focusedApplicationId) {
+                        var surface = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).session.surface;
+                        surface.slowToResize = true;
+                    }
+                }
+            }
+
+            EdgeBarrierControls {
+                id: edgeBarrierControls
+                text: "Drag here to pull out spread"
+                backgroundColor: "blue"
+                onDragged: { desktopStageLoader.item.pushRightEdge(amount); }
+            }
+
+            Divider {}
+
             Repeater {
                 model: ApplicationManager.availableApplications
                 ApplicationCheckBox {
@@ -155,10 +182,7 @@ Item {
         }
 
         function test_appFocusSwitch(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
 
             ApplicationManager.requestFocusApplication(data.apps[data.focusfrom]);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
@@ -169,16 +193,13 @@ Item {
 
         function test_tappingOnWindowChangesFocusedApp_data() {
             return [
-                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
         function test_tappingOnWindowChangesFocusedApp(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
             var fromAppId = data.apps[data.focusfrom];
             var toAppId = data.apps[data.focusTo]
 
@@ -195,34 +216,161 @@ Item {
             compare(ApplicationManager.focusedApplicationId, toAppId);
         }
 
+        function test_clickingOnWindowChangesFocusedApp_data() {
+            return test_tappingOnWindowChangesFocusedApp_data(); // reuse test data
+        }
+
+        function test_clickingOnWindowChangesFocusedApp(data) {
+            data.apps.forEach(startApplication);
+            var fromAppId = data.apps[data.focusfrom];
+            var toAppId = data.apps[data.focusTo]
+
+            var fromAppWindow = findChild(desktopStage, "appWindow_" + fromAppId);
+            verify(fromAppWindow);
+            mouseClick(fromAppWindow);
+            compare(fromAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, fromAppId);
+
+            var toAppWindow = findChild(desktopStage, "appWindow_" + toAppId);
+            verify(toAppWindow);
+            mouseClick(toAppWindow);
+            compare(toAppWindow.application.session.surface.activeFocus, true);
+            compare(ApplicationManager.focusedApplicationId, toAppId);
+        }
+
         function test_tappingOnDecorationFocusesApplication_data() {
             return [
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 0, focusTo: 1 },
-                {tag: "dash", apps: [ "unity8-dash", "dialer-app", "camera-app" ], focusfrom: 1, focusTo: 0 },
+                {tag: "dash to dialer", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 0, focusTo: 1 },
+                {tag: "dialer to dash", apps: [ "unity8-dash", "dialer-app", "gmail-webapp"], focusfrom: 1, focusTo: 0 }
             ]
         }
 
         function test_tappingOnDecorationFocusesApplication(data) {
-            var i;
-            for (i = 0; i < data.apps.length; i++) {
-                startApplication(data.apps[i]);
-            }
+            data.apps.forEach(startApplication);
 
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
             tap(fromAppDecoration);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+            var fromApp = ApplicationManager.findApplication(data.apps[data.focusfrom]);
+            verify(fromApp);
+            tryCompare(fromApp.session.surface, "activeFocus", true);
 
             var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
             verify(toAppDecoration);
             tap(toAppDecoration);
+            var toApp = ApplicationManager.findApplication(data.apps[data.focusTo]);
+            verify(toApp);
+            tryCompare(toApp.session.surface, "activeFocus", true);
+        }
+
+        function test_clickingOnDecorationFocusesApplication_data() {
+            return test_tappingOnDecorationFocusesApplication_data(); // reuse test data
+        }
+
+        function test_clickingOnDecorationFocusesApplication(data) {
+            data.apps.forEach(startApplication);
+
+            var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
+            verify(fromAppDecoration);
+            mouseClick(fromAppDecoration);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+
+            var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
+            verify(toAppDecoration);
+            mouseClick(toAppDecoration);
             tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+        }
+
+        function test_windowMaximize() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Up, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Up shortcut to maximize
+            tryCompare(appDelegate, "maximized", true);
+            tryCompare(appDelegate, "minimized", false);
+        }
+
+        function test_windowMaximizeLeft() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Left, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Left shortcut to maximizeLeft
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", false);
+            tryCompare(appDelegate, "maximizedLeft", true);
+            tryCompare(appDelegate, "maximizedRight", false);
+        }
+
+        function test_windowMaximizeRight() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Right shortcut to maximizeRight
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", false);
+            tryCompare(appDelegate, "maximizedLeft", false);
+            tryCompare(appDelegate, "maximizedRight", true);
+        }
+
+        function test_windowMinimize() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_Down, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Down shortcut to minimize
+            tryCompare(appDelegate, "maximized", false);
+            tryCompare(appDelegate, "minimized", true);
+            verify(ApplicationManager.focusedApplicationId != ""); // verify we don't lose focus when minimizing an app
+        }
+
+        function test_windowMinimizeAll() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            keyClick(Qt.Key_D, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+D shortcut to minimize all
+            tryCompare(ApplicationManager, "focusedApplicationId", ""); // verify no app is focused
+        }
+
+        function test_windowClose() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            var appName = "dialer-app";
+            var appDelegate = findChild(desktopStage, "appDelegate_" + appName);
+            verify(appDelegate);
+            ApplicationManager.focusApplication(appName);
+            keyClick(Qt.Key_F4, Qt.AltModifier); // Alt+F4 shortcut to close
+            verify(ApplicationManager.count == 2); // verify the app is gone
+            verify(ApplicationManager.findApplication(appName) === null); // and it's not in running apps
+        }
+
+        function test_smashCursorKeys() {
+            var apps = ["unity8-dash", "dialer-app", "camera-app"];
+            apps.forEach(startApplication);
+            verify(ApplicationManager.count == 3);
+            keyClick(Qt.Key_D, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+D shortcut to minimize all
+            tryCompare(ApplicationManager, "focusedApplicationId", ""); // verify no app is focused
+
+            // now try pressing all 4 arrow keys + ctrl + meta
+            keyClick(Qt.Key_Up | Qt.Key_Down | Qt.Key_Left | Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // smash it!!!
+            tryCompare(ApplicationManager, "focusedApplicationId", ""); // verify still no app is focused
         }
 
         function test_minimizeApplicationHidesSurface() {
             var dashApp = startApplication("unity8-dash");
 
-            var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
+            var dashDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
             verify(dashDelegate);
 
             findChild(dashDelegate, "decoratedWindow").minimize();
@@ -232,59 +380,83 @@ Item {
         function test_maximizeApplicationHidesSurfacesBehindIt() {
             var dashApp = startApplication("unity8-dash");
             var dialerApp = startApplication("dialer-app");
-            var cameraApp = startApplication("camera-app");
+            var gmailApp = startApplication("gmail-webapp");
 
-            var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
+            var dashDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
             verify(dashDelegate);
-            var dialerDelegate = findChild(desktopStage, "stageDelegate_dialer-app");
+            var dialerDelegate = findChild(desktopStage, "appDelegate_dialer-app");
             verify(dialerDelegate);
-            var cameraDelegate = findChild(desktopStage, "stageDelegate_camera-app");
-            verify(cameraDelegate);
+            var gmailDelegate = findChild(desktopStage, "appDelegate_gmail-webapp");
+            verify(gmailDelegate);
 
             // maximize
-            findChild(dialerDelegate, "decoratedWindow").maximize();
+            dialerDelegate.maximize();
             tryCompare(dialerDelegate, "visuallyMaximized", true);
 
             tryCompare(dashApp.session.surface, "visible", false);
-            compare(cameraApp.session.surface.visible, true);
+            compare(gmailApp.session.surface.visible, true);
 
             // restore
-            findChild(dialerDelegate, "decoratedWindow").maximize();
+            dialerDelegate.restoreFromMaximized();
             compare(dashApp.session.surface.visible, true);
-            compare(cameraApp.session.surface.visible, true);
+            compare(gmailApp.session.surface.visible, true);
         }
 
         function test_applicationsBecomeVisibleWhenOccludingAppRemoved() {
             var dashApp = startApplication("unity8-dash");
-            var dashDelegate = findChild(desktopStage, "stageDelegate_unity8-dash");
+            var dashDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
             verify(dashDelegate);
 
             var dialerApp = startApplication("dialer-app");
-            var dialerDelegate = findChild(desktopStage, "stageDelegate_dialer-app");
+            var dialerDelegate = findChild(desktopStage, "appDelegate_dialer-app");
             verify(dialerDelegate);
 
-            var cameraApp = startApplication("camera-app");
-            var cameraDelegate = findChild(desktopStage, "stageDelegate_camera-app");
-            verify(cameraDelegate);
-            findChild(dialerDelegate, "decoratedWindow").maximize();
+            var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
+            verify(dialerMaximizeButton);
+            mouseClick(dialerMaximizeButton);
 
-            var galleryApp = startApplication("gallery-app");
-            var galleryDelegate = findChild(desktopStage, "stageDelegate_gallery-app");
-            verify(galleryDelegate);
-            findChild(galleryDelegate, "decoratedWindow").maximize();
+            var mapApp = startApplication("map");
+            var mapDelegate = findChild(desktopStage, "appDelegate_map");
+            verify(mapDelegate);
+
+            var gmailApp = startApplication("gmail-webapp");
+            var gmailDelegate = findChild(desktopStage, "appDelegate_gmail-webapp");
+            verify(gmailDelegate);
+
+            var gmailMaximizeButton = findChild(gmailDelegate, "maximizeWindowButton");
+            verify(gmailMaximizeButton);
+            mouseClick(gmailMaximizeButton);
 
             tryCompare(dialerDelegate, "visuallyMaximized", true);
-            tryCompare(galleryDelegate, "visuallyMaximized", true);
+            tryCompare(gmailDelegate, "visuallyMaximized", true);
 
             tryCompare(dashApp.session.surface, "visible", false);
             tryCompare(dialerApp.session.surface, "visible", false);
-            tryCompare(cameraApp.session.surface, "visible", false);
+            tryCompare(mapApp.session.surface, "visible", false);
 
-            ApplicationManager.stopApplication("gallery-app");
+            ApplicationManager.stopApplication("gmail-webapp");
 
-            compare(cameraApp.session.surface.visible, true);
+            compare(mapApp.session.surface.visible, true);
             tryCompare(dialerApp.session.surface, "visible", true);
             tryCompare(dashApp.session.surface, "visible", false); // still occluded by maximised dialer
+        }
+
+        function test_maximisedAppStaysVisibleWhenAppStarts() {
+            var dashApp = startApplication("unity8-dash");
+            var dashDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
+            verify(dashDelegate);
+            // maximize
+            var dashMaximizeButton = findChild(dashDelegate, "maximizeWindowButton");
+            verify(dashMaximizeButton);
+            mouseClick(dashMaximizeButton);
+            tryCompare(dashDelegate, "visuallyMaximized", true);
+
+            var dialerApp = startApplication("dialer-app");
+            var dialerDelegate = findChild(desktopStage, "appDelegate_dialer-app");
+            verify(dialerDelegate);
+
+            compare(dialerDelegate.visible, true, "Dialer should be visible");
+            compare(dashDelegate.visible, true, "Dash should still be visible");
         }
     }
 }

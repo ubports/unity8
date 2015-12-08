@@ -61,7 +61,7 @@ public:
                                                           QStringLiteral("GetSessionByPID"));
         msg << (quint32) getpid();
 
-        QDBusReply<QDBusObjectPath> reply = QDBusConnection::systemBus().asyncCall(msg);
+        QDBusReply<QDBusObjectPath> reply = QDBusConnection::systemBus().call(msg);
         if (reply.isValid()) {
             logindSessionPath = reply.value().path();
 
@@ -84,28 +84,34 @@ public:
         if (m_systemdInhibitFd.isValid())
             return;
 
-        // inhibit systemd handling of power/sleep/lid buttons
+        // inhibit systemd handling of power/sleep/hibernate buttons
         // http://www.freedesktop.org/wiki/Software/systemd/inhibit
 
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, QStringLiteral("Inhibit"));
-        msg << "handle-power-key:handle-suspend-key:handle-hibernate-key:handle-lid-switch"; // what
+        msg << "handle-power-key:handle-suspend-key:handle-hibernate-key"; // what
         msg << "Unity"; // who
         msg << "Unity8 handles power events"; // why
         msg << "block"; // mode
-        QDBusReply<QDBusUnixFileDescriptor> desc = QDBusConnection::systemBus().asyncCall(msg);
 
-        if (desc.isValid()) {
-            m_systemdInhibitFd = desc.value();
-        } else {
-            qWarning() << "failed to inhibit systemd powersave handling";
-        }
+        QDBusPendingCall pendingCall = QDBusConnection::systemBus().asyncCall(msg);
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
+        connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+            QDBusPendingReply<QDBusUnixFileDescriptor> reply = *watcher;
+            watcher->deleteLater();
+            if (reply.isError()) {
+                qWarning() << "Failed to inhibit systemd powersave handling" << reply.error().message();
+                return;
+            }
+
+            m_systemdInhibitFd = reply.value();
+        });
     }
-
 
     bool checkLogin1Call(const QString &method) const
     {
         QDBusMessage msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH, LOGIN1_IFACE, method);
-        QDBusReply<QString> reply = QDBusConnection::systemBus().asyncCall(msg);
+        QDBusReply<QString> reply = QDBusConnection::systemBus().call(msg);
         return reply.isValid() && (reply == QStringLiteral("yes") || reply == QStringLiteral("challenge"));
     }
 
@@ -117,6 +123,21 @@ public:
                                                           method);
         msg.setArguments(args);
         QDBusConnection::systemBus().asyncCall(msg);
+    }
+
+    void setActive(bool active)
+    {
+        isSessionActive = active;
+
+        Q_EMIT screensaverActiveChanged(!isSessionActive);
+
+        if (isSessionActive) {
+            screensaverActiveTimer.invalidate();
+            setIdleHint(false);
+        } else {
+            screensaverActiveTimer.start();
+            setIdleHint(true);
+        }
     }
 
     void checkActive()
@@ -133,12 +154,20 @@ public:
         msg << LOGIN1_SESSION_IFACE;
         msg << ACTIVE_KEY;
 
-        QDBusReply<QVariant> reply = QDBusConnection::systemBus().asyncCall(msg);
-        if (reply.isValid()) {
-            isSessionActive = reply.value().toBool();
-        } else {
-            qWarning() << "Failed to get Active property" << reply.error().message();
-        }
+        QDBusPendingCall pendingCall = QDBusConnection::systemBus().asyncCall(msg);
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
+        connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+            QDBusPendingReply<QVariant> reply = *watcher;
+            watcher->deleteLater();
+            if (reply.isError()) {
+                qWarning() << "Failed to get Active property" << reply.error().message();
+                return;
+            }
+
+            setActive(reply.value().toBool());
+        });
     }
 
     quint32 screensaverActiveTime() const
@@ -159,7 +188,7 @@ public:
         msg << LOGIN1_SESSION_IFACE;
         msg << IDLE_SINCE_KEY;
 
-        QDBusReply<QVariant> reply = QDBusConnection::systemBus().asyncCall(msg);
+        QDBusReply<QVariant> reply = QDBusConnection::systemBus().call(msg);
         if (reply.isValid()) {
             return reply.value().value<quint64>();
         } else {
@@ -184,22 +213,10 @@ private Q_SLOTS:
     {
         Q_UNUSED(iface)
 
-        if (changedProps.contains(ACTIVE_KEY) || invalidatedProps.contains(ACTIVE_KEY)) {
-            if (changedProps.value(ACTIVE_KEY).isValid()) {
-                isSessionActive = changedProps.value(ACTIVE_KEY).toBool();
-            } else {
-                checkActive();
-            }
-
-            Q_EMIT screensaverActiveChanged(!isSessionActive);
-
-            if (isSessionActive) {
-                screensaverActiveTimer.invalidate();
-                setIdleHint(false);
-            } else {
-                screensaverActiveTimer.start();
-                setIdleHint(true);
-            }
+        if (changedProps.contains(ACTIVE_KEY)) {
+            setActive(changedProps.value(ACTIVE_KEY).toBool());
+        } else if (invalidatedProps.contains(ACTIVE_KEY)) {
+            checkActive();
         }
     }
 
@@ -325,13 +342,22 @@ void DBusUnitySessionService::Lock()
                                                       sessionPath,
                                                       QStringLiteral("org.freedesktop.DisplayManager.Session"),
                                                       QStringLiteral("Lock"));
-    QDBusReply<void> reply = QDBusConnection::systemBus().asyncCall(msg);
-    if (!reply.isValid()) {
-        qWarning() << "Lock call failed" << reply.error().message();
-    } else {
+
+    QDBusPendingCall pendingCall = QDBusConnection::systemBus().asyncCall(msg);
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+        this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
+        if (reply.isError()) {
+            qWarning() << "Lock call failed" << reply.error().message();
+            return;
+        }
+
         // emit Locked when the call succeeds
         Q_EMIT Locked();
-    }
+    });
 }
 
 bool DBusUnitySessionService::IsLocked() const
