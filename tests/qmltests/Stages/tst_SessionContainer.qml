@@ -192,18 +192,18 @@ Rectangle {
 
             var a_session;
             while(a_session = sessions.pop()) {
-                compare(a_session.surface.activeFocus, true);
+                compare(a_session.lastSurface.activeFocus, true);
 
-                ApplicationTest.removeSurface(a_session.surface);
+                ApplicationTest.removeSurface(a_session.lastSurface);
                 ApplicationTest.removeSession(a_session);
 
                 if (sessions.length > 0) {
                     // active focus should have gone to the yongest remaining sibling
-                    var previousSiblingSurface = sessions[sessions.length - 1].surface
+                    var previousSiblingSurface = sessions[sessions.length - 1].lastSurface
                     tryCompare(previousSiblingSurface, "activeFocus", true);
                 } else {
                     // active focus should have gone to the parent surface
-                    tryCompare(sessionContainer.session.surface, "activeFocus", true);
+                    tryCompare(sessionContainer.session.lastSurface, "activeFocus", true);
                 }
             }
         }
