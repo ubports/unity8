@@ -20,7 +20,7 @@ import "../Components"
 Item {
     id: root
 
-    property Flickable list
+    property ListView list
 
     Binding {
         target: list
