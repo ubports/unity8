@@ -144,15 +144,14 @@ Item {
                 onSyncTriggered: menuModel.changeState(menuIndex, value)
             }
 
-            property var syncAction: UnityMenuAction {
+            UnityMenuAction {
                 model: menuModel
                 index: menuIndex
                 name: getExtendedProperty(extendedData, "xCanonicalSyncAction", "")
-            }
-            property int resyncState: syncAction.valid ? syncAction.state : 0
-            onResyncStateChanged: {
-                sliderPropertySync.reset();
-                sliderPropertySync.updateUserValue();
+                onStateChanged: {
+                    sliderPropertySync.reset();
+                    sliderPropertySync.updateUserValue();
+                }
             }
         }
     }
