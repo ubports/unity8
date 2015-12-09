@@ -16,7 +16,6 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import MeeGo.QOfono 0.2
 import Wizard 0.1
 
 Item {
@@ -60,31 +59,6 @@ Item {
 
     visible: false
     anchors.fill: parent
-
-    property alias modemManager: modemManager
-    property alias simManager0: simManager0
-    property alias simManager1: simManager1
-
-    OfonoManager { // need it here for the language and country detection
-        id: modemManager
-        readonly property bool gotSimCard: available && ((simManager0.ready && simManager0.present) || (simManager1.ready && simManager1.present))
-        property bool ready: false
-        onModemsChanged: {
-            ready = true;
-        }
-    }
-
-    // Ideally we would query the system more cleverly than hardcoding two
-    // sims.  But we don't yet have a more clever way.  :(
-    OfonoSimManager {
-        id: simManager0
-        modemPath: modemManager.modems.length >= 1 ? modemManager.modems[0] : ""
-    }
-
-    OfonoSimManager {
-        id: simManager1
-        modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
-    }
 
     Timer {
         id: indicatorTimer
@@ -149,7 +123,7 @@ Item {
                 name: "no-simcard"
                 height: parent.height
                 width: height
-                visible: !(simManager0.present || simManager1.present)
+                visible: !(root.simManager0.present || root.simManager1.present)
                 color: "white"
             }
 

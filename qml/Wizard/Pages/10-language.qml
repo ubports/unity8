@@ -35,10 +35,10 @@ LocalComponents.Page {
     {
         var detectedLang = "";
         // try to detect the language+country from the SIM card
-        if (simManager0.present && simManager0.preferredLanguages.length > 0) {
-            detectedLang = simManager0.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager0.mobileCountryCode);
-        } else if (simManager1.present && simManager1.preferredLanguages.length > 0) {
-            detectedLang = simManager1.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(simManager1.mobileCountryCode);
+        if (root.simManager0.present && root.simManager0.preferredLanguages.length > 0) {
+            detectedLang = root.simManager0.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(root.simManager0.mobileCountryCode);
+        } else if (root.simManager1.present && root.simManager1.preferredLanguages.length > 0) {
+            detectedLang = root.simManager1.preferredLanguages[0] + "_" + LocalePlugin.mccToCountryCode(root.simManager1.mobileCountryCode);
         } else if (plugin.currentLanguage != -1) {
             detectedLang = plugin.languageCodes[plugin.currentLanguage].split(".")[0]; // remove the encoding part, after dot (en_US.utf8 -> en_US)
         } else {
@@ -161,7 +161,7 @@ LocalComponents.Page {
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)
                 root.countryCode = plugin.languageCodes[plugin.currentLanguage].split('_')[1].split('.')[0]; // extract the country code, save it for the timezone page
 
-                if (simManager0.present || simManager1.present || root.seenSIMPage) // go to next page
+                if (root.simManager0.present || root.simManager1.present || root.seenSIMPage) // go to next page
                     pageStack.next();
                 else
                     pageStack.load(Qt.resolvedUrl("sim.qml")); // show the SIM page

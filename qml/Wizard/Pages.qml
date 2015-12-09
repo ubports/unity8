@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import MeeGo.QOfono 0.2
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
 import Wizard 0.1
@@ -35,9 +36,34 @@ Item {
     property string countryCode: "US" // default country (for the timezone page)
     property bool seenSIMPage: false // we want to see the SIM page at most once
 
+    property alias modemManager: modemManager
+    property alias simManager0: simManager0
+    property alias simManager1: simManager1
+
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
         objectName: "securityPrivacy"
+    }
+
+    OfonoManager { // need it here for the language and country detection
+        id: modemManager
+        readonly property bool gotSimCard: available && ((simManager0.ready && simManager0.present) || (simManager1.ready && simManager1.present))
+        property bool ready: false
+        onModemsChanged: {
+            ready = true;
+        }
+    }
+
+    // Ideally we would query the system more cleverly than hardcoding two
+    // sims.  But we don't yet have a more clever way.  :(
+    OfonoSimManager {
+        id: simManager0
+        modemPath: modemManager.modems.length >= 1 ? modemManager.modems[0] : ""
+    }
+
+    OfonoSimManager {
+        id: simManager1
+        modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
     }
 
     function quitWizard() {

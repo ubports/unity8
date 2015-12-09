@@ -29,25 +29,21 @@ LocalComponents.Page {
     customTitle: true
     hasBackButton: false
 
-    property bool hadSIM: simManager0.present || simManager1.present
+    property bool hadSIM: root.simManager0.present || root.simManager1.present
 
     Timer {
         id: timer
         interval: 300
         running: true
         onTriggered: {
-            print("=== SIM page: timer triggered");
-            hadSIM = simManager0.present || simManager1.present;
-            print("=== SIM page: had sim:", hadSIM);
+            hadSIM = root.simManager0.present || root.simManager1.present;
         }
     }
 
     Connections {
-        target: modemManager
+        target: root.modemManager
         onGotSimCardChanged: {
-            print("=== SIM page: SIM card inserted");
-            if (!hadSIM && modemManager.gotSimCard) { // show the restart dialog in case a SIM gets inserted
-                print("=== SIM page: showing reboot dialog");
+            if (!hadSIM && root.modemManager.gotSimCard) { // show the restart dialog in case a SIM gets inserted
                 restartDialog.visible = true;
             }
         }
