@@ -72,12 +72,6 @@ Item {
         onModemsChanged: {
             ready = true;
         }
-        onAvailableChanged: {
-            print("Modem manager available:", available);
-        }
-        onGotSimCardChanged: {
-            print("Modem has a usable SIM CARD now:", gotSimCard);
-        }
     }
 
     // Ideally we would query the system more cleverly than hardcoding two
@@ -85,17 +79,11 @@ Item {
     OfonoSimManager {
         id: simManager0
         modemPath: modemManager.modems.length >= 1 ? modemManager.modems[0] : ""
-        onPresentChanged: {
-            print("SIM CARD 1 inserted!!!", present);
-        }
     }
 
     OfonoSimManager {
         id: simManager1
         modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
-        onPresentChanged: {
-            print("SIM CARD 2 inserted!!!", present);
-        }
     }
 
     Timer {
