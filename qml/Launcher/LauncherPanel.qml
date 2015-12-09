@@ -84,7 +84,7 @@ Rectangle {
             width: parent.width
             height: units.gu(7)
             color: UbuntuColors.orange
-            property bool highlighted: root.highlightIndex == -1;
+            readonly property bool highlighted: root.highlightIndex == -1;
 
             Image {
                 objectName: "dashItem"
