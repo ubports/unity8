@@ -336,6 +336,11 @@ Item {
                 property: "altTabPressed"
                 value: physicalKeysMapper.altTabPressed
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "leftMargin"
+                value: launcher.lockedVisible ? launcher.panelWidth: 0
+            }
         }
 
         Tutorial {
@@ -552,6 +557,8 @@ Item {
             shadeBackground: !tutorial.running
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
+            panelWidth: shell.usageScenario == "desktop" ? units.gu(10) : units.gu(8)
+            lockedVisible: shell.usageScenario == "desktop"
 
             onShowDashHome: showHome()
             onDash: showDash()

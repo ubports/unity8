@@ -25,11 +25,12 @@ FocusScope {
     id: root
 
     property bool autohideEnabled: false
+    property bool lockedVisible: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
     property bool shadeBackground: true // can be used to disable background shade when launcher is visible
 
-    property int panelWidth: units.gu(8)
+    property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
@@ -54,6 +55,7 @@ FocusScope {
     signal showDashHome()
 
     onStateChanged: {
+        print("state changed", state)
         if (state == "") {
             dismissTimer.stop()
         } else {
@@ -92,12 +94,25 @@ FocusScope {
         }
     }
 
+    onLockedVisibleChanged: {
+        if (lockedVisible && state == "") {
+            print("have to show")
+            dismissTimer.stop();
+            fadeOutAnimation.stop();
+            switchToNextState("visible")
+        } else if (!lockedVisible && state == "visible") {
+            hide();
+        }
+    }
+
     function hide() {
         switchToNextState("")
     }
 
     function fadeOut() {
-        fadeOutAnimation.start();
+        if (!root.lockedVisible) {
+            fadeOutAnimation.start();
+        }
     }
 
     function switchToNextState(state) {
@@ -173,7 +188,7 @@ FocusScope {
             } else if (panel.highlightIndex >= 0) {
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
-            root.state = ""
+            root.hide();
             event.accepted = true;
             root.focus = false;
         }
@@ -207,9 +222,9 @@ FocusScope {
         objectName: "dismissTimer"
         interval: 500
         onTriggered: {
-            if (root.autohideEnabled) {
+            if (root.autohideEnabled && !root.lockedVisible) {
                 if (!panel.preventHiding) {
-                    root.state = ""
+                    root.hide();
                 } else {
                     dismissTimer.restart()
                 }
@@ -227,6 +242,13 @@ FocusScope {
         interval: 1
         property string nextState: ""
         onTriggered: {
+            if (root.lockedVisible && nextState == "") {
+                // Due to binding updates when switching between modes
+                // it could happen that our request to show will be overwritten
+                // with a hide request. Rewrite it when we know hiding is not allowed.
+                nextState = "visible"
+            }
+
             // switching to an intermediate state here to make sure all the
             // values are restored, even if we were already in the target state
             root.state = "tmp"
@@ -262,6 +284,7 @@ FocusScope {
             script: {
                 panel.layer.enabled = false
                 panel.animate = false;
+                print("setting state to \"\"")
                 root.state = "";
                 panel.x = -panel.width
                 panel.opacity = 1;
@@ -298,10 +321,10 @@ FocusScope {
             right: parent.right
             bottom: parent.bottom
         }
-        enabled: root.shadeBackground && root.state == "visible"
+        enabled: root.shadeBackground && root.state == "visible" && !root.lockedVisible
         visible: enabled // otherwise it will get in the way of cursor selection for some reason
         onPressed: {
-            root.state = ""
+            root.hide();
         }
     }
 
@@ -309,7 +332,7 @@ FocusScope {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.shadeBackground && root.state == "visible" ? 0.6 : 0
+        opacity: root.shadeBackground && root.state == "visible" && !root.lockedVisible ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
@@ -352,11 +375,11 @@ FocusScope {
         property bool animate: true
 
         onApplicationSelected: {
-            root.state = ""
+            root.hide();
             launcherApplicationSelected(appId)
         }
         onShowDashHome: {
-            root.state = ""
+            root.hide();
             root.showDashHome();
         }
 

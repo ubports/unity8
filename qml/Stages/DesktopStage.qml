@@ -219,11 +219,13 @@ AbstractStage {
         id: appContainer
         objectName: "appContainer"
         anchors.fill: parent
+        anchors.leftMargin: root.leftMargin
         focus: spread.state !== "altTab"
 
         CrossFadeImage {
             id: wallpaper
             anchors.fill: parent
+            anchors.leftMargin: -root.leftMargin
             source: root.background
             sourceSize { height: root.height; width: root.width }
             fillMode: Image.PreserveAspectCrop
@@ -354,7 +356,7 @@ AbstractStage {
                         PropertyChanges {
                             target: appDelegate;
                             x: 0; y: 0;
-                            requestedWidth: root.width; requestedHeight: root.height;
+                            requestedWidth: appContainer.width; requestedHeight: appContainer.height;
                             visuallyMinimized: false;
                             visuallyMaximized: true
                         }
@@ -362,12 +364,12 @@ AbstractStage {
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
                         PropertyChanges { target: appDelegate; x: 0; y: PanelState.panelHeight;
-                            requestedWidth: root.width/2; requestedHeight: root.height - PanelState.panelHeight }
+                            requestedWidth: appContainer.width/2; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.width/2; y: PanelState.panelHeight;
-                            requestedWidth: root.width/2; requestedHeight: root.height - PanelState.panelHeight }
+                        PropertyChanges { target: appDelegate; x: appContainer.width/2; y: PanelState.panelHeight;
+                            requestedWidth: appContainer.width/2; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -430,8 +432,8 @@ AbstractStage {
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
-                    screenWidth: root.width
-                    screenHeight: root.height
+                    screenWidth: appContainer.width
+                    screenHeight: appContainer.height
 
                     onPressed: { ApplicationManager.focusApplication(model.appId) }
                 }

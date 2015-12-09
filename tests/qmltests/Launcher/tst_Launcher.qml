@@ -28,7 +28,7 @@ import Utils 0.1 // For EdgeBarrierSettings
    launcher. */
 Item {
     id: root
-    width: units.gu(50)
+    width: units.gu(70)
     height: units.gu(55)
 
     Loader {
@@ -79,10 +79,39 @@ Item {
         }
     }
 
+    Binding {
+        target: launcherLoader.item
+        property: "lockedVisible"
+        value: lockedVisibleCheckBox.checked
+    }
+    Binding {
+        target: launcherLoader.item
+        property: "panelWidth"
+        value: units.gu(Math.round(widthSlider.value))
+    }
+
     ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
         spacing: units.gu(1)
         width: childrenRect.width
+
+        RowLayout {
+            CheckBox {
+                id: lockedVisibleCheckBox
+                checked: false
+            }
+            Label {
+                text: "Launcher always visible"
+            }
+        }
+
+        Slider {
+            id: widthSlider
+            Layout.fillWidth: true
+            minimumValue: 6
+            maximumValue: 12
+            value: 10
+        }
 
         MouseTouchEmulationCheckbox {}
 

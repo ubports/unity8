@@ -82,13 +82,13 @@ Rectangle {
         Rectangle {
             objectName: "buttonShowDashHome"
             width: parent.width
-            height: units.gu(7)
+            height: width * .9
             color: UbuntuColors.orange
             readonly property bool highlighted: root.highlightIndex == -1;
 
             Image {
                 objectName: "dashItem"
-                width: units.gu(5)
+                width: parent.width * .6
                 height: width
                 anchors.centerIn: parent
                 source: "graphics/home.png"
@@ -124,10 +124,8 @@ Rectangle {
                     objectName: "launcherListView"
                     anchors {
                         fill: parent
-                        topMargin: -extensionSize + units.gu(0.5)
-                        bottomMargin: -extensionSize + units.gu(1)
-                        leftMargin: units.gu(0.5)
-                        rightMargin: units.gu(0.5)
+                        topMargin: -extensionSize + width * .15
+                        bottomMargin: -extensionSize + width * .15
                     }
                     topMargin: extensionSize
                     bottomMargin: extensionSize
@@ -138,6 +136,7 @@ Rectangle {
                     highlightRangeMode: ListView.ApplyRange
                     preferredHighlightBegin: (height - itemHeight) / 2
                     preferredHighlightEnd: (height + itemHeight) / 2
+                    spacing: units.gu(1)
 
                     // for the single peeking icon, when alert-state is set on delegate
                     property int peekingIndex: -1
@@ -162,11 +161,11 @@ Rectangle {
                     }
 
                     // The height of the area where icons start getting folded
-                    property int foldingStartHeight: units.gu(6.5)
+                    property int foldingStartHeight: itemHeight
                     // The height of the area where the items reach the final folding angle
                     property int foldingStopHeight: foldingStartHeight - itemHeight - spacing
-                    property int itemWidth: units.gu(7)
-                    property int itemHeight: units.gu(6.5)
+                    property int itemWidth: width * .75
+                    property int itemHeight: itemWidth * 15 / 16
                     property int clickFlickSpeed: units.gu(60)
                     property int draggedIndex: dndArea.draggedIndex
                     property real realContentY: contentY - originY + topMargin
@@ -202,13 +201,14 @@ Rectangle {
                             start();
                         }
                         function moveToIndex(index) {
-                            var itemPosition = index * launcherListView.itemHeight;
+                            var totalItemHeight = launcherListView.itemHeight + launcherListView.spacing
+                            var itemPosition = index * totalItemHeight;
                             var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
-                            var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
-                            if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
-                                moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
-                            } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
-                                moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
+                            var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : totalItemHeight
+                            if (itemPosition + totalItemHeight + distanceToEnd > launcherListView.contentY + launcherListView.originY + launcherListView.topMargin + height) {
+                                moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd - launcherListView.originY);
+                            } else if (itemPosition - distanceToEnd < launcherListView.contentY - launcherListView.originY + launcherListView.topMargin) {
+                                moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin + launcherListView.originY);
                             }
                         }
                     }
@@ -227,7 +227,7 @@ Rectangle {
                         itemIndex: index
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
-                        width: itemWidth
+                        width: parent.width
                         height: itemHeight
                         iconName: model.icon
                         count: model.count
