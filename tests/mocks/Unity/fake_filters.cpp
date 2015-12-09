@@ -33,7 +33,7 @@ Filters::Filters(Scope* parent)
     rif->setEndPostfixLabel("m");
     addFilter(rif);
 
-    QMap<int, QString> labels;
+    QMap<double, QString> labels;
     labels[15] = "Default";
     labels[50] = "50";
     labels[100] = "100";

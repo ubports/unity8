@@ -16,7 +16,7 @@
 
 #include "fake_valueslidervalues.h"
 
-FakeValueSliderValues::FakeValueSliderValues(const QMap<int, QString> &labels, QObject* parent)
+FakeValueSliderValues::FakeValueSliderValues(const QMap<double, QString> &labels, QObject* parent)
  : unity::shell::scopes::ValueSliderValuesInterface(parent)
  , m_labels(labels)
 {

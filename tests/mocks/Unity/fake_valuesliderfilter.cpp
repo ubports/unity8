@@ -17,7 +17,7 @@
 #include "fake_valuesliderfilter.h"
 #include "fake_valueslidervalues.h"
 
-FakeValueSliderFilter::FakeValueSliderFilter(const QString &id, const QString &tag, int value, int minValue, int maxValue, const QMap<int, QString> &labels, QObject* parent)
+FakeValueSliderFilter::FakeValueSliderFilter(const QString &id, const QString &tag, double value, double minValue, double maxValue, const QMap<double, QString> &labels, QObject* parent)
  : unity::shell::scopes::ValueSliderFilterInterface(parent),
    m_filterId(id),
    m_filterTag(tag),
@@ -43,12 +43,12 @@ QString FakeValueSliderFilter::title() const
     return m_title;
 }
 
-int FakeValueSliderFilter::value() const
+double FakeValueSliderFilter::value() const
 {
     return m_value;
 }
 
-void FakeValueSliderFilter::setValue(int value)
+void FakeValueSliderFilter::setValue(double value)
 {
     if (value != m_value) {
         m_value = value;
@@ -56,12 +56,12 @@ void FakeValueSliderFilter::setValue(int value)
     }
 }
 
-int FakeValueSliderFilter::minValue() const
+double FakeValueSliderFilter::minValue() const
 {
     return  m_minValue;
 }
 
-int FakeValueSliderFilter::maxValue() const
+double FakeValueSliderFilter::maxValue() const
 {
     return  m_maxValue;
 }

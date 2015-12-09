@@ -24,13 +24,13 @@ class FakeValueSliderValues : public unity::shell::scopes::ValueSliderValuesInte
     Q_OBJECT
 
 public:
-    FakeValueSliderValues(const QMap<int, QString> &labels, QObject* parent);
+    FakeValueSliderValues(const QMap<double, QString> &labels, QObject* parent);
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
 private:
-    const QMap<int, QString> m_labels;
+    const QMap<double, QString> m_labels;
 };
 
 #endif

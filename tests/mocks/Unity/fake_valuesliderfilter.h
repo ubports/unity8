@@ -24,16 +24,16 @@ class FakeValueSliderFilter : public unity::shell::scopes::ValueSliderFilterInte
     Q_OBJECT
 
 public:
-    FakeValueSliderFilter(const QString &id, const QString &tag, int value, int minValue, int maxValue, const QMap<int, QString> &labels, QObject* parent);
+    FakeValueSliderFilter(const QString &id, const QString &tag, double value, double minValue, double maxValue, const QMap<double, QString> &labels, QObject* parent);
 
     QString filterId() const override;
     QString filterTag() const override;
     QString title() const override;
 
-    int value() const override;
-    void setValue(int value) override;
-    int minValue() const override;
-    int maxValue() const override;
+    double value() const override;
+    void setValue(double value) override;
+    double minValue() const override;
+    double maxValue() const override;
     unity::shell::scopes::ValueSliderValuesInterface* values() const override;
 
     // Not part of the iface, for mock/testing purposes
@@ -46,9 +46,9 @@ private:
     QString m_filterTag;
     QString m_title;
 
-    int m_value;
-    int m_minValue;
-    int m_maxValue;
+    double m_value;
+    double m_minValue;
+    double m_maxValue;
     unity::shell::scopes::ValueSliderValuesInterface *m_values;
 };
 
