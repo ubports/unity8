@@ -21,13 +21,16 @@ import Ubuntu.SystemSettings.Diagnostics 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    id: reportCheckPage
+    id: reportingPage
     objectName: "reportingPage"
 
     title: webview.visible ? i18n.tr("Privacy Policy") : i18n.tr("Help Us Improve")
     forwardButtonSourceComponent: !webview.visible ? forwardButton : null
     customBack: true
     customTitle: webview.visible
+
+    skipValid: false
+    skip: !diagnostics.reportCrashes // skip the page when the system is configured not to report crashes
 
     onBackClicked: {
         if (webview.visible) {
@@ -40,6 +43,7 @@ LocalComponents.Page {
     UbuntuDiagnostics {
         id: diagnostics
         objectName: "diagnostics"
+        Component.onCompleted: reportingPage.skipValid = true;
     }
 
     Column {
