@@ -69,7 +69,7 @@ class AccountsService: public QObject
 public:
     enum PasswordDisplayHint {
         Keyboard,
-        Numeric
+        Numeric,
     };
 
     explicit AccountsService(QObject *parent = 0, const QString & user = QString());
