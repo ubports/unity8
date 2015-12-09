@@ -118,26 +118,26 @@ SwipeArea {
             }
         }
 
-        function limitMovement(inputStep) {
-            var targetValue = MathUtils.clamp(dragParent[targetProp] + inputStep, minValue, maxValue);
-            var step = targetValue - dragParent[targetProp];
+        function limitMovement(distance) {
+            var targetValue = MathUtils.clamp(d.startValue + distance, minValue, maxValue);
+            var diff = targetValue - d.startValue;
 
             if (hintDisplacement == 0) {
-                return step;
+                return diff;
             }
 
             // we should not go behind hintingAnimation's current value
             if (Direction.isPositive(direction)) {
-                if (dragParent[targetProp] + step < hintingAnimation.targetValue) {
-                    step = hintingAnimation.targetValue - dragParent[targetProp];
+                if (d.startValue + diff < hintingAnimation.targetValue) {
+                    diff = hintingAnimation.targetValue - d.startValue;
                 }
             } else {
-                if (dragParent[targetProp] + step > hintingAnimation.targetValue) {
-                    step = hintingAnimation.targetValue - dragParent[targetProp];
+                if (d.startValue + diff > hintingAnimation.targetValue) {
+                    diff = hintingAnimation.targetValue - d.startValue;
                 }
             }
 
-            return step;
+            return diff;
         }
 
         function onFinishedRecognizedGesture() {
@@ -179,11 +179,8 @@ SwipeArea {
     onDistanceChanged: {
         if (dragging) {
             // don't go the whole distance in order to smooth out the movement
-            var step = distance * 0.3;
-
-            step = d.limitMovement(step);
-
-            parent[d.targetProp] += step;
+            var toAdd = d.limitMovement(distance);
+            parent[d.targetProp] = d.startValue + toAdd;
         }
     }
 
