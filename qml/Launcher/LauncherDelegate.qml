@@ -130,8 +130,8 @@ Item {
 
         Image {
             objectName: "focusRing"
-            anchors.fill: parent
-            anchors.margins: units.gu(.5)
+            anchors.fill: iconShape
+            anchors.margins: -units.gu(.5)
             source: "graphics/launcher-app-focus-ring.svg"
             sourceSize.width: width
             sourceSize.height: height
