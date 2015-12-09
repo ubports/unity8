@@ -137,14 +137,14 @@ void TimeZonePopulateWorker::buildCityMap()
             tmpTz.timezone = zone;
             tmpTz.state = state;
             tmpTz.full_country = full_country;
+
+            Q_EMIT (resultReady(tmpTz));
         }
         g_free (en_name);
         g_free (country);
         g_free (zone);
         g_free (state);
         g_free (full_country);
-
-        Q_EMIT (resultReady(tmpTz));
     }
 
     g_ptr_array_free (tz_locations, TRUE);
