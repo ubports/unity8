@@ -264,7 +264,7 @@ public:
     }
 
 private:
-    QHash<QLocale::Country, QString> m_countryNames;
+    // MCC = Mobile Country Code, see https://en.wikipedia.org/wiki/Mobile_country_code
     QHash<int,QString> m_mccCodes;
 };
 
