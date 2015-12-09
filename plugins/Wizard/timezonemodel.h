@@ -40,13 +40,6 @@ public:
     };
 
     struct TzLocation {
-        bool operator<(const TzLocation &other) const
-        {
-            QString pattern("%1, %2");
-            return pattern.arg(city).arg(country) <
-                    pattern.arg(other.city).arg(other.country);
-        }
-
         QString city;
         QString country;
         QString timezone;
