@@ -59,7 +59,7 @@ LocalComponents.Page {
 
     Image {
         id: bgImage
-        source: "data/Phone Splash Screen bkg.png"
+        source: "data/Phone_splash_screen_bkg.png"
         scale: Image.PreserveAspectFit
         anchors.left: parent.left
         anchors.right: parent.right
