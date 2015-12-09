@@ -36,17 +36,17 @@ LocalComponents.Page {
 
     function showBrowser(show) {
         if (show) {
-            label1.visible = false
-            label2.visible = false
-            label3.visible = false
-            label4.visible = false
-            webview.visible = true
+            label1.visible = false;
+            label2.visible = false;
+            label3.visible = false;
+            label4.visible = false;
+            webview.visible = true;
         } else {
-            webview.visible = false
-            label1.visible = true
-            label2.visible = true
-            label3.visible = true
-            label4.visible = true
+            webview.visible = false;
+            label1.visible = true;
+            label2.visible = true;
+            label3.visible = true;
+            label4.visible = true;
         }
     }
 
@@ -106,11 +106,11 @@ LocalComponents.Page {
             font.weight: Font.Light
             lineHeight: 1.2
             linkColor: UbuntuColors.orange
-            text: i18n.tr("By continuing, you agree to the <a href=\"http://here.com/terms/service-terms\">HERE Platform Service Terms</a> " +
+            text: i18n.tr("By continuing, you agree to the HERE platform <a href=\"http://here.com/terms/service-terms\">Service Terms</a> " +
                           "and <a href=\"http://here.com/privacy/privacy-policy\">Privacy Policy</a>.");
             onLinkActivated: {
-                showBrowser(true)
-                webview.url = link
+                showBrowser(true);
+                webview.url = link;
             }
         }
 
