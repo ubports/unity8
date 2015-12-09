@@ -115,7 +115,7 @@ Item {
                 rightMargin: units.gu(.5)
             }
             height: units.gu(2)
-            spacing: units.gu(.5)
+            spacing: units.gu(1)
 
             Icon {
                 id: indicatorSim
