@@ -22,6 +22,7 @@ GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 
 GSettingsControllerQml::GSettingsControllerQml()
     : m_usageMode("Staged")
+    , m_autohideLauncher(false)
 {
 }
 
@@ -88,6 +89,19 @@ void GSettingsControllerQml::setLifecycleExemptAppids(const QStringList &appIds)
     }
 }
 
+bool GSettingsControllerQml::autohideLauncher() const
+{
+    return m_autohideLauncher;
+}
+
+void GSettingsControllerQml::setAutohideLauncher(bool autohideLauncher)
+{
+    if (m_autohideLauncher != autohideLauncher) {
+        m_autohideLauncher = autohideLauncher;
+        Q_EMIT autohideLauncherChanged(autohideLauncher);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -129,6 +143,8 @@ GSettingsQml::GSettingsQml(QObject *parent)
             this, &GSettingsQml::lockedOutTimeChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::lifecycleExemptAppidsChanged,
             this, &GSettingsQml::lifecycleExemptAppidsChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::autohideLauncherChanged,
+            this, &GSettingsQml::autohideLauncherChanged);
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -192,9 +208,25 @@ QStringList GSettingsQml::lifecycleExemptAppids() const
     }
 }
 
+bool GSettingsQml::autohideLauncher() const
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->autohideLauncher();
+    } else {
+        return false;
+    }
+}
+
 void GSettingsQml::setLifecycleExemptAppids(const QStringList &appIds)
 {
     if (m_schema->id() == "com.canonical.qtmir") {
         GSettingsControllerQml::instance()->setLifecycleExemptAppids(appIds);
+    }
+}
+
+void GSettingsQml::setAutohideLauncher(bool autohideLauncher)
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setAutohideLauncher(autohideLauncher);
     }
 }

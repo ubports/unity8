@@ -1048,5 +1048,29 @@ Item {
             compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
             compare(signalSpy.signalArguments[0][1], 2)
         }
+
+        function test_hideNotWorkingWhenLockedOut_data() {
+            return [
+                        {tag: "locked visible", locked: true},
+                        {tag: "no locked visible", locked: false},
+                    ]
+        }
+
+        function test_hideNotWorkingWhenLockedOut(data) {
+            launcher.lockedVisible = data.locked;
+            if (data.locked) {
+                tryCompare(launcher, "state", "visible");
+            } else {
+                tryCompare(launcher, "state", "");
+            }
+
+            launcher.hide();
+            waitForRendering(launcher);
+            if (data.locked) {
+                verify(launcher.state == "visible");
+            } else {
+                verify(launcher.state == "");
+            }
+        }
     }
 }

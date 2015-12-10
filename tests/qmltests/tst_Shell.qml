@@ -2035,5 +2035,24 @@ Rectangle {
             tryCompare(launcher, "state", "visible");
             tryCompare(launcher, "focus", true)
         }
+
+        function test_lockedOutLauncherShrinksStage() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var appContainer = findChild(shell, "appContainer");
+            var launcher = findChild(shell, "launcher");
+
+            GSettingsController.setAutohideLauncher(true);
+            waitForRendering(shell)
+            var hiddenSize = appContainer.width;
+
+            GSettingsController.setAutohideLauncher(false);
+            waitForRendering(shell)
+            var shownSize = appContainer.width;
+
+            compare(shownSize + launcher.panelWidth, hiddenSize);
+        }
     }
 }
