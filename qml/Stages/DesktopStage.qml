@@ -511,7 +511,7 @@ AbstractStage {
     DesktopSpread {
         id: spread
         objectName: "spread"
-        anchors.fill: parent
+        anchors.fill: appContainer
         workspace: appContainer
         focus: state == "altTab"
         altTabPressed: root.altTabPressed
