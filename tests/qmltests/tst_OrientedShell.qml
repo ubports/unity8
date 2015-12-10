@@ -1318,7 +1318,7 @@ Rectangle {
             orientedShellLoader.active = true;
 
             tryCompare(orientedShellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(orientedShellLoader.item);
+            removeTimeConstraintsFromSwipeAreas(orientedShellLoader.item);
 
             shell = findChild(orientedShell, "shell");
 

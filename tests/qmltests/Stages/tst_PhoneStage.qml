@@ -141,10 +141,8 @@ Item {
             var inactiveApp = ApplicationManager.get(1);
             wait(1000);
 
-            console.log("STARTING FLICK");
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
-            console.log("FLICK DONE");
 
             tryCompare(ApplicationManager, "focusedApplicationId", inactiveApp.appId)
 

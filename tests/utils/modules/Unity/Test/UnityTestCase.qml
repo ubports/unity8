@@ -438,26 +438,26 @@ TestCase {
         while (rootItem.parent != undefined) {
             rootItem = rootItem.parent;
         }
-        removeTimeConstraintsFromDirectionalDragAreas(rootItem);
+        removeTimeConstraintsFromSwipeAreas(rootItem);
     }
 
     /*
       In qmltests, sequences of touch events are sent all at once, unlike in "real life".
       Also qmltests might run really slowly, e.g. when run from inside virtual machines.
       Thus to remove a variable that qmltests cannot really control, namely time, this
-      function removes all constraints from DirectionalDragAreas that are sensible to
+      function removes all constraints from SwipeAreas that are sensible to
       elapsed time.
 
-      This effectively makes DirectionalDragAreas easier to fool.
+      This effectively makes SwipeAreas easier to fool.
      */
-    function removeTimeConstraintsFromDirectionalDragAreas(item) {
-
-        // use duck-typing to identify a DirectionalDragArea
-        if (item.removeTimeConstraints != undefined) {
-            item.removeTimeConstraints();
+    function removeTimeConstraintsFromSwipeAreas(item) {
+        if (UT.Util.isInstanceOf(item, "UCSwipeArea")) {
+            var privateSwipeArea = UT.Util.findQObjectChild(item, "UCSwipeAreaPrivate");
+            privateSwipeArea.setMaxTime(60 * 60 * 1000);
+            privateSwipeArea.compositionTime = 0;
         } else {
             for (var i in item.children) {
-                removeTimeConstraintsFromDirectionalDragAreas(item.children[i]);
+                removeTimeConstraintsFromSwipeAreas(item.children[i]);
             }
         }
     }

@@ -175,7 +175,7 @@ Item {
             shellLoader.active = true
 
             tryCompare(shellLoader, "status", Loader.Ready)
-            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item)
+            removeTimeConstraintsFromSwipeAreas(shellLoader.item)
         }
 
         function killApps() {

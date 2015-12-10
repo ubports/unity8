@@ -324,7 +324,7 @@ Rectangle {
             shellLoader.state = formFactor;
             shellLoader.active = true;
             tryCompare(shellLoader, "status", Loader.Ready);
-            removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
+            removeTimeConstraintsFromSwipeAreas(shellLoader.item);
             tryCompare(shell, "enabled", true); // enabled by greeter when ready
 
             sessionSpy.target = findChild(shell, "greeter")
@@ -631,7 +631,7 @@ Rectangle {
             // again before interacting with it otherwise any
             // DirectionalDragAreas in there won't be easily fooled by
             // fake swipes.
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
             swipeAwayGreeter();
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -951,7 +951,7 @@ Rectangle {
             // again before interacting with it otherwise any
             // DirectionalDragAreas in there won't be easily fooled by
             // fake swipes.
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
+            removeTimeConstraintsFromSwipeAreas(greeter);
         }
 
         function revealLauncherByEdgePushWithMouse() {

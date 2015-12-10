@@ -72,6 +72,11 @@ TouchEventSequenceWrapper *TestUtil::touchEvent(QQuickItem *item)
             QTest::touchEvent(m_targetWindow, m_touchDevice, /* autoCommit */ false), item);
 }
 
+QObject *TestUtil::findQObjectChild(QObject *object, const QString &objectName)
+{
+    return object->findChild<QObject*>(objectName);
+}
+
 void TestUtil::ensureTargetWindow()
 {
     if (!m_targetWindow && !QGuiApplication::topLevelWindows().isEmpty())
