@@ -189,7 +189,6 @@ Showable {
 
     Timer {
         id: forcedDelayTimer
-        objectName: "forcedDelayTimer"
 
         // We use a short interval and check against the system wall clock
         // because we have to consider the case that the system is suspended
