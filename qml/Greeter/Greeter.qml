@@ -216,34 +216,35 @@ Showable {
         }
 
         onTriggered: {
-            var diff = delayTarget - new Date();
-            if (diff > 0) {
-                delayMinutes = Math.ceil(diff / 60000);
-                start(); // go again
-            } else {
-                delayMinutes = 0;
-            }
-        }
-
-        function checkForForcedDelay() {
             var now = new Date();
-            delayTarget = now;
-            delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
+
+            // We're going to compare stored time to system time here.
+            // - We do this every tick (rather than just once at the start)
+            // because clock time can change while we're running. For example,
+            // ntpdate runs as an ifupdown script.
+            // - And we trust this check because if a malicious actor is able
+            // to manipulate time to avoid our lockout, there's not much we
+            // can do to stop them.
 
             // If tooEarly is true, something went very wrong.  Bug or NTP
             // misconfiguration maybe?
             var tooEarly = now.getTime() < greeterSettings.lockedOutTime;
-            var tooLate = now > delayTarget;
+            var tooLate = now >= delayTarget;
 
-            // Compare stored time to system time. If a malicious actor is
-            // able to manipulate time to avoid our lockout, they already have
-            // enough access to cause damage. So we choose to trust this check.
             if (tooEarly || tooLate) {
                 stop();
                 delayMinutes = 0;
             } else {
-                triggered();
+                var diff = delayTarget - now;
+                delayMinutes = Math.ceil(diff / 60000);
+                start(); // go again
             }
+        }
+
+        function checkForForcedDelay() {
+            delayTarget = new Date();
+            delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
+            triggered();
         }
 
         Component.onCompleted: checkForForcedDelay()
