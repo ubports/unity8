@@ -32,6 +32,17 @@
       <summary>Autohide the launcher</summary>
       <description>This will only be applied in windowed mode. In staged mode, the launcher will always hide.</description>
     </key>
+    <key type="b" name="override-launcher-width">
+      <default>false</default>
+      <summary>Override the launcher's size.</summary>
+      <description>When this is true, the launcher's size will be set to launcher-size on all usage modes. When this is false, the launcher will have some defaults per usage mode.</description>
+    </key>
+    <key type="u" name="launcher-width">
+      <default>8</default>
+      <range min="6" max="12"/>
+      <summary>Width of the launcher in grid units.</summary>
+      <description>This width will applied to the launcher in all usage modes if "override-launcher-size" is true.</description>
+    </key>
   </schema>
 
   <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">

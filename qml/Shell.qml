@@ -372,7 +372,11 @@ Item {
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
-        anchors { fill: parent; topMargin: panel.panelHeight }
+        anchors {
+            fill: parent
+            topMargin: panel.panelHeight
+            leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
+        }
         z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
     }
 
@@ -558,7 +562,8 @@ Item {
             shadeBackground: !tutorial.running
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
-            panelWidth: shell.usageScenario == "desktop" ? units.gu(10) : units.gu(8)
+            panelWidth: launcherSettings.overrideLauncherWidth ? units.gu(launcherSettings.launcherWidth)
+                            : (shell.usageScenario == "desktop" ? units.gu(10) : units.gu(8))
             lockedVisible: shell.usageScenario == "desktop" && !launcherSettings.autohideLauncher
 
             GSettings {

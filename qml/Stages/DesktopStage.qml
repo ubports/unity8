@@ -459,7 +459,7 @@ AbstractStage {
 
     BlurLayer {
         id: blurLayer
-        anchors.fill: parent
+        anchors.fill: appContainer
         source: appContainer
         visible: false
     }
