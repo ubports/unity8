@@ -236,7 +236,11 @@ Showable {
     PanelVelocityCalculator {
         id: yVelocityCalculator
         velocityThreshold: d.hasCommitted ? 0.1 : 0.3
-        trackedValue: d.activeDragHandle ? d.activeDragHandle.touchSceneY : 0
+        trackedValue: d.activeDragHandle ?
+                            (Direction.isPositive(d.activeDragHandle.direction) ?
+                                    d.activeDragHandle.distance :
+                                    -d.activeDragHandle.distance)
+                            : 0
 
         onVelocityAboveThresholdChanged: d.updateState()
     }

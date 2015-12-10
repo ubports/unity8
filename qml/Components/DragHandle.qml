@@ -179,6 +179,8 @@ SwipeArea {
     onDistanceChanged: {
         if (dragging) {
             // don't go the whole distance in order to smooth out the movement
+            if (!Direction.isPositive(direction))
+                distance = -distance;
             var toAdd = d.limitMovement(distance);
             parent[d.targetProp] = d.startValue + toAdd;
         }
