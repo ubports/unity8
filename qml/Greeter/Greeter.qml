@@ -189,6 +189,7 @@ Showable {
 
     Timer {
         id: forcedDelayTimer
+        objectName: "forcedDelayTimer"
 
         // We use a short interval and check against the system wall clock
         // because we have to consider the case that the system is suspended
@@ -242,6 +243,10 @@ Showable {
         }
 
         function checkForForcedDelay() {
+            if (greeterSettings.lockedOutTime === 0) {
+                return;
+            }
+
             delayTarget = new Date();
             delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
             triggered();
