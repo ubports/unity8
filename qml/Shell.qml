@@ -25,6 +25,7 @@ import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
+import GSettings 1.0
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -558,7 +559,12 @@ Item {
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: shell.usageScenario == "desktop" ? units.gu(10) : units.gu(8)
-            lockedVisible: shell.usageScenario == "desktop"
+            lockedVisible: shell.usageScenario == "desktop" && !launcherSettings.autohideLauncher
+
+            GSettings {
+                id: launcherSettings
+                schema.id: "com.canonical.Unity8"
+            }
 
             onShowDashHome: showHome()
             onDash: showDash()

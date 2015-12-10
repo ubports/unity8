@@ -158,7 +158,7 @@ Item {
                 right: parent.right
                 bottom: parent.bottom
                 rightMargin: (iconItem.width - root.itemWidth) / 2 - units.dp(2)
-                margins: units.dp(3)
+                margins: units.dp(5)
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)

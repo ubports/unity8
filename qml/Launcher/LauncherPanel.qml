@@ -52,14 +52,14 @@ Rectangle {
         if (highlightIndex >= launcherListView.count) {
             highlightIndex = -1;
         }
-        moveAnimation.moveToIndex(Math.max(highlightIndex, 0));
+        launcherListView.moveToIndex(Math.max(highlightIndex, 0));
     }
     function highlightPrevious() {
         highlightIndex--;
         if (highlightIndex <= -2) {
             highlightIndex = launcherListView.count - 1;
         }
-        moveAnimation.moveToIndex(Math.max(highlightIndex, 0));
+        launcherListView.moveToIndex(Math.max(highlightIndex, 0));
     }
     function openQuicklist(index) {
         quickList.open(index);
@@ -136,7 +136,6 @@ Rectangle {
                     highlightRangeMode: ListView.ApplyRange
                     preferredHighlightBegin: (height - itemHeight) / 2
                     preferredHighlightEnd: (height + itemHeight) / 2
-                    spacing: units.gu(1)
 
                     // for the single peeking icon, when alert-state is set on delegate
                     property int peekingIndex: -1
@@ -165,7 +164,7 @@ Rectangle {
                     // The height of the area where the items reach the final folding angle
                     property int foldingStopHeight: foldingStartHeight - itemHeight - spacing
                     property int itemWidth: width * .75
-                    property int itemHeight: itemWidth * 15 / 16
+                    property int itemHeight: itemWidth * 15 / 16 + units.gu(1)
                     property int clickFlickSpeed: units.gu(60)
                     property int draggedIndex: dndArea.draggedIndex
                     property real realContentY: contentY - originY + topMargin
@@ -193,23 +192,24 @@ Rectangle {
 
                     UbuntuNumberAnimation {
                         id: moveAnimation
+                        objectName: "moveAnimation"
                         target: launcherListView
                         property: "contentY"
                         function moveTo(contentY) {
                             from = launcherListView.contentY;
                             to = contentY;
-                            start();
+                            restart();
                         }
-                        function moveToIndex(index) {
-                            var totalItemHeight = launcherListView.itemHeight + launcherListView.spacing
-                            var itemPosition = index * totalItemHeight;
-                            var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
-                            var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : totalItemHeight
-                            if (itemPosition + totalItemHeight + distanceToEnd > launcherListView.contentY + launcherListView.originY + launcherListView.topMargin + height) {
-                                moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd - launcherListView.originY);
-                            } else if (itemPosition - distanceToEnd < launcherListView.contentY - launcherListView.originY + launcherListView.topMargin) {
-                                moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin + launcherListView.originY);
-                            }
+                    }
+                    function moveToIndex(index) {
+                        var totalItemHeight = launcherListView.itemHeight + launcherListView.spacing
+                        var itemPosition = index * totalItemHeight;
+                        var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+                        var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : totalItemHeight
+                        if (itemPosition + totalItemHeight + distanceToEnd > launcherListView.contentY + launcherListView.originY + launcherListView.topMargin + height) {
+                            moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd - launcherListView.originY);
+                        } else if (itemPosition - distanceToEnd < launcherListView.contentY - launcherListView.originY + launcherListView.topMargin) {
+                            moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin + launcherListView.originY);
                         }
                     }
 
@@ -276,7 +276,7 @@ Rectangle {
                         onAlertingChanged: {
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
-                                    moveAnimation.moveToIndex(index)
+                                    launcherListView.moveToIndex(index)
                                     if (!dragging && launcher.state !== "visible") {
                                         peekingAnimation.start()
                                     }
@@ -433,10 +433,8 @@ Rectangle {
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
-                                if (clickedItem.angle > 12) {
-                                    launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                                } else if (clickedItem.angle < -12) {
-                                    launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                                if (clickedItem.angle > 12 || clickedItem.angle < -12) {
+                                    launcherListView.moveToIndex(index);
                                 } else {
                                     root.applicationSelected(LauncherModel.get(index).appId);
                                 }
@@ -444,10 +442,8 @@ Rectangle {
                             }
 
                             // the rest launches apps up to an angle of 30 degrees
-                            if (clickedItem.angle > 30) {
-                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                            } else if (clickedItem.angle < -30) {
-                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                            if (clickedItem.angle > 30 || clickedItem.angle < -30) {
+                                launcherListView.moveToIndex(index);
                             } else {
                                 root.applicationSelected(LauncherModel.get(index).appId);
                             }

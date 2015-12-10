@@ -55,7 +55,6 @@ FocusScope {
     signal showDashHome()
 
     onStateChanged: {
-        print("state changed", state)
         if (state == "") {
             dismissTimer.stop()
         } else {
@@ -96,7 +95,6 @@ FocusScope {
 
     onLockedVisibleChanged: {
         if (lockedVisible && state == "") {
-            print("have to show")
             dismissTimer.stop();
             fadeOutAnimation.stop();
             switchToNextState("visible")
@@ -284,7 +282,6 @@ FocusScope {
             script: {
                 panel.layer.enabled = false
                 panel.animate = false;
-                print("setting state to \"\"")
                 root.state = "";
                 panel.x = -panel.width
                 panel.opacity = 1;

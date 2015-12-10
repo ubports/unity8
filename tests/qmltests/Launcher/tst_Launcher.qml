@@ -29,7 +29,7 @@ import Utils 0.1 // For EdgeBarrierSettings
 Item {
     id: root
     width: units.gu(70)
-    height: units.gu(55)
+    height: units.gu(70)
 
     Loader {
         id: launcherLoader
@@ -227,10 +227,6 @@ Item {
             // growing while populating it with icons etc.
             tryCompare(listView, "flicking", false);
 
-            // Make sure noone changed the height of the window. The issue this test case
-            // is verifying only happens on certain heights of the Launcher
-            compare(root.height, units.gu(55));
-
             compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
 
             // Now do check that snapping is in fact enabled
@@ -285,14 +281,21 @@ Item {
 
         function positionLauncherListAtBeginning() {
             var listView = testCase.findChild(launcherLoader.item, "launcherListView");
-            listView.contentY = -listView.topMargin;
+            var moveAnimation = findInvisibleChild(listView, "moveAnimation")
+
+            listView.moveToIndex(0);
+
+            waitForRendering(listView);
+            tryCompare(moveAnimation, "running", false);
         }
         function positionLauncherListAtEnd() {
             var listView = testCase.findChild(launcherLoader.item, "launcherListView");
-            if ((listView.contentHeight + listView.topMargin + listView.bottomMargin) > listView.height) {
-                listView.contentY = listView.topMargin + listView.contentHeight
-                    - listView.height;
-            }
+            var moveAnimation = findInvisibleChild(listView, "moveAnimation")
+
+            listView.moveToIndex(listView.count -1);
+
+            waitForRendering(listView);
+            tryCompare(moveAnimation, "running", false);
         }
 
         function assertFocusOnIndex(index) {
@@ -431,6 +434,8 @@ Item {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "countEmblem").visible, LauncherModel.get(i).countVisible)
                 // Intentionally allow type coercion (string/number)
@@ -491,6 +496,7 @@ Item {
             launcher.lastSelectedApplication = "";
             dragLauncherIntoView();
             var listView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(listView, "moveAnimation")
 
             // flicking is unreliable. sometimes it works, sometimes the
             // list view moves just a tiny bit or not at all, making tests fail.
@@ -501,12 +507,14 @@ Item {
             } else {
                 positionLauncherListAtEnd();
             }
-            tryCompare(listView, "flicking", false);
-
             var oldY = listView.contentY;
 
             mouseClick(listView, listView.width / 2, data.clickY);
-            tryCompare(listView, "flicking", false);
+
+            if (data.expectFlick) {
+                tryCompare(moveAnimation, "running", true);
+            }
+            tryCompare(moveAnimation, "running", false);
 
             if (data.expectFlick) {
                 verify(listView.contentY != oldY);
