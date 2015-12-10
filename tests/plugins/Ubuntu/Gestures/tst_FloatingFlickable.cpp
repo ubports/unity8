@@ -59,13 +59,20 @@ void tst_FloatingFlickable::tapGoesThrough()
     QCOMPARE(testItem->touchEventsReceived.count(), 1);
 }
 
+static void removeTimeConstraints(QQuickItem *floatingFlickable)
+{
+    QObject *swipeAreaPrivate = floatingFlickable->findChild<QObject*>("UCSwipeAreaPrivate");
+
+    QMetaObject::invokeMethod(swipeAreaPrivate, "setMaxTime", Q_ARG(int, 60 * 60 * 1000));
+    QMetaObject::invokeMethod(swipeAreaPrivate, "setCompositionTime", Q_ARG(int, 0));
+}
+
 void tst_FloatingFlickable::flickChangesContentX()
 {
     QQuickItem *floatingFlickable =
         m_view->rootObject()->findChild<QQuickItem*>("floatingFlickable");
     QVERIFY(floatingFlickable != nullptr);
-
-//    TODO?  floatingFlickable->m_dragArea->removeTimeConstraints();
+    removeTimeConstraints(floatingFlickable);
 
     qreal startContentX = floatingFlickable->property("contentX").toReal();
 
@@ -93,7 +100,7 @@ void tst_FloatingFlickable::flickChangesContentY()
     QVERIFY(floatingFlickable != nullptr);
 
     floatingFlickable->setProperty("direction", Direction::Vertical);
-//     TODO? floatingFlickable->m_dragArea->removeTimeConstraints();
+    removeTimeConstraints(floatingFlickable);
 
     qreal startContentY = floatingFlickable->property("contentY").toReal();
 
