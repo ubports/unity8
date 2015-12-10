@@ -41,7 +41,7 @@ macro(add_gesture_ui_test CLASSNAME)
     add_manual_qml_test(. ${CLASSNAME} IMPORT_PATHS ${UNITY_PLUGINPATH})
 endmacro()
 
-# TODO add_gesture_ui_test(FloatingFlickable)
+add_gesture_ui_test(FloatingFlickable)
 add_gesture_ui_test(PressedOutsideNotifier)
 add_gesture_ui_test(TouchDispatcher)
 add_gesture_ui_test(TouchGate)

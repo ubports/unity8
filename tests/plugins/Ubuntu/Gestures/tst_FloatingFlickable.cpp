@@ -17,12 +17,9 @@
 #include <QtTest>
 #include <QQuickView>
 
-// Ubuntu.Gestures plugin
-#include <DirectionalDragArea.h>
-#include <FloatingFlickable.h>
-
 #include "GestureTest.h"
 #include "TestItem.h"
+#include "Direction.h"
 
 using namespace UbuntuGestures;
 
@@ -44,8 +41,8 @@ tst_FloatingFlickable::tst_FloatingFlickable()
 
 void tst_FloatingFlickable::tapGoesThrough()
 {
-    FloatingFlickable *floatingFlickable =
-        m_view->rootObject()->findChild<FloatingFlickable*>("floatingFlickable");
+    QQuickItem *floatingFlickable =
+        m_view->rootObject()->findChild<QQuickItem*>("floatingFlickable");
     QVERIFY(floatingFlickable != nullptr);
 
     TestItem *testItem = new TestItem;
@@ -64,13 +61,13 @@ void tst_FloatingFlickable::tapGoesThrough()
 
 void tst_FloatingFlickable::flickChangesContentX()
 {
-    FloatingFlickable *floatingFlickable =
-        m_view->rootObject()->findChild<FloatingFlickable*>("floatingFlickable");
+    QQuickItem *floatingFlickable =
+        m_view->rootObject()->findChild<QQuickItem*>("floatingFlickable");
     QVERIFY(floatingFlickable != nullptr);
 
-    floatingFlickable->m_dragArea->removeTimeConstraints();
+//    TODO?  floatingFlickable->m_dragArea->removeTimeConstraints();
 
-    qreal startContentX = floatingFlickable->contentX();
+    qreal startContentX = floatingFlickable->property("contentX").toReal();
 
     QPoint startPos(floatingFlickable->width() - 5, 10);
     int stepCount = 20;
@@ -86,19 +83,19 @@ void tst_FloatingFlickable::flickChangesContentX()
     QTest::qWait(10);
     QTest::touchEvent(m_view, m_device).release(0, QPoint(5, 10));
 
-    QVERIFY(floatingFlickable->contentX() > (startContentX + floatingFlickable->width()/2));
+    QVERIFY(floatingFlickable->property("contentX").toReal() > (startContentX + floatingFlickable->width()/2));
 }
 
 void tst_FloatingFlickable::flickChangesContentY()
 {
-    FloatingFlickable *floatingFlickable =
-        m_view->rootObject()->findChild<FloatingFlickable*>("floatingFlickable");
+    QQuickItem *floatingFlickable =
+        m_view->rootObject()->findChild<QQuickItem*>("floatingFlickable");
     QVERIFY(floatingFlickable != nullptr);
 
-    floatingFlickable->setDirection(Direction::Vertical);
-    floatingFlickable->m_dragArea->removeTimeConstraints();
+    floatingFlickable->setProperty("direction", Direction::Vertical);
+//     TODO? floatingFlickable->m_dragArea->removeTimeConstraints();
 
-    qreal startContentY = floatingFlickable->contentY();
+    qreal startContentY = floatingFlickable->property("contentY").toReal();
 
     QPoint startPos(10, floatingFlickable->height() - 5);
     int stepCount = 20;
@@ -114,7 +111,7 @@ void tst_FloatingFlickable::flickChangesContentY()
     QTest::qWait(10);
     QTest::touchEvent(m_view, m_device).release(0, QPoint(10, 5));
 
-    QVERIFY(floatingFlickable->contentY() > (startContentY + floatingFlickable->height()/2));
+    QVERIFY(floatingFlickable->property("contentY").toReal() > (startContentY + floatingFlickable->height()/2));
 }
 
 QTEST_MAIN(tst_FloatingFlickable)

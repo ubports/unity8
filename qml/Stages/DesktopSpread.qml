@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
+import "../Components"
 
 FocusScope {
     id: root
