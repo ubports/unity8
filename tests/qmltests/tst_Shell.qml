@@ -629,7 +629,7 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
             removeTimeConstraintsFromSwipeAreas(greeter);
             swipeAwayGreeter();
@@ -949,7 +949,7 @@ Rectangle {
             // greeter unloads its internal components when hidden
             // and reloads them when shown. Thus we have to do this
             // again before interacting with it otherwise any
-            // DirectionalDragAreas in there won't be easily fooled by
+            // SwipeAreas in there won't be easily fooled by
             // fake swipes.
             removeTimeConstraintsFromSwipeAreas(greeter);
         }
