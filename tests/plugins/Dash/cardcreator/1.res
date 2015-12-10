@@ -40,13 +40,30 @@ Item  {
                                         height: 1;
                                         hideSource: doShapeItem;
                                     }
-                                    UbuntuShape {
-                                        id: artShapeShape;
-                                        source: artShapeSource;
+                                    Loader {
                                         anchors.fill: parent;
-                                        visible: doShapeItem;
-                                        radius: "medium";
-                                        aspect: root.artShapeStyle === "inset" ? UbuntuShape.Inset : UbuntuShape.Flat;
+                                        visible: artShape.doShapeItem;
+                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent;
+                                        Component {
+                                            id: artShapeShapeComponent;
+                                            UbuntuShape {
+                                                source: artShapeSource;
+                                                sourceFillMode: UbuntuShape.PreserveAspectCrop;
+                                                radius: "medium";
+                                                aspect: {
+                                                    switch (root.artShapeStyle) {
+                                                        case "inset": return UbuntuShape.Inset;
+                                                        case "shadow": return UbuntuShape.DropShadow;
+                                                        default:
+                                                        case "flat": return UbuntuShape.Flat;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        Component {
+                                            id: artShapeIconComponent;
+                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; }
+                                        }
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; 
@@ -97,7 +114,7 @@ UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
     anchors { fill: artShapeHolder }
-    visible: root.pressed;
+    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }

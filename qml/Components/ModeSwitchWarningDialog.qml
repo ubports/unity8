@@ -75,7 +75,7 @@ ShellDialog {
             property string notClickedText: i18n.tr("OK, I will reconnect")
             property string clickedText: i18n.tr("Reconnect now!")
             text: clicked ? clickedText : notClickedText
-            color: "#333333"
+            color: "#292929"
 
             MouseArea {
                 anchors.fill: parent

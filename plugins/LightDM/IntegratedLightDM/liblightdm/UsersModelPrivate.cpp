@@ -34,8 +34,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
     entries.reserve(users.count());
     Q_FOREACH(const QString &user, users)
     {
-        QVariant defaultValue = QString(user[0].toUpper() + user.mid(1));
-        QString name = settings.value(user + "/name", defaultValue).toString();
+        QString name = settings.value(user + "/name", user).toString();
         entries.append({user, name, 0, 0, false, false, 0, 0});
     }
 }

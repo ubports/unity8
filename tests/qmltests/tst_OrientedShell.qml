@@ -60,6 +60,10 @@ Rectangle {
         deviceFilter: InputInfo.Mouse
     }
     InputDeviceModel {
+        id: touchpadModel
+        deviceFilter: InputInfo.TouchPad
+    }
+    InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
     }
@@ -348,6 +352,23 @@ Rectangle {
                     }
                 }
             }
+            Row {
+                Button {
+                    text: "Add touchpad"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        MockInputDeviceBackend.addMockDevice("/touchpad" + touchpadModel.count, InputInfo.TouchPad)
+                    }
+                }
+                Button {
+                    text: "Remove touchpad"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        MockInputDeviceBackend.removeDevice("/touchpad" + (touchpadModel.count - 1))
+                    }
+                }
+            }
+
             Row {
                 Button {
                     text: "Add kbd"
@@ -1000,6 +1021,12 @@ Rectangle {
             MockInputDeviceBackend.removeDevice("/mouse0");
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", false);
+
+            MockInputDeviceBackend.addMockDevice("/touchpad0", InputInfo.TouchPad);
+            tryCompare(shell, "usageScenario", "desktop");
+
+            MockInputDeviceBackend.removeDevice("/touchpad0");
+            tryCompare(shell, "usageScenario", "phone");
         }
 
         /*

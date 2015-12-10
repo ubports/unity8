@@ -38,7 +38,7 @@ Showable {
     property bool enableHint: true
     property bool contentEnabled: true
     property bool showOnClick: true
-    property color panelColor: "black"
+    property color panelColor: "#292929"
 
     signal showTapped(point position)
 
@@ -110,7 +110,7 @@ Showable {
             height: units.gu(0.5)
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 1.0; color: "black" }
+                GradientStop { position: 1.0; color: "#292929" }
             }
             opacity: 0.3
         }
