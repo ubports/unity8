@@ -190,7 +190,7 @@ Item {
             width: root.itemWidth * .8
             height: units.gu(1)
             visible: root.progress > -1
-            color: UbuntuColors.darkGrey
+            backgroundColor: UbuntuColors.darkGrey
             borderSource: "none"
 
             Item {
@@ -208,7 +208,7 @@ Item {
                         top: parent.top
                         bottom: parent.bottom
                     }
-                    color: "white"
+                    backgroundColor: "white"
                     borderSource: "none"
                     width: progressOverlay.width
                 }
