@@ -162,6 +162,7 @@ LocalComponents.Page {
             anchors.leftMargin: leftMargin
             font.weight: Font.Light
             color: "#68064d"
+            wrapMode: Text.Wrap
             text: listview.count > 0 ? i18n.tr("Available Wi-Fi networks")
                                      : i18n.tr("No available Wi-Fi networks")
         }
