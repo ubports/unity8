@@ -63,7 +63,7 @@ LocalComponents.Page {
         anchors.left: parent.left
         anchors.right: parent.right
         height: parent.height
-        source: "data/Phone Splash Screen bkg.png"
+        source: "data/Phone_splash_screen_bkg.png"
         fillMode: Image.PreserveAspectCrop
         z: 2
         visible: opacity > 0
