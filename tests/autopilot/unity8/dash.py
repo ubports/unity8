@@ -158,7 +158,7 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     def enter_search_query(self, query, keyboard):
         current_header = self._get_current_page_header()
         search_button = \
-            current_header.select_single(objectName="search_action_button")
+            current_header.select_single(objectName="search_button")
         self.pointing_device.move(
             search_button.globalRect.x + search_button.width / 2,
             search_button.globalRect.y + search_button.height / 2)
