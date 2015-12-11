@@ -319,7 +319,7 @@ Item {
 
             // Click on the store
             var scopesListPageHeader = findChild(scopesList, "pageHeader");
-            var searchButton = findChild(scopesListPageHeader, "store_action_button");
+            var searchButton = findChild(scopesListPageHeader, "store_button");
             mouseClick(searchButton);
 
             spy.wait();
