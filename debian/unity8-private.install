@@ -1,5 +1,4 @@
 usr/lib/*/libunity8-private.*
-usr/lib/*/unity8/libUbuntuGestures*
 usr/lib/*/unity8/qml/AccountsService
 usr/lib/*/unity8/qml/Cursor
 usr/lib/*/unity8/qml/Dash
