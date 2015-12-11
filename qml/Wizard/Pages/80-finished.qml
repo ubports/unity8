@@ -118,13 +118,13 @@ LocalComponents.Page {
 
             Label {
                 id: buttonLabel
-                objectName: "finishButton"
                 color: "white"
                 text: i18n.tr("Get Started")
                 fontSize: "medium"
                 anchors.centerIn: parent
             }
-            MouseArea {
+            AbstractButton {
+                objectName: "finishButton"
                 anchors.fill: parent
                 onClicked: root.quitWizard()
             }
