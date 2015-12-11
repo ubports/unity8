@@ -8,7 +8,7 @@ configure_file(../qmldir.in ${CMAKE_CURRENT_SOURCE_DIR}/qmldir)
 add_definitions(-DFULL_LIGHTDM)
 
 include_directories(
-    ${QMLPLUGIN_INCLUDES}
+    ${LIBLIGHTDM_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
