@@ -7,7 +7,10 @@ configure_file(../qmldir.in ${CMAKE_CURRENT_SOURCE_DIR}/qmldir)
 
 add_definitions(-DFULL_LIGHTDM)
 
-include_directories(../)
+include_directories(
+    ${LIBLIGHTDM_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 foreach(source_file ${QMLPLUGIN_SRC})
     list(APPEND RELATIVE_QMLPLUGIN_SRC ../${source_file})

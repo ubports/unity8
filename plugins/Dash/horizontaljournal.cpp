@@ -184,7 +184,7 @@ void HorizontalJournal::calculateImplicitHeight()
 
 void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &removes)
 {
-    Q_FOREACH(const QQmlChangeSet::Change &remove, removes) {
+    Q_FOREACH(const QQmlChangeSet::Change remove, removes) {
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // We only support removing from the end so

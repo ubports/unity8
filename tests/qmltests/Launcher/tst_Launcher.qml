@@ -22,6 +22,7 @@ import Ubuntu.Components 1.3
 import ".."
 import "../../../qml/Launcher"
 import Unity.Launcher 0.1
+import Utils 0.1 // For EdgeBarrierSettings
 
 /* Nothing is shown at first. If you drag from left edge you will bring up the
    launcher. */
@@ -67,6 +68,7 @@ Item {
 
                 Component.onCompleted: {
                     launcherLoader.itemDestroyed = false;
+                    edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
                 }
                 Component.onDestruction: {
                     launcherLoader.itemDestroyed = true;
@@ -81,6 +83,12 @@ Item {
         width: childrenRect.width
 
         MouseTouchEmulationCheckbox {}
+
+        EdgeBarrierControls {
+            id: edgeBarrierControls
+            text: "Drag here to pull out launcher"
+            onDragged: { launcherLoader.item.pushEdge(amount); }
+        }
 
         Button {
             text: "emit hinting signal"
@@ -207,8 +215,10 @@ Item {
             tryCompare(launcher, "state", "visible");
         }
 
-        function revealByHover() {
+        function revealByEdgePush() {
+            // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(root, 1, root.height / 2);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
 
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
@@ -278,7 +288,7 @@ Item {
 
         function test_clickingOnAppIconCausesSignalEmission(data) {
             if (data.mouse) {
-                revealByHover();
+                revealByEdgePush();
             } else {
                 dragLauncherIntoView();
             }
@@ -748,12 +758,12 @@ Item {
             verify(quickList, "state", "")
         }
 
-        function test_revealByHover() {
+        function test_revealByEdgePush() {
             var panel = findChild(launcher, "launcherPanel");
             verify(!!panel);
 
-            revealByHover();
-            tryCompare(launcher, "state", "visibleTemporary");
+            revealByEdgePush();
+            compare(launcher.state, "visibleTemporary");
 
             // Now move the mouse away and make sure it hides in less than a second
             mouseMove(root, root.width, root.height / 2)

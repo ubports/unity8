@@ -27,8 +27,8 @@
 
 MousePointer::MousePointer(QQuickItem *parent)
     : MirMousePointerInterface(parent)
-    , m_cursorName("left_ptr")
-    , m_themeName("default")
+    , m_cursorName(QStringLiteral("left_ptr"))
+    , m_themeName(QStringLiteral("default"))
     , m_hotspotX(0)
     , m_hotspotY(0)
 {
@@ -44,8 +44,10 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
 
     qreal newX = x() + movement.x();
     if (newX < 0) {
+        Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);
         newX = 0;
     } else if (newX > parentItem()->width()) {
+        Q_EMIT pushedRightBoundary(newX - parentItem()->width(), buttons);
         newX = parentItem()->width();
     }
     setX(newX);
@@ -61,6 +63,17 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
     QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
     QWindowSystemInterface::handleMouseEvent(window(), timestamp, scenePosition /*local*/, scenePosition /*global*/,
         buttons, modifiers);
+}
+
+void MousePointer::handleWheelEvent(ulong timestamp, QPoint angleDelta, Qt::KeyboardModifiers modifiers)
+{
+    if (!parentItem()) {
+        return;
+    }
+
+    QPointF scenePosition = mapToItem(nullptr, QPointF(0, 0));
+    QWindowSystemInterface::handleWheelEvent(window(), timestamp, scenePosition /* local */, scenePosition /* global */,
+            QPoint() /* pixelDelta */, angleDelta, modifiers, Qt::ScrollUpdate);
 }
 
 void MousePointer::itemChange(ItemChange change, const ItemChangeData &value)
@@ -123,4 +136,9 @@ void MousePointer::setThemeName(const QString &themeName)
         m_themeName = themeName;
         Q_EMIT themeNameChanged(m_themeName);
     }
+}
+
+void MousePointer::setCustomCursor(const QCursor &customCursor)
+{
+    CursorImageProvider::instance()->setCustomCursor(customCursor);
 }
