@@ -61,10 +61,13 @@ void tst_FloatingFlickable::tapGoesThrough()
 
 static void removeTimeConstraints(QQuickItem *floatingFlickable)
 {
-    QObject *swipeAreaPrivate = floatingFlickable->findChild<QObject*>("UCSwipeAreaPrivate");
-
-    QMetaObject::invokeMethod(swipeAreaPrivate, "setMaxTime", Q_ARG(int, 60 * 60 * 1000));
-    QMetaObject::invokeMethod(swipeAreaPrivate, "setCompositionTime", Q_ARG(int, 0));
+    auto children = floatingFlickable->findChildren<QObject*>();
+    Q_FOREACH(QObject *child, children) {
+        if (child->metaObject()->className() == QByteArray("UCSwipeAreaPrivate")) {
+            QMetaObject::invokeMethod(child, "setMaxTime", Q_ARG(int, 60 * 60 * 1000));
+            QMetaObject::invokeMethod(child, "setCompositionTime", Q_ARG(int, 0));
+        }
+    }
 }
 
 void tst_FloatingFlickable::flickChangesContentX()

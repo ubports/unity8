@@ -200,9 +200,13 @@ QQuickItem *tst_DragHandle::fetchAndSetupDragHandle(const char *objectName)
     QQuickItem *dragHandle =
         m_view->rootObject()->findChild<QQuickItem*>(objectName);
     Q_ASSERT(dragHandle != 0);
-    QObject *swipeAreaPrivate = dragHandle->findChild<QObject*>("UCSwipeAreaPrivate");
-    QMetaObject::invokeMethod(swipeAreaPrivate, "setRecognitionTimer", Q_ARG(UbuntuGestures::AbstractTimer*, m_fakeTimer));
-    QMetaObject::invokeMethod(swipeAreaPrivate, "setTimeSource", Q_ARG(UbuntuGestures::SharedTimeSource, m_fakeTimeSource));
+    auto children = dragHandle->findChildren<QObject*>();
+    Q_FOREACH(QObject *child, children) {
+        if (child->metaObject()->className() == QByteArray("UCSwipeAreaPrivate")) {
+            QMetaObject::invokeMethod(child, "setRecognitionTimer", Q_ARG(UbuntuGestures::AbstractTimer*, m_fakeTimer));
+            QMetaObject::invokeMethod(child, "setTimeSource", Q_ARG(UbuntuGestures::SharedTimeSource, m_fakeTimeSource));
+        }
+    }
 
     AxisVelocityCalculator *edgeDragEvaluator =
         dragHandle->findChild<AxisVelocityCalculator*>("edgeDragEvaluator");

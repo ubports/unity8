@@ -72,9 +72,15 @@ TouchEventSequenceWrapper *TestUtil::touchEvent(QQuickItem *item)
             QTest::touchEvent(m_targetWindow, m_touchDevice, /* autoCommit */ false), item);
 }
 
-QObject *TestUtil::findQObjectChild(QObject *object, const QString &objectName)
+void TestUtil::removeTimeConstraintsFromSwipeArea(QObject *object)
 {
-    return object->findChild<QObject*>(objectName);
+    auto children = object->findChildren<QObject*>();
+    Q_FOREACH(QObject *child, children) {
+        if (child->metaObject()->className() == QByteArray("UCSwipeAreaPrivate")) {
+            QMetaObject::invokeMethod(child, "setMaxTime", Q_ARG(int, 60 * 60 * 1000));
+            QMetaObject::invokeMethod(child, "setCompositionTime", Q_ARG(int, 0));
+        }
+    }
 }
 
 void TestUtil::ensureTargetWindow()

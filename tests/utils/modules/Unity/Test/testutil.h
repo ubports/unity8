@@ -34,7 +34,7 @@ public:
 
     Q_INVOKABLE bool isInstanceOf(QObject*, QString);
     Q_INVOKABLE TouchEventSequenceWrapper *touchEvent(QQuickItem *item);
-    Q_INVOKABLE QObject *findQObjectChild(QObject *object, const QString &objectName);
+    Q_INVOKABLE void removeTimeConstraintsFromSwipeArea(QObject *object);
 
 private:
     void ensureTargetWindow();

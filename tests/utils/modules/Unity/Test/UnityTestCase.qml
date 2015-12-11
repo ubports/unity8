@@ -452,9 +452,7 @@ TestCase {
      */
     function removeTimeConstraintsFromSwipeAreas(item) {
         if (UT.Util.isInstanceOf(item, "UCSwipeArea")) {
-            var privateSwipeArea = UT.Util.findQObjectChild(item, "UCSwipeAreaPrivate");
-            privateSwipeArea.setMaxTime(60 * 60 * 1000);
-            privateSwipeArea.setCompositionTime(0);
+            var privateSwipeArea = UT.Util.removeTimeConstraintsFromSwipeArea(item);
         } else {
             for (var i in item.children) {
                 removeTimeConstraintsFromSwipeAreas(item.children[i]);
