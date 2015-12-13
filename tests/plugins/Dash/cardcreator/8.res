@@ -3,6 +3,7 @@ AbstractButton {
                 property var components; 
                 property var cardData; 
                 property string artShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 property int titleAlignment: Text.AlignLeft; 
@@ -23,6 +24,14 @@ Loader {
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
+                                    aspect: { 
+                                        switch (root.backgroundShapeStyle) { 
+                                            case "inset": return UbuntuShape.Inset; 
+                                            case "shadow": return UbuntuShape.DropShadow; 
+                                            default: 
+                                            case "flat": return UbuntuShape.Flat; 
+                                        } 
+                                    } 
                                     backgroundColor: getColor(0) || "white"; 
                                     secondaryBackgroundColor: getColor(1) || backgroundColor; 
                                     backgroundMode: UbuntuShape.VerticalGradient;
@@ -92,12 +101,12 @@ left: parent.left;
                                 ] 
                     }
 UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: backgroundLoader } 
-                        visible: root.pressed; 
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: backgroundLoader }
+    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: row.y + row.height + units.gu(1);
 }

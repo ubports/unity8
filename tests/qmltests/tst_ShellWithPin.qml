@@ -479,7 +479,7 @@ Item {
 
             var app = ApplicationManager.startApplication("gallery-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.lastSurface !== null }, true);
 
             // New app hides coverPage?
             var greeter = findChild(shell, "greeter");

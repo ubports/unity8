@@ -28,6 +28,14 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
                                     radius: "medium"; \n\
+                                    aspect: { \n\
+                                        switch (root.backgroundShapeStyle) { \n\
+                                            case "inset": return UbuntuShape.Inset; \n\
+                                            case "shadow": return UbuntuShape.DropShadow; \n\
+                                            default: \n\
+                                            case "flat": return UbuntuShape.Flat; \n\
+                                        } \n\
+                                    } \n\
                                     backgroundColor: getColor(0) || "white"; \n\
                                     secondaryBackgroundColor: getColor(1) || backgroundColor; \n\
                                     backgroundMode: UbuntuShape.VerticalGradient; \n\
@@ -78,13 +86,30 @@ var kArtShapeHolderCode = 'Item { \n\
                                         height: 1; \n\
                                         hideSource: doShapeItem; \n\
                                     } \n\
-                                    UbuntuShape { \n\
-                                        id: artShapeShape; \n\
-                                        source: artShapeSource; \n\
+                                    Loader { \n\
                                         anchors.fill: parent; \n\
-                                        visible: doShapeItem; \n\
-                                        radius: "medium"; \n\
-                                        aspect: root.artShapeStyle === "inset" ? UbuntuShape.Inset : UbuntuShape.Flat; \n\
+                                        visible: artShape.doShapeItem; \n\
+                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; \n\
+                                        Component { \n\
+                                            id: artShapeShapeComponent; \n\
+                                            UbuntuShape { \n\
+                                                source: artShapeSource; \n\
+                                                sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
+                                                radius: "medium"; \n\
+                                                aspect: { \n\
+                                                    switch (root.artShapeStyle) { \n\
+                                                        case "inset": return UbuntuShape.Inset; \n\
+                                                        case "shadow": return UbuntuShape.DropShadow; \n\
+                                                        default: \n\
+                                                        case "flat": return UbuntuShape.Flat; \n\
+                                                    } \n\
+                                                } \n\
+                                            } \n\
+                                        } \n\
+                                        Component { \n\
+                                            id: artShapeIconComponent; \n\
+                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; } \n\
+                                        } \n\
                                     } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
@@ -236,7 +261,7 @@ var kTouchdownCode = 'UbuntuShape { \n\
                         id: touchdown; \n\
                         objectName: "touchdown"; \n\
                         anchors { %1 } \n\
-                        visible: root.pressed; \n\
+                        visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed; \n\
                         radius: "medium"; \n\
                         borderSource: "radius_pressed.sci" \n\
                     }\n';
@@ -301,6 +326,7 @@ function cardString(template, components) {
                 property var components; \n\
                 property var cardData; \n\
                 property string artShapeStyle: "inset"; \n\
+                property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
                 property int titleAlignment: Text.AlignLeft; \n\

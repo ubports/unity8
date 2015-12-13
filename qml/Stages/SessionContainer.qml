@@ -29,11 +29,35 @@ FocusScope {
     property alias surfaceOrientationAngle: _surfaceContainer.surfaceOrientationAngle
     property alias resizeSurface: _surfaceContainer.resizeSurface
 
+    property int requestedWidth: -1
+    property int requestedHeight: -1
+
     readonly property alias surfaceContainer: _surfaceContainer
     SurfaceContainer {
         id: _surfaceContainer
-        anchors.fill: parent
-        surface: session ? session.surface : null
+        requestedWidth: root.requestedWidth
+        requestedHeight: root.requestedHeight
+        surface: session ? session.lastSurface : null
+    }
+
+    // SurfaceContainer size drives SessionContainer size
+    Binding {
+        target: root; property: "width"; value: _surfaceContainer.width
+        when: root.requestedWidth >= 0
+    }
+    Binding {
+        target: root; property: "height"; value: _surfaceContainer.height
+        when: root.requestedHeight >= 0
+    }
+
+    // SessionContainer size drives SurfaceContainer size
+    Binding {
+        target: _surfaceContainer; property: "width"; value: root.width
+        when: root.requestedWidth < 0
+    }
+    Binding {
+        target: _surfaceContainer; property: "height"; value: root.height
+        when: root.requestedHeight < 0
     }
 
     Repeater {
@@ -86,13 +110,13 @@ FocusScope {
         State {
             name: "childSession"
             when: root.session && root.session.parentSession !== null && root.session.live
-                    && !root.session.surface
+                    && !root.session.lastSurface
         },
 
         State {
             name: "childSessionReady"
             when: root.session && root.session.parentSession !== null && root.session.live
-                    && root.session.surface !== null
+                    && root.session.lastSurface !== null
         },
 
         State {

@@ -260,6 +260,9 @@ void Scopes::addScope(Scope* scope)
         beginInsertRows(QModelIndex(), index, index);
         m_scopes.append(scope);
         endInsertRows();
+        connect(scope, &Scope::favoriteChanged, [this, scope]{
+            setFavorite(scope->id(), scope->favorite());
+        });
     }
     m_allScopes.append(scope);
 }
