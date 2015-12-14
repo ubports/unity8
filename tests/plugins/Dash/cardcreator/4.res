@@ -3,6 +3,7 @@ AbstractButton {
                 property var components; 
                 property var cardData; 
                 property string artShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
                 property int titleAlignment: Text.AlignLeft;

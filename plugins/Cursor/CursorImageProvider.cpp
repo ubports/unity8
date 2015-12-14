@@ -77,24 +77,26 @@ CustomCursorImage::CustomCursorImage(const QCursor &cursor)
 XCursorImage::XCursorImage(const QString &theme, const QString &file)
     : xcursorImages(nullptr)
 {
-    xcursorImages = XcursorLibraryLoadImages(QFile::encodeName(file), QFile::encodeName(theme), 32);
+    // TODO: Consider grid unit value
+    //       Hardcoding to a medium size for now
+    int preferredCursorHeightPx = 32;
+
+    xcursorImages = XcursorLibraryLoadImages(QFile::encodeName(file), QFile::encodeName(theme),
+            preferredCursorHeightPx);
     if (!xcursorImages) {
         return;
     }
 
-    bool loaded = false;
-    for (int i = 0; i < xcursorImages->nimage && !loaded; ++i) {
-        XcursorImage *xcursorImage = xcursorImages->images[i];
-        if (xcursorImage->size == 32) {
+    // Just take the first one. It will have multiple images in case of an animated cursor.
+    // TODO: Support animated cursors
+    if ( xcursorImages->nimage > 0) {
+        XcursorImage *xcursorImage = xcursorImages->images[0];
 
-            qimage = QImage((uchar*)xcursorImage->pixels,
-                    xcursorImage->width, xcursorImage->height, QImage::Format_ARGB32);
+        qimage = QImage((uchar*)xcursorImage->pixels,
+                xcursorImage->width, xcursorImage->height, QImage::Format_ARGB32);
 
-            hotspot.setX(xcursorImage->xhot);
-            hotspot.setY(xcursorImage->yhot);
-
-            loaded = true;
-        }
+        hotspot.setX(xcursorImage->xhot);
+        hotspot.setY(xcursorImage->yhot);
     }
 }
 
