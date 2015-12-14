@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:45+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -155,27 +155,29 @@ msgstr "ОК"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Приложения могут содержать несохранённые данные:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Переподключение, сохраните вашу работу и закройте эти приложения для "
+"продолжения."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Или закрыть принудительно (несохранённые данные будут потеряны)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Все готово к переподключению"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Переподключиться сейчас!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Закрыть все"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -200,15 +202,15 @@ msgstr "Удалить из избранного"
 msgid "Add to Favorites"
 msgstr "Добавить в избранное"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Вкратце"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Показать всё"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Поиск"
@@ -236,7 +238,7 @@ msgstr "Добавьте отзыв"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Предпросмотр"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -264,7 +266,7 @@ msgstr "Также установлено"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr ""
+msgstr "Устройство подключено к внешнему дисплею."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -280,7 +282,7 @@ msgstr "Нажмите для разблокировки"
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr "Неверная ключевая фраза."
+msgstr "Неверная кодовая фраза."
 
 #: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
@@ -295,7 +297,7 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Если ключевая фраза будет введена неверно, то телефон вернётся к заводским "
+"Если кодовая фраза будет введена неверно, то телефон вернётся к заводским "
 "настройкам, а все личные данные будут удалены."
 
 #: qml/Greeter/NarrowView.qml:59
@@ -343,7 +345,7 @@ msgstr "Показать пароль"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Коснитесь для возврата к вызову..."
+msgstr "Нажмите для возврата к вызову..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -397,7 +399,7 @@ msgstr "Загрузка"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:886
 msgid "Paused, tap to resume"
-msgstr "Приостановлено, коснитесь для возобновления"
+msgstr "Приостановлено, нажмите для возобновления"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:888
 msgid "Canceled"
@@ -409,13 +411,13 @@ msgstr "Завершено"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:892
 msgid "Failed, tap to retry"
-msgstr "Сбой, коснитесь для повтора"
+msgstr "Сбой, нажмите для повтора"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Отправить"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -425,7 +427,7 @@ msgstr "Ответить"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Позвонить"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -435,14 +437,6 @@ msgstr "Разблокировать SIM-карту"
 msgid "Roaming"
 msgstr "Роуминг"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Это действие имеет разные функции в зависимости от приложения"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Нажмите здесь для завершения."
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Открытие специальных меню"
@@ -451,14 +445,18 @@ msgstr "Открытие специальных меню"
 msgid "Swipe up from the bottom edge."
 msgstr "Проведите вверх от нижнего края."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Это действие имеет разные функции в зависимости от приложения"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Нажмите здесь для завершения."
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Нажмите здесь для продолжения."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Это ярлыки избранных приложений"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -467,6 +465,10 @@ msgstr "Открытие панели запуска"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Короткое смахивание от левого края."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Это ярлыки избранных приложений"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"

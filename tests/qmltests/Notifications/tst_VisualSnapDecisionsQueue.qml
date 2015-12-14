@@ -66,8 +66,8 @@ Row {
             hints: {"x-canonical-private-button-tint": "true"},
             summary: "Incoming call",
             body: "Frank Zappa\n+44 (0)7736 027340",
-            icon: "../graphics/avatars/funky.png",
-            secondaryIcon: "../graphics/applicationIcons/dialer-app.png",
+            icon: "../../tests/graphics/avatars/funky.png",
+            secondaryIcon: "../../tests/graphics/applicationIcons/dialer-app.png",
             actions: [{ id: "pickup_id", label: "Pick up"},
                       { id: "decline_1_id", label: "Decline"},
                       { id: "decline_2_id", label: "Can't talk now, what's up?"},
@@ -109,8 +109,8 @@ Row {
             hints: {"x-canonical-private-button-tint": "true"},
             summary: "Jenny Sample",
             body: "Hey there! Have you been watching the latest episode of that TV-show I told you about last week?",
-            icon: "../graphics/avatars/amanda.png",
-            secondaryIcon: "../graphics/applicationIcons/messages-app.png",
+            icon: "../../tests/graphics/avatars/amanda.png",
+            secondaryIcon: "../../tests/graphics/applicationIcons/messages-app.png",
             actions: [{ id: "reply_id", label: "Reply"},
                       { id: "ignore_id", label: "Ignore"}]
         }]

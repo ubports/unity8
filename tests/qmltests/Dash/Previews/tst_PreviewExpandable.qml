@@ -45,7 +45,7 @@ Rectangle {
     property var commentData: {
         "author": "Claire Thompson",
         "comment": "C.",
-        "source": "../../graphics/avatars/amanda@12.png"
+        "source": "../../../tests/graphics/avatars/amanda.png"
     }
 
     property var commentInputData: {
@@ -56,7 +56,7 @@ Rectangle {
         "sources": [
                     "../../graphics/phone_background.jpg",
                     "../../graphics/tablet_background.jpg",
-                    "../../graphics/clock@18.png",
+                    "../../../tests/graphics/clock@18.png",
                     "../../graphics/borked"
                    ]
     }

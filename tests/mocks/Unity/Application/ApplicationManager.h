@@ -43,7 +43,7 @@ class ApplicationManager : public ApplicationManagerInterface {
     static ApplicationManager *singleton();
 
     enum MoreRoles {
-        RoleSession = RoleIsTouchApp+1,
+        RoleSession = RoleExemptFromLifecycle+1,
         RoleFullscreen,
     };
     enum Flag {
