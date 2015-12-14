@@ -246,8 +246,7 @@ Showable {
                 return;
             }
 
-            delayTarget = new Date();
-            delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
+            delayTarget = new Date(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
             triggered();
         }
 
