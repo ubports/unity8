@@ -33,7 +33,7 @@ Showable {
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
 
-    readonly property bool active: shown || hasLockedApp
+    readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
 
     // True when the greeter is waiting for PAM or other setup process
