@@ -57,7 +57,7 @@ find_package(Qt5DBus 5.4 REQUIRED)
 find_package(Qt5Concurrent 5.4 REQUIRED)
 find_package(Qt5Sql 5.4 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=11)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=12)
 
 # Standard install paths
 include(GNUInstallDirs)

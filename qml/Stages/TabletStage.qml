@@ -612,14 +612,16 @@ AbstractStage {
 
                     readonly property bool isDash: model.appId == "unity8-dash"
 
-                    readonly property bool canSuspend: model.isTouchApp
-                            && !isExemptFromLifecycle(model.appId)
+                    Binding {
+                        target: spreadTile.application
+                        property: "exemptFromLifecycle"
+                        value: !model.isTouchApp || isExemptFromLifecycle(model.appId)
+                    }
 
                     Binding {
                         target: spreadTile.application
                         property: "requestedState"
-                        value: !canSuspend
-                                   || (isDash && root.keepDashRunning)
+                        value: (isDash && root.keepDashRunning)
                                    || (!root.suspended && (model.appId == priv.mainStageAppId
                                                            || model.appId == priv.sideStageAppId))
                                ? ApplicationInfoInterface.RequestedRunning

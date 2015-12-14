@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-07-13 23:29+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:29+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -197,15 +197,15 @@ msgstr "Kendu gogokoetatik"
 msgid "Add to Favorites"
 msgstr "Gehitu gogokoetara"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Ikusi gutxiago"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Ikusi guztiak"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Bilatu"
@@ -429,14 +429,6 @@ msgstr "Desblokeatu SIMa"
 msgid "Roaming"
 msgstr "Ibiltaritza"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Ekintza honek gauza desberdinak egiten ditu aplikazio bakoitzerako"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Ukitu hemen bukatzeko."
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Ireki menu bereziak"
@@ -445,14 +437,18 @@ msgstr "Ireki menu bereziak"
 msgid "Swipe up from the bottom edge."
 msgstr "Pasa hatza gorantz azpiko ertzetik."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Ekintza honek gauza desberdinak egiten ditu aplikazio bakoitzerako"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Ukitu hemen bukatzeko."
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Ukitu hemen jarraitzeko."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Hauek gogoko aplikazioetara lasterbideak dira"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -461,6 +457,10 @@ msgstr "Ireki abiarazlea"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Pasa hatza labur ezkerreko ertzetik."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Hauek gogoko aplikazioetara lasterbideak dira"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"

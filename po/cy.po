@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-07-31 13:21+0000\n"
 "Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh <cy@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n==2 ? 1 : (n != 8 && n != 11) ? "
 "2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:45+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -201,15 +201,15 @@ msgstr "Tynnu o Ffefrynnau"
 msgid "Add to Favorites"
 msgstr "Ychwanegu at Ffefrynnau"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Gweld llai"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Gweld y cyfan"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Chwilio"
@@ -439,14 +439,6 @@ msgstr "Datgloi SIM"
 msgid "Roaming"
 msgstr "Crwydrol"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Mae'r weithred hon yn gwneud pethau gwahanol mewn apiau gwahanol"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Tapiwch yma i orffen"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Agor dewislenni arbennig"
@@ -455,14 +447,18 @@ msgstr "Agor dewislenni arbennig"
 msgid "Swipe up from the bottom edge."
 msgstr "Trawiwch i fyny o'r ymyl gwaelod."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Mae'r weithred hon yn gwneud pethau gwahanol mewn apiau gwahanol"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Tapiwch yma i orffen"
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Tapiwch yma i barhau."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Rhain yw'r llwybrau byr i'ch hoff apiau"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -471,6 +467,10 @@ msgstr "Agor y lansiwr"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Trawiad byr o'r ymyl chwith."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Rhain yw'r llwybrau byr i'ch hoff apiau"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"

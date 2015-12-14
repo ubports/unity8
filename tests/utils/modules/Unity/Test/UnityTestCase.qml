@@ -239,7 +239,8 @@ TestCase {
         var x = item.width / 2;
         var y = item.height - units.gu(1);
         var toY = units.gu(1);
-        while (i < 5 && !item.atYEnd) {
+        var maxIterations = 5 + item.contentHeight / item.height;
+        while (i < maxIterations && !item.atYEnd) {
             touchFlick(item, x, y, x, toY);
             tryCompare(item, "moving", false);
             ++i;
