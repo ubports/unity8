@@ -61,7 +61,7 @@ class NotificationsBase(UnityTestCase):
             return '/usr/share/unity8/graphics/' + icon_name
         else:
             return os.path.dirname(__file__) + (
-                "/../../../../../qml/graphics/" + icon_name)
+                "/../../../../../tests/graphics/" + icon_name)
 
     def _get_notifications_list(self):
         return self.main_window.select_single(

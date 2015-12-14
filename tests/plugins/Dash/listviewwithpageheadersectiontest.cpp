@@ -2149,6 +2149,37 @@ private Q_SLOTS:
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
     }
 
+    void changeSectionProperty()
+    {
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+
+        model->setProperty(1, "type", "Agressive");
+        verifyItem(1, 240., 200., false, QString(), true);
+
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+
+        model->setProperty(1, "type", "Mild");
+        verifyItem(1, 240., 240., false, "Mild", false);
+        verifyItem(2, 480., 350., false, QString(), false);
+
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+        verifyItem(2, 480., 390., false, "Mild", false);
+
+        model->setProperty(2, "type", "Agressive");
+        verifyItem(2, 480., 390., false, "Agressive", false);
+
+        model->setProperty(1, "type", "Agressive");
+        verifyItem(1, 240., 200., false, QString(), true);
+        verifyItem(2, 440., 350., false, QString(), false);
+
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+        verifyItem(2, 480., 390., false, "Agressive", false);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;

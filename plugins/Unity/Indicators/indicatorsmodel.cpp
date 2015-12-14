@@ -236,7 +236,7 @@ int IndicatorsModel::columnCount(const QModelIndex &) const
     return 1;
 }
 
-Q_INVOKABLE QVariant IndicatorsModel::data(int row, int role) const
+QVariant IndicatorsModel::data(int row, int role) const
 {
     return data(index(row, 0), role);
 }
@@ -247,26 +247,26 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.row() >= m_indicators.size())
         return QVariant();
 
-    Indicator::Ptr indicator = m_indicators[index.row()];
+    Indicator::Ptr indicator = m_indicators.at(index.row());
 
     switch (role)
     {
         case IndicatorsModelRole::Identifier:
             if (indicator)
             {
-                return QVariant(indicator->identifier());
+                return indicator->identifier();
             }
             break;
         case IndicatorsModelRole::Position:
             if (indicator)
             {
-                return QVariant(indicator->position());
+                return indicator->position();
             }
             break;
         case IndicatorsModelRole::IndicatorProperties:
             if (indicator)
             {
-                return QVariant(indicator->indicatorProperties());
+                return indicator->indicatorProperties();
             }
             break;
         default:

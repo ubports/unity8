@@ -33,7 +33,7 @@ Rectangle {
         "sources": [
                     "../../graphics/phone_background.jpg",
                     "../../graphics/tablet_background.jpg",
-                    "../../graphics/clock@18.png",
+                    "../../../tests/graphics/clock@18.png",
                     "../../graphics/borked"
                    ]
     }
@@ -42,10 +42,10 @@ Rectangle {
         "sources": [
                     "../../graphics/phone_background.jpg",
                     "../../graphics/tablet_background.jpg",
-                    "../../graphics/clock@18.png",
+                    "../../../tests/graphics/clock@18.png",
                     "../../graphics/borked"
                    ]
-        , "fallback": "../../graphics/clock@18.png"
+        , "fallback": "../../../tests/graphics/clock@18.png"
     }
 
     PreviewImageGallery {
