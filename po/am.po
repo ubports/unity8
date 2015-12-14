@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-11-19 19:27+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:29+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -151,27 +151,27 @@ msgstr "እሺ"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "መተግበሪያው ያልተቀመጠ ዳታ ይዟል:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "እንደገና-ማሳረፊያ: ስራዎትን ያስቀምጡ እና ይዝጉ መተግበሪያው እንዲቀጥል"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "ወይንም አሁን አስገድዶ ማጥፊያ (ያልተቀመጠ ዳታ ይጠፋል)"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "እሺ: እኔ አሁን እንደገና እገናኛለሁ"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "አሁን እንደገና መገናኛ!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "ሁሉንም መዝጊያ"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -196,15 +196,15 @@ msgstr "ከምወዳቸው ማስወገጃ"
 msgid "Add to Favorites"
 msgstr "ወደምወዳቸው መጨመሪያ"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "አነስተኛ መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "ሁሉንም መመልከቻ"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "መፈለጊያ"
@@ -428,14 +428,6 @@ msgstr "ሲም መክፈቻ"
 msgid "Roaming"
 msgstr "ማዘዋወሪያ"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "ይህ ተግባር ለተለያዩ መተግበሪያዎች የተለያየ ነገር ይሰራል"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "እዚህ መታ ይድርጉ ለመጨረስ"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "የተለዩ ዝርዝሮች መክፈቻ"
@@ -444,14 +436,18 @@ msgstr "የተለዩ ዝርዝሮች መክፈቻ"
 msgid "Swipe up from the bottom edge."
 msgstr "ከ ታች ጠርዝ በኩል ወደ ላይ ይጥረጉ"
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "ይህ ተግባር ለተለያዩ መተግበሪያዎች የተለያየ ነገር ይሰራል"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "እዚህ መታ ይድርጉ ለመጨረስ"
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "እዚህ መታ ይድርጉ ለመቀጠል"
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "እነዚህ አቋራጮች ናቸው እርስዎ ለሚወዷቸው መተግበሪያዎች"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -460,6 +456,10 @@ msgstr "ማስጀመሪያውን መክፈቻ"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "ከ ግራ ጠርዝ በኩል በትንሹ ይጥረጉ"
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "እነዚህ አቋራጮች ናቸው እርስዎ ለሚወዷቸው መተግበሪያዎች"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
