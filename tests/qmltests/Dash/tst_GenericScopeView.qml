@@ -70,6 +70,11 @@ Item {
             property Item header: findChild(genericScopeView, "scopePageHeader")
 
             function init() {
+                // Start from a clean scopes situation every test
+                scopes.clear();
+                scopes.load();
+                tryCompare(scopes, "loaded", true);
+
                 genericScopeView.scope = scopes.getScope(2);
                 shell.width = units.gu(120);
                 genericScopeView.categoryView.positionAtBeginning();

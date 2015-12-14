@@ -28,6 +28,14 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
                                     radius: "medium"; \n\
+                                    aspect: { \n\
+                                        switch (root.backgroundShapeStyle) { \n\
+                                            case "inset": return UbuntuShape.Inset; \n\
+                                            case "shadow": return UbuntuShape.DropShadow; \n\
+                                            default: \n\
+                                            case "flat": return UbuntuShape.Flat; \n\
+                                        } \n\
+                                    } \n\
                                     backgroundColor: getColor(0) || "white"; \n\
                                     secondaryBackgroundColor: getColor(1) || backgroundColor; \n\
                                     backgroundMode: UbuntuShape.VerticalGradient; \n\
@@ -318,6 +326,7 @@ function cardString(template, components) {
                 property var components; \n\
                 property var cardData; \n\
                 property string artShapeStyle: "inset"; \n\
+                property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
                 property int titleAlignment: Text.AlignLeft; \n\
