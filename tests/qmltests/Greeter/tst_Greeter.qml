@@ -458,6 +458,20 @@ Item {
             compare(view.delayMinutes, greeter.failedLoginsDelayMinutes);
         }
 
+        function test_forcedDelayOnConstructionIgnoredIfInFuture() {
+            greeterSettings.lockedOutTime = new Date().getTime() + greeter.failedLoginsDelayMinutes * 60000 + 1;
+            resetLoader();
+            view = findChild(greeter, "testView");
+            compare(view.delayMinutes, 0);
+        }
+
+        function test_forcedDelayOnConstructionIgnoredIfInPast() {
+            greeterSettings.lockedOutTime = new Date().getTime() - greeter.failedLoginsDelayMinutes * 60000 - 1;
+            resetLoader();
+            view = findChild(greeter, "testView");
+            compare(view.delayMinutes, 0);
+        }
+
         function test_forcedDelayWhileTimeChanges() {
             greeterSettings.lockedOutTime = new Date().getTime();
             resetLoader();
