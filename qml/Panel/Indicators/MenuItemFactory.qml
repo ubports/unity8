@@ -567,6 +567,7 @@ Item {
             signalStrength: {
                 if (strengthAction.valid) {
                     var state = strengthAction.state; // handle both int and uchar
+                    // FIXME remove the special casing when we switch to indicator-network completely
                     if (typeof state == "string") {
                         return state.charCodeAt();
                     }
