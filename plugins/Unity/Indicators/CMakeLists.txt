@@ -29,6 +29,7 @@ set(IndicatorsQML_SOURCES
     sharedunitymenumodel.cpp
     unitymenumodelcache.cpp
     unitymenumodelstack.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Unity/Platform/platform.cpp
 )
 add_definitions(-DUNITYINDICATORS_LIBRARY)
 
@@ -42,6 +43,6 @@ target_link_libraries(IndicatorsQml
     ${QMENUMODEL_LDFLAGS}
 )
 
-qt5_use_modules(IndicatorsQml Core Qml Quick)
+qt5_use_modules(IndicatorsQml Core Qml Quick DBus)
 
 add_unity8_plugin(Unity.Indicators 0.1 Unity/Indicators TARGETS IndicatorsQml)

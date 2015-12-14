@@ -356,19 +356,19 @@ Rectangle {
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
-            verify(fakeSession.surface !== null);
+            verify(fakeSession.lastSurface !== null);
 
             applicationWindowLoader.item.visible = false;
 
             waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
-            verify(fakeSession.surface !== null);
+            verify(fakeSession.lastSurface !== null);
 
             applicationWindowLoader.item.visible = true;
 
             waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
-            verify(fakeSession.surface !== null);
+            verify(fakeSession.lastSurface !== null);
         }
 
         function test_touchesReachSurfaceWhenItsShown() {
@@ -381,7 +381,7 @@ Rectangle {
 
             var surfaceItem = findChild(applicationWindowLoader.item, "surfaceItem");
             verify(surfaceItem);
-            verify(surfaceItem.surface === fakeSession.surface);
+            verify(surfaceItem.surface === fakeSession.lastSurface);
 
             surfaceItem.touchPressCount = 0;
             surfaceItem.touchReleaseCount = 0;
@@ -410,13 +410,13 @@ Rectangle {
             applicationWindowLoader.item.interactive = true;
             fakeSession.createSurface();
 
-            compare(fakeSession.surface.activeFocus, true);
+            compare(fakeSession.lastSurface.activeFocus, true);
 
             applicationWindowLoader.item.interactive = false;
-            compare(fakeSession.surface.activeFocus, false);
+            compare(fakeSession.lastSurface.activeFocus, false);
 
             applicationWindowLoader.item.interactive = true;
-            compare(fakeSession.surface.activeFocus, true);
+            compare(fakeSession.lastSurface.activeFocus, true);
         }
     }
 }

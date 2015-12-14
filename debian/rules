@@ -40,3 +40,11 @@ override_dh_makeshlibs:
 # libMockLightDM-qml.so links against liblightdm-qt5-2.so which doesn't exist
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
+
+override_dh_auto_clean:
+	dh_auto_clean
+	# only run under "CI Train"
+	if [ -n "$(SILONAME)" -a -x /usr/bin/bzr ]; then \
+	    ./po/update-unity-pot; \
+	    bzr commit --message "Update translation template" po/unity8.pot; \
+	fi

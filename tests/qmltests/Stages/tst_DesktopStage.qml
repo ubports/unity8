@@ -98,7 +98,7 @@ Item {
                 activeFocusOnPress: false
                 onClicked: {
                     if (ApplicationManager.focusedApplicationId) {
-                        var surface = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).session.surface;
+                        var surface = ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).session.lastSurface;
                         surface.slowToResize = true;
                     }
                 }
@@ -170,7 +170,7 @@ Item {
             }
             verify(app);
             waitUntilAppSurfaceShowsUp(appId);
-            verify(app.session.surface);
+            verify(app.session.lastSurface);
             return app;
         }
 
@@ -185,10 +185,10 @@ Item {
             data.apps.forEach(startApplication);
 
             ApplicationManager.requestFocusApplication(data.apps[data.focusfrom]);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.lastSurface, "activeFocus", true);
 
             ApplicationManager.requestFocusApplication(data.apps[data.focusTo]);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.lastSurface, "activeFocus", true);
         }
 
         function test_tappingOnWindowChangesFocusedApp_data() {
@@ -206,13 +206,13 @@ Item {
             var fromAppWindow = findChild(desktopStage, "appWindow_" + fromAppId);
             verify(fromAppWindow);
             tap(fromAppWindow);
-            compare(fromAppWindow.application.session.surface.activeFocus, true);
+            compare(fromAppWindow.application.session.lastSurface.activeFocus, true);
             compare(ApplicationManager.focusedApplicationId, fromAppId);
 
             var toAppWindow = findChild(desktopStage, "appWindow_" + toAppId);
             verify(toAppWindow);
             tap(toAppWindow);
-            compare(toAppWindow.application.session.surface.activeFocus, true);
+            compare(toAppWindow.application.session.lastSurface.activeFocus, true);
             compare(ApplicationManager.focusedApplicationId, toAppId);
         }
 
@@ -228,13 +228,13 @@ Item {
             var fromAppWindow = findChild(desktopStage, "appWindow_" + fromAppId);
             verify(fromAppWindow);
             mouseClick(fromAppWindow);
-            compare(fromAppWindow.application.session.surface.activeFocus, true);
+            compare(fromAppWindow.application.session.lastSurface.activeFocus, true);
             compare(ApplicationManager.focusedApplicationId, fromAppId);
 
             var toAppWindow = findChild(desktopStage, "appWindow_" + toAppId);
             verify(toAppWindow);
             mouseClick(toAppWindow);
-            compare(toAppWindow.application.session.surface.activeFocus, true);
+            compare(toAppWindow.application.session.lastSurface.activeFocus, true);
             compare(ApplicationManager.focusedApplicationId, toAppId);
         }
 
@@ -251,16 +251,18 @@ Item {
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
             tap(fromAppDecoration);
+
             var fromApp = ApplicationManager.findApplication(data.apps[data.focusfrom]);
             verify(fromApp);
-            tryCompare(fromApp.session.surface, "activeFocus", true);
+            tryCompare(fromApp.session.lastSurface, "activeFocus", true);
 
             var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
             verify(toAppDecoration);
             tap(toAppDecoration);
+
             var toApp = ApplicationManager.findApplication(data.apps[data.focusTo]);
             verify(toApp);
-            tryCompare(toApp.session.surface, "activeFocus", true);
+            tryCompare(toApp.session.lastSurface, "activeFocus", true);
         }
 
         function test_clickingOnDecorationFocusesApplication_data() {
@@ -273,12 +275,12 @@ Item {
             var fromAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusfrom]);
             verify(fromAppDecoration);
             mouseClick(fromAppDecoration);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.surface, "activeFocus", true);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusfrom]).session.lastSurface, "activeFocus", true);
 
             var toAppDecoration = findChild(desktopStage, "appWindowDecoration_" + data.apps[data.focusTo]);
             verify(toAppDecoration);
             mouseClick(toAppDecoration);
-            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.surface, "activeFocus", true);
+            tryCompare(ApplicationManager.findApplication(data.apps[data.focusTo]).session.lastSurface, "activeFocus", true);
         }
 
         function test_windowMaximize() {
@@ -374,7 +376,7 @@ Item {
             verify(dashDelegate);
 
             findChild(dashDelegate, "decoratedWindow").minimize();
-            tryCompare(dashApp.session.surface, "visible", false);
+            tryCompare(dashApp.session.lastSurface, "visible", false);
         }
 
         function test_maximizeApplicationHidesSurfacesBehindIt() {
@@ -393,13 +395,13 @@ Item {
             dialerDelegate.maximize();
             tryCompare(dialerDelegate, "visuallyMaximized", true);
 
-            tryCompare(dashApp.session.surface, "visible", false);
-            compare(gmailApp.session.surface.visible, true);
+            tryCompare(dashApp.session.lastSurface, "visible", false);
+            compare(gmailApp.session.lastSurface.visible, true);
 
             // restore
             dialerDelegate.restoreFromMaximized();
-            compare(dashApp.session.surface.visible, true);
-            compare(gmailApp.session.surface.visible, true);
+            compare(dashApp.session.lastSurface.visible, true);
+            compare(gmailApp.session.lastSurface.visible, true);
         }
 
         function test_applicationsBecomeVisibleWhenOccludingAppRemoved() {
@@ -430,15 +432,15 @@ Item {
             tryCompare(dialerDelegate, "visuallyMaximized", true);
             tryCompare(gmailDelegate, "visuallyMaximized", true);
 
-            tryCompare(dashApp.session.surface, "visible", false);
-            tryCompare(dialerApp.session.surface, "visible", false);
-            tryCompare(mapApp.session.surface, "visible", false);
+            tryCompare(dashApp.session.lastSurface, "visible", false);
+            tryCompare(dialerApp.session.lastSurface, "visible", false);
+            tryCompare(mapApp.session.lastSurface, "visible", false);
 
             ApplicationManager.stopApplication("gmail-webapp");
 
-            compare(mapApp.session.surface.visible, true);
-            tryCompare(dialerApp.session.surface, "visible", true);
-            tryCompare(dashApp.session.surface, "visible", false); // still occluded by maximised dialer
+            compare(mapApp.session.lastSurface.visible, true);
+            tryCompare(dialerApp.session.lastSurface, "visible", true);
+            tryCompare(dashApp.session.lastSurface, "visible", false); // still occluded by maximised dialer
         }
 
         function test_maximisedAppStaysVisibleWhenAppStarts() {
@@ -457,6 +459,46 @@ Item {
 
             compare(dialerDelegate.visible, true, "Dialer should be visible");
             compare(dashDelegate.visible, true, "Dash should still be visible");
+        }
+
+        function test_occlusionWithMultipleMaximized() {
+            var dashApp = startApplication("unity8-dash");
+            var dashAppDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
+
+            var dialerApp = startApplication("dialer-app");
+            var dialerAppDelegate = findChild(desktopStage, "appDelegate_dialer-app");
+
+            var facebookApp = startApplication("facebook-webapp");
+            var facebookAppDelegate = findChild(desktopStage, "appDelegate_facebook-webapp");
+
+            // all of them are in restored state now. all should be visible
+            tryCompare(dashAppDelegate, "visible", true);
+            tryCompare(dialerAppDelegate, "visible", true);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Maximize the topmost and make sure the other two are hidden
+            facebookAppDelegate.maximize();
+            tryCompare(dashAppDelegate, "visible", false);
+            tryCompare(dialerAppDelegate, "visible", false);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Bring dash to front. make sure dash and the maximized facebook are visible, the restored one behind is hidden
+            ApplicationManager.focusApplication("unity8-dash");
+            tryCompare(dashAppDelegate, "visible", true);
+            tryCompare(dialerAppDelegate, "visible", false);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Now focus the dialer app. all 3 should be visible again
+            ApplicationManager.focusApplication("dialer-app");
+            tryCompare(dashAppDelegate, "visible", true);
+            tryCompare(dialerAppDelegate, "visible", true);
+            tryCompare(facebookAppDelegate, "visible", true);
+
+            // Maximize the dialer app. The other 2 should hide
+            dialerAppDelegate.maximize();
+            tryCompare(dashAppDelegate, "visible", false);
+            tryCompare(dialerAppDelegate, "visible", true);
+            tryCompare(facebookAppDelegate, "visible", false);
         }
     }
 }

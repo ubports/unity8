@@ -29,8 +29,8 @@ Rectangle {
 
     ListModel {
         id: fakeModel
-        ListElement { icon: "../graphics/applicationIcons/facebook.png"; name: "Facebook" }
-        ListElement { icon: "../graphics/applicationIcons/gmail.png"; name: "Mail" }
+        ListElement { icon: "../../tests/graphics/applicationIcons/facebook.png"; name: "Facebook" }
+        ListElement { icon: "../../tests/graphics/applicationIcons/gmail.png"; name: "Mail" }
     }
 
     function openWarning() {
