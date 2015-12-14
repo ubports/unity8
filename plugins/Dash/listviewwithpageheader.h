@@ -167,6 +167,7 @@ private:
     void updateWatchedRoles();
     QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
     QQuickItem *getSectionItem(const QString &sectionText);
+    void updateSectionItem(int modelIndex);
 
     QQmlDelegateModel *m_delegateModel;
 

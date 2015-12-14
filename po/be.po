@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
-"PO-Revision-Date: 2015-09-24 14:32+0000\n"
-"Last-Translator: Siamion Šachalevič <semen.shah@gmail.com>\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
+"PO-Revision-Date: 2015-12-13 13:12+0000\n"
+"Last-Translator: Mikhail_SaTuRn <mikhail_saturn@tut.by>\n"
 "Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:29+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-14 05:32+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -130,7 +130,7 @@ msgid ""
 "to power off?"
 msgstr ""
 "Вы ўпэўнены, што хочаце\n"
-"выключыць кампутар?"
+"выключыць камп'ютэр?"
 
 #: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
@@ -156,27 +156,27 @@ msgstr "Добра"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Прылады могуць мець незахованыя дадзеныя:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "Захавайце сваю працу і зачыніце прылады, каб працягнуць."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Прымусіць зачыніць (незахаваныя дадзеныя будуць страчаны)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Добра, буду перападлучацца"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Перападлучыцца зараз!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Зачыніць усё"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -201,15 +201,15 @@ msgstr "Выдаліць з абранага"
 msgid "Add to Favorites"
 msgstr "Дадаць да абранага"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Карацей"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Больш падрабязна"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Пошук"
@@ -237,15 +237,15 @@ msgstr "Дадаць рэцэнзію"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Падзяліцца праглядаймым"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr "Пацягніце для абнаўлення ..."
+msgstr "Пацягніце для абнаўлення..."
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr "Адпусціце для абнаўлення ..."
+msgstr "Адпусціце для абнаўлення..."
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
@@ -257,7 +257,7 @@ msgstr "Кіраванне"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr "Хатняя тэчка"
+msgstr "Хатняя папка"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
@@ -265,7 +265,7 @@ msgstr "Таксама ўсталявана"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr ""
+msgstr "Прылада падлучана да вонкавага дысплэю."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -296,7 +296,7 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Калі ўведзены пароль няправільны, Ваш тэлефон зробіць агульны скід налад і  "
+"Калі ўведзены пароль неправільны, Ваш тэлефон зробіць агульны скід налад і  "
 "ўсе асабістыя дадзеныя будуць выдалены."
 
 #: qml/Greeter/NarrowView.qml:59
@@ -304,7 +304,7 @@ msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Калі ўведзены код няправільны, Ваш тэлефон зробіць агульны скід налад і  ўсе "
+"Калі ўведзены код неправільны, Ваш тэлефон зробіць агульны скід налад і  ўсе "
 "асабістыя дадзеныя будуць выдалены."
 
 #: qml/Greeter/NarrowView.qml:116
@@ -314,7 +314,7 @@ msgstr "Увядзіце %1"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr "Увядзіце парольную фразу"
+msgstr "Увядзіце пароль"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
@@ -327,7 +327,7 @@ msgstr "Даруйце, некарэктны %1"
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
-msgstr "Даруйце, няслушны пароль"
+msgstr "Даруйце, някарэктны пароль"
 
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
@@ -336,7 +336,7 @@ msgstr "Калі ласка, паўтарыце ўвод"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
-msgstr "Даруйце, няслушны код"
+msgstr "Даруйце, некарэктны код"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
@@ -352,7 +352,7 @@ msgstr "Канферэнцыя"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:731
 msgid "Nothing is playing"
-msgstr "Нішто не грае"
+msgstr "Нічога не грае"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:860
 #, qt-format
@@ -416,7 +416,7 @@ msgstr "Не атрымалася, націсніце, каб паўтарыць
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Даслаць"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -426,7 +426,7 @@ msgstr "Адказаць"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Патэлефанаваць"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -436,14 +436,6 @@ msgstr "Разблакаваць SIM"
 msgid "Roaming"
 msgstr "Роўмінг"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Гэта дзеянне мае розныя наступствы для розных праграм"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Націсніце тут, каб завяршыць."
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Адкрыць спецыяльныя меню"
@@ -452,14 +444,18 @@ msgstr "Адкрыць спецыяльныя меню"
 msgid "Swipe up from the bottom edge."
 msgstr "Правесці уверх ад ніжняга краю."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Гэта дзеянне мае розныя наступствы для розных праграм"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Націсніце тут, каб завяршыць."
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Націсніце тут, каб працягнуць."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Гэта скарачэнні для абраных праграм"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -468,6 +464,10 @@ msgstr "Адкрыць панэль запуску"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Кароткі рух з левага краю."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Гэта скарачэнні для абраных праграм"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
