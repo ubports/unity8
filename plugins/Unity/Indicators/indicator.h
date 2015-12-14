@@ -32,7 +32,7 @@ class UNITYINDICATORS_EXPORT Indicator : public QObject
 public:
     typedef QSharedPointer<Indicator> Ptr;
 
-    Indicator(QObject *parent = 0);
+    Indicator(QObject *parent = nullptr);
     virtual ~Indicator();
 
     void init(const QString& busName, const QSettings& settings);

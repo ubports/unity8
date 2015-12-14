@@ -486,7 +486,7 @@ Rectangle {
             compare(dashApp.supportedOrientations, Qt.PrimaryOrientation);
             compare(dashApp.stage, ApplicationInfoInterface.MainStage);
 
-            tryCompareFunction(function(){return dashApp.session.surface != null;}, true);
+            tryCompareFunction(function(){return dashApp.session.lastSurface != null;}, true);
             verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
@@ -563,7 +563,7 @@ Rectangle {
 
             waitUntilAppSurfaceShowsUp("camera-app")
 
-            var cameraSurface = cameraApp.session.surface;
+            var cameraSurface = cameraApp.session.lastSurface;
             verify(cameraSurface);
 
             var focusChangedSpy = signalSpy;
@@ -964,9 +964,9 @@ Rectangle {
             verify(gmailApp);
             waitUntilAppSurfaceShowsUp("gmail-webapp")
 
-            verify(gmailApp.session.surface);
+            verify(gmailApp.session.lastSurface);
 
-            tryCompare(gmailApp.session.surface, "activeFocus", true);
+            tryCompare(gmailApp.session.lastSurface, "activeFocus", true);
         }
 
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
@@ -1351,7 +1351,7 @@ Rectangle {
 
         // expectedAngle is in orientedShell's coordinate system
         function checkAppSurfaceOrientation(item, app, expectedAngle) {
-            var surface = app.session.surface;
+            var surface = app.session.lastSurface;
             if (!surface) {
                 console.warn("no surface");
                 return false;
@@ -1439,7 +1439,7 @@ Rectangle {
             var app = ApplicationManager.findApplication(appId);
             verify(app);
 
-            var surface = app.session.surface;
+            var surface = app.session.lastSurface;
             verify(surface);
 
             var surfaceItem = findSurfaceItem(appWindow, surface);

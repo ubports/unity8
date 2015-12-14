@@ -55,6 +55,7 @@ FocusScope {
         id: surfaceItem
         objectName: "surfaceItem"
 
+        fillMode: MirSurfaceItem.PadOrCrop
         consumesInput: true
 
         surfaceWidth: {

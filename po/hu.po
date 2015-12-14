@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
-"PO-Revision-Date: 2015-11-20 14:56+0000\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
+"PO-Revision-Date: 2015-11-30 08:29+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -151,27 +151,29 @@ msgstr "OK"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Alkalmazások mentetlen adattal:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Dokkoljon újra, mentse a munkáját, majd zárjon be minden alkalmazást a "
+"folytatáshoz."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Vagy kényszerítse ki a bezárást (minden mentetlen adat elveszik)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Rendben, újracsatlakozom"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Újracsatlakozás most!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Minden bezárása"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -196,15 +198,15 @@ msgstr "Eltávolítás a kedvencek közül"
 msgid "Add to Favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Kevesebb"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Összes megtekintése"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Keresés"
@@ -232,7 +234,7 @@ msgstr "Értékelés hozzáadása"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Megosztandó elem előnézete"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -260,7 +262,7 @@ msgstr "Telepítve"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr "A készülék jelenleg egy külső kijelzőhöz van csatlakoztatva."
+msgstr "A készülék egy külső kijelzőhöz van csatlakoztatva."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -428,14 +430,6 @@ msgstr "SIM feloldása"
 msgid "Roaming"
 msgstr "Barangolás"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Ez a művelet másként viselkedhet a különböző alkalmazásoknál"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Koppintson ide a befejezéshez."
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Speciális menük elérése"
@@ -444,14 +438,18 @@ msgstr "Speciális menük elérése"
 msgid "Swipe up from the bottom edge."
 msgstr "Húzza az ujját a kijelző aljától indulva felfelé."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Ez a művelet másként viselkedhet a különböző alkalmazásoknál"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Koppintson ide a befejezéshez."
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Koppintson ide a folytatáshoz."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Ezek a kedvenc alkalmazások gyorsindítói"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -460,6 +458,10 @@ msgstr "Indító megnyitása"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Húzza az ujját röviden a kijelző baloldalától indulva."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Ezek a kedvenc alkalmazások gyorsindítói"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
