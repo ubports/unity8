@@ -104,7 +104,9 @@ Item {
             }
         } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
             d.altPressed = true;
-        } else if (event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)) {
+        } else if (((event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R) && event.modifiers === Qt.MetaModifier)
+                    || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)
+                    ) {
             d.superPressed = true;
         } else if (event.key == Qt.Key_Tab) {
             if (d.altPressed && !d.altTabPressed) {
