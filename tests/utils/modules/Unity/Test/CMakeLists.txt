@@ -19,6 +19,9 @@ set(UnityTestQML_SOURCES
 add_library(UnityTestQml MODULE ${UnityTestQML_SOURCES})
 target_link_libraries(UnityTestQml UbuntuGestures)
 
+pkg_check_modules(MOUSETOUCHADAPTOR_LIBS REQUIRED x11 xcb xi)
+target_link_libraries(UnityTestQml ${MOUSETOUCHADAPTOR_LIBS_LDFLAGS})
+
 qt5_use_modules(UnityTestQml Core Quick Test)
 
 export_qmlfiles(Unity.Test Unity/Test)

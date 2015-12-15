@@ -30,7 +30,7 @@ add_executable(${SHELL_APP}
 
 qt5_use_modules(${SHELL_APP} Gui Qml Quick Test)
 
-pkg_check_modules(NEEDED_LIBS REQUIRED xcb libandroid-properties)
+pkg_check_modules(NEEDED_LIBS REQUIRED x11 xcb xi libandroid-properties)
 if (NOT "${NEEDED_LIBS_INCLUDE_DIRS}" STREQUAL "")
     set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${NEEDED_LIBS_INCLUDE_DIRS})
 endif()
