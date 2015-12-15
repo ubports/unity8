@@ -28,7 +28,7 @@ UnityDBusVirtualObject::UnityDBusVirtualObject(const QString &path, const QStrin
 {
     if (async) {
         // Use a zero-timer to let Qml finish loading before we announce on DBus
-        QTimer::singleShot(0, this, SLOT(registerObject()));
+        QTimer::singleShot(0, this, &UnityDBusVirtualObject::registerObject);
     } else {
         registerObject();
     }
@@ -61,8 +61,8 @@ void UnityDBusVirtualObject::notifyPropertyChanged(const QString& interface, con
     changedProps.insert(propertyName, value);
 
     message = QDBusMessage::createSignal(path() + "/" + node,
-                                         "org.freedesktop.DBus.Properties",
-                                         "PropertiesChanged");
+                                         QStringLiteral("org.freedesktop.DBus.Properties"),
+                                         QStringLiteral("PropertiesChanged"));
     message << interface;
     message << changedProps;
     message << QStringList();

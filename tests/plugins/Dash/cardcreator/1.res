@@ -2,7 +2,8 @@ AbstractButton {
                 id: root; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource: undefined; 
+                property string artShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 property int titleAlignment: Text.AlignLeft; 
@@ -14,7 +15,6 @@ AbstractButton {
                 implicitWidth: childrenRect.width; 
                 enabled: true;
 
-onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } 
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
                             id: artShapeHolder; 
@@ -30,10 +30,9 @@ Item  {
                                 sourceComponent: Item {
                                     id: artShape;
                                     objectName: "artShape";
-                                    property bool doShapeItem: components["art"]["conciergeMode"] !== true;
+                                    readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true;
                                     visible: image.status == Image.Ready;
-                                    readonly property alias image: artImage.image;
-                                    property alias borderSource: artShapeShape.borderSource;
+                                    readonly property alias image: artImage;
                                     ShaderEffectSource {
                                         id: artShapeSource;
                                         sourceItem: artImage;
@@ -42,16 +41,34 @@ Item  {
                                         height: 1;
                                         hideSource: doShapeItem;
                                     }
-                                    Shape {
-                                        id: artShapeShape;
-                                        image: artShapeSource;
+                                    Loader {
                                         anchors.fill: parent;
-                                        visible: doShapeItem;
-                                        radius: "medium";
+                                        visible: artShape.doShapeItem;
+                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent;
+                                        Component {
+                                            id: artShapeShapeComponent;
+                                            UbuntuShape {
+                                                source: artShapeSource;
+                                                sourceFillMode: UbuntuShape.PreserveAspectCrop;
+                                                radius: "medium";
+                                                aspect: {
+                                                    switch (root.artShapeStyle) {
+                                                        case "inset": return UbuntuShape.Inset;
+                                                        case "shadow": return UbuntuShape.DropShadow;
+                                                        default:
+                                                        case "flat": return UbuntuShape.Flat;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        Component {
+                                            id: artShapeIconComponent;
+                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; }
+                                        }
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; 
-                                    Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; }
+                                    Component.onCompleted: { updateWidthHeightBindings(); }
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
                                     function updateWidthHeightBindings() { 
                                         if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { 
@@ -87,7 +104,7 @@ Label {
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                        color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                         visible: showHeader ; 
                         width: undefined;
                         text: root.title; 
@@ -98,7 +115,7 @@ UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
     anchors { fill: artShapeHolder }
-    visible: root.pressed;
+    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }

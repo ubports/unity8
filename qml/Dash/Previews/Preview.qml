@@ -14,8 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import "../../Components"
 
 /*! \brief This component constructs the Preview UI.
  *
@@ -66,10 +67,17 @@ Item {
             delegate: ListView {
                 id: column
                 objectName: "previewListRow" + index
-                anchors { top: parent.top; bottom: parent.bottom }
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                }
                 width: row.columnWidth
                 spacing: row.spacing
-                bottomMargin: Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0
+
+                ListViewOSKScroller {
+                    id: oskScroller
+                    list: column
+                }
 
                 model: columnModel
                 cacheBuffer: height
@@ -82,15 +90,21 @@ Item {
                     widgetData: model.properties
                     isCurrentPreview: root.isCurrent
                     scopeStyle: root.scopeStyle
+                    parentFlickable: column
+
                     anchors {
                         left: parent.left
                         right: parent.right
-                        leftMargin: units.gu(1)
-                        rightMargin: units.gu(1)
+                        leftMargin: widgetMargins
+                        rightMargin: widgetMargins
                     }
 
                     onTriggered: {
                         previewModel.triggered(widgetId, actionId, data);
+                    }
+
+                    onMakeSureVisible: {
+                        oskScroller.setMakeSureVisibleItem(item);
                     }
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)

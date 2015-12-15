@@ -13,8 +13,9 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
-# Instruct CMake to run moc automatically when needed.
+# Instruct CMake to run moc and rcc automatically when needed.
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 # enable QML debugging
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_lower) # Build types should always be lowercase but sometimes they are not.
@@ -48,15 +49,15 @@ add_custom_target(cppcheck COMMAND cppcheck --enable=all -q --error-exitcode=2
                                        ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/tests)
 
 include(FindPkgConfig)
-find_package(Qt5Core 5.2 REQUIRED)
-find_package(Qt5Qml 5.2 REQUIRED)
-find_package(Qt5Quick 5.2 REQUIRED)
-find_package(Qt5Gui 5.2 REQUIRED)
-find_package(Qt5DBus 5.2 REQUIRED)
-find_package(Qt5Concurrent 5.2 REQUIRED)
-find_package(Qt5Sql 5.2 REQUIRED)
+find_package(Qt5Core 5.4 REQUIRED)
+find_package(Qt5Qml 5.4 REQUIRED)
+find_package(Qt5Quick 5.4 REQUIRED)
+find_package(Qt5Gui 5.4 REQUIRED)
+find_package(Qt5DBus 5.4 REQUIRED)
+find_package(Qt5Concurrent 5.4 REQUIRED)
+find_package(Qt5Sql 5.4 REQUIRED)
 
-pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=6)
+pkg_check_modules(APPLICATION_API REQUIRED unity-shell-application=12)
 
 # Standard install paths
 include(GNUInstallDirs)
@@ -99,6 +100,9 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 # Save a few container detach and conversions
 add_definitions(-DQT_STRICT_ITERATORS)
+
+# Use the fast string builder
+add_definitions(-DQT_USE_QSTRINGBUILDER)
 
 # Autopilot tests
 include(autopilot)

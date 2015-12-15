@@ -14,33 +14,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Unity.Application 0.1
-import SessionGrabber 0.1
 
 FocusScope {
     id: root
+    implicitWidth: sessionContainer.implicitWidth
+    implicitHeight: sessionContainer.implicitHeight
 
     // to be read from outside
     readonly property bool fullscreen: application ? application.fullscreen : false
     property alias interactive: sessionContainer.interactive
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
+    readonly property string title: sessionContainer.surface && sessionContainer.surface.name !== "" ?
+                                        sessionContainer.surface.name : d.name
 
     // to be set from outside
     property QtObject application
     property int surfaceOrientationAngle
-
-    function removeScreenshot() {
-        sessionGrabber.removeScreenshot();
-    }
+    property alias resizeSurface: sessionContainer.resizeSurface
+    property int requestedWidth: -1
+    property int requestedHeight: -1
 
     QtObject {
         id: d
 
         // helpers so that we don't have to check for the existence of an application everywhere
         // (in order to avoid breaking qml binding due to a javascript exception)
-        readonly property string appId: root.application ? root.application.appId : ""
         readonly property string name: root.application ? root.application.name : ""
         readonly property url icon: root.application ? root.application.icon : ""
         readonly property int applicationState: root.application ? root.application.state : -1
@@ -55,12 +56,13 @@ FocusScope {
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
 
-        property bool needToTakeScreenshot:
-            sessionContainer.surface && d.surfaceInitialized
-            && (d.applicationState === ApplicationInfoInterface.Stopped || d.applicationState === ApplicationInfoInterface.Suspended)
+        readonly property bool needToTakeScreenshot:
+            ((sessionContainer.surface && d.surfaceInitialized) || d.hadSurface)
+            && screenshotImage.status === Image.Null
+            && d.applicationState === ApplicationInfoInterface.Stopped
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot) {
-                sessionGrabber.grab();
+                screenshotImage.take();
             }
         }
 
@@ -69,7 +71,7 @@ FocusScope {
         // Remove this when possible
         property bool surfaceInitialized: false
 
-        property bool supportsSurfaceResize:
+        readonly property bool supportsSurfaceResize:
                 application &&
                 ((application.supportedOrientations & Qt.PortraitOrientation)
                   || (application.supportedOrientations & Qt.InvertedPortraitOrientation))
@@ -92,9 +94,28 @@ FocusScope {
         onTriggered: { if (stateGroup.state === "surface") { d.surfaceOldEnoughToBeResized = true; } }
     }
 
+    Image {
+        id: screenshotImage
+        objectName: "screenshotImage"
+        source: d.defaultScreenshot
+        anchors.fill: parent
+        antialiasing: !root.interactive
+
+        function take() {
+            // Save memory by using a half-resolution (thus quarter size) screenshot.
+            // Do not make this a binding, we can only take the screenshot once!
+            sourceSize.width = root.width / 2;
+            sourceSize.height = root.height / 2;
+
+            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
+            // eg: "image://application/calculator-app/123456"
+            var timeMs = new Date().getTime();
+            source = "image://application/" + root.application.appId + "/" + timeMs;
+        }
+    }
+
     Loader {
         id: splashLoader
-        objectName: "splashLoader"
         visible: active
         active: false
         anchors.fill: parent
@@ -108,43 +129,7 @@ FocusScope {
                 backgroundColor: d.splashColor
                 headerColor: d.splashColorHeader
                 footerColor: d.splashColorFooter
-                activeSpinner: d.applicationState === ApplicationInfoInterface.Starting ||
-                               d.applicationState === ApplicationInfoInterface.Running
             }
-        }
-    }
-
-    Image {
-        id: screenshotImage
-        objectName: "screenshotImage"
-        source: sessionGrabber.path || d.defaultScreenshot
-        anchors.fill: parent
-        antialiasing: !root.interactive
-        cache: false
-        asynchronous: true
-
-        // Save memory by using a half-resolution (thus quarter size) screenshot
-        sourceSize.width: root.width / 2
-        sourceSize.height: root.height / 2
-
-        ActivityIndicator {
-            id: activityIndicator
-            anchors.centerIn: parent
-            visible: running
-            running: stateGroup.state == "screenshot" &&
-                     (d.applicationState === ApplicationInfoInterface.Starting || d.applicationState === ApplicationInfoInterface.Running)
-        }
-    }
-
-    SessionGrabber {
-        id: sessionGrabber
-        appId: d.appId
-        target: root
-
-        onScreenshotGrabbed: {
-            // Need to reset to "" and back since it may be the same path with new content
-            screenshotImage.source = "";
-            screenshotImage.source = sessionGrabber.path;
         }
     }
 
@@ -152,7 +137,9 @@ FocusScope {
         id: sessionContainer
         // A fake application might not even have a session property.
         session: application && application.session ? application.session : null
-        anchors.fill: parent
+
+        requestedWidth: root.requestedWidth
+        requestedHeight: root.requestedHeight
 
         surfaceOrientationAngle: application && application.rotatesWindowContents ? root.surfaceOrientationAngle : 0
 
@@ -165,6 +152,28 @@ FocusScope {
         }
 
         focus: true
+    }
+
+    // SessionContainer size drives ApplicationWindow size
+    Binding {
+        target: root; property: "width"
+        value: stateGroup.state === "surface" ? sessionContainer.width : root.requestedWidth
+        when: root.requestedWidth >= 0
+    }
+    Binding {
+        target: root; property: "height"
+        value: stateGroup.state === "surface" ? sessionContainer.height : root.requestedHeight
+        when: root.requestedHeight >= 0
+    }
+
+    // ApplicationWindow size drives SessionContainer size
+    Binding {
+        target: sessionContainer; property: "width"; value: root.width
+        when: root.requestedWidth < 0
+    }
+    Binding {
+        target: sessionContainer; property: "height"; value: root.height
+        when: root.requestedHeight < 0
     }
 
     StateGroup {

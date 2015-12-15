@@ -21,7 +21,8 @@
 #include <QQuickWindow>
 
 WindowKeysFilter::WindowKeysFilter(QQuickItem *parent)
-    : QQuickItem(parent)
+    : QQuickItem(parent),
+      m_currentEventTimestamp(0)
 {
     connect(this, &QQuickItem::windowChanged,
             this, &WindowKeysFilter::setupFilterOnWindow);
@@ -36,7 +37,15 @@ bool WindowKeysFilter::eventFilter(QObject *watched, QEvent *event)
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         // Let QML see this event and decide if it does not want it
         event->accept();
+
+        m_currentEventTimestamp = static_cast<QInputEvent*>(event)->timestamp();
+        Q_EMIT currentEventTimestampChanged();
+
         QCoreApplication::sendEvent(this, event);
+
+        m_currentEventTimestamp = 0;
+        Q_EMIT currentEventTimestampChanged();
+
         return event->isAccepted();
     } else {
         // Not interested
@@ -55,4 +64,9 @@ void WindowKeysFilter::setupFilterOnWindow(QQuickWindow *window)
         window->installEventFilter(this);
         m_filteredWindow = window;
     }
+}
+
+ulong WindowKeysFilter::currentEventTimestamp() const
+{
+    return m_currentEventTimestamp;
 }

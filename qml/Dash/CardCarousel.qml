@@ -14,14 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../Components"
 
 DashRenderer {
     id: cardCarousel
 
-    expandedHeight: carousel.implicitHeight + units.gu(6)
+    readonly property real extraHeaderHeight: cardTool.template && cardTool.template["overlay"] === true ? 0 : cardTool.headerHeight
+
+    expandedHeight: carousel.implicitHeight + units.gu(6) + extraHeaderHeight
     collapsedHeight: expandedHeight
     growsVertically: false
     innerWidth: carousel.innerWidth
@@ -30,6 +32,7 @@ DashRenderer {
         id: carousel
         anchors.fill: parent
         tileAspectRatio: cardTool.components && cardTool.components["art"]["aspect-ratio"] || 1.0
+        extraBottomMargin: cardCarousel.extraHeaderHeight
         // FIXME we need to "reverse" the carousel to make the selected item the size
         // and push others back.
         minimumTileWidth: cardTool.cardWidth / selectedItemScaleFactor
@@ -64,17 +67,9 @@ DashRenderer {
                 item.components = Qt.binding(function() { return cardTool.components; });
                 item.fontScale = Qt.binding(function() { return carousel.fontScale; });
                 item.showHeader = Qt.binding(function() { return loader.explicitlyScaled; });
-                item.artShapeBorderSource = "none";
+                item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
+                item.artShapeStyle = "shadow";
                 item.scopeStyle = cardCarousel.scopeStyle;
-            }
-
-            BorderImage {
-                anchors {
-                    fill: parent
-                    margins: -units.gu(1)
-                }
-                z: -1
-                source: "graphics/carousel_dropshadow.sci"
             }
         }
     }

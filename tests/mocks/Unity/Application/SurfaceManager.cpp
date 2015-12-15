@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,31 +36,28 @@ SurfaceManager::SurfaceManager(QObject *parent) :
 {
 }
 
-MirSurfaceItem *SurfaceManager::createSurface(const QString& name,
-                                              MirSurfaceItem::Type type,
-                                              MirSurfaceItem::State state,
+MirSurface *SurfaceManager::createSurface(const QString& name,
+                                              Mir::Type type,
+                                              Mir::State state,
                                               const QUrl& screenshot)
 {
-    MirSurfaceItem* surface = new MirSurfaceItem(name, type, state, screenshot);
+    MirSurface* surface = new MirSurface(name, type, state, screenshot);
+    connect(surface, &QObject::destroyed, this, [this](QObject *obj) {
+        MirSurface* surface = qobject_cast<MirSurface*>(obj);
+        Q_EMIT surfaceDestroyed(surface);
+    });
     Q_EMIT surfaceCreated(surface);
     return surface;
 }
 
-void SurfaceManager::registerSurface(MirSurfaceItem *surface)
-{
-    connect(surface, &MirSurfaceItem::deregister, this, [this] {
-        MirSurfaceItem* surface = qobject_cast<MirSurfaceItem*>(sender());
-        disconnect(surface, 0, this, 0);
-
-        surface->setLive(false);
-        Q_EMIT surfaceDestroyed(surface);
-    });
-}
-
-MirSurfaceItem *SurfaceManager::inputMethodSurface()
+MirSurface *SurfaceManager::inputMethodSurface()
 {
     if (!m_virtualKeyboard) {
         m_virtualKeyboard = new VirtualKeyboard;
+        connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
+            MirSurface* surface = qobject_cast<MirSurface*>(obj);
+            Q_EMIT surfaceDestroyed(surface);
+        });
         Q_EMIT surfaceCreated(m_virtualKeyboard);
     }
     return m_virtualKeyboard;

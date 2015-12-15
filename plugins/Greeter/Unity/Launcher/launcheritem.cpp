@@ -31,10 +31,11 @@ LauncherItem::LauncherItem(const QString &appId, const QString &name, const QStr
     m_count(0),
     m_countVisible(false),
     m_focused(false),
+    m_alerting(false),
     m_quickList(new QuickListModel(this))
 {
     QuickListEntry nameAction;
-    nameAction.setActionId("launch_item");
+    nameAction.setActionId(QStringLiteral("launch_item"));
     nameAction.setText(m_name);
     m_quickList->appendAction(nameAction);
 }
@@ -54,7 +55,7 @@ void LauncherItem::setName(const QString &name)
     if (m_name != name) {
         m_name = name;
         QuickListEntry entry;
-        entry.setActionId("launch_item");
+        entry.setActionId(QStringLiteral("launch_item"));
         entry.setText(m_name);
         m_quickList->updateAction(entry);
         Q_EMIT nameChanged(name);
@@ -162,6 +163,19 @@ void LauncherItem::setFocused(bool focused)
     if (m_focused != focused) {
         m_focused = focused;
         Q_EMIT focusedChanged(focused);
+    }
+}
+
+bool LauncherItem::alerting() const
+{
+    return m_alerting;
+}
+
+void LauncherItem::setAlerting(bool alerting)
+{
+    if (m_alerting != alerting) {
+        m_alerting = alerting;
+        Q_EMIT alertingChanged(alerting);
     }
 }
 

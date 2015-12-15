@@ -57,8 +57,6 @@ private Q_SLOTS:
         m_userInterface = new QDBusInterface("org.freedesktop.Accounts",
                                              QString("/%1").arg(QTest::currentTestFunction()),
                                              "org.freedesktop.DBus.Properties", QDBusConnection::sessionBus(), this);
-        QDBusReply<void> resetReply = m_userInterface->call("Reset");
-        QVERIFY(resetReply.isValid());
 
         QVERIFY(QObject::connect(m_userInterface, SIGNAL(PropertiesChanged(QString, QVariantMap, QStringList)),
                                  this, SIGNAL(propertiesChanged(QString, QVariantMap, QStringList))));
@@ -79,23 +77,22 @@ private Q_SLOTS:
     {
         // Test various invalid calls
         AccountsServiceDBusAdaptor session;
-        QCOMPARE(session.getUserProperty("NOPE", "com.canonical.unity.AccountsService", "demo-edges"), QVariant());
-        QCOMPARE(session.getUserProperty(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "NOPE"), QVariant());
+        QCOMPARE(session.getUserPropertyAsync("NOPE", "com.canonical.unity.AccountsService", "demo-edges").value(), QVariant());
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "NOPE").value(), QVariant());
     }
 
     void testGetSetServiceDBusAdaptor()
     {
         AccountsServiceDBusAdaptor session;
-        session.setUserProperty(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges", QVariant(true));
-        QCOMPARE(session.getUserProperty(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges"), QVariant(true));
-        session.setUserProperty(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges", QVariant(false));
-        QCOMPARE(session.getUserProperty(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges"), QVariant(false));
+        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges", QVariant(true)).waitForFinished();
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges").value(), QVariant(true));
+        session.setUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges", QVariant(false)).waitForFinished();
+        QCOMPARE(session.getUserPropertyAsync(QTest::currentTestFunction(), "com.canonical.unity.AccountsService", "demo-edges").value(), QVariant(false));
     }
 
     void testGetSetService()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.demoEdges(), false);
         session.setDemoEdges(true);
@@ -112,8 +109,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForDemoEdges()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.demoEdges(), false);
         ASSERT_DBUS_CALL(m_userInterface->call("Set",
@@ -125,8 +121,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForFailedLogins()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.failedLogins(), (uint)0);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -138,8 +133,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsWelcomeScreen()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.statsWelcomeScreen(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -151,8 +145,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsEnableLauncherWhileLocked()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.enableLauncherWhileLocked(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -164,8 +157,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsEnableIndicatorsWhileLocked()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.enableIndicatorsWhileLocked(), true);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -177,8 +169,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsPasswordDisplayHint()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.passwordDisplayHint(), AccountsService::Keyboard);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -190,8 +181,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsLicenseAccepted()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.hereEnabled(), false);
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -203,8 +193,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForLicenseBasePath()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.hereLicensePath(), QString());
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
@@ -216,8 +205,7 @@ private Q_SLOTS:
 
     void testAsynchornousChangeForStatsBackgroundFile()
     {
-        AccountsService session;
-        session.setUser(QTest::currentTestFunction());
+        AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.backgroundFile(), QString());
         ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",

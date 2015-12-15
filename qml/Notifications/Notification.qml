@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtMultimedia 5.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Powerd 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Notifications 1.0
 import QMenuModel 0.1
 import Utils 0.1
-
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import "../Components"
 
 Item {
     id: notification
@@ -48,6 +48,9 @@ Item {
     readonly property color sdDarkGrey: "#dddddd"
     readonly property color sdFontColor: "#5d5d5d"
     readonly property real contentSpacing: units.gu(2)
+    readonly property bool canBeClosed: type === Notification.Ephemeral
+    property bool hasMouse
+    property url background: ""
 
     objectName: "background"
     implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
@@ -77,15 +80,22 @@ Item {
         return result;
     }
 
-    Audio {
+    NotificationAudio {
         id: sound
         objectName: "sound"
-        audioRole: MediaPlayer.alert
         source: hints["suppress-sound"] !== "true" && hints["sound-file"] !== undefined ? hints["sound-file"] : ""
     }
 
-    // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
     Component.onCompleted: {
+        // Turn on screen as needed (Powerd.Notification means the screen
+        // stays on for a shorter amount of time)
+        if (type == Notification.SnapDecision) {
+            Powerd.setStatus(Powerd.On, Powerd.SnapDecision);
+        } else if (type != Notification.Confirmation) {
+            Powerd.setStatus(Powerd.On, Powerd.Notification);
+        }
+
+        // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
         if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
@@ -142,10 +152,10 @@ Item {
             rightMargin: notification.margins
             topMargin: type === Notification.Confirmation ? units.gu(.5) : 0
         }
-        color: parent.color
+        backgroundColor: parent.color
         opacity: parent.opacity
         radius: "medium"
-        borderSource: "none"
+        aspect: UbuntuShape.Flat
     }
 
     Rectangle {
@@ -207,6 +217,8 @@ Item {
             onClicked: {
                 if (notification.type == Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
+                } else if (hasMouse && canBeClosed) {
+                    notification.notification.close()
                 } else {
                     notificationList.currentIndex = index;
                 }
@@ -269,7 +281,7 @@ Item {
                         }
                         visible: type !== Notification.Confirmation
                         fontSize: "medium"
-                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -284,7 +296,7 @@ Item {
                         }
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
-                        color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                         wrapMode: Text.WordWrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
@@ -325,7 +337,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
                 fontSize: "medium"
-                color: darkOnBright ? sdFontColor : Theme.palette.selected.backgroundText
+                color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                 wrapMode: Text.WordWrap
                 maximumLineCount: 1
                 elide: Text.ElideRight
@@ -345,8 +357,8 @@ Item {
                 }
 
                 height: units.gu(1)
-                color: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
-                borderSource: "none"
+                backgroundColor: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
+                aspect: UbuntuShape.Flat
                 radius: "small"
 
                 UbuntuShape {
@@ -354,8 +366,8 @@ Item {
                     objectName: "innerBar"
                     width: valueIndicator.width * valueIndicator.value / 100
                     height: units.gu(1)
-                    color: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
-                    borderSource: "none"
+                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
+                    aspect: UbuntuShape.Flat
                     radius: "small"
                 }
             }
@@ -389,6 +401,7 @@ Item {
                         menuData: model
                         menuIndex: index
                         maxHeight: notification.maxHeight
+                        background: notification.background
 
                         onLoaded: {
                             notification.fullscreen = Qt.binding(function() { return fullscreen; });
@@ -462,7 +475,7 @@ Item {
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
-                            sourceComponent:  (index == 1 || index == 2) ? oneOverTwoButtonBottom : undefined
+                            sourceComponent: (index == 1 || index == 2) ? oneOverTwoButtonBottom : undefined
                         }
                     }
                 }
@@ -478,7 +491,7 @@ Item {
                     margins: contentSpacing
                 }
                 visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
-                spacing: units.gu(2)
+                spacing: contentSpacing
                 layoutDirection: Qt.RightToLeft
 
                 Loader {
@@ -490,6 +503,7 @@ Item {
                         width: buttonRow.width
                         leftIconName: "call-end"
                         rightIconName: "call-start"
+                        clickToAct: notification.hasMouse
                         onRightTriggered: {
                             notification.notification.invokeAction(notification.actions.data(0, ActionModel.RoleActionId))
                         }

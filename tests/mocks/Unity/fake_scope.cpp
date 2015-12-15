@@ -181,27 +181,27 @@ void Scope::setNoResultsHint(const QString& str)
     }
 }
 
-void Scope::activate(QVariant const& result)
+void Scope::activate(QVariant const& result, QString const& categoryId)
 {
-    qDebug() << "Called activate on scope" << m_id << "with result" << result;
+    qDebug() << "Called activate on scope" << m_id << "with result" << result << "and category" << categoryId;
     if (result.toString() == "Result.2.2") {
         Scopes *scopes = dynamic_cast<Scopes*>(parent());
         m_openScope = scopes->getScopeFromAll("MockScope9");
         scopes->addTempScope(m_openScope);
         Q_EMIT openScope(m_openScope);
+    } else {
+        Q_EMIT previewRequested(result);
     }
 }
 
-PreviewStack* Scope::preview(QVariant const& result)
+PreviewStack* Scope::preview(QVariant const& result, QString const& /*categoryId*/)
 {
     Q_UNUSED(result);
 
     if (m_returnNullPreview) {
         return nullptr;
     } else {
-        // This probably leaks, do we don't care
-        // it's a  test after all
-        return new PreviewStack(this, this);
+        return new PreviewStack(this);
     }
 }
 
@@ -251,11 +251,11 @@ QVariantMap Scope::customizations() const
         m["foreground-color"] = "blue";
         m["page-header"] = h;
     } else if (m_id == "MockScope4") {
-        h["navigation-background"] = QUrl(sourceDirectory() + "tests/qmltests/Dash/artwork/background.png");
+        h["navigation-background"] = QUrl(sourceDirectory() + "/tests/qmltests/Dash/artwork/background.png");
         m["page-header"] = h;
     } else if (m_id == "MockScope5") {
         h["background"] = "gradient:///lightgrey/grey";
-        h["logo"] = QUrl(sourceDirectory() + "tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
+        h["logo"] = QUrl(sourceDirectory() + "/tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
         h["divider-color"] = "red";
         h["navigation-background"] = "color:///black";
         m["page-header"] = h;
@@ -269,6 +269,11 @@ QVariantMap Scope::customizations() const
 void Scope::refresh()
 {
     Q_EMIT refreshed();
+}
+
+void Scope::activateAction(QVariant const& /*result*/, QString const& /*categoryId*/, QString const& /*actionId*/)
+{
+    qFatal("Using Scope::activateAction");
 }
 
 unity::shell::scopes::NavigationInterface* Scope::getNavigation(const QString& id)

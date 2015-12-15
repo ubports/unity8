@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Unity.Application 0.1
 
 RowLayout {
@@ -86,8 +86,29 @@ RowLayout {
         }
     }
     Label {
+        id: appIdLabel
         text: root.appId
         color: "white"
+        anchors.verticalCenter: parent.verticalCenter
+    }
+    Rectangle {
+        color: {
+            if (d.application) {
+                if (d.application.state === ApplicationInfoInterface.Starting) {
+                    return "yellow";
+                } else if (d.application.state === ApplicationInfoInterface.Running) {
+                    return "green";
+                } else if (d.application.state === ApplicationInfoInterface.Suspended) {
+                    return "blue";
+                } else {
+                    return "darkred";
+                }
+            } else {
+                return "darkred";
+            }
+        }
+        width: height
+        height: appIdLabel.height * 0.7
         anchors.verticalCenter: parent.verticalCenter
     }
 }

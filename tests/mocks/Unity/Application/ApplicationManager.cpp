@@ -49,8 +49,6 @@ ApplicationManager *ApplicationManager::singleton()
 
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
-    , m_suspended(false)
-    , m_forceDashActive(false)
 {
     m_roleNames.insert(RoleSession, "session");
     m_roleNames.insert(RoleFullscreen, "fullscreen");
@@ -107,6 +105,10 @@ QVariant ApplicationManager::data(const QModelIndex& index, int role) const {
         return app->state();
     case RoleFocused:
         return app->focused();
+    case RoleIsTouchApp:
+        return app->isTouchApp();
+    case RoleExemptFromLifecycle:
+        return app->exemptFromLifecycle();
     case RoleSession:
         return QVariant::fromValue(app->session());
     case RoleFullscreen:
@@ -217,7 +219,7 @@ ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
             && application->stage() == ApplicationInfo::SideStage) {
         application->setStage(ApplicationInfo::MainStage);
     }
-    application->setState(ApplicationInfo::Running);
+    application->setState(ApplicationInfo::Starting);
 
     return application;
 }
@@ -262,50 +264,6 @@ QString ApplicationManager::focusedApplicationId() const {
     return QString();
 }
 
-bool ApplicationManager::suspended() const
-{
-    return m_suspended;
-}
-
-void ApplicationManager::setSuspended(bool suspended)
-{
-    ApplicationInfo *focusedApp = findApplication(focusedApplicationId());
-    if (focusedApp) {
-        if (suspended) {
-            focusedApp->setState(ApplicationInfo::Suspended);
-        } else {
-            focusedApp->setState(ApplicationInfo::Running);
-        }
-    }
-    m_suspended = suspended;
-    Q_EMIT suspendedChanged();
-}
-
-bool ApplicationManager::forceDashActive() const
-{
-    return m_forceDashActive;
-}
-
-void ApplicationManager::setForceDashActive(bool forceDashActive)
-{
-    if (m_forceDashActive == forceDashActive) {
-        return;
-    }
-
-    ApplicationInfo *dash = findApplication("unity8-dash");
-    if (dash) {
-        if (forceDashActive) {
-            dash->setState(ApplicationInfo::Running);
-        } else {
-            if (!dash->focused()) {
-                dash->setState(ApplicationInfo::Suspended);
-            }
-        }
-    }
-    m_forceDashActive = forceDashActive;
-    Q_EMIT forceDashActiveChanged();
-}
-
 bool ApplicationManager::focusApplication(const QString &appId)
 {
     ApplicationInfo *application = findApplication(appId);
@@ -316,13 +274,11 @@ bool ApplicationManager::focusApplication(const QString &appId)
     for (ApplicationInfo *app : m_runningApplications) {
         if (app->focused()) {
             app->setFocused(false);
-            app->setState(ApplicationInfo::Suspended);
         }
     }
 
     // focus this app
     application->setFocused(true);
-    application->setState(ApplicationInfo::Running);
 
     // move app to top of stack
     move(m_runningApplications.indexOf(application), 0);
@@ -394,6 +350,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("gallery");
     application->setIconId("gallery");
     application->setFullscreen(true);
+    application->setStage(ApplicationInfo::MainStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -504,6 +461,14 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("youtube");
     application->setName("YouTube");
     application->setIconId("youtube");
+    m_availableApplications.append(application);
+
+    application = new ApplicationInfo(this);
+    application->setAppId("libreoffice");
+    application->setName("LibreOffice");
+    application->setIconId("libreoffice");
+    application->setScreenshotId("libreoffice");
+    application->setIsTouchApp(false);
     m_availableApplications.append(application);
 }
 

@@ -31,9 +31,9 @@ public:
       m_index(index)
     {
         if (m_parentModel) {
-            QObject::connect(m_parentModel, SIGNAL(rowsInserted(QModelIndex, int, int)), this, SLOT(onRowsInserted(QModelIndex, int, int)));
-            QObject::connect(m_parentModel, SIGNAL(rowsRemoved(QModelIndex, int, int)), this, SLOT(onRowsRemoved(QModelIndex, int, int)));
-            QObject::connect(m_parentModel, SIGNAL(modelReset()), this, SLOT(onModelReset()));
+            QObject::connect(m_parentModel, &UnityMenuModel::rowsInserted, this, &UnityMenuModelEntry::onRowsInserted);
+            QObject::connect(m_parentModel, &UnityMenuModel::rowsRemoved, this, &UnityMenuModelEntry::onRowsRemoved);
+            QObject::connect(m_parentModel, &UnityMenuModel::modelReset, this, &UnityMenuModelEntry::onModelReset);
         }
     }
 
@@ -117,7 +117,7 @@ int UnityMenuModelStack::count() const
 void UnityMenuModelStack::push(UnityMenuModel* model, int index)
 {
     UnityMenuModelEntry* entry = new UnityMenuModelEntry(model, tail(), index);
-    QObject::connect(entry, SIGNAL(remove()), SLOT(onRemove()));
+    QObject::connect(entry, &UnityMenuModelEntry::remove, this, &UnityMenuModelStack::onRemove);
 
     m_menuModels << entry;
     Q_EMIT tailChanged(model);

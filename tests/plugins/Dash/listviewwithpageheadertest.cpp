@@ -119,7 +119,6 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertest.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
@@ -1660,7 +1659,7 @@ private Q_SLOTS:
 
     void addingRemoveItemsShouldNotChangeContentY()
     {
-        QSignalSpy spy(lvwph, SIGNAL(contentYChanged()));
+        QSignalSpy spy(lvwph, &ListViewWithPageHeader::contentYChanged);
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 150));
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 6));
 

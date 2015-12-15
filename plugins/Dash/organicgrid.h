@@ -59,10 +59,10 @@ public:
     OrganicGrid();
 
     QSizeF smallDelegateSize() const;
-    void setSmallDelegateSize(const QSizeF &size);
+    void setSmallDelegateSize(const QSizeF size);
 
     QSizeF bigDelegateSize() const;
-    void setBigDelegateSize(const QSizeF &size);
+    void setBigDelegateSize(const QSizeF size);
 
 Q_SIGNALS:
     void smallDelegateSizeChanged();
@@ -79,11 +79,7 @@ private:
     void doRelayout() override;
     void updateItemCulling(qreal visibleFromY, qreal visibleToY) override;
     void calculateImplicitHeight() override;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 0))
-    void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) override;
-#else
     void processModelRemoves(const QVector<QQmlChangeSet::Change> &removes) override;
-#endif
 
     QSizeF m_smallDelegateSize;
     QSizeF m_bigDelegateSize;

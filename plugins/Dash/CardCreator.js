@@ -28,11 +28,20 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
                                     radius: "medium"; \n\
-                                    color: getColor(0) || "white"; \n\
-                                    gradientColor: getColor(1) || color; \n\
+                                    aspect: { \n\
+                                        switch (root.backgroundShapeStyle) { \n\
+                                            case "inset": return UbuntuShape.Inset; \n\
+                                            case "shadow": return UbuntuShape.DropShadow; \n\
+                                            default: \n\
+                                            case "flat": return UbuntuShape.Flat; \n\
+                                        } \n\
+                                    } \n\
+                                    backgroundColor: getColor(0) || "white"; \n\
+                                    secondaryBackgroundColor: getColor(1) || backgroundColor; \n\
+                                    backgroundMode: UbuntuShape.VerticalGradient; \n\
                                     anchors.fill: parent; \n\
-                                    image: backgroundImage.source ? backgroundImage : null; \n\
-                                    property real luminance: Style.luminance(color); \n\
+                                    source: backgroundImage.source ? backgroundImage : null; \n\
+                                    property real luminance: Style.luminance(backgroundColor); \n\
                                     property Image backgroundImage: Image { \n\
                                         objectName: "backgroundImage"; \n\
                                         source: { \n\
@@ -52,7 +61,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
-var kArtShapeHolderCode = 'Item  { \n\
+var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
                             width: root.fixedArtShapeSize.width > 0 ? root.fixedArtShapeSize.width : artShapeLoader.width; \n\
@@ -66,10 +75,9 @@ var kArtShapeHolderCode = 'Item  { \n\
                                 sourceComponent: Item { \n\
                                     id: artShape; \n\
                                     objectName: "artShape"; \n\
-                                    property bool doShapeItem: components["art"]["conciergeMode"] !== true; \n\
+                                    readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true; \n\
                                     visible: image.status == Image.Ready; \n\
-                                    readonly property alias image: artImage.image; \n\
-                                    property alias borderSource: artShapeShape.borderSource; \n\
+                                    readonly property alias image: artImage; \n\
                                     ShaderEffectSource { \n\
                                         id: artShapeSource; \n\
                                         sourceItem: artImage; \n\
@@ -78,16 +86,34 @@ var kArtShapeHolderCode = 'Item  { \n\
                                         height: 1; \n\
                                         hideSource: doShapeItem; \n\
                                     } \n\
-                                    Shape { \n\
-                                        id: artShapeShape; \n\
-                                        image: artShapeSource; \n\
+                                    Loader { \n\
                                         anchors.fill: parent; \n\
-                                        visible: doShapeItem; \n\
-                                        radius: "medium"; \n\
+                                        visible: artShape.doShapeItem; \n\
+                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; \n\
+                                        Component { \n\
+                                            id: artShapeShapeComponent; \n\
+                                            UbuntuShape { \n\
+                                                source: artShapeSource; \n\
+                                                sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
+                                                radius: "medium"; \n\
+                                                aspect: { \n\
+                                                    switch (root.artShapeStyle) { \n\
+                                                        case "inset": return UbuntuShape.Inset; \n\
+                                                        case "shadow": return UbuntuShape.DropShadow; \n\
+                                                        default: \n\
+                                                        case "flat": return UbuntuShape.Flat; \n\
+                                                    } \n\
+                                                } \n\
+                                            } \n\
+                                        } \n\
+                                        Component { \n\
+                                            id: artShapeIconComponent; \n\
+                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; } \n\
+                                        } \n\
                                     } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
                                     readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
-                                    Component.onCompleted: { updateWidthHeightBindings(); if (artShapeBorderSource !== undefined) borderSource = artShapeBorderSource; } \n\
+                                    Component.onCompleted: { updateWidthHeightBindings(); } \n\
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } \n\
                                     function updateWidthHeightBindings() { \n\
                                         if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { \n\
@@ -112,44 +138,18 @@ var kArtShapeHolderCode = 'Item  { \n\
 
 var kOverlayLoaderCode = 'Loader { \n\
                             id: overlayLoader; \n\
-                            anchors { \n\
-                                left: artShapeHolder.left; \n\
-                                right: artShapeHolder.right; \n\
-                                bottom: artShapeHolder.bottom; \n\
-                            } \n\
+                            readonly property real overlayHeight: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
+                            anchors.fill: artShapeHolder; \n\
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
                             asynchronous: root.asynchronous; \n\
                             visible: showHeader && status == Loader.Ready; \n\
-                            sourceComponent: ShaderEffect { \n\
+                            sourceComponent: UbuntuShapeOverlay { \n\
                                 id: overlay; \n\
-                                height: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
                                 property real luminance: Style.luminance(overlayColor); \n\
-                                property color overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
-                                property var source: ShaderEffectSource { \n\
-                                    id: shaderSource; \n\
-                                    sourceItem: artShapeLoader.item; \n\
-                                    onVisibleChanged: if (visible) scheduleUpdate(); \n\
-                                    live: false; \n\
-                                    sourceRect: Qt.rect(0, artShapeLoader.height - overlay.height, artShapeLoader.width, overlay.height); \n\
-                                } \n\
-                                vertexShader: " \n\
-                                    uniform highp mat4 qt_Matrix; \n\
-                                    attribute highp vec4 qt_Vertex; \n\
-                                    attribute highp vec2 qt_MultiTexCoord0; \n\
-                                    varying highp vec2 coord; \n\
-                                    void main() { \n\
-                                        coord = qt_MultiTexCoord0; \n\
-                                        gl_Position = qt_Matrix * qt_Vertex; \n\
-                                    }"; \n\
-                                fragmentShader: " \n\
-                                    varying highp vec2 coord; \n\
-                                    uniform sampler2D source; \n\
-                                    uniform lowp float qt_Opacity; \n\
-                                    uniform highp vec4 overlayColor; \n\
-                                    void main() { \n\
-                                        lowp vec4 tex = texture2D(source, coord); \n\
-                                        gl_FragColor = vec4(overlayColor.r, overlayColor.g, overlayColor.b, 1) * qt_Opacity * overlayColor.a * tex.a; \n\
-                                    }"; \n\
+                                aspect: UbuntuShape.Flat; \n\
+                                radius: "medium"; \n\
+                                overlayColor: cardData && cardData["overlayColor"] || "#99000000"; \n\
+                                overlayRect: Qt.rect(0, 1 - overlayLoader.overlayHeight / height, 1, 1); \n\
                             } \n\
                         }\n';
 
@@ -195,11 +195,11 @@ var kMascotShapeLoaderCode = 'Loader { \n\
                                 id: mascotShapeLoader; \n\
                                 objectName: "mascotShapeLoader"; \n\
                                 asynchronous: root.asynchronous; \n\
-                                active: mascotImage.image.status === Image.Ready; \n\
+                                active: mascotImage.status === Image.Ready; \n\
                                 visible: showHeader && active && status == Loader.Ready; \n\
                                 width: units.gu(6); \n\
                                 height: units.gu(5.625); \n\
-                                sourceComponent: UbuntuShape { image: mascotImage.image } \n\
+                                sourceComponent: UbuntuShape { image: mascotImage } \n\
                                 anchors { %1 } \n\
                             }\n';
 
@@ -261,7 +261,7 @@ var kTouchdownCode = 'UbuntuShape { \n\
                         id: touchdown; \n\
                         objectName: "touchdown"; \n\
                         anchors { %1 } \n\
-                        visible: root.pressed; \n\
+                        visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed; \n\
                         radius: "medium"; \n\
                         borderSource: "radius_pressed.sci" \n\
                     }\n';
@@ -325,7 +325,8 @@ function cardString(template, components) {
                 id: root; \n\
                 property var components; \n\
                 property var cardData; \n\
-                property var artShapeBorderSource: undefined; \n\
+                property string artShapeStyle: "inset"; \n\
+                property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
                 property int titleAlignment: Text.AlignLeft; \n\
@@ -368,7 +369,6 @@ function cardString(template, components) {
     }
 
     if (hasArt) {
-        code += 'onArtShapeBorderSourceChanged: { if (artShapeBorderSource !== undefined && artShapeLoader.item) artShapeLoader.item.borderSource = artShapeBorderSource; } \n';
         code += 'readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);\n';
 
         var widthCode, heightCode;
@@ -476,24 +476,24 @@ function cardString(template, components) {
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
         var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
         if (fallback !== "") {
-            code += 'Connections { target: mascotImage.image; onStatusChanged: if (mascotImage.image.status === Image.Error) mascotImage.source = "%1"; } \n'.arg(fallback);
+            code += 'Connections { target: mascotImage; onStatusChanged: if (mascotImage.status === Image.Error) mascotImage.source = "%1"; } \n'.arg(fallback);
         }
     }
 
-    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
+    var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white")';
 
     var hasTitleContainer = hasTitle && (hasEmblem || (hasMascot && (hasSubtitle || hasAttributes)));
     var titleSubtitleCode = '';
     if (hasTitle) {
         var titleColor;
         if (headerAsOverlay) {
-            titleColor = 'root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white")';
+            titleColor = 'root.scopeStyle && overlayLoader.item ? root.scopeStyle.getTextColor(overlayLoader.item.luminance) : (overlayLoader.item && overlayLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white")';
         } else if (hasSummary) {
             titleColor = 'summary.color';
         } else if (hasBackground) {
             titleColor = summaryColorWithBackground;
         } else {
-            titleColor = 'root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText';
+            titleColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
         }
 
         var titleAnchors;
@@ -555,7 +555,7 @@ function cardString(template, components) {
                 titleAnchors += 'left: parent.left; \n\
                                  leftMargin: units.gu(1); \n\
                                  top: overlayLoader.top; \n\
-                                 topMargin: units.gu(1);\n';
+                                 topMargin: units.gu(1) + overlayLoader.height - overlayLoader.overlayHeight; \n';
             } else {
                 // Using anchors to the mascot/parent
                 titleAnchors = titleRightAnchor;
@@ -649,7 +649,7 @@ function cardString(template, components) {
         if (hasBackground) {
             summaryColor = summaryColorWithBackground;
         } else {
-            summaryColor = 'root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText';
+            summaryColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
         }
 
         var summaryTopMargin = (hasMascot || hasSubtitle || hasAttributes ? 'anchors.margins' : '0');
@@ -697,8 +697,8 @@ function cardString(template, components) {
 }
 
 function createCardComponent(parent, template, components) {
-    var imports = 'import QtQuick 2.2; \n\
-                   import Ubuntu.Components 1.1; \n\
+    var imports = 'import QtQuick 2.4; \n\
+                   import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';

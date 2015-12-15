@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
 #include "screengrabber.h"
@@ -21,38 +19,52 @@
 #include <QDir>
 #include <QDateTime>
 #include <QStandardPaths>
+#include <QTemporaryDir>
 #include <QtGui/QImage>
 #include <QtGui/QGuiApplication>
 #include <QtQuick/QQuickWindow>
-#include <QtConcurrent/QtConcurrentRun>
 
 #include <QDebug>
 
-void saveScreenshot(QImage screenshot, QString filename, QString format, int quality)
+QString saveScreenshot(const QImage &screenshot, const QString &filename, const QString &format, int quality)
 {
-    if (!screenshot.save(filename, format.toLatin1().data(), quality))
-        qWarning() << "ScreenShotter: failed to save snapshot!";
+    if (screenshot.save(filename, format.toLatin1().data(), quality)) {
+        return filename;
+    } else {
+        qWarning() << "ScreenGrabber: failed to save snapshot!";
+    }
+    return QString();
 }
 
 ScreenGrabber::ScreenGrabber(QObject *parent)
-    : QObject(parent),
-      screenshotQuality(0)
+    : QObject(parent)
 {
-    QDir screenshotsDir(QStandardPaths::displayName(QStandardPaths::PicturesLocation));
-    screenshotsDir.mkdir("Screenshots");
-    screenshotsDir.cd("Screenshots");
-    if (screenshotsDir.exists())
-    {
+    QObject::connect(&m_watcher,
+                     &QFutureWatcher<QString>::finished,
+                     this,
+                     &ScreenGrabber::onScreenshotSaved);
+
+    QDir screenshotsDir;
+    if (qEnvironmentVariableIsSet("UNITY_TESTING")) {
+        qDebug() << "Using test environment";
+        QTemporaryDir tDir;
+        tDir.setAutoRemove(false);
+        screenshotsDir = tDir.path();
+    } else {
+        qDebug() << "Using real environment";
+        screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    }
+    screenshotsDir.mkpath(QStringLiteral("Screenshots"));
+    screenshotsDir.cd(QStringLiteral("Screenshots"));
+    if (screenshotsDir.exists()) {
         fileNamePrefix = screenshotsDir.absolutePath();
         fileNamePrefix.append("/screenshot");
-    }
-    else
-    {
-        qWarning() << "ScreenShotter: failed to create directory at: " << screenshotsDir.absolutePath();
+    } else {
+        qWarning() << "ScreenGrabber: failed to create directory at: " << screenshotsDir.absolutePath();
     }
 }
 
-void ScreenGrabber::captureAndSave()
+void ScreenGrabber::captureAndSave(int angle)
 {
     if (fileNamePrefix.isEmpty())
     {
@@ -74,21 +86,32 @@ void ScreenGrabber::captureAndSave()
         return;
     }
 
-    QImage screenshot = main_window->grabWindow();
-    QtConcurrent::run(saveScreenshot, screenshot, makeFileName(), getFormat(), screenshotQuality);
+    const QImage screenshot = main_window->grabWindow().transformed(QTransform().rotate(angle));
+    const QString filename = makeFileName();
+    qDebug() << "Saving screenshot to" << filename;
+    QFuture<QString> saveFuture(QtConcurrent::run(saveScreenshot, screenshot, filename, getFormat(), screenshotQuality));
+    m_watcher.setFuture(saveFuture);
 }
 
-QString ScreenGrabber::makeFileName()
+void ScreenGrabber::onScreenshotSaved()
+{
+    const QString filename = m_watcher.future().result();
+    if (!filename.isEmpty()) {
+        Q_EMIT screenshotSaved(filename);
+    }
+}
+
+QString ScreenGrabber::makeFileName() const
 {
     QString fileName(fileNamePrefix);
-    fileName.append(QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz"));
+    fileName.append(QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd_hhmmsszzz")));
     fileName.append(".");
     fileName.append(getFormat());
     return fileName;
 }
 
-QString ScreenGrabber::getFormat()
+QString ScreenGrabber::getFormat() const
 {
     //TODO: This should be configurable (perhaps through gsettings?)
-    return "png";
+    return QStringLiteral("png");
 }

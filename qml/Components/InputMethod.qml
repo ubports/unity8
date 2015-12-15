@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,32 +14,52 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Unity.Application 0.1
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 
 Item {
     id: root
 
-    property var surface: null
+    Connections {
+        target: SurfaceManager
+        onSurfaceCreated: {
+            if (surface.type == Mir.InputMethodType) {
+                surfaceItem.surface = surface;
+            }
+        }
+    }
 
     property int transitionDuration: UbuntuAnimation.FastDuration
 
-    Binding { target: surface; property: "z"; value: 0 }
+    MirSurfaceItem {
+        id: surfaceItem
+        anchors.fill: parent
+
+        consumesInput: true
+
+        surfaceWidth: width
+        surfaceHeight: height
+
+        onLiveChanged: {
+            if (surface !== null && !live) {
+                surface = null;
+            }
+        }
+    }
 
     TouchGate {
         x: UbuntuKeyboardInfo.x
         y: UbuntuKeyboardInfo.y
-        z: 1
         width: UbuntuKeyboardInfo.width
         height: UbuntuKeyboardInfo.height
 
-        targetItem: root.surface
+        targetItem: surfaceItem
     }
 
     state: {
-        if (surface && surface.state != MirSurfaceItem.Minimized) {
+        if (surfaceItem.surface && surfaceItem.surfaceState != Mir.MinimizedState) {
             return "shown";
         } else {
             return "hidden";
@@ -74,19 +94,4 @@ Item {
             UbuntuNumberAnimation { property: "y"; duration: transitionDuration }
         }
     ]
-
-    onSurfaceChanged: {
-        if (surface) {
-            surface.parent = root;
-            surface.anchors.fill = root;
-        }
-    }
-
-    Component.onDestruction: {
-        if (surface) {
-            surface.parent = null;
-            surface.release();
-            surface = null;
-        }
-    }
 }

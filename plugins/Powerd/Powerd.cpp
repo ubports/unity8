@@ -22,19 +22,19 @@
 void autoBrightnessChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
 {
     bool value = g_settings_get_boolean(settings, key);
-    unityScreen->asyncCall("userAutobrightnessEnable", QVariant(value));
+    unityScreen->asyncCall(QStringLiteral("userAutobrightnessEnable"), QVariant(value));
 }
 
 void activityTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
 {
     int value = g_settings_get_uint(settings, key);
-    unityScreen->asyncCall("setInactivityTimeouts", QVariant(value), QVariant(-1));
+    unityScreen->asyncCall(QStringLiteral("setInactivityTimeouts"), QVariant(value), QVariant(-1));
 }
 
 void dimTimeoutChanged(GSettings *settings, const gchar *key, QDBusInterface *unityScreen)
 {
     int value = g_settings_get_uint(settings, key);
-    unityScreen->asyncCall("setInactivityTimeouts", QVariant(-1), QVariant(value));
+    unityScreen->asyncCall(QStringLiteral("setInactivityTimeouts"), QVariant(-1), QVariant(value));
 }
 
 Powerd::Powerd(QObject* parent)
@@ -42,15 +42,15 @@ Powerd::Powerd(QObject* parent)
     unityScreen(nullptr),
     cachedStatus(Status::On)
 {
-    unityScreen = new QDBusInterface("com.canonical.Unity.Screen",
-                                     "/com/canonical/Unity/Screen",
-                                     "com.canonical.Unity.Screen",
+    unityScreen = new QDBusInterface(QStringLiteral("com.canonical.Unity.Screen"),
+                                     QStringLiteral("/com/canonical/Unity/Screen"),
+                                     QStringLiteral("com.canonical.Unity.Screen"),
                                      QDBusConnection::SM_BUSNAME(), this);
 
-    unityScreen->connection().connect("com.canonical.Unity.Screen",
-                                      "/com/canonical/Unity/Screen",
-                                      "com.canonical.Unity.Screen",
-                                      "DisplayPowerStateChange",
+    unityScreen->connection().connect(QStringLiteral("com.canonical.Unity.Screen"),
+                                      QStringLiteral("/com/canonical/Unity/Screen"),
+                                      QStringLiteral("com.canonical.Unity.Screen"),
+                                      QStringLiteral("DisplayPowerStateChange"),
                                       this,
                                       SLOT(handleDisplayPowerStateChange(int, int)));
 
@@ -72,6 +72,13 @@ Powerd::~Powerd()
 Powerd::Status Powerd::status() const
 {
     return cachedStatus;
+}
+
+void Powerd::setStatus(Powerd::Status status, DisplayStateChangeReason reason)
+{
+    unityScreen->asyncCall(QStringLiteral("setScreenPowerMode"),
+                           status == Powerd::On ? "on" : "off",
+                           static_cast<qint32>(reason));
 }
 
 void Powerd::handleDisplayPowerStateChange(int status, int reason)

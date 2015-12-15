@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import "../Components"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
 
@@ -84,6 +84,12 @@ Item {
         }
     }
 
+    function pushEdge(amount) {
+        if (root.state === "") {
+            edgeBarrier.push(amount);
+        }
+    }
+
     Timer {
         id: teaseTimer
         interval: mode == "teasing" ? 200 : 300
@@ -96,7 +102,7 @@ Item {
         interval: 500
         onTriggered: {
             if (root.autohideEnabled) {
-                if (!panel.preventHiding && !hoverArea.containsMouse) {
+                if (!panel.preventHiding) {
                     root.state = ""
                 } else {
                     dismissTimer.restart()
@@ -136,6 +142,7 @@ Item {
         id: fadeOutAnimation
         ScriptAction {
             script: {
+                animateTimer.stop(); // Don't change the state behind our back
                 panel.layer.enabled = true
             }
         }
@@ -175,9 +182,9 @@ Item {
                 root.switchToNextState("visible")
             }
         }
-
     }
-    MouseArea {
+
+    MultiPointTouchArea {
         id: closeMouseArea
         anchors {
             left: launcherDragArea.right
@@ -186,6 +193,7 @@ Item {
             bottom: parent.bottom
         }
         enabled: root.shadeBackground && root.state == "visible"
+        visible: enabled // otherwise it will get in the way of cursor selection for some reason
         onPressed: {
             root.state = ""
         }
@@ -198,6 +206,28 @@ Item {
         opacity: root.shadeBackground && root.state == "visible" ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
+    }
+
+    EdgeBarrier {
+        id: edgeBarrier
+        edge: Qt.LeftEdge
+        target: parent
+        enabled: root.available
+        onPassed: { root.switchToNextState("visibleTemporary"); }
+        material: Component {
+            Item {
+                Rectangle {
+                    width: parent.height
+                    height: parent.width
+                    rotation: -90
+                    anchors.centerIn: parent
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: panel.color}
+                        GradientStop { position: 1.0; color: Qt.rgba(panel.r,panel.g,panel.b,0)}
+                    }
+                }
+            }
+        }
     }
 
     LauncherPanel {
@@ -242,33 +272,6 @@ Item {
             NumberAnimation {
                 duration: UbuntuAnimation.FastDuration; easing.type: Easing.OutCubic
             }
-        }
-    }
-
-    // TODO: This should be replaced by some mechanism that reveals the launcher
-    // after a certain resistance has been overcome, like unity7 does. However,
-    // as we don't get relative mouse coordinates yet, this will do for now.
-    MouseArea {
-        id: hoverArea
-        anchors { fill: panel; rightMargin: -1 }
-        hoverEnabled: true
-        propagateComposedEvents: true
-        onContainsMouseChanged: {
-            if (containsMouse) {
-                root.switchToNextState("visibleTemporary");
-            } else {
-                dismissTimer.restart();
-            }
-        }
-        onPressed: mouse.accepted = false;
-
-        // We need to eat touch events here in order to make sure that
-        // we don't trigger both, the dragArea and the hoverArea
-        MultiPointTouchArea {
-            anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-            width: units.dp(1)
-            mouseEnabled: false
-            enabled: parent.enabled
         }
     }
 
@@ -319,7 +322,6 @@ Item {
                 target: panel
                 x: -root.x // so we never go past panelWidth, even when teased by tutorial
             }
-            PropertyChanges { target: hoverArea; enabled: false }
         },
         State {
             name: "visibleTemporary"
@@ -328,7 +330,6 @@ Item {
                 target: root
                 autohideEnabled: true
             }
-            PropertyChanges { target: hoverArea; enabled: true }
         },
         State {
             name: "teasing"

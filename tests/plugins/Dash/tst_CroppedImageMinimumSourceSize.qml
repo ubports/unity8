@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Dash 0.1
 
 Rectangle {
@@ -41,16 +41,16 @@ Rectangle {
         when: windowShown
 
         function test_croppedSource() {
-            tryCompare(cimss.image.sourceSize, "width", 100);
-            tryCompare(cimss.image.sourceSize, "height", 0);
+            tryCompare(cimss.sourceSize, "width", 100);
+            tryCompare(cimss.sourceSize, "height", 0);
 
             cimss.width = 40;
-            tryCompare(cimss.image.sourceSize, "width", 0);
-            tryCompare(cimss.image.sourceSize, "height", 100);
+            tryCompare(cimss.sourceSize, "width", 0);
+            tryCompare(cimss.sourceSize, "height", 100);
 
             cimss.width = 100;
-            tryCompare(cimss.image.sourceSize, "width", 100);
-            tryCompare(cimss.image.sourceSize, "height", 0);
+            tryCompare(cimss.sourceSize, "width", 100);
+            tryCompare(cimss.sourceSize, "height", 0);
         }
     }
 }

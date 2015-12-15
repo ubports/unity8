@@ -14,14 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
 import "../../../qml/Stages"
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 
 Rectangle {
@@ -35,9 +35,6 @@ Rectangle {
         root.fakeApplication.manualSurfaceCreation = true;
         root.fakeApplication.setState(ApplicationInfoInterface.Starting);
     }
-    Component.onDestruction: {
-        applicationWindowLoader.item.removeScreenshot();
-    }
     property QtObject fakeApplication: null
     readonly property var fakeSession: fakeApplication ? fakeApplication.session : null
 
@@ -48,16 +45,6 @@ Rectangle {
         }
     }
 
-    Component {
-        id: applicationWindowComponent
-        ApplicationWindow {
-            anchors.fill: parent
-            application: fakeApplication
-            surfaceOrientationAngle: 0
-            interactive: true
-            focus: true
-        }
-    }
     Loader {
         id: applicationWindowLoader
         focus: true
@@ -67,7 +54,19 @@ Rectangle {
             left: parent.left
         }
         width: units.gu(40)
-        sourceComponent: applicationWindowComponent
+        property bool itemDestroyed: false
+        sourceComponent: Component {
+            ApplicationWindow {
+                anchors.fill: parent
+                application: fakeApplication
+                surfaceOrientationAngle: 0
+                interactive: true
+                focus: true
+                Component.onDestruction: {
+                    applicationWindowLoader.itemDestroyed = true;
+                }
+            }
+        }
     }
 
     Rectangle {
@@ -90,13 +89,10 @@ Rectangle {
                     id: sessionCheckbox; checked: false
                     activeFocusOnPress: false
                     onCheckedChanged: {
-                        if (applicationWindowLoader.status !== Loader.Ready)
-                            return;
-
                         if (checked && !fakeApplication.session) {
                             fakeApplication.createSession();
                         } else if (!checked && fakeApplication.session) {
-                            fakeApplication.session.release();
+                            fakeApplication.destroySession();
                         }
                     }
                 }
@@ -221,21 +217,29 @@ Rectangle {
             sessionCheckbox.checked = true;
             sessionControl.surfaceCheckbox.checked = true;
         }
-        function cleanupSession() {
-            sessionCheckbox.checked = false;
-        }
 
         function cleanup() {
             forgetApplicationWindowChildren();
 
+            applicationWindowLoader.itemDestroyed = false;
+
             // reload our test subject to get it in a fresh state once again
             applicationWindowLoader.active = false;
 
-            appStateSelector.selectedIndex = 0;
-            cleanupSession();
+            tryCompare(applicationWindowLoader, "status", Loader.Null);
+            tryCompare(applicationWindowLoader, "item", null);
+            // Loader.status might be Loader.Null and Loader.item might be null but the Loader
+            // item might still be alive. So if we set Loader.active back to true
+            // again right now we will get the very same ApplicationWindow instance back. So no reload
+            // actually took place. Likely because Loader waits until the next event loop
+            // iteration to do its work. So to ensure the reload, we will wait until the
+            // ApplicationWindow instance gets destroyed.
+            // Another thing that happens is that we do get a new object but the old one doesn't get
+            // deleted, so you end up with two instances in memory.
+            tryCompare(applicationWindowLoader, "itemDestroyed", true);
 
-            if (fakeApplication.session)
-                fakeApplication.session.release();
+            appStateSelector.selectedIndex = 0;
+            sessionCheckbox.checked = false;
 
             applicationWindowLoader.active = true;
         }
@@ -334,40 +338,6 @@ Rectangle {
             tryCompare(screenshotImage, "status", Image.Null);
         }
 
-        function test_suspendrestartApp() {
-            var screenshotImage = findChild(applicationWindowLoader.item, "screenshotImage");
-
-            initSession();
-            setApplicationState(appRunning);
-            tryCompare(stateGroup, "state", "surface");
-            waitUntilTransitionsEnd();
-
-            setApplicationState(appSuspended);
-
-            cleanupSession();
-
-            tryCompare(stateGroup, "state", "screenshot");
-            waitUntilTransitionsEnd();
-            tryCompare(fakeApplication, "session", null);
-
-            // and restart it
-            setApplicationState(appStarting);
-
-            waitUntilTransitionsEnd();
-            verify(stateGroup.state === "screenshot");
-            verify(fakeSession === null);
-
-            setApplicationState(appRunning);
-
-            waitUntilTransitionsEnd();
-            verify(stateGroup.state === "screenshot");
-
-            initSession();
-
-            tryCompare(stateGroup, "state", "surface");
-            tryCompare(screenshotImage, "status", Image.Null);
-        }
-
         function test_appCrashed() {
             initSession();
             setApplicationState(appRunning);
@@ -386,19 +356,19 @@ Rectangle {
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
-            verify(fakeSession.surface !== null);
+            verify(fakeSession.lastSurface !== null);
 
             applicationWindowLoader.item.visible = false;
 
             waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
-            verify(fakeSession.surface !== null);
+            verify(fakeSession.lastSurface !== null);
 
             applicationWindowLoader.item.visible = true;
 
             waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
-            verify(fakeSession.surface !== null);
+            verify(fakeSession.lastSurface !== null);
         }
 
         function test_touchesReachSurfaceWhenItsShown() {
@@ -409,15 +379,18 @@ Rectangle {
 
             waitUntilTransitionsEnd(stateGroup);
 
-            var fakeSurface = fakeSession.surface;
-            fakeSurface.touchPressCount = 0;
-            fakeSurface.touchReleaseCount = 0;
+            var surfaceItem = findChild(applicationWindowLoader.item, "surfaceItem");
+            verify(surfaceItem);
+            verify(surfaceItem.surface === fakeSession.lastSurface);
+
+            surfaceItem.touchPressCount = 0;
+            surfaceItem.touchReleaseCount = 0;
 
             tap(applicationWindowLoader.item,
                 applicationWindowLoader.item.width / 2, applicationWindowLoader.item.height / 2);
 
-            verify(fakeSurface.touchPressCount === 1);
-            verify(fakeSurface.touchReleaseCount === 1);
+            verify(surfaceItem.touchPressCount === 1);
+            verify(surfaceItem.touchReleaseCount === 1);
         }
 
         function test_showNothingOnSuddenSurfaceLoss() {
@@ -426,9 +399,9 @@ Rectangle {
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
 
-            cleanupSession();
+            sessionControl.surfaceCheckbox.checked = false;
 
-            verify(stateGroup.state === "void");
+            tryCompare(stateGroup, "state", "void");
         }
 
         function test_surfaceActiveFocusFollowsAppWindowInterative() {
@@ -437,20 +410,13 @@ Rectangle {
             applicationWindowLoader.item.interactive = true;
             fakeSession.createSurface();
 
-            compare(fakeSession.surface.activeFocus, true);
+            compare(fakeSession.lastSurface.activeFocus, true);
 
             applicationWindowLoader.item.interactive = false;
-            compare(fakeSession.surface.activeFocus, false);
+            compare(fakeSession.lastSurface.activeFocus, false);
 
             applicationWindowLoader.item.interactive = true;
-            compare(fakeSession.surface.activeFocus, true);
-        }
-
-        function test_no_spinner_if_stopped() {
-            setApplicationState(appStopped);
-            tryCompare(stateGroup, "state", "splashScreen");
-            var splashLoader = findChild(applicationWindowLoader.item, "splashLoader");
-            verify(!splashLoader.item.activeSpinner);
+            compare(fakeSession.lastSurface.activeFocus, true);
         }
     }
 }

@@ -21,6 +21,7 @@
 
 #include "indicator.h"
 #include "unityindicatorsglobal.h"
+#include "../Platform/platform.h"
 
 #include <QObject>
 #include <QFileSystemWatcher>
@@ -34,7 +35,7 @@ class UNITYINDICATORS_EXPORT IndicatorsManager : public QObject
     Q_PROPERTY(bool loaded READ isLoaded NOTIFY loadedChanged)
     Q_PROPERTY(QString profile READ profile WRITE setProfile NOTIFY profileChanged)
 public:
-    explicit IndicatorsManager(QObject* parent = 0);
+    explicit IndicatorsManager(QObject* parent = nullptr);
     ~IndicatorsManager();
 
     Q_INVOKABLE void load();
@@ -45,7 +46,7 @@ public:
 
     Indicator::Ptr indicator(const QString& indicator_name);
 
-    QList<Indicator::Ptr> indicators();
+    QVector<Indicator::Ptr> indicators();
 
     bool isLoaded() const;
 
@@ -75,6 +76,8 @@ private:
     QSharedPointer<QFileSystemWatcher> m_fsWatcher;
     bool m_loaded;
     QString m_profile;
+
+    Platform m_platform;
 };
 
 #endif // INDICATORS_MANAGER_H

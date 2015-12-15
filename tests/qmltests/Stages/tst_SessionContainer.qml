@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1 as UT
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../../../qml/Stages"
 
@@ -192,18 +192,18 @@ Rectangle {
 
             var a_session;
             while(a_session = sessions.pop()) {
-                compare(a_session.surface.activeFocus, true);
+                compare(a_session.lastSurface.activeFocus, true);
 
-                ApplicationTest.removeSurface(a_session.surface);
+                ApplicationTest.removeSurface(a_session.lastSurface);
                 ApplicationTest.removeSession(a_session);
 
                 if (sessions.length > 0) {
                     // active focus should have gone to the yongest remaining sibling
-                    var previousSiblingSurface = sessions[sessions.length - 1].surface
+                    var previousSiblingSurface = sessions[sessions.length - 1].lastSurface
                     tryCompare(previousSiblingSurface, "activeFocus", true);
                 } else {
                     // active focus should have gone to the parent surface
-                    tryCompare(sessionContainer.session.surface, "activeFocus", true);
+                    tryCompare(sessionContainer.session.lastSurface, "activeFocus", true);
                 }
             }
         }

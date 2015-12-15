@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItems
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import Unity.Launcher 0.1
-import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.Popups 1.3
 import "../Components/ListItems"
 import "../Components/"
 
@@ -33,6 +33,7 @@ Rectangle {
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
+                              || mouseEventEater.containsMouse || dashItem.hovered
     property int highlightIndex: -1
 
     signal applicationSelected(string appId)
@@ -42,6 +43,12 @@ Rectangle {
         if (quickList.state == "open") {
             quickList.state = ""
         }
+    }
+
+    MouseArea {
+        id: mouseEventEater
+        anchors.fill: parent
+        hoverEnabled: true
     }
 
     Column {
@@ -61,8 +68,8 @@ Rectangle {
                     fill: parent
                     topMargin: -units.gu(2)
                 }
-                borderSource: "none"
-                color: UbuntuColors.orange
+                aspect: UbuntuShape.Flat
+                backgroundColor: UbuntuColors.orange
             }
 
             Image {
@@ -73,7 +80,7 @@ Rectangle {
                 source: "graphics/home.png"
                 rotation: root.rotation
             }
-            MouseArea {
+            AbstractButton {
                 id: dashItem
                 anchors.fill: parent
                 onClicked: root.showDashHome()
@@ -86,6 +93,7 @@ Rectangle {
             height: parent.height - dashItem.height - parent.spacing*2
 
             Item {
+                id: launcherListViewItem
                 anchors.fill: parent
                 clip: true
 
@@ -108,6 +116,9 @@ Rectangle {
                     highlightRangeMode: ListView.ApplyRange
                     preferredHighlightBegin: (height - itemHeight) / 2
                     preferredHighlightEnd: (height + itemHeight) / 2
+
+                    // for the single peeking icon, when alert-state is set on delegate
+                    property int peekingIndex: -1
 
                     // The size of the area the ListView is extended to make sure items are not
                     // destroyed when dragging them outside the list. This needs to be at least
@@ -159,6 +170,17 @@ Rectangle {
                         to: launcherListView.contentHeight - launcherListView.height + launcherListView.originY - launcherListView.topMargin
                     }
 
+                    UbuntuNumberAnimation {
+                        id: moveAnimation
+                        target: launcherListView
+                        property: "contentY"
+                        function moveTo(contentY) {
+                            from = launcherListView.contentY;
+                            to = contentY;
+                            start();
+                        }
+                    }
+
                     displaced: Transition {
                         NumberAnimation { properties: "x,y"; duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
                     }
@@ -178,11 +200,69 @@ Rectangle {
                         count: model.count
                         countVisible: model.countVisible
                         progress: model.progress
+                        itemRunning: model.running
                         itemFocused: model.focused
                         inverted: root.inverted
+                        alerting: model.alerting
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
+
+                        SequentialAnimation {
+                            id: peekingAnimation
+
+                            // revealing
+                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 1 : 0 }
+                            PropertyAction { target: launcherListViewItem; property: "clip"; value: 0 }
+
+                            UbuntuNumberAnimation {
+                                target: launcherDelegate
+                                alwaysRunToEnd: true
+                                loops: 1
+                                properties: "x"
+                                to: (units.gu(.5) + launcherListView.width * .5) * (root.inverted ? -1 : 1)
+                                duration: UbuntuAnimation.BriskDuration
+                            }
+
+                            // hiding
+                            UbuntuNumberAnimation {
+                                target: launcherDelegate
+                                alwaysRunToEnd: true
+                                loops: 1
+                                properties: "x"
+                                to: 0
+                                duration: UbuntuAnimation.BriskDuration
+                            }
+
+                            PropertyAction { target: launcherListViewItem; property: "clip"; value: 1 }
+                            PropertyAction { target: root; property: "visible"; value: (launcher.visibleWidth === 0) ? 0 : 1 }
+                        }
+
+                        onAlertingChanged: {
+                            if(alerting) {
+                                if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
+                                      var itemPosition = index * launcherListView.itemHeight;
+                                      var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+                                      var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
+                                      if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
+                                          moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
+                                      } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
+                                          moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
+                                      }
+                                    if (!dragging && launcher.state !== "visible") {
+                                        peekingAnimation.start()
+                                    }
+                                }
+
+                                if (launcherListView.peekingIndex === -1) {
+                                    launcherListView.peekingIndex = index
+                                }
+                            } else {
+                                if (launcherListView.peekingIndex === index) {
+                                    launcherListView.peekingIndex = -1
+                                }
+                            }
+                        }
 
                         ThinDivider {
                             id: dropIndicator
@@ -286,6 +366,7 @@ Rectangle {
                     MouseArea {
                         id: dndArea
                         objectName: "dndArea"
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         anchors {
                             fill: parent
                             topMargin: launcherListView.topMargin
@@ -297,22 +378,36 @@ Rectangle {
                         property int draggedIndex: -1
                         property var selectedItem
                         property bool preDragging: false
-                        property bool dragging: selectedItem !== undefined && selectedItem !== null && selectedItem.dragging
+                        property bool dragging: !!selectedItem && selectedItem.dragging
                         property bool postDragging: false
                         property int startX
                         property int startY
 
                         onPressed: {
-                            selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
+                            processPress(mouse);
+                        }
+
+                        function processPress(mouse) {
+                            selectedItem = launcherListView.itemAt(mouse.x, mouse.y + launcherListView.realContentY)
                         }
 
                         onClicked: {
+                            Haptics.play();
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
 
                             // Check if we actually clicked an item or only at the spacing in between
                             if (clickedItem === null) {
                                 return;
+                            }
+
+                            if (mouse.button & Qt.RightButton) { // context menu
+                                // Opening QuickList
+                                quickList.item = clickedItem;
+                                quickList.model = launcherListView.model.get(index).quickList;
+                                quickList.appId = launcherListView.model.get(index).appId;
+                                quickList.state = "open";
+                                return
                             }
 
                             // First/last item do the scrolling at more than 12 degrees
@@ -338,14 +433,14 @@ Rectangle {
                         }
 
                         onCanceled: {
-                            endDrag();
+                            endDrag(drag);
                         }
 
                         onReleased: {
-                            endDrag();
+                            endDrag(drag);
                         }
 
-                        function endDrag() {
+                        function endDrag(dragItem) {
                             var droppedIndex = draggedIndex;
                             if (dragging) {
                                 postDragging = true;
@@ -361,7 +456,7 @@ Rectangle {
                             selectedItem = undefined;
                             preDragging = false;
 
-                            drag.target = undefined
+                            dragItem.target = undefined
 
                             progressiveScrollingTimer.stop();
                             launcherListView.interactive = true;
@@ -373,11 +468,17 @@ Rectangle {
                         }
 
                         onPressAndHold: {
+                            processPressAndHold(mouse, drag);
+                        }
+
+                        function processPressAndHold(mouse, dragItem) {
                             if (Math.abs(selectedItem.angle) > 30) {
                                 return;
                             }
 
-                            draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
+                            Haptics.play();
+
+                            draggedIndex = Math.floor((mouse.y + launcherListView.realContentY) / launcherListView.realItemHeight);
 
                             // Opening QuickList
                             quickList.item = selectedItem;
@@ -387,26 +488,30 @@ Rectangle {
 
                             launcherListView.interactive = false
 
-                            var yOffset = draggedIndex > 0 ? (mouseY + launcherListView.realContentY) % (draggedIndex * launcherListView.realItemHeight) : mouseY + launcherListView.realContentY
+                            var yOffset = draggedIndex > 0 ? (mouse.y + launcherListView.realContentY) % (draggedIndex * launcherListView.realItemHeight) : mouse.y + launcherListView.realContentY
 
                             fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
                             fakeDragItem.x = units.gu(0.5)
-                            fakeDragItem.y = mouseY - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
+                            fakeDragItem.y = mouse.y - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
                             fakeDragItem.angle = selectedItem.angle * (root.inverted ? -1 : 1)
                             fakeDragItem.offset = selectedItem.offset * (root.inverted ? -1 : 1)
                             fakeDragItem.count = LauncherModel.get(draggedIndex).count
                             fakeDragItem.progress = LauncherModel.get(draggedIndex).progress
                             fakeDragItem.flatten()
-                            drag.target = fakeDragItem
+                            dragItem.target = fakeDragItem
 
-                            startX = mouseX
-                            startY = mouseY
+                            startX = mouse.x
+                            startY = mouse.y
                         }
 
                         onPositionChanged: {
+                            processPositionChanged(mouse)
+                        }
+
+                        function processPositionChanged(mouse) {
                             if (draggedIndex >= 0) {
                                 if (!selectedItem.dragging) {
-                                    var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
+                                    var distance = Math.max(Math.abs(mouse.x - startX), Math.abs(mouse.y - startY))
                                     if (!preDragging && distance > units.gu(1.5)) {
                                         preDragging = true;
                                         quickList.state = "";
@@ -508,7 +613,7 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.96 : 0
+        opacity: quickList.state === "open" ? 0.8 : 0
         visible: opacity > 0
         rotation: root.rotation
 
@@ -520,25 +625,49 @@ Rectangle {
 
         Image {
             anchors {
-                left: parent.left
-                leftMargin: (quickList.item.width - units.gu(1)) / 2 - width / 2
+                right: parent.left
+                rightMargin: -units.dp(4)
                 verticalCenter: parent.verticalCenter
-                verticalCenterOffset: (parent.height / 2 + units.dp(3)) * (quickList.offset > 0 ? 1 : -1) * (root.inverted ? 1 : -1)
+                verticalCenterOffset: -quickList.offset * (root.inverted ? -1 : 1)
             }
             height: units.gu(1)
             width: units.gu(2)
             source: "graphics/quicklist_tooltip.png"
-            rotation: (quickList.offset > 0 ? 0 : 180) + (root.inverted ? 0 : 180)
+            rotation: 90
+        }
+    }
+    InverseMouseArea {
+        anchors.fill: quickListShape
+        enabled: quickList.state == "open" || pressed
+
+        onClicked: {
+            quickList.state = ""
         }
 
-        InverseMouseArea {
-            anchors.fill: parent
-            enabled: quickList.state == "open"
-            onClicked: {
-                quickList.state = ""
-            }
+        // Forward for dragging to work when quickList is open
+
+        onPressed: {
+            var m = mapToItem(dndArea, mouseX, mouseY)
+            dndArea.processPress(m)
         }
 
+        onPressAndHold: {
+            var m = mapToItem(dndArea, mouseX, mouseY)
+            dndArea.processPressAndHold(m, drag)
+        }
+
+        onPositionChanged: {
+            var m = mapToItem(dndArea, mouseX, mouseY)
+            dndArea.processPositionChanged(m)
+        }
+
+        onCanceled: {
+            dndArea.endDrag(drag);
+        }
+
+        onReleased: {
+            dndArea.endDrag(drag);
+        }
     }
 
     Rectangle {
@@ -551,11 +680,11 @@ Rectangle {
         height: quickListColumn.height
         visible: quickListShape.visible
         anchors {
-            left: root.inverted ? undefined : parent.left
-            right: root.inverted ? parent.right : undefined
+            left: root.inverted ? undefined : parent.right
+            right: root.inverted ? parent.left : undefined
             margins: units.gu(1)
         }
-        y: itemCenter + offset
+        y: itemCenter - (height / 2) + offset
         rotation: root.rotation
 
         property var model
@@ -564,9 +693,8 @@ Rectangle {
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
-        property int offset: itemCenter + (item.height/2) + height + units.gu(1) > parent.height ?
-                                 -(item.height/2) - height - units.gu(.5) :
-                                 (item.height/2) + units.gu(.5)
+        property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
+                             itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 
         Column {
             id: quickListColumn
@@ -591,6 +719,7 @@ Rectangle {
                         if (!model.clickable) {
                             return;
                         }
+                        Haptics.play();
                         quickList.state = "";
                         // Unsetting model to prevent showing changing entries during fading out
                         // that may happen because of triggering an action.

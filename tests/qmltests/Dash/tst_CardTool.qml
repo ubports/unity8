@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 import "../../../qml/Dash"
 import "CardHelpers.js" as Helpers
@@ -107,8 +107,8 @@ Rectangle {
         Repeater {
             model: [
                 { label: "View width", value: cardTool.viewWidth && cardTool.viewWidth / units.gu(1) },
-                { label: "Card width", value: cardTool.cardWidth && cardTool.cardWidth / units.gu(1) },
-                { label: "Card height", value: cardTool.cardHeight && cardTool.cardHeight / units.gu(1) },
+                { label: "Card width", value: cardTool.cardWidth !== -1 ? cardTool.cardWidth / units.gu(1) : undefined },
+                { label: "Card height", value: cardTool.cardHeight !== -1 ? cardTool.cardHeight / units.gu(1) : undefined },
             ]
 
             delegate: Row {
@@ -255,20 +255,20 @@ Rectangle {
 
         function test_card_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 0 },
-                { tag: "No art", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 1 },
-                { tag: "No summary", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 2 },
-                { tag: "Just header", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 3 },
-                { tag: "Just title", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 4 },
-                { tag: "Title and subtitle", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 5 },
-                { tag: "Title and mascot", width: units.gu(18.5), height: function() { return internalCard ? internalCard.height : 0 }, index: 6 },
+                { tag: "Medium", width: units.gu(18), height: function() { return internalCard ? internalCard.height : 0 }, index: 0 },
+                { tag: "No art", width: units.gu(18), height: function() { return internalCard ? internalCard.height : 0 }, index: 1 },
+                { tag: "No summary", width: units.gu(18), height: function() { return internalCard ? internalCard.height : 0 }, index: 2 },
+                { tag: "Just header", width: units.gu(18), height: function() { return internalCard ? internalCard.height : 0 }, index: 3 },
+                { tag: "Just title", width: units.gu(18), height: function() { return internalCard ? internalCard.height : 0 }, index: 4 },
+                { tag: "Title and subtitle", width: units.gu(18), height: function() { return internalCard ? internalCard.height : 0 }, index: 5 },
+                { tag: "Title and mascot", width: units.gu(18), height: function() { return internalCard ? internalCard.height : 0 }, index: 6 },
                 { tag: "Small", width: units.gu(12), height: function() { return internalCard ? internalCard.height : 0 }, index: 7 },
                 { tag: "Large", width: units.gu(38), height: function() { return internalCard ? internalCard.height : 0 }, index: 8 },
                 { tag: "Horizontal", width: units.gu(38), height: function() { return internalCard ? internalCard.height : 0 }, index: 9 },
-                { tag: "OrganicGrid", width: undefined, height: undefined, index: 0, layout_index: 1},
-                { tag: "Journal", width: undefined, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
-                { tag: "OversizedJournal", width: undefined, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
-                { tag: "VerticalJournal", width: units.gu(18.5), height: undefined, index: 0, layout_index: 3 },
+                { tag: "OrganicGrid", width: -1, height: -1, index: 0, layout_index: 1},
+                { tag: "Journal", width: -1, height: units.gu(20), size: 20, index: 0, layout_index: 2 },
+                { tag: "OversizedJournal", width: -1, height: units.gu(18.5), size: 40, index: 0, layout_index: 2 },
+                { tag: "VerticalJournal", width: units.gu(18), height: -1, index: 0, layout_index: 3 },
                 { tag: "SmallCarousel", width: units.gu(18), height: units.gu(18), viewWidth: 30, index: 0, layout_index: 4},
                 { tag: "MediumCarousel", width: units.gu(22), height: units.gu(22), viewWidth: 84, index: 0, layout_index: 4},
                 { tag: "LargeCarousel", width: units.gu(26), height: units.gu(26), viewWidth: 140, index: 0, layout_index: 4},
@@ -345,6 +345,16 @@ Rectangle {
             cardTool.componentsChanged();
 
             tryCompare(cardTool, "titleAlignment", data.value);
+
+            cardTool.components['title'] = { "field": "title" };
+            cardTool.componentsChanged();
+
+            tryCompare(cardTool, "titleAlignment", data.value);
+
+            cardTool.components['title'] = { "field": "title", "align": "left" };
+            cardTool.componentsChanged();
+
+            tryCompare(cardTool, "titleAlignment", Text.AlignLeft);
         }
 
         function test_categoryLayout_data() {

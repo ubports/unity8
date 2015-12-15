@@ -16,19 +16,18 @@
 
 #include "SystemImage.h"
 #include <QDBusConnection>
-#include <QDBusInterface>
+#include <QDBusPendingCall>
 
 SystemImage::SystemImage(QObject *parent)
-    : QObject(parent),
-      m_interface(new QDBusInterface("com.canonical.SystemImage",
-                                     "/Service",
-                                     "com.canonical.SystemImage",
-                                     QDBusConnection::systemBus(),
-                                     this))
+    : QObject(parent)
 {
 }
 
 void SystemImage::factoryReset()
 {
-    m_interface->call("FactoryReset");
+    const QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("com.canonical.SystemImage"),
+                                                            QStringLiteral("/Service"),
+                                                            QStringLiteral("com.canonical.SystemImage"),
+                                                            QStringLiteral("FactoryReset"));
+    QDBusConnection::systemBus().asyncCall(msg);
 }

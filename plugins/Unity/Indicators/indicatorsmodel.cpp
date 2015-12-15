@@ -54,13 +54,13 @@ IndicatorsModel::IndicatorsModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     m_manager = new IndicatorsManager(this);
-    QObject::connect(m_manager, SIGNAL(indicatorLoaded(const QString&)), this, SLOT(onIndicatorLoaded(const QString&)));
-    QObject::connect(m_manager, SIGNAL(indicatorAboutToBeUnloaded(const QString&)), this, SLOT(onIndicatorAboutToBeUnloaded(const QString&)));
-    QObject::connect(m_manager, SIGNAL(profileChanged(const QString&)), this, SIGNAL(profileChanged()));
+    QObject::connect(m_manager, &IndicatorsManager::indicatorLoaded, this, &IndicatorsModel::onIndicatorLoaded);
+    QObject::connect(m_manager, &IndicatorsManager::indicatorAboutToBeUnloaded, this, &IndicatorsModel::onIndicatorAboutToBeUnloaded);
+    QObject::connect(m_manager, &IndicatorsManager::profileChanged, this, &IndicatorsModel::profileChanged);
 
-    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
+    QObject::connect(this, &IndicatorsModel::rowsInserted, this, &IndicatorsModel::countChanged);
+    QObject::connect(this, &IndicatorsModel::rowsRemoved, this, &IndicatorsModel::countChanged);
+    QObject::connect(this, &IndicatorsModel::modelReset, this, &IndicatorsModel::countChanged);
 }
 
 /*! \internal */
@@ -148,8 +148,8 @@ void IndicatorsModel::onIndicatorLoaded(const QString& indicator_name)
         pos++;
     }
 
-    QObject::connect(indicator.data(), SIGNAL(identifierChanged(const QString&)), this, SLOT(onIdentifierChanged()));
-    QObject::connect(indicator.data(), SIGNAL(indicatorPropertiesChanged(const QVariant&)), this, SLOT(onIndicatorPropertiesChanged()));
+    QObject::connect(indicator.data(), &Indicator::identifierChanged, this, &IndicatorsModel::onIdentifierChanged);
+    QObject::connect(indicator.data(), &Indicator::indicatorPropertiesChanged, this, &IndicatorsModel::onIndicatorPropertiesChanged);
 
     beginInsertRows(QModelIndex(), pos, pos);
 
@@ -236,7 +236,7 @@ int IndicatorsModel::columnCount(const QModelIndex &) const
     return 1;
 }
 
-Q_INVOKABLE QVariant IndicatorsModel::data(int row, int role) const
+QVariant IndicatorsModel::data(int row, int role) const
 {
     return data(index(row, 0), role);
 }
@@ -247,26 +247,26 @@ QVariant IndicatorsModel::data(const QModelIndex &index, int role) const
     if (!index.isValid() || index.row() >= m_indicators.size())
         return QVariant();
 
-    Indicator::Ptr indicator = m_indicators[index.row()];
+    Indicator::Ptr indicator = m_indicators.at(index.row());
 
     switch (role)
     {
         case IndicatorsModelRole::Identifier:
             if (indicator)
             {
-                return QVariant(indicator->identifier());
+                return indicator->identifier();
             }
             break;
         case IndicatorsModelRole::Position:
             if (indicator)
             {
-                return QVariant(indicator->position());
+                return indicator->position();
             }
             break;
         case IndicatorsModelRole::IndicatorProperties:
             if (indicator)
             {
-                return QVariant(indicator->indicatorProperties());
+                return indicator->indicatorProperties();
             }
             break;
         default:

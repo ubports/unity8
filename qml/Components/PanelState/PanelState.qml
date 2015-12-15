@@ -15,15 +15,18 @@
  */
 
 pragma Singleton
-import QtQuick 2.0
+import QtQuick 2.4
 
 QtObject {
     id: root
 
     property string title: ""
     property bool buttonsVisible: false
+    property bool dropShadow: false
+    property int panelHeight: units.gu(3)
 
     signal close()
     signal minimize()
     signal maximize()
+    signal focusMaximizedApp()
 }

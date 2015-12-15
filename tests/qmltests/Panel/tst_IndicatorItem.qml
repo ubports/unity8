@@ -14,10 +14,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.1
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 import "../../../qml/Panel"
 
@@ -181,25 +181,25 @@ Rectangle {
         }
 
         function test_select() {
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ffffff");
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ffffff");
 
             indicatorItem.expanded = true;
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#888888");
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 0.6);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#4c4c4c");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#4c4c4c");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#4c4c4c");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#888888");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#888888");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#888888");
 
             indicatorItem.selected = true;
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ffffff");
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ededed");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ededed");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ffffff");
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import "../Components"
 
 Item {
@@ -23,7 +24,7 @@ Item {
     property var navigation: null
     property var currentNavigation: null
     property var scopeStyle: null
-    property color foregroundColor: Theme.palette.normal.baseText
+    property color foregroundColor: theme.palette.normal.baseText
     signal enterNavigation(var newNavigationId, bool hasChildren)
     signal goBackToParentClicked()
     signal allNavigationClicked()
@@ -58,13 +59,9 @@ Item {
             id: column
             width: parent.width
 
-            // TODO: check if SDK ListItems could be used here
-            // and if not make them be useful since this is a quite common pattern
-
-            AbstractButton {
+            ListItem.Standard {
                 id: backButton
                 objectName: "backButton"
-                width: parent.width
                 visible: navigation && !navigation.isRoot || false
                 height: itemHeight
 
@@ -97,25 +94,11 @@ Item {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                 }
-
-                Rectangle {
-                    anchors {
-                        bottom: parent.bottom
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-                    color: root.foregroundColor
-                    opacity: 0.2
-                    height: units.dp(1)
-                }
             }
 
-            AbstractButton {
+            ListItem.Standard {
                 id: allButton
                 objectName: "allButton"
-                width: parent.width
                 visible: navigation && (!navigation.isRoot || (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
                 height: itemHeight
 
@@ -135,29 +118,17 @@ Item {
                     elide: Text.ElideMiddle
                 }
 
-                Rectangle {
-                    anchors {
-                        bottom: parent.bottom
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-                    color: root.foregroundColor
-                    opacity: 0.2
-                    height: units.dp(1)
-                }
-
                 onClicked: root.allNavigationClicked();
             }
 
             Repeater {
                 model: navigation && navigation.loaded ? navigation : null
                 clip: true
-                delegate: AbstractButton {
+                delegate: ListItem.Standard {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
-                    width: root.width
+                    showDivider: index != navigation.count - 1
+                    selected: isActive
 
                     onClicked: root.enterNavigation(navigationId, hasChildren)
 
@@ -188,20 +159,6 @@ Item {
                         name: hasChildren ? "go-next" : "tick"
                         color: root.foregroundColor
                         visible: hasChildren || isActive
-                    }
-
-                    Rectangle {
-                        anchors {
-                            bottom: parent.bottom
-                            left: parent.left
-                            right: parent.right
-                            leftMargin: units.gu(2)
-                            rightMargin: units.gu(2)
-                        }
-                        color: root.foregroundColor
-                        opacity: 0.1
-                        height: units.dp(1)
-                        visible: index != navigation.count - 1
                     }
                 }
             }

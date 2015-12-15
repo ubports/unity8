@@ -14,19 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
-import LightDM 0.1 as LightDM
+import IntegratedLightDM 0.1 as LightDM
 import Powerd 0.1
 import Unity.InputInfo 0.1
 
 import "../../qml"
-import "../../qml/Components/UnityInputInfo"
 
 Rectangle {
     id: root
@@ -46,13 +45,27 @@ Rectangle {
     }
 
     QtObject {
-        id: mockUsageModeSettings
+        id: mockUnity8Settings
         property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
     }
 
     QtObject{
         id: mockOskSettings
-        property bool stayHidden: false;
+        property bool stayHidden: false
+        property bool disableHeight: false
+    }
+
+    InputDeviceModel {
+        id: miceModel
+        deviceFilter: InputInfo.Mouse
+    }
+    InputDeviceModel {
+        id: touchpadModel
+        deviceFilter: InputInfo.TouchPad
+    }
+    InputDeviceModel {
+        id: keyboardsModel
+        deviceFilter: InputInfo.Keyboard
     }
 
     property int physicalOrientation0
@@ -110,6 +123,22 @@ Rectangle {
                 physicalOrientation180: Qt.LandscapeOrientation
                 primaryOrientationAngle: 90
             }
+        },
+        State {
+            name: "desktop"
+            PropertyChanges {
+                target: orientedShellLoader
+                width: units.gu(100)
+                height: units.gu(56)
+            }
+            PropertyChanges {
+                target: root
+                physicalOrientation270: Qt.InvertedPortraitOrientation
+                physicalOrientation0:  Qt.LandscapeOrientation
+                physicalOrientation90: Qt.PortraitOrientation
+                physicalOrientation180: Qt.InvertedLandscapeOrientation
+                primaryOrientationAngle: 0
+            }
         }
     ]
 
@@ -125,7 +154,7 @@ Rectangle {
         sourceComponent: Component {
             OrientedShell {
                 anchors.fill: parent
-                usageModeSettings: mockUsageModeSettings
+                unity8Settings: mockUnity8Settings
                 oskSettings: mockOskSettings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
@@ -250,7 +279,7 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right }
                 activeFocusOnPress: false
                 text: "Device Name"
-                model: ["mako", "manta", "flo"]
+                model: ["mako", "manta", "flo", "desktop"]
                 onSelectedIndexChanged: {
                     testCase.tearDown();
                     applicationArguments.deviceName = model[selectedIndex];
@@ -263,6 +292,10 @@ Rectangle {
                 activeFocusOnPress: false
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
+            }
+            MouseTouchEmulationCheckbox {
+                checked: true
+                color: "white"
             }
             Button {
                 text: "Switch fullscreen"
@@ -280,9 +313,9 @@ Rectangle {
                     onCheckedChanged: {
                         var surface = SurfaceManager.inputMethodSurface();
                         if (checked) {
-                            surface.setState(MirSurfaceItem.Restored);
+                            surface.setState(Mir.RestoredState);
                         } else {
-                            surface.setState(MirSurfaceItem.Minimized);
+                            surface.setState(Mir.MinimizedState);
                         }
                     }
                 }
@@ -296,9 +329,9 @@ Rectangle {
                 activeFocusOnPress: false
                 onClicked: {
                     if (Powerd.status === Powerd.On) {
-                        Powerd.status = Powerd.Off;
+                        Powerd.setStatus(Powerd.Off, Powerd.Unknown);
                     } else {
-                        Powerd.status = Powerd.On;
+                        Powerd.setStatus(Powerd.On, Powerd.Unknown);
                     }
                 }
             }
@@ -306,28 +339,67 @@ Rectangle {
             Row {
                 Button {
                     text: "Add mouse"
+                    activeFocusOnPress: false
                     onClicked: {
-                        UnityInputInfo.inputInfo.addMockMouse()
+                        MockInputDeviceBackend.addMockDevice("/mouse" + miceModel.count, InputInfo.Mouse)
                     }
                 }
                 Button {
                     text: "Remove mouse"
+                    activeFocusOnPress: false
                     onClicked: {
-                        UnityInputInfo.inputInfo.removeMockMouse()
+                        MockInputDeviceBackend.removeDevice("/mouse" + (miceModel.count - 1))
                     }
                 }
             }
             Row {
                 Button {
-                    text: "Add kbd"
+                    text: "Add touchpad"
+                    activeFocusOnPress: false
                     onClicked: {
-                        UnityInputInfo.inputInfo.addMockKeyboard()
+                        MockInputDeviceBackend.addMockDevice("/touchpad" + touchpadModel.count, InputInfo.TouchPad)
                     }
                 }
                 Button {
+                    text: "Remove touchpad"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        MockInputDeviceBackend.removeDevice("/touchpad" + (touchpadModel.count - 1))
+                    }
+                }
+            }
+
+            Row {
+                Button {
+                    text: "Add kbd"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        MockInputDeviceBackend.addMockDevice("/kbd" + keyboardsModel.count, InputInfo.Keyboard)
+                    }
+                }
+                Button {
+                    activeFocusOnPress: false
                     text: "Remove kbd"
                     onClicked: {
-                        UnityInputInfo.inputInfo.removeMockKeyboard()
+                        MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
+                    }
+                }
+            }
+
+            // Simulates what happens when the shell is moved to an external monitor and back
+            Button {
+                id: moveToFromMonitorButton
+                text: applicationArguments.deviceName === "desktop" ? "Move to " + prevDevName + " screen" : "Move to desktop screen"
+                activeFocusOnPress: false
+                property string prevDevName: "mako"
+                onClicked: {
+                    usageModeSelector.selectedIndex = 2; // "Automatic"
+
+                    if (applicationArguments.deviceName === "desktop") {
+                        applicationArguments.deviceName = prevDevName;
+                    } else {
+                        prevDevName = applicationArguments.deviceName;
+                        applicationArguments.deviceName = "desktop"
                     }
                 }
             }
@@ -414,23 +486,23 @@ Rectangle {
             compare(dashApp.supportedOrientations, Qt.PrimaryOrientation);
             compare(dashApp.stage, ApplicationInfoInterface.MainStage);
 
-            tryCompareFunction(function(){return dashApp.session.surface != null;}, true);
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            tryCompareFunction(function(){return dashApp.session.lastSurface != null;}, true);
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
             rotateTo(90);
 
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(180);
 
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(270);
 
-            verify(checkAppSurfaceOrientation(dashApp, root.primaryOrientationAngle));
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
@@ -491,7 +563,7 @@ Rectangle {
 
             waitUntilAppSurfaceShowsUp("camera-app")
 
-            var cameraSurface = cameraApp.session.surface;
+            var cameraSurface = cameraApp.session.lastSurface;
             verify(cameraSurface);
 
             var focusChangedSpy = signalSpy;
@@ -798,7 +870,7 @@ Rectangle {
             // shell should remain in its primery orientation as the app in the main stage
             // is the one that dictates its orientation. In this case it's unity8-dash
             // which supports only primary orientation
-            compare(shell.orientation, orientedShell.primaryOrientation);
+            compare(shell.orientation, orientedShell.orientations.primary);
         }
 
         function test_sideStageAppsRemainPortraitInSpread_data() {
@@ -892,9 +964,9 @@ Rectangle {
             verify(gmailApp);
             waitUntilAppSurfaceShowsUp("gmail-webapp")
 
-            verify(gmailApp.session.surface);
+            verify(gmailApp.session.lastSurface);
 
-            tryCompare(gmailApp.session.surface, "activeFocus", true);
+            tryCompare(gmailApp.session.lastSurface, "activeFocus", true);
         }
 
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
@@ -926,7 +998,7 @@ Rectangle {
 
         function test_attachRemoveInputDevices() {
             usageModeSelector.selectedIndex = 2;
-            tryCompare(mockUsageModeSettings, "usageMode", "Automatic")
+            tryCompare(mockUnity8Settings, "usageMode", "Automatic")
 
             loadShell("mako")
             var shell = findChild(orientedShell, "shell");
@@ -934,21 +1006,138 @@ Rectangle {
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", false);
 
-            UnityInputInfo.inputInfo.addMockKeyboard();
+            MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", true);
 
-            UnityInputInfo.inputInfo.addMockMouse();
+            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
             tryCompare(shell, "usageScenario", "desktop");
             tryCompare(mockOskSettings, "stayHidden", true);
 
-            UnityInputInfo.inputInfo.removeMockKeyboard();
+            MockInputDeviceBackend.removeDevice("/kbd0");
             tryCompare(shell, "usageScenario", "desktop");
             tryCompare(mockOskSettings, "stayHidden", false);
 
-            UnityInputInfo.inputInfo.removeMockMouse();
+            MockInputDeviceBackend.removeDevice("/mouse0");
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", false);
+
+            MockInputDeviceBackend.addMockDevice("/touchpad0", InputInfo.TouchPad);
+            tryCompare(shell, "usageScenario", "desktop");
+
+            MockInputDeviceBackend.removeDevice("/touchpad0");
+            tryCompare(shell, "usageScenario", "phone");
+        }
+
+        /*
+            Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1471609
+
+            Steps:
+             - Open an app which can rotate
+             - Rotate the phone to landscape
+             - Open the app spread
+             - Press the power button while the app spread is open
+             - Wait a bit and press power button again
+
+            Expected outcome:
+             You see greeter in portrat (ie, primary orientation)
+
+            Actual outcome:
+             You see greeter in landscape
+
+            Comments:
+             Greeter supports only the primary orientation (portrait in phones) but
+             the stage doesn't allow orientation changes while the apps spread is open,
+             hence the bug.
+         */
+        function test_phoneWithSpreadInLandscapeWhenGreeterShowsUp() {
+            loadShell("mako");
+
+            var gmailApp = ApplicationManager.startApplication("gmail-webapp");
+            verify(gmailApp);
+
+            // ensure the mock gmail-webapp is as we expect
+            compare(gmailApp.rotatesWindowContents, false);
+            compare(gmailApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
+                    | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
+
+            // wait until it's able to rotate
+            tryCompare(shell, "orientationChangesEnabled", true);
+
+            rotateTo(90);
+            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle + 90);
+
+            performEdgeSwipeToShowAppSpread();
+
+            showGreeter();
+
+            tryCompare(shell, "transformRotationAngle", root.primaryOrientationAngle);
+        }
+
+        /*
+           Regression test for https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1476757
+
+           Steps:
+           1- have a portrait-only app in foreground (eg unity8-dash)
+           2- launch or switch to some other application
+           3- right-edge swipe to show the apps spread
+           4- swipe up to close the current app (the one from step 2)
+           5- lock the phone (press the power button)
+           6- unlock the phone (press power button again and swipe greeter away)
+               * app from step 1 should be on foreground and focused
+           7- rotate phone
+
+           Expected outcome:
+           - The portrait-only application stays put
+
+           Actual outcome:
+           - The portrait-only application rotates freely
+         */
+        function test_lockPhoneAfterClosingAppInSpreadThenUnlockAndRotate() {
+            loadShell("mako");
+
+            var gmailApp = ApplicationManager.startApplication("gmail-webapp");
+            verify(gmailApp);
+
+            waitUntilAppSurfaceShowsUp("gmail-webapp");
+
+            performEdgeSwipeToShowAppSpread();
+
+            swipeToCloseCurrentAppInSpread();
+
+            // press the power key once
+            Powerd.setStatus(Powerd.Off, Powerd.Unknown);
+            var greeter = findChild(shell, "greeter");
+            tryCompare(greeter, "fullyShown", true);
+
+            // and a second time to turn the display back on
+            Powerd.setStatus(Powerd.On, Powerd.Unknown);
+
+            swipeAwayGreeter();
+
+            verify(isAppSurfaceFocused("unity8-dash"))
+
+            signalSpy.clear();
+            signalSpy.target = shell;
+            signalSpy.signalName = "widthChanged";
+            verify(signalSpy.valid);
+
+            rotateTo(90);
+
+            // shell shouldn't have change its orientation at any moment
+            compare(signalSpy.count, 0);
+        }
+
+        function test_moveToExternalMonitor() {
+            loadShell("flo");
+
+            compare(orientedShell.orientation, Qt.InvertedLandscapeOrientation);
+            compare(shell.transformRotationAngle, 90);
+
+            moveToFromMonitorButton.clicked();
+
+            tryCompare(orientedShell, "orientation", Qt.LandscapeOrientation);
+            tryCompare(shell, "transformRotationAngle" , 0);
         }
 
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
@@ -971,6 +1160,12 @@ Rectangle {
             }
 
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
+            verify(rotationStates.d);
+            verify(rotationStates.d.stateUpdateTimer);
+
+            // wait for the delayed state update to take place, if any
+            tryCompare(rotationStates.d.stateUpdateTimer, "running", false);
+
             waitUntilTransitionsEnd(rotationStates);
         }
 
@@ -1155,15 +1350,10 @@ Rectangle {
         }
 
         // expectedAngle is in orientedShell's coordinate system
-        function checkAppSurfaceOrientation(app, expectedAngle) {
-            var surface = app.session.surface;
+        function checkAppSurfaceOrientation(item, app, expectedAngle) {
+            var surface = app.session.lastSurface;
             if (!surface) {
                 console.warn("no surface");
-                return false;
-            }
-
-            if (!itemIsChildOfOrientedShell(surface)) {
-                console.warn("surface not a child of OrientedShell");
                 return false;
             }
 
@@ -1176,7 +1366,12 @@ Rectangle {
                 topMargin = appsDisplayLoader.item.maximizedAppTopMargin;
             }
 
-            var point = surface.mapToItem(orientedShell, 0, 0);
+            var surfaceItem = findSurfaceItem(item, surface);
+            if (!surfaceItem) {
+                console.warn("no surfaceItem rendering app surface");
+                return false;
+            }
+            var point = surfaceItem.mapToItem(orientedShell, 0, 0);
 
             switch (expectedAngle) {
             case 0:
@@ -1190,14 +1385,67 @@ Rectangle {
             }
         }
 
-        function itemIsChildOfOrientedShell(item) {
-            var parent = item.parent;
-            var found = false;
-            while (parent && !found) {
-                found = parent === orientedShell;
-                parent = parent.parent;
+        function findSurfaceItem(obj, surface) {
+            var childs = new Array(0);
+            childs.push(obj)
+            while (childs.length > 0) {
+                if (childs[0].objectName === "surfaceItem"
+                        && childs[0].surface !== undefined
+                        && childs[0].surface === surface) {
+                    return childs[0];
+                }
+                for (var i in childs[0].children) {
+                    childs.push(childs[0].children[i])
+                }
+                childs.splice(0, 1);
             }
-            return found;
+            return null;
+        }
+
+        function swipeToCloseCurrentAppInSpread() {
+            var spreadView = findChild(shell, "spreadView");
+            verify(spreadView);
+
+            var delegateToClose = findChild(spreadView, "appDelegate0");
+            verify(delegateToClose);
+
+            var appIdToClose = ApplicationManager.get(0).appId;;
+            var appCountBefore = ApplicationManager.count;
+
+            // ensure the current app is widely visible by swiping to the right,
+            // which will move the app windows accordingly
+            touchFlick(shell,
+                shell.width * 0.25, shell.width / 2,
+                shell.width, shell.width / 2);
+
+            tryCompare(spreadView, "flicking", false);
+            tryCompare(spreadView, "moving", false);
+
+            // Swipe up close to its left edge, as it is the only area of it guaranteed to be exposed
+            // in the spread. Eg: its center could be covered by some other delegate.
+            touchFlick(delegateToClose,
+                1, delegateToClose.height / 2,
+                1, - delegateToClose.height / 4);
+
+            // ensure it got closed
+            tryCompare(ApplicationManager, "count", appCountBefore - 1);
+            compare(ApplicationManager.findApplication(appIdToClose), null);
+        }
+
+        function isAppSurfaceFocused(appId) {
+            var appWindow = findChild(shell, "appWindow_" + appId);
+            verify(appWindow);
+
+            var app = ApplicationManager.findApplication(appId);
+            verify(app);
+
+            var surface = app.session.lastSurface;
+            verify(surface);
+
+            var surfaceItem = findSurfaceItem(appWindow, surface);
+            verify(surfaceItem);
+
+            return surfaceItem.activeFocus;
         }
     }
 }

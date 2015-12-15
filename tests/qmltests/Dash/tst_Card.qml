@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
 import "../../../qml/Dash"
 import "CardHelpers.js" as Helpers
@@ -112,7 +112,7 @@ Rectangle {
         id: cardTool
         template: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['template'];
         components: Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components'];
-        viewWidth: units.gu(48)
+        viewWidth: units.gu(40)
     }
 
     readonly property var card: loader.item
@@ -261,10 +261,10 @@ Rectangle {
 
         function test_card_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), index: 0 },
+                { tag: "Medium", width: units.gu(18), index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", width: units.gu(18.5), index: 0 },
+                { tag: "Wide", width: units.gu(18), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
                 { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow");
@@ -296,7 +296,7 @@ Rectangle {
 
         function test_art_size_data() {
             return [
-                { tag: "Medium", width: units.gu(18.5), fill: Image.PreserveAspectCrop, index: 0 },
+                { tag: "Medium", width: units.gu(18), fill: Image.PreserveAspectCrop, index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
                 { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
@@ -443,11 +443,11 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("color")) {
-                tryCompare(background, "color", data.color);
+                tryCompare(background, "backgroundColor", data.color);
             }
 
             if (data.hasOwnProperty("gradientColor")) {
-                tryCompare(background, "gradientColor", data.gradientColor);
+                tryCompare(background, "secondaryBackgroundColor", data.gradientColor);
             }
 
             if (data.hasOwnProperty("image")) {
@@ -473,14 +473,14 @@ Rectangle {
 
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();
-            compare(mascotImage.image.status, Image.Error);
+            compare(mascotImage.status, Image.Error);
 
             cardTool.components["mascot"] = {"fallback": Qt.resolvedUrl("artwork/emblem.png")};
             cardTool.componentsChanged();
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();
             waitForRendering(card);
-            tryCompare(mascotImage.image, "status", Image.Ready);
+            tryCompare(mascotImage, "status", Image.Ready);
         }
 
         function test_font_weights_data() {
@@ -520,9 +520,9 @@ Rectangle {
             waitForRendering(selector);
             waitForRendering(card);
 
-            background.color = data.tag;
+            background.backgroundColor = data.tag;
 
-            var fontColor = data.dark ? Theme.palette.normal.baseText : "white";
+            var fontColor = data.dark ? theme.palette.normal.baseText : "white";
 
             tryCompareFunction(function() { return Qt.colorEqual(summary.color, fontColor); }, true);
             tryCompareFunction(function() { return Qt.colorEqual(title.color, fontColor); }, true);

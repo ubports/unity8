@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #include "SessionManager.h"
 #include "SurfaceManager.h"
 #include "Session.h"
-#include "MirSurfaceItem.h"
+#include "MirSurface.h"
 
 #include <paths.h>
 
@@ -40,7 +40,7 @@ Session* ApplicationTestInterface::addChildSession(Session* existingSession, con
 {
     if (!existingSession) return nullptr;
 
-    QUrl screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%2@12.png")
             .arg(qmlDirectory())
             .arg(surfaceImage);
 
@@ -62,7 +62,7 @@ void ApplicationTestInterface::removeSession(Session* existingSession)
         existingSession->setLive(false);
 }
 
-void ApplicationTestInterface::removeSurface(MirSurfaceItem* existingSurface)
+void ApplicationTestInterface::removeSurface(MirSurface* existingSurface)
 {
     qDebug() << "ApplicationTestInterface::removeSurface - " << existingSurface;
 
@@ -90,7 +90,7 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
         return 0;
     }
 
-    QUrl screenshotUrl = QString("file://%1/Dash/graphics/phone/screenshots/%2@12.png")
+    QUrl screenshotUrl = QString("qrc:///Unity/Application/screenshots/%2@12.png")
             .arg(qmlDirectory())
             .arg(surfaceImage);
 

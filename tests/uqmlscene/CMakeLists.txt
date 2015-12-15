@@ -1,6 +1,5 @@
 add_executable(uqmlscene
     ${shellapplication_MOC_SRCS}
-    ActiveFocusLogger.cpp
     main.cpp
     )
 
@@ -8,6 +7,7 @@ qt5_use_modules(uqmlscene Qml Quick Test)
 pkg_check_modules(XCB REQUIRED xcb)
 
 include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/src
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures

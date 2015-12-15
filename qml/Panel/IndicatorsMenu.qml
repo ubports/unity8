@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import "../Components"
 import "Indicators"
@@ -27,6 +27,7 @@ Showable {
     property alias hideDragHandle: __hideDragHandle
     property alias overFlowWidth: bar.overFlowWidth
     property alias verticalVelocityThreshold: yVelocityCalculator.velocityThreshold
+    property alias currentIndicator: bar.currentIndicator
     property int minimizedPanelHeight: units.gu(3)
     property int expandedPanelHeight: units.gu(7)
     property real openedHeight: units.gu(71)
@@ -36,7 +37,8 @@ Showable {
     readonly property bool fullyClosed: unitProgress == 0
     property bool enableHint: true
     property bool contentEnabled: true
-    property color panelColor: "black"
+    property bool showOnClick: true
+    property color panelColor: "#292929"
 
     signal showTapped(point position)
 
@@ -68,6 +70,7 @@ Showable {
     // eater
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
     }
 
     MenuContent {
@@ -107,7 +110,7 @@ Showable {
             height: units.gu(0.5)
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 1.0; color: "black" }
+                GradientStop { position: 1.0; color: "#292929" }
             }
             opacity: 0.3
         }
@@ -168,7 +171,7 @@ Showable {
         anchors.left: parent.left
         anchors.right: parent.right
         height: minimizedPanelHeight
-        enabled: __showDragHandle.enabled
+        enabled: __showDragHandle.enabled && showOnClick
         onClicked: {
             bar.selectItemAt(mouseX)
             root.show()
@@ -270,7 +273,7 @@ Showable {
         }
 
         function updateState() {
-            if (!showAnimation.running && !hideAnimation.running) {
+            if (!showAnimation.running && !hideAnimation.running && d.activeDragHandle) {
                 if (unitProgress <= 0) {
                     root.state = "initial";
                 // lock indicator if we've been committed and aren't moving too much laterally or too fast up.

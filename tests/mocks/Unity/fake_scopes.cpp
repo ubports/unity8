@@ -34,11 +34,11 @@ Scopes::Scopes(QObject *parent)
 {
     timer.setSingleShot(true);
     timer.setInterval(100);
-    QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(updateScopes()));
+    QObject::connect(&timer, &QTimer::timeout, this, &Scopes::updateScopes);
 
-    QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SIGNAL(countChanged()));
-    QObject::connect(this, SIGNAL(modelReset()), this, SIGNAL(countChanged()));
+    QObject::connect(this, &Scopes::rowsInserted, this, &Scopes::countChanged);
+    QObject::connect(this, &Scopes::rowsRemoved, this, &Scopes::countChanged);
+    QObject::connect(this, &Scopes::modelReset, this, &Scopes::countChanged);
 
     load();
 }
@@ -260,6 +260,9 @@ void Scopes::addScope(Scope* scope)
         beginInsertRows(QModelIndex(), index, index);
         m_scopes.append(scope);
         endInsertRows();
+        connect(scope, &Scope::favoriteChanged, [this, scope]{
+            setFavorite(scope->id(), scope->favorite());
+        });
     }
     m_allScopes.append(scope);
 }

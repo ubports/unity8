@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Powerd 0.1
 
 /*!
@@ -30,7 +30,6 @@ import Powerd 0.1
     * Power dialog
     * Volume Decreases/Increases
     * Screenshots
-
 */
 
 Item {
@@ -41,7 +40,13 @@ Item {
     signal volumeUpTriggered;
     signal screenshotTriggered;
 
+    readonly property bool altTabPressed: d.altTabPressed
+
     property int powerKeyLongPressTime: 2000
+
+    // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
+    // running desktop, set this to true to use Ctrl+Tab instead.
+    property bool controlInsteadOfAlt: false
 
     QtObject {
         id: d
@@ -49,37 +54,33 @@ Item {
         property bool volumeDownKeyPressed: false
         property bool volumeUpKeyPressed: false
         property bool ignoreVolumeEvents: false
+
+        property bool altPressed: false
+        property bool altTabPressed: false
+
+        property var powerButtonPressStart: 0
     }
 
-    Timer {
-        id: powerKeyLongPressTimer
-        interval: root.powerKeyLongPressTime
-        onTriggered: root.powerKeyLongPressed();
-    }
-
-    function onKeyPressed(event) {
-        if ((event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff)
-            && !event.isAutoRepeat) {
-
-            // FIXME: We only consider power key presses if the screen is
-            // on because of bugs 1410830/1409003.  The theory is that when
-            // those bugs are encountered, there is a >2s delay between the
-            // power press event and the power release event, which causes
-            // the shutdown dialog to appear on resume.  So to avoid that
-            // symptom while we investigate the root cause, we simply won't
-            // initiate any dialogs when the screen is off.
-            if (Powerd.status === Powerd.On) {
-                powerKeyLongPressTimer.restart();
+    function onKeyPressed(event, currentEventTimestamp) {
+        if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
+            if (event.isAutoRepeat) {
+                if (d.powerButtonPressStart > 0
+                        && currentEventTimestamp - d.powerButtonPressStart >= powerKeyLongPressTime) {
+                    d.powerButtonPressStart = 0;
+                    root.powerKeyLongPressed();
+                }
+            } else {
+                d.powerButtonPressStart = currentEventTimestamp;
             }
-            event.accepted = true;
-        } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay)
-                   && !event.isAutoRepeat) {
+        } else if ((event.key == Qt.Key_MediaTogglePlayPause || event.key == Qt.Key_MediaPlay) && !event.isAutoRepeat) {
             event.accepted = callManager.handleMediaKey(false);
         } else if (event.key == Qt.Key_VolumeDown) {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeDownTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeUpKeyPressed) {
-                    if (Powerd.status === Powerd.On) root.screenshotTriggered();
+                    if (Powerd.status === Powerd.On) {
+                        root.screenshotTriggered();
+                    }
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeDownKeyPressed = true;
@@ -88,17 +89,26 @@ Item {
             if (event.isAutoRepeat && !d.ignoreVolumeEvents) root.volumeUpTriggered();
             else if (!event.isAutoRepeat) {
                 if (d.volumeDownKeyPressed) {
-                    if (Powerd.status === Powerd.On) root.screenshotTriggered();
+                    if (Powerd.status === Powerd.On) {
+                        root.screenshotTriggered();
+                    }
                     d.ignoreVolumeEvents = true;
                 }
                 d.volumeUpKeyPressed = true;
             }
+        } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
+            d.altPressed = true;
+        } else if (event.key == Qt.Key_Tab) {
+            if (d.altPressed && !d.altTabPressed) {
+                d.altTabPressed = true;
+                event.accepted = true;
+            }
         }
     }
 
-    function onKeyReleased(event) {
+    function onKeyReleased(event, currentEventTimestamp) {
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
-            powerKeyLongPressTimer.stop();
+            d.powerButtonPressStart = 0;
             event.accepted = true;
         } else if (event.key == Qt.Key_VolumeDown) {
             if (!d.ignoreVolumeEvents) root.volumeDownTriggered();
@@ -108,6 +118,12 @@ Item {
             if (!d.ignoreVolumeEvents) root.volumeUpTriggered();
             d.volumeUpKeyPressed = false;
             if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
+        } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
+            d.altPressed = false;
+            if (d.altTabPressed) {
+                d.altTabPressed = false;
+                event.accepted = true;
+            }
         }
     }
 }

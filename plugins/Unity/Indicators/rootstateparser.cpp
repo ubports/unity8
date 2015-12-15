@@ -39,7 +39,7 @@ static QString iconUri(GIcon *icon)
         }
 
         if (!iconNameList.empty()) {
-            uri = QString("image://theme/%1").arg(iconNameList.join(","));
+            uri = QStringLiteral("image://theme/%1").arg(iconNameList.join(QStringLiteral(",")));
         }
     }
     else if (G_IS_FILE_ICON (icon)) {
@@ -63,7 +63,7 @@ static QString iconUri(GIcon *icon)
         data = g_bytes_get_data (g_bytes_icon_get_bytes (G_BYTES_ICON (icon)), &size);
         base64 = g_base64_encode ((const guchar *) data, size);
 
-        uri = QString("data://");
+        uri = QStringLiteral("data://");
         uri.append (base64);
 
         g_free (base64);
@@ -88,7 +88,7 @@ QVariant RootStateParser::toQVariant(GVariant* state) const
         while (g_variant_iter_loop (&iter, "{sv}", &key, &vvalue))
         {
             QString str = QString::fromUtf8(key);
-            if (str == "icon" && !qmap.contains("icons")) {
+            if (str == QLatin1String("icon") && !qmap.contains(QStringLiteral("icons"))) {
                 QStringList icons;
 
                 // FIXME - should be sending a url.
@@ -97,9 +97,9 @@ QVariant RootStateParser::toQVariant(GVariant* state) const
                     icons << iconUri(gicon);
                     g_object_unref (gicon);
                 }
-                qmap.insert("icons", icons);
+                qmap.insert(QStringLiteral("icons"), icons);
 
-            } else if (str == "icons") {
+            } else if (str == QLatin1String("icons")) {
 
                 QStringList icons;
 
@@ -118,7 +118,7 @@ QVariant RootStateParser::toQVariant(GVariant* state) const
                     }
                 }
                 // will overwrite icon.
-                qmap.insert("icons", icons);
+                qmap.insert(QStringLiteral("icons"), icons);
 
             } else {
                 qmap.insert(str, ActionStateParser::toQVariant(vvalue));
@@ -141,13 +141,13 @@ QVariant RootStateParser::toQVariant(GVariant* state) const
                                        &accessible_name,
                                        &visible);
 
-        qmap["label"] = label ? QString::fromUtf8(label) : "";
-        qmap["accessible-desc"] = accessible_name ? QString::fromUtf8(accessible_name) : "";
-        qmap["visible"] = visible;
+        qmap[QStringLiteral("label")] = label ? QString::fromUtf8(label) : QLatin1String("");
+        qmap[QStringLiteral("accessible-desc")] = accessible_name ? QString::fromUtf8(accessible_name) : QLatin1String("");
+        qmap[QStringLiteral("visible")] = visible;
 
         gicon = g_icon_new_for_string (icon, nullptr);
         if (gicon) {
-            qmap["icons"] = QStringList() << iconUri(gicon);
+            qmap[QStringLiteral("icons")] = QStringList() << iconUri(gicon);
             g_object_unref (gicon);
         }
 
@@ -170,42 +170,42 @@ QString RootStateObject::title() const
 {
     if (!valid()) return QString();
 
-    return m_currentState.value("title", QVariant::fromValue(QString())).toString();
+    return m_currentState.value(QStringLiteral("title"), QVariant::fromValue(QString())).toString();
 }
 
 QString RootStateObject::leftLabel() const
 {
     if (!valid()) return QString();
 
-    return m_currentState.value("pre-label", QVariant::fromValue(QString())).toString();
+    return m_currentState.value(QStringLiteral("pre-label"), QVariant::fromValue(QString())).toString();
 }
 
 QString RootStateObject::rightLabel() const
 {
     if (!valid()) return QString();
 
-    return m_currentState.value("label", QVariant::fromValue(QString())).toString();
+    return m_currentState.value(QStringLiteral("label"), QVariant::fromValue(QString())).toString();
 }
 
 QStringList RootStateObject::icons() const
 {
     if (!valid()) return QStringList();
 
-    return m_currentState.value("icons", QVariant::fromValue(QStringList())).toStringList();
+    return m_currentState.value(QStringLiteral("icons"), QVariant::fromValue(QStringList())).toStringList();
 }
 
 QString RootStateObject::accessibleName() const
 {
     if (!valid()) return QString();
 
-    return m_currentState.value("accessible-desc", QVariant::fromValue(QString())).toString();
+    return m_currentState.value(QStringLiteral("accessible-desc"), QVariant::fromValue(QString())).toString();
 }
 
 bool RootStateObject::indicatorVisible() const
 {
     if (!valid()) return false;
 
-    return m_currentState.value("visible", QVariant::fromValue(true)).toBool();
+    return m_currentState.value(QStringLiteral("visible"), QVariant::fromValue(true)).toBool();
 }
 
 void RootStateObject::setCurrentState(const QVariantMap& newState)

@@ -57,7 +57,7 @@ MediaPlayer::MediaPlayer(QObject* parent)
 {
     qsrand(time(nullptr));
     m_timer.setInterval(100);
-    connect(&m_timer, SIGNAL(timeout()), SLOT(timerEvent()));
+    connect(&m_timer, &QTimer::timeout, this, &Audio::timerEvent);
 
     connect(MediaPlayerDataController::instance(), &MediaPlayerDataController::sourceAboutToBeRemoved,
             this, [this](const QUrl& source) {

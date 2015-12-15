@@ -2,7 +2,8 @@ AbstractButton {
                 id: root; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource: undefined; 
+                property string artShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
                 property int titleAlignment: Text.AlignLeft;
@@ -34,11 +35,11 @@ Loader {
                         id: mascotShapeLoader; 
                         objectName: "mascotShapeLoader"; 
                         asynchronous: root.asynchronous; 
-                        active: mascotImage.image.status === Image.Ready;
+                        active: mascotImage.status === Image.Ready;
                         visible: showHeader && active && status == Loader.Ready; 
                         width: units.gu(6); 
                         height: units.gu(5.625); 
-                        sourceComponent: UbuntuShape { image: mascotImage.image }
+                        sourceComponent: UbuntuShape { image: mascotImage }
                         anchors { verticalCenter: parent.verticalCenter; }
                     }
 
@@ -72,7 +73,7 @@ Label {
                     wrapMode: Text.Wrap; 
                     maximumLineCount: 2; 
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                    color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                    color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                     visible: showHeader ; 
                     width: undefined;
                     text: root.title; 
@@ -92,7 +93,7 @@ Label {
                         maximumLineCount: 1; 
                         fontSize: "x-small"; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText;
+                        color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
                         visible: titleLabel.visible && titleLabel.text; 
                         text: cardData && cardData["subtitle"] || ""; 
                         font.weight: Font.Light; 
@@ -105,7 +106,7 @@ UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
     anchors { fill: root }
-    visible: root.pressed;
+    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }

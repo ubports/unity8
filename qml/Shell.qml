@@ -14,19 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import QtQuick.Window 2.0
+import QtQuick 2.4
+import QtQuick.Window 2.2
 import AccountsService 0.1
-import GSettings 1.0
 import Unity.Application 0.1
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
+import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
 import Utils 0.1
-import LightDM 0.1 as LightDM
 import Powerd 0.1
 import SessionBroadcast 0.1
 import "Greeter"
@@ -41,6 +40,8 @@ import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
+import Cursor 1.0
+
 
 Item {
     id: shell
@@ -48,20 +49,21 @@ Item {
     // to be set from outside
     property int orientationAngle: 0
     property int orientation
-    property int primaryOrientation
-    property int nativeOrientation
+    property Orientations orientations
     property real nativeWidth
     property real nativeHeight
     property alias indicatorAreaShowProgress: panel.indicatorAreaShowProgress
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
+    property bool cursorVisible: false
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
     function updateFocusedAppOrientationAnimated() {
         applicationsDisplayLoader.item.updateFocusedAppOrientationAnimated();
     }
+    property bool hasMouse: false
 
     // to be read from outside
     readonly property int mainAppWindowOrientationAngle:
@@ -83,7 +85,7 @@ Item {
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
         } else if (mainApp) {
-            return mainApp.supportedOrientations;
+            return shell.orientations.map(mainApp.supportedOrientations);
         } else {
             // we just don't care
             return Qt.PortraitOrientation
@@ -105,9 +107,11 @@ Item {
     enabled: greeter && !greeter.waiting
 
     property real edgeSize: units.gu(2)
-    property url defaultBackground: Qt.resolvedUrl(shell.width >= units.gu(60) ? "graphics/tablet_background.jpg" : "graphics/phone_background.jpg")
-    property url background: asImageTester.status == Image.Ready ? asImageTester.source
-                             : gsImageTester.status == Image.Ready ? gsImageTester.source : defaultBackground
+
+    WallpaperResolver {
+        id: wallpaperResolver
+        width: shell.width
+    }
 
     readonly property alias greeter: greeterLoader.item
 
@@ -128,31 +132,6 @@ Item {
         shell.activateApplication(app);
     }
 
-    // This is a dummy image to detect if the custom AS set wallpaper loads successfully.
-    Image {
-        id: asImageTester
-        source: AccountsService.backgroundFile != undefined && AccountsService.backgroundFile.length > 0 ? AccountsService.backgroundFile : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-    }
-
-    GSettings {
-        id: backgroundSettings
-        schema.id: "org.gnome.desktop.background"
-    }
-
-    // This is a dummy image to detect if the custom GSettings set wallpaper loads successfully.
-    Image {
-        id: gsImageTester
-        source: backgroundSettings.pictureUri != undefined && backgroundSettings.pictureUri.length > 0 ? backgroundSettings.pictureUri : ""
-        height: 0
-        width: 0
-        sourceSize.height: 0
-        sourceSize.width: 0
-    }
-
     Binding {
         target: LauncherModel
         property: "applicationManager"
@@ -160,15 +139,17 @@ Item {
     }
 
     Component.onCompleted: {
-        Theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        theme.name = "Ubuntu.Components.Themes.SuruGradient"
         if (ApplicationManager.count > 0) {
             ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
         }
         finishStartUpTimer.start();
     }
 
+    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
+        indicators: panel.indicators
     }
 
     DashCommunicator {
@@ -178,28 +159,21 @@ Item {
 
     PhysicalKeysMapper {
         id: physicalKeysMapper
+        objectName: "physicalKeysMapper"
 
-        onPowerKeyLongPressed: dialogs.showPowerDialog()
+        onPowerKeyLongPressed: dialogs.showPowerDialog();
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
         onScreenshotTriggered: screenGrabber.capture();
     }
 
-    ScreenGrabber {
-        id: screenGrabber
-        z: dialogs.z + 10
-        enabled: Powerd.status === Powerd.On
-    }
-
-    Binding {
-        target: ApplicationManager
-        property: "forceDashActive"
-        value: launcher.shown || launcher.dashSwipe
+    GlobalShortcut {
+        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
     }
 
     WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event);
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
     }
 
     HomeKeyWatcher {
@@ -295,7 +269,7 @@ Item {
                 target: applicationsDisplayLoader.item
                 property: "maximizedAppTopMargin"
                 // Not just using panel.panelHeight as that changes depending on the focused app.
-                value: panel.indicators.minimizedPanelHeight + units.dp(2) // dp(2) for orange line
+                value: panel.indicators.minimizedPanelHeight
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -305,7 +279,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "spreadEnabled"
-                value: tutorial.spreadEnabled && (!greeter || !greeter.hasLockedApp)
+                value: tutorial.spreadEnabled && (!greeter || (!greeter.hasLockedApp && !greeter.shown))
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -324,18 +298,13 @@ Item {
             }
             Binding {
                 target: applicationsDisplayLoader.item
+                property: "orientations"
+                value: shell.orientations
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
                 property: "background"
-                value: shell.background
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "shellPrimaryOrientation"
-                value: shell.primaryOrientation
-            }
-            Binding {
-                target: applicationsDisplayLoader.item
-                property: "nativeOrientation"
-                value: shell.nativeOrientation
+                value: wallpaperResolver.background
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -352,26 +321,40 @@ Item {
                 property: "beingResized"
                 value: shell.beingResized
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "keepDashRunning"
+                value: launcher.shown || launcher.dashSwipe
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "suspended"
+                value: greeter.shown
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "altTabPressed"
+                value: physicalKeysMapper.altTabPressed
+            }
         }
 
         Tutorial {
             id: tutorial
             objectName: "tutorial"
             anchors.fill: parent
-            active: AccountsService.demoEdges
-            paused: LightDM.Greeter.active
-            launcher: launcher
-            panel: panel
-            edgeSize: shell.edgeSize
 
             // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
-            // we'll tell the tutorial to avoid using them on the Desktop.  The
+            // we skip the tutorial on the Desktop to avoid using them.  The
             // Desktop doesn't use the same spread design anyway.  The tutorial is
             // all a bit of a placeholder on non-phone form factors right now.
             // When the design team gives us more guidance, we can do something
             // more clever here.
-            // TODO: use DeviceConfiguration instead of checking source
-            useEdgeDragArea: applicationsDisplayLoader.source != Qt.resolvedUrl("Stages/DesktopStage.qml")
+            active: usageScenario != "desktop" && AccountsService.demoEdges
+
+            paused: lightDM.greeter.active
+            launcher: launcher
+            panel: panel
+            edgeSize: shell.edgeSize
 
             onFinished: {
                 AccountsService.demoEdges = false;
@@ -387,25 +370,6 @@ Item {
         z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
     }
 
-    Connections {
-        target: SurfaceManager
-        onSurfaceCreated: {
-            if (surface.type == MirSurfaceItem.InputMethod) {
-                inputMethod.surface = surface;
-            }
-        }
-
-        onSurfaceDestroyed: {
-            if (inputMethod.surface == surface) {
-                inputMethod.surface = null;
-                surface.parent = null;
-            }
-            if (!surface.parent) {
-                // there's no one displaying it. delete it right away
-                surface.release();
-            }
-        }
-    }
     Connections {
         target: SessionManager
         onSessionStopping: {
@@ -423,7 +387,7 @@ Item {
         sourceComponent: shell.mode != "shell" ? integratedGreeter :
             Qt.createComponent(Qt.resolvedUrl("Greeter/ShimGreeter.qml"));
         onLoaded: {
-                item.objectName = "greeter"
+            item.objectName = "greeter"
         }
     }
 
@@ -435,7 +399,7 @@ Item {
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
             forcedUnlock: tutorial.running
-            background: shell.background
+            background: wallpaperResolver.background
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround
@@ -454,12 +418,6 @@ Item {
             }
 
             onEmergencyCall: startLockedApp("dialer-app")
-
-            Binding {
-                target: ApplicationManager
-                property: "suspended"
-                value: greeter.shown
-            }
         }
     }
 
@@ -519,7 +477,7 @@ Item {
 
         greeter.notifyAboutToFocusApp("unity8-dash");
 
-        var animate = !LightDM.Greeter.active && !stages.shown
+        var animate = !lightDM.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
         ApplicationManager.requestFocusApplication("unity8-dash")
     }
@@ -558,7 +516,7 @@ Item {
 
                 indicatorsModel: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
-                    profile: shell.usageScenario === "desktop" ? "desktop" : "phone"
+                    profile: "phone"
                     Component.onCompleted: load();
                 }
             }
@@ -567,9 +525,13 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            property bool mainAppIsFullscreen: shell.mainApp && shell.mainApp.fullscreen
-            fullscreenMode: (mainAppIsFullscreen && !LightDM.Greeter.active && launcher.progress == 0)
+            readonly property bool topmostApplicationIsFullscreen:
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+
+            fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
+            locked: greeter && greeter.active
         }
 
         Launcher {
@@ -613,7 +575,7 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: shell.background
+            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
@@ -643,6 +605,8 @@ Item {
 
             model: NotificationBackend.Model
             margin: units.gu(1)
+            hasMouse: shell.hasMouse
+            background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
@@ -676,6 +640,7 @@ Item {
         objectName: "dialogs"
         anchors.fill: parent
         z: overlay.z + 10
+        usageScenario: shell.usageScenario
         onPowerOffClicked: {
             shutdownFadeOutRectangle.enabled = true;
             shutdownFadeOutRectangle.visible = true;
@@ -688,9 +653,34 @@ Item {
         onShowHome: showHome()
     }
 
+    ScreenGrabber {
+        id: screenGrabber
+        rotationAngle: -shell.orientationAngle
+        z: dialogs.z + 10
+    }
+
+    Cursor {
+        id: cursor
+        visible: shell.hasMouse
+        z: screenGrabber.z + 1
+
+        onPushedLeftBoundary: {
+            if (buttons === Qt.NoButton) {
+                launcher.pushEdge(amount);
+            }
+        }
+
+        onPushedRightBoundary: {
+            if (buttons === Qt.NoButton && applicationsDisplayLoader.item
+                    && applicationsDisplayLoader.item.pushRightEdge) {
+                applicationsDisplayLoader.item.pushRightEdge(amount);
+            }
+        }
+    }
+
     Rectangle {
         id: shutdownFadeOutRectangle
-        z: screenGrabber.z + 10
+        z: cursor.z + 1
         enabled: false
         visible: false
         color: "black"
@@ -702,10 +692,9 @@ Item {
             to: 1.0
             onStopped: {
                 if (shutdownFadeOutRectangle.enabled && shutdownFadeOutRectangle.visible) {
-                    DBusUnitySessionService.Shutdown();
+                    DBusUnitySessionService.shutdown();
                 }
             }
         }
     }
-
 }

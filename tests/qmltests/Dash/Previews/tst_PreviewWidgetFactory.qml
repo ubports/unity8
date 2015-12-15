@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import "../../../../qml/Dash/Previews"
 import Unity.Test 0.1 as UT
@@ -23,7 +23,7 @@ Rectangle {
     id: root
     width: units.gu(60)
     height: units.gu(80)
-    color: Theme.palette.selected.background
+    color: theme.palette.selected.background
 
     PreviewWidgetFactory {
         id: factory
@@ -77,6 +77,8 @@ Rectangle {
             return [
                 { tag: "Actions", data: { type: "actions" }, source: "PreviewActions.qml" },
                 { tag: "Audio", data: { type: "audio" }, source: "PreviewAudioPlayback.qml" },
+                { tag: "Comment", data: { type: "comment" }, source: "PreviewComment.qml", expanded: true },
+                { tag: "Comment Input", data: { type: "comment-input" }, source: "PreviewCommentInput.qml", expanded: true },
                 { tag: "Expandable", data: { type: "expandable" }, source: "PreviewExpandable.qml" },
                 { tag: "Gallery", data: { type: "gallery" }, source: "PreviewImageGallery.qml" },
                 { tag: "Header", data: { type: "header" }, source: "PreviewHeader.qml" },
@@ -96,6 +98,7 @@ Rectangle {
             factory.widgetType = data.data.type;
 
             verify((String(factory.source)).indexOf(data.source) != -1);
+            compare(factory.item.expanded, data.expanded);
         }
     }
 }

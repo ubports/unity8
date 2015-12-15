@@ -4,23 +4,26 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
     ${GIO_INCLUDE_DIRS}
 )
 
 set(QMLPLUGIN_SRC
+    activefocuslogger.cpp
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    applicationsfiltermodel.cpp
     constants.cpp
     HomeKeyWatcher.cpp
     inputwatcher.cpp
     qlimitproxymodelqml.cpp
     unitysortfilterproxymodelqml.cpp
-    relativetimeformatter.cpp
-    timeformatter.cpp
     Timer.cpp
     unitymenumodelpaths.cpp
     windowkeysfilter.cpp
     windowscreenshotprovider.cpp
     easingcurve.cpp
     windowstatestorage.cpp
+    timezoneFormatter.cpp
     plugin.cpp
     )
 

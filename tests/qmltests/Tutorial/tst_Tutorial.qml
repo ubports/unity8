@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013,2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import AccountsService 0.1
-import LightDM 0.1 as LightDM
-import Ubuntu.Components 1.1
+import IntegratedLightDM 0.1 as LightDM
+import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
 
@@ -263,12 +263,14 @@ Item {
             goToPage(null);
         }
 
-        function test_walkthroughOnDesktop() {
+        function test_skipOnDesktop() {
+            var tutorial = findChild(shell, "tutorial");
+            tryCompare(tutorial, "active", true);
+            tryCompare(tutorial, "running", true);
+
             shell.usageScenario = "desktop";
-            var page = goToPage("tutorialLeftFinish");
-            var tick = findChild(page, "tick");
-            tap(tick);
-            checkFinished();
+            tryCompare(tutorial, "active", false);
+            tryCompare(tutorial, "running", false);
         }
 
         function test_launcherShortDrag() {
@@ -317,6 +319,36 @@ Item {
             touchFlick(shell, halfWidth, halfHeight, 0, halfHeight, false, true);
 
             tryCompare(left, "shown", true); // and we should still be on left
+        }
+
+        function test_launcherNoDragGap() {
+            // See bug 1454882, where if you dragged the launcher while it was
+            // visible, you could pull it further than the edge of the screen.
+
+            var left = goToPage("tutorialLeft");
+            var launcher = findChild(shell, "launcher");
+            var teaseAnimation = findInvisibleChild(left, "teaseAnimation");
+
+            // Wait for launcher to be really out there
+            tryCompareFunction(function() {return launcher.x > teaseAnimation.maxBounce/2}, true);
+            verify(teaseAnimation.running);
+
+            // Start a drag, make sure animation stops
+            touchFlick(shell, 0, halfHeight, units.gu(4), halfHeight, true, false);
+            verify(!teaseAnimation.running);
+            verify(launcher.visibleWidth > 0);
+            verify(launcher.x > 0);
+            compare(launcher.x, teaseAnimation.bounce);
+
+            // Continue drag, make sure we don't create a gap on the left hand side
+            touchFlick(shell, units.gu(4), halfHeight, shell.width, halfHeight, false, false);
+            verify(!teaseAnimation.running);
+            compare(launcher.visibleWidth, launcher.panelWidth);
+            compare(launcher.x, 0);
+
+            // Finish and make sure we continue animation
+            touchFlick(shell, shell.width, halfHeight, shell.width, halfHeight, false, true);
+            tryCompare(teaseAnimation, "running", true);
         }
 
         function test_spread() {

@@ -70,7 +70,7 @@ void DesktopFileHandler::load()
 
     QStringList searchDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
 #ifdef LAUNCHER_TESTING
-    searchDirs << ".";
+    searchDirs << QStringLiteral(".");
 #endif
 
     QString path;
@@ -79,14 +79,15 @@ void DesktopFileHandler::load()
             helper.replace(dashPos, 1, '/');
         }
 
-        if (helper.contains("/")) {
-            path += helper.split('/').first() + '/';
+        if (helper.contains('/')) {
+            path += helper.split('/').at(0) + '/';
             helper.remove(QRegExp("^" + path));
         }
 
         Q_FOREACH(const QString &searchDirName, searchDirs) {
             QDir searchDir(searchDirName + "/" + path);
-            Q_FOREACH(const QString &desktopFile, searchDir.entryList(QStringList() << "*.desktop")) {
+            const QString desktop = QStringLiteral("*.desktop");
+            Q_FOREACH(const QString &desktopFile, searchDir.entryList(QStringList() << desktop)) {
                 if (desktopFile.startsWith(helper)) {
                     QFileInfo fileInfo(searchDir, desktopFile);
                     m_filename = fileInfo.absoluteFilePath();
@@ -95,7 +96,7 @@ void DesktopFileHandler::load()
             }
         }
 
-        dashPos = helper.indexOf("-");
+        dashPos = helper.indexOf('-');
     } while (dashPos != -1);
 }
 
@@ -107,25 +108,26 @@ QString DesktopFileHandler::displayName() const
 
     QSettings settings(m_filename, QSettings::IniFormat);
     settings.setIniCodec("UTF-8");
-    settings.beginGroup("Desktop Entry");
+    settings.beginGroup(QStringLiteral("Desktop Entry"));
 
     // First try to find Name[xx_YY] and Name[xx] in .desktop file
-    QString locale = QLocale().name();
-    QString shortLocale = locale.split('_').first();
+    const QString locale = QLocale().name();
+    const QStringList splitLocale = locale.split(QLatin1Char('_'));
+    const QString shortLocale = splitLocale.first();
 
-    if (locale != shortLocale && settings.contains(QString("Name[%1]").arg(locale))) {
-        return settings.value(QString("Name[%1]").arg(locale)).toString();
+    if (locale != shortLocale && settings.contains(QStringLiteral("Name[%1]").arg(locale))) {
+        return settings.value(QStringLiteral("Name[%1]").arg(locale)).toString();
     }
 
-    if (settings.contains(QString("Name[%1]").arg(shortLocale))) {
-        return settings.value(QString("Name[%1]").arg(shortLocale)).toString();
+    if (settings.contains(QStringLiteral("Name[%1]").arg(shortLocale))) {
+        return settings.value(QStringLiteral("Name[%1]").arg(shortLocale)).toString();
     }
 
     // No translation found in desktop file. Get the untranslated one and have a go with gettext.
-    QString displayName = settings.value("Name").toString();
+    QString displayName = settings.value(QStringLiteral("Name")).toString();
 
-    if (settings.contains("X-Ubuntu-Gettext-Domain")) {
-        const QString domain = settings.value("X-Ubuntu-Gettext-Domain").toString();
+    if (settings.contains(QStringLiteral("X-Ubuntu-Gettext-Domain"))) {
+        const QString domain = settings.value(QStringLiteral("X-Ubuntu-Gettext-Domain")).toString();
         return dgettext(domain.toUtf8().constData(), displayName.toUtf8().constData());
     }
 
@@ -140,9 +142,9 @@ QString DesktopFileHandler::icon() const
 
     QSettings settings(m_filename, QSettings::IniFormat);
     settings.setIniCodec("UTF-8");
-    settings.beginGroup("Desktop Entry");
-    QString iconString = settings.value("Icon").toString();
-    QString pathString = settings.value("Path").toString();
+    settings.beginGroup(QStringLiteral("Desktop Entry"));
+    QString iconString = settings.value(QStringLiteral("Icon")).toString();
+    QString pathString = settings.value(QStringLiteral("Path")).toString();
 
     if (QFileInfo(iconString).exists()) {
         return QFileInfo(iconString).absoluteFilePath();

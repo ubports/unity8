@@ -32,6 +32,7 @@
 // local
 #include <paths.h>
 #include "registry-tracker.h"
+#include "unix-signal-handler.h"
 
 
 int main(int argc, char *argv[])
@@ -81,13 +82,14 @@ int main(int argc, char *argv[])
     }
 
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
+    textdomain("unity8");
 
     QQuickView* view = new QQuickView();
     view->setResizeMode(QQuickView::SizeRootObjectToView);
     view->setTitle(QGuiApplication::applicationName());
     view->engine()->setBaseUrl(QUrl::fromLocalFile(::qmlDirectory()));
 
-    QUrl source(::qmlDirectory() + "ScopeTool.qml");
+    QUrl source(::qmlDirectory() + "/ScopeTool.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
     prependImportPaths(view->engine(), ::nonMirImportPaths());
     appendImportPaths(view->engine(), ::fallbackImportPaths());
@@ -95,6 +97,11 @@ int main(int argc, char *argv[])
     view->setSource(source);
 
     view->show();
+
+    UnixSignalHandler signal_handler([]{
+        QGuiApplication::exit(0);
+    });
+    signal_handler.setupUnixSignalHandlers();
 
     int result = application->exec();
 

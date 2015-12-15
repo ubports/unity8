@@ -76,7 +76,7 @@ private:
             qreal x() const { return m_item->x(); }
             qreal y() const { return m_item->y(); }
             qreal height() const { return m_item->height(); }
-            bool operator<(const ViewItem &v) const { return m_modelIndex < v.m_modelIndex; }
+            bool operator<(const ViewItem v) const { return m_modelIndex < v.m_modelIndex; }
 
             QQuickItem *m_item;
             int m_modelIndex;
@@ -90,11 +90,7 @@ private:
     void calculateImplicitHeight() override;
     void doRelayout() override;
     void updateItemCulling(qreal visibleFromY, qreal visibleToY) override;
-#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 0))
-    void processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes) override;
-#else
     void processModelRemoves(const QVector<QQmlChangeSet::Change> &removes) override;
-#endif
 
     QVector<QList<ViewItem>> m_columnVisibleItems;
     QHash<int, int> m_indexColumnMap;

@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Dash 0.1
 
 /*!
@@ -78,18 +78,27 @@ Item {
     /*!
      type:real \brief Width to be enforced on the card in this configuration.
 
-     If undefined, should use implicit width of the actual card.
+     If -1, should use implicit width of the actual card.
      */
-    readonly property var cardWidth: {
+    property real cardWidth: {
         switch (categoryLayout) {
             case "grid":
             case "vertical-journal":
-                if (template["card-layout"] === "horizontal") return units.gu(38);
-                switch (template["card-size"]) {
-                    case "small": return units.gu(12);
-                    case "large": return units.gu(38);
+                var size = template["card-size"];
+                if (template["card-layout"] === "horizontal") size = "large";
+                switch (size) {
+                    case "small": {
+                        if (viewWidth <= units.gu(45)) return units.gu(12);
+                        else return units.gu(14);
+                    }
+                    case "large": {
+                        if (viewWidth >= units.gu(70)) return units.gu(42);
+                        else return viewWidth - units.gu(2);
+                    }
                 }
-                return units.gu(18.5);
+                if (viewWidth <= units.gu(45)) return units.gu(18);
+                else if (viewWidth >= units.gu(70)) return units.gu(20);
+                else return units.gu(23);
             case "carousel":
             case "horizontal-list":
                 return carouselTool.minimumTileWidth;
@@ -97,16 +106,16 @@ Item {
             case "organic-grid":
             case "journal":
             default:
-                return undefined;
+                return -1;
         }
     }
 
     /*!
      type:real \brief Height to be enforced on the card in this configuration.
 
-     If undefined, should use implicit height of the actual card.
+     If -1, should use implicit height of the actual card.
      */
-    readonly property var cardHeight: {
+    readonly property real cardHeight: {
         switch (categoryLayout) {
             case "journal":
                 if (template["card-size"] >= 12 && template["card-size"] <= 38) return units.gu(template["card-size"]);
@@ -120,7 +129,7 @@ Item {
             case "organic-grid":
             case "vertical-journal":
             default:
-                return undefined;
+                return -1;
         }
     }
 
@@ -135,8 +144,8 @@ Item {
      */
     readonly property int titleAlignment: {
         if (template["card-layout"] === "horizontal"
-            || (typeof components["title"] !== "object" &&
-                components["title"]["align"] !== "center")) return Text.AlignLeft;
+            || typeof components["title"] !== "object"
+            || components["title"]["align"] === "left") return Text.AlignLeft;
 
         var keys = ["mascot", "emblem", "subtitle", "attributes", "summary"];
 
@@ -212,8 +221,8 @@ Item {
             item.objectName = "cardToolCard";
             item.asynchronous = false;
             item.components = Qt.binding(function() { return cardTool.components; });
-            item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
-            item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
+            item.width = Qt.binding(function() { return cardTool.cardWidth !== -1 ? cardTool.cardWidth : item.implicitWidth; });
+            item.height = Qt.binding(function() { return cardTool.cardHeight !== -1 ? cardTool.cardHeight : item.implicitHeight; });
         }
         Connections {
             target: cardTool

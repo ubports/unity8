@@ -33,8 +33,6 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
-static const qreal bufferRatio = 0.5;
-
 HorizontalJournal::HorizontalJournal()
  : m_firstVisibleIndex(-1)
  , m_rowHeight(0)
@@ -184,13 +182,9 @@ void HorizontalJournal::calculateImplicitHeight()
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 0))
-void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes)
-#else
 void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change> &removes)
-#endif
 {
-    Q_FOREACH(const QQmlChangeSet::Change &remove, removes) {
+    Q_FOREACH(const QQmlChangeSet::Change remove, removes) {
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // We only support removing from the end so
@@ -201,7 +195,9 @@ void HorizontalJournal::processModelRemoves(const QVector<QQmlChangeSet::Change>
                 m_lastInRowIndexPosition.remove(indexToRemove);
             } else {
                 if (indexToRemove < lastIndex) {
-                    qFatal("HorizontalJournal only supports removal from the end of the model");
+                    qDebug() << "HorizontalJournal only supports removal from the end of the model, resetting instead";
+                    cleanupExistingItems();
+                    break;
                 } else {
                     setImplicitHeightDirty();
                 }

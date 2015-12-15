@@ -135,7 +135,7 @@ private Q_SLOTS:
         MockListModel model;
         model.insertRows(0, 5);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &UnitySortFilterProxyModelQML::countChanged);
 
         proxy.setModel(&model);
         QCOMPARE(proxy.count(), 5);
@@ -149,7 +149,7 @@ private Q_SLOTS:
 
         proxy.setModel(&model);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &UnitySortFilterProxyModelQML::countChanged);
 
         model.insertRows(0, 5);
         QCOMPARE(proxy.count(), 5);
@@ -165,7 +165,7 @@ private Q_SLOTS:
         proxy.setModel(&model);
         QCOMPARE(proxy.count(), 5);
 
-        QSignalSpy spyOnCountChanged(&proxy, SIGNAL(countChanged()));
+        QSignalSpy spyOnCountChanged(&proxy, &UnitySortFilterProxyModelQML::countChanged);
 
         model.removeRows(0, 3);
         QCOMPARE(proxy.count(), 2);
@@ -249,7 +249,7 @@ private Q_SLOTS:
         UnitySortFilterProxyModelQML proxy;
         MockListModel model, model2;
 
-        QSignalSpy spyOnModelChanged(&proxy, SIGNAL(modelChanged()));
+        QSignalSpy spyOnModelChanged(&proxy, &UnitySortFilterProxyModelQML::modelChanged);
 
         proxy.setModel(&model);
         QCOMPARE(spyOnModelChanged.count(), 1);

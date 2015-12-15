@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
 #ifndef SNAPSHOTTER_H
@@ -21,6 +19,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QtConcurrent>
 
 class ScreenGrabber: public QObject
 {
@@ -28,15 +27,23 @@ class ScreenGrabber: public QObject
 
 public:
     explicit ScreenGrabber(QObject *parent = 0);
+    ~ScreenGrabber() = default;
 
 public Q_SLOTS:
-    void captureAndSave();
+    void captureAndSave(int angle = 0);
+
+Q_SIGNALS:
+    void screenshotSaved(const QString &filename);
+
+private Q_SLOTS:
+    void onScreenshotSaved();
 
 private:
-    QString makeFileName();
-    QString getFormat();
+    QString makeFileName() const;
+    QString getFormat() const;
     QString fileNamePrefix;
-    int screenshotQuality;
+    int screenshotQuality = -1; // default quality for the format
+    QFutureWatcher<QString> m_watcher;
 };
 
 #endif

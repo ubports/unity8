@@ -261,7 +261,7 @@ class UnityTestCase(AutopilotTestCase):
     def _get_lightdm_mock_path(self):
         lib_path = get_mocks_library_path()
         lightdm_mock_path = os.path.abspath(
-            os.path.join(lib_path, "LightDM", "liblightdm")
+            os.path.join(lib_path, "IntegratedLightDM", "liblightdm")
         )
 
         if not os.path.exists(lightdm_mock_path):
@@ -297,7 +297,7 @@ class UnityTestCase(AutopilotTestCase):
 
     @property
     def main_window(self):
-        return self._proxy.select_single(shell.QQuickView)
+        return self._proxy.select_single(shell.ShellView)
 
 
 class DashBaseTestCase(AutopilotTestCase):

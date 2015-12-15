@@ -17,7 +17,7 @@
  *      Nick Dedekind <nick.dedekind@canonical.com>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Unity.Indicators 0.1
 
 Item {
@@ -43,6 +43,5 @@ Item {
     ModelActionRootState {
         id: rootAction
         menu: menuModel ? menuModel : null
-        onUpdated: indicatorItem.rootActionStateChanged()
     }
 }

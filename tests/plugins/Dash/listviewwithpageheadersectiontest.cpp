@@ -133,7 +133,6 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->engine()->addImportPath(BUILT_PLUGINS_DIR);
         view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsection.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
@@ -2069,7 +2068,7 @@ private Q_SLOTS:
 
     void addingRemoveItemsShouldNotChangeContentY()
     {
-        QSignalSpy spy(lvwph, SIGNAL(contentYChanged()));
+        QSignalSpy spy(lvwph, &ListViewWithPageHeader::contentYChanged);
         QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 150), Q_ARG(QVariant, "Agressive"));
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 6));
 
@@ -2148,6 +2147,37 @@ private Q_SLOTS:
         QCOMPARE(lvwph->contentY(), 0.);
         QCOMPARE(lvwph->m_headerItemShownHeight, 0.);
         QVERIFY(QQuickItemPrivate::get(lvwph->m_topSectionItem)->culled);
+    }
+
+    void changeSectionProperty()
+    {
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+
+        model->setProperty(1, "type", "Agressive");
+        verifyItem(1, 240., 200., false, QString(), true);
+
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+
+        model->setProperty(1, "type", "Mild");
+        verifyItem(1, 240., 240., false, "Mild", false);
+        verifyItem(2, 480., 350., false, QString(), false);
+
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+        verifyItem(2, 480., 390., false, "Mild", false);
+
+        model->setProperty(2, "type", "Agressive");
+        verifyItem(2, 480., 390., false, "Agressive", false);
+
+        model->setProperty(1, "type", "Agressive");
+        verifyItem(1, 240., 200., false, QString(), true);
+        verifyItem(2, 440., 350., false, QString(), false);
+
+        model->setProperty(1, "type", "Rojo");
+        verifyItem(1, 240., 240., false, "Rojo", false);
+        verifyItem(2, 480., 390., false, "Agressive", false);
     }
 
 private:

@@ -43,12 +43,14 @@ private Q_SLOTS:
     {
         delete m_model;
         m_model = nullptr;
+        // send deleteLaters to avoid leaks.
+        QCoreApplication::sendPostedEvents(0, QEvent::DeferredDelete);
     }
 
     void testHeadOnSetHead()
     {
         UnityMenuModelStack stack;
-        connect(&stack, SIGNAL(headChanged(UnityMenuModel*)), this, SLOT(onHeadChanged()));
+        connect(&stack, &UnityMenuModelStack::headChanged, this, &UnityMenuModelStackTest::onHeadChanged);
         stack.setHead(m_model);
 
         QCOMPARE(stack.head(), m_model);
@@ -58,7 +60,7 @@ private Q_SLOTS:
     void testTailOnSetHead()
     {
         UnityMenuModelStack stack;
-        connect(&stack, SIGNAL(tailChanged(UnityMenuModel*)), this, SLOT(onTailChanged()));
+        connect(&stack, &UnityMenuModelStack::tailChanged, this, &UnityMenuModelStackTest::onTailChanged);
         stack.setHead(m_model);
 
         QCOMPARE(stack.tail(), m_model);
@@ -84,7 +86,7 @@ private Q_SLOTS:
         m_model->setModelData(recuseAddMenu(subMenuCount, menuDepth));
 
         UnityMenuModelStack stack;
-        connect(&stack, SIGNAL(tailChanged(UnityMenuModel*)), this, SLOT(onTailChanged()));
+        connect(&stack, &UnityMenuModelStack::tailChanged, this, &UnityMenuModelStackTest::onTailChanged);
 
         QList<UnityMenuModel*> models;
 
@@ -146,19 +148,10 @@ private Q_SLOTS:
 
         m_model->removeRow(removeIndex);
 
-        waitFor([&stack, resultCount]() { return stack.count() == resultCount; }, 1000);
         QCOMPARE(stack.count(), resultCount);
     }
 
 private:
-    bool waitFor(std::function<bool()> functor, int ms) {
-
-        QElapsedTimer timer;
-        timer.start();
-        while(!functor() && timer.elapsed() < ms) { QTest::qWait(10); }
-        return functor();
-    }
-
     QVariant recuseAddMenu(int subMenuCount, int depth_remaining)
     {
         QVariantList rows;

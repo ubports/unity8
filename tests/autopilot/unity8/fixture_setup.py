@@ -74,7 +74,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
     def _get_lightdm_mock_path(self):
         lib_path = get_mocks_library_path()
         lightdm_mock_path = os.path.abspath(
-            os.path.join(lib_path, "LightDM", "liblightdm")
+            os.path.join(lib_path, "IntegratedLightDM", "liblightdm")
         )
 
         if not os.path.exists(lightdm_mock_path):
@@ -133,7 +133,7 @@ class LaunchUnityWithFakeSensors(fixtures.Fixture):
         args = [binary_arg] + env_args
         self.unity_proxy = process_helpers.restart_unity_with_testability(
             *args)
-        self.main_win = self.unity_proxy.select_single(shell.QQuickView)
+        self.main_win = self.unity_proxy.select_single(shell.ShellView)
 
     def _create_sensors(self):
         # Wait for unity to start running.

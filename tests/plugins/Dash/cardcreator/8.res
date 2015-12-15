@@ -2,7 +2,8 @@ AbstractButton {
                 id: root; 
                 property var components; 
                 property var cardData; 
-                property var artShapeBorderSource: undefined; 
+                property string artShapeStyle: "inset"; 
+                property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 property int titleAlignment: Text.AlignLeft; 
@@ -23,11 +24,20 @@ Loader {
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
                                     radius: "medium"; 
-                                    color: getColor(0) || "white"; 
-                                    gradientColor: getColor(1) || color; 
+                                    aspect: { 
+                                        switch (root.backgroundShapeStyle) { 
+                                            case "inset": return UbuntuShape.Inset; 
+                                            case "shadow": return UbuntuShape.DropShadow; 
+                                            default: 
+                                            case "flat": return UbuntuShape.Flat; 
+                                        } 
+                                    } 
+                                    backgroundColor: getColor(0) || "white"; 
+                                    secondaryBackgroundColor: getColor(1) || backgroundColor; 
+                                    backgroundMode: UbuntuShape.VerticalGradient;
                                     anchors.fill: parent; 
-                                    image: backgroundImage.source ? backgroundImage : null; 
-                                    property real luminance: Style.luminance(color); 
+                                    source: backgroundImage.source ? backgroundImage : null; 
+                                    property real luminance: Style.luminance(backgroundColor); 
                                     property Image backgroundImage: Image { 
                                         objectName: "backgroundImage"; 
                                         source: { 
@@ -80,7 +90,7 @@ left: parent.left;
                         wrapMode: Text.Wrap; 
                         maximumLineCount: 2; 
                         font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                        color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? Theme.palette.normal.baseText : "white"); 
+                        color: backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white"); 
                         visible: showHeader ; 
                         width: parent.width - x; 
                         text: root.title; 
@@ -91,12 +101,12 @@ left: parent.left;
                                 ] 
                     }
 UbuntuShape { 
-                        id: touchdown; 
-                        objectName: "touchdown"; 
-                        anchors { fill: backgroundLoader } 
-                        visible: root.pressed; 
-                        radius: "medium"; 
-                        borderSource: "radius_pressed.sci" 
-                    }
+    id: touchdown;
+    objectName: "touchdown";
+    anchors { fill: backgroundLoader }
+    visible: root.artShapeStyle != "shadow" && root.artShapeStyle != "icon" && root.pressed;
+    radius: "medium";
+    borderSource: "radius_pressed.sci"
+}
 implicitHeight: row.y + row.height + units.gu(1);
 }

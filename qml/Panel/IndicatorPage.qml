@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1 as Components
+import QtQuick 2.4
+import Ubuntu.Components 1.3 as Components
 import Unity.Indicators 0.1 as Indicators
 import "Indicators"
 
@@ -23,7 +23,7 @@ IndicatorBase {
     id: main
 
     //const
-    property string title: rootActionState.title
+    property string title: rootActionState.title || rootActionState.accessibleName // some indicators don't expose a title but only the accessible-desc
     property alias highlightFollowsCurrentItem : mainMenu.highlightFollowsCurrentItem
     readonly property alias factory: _factory
 

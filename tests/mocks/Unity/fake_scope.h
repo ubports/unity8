@@ -60,8 +60,8 @@ public:
     Q_INVOKABLE void setName(const QString &name); // This is not invokable in the Interface, here for testing benefits
     Q_INVOKABLE void setSearchInProgress(const bool inProg); // This is not invokable in the Interface, here for testing benefits
 
-    Q_INVOKABLE void activate(QVariant const& result) override;
-    Q_INVOKABLE PreviewStack* preview(QVariant const& result) override;
+    Q_INVOKABLE void activate(QVariant const& result, QString const& categoryId) override;
+    Q_INVOKABLE PreviewStack* preview(QVariant const& result, QString const& categoryId) override;
     Q_INVOKABLE void cancelActivation() override;
     Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope) override;
 
@@ -78,6 +78,8 @@ public:
     QVariantMap customizations() const override;
 
     Q_INVOKABLE void refresh() override;
+
+    Q_INVOKABLE virtual void activateAction(QVariant const& result, QString const& categoryId, QString const& actionId) override;
 
 Q_SIGNALS:
     // These are not in the Interface, here for testing benefits

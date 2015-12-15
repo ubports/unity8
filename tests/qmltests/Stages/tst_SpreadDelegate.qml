@@ -14,13 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtTest 1.0
 import Unity.Test 0.1 as UT
 import ".."
+import "../../../qml/Components"
 import "../../../qml/Stages"
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 
 Rectangle {
@@ -73,8 +74,11 @@ Rectangle {
                         return Qt.LandscapeOrientation;
                     }
                 }
-                shellPrimaryOrientation: Qt.PortraitOrientation
-                nativeOrientation: Qt.PortraitOrientation
+
+                orientations: Orientations {
+                    // the default values will do
+                }
+
                 maximizedAppTopMargin: units.gu(3)
                 Component.onDestruction: {
                     spreadDelegateLoader.itemDestroyed = true;

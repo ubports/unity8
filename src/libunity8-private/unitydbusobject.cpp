@@ -29,7 +29,7 @@ UnityDBusObject::UnityDBusObject(const QString &path, const QString &service, bo
 {
     if (async) {
         // Use a zero-timer to let Qml finish loading before we announce on DBus
-        QTimer::singleShot(0, this, SLOT(registerObject()));
+        QTimer::singleShot(0, this, &UnityDBusObject::registerObject);
     } else {
         registerObject();
     }
@@ -64,8 +64,8 @@ void UnityDBusObject::notifyPropertyChanged(const QString& propertyName, const Q
     changedProps.insert(propertyName, value);
 
     message = QDBusMessage::createSignal(path(),
-                                         "org.freedesktop.DBus.Properties",
-                                         "PropertiesChanged");
+                                         QStringLiteral("org.freedesktop.DBus.Properties"),
+                                         QStringLiteral("PropertiesChanged"));
     message << interface;
     message << changedProps;
     message << QStringList();

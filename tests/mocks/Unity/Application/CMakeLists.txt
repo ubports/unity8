@@ -4,8 +4,8 @@ set(FakeUnityApplicationQml_SOURCES
     ApplicationManager.cpp
     ApplicationScreenshotProvider.cpp
     ApplicationTestInterface.cpp
+    MirSurface.cpp
     MirSurfaceItem.cpp
-    MirSurfaceItemModel.h
     ObjectListModel.h
     Session.cpp
     SessionManager.cpp
@@ -15,6 +15,10 @@ set(FakeUnityApplicationQml_SOURCES
     VirtualKeyboard.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationInfoInterface.h
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/Mir.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceInterface.h
+    ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/MirSurfaceItemInterface.h
+    resources/surfaces.qrc
 )
 
 add_library(FakeUnityApplicationQml MODULE ${FakeUnityApplicationQml_SOURCES})

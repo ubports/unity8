@@ -34,27 +34,30 @@ ASAdapter::~ASAdapter()
     m_accounts->deleteLater();
 }
 
-void ASAdapter::syncItems(QList<LauncherItem *> m_list)
+void ASAdapter::syncItems(const QList<LauncherItem*> &list)
 {
     if (m_accounts && !m_user.isEmpty()) {
         QList<QVariantMap> items;
+        items.reserve(list.count());
 
-        Q_FOREACH(LauncherItem *item, m_list) {
+        Q_FOREACH(LauncherItem *item, list) {
             items << itemToVariant(item);
         }
 
-        m_accounts->setUserPropertyAsync(m_user, "com.canonical.unity.AccountsService", "LauncherItems", QVariant::fromValue(items));
+        m_accounts->setUserPropertyAsync(m_user, QStringLiteral("com.canonical.unity.AccountsService"), QStringLiteral("LauncherItems"), QVariant::fromValue(items));
     }
 }
 
 QVariantMap ASAdapter::itemToVariant(LauncherItem *item) const
 {
     QVariantMap details;
-    details.insert("id", item->appId());
-    details.insert("name", item->name());
-    details.insert("icon", item->icon());
-    details.insert("count", item->count());
-    details.insert("countVisible", item->countVisible());
-    details.insert("pinned", item->pinned());
+    details.insert(QStringLiteral("id"), item->appId());
+    details.insert(QStringLiteral("name"), item->name());
+    details.insert(QStringLiteral("icon"), item->icon());
+    details.insert(QStringLiteral("count"), item->count());
+    details.insert(QStringLiteral("countVisible"), item->countVisible());
+    details.insert(QStringLiteral("pinned"), item->pinned());
+    details.insert(QStringLiteral("running"), item->running());
+    details.insert(QStringLiteral("progress"), item->progress());
     return details;
 }

@@ -14,14 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
 import Unity.Test 0.1
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import ".."
 import "../../../qml/Launcher"
 import Unity.Launcher 0.1
+import Utils 0.1 // For EdgeBarrierSettings
 
 /* Nothing is shown at first. If you drag from left edge you will bring up the
    launcher. */
@@ -67,6 +68,7 @@ Item {
 
                 Component.onCompleted: {
                     launcherLoader.itemDestroyed = false;
+                    edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
                 }
                 Component.onDestruction: {
                     launcherLoader.itemDestroyed = true;
@@ -82,6 +84,12 @@ Item {
 
         MouseTouchEmulationCheckbox {}
 
+        EdgeBarrierControls {
+            id: edgeBarrierControls
+            text: "Drag here to pull out launcher"
+            onDragged: { launcherLoader.item.pushEdge(amount); }
+        }
+
         Button {
             text: "emit hinting signal"
             onClicked: LauncherModel.emitHint()
@@ -92,6 +100,57 @@ Item {
             text: "rotate"
             onClicked: launcherLoader.item.inverted = !launcherLoader.item.inverted
             Layout.fillWidth: true
+        }
+
+        Row {
+            spacing: units.gu(1)
+
+            Button {
+                text: "35% bar"
+                onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntryBar.displayText)).appId, 35)
+                Layout.fillWidth: true
+            }
+
+            TextArea {
+                id: appIdEntryBar
+                anchors.verticalCenter: parent.verticalCenter
+                width: units.gu(4)
+                height: units.gu(4)
+                autoSize: true
+                text: "2"
+                maximumLineCount: 1
+            }
+
+            Button {
+                text: "no bar"
+                onClicked: LauncherModel.setProgress(LauncherModel.get(parseInt(appIdEntryBar.displayText)).appId, -1)
+                Layout.fillWidth: true
+            }
+        }
+
+        Row {
+            spacing: units.gu(1)
+
+            Button {
+                text: "set alert"
+                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, true)
+            }
+
+            TextArea {
+                id: appIdEntryAlert
+                anchors.verticalCenter: parent.verticalCenter
+                width: units.gu(5)
+                height: units.gu(4)
+                autoSize: true
+                text: "2"
+                maximumLineCount: 1
+                Layout.fillWidth: true
+            }
+
+            Button {
+                text: "unset alert"
+                onClicked: LauncherModel.setAlerting(LauncherModel.get(parseInt(appIdEntryAlert.displayText)).appId, false)
+            }
         }
     }
 
@@ -146,18 +205,23 @@ Item {
                        startX+units.gu(8), startY);
 
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             // wait until it gets fully extended
-            tryCompare(panel, "x", 0);
+            // a tryCompare doesn't work since
+            //    compare(-0.000005917593600024418, 0);
+            // is true and in this case we want exactly 0 or will have pain later on
+            tryCompareFunction( function(){ return panel.x === 0; }, true );
             tryCompare(launcher, "state", "visible");
         }
 
-        function revealByHover() {
+        function revealByEdgePush() {
+            // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(root, 1, root.height / 2);
+            launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
 
             var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+            verify(!!panel);
 
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
@@ -167,6 +231,16 @@ Item {
         function waitUntilLauncherDisappears() {
             var panel = findChild(launcher, "launcherPanel");
             tryCompare(panel, "x", -panel.width, 1000);
+        }
+
+        function waitForWiggleToStart(appIcon) {
+            verify(appIcon != undefined)
+            tryCompare(appIcon, "wiggling", true, 1000, "wiggle-anim should not be in stopped state")
+        }
+
+        function waitForWiggleToStop(appIcon) {
+            verify(appIcon != undefined)
+            tryCompare(appIcon, "wiggling", false, 1000, "wiggle-anim should not be in running state")
         }
 
         function positionLauncherListAtBeginning() {
@@ -187,7 +261,7 @@ Item {
             waitUntilLauncherDisappears();
 
             var panel = findChild(launcher, "launcherPanel")
-            verify(panel != undefined)
+            verify(!!panel)
 
             // it starts out hidden just left of the left launcher edge
             compare(panel.x, -panel.width)
@@ -214,7 +288,7 @@ Item {
 
         function test_clickingOnAppIconCausesSignalEmission(data) {
             if (data.mouse) {
-                revealByHover();
+                revealByEdgePush();
             } else {
                 dragLauncherIntoView();
             }
@@ -225,7 +299,7 @@ Item {
 
             var appIcon = findChild(launcher, "launcherDelegate0");
 
-            verify(appIcon != undefined);
+            verify(!!appIcon);
 
             if (data.mouse) {
                 mouseClick(appIcon);
@@ -248,7 +322,7 @@ Item {
             dragLauncherIntoView()
 
             var dashIcon = findChild(launcher, "dashItem")
-            verify(dashIcon != undefined)
+            verify(!!dashIcon)
 
             mouseClick(dashIcon)
 
@@ -321,6 +395,15 @@ Item {
             }
         }
 
+        function test_runningHighlight() {
+            dragLauncherIntoView();
+            var launcherListView = findChild(launcher, "launcherListView");
+            for (var i = 0; i < launcherListView.count; ++i) {
+                var delegate = findChild(launcherListView, "launcherDelegate" + i)
+                compare(findChild(delegate, "runningHighlight").visible, LauncherModel.get(i).running)
+            }
+        }
+
         function test_focusedHighlight() {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
@@ -384,9 +467,12 @@ Item {
 
         function test_dragndrop_data() {
             return [
-                {tag: "startDrag", fullDrag: false },
-                {tag: "fullDrag horizontal", fullDrag: true, orientation: ListView.Horizontal },
-                {tag: "fullDrag vertical", fullDrag: true, orientation: ListView.Vertical },
+                {tag: "startDrag", fullDrag: false, releaseBeforeDrag: false },
+                {tag: "fullDrag horizontal", fullDrag: true, releaseBeforeDrag: false, orientation: ListView.Horizontal },
+                {tag: "fullDrag vertical", fullDrag: true, releaseBeforeDrag: false, orientation: ListView.Vertical },
+                {tag: "startDrag with quicklist open", fullDrag: false, releaseBeforeDrag: true },
+                {tag: "fullDrag horizontal with quicklist open", fullDrag: true, releaseBeforeDrag: true, orientation: ListView.Horizontal },
+                {tag: "fullDrag vertical with quicklist open", fullDrag: true, releaseBeforeDrag: true, orientation: ListView.Vertical },
             ];
         }
 
@@ -409,16 +495,30 @@ Item {
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
 
             // Doing longpress
-            var currentMouseX = draggedItem.width / 2
-            var currentMouseY = draggedItem.height / 2
-            mousePress(draggedItem, currentMouseX, currentMouseY)
+            var mouseOnLauncher = launcher.mapFromItem(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            var currentMouseX = mouseOnLauncher.x
+            var currentMouseY = mouseOnLauncher.y
+            var newMouseX = currentMouseX
+            var newMouseY = currentMouseY
+            mousePress(launcher, currentMouseX, currentMouseY)
             // DraggedItem needs to hide and fakeDragItem become visible
             tryCompare(draggedItem, "itemOpacity", 0)
             tryCompare(fakeDragItem, "visible", true)
 
+            if (data.releaseBeforeDrag) {
+                mouseRelease(launcher);
+                tryCompare(fakeDragItem, "visible", false)
+
+                mousePress(launcher, currentMouseX, currentMouseY);
+                // DraggedItem needs to hide and fakeDragItem become visible
+                tryCompare(fakeDragItem, "visible", true);
+            }
+
             // Dragging a bit (> 1.5 gu)
-            currentMouseX -= units.gu(2)
-            mouseMove(draggedItem, currentMouseX, currentMouseY)
+            newMouseX -= units.gu(2)
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            currentMouseX = newMouseX
+
             // Other items need to expand and become 0.6 opaque
             tryCompare(item0, "angle", 0)
             tryCompare(item0, "itemOpacity", 0.6)
@@ -426,18 +526,21 @@ Item {
             if (data.fullDrag) {
                 // Dragging a bit more
                 if (data.orientation == ListView.Horizontal) {
-                    currentMouseX -= units.gu(15)
-                    mouseMove(draggedItem, currentMouseX, currentMouseY, 100)
+                    newMouseX += units.gu(15)
+                    mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+                    currentMouseX = newMouseX
 
                     tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
                     tryCompare(draggedItem, "height", units.gu(1))
 
                     // Dragging downwards. Item needs to move in the model
-                    currentMouseY -= initialItemHeight * 1.5
-                    mouseMove(draggedItem, currentMouseX, currentMouseY)
+                    newMouseY -= initialItemHeight * 1.5
+                    mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+                    currentMouseY = newMouseY
                 } else if (data.orientation == ListView.Vertical) {
-                    currentMouseY -= initialItemHeight * 1.5
-                    mouseMove(draggedItem, currentMouseX, currentMouseY, 100)
+                    newMouseY -= initialItemHeight * 1.5
+                    mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+                    currentMouseY = newMouseY
 
                     tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
                     tryCompare(draggedItem, "height", units.gu(1))
@@ -449,7 +552,7 @@ Item {
             }
 
             // Releasing and checking if initial values are restored
-            mouseRelease(draggedItem)
+            mouseRelease(launcher)
             tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
             tryCompare(draggedItem, "itemOpacity", 1)
             tryCompare(fakeDragItem, "visible", false)
@@ -459,7 +562,16 @@ Item {
             waitUntilLauncherDisappears();
         }
 
-        function test_dragndrop_cancel() {
+        function test_dragndrop_cancel_data() {
+            return [
+                {tag: "by mouse", mouse: true, releaseBeforeDrag: false},
+                {tag: "by touch", mouse: false, releaseBeforeDrag: false},
+                {tag: "by mouse with quicklist open", mouse: true, releaseBeforeDrag: true},
+                {tag: "by touch with quicklist open", mouse: false, releaseBeforeDrag: true}
+            ]
+        }
+
+        function test_dragndrop_cancel(data) {
             dragLauncherIntoView();
             var draggedItem = findChild(launcher, "launcherDelegate4")
             var item0 = findChild(launcher, "launcherDelegate0")
@@ -468,27 +580,139 @@ Item {
             // Doing longpress
             var currentMouseX = draggedItem.width / 2
             var currentMouseY = draggedItem.height / 2
-            mousePress(draggedItem, currentMouseX, currentMouseY)
+
+            if(data.mouse) {
+                mousePress(draggedItem, currentMouseX, currentMouseY)
+            } else {
+                touchPress(draggedItem, currentMouseX, currentMouseY)
+            }
+
             // DraggedItem needs to hide and fakeDragItem become visible
             tryCompare(draggedItem, "itemOpacity", 0)
             tryCompare(fakeDragItem, "visible", true)
 
+            if (data.releaseBeforeDrag) {
+                if(data.mouse) {
+                    mouseRelease(draggedItem)
+                } else {
+                    touchRelease(draggedItem)
+                }
+                tryCompare(fakeDragItem, "visible", false)
+
+                if(data.mouse) {
+                    mousePress(draggedItem, currentMouseX, currentMouseY)
+                } else {
+                    touchPress(draggedItem, currentMouseX, currentMouseY)
+                }
+                tryCompare(fakeDragItem, "visible", true);
+            }
+
             // Dragging
             currentMouseX -= units.gu(20)
-            mouseMove(draggedItem, currentMouseX, currentMouseY)
+
+            if(data.mouse) {
+                mouseMove(draggedItem, currentMouseX, currentMouseY)
+            } else {
+                touchMove(draggedItem, currentMouseX, currentMouseY)
+            }
 
             // Make sure we're in the dragging state
             var dndArea = findChild(launcher, "dndArea");
             tryCompare(draggedItem, "dragging", true)
             tryCompare(dndArea, "draggedIndex", 4)
 
-            // Tap somewhere in the middle of the screen to close/hide the launcher
-            tap(root)
+            // Click/Tap somewhere in the middle of the screen to close/hide the launcher
+            if(data.mouse) {
+                mouseClick(root)
+            } else {
+                tap(root)
+            }
 
             // Make sure the dnd operation has been stopped
             tryCompare(draggedItem, "dragging", false)
             tryCompare(dndArea, "draggedIndex", -1)
             tryCompare(dndArea, "drag.target", undefined)
+        }
+
+        function test_dragndrop_with_other_quicklist_open() {
+            dragLauncherIntoView();
+            var draggedItem = findChild(launcher, "launcherDelegate4")
+            var item0 = findChild(launcher, "launcherDelegate0")
+            var fakeDragItem = findChild(launcher, "fakeDragItem")
+            var initialItemHeight = draggedItem.height
+            var item4 = LauncherModel.get(4).appId
+            var item3 = LauncherModel.get(3).appId
+
+            var listView = findChild(launcher, "launcherListView");
+            listView.flick(0, units.gu(200));
+            tryCompare(listView, "flicking", false);
+
+            // Initial state
+            compare(draggedItem.itemOpacity, 1, "Item's opacity is not 1 at beginning")
+            compare(fakeDragItem.visible, false, "FakeDragItem isn't invisible at the beginning")
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
+
+            // Doing longpress
+            var mouseOnLauncher = launcher.mapFromItem(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            var currentMouseX = mouseOnLauncher.x
+            var currentMouseY = mouseOnLauncher.y
+            var newMouseX = currentMouseX
+            var newMouseY = currentMouseY
+            mousePress(launcher, currentMouseX, currentMouseY)
+            // DraggedItem needs to hide and fakeDragItem become visible
+            tryCompare(draggedItem, "itemOpacity", 0)
+            tryCompare(fakeDragItem, "visible", true)
+
+            mouseRelease(launcher);
+            tryCompare(fakeDragItem, "visible", false)
+
+            // Now let's longpress and drag a different item
+
+            var draggedItem = findChild(launcher, "launcherDelegate3")
+            compare(draggedItem.itemOpacity, 1, "Item's opacity is not 1 at beginning")
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
+
+            // Doing longpress
+            var mouseOnLauncher = launcher.mapFromItem(draggedItem, draggedItem.width / 2, draggedItem.height / 2)
+            var currentMouseX = mouseOnLauncher.x
+            var currentMouseY = mouseOnLauncher.y
+            var newMouseX = currentMouseX
+            var newMouseY = currentMouseY
+            mousePress(launcher, currentMouseX, currentMouseY)
+            // DraggedItem needs to hide and fakeDragItem become visible
+            tryCompare(draggedItem, "itemOpacity", 0)
+            tryCompare(fakeDragItem, "visible", true)
+
+            // Dragging a bit (> 1.5 gu)
+            newMouseX -= units.gu(2)
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            currentMouseX = newMouseX
+
+            // Other items need to expand and become 0.6 opaque
+            tryCompare(item0, "angle", 0)
+            tryCompare(item0, "itemOpacity", 0.6)
+
+            // Dragging a bit more
+            newMouseY += initialItemHeight * 1.5
+            mouseFlick(launcher, currentMouseX, currentMouseY, newMouseX, newMouseY, false, false, 100)
+            currentMouseY = newMouseY
+
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 1)
+            tryCompare(draggedItem, "height", units.gu(1))
+
+            waitForRendering(draggedItem)
+            compare(LauncherModel.get(4).appId, item3)
+            compare(LauncherModel.get(3).appId, item4)
+
+            // Releasing and checking if initial values are restored
+            mouseRelease(launcher)
+            tryCompare(findChild(draggedItem, "dropIndicator"), "opacity", 0)
+            tryCompare(draggedItem, "itemOpacity", 1)
+            tryCompare(fakeDragItem, "visible", false)
+
+            // Click somewhere in the empty space to make it hide in case it isn't
+            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+            waitUntilLauncherDisappears();
         }
 
         function test_quicklist_dismiss() {
@@ -538,7 +762,7 @@ Item {
 
             // Doing longpress
             mousePress(draggedItem);
-            tryCompare(quickListShape, "opacity", 0.96);
+            tryCompare(quickListShape, "opacity", 0.8);
             mouseRelease(draggedItem);
 
             verify(quickList.y >= units.gu(1));
@@ -623,18 +847,160 @@ Item {
             tryCompare(quickList, "state", "");
         }
 
-        function test_revealByHover() {
-            var panel = findChild(launcher, "launcherPanel");
-            verify(panel != undefined);
+        function test_quickListMenuOnRMB() {
+            dragLauncherIntoView();
+            var clickedItem = findChild(launcher, "launcherDelegate5")
+            var quickList = findChild(launcher, "quickList")
+            var quickListShape = findChild(launcher, "quickListShape")
+            var dndArea = findChild(launcher, "dndArea");
 
-            revealByHover();
-            tryCompare(launcher, "state", "visibleTemporary");
+            // Initial state
+            tryCompare(quickListShape, "visible", false)
+
+            // Doing RMB click
+            mouseClick(clickedItem, clickedItem.width / 2, clickedItem.height / 2, Qt.RightButton)
+            tryCompare(quickListShape, "visible", true)
+            verify(quickList, "state", "open")
+            verify(dndArea, "dragging", false)
+
+            // Click somewhere in the empty space to dismiss the quicklist
+            mouseClick(launcher, launcher.width - units.gu(1), units.gu(1));
+            tryCompare(quickListShape, "visible", false);
+            verify(quickList, "state", "")
+        }
+
+        function test_revealByEdgePush() {
+            var panel = findChild(launcher, "launcherPanel");
+            verify(!!panel);
+
+            revealByEdgePush();
+            compare(launcher.state, "visibleTemporary");
 
             // Now move the mouse away and make sure it hides in less than a second
             mouseMove(root, root.width, root.height / 2)
 
             tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
             waitUntilLauncherDisappears();
+        }
+
+        function test_progressChangeViaModel() {
+            dragLauncherIntoView();
+            var item = findChild(launcher, "launcherDelegate0")
+            verify(item != undefined)
+            LauncherModel.setProgress(LauncherModel.get(0).appId, -1)
+            compare(findChild(item, "progressOverlay").visible, false)
+            LauncherModel.setProgress(LauncherModel.get(0).appId, 20)
+            compare(findChild(item, "progressOverlay").visible, true)
+            LauncherModel.setProgress(LauncherModel.get(0).appId, 0)
+        }
+
+        function test_alertPeekingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+        }
+
+        function test_alertHidingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            var appIcon6 = findChild(launcher, "launcherDelegate6")
+            verify(appIcon6 != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(6).appId, true)
+            waitForWiggleToStart(appIcon6)
+            LauncherModel.setAlerting(LauncherModel.get(6).appId, false)
+            waitForWiggleToStop(appIcon6)
+            tryCompare(appIcon6, "x", 0, 1000, "x-value of appId #6 should not be non-zero")
+            waitForRendering(listView)
+        }
+
+        function test_alertIgnoreFocusedApp() {
+            LauncherModel.setAlerting(LauncherModel.get(0).appId, true)
+            compare(LauncherModel.get(0).alerting, false, "Focused app should not have the alert-state set")
+        }
+
+        function test_alertOnlyOnePeekingIcon() {
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 3, 1000, "Wrong appId set as peeking-index")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+            waitForRendering(listView)
+        }
+
+        function test_alertMultipleApps() {
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, true)
+            compare(LauncherModel.get(1).alerting, true, "Alert-state of appId #1 should not be false")
+            compare(LauncherModel.get(3).alerting, true, "Alert-state of appId #3 should not be false")
+            compare(LauncherModel.get(5).alerting, true, "Alert-state of appId #5 should not be false")
+            compare(LauncherModel.get(7).alerting, true, "Alert-state of appId #7 should not be false")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(3).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, false)
+            compare(LauncherModel.get(1).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(3).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(5).alerting, false, "Alert-state of appId #1 should not be true")
+            compare(LauncherModel.get(7).alerting, false, "Alert-state of appId #1 should not be true")
+        }
+
+        function test_alertMoveIconIntoView() {
+            dragLauncherIntoView();
+            var appIcon1 = findChild(launcher, "launcherDelegate1");
+            var appIcon7 = findChild(launcher, "launcherDelegate7");
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, true)
+            tryCompare(appIcon1, "angle", 0, 1000, "angle of appId #1 should not be non-zero")
+            waitForWiggleToStart(appIcon1)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, true)
+            tryCompare(appIcon7, "angle", 0, 1000, "angle of appId #7 should not be non-zero")
+            waitForWiggleToStart(appIcon7)
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setAlerting(LauncherModel.get(7).appId, false)
+            waitForWiggleToStop(appIcon7)
+        }
+
+        function test_alertWigglePeekDrag() {
+            var appIcon5 = findChild(launcher, "launcherDelegate5");
+            var listView = findChild(launcher, "launcherListView")
+            verify(listView != undefined)
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, true)
+            tryCompare(listView, "peekingIndex", 5, 1000, "Wrong appId set as peeking-index")
+            waitForWiggleToStart(appIcon5)
+            tryCompare(appIcon5, "wiggling", true, 1000, "appId #6 should not be still")
+            dragLauncherIntoView();
+            tryCompare(listView, "peekingIndex", -1, 1000, "peeking-index should be -1")
+            LauncherModel.setAlerting(LauncherModel.get(5).appId, false)
+            waitForWiggleToStop(appIcon5)
+            tryCompare(appIcon5, "wiggling", false, 1000, "appId #1 should not be wiggling")
+        }
+
+        function test_alertViaCountAndCountVisible() {
+            dragLauncherIntoView();
+            var appIcon1 = findChild(launcher, "launcherDelegate1")
+            var oldCount = LauncherModel.get(1).count
+            LauncherModel.setCount(LauncherModel.get(1).appId, 42)
+            tryCompare(appIcon1, "wiggling", false, 1000, "appId #1 should be still")
+            LauncherModel.setCountVisible(LauncherModel.get(1).appId, 1)
+            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setCount(LauncherModel.get(1).appId, 4711)
+            tryCompare(appIcon1, "wiggling", true, 1000, "appId #1 should not be still")
+            LauncherModel.setAlerting(LauncherModel.get(1).appId, false)
+            waitForWiggleToStop(appIcon1)
+            LauncherModel.setCountVisible(LauncherModel.get(1).appId, 0)
+            LauncherModel.setCount(LauncherModel.get(1).appId, oldCount)
         }
     }
 }

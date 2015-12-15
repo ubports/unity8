@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,31 +14,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Dash 0.1
+import QtQuick 2.4
 
-Item {
+Image    {
     id: root
 
-    property string source
-    property alias image: innerImage
-    property alias asynchronous: innerImage.asynchronous
-    property alias verticalAlignment: innerImage.verticalAlignment
-    property alias horizontalAlignment: innerImage.horizontalAlignment
-    property alias fillMode: innerImage.fillMode
+    fillMode: Image.PreserveAspectCrop
 
-    CroppedImageSizer {
-        id: sizer
-        source: root.source
-        width: root.width
-        height: root.height
+    property bool useHeight: false
+    function updateUseHeight()
+    {
+        // Do not turn into a binding since otherwise the qml
+        // engine complains about binding loops
+        useHeight = (implicitWidth / implicitHeight) > (width / height);
     }
 
-    Image {
-        id: innerImage
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-        sourceSize: sizer.sourceSize.width == 0 && sizer.sourceSize.height == 0 ? undefined : sizer.sourceSize
-        source: sizer.sourceSize.width == -1 && sizer.sourceSize.height == -1 ? "" : root.source
-    }
+    onHeightChanged: updateUseHeight();
+    onWidthChanged: updateUseHeight();
+    onImplicitHeightChanged: updateUseHeight();
+    onImplicitWidthChanged: updateUseHeight();
+
+    sourceSize: useHeight ? Qt.size(0, height) : Qt.size(width, 0)
 }

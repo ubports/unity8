@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,49 +12,97 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 
 Row {
     id: root
-    spacing: units.gu(0.5)
+    spacing: units.gu(1)
+
+    // to be set from outside
+    property bool active: false
 
     signal close()
     signal minimize()
     signal maximize()
 
-    Rectangle {
-        height: parent.height; width: height; radius: height / 2
-        gradient: Gradient {
-            GradientStop { color: "#F49073"; position: 0 }
-            GradientStop { color: "#DF4F1C"; position: 1 }
+    MouseArea {
+        id: closeWindowButton
+        objectName: "closeWindowButton"
+        hoverEnabled: true
+        height: parent.height
+        width: height
+        onClicked: root.close()
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: units.gu(2)
+            height: units.gu(2)
+            radius: height / 2
+            color: "#ed3146"
+            visible: parent.containsMouse
         }
-        border.width: units.dp(.5)
-        border.color: "black"
-        MouseArea { anchors.fill: parent; onClicked: root.close() }
+        Icon {
+            width: height
+            height: parent.height *.5
+            anchors.centerIn: parent
+            source: "graphics/window-close.svg"
+            color: root.active ? "white" : "#5d5d5d"
+            keyColor: "black"
+        }
     }
-    Rectangle {
-        height: parent.height; width: height; radius: height / 2
-        gradient: Gradient {
-            GradientStop { color: "#92918C"; position: 0 }
-            GradientStop { color: "#5E5D58"; position: 1 }
+
+    MouseArea {
+        id: minimizeWindowButton
+        objectName: "minimizeWindowButton"
+        hoverEnabled: true
+        height: parent.height
+        width: height
+        onClicked: root.minimize()
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: units.gu(2)
+            height: units.gu(2)
+            radius: height / 2
+            color: "#888888"
+            visible: parent.containsMouse
         }
-        border.width: units.dp(.5)
-        border.color: "black"
-        MouseArea { anchors.fill: parent; onClicked: root.minimize() }
+        Icon {
+            width: height
+            height: parent.height *.5
+            anchors.centerIn: parent
+            source: "graphics/window-minimize.svg"
+            color: root.active ? "white" : "#5d5d5d"
+            keyColor: "black"
+        }
     }
-    Rectangle {
-        height: parent.height; width: height; radius: height / 2
-        gradient: Gradient {
-            GradientStop { color: "#92918C"; position: 0 }
-            GradientStop { color: "#5E5D58"; position: 1 }
+
+    MouseArea {
+        id: maximizeWindowButton
+        objectName: "maximizeWindowButton"
+        hoverEnabled: true
+        height: parent.height
+        width: height
+        onClicked: root.maximize()
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: units.gu(2)
+            height: units.gu(2)
+            radius: height / 2
+            color: "#888888"
+            visible: parent.containsMouse
         }
-        border.width: units.dp(.5)
-        border.color: "black"
-        MouseArea { anchors.fill: parent; onClicked: root.maximize() }
+        Icon {
+            width: height
+            height: parent.height *.5
+            anchors.centerIn: parent
+            source: "graphics/window-maximize.svg"
+            color: root.active ? "white" : "#5d5d5d"
+            keyColor: "black"
+        }
     }
 }

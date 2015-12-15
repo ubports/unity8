@@ -32,7 +32,7 @@ class ModelPrinter : public QObject
     Q_PROPERTY(UnityMenuModel* model READ sourceModel WRITE setSourceModel NOTIFY modelChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
 public:
-    ModelPrinter(QObject* parent=0);
+    ModelPrinter(QObject* parent=nullptr);
 
     void setSourceModel(UnityMenuModel* sourceModel);
     UnityMenuModel* sourceModel() const;
@@ -46,7 +46,7 @@ Q_SIGNALS:
 private:
     QString getModelDataString(UnityMenuModel* sourceModel, int level);
     QString getRowSring(UnityMenuModel* sourceModel, int index, int depth) const;
-    QString getVariantString(const QString& roleName, const QVariant vData ) const;
+    QString getVariantString(const QString& roleName, const QVariant &vData) const;
 
     UnityMenuModel* m_model;
     QList<UnityMenuModel*> m_children;

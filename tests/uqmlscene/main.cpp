@@ -63,12 +63,6 @@
 #include <QtCore/QTranslator>
 #include <QtCore/QLibraryInfo>
 
-#define UQMLSCENE_DEBUG_ACTIVE_FOCUS 0
-
-#if UQMLSCENE_DEBUG_ACTIVE_FOCUS
-  #include "ActiveFocusLogger.h"
-#endif
-
 #ifdef QML_RUNTIME_TESTING
 class RenderStatistics
 {
@@ -222,8 +216,8 @@ static int displayOptionsDialog(Options *options)
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
                                                        Qt::Horizontal,
                                                        &dialog);
-    QObject::connect(buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    QObject::connect(buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
 
     layout->addRow("Qml file:", qmlFileComboBox);
     layout->addWidget(originalCheckBox);
@@ -345,12 +339,26 @@ static void loadDummyDataFiles(QQmlEngine &engine, const QString& directory)
     }
 }
 
+class DummyTestRootObject : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(bool windowShown READ windowShown NOTIFY windowShownChanged)
+
+public:
+    DummyTestRootObject(QObject *o) :  QObject(o) {}
+
+    bool windowShown() const { return false; }
+
+Q_SIGNALS:
+    void windowShownChanged();
+};
+
 static QObject *s_testRootObject = nullptr;
 static QObject *testRootObject(QQmlEngine *engine, QJSEngine *jsEngine)
 {
     Q_UNUSED(jsEngine);
     if (!s_testRootObject) {
-        s_testRootObject = new QObject(engine);
+        s_testRootObject = new DummyTestRootObject(engine);
     }
     return s_testRootObject;
 }
@@ -378,10 +386,6 @@ static void usage()
 int main(int argc, char ** argv)
 {
     Options options;
-
-    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS
-    ActiveFocusLogger activeFocusLogger;
-    #endif
 
     QStringList imports;
     QList<QPair<QString, QString> > bundles;
@@ -484,7 +488,7 @@ int main(int argc, char ** argv)
 #endif
                 loadDummyDataFiles(engine, fi.path());
             }
-            QObject::connect(&engine, SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
+            QObject::connect(&engine, &QQmlEngine::quit, QCoreApplication::instance(), &QCoreApplication::quit);
 
             qmlRegisterSingletonType<QObject>("Qt.test.qtestroot", 1, 0, "QTestRootObject", testRootObject);
 
@@ -501,9 +505,6 @@ int main(int argc, char ** argv)
                 QQuickItem *contentItem = qobject_cast<QQuickItem *>(topLevel);
                 if (contentItem) {
                     qxView = new QQuickView(&engine, nullptr);
-                    #if UQMLSCENE_DEBUG_ACTIVE_FOCUS
-                    activeFocusLogger.setWindow(qxView);
-                    #endif
                     window = qxView;
                     // Set window default properties; the qml can still override them
                     QString oname = contentItem->objectName();
@@ -560,3 +561,5 @@ int main(int argc, char ** argv)
 
     return exitCode;
 }
+
+#include "main.moc"

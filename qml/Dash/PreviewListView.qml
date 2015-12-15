@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Unity 0.2
 import "../Components"
 import "Previews" as Previews
@@ -24,8 +24,11 @@ Item {
     id: root
 
     property int initialIndex: -1
+    property var initialIndexPreviewStack: null
     property var scope: null
     property var scopeStyle: null
+    property string categoryId
+    property bool usedInitialIndex: false
 
     property alias showSignatureLine: header.showSignatureLine
 
@@ -40,7 +43,7 @@ Item {
 
     signal backClicked()
 
-    PageHeader {
+    DashPageHeader {
         id: header
         objectName: "pageHeader"
         width: parent.width
@@ -83,10 +86,10 @@ Item {
             }
         }
 
-        onCountChanged: {
-            if (count > 0 && initialIndex >= 0) {
-                currentIndex = initialIndex;
-                initialIndex = -1;
+        onModelChanged: {
+            if (count > 0 && initialIndex >= 0 && !usedInitialIndex) {
+                usedInitialIndex = true;
+                previewListView.positionViewAtIndex(initialIndex, ListView.SnapPosition);
             }
         }
 
@@ -98,10 +101,26 @@ Item {
 
             isCurrent: ListView.isCurrentItem
 
-            previewModel: {
-                var previewStack = root.scope.preview(result);
-                return previewStack.getPreviewModel(0);
+            readonly property var previewStack: {
+                if (root.open) {
+                    if (index === root.initialIndex) {
+                        return root.initialIndexPreviewStack;
+                    } else {
+                        return root.scope.preview(result, root.categoryId);
+                    }
+                } else {
+                    return null;
+                }
             }
+
+            previewModel: {
+                if (previewStack) {
+                    return previewStack.getPreviewModel(0);
+                } else {
+                    return null;
+                }
+            }
+
             scopeStyle: root.scopeStyle
         }
     }

@@ -31,6 +31,7 @@
 #include <QtTest>
 #include <QDBusInterface>
 #include <QDBusReply>
+#include <QDBusMetaType>
 #include <QDomDocument>
 
 // This is a mock, specifically to test the LauncherModel
@@ -39,6 +40,9 @@ class MockApp: public unity::shell::application::ApplicationInfoInterface
     Q_OBJECT
 public:
     MockApp(const QString &appId, QObject *parent = 0): ApplicationInfoInterface(appId, parent), m_appId(appId), m_focused(false) { }
+
+    RequestedState requestedState() const override { return RequestedRunning; }
+    void setRequestedState(RequestedState) override {}
     QString appId() const override { return m_appId; }
     QString name() const override { return "mock"; }
     QString comment() const override { return "this is a mock"; }
@@ -54,6 +58,9 @@ public:
     QColor splashColorFooter() const override { return QColor(0,0,0,0); }
     Qt::ScreenOrientations supportedOrientations() const override { return Qt::PortraitOrientation; }
     bool rotatesWindowContents() const override { return false; }
+    bool isTouchApp() const override { return true; }
+    bool exemptFromLifecycle() const override { return false; }
+    void setExemptFromLifecycle(bool) override {}
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -68,6 +75,7 @@ class MockAppManager: public unity::shell::application::ApplicationManagerInterf
     Q_OBJECT
 public:
     MockAppManager(QObject *parent = 0): ApplicationManagerInterface(parent) {}
+    ~MockAppManager() {}
     int rowCount(const QModelIndex &) const override { return m_list.count(); }
     QVariant data(const QModelIndex &, int ) const override { return QVariant(); }
     QString focusedApplicationId() const override {
@@ -116,10 +124,6 @@ public:
         endRemoveRows();
     }
     bool requestFocusApplication(const QString &appId) override { Q_UNUSED(appId); return true; }
-    bool suspended() const override { return false; }
-    void setSuspended(bool) override {}
-    bool forceDashActive() const override { return false; }
-    void setForceDashActive(bool) override {}
 
 private:
     QList<MockApp*> m_list;
@@ -135,12 +139,17 @@ private:
 
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
-        return as->getUserProperty("", "", "LauncherItems").value<QList<QVariantMap>>();
+        QDBusReply<QVariant> reply = as->getUserPropertyAsync(QString(qgetenv("USER")),
+                                                              "com.canonical.unity.AccountsService",
+                                                              "LauncherItems");
+        return qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>());
     }
 
 private Q_SLOTS:
 
     void initTestCase() {
+        qDBusRegisterMetaType<QList<QVariantMap>>();
+
         launcherModel = new LauncherModel(this);
         QCoreApplication::processEvents(); // to let the model register on DBus
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 0);
@@ -151,6 +160,14 @@ private Q_SLOTS:
 
     // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
     void init() {
+        QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
+                                         QStringLiteral("/org/freedesktop/Accounts"),
+                                         QStringLiteral("org.freedesktop.Accounts"));
+        QDBusReply<bool> addReply = accountsInterface.call(QStringLiteral("AddUser"),
+                                                           QString(qgetenv("USER")));
+        QVERIFY(addReply.isValid());
+        QCOMPARE(addReply.value(), true);
+
         appManager->addApplication(new MockApp("abs-icon"));
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
 
@@ -168,6 +185,14 @@ private Q_SLOTS:
         while (launcherModel->rowCount(QModelIndex()) > 0) {
             launcherModel->requestRemove(launcherModel->get(0)->appId());
         }
+
+        QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
+                                         QStringLiteral("/org/freedesktop/Accounts"),
+                                         QStringLiteral("org.freedesktop.Accounts"));
+        QDBusReply<bool> removeReply = accountsInterface.call(QStringLiteral("RemoveUser"),
+                                                              QString(qgetenv("USER")));
+        QVERIFY(removeReply.isValid());
+        QCOMPARE(removeReply.value(), true);
     }
 
     void testMove() {
@@ -187,7 +212,7 @@ private Q_SLOTS:
     }
 
     void testPinning() {
-        QSignalSpy spy(launcherModel, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
+        QSignalSpy spy(launcherModel, &LauncherModel::dataChanged);
         QCOMPARE(launcherModel->get(0)->pinned(), false);
         QCOMPARE(launcherModel->get(1)->pinned(), false);
         launcherModel->pin(launcherModel->get(0)->appId());
@@ -298,6 +323,22 @@ private Q_SLOTS:
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
     }
 
+    void testApplicationRunning() {
+        launcherModel->pin("abs-icon");
+        launcherModel->pin("no-icon");
+
+        QCOMPARE(launcherModel->get(0)->running(), true);
+        QCOMPARE(launcherModel->get(1)->running(), true);
+
+        appManager->stopApplication("abs-icon");
+        QCOMPARE(launcherModel->get(0)->running(), false);
+        QCOMPARE(launcherModel->get(1)->running(), true);
+
+        appManager->stopApplication("no-icon");
+        QCOMPARE(launcherModel->get(0)->running(), false);
+        QCOMPARE(launcherModel->get(1)->running(), false);
+    }
+
     void testApplicationFocused() {
         // all apps unfocused at beginning...
         QCOMPARE(launcherModel->get(0)->focused(), false);
@@ -323,6 +364,46 @@ private Q_SLOTS:
         // The pinned one needs to stay, the other needs to disappear
         QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
         QCOMPARE(launcherModel->get(0)->appId(), QLatin1String("abs-icon"));
+    }
+
+    void testQuitMenuItem() {
+        // we have 2 apps running, both should have the Quit action in its quick list
+        QCOMPARE(launcherModel->rowCount(), 2);
+
+        // stop the second one keeping it pinned so that it doesn't go away
+        launcherModel->pin("no-icon");
+        appManager->stopApplication("no-icon");
+
+        // find the first Quit item, should be there
+        QuickListModel *model = qobject_cast<QuickListModel*>(launcherModel->get(0)->quickList());
+        int quitActionIndex = -1;
+        for (int i = 0; i < model->rowCount(); ++i) {
+            if (model->get(i).actionId() == "stop_item") {
+                quitActionIndex = i;
+                break;
+            }
+        }
+        QVERIFY(quitActionIndex >= 0);
+
+        // find the second Quit item, should NOT be there, the app is stopped
+        QuickListModel *model2 = qobject_cast<QuickListModel*>(launcherModel->get(1)->quickList());
+        int quitActionIndex2 = -1;
+        for (int i = 0; i < model2->rowCount(); ++i) {
+            if (model2->get(i).actionId() == "stop_item") {
+                quitActionIndex2 = i;
+                break;
+            }
+        }
+        QVERIFY(quitActionIndex2 == -1);
+
+        // trigger the first quit item quicklist action
+        launcherModel->quickListActionInvoked(launcherModel->get(0)->appId(), quitActionIndex);
+        // first app should be gone...
+        QCOMPARE(launcherModel->rowCount(QModelIndex()), 1);
+        // ... the second app (now at index 0) should still be there, pinned and stopped
+        QCOMPARE(launcherModel->get(0)->appId(), QStringLiteral("no-icon"));
+        QCOMPARE(launcherModel->get(0)->pinned(), true);
+        QCOMPARE(launcherModel->get(0)->running(), false);
     }
 
     void testGetUrlForAppId() {
@@ -368,10 +449,17 @@ private Q_SLOTS:
     }
 
     void testCountEmblems() {
+        QSignalSpy spy(launcherModel, &LauncherModel::dataChanged);
+
         // Call GetAll on abs-icon
         QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "org.freedesktop.DBus.Properties");
         QDBusReply<QVariantMap> reply = interface.call("GetAll");
         QVariantMap map = reply.value();
+
+        // Check that the alerting-status is still false, and the item on the upper side of the API
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+        QVERIFY(launcherModel->get(index)->alerting() == false);
 
         // Make sure GetAll returns a map with count and countVisible props
         QCOMPARE(map.contains("count"), true);
@@ -393,13 +481,8 @@ private Q_SLOTS:
         QCOMPARE(map.value("count").toInt(), 55);
         QCOMPARE(map.value("countVisible").toBool(), true);
 
-        // Now the item on the upper side of the API
-        int index = launcherModel->findApplication("abs-icon");
-        QCOMPARE(index >= 0, true);
-
-        // And make sure values have changed there as well
-        QCOMPARE(launcherModel->get(index)->countVisible(), true);
-        QCOMPARE(launcherModel->get(index)->count(), 55);
+        // Finally check, that the change to "count" implicitly also set the alerting-state to true
+        QVERIFY(launcherModel->get(index)->alerting() == true);
     }
 
     void testCountEmblemAddsRemovesItem_data() {
@@ -459,6 +542,20 @@ private Q_SLOTS:
         QCOMPARE(index == -1, !isRunning && !isPinned && !startWhenVisible);
     }
 
+    void testAlert() {
+        // Check that the alerting-status is still false
+        int index = launcherModel->findApplication("abs-icon");
+        QCOMPARE(index >= 0, true);
+        QVERIFY(launcherModel->get(index)->alerting() == false);
+
+        // Call Alert() on "abs-icon"
+        QDBusInterface interface("com.canonical.Unity.Launcher", "/com/canonical/Unity/Launcher/abs_2Dicon", "com.canonical.Unity.Launcher.Item");
+        interface.call("Alert");
+
+        // Check that the alerting-status is now true
+        QVERIFY(launcherModel->get(index)->alerting() == true);
+    }
+
     void testRefreshAfterDeletedDesktopFiles_data() {
         QTest::addColumn<bool>("deleted");
         QTest::newRow("have .desktop files") << false;
@@ -498,7 +595,7 @@ private Q_SLOTS:
 
     void testSettings() {
         GSettings *settings = launcherModel->m_settings;
-        QSignalSpy spy(launcherModel, SIGNAL(hint()));
+        QSignalSpy spy(launcherModel, &LauncherModel::hint);
 
         // Nothing pinned at startup
         QCOMPARE(settings->storedApplications().count(), 0);

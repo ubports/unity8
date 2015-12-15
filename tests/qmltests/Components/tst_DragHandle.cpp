@@ -113,9 +113,7 @@ QQuickView *tst_DragHandle::createView()
 {
     QQuickView *window = new QQuickView(0);
     window->setResizeMode(QQuickView::SizeRootObjectToView);
-    window->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
     window->engine()->addImportPath(QLatin1String(TEST_DIR));
-    window->engine()->addImportPath(QStringLiteral(TESTS_UTILS_MODULES_DIR));
 
     return window;
 }
@@ -467,7 +465,7 @@ void tst_DragHandle::hintingAnimation_dontRestartAfterFinishedAndStillPressed()
     tryCompare([&](){ return parentItem->height(); }, hintDisplacement);
 
 
-    QSignalSpy parentHeightChangedSpy(parentItem, SIGNAL(heightChanged()));
+    QSignalSpy parentHeightChangedSpy(parentItem, &QQuickItem::heightChanged);
 
     drag(touchPoint, QPointF(0.0, -1.0) /*dragDirectionVector*/, 15 /*distance*/, 3 /*numSteps*/);
 

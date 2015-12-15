@@ -23,18 +23,19 @@
 #include "plugin.h"
 
 // local
+#include "activefocuslogger.h"
 #include "easingcurve.h"
 #include "HomeKeyWatcher.h"
 #include "inputwatcher.h"
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
-#include "relativetimeformatter.h"
-#include "timeformatter.h"
 #include "unitymenumodelpaths.h"
 #include "windowkeysfilter.h"
 #include "windowscreenshotprovider.h"
 #include "windowstatestorage.h"
 #include "constants.h"
+#include "timezoneFormatter.h"
+#include "applicationsfiltermodel.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -58,19 +59,20 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
-    qmlRegisterType<TimeFormatter>(uri, 0, 1, "TimeFormatter");
     qmlRegisterType<WindowKeysFilter>(uri, 0, 1, "WindowKeysFilter");
-    qmlRegisterType<GDateTimeFormatter>(uri, 0, 1, "GDateTimeFormatter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
-    qmlRegisterType<RelativeTimeFormatter>(uri, 0, 1, "RelativeTimeFormatter");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
+    qmlRegisterSingletonType<TimezoneFormatter>(uri, 0, 1, "TimezoneFormatter",
+                                                [](QQmlEngine*, QJSEngine*) -> QObject* { return new TimezoneFormatter; });
+    qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
+    qmlRegisterType<ApplicationsFilterModel>(uri, 0, 1, "ApplicationsFilterModel");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    engine->addImageProvider(QLatin1String("window"), new WindowScreenshotProvider);
+    engine->addImageProvider(QStringLiteral("window"), new WindowScreenshotProvider);
 }

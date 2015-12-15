@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity 0.2
 import Utils 0.1
@@ -36,12 +36,14 @@ Showable {
         }
     }
 
+    property bool windowActive: window.active
+
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
         onSetCurrentScopeRequested: {
-            if (!isSwipe || !window.active || bottomEdgeController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
+            if (!isSwipe || !windowActive || bottomEdgeController.progress != 0 || scopeItem.scope || dashContent.subPageShown) {
                 if (bottomEdgeController.progress != 0 && window.active) animate = false;
-                dashContent.setCurrentScopeAtIndex(index, animate, isSwipe)
+                dashContent.setCurrentScopeAtIndex(index, animate, true)
                 backToDashContent()
             }
         }
@@ -332,6 +334,18 @@ Showable {
             // Eat direct presses on the overview hint so that they do not end up in the card below
             anchors.fill: parent
             enabled: parent.opacity != 0
+
+            // TODO: This is a temporary workaround to allow people opening the
+            // dash overview when there's no touch input around. Will be replaced with
+            // a SDK component once that's available
+            onClicked: bottomEdgeController.progress = 1;
+
+            // We need to eat touch events here in order to not allow opening the bottom edge with a touch press
+            MultiPointTouchArea {
+                anchors.fill: parent
+                mouseEnabled: false
+                enabled: parent.enabled
+            }
         }
     }
 

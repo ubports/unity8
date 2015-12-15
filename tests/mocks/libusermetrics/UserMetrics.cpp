@@ -405,10 +405,8 @@ UserMetrics::UserMetrics(QObject *parent) :
     d_ptr->generateFakeData();
     setUsername("");
 
-    connect(this, SIGNAL(nextDataSource()), this, SLOT(nextDataSourceSlot()),
-            Qt::QueuedConnection);
-    connect(this, SIGNAL(readyForDataChange()), this,
-            SLOT(readyForDataChangeSlot()), Qt::QueuedConnection);
+    connect(this, &UserMetrics::nextDataSource, this, &UserMetrics::nextDataSourceSlot, Qt::QueuedConnection);
+    connect(this, &UserMetrics::readyForDataChange, this, &UserMetrics::readyForDataChangeSlot, Qt::QueuedConnection);
 }
 
 UserMetrics::~UserMetrics()
@@ -418,11 +416,7 @@ UserMetrics::~UserMetrics()
 
 QString UserMetrics::label() const
 {
-    if (d_ptr->m_label.isEmpty()) {
-        return "No data";
-    } else {
-        return d_ptr->m_label;
-    }
+    return d_ptr->m_label;
 }
 
 QString UserMetrics::username() const

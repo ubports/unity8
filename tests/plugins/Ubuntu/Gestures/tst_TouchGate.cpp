@@ -19,9 +19,7 @@
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QSharedPointer>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-    #include <private/qquickwindow_p.h>
-#endif
+#include <private/qquickwindow_p.h>
 
 // C++ std lib
 #include <functional>
@@ -119,7 +117,6 @@ QQuickView *tst_TouchGate::createView()
     QQuickView *window = new QQuickView(0);
     window->setResizeMode(QQuickView::SizeRootObjectToView);
     window->resize(720, 720);
-    window->engine()->addImportPath(QLatin1String(UBUNTU_GESTURES_PLUGIN_DIR));
 
     return window;
 }
@@ -189,10 +186,8 @@ void tst_TouchGate::holdsEventsUntilGainsOwnership()
 
     if (!ownershipAfterTouchEnd) {
         touchRegistry->removeCandidateOwnerForTouch(0, candidateItem);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
         QQuickWindowPrivate *wp = QQuickWindowPrivate::get(testItem->window());
         wp->flushDelayedTouchEvent();
-#endif
         // TouchGate should now open its flood gates and let testItem get all
         // events from touch 0 produced so far
         QCOMPARE(testItem->touchEventsReceived.count(), 2);

@@ -43,6 +43,7 @@ def unlock_unity():
     """
     greeter.wait_for_greeter()
     greeter.hide_greeter_with_dbus()
+    greeter.wait_for_greeter_gone()
 
 
 def lock_unity():
@@ -145,7 +146,7 @@ def stop_job(name):
     :raises CalledProcessError: if the job failed to stop.
 
     """
-    logger.info('Stoping job {}.'.format(name))
+    logger.info('Stopping job {}.'.format(name))
     command = ['/sbin/initctl', 'stop', name]
     try:
         output = subprocess.check_output(

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,18 +17,20 @@
 #ifndef SESSION_H
 #define SESSION_H
 
+#include "ObjectListModel.h"
 #include "SessionModel.h"
 
 #include <QQuickItem>
 
 class ApplicationInfo;
-class MirSurfaceItem;
+class MirSurface;
 
 class Session : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(MirSurfaceItem* surface READ surface NOTIFY surfaceChanged)
+    Q_PROPERTY(MirSurface* lastSurface READ lastSurface NOTIFY lastSurfaceChanged)
+    Q_PROPERTY(ObjectListModel<MirSurface>* surfaces READ surfaces CONSTANT)
     Q_PROPERTY(ApplicationInfo* application READ application NOTIFY applicationChanged)
     Q_PROPERTY(Session* parentSession READ parentSession NOTIFY parentSessionChanged DESIGNABLE false)
     Q_PROPERTY(SessionModel* childSessions READ childSessions DESIGNABLE false CONSTANT)
@@ -46,11 +48,13 @@ public:
     QString name() const { return m_name; }
     bool live() const { return m_live; }
     ApplicationInfo* application() const { return m_application; }
-    MirSurfaceItem* surface() const { return m_surface; }
+    MirSurface *lastSurface() const;
+    ObjectListModel<MirSurface>* surfaces() const;
     Session* parentSession() const { return m_parentSession; }
 
     void setApplication(ApplicationInfo* item);
-    void setSurface(MirSurfaceItem* surface);
+    void appendSurface(MirSurface* surface);
+    void removeSurface(MirSurface* surface);
     void setScreenshot(const QUrl& m_screenshot);
     void setLive(bool live);
 
@@ -60,9 +64,10 @@ public:
 
 Q_SIGNALS:
     void applicationChanged(ApplicationInfo*);
-    void surfaceChanged(MirSurfaceItem*);
     void parentSessionChanged(Session*);
     void liveChanged(bool live);
+    void surfaceAdded(MirSurface *surface);
+    void lastSurfaceChanged(MirSurface *surface);
 
     // internal mock use
     void deregister();
@@ -78,13 +83,15 @@ private:
     bool m_live;
     QUrl m_screenshot;
     ApplicationInfo* m_application;
-    MirSurfaceItem* m_surface;
+    MirSurface* m_surface;
     Session* m_parentSession;
     SessionModel* m_children;
+    ObjectListModel<MirSurface> m_surfaces;
 
     friend class ApplicationTestInterface;
 };
 
 Q_DECLARE_METATYPE(Session*)
+Q_DECLARE_METATYPE(ObjectListModel<MirSurface>*)
 
 #endif // SESSION_H

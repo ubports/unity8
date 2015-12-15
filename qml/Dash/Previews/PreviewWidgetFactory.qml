@@ -15,7 +15,7 @@
  *
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 //! \brief This component loads the widgets based on widgetData["type"].
 
@@ -35,13 +35,22 @@ Loader {
     property var scopeStyle: null
 
     //! Should the widget show in expanded mode (For those that support it)
-    property bool expanded: true
+    property bool expanded: widgetType !== "expandable" || widgetData["expanded"] === true
 
     //! Set to true if the parent preview is displayed.
     property bool isCurrentPreview: false
 
+    //! Set margins width.
+    property real widgetMargins: status === Loader.Ready ? item.widgetMargins : units.gu(1)
+
+    /// The parent (vertical) flickable this widget is in (if any)
+    property var parentFlickable: null
+
     //! Triggered signal forwarded from the widgets.
     signal triggered(string widgetId, string actionId, var data)
+
+    //! MakesureVisible signal forwarded from the widgets.
+    signal makeSureVisible(var item)
 
     source: widgetSource
 
@@ -50,9 +59,12 @@ Loader {
         switch (widgetType) {
             case "actions": return "PreviewActions.qml";
             case "audio": return "PreviewAudioPlayback.qml";
+            case "comment": return "PreviewComment.qml";
+            case "comment-input": return "PreviewCommentInput.qml";
             case "expandable": return "PreviewExpandable.qml";
             case "gallery": return "PreviewImageGallery.qml";
             case "header": return "PreviewHeader.qml";
+            case "icon-actions": return "PreviewIconActions.qml";
             case "image": return "PreviewZoomableImage.qml";
             case "progress": return "PreviewProgress.qml";
             case "payments": return "PreviewPayments.qml";
@@ -80,10 +92,12 @@ Loader {
         item.isCurrentPreview = Qt.binding(function() { return root.isCurrentPreview } )
         item.expanded = Qt.binding(function() { return root.expanded } )
         item.scopeStyle = Qt.binding(function() { return root.scopeStyle } )
+        item.parentFlickable = Qt.binding(function() { return root.parentFlickable } )
     }
 
     Connections {
         target: root.item
         onTriggered: root.triggered(widgetId, actionId, data)
+        onMakeSureVisible: root.makeSureVisible(item)
     }
 }

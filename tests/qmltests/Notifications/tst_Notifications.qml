@@ -12,16 +12,14 @@
  *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *      Mirco Mueller <mirco.mueller@canonical.com>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import QtTest 1.0
 import ".."
 import "../../../qml/Notifications"
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Unity.Test 0.1
 import Unity.Notifications 1.0
 import QtMultimedia 5.0
@@ -77,9 +75,9 @@ Item {
                                                             "type": Notification.Ephemeral,
                                                             "hints": {},
                                                             "summary": "Cole Raby",
-                                                            "body": "I did not expect it to be that late.",
-                                                            "icon": "../graphics/avatars/amanda.png",
-                                                            "secondaryIcon": "../graphics/applicationIcons/facebook.png",
+                                                            "body": "I did not expect it to be <b>that</b> late.",
+                                                            "icon": "../../tests/graphics/avatars/amanda.png",
+                                                            "secondaryIcon": "../../tests/graphics/applicationIcons/facebook.png",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
@@ -91,8 +89,8 @@ Item {
                                                             "type": Notification.Ephemeral,
                                                             "hints": {"x-canonical-non-shaped-icon": "true"},
                                                             "summary": "Contacts",
-                                                            "body": "Synchronised contacts-database with cloud-storage.",
-                                                            "icon": "../graphics/applicationIcons/contacts-app.png",
+                                                            "body": "Synchronised contacts-database &amp; cloud-storage.",
+                                                            "icon": "../../tests/graphics/applicationIcons/contacts-app.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
@@ -106,7 +104,7 @@ Item {
                                                             "hints": {"x-canonical-non-shaped-icon": "false"},
                                                             "summary": "Photo upload completed",
                                                             "body": "",
-                                                            "icon": "../graphics/applicationIcons/facebook.png",
+                                                            "icon": "../../tests/graphics/applicationIcons/facebook.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
@@ -120,7 +118,7 @@ Item {
                                                             "hints": {},
                                                             "summary": "Interactive notification",
                                                             "body": "This is a notification that can be clicked",
-                                                            "icon": "../graphics/avatars/anna_olsson.png",
+                                                            "icon": "../../tests/graphics/avatars/anna_olsson.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
@@ -189,6 +187,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
+                hasMouse: false
             }
         }
 
@@ -218,7 +217,7 @@ Item {
 
                 Button {
                     width: parent.width
-                    text: "add an non-shaped-icon-summary-body"
+                    text: "add a non-shaped-icon-summary-body"
                     onClicked: rootRow.addEphemeralNonShapedIconNotification()
                 }
 
@@ -257,6 +256,24 @@ Item {
                     text: "clear model"
                     onClicked: rootRow.clearNotifications()
                 }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    CheckBox {
+                        id: fakeMouseCB
+                        onClicked: {
+                            if (checked) {
+                                notifications.hasMouse = true;
+                            } else {
+                                notifications.hasMouse = false;
+                            }
+                        }
+                    }
+                    Label {
+                        text: "With fake mouse"
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
             }
         }
 
@@ -271,7 +288,7 @@ Item {
                     type: Notification.Ephemeral
                     summary: "Photo upload completed"
                     body: ""
-                    icon: "../graphics/applicationIcons/facebook.png"
+                    icon: "../../tests/graphics/applicationIcons/facebook.png"
                     secondaryIcon: ""
                     value: 0
                     rawActions: []
@@ -285,7 +302,7 @@ Item {
                     summary: "New comment successfully published"
                     body: ""
                     icon: ""
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    secondaryIcon: "../../tests/graphics/applicationIcons/facebook.png"
                     value: 0
                     rawActions: []
                 },
@@ -296,7 +313,7 @@ Item {
                             "sound-file": "dummy.ogg"}
                     summary: "Interactive notification"
                     body: "This is a notification that can be clicked"
-                    icon: "../graphics/avatars/amanda.png"
+                    icon: "../../tests/graphics/avatars/amanda.png"
                     secondaryIcon: ""
                     value: 0
                     rawActions: ["reply_id", "Dummy"]
@@ -308,7 +325,7 @@ Item {
                             "sound-file": "dummy.ogg"}
                     summary: "Bro Coly"
                     body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-                    icon: "../graphics/avatars/anna_olsson.png"
+                    icon: "../../tests/graphics/avatars/anna_olsson.png"
                     secondaryIcon: ""
                     value: 0
                     rawActions: ["accept_id", "Accept",
@@ -321,8 +338,8 @@ Item {
                             "sound-file": "dummy.ogg"}
                     summary: "Cole Raby"
                     body: "I did not expect it to be that late."
-                    icon: "../graphics/avatars/funky.png"
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    icon: "../../tests/graphics/avatars/funky.png"
+                    secondaryIcon: "../../tests/graphics/applicationIcons/facebook.png"
                     value: 0
                     rawActions: []
                 },
@@ -674,6 +691,41 @@ Item {
                 } else {
                     tryCompare(mockModel, "count", before - 1)
                 }
+            }
+
+            function test_clickToClose_data() { // reuse the data
+                notifications.hasMouse = true;
+                return test_NotificationRenderer_data();
+            }
+
+            function test_clickToClose(data) {
+                // populate model with some mock notifications
+                mockModel.append(data.n)
+
+                // make sure the view is properly updated before going on
+                notifications.forceLayout();
+                waitForRendering(notifications);
+
+                var notification = findChild(notifications, "notification" + (mockModel.count - 1))
+                verify(!!notification, "notification wasn't found");
+
+                // click-to-dismiss check
+                waitForRendering(notification);
+                var before = mockModel.count;
+                var canBeClosed = notification.canBeClosed;
+                mouseClick(notification);
+
+                if (canBeClosed) {
+                    // closing the notification, the model count should be one less
+                    tryCompare(mockModel, "count", before - 1)
+                } else {
+                    // not closing, model stays the same
+                    tryCompare(mockModel, "count", before)
+                }
+            }
+
+            function cleanupTestCase() {
+                notifications.hasMouse = false;
             }
         }
     }

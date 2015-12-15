@@ -37,6 +37,9 @@ public:
         Inactivity      = 1, // Display changed state due to inactivity
         PowerKey        = 2, // Display changed state due to user pressing power key
         Proximity       = 3, // Display changed state due to proximity events
+        Notification    = 4, // Display changed state due to user notification
+        SnapDecision    = 5, // Display changed state due to snap decision prompt
+        CallDone        = 6, // Display changed state due to voice call end
     };
 
     enum Status {
@@ -48,6 +51,9 @@ public:
     ~Powerd();
 
     Status status() const;
+
+    // Not exposed via Q_PROPERTY because we need the 'reason' argument too
+    Q_INVOKABLE void setStatus(Status status, DisplayStateChangeReason reason);
 
 Q_SIGNALS:
     void statusChanged(DisplayStateChangeReason reason);

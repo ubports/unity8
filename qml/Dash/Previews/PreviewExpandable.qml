@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.3
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../../Components"
 
 /*! \brief Preview widget for expandable widgets.
@@ -24,14 +24,14 @@ import "../../Components"
     Those widgets can be collapsed or uncollapsed. When uncollapsed
     all the widgets are shown, when collapsed only the first
     widgetData["collapsed-widgets"] are shown. It has a title that comes
-    in via widgetData["title"]
+    in via widgetData["title"]. This widget expands all child widgets
+    when initialized by specifying widgetData["expanded"] == true.
+    It's in unexpanded mode by default.
  */
 
 PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
-
-    expanded: false
 
     Label {
         id: titleLabel
@@ -41,7 +41,7 @@ PreviewWidget {
             right: expandButton.left
         }
         fontSize: "large"
-        color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+        color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
         visible: text !== ""
         opacity: .8
         text: widgetData["title"] || ""
@@ -62,7 +62,7 @@ PreviewWidget {
             width: units.gu(3)
             height: units.gu(3)
             name: root.expanded ? "view-collapse" : "view-expand"
-            color: root.scopeStyle ? root.scopeStyle.foreground : Theme.palette.normal.baseText
+            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
         }
     }
 
@@ -95,6 +95,9 @@ PreviewWidget {
 
                 onTriggered: {
                     root.triggered(widgetId, actionId, data);
+                }
+                onMakeSureVisible: {
+                    root.makeSureVisible(item)
                 }
             }
         }

@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Ubuntu.Settings.Components 0.1
 import "Indicators"
 
@@ -31,9 +31,9 @@ IndicatorDelegate {
     property bool selected: false
     property real iconHeight: units.gu(2)
     readonly property color color: {
-        if (!expanded) return "#ededed";
-        if (!selected) return "#4c4c4c";
-        return "#ededed";
+        if (!expanded) return "#ffffff";
+        if (!selected) return "#888888";
+        return "#ffffff";
     }
 
     signal clicked()
@@ -66,6 +66,7 @@ IndicatorDelegate {
             opacity: 1.0
             font.family: "Ubuntu"
             fontSize: "medium"
+            font.weight: Font.Light
             color: root.color
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
         }
@@ -126,6 +127,7 @@ IndicatorDelegate {
             opacity: 1.0
             font.family: "Ubuntu"
             fontSize: "medium"
+            font.weight: Font.Light
             color: root.color
             Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
         }
@@ -142,6 +144,7 @@ IndicatorDelegate {
 
         text: title !== "" ? title : identifier
         fontSize: "x-small"
+        font.weight: Font.Light
         horizontalAlignment: Text.AlignHCenter
         opacity: 0
         color: root.color
@@ -234,7 +237,7 @@ IndicatorDelegate {
         ]
     }
 
-    onRootActionStateChanged: {
+    rootActionState.onUpdated: {
         if (rootActionState == undefined) {
             title = "";
             leftLabel = "";
@@ -243,7 +246,7 @@ IndicatorDelegate {
             return;
         }
 
-        title = rootActionState.title ? rootActionState.title : "";
+        title = rootActionState.title ? rootActionState.title : rootActionState.accessibleName;
         leftLabel = rootActionState.leftLabel ? rootActionState.leftLabel : "";
         rightLabel = rootActionState.rightLabel ? rootActionState.rightLabel : "";
         icons = rootActionState.icons;

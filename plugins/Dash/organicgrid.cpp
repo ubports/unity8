@@ -21,8 +21,6 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
-static const qreal bufferRatio = 0.5;
-
 OrganicGrid::OrganicGrid()
  : m_firstVisibleIndex(-1)
  , m_numberOfModulesPerRow(-1)
@@ -34,7 +32,7 @@ QSizeF OrganicGrid::smallDelegateSize() const
     return m_smallDelegateSize;
 }
 
-void OrganicGrid::setSmallDelegateSize(const QSizeF &size)
+void OrganicGrid::setSmallDelegateSize(const QSizeF size)
 {
     if (m_smallDelegateSize != size) {
         m_smallDelegateSize = size;
@@ -51,7 +49,7 @@ QSizeF OrganicGrid::bigDelegateSize() const
     return m_bigDelegateSize;
 }
 
-void OrganicGrid::setBigDelegateSize(const QSizeF &size)
+void OrganicGrid::setBigDelegateSize(const QSizeF size)
 {
     if (m_bigDelegateSize != size) {
         m_bigDelegateSize = size;
@@ -237,13 +235,9 @@ void OrganicGrid::calculateImplicitHeight()
     }
 }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 4, 0))
-void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Remove> &removes)
-#else
 void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Change> &removes)
-#endif
 {
-    Q_FOREACH(const QQmlChangeSet::Change &remove, removes) {
+    Q_FOREACH(const QQmlChangeSet::Change remove, removes) {
         for (int i = remove.count - 1; i >= 0; --i) {
             const int indexToRemove = remove.index + i;
             // We only support removing from the end
@@ -252,7 +246,9 @@ void OrganicGrid::processModelRemoves(const QVector<QQmlChangeSet::Change> &remo
                 releaseItem(m_visibleItems.takeLast());
             } else {
                 if (indexToRemove < lastIndex) {
-                    qFatal("OrganicGrid only supports removal from the end of the model");
+                    qDebug() << "OrganicGrid only supports removal from the end of the model, resetting instead";
+                    cleanupExistingItems();
+                    break;
                 }
             }
         }
