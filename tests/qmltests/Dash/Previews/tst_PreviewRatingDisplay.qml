@@ -70,9 +70,7 @@ Rectangle {
 
         function test_reviews(data) {
             previewRatingDisplay.widgetData = data.reviewsModel;
-
-            var reviewsRepeater = findChild(previewRatingDisplay, "reviewsRepeater");
-            compare(reviewsRepeater.count, data.reviewsModel["reviews"].length);
+            waitForRendering(previewRatingDisplay);
 
             for (var i = 0; i < data.reviewsModel["reviews"].length; ++i) {
                 var reviewItem = findChild(previewRatingDisplay, "reviewItem" + i);

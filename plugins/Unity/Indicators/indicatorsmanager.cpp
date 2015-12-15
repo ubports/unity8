@@ -51,20 +51,19 @@ IndicatorsManager::IndicatorsManager(QObject* parent)
 IndicatorsManager::~IndicatorsManager()
 {
     unload();
-
 }
 
 void IndicatorsManager::load()
 {
     unload();
 
-    QStringList xdgLocations = shellDataDirs();//QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    const QStringList xdgLocations = shellDataDirs();
 
     m_fsWatcher.reset(new QFileSystemWatcher(this));
 
     Q_FOREACH(const QString& xdgLocation, xdgLocations)
     {
-        QString indicator_path = QDir::cleanPath(xdgLocation + "/unity/indicators");
+        const QString indicator_path = QDir::cleanPath(xdgLocation + "/unity/indicators");
         QDir indicator_dir(indicator_path);
         if (indicator_dir.exists())
         {
@@ -103,7 +102,7 @@ void IndicatorsManager::loadDir(const QDir& dir)
 {
     startVerify(dir.canonicalPath());
 
-    QFileInfoList indicator_files = dir.entryInfoList(QStringList(), QDir::Files|QDir::NoDotAndDotDot);
+    const QFileInfoList indicator_files = dir.entryInfoList(QStringList(), QDir::Files|QDir::NoDotAndDotDot);
     Q_FOREACH(const QFileInfo& indicator_file, indicator_files)
     {
         loadFile(indicator_file);
@@ -115,26 +114,30 @@ void IndicatorsManager::loadDir(const QDir& dir)
 void IndicatorsManager::loadFile(const QFileInfo& file_info)
 {
     QSettings indicator_settings(file_info.absoluteFilePath(), QSettings::IniFormat, this);
-    QString name = indicator_settings.value(QStringLiteral("Indicator Service/Name")).toString();
+    const QString name = indicator_settings.value(QStringLiteral("Indicator Service/Name")).toString();
 
-    auto iter = m_indicatorsData.find(name);
-    if (iter != m_indicatorsData.end())
+    if (m_platform.isPC() && name == "indicator-keyboard") {
+        return; // convergence: skip this indicator until it works in Mir
+    }
+
+    auto iter = m_indicatorsData.constFind(name);
+    if (iter != m_indicatorsData.constEnd())
     {
-        QString newFileInfoDir = QDir::cleanPath(file_info.canonicalPath());
+        const QString newFileInfoDir = QDir::cleanPath(file_info.canonicalPath());
         IndicatorData* currentData = (*iter);
         currentData->m_verified = true;
 
         int file_info_location = -1;
         int current_data_location = -1;
 
-        QString currentDataDir = QDir::cleanPath(currentData->m_fileInfo.canonicalPath());
+        const QString currentDataDir = QDir::cleanPath(currentData->m_fileInfo.canonicalPath());
 
         // if we've already got this indicator, we need to make sure we're not overwriting data which is
         // from a lower priority standard path
         QStringList xdgLocations = shellDataDirs();
         for (int i = 0; i < xdgLocations.size(); i++)
         {
-            QString indicatorDir = QDir::cleanPath(xdgLocations[i] + "/unity/indicators");
+            const QString indicatorDir = QDir::cleanPath(xdgLocations[i] + "/unity/indicators");
 
             if (newFileInfoDir == indicatorDir)
             {
@@ -194,7 +197,7 @@ void IndicatorsManager::unloadFile(const QFileInfo& file)
         {
             if (!data->m_verified)
             {
-                QString name = data->m_name;
+                const QString name = data->m_name;
                 Q_EMIT indicatorAboutToBeUnloaded(name);
 
                 delete data;
@@ -253,7 +256,7 @@ void IndicatorsManager::endVerify(const QString& path)
         {
             if (!data->m_verified)
             {
-                QString name = data->m_name;
+                const QString name = data->m_name;
                 Q_EMIT indicatorAboutToBeUnloaded(name);
 
                 delete data;
@@ -271,7 +274,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
         return Indicator::Ptr();
     }
 
-    IndicatorData *data = m_indicatorsData[indicator_name];
+    IndicatorData *data = m_indicatorsData.value(indicator_name);
     if (data->m_indicator)
     {
         return data->m_indicator;
@@ -281,7 +284,20 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     data->m_indicator = new_indicator;
     QSettings settings(data->m_fileInfo.absoluteFilePath(), QSettings::IniFormat, this);
     new_indicator->init(data->m_fileInfo.fileName(), settings);
-    new_indicator->setProfile(m_profile);
+
+    // convergence:
+    // 1) enable session indicator conditionally, typically when running in a multisession/multiuser environment
+    // 2) on a PC, switch the battery/power indicator to desktop mode,
+    //    can't control brightness for now and phone-on-desktop broken (FIXME)
+    //
+    // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
+    if ((new_indicator->identifier() == QStringLiteral("indicator-session") && m_platform.isMultiSession())
+            || (new_indicator->identifier() == QStringLiteral("indicator-power") && m_platform.isPC())) {
+        new_indicator->setProfile("desktop");
+    } else {
+        new_indicator->setProfile(m_profile);
+    }
+
     QObject::connect(this, &IndicatorsManager::profileChanged, new_indicator.data(), &Indicator::setProfile);
     return new_indicator;
 }

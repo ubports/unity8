@@ -30,7 +30,7 @@ class UNITYINDICATORS_EXPORT ActionRootState : public RootStateObject
     Q_PROPERTY(QString actionName READ actionName WRITE setActionName NOTIFY actionNameChanged)
 
 public:
-    ActionRootState(QObject *parent = 0);
+    ActionRootState(QObject *parent = nullptr);
 
     QDBusActionGroup *actionGroup() const;
     void setActionGroup(QDBusActionGroup *actionGroup);
