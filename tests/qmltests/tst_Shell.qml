@@ -2018,24 +2018,25 @@ Rectangle {
             compare(launcherPanel.highlightIndex, -2);
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
+            wait(2000)
             // Use Super + Tab Tab to cycle to the first entry in the launcher
-            keyPress(Qt.Key_Super_L);
+            keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");
             tryCompare(launcherPanel, "highlightIndex", -1);
             keyClick(Qt.Key_Tab);
             tryCompare(launcherPanel, "highlightIndex", 0);
-            keyRelease(Qt.Key_Super_L);
+            keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
 
             // No go back to the dash
-            keyPress(Qt.Key_Super_L);
+            keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");
             tryCompare(launcherPanel, "highlightIndex", -1);
-            keyRelease(Qt.Key_Super_L);
+            keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
@@ -2047,11 +2048,11 @@ Rectangle {
             var shortcutHint = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint")
 
             compare(launcher.state, "");
-            keyPress(Qt.Key_Super_L);
+            keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
 
-            keyRelease(Qt.Key_Super_L);
+            keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "");
             tryCompare(shortcutHint, "visible", false);
         }
