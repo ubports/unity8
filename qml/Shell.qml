@@ -562,8 +562,7 @@ Item {
             shadeBackground: !tutorial.running
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
-            panelWidth: launcherSettings.overrideLauncherWidth ? units.gu(launcherSettings.launcherWidth)
-                            : (shell.usageScenario == "desktop" ? units.gu(10) : units.gu(8))
+            panelWidth: units.gu(launcherSettings.launcherWidth)
             lockedVisible: shell.usageScenario == "desktop" && !launcherSettings.autohideLauncher
 
             GSettings {
