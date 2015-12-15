@@ -104,6 +104,10 @@ Item {
             }
         } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
             d.altPressed = true;
+
+        // Adding MetaModifier here because that's what keyboards do. Pressing Super_L actually gives
+        // Super_L + MetaModifier. This helps to make sure we only invoke superPressed if no other
+        // Modifier is pressed too.
         } else if (((event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R) && event.modifiers === Qt.MetaModifier)
                     || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)
                     ) {
