@@ -2031,7 +2031,7 @@ Rectangle {
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
 
-            // No go back to the dash
+            // Now go back to the dash
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");
