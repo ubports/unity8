@@ -76,8 +76,8 @@ Item {
                                                             "hints": {},
                                                             "summary": "Cole Raby",
                                                             "body": "I did not expect it to be <b>that</b> late.",
-                                                            "icon": "../graphics/avatars/amanda.png",
-                                                            "secondaryIcon": "../graphics/applicationIcons/facebook.png",
+                                                            "icon": "../../tests/graphics/avatars/amanda.png",
+                                                            "secondaryIcon": "../../tests/graphics/applicationIcons/facebook.png",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
             mockModel.append(n)
@@ -90,7 +90,7 @@ Item {
                                                             "hints": {"x-canonical-non-shaped-icon": "true"},
                                                             "summary": "Contacts",
                                                             "body": "Synchronised contacts-database &amp; cloud-storage.",
-                                                            "icon": "../graphics/applicationIcons/contacts-app.png",
+                                                            "icon": "../../tests/graphics/applicationIcons/contacts-app.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
@@ -104,7 +104,7 @@ Item {
                                                             "hints": {"x-canonical-non-shaped-icon": "false"},
                                                             "summary": "Photo upload completed",
                                                             "body": "",
-                                                            "icon": "../graphics/applicationIcons/facebook.png",
+                                                            "icon": "../../tests/graphics/applicationIcons/facebook.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
@@ -118,7 +118,7 @@ Item {
                                                             "hints": {},
                                                             "summary": "Interactive notification",
                                                             "body": "This is a notification that can be clicked",
-                                                            "icon": "../graphics/avatars/anna_olsson.png",
+                                                            "icon": "../../tests/graphics/avatars/anna_olsson.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
             n.completed.connect(mockModel.onCompleted)
@@ -288,7 +288,7 @@ Item {
                     type: Notification.Ephemeral
                     summary: "Photo upload completed"
                     body: ""
-                    icon: "../graphics/applicationIcons/facebook.png"
+                    icon: "../../tests/graphics/applicationIcons/facebook.png"
                     secondaryIcon: ""
                     value: 0
                     rawActions: []
@@ -302,7 +302,7 @@ Item {
                     summary: "New comment successfully published"
                     body: ""
                     icon: ""
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    secondaryIcon: "../../tests/graphics/applicationIcons/facebook.png"
                     value: 0
                     rawActions: []
                 },
@@ -313,7 +313,7 @@ Item {
                             "sound-file": "dummy.ogg"}
                     summary: "Interactive notification"
                     body: "This is a notification that can be clicked"
-                    icon: "../graphics/avatars/amanda.png"
+                    icon: "../../tests/graphics/avatars/amanda.png"
                     secondaryIcon: ""
                     value: 0
                     rawActions: ["reply_id", "Dummy"]
@@ -325,7 +325,7 @@ Item {
                             "sound-file": "dummy.ogg"}
                     summary: "Bro Coly"
                     body: "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-                    icon: "../graphics/avatars/anna_olsson.png"
+                    icon: "../../tests/graphics/avatars/anna_olsson.png"
                     secondaryIcon: ""
                     value: 0
                     rawActions: ["accept_id", "Accept",
@@ -338,8 +338,8 @@ Item {
                             "sound-file": "dummy.ogg"}
                     summary: "Cole Raby"
                     body: "I did not expect it to be that late."
-                    icon: "../graphics/avatars/funky.png"
-                    secondaryIcon: "../graphics/applicationIcons/facebook.png"
+                    icon: "../../tests/graphics/avatars/funky.png"
+                    secondaryIcon: "../../tests/graphics/applicationIcons/facebook.png"
                     value: 0
                     rawActions: []
                 },

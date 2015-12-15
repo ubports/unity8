@@ -436,7 +436,7 @@ Rectangle {
             // Open an application and focus
             waitUntilApplicationWindowIsFullyVisible(app);
             ApplicationManager.focusApplication(app);
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
 
             notifications.model = mockNotificationsModel;
 
@@ -458,7 +458,7 @@ Rectangle {
             waitForRendering(notification);
 
             // Make sure activeFocus went away from the app window
-            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(app.session.lastSurface, "activeFocus", false);
             tryCompare(stage, "interactive", false);
 
             // Clicking the button should dismiss the notification and return focus
@@ -466,7 +466,7 @@ Rectangle {
             mouseClick(buttonAccept);
 
             // Make sure we're back to normal
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
             compare(stage.interactive, true, "Stages not interactive again after modal notification has closed");
         }
 
@@ -476,8 +476,8 @@ Rectangle {
                 hints: {"x-canonical-private-affirmative-tint": "true"},
                 summary: "Tom Ato",
                 body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-                icon: "../graphics/avatars/funky.png",
-                secondaryIcon: "../graphics/applicationIcons/facebook.png",
+                icon: "../../tests/graphics/avatars/funky.png",
+                secondaryIcon: "../../tests/graphics/applicationIcons/facebook.png",
                 actions: [{ id: "ok_id", label: "Ok"},
                     { id: "cancel_id", label: "Cancel"},
                     { id: "notreally_id", label: "Not really"},
@@ -798,7 +798,7 @@ Rectangle {
             var app = ApplicationManager.startApplication("dialer-app");
             waitUntilAppWindowIsFullyLoaded(app);
 
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
 
             // Drag the indicators panel half-open
             var touchX = shell.width / 2;
@@ -809,7 +809,7 @@ Rectangle {
                     true /* beginTouch */, false /* endTouch */);
             verify(indicators.partiallyOpened);
 
-            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(app.session.lastSurface, "activeFocus", false);
 
             // And finish getting it open
             touchFlick(indicators,
@@ -818,11 +818,11 @@ Rectangle {
                     false /* beginTouch */, true /* endTouch */);
             tryCompare(indicators, "fullyOpened", true);
 
-            tryCompare(app.session.surface, "activeFocus", false);
+            tryCompare(app.session.lastSurface, "activeFocus", false);
 
             dragToCloseIndicatorsPanel();
 
-            tryCompare(app.session.surface, "activeFocus", true);
+            tryCompare(app.session.lastSurface, "activeFocus", true);
         }
 
         function test_launchedAppHasActiveFocus_data() {
@@ -843,9 +843,9 @@ Rectangle {
             verify(webApp);
             waitUntilAppSurfaceShowsUp("webbrowser-app")
 
-            verify(webApp.session.surface);
+            verify(webApp.session.lastSurface);
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
         }
 
         function test_launchedAppKeepsActiveFocusOnUsageModeChange() {
@@ -856,9 +856,9 @@ Rectangle {
             verify(webApp);
             waitUntilAppSurfaceShowsUp("webbrowser-app")
 
-            verify(webApp.session.surface);
+            verify(webApp.session.lastSurface);
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
 
             shell.usageScenario = "desktop";
 
@@ -868,7 +868,7 @@ Rectangle {
                 verify(desktopWindow);
             }
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
 
             shell.usageScenario = "tablet";
 
@@ -878,7 +878,7 @@ Rectangle {
                 verify(desktopWindow);
             }
 
-            tryCompare(webApp.session.surface, "activeFocus", true);
+            tryCompare(webApp.session.lastSurface, "activeFocus", true);
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -999,7 +999,7 @@ Rectangle {
 
             var app = ApplicationManager.startApplication("dialer-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.session.surface !== null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.session.lastSurface !== null }, true);
 
             // Minimize the application we just launched
             swipeFromLeftEdge(shell.width * 0.75);
@@ -1436,9 +1436,9 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app3);
 
             // Do a quick alt-tab and see if focus changes
-            tryCompare(app3.session.surface, "activeFocus", true)
+            tryCompare(app3.session.lastSurface, "activeFocus", true)
             keyClick(Qt.Key_Tab, Qt.AltModifier)
-            tryCompare(app2.session.surface, "activeFocus", true)
+            tryCompare(app2.session.lastSurface, "activeFocus", true)
 
             var desktopSpread = findChild(shell, "spread")
 
@@ -1454,7 +1454,7 @@ Rectangle {
             tryCompare(desktopSpread, "state", "")
 
             // Focus should have switched back now
-            tryCompare(app3.session.surface, "activeFocus", true)
+            tryCompare(app3.session.lastSurface, "activeFocus", true)
         }
 
         function test_altTabWrapAround() {
@@ -1503,7 +1503,7 @@ Rectangle {
             tryCompare(desktopSpread, "state", "")
 
             // Make sure that after wrapping around once, we have the same one focused as at the beginning
-            tryCompare(focused.session.surface, "activeFocus", true)
+            tryCompare(focused.session.lastSurface, "activeFocus", true)
         }
 
         function test_altBackTabNavigation() {
@@ -1762,6 +1762,7 @@ Rectangle {
 
             if (!data.launcherLocked) {
                 revealLauncherByEdgePushWithMouse();
+                tryCompare(launcher, "x", 0);
                 waitForRendering(shell)
             }
 
@@ -1892,21 +1893,28 @@ Rectangle {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
 
+            // Add two main stage apps, the second in order to suspend the first.
+            // LibreOffice has isTouchApp set to false by our mocks.
             var app1 = ApplicationManager.startApplication("libreoffice");
             waitUntilAppWindowIsFullyLoaded(app1);
-            var app2 = ApplicationManager.startApplication("dialer-app");
+            var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
-            // Make sure app1 is unfocused but still running
-            compare(app1.session.surface.activeFocus, false);
-            compare(app1.isTouchApp, false); // sanity check our mock, which sets this for us
-            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+            // Sanity checking
+            compare(app1.stage, ApplicationInfoInterface.MainStage);
+            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            verify(!app1.isTouchApp);
+            verify(!app1.session.lastSurface.activeFocus);
+
+            // Make sure app1 is exempt with a requested suspend
+            verify(app1.exemptFromLifecycle);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
         function test_lifecyclePolicyExemption_data() {
             return [
-                {tag: "phone", formFactor: "phone", usageScenario: "phone", suspendsApps: true},
-                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet", suspendsApps: true}
+                {tag: "phone", formFactor: "phone", usageScenario: "phone"},
+                {tag: "tablet", formFactor: "tablet", usageScenario: "tablet"}
             ]
         }
 
@@ -1916,14 +1924,20 @@ Rectangle {
 
             GSettingsController.setLifecycleExemptAppids(["webbrowser-app"]);
 
+            // Add two main stage apps, the second in order to suspend the first
             var app1 = ApplicationManager.startApplication("webbrowser-app");
             waitUntilAppWindowIsFullyLoaded(app1);
-            var app2 = ApplicationManager.startApplication("dialer-app");
+            var app2 = ApplicationManager.startApplication("gallery-app");
             waitUntilAppWindowIsFullyLoaded(app2);
 
-            // Make sure app1 is unfocused but still running
-            compare(app1.session.surface.activeFocus, false);
-            compare(app1.requestedState, ApplicationInfoInterface.RequestedRunning);
+            // Sanity checking
+            compare(app1.stage, ApplicationInfoInterface.MainStage);
+            compare(app2.stage, ApplicationInfoInterface.MainStage);
+            verify(!app1.session.lastSurface.activeFocus);
+
+            // Make sure app1 is exempt with a requested suspend
+            verify(app1.exemptFromLifecycle);
+            compare(app1.requestedState, ApplicationInfoInterface.RequestedSuspended);
         }
 
         function test_switchToStagedForcesLegacyAppClosing_data() {

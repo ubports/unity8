@@ -181,14 +181,14 @@ Rectangle {
             waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
             compare(webbrowserApp.stage, ApplicationInfoInterface.MainStage);
-            tryCompare(webbrowserApp.session.surface, "activeFocus", true);
+            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", true);
 
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerCheckBox.appId);
             var dialerApp = ApplicationManager.findApplication(dialerCheckBox.appId);
             compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
-            tryCompare(dialerApp.session.surface, "activeFocus", true);
-            tryCompare(webbrowserApp.session.surface, "activeFocus", false);
+            tryCompare(dialerApp.session.lastSurface, "activeFocus", true);
+            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", false);
 
             // Tap on the main stage application and check if the focus
             // has been passed to it.
@@ -197,8 +197,8 @@ Rectangle {
             verify(webbrowserWindow);
             tap(webbrowserWindow);
 
-            tryCompare(dialerApp.session.surface, "activeFocus", false);
-            tryCompare(webbrowserApp.session.surface, "activeFocus", true);
+            tryCompare(dialerApp.session.lastSurface, "activeFocus", false);
+            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", true);
 
             // Now tap on the side stage application and check if the focus
             // has been passed back to it.
@@ -207,8 +207,8 @@ Rectangle {
             verify(dialerWindow);
             tap(dialerWindow);
 
-            tryCompare(dialerApp.session.surface, "activeFocus", true);
-            tryCompare(webbrowserApp.session.surface, "activeFocus", false);
+            tryCompare(dialerApp.session.lastSurface, "activeFocus", true);
+            tryCompare(webbrowserApp.session.lastSurface, "activeFocus", false);
         }
 
         function test_closeAppInSideStage() {

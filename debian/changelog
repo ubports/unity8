@@ -1,3 +1,44 @@
+unity8 (8.11+16.04.20151208.1-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Allow dragging launcher items with the quicklist open (LP: #1250861)
+  * Create ratings on demand instead of all at the same time (LP:
+    #1519898, #1492214)
+  * LVWPH: Process correctly section changes (LP: #1519893)
+  * Make sure that unfavoriting a scope gives us the next one
+  * Move images only used in tests to tests folder
+
+  [ Andrea Cimitan ]
+  * Add shadows to ubuntu store icon
+
+  [ Daniel d'Andrada ]
+  * MirSurfaceItem got a new property: fillMode (LP: #1497083)
+  * Session can have multiple surfaces now
+  * plugins/Cursor: Do not force loading a specific cursor size (LP:
+    #1517878)
+
+  [ Lukáš Tinkl ]
+  * Indicators convergence: use the "phone" profile everywhere (LP:
+    #1520492)
+
+  [ Michael Terry ]
+  * Let qtmir know which apps are exempt from the lifecycle management.
+    This way, it can manage its own wakelocks better (and stop
+    preventing the system from deep sleeping).
+
+  [ Michael Zanetti ]
+  * Use proper z ordering instead of app index for occlusion detection
+  * add some debug prints to the uinput backend
+  * drop the ignoredMice hack again (LP: #1521580)
+
+  [ Michał Sawicz ]
+  * Let qtmir know which apps are exempt from the lifecycle management.
+    This way, it can manage its own wakelocks better (and stop
+    preventing the system from deep sleeping).
+  * Update .pot file in debian/clean when in train
+
+ -- Gerry Boland <ci-train-bot@canonical.com>  Tue, 08 Dec 2015 15:37:58 +0000
+
 unity8 (8.11+16.04.20151126-0ubuntu2) xenial; urgency=medium
 
   * Rebuild against Qt 5.5.1.
