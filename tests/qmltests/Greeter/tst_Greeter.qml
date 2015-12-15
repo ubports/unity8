@@ -472,20 +472,6 @@ Item {
             compare(view.delayMinutes, 0);
         }
 
-        function test_forcedDelayWhileTimeChanges() {
-            greeterSettings.lockedOutTime = new Date().getTime();
-            resetLoader();
-            view = findChild(greeter, "testView");
-            verify(view.delayMinutes > 0);
-
-            // Fake a time change by moving lockedOutTime way forward so that
-            // the greeter will think the wall clock is too early for some
-            // reason (like NTP messing up).
-            greeterSettings.lockedOutTime = new Date().getTime() + 6000000;
-            wait(1000);
-            compare(view.delayMinutes, 0);
-        }
-
         function test_forcedDelayRoundTrip() {
             greeter.failedLoginsDelayAttempts = 1;
             greeter.failedLoginsDelayMinutes = 0.001; // make delay very short
