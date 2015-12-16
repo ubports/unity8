@@ -208,10 +208,11 @@ Item {
 
                         primaryItem: Rectangle {
                             color: "#F5F4F5"
-                            width: root.navigationTag != "" ? childrenRect.width + units.gu(2) : 0
-                            height: root.navigationTag != "" ? childrenRect.height + units.gu(1) : 0
+                            width: root.navigationTag != "" ? tagLabel.width + units.gu(2) : 0
+                            height: root.navigationTag != "" ? tagLabel.height + units.gu(1) : 0
                             radius: units.gu(0.5)
                             Label {
+                                id: tagLabel
                                 text: root.navigationTag
                                 anchors.centerIn: parent
                                 color: "#333333"
