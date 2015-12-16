@@ -360,17 +360,23 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateRanges();
-                    if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
-                        // Yeah, hackish :/
-                        if (scopeView.width > units.gu(45)) {
-                            if (scopeView.width >= units.gu(70)) {
-                                cardTool.cardWidth = units.gu(9);
-                            } else {
-                                cardTool.cardWidth = units.gu(10);
+                    if (scope && scope.id === "clickscope") {
+                        if (categoryId === "predefined" || categoryId === "local") {
+                            // Yeah, hackish :/
+                            if (scopeView.width > units.gu(45)) {
+                                if (scopeView.width >= units.gu(70)) {
+                                    cardTool.cardWidth = units.gu(9);
+                                } else {
+                                    cardTool.cardWidth = units.gu(10);
+                                }
                             }
+                            cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
+                            item.artShapeStyle = "icon";
+                        } else {
+                            // Should be ubuntu store icon
+                            item.artShapeStyle = "flat";
+                            item.backgroundShapeStyle = "shadow";
                         }
-                        cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
-                        item.artShapeStyle = "icon";
                     }
                     item.cardTool = cardTool;
                 }

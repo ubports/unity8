@@ -599,5 +599,18 @@ Item {
             expectFail("", "There has to be new cards after releasing the list is not moving anymore");
             verify(compareArrays(buttons3, buttons));
         }
+
+        function test_unfavoriteScope()
+        {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var header = findChild(dashContentList.currentItem, "scopePageHeader")
+            var favoriteAction = findChild(header, "favorite_action_button");
+            compare(dashContentList.currentIndex, 0);
+            compare(dashContentList.indexAt(dashContentList.width * 1.5, 0), 1);
+            var nextScopeId = dashContentList.itemAt(dashContentList.width * 1.5, 0).item.scope.id;
+            mouseClick(favoriteAction);
+            tryCompareFunction(function() { return dashContentList.currentItem.item.scope.id == nextScopeId; }, true);
+            compare(dashContentList.currentIndex, 0);
+        }
     }
 }
