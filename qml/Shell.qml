@@ -145,7 +145,7 @@ Item {
         finishStartUpTimer.start();
     }
 
-    LightDM{id: lightDM} // Provide backend acces
+    LightDM{id: lightDM} // Provide backend access
     VolumeControl {
         id: volumeControl
         indicators: panel.indicators
