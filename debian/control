@@ -32,9 +32,9 @@ Build-Depends: cmake,
                libunity-api-dev (>= 7.104),
                libusermetricsoutput1-dev,
 # Need those X11 libs touch emulation from mouse events in manual QML tests on a X11 desktop
-               libxcb1-dev,
-               libx11-dev
-               libxi-dev,
+               libxcb1-dev[!armhf],
+               libx11-dev[!armhf],
+               libxi-dev[!armhf],
 # End of X11 libs
                pkg-config,
                python3-all:any,
