@@ -139,7 +139,6 @@ Item {
 
             var activeApp = ApplicationManager.get(0);
             var inactiveApp = ApplicationManager.get(1);
-            wait(1000);
 
             touchFlick(phoneStage, startX, startY, endX, endY,
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
