@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
+import Ubuntu.Test 1.0 as UbuntuTest
 
 TestCase {
     id: testCase
@@ -453,7 +454,7 @@ TestCase {
      */
     function removeTimeConstraintsFromSwipeAreas(item) {
         if (UT.Util.isInstanceOf(item, "UCSwipeArea")) {
-            var privateSwipeArea = UT.Util.removeTimeConstraintsFromSwipeArea(item);
+            UbuntuTest.TestExtras.removeTimeConstraintsFromSwipeArea(item);
         } else {
             for (var i in item.children) {
                 removeTimeConstraintsFromSwipeAreas(item.children[i]);
