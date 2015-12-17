@@ -254,12 +254,12 @@ Item {
 
         function test_simUnavailableSkip() {
             MockQOfono.available = false;
-            goToPage("wifiPage");
+            goToPage("wifiPage", true);
         }
 
         function test_simNoModemsSkip() {
             MockQOfono.setModems([], [], []);
-            goToPage("wifiPage");
+            goToPage("wifiPage", true);
         }
 
         function test_simFirstSkip() {
