@@ -168,6 +168,7 @@ Item {
             objectName: "timeout"
             interval: 2000 // wizard pages shouldn't take long
             onTriggered: {
+                console.warn("Wizard page " + pageStack.currentPage.objectName + " skipped due to taking too long!!!");
                 pageStack.currentPage.skip = true;
                 pageStack.currentPage.skipValid = true;
             }
