@@ -104,7 +104,7 @@ LocalComponents.Page {
                 anchors {
                     left: parent.left
                     verticalCenter: parent.verticalCenter
-                    leftMargin: leftMargin
+                    leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
                 }
                 height: units.gu(2.5)
                 width: height
@@ -153,13 +153,15 @@ LocalComponents.Page {
         anchors {
             fill: content
             topMargin: customMargin
+            leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
+            rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
         }
 
         Label {
             id: label
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: leftMargin
+            anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
             font.weight: Font.Light
             color: "#68064d"
             wrapMode: Text.Wrap

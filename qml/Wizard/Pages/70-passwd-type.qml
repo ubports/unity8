@@ -59,6 +59,8 @@ LocalComponents.Page {
         id: column
         anchors.fill: content
         anchors.topMargin: customMargin
+        anchors.leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
+        anchors.rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
 
         ListView {
             id: selector
@@ -80,10 +82,9 @@ LocalComponents.Page {
                 divider.colorFrom: dividerColor
                 divider.colorTo: backgroundColor
                 Label {
-                    id: methodLabel
                     anchors.verticalCenter: parent.verticalCenter;
                     anchors.left: parent.left
-                    anchors.leftMargin: leftMargin
+                    anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
                     fontSize: "medium"
                     color: textColor
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
@@ -99,13 +100,15 @@ LocalComponents.Page {
                             return i18n.ctr("Label: Type of security method", "No lock code");
                         }
                     }
+                    width: parent.width
+                    wrapMode: Text.WordWrap
                 }
 
                 Image {
                     anchors {
-                        right: parent.right;
-                        verticalCenter: parent.verticalCenter;
-                        rightMargin: rightMargin
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                        rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
                     }
                     fillMode: Image.PreserveAspectFit
                     height: units.gu(1.5)

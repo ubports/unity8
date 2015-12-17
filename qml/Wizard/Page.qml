@@ -19,6 +19,8 @@ import Ubuntu.Components 1.3
 import Wizard 0.1
 
 Item {
+    readonly property real maximumContentWidth: units.gu(50)
+
     readonly property real buttonMargin: units.gu(3)
     readonly property real buttonWidth: (width - buttonMargin * 2) / 2 -
                                         buttonMargin / 2
@@ -27,9 +29,10 @@ Item {
 
     readonly property real topMargin: units.gu(11)
     readonly property real bottomMargin: units.gu(3)
-    readonly property real leftMargin: units.gu(3)
-    readonly property real rightMargin: units.gu(3)
+    readonly property real leftMargin: Math.max(units.gu(3), (width - maximumContentWidth) / 3)
+    readonly property real rightMargin: leftMargin
     readonly property real customMargin: units.gu(4) // margin for the custom (w/o title image) pages
+    readonly property real staticMargin: units.gu(3)
 
     // colors
     readonly property color backgroundColor: "#fdfdfd"
@@ -94,7 +97,7 @@ Item {
                 right: parent.right
                 bottom: parent.bottom
                 bottomMargin: bottomMargin
-                leftMargin: leftMargin + titleLabel.animatedMargin
+                leftMargin: staticMargin + titleLabel.animatedMargin
                 rightMargin: rightMargin
                 topMargin: titleLabel.animatedTopMargin
             }
@@ -191,7 +194,7 @@ Item {
             anchors {
                 left: parent.left
                 bottom: parent.bottom
-                leftMargin: leftMargin
+                leftMargin: staticMargin
                 verticalCenter: parent.verticalCenter
             }
             z: 1
@@ -209,7 +212,7 @@ Item {
             anchors {
                 right: parent.right
                 bottom: parent.bottom
-                rightMargin: rightMargin
+                rightMargin: staticMargin
                 verticalCenter: parent.verticalCenter
             }
             z: 1

@@ -73,9 +73,10 @@ LocalComponents.Page {
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: leftMargin
+                anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
                 anchors.right: image.left
-                anchors.rightMargin: rightMargin/2
+                anchors.rightMargin: units.gu(2)
+
                 Label {
                     id: cityLabel
                     text: displayName
@@ -99,7 +100,7 @@ LocalComponents.Page {
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
-                    rightMargin: rightMargin
+                    rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
                 }
                 fillMode: Image.PreserveAspectFit
                 height: units.gu(1.5)
@@ -120,6 +121,8 @@ LocalComponents.Page {
         anchors {
             fill: content
             topMargin: customMargin
+            leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
+            rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
         }
 
         LocalComponents.WizardTextField {
@@ -127,8 +130,8 @@ LocalComponents.Page {
             objectName: "tzFilter"
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: leftMargin
-            anchors.rightMargin: rightMargin
+            anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
+            anchors.rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
             placeholderText: i18n.tr("Enter your city")
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: {
@@ -150,7 +153,7 @@ LocalComponents.Page {
         }
 
         ListView {
-            id: tzList;
+            id: tzList
             objectName: "tzList"
             clip: true
             currentIndex: -1

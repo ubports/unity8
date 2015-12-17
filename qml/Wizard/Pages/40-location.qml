@@ -54,6 +54,8 @@ LocalComponents.Page {
         id: column
         anchors.fill: content
         anchors.topMargin: customMargin
+        anchors.leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
+        anchors.rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
 
         Item {
             id: hereCheckGroup
@@ -62,7 +64,7 @@ LocalComponents.Page {
                 right: parent.right
                 top: parent.top
             }
-            height: childrenRect.height
+            height: hereCheckLabel.height + hereTermsLabel.height
 
             Label {
                 id: hereCheckLabel
@@ -71,8 +73,8 @@ LocalComponents.Page {
                     left: parent.left
                     right: hereTermsCheck.left
                     top: parent.top
-                    leftMargin: leftMargin
-                    rightMargin: rightMargin/2
+                    leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
+                    rightMargin: units.gu(2)
                 }
                 lineHeight: 1.2
                 wrapMode: Text.WordWrap
@@ -90,8 +92,8 @@ LocalComponents.Page {
                     right: hereTermsCheck.left
                     top: hereCheckLabel.bottom
                     topMargin: units.gu(1)
-                    leftMargin: leftMargin
-                    rightMargin: rightMargin/2
+                    leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
+                    rightMargin: units.gu(2)
                 }
 
                 wrapMode: Text.WordWrap
@@ -116,7 +118,7 @@ LocalComponents.Page {
                 opacity: hereCheckLabel.checked ? 1 : 0
                 anchors.right: parent.right
                 anchors.verticalCenter: hereCheckLabel.verticalCenter
-                anchors.rightMargin: rightMargin
+                anchors.rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
             }
 
             MouseArea {
@@ -151,8 +153,8 @@ LocalComponents.Page {
                 right: parent.right
                 top: divider.bottom
                 topMargin: units.gu(3)
-                leftMargin: leftMargin
-                rightMargin: rightMargin/2
+                leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
+                rightMargin: units.gu(2)
             }
             text: i18n.tr("GPS only")
             wrapMode: Text.WordWrap
@@ -180,7 +182,7 @@ LocalComponents.Page {
             opacity: gpsCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: gpsCheckLabel.verticalCenter
-            anchors.rightMargin: rightMargin
+            anchors.rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
         }
 
         Rectangle {
@@ -201,8 +203,8 @@ LocalComponents.Page {
                 right: parent.right
                 top: divider2.bottom
                 topMargin: units.gu(3)
-                leftMargin: leftMargin
-                rightMargin: rightMargin/2
+                leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
+                rightMargin: units.gu(2)
             }
             wrapMode: Text.WordWrap
             color: textColor
@@ -230,7 +232,7 @@ LocalComponents.Page {
             opacity: nopeCheckLabel.checked ? 1 : 0
             anchors.right: parent.right
             anchors.verticalCenter: nopeCheckLabel.verticalCenter
-            anchors.rightMargin: rightMargin
+            anchors.rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
         }
 
         Rectangle {
@@ -250,8 +252,8 @@ LocalComponents.Page {
                 right: parent.right
                 top: divider3.bottom
                 topMargin: units.gu(4)
-                leftMargin: leftMargin
-                rightMargin: rightMargin
+                leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
+                rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
             }
             wrapMode: Text.Wrap
             text: i18n.tr("You can change it later in System Settings.")

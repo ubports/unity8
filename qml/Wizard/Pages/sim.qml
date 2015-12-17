@@ -66,8 +66,8 @@ LocalComponents.Page {
     Column {
         anchors {
             fill: content
-            leftMargin: leftMargin
-            rightMargin: rightMargin
+            leftMargin: staticMargin
+            rightMargin: staticMargin
         }
         spacing: units.gu(3)
 

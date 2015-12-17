@@ -88,62 +88,57 @@ LocalComponents.Page {
         onStopped: init();
     }
 
-    Column {
-        id: column
-        anchors.fill: content
+    ListView {
+        id: languagesListView
+        clip: true
+        snapMode: ListView.SnapToItem
 
-        ListView {
-            id: languagesListView
-            clip: true
-            snapMode: ListView.SnapToItem
+        anchors {
+            fill: content
+            leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
+            rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
+            topMargin: parent.width > maximumContentWidth ? parent.customMargin : 0
+        }
 
-            anchors {
-                left: parent.left
-                right: parent.right
+        model: plugin.languageNames
+
+        delegate: ListItem {
+            id: itemDelegate
+            objectName: "languageDelegate" + index
+            highlightColor: backgroundColor
+            readonly property bool isCurrent: index === ListView.view.currentIndex
+
+            Label {
+                id: langLabel
+                text: modelData
+
+                anchors {
+                    left: parent.left
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: languagesListView.anchors.leftMargin == 0 ? staticMargin : 0
+                }
+
+                fontSize: "medium"
+                font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
+                color: textColor
             }
 
-            height: column.height
-
-            model: plugin.languageNames
-
-            delegate: ListItem {
-                id: itemDelegate
-                objectName: "languageDelegate" + index
-                highlightColor: backgroundColor
-                readonly property bool isCurrent: index === ListView.view.currentIndex
-
-                Label {
-                    id: langLabel
-                    text: modelData
-
-                    anchors {
-                        left: parent.left
-                        verticalCenter: parent.verticalCenter
-                        leftMargin: leftMargin
-                    }
-
-                    fontSize: "medium"
-                    font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
-                    color: textColor
+            Image {
+                anchors {
+                    right: parent.right;
+                    verticalCenter: parent.verticalCenter;
+                    rightMargin: languagesListView.anchors.rightMargin == 0 ? staticMargin : 0
                 }
+                fillMode: Image.PreserveAspectFit
+                height: units.gu(1.5)
 
-                Image {
-                    anchors {
-                        right: parent.right;
-                        verticalCenter: parent.verticalCenter;
-                        rightMargin: rightMargin
-                    }
-                    fillMode: Image.PreserveAspectFit
-                    height: units.gu(1.5)
+                source: "data/Tick@30.png"
+                visible: itemDelegate.isCurrent
+            }
 
-                    source: "data/Tick@30.png"
-                    visible: itemDelegate.isCurrent
-                }
-
-                onClicked: {
-                    languagesListView.currentIndex = index;
-                    i18n.language = plugin.languageCodes[index];
-                }
+            onClicked: {
+                languagesListView.currentIndex = index;
+                i18n.language = plugin.languageCodes[index];
             }
         }
     }
