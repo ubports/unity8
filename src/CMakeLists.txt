@@ -38,9 +38,6 @@ target_link_libraries(${SHELL_APP} ${NEEDED_LIBS_LDFLAGS})
 
 target_link_libraries(${SHELL_APP} UbuntuGestures connectivity-qt1)
 
-# For it to find libUbuntuGestures.so
-set_target_properties(${SHELL_APP} PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
-
 # install binaries
 install(TARGETS ${SHELL_APP}
      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
