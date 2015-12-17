@@ -2,7 +2,6 @@ pkg_check_modules(CONNECTIVITY REQUIRED connectivity-qt1)
 
 include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/libs/UbuntuGestures
     ${CONNECTIVITY_INCLUDE_DIRS}
 )
 
