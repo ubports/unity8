@@ -18,6 +18,7 @@
 #define MOCK_MIR_SURFACE_H
 
 #include <QObject>
+#include <QTimer>
 #include <QUrl>
 #include <QHash>
 
@@ -33,6 +34,7 @@ class MirSurface : public unity::shell::application::MirSurfaceInterface
     Q_PROPERTY(int width READ width NOTIFY widthChanged)
     Q_PROPERTY(int height READ height NOTIFY heightChanged)
     Q_PROPERTY(bool activeFocus READ activeFocus NOTIFY activeFocusChanged)
+    Q_PROPERTY(bool slowToResize READ isSlowToResize WRITE setSlowToResize NOTIFY slowToResizeChanged)
 
 public:
     MirSurface(const QString& name,
@@ -77,6 +79,9 @@ public:
     int width() const;
     int height() const;
 
+    bool isSlowToResize() const;
+    void setSlowToResize(bool value);
+
     /////
     // internal mock stuff
 
@@ -94,13 +99,18 @@ Q_SIGNALS:
     void orientationAngleChanged(Mir::OrientationAngle angle);
     void widthChanged();
     void heightChanged();
+    void slowToResizeChanged();
 
     ////
     // internal mock stuff
     void screenshotUrlChanged(QUrl);
     void activeFocusChanged(bool);
 
+private Q_SLOTS:
+    void applyDelayedResize();
+
 private:
+    void doResize(int width, int height);
     void updateVisibility();
 
     const QString m_name;
@@ -114,6 +124,12 @@ private:
     bool m_activeFocus;
     int m_width;
     int m_height;
+
+    bool m_slowToResize;
+    QTimer m_delayedResizeTimer;
+    QSize m_delayedResize;
+    QSize m_pendingResize;
+
     struct View {
         bool visible;
     };

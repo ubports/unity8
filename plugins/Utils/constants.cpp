@@ -19,7 +19,7 @@
 Constants::Constants(QObject *parent)
    : QObject(parent)
 {
-    if (qgetenv("QT_LOAD_TESTABILITY").isEmpty()) {
+    if (qEnvironmentVariableIsEmpty("QT_LOAD_TESTABILITY")) {
         m_indicatorValueTimeout = 30000;
     } else {
         m_indicatorValueTimeout = 5000;

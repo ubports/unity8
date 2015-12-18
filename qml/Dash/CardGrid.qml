@@ -24,6 +24,8 @@ DashRenderer {
         if (!cardTool || !cardTool.template || typeof cardTool.template["collapsed-rows"] != "number") return 2;
         return cardTool.template["collapsed-rows"];
     }
+    property string artShapeStyle: "inset";
+    property string backgroundShapeStyle: "inset";
 
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
@@ -69,6 +71,8 @@ DashRenderer {
                     item.components = Qt.binding(function() { return cardTool.components; });
                     item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                     item.scopeStyle = root.scopeStyle;
+                    item.artShapeStyle = root.artShapeStyle;
+                    item.backgroundShapeStyle = root.backgroundShapeStyle;
                 }
                 Connections {
                     target: loader.item

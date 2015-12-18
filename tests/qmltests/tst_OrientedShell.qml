@@ -60,6 +60,10 @@ Rectangle {
         deviceFilter: InputInfo.Mouse
     }
     InputDeviceModel {
+        id: touchpadModel
+        deviceFilter: InputInfo.TouchPad
+    }
+    InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
     }
@@ -350,6 +354,23 @@ Rectangle {
             }
             Row {
                 Button {
+                    text: "Add touchpad"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        MockInputDeviceBackend.addMockDevice("/touchpad" + touchpadModel.count, InputInfo.TouchPad)
+                    }
+                }
+                Button {
+                    text: "Remove touchpad"
+                    activeFocusOnPress: false
+                    onClicked: {
+                        MockInputDeviceBackend.removeDevice("/touchpad" + (touchpadModel.count - 1))
+                    }
+                }
+            }
+
+            Row {
+                Button {
                     text: "Add kbd"
                     activeFocusOnPress: false
                     onClicked: {
@@ -465,7 +486,7 @@ Rectangle {
             compare(dashApp.supportedOrientations, Qt.PrimaryOrientation);
             compare(dashApp.stage, ApplicationInfoInterface.MainStage);
 
-            tryCompareFunction(function(){return dashApp.session.surface != null;}, true);
+            tryCompareFunction(function(){return dashApp.session.lastSurface != null;}, true);
             verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
@@ -542,7 +563,7 @@ Rectangle {
 
             waitUntilAppSurfaceShowsUp("camera-app")
 
-            var cameraSurface = cameraApp.session.surface;
+            var cameraSurface = cameraApp.session.lastSurface;
             verify(cameraSurface);
 
             var focusChangedSpy = signalSpy;
@@ -943,9 +964,9 @@ Rectangle {
             verify(gmailApp);
             waitUntilAppSurfaceShowsUp("gmail-webapp")
 
-            verify(gmailApp.session.surface);
+            verify(gmailApp.session.lastSurface);
 
-            tryCompare(gmailApp.session.surface, "activeFocus", true);
+            tryCompare(gmailApp.session.lastSurface, "activeFocus", true);
         }
 
         function test_launchLandscapeOnlyAppOverPortraitOnlyDashThenSwitchToDash() {
@@ -1000,6 +1021,12 @@ Rectangle {
             MockInputDeviceBackend.removeDevice("/mouse0");
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", false);
+
+            MockInputDeviceBackend.addMockDevice("/touchpad0", InputInfo.TouchPad);
+            tryCompare(shell, "usageScenario", "desktop");
+
+            MockInputDeviceBackend.removeDevice("/touchpad0");
+            tryCompare(shell, "usageScenario", "phone");
         }
 
         /*
@@ -1324,7 +1351,7 @@ Rectangle {
 
         // expectedAngle is in orientedShell's coordinate system
         function checkAppSurfaceOrientation(item, app, expectedAngle) {
-            var surface = app.session.surface;
+            var surface = app.session.lastSurface;
             if (!surface) {
                 console.warn("no surface");
                 return false;
@@ -1412,7 +1439,7 @@ Rectangle {
             var app = ApplicationManager.findApplication(appId);
             verify(app);
 
-            var surface = app.session.surface;
+            var surface = app.session.lastSurface;
             verify(surface);
 
             var surfaceItem = findSurfaceItem(appWindow, surface);

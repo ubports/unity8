@@ -28,6 +28,11 @@ FocusScope {
 
     readonly property alias highlightedIndex: spreadRepeater.highlightedIndex
 
+    function show() {
+        spreadContainer.animateIn = true;
+        root.state = "altTab";
+    }
+
     onFocusChanged: {
         // When the spread comes active, we want to keep focus to the input handler below
         // Make sure nothing inside the ApplicationWindow grabs our focus!
@@ -515,23 +520,4 @@ FocusScope {
         }
 
     ]
-
-    MouseArea {
-        id: rightEdgePushArea
-        anchors {
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
-        }
-        // TODO: Make this a push to edge thing like the launcher when we can,
-        // for now, yes, we want 1 pixel, regardless of the scaling
-        width: 1
-        hoverEnabled: true
-        onContainsMouseChanged: {
-            if (containsMouse) {
-                spreadContainer.animateIn = true;
-                root.state = "altTab";
-            }
-        }
-    }
 }

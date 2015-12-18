@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-04 15:02+0000\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-04-23 12:59+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-21 05:34+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:45+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -54,72 +54,72 @@ msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "Please wait %1 minute and then try again…"
 msgstr[1] "Please wait %1 minutes and then try again…"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Log out"
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "Are you sure you want to log out?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Lock"
 
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Log Out"
 
-#: qml/Components/Dialogs.qml:133 qml/Components/Dialogs.qml:166
-#: qml/Components/Dialogs.qml:225
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "Cancel"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Shut down"
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "Are you sure you want to shut down?"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Reboot"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Shut down"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Reboot"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "Are you sure you want to reboot?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "No"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "Yes"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Power"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -127,12 +127,12 @@ msgstr ""
 "Are you sure you would like\n"
 "to power off?"
 
-#: qml/Components/Dialogs.qml:207
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Power off"
 
-#: qml/Components/Dialogs.qml:216
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Restart"
@@ -148,6 +148,30 @@ msgstr "Emergency Call"
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "OK"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -172,15 +196,15 @@ msgstr "Remove from Favourites"
 msgid "Add to Favorites"
 msgstr "Add to Favourites"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "See less"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "See all"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Search"
@@ -208,7 +232,7 @@ msgstr "Add a review"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Preview Share Item"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -236,7 +260,7 @@ msgstr "Also installed"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr ""
+msgstr "Your device is now connected to an external display."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -384,7 +408,7 @@ msgstr "Failed, tap to retry"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Send"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -394,7 +418,7 @@ msgstr "Reply"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Call back"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -404,14 +428,6 @@ msgstr "Unlock SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "This action does different things for different apps"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Tap here to finish."
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Open special menus"
@@ -420,14 +436,18 @@ msgstr "Open special menus"
 msgid "Swipe up from the bottom edge."
 msgstr "Swipe up from the bottom edge."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "This action does different things for different apps"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Tap here to finish."
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Tap here to continue."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "These are the shortcuts to favourite apps"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -436,6 +456,10 @@ msgstr "Open the launcher"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Short swipe from the left edge."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "These are the shortcuts to favourite apps"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"

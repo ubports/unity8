@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-04 15:02+0000\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-07-11 15:43+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-11-21 05:34+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:45+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -54,72 +54,72 @@ msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
 msgstr[0] "لطفاُ %1 دقیقه صبر نموده و سپس مجدّداً تلاش نمایید…"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "خروج از حساب"
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "مطمئنید که می‌خواهید از حساب خارج شوید"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "قفل"
 
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:133 qml/Components/Dialogs.qml:166
-#: qml/Components/Dialogs.qml:225
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "لغو"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "خاموش کردن"
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "مطمئنید که می‌خواهید خاموش کنید؟"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "راه‌اندازی دوباره"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "خاموش"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "راه‌اندازی دوباره"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "مطمئنید که می‌خواهید مجدّداً راه‌اندازی کنسد؟"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "خیر"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "بله"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "انرژی"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -127,12 +127,12 @@ msgstr ""
 "آیا مطمئن هستید که\n"
 "می‌خواهید خاموش کنید؟"
 
-#: qml/Components/Dialogs.qml:207
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "خاموش کردن"
 
-#: qml/Components/Dialogs.qml:216
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "راه‌اندازی دوباره"
@@ -148,6 +148,31 @@ msgstr "تماس اضطراری"
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "قبول"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr "کاره‌هایی که ممکن است دادهٔ ذخیره نشده داشته باشند:"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr ""
+"دوباره داک کنید. برای ادامه، کارتان را ذخیره کرده و این کاره‌ها را ببندید."
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr "همین الآن (داده‌های ذخیره نشده، ار بین خواهند رفت)."
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr "قبول، دوباره وصل خواهم کرد"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr "هم‌اکنون دوباره وصل شود"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr "بستن همه"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -172,15 +197,15 @@ msgstr "برداشتن از برگزیده‌ها"
 msgid "Add to Favorites"
 msgstr "افزودن به برگزیده‌ها"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "کم‌تر ببینید"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "دیدن همه"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "جست‌وجو"
@@ -208,7 +233,7 @@ msgstr "افزودن یک بازبینی"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "پیش‌نمای مورد هم‌رسانی"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -236,7 +261,7 @@ msgstr "هم‌چنین نصب شده"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr ""
+msgstr "افزاره‌تان اکنون به یک نمایشگر خارجی وصل شده است."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -381,7 +406,7 @@ msgstr "شکست خورد، برای تلاش دوباره ضربه بزنید"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "ارسال"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -391,7 +416,7 @@ msgstr "پاسخ دادن"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "پاسخ تماس"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -401,14 +426,6 @@ msgstr "باز کردن قفل سیم‌کارت"
 msgid "Roaming"
 msgstr "رومینگ"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "این عمل برای اپ‌های مختلف، کارهای متفاوتی انجام می‌دهد"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "برای پایان این‌جا را بزنید"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "باز کردن فهرست‌های مخصوص"
@@ -417,14 +434,18 @@ msgstr "باز کردن فهرست‌های مخصوص"
 msgid "Swipe up from the bottom edge."
 msgstr "از لبه‌ی پایینی به سمت بالا بکشید."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "این عمل برای اپ‌های مختلف، کارهای متفاوتی انجام می‌دهد"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "برای پایان این‌جا را بزنید"
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "برای ادامه این‌جا را بزنید"
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "این‌ها میان‌برهایی به برنامه‌های برگزیده هستند"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -433,6 +454,10 @@ msgstr "گشودن اجراگر"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "از لبه‌ی چپ، کوتاه بکشید."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "این‌ها میان‌برهایی به برنامه‌های برگزیده هستند"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"

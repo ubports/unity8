@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-04 15:02+0000\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-07-16 10:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-11-21 05:34+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 "Language: gd\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -62,72 +62,72 @@ msgstr[1] "Fuirich ort %1 dhiog 's feuch ris a-rithist an uairsin…"
 msgstr[2] "Fuirich ort %1 diogan 's feuch ris a-rithist an uairsin…"
 msgstr[3] "Fuirich ort %1 diog 's feuch ris a-rithist an uairsin…"
 
-#: qml/Components/Dialogs.qml:116
+#: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
 msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:117
+#: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
 msgstr "A bheil thu cinnteach gu bheil thu airson clàradh a-mach?"
 
-#: qml/Components/Dialogs.qml:119
+#: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
 msgstr "Glais"
 
-#: qml/Components/Dialogs.qml:126
+#: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Clàraich a-mach"
 
-#: qml/Components/Dialogs.qml:133 qml/Components/Dialogs.qml:166
-#: qml/Components/Dialogs.qml:225
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
+#: qml/Components/Dialogs.qml:253
 msgid "Cancel"
 msgstr "Sguir dheth"
 
-#: qml/Components/Dialogs.qml:145
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
 msgstr "Dùin sìos"
 
-#: qml/Components/Dialogs.qml:146
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
 msgstr "A bheil thu cinnteach gu bheil thu airson a dhùnadh sìos?"
 
-#: qml/Components/Dialogs.qml:148
+#: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
 msgstr "Ath-thòisich an siostam"
 
-#: qml/Components/Dialogs.qml:157
+#: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Dùin sìos"
 
-#: qml/Components/Dialogs.qml:179
+#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Ath-thòisich an siostam"
 
-#: qml/Components/Dialogs.qml:180
+#: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
 msgstr "A bheil thu cinnteach gu bheil thu airson tòiseachadh às ùr?"
 
-#: qml/Components/Dialogs.qml:182
+#: qml/Components/Dialogs.qml:210
 msgid "No"
 msgstr "Chan eil"
 
-#: qml/Components/Dialogs.qml:189
+#: qml/Components/Dialogs.qml:217
 msgid "Yes"
 msgstr "Tha"
 
-#: qml/Components/Dialogs.qml:204
+#: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Cumhachd"
 
-#: qml/Components/Dialogs.qml:205
+#: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -135,12 +135,12 @@ msgstr ""
 "A bheil thu cinnteach gu bheil thu\n"
 "airson a' chumhachd a chur dheth?"
 
-#: qml/Components/Dialogs.qml:207
+#: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Cuir a' chumhachd dheth"
 
-#: qml/Components/Dialogs.qml:216
+#: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Ath-thòisich"
@@ -156,6 +156,30 @@ msgstr "Gairm èiginn"
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
 msgstr "Ceart ma-thà"
+
+#: qml/Components/ModeSwitchWarningDialog.qml:32
+msgid "Apps may have unsaved data:"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:57
+msgid "Re-dock, save your work and close these apps to continue."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:63
+msgid "Or force close now (unsaved data will be lost)."
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:75
+msgid "OK, I will reconnect"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:76
+msgid "Reconnect now!"
+msgstr ""
+
+#: qml/Components/ModeSwitchWarningDialog.qml:88
+msgid "Close all"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -180,15 +204,15 @@ msgstr "Thoir air falbh o na h-annsachdan"
 msgid "Add to Favorites"
 msgstr "Cuir ris na h-annsachdan"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Lorg"
@@ -420,14 +444,6 @@ msgstr "Thoir a' ghlas far an SIM"
 msgid "Roaming"
 msgstr "Air fàrsan"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Nì seo diofar rudan do dhiofar aplacaidean"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Thoir gnogag an-seo gus a choileanadh."
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Fosgail na clàran-taice sònraichte"
@@ -436,14 +452,18 @@ msgstr "Fosgail na clàran-taice sònraichte"
 msgid "Swipe up from the bottom edge."
 msgstr "Dèan grad-shlaighdeadh a-nìos on oir."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Nì seo diofar rudan do dhiofar aplacaidean"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Thoir gnogag an-seo gus a choileanadh."
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Thoir gnogag an-seo gus leantainn air adhart."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Seo na h-ath-ghoiridean ris na h-aplacaidean as fhearr leat"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -452,6 +472,10 @@ msgstr "Fosgail an lòinsear"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Grad-shlaighdeadh goirid on oir chlì."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Seo na h-ath-ghoiridean ris na h-aplacaidean as fhearr leat"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
