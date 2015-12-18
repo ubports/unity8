@@ -165,7 +165,7 @@ LocalComponents.Page {
                 top: divider.bottom
             }
 
-            height: column.height - searchField.height - customMargin - topMargin - divider.height
+            height: column.height - searchField.height - column.anchors.topMargin - divider.height
             model: tzFilterModel
             delegate: tzComponent
         }

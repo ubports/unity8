@@ -147,7 +147,11 @@ LocalComponents.Page {
                     else
                         pageStack.next(); // got the password already, go next page
                 } else if (method === UbuntuSecurityPrivacyPanel.Passcode) { // passcode
-                    pageStack.load(Qt.resolvedUrl("passcode-set.qml"));
+                    if (desktopLook) {
+                        pageStack.load(Qt.resolvedUrl("passcode-desktop.qml"));
+                    } else {
+                        pageStack.load(Qt.resolvedUrl("passcode-set.qml"));
+                    }
                 } else { //swipe
                     pageStack.next();
                 }
