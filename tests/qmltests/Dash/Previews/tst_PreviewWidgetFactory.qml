@@ -75,21 +75,21 @@ Rectangle {
 
         function test_mapping_data() {
             return [
-                { tag: "Actions", data: { type: "actions" }, source: "PreviewActions.qml" },
-                { tag: "Audio", data: { type: "audio" }, source: "PreviewAudioPlayback.qml" },
+                { tag: "Actions", data: { type: "actions" }, source: "PreviewActions.qml", expanded: true },
+                { tag: "Audio", data: { type: "audio" }, source: "PreviewAudioPlayback.qml", expanded: true },
                 { tag: "Comment", data: { type: "comment" }, source: "PreviewComment.qml", expanded: true },
                 { tag: "Comment Input", data: { type: "comment-input" }, source: "PreviewCommentInput.qml", expanded: true },
-                { tag: "Expandable", data: { type: "expandable" }, source: "PreviewExpandable.qml" },
-                { tag: "Gallery", data: { type: "gallery" }, source: "PreviewImageGallery.qml" },
-                { tag: "Header", data: { type: "header" }, source: "PreviewHeader.qml" },
-                { tag: "Image", data: { type: "image" }, source: "PreviewZoomableImage.qml" },
-                { tag: "Progress", data: { type: "progress" }, source: "PreviewProgress.qml" },
-                { tag: "Rating Input", data: { type: "rating-input" }, source: "PreviewRatingInput.qml" },
-                { tag: "Rating Display", data: { type: "reviews" }, source: "PreviewRatingDisplay.qml" },
-                { tag: "Table", data: { type: "table" }, source: "PreviewTable.qml" },
-                { tag: "Text", data: { type: "text" }, source: "PreviewTextSummary.qml" },
-                { tag: "Video", data: { type: "video" }, source: "PreviewInlineVideo.qml" },
-                { tag: "Video", data: { type: "video", source: "http://demo" }, source: "PreviewVideoPlayback.qml" },
+                { tag: "Expandable", data: { type: "expandable" }, source: "PreviewExpandable.qml", expanded: false },
+                { tag: "Gallery", data: { type: "gallery" }, source: "PreviewImageGallery.qml", expanded: true },
+                { tag: "Header", data: { type: "header" }, source: "PreviewHeader.qml", expanded: true },
+                { tag: "Image", data: { type: "image" }, source: "PreviewZoomableImage.qml", expanded: true },
+                { tag: "Progress", data: { type: "progress" }, source: "PreviewProgress.qml", expanded: true },
+                { tag: "Rating Input", data: { type: "rating-input" }, source: "PreviewRatingInput.qml", expanded: true },
+                { tag: "Rating Display", data: { type: "reviews" }, source: "PreviewRatingDisplay.qml", expanded: true },
+                { tag: "Table", data: { type: "table" }, source: "PreviewTable.qml", expanded: true },
+                { tag: "Text", data: { type: "text" }, source: "PreviewTextSummary.qml", expanded: true },
+                { tag: "Video", data: { type: "video" }, source: "PreviewInlineVideo.qml", expanded: true },
+                { tag: "Video", data: { type: "video", source: "http://demo" }, source: "PreviewVideoPlayback.qml", expanded: true },
             ];
         }
 
