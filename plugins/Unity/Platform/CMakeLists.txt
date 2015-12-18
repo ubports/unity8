@@ -1,3 +1,5 @@
+find_package(Qt5DBus REQUIRED)
+
 set(platformplugin_SRCS
     platform.cpp
     plugin.cpp)

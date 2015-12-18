@@ -21,7 +21,7 @@ macro(indicator_test TEST)
             ${TEST}Test.cpp
             ${test_ADDITIONAL_CPPS}
         )
-    qt5_use_modules(${TEST}Exec Test Core Qml)
+    qt5_use_modules(${TEST}Exec Test Core Qml DBus)
     target_link_libraries(${TEST}Exec
         ${test_ADDITIONAL_LIBS}
         ${GLIB_LIBRARIES}

@@ -38,7 +38,7 @@ class UNITYINDICATORS_EXPORT IndicatorsModel : public QAbstractListModel
 
 public:
 
-    IndicatorsModel(QObject *parent=0);
+    IndicatorsModel(QObject *parent=nullptr);
     ~IndicatorsModel();
 
     Q_INVOKABLE void load();

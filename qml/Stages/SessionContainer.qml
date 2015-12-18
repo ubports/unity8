@@ -37,7 +37,7 @@ FocusScope {
         id: _surfaceContainer
         requestedWidth: root.requestedWidth
         requestedHeight: root.requestedHeight
-        surface: session ? session.surface : null
+        surface: session ? session.lastSurface : null
     }
 
     // SurfaceContainer size drives SessionContainer size
@@ -110,13 +110,13 @@ FocusScope {
         State {
             name: "childSession"
             when: root.session && root.session.parentSession !== null && root.session.live
-                    && !root.session.surface
+                    && !root.session.lastSurface
         },
 
         State {
             name: "childSessionReady"
             when: root.session && root.session.parentSession !== null && root.session.live
-                    && root.session.surface !== null
+                    && root.session.lastSurface !== null
         },
 
         State {

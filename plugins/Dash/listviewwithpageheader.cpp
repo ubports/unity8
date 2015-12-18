@@ -768,6 +768,37 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
     return sectionItem;
 }
 
+void ListViewWithPageHeader::updateSectionItem(int modelIndex)
+{
+    ListItem *item = itemAtIndex(modelIndex);
+    if (item) {
+        const QString sectionText = m_delegateModel->stringValue(modelIndex, m_sectionProperty);
+
+        bool needSectionHeader = true;
+        // if it is the same section as the previous item need to drop the section
+        if (modelIndex > 0) {
+            const QString prevSection = m_delegateModel->stringValue(modelIndex - 1, m_sectionProperty);
+            if (sectionText == prevSection) {
+                needSectionHeader = false;
+            }
+        }
+
+        if (needSectionHeader) {
+            if (!item->sectionItem()) {
+                item->setSectionItem(getSectionItem(sectionText));
+            } else {
+                QQmlContext *context = QQmlEngine::contextForObject(item->sectionItem())->parentContext();
+                context->setContextProperty(QStringLiteral("section"), sectionText);
+            }
+        } else {
+            if (item->sectionItem()) {
+                item->sectionItem()->deleteLater();
+                item->setSectionItem(nullptr);
+            }
+        }
+    }
+}
+
 bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal bufferTo)
 {
 //     qDebug() << "ListViewWithPageHeader::removeNonVisibleItems" << bufferFrom << bufferTo;
@@ -1053,15 +1084,11 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     }
 
     Q_FOREACH(const QQmlChangeSet::Change change, changeSet.changes()) {
-//         qDebug() << "ListViewWithPageHeader::onModelUpdated Change" << change.index << change.count;
-        for (int i = change.index; i < change.count; ++i) {
-            ListItem *item = itemAtIndex(i);
-            if (item && item->sectionItem()) {
-                QQmlContext *context = QQmlEngine::contextForObject(item->sectionItem())->parentContext();
-                const QString sectionText = m_delegateModel->stringValue(i, m_sectionProperty);
-                context->setContextProperty(QStringLiteral("section"), sectionText);
-            }
+        for (int i = change.start(); i < change.end(); ++i) {
+            updateSectionItem(i);
         }
+        // Also update the section header for the next item after the change since it may be influenced
+        updateSectionItem(change.end());
     }
 
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
