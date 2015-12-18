@@ -59,8 +59,8 @@ LocalComponents.Page {
         id: column
         anchors.fill: content
         anchors.topMargin: customMargin
-        anchors.leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
-        anchors.rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
+        anchors.leftMargin: desktopLook ? parent.leftMargin : 0
+        anchors.rightMargin: desktopLook ? parent.rightMargin : 0
 
         ListView {
             id: selector

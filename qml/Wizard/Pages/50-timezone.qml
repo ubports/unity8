@@ -121,8 +121,8 @@ LocalComponents.Page {
         anchors {
             fill: content
             topMargin: customMargin
-            leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
-            rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
+            leftMargin: desktopLook ? parent.leftMargin : 0
+            rightMargin: desktopLook ? parent.rightMargin : 0
         }
 
         LocalComponents.WizardTextField {

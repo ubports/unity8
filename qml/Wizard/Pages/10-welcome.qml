@@ -95,9 +95,9 @@ LocalComponents.Page {
 
         anchors {
             fill: content
-            leftMargin: parent.width > maximumContentWidth ? parent.leftMargin : 0
-            rightMargin: parent.width > maximumContentWidth ? parent.rightMargin : 0
-            topMargin: parent.width > maximumContentWidth ? parent.customMargin : 0
+            leftMargin: desktopLook ? parent.leftMargin : 0
+            rightMargin: desktopLook ? parent.rightMargin : 0
+            topMargin: desktopLook ? parent.customMargin : 0
         }
 
         model: plugin.languageNames

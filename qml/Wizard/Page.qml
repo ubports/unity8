@@ -20,6 +20,7 @@ import Wizard 0.1
 
 Item {
     readonly property real maximumContentWidth: units.gu(50)
+    readonly property bool desktopLook: width > maximumContentWidth
 
     readonly property real buttonMargin: units.gu(3)
     readonly property real buttonWidth: (width - buttonMargin * 2) / 2 -
@@ -31,7 +32,7 @@ Item {
     readonly property real bottomMargin: units.gu(3)
     readonly property real leftMargin: Math.max(units.gu(3), (width - maximumContentWidth) / 3)
     readonly property real rightMargin: leftMargin
-    readonly property real customMargin: units.gu(4) // margin for the custom (w/o title image) pages
+    readonly property real customMargin: desktopLook ? units.gu(11) : units.gu(4) // margin for the content
     readonly property real staticMargin: units.gu(3)
 
     // colors
