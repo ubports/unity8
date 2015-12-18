@@ -181,6 +181,11 @@ Item {
         onActivated: { launcher.fadeOut(); shell.showHome(); }
     }
 
+    GSettings {
+        id: settings
+        schema.id: "com.canonical.Unity8"
+    }
+
     Item {
         id: stages
         objectName: "stages"
@@ -563,12 +568,7 @@ Item {
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(launcherSettings.launcherWidth)
-            lockedVisible: shell.usageScenario == "desktop" && !launcherSettings.autohideLauncher
-
-            GSettings {
-                id: launcherSettings
-                schema.id: "com.canonical.Unity8"
-            }
+            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher
 
             onShowDashHome: showHome()
             onDash: showDash()
