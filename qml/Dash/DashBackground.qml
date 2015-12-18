@@ -16,9 +16,10 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import Ubuntu.Thumbnailer 0.1
 
 Image {
-    source: "graphics/paper.png"
+    source: "image://thumbnailer/" + Qt.resolvedUrl("graphics/paper.png").substr(7) // 7 is file://
     fillMode: Image.PreserveAspectCrop
     horizontalAlignment: Image.AlignRight
     verticalAlignment: Image.AlignTop
