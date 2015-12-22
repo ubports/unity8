@@ -51,6 +51,7 @@ LocalComponents.Page {
             if (detectedLang === code) {
                 languagesListView.currentIndex = i;
                 languagesListView.positionViewAtIndex(i, ListView.Center);
+                i18n.language = plugin.languageCodes[i];
                 break;
             }
         }
