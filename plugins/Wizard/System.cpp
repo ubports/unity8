@@ -106,5 +106,6 @@ void System::updateSessionLocale(const QString &locale)
                                      initctl stop smart-scopes-proxy; \
                                      initctl emit --no-wait indicator-services-start; \
                                      initctl restart --no-wait maliit-server; \
+                                     initctl restart --no-wait indicator-messages; \
                                      initctl restart --no-wait unity8-dash\""));
 }
