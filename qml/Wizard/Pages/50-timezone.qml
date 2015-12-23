@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
 import Wizard 0.1
 import Ubuntu.SystemSettings.TimeDate 1.0
@@ -32,6 +33,36 @@ LocalComponents.Page {
 
     // for testing
     readonly property alias tdModule: timeDatePanel
+
+    function highlightTimezone(offset) {
+        highlightImage.source = "file:/usr/share/libtimezonemap/ui/timezone_" + offset + ".png";
+    }
+
+    // geo coords conversion functions (adapted from libtimezonemap)
+    function radians (degrees) {
+      return degrees * Math.PI / 180;
+    }
+
+    function longitudeToX(longitude, map_width) {
+        var xdeg_offset = -6;
+        var x = (map_width * (180.0 + longitude) / 360.0) + (map_width * xdeg_offset / 180.0);
+        return x;
+    }
+
+    function latitudeToY(latitude, map_height) {
+        var bottom_lat = -59;
+        var top_lat = 81;
+
+        var top_per = top_lat / 180.0;
+        var y = 1.25 * Math.log(Math.tan(0.25*Math.PI + 0.4 * radians(latitude)));
+        var full_range = 4.6068250867599998;
+        var top_offset = full_range * top_per;
+        var map_range = Math.abs(1.25 * Math.log(Math.tan(0.25*Math.PI + 0.4 * radians(bottom_lat))) - top_offset);
+        y = Math.abs(y - top_offset);
+        y = y / map_range;
+        y = y * map_height;
+        return y;
+    }
 
     UbuntuTimeDatePanel {
         id: timeDatePanel
@@ -110,8 +141,13 @@ LocalComponents.Page {
             }
 
             onClicked: {
+                highlightTimezone(offset);
                 ListView.view.currentIndex = index;
                 selectedTimeZone = timeZone;
+                print("Clicked at city with coords:", longitude, latitude);
+                print("Highlight at (x,y):", longitudeToX(longitude, map.width), latitudeToY(latitude, map.height));
+                pinImage.x = longitudeToX(longitude, map.width) - 8;
+                pinImage.y = latitudeToY(latitude, map.height) - 16;
             }
         }
     }
@@ -120,16 +156,16 @@ LocalComponents.Page {
         id: column
         anchors {
             fill: content
-            topMargin: customMargin
-            leftMargin: desktopLook ? parent.leftMargin : 0
-            rightMargin: desktopLook ? parent.rightMargin : 0
+            topMargin: units.gu(4)
+            leftMargin: desktopLook ? staticMargin : 0
+            rightMargin: desktopLook ? staticMargin : 0
         }
 
         LocalComponents.WizardTextField {
             id: searchField
             objectName: "tzFilter"
             anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.right: !desktopLook ? parent.right : undefined
             anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
             anchors.rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
             placeholderText: i18n.tr("Enter your city")
@@ -138,13 +174,14 @@ LocalComponents.Page {
                 // reset when switching between filter modes (text/country)
                 selectedTimeZone = ""
                 tzList.currentIndex = -1
+                highlightImage.source = ""
             }
         }
 
         Rectangle {
             id: divider
             anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.right: !desktopLook ? parent.right : undefined
             anchors.top: searchField.bottom
             anchors.topMargin: units.gu(3)
             height: units.dp(1)
@@ -161,13 +198,72 @@ LocalComponents.Page {
 
             anchors {
                 left: parent.left
-                right: parent.right
+                right: !desktopLook ? parent.right : undefined
                 top: divider.bottom
             }
 
+            width: desktopLook ? searchField.width : undefined
             height: column.height - searchField.height - column.anchors.topMargin - divider.height
             model: tzFilterModel
             delegate: tzComponent
+        }
+
+        Item {
+            id: mapContainer
+            visible: desktopLook
+            anchors {
+                left: tzList.right
+                right: parent.right
+                top: parent.top
+                bottom: parent.bottom
+            }
+
+            Item {
+                id: map
+                width: units.dp(800)
+                height: units.dp(410)
+                anchors {
+                    centerIn: parent
+                }
+
+                Image {
+                    id: backgroundImage
+                    source: "file:/usr/share/libtimezonemap/ui/bg.png"
+                    sourceSize: Qt.size(map.width, map.height)
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
+                    visible: false
+                }
+
+                Image {
+                    id: highlightImage
+                    sourceSize: Qt.size(map.width, map.height)
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
+                    visible: false
+                }
+
+                Blend {
+                    anchors.fill: map
+                    cached: true
+                    source: backgroundImage
+                    foregroundSource: highlightImage
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        print("Clicked map at:", mouseX, mouseY)
+                    }
+                }
+
+                Image {
+                    id: pinImage
+                    source: "file:/usr/share/libtimezonemap/ui/pin.png"
+                    visible: selectedTimeZone != ""
+                    z: map.z + 1
+                }
+            }
         }
     }
 

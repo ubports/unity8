@@ -35,6 +35,8 @@ TimeZoneLocationModel::TimeZoneLocationModel(QObject *parent):
     m_roleNames[CityRole] = "city";
     m_roleNames[CountryRole] = "country";
     m_roleNames[OffsetRole] = "offset";
+    m_roleNames[LatitudeRole] = "latitude";
+    m_roleNames[LongitudeRole] = "longitude";
 
     QObject::connect(m_workerThread,
                      &TimeZonePopulateWorker::resultReady,
@@ -103,6 +105,10 @@ QVariant TimeZoneLocationModel::data(const QModelIndex &index, int role) const
         QTimeZone tmp(tz.timezone.toLatin1());
         return static_cast<double>(tmp.standardTimeOffset(QDateTime::currentDateTime())) / 3600;
     }
+    case LatitudeRole:
+        return tz.latitude;
+    case LongitudeRole:
+        return tz.longitude;
     default:
         qWarning() << Q_FUNC_INFO << "Unknown role";
         return QVariant();
@@ -129,11 +135,15 @@ void TimeZonePopulateWorker::buildCityMap()
     for (guint i = 0; i < tz_locations->len; ++i) {
         auto tmp = static_cast<CcTimezoneLocation *>(g_ptr_array_index(tz_locations, i));
         gchar *en_name, *country, *zone, *state, *full_country;
+        gdouble latitude;
+        gdouble longitude;
         g_object_get (tmp, "en_name", &en_name,
                       "country", &country,
                       "zone", &zone,
                       "state", &state,
                       "full_country", &full_country,
+                      "latitude", &latitude,
+                      "longitude", &longitude,
                       nullptr);
         // There are empty entries in the DB
         if (g_strcmp0(en_name, "") != 0) {
@@ -142,6 +152,8 @@ void TimeZonePopulateWorker::buildCityMap()
             tmpTz.timezone = zone;
             tmpTz.state = state;
             tmpTz.full_country = full_country;
+            tmpTz.latitude = latitude;
+            tmpTz.longitude = longitude;
 
             Q_EMIT (resultReady(tmpTz));
         }
