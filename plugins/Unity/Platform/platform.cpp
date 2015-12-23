@@ -20,16 +20,20 @@
 
 Platform::Platform(QObject *parent)
     : QObject(parent)
-    , m_iface(QStringLiteral("org.freedesktop.hostname1"), QStringLiteral("/org/freedesktop/hostname1"), QStringLiteral("org.freedesktop.hostname1"),
-              QDBusConnection::systemBus(), this)
 {
     QMetaObject::invokeMethod(this, "init");
 }
 
 void Platform::init()
 {
-    m_chassis = m_iface.property("Chassis").toString();
-    m_isPC = (m_chassis == QLatin1String("desktop") || m_chassis == QLatin1String("laptop") || m_chassis == QLatin1String("server"));
+    QDBusInterface iface("org.freedesktop.hostname1", "/org/freedesktop/hostname1", "org.freedesktop.hostname1",
+                         QDBusConnection::systemBus(), this);
+    QDBusInterface seatIface("org.freedesktop.login1", "/org/freedesktop/login1/seat/self", "org.freedesktop.login1.Seat",
+                             QDBusConnection::systemBus(), this);
+
+    m_chassis = iface.property("Chassis").toString();
+    m_isPC = (m_chassis == "desktop" || m_chassis == "laptop" || m_chassis == "server");
+    m_isMultiSession = seatIface.property("CanMultiSession").toBool() && seatIface.property("CanGraphical").toBool();
 }
 
 QString Platform::chassis() const
@@ -40,4 +44,9 @@ QString Platform::chassis() const
 bool Platform::isPC() const
 {
     return m_isPC;
+}
+
+bool Platform::isMultiSession() const
+{
+    return m_isMultiSession;
 }

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po_unity8-is\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2014-11-13 09:32+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 "Language: is\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -203,15 +203,15 @@ msgstr "Fjarlægja úr Eftirlæti"
 msgid "Add to Favorites"
 msgstr "Bæta við Eftirlæti"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Sjá minna"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Sjá allt"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -435,14 +435,6 @@ msgstr "Aflæsa SIM-korti"
 msgid "Roaming"
 msgstr "Ráphamur"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr ""
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr ""
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr ""
@@ -451,13 +443,17 @@ msgstr ""
 msgid "Swipe up from the bottom edge."
 msgstr ""
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr ""
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr ""
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
 msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:26
@@ -466,6 +462,10 @@ msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
 msgstr ""
 
 #: qml/Tutorial/TutorialPage.qml:178

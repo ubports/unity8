@@ -515,7 +515,7 @@ Item {
 
                 indicatorsModel: Indicators.IndicatorsModel {
                     // tablet and phone both use the same profile
-                    profile: shell.usageScenario === "desktop" ? "desktop" : "phone"
+                    profile: "phone"
                     Component.onCompleted: load();
                 }
             }
@@ -524,7 +524,7 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            property bool topmostApplicationIsFullscreen:
+            readonly property bool topmostApplicationIsFullscreen:
                 ApplicationManager.focusedApplicationId &&
                     ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 

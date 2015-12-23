@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
-"PO-Revision-Date: 2015-07-29 10:01+0000\n"
+"POT-Creation-Date: 2015-12-08 15:42+0000\n"
+"PO-Revision-Date: 2015-12-20 09:20+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2015-12-21 05:34+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -42,13 +42,13 @@ msgstr "Dispositivo bloqueado"
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
 msgstr ""
-"Foi bloqueado devido a diversas tentativas falhadas na introdução da palavra-"
-"passe de segurança."
+"Está bloqueado devido a diversas tentativas falhadas na introdução da "
+"palavra-passe."
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
 msgstr ""
-"Foi bloqueado devido a diversas tentativas falhadas na introdução do código "
+"Está bloqueado devido a diversas tentativas falhadas na introdução do código "
 "de segurança."
 
 #: qml/Components/DelayedLockscreen.qml:74
@@ -128,7 +128,7 @@ msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr ""
-"Tem a certeza de quer\n"
+"Quer mesmo\n"
 "desligar?"
 
 #: qml/Components/Dialogs.qml:235
@@ -143,7 +143,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr "Retorne para chamar"
+msgstr "Volte para chamada"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -155,7 +155,7 @@ msgstr "OK"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Apps podem ter informação não guardada:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
@@ -163,15 +163,15 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Ou force para fechar agora (a informação não guardada será perdida)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Ok, vou ligar novamente"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Volte a ligar agora!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
@@ -200,15 +200,15 @@ msgstr "Remover dos favoritos"
 msgid "Add to Favorites"
 msgstr "Adicionar aos favoritos"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Ver todos"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Procurar"
@@ -432,14 +432,6 @@ msgstr "Desbloquear SIM"
 msgid "Roaming"
 msgstr "Roaming"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Esta ação faz coisas diferentes para apps diferentes"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Toque aqui para finalizar."
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Abrir menus especiais"
@@ -448,14 +440,18 @@ msgstr "Abrir menus especiais"
 msgid "Swipe up from the bottom edge."
 msgstr "Deslize para cima a partir da margem inferior."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Esta ação faz coisas diferentes para apps diferentes"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Toque aqui para finalizar."
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Toque aqui para continuar."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Estes são os atalhos para as suas apps favoritas"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -464,6 +460,10 @@ msgstr "Abrir o launcher"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Deslize curto da margem esquerda"
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Estes são os atalhos para as suas apps favoritas"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
@@ -711,9 +711,6 @@ msgstr "%1  〉"
 #~ msgid "Skip intro"
 #~ msgstr "Saltar introdução"
 
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "A carregar. Aguarde por favor..."
-
 #~ msgid "Speak Now..."
 #~ msgstr "Fale agora..."
 
@@ -756,19 +753,8 @@ msgstr "%1  〉"
 #~ msgid "Try swiping from the right edge to unlock the phone"
 #~ msgstr "Tente deslizar da margem direita para desbloquear o telemóvel"
 
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "Já domina os gestos das margens, pode começar a usar o telefone<br><br>Toque "
-#~ "no ecrã para começar"
-
 #~ msgid "Store"
 #~ msgstr "Store"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr ""
-#~ "Deslize da margem esquerda para mostrar o lançador para acesso rápido às apps"
 
 #~ msgid "Tomorrow %l:%M %p"
 #~ msgstr "Amanhã %l:%M %p"
@@ -805,3 +791,17 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Ligar de volta"
+
+#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
+#~ msgstr ""
+#~ "Deslize da margem esquerda para mostrar o Launcher de acesso rápido às apps"
+
+#~ msgid ""
+#~ "You have now mastered the edge gestures and can start using the "
+#~ "phone<br><br>Tap on the screen to start"
+#~ msgstr ""
+#~ "Já domina os gestos das margens, pode começar a usar o "
+#~ "telemóvel<br><br>Toque no ecrã para começar"
+
+#~ msgid "Loading. Please Wait..."
+#~ msgstr "A carregar. Por favor, aguarde..."
