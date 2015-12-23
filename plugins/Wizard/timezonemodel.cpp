@@ -34,6 +34,7 @@ TimeZoneLocationModel::TimeZoneLocationModel(QObject *parent):
     m_roleNames[TimeZoneRole] = "timeZone";
     m_roleNames[CityRole] = "city";
     m_roleNames[CountryRole] = "country";
+    m_roleNames[OffsetRole] = "offset";
 
     QObject::connect(m_workerThread,
                      &TimeZonePopulateWorker::resultReady,
@@ -98,6 +99,10 @@ QVariant TimeZoneLocationModel::data(const QModelIndex &index, int role) const
         return tz.country;
     case CityRole:
         return tz.city;
+    case OffsetRole: {
+        QTimeZone tmp(tz.timezone.toLatin1());
+        return static_cast<double>(tmp.standardTimeOffset(QDateTime::currentDateTime())) / 3600;
+    }
     default:
         qWarning() << Q_FUNC_INFO << "Unknown role";
         return QVariant();

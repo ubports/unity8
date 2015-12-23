@@ -36,7 +36,8 @@ public:
         TimeZoneRole = Qt::UserRole + 1,
         CityRole,
         CountryRole,
-        SimpleRole
+        SimpleRole,
+        OffsetRole
     };
 
     struct TzLocation {
@@ -45,6 +46,7 @@ public:
         QString timezone;
         QString state;
         QString full_country;
+        double offset;
     };
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
