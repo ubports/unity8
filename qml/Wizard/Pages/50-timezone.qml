@@ -39,7 +39,7 @@ LocalComponents.Page {
     }
 
     // geo coords conversion functions (adapted from libtimezonemap)
-    function radians (degrees) {
+    function radians(degrees) {
       return degrees * Math.PI / 180;
     }
 
@@ -248,13 +248,6 @@ LocalComponents.Page {
                     cached: true
                     source: backgroundImage
                     foregroundSource: highlightImage
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        print("Clicked map at:", mouseX, mouseY)
-                    }
                 }
 
                 Image {
