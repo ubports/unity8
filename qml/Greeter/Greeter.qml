@@ -27,6 +27,12 @@ Showable {
     id: root
     created: loader.status == Loader.Ready
 
+    Component.onCompleted: {
+        console.log("JOSH: getHint(): " + LightDMService.greeter.lockHint)
+//        console.log("JOSH: lockHint: " + LightDMService.greeter.getHint("lockHint"))
+//        console.log("JOSH: lock: " + LightDMService.greeter.getHint("lock"))
+    }
+
     property real dragHandleLeftMargin: 0
 
     property url background
