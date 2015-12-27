@@ -200,17 +200,16 @@ LocalComponents.Page {
                 left: parent.left
                 right: !desktopLook ? parent.right : undefined
                 top: divider.bottom
+                bottom: parent.bottom
             }
 
-            width: desktopLook ? searchField.width : undefined
-            height: column.height - searchField.height - column.anchors.topMargin - divider.height
             model: tzFilterModel
             delegate: tzComponent
         }
 
         Item {
             id: mapContainer
-            visible: desktopLook
+            visible: content.width > maximumContentWidth + map.width
             anchors {
                 left: tzList.right
                 right: parent.right
