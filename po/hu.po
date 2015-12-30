@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-08 15:42+0000\n"
-"PO-Revision-Date: 2015-11-30 08:29+0000\n"
+"PO-Revision-Date: 2015-12-22 09:44+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
+"X-Launchpad-Export-Date: 2015-12-23 05:17+0000\n"
 "X-Generator: Launchpad (build 17865)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -262,7 +262,7 @@ msgstr "Telepítve"
 
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
-msgstr "A készülék egy külső kijelzőhöz van csatlakoztatva."
+msgstr "Egy külső kijelzőhöz csatlakoztatta a készüléket."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
