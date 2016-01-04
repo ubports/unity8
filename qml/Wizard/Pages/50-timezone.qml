@@ -40,24 +40,24 @@ LocalComponents.Page {
 
     // geo coords conversion functions (adapted from libtimezonemap)
     function radians(degrees) {
-      return degrees * Math.PI / 180;
+        return degrees * Math.PI / 180;
     }
 
     function longitudeToX(longitude, map_width) {
-        var xdeg_offset = -6;
-        var x = (map_width * (180.0 + longitude) / 360.0) + (map_width * xdeg_offset / 180.0);
+        const xdeg_offset = -6;
+        const x = (map_width * (180.0 + longitude) / 360.0) + (map_width * xdeg_offset / 180.0);
         return x;
     }
 
     function latitudeToY(latitude, map_height) {
-        var bottom_lat = -59;
-        var top_lat = 81;
+        const bottom_lat = -59;
+        const top_lat = 81;
 
-        var top_per = top_lat / 180.0;
+        const top_per = top_lat / 180.0;
         var y = 1.25 * Math.log(Math.tan(0.25*Math.PI + 0.4 * radians(latitude)));
-        var full_range = 4.6068250867599998;
-        var top_offset = full_range * top_per;
-        var map_range = Math.abs(1.25 * Math.log(Math.tan(0.25*Math.PI + 0.4 * radians(bottom_lat))) - top_offset);
+        const full_range = 4.6068250867599998;
+        const top_offset = full_range * top_per;
+        const map_range = Math.abs(1.25 * Math.log(Math.tan(0.25*Math.PI + 0.4 * radians(bottom_lat))) - top_offset);
         y = Math.abs(y - top_offset);
         y = y / map_range;
         y = y * map_height;
