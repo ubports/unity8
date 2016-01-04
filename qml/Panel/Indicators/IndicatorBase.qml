@@ -31,7 +31,7 @@ Item {
     property string rootMenuType: "com.canonical.indicator.root"
 
     property alias menuModel: cachedModel.model
-    readonly property alias rootActionState: rootAction
+    property alias rootActionState: rootAction
 
     SharedUnityMenuModel {
         id: cachedModel
