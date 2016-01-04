@@ -35,25 +35,36 @@ Rectangle {
         "content-type": "text"
     }
 
-    PreviewSharing {
-        id: previewSharing
+    property var shareDataNoUri: {
+        "uri": "",
+        "content-type": "text"
+    }
+
+
+    PreviewMediaToolbar {
+        id: previewMediaToolbar
         anchors { left: parent.left; bottom: parent.bottom; }
         shareData: root.shareData
     }
 
     UT.UnityTestCase {
-        name: "PreviewSharingTest"
+        name: "PreviewMediaToolbarTest"
         when: windowShown
 
-        property Item peerPicker: findChild(previewSharing.rootItem, "peerPicker")
+        property Item sharingWidget: findChild(previewMediaToolbar, "sharingWidget")
 
         function cleanup() {
-            peerPicker.visible = false;
+            previewMediaToolbar.shareData = root.shareData;
         }
 
-        function test_open_picker() {
-            mouseClick(previewSharing);
-            compare(peerPicker.visible, true);
+        function test_visible() {
+            previewMediaToolbar.shareData = shareDataNoUri;
+            compare(previewMediaToolbar.visible, false);
+            compare(sharingWidget.visible, false);
+            previewMediaToolbar.shareData = shareData;
+            compare(previewMediaToolbar.visible, true);
+            compare(sharingWidget.visible, true);
         }
     }
 }
+

@@ -27,6 +27,7 @@ Rectangle {
 
     PreviewSharing {
         id: sharingWidget
+        objectName: "sharingWidget"
         anchors {
             left: parent.left
             verticalCenter: parent.verticalCenter
