@@ -1177,7 +1177,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
 
 void ListViewWithPageHeader::adjustMinYExtent()
 {
-    if (m_visibleItems.isEmpty()) {
+    if (m_visibleItems.isEmpty() || contentHeight() < height()) {
         m_minYExtent = 0;
     } else {
         qreal nonCreatedHeight = 0;
