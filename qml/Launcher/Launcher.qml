@@ -255,6 +255,10 @@ Item {
             }
         }
 
+        onHidePanel: {
+            root.hide();
+        }
+
         Behavior on x {
             enabled: !dragArea.dragging && !launcherDragArea.drag.active && panel.animate;
             NumberAnimation {

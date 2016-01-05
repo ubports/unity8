@@ -38,6 +38,7 @@ Rectangle {
 
     signal applicationSelected(string appId)
     signal showDashHome()
+    signal hidePanel()
 
     onXChanged: {
         if (quickList.state == "open") {
@@ -636,12 +637,14 @@ Rectangle {
             rotation: 90
         }
     }
+
     InverseMouseArea {
         anchors.fill: quickListShape
         enabled: quickList.state == "open" || pressed
 
         onClicked: {
             quickList.state = ""
+            root.hidePanel();
         }
 
         // Forward for dragging to work when quickList is open
