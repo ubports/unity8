@@ -1,3 +1,14 @@
+unity8 (8.11+16.04.20160105.1-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Nick Dedekind ]
+  * Use volume-sync action to resync the volume control. (LP: #1520548)
+
+ -- Xavi Garcia <xavi.garcia.mena@canonical.com>  Tue, 05 Jan 2016 13:55:38 +0000
+
 unity8 (8.11+16.04.20151208.1-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
