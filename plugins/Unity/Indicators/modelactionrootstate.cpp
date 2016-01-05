@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -162,25 +162,25 @@ void ModelActionRootState::updateOtherActions()
 
     if (m_menu && m_menu->rowCount() > 0) {
         QVariantMap map;
-        map[QStringLiteral("submenu-action")] = QLatin1String("string");
-        map[QStringLiteral("x-canonical-scroll-action")] = QLatin1String("string");
-        map[QStringLiteral("x-canonical-secondary-action")] = QLatin1String("string");
+        map[QStringLiteral("submenu-action")] = QStringLiteral("string");
+        map[QStringLiteral("x-canonical-scroll-action")] = QStringLiteral("string");
+        map[QStringLiteral("x-canonical-secondary-action")] = QStringLiteral("string");
         m_menu->loadExtendedAttributes(0, map);
         QVariantMap extMap = m_menu->get(0, "ext").toMap();
 
-        QString secondaryAction = extMap[QStringLiteral("xCanonicalSecondaryAction")].toString();
+        QString secondaryAction = extMap.value(QStringLiteral("xCanonicalSecondaryAction")).toString();
         if (m_secondaryAction != secondaryAction) {
             m_secondaryAction = secondaryAction;
             Q_EMIT secondaryActionChanged();
         }
 
-        QString scrollAction = extMap[QStringLiteral("xCanonicalScrollAction")].toString();
+        QString scrollAction = extMap.value(QStringLiteral("xCanonicalScrollAction")).toString();
         if (m_scrollAction != scrollAction) {
             m_scrollAction = scrollAction;
             Q_EMIT scrollActionChanged();
         }
 
-        QString submenuAction = extMap[QStringLiteral("submenuAction")].toString();
+        QString submenuAction = extMap.value(QStringLiteral("submenuAction")).toString();
         if (m_submenuAction != submenuAction) {
             m_submenuAction = submenuAction;
             Q_EMIT submenuActionChanged();
