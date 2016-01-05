@@ -184,18 +184,14 @@ Item {
         }
     }
 
-    MultiPointTouchArea {
+    InverseMouseArea {
         id: closeMouseArea
-        anchors {
-            left: launcherDragArea.right
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
-        }
+        anchors.fill: panel
+        sensingArea: root
         enabled: root.shadeBackground && root.state == "visible"
-        visible: enabled // otherwise it will get in the way of cursor selection for some reason
-        onPressed: {
-            root.state = ""
+        visible: enabled
+        onClicked: {
+            root.switchToNextState("");
         }
     }
 
