@@ -187,11 +187,10 @@ Item {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        sensingArea: root
         enabled: root.shadeBackground && root.state == "visible"
         visible: enabled
-        onClicked: {
-            root.switchToNextState("");
+        onPressed: {
+            root.hide();
         }
     }
 
