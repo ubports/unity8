@@ -594,6 +594,7 @@ Rectangle {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
+                onVisibleChanged: if (!visible) iconName = "";
 
                 function flatten() {
                     fakeDragItemAnimation.start();
