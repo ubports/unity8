@@ -393,7 +393,6 @@ Rectangle {
                         }
 
                         onClicked: {
-                            Haptics.play();
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
 
@@ -408,8 +407,10 @@ Rectangle {
                                 quickList.model = launcherListView.model.get(index).quickList;
                                 quickList.appId = launcherListView.model.get(index).appId;
                                 quickList.state = "open";
-                                return
+                                return;
                             }
+
+                            Haptics.play();
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
