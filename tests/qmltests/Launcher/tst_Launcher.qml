@@ -625,6 +625,7 @@ Item {
             if(data.mouse) {
                 mouseClick(root)
             } else {
+                touchRelease(draggedItem)
                 tap(root)
             }
 
