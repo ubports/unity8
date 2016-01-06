@@ -38,7 +38,6 @@ Rectangle {
 
     signal applicationSelected(string appId)
     signal showDashHome()
-    signal hidePanel()
 
     onXChanged: {
         if (quickList.state == "open") {
@@ -645,7 +644,6 @@ Rectangle {
 
         onClicked: {
             quickList.state = ""
-            root.hidePanel();
         }
 
         // Forward for dragging to work when quickList is open
