@@ -124,16 +124,20 @@ AbstractStage {
         onFocusedAppDelegateChanged: updateForegroundMaximizedApp();
 
         property int foregroundMaximizedAppZ: -1
+        property int foregroundMaximizedAppIdIndex: -1 // for stuff like drop shadow and focusing maximized app by clicking panel
 
         function updateForegroundMaximizedApp() {
             var tmp = -1;
+            var tmpAppId = -1;
             for (var i = appRepeater.count - 1; i >= 0; i--) {
                 var item = appRepeater.itemAt(i);
                 if (item && item.visuallyMaximized) {
+                    tmpAppId = i;
                     tmp = Math.max(tmp, item.normalZ);
                 }
             }
             foregroundMaximizedAppZ = tmp;
+            foregroundMaximizedAppIdIndex = tmpAppId;
         }
 
         function indexOf(appId) {
