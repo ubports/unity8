@@ -124,7 +124,7 @@ AbstractStage {
         onFocusedAppDelegateChanged: updateForegroundMaximizedApp();
 
         property int foregroundMaximizedAppZ: -1
-        property int foregroundMaximizedAppIdIndex: -1 // for stuff like drop shadow and focusing maximized app by clicking panel
+        property int foregroundMaximizedAppIndex: -1 // for stuff like drop shadow and focusing maximized app by clicking panel
 
         function updateForegroundMaximizedApp() {
             var tmp = -1;
@@ -137,7 +137,7 @@ AbstractStage {
                 }
             }
             foregroundMaximizedAppZ = tmp;
-            foregroundMaximizedAppIdIndex = tmpAppId;
+            foregroundMaximizedAppIndex = tmpAppId;
         }
 
         function indexOf(appId) {
@@ -180,8 +180,8 @@ AbstractStage {
         onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
         onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
                     && priv.focusedAppDelegate.restoreFromMaximized();
-        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIdIndex != -1) {
-                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIdIndex).appId);
+        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIndex != -1) {
+                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIndex).appId);
                              }
     }
 
@@ -210,7 +210,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "dropShadow"
-        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIdIndex !== -1
+        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIndex !== -1
     }
 
     Component.onDestruction: {
