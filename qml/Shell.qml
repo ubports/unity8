@@ -567,7 +567,7 @@ Item {
             shadeBackground: !tutorial.running
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
-            panelWidth: units.gu(launcherSettings.launcherWidth)
+            panelWidth: units.gu(settings.launcherWidth)
             lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher
 
             onShowDashHome: showHome()

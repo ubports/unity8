@@ -23,6 +23,7 @@ GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 GSettingsControllerQml::GSettingsControllerQml()
     : m_usageMode("Staged")
     , m_autohideLauncher(false)
+    , m_launcherWidth(qgetenv("GRID_UNIT_PX").isEmpty() ? 8 : qgetenv("GRID_UNIT_PX").toInt() * 8)
 {
 }
 
@@ -102,6 +103,19 @@ void GSettingsControllerQml::setAutohideLauncher(bool autohideLauncher)
     }
 }
 
+int GSettingsControllerQml::launcherWidth() const
+{
+    return m_launcherWidth;
+}
+
+void GSettingsControllerQml::setLauncherWidth(int launcherWidth)
+{
+    if (m_launcherWidth != launcherWidth) {
+        m_launcherWidth = launcherWidth;
+        Q_EMIT launcherWidthChanged(launcherWidth);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -145,6 +159,8 @@ GSettingsQml::GSettingsQml(QObject *parent)
             this, &GSettingsQml::lifecycleExemptAppidsChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::autohideLauncherChanged,
             this, &GSettingsQml::autohideLauncherChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::launcherWidthChanged,
+            this, &GSettingsQml::launcherWidthChanged);
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -217,6 +233,15 @@ bool GSettingsQml::autohideLauncher() const
     }
 }
 
+int GSettingsQml::launcherWidth() const
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->launcherWidth();
+    } else {
+        return false;
+    }
+}
+
 void GSettingsQml::setLifecycleExemptAppids(const QStringList &appIds)
 {
     if (m_schema->id() == "com.canonical.qtmir") {
@@ -228,5 +253,12 @@ void GSettingsQml::setAutohideLauncher(bool autohideLauncher)
 {
     if (m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setAutohideLauncher(autohideLauncher);
+    }
+}
+
+void GSettingsQml::setLauncherWidth(int launcherWidth)
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setLauncherWidth(launcherWidth);
     }
 }
