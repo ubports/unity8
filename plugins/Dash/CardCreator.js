@@ -61,6 +61,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
+// %4 is used as image fallback
 var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
@@ -69,7 +70,8 @@ var kArtShapeHolderCode = 'Item { \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
-                                active: cardData && cardData["art"] || false; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || "%4"; \n\
+                                active: cardArt != "" || false; \n\
                                 asynchronous: root.asynchronous; \n\
                                 visible: status == Loader.Ready; \n\
                                 sourceComponent: Item { \n\
@@ -127,7 +129,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                     CroppedImageMinimumSourceSize { \n\
                                         id: artImage; \n\
                                         objectName: "artImage"; \n\
-                                        source: cardData && cardData["art"] || ""; \n\
+                                        source: artShapeLoader.cardArt; \n\
                                         asynchronous: root.asynchronous; \n\
                                         width: %2; \n\
                                         height: %3; \n\
@@ -205,11 +207,12 @@ var kMascotShapeLoaderCode = 'Loader { \n\
 
 // %1 is used as anchors of mascotImage
 // %2 is used as visible of mascotImage
+// %3 is used as fallback image
 var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
                             id: mascotImage; \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
-                            source: cardData && cardData["mascot"] || ""; \n\
+                            source: cardData && cardData["mascot"] || "%3"; \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             horizontalAlignment: Image.AlignHCenter; \n\
@@ -390,8 +393,8 @@ function cardString(template, components) {
             heightCode = 'width / artShape.aspect';
         }
 
-        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode);
         var fallback = components["art"] && components["art"]["fallback"] || "";
+        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallback);
         if (fallback !== "") {
             code += 'Connections { target: artShapeLoader.item ? artShapeLoader.item.image : null; onStatusChanged: if (artShapeLoader.item.image.status === Image.Error) artShapeLoader.item.image.source = "%1"; } \n'.arg(fallback);
         }
@@ -473,8 +476,8 @@ function cardString(template, components) {
         }
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
-        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible);
         var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
+        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallback);
         if (fallback !== "") {
             code += 'Connections { target: mascotImage; onStatusChanged: if (mascotImage.status === Image.Error) mascotImage.source = "%1"; } \n'.arg(fallback);
         }
