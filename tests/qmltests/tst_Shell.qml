@@ -904,7 +904,6 @@ Rectangle {
         function dragLauncherIntoView() {
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
-            print("launcherPanel.x", launcherPanel.x, launcherPanel.width)
             waitForRendering(launcher);
             verify(launcherPanel.x = - launcherPanel.width);
 
