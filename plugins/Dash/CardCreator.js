@@ -71,7 +71,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
                                 readonly property string cardArt: cardData && cardData["art"] || "%4"; \n\
-                                active: cardArt != "" || false; \n\
+                                active: cardArt != ""; \n\
                                 asynchronous: root.asynchronous; \n\
                                 visible: status == Loader.Ready; \n\
                                 sourceComponent: Item { \n\
