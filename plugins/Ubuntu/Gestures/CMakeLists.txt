@@ -5,7 +5,7 @@ set(UbuntuGesturesQml_SOURCES
     plugin.cpp
     AxisVelocityCalculator.cpp
     Direction.cpp
-    FloatingFlickableHelper.cpp
+    MouseEventGenerator.cpp
     PressedOutsideNotifier.cpp
     TouchDispatcher.cpp
     TouchGate.cpp

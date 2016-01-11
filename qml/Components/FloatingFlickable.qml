@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,8 +35,9 @@ Item {
     property alias contentY: flickable.contentY
     property alias direction: swipeArea.direction
 
-    FloatingFlickableHelper {
-        id: ffh
+    MouseEventGenerator {
+        id: mouseEventGenerator
+        targetItem: flickable
     }
 
     Flickable {
@@ -51,7 +52,8 @@ Item {
         anchors.fill: parent
         direction: Direction.Horizontal
 
-        onTouchPositionChanged: ffh.onDragAreaTouchPosChanged(flickable, touchPosition);
-        onDraggingChanged: ffh.onDragAreaDraggingChanged(flickable, dragging, touchPosition);
+        onTouchPositionChanged: mouseEventGenerator.move(touchPosition);
+        onDraggingChanged: dragging ? mouseEventGenerator.press(touchPosition)
+                                    : mouseEventGenerator.release(touchPosition)
     }
 }
