@@ -19,6 +19,7 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
+import "../Components"
 
 FocusScope {
     id: root
@@ -26,6 +27,7 @@ FocusScope {
     property bool altTabPressed: false
     property Item workspace: null
 
+    readonly property alias ready: blurLayer.ready
     readonly property alias highlightedIndex: spreadRepeater.highlightedIndex
 
     function show() {
@@ -99,6 +101,31 @@ FocusScope {
     function cancel() {
         spreadRepeater.highlightedIndex = -1;
         state = ""
+    }
+
+    BlurLayer {
+        id: blurLayer
+        anchors.fill: parent
+        source: root.workspace
+        visible: false
+    }
+
+    Rectangle {
+        id: spreadBackground
+        anchors.fill: parent
+        color: "#B2000000"
+        visible: false
+        opacity: visible ? 1 : 0
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+        }
+    }
+
+    MouseArea {
+        id: eventEater
+        anchors.fill: parent
+        visible: spreadBackground.visible
+        enabled: visible
     }
 
     Item {
@@ -234,6 +261,8 @@ FocusScope {
                             duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration :0
                             easing: UbuntuAnimation.StandardEasing
                         }
+                        UbuntuNumberAnimation { target: clippedSpreadDelegate; property: "shadowOpacity"; from: 0; to: spreadMaths.shadowOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
+                        UbuntuNumberAnimation { target: tileInfo; property: "opacity"; from: 0; to: spreadMaths.tileInfoOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
                     }
                 ]
 
@@ -500,10 +529,7 @@ FocusScope {
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 PropertyAction { target: spreadContainer; property: "visible" }
                 ParallelAnimation {
-                    UbuntuNumberAnimation {
-                        target: blurLayer; properties: "saturation,blurRadius";
-                        duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0
-                    }
+                    UbuntuNumberAnimation { target: blurLayer; properties: "saturation,blurRadius"; duration: UbuntuAnimation.SnapDuration }
                     PropertyAction { target: spreadFlickable; property: "visible" }
                     PropertyAction { targets: [currentSelectedLabel,spreadBackground]; property: "visible" }
                     PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
@@ -518,6 +544,5 @@ FocusScope {
             PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: -1 }
             PropertyAction { target: spreadContainer; property: "animateIn"; value: false }
         }
-
     ]
 }

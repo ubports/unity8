@@ -423,7 +423,7 @@ AbstractStage {
                     target: appDelegate
                     property: "z"
                     value: ApplicationManager.count + 1
-                    when: index == spread.highlightedIndex && blurLayer.ready
+                    when: index == spread.highlightedIndex && spread.ready
                 }
 
                 WindowResizeArea {
@@ -456,27 +456,6 @@ AbstractStage {
                 }
             }
         }
-    }
-
-    BlurLayer {
-        id: blurLayer
-        anchors.fill: parent
-        source: appContainer
-        visible: false
-    }
-
-    Rectangle {
-        id: spreadBackground
-        anchors.fill: parent
-        color: "#B3000000"
-        visible: false
-    }
-
-    MouseArea {
-        id: eventEater
-        anchors.fill: parent
-        visible: spreadBackground.visible
-        enabled: visible
     }
 
     EdgeBarrier {
