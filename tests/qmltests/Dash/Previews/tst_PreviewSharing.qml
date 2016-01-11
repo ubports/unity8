@@ -32,12 +32,12 @@ Rectangle {
                     "text here 2",
                     "text here 3"
                 ],
-        "contentType": "text"
+        "content-type": "text"
     }
 
     property var shareDataNoUri: {
         "uri": "",
-        "contentType": "text"
+        "content-type": "text"
     }
 
     PreviewSharing {
