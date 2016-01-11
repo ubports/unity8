@@ -30,7 +30,7 @@ Rectangle {
         "author": "Claire Thompson",
         "subtitle": "28/04/2015 3:48pm",
         "comment": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "source": "../../graphics/avatars/amanda@12.png"
+        "source": "../../../tests/graphics/avatars/amanda.png"
     }
 
     property var commentNoImage: {
@@ -43,7 +43,7 @@ Rectangle {
     property var commentNoSubtitle: {
         "author": "Claire Thompson",
         "comment": "Been quite a while since I really liked one.",
-        "source": "../../graphics/avatars/amanda@12.png"
+        "source": "../../../tests/graphics/avatars/amanda.png"
     }
 
     PreviewComment {

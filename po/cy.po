@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-11-20 14:45+0100\n"
+"POT-Creation-Date: 2016-01-07 08:09+0000\n"
 "PO-Revision-Date: 2015-07-31 13:21+0000\n"
 "Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh <cy@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n==2 ? 1 : (n != 8 && n != 11) ? "
 "2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-11-30 05:30+0000\n"
-"X-Generator: Launchpad (build 17850)\n"
+"X-Launchpad-Export-Date: 2016-01-10 05:28+0000\n"
+"X-Generator: Launchpad (build 17881)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -201,15 +201,15 @@ msgstr "Tynnu o Ffefrynnau"
 msgid "Add to Favorites"
 msgstr "Ychwanegu at Ffefrynnau"
 
-#: qml/Dash/GenericScopeView.qml:569 qml/Dash/GenericScopeView.qml:727
+#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
 msgid "See less"
 msgstr "Gweld llai"
 
-#: qml/Dash/GenericScopeView.qml:569
+#: qml/Dash/GenericScopeView.qml:576
 msgid "See all"
 msgstr "Gweld y cyfan"
 
-#: qml/Dash/GenericScopeView.qml:631
+#: qml/Dash/GenericScopeView.qml:638
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Chwilio"
@@ -350,11 +350,11 @@ msgstr "Tapiwch i ffonio nôl"
 msgid "Conference"
 msgstr "Cydalwad"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:731
+#: qml/Panel/Indicators/MenuItemFactory.qml:743
 msgid "Nothing is playing"
 msgstr "Dim byd yn chwarae"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:860
+#: qml/Panel/Indicators/MenuItemFactory.qml:872
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -363,7 +363,7 @@ msgstr[1] "%1 awr"
 msgstr[2] "%1 awr"
 msgstr[3] "%1 awr"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:864
+#: qml/Panel/Indicators/MenuItemFactory.qml:876
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -372,7 +372,7 @@ msgstr[1] "%1 munud"
 msgstr[2] "%1 munud"
 msgstr[3] "%1 munud"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:869
+#: qml/Panel/Indicators/MenuItemFactory.qml:881
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -381,37 +381,37 @@ msgstr[1] "%1 eiliad"
 msgstr[2] "%1 eiliad"
 msgstr[3] "%1 eiliad"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:872
+#: qml/Panel/Indicators/MenuItemFactory.qml:884
 msgid "0 seconds"
 msgstr "0 eiliad"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:874
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 yn weddill"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:880
+#: qml/Panel/Indicators/MenuItemFactory.qml:892
 msgid "In queue…"
 msgstr "Mewn ciw..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:896
 msgid "Downloading"
 msgstr "Yn llwytho i lawr"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:898
 msgid "Paused, tap to resume"
 msgstr "Seibiwyd, tapiwch i ailafael ynddi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:888
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 msgid "Canceled"
 msgstr "Diddymwyd"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "Finished"
 msgstr "Wedi gorffen"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:892
+#: qml/Panel/Indicators/MenuItemFactory.qml:904
 msgid "Failed, tap to retry"
 msgstr "Methwyd, tapiwch i geisio eto"
 
@@ -439,14 +439,6 @@ msgstr "Datgloi SIM"
 msgid "Roaming"
 msgstr "Crwydrol"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "Mae'r weithred hon yn gwneud pethau gwahanol mewn apiau gwahanol"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Tapiwch yma i orffen"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Agor dewislenni arbennig"
@@ -455,14 +447,18 @@ msgstr "Agor dewislenni arbennig"
 msgid "Swipe up from the bottom edge."
 msgstr "Trawiwch i fyny o'r ymyl gwaelod."
 
+#: qml/Tutorial/TutorialBottomFinish.qml:24
+msgid "This action does different things for different apps"
+msgstr "Mae'r weithred hon yn gwneud pethau gwahanol mewn apiau gwahanol"
+
+#: qml/Tutorial/TutorialBottomFinish.qml:25
+msgid "Tap here to finish."
+msgstr "Tapiwch yma i orffen"
+
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
 msgstr "Tapiwch yma i barhau."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Rhain yw'r llwybrau byr i'ch hoff apiau"
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
@@ -471,6 +467,10 @@ msgstr "Agor y lansiwr"
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
 msgstr "Trawiad byr o'r ymyl chwith."
+
+#: qml/Tutorial/TutorialLeftFinish.qml:24
+msgid "These are the shortcuts to favorite apps"
+msgstr "Rhain yw'r llwybrau byr i'ch hoff apiau"
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"

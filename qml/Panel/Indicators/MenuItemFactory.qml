@@ -125,10 +125,12 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'min-value': 'double',
                                                              'max-value': 'double',
                                                              'min-icon': 'icon',
-                                                             'max-icon': 'icon'});
+                                                             'max-icon': 'icon',
+                                                             'x-canonical-sync-action': 'string'});
             }
 
             ServerPropertySynchroniser {
+                id: sliderPropertySync
                 objectName: "sync"
                 syncTimeout: Utils.Constants.indicatorValueTimeout
                 bufferedSyncTimeout: true
@@ -140,6 +142,16 @@ Item {
                 userProperty: "value"
 
                 onSyncTriggered: menuModel.changeState(menuIndex, value)
+            }
+
+            UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalSyncAction", "")
+                onStateChanged: {
+                    sliderPropertySync.reset();
+                    sliderPropertySync.updateUserValue();
+                }
             }
         }
     }
