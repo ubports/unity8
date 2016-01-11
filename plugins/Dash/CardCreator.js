@@ -136,6 +136,43 @@ var kArtShapeHolderCode = 'Item { \n\
                             } \n\
                         }\n';
 
+// %1 is anchors.fill
+// %2 is width
+// %3 is height
+var kAudioButtonCode = 'AbstractButton { \n\
+                            id: audioButton; \n\
+                            anchors.fill: %1; \n\
+                            width: %2; \n\
+                            height: %3; \n\
+                            readonly property url source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; \n\
+                            UbuntuShape { \n\
+                                anchors.fill: parent; \n\
+                                visible: parent.pressed; \n\
+                                radius: "medium"; \n\
+                            } \n\
+                            Icon {  \n\
+                                anchors.fill: parent; \n\
+                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; \n\
+                                opacity: 0.9; \n\
+                                name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; \n\
+                            } \n\
+                            onClicked: { \n\
+                                if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { \n\
+                                    if (DashAudioPlayer.playing) { \n\
+                                        DashAudioPlayer.pause(); \n\
+                                    } else { \n\
+                                        DashAudioPlayer.play(); \n\
+                                    } \n\
+                                } else { \n\
+                                    var playlist = (cardData["quickPreviewData"] && cardData["quickPreviewData"]["playlist"]) || null; \n\
+                                    DashAudioPlayer.playSource(source, playlist); \n\
+                                } \n\
+                            } \n\
+                            onPressAndHold: { \n\
+                                root.pressAndHold(); \n\
+                            } \n\
+                        }';
+
 var kOverlayLoaderCode = 'Loader { \n\
                             id: overlayLoader; \n\
                             readonly property real overlayHeight: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
@@ -316,6 +353,22 @@ var kSummaryLabelCode = 'Label { \n\
                             color: %3; \n\
                         }\n';
 
+// %1 is used as bottom anchor of audio progress bar
+// %2 is used as left anchor of audio progress bar
+// %3 is used as text color
+var kAudioProgressBarCode = 'CardAudioProgress { \n\
+                            id: audioProgressBar; \n\
+                            duration: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["duration"]) || 0; \n\
+                            source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; \n\
+                            anchors { \n\
+                                bottom: %1; \n\
+                                left: %2; \n\
+                                right: parent.right; \n\
+                                margins: units.gu(1); \n\
+                            } \n\
+                            color: %3; \n\
+                         }';
+
 function cardString(template, components) {
     var code;
 
@@ -351,7 +404,20 @@ function cardString(template, components) {
     var headerAsOverlay = hasArt && template && template["overlay"] === true && (hasTitle || hasMascot);
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
-    var hasAttributes = hasTitle && components["attributes"]["field"] || false;
+    var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
+    var isAudio = template["quick-preview-type"] === "audio";
+
+    if (isAudio) {
+        // For now we only support audio cards with [optional] art, title, subtitle
+        // in horizontal mode
+        // Anything else makes it behave not like an audio card
+        if (hasSummary) isAudio = false;
+        if (!isHorizontal) isAudio = false;
+        if (hasMascot) isAudio = false;
+        if (hasEmblem) isAudio = false;
+        if (headerAsOverlay) isAudio = false;
+        if (hasAttributes) isAudio = false;
+    }
 
     if (hasBackground) {
         var templateCardBackground = (template && typeof template["card-background"] === "string") ? template["card-background"] :  "";
@@ -421,17 +487,22 @@ function cardString(template, components) {
                                      topMargin: units.gu(1);\n';
         }
     }
+
     var headerLeftAnchor;
     var headerLeftAnchorHasMargin = false;
     if (isHorizontal && hasArt) {
         headerLeftAnchor = 'left: artShapeHolder.right; \n\
                             leftMargin: units.gu(1);\n';
         headerLeftAnchorHasMargin = true;
+    } else if (isHorizontal && isAudio) {
+        headerLeftAnchor = 'left: audioButton.right; \n\
+                            leftMargin: units.gu(1);\n';
+        headerLeftAnchorHasMargin = true;
     } else {
         headerLeftAnchor = 'left: parent.left;\n';
     }
 
-    var touchdownOnArtShape = !hasBackground && hasArt && !hasMascot && !hasSummary;
+    var touchdownOnArtShape = !hasBackground && hasArt && !hasMascot && !hasSummary && !isAudio;
 
     if (hasHeaderRow) {
         code += 'readonly property int headerHeight: row.height;\n'
@@ -444,6 +515,14 @@ function cardString(template, components) {
             code += 'readonly property int headerHeight: titleLabel.height + attributesRow.height + attributesRow.anchors.topMargin;\n'
         } else {
             code += 'readonly property int headerHeight: attributesRow.height;\n'
+        }
+    } else if (isAudio) {
+        if (hasSubtitle) {
+            code += 'readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin + audioProgressBar.height + audioProgressBar.anchors.topMargin;\n'
+        } else if (hasTitle) {
+            code += 'readonly property int headerHeight: titleLabel.height + audioProgressBar.height + audioProgressBar.anchors.topMargin;\n'
+        } else {
+            code += 'readonly property int headerHeight: audioProgressBar.height;\n'
         }
     } else if (hasSubtitle) {
         code += 'readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;\n'
@@ -632,6 +711,30 @@ function cardString(template, components) {
         code += mascotShapeCode + mascotCode + titleSubtitleCode;
     }
 
+    if (isAudio) {
+        var audioProgressBarLeftAnchor = 'audioButton.right';
+        var audioProgressBarBottomAnchor = 'audioButton.bottom';
+        var audioProgressBarTextColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
+
+        code += kAudioProgressBarCode.arg(audioProgressBarBottomAnchor)
+                                     .arg(audioProgressBarLeftAnchor)
+                                     .arg(audioProgressBarTextColor);
+
+        var audioButtonAnchorsFill;
+        var audioButtonWidth;
+        var audioButtonHeight;
+        if (hasArt) {
+            audioButtonAnchorsFill = 'artShapeHolder';
+            audioButtonWidth = 'undefined';
+            audioButtonHeight = 'undefined';
+        } else {
+            audioButtonAnchorsFill = 'undefined';
+            audioButtonWidth = 'height';
+            audioButtonHeight = '(root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1)';
+        }
+        code += kAudioButtonCode.arg(audioButtonAnchorsFill).arg(audioButtonWidth).arg(audioButtonHeight);
+    }
+
     if (hasSummary) {
         var summaryTopAnchor;
         if (isHorizontal && hasArt) summaryTopAnchor = 'artShapeHolder.bottom';
@@ -670,6 +773,8 @@ function cardString(template, components) {
     var implicitHeight = 'implicitHeight: ';
     if (hasSummary) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
+    } else if (isAudio) {
+        implicitHeight += 'audioButton.height;\n';
     } else if (headerAsOverlay) {
         implicitHeight += 'artShapeHolder.height;\n';
     } else if (hasHeaderRow) {
