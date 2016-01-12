@@ -1731,6 +1731,7 @@ Rectangle {
 
             revealLauncherByEdgePushWithMouse();
             tryCompare(launcher, "x", 0);
+            mouseMove(bfb, bfb.width / 2, bfb.height / 2)
             waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
