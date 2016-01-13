@@ -365,7 +365,7 @@ FocusScope {
                             // Yeah, hackish :/
                             if (scopeView.width > units.gu(45)) {
                                 if (scopeView.width >= units.gu(70)) {
-                                    cardTool.cardWidth = units.gu(9);
+                                    cardTool.cardWidth = units.gu(11);
                                 } else {
                                     cardTool.cardWidth = units.gu(10);
                                 }
