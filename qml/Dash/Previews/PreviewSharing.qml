@@ -24,12 +24,11 @@ Item {
     implicitWidth: button.width
 
     property var shareData
+    property alias active: peerPicker.active
     readonly property bool isUrlExternal: url && url.indexOf("file:///") != 0 && url.indexOf("/") != 0
-    readonly property string contentType: shareData ? shareData["contentType"] : ""
+    readonly property string contentType: shareData ? shareData["content-type"] : ""
     readonly property var url: shareData ? shareData["uri"] : ""
     readonly property Item rootItem: QuickUtils.rootItem(root)
-
-    visible: url != ""
 
     AbstractButton {
         id: button
@@ -98,7 +97,7 @@ Item {
         parent: rootItem
         anchors.fill: parent
         visible: false
-        active: root.visible
+        active: root.url != ""
 
         sourceComponent: contentPeerComponent
     }

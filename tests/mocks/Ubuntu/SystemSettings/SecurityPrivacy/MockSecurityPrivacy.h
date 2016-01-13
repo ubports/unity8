@@ -23,6 +23,9 @@ class MockSecurityPrivacy : public QObject
 {
     Q_OBJECT
     Q_ENUMS(SecurityType)
+    Q_PROPERTY (SecurityType securityType
+                READ getSecurityType
+                NOTIFY securityTypeChanged)
 
 public:
     enum SecurityType {
@@ -33,10 +36,15 @@ public:
 
     MockSecurityPrivacy(QObject *parent = 0);
 
+    SecurityType getSecurityType();
     Q_INVOKABLE QString setSecurity(const QString &oldPasswd, const QString &newPasswd, SecurityType newType);
 
 Q_SIGNALS:
+    void securityTypeChanged();
     void setSecurityCalled(const QString &oldPasswd, const QString &newPasswd, SecurityType newType); // only in mock
+
+private:
+    SecurityType m_type;
 };
 
 #endif // MOCK_SECURITYPRIVACY_H
