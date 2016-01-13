@@ -28,7 +28,7 @@ class DashCommunicator: public QThread
     Q_OBJECT
 public:
     explicit DashCommunicator(QObject *parent = 0);
-    ~DashCommunicator() = default;
+    ~DashCommunicator();
 
 public Q_SLOTS:
     void setCurrentScope(int index, bool animate, bool isSwipe);
