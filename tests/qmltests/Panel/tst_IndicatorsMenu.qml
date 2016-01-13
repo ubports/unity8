@@ -243,12 +243,12 @@ IndicatorTest {
 
             // next time position will have moved.
             var nextItem = get_indicator_item(1);
-            var nextItemMappedPosition = root.mapFromItem(nextItem, nextItem.width/2, nextItem.height/2);
+            var nextItemMappedPositionX = firstItemMappedPosition.x + firstItem.width;
 
             // 1) Flick mouse down to bottom
             touchFlick(indicatorsMenu,
                        firstItemMappedPosition.x, indicatorsMenu.minimizedPanelHeight * 2,
-                       nextItemMappedPosition.x, indicatorsMenu.openedHeight / 3,
+                       nextItemMappedPositionX, indicatorsMenu.openedHeight / 3,
                        false /* beginTouch */, false /* endTouch */,
                        units.gu(50) /* speed */, 5 /* iterations */); // more samples needed for accurate velocity
 
@@ -256,7 +256,7 @@ IndicatorTest {
             // after waiting in the same spot with touch down, it should update to the next item.
             tryCompare(indicatorItemRow, "currentItem", nextItem);
 
-            touchRelease(indicatorsMenu, nextItemMappedPosition.x, indicatorsMenu.openedHeight / 3);
+            touchRelease(indicatorsMenu, nextItemMappedPositionX, indicatorsMenu.openedHeight / 3);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright 2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,22 +14,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MockSecurityPrivacy.h"
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 
-MockSecurityPrivacy::MockSecurityPrivacy(QObject *parent)
-    : QObject(parent),
-      m_type(SecurityType::Swipe)
-{
-}
 
-MockSecurityPrivacy::SecurityType MockSecurityPrivacy::getSecurityType()
-{
-    return m_type;
-}
-
-QString MockSecurityPrivacy::setSecurity(const QString &oldPasswd, const QString &newPasswd, SecurityType newType)
-{
-    m_type = newType;
-    Q_EMIT setSecurityCalled(oldPasswd, newPasswd, newType);
-    return "";
+Rectangle {
+    id: root
+    property alias text: textItem.text
+    signal clicked()
+    width: textItem.width + units.gu(1.5)
+    height: textItem.height + units.gu(1.5)
+    Text {
+        id: textItem
+        anchors.centerIn: parent
+        font.pixelSize: units.gu(1.5)
+    }
+    MouseArea {
+        anchors.fill: parent
+        onClicked: root.clicked()
+    }
 }
