@@ -190,7 +190,7 @@ Rectangle {
         nativeWidth: root.width
         nativeHeight: root.height
         mode: applicationArguments.mode
-        hasMouse: miceModel.count + touchPadModel.count > deviceConfiguration.ignoredMice
+        hasMouse: miceModel.count + touchPadModel.count > 0
         // TODO: Factor in if the current screen is a touch screen and if the user wants to
         //       have multiple keyboards around. For now we only enable one keyboard at a time
         //       thus hiding it here if there is a physical one around or if we have a second
@@ -209,7 +209,7 @@ Rectangle {
                     return "tablet";
                 }
             } else { // automatic
-                if (miceModel.count + touchPadModel.count > deviceConfiguration.ignoredMice) {
+                if (miceModel.count + touchPadModel.count > 0) {
                     return "desktop";
                 } else {
                     return deviceConfiguration.category;

@@ -384,7 +384,11 @@ Rectangle {
                         property int startY
 
                         onPressed: {
-                            selectedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
+                            processPress(mouse);
+                        }
+
+                        function processPress(mouse) {
+                            selectedItem = launcherListView.itemAt(mouse.x, mouse.y + launcherListView.realContentY)
                         }
 
                         onClicked: {
@@ -429,14 +433,14 @@ Rectangle {
                         }
 
                         onCanceled: {
-                            endDrag();
+                            endDrag(drag);
                         }
 
                         onReleased: {
-                            endDrag();
+                            endDrag(drag);
                         }
 
-                        function endDrag() {
+                        function endDrag(dragItem) {
                             var droppedIndex = draggedIndex;
                             if (dragging) {
                                 postDragging = true;
@@ -452,7 +456,7 @@ Rectangle {
                             selectedItem = undefined;
                             preDragging = false;
 
-                            drag.target = undefined
+                            dragItem.target = undefined
 
                             progressiveScrollingTimer.stop();
                             launcherListView.interactive = true;
@@ -464,13 +468,17 @@ Rectangle {
                         }
 
                         onPressAndHold: {
+                            processPressAndHold(mouse, drag);
+                        }
+
+                        function processPressAndHold(mouse, dragItem) {
                             if (Math.abs(selectedItem.angle) > 30) {
                                 return;
                             }
 
                             Haptics.play();
 
-                            draggedIndex = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
+                            draggedIndex = Math.floor((mouse.y + launcherListView.realContentY) / launcherListView.realItemHeight);
 
                             // Opening QuickList
                             quickList.item = selectedItem;
@@ -480,26 +488,30 @@ Rectangle {
 
                             launcherListView.interactive = false
 
-                            var yOffset = draggedIndex > 0 ? (mouseY + launcherListView.realContentY) % (draggedIndex * launcherListView.realItemHeight) : mouseY + launcherListView.realContentY
+                            var yOffset = draggedIndex > 0 ? (mouse.y + launcherListView.realContentY) % (draggedIndex * launcherListView.realItemHeight) : mouse.y + launcherListView.realContentY
 
                             fakeDragItem.iconName = launcherListView.model.get(draggedIndex).icon
                             fakeDragItem.x = units.gu(0.5)
-                            fakeDragItem.y = mouseY - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
+                            fakeDragItem.y = mouse.y - yOffset + launcherListView.anchors.topMargin + launcherListView.topMargin
                             fakeDragItem.angle = selectedItem.angle * (root.inverted ? -1 : 1)
                             fakeDragItem.offset = selectedItem.offset * (root.inverted ? -1 : 1)
                             fakeDragItem.count = LauncherModel.get(draggedIndex).count
                             fakeDragItem.progress = LauncherModel.get(draggedIndex).progress
                             fakeDragItem.flatten()
-                            drag.target = fakeDragItem
+                            dragItem.target = fakeDragItem
 
-                            startX = mouseX
-                            startY = mouseY
+                            startX = mouse.x
+                            startY = mouse.y
                         }
 
                         onPositionChanged: {
+                            processPositionChanged(mouse)
+                        }
+
+                        function processPositionChanged(mouse) {
                             if (draggedIndex >= 0) {
                                 if (!selectedItem.dragging) {
-                                    var distance = Math.max(Math.abs(mouseX - startX), Math.abs(mouseY - startY))
+                                    var distance = Math.max(Math.abs(mouse.x - startX), Math.abs(mouse.y - startY))
                                     if (!preDragging && distance > units.gu(1.5)) {
                                         preDragging = true;
                                         quickList.state = "";
@@ -623,15 +635,39 @@ Rectangle {
             source: "graphics/quicklist_tooltip.png"
             rotation: 90
         }
+    }
+    InverseMouseArea {
+        anchors.fill: quickListShape
+        enabled: quickList.state == "open" || pressed
 
-        InverseMouseArea {
-            anchors.fill: parent
-            enabled: quickList.state == "open"
-            onClicked: {
-                quickList.state = ""
-            }
+        onClicked: {
+            quickList.state = ""
         }
 
+        // Forward for dragging to work when quickList is open
+
+        onPressed: {
+            var m = mapToItem(dndArea, mouseX, mouseY)
+            dndArea.processPress(m)
+        }
+
+        onPressAndHold: {
+            var m = mapToItem(dndArea, mouseX, mouseY)
+            dndArea.processPressAndHold(m, drag)
+        }
+
+        onPositionChanged: {
+            var m = mapToItem(dndArea, mouseX, mouseY)
+            dndArea.processPositionChanged(m)
+        }
+
+        onCanceled: {
+            dndArea.endDrag(drag);
+        }
+
+        onReleased: {
+            dndArea.endDrag(drag);
+        }
     }
 
     Rectangle {
