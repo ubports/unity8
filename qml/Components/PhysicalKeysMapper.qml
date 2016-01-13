@@ -75,7 +75,7 @@ Item {
         if (d.altPressed && !d.altTabPressed && event.key !== Qt.Key_Tab && event.key !== Qt.Key_Alt && !d.altPressInjected) {
             // ALT is pressed and another key that is not Tab has been received. Re-inject the alt pressed event
             d.altPressInjected = true;
-            inputEventGenerator.generateEvent(root, Qt.Key_Alt, true, Qt.NoModifier, currentEventTimestamp - 1, 56);
+            inputEventGenerator.generateKeyEvent(Qt.Key_Alt, true, Qt.NoModifier, currentEventTimestamp - 1, 56);
         }
 
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
@@ -146,7 +146,7 @@ Item {
             } else if (d.altPressed && !d.altPressInjected) {
                 // Alt was released but nothing else. Let's inject a pressed event and also forward the release.
                 d.altPressInjected = true;
-                inputEventGenerator.generateEvent(root, Qt.Key_Alt, true, Qt.AltModifer, currentEventTimestamp, 56);
+                inputEventGenerator.generateKeyEvent(Qt.Key_Alt, true, Qt.AltModifer, currentEventTimestamp, 56);
                 d.altPressInjected = false;
             }
             d.altPressed = false;

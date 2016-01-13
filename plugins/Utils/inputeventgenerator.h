@@ -22,7 +22,7 @@
 #include <QDateTime>
 
 /**
-  * \brief This class allows injecting Key events into the scene.
+  * \brief This class allows injecting Key events into the scene it lives in.
   */
 class InputEventGenerator : public QQuickItem
 {
@@ -31,11 +31,10 @@ public:
     InputEventGenerator(QQuickItem *parent = 0);
 
     /**
-      * Generate and post and event to the scene. Note that the event will not be dispatched directly to the "receiver" but
-      * instead to the window where the item is located. With that, the whole scene will receive the keypress and it will
-      * be dispatched through the regular event/focus queue.
+      * Generate and post and event to the scene. The key event will be sent to the scene the Generator
+      * lives in and it will be dispatched through the regular event/focus queue.
       */
-    Q_INVOKABLE void generateEvent(QQuickItem *receiver, Qt::Key key, bool pressed, Qt::KeyboardModifiers modifiers = Qt::NoModifier, quint64 timestamp = QDateTime::currentMSecsSinceEpoch(), quint32 nativeScanCode = 0, const QString &text = QString());
+    Q_INVOKABLE void generateKeyEvent(Qt::Key key, bool pressed, Qt::KeyboardModifiers modifiers = Qt::NoModifier, quint64 timestamp = QDateTime::currentMSecsSinceEpoch(), quint32 nativeScanCode = 0, const QString &text = QString());
 };
 
 #endif // INPUTEVENTGENERATOR_H

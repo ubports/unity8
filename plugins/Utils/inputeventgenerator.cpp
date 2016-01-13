@@ -25,10 +25,10 @@ InputEventGenerator::InputEventGenerator(QQuickItem *parent)
 {
 }
 
-void InputEventGenerator::generateEvent(QQuickItem *receiver, Qt::Key key, bool pressed, Qt::KeyboardModifiers modifier, quint64 timestamp, quint32 nativeScanCode, const QString &text)
+void InputEventGenerator::generateKeyEvent(Qt::Key key, bool pressed, Qt::KeyboardModifiers modifier, quint64 timestamp, quint32 nativeScanCode, const QString &text)
 {
     QEvent::Type type = pressed ? QEvent::KeyPress : QEvent::KeyRelease;
     QKeyEvent ev(type, key, modifier, nativeScanCode, 0, 0, text);
     ev.setTimestamp(timestamp);
-    QCoreApplication::sendEvent(receiver->window(), &ev);
+    QCoreApplication::sendEvent(window(), &ev);
 }
