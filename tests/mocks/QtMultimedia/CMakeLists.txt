@@ -1,6 +1,7 @@
 add_library(QtMultimedia-qml MODULE
     plugin.cpp
     audio.cpp
+    declarativeplaylist.cpp
     )
 
 qt5_use_modules(QtMultimedia-qml Qml)
