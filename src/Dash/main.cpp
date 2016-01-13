@@ -27,8 +27,9 @@
 #include <libintl.h>
 
 #include <paths.h>
-#include "../MouseTouchAdaptor.h"
-#include "../ApplicationArguments.h"
+#ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    #include "../MouseTouchAdaptor.h"
+#endif
 #include "../CachingNetworkManagerFactory.h"
 
 int main(int argc, const char *argv[])
@@ -56,8 +57,6 @@ int main(int argc, const char *argv[])
     // Ex: -fullscreen == --fullscreen
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
     parser.process(*application);
-
-    ApplicationArguments qmlArgs;
 
     if (getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QStringLiteral("qttestability"));
@@ -92,14 +91,15 @@ int main(int argc, const char *argv[])
     }
 
     view->setTitle(QStringLiteral("Scopes"));
-    view->rootContext()->setContextProperty(QStringLiteral("applicationArguments"), &qmlArgs);
 
+    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     MouseTouchAdaptor *mouseTouchAdaptor = 0;
     if (parser.isSet(mousetouchOption)) {
         mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
+    #endif
 
     QUrl source(::qmlDirectory() + "/Dash/DashApplication.qml");
     prependImportPaths(view->engine(), ::overrideImportPaths());
@@ -114,7 +114,11 @@ int main(int argc, const char *argv[])
     int result = application->exec();
 
     delete view;
+
+    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     delete mouseTouchAdaptor;
+    #endif
+
     delete application;
 
     return result;
