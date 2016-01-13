@@ -38,3 +38,6 @@ target_link_libraries(Dash-qml
 qt5_use_modules(Dash-qml Qml Quick Concurrent)
 
 add_unity8_plugin(Dash 0.1 Dash TARGETS Dash-qml)
+
+install(FILES graphics/music_progress_bg.png DESTINATION ${SHELL_INSTALL_QML}/Dash/graphics/)
+file(COPY graphics/music_progress_bg.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/graphics/)

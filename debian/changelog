@@ -1,3 +1,16 @@
+unity8 (8.11+16.04.20160107-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Introduce audio cards
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Michael Zanetti ]
+  * Introduce audio cards
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 07 Jan 2016 08:04:47 +0000
+
 unity8 (8.11+16.04.20160105.1-0ubuntu1) xenial; urgency=medium
 
   [ CI Train Bot ]
