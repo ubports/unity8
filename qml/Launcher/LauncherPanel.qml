@@ -40,6 +40,7 @@ Rectangle {
 
     signal applicationSelected(string appId)
     signal showDashHome()
+    signal kbdNavigationCancelled()
 
     onXChanged: {
         if (quickList.state == "open") {
@@ -661,7 +662,10 @@ Rectangle {
         enabled: quickList.state == "open" || pressed
 
         onClicked: {
-            quickList.state = ""
+            quickList.state = "";
+            quickList.focus = false;
+            root.highlightIndex = -2;
+            root.kbdNavigationCancelled();
         }
 
         // Forward for dragging to work when quickList is open
@@ -788,6 +792,8 @@ Rectangle {
                         // Unsetting model to prevent showing changing entries during fading out
                         // that may happen because of triggering an action.
                         LauncherModel.quickListActionInvoked(quickList.appId, index);
+                        quickList.focus = false;
+                        root.kbdNavigationCancelled();
                         quickList.model = undefined;
                     }
                 }

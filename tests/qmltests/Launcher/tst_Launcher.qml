@@ -1179,9 +1179,9 @@ Item {
 
         function test_hideNotWorkingWhenLockedOut_data() {
             return [
-                        {tag: "locked visible", locked: true},
-                        {tag: "no locked visible", locked: false},
-                    ]
+                {tag: "locked visible", locked: true},
+                {tag: "no locked visible", locked: false},
+            ]
         }
 
         function test_hideNotWorkingWhenLockedOut(data) {
@@ -1199,6 +1199,28 @@ Item {
             } else {
                 verify(launcher.state == "");
             }
+        }
+
+        function test_cancelKbdNavigationWitMouse() {
+            launcher.openForKeyboardNavigation();
+            waitForRendering(launcher);
+
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            tryCompare(launcherPanel, "x", 0);
+
+            var quickList = findChild(launcher, "quickList");
+
+            keyClick(Qt.Key_Down); // Down to launcher item 0
+            keyClick(Qt.Key_Down); // Down to launcher item 1
+            keyClick(Qt.Key_Right); // Into quicklist
+
+            waitForRendering(launcher)
+            tryCompare(quickList, "visible", true)
+
+            mouseClick(root, root.width / 2, units.gu(2));
+
+            tryCompare(launcher, "state", "");
+            tryCompare(launcherPanel, "highlightIndex", -2);
         }
     }
 }
