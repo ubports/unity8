@@ -23,7 +23,7 @@ GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 GSettingsControllerQml::GSettingsControllerQml()
     : m_usageMode("Staged")
     , m_autohideLauncher(false)
-    , m_launcherWidth(qgetenv("GRID_UNIT_PX").isEmpty() ? 8 : qgetenv("GRID_UNIT_PX").toInt() * 8)
+    , m_launcherWidth(8)
 {
 }
 

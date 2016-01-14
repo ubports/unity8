@@ -1201,7 +1201,14 @@ Item {
             }
         }
 
-        function test_cancelKbdNavigationWitMouse() {
+        function test_cancelKbdNavigationWitMouse_data() {
+            return [
+                {tag: "locked out", autohide: false },
+                {tag: "autohide", autohide: true },
+            ]
+        }
+
+        function test_cancelKbdNavigationWitMouse(data) {
             launcher.openForKeyboardNavigation();
             waitForRendering(launcher);
 
@@ -1219,7 +1226,12 @@ Item {
 
             mouseClick(root, root.width / 2, units.gu(2));
 
-            tryCompare(launcher, "state", "");
+            if (data.autohide) {
+                tryCompare(launcher, "state", "");
+            } else {
+                tryCompare(launcher, "state", "visible");
+            }
+
             tryCompare(launcherPanel, "highlightIndex", -2);
         }
     }
