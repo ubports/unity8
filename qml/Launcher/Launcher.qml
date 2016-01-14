@@ -129,7 +129,6 @@ FocusScope {
         panel.highlightIndex = -1; // The BFB
         root.focus = true;
         switchToNextState("visible")
-        root.focus = true;
     }
 
     Keys.onPressed: {
@@ -359,6 +358,11 @@ FocusScope {
             if (dismissTimer.running) {
                 dismissTimer.restart();
             }
+        }
+
+        onKbdNavigationCancelled: {
+            root.state = "";
+            root.focus = false;
         }
 
         Behavior on x {

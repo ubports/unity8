@@ -1139,5 +1139,26 @@ Item {
             compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
             compare(signalSpy.signalArguments[0][1], 2)
         }
+
+        function test_cancelKbdNavigationWitMouse() {
+            launcher.openForKeyboardNavigation();
+            waitForRendering(launcher);
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            tryCompare(launcherPanel, "x", 0);
+
+            var quickList = findChild(launcher, "quickList");
+
+            keyClick(Qt.Key_Down); // Down to launcher item 0
+            keyClick(Qt.Key_Down); // Down to launcher item 1
+            keyClick(Qt.Key_Right); // Into quicklist
+
+            waitForRendering(launcher)
+            tryCompare(quickList, "visible", true)
+
+            mouseClick(root, root.width / 2, units.gu(2));
+
+            tryCompare(launcher, "state", "");
+            tryCompare(launcherPanel, "highlightIndex", -2);
+        }
     }
 }
