@@ -766,14 +766,15 @@ Item {
         function test_launcher_dismiss() {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
-            mouseClick(root);
+            
+            mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
             verify(launcher.state == "visible");
-            mouseClick(root);
+            mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
         }
