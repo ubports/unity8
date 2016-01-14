@@ -303,10 +303,10 @@ Item {
             var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
 
             waitForRendering(launcher);
-            tryCompare(bfbFocusHighlight, "visible", index === -1);
+            compare(bfbFocusHighlight.visible, index === -1);
             for (var i = 0; i < launcherListView.count; i++) {
                 var focusRing = findChild(findChild(launcher, "launcherDelegate" + i), "focusRing")
-                tryCompare(focusRing, "visible", index === i);
+                compare(focusRing.visible, index === i);
             }
         }
 
@@ -411,6 +411,7 @@ Item {
                 wait(100)
                 compare(launcher.maxPanelX, -launcher.panelWidth, "Launcher moved even if it shouldn't")
             }
+
             waitUntilLauncherDisappears();
             launcher.available = true;
         }
@@ -1097,12 +1098,15 @@ Item {
         function test_keyboardNavigation() {
             var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
             var quickList = findChild(launcher, "quickList");
+            var launcherPanel = findChild(launcher, "launcherPanel");
             var launcherListView = findChild(launcher, "launcherListView");
             var last = launcherListView.count - 1;
 
             compare(bfbFocusHighlight.visible, false);
 
             launcher.openForKeyboardNavigation();
+            tryCompare(launcherPanel, "x", 0);
+            waitForRendering(launcher);
 
             assertFocusOnIndex(-1);
 
@@ -1175,6 +1179,7 @@ Item {
             compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
             compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
             compare(signalSpy.signalArguments[0][1], 2)
+            assertFocusOnIndex(-2);
         }
 
         function test_hideNotWorkingWhenLockedOut_data() {
@@ -1203,12 +1208,15 @@ Item {
 
         function test_cancelKbdNavigationWitMouse_data() {
             return [
-                {tag: "locked out", autohide: false },
-                {tag: "autohide", autohide: true },
+                        {tag: "locked out - no quicklist", autohide: false, withQuickList: false },
+                        {tag: "locked out - with quicklist", autohide: false, withQuickList: true },
+                        {tag: "autohide - no quicklist", autohide: true, withQuickList: false },
+                        {tag: "autohide - with quicklist", autohide: true, withQuickList: true },
             ]
         }
 
         function test_cancelKbdNavigationWitMouse(data) {
+            launcher.autohideEnabled = data.autohide;
             launcher.openForKeyboardNavigation();
             waitForRendering(launcher);
 
@@ -1219,12 +1227,14 @@ Item {
 
             keyClick(Qt.Key_Down); // Down to launcher item 0
             keyClick(Qt.Key_Down); // Down to launcher item 1
-            keyClick(Qt.Key_Right); // Into quicklist
 
+            if (data.withQuickList) {
+                keyClick(Qt.Key_Right); // Into quicklist
+                tryCompare(quickList, "visible", true)
+            }
             waitForRendering(launcher)
-            tryCompare(quickList, "visible", true)
 
-            mouseClick(root, root.width / 2, units.gu(2));
+            mouseClick(root);
 
             if (data.autohide) {
                 tryCompare(launcher, "state", "");
@@ -1232,7 +1242,7 @@ Item {
                 tryCompare(launcher, "state", "visible");
             }
 
-            tryCompare(launcherPanel, "highlightIndex", -2);
+            assertFocusOnIndex(-2);
         }
     }
 }

@@ -30,7 +30,7 @@ FocusScope {
     property alias inverted: panel.inverted
     property bool shadeBackground: true // can be used to disable background shade when launcher is visible
 
-    property int panelWidth: units.gu(8)
+    property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
@@ -312,9 +312,10 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.shadeBackground && root.state == "visible" && !root.lockedVisible
+        enabled: root.shadeBackground && root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
         visible: enabled
         onPressed: {
+            panel.highlightIndex = -2
             root.hide();
         }
     }
@@ -381,6 +382,7 @@ FocusScope {
         }
 
         onKbdNavigationCancelled: {
+            panel.highlightIndex = -2;
             root.hide();
             root.focus = false;
         }

@@ -664,7 +664,6 @@ Rectangle {
         onClicked: {
             quickList.state = "";
             quickList.focus = false;
-            root.highlightIndex = -2;
             root.kbdNavigationCancelled();
         }
 
@@ -735,16 +734,21 @@ Rectangle {
             case Qt.Key_Left:
             case Qt.Key_Escape:
                 quickList.selectedIndex = -1;
-                // Falling through intentionally
+                quickList.focus = false;
+                quickList.state = ""
+                event.accepted = true;
+                break;
             case Qt.Key_Enter:
             case Qt.Key_Return:
             case Qt.Key_Space:
                 if (quickList.selectedIndex >= 0) {
                     LauncherModel.quickListActionInvoked(quickList.appId, quickList.selectedIndex)
                 }
+                quickList.selectedIndex = -1;
                 quickList.focus = false;
                 quickList.state = ""
-                // Don't consume the event. We want to close the Launcher too, not just the quicklist.
+                root.kbdNavigationCancelled();
+                event.accepted = true;
                 break;
             }
         }
