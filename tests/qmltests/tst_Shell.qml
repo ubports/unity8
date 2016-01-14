@@ -2105,5 +2105,25 @@ Rectangle {
 
             compare(shownSize + launcher.panelWidth, hiddenSize);
         }
+
+        function test_fullscreenAppHidesLockedOutLauncher() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var appContainer = findChild(shell, "appContainer");
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
+
+            GSettingsController.setAutohideLauncher(false);
+            waitForRendering(shell)
+
+            tryCompare(appContainer, "width", shell.width - launcherPanel.width);
+
+            var cameraApp = ApplicationManager.startApplication("camera-app");
+            waitUntilAppWindowIsFullyLoaded(cameraApp);
+
+            tryCompare(appContainer, "width", shell.width);
+        }
     }
 }

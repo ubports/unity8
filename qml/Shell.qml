@@ -568,7 +568,7 @@ Item {
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
-            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher
+            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
 
             onShowDashHome: showHome()
             onDash: showDash()
