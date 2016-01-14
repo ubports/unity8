@@ -604,7 +604,7 @@ Item {
         {
             var dashContentList = findChild(dashContent, "dashContentList");
             var header = findChild(dashContentList.currentItem, "scopePageHeader")
-            var favoriteAction = findChild(header, "favorite_action_button");
+            var favoriteAction = findChild(header, "favorite_button");
             compare(dashContentList.currentIndex, 0);
             compare(dashContentList.indexAt(dashContentList.width * 1.5, 0), 1);
             var nextScopeId = dashContentList.itemAt(dashContentList.width * 1.5, 0).item.scope.id;

@@ -434,7 +434,7 @@ Item {
                 // open
                 tryCompare(testCase.subPageLoader, "open", false);
                 tryCompare(testCase.subPageLoader, "visible", false);
-                var settings = findChild(innerHeader, "settings_action_button");
+                var settings = findChild(innerHeader, "settings_button");
                 mouseClick(settings);
                 tryCompare(testCase.subPageLoader, "open", true);
                 tryCompareFunction(function() { return (String(subPageLoader.source)).indexOf("ScopeSettingsPage.qml") != -1; }, true);
@@ -582,7 +582,7 @@ Item {
                 verify(innerHeader, "Could not find the inner header");
 
                 expectFail("Apps", "Click scope should not have a favorite button");
-                var favoriteAction = findChild(innerHeader, "favorite_action_button");
+                var favoriteAction = findChild(innerHeader, "favorite_button");
                 verify(favoriteAction, "Could not find the favorite action.");
                 mouseClick(favoriteAction);
 

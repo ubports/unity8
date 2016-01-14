@@ -28,7 +28,7 @@ import Utils 0.1 // For EdgeBarrierSettings
    launcher. */
 Item {
     id: root
-    width: units.gu(70)
+    width: units.gu(140)
     height: units.gu(70)
 
     Loader {
@@ -685,6 +685,7 @@ Item {
             if(data.mouse) {
                 mouseClick(root)
             } else {
+                touchRelease(draggedItem)
                 tap(root)
             }
 
@@ -797,6 +798,22 @@ Item {
             tryCompare(quickListShape, "visible", false)
 
             mouseRelease(draggedItem);
+        }
+
+        function test_launcher_dismiss() {
+            dragLauncherIntoView();
+            verify(launcher.state == "visible");
+            
+            mouseClick(root, root.width / 2, units.gu(1));
+            waitUntilLauncherDisappears();
+            verify(launcher.state == "");
+
+            // and repeat, as a test for regression in lpbug#1531339
+            dragLauncherIntoView();
+            verify(launcher.state == "visible");
+            mouseClick(root, root.width / 2, units.gu(1));
+            waitUntilLauncherDisappears();
+            verify(launcher.state == "");
         }
 
         function test_quicklist_positioning_data() {
