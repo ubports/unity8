@@ -460,6 +460,8 @@ Rectangle {
             signalSpy.signalName = "";
 
             LightDM.Greeter.authenticate(""); // reset greeter
+
+            usageModeSelector.selectStaged();
         }
 
         function cleanup() {
