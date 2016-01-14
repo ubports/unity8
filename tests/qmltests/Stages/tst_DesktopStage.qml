@@ -25,6 +25,7 @@ import Utils 0.1
 import ".." // For EdgeBarrierControls
 import "../../../qml/Stages"
 import "../../../qml/Components"
+import "../../../qml/Components/PanelState"
 
 Item {
     id: root
@@ -499,6 +500,34 @@ Item {
             tryCompare(dashAppDelegate, "visible", false);
             tryCompare(dialerAppDelegate, "visible", true);
             tryCompare(facebookAppDelegate, "visible", false);
+        }
+
+        function test_dropShadow() {
+            killAllRunningApps();
+
+            // verify the drop shadow is not visible initially
+            verify(PanelState.dropShadow == false);
+
+            // start an app, maximize it
+            var facebookApp = startApplication("facebook-webapp");
+            var facebookAppDelegate = findChild(desktopStage, "appDelegate_facebook-webapp");
+            facebookAppDelegate.maximize();
+
+            // verify the drop shadow is still not visible
+            verify(PanelState.dropShadow == false);
+
+            // start a foreground app, not maximized
+            var dialerApp = startApplication("dialer-app");
+            var dialerAppDelegate = findChild(desktopStage, "appDelegate_dialer-app");
+
+            // verify the drop shadow becomes visible
+            verify(PanelState.dropShadow == true);
+
+            // close the maximized app
+            ApplicationManager.stopApplication("facebook-webapp");
+
+            // verify the drop shadow is gone
+            verify(PanelState.dropShadow == false);
         }
     }
 }

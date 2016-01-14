@@ -27,6 +27,12 @@ DashCommunicator::DashCommunicator(QObject *parent):
     start();
 }
 
+DashCommunicator::~DashCommunicator()
+{
+    quit();
+    wait();
+}
+
 void DashCommunicator::setCurrentScope(int index, bool animate, bool isSwipe)
 {
     m_mutex.lock();
