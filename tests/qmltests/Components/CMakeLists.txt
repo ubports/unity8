@@ -10,6 +10,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${Qt5Quick_PRIVATE_INCLUDE_DIRS}
+    ${UBUNTUGESTURES_INCLUDEDIR}/UbuntuGestures/${UBUNTUGESTURES_VERSION}
     )
 
 add_executable(DragHandleTestExec tst_DragHandle.cpp)

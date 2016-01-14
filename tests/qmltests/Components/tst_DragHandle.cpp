@@ -21,6 +21,7 @@
 #include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>
 #include <private/qquickwindow_p.h>
+#include <UbuntuGestures/private/ucswipearea_p_p.h>
 
 #include <AxisVelocityCalculator.h>
 #include <Timer>
@@ -200,12 +201,11 @@ QQuickItem *tst_DragHandle::fetchAndSetupDragHandle(const char *objectName)
     QQuickItem *dragHandle =
         m_view->rootObject()->findChild<QQuickItem*>(objectName);
     Q_ASSERT(dragHandle != 0);
-    auto children = dragHandle->findChildren<QObject*>();
-    Q_FOREACH(QObject *child, children) {
-        if (child->metaObject()->className() == QByteArray("UCSwipeAreaPrivate")) {
-            QMetaObject::invokeMethod(child, "setRecognitionTimer", Q_ARG(UbuntuGestures::AbstractTimer*, m_fakeTimer));
-            QMetaObject::invokeMethod(child, "setTimeSource", Q_ARG(UbuntuGestures::SharedTimeSource, m_fakeTimeSource));
-        }
+    UCSwipeArea *swipeArea = dynamic_cast<UCSwipeArea*>(dragHandle);
+    if (swipeArea) {
+        UCSwipeAreaPrivate *swipeAreaPrivate = dynamic_cast<UCSwipeAreaPrivate *>(QQuickItemPrivate::get(swipeArea));
+        swipeAreaPrivate->setRecognitionTimer(m_fakeTimer);
+        swipeAreaPrivate->setTimeSource(m_fakeTimeSource);
     }
 
     AxisVelocityCalculator *edgeDragEvaluator =
