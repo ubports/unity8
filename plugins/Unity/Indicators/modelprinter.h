@@ -32,7 +32,7 @@ class ModelPrinter : public QObject
     Q_PROPERTY(UnityMenuModel* model READ sourceModel WRITE setSourceModel NOTIFY modelChanged)
     Q_PROPERTY(QString text READ text NOTIFY textChanged)
 public:
-    ModelPrinter(QObject* parent=0);
+    ModelPrinter(QObject* parent=nullptr);
 
     void setSourceModel(UnityMenuModel* sourceModel);
     UnityMenuModel* sourceModel() const;

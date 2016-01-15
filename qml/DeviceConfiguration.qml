@@ -34,8 +34,6 @@ QtObject {
 
     readonly property alias category: priv.category
 
-    readonly property alias ignoredMice: priv.ignoredMice
-
     readonly property var priv: StateGroup {
         id: priv
 
@@ -54,8 +52,6 @@ QtObject {
         // Supported values so far:
         // "phone", "tablet" or "desktop"
         property string category: "phone"
-
-        property int ignoredMice: 0
 
         states: [
             State {
@@ -83,7 +79,6 @@ QtObject {
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
-                    ignoredMice: 1
                 }
             },
             State {

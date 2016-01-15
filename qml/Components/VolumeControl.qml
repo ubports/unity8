@@ -36,7 +36,7 @@ Item {
     GlobalShortcut {
         id: muteShortcut
         shortcut: Qt.Key_VolumeMute
-        Keys.onPressed: toggleMute()
+        onTriggered: toggleMute()
     }
 
     QMenuModel.QDBusActionGroup {
@@ -46,7 +46,7 @@ Item {
         objectPath: "/com/canonical/indicator/sound"
 
         property variant actionObject: action("volume")
-        property variant muteActionObject: action("mute")
+        property variant muteActionObject: indicators.indicatorsModel.profile === "desktop" ? action("mute") : action("silent-mode")
         property variant indicatorsAction: action("indicator-shown")
     }
 

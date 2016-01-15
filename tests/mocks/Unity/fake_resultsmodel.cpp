@@ -78,7 +78,7 @@ ResultsModel::data(const QModelIndex& index, int role) const
         case RoleTitle:
             return QString("Title.%1.%2").arg(m_categoryId).arg(index.row());
         case RoleArt:
-            return QString(qmlDirectory() + "/graphics/applicationIcons/dash.png");
+            return QString("../../../tests/graphics/applicationIcons/dash.png");
         case RoleSubtitle:
             return QString("Subtitle.%1.%2").arg(m_categoryId).arg(index.row());
         case RoleMascot:

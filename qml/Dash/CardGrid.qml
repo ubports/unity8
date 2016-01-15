@@ -25,6 +25,7 @@ DashRenderer {
         return cardTool.template["collapsed-rows"];
     }
     property string artShapeStyle: "inset";
+    property string backgroundShapeStyle: "inset";
 
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
@@ -71,6 +72,7 @@ DashRenderer {
                     item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                     item.scopeStyle = root.scopeStyle;
                     item.artShapeStyle = root.artShapeStyle;
+                    item.backgroundShapeStyle = root.backgroundShapeStyle;
                 }
                 Connections {
                     target: loader.item

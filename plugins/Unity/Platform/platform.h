@@ -38,6 +38,10 @@ class Platform: public QObject
      * Whether the machine is an ordinary PC (desktop, laptop or server)
      */
     Q_PROPERTY(bool isPC READ isPC CONSTANT)
+    /**
+     * Whether the system is capable of running multiple (graphical) sessions
+     */
+    Q_PROPERTY(bool isMultiSession READ isMultiSession CONSTANT)
 
 public:
     Platform(QObject *parent = nullptr);
@@ -46,13 +50,15 @@ public:
     QString chassis() const;
     bool isPC() const;
 
+    bool isMultiSession() const;
+
 private Q_SLOTS:
     void init();
 
 private:
-    QDBusInterface m_iface;
     QString m_chassis;
     bool m_isPC;
+    bool m_isMultiSession;
 };
 
 #endif // PLATFORM_H

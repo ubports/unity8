@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,30 +20,18 @@
 
 Audio::Audio(QObject* parent):
     QObject(parent),
-    m_playbackState(StoppedState)
+    m_playbackState(StoppedState),
+    m_playlist(0)
 {
     qsrand(time(nullptr));
     m_timer.setInterval(1000);
     connect(&m_timer, &QTimer::timeout, this, &Audio::timerEvent);
-}
 
-QUrl Audio::source() const
-{
-    return m_source;
-}
+    m_position = 0;
+    Q_EMIT positionChanged(m_position);
 
-void Audio::setSource(const QUrl &source)
-{
-    if (m_source != source) {
-        m_source = source;
-        Q_EMIT sourceChanged(source);
-
-        m_position = 0;
-        Q_EMIT positionChanged(m_position);
-
-        m_duration = (qrand() % 20000) + 10000;
-        Q_EMIT durationChanged(m_duration);
-    }
+    m_duration = (qrand() % 20000) + 10000;
+    Q_EMIT durationChanged(m_duration);
 }
 
 Audio::PlaybackState Audio::playbackState() const
@@ -114,4 +102,18 @@ Audio::AudioRole Audio::audioRole() const
 void Audio::setAudioRole(Audio::AudioRole audioRole)
 {
     Q_UNUSED(audioRole);
+}
+
+DeclarativePlaylist *Audio::playlist() const
+{
+    return m_playlist;
+}
+
+void Audio::setPlaylist(DeclarativePlaylist *playlist)
+{
+    if (playlist == m_playlist)
+        return;
+
+    m_playlist = playlist;
+    Q_EMIT playlistChanged();
 }

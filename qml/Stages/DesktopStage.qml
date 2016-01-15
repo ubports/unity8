@@ -123,17 +123,21 @@ AbstractStage {
         }
         onFocusedAppDelegateChanged: updateForegroundMaximizedApp();
 
-        property int foregroundMaximizedAppIdIndex: -1
+        property int foregroundMaximizedAppZ: -1
+        property int foregroundMaximizedAppIndex: -1 // for stuff like drop shadow and focusing maximized app by clicking panel
 
         function updateForegroundMaximizedApp() {
-            for (var i = 0; i < appRepeater.count; i++) {
+            var tmp = -1;
+            var tmpAppId = -1;
+            for (var i = appRepeater.count - 1; i >= 0; i--) {
                 var item = appRepeater.itemAt(i);
                 if (item && item.visuallyMaximized) {
-                    foregroundMaximizedAppIdIndex = i;
-                    return;
+                    tmpAppId = i;
+                    tmp = Math.max(tmp, item.normalZ);
                 }
             }
-            foregroundMaximizedAppIdIndex = -1;
+            foregroundMaximizedAppZ = tmp;
+            foregroundMaximizedAppIndex = tmpAppId;
         }
 
         function indexOf(appId) {
@@ -176,8 +180,8 @@ AbstractStage {
         onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
         onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
                     && priv.focusedAppDelegate.restoreFromMaximized();
-        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIdIndex != -1) {
-                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIdIndex).appId);
+        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIndex != -1) {
+                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIndex).appId);
                              }
     }
 
@@ -206,7 +210,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "dropShadow"
-        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIdIndex !== -1
+        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIndex !== -1
     }
 
     Component.onDestruction: {
@@ -237,7 +241,10 @@ AbstractStage {
             delegate: FocusScope {
                 id: appDelegate
                 objectName: "appDelegate_" + appId
-                z: ApplicationManager.count - index
+                // z might be overriden in some cases by effects, but we need z ordering
+                // to calculate occlusion detection
+                property int normalZ: ApplicationManager.count - index
+                z: normalZ
                 y: PanelState.panelHeight
                 focus: appId === priv.focusedAppId
                 width: decoratedWindow.width
@@ -274,7 +281,7 @@ AbstractStage {
 
                 visible: !visuallyMinimized &&
                          !greeter.fullyShown &&
-                         (priv.foregroundMaximizedAppIdIndex === -1 || priv.foregroundMaximizedAppIdIndex >= index) ||
+                         (priv.foregroundMaximizedAppZ === -1 || priv.foregroundMaximizedAppZ <= z) ||
                          (spread.state == "altTab" && index === spread.highlightedIndex)
 
                 Binding {
