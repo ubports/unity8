@@ -176,7 +176,7 @@ Item {
             // release them both, both are supposed to end up in the app
             keyRelease(Qt.Key_F, Qt.NoModifier);
             keyRelease(Qt.Key_Alt, Qt.NoModifier);
-            compare(inputCatcher.pressedKeys.length, 2);
+            compare(inputCatcher.releasedKeys.length, 2);
         }
     }
 }
