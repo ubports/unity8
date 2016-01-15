@@ -206,6 +206,11 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: signalSpy
+        signalName: "clicked"
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "Card"
@@ -268,10 +273,10 @@ Rectangle {
                 { tag: "Wide", width: units.gu(18), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
-                { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "socialAttributesRow");
-                                                         return cardToolRow.y + cardToolRow.height + units.gu(1) }, index: 6 },
-                { tag: "HorizontalNoSummary", height: function() { var cardToolRow = findChild(cardTool, "socialAttributesRow");
-                                                                   return cardToolRow.y + cardToolRow.height + units.gu(1) },
+                { tag: "NoSummary", height: function() { var socialAttributesRow = findChild(cardTool, "socialAttributesRow");
+                                                         return socialAttributesRow.y + socialAttributesRow.height + units.gu(1) }, index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { var socialAttributesRow = findChild(cardTool, "socialAttributesRow");
+                                                                   return socialAttributesRow.y + socialAttributesRow.height + units.gu(1) },
                                               card_layout: "horizontal", index: 6 },
             ]
         }
@@ -620,6 +625,28 @@ Rectangle {
             } else if (title) {
                 verify((card.width - titleToCard.x - titleToCard.width) === units.gu(1));
             }
+        }
+
+        function test_clicked() {
+            selector.selectedIndex = 0;
+            waitForRendering(card);
+
+            signalSpy.target = card;
+            var socialAttributesRow = findChild(card, "socialAttributesRow");
+            var delegate0 = findChild(socialAttributesRow, "delegate0");
+            var icon0 = findChild(delegate0, "icon");
+            var delegate1 = findChild(socialAttributesRow, "delegate1");
+            var icon1 = findChild(delegate1, "icon");
+
+            compare(icon0.source, "image://theme/ok");
+            mouseClick(delegate0, delegate0.height / 2, delegate0.height / 2);
+            tryCompare(signalSpy, "count", 1);
+            compare(icon0.source, "image://theme/undo");
+
+            compare(icon1.source, "image://theme/cancel");
+            mouseClick(delegate1, delegate1.height / 2, delegate1.height / 2);
+            tryCompare(signalSpy, "count", 2);
+            compare(icon1.source, "image://theme/cancel");
         }
     }
 }
