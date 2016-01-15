@@ -35,7 +35,8 @@ Rectangle {
       "title": "foo",
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
+      "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
+      "socialAttributes": [{"label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},{"label":"text2","icon":"image://theme/cancel"}]
     }'
 
     property var cardsModel: [
@@ -267,9 +268,11 @@ Rectangle {
                 { tag: "Wide", width: units.gu(18), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
-                { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow");
+                { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "socialAttributesRow");
                                                          return cardToolRow.y + cardToolRow.height + units.gu(1) }, index: 6 },
-                { tag: "HorizontalNoSummary", height: function() { return headerRow.height + units.gu(2) }, card_layout: "horizontal", index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { var cardToolRow = findChild(cardTool, "socialAttributesRow");
+                                                                   return cardToolRow.y + cardToolRow.height + units.gu(1) },
+                                              card_layout: "horizontal", index: 6 },
             ]
         }
 

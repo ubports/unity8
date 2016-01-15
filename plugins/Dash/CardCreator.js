@@ -294,6 +294,18 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             model: cardData && cardData["attributes"]; \n\
                           }\n';
 
+// %1 is used as anchors of socialAttributesRow
+// %2 is used as color of socialAttributesRow
+var kSocialAttributesRowCode = 'CardSocialAttributes { \n\
+                                  id: socialAttributesRow; \n\
+                                  objectName: "socialAttributesRow"; \n\
+                                  anchors { %1 } \n\
+                                  color: %2; \n\
+                                  fontScale: root.fontScale; \n\
+                                  model: cardData && cardData["socialAttributes"]; \n\
+                                  onClicked: root.clicked(result); \n\
+                                }\n';
+
 // %1 is used as top anchor of summary
 // %2 is used as topMargin anchor of summary
 // %3 is used as color of summary
@@ -352,6 +364,11 @@ function cardString(template, components) {
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"]["field"] || false;
+    var hasSocialAttributes = hasTitle && components["socialAttributes"] || false;
+
+    if (hasSocialAttributes) {
+        code += 'signal clicked(var result);\n';
+    }
 
     if (hasBackground) {
         var templateCardBackground = (template && typeof template["card-background"] === "string") ? template["card-background"] :  "";
@@ -657,6 +674,36 @@ function cardString(template, components) {
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(summaryColor);
     }
 
+    if (hasSocialAttributes) {
+        var socialAnchors;
+        var socialTopAnchor;
+
+        if (hasSummary) {
+            socialTopAnchor = 'summary.bottom;';
+        } else {
+            if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+            else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+            else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
+            else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
+            else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
+            else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
+            else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
+            else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
+            else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+            else socialTopAnchor = 'parent.top';
+        }
+        socialAnchors = 'top: ' + socialTopAnchor + ' left: parent.left; right: parent.right; topMargin: units.gu(1);'
+
+        var socialColor;
+        if (hasBackground) {
+            socialColor = summaryColorWithBackground;
+        } else {
+            socialColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
+        }
+
+        code += kSocialAttributesRowCode.arg(socialAnchors).arg(socialColor);
+    }
+
     var touchdownAnchors;
     if (hasBackground) {
         touchdownAnchors = 'fill: backgroundLoader';
@@ -668,7 +715,9 @@ function cardString(template, components) {
     code += kTouchdownCode.arg(touchdownAnchors);
 
     var implicitHeight = 'implicitHeight: ';
-    if (hasSummary) {
+    if (hasSocialAttributes) {
+        implicitHeight += 'socialAttributesRow.y + socialAttributesRow.height + units.gu(1);\n';
+    } else if (hasSummary) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
     } else if (headerAsOverlay) {
         implicitHeight += 'artShapeHolder.height;\n';
