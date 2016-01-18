@@ -80,11 +80,18 @@ CardAudioProgress {
                                 visible: parent.pressed; 
                                 radius: "medium"; 
                             } 
-                            Icon {  
+                            Image {  
+                                id: icon; 
                                 anchors.fill: parent; 
                                 anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; 
                                 opacity: 0.9; 
-                                name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; 
+                                fillMode: Image.PreserveAspectFit; 
+                                sourceSize { 
+                                    width: icon.width; 
+                                    height: icon.height; 
+                                } 
+                                source: "image://theme/" + (DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"); 
+                                asynchronous: true; 
                             } 
                             onClicked: { 
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { 
