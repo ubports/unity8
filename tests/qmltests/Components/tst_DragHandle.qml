@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013,2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ Rectangle {
         objectName: "baseItem"
         anchors.fill: parent
 
-        Button {
+        SimpleButton {
             visible: root.bidirectional && bidirectionalShowable.fullyHidden
             text: "bidirectionalShowable.show()"
             anchors.centerIn: parent
@@ -169,12 +169,12 @@ Rectangle {
         anchors.margins: units.gu(1)
         spacing: units.gu(1)
 
-        Button {
+        SimpleButton {
             text: root.stretch ? "stretch" : "move"
             onClicked: { root.stretch = !root.stretch; }
         }
 
-        Button {
+        SimpleButton {
             text: root.hintDisplacement > 0 ? "hint" : "no hint"
             onClicked: {
                 if (root.hintDisplacement > 0) {
@@ -185,7 +185,7 @@ Rectangle {
             }
         }
 
-        Button {
+        SimpleButton {
             text: "rotation: " + baseItem.rotation
             onClicked: {
                 if (baseItem.rotation === 0.0) {
@@ -196,7 +196,7 @@ Rectangle {
             }
         }
 
-        Button {
+        SimpleButton {
             text: root.bidirectional ? "bidirectional" : "directional"
             onClicked: { root.bidirectional = !root.bidirectional; }
         }

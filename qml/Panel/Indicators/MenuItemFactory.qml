@@ -576,7 +576,17 @@ Item {
             active: serverChecked
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
-            signalStrength: strengthAction.valid ? strengthAction.state : 0
+            signalStrength: {
+                if (strengthAction.valid) {
+                    var state = strengthAction.state; // handle both int and uchar
+                    // FIXME remove the special casing when we switch to indicator-network completely
+                    if (typeof state == "string") {
+                        return state.charCodeAt();
+                    }
+                    return state;
+                }
+                return 0;
+            }
             highlightWhenPressed: false
 
             onMenuModelChanged: {
