@@ -36,7 +36,8 @@ Rectangle {
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
-      "socialAttributes": [{"label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},{"label":"text2","icon":"image://theme/cancel"}]
+      "socialAttributes": [{"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
+                           {"id":"share","label":"text2","icon":"image://theme/cancel"}]
     }'
 
     property var cardsModel: [
@@ -641,11 +642,13 @@ Rectangle {
             compare(icon0.source, "image://theme/ok");
             mouseClick(delegate0, delegate0.height / 2, delegate0.height / 2);
             tryCompare(signalSpy, "count", 1);
+            compare(signalSpy.signalArguments[0][0], "like");
             compare(icon0.source, "image://theme/undo");
 
             compare(icon1.source, "image://theme/cancel");
             mouseClick(delegate1, delegate1.height / 2, delegate1.height / 2);
             tryCompare(signalSpy, "count", 2);
+            compare(signalSpy.signalArguments[1][0], "share");
             compare(icon1.source, "image://theme/cancel");
         }
     }
