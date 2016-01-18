@@ -63,7 +63,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Please enter a password to create your user account. You need this password to administer your device.")
+            text: i18n.tr("Please enter your name and password to create your administrator account. You need this password to manage your device.")
             color: textColor
             fontSize: "small"
             font.weight: Font.Light
@@ -78,7 +78,7 @@ LocalComponents.Page {
             anchors.right: parent.right
             anchors.top: noticeLabel.bottom
             anchors.topMargin: units.gu(3)
-            text: i18n.tr("User name")
+            text: i18n.tr("Your name")
             color: textColor
             font.weight: Font.Light
         }
@@ -119,7 +119,7 @@ LocalComponents.Page {
             anchors.top: passLabel.bottom
             anchors.topMargin: units.gu(1)
             echoMode: TextInput.Password
-            placeholderText: i18n.tr("Use a combination of letters and numbers")
+            placeholderText: i18n.tr("Use letters and numbers")
             inputMethodHints: Qt.ImhNoPredictiveText
             onActiveFocusChanged: {
                 if (activeFocus) {
