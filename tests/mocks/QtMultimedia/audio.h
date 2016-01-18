@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2012, 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #ifndef MOCK_AUDIO_H
@@ -23,17 +22,19 @@
 #include <QUrl>
 #include <QTimer>
 
+class DeclarativePlaylist;
+
 class Audio: public QObject
 {
     Q_OBJECT
     Q_ENUMS(PlaybackState)
     Q_ENUMS(AudioRole)
-    Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(PlaybackState playbackState READ playbackState NOTIFY playbackStateChanged)
     Q_PROPERTY(int position READ position NOTIFY positionChanged)
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
     Q_PROPERTY(QString errorString READ errorString NOTIFY errorStringChanged)
     Q_PROPERTY(AudioRole audioRole READ audioRole WRITE setAudioRole)
+    Q_PROPERTY(DeclarativePlaylist *playlist READ playlist WRITE setPlaylist NOTIFY playlistChanged)
 public:
     enum PlaybackState {
         PlayingState,
@@ -50,8 +51,8 @@ public:
 
     explicit Audio(QObject *parent = 0);
 
-    QUrl source() const;
-    void setSource(const QUrl &source);
+    DeclarativePlaylist *playlist() const;
+    void setPlaylist(DeclarativePlaylist *playlist);
 
     PlaybackState playbackState() const;
 
@@ -70,6 +71,7 @@ public Q_SLOTS:
     void stop();
 
 Q_SIGNALS:
+    void playlistChanged();
     void sourceChanged(const QUrl &source);
     void playbackStateChanged(PlaybackState playbackState);
     void positionChanged(int position);
@@ -80,11 +82,11 @@ private Q_SLOTS:
     void timerEvent();
 
 private:
-    QUrl m_source;
     PlaybackState m_playbackState;
     QTimer m_timer;
     int m_position;
     int m_duration;
+    DeclarativePlaylist *m_playlist;
 };
 
 #endif

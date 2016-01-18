@@ -37,7 +37,8 @@ Rectangle {
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
       "socialAttributes": [{"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
-                           {"id":"share","label":"text2","icon":"image://theme/cancel"}]
+                           {"id":"share","label":"text2","icon":"image://theme/cancel"}],
+      "quickPreviewData": {"uri": "/some/file", "duration": "14"}
     }'
 
     property var cardsModel: [
@@ -108,6 +109,11 @@ Rectangle {
             "layout": { "template": { "card-layout": "horizontal" },
                         "components": JSON.parse(Helpers.fullMapping) }
         },
+        {
+            "name": "Art, title, subtitle - Audio",
+            "layout": { "template": { "card-layout": "horizontal", "quick-preview-type": "audio" },
+                        "components": { "art": "art", "title": "title", "subtitle": "subtitle", "quickPreviewData": "quickPreviewData" } }
+        },
     ]
 
     CardTool {
@@ -131,6 +137,7 @@ Rectangle {
             item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
             item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
+            item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
         }
     }
 

@@ -16,7 +16,7 @@
 
 .pragma library
 
-var components = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "socialAttributes", "overlayColor"]
+var components = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "socialAttributes", "overlayColor", "quickPreviewData"]
 
 var defaultLayout = ' \
 { \

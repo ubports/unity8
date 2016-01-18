@@ -1,3 +1,3 @@
-template: {"card-layout":"vertical","card-size":"small","category-layout":"grid","collapsed-rows":2}
-components: {"art":{"aspect-ratio":0.75,"field":"art"},"subtitle":{"field":"price"},"title":{"field":"title"},"attributes":{},"socialAttributes":[{"label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},{"label":"text2","icon":"image://theme/cancel"}]}
+template: {"card-layout":"horizontal","card-size":"medium","category-layout":"grid","collapsed-rows":2,"quick-preview-type": "audio"}
+components: {"art":{"aspect-ratio":1},"subtitle":{"field":"author"},"title":{"field":"title"}, "quickPreviewData": "quickPreviewData"}
 result: 9.res

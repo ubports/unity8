@@ -11,10 +11,6 @@ export NO_PNG_PKG_MANGLE=1
 %:
 	dh $@ --parallel --fail-missing --with python3
 
-override_dh_auto_clean:
-	dh_auto_clean
-	rm -rf builddir
-
 override_dh_auto_configure:
 	# Debian defines CMAKE_INSTALL_LOCALSTATEDIR as /usr/var, which is wrong.
 	# So until Debian bug 719148 is fixed, do it ourselves.
