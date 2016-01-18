@@ -135,6 +135,7 @@ Item {
 
             var pages = findChild(wizard, "wizardPages");
             var security = findInvisibleChild(pages, "securityPrivacy");
+            security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Swipe);
             setSecuritySpy.target = security;
 
             setup();
@@ -283,6 +284,20 @@ Item {
                 var button = findChild(wizard, "pinPadButton" + character);
                 tap(button);
             }
+        }
+
+        function test_passwdSkipIfSet() {
+            var page = goToPage("simPage");
+
+            // Set password type to non-swipe
+            var pages = findChild(wizard, "wizardPages");
+            var security = findInvisibleChild(pages, "securityPrivacy");
+            security.setSecurity("", "", UbuntuSecurityPrivacyPanel.Passphrase);
+            compare(security.securityType, UbuntuSecurityPrivacyPanel.Passphrase);
+
+            // Make sure that moving from sim page lands on wifi page
+            tap(findChild(page, "forwardButton"));
+            waitForPage("wifiPage"); // thus skipping passwdPage
         }
 
         function test_passwdPasscode() {

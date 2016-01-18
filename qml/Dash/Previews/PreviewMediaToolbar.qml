@@ -23,10 +23,11 @@ Rectangle {
 
     implicitHeight: units.gu(6)
     color: Qt.rgba(0, 0, 0, 0.8)
-    visible: sharingWidget.visible
+    visible: sharingWidget.active
 
     PreviewSharing {
         id: sharingWidget
+        objectName: "sharingWidget"
         anchors {
             left: parent.left
             verticalCenter: parent.verticalCenter

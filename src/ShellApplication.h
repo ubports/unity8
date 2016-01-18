@@ -23,7 +23,11 @@
 #include <QScopedPointer>
 
 #include "ApplicationArguments.h"
+
+#ifdef UNITY8_ENABLE_TOUCH_EMULATION
 #include "MouseTouchAdaptor.h"
+#endif
+
 #include "SecondaryWindow.h"
 #include "ShellView.h"
 
@@ -46,10 +50,14 @@ private:
     void setupQmlEngine(bool isMirServer);
     QString m_deviceName;
     ApplicationArguments m_qmlArgs;
-    ShellView *m_shellView;
-    SecondaryWindow *m_secondaryWindow;
-    MouseTouchAdaptor *m_mouseTouchAdaptor;
-    QQmlEngine *m_qmlEngine;
+    ShellView *m_shellView{nullptr};
+    SecondaryWindow *m_secondaryWindow{nullptr};
+
+    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
+    MouseTouchAdaptor *m_mouseTouchAdaptor{nullptr};
+    #endif
+
+    QQmlEngine *m_qmlEngine{nullptr};
 };
 
 #endif // SHELLAPPLICATION_H
