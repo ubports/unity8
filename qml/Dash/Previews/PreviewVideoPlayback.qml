@@ -81,7 +81,7 @@ PreviewWidget {
                 right: parent.right
                 bottom: parent.bottom
             }
-            shareData: widgetData["shareData"]
+            shareData: widgetData["share-data"]
         }
     }
 }

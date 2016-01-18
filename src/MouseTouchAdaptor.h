@@ -21,6 +21,7 @@
 
 #include <QtCore/QAbstractNativeEventFilter>
 #include <QWindow>
+
 #include <xcb/xcb.h>
 
 class QMouseEvent;
@@ -47,16 +48,22 @@ Q_SIGNALS:
 
 private:
     MouseTouchAdaptor();
+    void fetchXInput2Info();
+    bool xi2HandleEvent(xcb_ge_event_t *event);
 
-    bool handleButtonPress(xcb_button_press_event_t *pressEvent);
-    bool handleButtonRelease(xcb_button_release_event_t *releaseEvent);
-    bool handleMotionNotify(xcb_motion_notify_event_t *event);
+    bool handleButtonPress(WId windowId, uint32_t detail, int x, int y);
+    bool handleButtonRelease(WId windowId, uint32_t detail, int x, int y);
+    bool handleMotionNotify(WId windowId, int x, int y);
     QWindow *findQWindowWithXWindowID(WId windowId);
 
     QTouchDevice *m_touchDevice;
     bool m_leftButtonIsPressed;
 
     bool m_enabled;
+
+    bool m_xi2Enabled{false};
+    int m_xi2Minor{-1};
+    int m_xiOpCode, m_xiEventBase, m_xiErrorBase;
 };
 
 #endif // MOUSE_TOUCH_ADAPTOR_H
