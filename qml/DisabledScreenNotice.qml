@@ -52,13 +52,13 @@ Item {
                 return 90;
             }
         }
-        
+
         transform: Rotation {
             origin.x: contentContainer.width / 2
             origin.y: contentContainer.height / 2; axis { x: 0; y: 0; z: 1 }
             angle: contentContainer.rotationAngle
         }
-        
+
         VirtualTouchPad {
             anchors.fill: parent
         }
@@ -100,4 +100,3 @@ Item {
         }
     }
 }
-
