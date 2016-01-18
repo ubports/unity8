@@ -17,53 +17,86 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
+import QtQuick.Window 2.2
 import "Components"
+import "Rotation"
 
-Image {
+Item {
     id: root
 
     property bool infoNoteDisplayed: true
+
+    property int physicalOrientation: Screen.orientation
 
     WallpaperResolver {
         width: root.width
         id: wallpaperResolver
     }
 
-    source: wallpaperResolver.background
+    Item {
+        id: contentContainer
+        anchors.centerIn: parent
+        height: rotationAngle == 90 || rotationAngle == 270 ? parent.width : parent.height
+        width: rotationAngle == 90 || rotationAngle == 270 ? parent.height : parent.width
 
-
-    VirtualTouchPad {
-        anchors.fill: parent
-    }
-
-    MouseArea {
-        objectName: "infoNoticeMouseArea"
-        anchors.fill: parent
-        opacity: infoNoteDisplayed ? 1 : 0
-        visible: opacity > 0
-        enabled: visible
-        Behavior on opacity {
-            UbuntuNumberAnimation { }
+        property int rotationAngle: {
+            print("changed something", Screen.orientation)
+            switch (Screen.orientation) {
+            case Qt.PortraitOrientation:
+                return 0;
+            case Qt.LandscapeOrientation:
+                return 270;
+            case Qt.InvertedPortraitOrientation:
+                return 180;
+            case Qt.InvertedLandscapeOrientation:
+                return 90;
+            }
         }
-
-        onClicked: root.infoNoteDisplayed = false;
-
-        Rectangle {
+        
+        transform: Rotation {
+            origin.x: contentContainer.width / 2
+            origin.y: contentContainer.height / 2; axis { x: 0; y: 0; z: 1 }
+            angle: contentContainer.rotationAngle
+        }
+        
+        VirtualTouchPad {
             anchors.fill: parent
-            color: "black"
-            opacity: 0.4
         }
 
-        Label {
-            id: text
-            anchors.centerIn: parent
-            width: parent.width - units.gu(8)
-            text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the mouse.")
-            color: "white"
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            fontSize: "x-large"
-            wrapMode: Text.Wrap
+        Image {
+            anchors.fill: parent
+            source: wallpaperResolver.background
+        }
+
+        MouseArea {
+            objectName: "infoNoticeMouseArea"
+            anchors.fill: parent
+            opacity: infoNoteDisplayed ? 1 : 0
+            visible: opacity > 0
+            enabled: visible
+            Behavior on opacity {
+                UbuntuNumberAnimation { }
+            }
+
+            onClicked: root.infoNoteDisplayed = false;
+
+            Rectangle {
+                anchors.fill: parent
+                color: "black"
+                opacity: 0.4
+            }
+
+            Label {
+                id: text
+                anchors.centerIn: parent
+                width: parent.width - units.gu(8)
+                text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the mouse.")
+                color: "white"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                fontSize: "x-large"
+                wrapMode: Text.Wrap
+            }
         }
     }
 
@@ -73,3 +106,4 @@ Image {
         anchors.fill: parent
     }
 }
+

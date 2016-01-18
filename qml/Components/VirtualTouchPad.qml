@@ -70,7 +70,7 @@ Item {
         Timer {
             id: clickTimer
             repeat: false
-            interval: 100
+            interval: 200
             property int button: UInput.ButtonLeft
             onTriggered: {
                 uinput.pressMouse(button);
