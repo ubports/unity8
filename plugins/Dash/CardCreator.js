@@ -150,11 +150,18 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                 visible: parent.pressed; \n\
                                 radius: "medium"; \n\
                             } \n\
-                            Icon {  \n\
+                            Image {  \n\
+                                id: icon; \n\
                                 anchors.fill: parent; \n\
                                 anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; \n\
                                 opacity: 0.9; \n\
-                                name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; \n\
+                                fillMode: Image.PreserveAspectFit; \n\
+                                sourceSize { \n\
+                                    width: icon.width; \n\
+                                    height: icon.height; \n\
+                                } \n\
+                                source: "image://theme/" + (DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"); \n\
+                                asynchronous: true; \n\
                             } \n\
                             onClicked: { \n\
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { \n\
