@@ -45,24 +45,13 @@ Column {
             rightMargin: units.gu(1)
         }
         columns: 2 + repeater.count % 2
-        rowSpacing: units.gu(.5)
+        rowSpacing: units.gu(2)
 
         Repeater {
             id: repeater
             delegate: Row {
                 objectName: "delegate" + index
                 spacing: units.gu(0.5)
-                readonly property int column: index % grid.columns;
-                Layout.alignment: {
-                    if (column == 0) return Qt.AlignLeft;
-                    if (column == grid.columns - 1 || index == repeater.count - 1) return Qt.AlignRight;
-                    if (column == 1) return Qt.AlignHCenter;
-                }
-                Layout.column: index % grid.columns
-                Layout.row: index / grid.columns
-                Layout.columnSpan: index == repeater.count - 1 && grid.columns == 3 && column == 1 ? 2 : 1
-                Layout.maximumWidth: Math.max(icon.width, label.x + label.implicitWidth)
-                Layout.fillWidth: true
                 height: units.gu(2)
                 AbstractButton {
                     height: units.gu(2)
@@ -88,12 +77,10 @@ Column {
                 }
                 Label {
                     id: label
-                    width: parent.width - x
                     anchors.verticalCenter: parent.verticalCenter
                     text: "label" in modelData && modelData["label"] || "";
                     elide: Text.ElideRight
                     maximumLineCount: 1
-                    font.weight: "style" in modelData && modelData["style"] === "highlighted" ? Font.Bold : Font.Light
                     fontSize: "x-small"
                     font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
                     color: socialAttributes.color
