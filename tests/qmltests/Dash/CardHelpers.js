@@ -39,7 +39,7 @@ var defaultLayout = ' \
     "emblem": null, \
     "summary": null, \
     "attributes": { "max-count": 2 },
-    "socialAttributes": null \
+    "socialAttributes": { "max-count": 4 } \
   }, \
   "resources": {} \
 }'

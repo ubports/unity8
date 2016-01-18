@@ -205,16 +205,41 @@ Item {
         }
     }
 
+    Item {
+        id: socialAttributesModel
+        property int numOfAttributes: 0
+        property var model: []
+        property bool hasAttributes: {
+            var attributes = components["socialAttributes"];
+            var hasAttributesFlag = (attributes != undefined);
+
+            if (hasAttributesFlag) {
+                if (attributes["max-count"]) {
+                    numOfAttributes = attributes["max-count"];
+                }
+            }
+            return hasAttributesFlag
+        }
+
+        onNumOfAttributesChanged: {
+            model = []
+            for (var i = 0; i < numOfAttributes; i++) {
+                model.push( {"id":"text"+(i+1), "icon":"image://theme/ok" } );
+            }
+        }
+    }
+
     Loader {
         id: cardLoader
-        readonly property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes"]
+        readonly property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes", "socialAttributes"]
         readonly property var maxData: {
             "art": Qt.resolvedUrl("graphics/pixel.png"),
             "mascot": Qt.resolvedUrl("graphics/pixel.png"),
             "title": "—\n—",
             "subtitle": "—",
             "summary": "—\n—\n—\n—\n—",
-            "attributes": attributesModel.model
+            "attributes": attributesModel.model,
+            "socialAttributes": socialAttributesModel.model
         }
         sourceComponent: cardTool.cardComponent
         onLoaded: {
