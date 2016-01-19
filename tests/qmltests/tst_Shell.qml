@@ -296,6 +296,20 @@ Rectangle {
         phoneNumber: "+447812221111"
     }
 
+    Item {
+        id: fakeDismissTimer
+        property bool running: false
+        signal triggered
+
+        function stop() {
+            running = false;
+        }
+
+        function restart() {
+            running = true;
+        }
+    }
+
     UnityTestCase {
         id: testCase
         name: "Shell"
@@ -332,6 +346,11 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
             launcherShowDashHomeSpy.target = launcher;
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(!!panel);
+
+            panel.dismissTimer = fakeDismissTimer;
 
             waitForGreeterToStabilize();
         }
@@ -1239,10 +1258,6 @@ Rectangle {
             swipeFromRightEdgeToShowAppSpread();
 
             var launcher = findChild(shell, "launcher");
-
-            // ensure the launcher dimissal timer never gets triggered during the test run
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            dismissTimer.interval = 60 * 60 * 1000;
 
             dragLauncherIntoView();
 
