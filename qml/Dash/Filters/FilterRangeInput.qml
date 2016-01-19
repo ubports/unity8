@@ -59,7 +59,6 @@ FilterWidget {
         anchors {
             fill: parent
             topMargin: units.gu(1)
-            bottom: parent.bottom
             bottomMargin: units.gu(1)
         }
 
