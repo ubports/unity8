@@ -212,6 +212,8 @@ Item {
 
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
+
+            removeTimeConstraintsFromDirectionalDragAreas(root);
         }
 
         function dragLauncherIntoView() {
