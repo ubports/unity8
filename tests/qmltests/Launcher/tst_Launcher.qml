@@ -159,6 +159,18 @@ Item {
         target: LauncherModel
     }
 
+    Item {
+        id: fakeDismissTimer
+        property bool running: false
+        signal triggered
+
+        function stop() {
+        }
+
+        function restart() {
+        }
+    }
+
     UnityTestCase {
         id: testCase
         name: "Launcher"
@@ -177,6 +189,11 @@ Item {
             launcherLoader.active = true;
         }
         function init() {
+            var panel = findChild(launcher, "launcherPanel");
+            verify(!!panel);
+
+            panel.dismissTimer = fakeDismissTimer;
+
             // Make sure we don't start the test with the mouse hovering the launcher
             mouseMove(root, root.width, root.height / 2);
 
@@ -216,11 +233,6 @@ Item {
         }
 
         function revealByEdgePush() {
-            // make the dismissTimer interval very big temporarily
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            var oldInterval = dismissTimer.interval;
-            dismissTimer.interval = 100000;
-
             // Place the mouse against the window/screen edge and push beyond the barrier threshold
             mouseMove(root, 1, root.height / 2);
             launcher.pushEdge(EdgeBarrierSettings.pushThreshold * 1.1);
@@ -231,15 +243,6 @@ Item {
             // wait until it gets fully extended
             tryCompare(panel, "x", 0);
             tryCompare(launcher, "state", "visibleTemporary");
-
-            // move the mouse a bit, this should not be needed but without it
-            // the mouse areas do not realize their containsMouse have changed
-            // i've tested in real life without moving the mouse at all and it works
-            // so it seems to be a test-only issue
-            mouseMove(root, 2, root.height / 2);
-
-            // now that the launcher is out, bring the interval back
-            dismissTimer.interval = oldInterval;
         }
 
         function waitUntilLauncherDisappears() {
@@ -906,14 +909,12 @@ Item {
             revealByEdgePush();
             compare(launcher.state, "visibleTemporary");
 
-            // wait three times the dismiss timer to check the launcher still shown
-            // because the mouse is still over the launcher
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            wait(dismissTimer.interval * 3);
-            compare(panel.x, 0);
-
             // Now move the mouse away and make sure it hides in less than a second
             mouseMove(root, root.width, root.height / 2)
+
+            // trigger the hide timer
+            fakeDismissTimer.triggered();
+            tryCompare(panel, "x", 0);
 
             tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
             waitUntilLauncherDisappears();
