@@ -165,9 +165,11 @@ Item {
         signal triggered
 
         function stop() {
+            running = false;
         }
 
         function restart() {
+            running = true;
         }
     }
 
@@ -915,6 +917,7 @@ Item {
             mouseMove(root, root.width, root.height / 2)
 
             // trigger the hide timer
+            compare(fakeDismissTimer.running, true);
             fakeDismissTimer.triggered();
             tryCompare(panel, "x", 0);
 
