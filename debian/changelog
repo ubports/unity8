@@ -1,3 +1,78 @@
+unity8 (8.11+16.04.20160111.1-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Clear fake item icon name as soon as it goes invisible (LP:
+    #1531172)
+  * Fix LVWPH test failing on Xenial (Qt 5.5)
+  * Fix dragging so that test passes on Xenial
+  * Fix focus on the dash page header text field with new SDK (LP:
+    #1528178)
+  * Make the card creator test pass again
+  * Quit the dash communicator thread before destroying it (LP:
+    #1508485)
+  * Remove duplicated override_dh_auto_clean
+  * SDK changed the name they give to the buttons, follow
+
+  [ Andrea Cimitan ]
+  * Fix a broken binding
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Daniel d'Andrada ]
+  * Have "make tryFoo" work with Qt 5.5
+  * Make DragHandle tests run again.
+
+  [ Lukáš Tinkl ]
+  * Fix dismissing the launcher when clicking/tapping outside (LP:
+    #1531339, #1530940)
+  * Fix panel drop shadow and click-to-focus of maximized apps (LP:
+    #1531854)
+  * Fix wifi access point indicator items signal strength icon on
+    desktop
+
+  [ Michael Terry ]
+  * Guard against a couple odd timing scenarios for the too-many-failed-
+    login-attempts lockout screen.
+  * Skip the wizard's password screens if there is already a password
+    set by other means. (LP: #1531268)
+  * Stop the emergency dialer from accidentally exposing the mtp
+    service. (LP: #1525981)
+
+  [ Michael Zanetti ]
+  * Make sure the triangle of the quicklist is in bounds (LP: #1531340)
+
+  [ Pawel Stolowski ]
+  * Changes 'shareData' and 'contentType' attributes to 'share-data' and
+    'content-type', to match existing naming schema.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Mon, 11 Jan 2016 17:38:49 +0000
+
+unity8 (8.11+16.04.20160107-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Introduce audio cards
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Michael Zanetti ]
+  * Introduce audio cards
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 07 Jan 2016 08:04:47 +0000
+
+unity8 (8.11+16.04.20160105.1-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Nick Dedekind ]
+  * Use volume-sync action to resync the volume control. (LP: #1520548)
+
+ -- Xavi Garcia <xavi.garcia.mena@canonical.com>  Tue, 05 Jan 2016 13:55:38 +0000
+
 unity8 (8.11+16.04.20151208.1-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
