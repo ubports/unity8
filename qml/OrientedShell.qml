@@ -202,11 +202,20 @@ Rectangle {
                     return "tablet";
                 }
             } else { // automatic
-                if (miceModel.count + touchPadModel.count > 0) {
-                    return "desktop";
-                } else {
-                    return deviceConfiguration.category;
+                var longEdgeWidth = Math.max(root.width, root.height)
+                print("Automatic mode:", longEdgeWidth, "gu size", units.gu(1), "kbds", keyboardsModel.count, "mice", miceModel.count + touchPadModel.count, root)
+                if (longEdgeWidth > units.gu(120)) {
+                    print("longedge is big!")
+                    if (keyboardsModel.count + miceModel.count + touchPadModel.count > 0) {
+                        return "desktop";
+                    }
+                } else if (longEdgeWidth > units.gu(90)){
+                    if (miceModel.count + touchPadModel.count > 0) {
+                        return "desktop";
+                    }
                 }
+
+                return deviceConfiguration.category;
             }
         }
 
