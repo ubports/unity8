@@ -36,7 +36,7 @@ public:
         ButtonMiddle
     };
 
-    explicit MockUInput(QObject *parent = 0);
+    explicit MockUInput(QObject *parent = nullptr);
     ~MockUInput();
 
     Q_INVOKABLE void createMouse();
