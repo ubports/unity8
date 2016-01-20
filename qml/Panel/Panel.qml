@@ -172,6 +172,7 @@ Item {
                 right: __indicators.left
                 top: parent.top
                 leftMargin: units.gu(1)
+                rightMargin: units.gu(1)
                 topMargin: units.gu(0.5)
                 bottomMargin: units.gu(0.5)
             }
