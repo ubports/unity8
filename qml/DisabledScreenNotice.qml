@@ -39,8 +39,7 @@ Item {
         height: rotationAngle == 90 || rotationAngle == 270 ? parent.width : parent.height
         width: rotationAngle == 90 || rotationAngle == 270 ? parent.height : parent.width
 
-        property int rotationAngle: {
-            print("changed something", Screen.orientation)
+        readonly property int rotationAngle: {
             switch (Screen.orientation) {
             case Qt.PortraitOrientation:
                 return 0;
