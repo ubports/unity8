@@ -28,7 +28,7 @@ TimeZoneLocationModel::TimeZoneLocationModel(QObject *parent):
     QAbstractListModel(parent),
     m_workerThread(new TimeZonePopulateWorker())
 {
-    qRegisterMetaType<TzLocation>();
+    qRegisterMetaType<TzLocationWizard>();
 
     m_roleNames[Qt::DisplayRole] = "displayName";
     m_roleNames[TimeZoneRole] = "timeZone";
@@ -66,7 +66,7 @@ void TimeZoneLocationModel::store()
     endResetModel();
 }
 
-void TimeZoneLocationModel::processModelResult(const TzLocation &location)
+void TimeZoneLocationModel::processModelResult(const TzLocationWizard &location)
 {
     m_locations.append(location);
 }
@@ -83,7 +83,7 @@ QVariant TimeZoneLocationModel::data(const QModelIndex &index, int role) const
     if (index.row() >= m_locations.count() || index.row() < 0)
         return QVariant();
 
-    const TzLocation tz = m_locations.at(index.row());
+    const TzLocationWizard tz = m_locations.at(index.row());
 
     const QString country(tz.full_country.isEmpty() ? tz.country : tz.full_country);
 
@@ -130,7 +130,7 @@ void TimeZonePopulateWorker::buildCityMap()
     TzDB *tzdb = tz_load_db();
     GPtrArray *tz_locations = tz_get_locations(tzdb);
 
-    TimeZoneLocationModel::TzLocation tmpTz;
+    TimeZoneLocationModel::TzLocationWizard tmpTz;
 
     for (guint i = 0; i < tz_locations->len; ++i) {
         auto tmp = static_cast<CcTimezoneLocation *>(g_ptr_array_index(tz_locations, i));

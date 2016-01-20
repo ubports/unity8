@@ -42,7 +42,7 @@ public:
         LongitudeRole
     };
 
-    struct TzLocation {
+    struct TzLocationWizard {
         QString city;
         QString country;
         QString timezone;
@@ -57,17 +57,17 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 private Q_SLOTS:
-    void processModelResult(const TzLocation &location);
+    void processModelResult(const TzLocationWizard &location);
     void store();
 
 private:
     void init();
     QHash<int, QByteArray> m_roleNames;
-    QList<TzLocation> m_locations;
+    QList<TzLocationWizard> m_locations;
     TimeZonePopulateWorker *m_workerThread;
 };
 
-Q_DECLARE_METATYPE (TimeZoneLocationModel::TzLocation)
+Q_DECLARE_METATYPE (TimeZoneLocationModel::TzLocationWizard)
 
 class TimeZonePopulateWorker: public QThread
 {
@@ -76,7 +76,7 @@ public:
     void run() override;
 
 Q_SIGNALS:
-    void resultReady(const TimeZoneLocationModel::TzLocation &tz);
+    void resultReady(const TimeZoneLocationModel::TzLocationWizard &tz);
 
 private:
     void buildCityMap();
