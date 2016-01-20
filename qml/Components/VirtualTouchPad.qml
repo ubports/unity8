@@ -29,7 +29,8 @@ Item {
         objectName: "touchPadArea"
         anchors.fill: parent
 
-        property int clickThreshold: units.gu(1.5)
+        // FIXME: Once we have Qt DPR support, this should be Qt.styleHints.startDragDistance
+        readonly property int clickThreshold: units.gu(1.5)
         property bool isClick: false
         property bool pressed: false
 

@@ -36,11 +36,10 @@ Item {
     Item {
         id: contentContainer
         anchors.centerIn: parent
-        height: rotationAngle == 90 || rotationAngle == 270 ? parent.width : parent.height
-        width: rotationAngle == 90 || rotationAngle == 270 ? parent.height : parent.width
+        height: rotation == 90 || rotation == 270 ? parent.width : parent.height
+        width: rotation == 90 || rotation == 270 ? parent.height : parent.width
 
-        property int rotationAngle: {
-            print("changed something", Screen.orientation)
+        rotation: {
             switch (Screen.orientation) {
             case Qt.PortraitOrientation:
                 return 0;
@@ -52,13 +51,8 @@ Item {
                 return 90;
             }
         }
-        
-        transform: Rotation {
-            origin.x: contentContainer.width / 2
-            origin.y: contentContainer.height / 2; axis { x: 0; y: 0; z: 1 }
-            angle: contentContainer.rotationAngle
-        }
-        
+        transformOrigin: Item.Center
+
         VirtualTouchPad {
             anchors.fill: parent
         }
@@ -106,4 +100,3 @@ Item {
         }
     }
 }
-

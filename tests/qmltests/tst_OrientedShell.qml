@@ -1005,7 +1005,6 @@ Rectangle {
             var inputMethod = findChild(shell, "inputMethod");
 
             tryCompare(shell, "usageScenario", "phone");
-//            print("")
             tryCompare(inputMethod, "enabled", true);
             tryCompare(mockOskSettings, "disableHeight", false);
 

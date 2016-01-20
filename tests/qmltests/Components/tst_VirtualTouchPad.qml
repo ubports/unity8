@@ -108,5 +108,34 @@ Item {
             tryCompare(mouseEventSpy2, "count", 0)
             mouseRelease(touchPadArea)
         }
+
+        function test_twoFingerScroll() {
+            var touchPadArea = findChild(touchScreenPad, "touchPadArea");
+
+            mouseEventSpy1.signalName = "mouseScrolled"
+
+            var startX = touchPadArea.width / 2;
+            var startY = touchPadArea.height / 2;
+
+            var startX1 = startX - units.gu(1);
+            var startX2 = startX + units.gu(1);
+
+            var event = touchEvent(touchPadArea)
+            event.press(0, startX1, startY)
+            event.press(1, startX2, startY);
+            event.commit()
+
+            for (var i = 0; i < 10; i++) {
+                event.move(0, startX1, startY + units.gu(i))
+                event.move(1, startX2, startY + units.gu(i));
+                event.commit();
+
+                tryCompare(mouseEventSpy1, "count", i + 1);
+            }
+
+            event.release(0, startX1, startY + units.gu(11))
+            event.release(1, startX2, startY + units.gu(11));
+            event.commit();
+        }
     }
 }

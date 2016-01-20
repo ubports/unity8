@@ -33,6 +33,7 @@ Screens::Screens(QObject *parent) :
 Screens::~Screens()
 {
     qDeleteAll(m_screenList);
+    m_screenList.clear();
 }
 
 QHash<int, QByteArray> Screens::roleNames() const
