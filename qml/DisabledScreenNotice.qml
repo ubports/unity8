@@ -91,12 +91,12 @@ Item {
                 fontSize: "x-large"
                 wrapMode: Text.Wrap
             }
+        }
 
-            InputMethod {
-                id: inputMethod
-                objectName: "inputMethod"
-                anchors.fill: parent
-            }
+        InputMethod {
+            id: inputMethod
+            objectName: "inputMethod"
+            anchors.fill: parent
         }
     }
 }
