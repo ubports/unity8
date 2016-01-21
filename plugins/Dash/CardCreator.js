@@ -373,8 +373,26 @@ var kAudioProgressBarCode = 'CardAudioProgress { \n\
                             color: %3; \n\
                          }';
 
+function evil_param(object) {
+    for (var x in object) {
+        if (typeof object[x] === "object" && evil_param(object[x]))
+            return true;
+
+        if (typeof object[x] === "string" && object[x].match(/"(?:[^"\\]|\\.)*"/) != null)
+            return true;
+    }
+
+    return false;
+}
+
 function cardString(template, components) {
     var code;
+
+    if (evil_param(template))
+        return "";
+
+    if (evil_param(components))
+        return "";
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
 
