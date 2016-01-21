@@ -35,10 +35,11 @@ Item {
         when: windowShown
 
         function test_mouseAreaHidesOnFirstTap() {
-            var mouseArea = findChild(touchScreenPad, "infoNoticeMouseArea")
-            compare(mouseArea.enabled, true)
+            var noticeArea = findChild(touchScreenPad, "infoNoticeArea")
+            print("noticeArea", noticeArea.visible)
+            compare(noticeArea.visible, true)
             tap(root)
-            tryCompare(mouseArea, "enabled", false)
+            tryCompare(noticeArea, "visible", false)
         }
     }
 }

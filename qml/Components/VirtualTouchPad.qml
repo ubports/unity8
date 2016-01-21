@@ -24,6 +24,7 @@ Item {
         Component.onDestruction: removeMouse();
     }
 
+    readonly property bool pressed: point1.pressed || point2.pressed
 
     MultiPointTouchArea {
         objectName: "touchPadArea"
