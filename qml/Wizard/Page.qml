@@ -106,6 +106,8 @@ Item {
             color: customTitle ? textColor : backgroundColor
             fontSize: customTitle ? "large" : "x-large"
             font.weight: Font.Light
+            wrapMode: TextEdit.WordWrap
+            maximumLineCount: 2
         }
 
         // indicators
