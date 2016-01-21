@@ -360,17 +360,9 @@ FocusScope {
                         baseItem.expand(shouldExpand, false /*animate*/);
                     }
                     updateRanges();
+                    clickScopeSizingHacks();
                     if (scope && scope.id === "clickscope") {
                         if (categoryId === "predefined" || categoryId === "local") {
-                            // Yeah, hackish :/
-                            if (scopeView.width > units.gu(45)) {
-                                if (scopeView.width >= units.gu(70)) {
-                                    cardTool.cardWidth = units.gu(9);
-                                } else {
-                                    cardTool.cardWidth = units.gu(10);
-                                }
-                            }
-                            cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
                             item.artShapeStyle = "icon";
                         } else {
                             // Should be ubuntu store icon
@@ -384,6 +376,21 @@ FocusScope {
                 Component.onDestruction: {
                     if (item.enableHeightBehavior !== undefined && item.enableHeightBehaviorOnNextCreation !== undefined) {
                         scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
+                    }
+                }
+
+                function clickScopeSizingHacks() {
+                    if (scope && scope.id === "clickscope" &&
+                        (categoryId === "predefined" || categoryId === "local")) {
+                        // Yeah, hackish :/
+                        if (scopeView.width > units.gu(45)) {
+                            if (scopeView.width >= units.gu(70)) {
+                                cardTool.cardWidth = units.gu(9);
+                            } else {
+                                cardTool.cardWidth = units.gu(10);
+                            }
+                        }
+                        cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
                     }
                 }
 
@@ -416,6 +423,7 @@ FocusScope {
                     target: scopeView
                     onIsCurrentChanged: rendererLoader.updateRanges();
                     onVisibleToParentChanged: rendererLoader.updateRanges();
+                    onWidthChanged: rendererLoader.clickScopeSizingHacks();
                 }
                 Connections {
                     target: holdingList
