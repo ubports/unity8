@@ -157,8 +157,9 @@ LocalComponents.Page {
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)
                 root.countryCode = plugin.languageCodes[plugin.currentLanguage].split('_')[1].split('.')[0]; // extract the country code, save it for the timezone page
 
-                if (!root.modemManager.available || root.modemManager.modems.length === 0 ||
-                        root.simManager0.present || root.simManager1.present || root.seenSIMPage) // go to next page
+                if (!root.modemManager.available || !root.modemManager.ready || root.modemManager.modems.length === 0 ||
+                        (root.simManager0.present && root.simManager0.ready) || (root.simManager1.present && root.simManager1.ready) ||
+                        root.seenSIMPage) // go to next page
                     pageStack.next();
                 else
                     pageStack.load(Qt.resolvedUrl("sim.qml")); // show the SIM page
