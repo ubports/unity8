@@ -47,7 +47,6 @@ TutorialPage {
         anchors.right: root.right
         anchors.rightMargin: units.gu(2)
         anchors.verticalCenter: root.verticalCenter
-        rotation: 180
     }
 
     label {

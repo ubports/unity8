@@ -46,7 +46,7 @@ TutorialPage {
         anchors.topMargin: units.gu(4)
         anchors.horizontalCenter: root.right
         anchors.horizontalCenterOffset: - d.columnWidth / 2
-        rotation: 90
+        rotation: -90
     }
 
     label {

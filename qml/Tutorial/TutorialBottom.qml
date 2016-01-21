@@ -69,7 +69,7 @@ TutorialPage {
         anchors.bottomMargin: units.gu(3)
         anchors.horizontalCenter: label.horizontalCenter
         anchors.horizontalCenterOffset: -(label.width - label.contentWidth) / 2
-        rotation: -90
+        rotation: 90
     }
 
     label {
