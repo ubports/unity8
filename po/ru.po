@@ -6,16 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-11 17:43+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2016-01-14 05:54+0000\n"
 "X-Generator: Launchpad (build 17886)\n"
 
@@ -609,8 +610,7 @@ msgstr "Нет (никогда)"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr ""
-"Изменить свой выбор можно позднее, перейдя в <b>Параметры системы</b>."
+msgstr "Изменить свой выбор можно позднее, перейдя в <b>Параметры системы</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:26
 msgid "Improving your experience"
@@ -716,7 +716,8 @@ msgstr "%1  〉"
 
 #~ msgid "Try swiping from the top edge to access the indicators"
 #~ msgstr ""
-#~ "Попробуйте переместить палец от верхнего края вниз для доступа к индикаторам"
+#~ "Попробуйте переместить палец от верхнего края вниз для доступа к "
+#~ "индикаторам"
 
 #~ msgid "Close"
 #~ msgstr "Закрыть"
@@ -735,8 +736,8 @@ msgstr "%1  〉"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Переместите палец от левого края вправо для открытия лаунчера для быстрого "
-#~ "доступа к приложениям"
+#~ "Переместите палец от левого края вправо для открытия лаунчера для "
+#~ "быстрого доступа к приложениям"
 
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "

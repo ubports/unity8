@@ -81,6 +81,7 @@ Description: Indicators client test application
 Package: unity8-greeter
 Architecture: any
 Depends: unity8 (= ${binary:Version}),
+         unity-system-compositor,
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: lightdm

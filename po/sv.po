@@ -6,18 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-11 17:43+0000\n"
 "PO-Revision-Date: 2015-07-12 22:17+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2016-01-14 05:54+0000\n"
 "X-Generator: Launchpad (build 17886)\n"
-"Language: sv\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -512,8 +512,7 @@ msgstr "Lägg till ett SIM-kort och starta om din enhet"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
-"Utan det kommer du inte att kunna ringa eller skicka textmeddelanden."
+msgstr "Utan det kommer du inte att kunna ringa eller skicka textmeddelanden."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -583,8 +582,7 @@ msgstr "Använd endast GPS (sämre precision)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-"Använd GPS, anonymiserad Wi-Fi och mobil nätverksinfo (rekommenderas)"
+msgstr "Använd GPS, anonymiserad Wi-Fi och mobil nätverksinfo (rekommenderas)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -592,8 +590,8 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
-"Genom att välja detta alternativ godkänner du <a "
-"href='#'>användarvillkoren</a> för Nokia HERE."
+"Genom att välja detta alternativ godkänner du <a href='#'>användarvillkoren</"
+"a> för Nokia HERE."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
