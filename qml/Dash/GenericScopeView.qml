@@ -43,6 +43,7 @@ FocusScope {
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
     property var holdingList: null
     property bool wasCurrentOnMoveStart: false
+    property var filtersPopover: null
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
@@ -141,6 +142,10 @@ FocusScope {
         }
         categoryView.pageHeader.resetSearch();
         subPageLoader.closeSubPage();
+        if (filtersPopover) {
+            PopupUtils.close(filtersPopover)
+            scopeView.filtersPopover = null;
+        }
     }
 
     Binding {
@@ -655,7 +660,7 @@ FocusScope {
                 }
             }
             onShowFiltersPopup: { // item
-                PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
+                scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
             }
         }
 
