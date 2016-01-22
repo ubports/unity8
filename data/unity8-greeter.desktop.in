@@ -2,5 +2,7 @@
 Type=Application
 Name=Unity 8 Greeter
 Comment=The converged Unity shell's Greeter
-Exec=@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@/unity8 --mode=greeter
+#FIXME: This is a WAR for lp:1528082
+Exec=env QT_QPA_PLATFORM=ubuntumirclient MIR_SERVER_PLATFORM_GRAPHICS_LIB=/usr/lib/x86_64-linux-gnu/mir/server-platform/graphics-mesa-kms.so.7 /usr/bin/unity8-greeter-wrapper /usr/bin/unity8 --mode=greeter
+X-LightDM-Session-Type=mir
 X-Ubuntu-Touch=true

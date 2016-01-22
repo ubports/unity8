@@ -18,6 +18,7 @@
 
 // Qt
 #include <QLibrary>
+#include <QProcess>
 #include <QScreen>
 
 #include <libintl.h>
@@ -115,6 +116,10 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
         m_shellView->setHeight(primaryScreenSize.height());
         m_shellView->setWidth(primaryScreenSize.width());
         m_shellView->show();
+        m_shellView->requestActivate();
+        if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
+            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
+        }
     } else if (isMirServer || parser.hasFullscreen()) {
         m_shellView->showFullScreen();
     } else {
