@@ -38,7 +38,7 @@ set_greeter_var()
         initctl set-env --global "$1=$2"
     fi
 }
-echo "JOSH: starting greeter wrapper" >&2
+
 SUB_SOCKET=$XDG_RUNTIME_DIR/mir_socket
 rm -f $SUB_SOCKET # clear socket in case we were hard shut down
 
@@ -92,7 +92,7 @@ if [ "$(id -u phablet 2>/dev/null)" = "32011" ]; then
 fi
 
 # And finally actually start the greeter
-exec env MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
+exec env QT_QPA_PLATFORM=ubuntumirclient MIR_SERVER_FILE=$SUB_SOCKET $TOUCH_WRAPPER $@ &
 CMD_PID=$!
 wait $CMD_PID
 CMD_PID=
