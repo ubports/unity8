@@ -22,7 +22,7 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_DATADIR}/lightdm/lightdm.conf.d
     )
 
-    # install dash icon
+# install dash icon
 install(FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/${DASH_APP}.png
     DESTINATION ${SHELL_APP_DIR}/Dash/

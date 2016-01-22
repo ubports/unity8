@@ -17,12 +17,19 @@
 #include "MockSecurityPrivacy.h"
 
 MockSecurityPrivacy::MockSecurityPrivacy(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_type(SecurityType::Swipe)
 {
+}
+
+MockSecurityPrivacy::SecurityType MockSecurityPrivacy::getSecurityType()
+{
+    return m_type;
 }
 
 QString MockSecurityPrivacy::setSecurity(const QString &oldPasswd, const QString &newPasswd, SecurityType newType)
 {
+    m_type = newType;
     Q_EMIT setSecurityCalled(oldPasswd, newPasswd, newType);
     return "";
 }

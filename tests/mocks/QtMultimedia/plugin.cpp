@@ -18,6 +18,7 @@
 
 #include "plugin.h"
 #include "audio.h"
+#include "declarativeplaylist.h"
 
 #include <QtQml/qqml.h>
 
@@ -26,4 +27,5 @@ void MockQtMultimediaPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("QtMultimedia"));
     qmlRegisterType<Audio>(uri, 5, 0, "Audio");
     qmlRegisterType<Audio>(uri, 5, 0, "MediaPlayer");
+    qmlRegisterType<DeclarativePlaylist>(uri, 5, 6, "Playlist");
 }

@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-04-24 04:29+0000\n"
 "Last-Translator: Gursharnjit_Singh <ubuntuser13@gmail.com>\n"
 "Language-Team: Punjabi <pa@li.org>\n"
+"Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-12-12 05:45+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
+"X-Launchpad-Export-Date: 2016-01-14 05:54+0000\n"
+"X-Generator: Launchpad (build 17886)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -291,16 +292,16 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"ਜੇਕਰ ਗਲਤ ਵਾਕ ਦਰਜ ਹੋਇਆ, ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੱਕ ਫ਼ੋਨ ਇੱਕ ਫ਼ੈਕਟਰੀ ਰੀਸੈੱਟ ਚਾਲੂ ਕਰੇਗਾ ਅਤੇ "
-"ਸਾਰਾ ਨਿੱਜੀ ਡਾਟਾ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
+"ਜੇਕਰ ਗਲਤ ਵਾਕ ਦਰਜ ਹੋਇਆ, ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੱਕ ਫ਼ੋਨ ਇੱਕ ਫ਼ੈਕਟਰੀ ਰੀਸੈੱਟ ਚਾਲੂ ਕਰੇਗਾ ਅਤੇ ਸਾਰਾ ਨਿੱਜੀ ਡਾਟਾ "
+"ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"ਜੇਕਰ ਗਲਤ ਪਾਸਕੋਡ ਦਰਜ ਹੋਇਆ, ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੱਕ ਫ਼ੋਨ ਇੱਕ ਫ਼ੈਕਟਰੀ ਰੀਸੈੱਟ ਚਾਲੂ ਕਰੇਗਾ "
-"ਅਤੇ ਸਾਰਾ ਨਿੱਜੀ ਡਾਟਾ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
+"ਜੇਕਰ ਗਲਤ ਪਾਸਕੋਡ ਦਰਜ ਹੋਇਆ, ਤੁਹਾਡਾ ਫ਼ੋਨ ਇੱਕ ਫ਼ੋਨ ਇੱਕ ਫ਼ੈਕਟਰੀ ਰੀਸੈੱਟ ਚਾਲੂ ਕਰੇਗਾ ਅਤੇ ਸਾਰਾ ਨਿੱਜੀ "
+"ਡਾਟਾ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।"
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
@@ -523,8 +524,7 @@ msgstr "ਲਾਕ ਸੁਰੱਖਿਆ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
-"ਕਿਰਪਾ ਕਰਕੇ ਚੁਣੋ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ ਨੂੰ ਕਿਸ ਤਰ੍ਹਾਂ ਅਣ-ਲਾਕ ਕਰਨਾ ਪਸੰਦ ਕਰੋਗੇ।"
+msgstr "ਕਿਰਪਾ ਕਰਕੇ ਚੁਣੋ ਤੁਸੀਂ ਆਪਣੇ ਫ਼ੋਨ ਨੂੰ ਕਿਸ ਤਰ੍ਹਾਂ ਅਣ-ਲਾਕ ਕਰਨਾ ਪਸੰਦ ਕਰੋਗੇ।"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
@@ -590,8 +590,7 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
-"ਇਸ ਵਿਕਲਪ ਨੂੰ ਚੁਣਨ ਦੁਆਰਾ, ਤੁਸੀਂ ਨੋਕੀਆ HERE <a href='#'>ਨਿਯਮ ਅਤੇ ਸ਼ਰਤਾਂ</a>ਨੂੰ "
-"ਪ੍ਰਵਾਨ ਕਰਦੇ ਹੋ।"
+"ਇਸ ਵਿਕਲਪ ਨੂੰ ਚੁਣਨ ਦੁਆਰਾ, ਤੁਸੀਂ ਨੋਕੀਆ HERE <a href='#'>ਨਿਯਮ ਅਤੇ ਸ਼ਰਤਾਂ</a>ਨੂੰ ਪ੍ਰਵਾਨ ਕਰਦੇ ਹੋ।"
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
@@ -610,16 +609,15 @@ msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
-"ਤੁਹਾਡੇ ਫ਼ੋਨ ਨੂੰ ਕੈਨੋਨੀਕਲ ਅਤੇ ਉਸਦੇ ਸਾਥੀਆਂ, ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਦੇ ਨਿਰਮਾਤਾਵਾਂ ਨੂੰ "
-"ਆਪਣੇ ਆਪ ਖਾਮੀ ਸੂਚਨਾਵਾਂ ਭੇਜਣ ਲਈ ਸੈੱਟ ਕੀਤਾ ਗਿਆ ਹੈ।"
+"ਤੁਹਾਡੇ ਫ਼ੋਨ ਨੂੰ ਕੈਨੋਨੀਕਲ ਅਤੇ ਉਸਦੇ ਸਾਥੀਆਂ, ਓਪਰੇਟਿੰਗ ਸਿਸਟਮ ਦੇ ਨਿਰਮਾਤਾਵਾਂ ਨੂੰ ਆਪਣੇ ਆਪ ਖਾਮੀ ਸੂਚਨਾਵਾਂ "
+"ਭੇਜਣ ਲਈ ਸੈੱਟ ਕੀਤਾ ਗਿਆ ਹੈ।"
 
 #: qml/Wizard/Pages/60-reporting.qml:53
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"ਇਸ ਨੂੰ  <b>ਸਿਸਟਮ ਸੈਟਿੰਗ</b> ਅਧੀਨ <b>ਸੁਰੱਖਿਆ &amp; ਪਰਦੇਦਾਰੀ</b>ਵਿੱਚ ਬੰਦ ਕੀਤਾ "
-"ਜਾ ਸਕਦਾ"
+"ਇਸ ਨੂੰ  <b>ਸਿਸਟਮ ਸੈਟਿੰਗ</b> ਅਧੀਨ <b>ਸੁਰੱਖਿਆ &amp; ਪਰਦੇਦਾਰੀ</b>ਵਿੱਚ ਬੰਦ ਕੀਤਾ ਜਾ ਸਕਦਾ"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"

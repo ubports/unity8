@@ -32,12 +32,7 @@ Rectangle {
                     "text here 2",
                     "text here 3"
                 ],
-        "contentType": "text"
-    }
-
-    property var shareDataNoUri: {
-        "uri": "",
-        "contentType": "text"
+        "content-type": "text"
     }
 
     PreviewSharing {
@@ -54,13 +49,6 @@ Rectangle {
 
         function cleanup() {
             peerPicker.visible = false;
-            previewSharing.shareData = root.shareData;
-        }
-
-        function test_visible() {
-            compare(previewSharing.visible, true);
-            previewSharing.shareData = shareDataNoUri;
-            compare(previewSharing.visible, false);
         }
 
         function test_open_picker() {

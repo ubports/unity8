@@ -6,19 +6,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2015-07-16 10:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
+"Language: gd\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
-"Language: gd\n"
+"X-Launchpad-Export-Date: 2016-01-14 05:53+0000\n"
+"X-Generator: Launchpad (build 17886)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -159,27 +159,29 @@ msgstr "Ceart ma-thà"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Aplacaidean aig a bheil dàta gun sàbhaladh ma dh'fhaoidte:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Ath-dhocaich, sàbhail d' obair is dùin na h-aplacaidean sin gus leantainn "
+"air adhart."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "No sparr fàgail air an-dràsta (thèid dàta gun sàbhaladh air chall)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Ceart ma-thà, ceanglaidh mi a-rithist"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Ath-cheangail an-dràsta!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Dùin na h-uile"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -269,6 +271,8 @@ msgstr "Air a stàladh cuideachd"
 #: qml/DisabledScreenNotice.qml:42
 msgid "Your device is now connected to an external display."
 msgstr ""
+"Tha an t-uidheam agad ceangailte ri uidheam-taisbeanaidh air an taobh a-"
+"muigh a-nis."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -424,7 +428,7 @@ msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Cuir"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -434,7 +438,7 @@ msgstr "Freagairt"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Fònaig air ais"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -699,8 +703,8 @@ msgstr "%1  〉"
 
 #~ msgid "Try swiping from the right edge to unlock the phone"
 #~ msgstr ""
-#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a thoirt "
-#~ "far an fhòn"
+#~ "Feuch is dèan grad-shlaighdeadh a-steach on oir dheas gus a' ghlas a "
+#~ "thoirt far an fhòn"
 
 #~ msgid "Right edge"
 #~ msgstr "An oir dheas"
@@ -752,8 +756,9 @@ msgstr "%1  〉"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn dhut "
-#~ "am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson tòiseachadh"
+#~ "Fhuair thu air na gluasadan oire ceart a dhèanamh a-nis agus is urrainn "
+#~ "dhut am fòn a chleachdadh<br><br>Thoir gnogag air an sgrìn airson "
+#~ "tòiseachadh"
 
 #~ msgid "All"
 #~ msgstr "Na h-uile"
