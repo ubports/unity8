@@ -284,7 +284,7 @@ QSize ApplicationInfo::initialSurfaceSize() const
     return m_initialSurfaceSize;
 }
 
-void ApplicationInfo::setInitialSurfaceGeometry(const QSize &size)
+void ApplicationInfo::setInitialSurfaceSize(const QSize &size)
 {
     if (size != m_initialSurfaceSize) {
         m_initialSurfaceSize = size;
