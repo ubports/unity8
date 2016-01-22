@@ -232,6 +232,7 @@ Rectangle {
         function init() {
             cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
             loader.visible = true;
+            waitForRendering(card);
         }
 
         function cleanup() {
