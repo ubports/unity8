@@ -33,7 +33,9 @@ FilterWidget {
             top: parent.top
             topMargin: units.gu(1)
             left: parent.left
+            leftMargin: units.gu(2)
             right: parent.right
+            rightMargin: units.gu(2)
         }
 
         minimumValue: widgetData.minValue
@@ -62,8 +64,8 @@ FilterWidget {
                 var halfThumbDifference = (width - slider.thumb.width) / 2;
                 var result = (value - widgetData.minValue) * slider.barMinusThumb / (widgetData.maxValue - widgetData.minValue) - halfThumbDifference;
                 result = Math.max(result, 0);
-                result = Math.min(result, parent.width - width);
-                return result;
+                result = Math.min(result, slider.width - width);
+                return units.gu(2) + result;
             }
         }
     }
