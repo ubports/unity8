@@ -385,12 +385,15 @@ FocusScope {
                         // Yeah, hackish :/
                         if (scopeView.width > units.gu(45)) {
                             if (scopeView.width >= units.gu(70)) {
-                                cardTool.cardWidth = units.gu(9);
+                                cardTool.cardWidth = units.gu(11);
+                                item.minimumHorizontalSpacing = units.gu(5);
+                                return;
                             } else {
                                 cardTool.cardWidth = units.gu(10);
                             }
                         }
                         cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
+                        item.minimumHorizontalSpacing = item.defaultMinimumHorizontalSpacing;
                     }
                 }
 

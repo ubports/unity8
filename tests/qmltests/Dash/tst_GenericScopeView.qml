@@ -238,7 +238,7 @@ Item {
 
                 openPreview(4, 0);
 
-                compare(testCase.subPageLoader.count, 12, "There should only be 12 items in preview.");
+                compare(testCase.subPageLoader.count, 16, "There should only be 16 items in preview.");
 
                 closePreview();
             }
@@ -413,7 +413,7 @@ Item {
                 var previewListViewList = findChild(subPageLoader.item, "listView");
 
                 // flick to the next previews
-                tryCompare(testCase.subPageLoader, "count", 15);
+                tryCompare(testCase.subPageLoader, "count", 25);
                 for (var i = 1; i < testCase.subPageLoader.count; ++i) {
                     mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.width - units.gu(1),
                                                 testCase.subPageLoader.height / 2,
@@ -487,7 +487,7 @@ Item {
                 mockScope.setName("Mock Scope");
                 mockScope.categories.setCount(2);
                 mockScope.categories.resultModel(0).setResultCount(50);
-                mockScope.categories.resultModel(1).setResultCount(15);
+                mockScope.categories.resultModel(1).setResultCount(25);
                 mockScope.categories.setLayout(0, "grid");
                 mockScope.categories.setLayout(1, "grid");
                 mockScope.categories.setHeaderLink(0, "");
@@ -529,7 +529,7 @@ Item {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
                 mockScope.categories.setCount(2);
-                mockScope.categories.resultModel(0).setResultCount(15);
+                mockScope.categories.resultModel(0).setResultCount(25);
                 mockScope.categories.resultModel(1).setResultCount(50);
                 mockScope.categories.setLayout(0, "grid");
                 mockScope.categories.setLayout(1, "grid");
@@ -679,7 +679,7 @@ Item {
 
                 var cardTool = findChild(categorypredefined, "cardTool");
 
-                compare(cardTool.cardWidth, units.gu(9));
+                compare(cardTool.cardWidth, units.gu(11));
                 shell.width = units.gu(46);
                 waitForRendering(genericScopeView);
                 compare(cardTool.cardWidth, units.gu(10));
