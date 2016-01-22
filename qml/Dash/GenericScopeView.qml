@@ -366,6 +366,7 @@ FocusScope {
                             if (scopeView.width > units.gu(45)) {
                                 if (scopeView.width >= units.gu(70)) {
                                     cardTool.cardWidth = units.gu(11);
+                                    item.minimumHorizontalSpacing = units.gu(5)
                                 } else {
                                     cardTool.cardWidth = units.gu(10);
                                 }

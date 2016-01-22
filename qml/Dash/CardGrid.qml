@@ -26,6 +26,7 @@ DashRenderer {
     }
     property string artShapeStyle: "inset";
     property string backgroundShapeStyle: "inset";
+    property alias minimumHorizontalSpacing: grid.minimumHorizontalSpacing
 
     expandedHeight: grid.totalContentHeight
     collapsedHeight: Math.min(grid.contentHeightForRows(collapsedRows, grid.cellHeight), expandedHeight)
