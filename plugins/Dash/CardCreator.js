@@ -61,7 +61,8 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
-// %4 is used as image fallback
+// %4 is injected as code to artImage
+// %5 is used as image fallback
 var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
@@ -70,7 +71,7 @@ var kArtShapeHolderCode = 'Item { \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
-                                readonly property string cardArt: cardData && cardData["art"] || "%4"; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || "%5"; \n\
                                 active: cardArt != ""; \n\
                                 asynchronous: root.asynchronous; \n\
                                 visible: status == Loader.Ready; \n\
@@ -133,6 +134,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         asynchronous: root.asynchronous; \n\
                                         width: %2; \n\
                                         height: %3; \n\
+                                        %4 \n\
                                     } \n\
                                 } \n\
                             } \n\
@@ -244,17 +246,19 @@ var kMascotShapeLoaderCode = 'Loader { \n\
 
 // %1 is used as anchors of mascotImage
 // %2 is used as visible of mascotImage
-// %3 is used as fallback image
+// %3 is injected as code to mascotImage
+// %4 is used as fallback image
 var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
                             id: mascotImage; \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
-                            source: cardData && cardData["mascot"] || "%3"; \n\
+                            source: cardData && cardData["mascot"] || "%4"; \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             horizontalAlignment: Image.AlignHCenter; \n\
                             verticalAlignment: Image.AlignVCenter; \n\
                             visible: %2; \n\
+                            %3 \n\
                         }\n';
 
 // %1 is used as anchors of titleLabel
@@ -372,8 +376,26 @@ var kAudioProgressBarCode = 'CardAudioProgress { \n\
                             color: %3; \n\
                          }';
 
+function evil_param(object) {
+    for (var x in object) {
+        if (typeof object[x] === "object" && evil_param(object[x]))
+            return true;
+
+        if (typeof object[x] === "string" && object[x].match(/"(?:[^"\\]|\\.)*"/) != null)
+            return true;
+    }
+
+    return false;
+}
+
 function cardString(template, components) {
     var code;
+
+    if (evil_param(template))
+        return "";
+
+    if (evil_param(components))
+        return "";
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
 
@@ -460,10 +482,11 @@ function cardString(template, components) {
         }
 
         var fallback = components["art"] && components["art"]["fallback"] || "";
-        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallback);
+        var fallbackCode = "";
         if (fallback !== "") {
-            code += 'Connections { target: artShapeLoader.item ? artShapeLoader.item.image : null; onStatusChanged: if (artShapeLoader.item.image.status === Image.Error) artShapeLoader.item.image.source = "%1"; } \n'.arg(fallback);
+            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = "%1";'.arg(fallback);
         }
+        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallbackCode).arg(fallback);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
@@ -556,10 +579,11 @@ function cardString(template, components) {
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
         var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
-        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallback);
+        var fallbackCode = "";
         if (fallback !== "") {
-            code += 'Connections { target: mascotImage; onStatusChanged: if (mascotImage.status === Image.Error) mascotImage.source = "%1"; } \n'.arg(fallback);
+            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = "%1";'.arg(fallback);
         }
+        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallbackCode).arg(fallback);
     }
 
     var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white")';
