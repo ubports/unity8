@@ -1,4 +1,4 @@
-SuruG/*
+/*
  * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
