@@ -219,41 +219,50 @@ Item {
                             }
                         }
 
-                        secondaryItem: Row {
+                        secondaryItem: AbstractButton {
+                            id: clearOrSettingsButton
+
                             height: searchTextField.height
+                            width: row.width
 
-                            AbstractButton {
-                                id: clearOrSettingsButton
+                            enabled: searchTextField.text.length > 0 || root.navigationTag != ""
+
+                            Row {
+                                id: row
                                 height: parent.height
-                                width: height
-                                enabled: searchTextField.text.length > 0 || root.navigationTag != ""
 
-                                Image {
-                                    objectName: "clearIcon"
-                                    anchors.fill: parent
-                                    anchors.margins: units.gu(1)
-                                    source: searchTextField.clearIsSettings ? "image://theme/filters" : "image://theme/clear"
-                                    opacity: parent.enabled
-                                    visible: opacity > 0
-                                    Behavior on opacity {
-                                        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                                Item {
+                                    height: parent.height
+                                    width: height
+
+                                    Image {
+                                        anchors.fill: parent
+                                        anchors.margins: units.gu(1)
+
+                                        objectName: "clearIcon"
+                                        source: searchTextField.clearIsSettings ? "image://theme/filters" : "image://theme/clear"
+                                        opacity: parent.enabled
+                                        visible: opacity > 0
+                                        Behavior on opacity {
+                                            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                                        }
                                     }
                                 }
 
-                                onClicked: {
-                                    if (searchTextField.clearIsSettings) {
-                                        root.showFiltersPopup(clearOrSettingsButton);
-                                    } else {
-                                        root.clearSearch(true);
-                                    }
+                                Label {
+                                    visible: searchTextField.clearIsSettings && root.activeFiltersCount > 0
+                                    height: parent.height
+                                    text: "(" + root.activeFiltersCount + ")"
+                                    verticalAlignment: Text.AlignVCenter
                                 }
                             }
 
-                            Label {
-                                visible: searchTextField.clearIsSettings && root.activeFiltersCount > 0
-                                height: parent.height
-                                text: "(" + root.activeFiltersCount + ")"
-                                verticalAlignment: Text.AlignVCenter
+                            onClicked: {
+                                if (searchTextField.clearIsSettings) {
+                                    root.showFiltersPopup(clearOrSettingsButton);
+                                } else {
+                                    root.clearSearch(true);
+                                }
                             }
                         }
 
