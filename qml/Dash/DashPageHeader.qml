@@ -371,14 +371,6 @@ Item {
                         fontSize: header.fontSize
                         color: header.panelForegroundColor
                         elide: Text.ElideRight
-                        AbstractButton {
-                            anchors.fill: parent
-                            enabled: root.searchEntryEnabled
-                            onClicked: {
-                                headerContainer.showSearch = true;
-                                searchTextField.forceActiveFocus();
-                            }
-                        }
                     }
                 }
 
