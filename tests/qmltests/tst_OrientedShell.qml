@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -292,6 +292,9 @@ Rectangle {
                 activeFocusOnPress: false
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
+                function selectStaged() {selectedIndex = 0;}
+                function selectWindowed() {selectedIndex = 1;}
+                function selectAutomatic() {selectedIndex = 2;}
             }
             MouseTouchEmulationCheckbox {
                 checked: true
@@ -393,7 +396,7 @@ Rectangle {
                 activeFocusOnPress: false
                 property string prevDevName: "mako"
                 onClicked: {
-                    usageModeSelector.selectedIndex = 2; // "Automatic"
+                    usageModeSelector.selectAutomatic();
 
                     if (applicationArguments.deviceName === "desktop") {
                         applicationArguments.deviceName = prevDevName;
@@ -457,6 +460,8 @@ Rectangle {
             signalSpy.signalName = "";
 
             LightDM.Greeter.authenticate(""); // reset greeter
+
+            usageModeSelector.selectStaged();
         }
 
         function cleanup() {
@@ -1014,7 +1019,7 @@ Rectangle {
         }
 
         function test_attachRemoveInputDevices(data) {
-            usageModeSelector.selectedIndex = 2;
+            usageModeSelector.selectAutomatic();
             tryCompare(mockUnity8Settings, "usageMode", "Automatic")
 
             loadShell("mako")
@@ -1158,6 +1163,61 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle" , 0);
         }
 
+        /*
+            Regression test for https://launchpad.net/bugs/1515977
+
+            Preconditions:
+            UI in Desktop mode and landscape
+
+            Steps:
+            - Launch a portrait-only application
+
+            Expected outcome:
+            - Shell stays in landscape
+
+            Buggy outcome:
+            - Shell would rotate to portrait as the newly-focused app doesn't support landscape
+         */
+        function test_portraitOnlyAppInLandscapeDesktop_data() {
+            return [
+                {tag: "mako", deviceName: "mako"},
+                {tag: "manta", deviceName: "manta"},
+                {tag: "flo", deviceName: "flo"}
+            ];
+        }
+        function test_portraitOnlyAppInLandscapeDesktop(data) {
+            loadShell(data.deviceName);
+
+            ////
+            // setup preconditions (put shell in Desktop mode and landscape)
+
+            usageModeSelector.selectWindowed();
+
+            orientedShell.physicalOrientation = orientedShell.orientations.landscape;
+            waitUntilShellIsInOrientation(orientedShell.orientations.landscape);
+            waitForRotationAnimationsToFinish();
+
+            ////
+            // Launch a portrait-only application
+
+            var dialerApp = ApplicationManager.startApplication("dialer-app");
+            verify(dialerApp);
+
+            // ensure the mock dialer-app is as we expect
+            compare(dialerApp.rotatesWindowContents, false);
+            compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
+
+            waitUntilAppSurfaceShowsUp("dialer-app");
+            waitUntilAppWindowCanRotate("dialer-app");
+            verify(isAppSurfaceFocused("dialer-app"));
+
+            ////
+            // check outcome (shell should stay in landscape)
+
+            waitForRotationAnimationsToFinish();
+            compare(shell.orientation, orientedShell.orientations.landscape);
+        }
+
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
         function rotateTo(angle) {
             switch (angle) {
@@ -1176,7 +1236,10 @@ Rectangle {
             default:
                 verify(false);
             }
+            waitForRotationAnimationsToFinish();
+        }
 
+        function waitForRotationAnimationsToFinish() {
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             verify(rotationStates.d);
             verify(rotationStates.d.stateUpdateTimer);
