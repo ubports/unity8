@@ -24,6 +24,7 @@ Item {
         Component.onDestruction: removeMouse();
     }
 
+    readonly property bool pressed: point1.pressed || point2.pressed
 
     MultiPointTouchArea {
         objectName: "touchPadArea"
@@ -32,7 +33,8 @@ Item {
         // FIXME: Once we have Qt DPR support, this should be Qt.styleHints.startDragDistance
         readonly property int clickThreshold: units.gu(1.5)
         property bool isClick: false
-        property bool pressed: false
+        property bool isDoubleClick: false
+        property bool isDrag: false
 
         onPressed: {
             // If double-tapping *really* fast, it could happen that we end up having only point2 pressed
@@ -41,7 +43,7 @@ Item {
                     && clickTimer.running) {
                 clickTimer.stop();
                 uinput.pressMouse(UInput.ButtonLeft)
-                pressed = true;
+                isDoubleClick = true;
             }
             isClick = true;
         }
@@ -58,14 +60,15 @@ Item {
         }
 
         onReleased: {
+            if (isDoubleClick || isDrag) {
+                uinput.releaseMouse(UInput.ButtonLeft)
+                isDoubleClick = false;
+            }
             if (isClick) {
-                if (pressed) {
-                    uinput.releaseMouse(UInput.ButtonLeft)
-                    pressed = false;
-                }
                 clickTimer.scheduleClick(point1.pressed ? UInput.ButtonRight : UInput.ButtonLeft)
             }
             isClick = false;
+            isDrag = false;
         }
 
         Timer {
@@ -89,6 +92,7 @@ Item {
                     (Math.abs(tp.x - tp.startX) > clickThreshold ||
                      Math.abs(tp.y - tp.startY) > clickThreshold)) {
                 isClick = false;
+                isDrag = true;
             }
 
             uinput.moveMouse(tp.x - tp.previousX, tp.y - tp.previousY);

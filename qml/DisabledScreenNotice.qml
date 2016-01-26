@@ -52,6 +52,12 @@ Item {
 
         VirtualTouchPad {
             anchors.fill: parent
+
+            onPressedChanged: {
+                if (pressed && infoNoteDisplayed) {
+                    infoNoteDisplayed = false;
+                }
+            }
         }
 
         Image {
@@ -59,17 +65,14 @@ Item {
             source: wallpaperResolver.background
         }
 
-        MouseArea {
-            objectName: "infoNoticeMouseArea"
+        Item {
+            objectName: "infoNoticeArea"
             anchors.fill: parent
             opacity: infoNoteDisplayed ? 1 : 0
             visible: opacity > 0
-            enabled: visible
             Behavior on opacity {
                 UbuntuNumberAnimation { }
             }
-
-            onClicked: root.infoNoteDisplayed = false;
 
             Rectangle {
                 anchors.fill: parent

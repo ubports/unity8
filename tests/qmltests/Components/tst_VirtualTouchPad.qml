@@ -101,12 +101,14 @@ Item {
 
             var touchPadArea = findChild(touchScreenPad, "touchPadArea");
 
-            tap(touchPadArea)
+            mouseClick(touchPadArea)
             mousePress(touchPadArea)
+            mouseMove(touchPadArea, touchPadArea.width / 4, touchPadArea.height / 4)
 
             tryCompare(mouseEventSpy1, "count", 1)
             tryCompare(mouseEventSpy2, "count", 0)
             mouseRelease(touchPadArea)
+            tryCompare(mouseEventSpy2, "count", 1)
         }
 
         function test_twoFingerScroll() {
