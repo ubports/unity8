@@ -16,9 +16,9 @@
 
 .pragma library
 
-// %1 is the template["card-background"] string
-// %2 is the template["card-background"]["elements"][0]
-// %3 is the template["card-background"]["elements"][1]
+// %1 is the template["card-background"]["elements"][0]
+// %2 is the template["card-background"]["elements"][1]
+// %3 is the template["card-background"] string
 var kBackgroundLoaderCode = 'Loader {\n\
                                 id: backgroundLoader; \n\
                                 objectName: "backgroundLoader"; \n\
@@ -46,14 +46,14 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                         objectName: "backgroundImage"; \n\
                                         source: { \n\
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; \n\
-                                            else return %1; \n\
+                                            else return %3; \n\
                                         } \n\
                                     } \n\
                                     function getColor(index) { \n\
                                         if (cardData && typeof cardData["background"] === "object" \n\
                                             && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { \n\
                                             return cardData["background"]["elements"][index]; \n\
-                                        } else return index === 0 ? %2 : %3; \n\
+                                        } else return index === 0 ? %1 : %2; \n\
                                     } \n\
                                 } \n\
                             }\n';
@@ -455,7 +455,7 @@ function cardString(template, components) {
                 backgroundElements1 = '"%1"'.arg(element1);
             }
         }
-        code += kBackgroundLoaderCode.arg(templateCardBackground).arg(backgroundElements0).arg(backgroundElements1);
+        code += kBackgroundLoaderCode.arg(backgroundElements0).arg(backgroundElements1).arg(templateCardBackground);
     }
 
     if (hasArt) {
