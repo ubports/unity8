@@ -123,7 +123,7 @@ Item {
 
                 divider.visible: index != repeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
 
-                onClicked: root.historyItemClicked(text)
+                onClicked: root.historyItemClicked(query)
             }
         }
     }
