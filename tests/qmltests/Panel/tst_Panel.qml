@@ -31,6 +31,8 @@ IndicatorTest {
     height: units.gu(71)
     color: "white"
 
+    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
+
     Binding {
         target: mouseEmulation
         property: "checked"
