@@ -34,6 +34,7 @@ FilterWidget {
 
         onClicked: {
             expanded = !expanded;
+            forceActiveFocus();
         }
 
         Item {
