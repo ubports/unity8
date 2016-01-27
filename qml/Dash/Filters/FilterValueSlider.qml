@@ -44,6 +44,9 @@ FilterWidget {
         onValueChanged: {
             widgetData.value = value;
         }
+        onPressedChanged: {
+            if (pressed) forceActiveFocus();
+        }
 
         readonly property Item thumb: __internals.thumb
         readonly property real barMinusThumb: __internals.barMinusThumb
