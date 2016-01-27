@@ -203,9 +203,7 @@ Rectangle {
                 }
             } else { // automatic
                 var longEdgeWidth = Math.max(root.width, root.height)
-                print("Automatic mode:", longEdgeWidth, "gu size", units.gu(1), "kbds", keyboardsModel.count, "mice", miceModel.count + touchPadModel.count, root)
                 if (longEdgeWidth > units.gu(120)) {
-                    print("longedge is big!")
                     if (keyboardsModel.count + miceModel.count + touchPadModel.count > 0) {
                         return "desktop";
                     }
