@@ -209,11 +209,18 @@ Rectangle {
                     return "tablet";
                 }
             } else { // automatic
-                if (miceModel.count + touchPadModel.count > 0) {
-                    return "desktop";
-                } else {
-                    return deviceConfiguration.category;
+                var longEdgeWidth = Math.max(root.width, root.height)
+                if (longEdgeWidth > units.gu(120)) {
+                    if (keyboardsModel.count + miceModel.count + touchPadModel.count > 0) {
+                        return "desktop";
+                    }
+                } else if (longEdgeWidth > units.gu(90)){
+                    if (miceModel.count + touchPadModel.count > 0) {
+                        return "desktop";
+                    }
                 }
+
+                return deviceConfiguration.category;
             }
         }
 
