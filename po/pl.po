@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-11 17:43+0000\n"
+"POT-Creation-Date: 2016-01-22 17:08+0000\n"
 "PO-Revision-Date: 2015-07-12 09:46+0000\n"
 "Last-Translator: Seweryn Opyd <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-01-14 05:54+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
+"X-Generator: Launchpad (build 17902)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -156,6 +156,8 @@ msgstr "Programy mogące mieć niezapisane dane:"
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Aby kontynuować, dodaj ponownie do doku, zapisz swoją pracę i zamknij te "
+"programy."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
