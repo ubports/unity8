@@ -152,6 +152,7 @@ Rectangle {
 
         function test_lazyimage(data) {
             data.func();
+            waitForRendering(data.image);
 
             if (data.transition) {
                 // wait for the transition to complete
