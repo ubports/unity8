@@ -1,3 +1,15 @@
+unity8 (8.11+16.04.20160122-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Fix bug #1536296 added: tests/plugins/Dash/cardcreator/10.tst (LP:
+    #1536296)
+  * Fix card tests on the phone
+
+  [ CI Train Bot ]
+  * Update translation template
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 22 Jan 2016 16:56:04 +0000
+
 unity8 (8.11+16.04.20160111.1-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

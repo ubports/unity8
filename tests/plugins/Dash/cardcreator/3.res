@@ -86,6 +86,7 @@ Item  {
                                         asynchronous: root.asynchronous;
                                         width: root.width;
                                         height: width / artShape.aspect;
+                                        onStatusChanged: if (status === Image.Error) source = "IHAVE\"ESCAPED\"QUOTES\"";
                                     }
                                 } 
                             } 
