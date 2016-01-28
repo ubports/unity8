@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -85,8 +85,8 @@ Item {
             return Qt.PrimaryOrientation;
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
-        } else if (mainApp) {
-            return shell.orientations.map(mainApp.supportedOrientations);
+        } else if (applicationsDisplayLoader.item) {
+            return shell.orientations.map(applicationsDisplayLoader.item.supportedOrientations);
         } else {
             // we just don't care
             return Qt.PortraitOrientation
