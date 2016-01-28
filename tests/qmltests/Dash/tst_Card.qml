@@ -130,7 +130,6 @@ Rectangle {
         sourceComponent: cardTool.cardComponent
         clip: true
         onLoaded: {
-            item.components = Qt.binding(function() { return cardTool.components; });
             item.cardData = Qt.binding(function() { return Helpers.mapData(dataArea.text, cardTool.components, dataError); });
             item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
