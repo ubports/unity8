@@ -24,7 +24,7 @@ Item  {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                readonly property string cardArt: cardData && cardData["art"] || "IHAVE\"ESCAPED\"QUOTES\"";
+                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
                                 active: cardArt != "";
                                 asynchronous: root.asynchronous; 
                                 visible: status == Loader.Ready;
@@ -87,7 +87,7 @@ Item  {
                                         asynchronous: root.asynchronous;
                                         width: root.width;
                                         height: width / artShape.aspect;
-                                        onStatusChanged: if (status === Image.Error) source = "IHAVE\"ESCAPED\"QUOTES\"";
+                                        onStatusChanged: if (status === Image.Error) source = decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
                                     }
                                 } 
                             } 
