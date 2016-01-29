@@ -650,7 +650,6 @@ Rectangle {
             // again before interacting with it otherwise any
             // DirectionalDragAreas in there won't be easily fooled by
             // fake swipes.
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
             swipeAwayGreeter();
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -660,6 +659,7 @@ Rectangle {
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
+            removeTimeConstraintsFromDirectionalDragAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
