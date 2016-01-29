@@ -56,7 +56,6 @@ Item {
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
-    property bool cursorVisible: false
     property alias oskEnabled: inputMethod.enabled
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
@@ -177,8 +176,15 @@ Item {
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
     }
 
-    HomeKeyWatcher {
-        onActivated: { launcher.fadeOut(); shell.showHome(); }
+    WindowInputMonitor {
+        onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
+        onTouchBegun: { cursor.opacity = 0; }
+        onTouchEnded: {
+            // move the (hidden) cursor to the last known touch position
+            var mappedCoords = mapFromItem(null, pos.x, pos.y);
+            cursor.x = mappedCoords.x;
+            cursor.y = mappedCoords.y;
+        }
     }
 
     Item {
@@ -677,6 +683,8 @@ Item {
                 applicationsDisplayLoader.item.pushRightEdge(amount);
             }
         }
+
+        onMouseMoved: { cursor.opacity = 1; }
     }
 
     Rectangle {

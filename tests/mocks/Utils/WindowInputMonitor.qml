@@ -17,5 +17,7 @@
 import QtQuick 2.4
 
 QtObject {
-    signal activated()
+    signal homeKeyActivated()
+    signal touchBegun()
+    signal touchEnded(point pos)
 }

@@ -13,7 +13,7 @@ set(QMLPLUGIN_SRC
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     applicationsfiltermodel.cpp
     constants.cpp
-    HomeKeyWatcher.cpp
+    WindowInputMonitor.cpp
     inputwatcher.cpp
     qlimitproxymodelqml.cpp
     unitysortfilterproxymodelqml.cpp
