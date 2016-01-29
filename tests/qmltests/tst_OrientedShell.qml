@@ -1001,37 +1001,55 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle", 0);
         }
 
-        function test_attachRemoveInputDevices() {
+        function  test_attachRemoveInputDevices_data() {
+            return [
+                { tag: "small screen, no devices", screenWidth: units.gu(50), mouse: false, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "medium screen, no devices", screenWidth: units.gu(100), mouse: false, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "big screen, no devices", screenWidth: units.gu(200), mouse: false, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "small screen, mouse", screenWidth: units.gu(50), mouse: true, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "medium screen, mouse", screenWidth: units.gu(100), mouse: true, kbd: false, expectedMode: "desktop", oskExpected: true },
+                { tag: "big screen, mouse", screenWidth: units.gu(200), mouse: true, kbd: false, expectedMode: "desktop", oskExpected: true },
+                { tag: "small screen, kbd", screenWidth: units.gu(50), mouse: false, kbd: true, expectedMode: "phone", oskExpected: false },
+                { tag: "medium screen, kbd", screenWidth: units.gu(100), mouse: false, kbd: true, expectedMode: "phone", oskExpected: false },
+                { tag: "big screen, kbd", screenWidth: units.gu(200), mouse: false, kbd: true, expectedMode: "desktop", oskExpected: false },
+                { tag: "small screen, mouse & kbd", screenWidth: units.gu(50), mouse: true, kbd: true, expectedMode: "phone", oskExpected: false },
+                { tag: "medium screen, mouse & kbd", screenWidth: units.gu(100), mouse: true, kbd: true, expectedMode: "desktop", oskExpected: false },
+                { tag: "big screen, mouse & kbd", screenWidth: units.gu(200), mouse: true, kbd: true, expectedMode: "desktop", oskExpected: false },
+            ]
+        }
+
+        function test_attachRemoveInputDevices(data) {
             usageModeSelector.selectAutomatic();
             tryCompare(mockUnity8Settings, "usageMode", "Automatic")
 
             loadShell("mako")
             var shell = findChild(orientedShell, "shell");
 
+            var oldWidth = orientedShellLoader.width;
+            orientedShellLoader.width = data.screenWidth;
+
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(mockOskSettings, "stayHidden", false);
 
-            MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
-            tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", true);
+            if (data.kbd) {
+                MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+            }
+            if (data.mouse) {
+                MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            }
 
-            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
-            tryCompare(shell, "usageScenario", "desktop");
-            tryCompare(mockOskSettings, "stayHidden", true);
+            tryCompare(shell, "usageScenario", data.expectedMode);
+            tryCompare(mockOskSettings, "stayHidden", !data.oskExpected);
 
-            MockInputDeviceBackend.removeDevice("/kbd0");
-            tryCompare(shell, "usageScenario", "desktop");
-            tryCompare(mockOskSettings, "stayHidden", false);
+            if (data.kbd) {
+                MockInputDeviceBackend.removeDevice("/kbd0");
+            }
+            if (data.mouse) {
+                MockInputDeviceBackend.removeDevice("/mouse0");
+            }
 
-            MockInputDeviceBackend.removeDevice("/mouse0");
-            tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", false);
-
-            MockInputDeviceBackend.addMockDevice("/touchpad0", InputInfo.TouchPad);
-            tryCompare(shell, "usageScenario", "desktop");
-
-            MockInputDeviceBackend.removeDevice("/touchpad0");
-            tryCompare(shell, "usageScenario", "phone");
+            // Restore width
+            orientedShellLoader.width = oldWidth;
         }
 
         /*
