@@ -667,6 +667,26 @@ Item {
                 var shape = findChildsByType(artShapeLoader, "UCUbuntuShape");
                 compare(shape.borderSource, undefined);
             }
+
+            function test_clickScopeSizing() {
+                genericScopeView.scope = scopes.getScopeFromAll("clickscope");
+                waitForRendering(genericScopeView);
+
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                waitForRendering(categoryListView);
+
+                var categorypredefined = findChild(categoryListView, "dashCategorypredefined");
+                waitForRendering(categorypredefined);
+
+                var cardTool = findChild(categorypredefined, "cardTool");
+
+                compare(cardTool.cardWidth, units.gu(11));
+                shell.width = units.gu(46);
+                waitForRendering(genericScopeView);
+                compare(cardTool.cardWidth, units.gu(10));
+
+                shell.width = units.gu(120)
+            }
         }
     }
 }
