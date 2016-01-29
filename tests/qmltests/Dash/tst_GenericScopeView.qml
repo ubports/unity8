@@ -107,11 +107,12 @@ Item {
             {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 waitForRendering(categoryListView);
-                while (!categoryListView.atYEnd) {
-                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height - units.gu(8),
-                               genericScopeView.width/2, genericScopeView.y)
-                    tryCompare(categoryListView, "moving", false);
-                }
+                tryCompareFunction(function() {
+                        mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height - units.gu(8),
+                                   genericScopeView.width/2, genericScopeView.y)
+                        tryCompare(categoryListView, "moving", false);
+                        return categoryListView.atYEnd;
+                    }, true);
             }
 
             function test_isActive() {
