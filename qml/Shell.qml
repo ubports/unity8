@@ -57,6 +57,7 @@ Item {
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
     property bool cursorVisible: false
+    property alias oskEnabled: inputMethod.enabled
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }

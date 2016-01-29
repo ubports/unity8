@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,11 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import QtQuick.Window 2.2
 import "Components"
-import "Rotation"
 
 Item {
     id: root
 
     property bool infoNoteDisplayed: true
-
-    property int physicalOrientation: Screen.orientation
 
     WallpaperResolver {
         width: root.width
@@ -94,6 +91,12 @@ Item {
                 fontSize: "x-large"
                 wrapMode: Text.Wrap
             }
+        }
+
+        InputMethod {
+            id: inputMethod
+            objectName: "inputMethod"
+            anchors.fill: parent
         }
     }
 }

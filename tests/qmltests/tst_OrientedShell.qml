@@ -1024,12 +1024,14 @@ Rectangle {
 
             loadShell("mako")
             var shell = findChild(orientedShell, "shell");
+            var inputMethod = findChild(shell, "inputMethod");
 
             var oldWidth = orientedShellLoader.width;
             orientedShellLoader.width = data.screenWidth;
 
             tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", false);
+            tryCompare(inputMethod, "enabled", true);
+            tryCompare(mockOskSettings, "disableHeight", false);
 
             if (data.kbd) {
                 MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
@@ -1039,7 +1041,8 @@ Rectangle {
             }
 
             tryCompare(shell, "usageScenario", data.expectedMode);
-            tryCompare(mockOskSettings, "stayHidden", !data.oskExpected);
+            tryCompare(inputMethod, "enabled", data.oskExpected);
+            tryCompare(mockOskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
 
             if (data.kbd) {
                 MockInputDeviceBackend.removeDevice("/kbd0");
