@@ -36,6 +36,7 @@
 #include "constants.h"
 #include "timezoneFormatter.h"
 #include "applicationsfiltermodel.h"
+#include "inputeventgenerator.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -68,6 +69,7 @@ void UtilsPlugin::registerTypes(const char *uri)
                                                 [](QQmlEngine*, QJSEngine*) -> QObject* { return new TimezoneFormatter; });
     qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
     qmlRegisterType<ApplicationsFilterModel>(uri, 0, 1, "ApplicationsFilterModel");
+    qmlRegisterType<InputEventGenerator>(uri, 0, 1, "InputEventGenerator");
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
