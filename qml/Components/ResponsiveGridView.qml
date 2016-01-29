@@ -18,12 +18,10 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 /*
-   Essentially a GridView where you can specify the maximum number of columns it can have.
+   Essentially a GridView
  */
 Item {
     property int minimumHorizontalSpacing: units.gu(0.5)
-    // property int minimumNumberOfColumns: 2 // FIXME: not implemented
-    property int maximumNumberOfColumns: 6
     readonly property int columns: gridView.columns
     property alias verticalSpacing: gridView.verticalSpacing
     readonly property alias margins: gridView.margin
@@ -81,7 +79,7 @@ Item {
         }
 
         property real allocatableHorizontalSpace: parent.width - columns * delegateWidth
-        property int columns: Math.min(columnsForSpacing(minimumHorizontalSpacing), maximumNumberOfColumns)
+        property int columns: columnsForSpacing(minimumHorizontalSpacing)
         property real horizontalSpacing: spacingForColumns(columns)
         property real verticalSpacing: horizontalSpacing
         property int margin: allocatableHorizontalSpace - columns * horizontalSpacing

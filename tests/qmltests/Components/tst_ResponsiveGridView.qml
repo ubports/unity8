@@ -33,12 +33,6 @@ Item {
         anchors.top: parent.top
         anchors.right: parent.right
         ListItem.ValueSelector {
-            id: maxColumnsSelector
-            text: "maximumNumberOfColumns"
-            values: [2,4,8,13,1000]
-            selectedIndex: 1
-        }
-        ListItem.ValueSelector {
             id: minHSpacingSelector
             text: "minHorizontalSpacing"
             values: [0,units.gu(2),units.gu(8),units.gu(25)]
@@ -86,8 +80,6 @@ Item {
             minimumHorizontalSpacing:
                 minHSpacingSelector.values[minHSpacingSelector.selectedIndex]
             verticalSpacing: units.gu(2)
-            maximumNumberOfColumns:
-                maxColumnsSelector.values[maxColumnsSelector.selectedIndex]
             delegateWidth: units.gu(6)
             delegateHeight: units.gu(6)
 
@@ -123,31 +115,6 @@ Item {
         name: "ResponsiveGridView"
         when: windowShown
 
-        function test_maximumNumberOfColumns_data() {
-            var data = new Array()
-
-            data.push({selectedIndex: 0, maxColumnCount:2, columnCount: 2})
-            data.push({selectedIndex: 1, maxColumnCount:4, columnCount: 4})
-            data.push({selectedIndex: 2, maxColumnCount:8, columnCount: 8})
-            data.push({selectedIndex: 4, maxColumnCount:1000, columnCount: 13})
-
-            return data
-        }
-
-        /* Change ResponsiveGridView's maximumNumberOfColumns property and check
-           that the resulting number of columns matches expectations */
-        function test_maximumNumberOfColumns(data) {
-            minHSpacingSelector.selectedIndex = 0
-
-            // sanity checks
-            compare(maxColumnsSelector.values[data.selectedIndex], data.maxColumnCount)
-            compare(minHSpacingSelector.values[0], 0)
-
-            maxColumnsSelector.selectedIndex = data.selectedIndex
-            tryCompareFunction(countGridDelegatesOnFirstRow, data.columnCount);
-            compare(grid.columns, data.columnCount)
-        }
-
         function test_minimumHorizontalSpacing_data() {
             var data = new Array()
 
@@ -162,10 +129,7 @@ Item {
         /* Change ResponsiveGridView's minimumHorizontalSpacing property and check
            that the resulting number of columns matches expectations */
         function test_minimumHorizontalSpacing(data) {
-            maxColumnsSelector.selectedIndex = 4
-
             // sanity checks
-            compare(maxColumnsSelector.values[4], 1000)
             compare(minHSpacingSelector.values[data.selectedIndex], data.minHSpacing)
 
             minHSpacingSelector.selectedIndex = data.selectedIndex
