@@ -18,9 +18,11 @@
 
 #include "UsersModelPrivate.h"
 
+#include <glib.h>
 #include <QDir>
 #include <QSettings>
 #include <QStringList>
+#include <unistd.h>
 
 namespace QLightDM
 {
@@ -28,14 +30,38 @@ namespace QLightDM
 UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
   : q_ptr(parent)
 {
-    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
-    QStringList users = settings.value(QStringLiteral("users"), QStringList() << qgetenv("USER")).toStringList();
+    QFileInfo demoFile(QDir::homePath() + "/.unity8-greeter-demo");
+    QString currentUser = g_get_user_name();
 
-    entries.reserve(users.count());
-    Q_FOREACH(const QString &user, users)
-    {
-        QString name = settings.value(user + "/name", user).toString();
-        entries.append({user, name, 0, 0, false, false, 0, 0});
+    if (demoFile.exists()) {
+        QSettings settings(demoFile.filePath(), QSettings::NativeFormat);
+        QStringList users = settings.value(QStringLiteral("users"), QStringList() << currentUser).toStringList();
+
+        entries.reserve(users.count());
+        Q_FOREACH(const QString &user, users)
+        {
+            QString name = settings.value(user + "/name", user).toString();
+            entries.append({user, name, 0, 0, false, false, 0, 0});
+        }
+    } else {
+        // If we were using the actual liblightdm, we could just ask it
+        // for the user's real name.  But we aren't.  We *should* ask
+        // AccountsService for the real name, like liblightdm does internally,
+        // but this is close enough since AS and passwd are always in sync.
+        QString realName = g_get_real_name(); // gets name from passwd entry
+        if (realName == QStringLiteral("Unknown")) { // glib doesn't translate this string
+            realName = QStringLiteral("");
+        }
+        if (realName == QStringLiteral("phablet")
+                && currentUser == QStringLiteral("phablet")
+                && getuid() == 32011
+                && getgid() == 32011) {
+            // This *should* be set at image-creation time, but it hasn't
+            // always been, so we have to do it here for at least the upgrade
+            // case.  And until it is fixed at image-creation.
+            realName = QStringLiteral("Ubuntu"); // is brand name, so not translated
+        }
+        entries.append({currentUser, realName, 0, 0, false, false, 0, 0});
     }
 }
 
