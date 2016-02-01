@@ -84,7 +84,14 @@ PreviewWidget {
                                     DashAudioPlayer.play();
                                 }
                             } else {
-                                DashAudioPlayer.playSource(sourceUrl);
+                                var playlist = [];
+                                for (var i = index; i < trackRepeater.count; ++i) {
+                                    playlist.push(trackRepeater.itemAt(i).sourceUrl);
+                                }
+                                for (var i = 0; i < index; ++i) {
+                                    playlist.push(trackRepeater.itemAt(i).sourceUrl);
+                                }
+                                DashAudioPlayer.playSource(sourceUrl, playlist);
                             }
                         }
                     }
