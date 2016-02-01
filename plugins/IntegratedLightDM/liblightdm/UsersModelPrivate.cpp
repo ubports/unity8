@@ -52,13 +52,6 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
         if (realName == QStringLiteral("Unknown")) { // glib doesn't translate this string
             realName = QStringLiteral("");
         }
-        if (realName == QStringLiteral("phablet")
-                && currentUser == QStringLiteral("phablet")
-                && getuid() == 32011
-                && getgid() == 32011) {
-            // This *should* be set at image-creation time, but until it is...
-            realName = QStringLiteral("Ubuntu"); // is brand name, so not translated
-        }
         entries.append({currentUser, realName, 0, 0, false, false, 0, 0});
     }
 }
