@@ -56,9 +56,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
                 && currentUser == QStringLiteral("phablet")
                 && getuid() == 32011
                 && getgid() == 32011) {
-            // This *should* be set at image-creation time, but it hasn't
-            // always been, so we have to do it here for at least the upgrade
-            // case.  And until it is fixed at image-creation.
+            // This *should* be set at image-creation time, but until it is...
             realName = QStringLiteral("Ubuntu"); // is brand name, so not translated
         }
         entries.append({currentUser, realName, 0, 0, false, false, 0, 0});
