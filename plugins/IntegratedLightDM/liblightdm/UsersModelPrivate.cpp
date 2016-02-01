@@ -22,7 +22,6 @@
 #include <QDir>
 #include <QSettings>
 #include <QStringList>
-#include <unistd.h>
 
 namespace QLightDM
 {
