@@ -56,7 +56,7 @@ Rectangle {
         }
     }
         // to be overwritten by tests
-    property var unity8Settings: Unity8Settings {}
+    property var unity8Settings: GSettings { schema.id: "com.canonical.Unity8" }
     property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }
 
     property int physicalOrientation: Screen.orientation
@@ -66,16 +66,48 @@ Rectangle {
     InputDeviceModel {
         id: miceModel
         deviceFilter: InputInfo.Mouse
+        property int oldCount: 0
     }
 
     InputDeviceModel {
         id: touchPadModel
         deviceFilter: InputInfo.TouchPad
+        property int oldCount: 0
     }
 
     InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
+        property int oldCount: 0
+    }
+    readonly property int physicalInputDevices: miceModel.count + keyboardsModel.count + touchPadModel.count
+    onPhysicalInputDevicesChanged: {
+        console.log("Input devices changed:", physicalInputDevices, "current mode:", root.unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount + keyboardsModel.oldCount)
+        if (root.unity8Settings.usageMode === "Windowed") {
+            if (physicalInputDevices === 0) {
+                // All devices have been unplugged. Move to staged.
+                root.unity8Settings.usageMode = "Staged";
+            }
+        } else {
+            var longEdgeWidth = Math.max(root.width, root.height)
+            if (longEdgeWidth > units.gu(120)) {
+                if (keyboardsModel.count + miceModel.count + touchPadModel.count > 0 &&
+                        physicalInputDevices > miceModel.oldCount + touchPadModel.oldCount + keyboardsModel.oldCount) {
+                    root.unity8Settings.usageMode = "Windowed"
+                }
+            } else if (longEdgeWidth > units.gu(90)){
+                if (miceModel.count + touchPadModel.count > 0 &&
+                        miceModel.count + touchPadModel.count > miceModel.oldCount + touchPadModel.oldCount) {
+                    root.unity8Settings.usageMode = "Windowed";
+                }
+            } else {
+                // Make sure we initialize to something sane
+                root.unity8Settings.usageMode = "Staged";
+            }
+        }
+        miceModel.oldCount = miceModel.count;
+        touchPadModel.oldCount = touchPadModel.count;
+        keyboardsModel.oldCount = keyboardsModel.count;
     }
 
     property int orientation
@@ -190,32 +222,15 @@ Rectangle {
         mode: applicationArguments.mode
         hasMouse: miceModel.count + touchPadModel.count > 0
 
-        // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
-        //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
         usageScenario: {
             if (root.unity8Settings.usageMode === "Windowed") {
                 return "desktop";
-            } else if (root.unity8Settings.usageMode === "Staged") {
+            } else if (root.unity8Settings.usageMode === "Staged"){
                 if (deviceConfiguration.category === "phone") {
                     return "phone";
                 } else {
                     return "tablet";
                 }
-            } else { // automatic
-                var longEdgeWidth = Math.max(root.width, root.height)
-                print("Automatic mode:", longEdgeWidth, "gu size", units.gu(1), "kbds", keyboardsModel.count, "mice", miceModel.count + touchPadModel.count, root)
-                if (longEdgeWidth > units.gu(120)) {
-                    print("longedge is big!")
-                    if (keyboardsModel.count + miceModel.count + touchPadModel.count > 0) {
-                        return "desktop";
-                    }
-                } else if (longEdgeWidth > units.gu(90)){
-                    if (miceModel.count + touchPadModel.count > 0) {
-                        return "desktop";
-                    }
-                }
-
-                return deviceConfiguration.category;
             }
         }
 
