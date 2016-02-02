@@ -188,7 +188,7 @@ Package: unity8-private
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
-Depends: accountsservice-ubuntu-schemas (>= 0.0.3),
+Depends: accountsservice-ubuntu-schemas (>= 0.0.5),
          gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
          libhardware2,
          pay-service,

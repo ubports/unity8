@@ -840,7 +840,7 @@ function cardString(template, components) {
     return code;
 }
 
-function createCardComponent(parent, template, components) {
+function createCardComponent(parent, template, components, identifier) {
     var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
@@ -850,7 +850,7 @@ function createCardComponent(parent, template, components) {
     var code = imports + 'Component {\n' + card + '}\n';
 
     try {
-        return Qt.createQmlObject(code, parent, "createCardComponent");
+        return Qt.createQmlObject(code, parent, identifier);
     } catch (e) {
         console.error("ERROR: Invalid component created.");
         console.error("Template:");
