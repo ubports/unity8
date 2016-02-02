@@ -7,7 +7,7 @@ include_directories(
 foreach(util_test
     QLimitProxyModel
     UnitySortFilterProxyModel
-    HomeKeyWatcher
+    WindowInputMonitor
 )
     add_executable(${util_test}TestExec ${util_test}Test.cpp ModelTest.cpp)
     qt5_use_modules(${util_test}TestExec Test Core Qml)
