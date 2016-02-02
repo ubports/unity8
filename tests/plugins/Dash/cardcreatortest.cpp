@@ -63,6 +63,7 @@ private Q_SLOTS:
 
             QVERIFY(lines[0].startsWith(templateString));
             QVERIFY(lines[1].startsWith(componentsString));
+            QVERIFY(lines[2].startsWith(resultString));
 
             const QString templateJSON = lines[0].mid(templateString.length());
             const QString componentsJSON = lines[1].mid(componentsString.length());
@@ -71,32 +72,30 @@ private Q_SLOTS:
             QVariant cardStringResult;
             QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON));
 
-            if (!resultFileName.isEmpty()) {
-                QFile testResultFile(testDirPath + resultFileName);
-                QVERIFY(testResultFile.open(QIODevice::ReadOnly));
-                QTextStream ts2(&testResultFile);
+            QFile testResultFile(testDirPath + resultFileName);
+            QVERIFY(testResultFile.open(QIODevice::ReadOnly));
+            QTextStream ts2(&testResultFile);
 
-                // Record failed results to /tmp
-                const QString executedResult = cardStringResult.toString();
-                QTemporaryFile tmpFile(QDir::tempPath() + QDir::separator() + "testCardCreatorFailedResultXXXXXX");
-                tmpFile.open();
-                tmpFile.setAutoRemove(false);
-                tmpFile.write(executedResult.toUtf8().constData());
+            // Record failed results to /tmp
+            const QString executedResult = cardStringResult.toString();
+            QTemporaryFile tmpFile(QDir::tempPath() + QDir::separator() + "testCardCreatorFailedResultXXXXXX");
+            tmpFile.open();
+            tmpFile.setAutoRemove(false);
+            tmpFile.write(executedResult.toUtf8().constData());
 
-                // Line by line comparison
-                const QStringList expectedLines = ts2.readAll().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
-                const QStringList cardStringResultLines = cardStringResult.toString().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
-                for (int i = 0; i < expectedLines.size(); ++i) {
-                    QCOMPARE(cardStringResultLines[i].simplified(), expectedLines[i].simplified());
-                }
-
-                // Remove the result if it passed
-                tmpFile.setAutoRemove(true);
+            // Line by line comparison
+            const QStringList expectedLines = ts2.readAll().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
+            const QStringList cardStringResultLines = cardStringResult.toString().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
+            for (int i = 0; i < expectedLines.size(); ++i) {
+                QCOMPARE(cardStringResultLines[i].simplified(), expectedLines[i].simplified());
             }
+
+            // Remove the result if it passed
+            tmpFile.setAutoRemove(true);
 
             QVariant createCardComponentResult;
             QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON));
-            QCOMPARE(createCardComponentResult.toBool(), !resultFileName.isEmpty());
+            QVERIFY(createCardComponentResult.toBool());
         }
     }
 

@@ -1,3 +1,64 @@
+unity8 (8.11+16.04.20160129-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Audio Preview Button: Don't gain focus on press (LP: #1517830)
+  * Better attempt at sanitization
+  * Better looking application scopes for wide screens
+  * Call printSettings correctly
+  * Card test: Limit the precision we ask for doubles to be equal
+  * Convert while into tryCompareFunction
+  * Do not use the same filepath parameter for all the card creator
+    createQmlObject calls (LP: #1536379)
+  * Fix some test shells being unstable in the armhf builders
+  * Make revealByEdgePush more stable
+  * More reliable compares
+  * Move the mouse over the bfb before waiting for rendering
+  * Remove the DDAs constrains for every test
+  * Set the background source size to the max we'll need + new
+    background (LP: #1539011)
+
+  [ Andrea Cimitan ]
+  * Dynamically  change click scope card size according to size (LP:
+    #1536745)
+  * Should fix lazyimage test failures on fast machines
+
+  [ CI Train Bot ]
+  * Fix card tests on the phone
+  * Update translation template
+
+  [ Daniel d'Andrada ]
+  * Desktop stage rotates only to follow screen orientation (LP:
+    #1515977)
+
+  [ Lukáš Tinkl ]
+  * Hide/reveal the mouse pointer on touch/mouse events renamed:
+    plugins/Utils/HomeKeyWatcher.cpp =>
+    plugins/Utils/WindowInputMonitor.cpp plugins/Utils/HomeKeyWatcher.h
+    => plugins/Utils/WindowInputMonitor.h
+    tests/mocks/Utils/HomeKeyWatcher.qml =>
+    tests/mocks/Utils/WindowInputMonitor.qml
+    tests/plugins/Utils/HomeKeyWatcherTest.cpp =>
+    tests/plugins/Utils/WindowInputMonitorTest.cpp
+
+  [ Michael Terry ]
+  * Synchronize the mouse-cursor-speed and touchpad-cursor-speed
+    properties with USC. (LP: #1536383)
+
+  [ Michael Zanetti ]
+  * Add InputMethod to secondary screen
+  * Add a virtual Touchpad while external screen is connected
+  * Make big tablets switch to windowed mode by plugging a kbd only (LP:
+    #1535399)
+  * Prevent alt key presses from being dispatched to the app on alt+tab
+    (LP: #1532862)
+
+  [ Michał Sawicz ]
+  * Make qmluitests.sh more robust and allow parallel test execution
+  * Skip SessionBackendTest::testLogin1Capabilities until we talk to a
+    mock instead (LP: #1532112, #1532113)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 29 Jan 2016 11:53:27 +0000
+
 unity8 (8.11+16.04.20160122-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
