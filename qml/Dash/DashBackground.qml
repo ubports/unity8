@@ -15,12 +15,16 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Window 2.2
+import Ubuntu.Thumbnailer 0.1
 
 Image {
-    source: anchors.fill.width > anchors.fill.height ? "graphics/paper_landscape.png" : "graphics/paper_portrait.png"
+    source: "image://thumbnailer/" + Qt.resolvedUrl("graphics/paper.png")
     fillMode: Image.PreserveAspectCrop
     horizontalAlignment: Image.AlignRight
     verticalAlignment: Image.AlignTop
-    sourceSize.width: anchors.fill.width
+    // avoid CPU scaling when window size changes
+    readonly property int maxSize: Math.max(Screen.width, Screen.height)
+    sourceSize.width: maxSize
     sourceSize.height: 0
 }
