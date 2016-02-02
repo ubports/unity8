@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -82,6 +82,10 @@ AbstractStage {
                                && !priv.focusedAppDelegateIsDislocated
                                && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
                                && spreadView.phase === 0
+
+    supportedOrientations: mainApp ? mainApp.supportedOrientations
+                                   : (Qt.PortraitOrientation | Qt.LandscapeOrientation
+                                      | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation)
 
     // How far left the stage has been dragged
     readonly property real dragProgress: spreadRepeater.count > 0 ? -spreadRepeater.itemAt(0).xTranslate : 0

@@ -149,6 +149,7 @@ private Q_SLOTS:
     }
 
     void testLogin1Capabilities() {
+        QSKIP("This test talks to real logind backend, it will fail depending on how the machine is set up");
         DBusUnitySessionService dbusUnitySessionService;
         QDBusInterface login1face("org.freedesktop.login1", "/org/freedesktop/login1", "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
         QCoreApplication::processEvents(); // to let the services register on DBus

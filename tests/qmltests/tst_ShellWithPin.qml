@@ -128,6 +128,20 @@ Item {
         phoneNumber: "+447812221111"
     }
 
+    Item {
+        id: fakeDismissTimer
+        property bool running: false
+        signal triggered
+
+        function stop() {
+            running = false;
+        }
+
+        function restart() {
+            running = true;
+        }
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "ShellWithPin"
@@ -143,6 +157,11 @@ Item {
             waitForLockscreen()
             greeter.failedLoginsDelayAttempts = -1;
             greeter.maxFailedLogins = -1;
+
+            var launcher = findChild(shell, "launcher");
+            var panel = findChild(launcher, "launcherPanel");
+            verify(!!panel);
+            panel.dismissTimer = fakeDismissTimer;
         }
 
         function cleanup() {
@@ -565,11 +584,6 @@ Item {
             tryCompare(coverPage, "showProgress", 1);
 
             var launcher = testCase.findChild(shell, "launcher")
-            {
-                var dismissTimer = testCase.findInvisibleChild(launcher, "dismissTimer");
-                // effectively disable the dismiss timer
-                dismissTimer.interval = 24 * 60 * 60 * 1000 // 24 hours
-            }
             var launcherPanel = testCase.findChild(launcher, "launcherPanel");
 
             var toX = shell.width * 0.45;
