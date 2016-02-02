@@ -491,7 +491,7 @@ function cardString(template, components) {
         if (fallback !== "") {
             fallbackCode += 'onStatusChanged: if (status === Image.Error) source = decodeURI("%1");'.arg(fallback);
         }
-        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(aspectRatio).arg(!isConciergeMode).arg(fallbackCode);
+        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(aspectRatio).arg(isConciergeMode ? "false" : "true").arg(fallbackCode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
