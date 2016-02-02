@@ -81,12 +81,11 @@ CardAudioProgress {
                                 radius: "medium"; 
                             } 
                             Rectangle { 
-                                color: "black"; 
-                                opacity: 0.5; 
+                                color: Qt.rgba(0, 0, 0, 0.5); 
                                 anchors.centerIn: parent; 
                                 width: parent.width * 0.5; 
                                 height: width; 
-                                radius: width * 0.5; 
+                                radius: width / 2; 
                             } 
                             Icon {  
                                 anchors.centerIn: parent; 

@@ -153,12 +153,11 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                 radius: "medium"; \n\
                             } \n\
                             Rectangle { \n\
-                                color: "black"; \n\
-                                opacity: 0.5; \n\
+                                color: Qt.rgba(0, 0, 0, 0.5); \n\
                                 anchors.centerIn: parent; \n\
                                 width: parent.width * 0.5; \n\
                                 height: width; \n\
-                                radius: width * 0.5; \n\
+                                radius: width / 2; \n\
                             } \n\
                             Icon {  \n\
                                 anchors.centerIn: parent; \n\
