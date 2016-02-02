@@ -55,9 +55,9 @@ FocusScope {
 
     onStateChanged: {
         if (state == "") {
-            dismissTimer.stop()
+            panel.dismissTimer.stop()
         } else {
-            dismissTimer.restart()
+            panel.dismissTimer.restart()
         }
     }
 
@@ -201,21 +201,6 @@ FocusScope {
         property string mode: "teasing"
     }
 
-    Timer {
-        id: dismissTimer
-        objectName: "dismissTimer"
-        interval: 500
-        onTriggered: {
-            if (root.autohideEnabled) {
-                if (!panel.preventHiding) {
-                    root.state = ""
-                } else {
-                    dismissTimer.restart()
-                }
-            }
-        }
-    }
-
     // Because the animation on x is disabled while dragging
     // switching state directly in the drag handlers would not animate
     // the completion of the hide/reveal gesture. Lets update the state
@@ -343,6 +328,20 @@ FocusScope {
         visible: root.x > 0 || x > -width || dragArea.pressed
         model: LauncherModel
 
+        property var dismissTimer: Timer { interval: 500 }
+        Connections {
+            target: panel.dismissTimer
+            onTriggered: {
+                if (root.autohideEnabled) {
+                    if (!panel.preventHiding) {
+                        root.state = ""
+                    } else {
+                        panel.dismissTimer.restart()
+                    }
+                }
+            }
+        }
+
         property bool animate: true
 
         onApplicationSelected: {
@@ -355,8 +354,8 @@ FocusScope {
         }
 
         onPreventHidingChanged: {
-            if (dismissTimer.running) {
-                dismissTimer.restart();
+            if (panel.dismissTimer.running) {
+                panel.dismissTimer.restart();
             }
         }
 
