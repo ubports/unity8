@@ -1,8 +1,5 @@
 set(PLUGIN_CLASSNAME "IntegratedLightDM")
 
-# Written to source dir as thats where add_unity8_plugin expects it
-configure_file(../qmldir.in ${CMAKE_CURRENT_SOURCE_DIR}/qmldir)
-
 add_definitions(-DINTEGRATED_LIGHTDM)
 
 foreach(include_directory ${QMLPLUGIN_INCLUDES})
