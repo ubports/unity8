@@ -15,8 +15,8 @@
  */
 
 import QtQuick 2.4
-import QtMultimedia 5.0
 import Ubuntu.Components 1.3
+import Dash 0.1
 
 /*! \brief Preview widget for audio tracks.
 
@@ -36,38 +36,6 @@ PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
 
-    onIsCurrentPreviewChanged: if (!isCurrentPreview) audio.stop()
-
-    Audio {
-        id: audio
-        objectName: "audio"
-
-        property real progress: audio.position / audio.duration
-        property Item playingItem
-
-        Component.onDestruction: {
-            // destroying the component doesn't automatically send stop to the media service, probably a bug in QtMultimedia
-            audio.stop();
-        }
-
-        onErrorStringChanged: console.warn("Audio player error:", errorString)
-
-        function lengthToString(s) {
-            if (typeof(s) !== "number" || s <= 0) return "";
-
-            var sec = "" + s % 60;
-            if (sec.length == 1) sec = "0" + sec;
-            var hour = Math.floor(s / 3600);
-            if (hour < 1) {
-                return Math.floor(s / 60) + ":" + sec;
-            } else {
-                var min = "" + Math.floor(s / 60) % 60;
-                if (min.length == 1) min = "0" + min;
-                return hour + ":" + min + ":" + sec;
-            }
-        }
-    }
-
     Column {
         anchors { left: parent.left; right: parent.right }
         visible: trackRepeater.count > 0
@@ -77,20 +45,12 @@ PreviewWidget {
             objectName: "trackRepeater"
             model: root.widgetData["tracks"]
 
-            function play(item, source) {
-                audio.stop();
-                // Make sure we change the source, even if two items point to the same uri location
-                audio.source = "";
-                audio.source = source;
-                audio.playingItem = item;
-                audio.play();
-            }
-
             delegate: Item {
                 id: trackItem
                 objectName: "trackItem" + index
 
-                property bool isPlayingItem: audio.playingItem == trackItem
+                readonly property url sourceUrl: modelData["source"]
+                readonly property bool isPlayingItem: AudioUrlComparer.compare(sourceUrl, DashAudioPlayer.currentSource)
 
                 anchors { left: parent.left; right: parent.right }
                 height: units.gu(5)
@@ -98,9 +58,9 @@ PreviewWidget {
                 Row {
                     id: trackRow
 
-                    property int column1Width: units.gu(3)
-                    property int column2Width: width - (2 * spacing) - column1Width - column3Width
-                    property int column3Width: units.gu(4)
+                    readonly property int column1Width: units.gu(3)
+                    readonly property int column2Width: width - (2 * spacing) - column1Width - column3Width
+                    readonly property int column3Width: units.gu(4)
 
                     anchors.verticalCenter: parent.verticalCenter
                     width: parent.width
@@ -110,7 +70,8 @@ PreviewWidget {
                         objectName: "playButton"
                         width: trackRow.column1Width
                         height: width
-                        iconSource: audio.playbackState == Audio.PlayingState && trackItem.isPlayingItem ? "image://theme/media-playback-pause" : "image://theme/media-playback-start"
+                        iconSource: DashAudioPlayer.playing && trackItem.isPlayingItem ? "image://theme/media-playback-pause" : "image://theme/media-playback-start"
+                        activeFocusOnPress: false
 
                         // Can't be "transparent" or "#00xxxxxx" as the button optimizes away the surrounding shape
                         // FIXME when this is resolved: https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1251685
@@ -118,13 +79,13 @@ PreviewWidget {
 
                         onClicked: {
                             if (trackItem.isPlayingItem) {
-                                if (audio.playbackState == Audio.PlayingState) {
-                                    audio.pause();
-                                } else if (audio.playbackState == Audio.PausedState) {
-                                    audio.play();
+                                if (DashAudioPlayer.playing) {
+                                    DashAudioPlayer.pause();
+                                } else if (DashAudioPlayer.paused) {
+                                    DashAudioPlayer.play();
                                 }
                             } else {
-                                trackRepeater.play(trackItem, modelData["source"]);
+                                DashAudioPlayer.playSource(sourceUrl);
                             }
                         }
                     }
@@ -160,30 +121,10 @@ PreviewWidget {
                             elide: Text.ElideRight
                         }
 
-                        UbuntuShape {
-                            id: progressBarFill
-                            objectName: "progressBarFill"
-
-                            property int maxWidth: progressBarImage.width - units.dp(4)
-
-                            anchors {
-                                left: progressBarImage.left
-                                right: progressBarImage.right
-                                verticalCenter: progressBarImage.verticalCenter
-                                margins: units.dp(2)
-                                rightMargin: maxWidth - (maxWidth * audio.progress) + units.dp(2)
-                            }
-                            height: units.dp(2)
-                            visible: progressBarImage.visible
-                            backgroundColor: UbuntuColors.orange
-                        }
-
-                        Image {
-                            id: progressBarImage
+                        AudioProgressBar {
                             anchors { left: parent.left; top: parent.bottom; right: parent.right }
-                            height: units.dp(6)
-                            visible: audio.playbackState != Audio.StoppedState && trackItem.isPlayingItem && modelData["length"] > 0
-                            source: "graphics/music_progress_bg.png"
+                            visible: !DashAudioPlayer.stopped && trackItem.isPlayingItem && modelData["length"] > 0
+                            source: sourceUrl
                         }
                     }
 
@@ -196,7 +137,7 @@ PreviewWidget {
                         color: scopeStyle ? scopeStyle.foreground : theme.palette.normal.baseText
                         fontSize: "small"
                         horizontalAlignment: Text.AlignRight
-                        text: audio.lengthToString(modelData["length"])
+                        text: DashAudioPlayer.lengthToString(modelData["length"])
                     }
                 }
             }
