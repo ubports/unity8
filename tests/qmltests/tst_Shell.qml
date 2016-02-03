@@ -296,6 +296,20 @@ Rectangle {
         phoneNumber: "+447812221111"
     }
 
+    Item {
+        id: fakeDismissTimer
+        property bool running: false
+        signal triggered
+
+        function stop() {
+            running = false;
+        }
+
+        function restart() {
+            running = true;
+        }
+    }
+
     UnityTestCase {
         id: testCase
         name: "Shell"
@@ -332,6 +346,11 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
             launcherShowDashHomeSpy.target = launcher;
+
+            var panel = findChild(launcher, "launcherPanel");
+            verify(!!panel);
+
+            panel.dismissTimer = fakeDismissTimer;
 
             waitForGreeterToStabilize();
         }
@@ -631,7 +650,6 @@ Rectangle {
             // again before interacting with it otherwise any
             // DirectionalDragAreas in there won't be easily fooled by
             // fake swipes.
-            removeTimeConstraintsFromDirectionalDragAreas(greeter);
             swipeAwayGreeter();
 
             compare(mainApp.requestedState, ApplicationInfoInterface.RequestedRunning);
@@ -641,6 +659,7 @@ Rectangle {
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
+            removeTimeConstraintsFromDirectionalDragAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
             var touchY = shell.height / 2;
@@ -1240,10 +1259,6 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
 
-            // ensure the launcher dimissal timer never gets triggered during the test run
-            var dismissTimer = findInvisibleChild(launcher, "dismissTimer");
-            dismissTimer.interval = 60 * 60 * 1000;
-
             dragLauncherIntoView();
 
             // Emulate a tap with a finger, where the touch position drifts during the tap.
@@ -1731,6 +1746,7 @@ Rectangle {
 
             revealLauncherByEdgePushWithMouse();
             tryCompare(launcher, "x", 0);
+            mouseMove(bfb, bfb.width / 2, bfb.height / 2)
             waitForRendering(shell)
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)

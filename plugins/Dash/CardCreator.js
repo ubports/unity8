@@ -16,9 +16,9 @@
 
 .pragma library
 
-// %1 is the template["card-background"] string
-// %2 is the template["card-background"]["elements"][0]
-// %3 is the template["card-background"]["elements"][1]
+// %1 is the template["card-background"]["elements"][0]
+// %2 is the template["card-background"]["elements"][1]
+// %3 is the template["card-background"] string
 var kBackgroundLoaderCode = 'Loader {\n\
                                 id: backgroundLoader; \n\
                                 objectName: "backgroundLoader"; \n\
@@ -46,14 +46,14 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                         objectName: "backgroundImage"; \n\
                                         source: { \n\
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; \n\
-                                            else return "%1"; \n\
+                                            else return %3; \n\
                                         } \n\
                                     } \n\
                                     function getColor(index) { \n\
                                         if (cardData && typeof cardData["background"] === "object" \n\
                                             && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { \n\
                                             return cardData["background"]["elements"][index]; \n\
-                                        } else return index === 0 ? %2 : %3; \n\
+                                        } else return index === 0 ? %1 : %2; \n\
                                     } \n\
                                 } \n\
                             }\n';
@@ -373,26 +373,20 @@ var kAudioProgressBarCode = 'CardAudioProgress { \n\
                             color: %3; \n\
                          }';
 
-function evil_param(object) {
-    for (var x in object) {
-        if (typeof object[x] === "object" && evil_param(object[x]))
-            return true;
-
-        if (typeof object[x] === "string" && object[x].match(/"(?:[^"\\]|\\.)*"/) != null)
-            return true;
+function sanitizeColor(colorString) {
+    if (colorString !== undefined) {
+        if (colorString.match(/^[#a-z0-9]*$/i) === null) {
+            // This is not the perfect regexp for color
+            // but what we're trying to do here is just protect
+            // against injection so it's ok
+            return "";
+        }
     }
-
-    return false;
+    return colorString;
 }
 
 function cardString(template, components) {
     var code;
-
-    if (evil_param(template))
-        return "";
-
-    if (evil_param(components))
-        return "";
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
 
@@ -442,18 +436,26 @@ function cardString(template, components) {
     }
 
     if (hasBackground) {
-        var templateCardBackground = (template && typeof template["card-background"] === "string") ? template["card-background"] :  "";
+        var templateCardBackground;
+        if (template && typeof template["card-background"] === "string") {
+            templateCardBackground = 'decodeURI("' + encodeURI(template["card-background"]) + '")';
+        } else {
+            templateCardBackground = '""';
+        }
+
         var backgroundElements0;
         var backgroundElements1;
         if (template && typeof template["card-background"] === "object" && (template["card-background"]["type"] === "color" || template["card-background"]["type"] === "gradient"))  {
-            if (template["card-background"]["elements"][0] !== undefined) {
-                backgroundElements0 = '"%1"'.arg(template["card-background"]["elements"][0]);
+            var element0 = sanitizeColor(template["card-background"]["elements"][0]);
+            var element1 = sanitizeColor(template["card-background"]["elements"][1]);
+            if (element0 !== undefined) {
+                backgroundElements0 = '"%1"'.arg(element0);
             }
-            if (template["card-background"]["elements"][1] !== undefined) {
-                backgroundElements1 = '"%1"'.arg(template["card-background"]["elements"][1]);
+            if (element1 !== undefined) {
+                backgroundElements1 = '"%1"'.arg(element1);
             }
         }
-        code += kBackgroundLoaderCode.arg(templateCardBackground).arg(backgroundElements0).arg(backgroundElements1);
+        code += kBackgroundLoaderCode.arg(backgroundElements0).arg(backgroundElements1).arg(templateCardBackground);
     }
 
     if (hasArt) {
@@ -479,9 +481,10 @@ function cardString(template, components) {
         }
 
         var fallback = components["art"] && components["art"]["fallback"] || "";
+        fallback = encodeURI(fallback);
         var fallbackCode = "";
         if (fallback !== "") {
-            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = "%1";'.arg(fallback);
+            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = decodeURI("%1");'.arg(fallback);
         }
         code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallbackCode);
     } else {
@@ -576,9 +579,10 @@ function cardString(template, components) {
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
         var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
+        fallback = encodeURI(fallback);
         var fallbackCode = "";
         if (fallback !== "") {
-            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = "%1";'.arg(fallback);
+            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = decodeURI("%1");'.arg(fallback);
         }
         mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallbackCode);
     }
@@ -825,7 +829,7 @@ function cardString(template, components) {
     return code;
 }
 
-function createCardComponent(parent, template, components) {
+function createCardComponent(parent, template, components, identifier) {
     var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
@@ -835,7 +839,7 @@ function createCardComponent(parent, template, components) {
     var code = imports + 'Component {\n' + card + '}\n';
 
     try {
-        return Qt.createQmlObject(code, parent, "createCardComponent");
+        return Qt.createQmlObject(code, parent, identifier);
     } catch (e) {
         console.error("ERROR: Invalid component created.");
         console.error("Template:");

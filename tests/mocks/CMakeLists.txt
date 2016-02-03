@@ -43,6 +43,7 @@ add_subdirectory(Unity)
 add_subdirectory(QtMultimedia)
 add_subdirectory(Wizard)
 add_subdirectory(Utils)
+add_subdirectory(UInput)
 
 install(
   DIRECTORY data

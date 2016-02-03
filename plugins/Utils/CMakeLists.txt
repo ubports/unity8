@@ -13,7 +13,7 @@ set(QMLPLUGIN_SRC
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     applicationsfiltermodel.cpp
     constants.cpp
-    HomeKeyWatcher.cpp
+    WindowInputMonitor.cpp
     inputwatcher.cpp
     qlimitproxymodelqml.cpp
     unitysortfilterproxymodelqml.cpp
@@ -24,6 +24,7 @@ set(QMLPLUGIN_SRC
     easingcurve.cpp
     windowstatestorage.cpp
     timezoneFormatter.cpp
+    inputeventgenerator.cpp
     plugin.cpp
     )
 

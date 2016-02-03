@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -292,6 +292,9 @@ Rectangle {
                 activeFocusOnPress: false
                 text: "Usage Mode"
                 model: ["Staged", "Windowed", "Automatic"]
+                function selectStaged() {selectedIndex = 0;}
+                function selectWindowed() {selectedIndex = 1;}
+                function selectAutomatic() {selectedIndex = 2;}
             }
             MouseTouchEmulationCheckbox {
                 checked: true
@@ -393,7 +396,7 @@ Rectangle {
                 activeFocusOnPress: false
                 property string prevDevName: "mako"
                 onClicked: {
-                    usageModeSelector.selectedIndex = 2; // "Automatic"
+                    usageModeSelector.selectAutomatic();
 
                     if (applicationArguments.deviceName === "desktop") {
                         applicationArguments.deviceName = prevDevName;
@@ -457,6 +460,8 @@ Rectangle {
             signalSpy.signalName = "";
 
             LightDM.Greeter.authenticate(""); // reset greeter
+
+            usageModeSelector.selectStaged();
         }
 
         function cleanup() {
@@ -996,37 +1001,58 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle", 0);
         }
 
-        function test_attachRemoveInputDevices() {
-            usageModeSelector.selectedIndex = 2;
+        function  test_attachRemoveInputDevices_data() {
+            return [
+                { tag: "small screen, no devices", screenWidth: units.gu(50), mouse: false, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "medium screen, no devices", screenWidth: units.gu(100), mouse: false, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "big screen, no devices", screenWidth: units.gu(200), mouse: false, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "small screen, mouse", screenWidth: units.gu(50), mouse: true, kbd: false, expectedMode: "phone", oskExpected: true },
+                { tag: "medium screen, mouse", screenWidth: units.gu(100), mouse: true, kbd: false, expectedMode: "desktop", oskExpected: true },
+                { tag: "big screen, mouse", screenWidth: units.gu(200), mouse: true, kbd: false, expectedMode: "desktop", oskExpected: true },
+                { tag: "small screen, kbd", screenWidth: units.gu(50), mouse: false, kbd: true, expectedMode: "phone", oskExpected: false },
+                { tag: "medium screen, kbd", screenWidth: units.gu(100), mouse: false, kbd: true, expectedMode: "phone", oskExpected: false },
+                { tag: "big screen, kbd", screenWidth: units.gu(200), mouse: false, kbd: true, expectedMode: "desktop", oskExpected: false },
+                { tag: "small screen, mouse & kbd", screenWidth: units.gu(50), mouse: true, kbd: true, expectedMode: "phone", oskExpected: false },
+                { tag: "medium screen, mouse & kbd", screenWidth: units.gu(100), mouse: true, kbd: true, expectedMode: "desktop", oskExpected: false },
+                { tag: "big screen, mouse & kbd", screenWidth: units.gu(200), mouse: true, kbd: true, expectedMode: "desktop", oskExpected: false },
+            ]
+        }
+
+        function test_attachRemoveInputDevices(data) {
+            usageModeSelector.selectAutomatic();
             tryCompare(mockUnity8Settings, "usageMode", "Automatic")
 
             loadShell("mako")
             var shell = findChild(orientedShell, "shell");
+            var inputMethod = findChild(shell, "inputMethod");
+
+            var oldWidth = orientedShellLoader.width;
+            orientedShellLoader.width = data.screenWidth;
 
             tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", false);
+            tryCompare(inputMethod, "enabled", true);
+            tryCompare(mockOskSettings, "disableHeight", false);
 
-            MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
-            tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", true);
+            if (data.kbd) {
+                MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
+            }
+            if (data.mouse) {
+                MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            }
 
-            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
-            tryCompare(shell, "usageScenario", "desktop");
-            tryCompare(mockOskSettings, "stayHidden", true);
+            tryCompare(shell, "usageScenario", data.expectedMode);
+            tryCompare(inputMethod, "enabled", data.oskExpected);
+            tryCompare(mockOskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
 
-            MockInputDeviceBackend.removeDevice("/kbd0");
-            tryCompare(shell, "usageScenario", "desktop");
-            tryCompare(mockOskSettings, "stayHidden", false);
+            if (data.kbd) {
+                MockInputDeviceBackend.removeDevice("/kbd0");
+            }
+            if (data.mouse) {
+                MockInputDeviceBackend.removeDevice("/mouse0");
+            }
 
-            MockInputDeviceBackend.removeDevice("/mouse0");
-            tryCompare(shell, "usageScenario", "phone");
-            tryCompare(mockOskSettings, "stayHidden", false);
-
-            MockInputDeviceBackend.addMockDevice("/touchpad0", InputInfo.TouchPad);
-            tryCompare(shell, "usageScenario", "desktop");
-
-            MockInputDeviceBackend.removeDevice("/touchpad0");
-            tryCompare(shell, "usageScenario", "phone");
+            // Restore width
+            orientedShellLoader.width = oldWidth;
         }
 
         /*
@@ -1140,6 +1166,61 @@ Rectangle {
             tryCompare(shell, "transformRotationAngle" , 0);
         }
 
+        /*
+            Regression test for https://launchpad.net/bugs/1515977
+
+            Preconditions:
+            UI in Desktop mode and landscape
+
+            Steps:
+            - Launch a portrait-only application
+
+            Expected outcome:
+            - Shell stays in landscape
+
+            Buggy outcome:
+            - Shell would rotate to portrait as the newly-focused app doesn't support landscape
+         */
+        function test_portraitOnlyAppInLandscapeDesktop_data() {
+            return [
+                {tag: "mako", deviceName: "mako"},
+                {tag: "manta", deviceName: "manta"},
+                {tag: "flo", deviceName: "flo"}
+            ];
+        }
+        function test_portraitOnlyAppInLandscapeDesktop(data) {
+            loadShell(data.deviceName);
+
+            ////
+            // setup preconditions (put shell in Desktop mode and landscape)
+
+            usageModeSelector.selectWindowed();
+
+            orientedShell.physicalOrientation = orientedShell.orientations.landscape;
+            waitUntilShellIsInOrientation(orientedShell.orientations.landscape);
+            waitForRotationAnimationsToFinish();
+
+            ////
+            // Launch a portrait-only application
+
+            var dialerApp = ApplicationManager.startApplication("dialer-app");
+            verify(dialerApp);
+
+            // ensure the mock dialer-app is as we expect
+            compare(dialerApp.rotatesWindowContents, false);
+            compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
+
+            waitUntilAppSurfaceShowsUp("dialer-app");
+            waitUntilAppWindowCanRotate("dialer-app");
+            verify(isAppSurfaceFocused("dialer-app"));
+
+            ////
+            // check outcome (shell should stay in landscape)
+
+            waitForRotationAnimationsToFinish();
+            compare(shell.orientation, orientedShell.orientations.landscape);
+        }
+
         //  angle - rotation angle in degrees clockwise, relative to the primary orientation.
         function rotateTo(angle) {
             switch (angle) {
@@ -1158,7 +1239,10 @@ Rectangle {
             default:
                 verify(false);
             }
+            waitForRotationAnimationsToFinish();
+        }
 
+        function waitForRotationAnimationsToFinish() {
             var rotationStates = findInvisibleChild(orientedShell, "rotationStates");
             verify(rotationStates.d);
             verify(rotationStates.d.stateUpdateTimer);
