@@ -47,7 +47,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
         // for the user's real name.  But we aren't.  We *should* ask
         // AccountsService for the real name, like liblightdm does internally,
         // but this is close enough since AS and passwd are always in sync.
-        QString realName = g_get_real_name(); // gets name from passwd entry
+        QString realName = QString::fromUtf8(g_get_real_name()); // gets name from passwd entry
         if (realName == QStringLiteral("Unknown")) { // glib doesn't translate this string
             realName.clear();
         }
