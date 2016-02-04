@@ -200,11 +200,9 @@ Item {
                             left: parent.left
                             bottom: parent.bottom
                             bottomMargin: units.gu(1)
-                            right: cancelLabel.left
-                            rightMargin: units.gu(2)
+                            right: settingsButton.left
+                            rightMargin: settingsButton.visible ? 0 : units.gu(2)
                         }
-
-                        readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
 
                         primaryItem: Rectangle {
                             color: "#F5F4F5"
@@ -220,49 +218,25 @@ Item {
                         }
 
                         secondaryItem: AbstractButton {
-                            id: clearOrSettingsButton
-
+                            id: clearButton
                             height: searchTextField.height
-                            width: row.width
-
+                            width: height
                             enabled: searchTextField.text.length > 0 || root.navigationTag != ""
 
-                            Row {
-                                id: row
-                                height: parent.height
-
-                                Item {
-                                    height: parent.height
-                                    width: height
-
-                                    Image {
-                                        anchors.fill: parent
-                                        anchors.margins: units.gu(1)
-
-                                        objectName: "clearIcon"
-                                        source: searchTextField.clearIsSettings ? "image://theme/filters" : "image://theme/clear"
-                                        opacity: parent.enabled
-                                        visible: opacity > 0
-                                        Behavior on opacity {
-                                            UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
-                                        }
-                                    }
-                                }
-
-                                Label {
-                                    visible: searchTextField.clearIsSettings && root.activeFiltersCount > 0
-                                    height: parent.height
-                                    text: "(" + root.activeFiltersCount + ")"
-                                    verticalAlignment: Text.AlignVCenter
+                            Image {
+                                objectName: "clearIcon"
+                                anchors.fill: parent
+                                anchors.margins: units.gu(1)
+                                source: "image://theme/clear"
+                                opacity: parent.enabled
+                                visible: opacity > 0
+                                Behavior on opacity {
+                                    UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
                                 }
                             }
 
                             onClicked: {
-                                if (searchTextField.clearIsSettings) {
-                                    root.showFiltersPopup(clearOrSettingsButton);
-                                } else {
-                                    root.clearSearch(true);
-                                }
+                                root.clearSearch(true);
                             }
                         }
 
@@ -277,6 +251,29 @@ Item {
                             if (text != "") {
                                 closePopup(/* keepFocus */true);
                             }
+                        }
+                    }
+
+                    AbstractButton {
+                        id: settingsButton
+
+                        width: root.scopeHasFilters && clearButton.enabled ? height : 0
+                        visible: width > 0
+                        anchors {
+                            top: parent.top
+                            right: cancelLabel.left
+                            bottom: parent.bottom
+                        }
+
+                        Icon {
+                            anchors.fill: parent
+                            anchors.margins: units.gu(2)
+                            name: "filters"
+                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : Qt.rgba(0.0, 0.0, 0.0, 0.0)
+                        }
+
+                        onClicked: {
+                            root.showFiltersPopup(settingsButton);
                         }
                     }
 
