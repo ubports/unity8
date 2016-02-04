@@ -35,6 +35,7 @@ public:
     explicit AccountsServiceDBusAdaptor(QObject *parent = 0);
     ~AccountsServiceDBusAdaptor() = default;
 
+    QDBusPendingReply<QVariantMap> getAllPropertiesAsync(const QString &user, const QString &interface);
     Q_INVOKABLE QDBusPendingReply<QVariant> getUserPropertyAsync(const QString &user, const QString &interface, const QString &property);
     Q_INVOKABLE QDBusPendingCall setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
 

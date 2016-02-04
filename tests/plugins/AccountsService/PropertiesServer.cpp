@@ -42,6 +42,16 @@ QDBusVariant PropertiesServer::Get(const QString &interface, const QString &prop
     }
 }
 
+QVariantMap PropertiesServer::GetAll(const QString &interface)
+{
+    if (m_properties.contains(interface)) {
+        return m_properties[interface];
+    } else {
+        sendErrorReply(QDBusError::InvalidArgs, "Bad interface");
+        return QVariantMap();
+    }
+}
+
 void PropertiesServer::Set(const QString &interface, const QString &property, const QDBusVariant &variant)
 {
     QVariant newValue = variant.variant();
@@ -82,6 +92,8 @@ void PropertiesServer::Reset()
     m_properties["com.canonical.unity.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
+    m_properties["com.ubuntu.AccountsService.Input"]["MouseCursorSpeed"] = 0.5;
+    m_properties["com.ubuntu.AccountsService.Input"]["TouchpadCursorSpeed"] = 0.5;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableIndicatorsWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["PasswordDisplayHint"] = AccountsService::Keyboard;

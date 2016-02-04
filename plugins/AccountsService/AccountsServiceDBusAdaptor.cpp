@@ -37,6 +37,15 @@ AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
                                            connection, this);
 }
 
+QDBusPendingReply<QVariantMap> AccountsServiceDBusAdaptor::getAllPropertiesAsync(const QString &user, const QString &interface)
+{
+    QDBusInterface *iface = getUserInterface(user);
+    if (iface != nullptr && iface->isValid()) {
+        return iface->asyncCall(QStringLiteral("GetAll"), interface);
+    }
+    return QDBusPendingReply<QVariantMap>(QDBusMessage::createError(QDBusError::Other, QStringLiteral("Invalid Interface")));
+}
+
 QDBusPendingReply<QVariant> AccountsServiceDBusAdaptor::getUserPropertyAsync(const QString &user, const QString &interface, const QString &property)
 {
     QDBusInterface *iface = getUserInterface(user);

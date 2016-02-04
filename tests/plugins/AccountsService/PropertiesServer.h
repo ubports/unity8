@@ -35,6 +35,7 @@ public:
 
 public Q_SLOTS:
     QDBusVariant Get(const QString &interface, const QString &property);
+    QVariantMap GetAll(const QString &interface);
     void Set(const QString &interface, const QString &property, const QDBusVariant &variant);
 
     // mock only.
