@@ -35,7 +35,7 @@ Popover {
             // Popover doesn't like being 75% or bigger than the screen (counting the "empty" part on top)
             var posToRootParent = flickable.mapToItem(null, 0, 0).y;
             var threeQuartersParent = root.parent.height * 3 / 4 - posToRootParent - 1;
-            var parentAndKeyboard = root.parent.height - posToRootParent - (Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height : 0)
+            var parentAndKeyboard = root.parent.height - posToRootParent - (Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height + units.gu(3) : 0)
             return Math.min(parentAndKeyboard, Math.min(threeQuartersParent, column.height));
         }
         contentHeight: column.height
