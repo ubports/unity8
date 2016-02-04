@@ -49,7 +49,7 @@ UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
         // but this is close enough since AS and passwd are always in sync.
         QString realName = g_get_real_name(); // gets name from passwd entry
         if (realName == QStringLiteral("Unknown")) { // glib doesn't translate this string
-            realName = QStringLiteral("");
+            realName.clear();
         }
         entries.append({currentUser, realName, 0, 0, false, false, 0, 0});
     }
