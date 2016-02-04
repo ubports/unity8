@@ -363,6 +363,7 @@ FocusScope {
                     clickScopeSizingHacks();
                     if (scope && scope.id === "clickscope") {
                         if (categoryId === "predefined" || categoryId === "local") {
+                            cardTool.artShapeSize = Qt.binding(function() { return Qt.size(units.gu(8), units.gu(7.5)) });
                             item.artShapeStyle = "icon";
                         } else {
                             // Should be ubuntu store icon
@@ -381,7 +382,6 @@ FocusScope {
 
                 function clickScopeSizingHacks() {
                     if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
-                        cardTool.artShapeSize = Qt.size(units.gu(8), units.gu(7.5));
                         // Yeah, hackish :/
                         if (scopeView.width > units.gu(45)) {
                             if (scopeView.width >= units.gu(70)) {
