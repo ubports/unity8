@@ -381,7 +381,8 @@ FocusScope {
                 }
 
                 function clickScopeSizingHacks() {
-                    if (scope && scope.id === "clickscope" && (categoryId === "predefined" || categoryId === "local")) {
+                    if (scope && scope.id === "clickscope" &&
+                        (categoryId === "predefined" || categoryId === "local")) {
                         // Yeah, hackish :/
                         if (scopeView.width > units.gu(45)) {
                             if (scopeView.width >= units.gu(70)) {
