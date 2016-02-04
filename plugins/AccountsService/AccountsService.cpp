@@ -151,7 +151,7 @@ QString AccountsService::hereLicensePath() const
     auto value = getProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH);
     QString hereLicensePath = value.toString();
     if (hereLicensePath.isEmpty() || !QFile::exists(hereLicensePath))
-        hereLicensePath.clear();
+        hereLicensePath = QStringLiteral("");
     return hereLicensePath;
 }
 
