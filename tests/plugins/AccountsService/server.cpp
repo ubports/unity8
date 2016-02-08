@@ -19,6 +19,7 @@
 
 #include "AccountsAdaptor.h"
 #include "AccountsServer.h"
+#include "InputAdaptor.h"
 #include "PropertiesServer.h"
 #include "SecurityPrivacyAdaptor.h"
 #include "LocationAdaptor.h"
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
 
     auto accounts = new AccountsServer(&a);
     new AccountsAdaptor(accounts);
+    new InputAdaptor(accounts);
     new SecurityPrivacyAdaptor(accounts);
     new LocationAdaptor(accounts);
     new AccountsPrivateAdaptor(accounts);
