@@ -565,5 +565,35 @@ Item {
             tryCompare(dashTempScopeItem, "x", dashTempScopeItem.width);
             tryCompare(dashTempScopeItem, "visible", false);
         }
+
+        function test_tempScopeItemXOnResize()
+        {
+            // Go to a temp scope
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+            var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
+            var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
+            mouseClick(nonfavScopesListCategoryList.currentItem);
+            var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
+            tryCompare(dashTempScopeItem, "x", 0);
+            tryCompare(dashTempScopeItem, "visible", true);
+
+            shell.width = units.gu(80);
+            tryCompare(dashTempScopeItem, "x", 0);
+
+            shell.width = units.gu(40);
+            tryCompare(dashTempScopeItem, "x", 0);
+
+            // Go back
+            var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
+            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
+            mouseClick(backButton);
+
+            // Check temp scope is gone
+            tryCompare(dashTempScopeItem, "x", dash.width);
+            tryCompare(dashTempScopeItem, "visible", false);
+        }
     }
 }
