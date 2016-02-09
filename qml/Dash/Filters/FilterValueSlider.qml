@@ -25,6 +25,18 @@ FilterWidget {
 
     implicitHeight: childrenRect.height + units.gu(2)
 
+    Connections {
+        target: widgetData
+        // One would think that this is not needed since
+        // we have value: widgetData.value on the slider
+        // but it is, otherwise reset doesn't seem to work
+        onValueChanged: {
+            if (widgetData.value !== slider.value) {
+                slider.value = widgetData.value;
+            }
+        }
+    }
+
     Slider {
         id: slider
         objectName: "slider"
