@@ -32,9 +32,9 @@ PropertiesServer::PropertiesServer(QObject *parent)
     Reset();
 }
 
-QDBusVariant PropertiesServer::Get(const QString &interface, const QString &property)
+QDBusVariant PropertiesServer::Get(const QString &interface, const QString &property) const
 {
-    if (m_properties[interface].contains(property)) {
+    if (m_properties.contains(interface) && m_properties[interface].contains(property)) {
         return QDBusVariant(m_properties[interface][property]);
     } else {
         sendErrorReply(QDBusError::InvalidArgs, "Bad interface or property");
@@ -42,7 +42,7 @@ QDBusVariant PropertiesServer::Get(const QString &interface, const QString &prop
     }
 }
 
-QVariantMap PropertiesServer::GetAll(const QString &interface)
+QVariantMap PropertiesServer::GetAll(const QString &interface) const
 {
     if (m_properties.contains(interface)) {
         return m_properties[interface];

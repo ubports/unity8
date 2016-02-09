@@ -34,8 +34,8 @@ public:
     explicit PropertiesServer(QObject *parent = 0);
 
 public Q_SLOTS:
-    QDBusVariant Get(const QString &interface, const QString &property);
-    QVariantMap GetAll(const QString &interface);
+    QDBusVariant Get(const QString &interface, const QString &property) const;
+    QVariantMap GetAll(const QString &interface) const;
     void Set(const QString &interface, const QString &property, const QDBusVariant &variant);
 
     // mock only.
