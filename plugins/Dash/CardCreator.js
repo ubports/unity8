@@ -482,7 +482,7 @@ function cardString(template, components) {
         }
 
         var aspectRatio = components["art"] && components["art"]["aspect-ratio"] || 1;
-        if (typeof aspectRatio !== "number") {
+        if (isNaN(aspectRatio)) {
             aspectRatio = 1;
         }
         var fallback = components["art"] && components["art"]["fallback"] || "";
