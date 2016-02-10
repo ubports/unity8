@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,6 +74,10 @@ AbstractStage {
     }
 
     orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
+
+    supportedOrientations: mainApp ? mainApp.supportedOrientations
+                                   : (Qt.PortraitOrientation | Qt.LandscapeOrientation
+                                      | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation)
 
     // How far left the stage has been dragged, used externally by tutorial code
     dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0

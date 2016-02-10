@@ -1,5 +1,3 @@
-pkg_search_module(GIO REQUIRED gio-2.0)
-
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -19,6 +17,7 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/applicationsfiltermodel.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/inputeventgenerator.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     constants.cpp
     plugin.cpp
