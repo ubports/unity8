@@ -1,3 +1,22 @@
+unity8 (8.11+16.04.20160208-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * LVWPH: Reset to initial values when list is empty (LP: #1540490)
+  * Make LazyImage qmltest less flaky on CI
+
+  [ Andrea Cimitan ]
+  * Make LazyImage qmltest less flaky on CI
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Michael Terry ]
+  * Display the current user's real name on the tablet lockscreen. (LP:
+    #1536714)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Mon, 08 Feb 2016 09:38:00 +0000
+
 unity8 (8.11+16.04.20160129-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
