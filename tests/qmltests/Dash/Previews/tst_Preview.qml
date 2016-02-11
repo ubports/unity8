@@ -121,15 +121,14 @@ Rectangle {
             var moreLessButton = findChild(widget, "moreLessButton");
             mouseClick(moreLessButton);
 
-            // Make sure the combo is growing
-            tryCompareFunction(function () { return widget.height > 2 * initialWidgetHeight; }, true);
-
             // Wait for the combo to stop growing
-            tryCompareFunction(function () { var currentWidgetHeight = widget.height; wait(200); return currentWidgetHeight === widget.height;}, true);
+            tryCompare(widget, "height", units.gu(15));
 
             // Make sure the combo bottom is on the viewport
-            var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
-            verify(bottomLeft.y <= preview.height);
+            tryCompareFunction(function () {
+                var bottomLeft = preview.mapFromItem(widget, 0, widget.height);
+                return bottomLeft.y <= preview.height
+            }, true);
         }
     }
 }

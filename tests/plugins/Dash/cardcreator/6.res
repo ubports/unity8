@@ -42,7 +42,7 @@ Loader {
                                         objectName: "backgroundImage"; 
                                         source: { 
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; 
-                                            else return "http://assets.ubuntu.com/sites/ubuntu/latest/u/img/logos/logo-ubuntu-grey.png";
+                                            else return decodeURI("http://assets.ubuntu.com/sites/ubuntu/latest/u/img/logos/logo-ubuntu-grey.png");
                                         } 
                                     } 
                                     function getColor(index) { 

@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "HomeKeyWatcher.h"
+#include "WindowInputMonitor.h"
 
 #include <QTest>
 #include <QSignalSpy>
@@ -71,7 +71,7 @@ public:
 
 using namespace UnityUtil;
 
-class HomeKeyWatcherTest : public QObject {
+class WindowInputMonitorTest : public QObject {
     Q_OBJECT
 private Q_SLOTS:
     void init(); // called right before each and every test function is executed
@@ -88,25 +88,25 @@ private:
     FakeTimerFactory *m_fakeTimerFactory;
 };
 
-void HomeKeyWatcherTest::init()
+void WindowInputMonitorTest::init()
 {
     m_fakeTimerFactory = new FakeTimerFactory;
 }
 
-void HomeKeyWatcherTest::cleanup()
+void WindowInputMonitorTest::cleanup()
 {
      delete m_fakeTimerFactory;
     m_fakeTimerFactory = nullptr;
 }
 
 
-void HomeKeyWatcherTest::passTime(qint64 timeSpanMs)
+void WindowInputMonitorTest::passTime(qint64 timeSpanMs)
 {
     qint64 finalTime = FakeElapsedTimer::msecsSinceEpoch + timeSpanMs;
     m_fakeTimerFactory->updateTime(finalTime);
 }
 
-void HomeKeyWatcherTest::touchTapTouch_data()
+void WindowInputMonitorTest::touchTapTouch_data()
 {
     QTest::addColumn<int>("silenceBeforeTap");
     QTest::addColumn<int>("tapDuration");
@@ -121,14 +121,14 @@ void HomeKeyWatcherTest::touchTapTouch_data()
     QTest::newRow("isolated long press") << 1000 << 200 << 1000 << 0;
 }
 
-void HomeKeyWatcherTest::touchTapTouch()
+void WindowInputMonitorTest::touchTapTouch()
 {
     QFETCH(int, silenceBeforeTap);
     QFETCH(int, tapDuration);
     QFETCH(int, silenceAfterTap);
     QFETCH(int, expectedActivatedCount);
-    HomeKeyWatcher homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
-    QSignalSpy activatedSpy(&homeKeyWatcher, &HomeKeyWatcher::activated);
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
 
     {
@@ -186,10 +186,10 @@ void HomeKeyWatcherTest::touchTapTouch()
     QCOMPARE(activatedSpy.count(), expectedActivatedCount);
 }
 
-void HomeKeyWatcherTest::tapWhileTouching()
+void WindowInputMonitorTest::tapWhileTouching()
 {
-    HomeKeyWatcher homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
-    QSignalSpy activatedSpy(&homeKeyWatcher, &HomeKeyWatcher::activated);
+    WindowInputMonitor homeKeyWatcher(m_fakeTimerFactory->create(), new FakeElapsedTimer);
+    QSignalSpy activatedSpy(&homeKeyWatcher, &WindowInputMonitor::homeKeyActivated);
     QVERIFY(activatedSpy.isValid());
 
     {
@@ -318,6 +318,6 @@ AbstractTimer *FakeTimerFactory::create(QObject *parent)
     return fakeTimer;
 }
 
-QTEST_GUILESS_MAIN(HomeKeyWatcherTest)
+QTEST_GUILESS_MAIN(WindowInputMonitorTest)
 
-#include "HomeKeyWatcherTest.moc"
+#include "WindowInputMonitorTest.moc"

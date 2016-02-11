@@ -1,5 +1,4 @@
 project(mock-indicator-service)
-pkg_search_module(GIO REQUIRED gio-2.0)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 

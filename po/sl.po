@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-11 17:43+0000\n"
-"PO-Revision-Date: 2015-07-06 21:10+0000\n"
-"Last-Translator: Sasa Batistic <Unknown>\n"
+"POT-Creation-Date: 2016-02-08 09:50+0000\n"
+"PO-Revision-Date: 2016-01-31 18:34+0000\n"
+"Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2016-01-14 05:54+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-02-11 06:15+0000\n"
+"X-Generator: Launchpad (build 17923)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -30,7 +30,7 @@ msgstr "Pripni bližnjico"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr ""
+msgstr "Končaj"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
@@ -150,31 +150,33 @@ msgstr "Klic v sili"
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
-msgstr "V REDU"
+msgstr "V redu"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Programi morda niso shranili podatkov:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Za nadaljevanje ponovno usidrajte, shranite svoje delo in zaprite te "
+"programe."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Prisilno zapri sedaj (neshranjeni podatki bodo izgubljeni)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "V redu, bom ponovno priključil"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Ponovno priključi sedaj!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Zapri vse"
 
 #: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
@@ -199,15 +201,15 @@ msgstr "Odstrani iz priljubljenih"
 msgid "Add to Favorites"
 msgstr "Dodaj med priljubljene"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Pokaži vse"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Iskanje"
@@ -235,7 +237,7 @@ msgstr "Dodaj oceno"
 
 #: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Preglej deljeno"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -261,9 +263,13 @@ msgstr "Domov"
 msgid "Also installed"
 msgstr "Tudi nameščeno"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
+"Vaša naprava je sedaj priključena na zunanji zaslon. Ta zaslon pa lahko "
+"uporabite kot sledilno ploščico za nadzor kazalke."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -330,7 +336,7 @@ msgstr "Oprostite, napačno šifrirno reklo"
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr ""
+msgstr "Ponovno vnesite"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
@@ -417,7 +423,7 @@ msgstr "Spodletelo, tapnite za ponovni poskus"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Pošlji"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -427,7 +433,7 @@ msgstr "Odgovor"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Pokliči nazaj"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -776,3 +782,33 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Ponovno vnesite"
+
+#~ msgid "%a %H:%M"
+#~ msgstr "%a %H:%M"
+
+#~ msgid "%a %l:%M %p"
+#~ msgstr "%a %l:%M %p"
+
+#~ msgid "Tomorrow %l:%M %p"
+#~ msgstr "Jutri %l:%M %p"
+
+#~ msgid "%l:%M %p"
+#~ msgstr "%l:%M %p"
+
+#~ msgid "Yesterday %l:%M %p"
+#~ msgstr "Včeraj %l:%M %p"
+
+#~ msgid "%H:%M"
+#~ msgstr "%H:%M"
+
+#~ msgid "Yesterday %H:%M"
+#~ msgstr "Včeraj %H:%M"
+
+#~ msgid "Tomorrow %H:%M"
+#~ msgstr "Jutri %H:%M"
+
+#~ msgid "%a %d %b %H:%M"
+#~ msgstr "%a %d %b %H:%M"
+
+#~ msgid "%a %d %b %l:%M %p"
+#~ msgstr "%a %d %b %l:%M %p"

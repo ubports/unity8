@@ -168,6 +168,7 @@ private:
     QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
     QQuickItem *getSectionItem(const QString &sectionText);
     void updateSectionItem(int modelIndex);
+    void initializeValuesForEmptyList();
 
     QQmlDelegateModel *m_delegateModel;
 

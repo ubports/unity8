@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-11 17:43+0000\n"
+"POT-Creation-Date: 2016-02-08 09:50+0000\n"
 "PO-Revision-Date: 2015-07-16 10:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-01-14 05:53+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-02-11 06:14+0000\n"
+"X-Generator: Launchpad (build 17923)\n"
 "Language: gd\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -206,15 +206,15 @@ msgstr "Thoir air falbh o na h-annsachdan"
 msgid "Add to Favorites"
 msgstr "Cuir ris na h-annsachdan"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Seall nas lugha"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Seall na h-uile"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Lorg"
@@ -268,11 +268,14 @@ msgstr "Dhachaigh"
 msgid "Also installed"
 msgstr "Air a stàladh cuideachd"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
-"Tha an t-uidheam agad ceangailte ri uidheam-taisbeanaidh air an taobh a-"
-"muigh a-nis."
+"Tha an t-uidheam agad air a cheangal ri uidheam-taisbeanaidh air an taobh a-"
+"muigh a-nis. Cleachd an sgrìn seo 'na phada-suathaidh gus gnìomh luchaige a "
+"dhèanamh."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
