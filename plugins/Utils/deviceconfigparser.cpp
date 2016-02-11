@@ -1,7 +1,6 @@
 #include "deviceconfigparser.h"
 
 #include <QSettings>
-#include <QSettings>
 
 DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
 {
@@ -24,12 +23,12 @@ void DeviceConfigParser::setName(const QString &name)
 
 Qt::ScreenOrientation DeviceConfigParser::primaryOrientation() const
 {
-    return stringToOrientation(readOrientationStringFromConfig("PrimaryOrientation"), Qt::PrimaryOrientation);
+    return stringToOrientation(readOrientationFromConfig("PrimaryOrientation"), Qt::PrimaryOrientation);
 }
 
 Qt::ScreenOrientations DeviceConfigParser::supportedOrientations() const
 {
-    QString values = readOrientationStringFromConfig("SupportedOrientations");
+    QStringList values = readOrientationsFromConfig("SupportedOrientations");
     if (values.isEmpty()) {
         return Qt::PortraitOrientation
                 | Qt::InvertedPortraitOrientation
@@ -38,7 +37,7 @@ Qt::ScreenOrientations DeviceConfigParser::supportedOrientations() const
     }
 
     Qt::ScreenOrientations ret = Qt::PrimaryOrientation;
-    Q_FOREACH(const QString &orientationString, values.split(',')) {
+    Q_FOREACH(const QString &orientationString, values) {
         ret |= stringToOrientation(orientationString, Qt::PrimaryOrientation);
     }
     return ret;
@@ -46,33 +45,39 @@ Qt::ScreenOrientations DeviceConfigParser::supportedOrientations() const
 
 Qt::ScreenOrientation DeviceConfigParser::landscapeOrientation() const
 {
-    return stringToOrientation(readOrientationStringFromConfig("LandscapeOrientation"), Qt::LandscapeOrientation);
+    return stringToOrientation(readOrientationFromConfig("LandscapeOrientation"), Qt::LandscapeOrientation);
 }
 
 Qt::ScreenOrientation DeviceConfigParser::invertedLandscapeOrientation() const
 {
-    return stringToOrientation(readOrientationStringFromConfig("InvertedLandscapeOrientation"), Qt::InvertedLandscapeOrientation);
+    return stringToOrientation(readOrientationFromConfig("InvertedLandscapeOrientation"), Qt::InvertedLandscapeOrientation);
 }
 
 Qt::ScreenOrientation DeviceConfigParser::portraitOrientation() const
 {
-    return stringToOrientation(readOrientationStringFromConfig("PortraitOrientation"), Qt::PortraitOrientation);
+    return stringToOrientation(readOrientationFromConfig("PortraitOrientation"), Qt::PortraitOrientation);
 }
 
 Qt::ScreenOrientation DeviceConfigParser::invertedPortraitOrientation() const
 {
-    return stringToOrientation(readOrientationStringFromConfig("InvertedPortraitOrientation"), Qt::InvertedPortraitOrientation);
+    return stringToOrientation(readOrientationFromConfig("InvertedPortraitOrientation"), Qt::InvertedPortraitOrientation);
 }
 
-QString DeviceConfigParser::readOrientationStringFromConfig(const QString &key) const
+QStringList DeviceConfigParser::readOrientationsFromConfig(const QString &key) const
 {
     QSettings config("/etc/unity8/devices.conf", QSettings::IniFormat);
     config.beginGroup(m_name);
 
     if (config.contains(key)) {
-        return config.value(key).toString();
+        return config.value(key).toStringList();
     }
-    return QString();
+    return QStringList();
+}
+
+QString DeviceConfigParser::readOrientationFromConfig(const QString &key) const
+{
+    QStringList ret = readOrientationsFromConfig(key);
+    return ret.count() > 0 ? ret.first() : QString();
 }
 
 Qt::ScreenOrientation DeviceConfigParser::stringToOrientation(const QString &orientationString, Qt::ScreenOrientation defaultValue) const

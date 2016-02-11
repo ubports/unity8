@@ -50,7 +50,8 @@ Q_SIGNALS:
 private:
     QString m_name;
 
-    QString readOrientationStringFromConfig(const QString &key) const;
+    QStringList readOrientationsFromConfig(const QString &key) const;
+    QString readOrientationFromConfig(const QString &key) const;
     Qt::ScreenOrientation stringToOrientation(const QString &orientationString, Qt::ScreenOrientation defaultValue) const;
 };
 
