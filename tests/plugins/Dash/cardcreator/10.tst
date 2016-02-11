@@ -1,3 +1,3 @@
-template: {"card-layout":"vertical","card-size":"small","category-layout":"grid","collapsed-rows":2}
-components: {"art":{"aspect-ratio":0.75,"field":"art"},"subtitle":{"field":"price"},"title":{"field":"title"},"attributes":{},"socialAttributes":[{"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},{"id":"share","label":"text2","icon":"image://theme/cancel"}]}
+template: {"card-background":{"elements":["#E9E9E9"],"type":"color"},"card-layout":"vertical","card-size":"medium","category-layout":"grid","collapsed-rows":2, "card-background": { "type": "color", "elements": [ "\\", ": 3; } Item { } function moo ()  { \"" ] } }
+components: {"art":{"aspect-ratio":1},"background":{"field":"background"},"mascot":{"field":"icon"},"subtitle":{"field":"author"},"title":{"field":"title"},"attributes":{}}
 result: 10.res
