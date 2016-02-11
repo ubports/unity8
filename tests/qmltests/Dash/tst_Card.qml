@@ -475,6 +475,15 @@ Rectangle {
             card.cardDataChanged();
             waitForRendering(card);
             tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/emblem.png"));
+
+            cardTool.components["art"]["fallback"] = Qt.resolvedUrl("artwork/checkers.png");
+            cardTool.componentsChanged();
+            card.cardData["art"] = "";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/checkers.png"));
 
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();
@@ -486,6 +495,15 @@ Rectangle {
             card.cardDataChanged();
             waitForRendering(card);
             tryCompare(mascotImage, "status", Image.Ready);
+            compare(mascotImage.source, Qt.resolvedUrl("artwork/emblem.png"));
+
+            cardTool.components["mascot"] = {"fallback": Qt.resolvedUrl("artwork/checkers.png")};
+            cardTool.componentsChanged();
+            card.cardData["mascot"] = "";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(mascotImage, "status", Image.Ready);
+            compare(mascotImage.source, Qt.resolvedUrl("artwork/checkers.png"));
         }
 
         function test_font_weights_data() {
