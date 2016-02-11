@@ -44,7 +44,7 @@ Column {
             leftMargin: units.gu(1)
             rightMargin: units.gu(1)
         }
-        columns: 2 + repeater.count % 2
+        columns: width > units.gu(12) ? 4 : 2
         rowSpacing: units.gu(2)
 
         Repeater {
@@ -74,16 +74,6 @@ Column {
 
                     onClicked: socialAttributes.clicked(modelData["id"]);
                     onPressedChanged: if (pressed && icon.urlTemporaryIcon != "") icon.source = icon.urlTemporaryIcon
-                }
-                Label {
-                    id: label
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "label" in modelData && modelData["label"] || "";
-                    elide: Text.ElideRight
-                    maximumLineCount: 1
-                    fontSize: "x-small"
-                    font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale)
-                    color: socialAttributes.color
                 }
             }
         }
