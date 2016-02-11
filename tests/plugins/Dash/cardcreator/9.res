@@ -3,7 +3,7 @@ AbstractButton {
                 property var components; 
                 property var cardData; 
                 property string artShapeStyle: "inset"; 
-                property string backgroundShapeStyle: "inset";
+                property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 property int titleAlignment: Text.AlignLeft; 
@@ -80,19 +80,22 @@ CardAudioProgress {
                                 visible: parent.pressed; 
                                 radius: "medium"; 
                             } 
-                            Image {  
-                                id: icon; 
-                                anchors.fill: parent; 
-                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; 
-                                opacity: 0.9; 
-                                fillMode: Image.PreserveAspectFit; 
-                                sourceSize { 
-                                    width: icon.width; 
-                                    height: icon.height; 
-                                } 
-                                source: "image://theme/" + (DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"); 
-                                asynchronous: true; 
+                            Rectangle { 
+                                color: Qt.rgba(0, 0, 0, 0.5); 
+                                anchors.centerIn: parent; 
+                                width: parent.width * 0.5; 
+                                height: width; 
+                                radius: width / 2; 
                             } 
+                            Icon {  
+                                anchors.centerIn: parent; 
+                                width: parent.width * 0.3; 
+                                height: width; 
+                                opacity: 0.9; 
+                                name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; 
+                                color: "white"; 
+                                asynchronous: true; 
+                            }
                             onClicked: { 
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { 
                                     if (DashAudioPlayer.playing) { 

@@ -232,6 +232,7 @@ Rectangle {
         function init() {
             cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
             loader.visible = true;
+            waitForRendering(card);
         }
 
         function cleanup() {
@@ -306,8 +307,8 @@ Rectangle {
                 { tag: "Medium", width: units.gu(18), fill: Image.PreserveAspectCrop, index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
-                { tag: "Tall", height: units.gu(38) / 0.7, size: "large", width: units.gu(38), index: 4 },
+                { tag: "Wide", height: function() { return units.gu(19) }, size: "large", index: 3 },
+                { tag: "Tall", height: function() { return units.gu(38) / 0.7 }, size: "large", width: units.gu(38), index: 4 },
                 { tag: "VerticalWidth", width: function() { return headerRow.width + units.gu(1) }, index: 0 },
                 { tag: "HorizontalHeight", height: function() { return headerRow.height + units.gu(1) * 2 }, index: 5 },
                 { tag: "HorizontalWidth", width: function() { return headerRow.x - units.gu(1) }, index: 5 },
@@ -336,9 +337,7 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("height")) {
-                if (typeof data.height === "function") {
-                    tryCompareFunction(function() { return art.height === data.height() }, true);
-                } else tryCompare(art, "height", data.height);
+                tryCompareFunction(function() { return art.height.toFixed(2) === data.height().toFixed(2) }, true);
             }
 
             if (data.hasOwnProperty("fill")) {

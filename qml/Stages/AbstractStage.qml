@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,6 +44,10 @@ Rectangle {
     property var mainApp: null
     property int mainAppWindowOrientationAngle
     property bool orientationChangesEnabled
+    property int supportedOrientations: Qt.PortraitOrientation
+                                      | Qt.LandscapeOrientation
+                                      | Qt.InvertedPortraitOrientation
+                                      | Qt.InvertedLandscapeOrientation
 
     // Shared code for use in stage implementations
     GSettings {

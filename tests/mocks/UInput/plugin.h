@@ -14,8 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+#ifndef MOCKUINPUT_PLUGIN_H
+#define MOCKUINPUT_PLUGIN_H
 
-QtObject {
-    signal activated()
-}
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
+
+class MockUInputPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri) override;
+};
+
+#endif
