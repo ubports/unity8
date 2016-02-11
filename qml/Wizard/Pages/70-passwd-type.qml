@@ -45,20 +45,20 @@ LocalComponents.Page {
     skip: securityPrivacy.securityType !== UbuntuSecurityPrivacyPanel.Swipe
 
     function indexToMethod(index) {
-        if (index === 0 || index === 1)
+        if (index === 0/* || index === 1*/)
             return UbuntuSecurityPrivacyPanel.Passphrase;
-        else if (index === 2)
+        else if (index === 1/*2*/)
             return UbuntuSecurityPrivacyPanel.Passcode;
         else
             return UbuntuSecurityPrivacyPanel.Swipe;
     }
 
-    Component.onCompleted: {
-        if (root.password !== "") // the user has set a password as part of the previous page
-            selector.currentIndex = 0;
-        else
-            selector.currentIndex = 1;
-    }
+//    Component.onCompleted: {
+//        if (root.password !== "") // the user has set a password as part of the previous page
+//            selector.currentIndex = 0;
+//        else
+//            selector.currentIndex = 1;
+//    }
 
     Item {
         id: column
@@ -76,7 +76,7 @@ LocalComponents.Page {
             height: childrenRect.height
 
             // this is the order we want to display it; cf indexToMethod()
-            model: [UbuntuSecurityPrivacyPanel.Passphrase, UbuntuSecurityPrivacyPanel.Passphrase,
+            model: [/*UbuntuSecurityPrivacyPanel.Passphrase, */UbuntuSecurityPrivacyPanel.Passphrase,
                     UbuntuSecurityPrivacyPanel.Passcode, UbuntuSecurityPrivacyPanel.Swipe]
 
             delegate: ListItem {
@@ -95,13 +95,13 @@ LocalComponents.Page {
                     font.weight: itemDelegate.isCurrent ? Font.Normal : Font.Light
                     text: {
                         switch (index) {
+//                        case 0:
+//                            return i18n.ctr("Label: Type of security method", "Ubuntu administrator password");
                         case 0:
-                            return i18n.ctr("Label: Type of security method", "Ubuntu administrator password");
-                        case 1:
                             return i18n.ctr("Label: Type of security method", "Create new password");
-                        case 2:
+                        case 1:
                             return i18n.ctr("Label: Type of security method", "Create passcode (numbers only)");
-                        case 3:
+                        case 2:
                             return i18n.ctr("Label: Type of security method", "No lock code");
                         }
                     }
@@ -147,7 +147,7 @@ LocalComponents.Page {
                 root.passwordMethod = method;
 
                 if (method === UbuntuSecurityPrivacyPanel.Passphrase) { // any password
-                    if (selector.currentIndex == 1)
+                    if (selector.currentIndex == 0/*1*/)
                         pageStack.load(Qt.resolvedUrl("password-set.qml")); // let the user choose a new password
                     else
                         pageStack.next(); // got the password already, go next page

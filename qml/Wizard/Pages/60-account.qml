@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,13 +16,12 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Web 0.2
 import AccountsService 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
     objectName: "accountPage"
-    title: i18n.tr("Create Account")
+    title: i18n.tr("User Details")
 
     forwardButtonSourceComponent: forwardButton
 
@@ -33,18 +32,17 @@ LocalComponents.Page {
     QtObject {
         id: d
 
-        readonly property bool validInput: nameInput.text !== "" &&
-                                           pass2Input.text.length > 7 && passInput.text === pass2Input.text
+        readonly property bool validInput: true //nameInput.text !== ""
+                                           // && pass2Input.text.length > 7 && passInput.text === pass2Input.text
 
         function advance() {
-            root.password = passInput.text;
+            //root.password = passInput.text;
             AccountsService.realName = nameInput.text;
             pageStack.next();
         }
     }
 
-    Flickable
-    {
+    Flickable {
         id: column
         clip: true
         flickableDirection: Flickable.VerticalFlick
@@ -63,7 +61,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Please enter your name and password to create your administrator account. You need this password to manage your device.")
+            text: i18n.tr("Lorem ipsum dolor sit amet, consectetuer adipiscing elit.")
             color: textColor
             fontSize: "small"
             font.weight: Font.Light
@@ -90,84 +88,84 @@ LocalComponents.Page {
             anchors.right: parent.right
             anchors.top: nameLabel.bottom
             anchors.topMargin: units.gu(1)
-            onActiveFocusChanged: {
-                if (activeFocus) {
-                    column.contentY = nameLabel.y
-                }
-            }
-            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-            onAccepted: passInput.forceActiveFocus()
-        }
-
-        // password
-        Label {
-            id: passLabel
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: nameInput.bottom
-            anchors.topMargin: units.gu(2)
-            text: i18n.tr("Password")
-            color: textColor
-            font.weight: Font.Light
-        }
-
-        LocalComponents.WizardTextField {
-            id: passInput
-            objectName: "passInput"
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: passLabel.bottom
-            anchors.topMargin: units.gu(1)
-            echoMode: TextInput.Password
-            placeholderText: i18n.tr("Use letters and numbers")
+//            onActiveFocusChanged: {
+//                if (activeFocus) {
+//                    column.contentY = nameLabel.y
+//                }
+//            }
             inputMethodHints: Qt.ImhNoPredictiveText
-            onActiveFocusChanged: {
-                if (activeFocus) {
-                    column.contentY = passLabel.y
-                }
-            }
-            onAccepted: pass2Input.forceActiveFocus()
+            //onAccepted: passInput.forceActiveFocus()
         }
 
-        // password meter
-        LocalComponents.PasswordMeter {
-            id: passMeter
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: passInput.bottom
-            anchors.topMargin: units.gu(1)
-            password: passInput.text
-        }
+//        // password
+//        Label {
+//            id: passLabel
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: nameInput.bottom
+//            anchors.topMargin: units.gu(2)
+//            text: i18n.tr("Password")
+//            color: textColor
+//            font.weight: Font.Light
+//        }
 
-        // repeat password
-        Label {
-            id: pass2Label
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: passMeter.bottom
-            anchors.topMargin: passInput.text !== "" ? units.gu(4) : units.gu(2)
-            wrapMode: Text.Wrap
-            text: i18n.tr("Repeat password")
-            color: textColor
-            font.weight: Font.Light
-        }
+//        LocalComponents.WizardTextField {
+//            id: passInput
+//            objectName: "passInput"
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: passLabel.bottom
+//            anchors.topMargin: units.gu(1)
+//            echoMode: TextInput.Password
+//            placeholderText: i18n.tr("Use letters and numbers")
+//            inputMethodHints: Qt.ImhNoPredictiveText
+//            onActiveFocusChanged: {
+//                if (activeFocus) {
+//                    column.contentY = passLabel.y
+//                }
+//            }
+//            onAccepted: pass2Input.forceActiveFocus()
+//        }
 
-        LocalComponents.WizardTextField {
-            id: pass2Input
-            objectName: "pass2Input"
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: pass2Label.bottom
-            anchors.topMargin: units.gu(1)
-            echoMode: TextInput.Password
-            inputMethodHints: Qt.ImhNoPredictiveText
-            onActiveFocusChanged: {
-                if (activeFocus) {
-                    column.contentY = pass2Label.y
-                }
-            }
-            onAccepted: if (d.validInput) d.advance();
-        }
+//        // password meter
+//        LocalComponents.PasswordMeter {
+//            id: passMeter
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: passInput.bottom
+//            anchors.topMargin: units.gu(1)
+//            password: passInput.text
+//        }
+
+//        // repeat password
+//        Label {
+//            id: pass2Label
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: passMeter.bottom
+//            anchors.topMargin: passInput.text !== "" ? units.gu(4) : units.gu(2)
+//            wrapMode: Text.Wrap
+//            text: i18n.tr("Repeat password")
+//            color: textColor
+//            font.weight: Font.Light
+//        }
+
+//        LocalComponents.WizardTextField {
+//            id: pass2Input
+//            objectName: "pass2Input"
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: pass2Label.bottom
+//            anchors.topMargin: units.gu(1)
+//            echoMode: TextInput.Password
+//            inputMethodHints: Qt.ImhNoPredictiveText
+//            onActiveFocusChanged: {
+//                if (activeFocus) {
+//                    column.contentY = pass2Label.y
+//                }
+//            }
+//            onAccepted: if (d.validInput) d.advance();
+//        }
     }
 
     Component {

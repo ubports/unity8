@@ -91,14 +91,13 @@ Item {
         // page title
         Label {
             id: titleLabel
-            property real animatedMargin: 0
             property real animatedTopMargin: 0
             anchors {
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
                 bottomMargin: bottomMargin
-                leftMargin: staticMargin + titleLabel.animatedMargin
+                leftMargin: staticMargin
                 rightMargin: rightMargin
                 topMargin: titleLabel.animatedTopMargin
             }
@@ -106,8 +105,9 @@ Item {
             color: customTitle ? textColor : backgroundColor
             fontSize: customTitle ? "large" : "x-large"
             font.weight: Font.Light
-            wrapMode: TextEdit.WordWrap
+            wrapMode: Text.WordWrap
             maximumLineCount: 2
+            elide: Text.ElideRight
         }
 
         // indicators
@@ -269,17 +269,15 @@ Item {
         ScriptAction { // direction of the effect
             script: {
                 if (contentAnimation.direction === Qt.LeftToRight) {
-                    titleLabel.animatedMargin = -content.width;
                     content.animatedMargin = -content.width;
                 } else {
-                    titleLabel.animatedMargin = content.width;
                     content.animatedMargin = content.width;
                 }
             }
         }
         ParallelAnimation {
             NumberAnimation { // the slide-in animation
-                targets: [titleLabel, content]
+                targets: content
                 property: 'animatedMargin'
                 to: 0
                 duration: contentAnimation.animationDurationBase + contentAnimation.additionalDuration
