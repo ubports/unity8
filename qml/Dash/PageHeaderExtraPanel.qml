@@ -58,6 +58,7 @@ Item {
             top: parent.top
             left: parent.left
             margins: units.gu(2)
+            topMargin: units.gu(3)
         }
     }
 
@@ -69,6 +70,7 @@ Item {
             top: parent.top
             right: parent.right
             margins: units.gu(2)
+            topMargin: units.gu(3)
         }
 
         AbstractButton {
