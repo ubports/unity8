@@ -132,7 +132,6 @@ CardSocialAttributes {
     objectName: "socialAttributesRow";
     anchors { top: subtitleLabel.bottom; left: parent.left; right: parent.right; topMargin: units.gu(1); }
     color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
-    fontScale: root.fontScale;
     model: cardData && cardData["socialAttributes"];
     onClicked: root.clicked(result);
 }

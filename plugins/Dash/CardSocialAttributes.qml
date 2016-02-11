@@ -26,7 +26,6 @@ Column {
 
     property alias model: repeater.model
     property color color: theme.palette.normal.baseText
-    property real fontScale: 1.0
 
     signal clicked(var result)
 

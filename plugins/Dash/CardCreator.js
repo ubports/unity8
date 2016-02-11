@@ -343,7 +343,6 @@ var kSocialAttributesRowCode = 'CardSocialAttributes { \n\
                                   objectName: "socialAttributesRow"; \n\
                                   anchors { %1 } \n\
                                   color: %2; \n\
-                                  fontScale: root.fontScale; \n\
                                   model: cardData && cardData["socialAttributes"]; \n\
                                   onClicked: root.clicked(result); \n\
                                 }\n';
