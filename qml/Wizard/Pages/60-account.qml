@@ -22,7 +22,7 @@ import ".." as LocalComponents
 
 LocalComponents.Page {
     objectName: "accountPage"
-    title: i18n.tr("Set Administrator Details")
+    title: i18n.tr("Create Account")
 
     forwardButtonSourceComponent: forwardButton
 

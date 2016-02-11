@@ -123,7 +123,6 @@ LocalComponents.Page {
             anchors.top: passwordField.bottom
             anchors.topMargin: units.gu(1)
             password: passwordField.text
-            visible: !confirmPhase
         }
 
         // buttons
