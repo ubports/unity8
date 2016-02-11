@@ -257,7 +257,7 @@ Item {
                     AbstractButton {
                         id: settingsButton
 
-                        width: root.scopeHasFilters && clearButton.enabled ? height : 0
+                        width: root.scopeHasFilters ? height : 0
                         visible: width > 0
                         anchors {
                             top: parent.top
