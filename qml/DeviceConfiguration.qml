@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import Utils 0.1
 
 QtObject {
     id: root
@@ -34,20 +35,22 @@ QtObject {
 
     readonly property alias category: priv.category
 
+    readonly property var deviceConfigParser: DeviceConfigParser {
+        name: root.name
+    }
+
     readonly property var priv: StateGroup {
         id: priv
 
-        property int primaryOrientation: root.useNativeOrientation
+        property int primaryOrientation: deviceConfigParser.primaryOrientation == Qt.PrimaryOrientation ?
+                                             root.useNativeOrientation : deviceConfigParser.primaryOrientation
 
-        property int supportedOrientations: Qt.PortraitOrientation
-                                          | Qt.InvertedPortraitOrientation
-                                          | Qt.LandscapeOrientation
-                                          | Qt.InvertedLandscapeOrientation
+        property int supportedOrientations: deviceConfigParser.supportedOrientations
 
-        property int landscapeOrientation: Qt.LandscapeOrientation
-        property int invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
-        property int portraitOrientation: Qt.PortraitOrientation
-        property int invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+        property int landscapeOrientation: deviceConfigParser.landscapeOrientation
+        property int invertedLandscapeOrientation: deviceConfigParser.invertedLandscapeOrientation
+        property int portraitOrientation: deviceConfigParser.portraitOrientation
+        property int invertedPortraitOrientation: deviceConfigParser.invertedPortraitOrientation
 
         // Supported values so far:
         // "phone", "tablet" or "desktop"

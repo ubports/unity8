@@ -23,6 +23,7 @@ set(QMLPLUGIN_SRC
     windowstatestorage.cpp
     timezoneFormatter.cpp
     inputeventgenerator.cpp
+    deviceconfigparser.cpp
     plugin.cpp
     )
 
