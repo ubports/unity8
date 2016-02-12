@@ -2000,7 +2000,6 @@ Rectangle {
             compare(launcherPanel.highlightIndex, -2);
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
-            wait(2000)
             // Use Super + Tab Tab to cycle to the first entry in the launcher
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
