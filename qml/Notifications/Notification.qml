@@ -297,7 +297,7 @@ Item {
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
                         color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
-                        wrapMode: Text.WordWrap
+                        wrapMode: Text.Wrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
