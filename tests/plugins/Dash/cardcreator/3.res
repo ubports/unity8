@@ -1,6 +1,5 @@
 AbstractButton { 
                 id: root; 
-                property var components; 
                 property var cardData; 
                 property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
@@ -31,7 +30,6 @@ Item  {
                                 sourceComponent: Item {
                                     id: artShape;
                                     objectName: "artShape";
-                                    readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true;
                                     visible: image.status == Image.Ready;
                                     readonly property alias image: artImage;
                                     ShaderEffectSource {
@@ -40,11 +38,11 @@ Item  {
                                         anchors.centerIn: parent;
                                         width: 1;
                                         height: 1;
-                                        hideSource: doShapeItem;
+                                        hideSource: true;
                                     }
                                     Loader {
                                         anchors.fill: parent;
-                                        visible: artShape.doShapeItem;
+                                        visible: true;
                                         sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent;
                                         Component {
                                             id: artShapeShapeComponent;
@@ -68,7 +66,7 @@ Item  {
                                         }
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
-                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1;
+                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 0.75;
                                     Component.onCompleted: { updateWidthHeightBindings(); }
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); }
                                     function updateWidthHeightBindings() {

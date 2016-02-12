@@ -61,8 +61,10 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
-// %4 is injected as code to artImage
-// %5 is used as image fallback
+// %4 is used for artShapeSource.hideSource and inner Loader visible
+// %5 is used as aspect ratio fallback
+// %6 is injected as code to artImage
+// %7 is used as image fallback
 var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
@@ -71,14 +73,13 @@ var kArtShapeHolderCode = 'Item { \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
-                                readonly property string cardArt: cardData && cardData["art"] || %5; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || %7; \n\
                                 active: cardArt != ""; \n\
                                 asynchronous: root.asynchronous; \n\
                                 visible: status == Loader.Ready; \n\
                                 sourceComponent: Item { \n\
                                     id: artShape; \n\
                                     objectName: "artShape"; \n\
-                                    readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true; \n\
                                     visible: image.status == Image.Ready; \n\
                                     readonly property alias image: artImage; \n\
                                     ShaderEffectSource { \n\
@@ -87,11 +88,11 @@ var kArtShapeHolderCode = 'Item { \n\
                                         anchors.centerIn: parent; \n\
                                         width: 1; \n\
                                         height: 1; \n\
-                                        hideSource: doShapeItem; \n\
+                                        hideSource: %4; \n\
                                     } \n\
                                     Loader { \n\
                                         anchors.fill: parent; \n\
-                                        visible: artShape.doShapeItem; \n\
+                                        visible: %4; \n\
                                         sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; \n\
                                         Component { \n\
                                             id: artShapeShapeComponent; \n\
@@ -115,7 +116,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         } \n\
                                     } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
-                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
+                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : %5; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); } \n\
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } \n\
                                     function updateWidthHeightBindings() { \n\
@@ -134,7 +135,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         asynchronous: root.asynchronous; \n\
                                         width: %2; \n\
                                         height: %3; \n\
-                                        %4 \n\
+                                        %6 \n\
                                     } \n\
                                 } \n\
                             } \n\
@@ -395,7 +396,6 @@ function cardString(template, components) {
 
     code = 'AbstractButton { \n\
                 id: root; \n\
-                property var components; \n\
                 property var cardData; \n\
                 property string artShapeStyle: "inset"; \n\
                 property string backgroundShapeStyle: "inset"; \n\
@@ -413,7 +413,8 @@ function cardString(template, components) {
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
-    var artAndSummary = hasArt && hasSummary && components["art"]["conciergeMode"] !== true;
+    var isConciergeMode = components["art"] && components["art"]["conciergeMode"] || false;
+    var artAndSummary = hasArt && hasSummary && !isConciergeMode;
     var isHorizontal = template["card-layout"] === "horizontal";
     var hasBackground = (!isHorizontal && (template["card-background"] || components["background"] || artAndSummary)) ||
                         (hasSummary && (template["card-background"] || components["background"]));
@@ -483,17 +484,21 @@ function cardString(template, components) {
             heightCode = 'width / artShape.aspect';
         }
 
+        var aspectRatio = components["art"] && components["art"]["aspect-ratio"] || 1;
+        if (isNaN(aspectRatio)) {
+            aspectRatio = 1;
+        }
         var fallback = components["art"] && components["art"]["fallback"] || "";
         fallback = encodeURI(fallback);
         var fallbackStatusCode = "";
         var fallbackURICode = '""';
         if (fallback !== "") {
-            // fallbackStatusCode has %5 in it because we want to substitute it for fallbackURICode
-            // which in kArtShapeHolderCode is %5
-            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %5;';
+            // fallbackStatusCode has %6 in it because we want to substitute it for fallbackURICode
+            // which in kArtShapeHolderCode is %7
+            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %7;';
             fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
-        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallbackStatusCode).arg(fallbackURICode);
+        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(isConciergeMode ? "false" : "true").arg(aspectRatio).arg(fallbackStatusCode).arg(fallbackURICode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }

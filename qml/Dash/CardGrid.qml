@@ -70,7 +70,6 @@ DashRenderer {
                     item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
                     item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
                     item.cardData = Qt.binding(function() { return model; });
-                    item.components = Qt.binding(function() { return cardTool.components; });
                     item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                     item.scopeStyle = root.scopeStyle;
                     item.artShapeStyle = root.artShapeStyle;
