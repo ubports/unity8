@@ -155,11 +155,20 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                 visible: parent.pressed; \n\
                                 radius: "medium"; \n\
                             } \n\
+                            Rectangle { \n\
+                                color: Qt.rgba(0, 0, 0, 0.5); \n\
+                                anchors.centerIn: parent; \n\
+                                width: parent.width * 0.5; \n\
+                                height: width; \n\
+                                radius: width / 2; \n\
+                            } \n\
                             Icon {  \n\
-                                anchors.fill: parent; \n\
-                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; \n\
+                                anchors.centerIn: parent; \n\
+                                width: parent.width * 0.3; \n\
+                                height: width; \n\
                                 opacity: 0.9; \n\
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; \n\
+                                color: "white"; \n\
                             } \n\
                             onClicked: { \n\
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { \n\
