@@ -4,10 +4,13 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     )
 
+add_definitions(-DCONFIG_TESTING)
+
 foreach(util_test
     QLimitProxyModel
     UnitySortFilterProxyModel
     WindowInputMonitor
+    DeviceConfigParser
 )
     add_executable(${util_test}TestExec ${util_test}Test.cpp ModelTest.cpp)
     qt5_use_modules(${util_test}TestExec Test Core Qml)

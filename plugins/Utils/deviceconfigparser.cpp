@@ -1,6 +1,7 @@
 #include "deviceconfigparser.h"
 
 #include <QSettings>
+#include <QFileInfo>
 
 DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
 {
@@ -65,7 +66,14 @@ Qt::ScreenOrientation DeviceConfigParser::invertedPortraitOrientation() const
 
 QStringList DeviceConfigParser::readOrientationsFromConfig(const QString &key) const
 {
-    QSettings config("/etc/unity8/devices.conf", QSettings::IniFormat);
+    QFileInfo fi("./devices.conf");
+    QString path;
+    if (fi.exists()) {
+        path = "./devices.conf";
+    } else {
+        path = "/etc/unity8/devices.conf";
+    }
+    QSettings config(path, QSettings::IniFormat);
     config.beginGroup(m_name);
 
     if (config.contains(key)) {
