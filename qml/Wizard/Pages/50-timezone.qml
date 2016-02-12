@@ -35,7 +35,7 @@ LocalComponents.Page {
     readonly property alias tdModule: timeDatePanel
 
     function highlightTimezone(offset) {
-        highlightImage.source = "file:/usr/share/libtimezonemap/ui/timezone_" + offset + ".png";
+        highlightImage.source = "data/timezonemap/timezone_" + offset + ".png";
     }
 
     // geo coords conversion functions (adapted from libtimezonemap)
@@ -146,8 +146,8 @@ LocalComponents.Page {
                 selectedTimeZone = timeZone;
                 print("Clicked at city with coords:", longitude, latitude);
                 print("Highlight at (x,y):", longitudeToX(longitude, map.width), latitudeToY(latitude, map.height));
-                pinImage.x = longitudeToX(longitude, map.width) - 8;
-                pinImage.y = latitudeToY(latitude, map.height) - 16;
+                pinImage.x = longitudeToX(longitude, map.width) - pinImage.width / 2;
+                pinImage.y = latitudeToY(latitude, map.height) - pinImage.height;
             }
         }
     }
@@ -227,7 +227,7 @@ LocalComponents.Page {
 
                 Image {
                     id: backgroundImage
-                    source: "file:/usr/share/libtimezonemap/ui/bg.png"
+                    source: "data/timezonemap/map.png"
                     sourceSize: Qt.size(map.width, map.height)
                     fillMode: Image.PreserveAspectFit
                     smooth: true
@@ -251,8 +251,10 @@ LocalComponents.Page {
 
                 Image {
                     id: pinImage
-                    source: "file:/usr/share/libtimezonemap/ui/pin.png"
+                    source: "data/timezonemap/pin.png"
                     visible: selectedTimeZone != ""
+                    width: units.dp(8)
+                    height: units.dp(16)
                     z: map.z + 1
                 }
             }
