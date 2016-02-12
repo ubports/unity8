@@ -62,7 +62,8 @@ Item {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                active: cardData && cardData["art"] || false; 
+                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("%5C");
+                                active: cardArt != "";
                                 asynchronous: root.asynchronous; 
                                 visible: status == Loader.Ready; 
                                 sourceComponent: Item { 
@@ -120,7 +121,7 @@ Item {
                                     CroppedImageMinimumSourceSize { 
                                         id: artImage; 
                                         objectName: "artImage"; 
-                                        source: cardData && cardData["art"] || ""; 
+                                        source: artShapeLoader.cardArt;
                                         asynchronous: root.asynchronous; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
@@ -148,7 +149,7 @@ left: parent.left;
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
-                            source: cardData && cardData["mascot"] || ""; 
+                            source: cardData && cardData["mascot"] || decodeURI("%22");
                             width: units.gu(6); 
                             height: units.gu(5.625); 
                             horizontalAlignment: Image.AlignHCenter; 

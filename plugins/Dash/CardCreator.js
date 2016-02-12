@@ -62,6 +62,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %2 is used as image width
 // %3 is used as image height
 // %4 is injected as code to artImage
+// %5 is used as image fallback
 var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
@@ -70,7 +71,8 @@ var kArtShapeHolderCode = 'Item { \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
-                                active: cardData && cardData["art"] || false; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || %5; \n\
+                                active: cardArt != ""; \n\
                                 asynchronous: root.asynchronous; \n\
                                 visible: status == Loader.Ready; \n\
                                 sourceComponent: Item { \n\
@@ -128,7 +130,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                     CroppedImageMinimumSourceSize { \n\
                                         id: artImage; \n\
                                         objectName: "artImage"; \n\
-                                        source: cardData && cardData["art"] || ""; \n\
+                                        source: artShapeLoader.cardArt; \n\
                                         asynchronous: root.asynchronous; \n\
                                         width: %2; \n\
                                         height: %3; \n\
@@ -245,11 +247,12 @@ var kMascotShapeLoaderCode = 'Loader { \n\
 // %1 is used as anchors of mascotImage
 // %2 is used as visible of mascotImage
 // %3 is injected as code to mascotImage
+// %4 is used as fallback image
 var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
                             id: mascotImage; \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
-                            source: cardData && cardData["mascot"] || ""; \n\
+                            source: cardData && cardData["mascot"] || %4; \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             horizontalAlignment: Image.AlignHCenter; \n\
@@ -482,11 +485,15 @@ function cardString(template, components) {
 
         var fallback = components["art"] && components["art"]["fallback"] || "";
         fallback = encodeURI(fallback);
-        var fallbackCode = "";
+        var fallbackStatusCode = "";
+        var fallbackURICode = '""';
         if (fallback !== "") {
-            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = decodeURI("%1");'.arg(fallback);
+            // fallbackStatusCode has %5 in it because we want to substitute it for fallbackURICode
+            // which in kArtShapeHolderCode is %5
+            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %5;';
+            fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
-        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallbackCode);
+        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallbackStatusCode).arg(fallbackURICode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
@@ -580,11 +587,15 @@ function cardString(template, components) {
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
         var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
         fallback = encodeURI(fallback);
-        var fallbackCode = "";
+        var fallbackStatusCode = "";
+        var fallbackURICode = '""';
         if (fallback !== "") {
-            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = decodeURI("%1");'.arg(fallback);
+            // fallbackStatusCode has %4 in it because we want to substitute it for fallbackURICode
+            // which in kMascotImageCode is %4
+            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %4;';
+            fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
-        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallbackCode);
+        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallbackStatusCode).arg(fallbackURICode);
     }
 
     var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white")';
