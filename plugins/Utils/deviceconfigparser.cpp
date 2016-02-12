@@ -18,6 +18,7 @@
 
 #include <QSettings>
 #include <QFileInfo>
+#include <QDebug>
 
 DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
 {
@@ -117,6 +118,10 @@ Qt::ScreenOrientation DeviceConfigParser::stringToOrientation(const QString &ori
     }
     if (orientationString == "InvertedPortrait") {
         return Qt::InvertedPortraitOrientation;
+    }
+    if (!orientationString.isEmpty()) {
+        // Some option we don't know. Give some hint on what went wrong.
+        qWarning().nospace().noquote() << "Unknown option \"" << orientationString << "\". Supported options are: Landscape, InvertedLandscape, Portrait and InvertedPortrait.";
     }
     return defaultValue;
 }
