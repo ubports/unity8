@@ -106,8 +106,8 @@ Item {
             orientationSelector.selectedIndex = data.selectedOrientation;
 
             // Make sure it is still in the old rotation (as we have the lock turned on)
-            wait(0); // Spin event loop to be sure to update bindings etc
-            compare(content.rotation, oldRotation);
+            expectFail("", "Rotation lock set. Expecting automatic rotation to fail.");
+            tryCompareFunction(function() { return content.rotation != oldRotation; }, true, 300);
 
             // Now uncheck the rotation lock
             orientationLockCheckBox.checked = false;
