@@ -73,7 +73,10 @@ Rectangle {
             tryCompareFunction(function() { return get_filename(imageRenderer.source.toString()) === get_filename(widgetData1["source"]); }, true);
             waitForRendering(zoomableImage);
             tryCompare(zoomableImage, "imageStatus", Image.Ready);
-            compare (signalSpy.count, 1);
+            compare(signalSpy.count, 1);
+            compare(imageRenderer.sourceSize.width, root.width);
+            zoomableImage.zoomable = true;
+            compare(imageRenderer.sourceSize.width, root.width*3);
         }
 
         function get_filename(a) {
@@ -138,13 +141,13 @@ Rectangle {
             var imageRenderer = findChild(zoomableImage, "imageRenderer");
             var flickable = findChild(zoomableImage, "flickable");
 
-            signalSpy.signalName = "onScaleChanged";
-            signalSpy.target = image;
-            signalSpy.clear();
-
             zoomableImage.source = data.source;
             zoomableImage.zoomable = data.zoomable;
             waitForRendering(zoomableImage);
+
+            signalSpy.signalName = "onScaleChanged";
+            signalSpy.target = image;
+            signalSpy.clear();
 
             tryCompare(zoomableImage, "imageStatus", Image.Ready);
             tryCompareFunction(function() { return get_filename(imageRenderer.source.toString()) === get_filename(data.source); }, true);

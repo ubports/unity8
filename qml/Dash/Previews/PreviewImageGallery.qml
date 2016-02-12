@@ -59,7 +59,7 @@ PreviewWidget {
                 top: parent.top
                 bottom: parent.bottom
             }
-            source: modelData ? modelData : ""
+            source: modelData || root.widgetData["fallback"] || ""
             scaleTo: "height"
             initialWidth: units.gu(13)
             pressed: mouseArea.pressed
@@ -128,7 +128,7 @@ PreviewWidget {
                     bottom: parent.bottom
                 }
                 width: overlay.width
-                source: modelData ? modelData : ""
+                source: modelData || root.widgetData["fallback"] || ""
                 fillMode: Image.PreserveAspectFit
                 sourceSize { width: screenshot.width; height: screenshot.height }
 

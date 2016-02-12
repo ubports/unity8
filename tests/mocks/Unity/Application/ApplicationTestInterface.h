@@ -30,12 +30,12 @@ class ApplicationTestInterface : public QDBusAbstractAdaptor
 public:
     ApplicationTestInterface(QObject* parent = 0);
 
-    Q_INVOKABLE Session* addChildSession(Session* existingSession, const QString& surfaceImage);
+    Q_INVOKABLE Session* addChildSession(Session* existingSession, const QString& surfaceImage, bool addSurface);
     Q_INVOKABLE void removeSession(Session* existingSession);
     Q_INVOKABLE void removeSurface(MirSurface* existingSurface);
 
 public Q_SLOTS:
-    quint32 addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage);
+    quint32 addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage, bool addSurface);
     void removeSession(quint32 sessionId);
 
 private:

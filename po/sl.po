@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-08 09:50+0000\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-11 06:15+0000\n"
+"X-Generator: Launchpad (build 17923)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -268,6 +268,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
+"Vaša naprava je sedaj priključena na zunanji zaslon. Ta zaslon pa lahko "
+"uporabite kot sledilno ploščico za nadzor kazalke."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -804,9 +806,6 @@ msgstr "%1  〉"
 
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "Jutri %H:%M"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Vaša naprava je sedaj povezana na zunanji zaslon."
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b %H:%M"

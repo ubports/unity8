@@ -1954,6 +1954,29 @@ private Q_SLOTS:
         QCOMPARE(lvwph->m_firstVisibleIndex, 0);
     }
 
+    void testBug1540490()
+    {
+        lvwph->header()->setImplicitHeight(150);
+        verifyItem(0, 150., 150., false);
+
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 3), Q_ARG(QVariant, 3));
+        model->setProperty(0, "size", 400);
+        model->setProperty(1, "size", 600);
+        model->setProperty(2, "size", 300);
+
+        scrollToBottom();
+        changeContentY(-200);
+
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 2));
+        model->setProperty(0, "size", 100);
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 0), Q_ARG(QVariant, 1));
+        lvwph->header()->setImplicitHeight(50);
+        QMetaObject::invokeMethod(model, "insertItem", Q_ARG(QVariant, 0), Q_ARG(QVariant, 200));
+
+        QTRY_COMPARE(lvwph->m_visibleItems.count(), 1);
+        verifyItem(0, 50., 200., false);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;
