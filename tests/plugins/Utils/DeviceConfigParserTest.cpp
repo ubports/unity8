@@ -50,6 +50,7 @@ private Q_SLOTS:
 
         s.setValue("SupportedOrientations", QStringList() << "Portrait" << "Landscape" << "InvertedLandscape");
         s.setValue("PrimaryOrientation", "InvertedLandscape");
+        s.sync();
 
         DeviceConfigParser p;
         p.setName("fakedevice");
