@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-02-08 09:50+0000\n"
-"PO-Revision-Date: 2016-02-11 22:13+0000\n"
+"PO-Revision-Date: 2016-02-12 10:18+0000\n"
 "Last-Translator: Charif AYFARAH <ayfarah@ymail.com>\n"
 "Language-Team: Afar <aa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-12 05:38+0000\n"
-"X-Generator: Launchpad (build 17923)\n"
+"X-Launchpad-Export-Date: 2016-02-13 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -66,78 +66,78 @@ msgstr ""
 #: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr ""
+msgstr "Koflis"
 
 #: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr ""
+msgstr "Eweq"
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
 #: qml/Components/Dialogs.qml:253
 msgid "Cancel"
-msgstr ""
+msgstr "Bayis"
 
 #: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr ""
+msgstr "Bargus"
 
 #: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
-msgstr ""
+msgstr "Bargussuh digga maay litoo?"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr ""
+msgstr "Wadir-ugus"
 
 #: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr ""
+msgstr "Bargus"
 
 #: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr ""
+msgstr "Wadir-ugus"
 
 #: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
-msgstr ""
+msgstr "Wadir-ugussuh digga maay litoo?"
 
 #: qml/Components/Dialogs.qml:210
 msgid "No"
-msgstr ""
+msgstr "Maleey"
 
 #: qml/Components/Dialogs.qml:217
 msgid "Yes"
-msgstr ""
+msgstr "Yeey"
 
 #: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr ""
+msgstr "Cayla"
 
 #: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
+msgstr "Timmi haytuh digga maay litoo?"
 
 #: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr ""
+msgstr "Timmi hayis"
 
 #: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr ""
+msgstr "Wadir-qimbis"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr ""
+msgstr "Seecol gacis"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -145,7 +145,7 @@ msgstr ""
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
-msgstr ""
+msgstr "Hayya"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
@@ -169,7 +169,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Inkih alif"
 
 #: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
@@ -179,12 +179,12 @@ msgstr ""
 #: qml/Dash/DashPageHeader.qml:273
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr ""
+msgstr "Goranto"
 
 #: qml/Dash/DashPageHeader.qml:283
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr ""
+msgstr "Massosu"
 
 #: qml/Dash/DashPageHeader.qml:290
 msgid "Remove from Favorites"
@@ -205,7 +205,7 @@ msgstr ""
 #: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr ""
+msgstr "Goranto"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -218,7 +218,7 @@ msgstr ""
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:174
 msgid "Send"
-msgstr ""
+msgstr "Rub"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
@@ -250,7 +250,7 @@ msgstr ""
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr ""
+msgstr "Dabqi"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
@@ -268,7 +268,7 @@ msgstr ""
 
 #: qml/Greeter/LoginList.qml:236
 msgid "Retry"
-msgstr ""
+msgstr "Qagis"
 
 #: qml/Greeter/LoginList.qml:237
 msgid "Tap to unlock"
@@ -301,15 +301,15 @@ msgstr ""
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
-msgstr ""
+msgstr "%1 culus"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Tatur-maxco culus"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
-msgstr ""
+msgstr "Tatur-mudenta culus"
 
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
@@ -331,7 +331,7 @@ msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
-msgstr ""
+msgstr "Cuumita uybulluy"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
@@ -339,7 +339,7 @@ msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr ""
+msgstr "Koboxu"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:753
 msgid "Nothing is playing"
@@ -349,32 +349,32 @@ msgstr ""
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 saaqata"
+msgstr[1] "%1 saaqata"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 miniti"
+msgstr[1] "%1 miniti"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 nammayye"
+msgstr[1] "%1 nammayye"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:894
 msgid "0 seconds"
-msgstr ""
+msgstr "0 nammayye"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:896
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "%1 raaqe"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "In queue…"
@@ -382,7 +382,7 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "Downloading"
-msgstr ""
+msgstr "Qulluumah"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:908
 msgid "Paused, tap to resume"
@@ -390,11 +390,11 @@ msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Canceled"
-msgstr ""
+msgstr "Bayteh"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Finished"
-msgstr ""
+msgstr "Duudumteh"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Failed, tap to retry"
@@ -404,7 +404,7 @@ msgstr ""
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Rub"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -480,26 +480,26 @@ msgstr ""
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr ""
+msgstr "Derre"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr ""
+msgstr "Nagaale!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu phone."
-msgstr ""
+msgstr "Ubuntu Telefoonul arcib"
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr ""
+msgstr "Hayya qimbisnay."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr ""
+msgstr "Tatur"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
@@ -511,7 +511,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr ""
+msgstr "Kaqit"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
@@ -524,7 +524,7 @@ msgstr ""
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr ""
+msgstr "Uysuttuc"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Description of security method"
