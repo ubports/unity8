@@ -134,7 +134,7 @@ Showable {
         }
         onOpenScope: {
             scopeItem.scope = scope;
-            x = -width;
+            dash.showOverlayScope = true;
         }
         Behavior on x {
             UbuntuNumberAnimation {
