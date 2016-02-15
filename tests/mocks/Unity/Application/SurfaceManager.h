@@ -25,6 +25,7 @@
 class SurfaceManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(MirSurfaceInterface* inputMethodSurface READ inputMethodSurface NOTIFY inputMethodSurfaceChanged)
 public:
     explicit SurfaceManager(QObject *parent = 0);
 
@@ -35,10 +36,10 @@ public:
                                   Mir::State state,
                                   const QUrl& screenshot);
 
-    // To be used in the tests
-    Q_INVOKABLE MirSurface* inputMethodSurface();
+    MirSurface* inputMethodSurface() const;
 
 Q_SIGNALS:
+    void inputMethodSurfaceChanged();
     void countChanged();
     void surfaceCreated(MirSurface *surface);
     void surfaceDestroyed(MirSurface*surface);
