@@ -39,6 +39,11 @@ LocalComponents.Page {
     title: i18n.tr("Lock security")
     forwardButtonSourceComponent: forwardButton
 
+    // If the user has set a password some other way (via ubuntu-device-flash
+    // or this isn't the first time the wizard has been run, etc).  We can't
+    // properly set the password again, so let's not pretend we can.
+    skip: securityPrivacy.securityType !== UbuntuSecurityPrivacyPanel.Swipe
+
     function indexToMethod(index) {
         if (index === 0)
             return UbuntuSecurityPrivacyPanel.Swipe
@@ -71,7 +76,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Please select how you’d like to unlock your phone.")
+            text: i18n.tr("Please select how you’d like to unlock your device.")
         }
 
         ItemSelector {

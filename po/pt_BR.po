@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-07 08:09+0000\n"
+"POT-Creation-Date: 2016-02-08 09:50+0000\n"
 "PO-Revision-Date: 2015-08-05 04:40+0000\n"
 "Last-Translator: Julio Alexander Sieg <julio.sieg@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-01-10 05:28+0000\n"
-"X-Generator: Launchpad (build 17881)\n"
+"X-Launchpad-Export-Date: 2016-02-11 06:15+0000\n"
+"X-Generator: Launchpad (build 17923)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -175,38 +175,38 @@ msgstr ""
 msgid "Close all"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:265
+#: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Loja"
 
-#: qml/Dash/DashPageHeader.qml:272
+#: qml/Dash/DashPageHeader.qml:273
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Pesquisar"
 
-#: qml/Dash/DashPageHeader.qml:282
+#: qml/Dash/DashPageHeader.qml:283
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Configurações"
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Remove from Favorites"
 msgstr "Remover dos favoritos"
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Add to Favorites"
 msgstr "Adicionar aos favoritos"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Ver todos"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Pesquisar"
@@ -232,7 +232,7 @@ msgstr "Avaliar isto"
 msgid "Add a review"
 msgstr "Adicionar uma análise"
 
-#: qml/Dash/Previews/PreviewSharing.qml:51
+#: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
 msgstr ""
 
@@ -260,8 +260,10 @@ msgstr "Início"
 msgid "Also installed"
 msgstr "Instalado também"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
@@ -347,62 +349,62 @@ msgstr "Toque para retornar para a chamada..."
 msgid "Conference"
 msgstr "Conferência"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:743
+#: qml/Panel/Indicators/MenuItemFactory.qml:753
 msgid "Nothing is playing"
 msgstr "Nada está tocando"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:872
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 hora"
 msgstr[1] "%1 horas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minuto"
 msgstr[1] "%1 minutos"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 segundo"
 msgstr[1] "%1 segundos"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:894
 msgid "0 seconds"
 msgstr "0 segundo"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:896
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 restantes"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:892
+#: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "In queue…"
 msgstr "Em fila..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "Downloading"
 msgstr "Baixando"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:898
+#: qml/Panel/Indicators/MenuItemFactory.qml:908
 msgid "Paused, tap to resume"
 msgstr "Em pausa, toque para continuar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Finished"
 msgstr "Finalizado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Failed, tap to retry"
 msgstr "Falhou, toque para tentar novamente"
 
@@ -500,7 +502,7 @@ msgstr "Bem-vindo ao seu Ubuntu phone."
 msgid "Let’s get started."
 msgstr "Vamos começar."
 
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
@@ -524,36 +526,36 @@ msgstr "Pular"
 msgid "Lock security"
 msgstr "Trava de segurança"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:74
+#: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your phone."
 msgstr "Por favor, selecione como você gostaria de desbloquear seu telefone."
 
-#: qml/Wizard/Pages/30-passwd-type.qml:97
+#: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr "Deslizar"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:98
+#: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr "Sem segurança"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:100
+#: qml/Wizard/Pages/30-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr "Código de acesso"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:101
+#: qml/Wizard/Pages/30-passwd-type.qml:106
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr "Apenas 4 digitos"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:103
+#: qml/Wizard/Pages/30-passwd-type.qml:108
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr "Palavra chave"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:104
+#: qml/Wizard/Pages/30-passwd-type.qml:109
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "Números e letras"

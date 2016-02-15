@@ -36,6 +36,10 @@ class MirSurfaceItem : public unity::shell::application::MirSurfaceItemInterface
     Q_PROPERTY(int touchReleaseCount READ touchReleaseCount WRITE setTouchReleaseCount
                                      NOTIFY touchReleaseCountChanged DESIGNABLE false)
 
+    Q_PROPERTY(int mousePressCount READ mousePressCount WRITE setMousePressCount
+                                   NOTIFY mousePressCountChanged)
+    Q_PROPERTY(int mouseReleaseCount READ mouseReleaseCount WRITE setMouseReleaseCount
+                                   NOTIFY mouseReleaseCountChanged)
 public:
     explicit MirSurfaceItem(QQuickItem *parent = 0);
     ~MirSurfaceItem();
@@ -76,9 +80,17 @@ public:
     int touchReleaseCount() const { return m_touchReleaseCount; }
     void setTouchReleaseCount(int count) { m_touchReleaseCount = count; Q_EMIT touchReleaseCountChanged(count); }
 
+    int mousePressCount() const { return m_mousePressCount; }
+    void setMousePressCount(int count) { m_mousePressCount = count; Q_EMIT mousePressCountChanged(count); }
+
+    int mouseReleaseCount() const { return m_mouseReleaseCount; }
+    void setMouseReleaseCount(int count) { m_mouseReleaseCount = count; Q_EMIT mouseReleaseCountChanged(count); }
+
 Q_SIGNALS:
     void touchPressCountChanged(int count);
     void touchReleaseCountChanged(int count);
+    void mousePressCountChanged(int count);
+    void mouseReleaseCountChanged(int count);
 
 protected:
     void touchEvent(QTouchEvent * event) override;
@@ -109,6 +121,8 @@ private:
 
     int m_touchPressCount;
     int m_touchReleaseCount;
+    int m_mousePressCount;
+    int m_mouseReleaseCount;
 
     FillMode m_fillMode{Stretch};
 

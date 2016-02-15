@@ -392,7 +392,6 @@ Rectangle {
                         }
 
                         onClicked: {
-                            Haptics.play();
                             var index = Math.floor((mouseY + launcherListView.realContentY) / launcherListView.realItemHeight);
                             var clickedItem = launcherListView.itemAt(mouseX, mouseY + launcherListView.realContentY)
 
@@ -407,8 +406,10 @@ Rectangle {
                                 quickList.model = launcherListView.model.get(index).quickList;
                                 quickList.appId = launcherListView.model.get(index).appId;
                                 quickList.state = "open";
-                                return
+                                return;
                             }
+
+                            Haptics.play();
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
@@ -594,6 +595,7 @@ Rectangle {
                 width: itemWidth
                 rotation: root.rotation
                 itemOpacity: 0.9
+                onVisibleChanged: if (!visible) iconName = "";
 
                 function flatten() {
                     fakeDragItemAnimation.start();
@@ -636,6 +638,7 @@ Rectangle {
             rotation: 90
         }
     }
+
     InverseMouseArea {
         anchors.fill: quickListShape
         enabled: quickList.state == "open" || pressed
@@ -692,7 +695,7 @@ Rectangle {
         property var item
 
         // internal
-        property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) : units.gu(1)
+        property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) + quickList.item.offset : units.gu(1)
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 

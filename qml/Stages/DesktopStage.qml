@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,11 @@ AbstractStage {
     mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null
+
+    // application windows never rotate independently
+    mainAppWindowOrientationAngle: shellOrientationAngle
+
+    orientationChangesEnabled: true
 
     Connections {
         target: ApplicationManager
@@ -124,16 +129,20 @@ AbstractStage {
         onFocusedAppDelegateChanged: updateForegroundMaximizedApp();
 
         property int foregroundMaximizedAppZ: -1
+        property int foregroundMaximizedAppIndex: -1 // for stuff like drop shadow and focusing maximized app by clicking panel
 
         function updateForegroundMaximizedApp() {
             var tmp = -1;
+            var tmpAppId = -1;
             for (var i = appRepeater.count - 1; i >= 0; i--) {
                 var item = appRepeater.itemAt(i);
                 if (item && item.visuallyMaximized) {
+                    tmpAppId = i;
                     tmp = Math.max(tmp, item.normalZ);
                 }
             }
             foregroundMaximizedAppZ = tmp;
+            foregroundMaximizedAppIndex = tmpAppId;
         }
 
         function indexOf(appId) {
@@ -176,8 +185,8 @@ AbstractStage {
         onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
         onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
                     && priv.focusedAppDelegate.restoreFromMaximized();
-        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIdIndex != -1) {
-                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIdIndex).appId);
+        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIndex != -1) {
+                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIndex).appId);
                              }
     }
 
@@ -206,7 +215,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "dropShadow"
-        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIdIndex !== -1
+        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIndex !== -1
     }
 
     Component.onDestruction: {
@@ -247,6 +256,12 @@ AbstractStage {
                 height: decoratedWindow.height
                 property alias requestedWidth: decoratedWindow.requestedWidth
                 property alias requestedHeight: decoratedWindow.requestedHeight
+                property alias minimumWidth: decoratedWindow.minimumWidth
+                property alias minimumHeight: decoratedWindow.minimumHeight
+                property alias maximumWidth: decoratedWindow.maximumWidth
+                property alias maximumHeight: decoratedWindow.maximumHeight
+                property alias widthIncrement: decoratedWindow.widthIncrement
+                property alias heightIncrement: decoratedWindow.heightIncrement
 
                 QtObject {
                     id: appDelegatePrivate

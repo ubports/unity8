@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-07 08:09+0000\n"
+"POT-Creation-Date: 2016-02-08 09:50+0000\n"
 "PO-Revision-Date: 2015-12-04 09:38+0000\n"
 "Last-Translator: Aggelos Arnaoutis <angelosarn@hotmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-10 05:27+0000\n"
-"X-Generator: Launchpad (build 17881)\n"
+"X-Launchpad-Export-Date: 2016-02-11 06:14+0000\n"
+"X-Generator: Launchpad (build 17923)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -179,38 +179,38 @@ msgstr "Επανασύνδεση τώρα!"
 msgid "Close all"
 msgstr "Κλείσιμο όλων"
 
-#: qml/Dash/DashPageHeader.qml:265
+#: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Κατάστημα"
 
-#: qml/Dash/DashPageHeader.qml:272
+#: qml/Dash/DashPageHeader.qml:273
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: qml/Dash/DashPageHeader.qml:282
+#: qml/Dash/DashPageHeader.qml:283
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Remove from Favorites"
 msgstr "Αφαίρεση από τα αγαπημένα"
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Add to Favorites"
 msgstr "Προσθήκη στα αγαπημένα"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Λιγότερα"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Εμφάνιση όλων"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Αναζήτηση"
@@ -236,7 +236,7 @@ msgstr "Βαθμολογήστε το"
 msgid "Add a review"
 msgstr "Προσθέστε την αξιολόγησή σας"
 
-#: qml/Dash/Previews/PreviewSharing.qml:51
+#: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
 msgstr "Προεπισκόπηση κοινής χρήσης αντικειμένου"
 
@@ -264,9 +264,11 @@ msgstr "Αρχή"
 msgid "Also installed"
 msgstr "Επίσης εγκατεστημένα"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
-msgstr "Η συσκευή σας τώρα είναι συνδεδεμένη σε εξωτερική οθόνη."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -353,62 +355,62 @@ msgstr "Πατήστε για να γυρίσετε στην κλήση..."
 msgid "Conference"
 msgstr "Συνδιάσκεψη"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:743
+#: qml/Panel/Indicators/MenuItemFactory.qml:753
 msgid "Nothing is playing"
 msgstr "Δεν αναπαράγεται τίποτα"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:872
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ώρα"
 msgstr[1] "%1 ώρες"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 λεπτό"
 msgstr[1] "%1 λεπτά"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 δευτερόλεπτο"
 msgstr[1] "%1 δευτερόλεπτα"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:894
 msgid "0 seconds"
 msgstr "0 δευτερόλεπτα"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:896
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 απομένουν"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:892
+#: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "In queue…"
 msgstr "Στην ουρά..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "Downloading"
 msgstr "Λήψη σε εξέλιξη"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:898
+#: qml/Panel/Indicators/MenuItemFactory.qml:908
 msgid "Paused, tap to resume"
 msgstr "Σταματημένο, αγγίξτε για συνέχιση"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Canceled"
 msgstr "Ακυρώθηκε"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Finished"
 msgstr "Ολοκληρώθηκε"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Failed, tap to retry"
 msgstr "Αποτυχία, πατήστε για να ξαναπροσπαθήσετε"
 
@@ -507,7 +509,7 @@ msgstr "Καλώς ήρθατε στο Ubuntu phone σας."
 msgid "Let’s get started."
 msgstr "Ας ξεκινήσουμε."
 
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
@@ -532,36 +534,36 @@ msgstr "Παράβλεψη"
 msgid "Lock security"
 msgstr "Κλείδωμα ασφαλείας"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:74
+#: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your phone."
 msgstr "Παρακαλούμε επιλέξτε πως θα θέλατε να ξεκλειδώνετε το τηλέφωνό σας."
 
-#: qml/Wizard/Pages/30-passwd-type.qml:97
+#: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr "Χειρονομία"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:98
+#: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr "Χωρίς ασφάλεια"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:100
+#: qml/Wizard/Pages/30-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr "Κωδικός αριθμός"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:101
+#: qml/Wizard/Pages/30-passwd-type.qml:106
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr "Μόνο με 4 ψηφία"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:103
+#: qml/Wizard/Pages/30-passwd-type.qml:108
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr "Κωδική φράση"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:104
+#: qml/Wizard/Pages/30-passwd-type.qml:109
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "Αριθμοί και γράμματα"

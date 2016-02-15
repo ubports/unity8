@@ -1,6 +1,5 @@
 AbstractButton { 
                 id: root; 
-                property var components; 
                 property var cardData; 
                 property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 

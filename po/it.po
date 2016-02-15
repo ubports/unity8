@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-07 08:09+0000\n"
+"POT-Creation-Date: 2016-02-08 09:50+0000\n"
 "PO-Revision-Date: 2015-09-18 08:24+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-10 05:28+0000\n"
-"X-Generator: Launchpad (build 17881)\n"
+"X-Launchpad-Export-Date: 2016-02-11 06:15+0000\n"
+"X-Generator: Launchpad (build 17923)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -155,60 +155,62 @@ msgstr "OK"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Le app potrebbero contenere dati non salvati:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Collegare nuovamente il dispositivo, salvare il lavoro e chiudere queste app "
+"per continuare."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "Oppure forzare la chiusura ora (i dati non salvati verranno persi)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Ok, collegherò il dispositivo"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Collegare ora."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Chiudi tutto"
 
-#: qml/Dash/DashPageHeader.qml:265
+#: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Store"
 
-#: qml/Dash/DashPageHeader.qml:272
+#: qml/Dash/DashPageHeader.qml:273
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Cerca"
 
-#: qml/Dash/DashPageHeader.qml:282
+#: qml/Dash/DashPageHeader.qml:283
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Remove from Favorites"
 msgstr "Rimuovi dai preferiti"
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Add to Favorites"
 msgstr "Aggiungi ai preferiti"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Mostra meno"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Mostra tutto"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Cerca"
@@ -234,9 +236,9 @@ msgstr "Valuta"
 msgid "Add a review"
 msgstr "Aggiungi una recensione"
 
-#: qml/Dash/Previews/PreviewSharing.qml:51
+#: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Anteprima elementi da condividere"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -262,8 +264,10 @@ msgstr "Home"
 msgid "Also installed"
 msgstr "Installato anche"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
@@ -349,62 +353,62 @@ msgstr "Tocca per tornare alla chiamata..."
 msgid "Conference"
 msgstr "Conferenza"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:743
+#: qml/Panel/Indicators/MenuItemFactory.qml:753
 msgid "Nothing is playing"
 msgstr "Niente in riproduzione"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:872
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ora"
 msgstr[1] "%1 ore"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minuto"
 msgstr[1] "%1 minuti"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 secondo"
 msgstr[1] "%1 secondi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:894
 msgid "0 seconds"
 msgstr "0 secondi"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:896
 #, qt-format
 msgid "%1 remaining"
 msgstr "Tempo residuo: %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:892
+#: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "In queue…"
 msgstr "In coda..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "Downloading"
 msgstr "Scaricamento in corso"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:898
+#: qml/Panel/Indicators/MenuItemFactory.qml:908
 msgid "Paused, tap to resume"
 msgstr "In pausa. Tocca per riprendere"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Canceled"
 msgstr "Annullato"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Finished"
 msgstr "Completato"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Failed, tap to retry"
 msgstr "Non riuscito. Tocca per riprovare"
 
@@ -412,7 +416,7 @@ msgstr "Non riuscito. Tocca per riprovare"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Invia"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -422,7 +426,7 @@ msgstr "Rispondi"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Richiama"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -502,7 +506,7 @@ msgstr "Benvenuti in Ubuntu Phone."
 msgid "Let’s get started."
 msgstr "Iniziamo!"
 
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
@@ -527,36 +531,36 @@ msgstr "Salta"
 msgid "Lock security"
 msgstr "Sicurezza di blocco"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:74
+#: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your phone."
 msgstr "Selezionare il metodo di sblocco del telefono."
 
-#: qml/Wizard/Pages/30-passwd-type.qml:97
+#: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr "Scorrimento"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:98
+#: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr "Nessuna sicurezza"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:100
+#: qml/Wizard/Pages/30-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr "Passcode"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:101
+#: qml/Wizard/Pages/30-passwd-type.qml:106
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr "Solo 4 caratteri"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:103
+#: qml/Wizard/Pages/30-passwd-type.qml:108
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr "Passphrase"
 
-#: qml/Wizard/Pages/30-passwd-type.qml:104
+#: qml/Wizard/Pages/30-passwd-type.qml:109
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "Numeri e lettere"

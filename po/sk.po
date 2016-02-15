@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-07 08:09+0000\n"
+"POT-Creation-Date: 2016-02-08 09:50+0000\n"
 "PO-Revision-Date: 2015-04-10 09:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2016-01-10 05:28+0000\n"
-"X-Generator: Launchpad (build 17881)\n"
+"X-Launchpad-Export-Date: 2016-02-11 06:15+0000\n"
+"X-Generator: Launchpad (build 17923)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -171,38 +171,38 @@ msgstr ""
 msgid "Close all"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:265
+#: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:272
+#: qml/Dash/DashPageHeader.qml:273
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:282
+#: qml/Dash/DashPageHeader.qml:283
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Remove from Favorites"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:289
+#: qml/Dash/DashPageHeader.qml:290
 msgid "Add to Favorites"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr ""
@@ -228,7 +228,7 @@ msgstr ""
 msgid "Add a review"
 msgstr ""
 
-#: qml/Dash/Previews/PreviewSharing.qml:51
+#: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
 msgstr ""
 
@@ -256,8 +256,10 @@ msgstr ""
 msgid "Also installed"
 msgstr ""
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
@@ -339,62 +341,62 @@ msgstr ""
 msgid "Conference"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:743
+#: qml/Panel/Indicators/MenuItemFactory.qml:753
 msgid "Nothing is playing"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:872
+#: qml/Panel/Indicators/MenuItemFactory.qml:882
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:876
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:884
+#: qml/Panel/Indicators/MenuItemFactory.qml:894
 msgid "0 seconds"
 msgstr ""
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:896
 #, qt-format
 msgid "%1 remaining"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:892
+#: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "In queue…"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "Downloading"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:898
+#: qml/Panel/Indicators/MenuItemFactory.qml:908
 msgid "Paused, tap to resume"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:900
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Canceled"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Finished"
 msgstr ""
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Failed, tap to retry"
 msgstr ""
 
@@ -492,7 +494,7 @@ msgstr ""
 msgid "Let’s get started."
 msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:128
+#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
@@ -515,36 +517,36 @@ msgstr ""
 msgid "Lock security"
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:74
+#: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your phone."
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:97
+#: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Swipe"
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:98
+#: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Description of security method"
 msgid "No security"
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:100
+#: qml/Wizard/Pages/30-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Passcode"
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:101
+#: qml/Wizard/Pages/30-passwd-type.qml:106
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:103
+#: qml/Wizard/Pages/30-passwd-type.qml:108
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:104
+#: qml/Wizard/Pages/30-passwd-type.qml:109
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr ""

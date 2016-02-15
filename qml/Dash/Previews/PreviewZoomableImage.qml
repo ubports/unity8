@@ -42,7 +42,7 @@ PreviewWidget {
             right: parent.right
         }
         scaleTo: "width"
-        source: widgetData["source"]
+        source: widgetData["source"] || widgetData["fallback"] || ""
         asynchronous: true
         useUbuntuShape: false
         pressed: mouseArea.pressed
@@ -72,7 +72,7 @@ PreviewWidget {
                 right: parent.right
                 bottom: parent.bottom
             }
-            shareData: widgetData["shareData"]
+            shareData: widgetData["share-data"]
         }
     }
 
@@ -86,7 +86,7 @@ PreviewWidget {
 
         delegate: ZoomableImage {
             anchors.fill: parent
-            source: widgetData["source"]
+            source: widgetData["source"] || widgetData["fallback"] || ""
             zoomable: widgetData["zoomable"] ? widgetData["zoomable"] : false
             // If modelData would change after failing to load it would not be
             // reloaded since the source binding is destroyed by the source = fallback
