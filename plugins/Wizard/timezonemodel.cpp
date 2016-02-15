@@ -518,6 +518,10 @@ QJsonArray TimeZoneLocationModel::timezoneAndOffsetAtMapPoint(int x, int y, cons
     const int red = qRed(rgb);
     const int green = qGreen(rgb);
     qDebug() << "Red:" << red << ", green:" << green;
+    if (red == 0 && green == 0) {
+        qWarning() << "Clicked the water!";
+        return QJsonArray();
+    }
     const int zoneIndex = ((red & 248) << 1) + ((green >> 4) & 15);
 
     qDebug() << "Zone index:" << zoneIndex;

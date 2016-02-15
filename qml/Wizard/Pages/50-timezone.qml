@@ -65,6 +65,14 @@ LocalComponents.Page {
         return y;
     }
 
+    function resetViews() {
+        selectedTimeZone = ""
+        tzList.currentIndex = -1
+        highlightImage.source = ""
+        pinImage.x = 0;
+        pinImage.y = 0;
+    }
+
     UbuntuTimeDatePanel {
         id: timeDatePanel
     }
@@ -171,12 +179,7 @@ LocalComponents.Page {
             anchors.rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
             placeholderText: i18n.tr("Enter your city")
             inputMethodHints: Qt.ImhNoPredictiveText
-            onTextChanged: {
-                // reset when switching between filter modes (text/country)
-                selectedTimeZone = ""
-                tzList.currentIndex = -1
-                highlightImage.source = ""
-            }
+            onTextChanged: resetViews();
         }
 
         Rectangle {
@@ -216,12 +219,15 @@ LocalComponents.Page {
                 right: parent.right
                 top: parent.top
                 bottom: parent.bottom
+                leftMargin: units.gu(2)
             }
 
             Item {
                 id: map
-                width: units.dp(800)
-                height: units.dp(410)
+                //width: units.dp(800)
+                //height: units.dp(410)
+                width: column.width - tzList.width
+                height: width / 1.95
                 anchors {
                     centerIn: parent
                 }
@@ -229,13 +235,16 @@ LocalComponents.Page {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        print("Clicked at", mouse.x, mouse.y)
-                        print("Map size:", map.width, map.height)
                         var tzAndOffset = tzModel.timezoneAndOffsetAtMapPoint(mouse.x, mouse.y,
                                                                               Qt.size(map.width, map.height));
                         var tzId = tzAndOffset[0];
                         var offset = tzAndOffset[1];
                         print("Timezone", tzId, ", offset", offset);
+                        if (tzId) {
+                            resetViews();
+                            selectedTimeZone = tzId;
+                            highlightTimezone(offset);
+                        }
                     }
                 }
 
@@ -266,7 +275,7 @@ LocalComponents.Page {
                 Image {
                     id: pinImage
                     source: "data/timezonemap/pin.png"
-                    visible: selectedTimeZone != ""
+                    visible: x != 0 && y != 0
                     width: units.dp(8)
                     height: units.dp(16)
                     z: map.z + 1
