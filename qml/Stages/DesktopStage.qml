@@ -333,6 +333,19 @@ AbstractStage {
                     ApplicationManager.focusApplication(appId);
                 }
 
+                function playFocusAnimation() {
+                    focusAnimation.start()
+                }
+
+                UbuntuNumberAnimation {
+                    id: focusAnimation
+                    target: appDelegate
+                    property: "scale"
+                    from: 0.98
+                    to: 1
+                    duration: UbuntuAnimation.SnapDuration
+                }
+
                 states: [
                     State {
                         name: "fullscreen"; when: decoratedWindow.fullscreen
@@ -495,5 +508,9 @@ AbstractStage {
         workspace: appContainer
         focus: state == "altTab"
         altTabPressed: root.altTabPressed
+
+        onPlayFocusAnimation: {
+            appRepeater.itemAt(index).playFocusAnimation();
+        }
     }
 }

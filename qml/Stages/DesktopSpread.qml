@@ -30,6 +30,8 @@ FocusScope {
     readonly property alias ready: blurLayer.ready
     readonly property alias highlightedIndex: spreadRepeater.highlightedIndex
 
+    signal playFocusAnimation(int index)
+
     function show() {
         spreadContainer.animateIn = true;
         root.state = "altTab";
@@ -93,6 +95,9 @@ FocusScope {
 
     function focusSelected() {
         if (spreadRepeater.highlightedIndex != -1) {
+            if (spreadContainer.visible) {
+                root.playFocusAnimation(spreadRepeater.highlightedIndex)
+            }
             var application = ApplicationManager.get(spreadRepeater.highlightedIndex);
             ApplicationManager.requestFocusApplication(application.appId);
         }
