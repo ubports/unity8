@@ -473,7 +473,7 @@ AbstractStage {
                     rotation: 90
                     anchors.centerIn: parent
                     gradient: Gradient {
-                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.7)}
+                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.5)}
                         GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
                     }
                 }

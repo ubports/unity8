@@ -253,16 +253,21 @@ FocusScope {
                     Transition {
                         from: ""
                         to: "altTab"
-                        PropertyAction { target: spreadDelegate; properties: "y,height,width,angle,z,itemScale,itemScaleOriginY,visible" }
-                        PropertyAction { target: clippedSpreadDelegate; properties: "anchors.topMargin" }
-                        PropertyAnimation {
-                            target: spreadDelegate; properties: "x"
-                            from: root.width
-                            duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration :0
-                            easing: UbuntuAnimation.StandardEasing
+                        SequentialAnimation {
+                            ParallelAnimation {
+                                PropertyAction { target: spreadDelegate; properties: "y,height,width,angle,z,itemScale,itemScaleOriginY,visible" }
+                                PropertyAction { target: clippedSpreadDelegate; properties: "anchors.topMargin" }
+                                PropertyAnimation {
+                                    target: spreadDelegate; properties: "x"
+                                    from: root.width
+                                    duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration :0
+                                    easing: UbuntuAnimation.StandardEasing
+                                }
+                                UbuntuNumberAnimation { target: clippedSpreadDelegate; property: "shadowOpacity"; from: 0; to: spreadMaths.shadowOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
+                                UbuntuNumberAnimation { target: tileInfo; property: "opacity"; from: 0; to: spreadMaths.tileInfoOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
+                            }
+                            PropertyAction { target: spreadSelectArea; property: "enabled" }
                         }
-                        UbuntuNumberAnimation { target: clippedSpreadDelegate; property: "shadowOpacity"; from: 0; to: spreadMaths.shadowOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
-                        UbuntuNumberAnimation { target: tileInfo; property: "opacity"; from: 0; to: spreadMaths.tileInfoOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
                     }
                 ]
 
@@ -291,12 +296,20 @@ FocusScope {
                         anchors { left: parent.left; top: parent.top; right: parent.right }
                         spacing: units.gu(1)
 
-                        UbuntuShape {
+                        UbuntuShapeForItem {
                             Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
                             Layout.preferredWidth: height * 8 / 7.6
                             image: Image {
                                 anchors.fill: parent
                                 source: model.icon
+                                Rectangle {
+                                    anchors.fill: parent
+                                    color: "black"
+                                    opacity: clippedSpreadDelegate.highlightShown ? 0 : .1
+                                    Behavior on opacity {
+                                        UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+                                    }
+                                }
                             }
                         }
                         Label {
@@ -449,7 +462,7 @@ FocusScope {
 
                             property var source: ShaderEffectSource {
                                 id: shaderEffectSource
-                                sourceItem: appContainer
+                                sourceItem: root.workspace
                             }
 
                             fragmentShader: "
@@ -523,9 +536,8 @@ FocusScope {
             from: "*"
             to: "altTab"
             SequentialAnimation {
-                PropertyAction { target: hoverMouseArea; property: "progressiveScrollingEnabled"; value: false }
                 PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
-                PauseAnimation { duration: 140 }
+                PauseAnimation { duration: spreadContainer.animateIn ? 0 : 140 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 PropertyAction { target: spreadContainer; property: "visible" }
                 ParallelAnimation {
@@ -534,6 +546,7 @@ FocusScope {
                     PropertyAction { targets: [currentSelectedLabel,spreadBackground]; property: "visible" }
                     PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
                 }
+                PropertyAction { target: hoverMouseArea; properties: "enabled,progressiveScrollingEnabled"; value: false }
             }
         },
         Transition {

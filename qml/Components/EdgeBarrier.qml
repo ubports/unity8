@@ -59,7 +59,7 @@ Item {
 
         visible: positionProgress > 0
 
-        width: units.gu(1)
+        width: units.gu(2)
     }
 
     EdgeBarrierController {
@@ -105,7 +105,7 @@ Item {
         },
         Transition {
             from: "resisting"; to: "passed"
-            UbuntuNumberAnimation { target: materialContainer; property: "opacity" }
+            UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration; target: materialContainer; property: "opacity" }
         }
     ]
 }
