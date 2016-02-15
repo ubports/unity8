@@ -84,7 +84,7 @@ Item {
             left: parent.left
             right: parent.right
         }
-        source: customTitle ? "" : "Pages/data/Phone_header_bkg.png"
+        source: customTitle ? "" : (desktopLook ? "Pages/data/Desktop_header_bkg.png" : "Pages/data/Phone_header_bkg.png")
         height: titleRectHeight
         clip: true
 
