@@ -2,6 +2,8 @@ pkg_search_module(TIMEZONEMAP REQUIRED timezonemap)
 
 include_directories(${GLIB_INCLUDE_DIRS} ${TIMEZONEMAP_INCLUDE_DIRS})
 
+qt5_add_resources(olsen-resources ui.qrc)
+
 add_library(Wizard-qml MODULE
     plugin.cpp
     PageList.cpp
@@ -9,9 +11,10 @@ add_library(Wizard-qml MODULE
     LocalePlugin.cpp
     timezonemodel.cpp
     Status.cpp
+    ${olsen-resources}
 )
 
-qt5_use_modules(Wizard-qml DBus Qml Concurrent)
+qt5_use_modules(Wizard-qml DBus Qml Gui Concurrent)
 target_link_libraries(Wizard-qml ${GLIB_LDFLAGS} ${TIMEZONEMAP_LDFLAGS})
 add_unity8_plugin(Wizard 0.1 Wizard TARGETS Wizard-qml)
 

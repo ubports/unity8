@@ -26,6 +26,7 @@
 void WizardPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Wizard"));
+    Q_INIT_RESOURCE(ui);
     qmlRegisterType<PageList>(uri, 0, 1, "PageList");
     qmlRegisterSingletonType<System>(uri, 0, 1, "System", [](QQmlEngine*, QJSEngine*) -> QObject* { return new System; });
     qmlRegisterSingletonType<Status>(uri, 0, 1, "Status", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Status; });

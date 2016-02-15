@@ -12,8 +12,9 @@ add_library(MockWizard-qml MODULE
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/timezonemodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/LocalePlugin.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Wizard/Status.cpp
+    ${CMAKE_BINARY_DIR}/plugins/Wizard/qrc_ui.cpp
 )
 
-qt5_use_modules(MockWizard-qml DBus Qml Concurrent)
+qt5_use_modules(MockWizard-qml DBus Qml Gui Concurrent)
 target_link_libraries(MockWizard-qml ${GLIB_LDFLAGS} ${TIMEZONEMAP_LDFLAGS})
 add_unity8_mock(Wizard 0.1 Wizard TARGETS MockWizard-qml)

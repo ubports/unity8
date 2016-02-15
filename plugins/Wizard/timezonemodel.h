@@ -21,6 +21,7 @@
 #include <QSortFilterProxyModel>
 #include <QThread>
 #include <QtConcurrent>
+#include <QtGui/QImage>
 
 class TimeZonePopulateWorker;
 
@@ -56,6 +57,12 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    /**
+     * @return a JSON array with timezone ID and offset (in hours) at a given point
+     *         in map pixel coordinates @p x and @p y
+     */
+    Q_INVOKABLE QJsonArray timezoneAndOffsetAtMapPoint(int x, int y, const QSize &mapImageSize) const;
+
 private Q_SLOTS:
     void processModelResult(const TzLocationWizard &location);
     void store();
@@ -65,6 +72,7 @@ private:
     QHash<int, QByteArray> m_roleNames;
     QList<TzLocationWizard> m_locations;
     TimeZonePopulateWorker *m_workerThread;
+    QImage m_olsenMap;
 };
 
 Q_DECLARE_METATYPE (TimeZoneLocationModel::TzLocationWizard)

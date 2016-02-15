@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 import Wizard 0.1
 import Ubuntu.SystemSettings.TimeDate 1.0
 import Utils 0.1 as Utils
+import QtQuick.Window 2.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -223,6 +224,19 @@ LocalComponents.Page {
                 height: units.dp(410)
                 anchors {
                     centerIn: parent
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        print("Clicked at", mouse.x, mouse.y)
+                        print("Map size:", map.width, map.height)
+                        var tzAndOffset = tzModel.timezoneAndOffsetAtMapPoint(mouse.x, mouse.y,
+                                                                              Qt.size(map.width, map.height));
+                        var tzId = tzAndOffset[0];
+                        var offset = tzAndOffset[1];
+                        print("Timezone", tzId, ", offset", offset);
+                    }
                 }
 
                 Image {
