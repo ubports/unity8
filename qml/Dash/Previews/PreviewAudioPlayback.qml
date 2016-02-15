@@ -85,10 +85,7 @@ PreviewWidget {
                                 }
                             } else {
                                 var playlist = [];
-                                for (var i = index; i < trackRepeater.count; ++i) {
-                                    playlist.push(trackRepeater.itemAt(i).sourceUrl);
-                                }
-                                for (var i = 0; i < index; ++i) {
+                                for (var i = 0; i < trackRepeater.count; ++i) {
                                     playlist.push(trackRepeater.itemAt(i).sourceUrl);
                                 }
                                 DashAudioPlayer.playSource(sourceUrl, playlist);
