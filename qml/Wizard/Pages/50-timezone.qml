@@ -156,7 +156,7 @@ LocalComponents.Page {
                 //print("Clicked at city with coords:", longitude, latitude);
                 //print("Clicked on TZ:", timeZone);
                 //print("Highlight at (x,y):", longitudeToX(longitude, map.width), latitudeToY(latitude, map.height));
-                pinImage.x = Qt.binding(function() { return longitudeToX(longitude, map.width) - pinImage.width / 2; });
+                pinImage.x = Qt.binding(function() { return longitudeToX(longitude, map.width) - pinImage.width; });
                 pinImage.y = Qt.binding(function() { return latitudeToY(latitude, map.height) - pinImage.height; });
             }
         }
@@ -261,8 +261,8 @@ LocalComponents.Page {
                     id: pinImage
                     source: "data/timezonemap/pin.png"
                     visible: x != 0 && y != 0
-                    width: units.dp(8)
-                    height: units.dp(16)
+                    width: units.dp(12)
+                    height: units.dp(20)
                     z: map.z + 1
                 }
             }
