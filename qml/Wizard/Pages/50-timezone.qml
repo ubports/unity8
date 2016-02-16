@@ -53,8 +53,8 @@ LocalComponents.Page {
     function latitudeToY(latitude, map_height) {
         const bottom_lat = -59;
         const top_lat = 81;
-
         const top_per = top_lat / 180.0;
+
         var y = 1.25 * Math.log(Math.tan(0.25*Math.PI + 0.4 * radians(latitude)));
         const full_range = 4.6068250867599998;
         const top_offset = full_range * top_per;
@@ -153,10 +153,11 @@ LocalComponents.Page {
                 highlightTimezone(offset);
                 ListView.view.currentIndex = index;
                 selectedTimeZone = timeZone;
-                print("Clicked at city with coords:", longitude, latitude);
-                print("Highlight at (x,y):", longitudeToX(longitude, map.width), latitudeToY(latitude, map.height));
-                pinImage.x = longitudeToX(longitude, map.width) - pinImage.width / 2;
-                pinImage.y = latitudeToY(latitude, map.height) - pinImage.height;
+                //print("Clicked at city with coords:", longitude, latitude);
+                //print("Clicked on TZ:", timeZone);
+                //print("Highlight at (x,y):", longitudeToX(longitude, map.width), latitudeToY(latitude, map.height));
+                pinImage.x = Qt.binding(function() { return longitudeToX(longitude, map.width) - pinImage.width / 2; });
+                pinImage.y = Qt.binding(function() { return latitudeToY(latitude, map.height) - pinImage.height; });
             }
         }
     }
@@ -235,13 +236,19 @@ LocalComponents.Page {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        var tzAndOffset = tzModel.timezoneAndOffsetAtMapPoint(mouse.x, mouse.y,
-                                                                              Qt.size(map.width, map.height));
+                        var x = mouse.x + map.width/60; // longitude is offset by 6 degrees
+                        var y = mouse.y;
+                        if (y <= 2*map.height/3) {
+                            y = y * 0.80; // latitude is offset by ~20%, except the 1/3 southern hemisphere
+                        }
+
+                        var tzAndOffset = tzModel.timezoneAndOffsetAtMapPoint(x, y, Qt.size(map.width, map.height));
                         var tzId = tzAndOffset[0];
                         var offset = tzAndOffset[1];
                         print("Timezone", tzId, ", offset", offset);
                         if (tzId) {
                             resetViews();
+                            tzFilterModel.country = "";
                             selectedTimeZone = tzId;
                             highlightTimezone(offset);
                         }
