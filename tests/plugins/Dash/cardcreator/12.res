@@ -13,7 +13,7 @@ AbstractButton {
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true;
-signal clicked(var result);
+signal action(var actionId);
 readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
 Item  { 
                             id: artShapeHolder; 
@@ -133,7 +133,7 @@ CardSocialAttributes {
     anchors { top: subtitleLabel.bottom; left: parent.left; right: parent.right; topMargin: units.gu(1); }
     color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
     model: cardData && cardData["socialAttributes"];
-    onClicked: root.clicked(result);
+    onClicked: root.action(actionId);
 }
 UbuntuShape {
     id: touchdown;

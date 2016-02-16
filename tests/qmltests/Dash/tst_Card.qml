@@ -217,7 +217,7 @@ Rectangle {
 
     SignalSpy {
         id: signalSpy
-        signalName: "clicked"
+        signalName: "action"
     }
 
     UT.UnityTestCase {

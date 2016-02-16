@@ -22,12 +22,11 @@ import "../../../qml/Components/ListItems" as ListItems
 Column {
     id: socialAttributes
     spacing: units.gu(0.5)
-    height: divider.height + spacing + grid.height
 
     property alias model: repeater.model
     property color color: theme.palette.normal.baseText
 
-    signal clicked(var result)
+    signal clicked(var actionId)
 
     ListItems.ThinDivider {
         id: divider
@@ -35,32 +34,39 @@ Column {
         anchors { left: parent.left; right: parent.right; }
     }
 
-    GridLayout {
-        id: grid
+    Row {
+        id: row
         anchors {
             left: parent.left
             right: parent.right
             leftMargin: units.gu(1)
             rightMargin: units.gu(1)
         }
-        columns: width > units.gu(12) ? 4 : 2
-        rowSpacing: units.gu(2)
+        spacing: units.gu(2)
+        readonly property int visibleItems: {
+            if (width <= units.gu(12)) // small card
+                return 2;
+            else if (width <= units.gu(21)) // medium card
+                return 3;
+            else // large or horizontal card
+                return 4;
+        }
 
         Repeater {
             id: repeater
-            delegate: Row {
-                objectName: "delegate" + index
-                spacing: units.gu(0.5)
+            delegate: Loader {
                 height: units.gu(2)
-                AbstractButton {
+                active: index < row.visibleItems
+                sourceComponent: AbstractButton {
+                    objectName: "delegate" + index
                     height: units.gu(2)
                     width: icon.width
                     Icon {
                         id: icon
                         objectName: "icon"
 
-                        property url urlIcon: "icon" in modelData && modelData["icon"] || ""
-                        property url urlTemporaryIcon: "temporaryIcon" in modelData && modelData["temporaryIcon"] || ""
+                        readonly property url urlIcon: "image://theme/ok"
+                        readonly property url urlTemporaryIcon: "temporaryIcon" in modelData && modelData["temporaryIcon"] || ""
 
                         height: units.gu(2)
                         // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293

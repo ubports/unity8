@@ -83,8 +83,10 @@ ResultsModel::data(const QModelIndex& index, int role) const
             return QString("Subtitle.%1.%2").arg(m_categoryId).arg(index.row());
         case RoleMascot:
         case RoleEmblem:
-        case RoleSummary:
+
         default:
             return QVariant();
+                    case RoleSummary:
+                    return QString("Subtitle.%1.%2").arg(m_categoryId).arg(index.row());
     }
 }

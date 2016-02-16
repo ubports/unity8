@@ -344,7 +344,7 @@ var kSocialAttributesRowCode = 'CardSocialAttributes { \n\
                                   anchors { %1 } \n\
                                   color: %2; \n\
                                   model: cardData && cardData["socialAttributes"]; \n\
-                                  onClicked: root.clicked(result); \n\
+                                  onClicked: root.action(actionId); \n\
                                 }\n';
 
 // %1 is used as top anchor of summary
@@ -436,9 +436,7 @@ function cardString(template, components) {
     var hasSocialAttributes = hasTitle && components["socialAttributes"] || false;
     var isAudio = template["quick-preview-type"] === "audio";
 
-    if (hasSocialAttributes) {
-        code += 'signal clicked(var result);\n';
-    }
+    code += 'signal action(var actionId);\n';
     if (isAudio) {
         // For now we only support audio cards with [optional] art, title, subtitle
         // in horizontal mode
