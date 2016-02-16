@@ -30,7 +30,7 @@ class TimeZoneLocationModel: public QAbstractListModel
     Q_OBJECT
     Q_ENUMS(Roles)
 public:
-    explicit TimeZoneLocationModel(QObject *parent = 0);
+    explicit TimeZoneLocationModel(QObject *parent = nullptr);
     ~TimeZoneLocationModel() = default;
 
     enum Roles {
@@ -57,12 +57,6 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    /**
-     * @return a JSON array with timezone ID and offset (in hours) at a given point
-     *         in map pixel coordinates @p x and @p y
-     */
-    Q_INVOKABLE QJsonArray timezoneAndOffsetAtMapPoint(int x, int y, const QSize &mapImageSize) const;
-
 private Q_SLOTS:
     void processModelResult(const TzLocationWizard &location);
     void store();
@@ -72,7 +66,6 @@ private:
     QHash<int, QByteArray> m_roleNames;
     QList<TzLocationWizard> m_locations;
     TimeZonePopulateWorker *m_workerThread;
-    QImage m_olsenMap;
 };
 
 Q_DECLARE_METATYPE (TimeZoneLocationModel::TzLocationWizard)
@@ -97,7 +90,7 @@ class TimeZoneFilterModel: public QSortFilterProxyModel
     Q_PROPERTY(QString country READ country WRITE setCountry NOTIFY countryChanged)
 
 public:
-    explicit TimeZoneFilterModel(QObject *parent = 0);
+    explicit TimeZoneFilterModel(QObject *parent = nullptr);
     ~TimeZoneFilterModel() = default;
     bool filterAcceptsRow(int row, const QModelIndex &parentIndex) const override;
 

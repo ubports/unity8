@@ -233,28 +233,6 @@ LocalComponents.Page {
                     centerIn: parent
                 }
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        var x = mouse.x + map.width/60; // longitude is offset by 6 degrees
-                        var y = mouse.y;
-                        if (y <= 2*map.height/3) {
-                            y = y * 0.80; // latitude is offset by ~20%, except the 1/3 southern hemisphere
-                        }
-
-                        var tzAndOffset = tzModel.timezoneAndOffsetAtMapPoint(x, y, Qt.size(map.width, map.height));
-                        var tzId = tzAndOffset[0];
-                        var offset = tzAndOffset[1];
-                        print("Timezone", tzId, ", offset", offset);
-                        if (tzId) {
-                            resetViews();
-                            tzFilterModel.country = "";
-                            selectedTimeZone = tzId;
-                            highlightTimezone(offset);
-                        }
-                    }
-                }
-
                 Image {
                     id: backgroundImage
                     source: "data/timezonemap/map.png"
