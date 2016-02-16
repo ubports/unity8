@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "AccountsServiceDBusAdaptor.h"
@@ -89,7 +87,7 @@ void AccountsServiceDBusAdaptor::maybeChangedSlot()
     m_ignoreNextChanged = false;
 }
 
-QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path)
+QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path) const
 {
     QMap<QString, QDBusInterface *>::const_iterator i;
     for (i = m_users.constBegin(); i != m_users.constEnd(); ++i) {
