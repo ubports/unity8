@@ -58,7 +58,7 @@ QtObject {
                 name: "mako"
                 PropertyChanges {
                     target: priv
-                    primaryOrientation: Qt.PrimaryOrientation
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
@@ -73,7 +73,7 @@ QtObject {
                 name: "krillin"
                 PropertyChanges {
                     target: priv
-                    primaryOrientation: Qt.PrimaryOrientation
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
@@ -88,7 +88,7 @@ QtObject {
                 name: "arale"
                 PropertyChanges {
                     target: priv
-                    primaryOrientation: Qt.PrimaryOrientation
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
@@ -103,7 +103,7 @@ QtObject {
                 name: "manta"
                 PropertyChanges {
                     target: priv
-                    primaryOrientation: Qt.PrimaryOrientation
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.InvertedPortraitOrientation
                                          | Qt.LandscapeOrientation
@@ -135,7 +135,7 @@ QtObject {
                 name: "desktop"
                 PropertyChanges {
                     target: priv
-                    primaryOrientation: Qt.PrimaryOrientation
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: root.useNativeOrientation
                     landscapeOrientation: Qt.LandscapeOrientation
                     invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
