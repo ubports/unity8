@@ -155,7 +155,8 @@ Rectangle {
             var sessions = [];
             for (i = 0; i < data.count; i++) {
                 var session = ApplicationTest.addChildSession(sessionContainer.session,
-                                                              "gallery");
+                                                              "gallery",
+                                                              true);
                 session.createSurface();
                 sessionContainer.session.addChildSession(session);
                 compare(sessionContainer.childSessions.count(), i+1);
@@ -180,7 +181,7 @@ Rectangle {
             // 3 sessions should cover all edge cases
             for(i = 0; i < 3; i++) {
                 var a_session = ApplicationTest.addChildSession(
-                    sessionContainer.session, "gallery"
+                    sessionContainer.session, "gallery", true
                 )
 
                 a_session.createSurface();
@@ -226,7 +227,8 @@ Rectangle {
             var container = sessionContainer;
             for (i = 0; i < data.depth; i++) {
                 var session = ApplicationTest.addChildSession(lastSession,
-                                                              "gallery");
+                                                              "gallery",
+                                                              true);
                 session.createSurface();
                 lastSession.addChildSession(session);
                 compare(container.childSessions.count(), 1);
@@ -250,7 +252,8 @@ Rectangle {
             var sessionContainer = sessionContainerLoader.item;
 
             var session = ApplicationTest.addChildSession(sessionContainer.session,
-                                                          "gallery");
+                                                          "gallery",
+                                                          true);
             session.createSurface();
             sessionContainer.session.addChildSession(session);
 
@@ -288,7 +291,8 @@ Rectangle {
             var sessionContainer = sessionContainerLoader.item;
 
             var session = ApplicationTest.addChildSession(sessionContainer.session,
-                                                          "gallery");
+                                                          "gallery",
+                                                          true);
 
             var delegate = findChild(sessionContainer, "childDelegate0");
             var childContainer = findChild(delegate, "sessionContainer");
@@ -304,6 +308,24 @@ Rectangle {
             tryCompareFunction(function() { return isContainerAnimating(childContainer); }, true);
             // wait for animation to end
             tryCompareFunction(function() { return isContainerAnimating(childContainer); }, false);
+
+            tryCompareFunction(function() { return sessionContainer.childSessions.count() }, 0);
+        }
+
+        function test_childSessionsRemovedOnStopWhenNotLive() {
+            sessionCheckbox.checked = true;
+            var sessionContainer = sessionContainerLoader.item;
+
+            var session = ApplicationTest.addChildSession(sessionContainer.session,
+                                                          "gallery",
+                                                          false);
+
+            var delegate = findChild(sessionContainer, "childDelegate0");
+            var childContainer = findChild(delegate, "sessionContainer");
+
+            ApplicationTest.removeSession(session);
+
+            tryCompareFunction(function() { return sessionContainer.childSessions.count() }, 0);
         }
     }
 }
