@@ -201,7 +201,7 @@ static QByteArrayList olsenTimezones = {
     "America/Whitehorse",
     "America/Winnipeg",
     "America/Yellowknife",
-    "Ameriica/Swift_Current",
+    "America/Swift_Current",
     "Arctic/Longyearbyen",
     "Asia/Aden",
     "Asia/Almaty",
@@ -403,7 +403,8 @@ static QByteArrayList olsenTimezones = {
     "Pacific/Tongatapu",
     "Pacific/Truk",
     "Pacific/Wake",
-    "Pacific/Wallis"
+    "Pacific/Wallis",
+    "America/Godthab"
 };
 
 TimeZoneLocationModel::TimeZoneLocationModel(QObject *parent):
@@ -522,8 +523,8 @@ QJsonArray TimeZoneLocationModel::timezoneAndOffsetAtMapPoint(int x, int y, cons
         qWarning() << "Clicked the water!";
         return QJsonArray();
     }
-    const int zoneIndex = ((red & 248) << 1) + ((green >> 4) & 15);
 
+    const int zoneIndex = ((red & 248) << 1) + ((green >> 4) & 15);
     qDebug() << "Zone index:" << zoneIndex;
     if (zoneIndex >= 0 && zoneIndex < olsenTimezones.count()) {
         const QByteArray tzId = olsenTimezones.at(zoneIndex);
@@ -533,7 +534,6 @@ QJsonArray TimeZoneLocationModel::timezoneAndOffsetAtMapPoint(int x, int y, cons
             QJsonArray result;
             result.append(qUtf8Printable(tzId));
             result.append(static_cast<double>(tz.standardTimeOffset(QDateTime::currentDateTime())) / 3600);
-            qDebug() << "!!! timezone and offset" << result.at(0) << result.at(1);
             return result;
         }
         qWarning() << Q_FUNC_INFO << "Invalid timezone" << tzId;
