@@ -215,6 +215,7 @@ LocalComponents.Page {
         Item {
             id: mapContainer
             visible: content.width > maximumContentWidth + map.width
+            enabled: visible
             anchors {
                 left: tzList.right
                 right: parent.right
@@ -225,10 +226,8 @@ LocalComponents.Page {
 
             Item {
                 id: map
-                //width: units.dp(800)
-                //height: units.dp(410)
                 width: column.width - tzList.width
-                height: width / 1.95
+                height: width / 1.95 // keep our aspect ratio
                 anchors {
                     centerIn: parent
                 }
