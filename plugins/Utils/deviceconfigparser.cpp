@@ -89,7 +89,7 @@ Qt::ScreenOrientation DeviceConfigParser::invertedPortraitOrientation() const
 
 QString DeviceConfigParser::category() const
 {
-    QStringList supportedValues = {"phone", "tablet", "desktop" };
+    QStringList supportedValues = {"phone", "tablet", "desktop"};
     m_config->beginGroup(m_name);
     QString value = m_config->value("Category", "phone").toString();
     if (!supportedValues.contains(value)) {
