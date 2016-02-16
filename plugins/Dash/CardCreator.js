@@ -398,7 +398,7 @@ function sanitizeColor(colorString) {
     return colorString;
 }
 
-function cardString(template, components) {
+function cardString(template, components, isCardTool) {
     var code;
 
     var templateInteractive = (template == null ? true : (template["non-interactive"] !== undefined ? !template["non-interactive"] : true)) ? "true" : "false";
@@ -497,7 +497,7 @@ function cardString(template, components) {
         if (isNaN(aspectRatio)) {
             aspectRatio = 1;
         }
-        var fallback = components["art"] && components["art"]["fallback"] || "";
+        var fallback = !isCardTool && components["art"] && components["art"]["fallback"] || "";
         fallback = encodeURI(fallback);
         var fallbackStatusCode = "";
         var fallbackURICode = '""';
@@ -599,7 +599,7 @@ function cardString(template, components) {
         }
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
-        var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
+        var fallback = !isCardTool && components["mascot"] && components["mascot"]["fallback"] || "";
         fallback = encodeURI(fallback);
         var fallbackStatusCode = "";
         var fallbackURICode = '""';
@@ -854,13 +854,13 @@ function cardString(template, components) {
     return code;
 }
 
-function createCardComponent(parent, template, components, identifier) {
+function createCardComponent(parent, template, components, isCardTool, identifier) {
     var imports = 'import QtQuick 2.4; \n\
                    import Ubuntu.Components 1.3; \n\
                    import Ubuntu.Settings.Components 0.1; \n\
                    import Dash 0.1;\n\
                    import Utils 0.1;\n';
-    var card = cardString(template, components);
+    var card = cardString(template, components, isCardTool);
     var code = imports + 'Component {\n' + card + '}\n';
 
     try {

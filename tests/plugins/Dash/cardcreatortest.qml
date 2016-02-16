@@ -20,10 +20,10 @@ import "../../../plugins/Dash/CardCreator.js" as CardCreator
 Item {
     id: root
     function cardString(template, components) {
-        return CardCreator.cardString(JSON.parse(template), JSON.parse(components));
+        return CardCreator.cardString(JSON.parse(template), JSON.parse(components), false);
     }
 
     function createCardComponent(template, components) {
-        return CardCreator.createCardComponent(root, JSON.parse(template), JSON.parse(components)) !== null;
+        return CardCreator.createCardComponent(root, JSON.parse(template), JSON.parse(components), false) !== null;
     }
 }
