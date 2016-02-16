@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-11 15:43+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -197,15 +197,15 @@ msgstr "برداشتن از برگزیده‌ها"
 msgid "Add to Favorites"
 msgstr "افزودن به برگزیده‌ها"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "کم‌تر ببینید"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "دیدن همه"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "جست‌وجو"
@@ -259,19 +259,21 @@ msgstr "خانه"
 msgid "Also installed"
 msgstr "هم‌چنین نصب شده"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
-msgstr "افزاره‌تان اکنون به یک نمایشگر خارجی وصل شده است."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "بازکردن قفل"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "تلاش دوباره"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "برای باز کردن قفل ضربه بزنید"
 
@@ -489,8 +491,8 @@ msgid "Hi!"
 msgstr "سلام!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "به تلفن اوبونتوی خودتان خوش آمدید."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -521,8 +523,8 @@ msgid "Lock security"
 msgstr "امنیت قفل"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "لطفاً برگزینید که می‌خواهید چگونه قفل تلفنتان را باز کنید."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -629,8 +631,8 @@ msgid "Nice work!"
 msgstr "عالی بود!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "هم‌اکنون تلفن شما آماده‌ی استفاده است."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -766,6 +768,15 @@ msgstr "%1  〉"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "مدیریت حوزه‌ها"
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "لطفاً برگزینید که می‌خواهید چگونه قفل تلفنتان را باز کنید."
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "به تلفن اوبونتوی خودتان خوش آمدید."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "هم‌اکنون تلفن شما آماده‌ی استفاده است."
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b   %OH:%OM"

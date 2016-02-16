@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-24 18:03+0000\n"
 "Last-Translator: Torsten Franz <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -202,15 +202,15 @@ msgstr "Aus den Favoriten entfernen"
 msgid "Add to Favorites"
 msgstr "Zu Favoriten hinzufügen"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Weniger ansehen"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Alle anzeigen"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Suchen"
@@ -264,19 +264,21 @@ msgstr "Startseite"
 msgid "Also installed"
 msgstr "Ebenfalls installiert"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
-msgstr "Ihr Gerät ist jetzt mit einem externen Bildschirm verbunden."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Entsperren"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Erneut versuchen"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Zum Entsperren tippen"
 
@@ -498,8 +500,8 @@ msgid "Hi!"
 msgstr "Hallo!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Willkommen zu Ihrem Ubuntu-Telefon."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -529,8 +531,8 @@ msgid "Lock security"
 msgstr "Sicherheit nach dem Sperren"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Bitte wählen Sie aus, wie Sie Ihr Telefon entsperren wollen."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -638,8 +640,8 @@ msgid "Nice work!"
 msgstr "Gute Arbeit!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Ihr Telefon ist nun einsatzbereit."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -778,6 +780,15 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Bitte erneut eingeben"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Willkommen zu Ihrem Ubuntu-Telefon."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Bitte wählen Sie aus, wie Sie Ihr Telefon entsperren wollen."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Ihr Telefon ist nun einsatzbereit."
 
 #~ msgid "%a %H:%M"
 #~ msgstr "%a %k:%M"

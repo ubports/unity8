@@ -43,7 +43,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Your phone is now ready to use.")
+            text: i18n.tr("Your device is now ready to use.")
         }
     }
 

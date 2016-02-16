@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-04 09:48+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -155,27 +155,29 @@ msgstr "D'acord"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Pot ser que aquestes aplicacions no hagin desat les dades:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Torneu a connectar, deseu la feina i tanqueu aquestes aplicacions per "
+"continuar."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "O força el tancament (les dades no desades es perdran)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "D'acord, tornaré a connectar"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Torna a connectar"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Tanca-ho tot"
 
 #: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
@@ -200,15 +202,15 @@ msgstr "Suprimeix dels preferits"
 msgid "Add to Favorites"
 msgstr "Afegeix als preferits"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Mostra'n menys"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Mostra-ho tot"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Cerca"
@@ -262,19 +264,21 @@ msgstr "Inici"
 msgid "Also installed"
 msgstr "També instal·lat"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Desbloca"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Torna-ho a provar"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Feu un toc per desblocar"
 
@@ -414,7 +418,7 @@ msgstr "Ha fallat, feu un toc per tornar-ho a intentar"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Envia"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -424,7 +428,7 @@ msgstr "Respon"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Retorna la trucada"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -497,8 +501,8 @@ msgid "Hi!"
 msgstr "Hola!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Us donem la benvinguda al vostre telèfon Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -528,8 +532,8 @@ msgid "Lock security"
 msgstr "Seguretat del bloqueig"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Seleccioneu com voleu desblocar el telèfon."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -638,8 +642,8 @@ msgid "Nice work!"
 msgstr "Bona feina!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Ja podeu utilitzar el vostre telèfon."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -781,6 +785,15 @@ msgstr "%1  〉"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Gestioneu les lents"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Us donem la benvinguda al vostre telèfon Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Seleccioneu com voleu desblocar el telèfon."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Ja podeu utilitzar el vostre telèfon."
 
 #~ msgid "Yesterday %l:%M %p"
 #~ msgstr "Ahir %l.%M %p"

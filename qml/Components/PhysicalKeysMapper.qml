@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Powerd 0.1
+import Utils 0.1
 
 /*!
  \brief A mapper for the physical keys on the device
@@ -59,9 +60,24 @@ Item {
         property bool altTabPressed: false
 
         property var powerButtonPressStart: 0
+
+        // We need to eat ALT presses until we know what they're for (Alt+Tab or going to the app?)
+        // Once we know if an ALT keypress is for the app, we need to re-inject the pressed event for it
+        // but we must only do that once.
+        property bool altPressInjected: false
+    }
+
+    InputEventGenerator {
+        id: inputEventGenerator
     }
 
     function onKeyPressed(event, currentEventTimestamp) {
+        if (d.altPressed && !d.altTabPressed && event.key !== Qt.Key_Tab && event.key !== Qt.Key_Alt && !d.altPressInjected) {
+            // ALT is pressed and another key that is not Tab has been received. Re-inject the alt pressed event
+            d.altPressInjected = true;
+            inputEventGenerator.generateKeyEvent(Qt.Key_Alt, true, Qt.NoModifier, currentEventTimestamp - 1, 56);
+        }
+
         if (event.key == Qt.Key_PowerDown || event.key == Qt.Key_PowerOff) {
             if (event.isAutoRepeat) {
                 if (d.powerButtonPressStart > 0
@@ -97,7 +113,12 @@ Item {
                 d.volumeUpKeyPressed = true;
             }
         } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
-            d.altPressed = true;
+            if (!d.altPressed || event.isAutoRepeat) {
+                // Only eat it if it's the first time we receive alt pressed (or if it's the autorepeat of the first press)
+                d.altPressed = true;
+                event.accepted = true;
+                d.altPressInjected = false;
+            }
         } else if (event.key == Qt.Key_Tab) {
             if (d.altPressed && !d.altTabPressed) {
                 d.altTabPressed = true;
@@ -119,9 +140,18 @@ Item {
             d.volumeUpKeyPressed = false;
             if (!d.volumeDownKeyPressed) d.ignoreVolumeEvents = false;
         } else if (event.key == Qt.Key_Alt || (root.controlInsteadOfAlt && event.key == Qt.Key_Control)) {
-            d.altPressed = false;
             if (d.altTabPressed) {
                 d.altTabPressed = false;
+                event.accepted = true;
+            } else if (d.altPressed && !d.altPressInjected) {
+                // Alt was released but nothing else. Let's inject a pressed event and also forward the release.
+                d.altPressInjected = true;
+                inputEventGenerator.generateKeyEvent(Qt.Key_Alt, true, Qt.AltModifer, currentEventTimestamp, 56);
+                d.altPressInjected = false;
+            }
+            d.altPressed = false;
+        } else if (event.key == Qt.Key_Tab) {
+            if (d.altTabPressed) {
                 event.accepted = true;
             }
         }

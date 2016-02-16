@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2013-06-27 04:14+0000\n"
 "Last-Translator: Michał Sawicz <michal.sawicz@canonical.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -158,6 +158,7 @@ msgstr "Aplikacija možda ima nespremljene podatke:"
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Za nastavak ponovno povežite, spremite svoj rad i zatvorite te aplikacije."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -198,15 +199,15 @@ msgstr "Ukloni iz omiljenih"
 msgid "Add to Favorites"
 msgstr "Dodaj u omiljene"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Prikaži manje"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Prikaži sve"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Pretraži"
@@ -260,19 +261,23 @@ msgstr "Naslovnica"
 msgid "Also installed"
 msgstr "Također instalirano"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
-msgstr "Vaš uređaj je povezan s vanjskim zalonom"
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
+msgstr ""
+"Vaš uređaj je sada povezan s vanjskim zaslonom. Koristite ovaj uređaj kao "
+"touchpad za interakciju s mišem."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Otključaj"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Pokušaj ponovno"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Dodirni za otključavanje"
 
@@ -496,8 +501,8 @@ msgid "Hi!"
 msgstr "Bok!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Dobrodošli u vaš Ubuntu telefon."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -527,8 +532,8 @@ msgid "Lock security"
 msgstr "Sigurnosno zaključavanje"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Odaberite kako želite otključati vaš telefon."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -635,8 +640,8 @@ msgid "Nice work!"
 msgstr "Dobro obavljeno!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Vaš telefon je sada spreman za korištenje."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -729,3 +734,12 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Uzvrati poziv"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Dobrodošli u vaš Ubuntu telefon."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Odaberite kako želite otključati vaš telefon."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Vaš telefon je sada spreman za korištenje."

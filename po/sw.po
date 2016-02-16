@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-17 20:02+0000\n"
 "Last-Translator: Valentine <mwangi_valentino@yahoo.com>\n"
 "Language-Team: Swahili <sw@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -196,15 +196,15 @@ msgstr "Toa kutoka nilizopenda"
 msgid "Add to Favorites"
 msgstr "Ongeza kwenye nilizopenda"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Onyesha kidogo"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Onyesha zote"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Tafuta"
@@ -258,19 +258,21 @@ msgstr "Nyumbani"
 msgid "Also installed"
 msgstr ""
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Fungua"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Jaribu tena"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Gusa ufungue"
 
@@ -491,8 +493,8 @@ msgid "Hi!"
 msgstr "Jambo!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Karibu kwenye simu yako ya Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -522,8 +524,8 @@ msgid "Lock security"
 msgstr "Funga usalama"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Tafadhali chagua vile ungependa kufunga simu."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -623,7 +625,7 @@ msgid "Nice work!"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
+msgid "Your device is now ready to use."
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
@@ -708,3 +710,9 @@ msgstr ""
 
 #~ msgid "Please re-enter"
 #~ msgstr "Tafadhali bonyeza tena"
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Tafadhali chagua vile ungependa kufunga simu."
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Karibu kwenye simu yako ya Ubuntu."

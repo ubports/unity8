@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -202,15 +202,15 @@ msgstr "Удалить из избранного"
 msgid "Add to Favorites"
 msgstr "Добавить в избранное"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Вкратце"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Показать всё"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Поиск"
@@ -264,19 +264,21 @@ msgstr "Домой"
 msgid "Also installed"
 msgstr "Также установлено"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
-msgstr "Устройство подключено к внешнему дисплею."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Разблокировать"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Повторить"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Нажмите для разблокировки"
 
@@ -500,8 +502,8 @@ msgid "Hi!"
 msgstr "Привет!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Рады представить вам Ubuntu для телефона."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -532,8 +534,8 @@ msgid "Lock security"
 msgstr "Настройка блокировки"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Выберите способ разблокировки телефона."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -641,8 +643,8 @@ msgid "Nice work!"
 msgstr "Отличная работа!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Теперь телефон готов к использованию."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -783,6 +785,15 @@ msgstr "%1  〉"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Настройки поиска"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Рады представить вам Ubuntu для телефона."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Выберите способ разблокировки телефона."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Теперь телефон готов к использованию."
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b %H:%M"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-06 17:47+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -201,15 +201,15 @@ msgstr "Șterge din favorite"
 msgid "Add to Favorites"
 msgstr "Adaugă la favorite"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Afișează mai puține"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Afișează tot"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Căutare"
@@ -263,19 +263,21 @@ msgstr "Acasă"
 msgid "Also installed"
 msgstr "Alte programe instalate"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
 msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Deblocare"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Reîncercați"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Apasă pentru deblocare"
 
@@ -501,8 +503,8 @@ msgid "Hi!"
 msgstr "Salut!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Bun venit! Acesta este telefonul dumneavoastră Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -533,8 +535,8 @@ msgid "Lock security"
 msgstr "Blocare de securitate"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Alegeți cum doriți să vă deblocați telefonul."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -644,8 +646,8 @@ msgid "Nice work!"
 msgstr "Bună treabă!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Telefonul dumneavoastră este gata de utilizare."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -784,6 +786,15 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Introduceți din nou"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Bun venit! Acesta este telefonul dumneavoastră Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Alegeți cum doriți să vă deblocați telefonul."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Telefonul dumneavoastră este gata de utilizare."
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b %H:%M"

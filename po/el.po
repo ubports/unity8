@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-12-04 09:38+0000\n"
 "Last-Translator: Aggelos Arnaoutis <angelosarn@hotmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -202,15 +202,15 @@ msgstr "Αφαίρεση από τα αγαπημένα"
 msgid "Add to Favorites"
 msgstr "Προσθήκη στα αγαπημένα"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Λιγότερα"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Εμφάνιση όλων"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Αναζήτηση"
@@ -264,19 +264,21 @@ msgstr "Αρχή"
 msgid "Also installed"
 msgstr "Επίσης εγκατεστημένα"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
-msgstr "Η συσκευή σας τώρα είναι συνδεδεμένη σε εξωτερική οθόνη."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
+msgstr ""
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Ξεκλείδωμα"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Επανάληψη"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Ακουμπήστε για να ξεκλειδώσετε"
 
@@ -500,8 +502,8 @@ msgid "Hi!"
 msgstr "Γεια!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Καλώς ήρθατε στο Ubuntu phone σας."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -533,8 +535,8 @@ msgid "Lock security"
 msgstr "Κλείδωμα ασφαλείας"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Παρακαλούμε επιλέξτε πως θα θέλατε να ξεκλειδώνετε το τηλέφωνό σας."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -644,8 +646,8 @@ msgid "Nice work!"
 msgstr "Ωραία δουλειά!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Το τηλέφωνό σας είναι πλέον έτοιμο για χρήση."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -777,6 +779,15 @@ msgstr "%1  〉"
 
 #~ msgid "Settings"
 #~ msgstr "Ρυθμίσεις"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Καλώς ήρθατε στο Ubuntu phone σας."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Παρακαλούμε επιλέξτε πως θα θέλατε να ξεκλειδώνετε το τηλέφωνό σας."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Το τηλέφωνό σας είναι πλέον έτοιμο για χρήση."
 
 #~ msgid "Power"
 #~ msgstr "Ενέργεια"

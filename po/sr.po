@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-22 17:08+0000\n"
-"PO-Revision-Date: 2015-12-09 20:16+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
+"PO-Revision-Date: 2016-02-10 21:21+0000\n"
 "Last-Translator: Bojan Bogdanović <Unknown>\n"
 "Language-Team: српски <xfce4@xfce4.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-01-24 05:31+0000\n"
-"X-Generator: Launchpad (build 17902)\n"
+"X-Launchpad-Export-Date: 2016-02-16 05:37+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 "Language: sr\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -201,15 +201,15 @@ msgstr "Уклони из омиљених"
 msgid "Add to Favorites"
 msgstr "Додај међу омиљене"
 
-#: qml/Dash/GenericScopeView.qml:576 qml/Dash/GenericScopeView.qml:734
+#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
 msgstr "Сажетије"
 
-#: qml/Dash/GenericScopeView.qml:576
+#: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
 msgstr "Опширније"
 
-#: qml/Dash/GenericScopeView.qml:638
+#: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Претрага"
@@ -263,19 +263,23 @@ msgstr "Почетна"
 msgid "Also installed"
 msgstr "Такође инсталиран"
 
-#: qml/DisabledScreenNotice.qml:42
-msgid "Your device is now connected to an external display."
-msgstr "Ваш уређај је сада повезан на спљни монитор."
+#: qml/DisabledScreenNotice.qml:87
+msgid ""
+"Your device is now connected to an external display. Use this screen as a "
+"touch pad to interact with the mouse."
+msgstr ""
+"Ваш уређај је сада повезан на спољњи монитор. Користите овај екран као "
+"додирну плочу да остварите интеракцију са мишем."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Откључај"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Покушај поново"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Додирните да откључате"
 
@@ -499,8 +503,8 @@ msgid "Hi!"
 msgstr "Здраво!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Добродошли у свој Убунту телефон."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -530,8 +534,8 @@ msgid "Lock security"
 msgstr "Безбедносно закључавање"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Молим, изаберите како бисте желели да откључавате телефон."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -638,8 +642,8 @@ msgid "Nice work!"
 msgstr "Лепо одрађено!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Ваш телефон је спреман за употребу."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -773,6 +777,12 @@ msgstr "%1  〉"
 #~ msgid "Please re-enter"
 #~ msgstr "Молим, унесите поново"
 
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Молим, изаберите како бисте желели да откључавате телефон."
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Добродошли у свој Убунту телефон."
+
 #~ msgid "%a %l:%M %p"
 #~ msgstr "%a %l:%M %p"
 
@@ -802,6 +812,9 @@ msgstr "%1  〉"
 
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "Сутра %H:%M"
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Ваш телефон је спреман за употребу."
 
 #~ msgid "Call back"
 #~ msgstr "Позови назад"
