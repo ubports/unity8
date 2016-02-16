@@ -60,7 +60,7 @@ Item {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("%5C");
+                                readonly property string cardArt: cardData && cardData["art"] || "";
                                 active: cardArt != "";
                                 asynchronous: root.asynchronous; 
                                 visible: status == Loader.Ready; 
@@ -122,7 +122,6 @@ Item {
                                         asynchronous: root.asynchronous; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
-                                        onStatusChanged: if (status === Image.Error) source = decodeURI("%5C");
                                     } 
                                 } 
                             } 
@@ -146,13 +145,12 @@ left: parent.left;
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
-                            source: cardData && cardData["mascot"] || decodeURI("%22");
+                            source: cardData && cardData["mascot"] || "";
                             width: units.gu(6); 
                             height: units.gu(5.625); 
                             horizontalAlignment: Image.AlignHCenter; 
                             verticalAlignment: Image.AlignVCenter; 
                             visible: showHeader; 
-                             onStatusChanged: if (status === Image.Error) source = decodeURI("%22");
                         }
 ,Item { 
                             id: headerTitleContainer; 
