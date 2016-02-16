@@ -834,7 +834,6 @@ Rectangle {
         function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
-            waitForGreeterToStabilize();
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
