@@ -93,7 +93,7 @@ QString DeviceConfigParser::category() const
     m_config->beginGroup(m_name);
     QString value = m_config->value("Category", "phone").toString();
     if (!supportedValues.contains(value)) {
-        qDebug().nospace().noquote() << "Unknown option \"" << value << "\" in " << m_config->fileName()
+        qWarning().nospace().noquote() << "Unknown option \"" << value << "\" in " << m_config->fileName()
                     << ". Supported options are: " << supportedValues.join(", ") << ".";
         return "phone";
     }
