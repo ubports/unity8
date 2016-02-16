@@ -198,7 +198,6 @@ Item {
         // certain apps.
         readonly property var supportedApps: ["address-book-app",
                                               "com.ubuntu.calculator_calculator",
-                                              "com.ubuntu.clock_clock",
                                               "dialer-app",
                                               "messaging-app"]
         readonly property bool skipped: {
