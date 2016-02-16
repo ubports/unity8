@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,6 +30,9 @@ class UNITYINDICATORS_EXPORT ModelActionRootState : public RootStateObject
 {
     Q_OBJECT
     Q_PROPERTY(UnityMenuModel* menu READ menu WRITE setMenu NOTIFY menuChanged)
+    Q_PROPERTY(QString secondaryAction READ secondaryAction NOTIFY secondaryActionChanged)
+    Q_PROPERTY(QString scrollAction READ scrollAction NOTIFY scrollActionChanged)
+    Q_PROPERTY(QString submenuAction READ submenuAction NOTIFY submenuActionChanged)
 public:
     ModelActionRootState(QObject *parent = 0);
     virtual ~ModelActionRootState();
@@ -37,14 +40,17 @@ public:
     UnityMenuModel* menu() const;
     void setMenu(UnityMenuModel* menu);
 
-    int index() const;
-    void setIndex(int index);
+    QString secondaryAction() const;
+    QString scrollAction() const;
+    QString submenuAction() const;
 
     bool valid() const override;
 
 Q_SIGNALS:
     void menuChanged();
-    void indexChanged();
+    void secondaryActionChanged();
+    void scrollActionChanged();
+    void submenuActionChanged();
 
 private Q_SLOTS:
     void onModelRowsAdded(const QModelIndex& parent, int start, int end);
@@ -54,8 +60,13 @@ private Q_SLOTS:
 
 private:
     void updateActionState();
+    void updateOtherActions();
 
     UnityMenuModel* m_menu;
+    QString m_secondaryAction;
+    QString m_scrollAction;
+    QString m_submenuAction;
+    bool m_reentryGuard;
 };
 
 #endif // MODELACTIONROOTSTATE_H

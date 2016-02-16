@@ -49,6 +49,11 @@ Rectangle {
         shellLoader.active = true;
     }
 
+    MouseArea {
+        id: clickThroughCatcher
+        anchors.fill: shellContainer
+    }
+
     Item {
         id: shellContainer
         anchors.left: root.left
@@ -289,6 +294,12 @@ Rectangle {
         id: appRemovedSpy
         target: ApplicationManager
         signalName: "applicationRemoved"
+    }
+
+    SignalSpy {
+        id: clickThroughSpy
+        target: clickThroughCatcher
+        signalName: "clicked"
     }
 
     Telephony.CallEntry {
@@ -1976,6 +1987,48 @@ Rectangle {
                 // Libreoffice must be gone now
                 compare(ApplicationManager.findApplication("libreoffice") === null, true);
             }
+        }
+
+        function test_inputEventsOnEdgesEndUpInAppSurface_data() {
+            return [
+                { tag: "phone", repeaterName: "spreadRepeater" },
+                { tag: "tablet", repeaterName: "spreadRepeater" },
+                { tag: "desktop", repeaterName: "appRepeater" },
+            ]
+        }
+
+        function test_inputEventsOnEdgesEndUpInAppSurface(data) {
+            loadShell(data.tag);
+            shell.usageScenario = data.tag;
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // Let's open a fullscreen app
+            var app = ApplicationManager.startApplication("camera-app");
+            waitUntilAppWindowIsFullyLoaded(app);
+
+            var appRepeater = findChild(shell, data.repeaterName);
+            var topmostAppDelegate = appRepeater.itemAt(0);
+            verify(topmostAppDelegate);
+
+            var topmostSurfaceItem = findChild(topmostAppDelegate, "surfaceItem");
+            verify(topmostSurfaceItem);
+
+            mouseClick(shell, 1, shell.height / 2);
+            compare(topmostSurfaceItem.mousePressCount, 1);
+            compare(topmostSurfaceItem.mouseReleaseCount, 1);
+
+            mouseClick(shell, shell.width - 1, shell.height / 2);
+            compare(topmostSurfaceItem.mousePressCount, 2);
+            compare(topmostSurfaceItem.mouseReleaseCount, 2);
+
+            tap(shell, 1, shell.height / 2);
+            compare(topmostSurfaceItem.touchPressCount, 1);
+            compare(topmostSurfaceItem.touchReleaseCount, 1);
+
+            tap(shell, shell.width - 1, shell.height / 2);
+            compare(topmostSurfaceItem.touchPressCount, 2);
+            compare(topmostSurfaceItem.touchReleaseCount, 2);
         }
     }
 }

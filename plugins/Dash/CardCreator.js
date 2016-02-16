@@ -61,7 +61,10 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
-// %4 is injected as code to artImage
+// %4 is used for artShapeSource.hideSource and inner Loader visible
+// %5 is used as aspect ratio fallback
+// %6 is injected as code to artImage
+// %7 is used as image fallback
 var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
@@ -70,13 +73,13 @@ var kArtShapeHolderCode = 'Item { \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
-                                active: cardData && cardData["art"] || false; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || %7; \n\
+                                active: cardArt != ""; \n\
                                 asynchronous: root.asynchronous; \n\
                                 visible: status == Loader.Ready; \n\
                                 sourceComponent: Item { \n\
                                     id: artShape; \n\
                                     objectName: "artShape"; \n\
-                                    readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true; \n\
                                     visible: image.status == Image.Ready; \n\
                                     readonly property alias image: artImage; \n\
                                     ShaderEffectSource { \n\
@@ -85,11 +88,11 @@ var kArtShapeHolderCode = 'Item { \n\
                                         anchors.centerIn: parent; \n\
                                         width: 1; \n\
                                         height: 1; \n\
-                                        hideSource: doShapeItem; \n\
+                                        hideSource: %4; \n\
                                     } \n\
                                     Loader { \n\
                                         anchors.fill: parent; \n\
-                                        visible: artShape.doShapeItem; \n\
+                                        visible: %4; \n\
                                         sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; \n\
                                         Component { \n\
                                             id: artShapeShapeComponent; \n\
@@ -113,7 +116,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         } \n\
                                     } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
-                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; \n\
+                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : %5; \n\
                                     Component.onCompleted: { updateWidthHeightBindings(); } \n\
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } \n\
                                     function updateWidthHeightBindings() { \n\
@@ -128,11 +131,11 @@ var kArtShapeHolderCode = 'Item { \n\
                                     CroppedImageMinimumSourceSize { \n\
                                         id: artImage; \n\
                                         objectName: "artImage"; \n\
-                                        source: cardData && cardData["art"] || ""; \n\
+                                        source: artShapeLoader.cardArt; \n\
                                         asynchronous: root.asynchronous; \n\
                                         width: %2; \n\
                                         height: %3; \n\
-                                        %4 \n\
+                                        %6 \n\
                                     } \n\
                                 } \n\
                             } \n\
@@ -152,11 +155,20 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                 visible: parent.pressed; \n\
                                 radius: "medium"; \n\
                             } \n\
+                            Rectangle { \n\
+                                color: Qt.rgba(0, 0, 0, 0.5); \n\
+                                anchors.centerIn: parent; \n\
+                                width: parent.width * 0.5; \n\
+                                height: width; \n\
+                                radius: width / 2; \n\
+                            } \n\
                             Icon {  \n\
-                                anchors.fill: parent; \n\
-                                anchors.margins: parent.height > units.gu(5) ? units.gu(2) : 0; \n\
+                                anchors.centerIn: parent; \n\
+                                width: parent.width * 0.3; \n\
+                                height: width; \n\
                                 opacity: 0.9; \n\
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; \n\
+                                color: "white"; \n\
                             } \n\
                             onClicked: { \n\
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { \n\
@@ -245,11 +257,12 @@ var kMascotShapeLoaderCode = 'Loader { \n\
 // %1 is used as anchors of mascotImage
 // %2 is used as visible of mascotImage
 // %3 is injected as code to mascotImage
+// %4 is used as fallback image
 var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
                             id: mascotImage; \n\
                             objectName: "mascotImage"; \n\
                             anchors { %1 } \n\
-                            source: cardData && cardData["mascot"] || ""; \n\
+                            source: cardData && cardData["mascot"] || %4; \n\
                             width: units.gu(6); \n\
                             height: units.gu(5.625); \n\
                             horizontalAlignment: Image.AlignHCenter; \n\
@@ -392,7 +405,6 @@ function cardString(template, components) {
 
     code = 'AbstractButton { \n\
                 id: root; \n\
-                property var components; \n\
                 property var cardData; \n\
                 property string artShapeStyle: "inset"; \n\
                 property string backgroundShapeStyle: "inset"; \n\
@@ -410,7 +422,8 @@ function cardString(template, components) {
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
-    var artAndSummary = hasArt && hasSummary && components["art"]["conciergeMode"] !== true;
+    var isConciergeMode = components["art"] && components["art"]["conciergeMode"] || false;
+    var artAndSummary = hasArt && hasSummary && !isConciergeMode;
     var isHorizontal = template["card-layout"] === "horizontal";
     var hasBackground = (!isHorizontal && (template["card-background"] || components["background"] || artAndSummary)) ||
                         (hasSummary && (template["card-background"] || components["background"]));
@@ -480,13 +493,21 @@ function cardString(template, components) {
             heightCode = 'width / artShape.aspect';
         }
 
+        var aspectRatio = components["art"] && components["art"]["aspect-ratio"] || 1;
+        if (isNaN(aspectRatio)) {
+            aspectRatio = 1;
+        }
         var fallback = components["art"] && components["art"]["fallback"] || "";
         fallback = encodeURI(fallback);
-        var fallbackCode = "";
+        var fallbackStatusCode = "";
+        var fallbackURICode = '""';
         if (fallback !== "") {
-            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = decodeURI("%1");'.arg(fallback);
+            // fallbackStatusCode has %6 in it because we want to substitute it for fallbackURICode
+            // which in kArtShapeHolderCode is %7
+            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %7;';
+            fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
-        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(fallbackCode);
+        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(isConciergeMode ? "false" : "true").arg(aspectRatio).arg(fallbackStatusCode).arg(fallbackURICode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
@@ -580,11 +601,15 @@ function cardString(template, components) {
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
         var fallback = components["mascot"] && components["mascot"]["fallback"] || "";
         fallback = encodeURI(fallback);
-        var fallbackCode = "";
+        var fallbackStatusCode = "";
+        var fallbackURICode = '""';
         if (fallback !== "") {
-            fallbackCode += 'onStatusChanged: if (status === Image.Error) source = decodeURI("%1");'.arg(fallback);
+            // fallbackStatusCode has %4 in it because we want to substitute it for fallbackURICode
+            // which in kMascotImageCode is %4
+            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %4;';
+            fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
-        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallbackCode);
+        mascotCode = kMascotImageCode.arg(mascotAnchors).arg(mascotImageVisible).arg(fallbackStatusCode).arg(fallbackURICode);
     }
 
     var summaryColorWithBackground = 'backgroundLoader.active && backgroundLoader.item && root.scopeStyle ? root.scopeStyle.getTextColor(backgroundLoader.item.luminance) : (backgroundLoader.item && backgroundLoader.item.luminance > 0.7 ? theme.palette.normal.baseText : "white")';

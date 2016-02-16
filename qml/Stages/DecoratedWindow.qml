@@ -39,6 +39,13 @@ FocusScope {
     property alias requestedWidth: applicationWindow.requestedWidth
     property real requestedHeight
 
+    property alias minimumWidth: applicationWindow.minimumWidth
+    readonly property int minimumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.minimumHeight
+    property alias maximumWidth: applicationWindow.maximumWidth
+    readonly property int maximumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.maximumHeight
+    property alias widthIncrement: applicationWindow.widthIncrement
+    property alias heightIncrement: applicationWindow.heightIncrement
+
     signal close()
     signal maximize()
     signal minimize()
