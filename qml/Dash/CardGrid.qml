@@ -34,8 +34,6 @@ DashRenderer {
     collapsedItemCount: collapsedRows * grid.columns
     originY: grid.originY
 
-    onAction: console.log(index, actionId)
-
     function cardPosition(index) {
         var pos = {};
         var row = Math.floor(index / grid.columns);
