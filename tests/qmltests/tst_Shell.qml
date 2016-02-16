@@ -659,6 +659,7 @@ Rectangle {
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
+            waitForGreeterToStabilize();
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
