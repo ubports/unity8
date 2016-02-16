@@ -46,6 +46,14 @@ MirSurface *SurfaceManager::createSurface(const QString& name,
         MirSurface* surface = qobject_cast<MirSurface*>(obj);
         Q_EMIT surfaceDestroyed(surface);
     });
+
+    surface->setMinimumWidth(m_newSurfaceMinimumWidth);
+    surface->setMaximumWidth(m_newSurfaceMaximumWidth);
+    surface->setMinimumHeight(m_newSurfaceMinimumHeight);
+    surface->setMaximumHeight(m_newSurfaceMaximumHeight);
+    surface->setWidthIncrement(m_newSurfaceWidthIncrement);
+    surface->setHeightIncrement(m_newSurfaceHeightIncrement);
+
     Q_EMIT surfaceCreated(surface);
     return surface;
 }
@@ -61,4 +69,52 @@ MirSurface *SurfaceManager::inputMethodSurface()
         Q_EMIT surfaceCreated(m_virtualKeyboard);
     }
     return m_virtualKeyboard;
+}
+
+void SurfaceManager::setNewSurfaceMinimumWidth(int value)
+{
+    if (m_newSurfaceMinimumWidth != value) {
+        m_newSurfaceMinimumWidth = value;
+        Q_EMIT newSurfaceMinimumWidthChanged(m_newSurfaceMinimumWidth);
+    }
+}
+
+void SurfaceManager::setNewSurfaceMaximumWidth(int value)
+{
+    if (m_newSurfaceMaximumWidth != value) {
+        m_newSurfaceMaximumWidth = value;
+        Q_EMIT newSurfaceMaximumWidthChanged(m_newSurfaceMaximumWidth);
+    }
+}
+
+void SurfaceManager::setNewSurfaceMinimumHeight(int value)
+{
+    if (m_newSurfaceMinimumHeight != value) {
+        m_newSurfaceMinimumHeight = value;
+        Q_EMIT newSurfaceMinimumHeightChanged(m_newSurfaceMinimumHeight);
+    }
+}
+
+void SurfaceManager::setNewSurfaceMaximumHeight(int value)
+{
+    if (m_newSurfaceMaximumHeight != value) {
+        m_newSurfaceMaximumHeight = value;
+        Q_EMIT newSurfaceMaximumHeightChanged(m_newSurfaceMaximumHeight);
+    }
+}
+
+void SurfaceManager::setNewSurfaceWidthIncrement(int value)
+{
+    if (m_newSurfaceWidthIncrement != value) {
+        m_newSurfaceWidthIncrement = value;
+        Q_EMIT newSurfaceWidthIncrementChanged(m_newSurfaceWidthIncrement);
+    }
+}
+
+void SurfaceManager::setNewSurfaceHeightIncrement(int value)
+{
+    if (m_newSurfaceHeightIncrement != value) {
+        m_newSurfaceHeightIncrement = value;
+        Q_EMIT newSurfaceHeightIncrementChanged(m_newSurfaceHeightIncrement);
+    }
 }
