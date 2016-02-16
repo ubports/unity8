@@ -40,6 +40,7 @@ MouseArea {
     property int defaultHeight: units.gu(50)
     property int screenWidth: 0
     property int screenHeight: 0
+    property bool saveStateOnDestruction: true
 
     QtObject {
         id: priv
@@ -84,7 +85,7 @@ MouseArea {
         priv.updateNormalGeometry();
     }
 
-    Component.onDestruction: {
+    function saveWindowState() {
         windowStateStorage.saveState(root.windowId, target.state == "maximized" ? WindowStateStorage.WindowStateMaximized : WindowStateStorage.WindowStateNormal)
         windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight))
     }

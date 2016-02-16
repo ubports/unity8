@@ -242,7 +242,7 @@ Item {
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                            ? "phone"
                                            : shell.usageScenario
-            source: {
+            property string qmlComponent: {
                 if(shell.mode === "greeter") {
                     return "Stages/ShimStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
@@ -252,6 +252,10 @@ Item {
                 } else {
                     return "Stages/DesktopStage.qml";
                 }
+            }
+            onQmlComponentChanged: {
+                if (item) item.saveWindowState();
+                source = qmlComponent;
             }
 
             property bool interactive: tutorial.spreadEnabled

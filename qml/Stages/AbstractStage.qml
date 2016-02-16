@@ -50,6 +50,8 @@ Rectangle {
                                       | Qt.InvertedPortraitOrientation
                                       | Qt.InvertedLandscapeOrientation
 
+    signal saveWindowState
+
     // Shared code for use in stage implementations
     GSettings {
         id: lifecycleExceptions
