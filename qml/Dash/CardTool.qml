@@ -220,7 +220,6 @@ Item {
         onLoaded: {
             item.objectName = "cardToolCard";
             item.asynchronous = false;
-            item.components = Qt.binding(function() { return cardTool.components; });
             item.width = Qt.binding(function() { return cardTool.cardWidth !== -1 ? cardTool.cardWidth : item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight !== -1 ? cardTool.cardHeight : item.implicitHeight; });
         }
