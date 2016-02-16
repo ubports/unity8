@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,6 +95,8 @@ public:
     bool exemptFromLifecycle() const override;
     void setExemptFromLifecycle(bool) override;
 
+    QSize initialSurfaceSize() const override;
+    void setInitialSurfaceSize(const QSize &size) override;
 public:
     void setSession(Session* session);
     Session* session() const { return m_session; }
@@ -129,6 +131,7 @@ private:
     RequestedState m_requestedState;
     bool m_isTouchApp;
     bool m_exemptFromLifecycle;
+    QSize m_initialSurfaceSize;
 
     bool m_manualSurfaceCreation;
 };

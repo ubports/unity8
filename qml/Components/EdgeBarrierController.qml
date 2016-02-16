@@ -30,6 +30,8 @@ MouseArea {
     // Should trigger the action associated with this edge
     signal passed()
 
+    onPressed: mouse.accepted = false;
+
     function push(amount) {
         if (!root._containsMouse) {
             return;
