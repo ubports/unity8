@@ -6,7 +6,6 @@ AbstractButton {
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
                 property int titleAlignment: Text.AlignLeft; 
-                property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool showHeader: true; 
@@ -58,7 +57,6 @@ Row {
                         objectName: "outerRow"; 
                         property real margins: units.gu(1); 
                         spacing: margins; 
-                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; 
                         anchors { top: parent.top; 
                                      topMargin: units.gu(1);
 left: parent.left;

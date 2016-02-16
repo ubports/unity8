@@ -190,9 +190,10 @@ var kAudioButtonCode = 'AbstractButton { \n\
                         }';
 
 // %1 is whether the loader should be asynchronous or not
+// %2 is the header height code
 var kOverlayLoaderCode = 'Loader { \n\
                             id: overlayLoader; \n\
-                            readonly property real overlayHeight: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
+                            readonly property real overlayHeight: %2 + units.gu(2); \n\
                             anchors.fill: artShapeHolder; \n\
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
                             asynchronous: %1; \n\
@@ -214,17 +215,24 @@ function kHeaderRowCodeGenerator() {
                         objectName: "outerRow"; \n\
                         property real margins: units.gu(1); \n\
                         spacing: margins; \n\
-                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n\
+                        %2\
                         anchors { %1 } \n\
                         anchors.right: parent.right; \n\
                         anchors.margins: margins; \n\
                         anchors.rightMargin: 0; \n\
                         data: [ \n\
-                                %2 \n\
+                                %3 \n\
                                 ] \n\
                     }\n';
     var args = Array.prototype.slice.call(arguments);
-    var code = kHeaderRowCodeTemplate.arg(args.shift()).arg(args.join(',\n'));
+    var isCardTool = args.shift();
+    var heightCode;
+    if (!isCardTool) {
+        heightCode = "height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n";
+    } else {
+        heightCode = "";
+    }
+    var code = kHeaderRowCodeTemplate.arg(args.shift()).arg(heightCode).arg(args.join(',\n'));
     return code;
 }
 
@@ -415,13 +423,19 @@ function cardString(template, components, isCardTool) {
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
                 property int titleAlignment: Text.AlignLeft; \n\
-                property int fixedHeaderHeight: -1; \n\
+                %2\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
                 property bool showHeader: true; \n\
                 implicitWidth: childrenRect.width; \n\
                 enabled: %1; \n\
                 \n'.arg(templateInteractive);
+
+    if (!isCardTool) {
+        code = code.arg("property int fixedHeaderHeight: -1; \n");
+    } else {
+        code = code.arg("");
+    }
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
@@ -524,7 +538,13 @@ function cardString(template, components, isCardTool) {
     }
 
     if (headerAsOverlay) {
-        code += kOverlayLoaderCode.arg(asynchronous);
+        var headerHeightCode;
+        if (isCardTool) {
+            headerHeightCode = "headerHeight";
+        } else {
+            headerHeightCode = "(fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight)";
+        }
+        code += kOverlayLoaderCode.arg(asynchronous).arg(headerHeightCode);
     }
 
     var headerVerticalAnchors;
@@ -770,7 +790,7 @@ function cardString(template, components, isCardTool) {
         if (mascotShapeCode != '') {
            rowCode.unshift(mascotShapeCode);
         }
-        code += kHeaderRowCodeGenerator(headerVerticalAnchors + headerLeftAnchor, rowCode)
+        code += kHeaderRowCodeGenerator(isCardTool, headerVerticalAnchors + headerLeftAnchor, rowCode)
     } else {
         code += mascotShapeCode + mascotCode + titleSubtitleCode;
     }
@@ -794,7 +814,11 @@ function cardString(template, components, isCardTool) {
         } else {
             audioButtonAnchorsFill = 'undefined';
             audioButtonWidth = 'height';
-            audioButtonHeight = '(root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1)';
+            if (isCardTool) {
+                audioButtonHeight = 'headerHeight + 2 * units.gu(1)';
+            } else {
+                audioButtonHeight = '(root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1)';
+            }
         }
         code += kAudioButtonCode.arg(audioButtonAnchorsFill).arg(audioButtonWidth).arg(audioButtonHeight);
     }
