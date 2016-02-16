@@ -18,6 +18,7 @@
 #define DEVICECONFIGPARSER_H
 
 #include <QObject>
+#include <QSettings>
 
 class DeviceConfigParser: public QObject
 {
@@ -30,6 +31,7 @@ class DeviceConfigParser: public QObject
     Q_PROPERTY(Qt::ScreenOrientation invertedLandscapeOrientation READ invertedLandscapeOrientation NOTIFY changed)
     Q_PROPERTY(Qt::ScreenOrientation portraitOrientation READ portraitOrientation NOTIFY changed)
     Q_PROPERTY(Qt::ScreenOrientation invertedPortraitOrientation READ invertedPortraitOrientation NOTIFY changed)
+    Q_PROPERTY(QString category READ category NOTIFY changed)
 
 public:
     DeviceConfigParser(QObject *parent = nullptr);
@@ -43,12 +45,14 @@ public:
     Qt::ScreenOrientation invertedLandscapeOrientation() const;
     Qt::ScreenOrientation portraitOrientation() const;
     Qt::ScreenOrientation invertedPortraitOrientation() const;
+    QString category() const;
 
 Q_SIGNALS:
     void changed();
 
 private:
     QString m_name;
+    QSettings *m_config;
 
     QStringList readOrientationsFromConfig(const QString &key) const;
     QString readOrientationFromConfig(const QString &key) const;

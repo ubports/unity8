@@ -22,7 +22,13 @@
 
 DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
 {
-
+    QString path;
+    if (QFileInfo("./devices.conf").exists()) {
+        path = "./devices.conf";
+    } else {
+        path = "/etc/ubuntu/devices.conf";
+    }
+    m_config = new QSettings(path, QSettings::IniFormat, this);
 }
 
 QString DeviceConfigParser::name() const
@@ -81,22 +87,31 @@ Qt::ScreenOrientation DeviceConfigParser::invertedPortraitOrientation() const
     return stringToOrientation(readOrientationFromConfig("InvertedPortraitOrientation"), Qt::InvertedPortraitOrientation);
 }
 
+QString DeviceConfigParser::category() const
+{
+    QStringList supportedValues = {"phone", "tablet", "desktop" };
+    m_config->beginGroup(m_name);
+    QString value = m_config->value("Category", "phone").toString();
+    if (!supportedValues.contains(value)) {
+        qDebug().nospace().noquote() << "Unknown option \"" << value << "\" in " << m_config->fileName()
+                    << ". Supported options are: " << supportedValues.join(", ") << ".";
+        return "phone";
+    }
+    m_config->endGroup();
+    return value;
+}
+
 QStringList DeviceConfigParser::readOrientationsFromConfig(const QString &key) const
 {
-    QFileInfo fi("./devices.conf");
-    QString path;
-    if (fi.exists()) {
-        path = "./devices.conf";
-    } else {
-        path = "/etc/ubuntu/devices.conf";
-    }
-    QSettings config(path, QSettings::IniFormat);
-    config.beginGroup(m_name);
+    m_config->beginGroup(m_name);
 
-    if (config.contains(key)) {
-        return config.value(key).toStringList();
+    QStringList ret;
+    if (m_config->contains(key)) {
+        ret = m_config->value(key).toStringList();
     }
-    return QStringList();
+
+    m_config->endGroup();
+    return ret;
 }
 
 QString DeviceConfigParser::readOrientationFromConfig(const QString &key) const
@@ -121,7 +136,8 @@ Qt::ScreenOrientation DeviceConfigParser::stringToOrientation(const QString &ori
     }
     if (!orientationString.isEmpty()) {
         // Some option we don't know. Give some hint on what went wrong.
-        qWarning().nospace().noquote() << "Unknown option \"" << orientationString << "\". Supported options are: Landscape, InvertedLandscape, Portrait and InvertedPortrait.";
+        qWarning().nospace().noquote() << "Unknown option \"" << orientationString << "\" in " << m_config->fileName()
+                    << ". Supported options are: Landscape, InvertedLandscape, Portrait and InvertedPortrait.";
     }
     return defaultValue;
 }
