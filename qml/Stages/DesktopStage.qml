@@ -440,6 +440,12 @@ AbstractStage {
                     value: ApplicationManager.count + 1
                     when: index == spread.highlightedIndex && blurLayer.ready
                 }
+                Binding {
+                    target: root
+                    when: index == 0
+                    property: "mainAppWindowIsFullscreen"
+                    value: decoratedWindow.fullscreen
+                }
 
                 WindowResizeArea {
                     objectName: "windowResizeArea"
@@ -462,12 +468,29 @@ AbstractStage {
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
+                    fullscreen: application.fullscreen
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
                                 ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
+                }
+
+                property bool firstTimeSurface: true
+                property var lastSurface: decoratedWindow.application && decoratedWindow.application.session ?
+                                              decoratedWindow.application.session.lastSurface : null
+                onLastSurfaceChanged: {
+                    if (!lastSurface) return;
+                    if (!firstTimeSurface) return;
+                    firstTimeSurface = false;
+
+                    console.log("FULLSCREEN CHECK", lastSurface.state, lastSurface.shellChrome)
+
+                    if (lastSurface.state === Mir.FullscreenState &&
+                        lastSurface.shellChrome === Mir.LowChrome) {
+                        lastSurface.state = Mir.RestoredState;
+                    }
                 }
             }
         }

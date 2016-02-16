@@ -43,6 +43,7 @@ FocusScope {
     property int shellOrientationAngle
     property int shellOrientation
     property QtObject orientations
+    property bool fullscreen: false
 
     function matchShellOrientation() {
         if (!root.application)
@@ -267,7 +268,7 @@ FocusScope {
                 focus: true
                 anchors {
                     fill: parent
-                    topMargin: appWindow.fullscreen || (application && application.rotatesWindowContents)
+                    topMargin: fullscreen || (application && application.rotatesWindowContents)
                                    ? 0 : maximizedAppTopMargin
                 }
 

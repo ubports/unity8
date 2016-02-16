@@ -24,6 +24,7 @@ class Session;
 
 // unity-api
 #include <unity/shell/application/ApplicationInfoInterface.h>
+#include <unity/shell/application/Mir.h>
 
 using namespace unity::shell::application;
 
@@ -78,7 +79,7 @@ public:
     QString screenshot() const { return m_screenshotFileName; }
 
     void setFullscreen(bool value);
-    bool fullscreen() const { return m_fullscreen; }
+    bool fullscreen() const;
 
     Qt::ScreenOrientations supportedOrientations() const override;
     void setSupportedOrientations(Qt::ScreenOrientations orientations);
@@ -97,6 +98,8 @@ public:
 
     QSize initialSurfaceSize() const override;
     void setInitialSurfaceSize(const QSize &size) override;
+
+    Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
 public:
     void setSession(Session* session);
     Session* session() const { return m_session; }
@@ -134,6 +137,7 @@ private:
     QSize m_initialSurfaceSize;
 
     bool m_manualSurfaceCreation;
+    Mir::ShellChrome m_shellChrome;
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)

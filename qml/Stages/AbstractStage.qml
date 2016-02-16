@@ -43,6 +43,7 @@ Rectangle {
     // To be read from outside
     property var mainApp: null
     property int mainAppWindowOrientationAngle
+    property bool mainAppWindowIsFullscreen: false
     property bool orientationChangesEnabled
     property int supportedOrientations: Qt.PortraitOrientation
                                       | Qt.LandscapeOrientation

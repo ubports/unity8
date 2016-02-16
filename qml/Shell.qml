@@ -533,8 +533,7 @@ Item {
             }
 
             readonly property bool topmostApplicationIsFullscreen:
-                ApplicationManager.focusedApplicationId &&
-                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+                applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainAppWindowIsFullscreen : false
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp

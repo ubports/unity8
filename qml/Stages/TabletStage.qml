@@ -731,6 +731,12 @@ AbstractStage {
                         value: appWindowOrientationAngle
                     }
                     Binding {
+                        target: root
+                        when: index == 0
+                        property: "mainAppWindowIsFullscreen"
+                        value: decoratedWindow.fullscreen
+                    }
+                    Binding {
                         target: priv
                         when: model.appId == priv.mainStageAppId
                         property: "mainAppOrientationChangesEnabled"
@@ -743,6 +749,21 @@ AbstractStage {
                         period: (spreadView.positionMarker2 - spreadView.positionMarker1) / 3
                         progress: spreadTile.progress - spreadView.positionMarker1
                     }
+
+                    property bool firstTimeSurface: true
+                    property var lastSurface: application && application.session ?
+                                                  application.session.lastSurface : null
+                    onLastSurfaceChanged: {
+                        if (!lastSurface) return;
+                        if (!firstTimeSurface) return;
+                        firstTimeSurface = false;
+
+                        if (lastSurface.state !==  Mir.FullscreenState &&
+                            lastSurface.shellChrome === Mir.LowChrome) {
+                            lastSurface.state = Mir.FullscreenState;
+                        }
+                    }
+                    fullscreen: lastSurface ? lastSurface.shellChrome === Mir.LowChrome : false
                 }
             }
         }

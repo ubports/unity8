@@ -73,10 +73,13 @@ public:
     int widthIncrement() const override { return m_widthIncrement; }
     int heightIncrement() const override { return m_heightIncrement; }
 
+    Mir::ShellChrome shellChrome() const override;
+
     ////
     // API for tests
 
     Q_INVOKABLE void setLive(bool live);
+    Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
 
     void registerView(qintptr viewId);
     void unregisterView(qintptr viewId);
@@ -108,9 +111,6 @@ public:
     void setActiveFocus(bool);
 
 Q_SIGNALS:
-    void stateChanged(Mir::State);
-    void liveChanged(bool live);
-    void orientationAngleChanged(Mir::OrientationAngle angle);
     void widthChanged();
     void heightChanged();
     void slowToResizeChanged();
@@ -150,6 +150,8 @@ private:
     QTimer m_delayedResizeTimer;
     QSize m_delayedResize;
     QSize m_pendingResize;
+
+    Mir::ShellChrome m_shellChrome;
 
     struct View {
         bool visible;

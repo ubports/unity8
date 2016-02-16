@@ -24,7 +24,6 @@ FocusScope {
     implicitHeight: sessionContainer.implicitHeight
 
     // to be read from outside
-    readonly property bool fullscreen: application ? application.fullscreen : false
     property alias interactive: sessionContainer.interactive
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
     readonly property string title: sessionContainer.surface && sessionContainer.surface.name !== "" ?

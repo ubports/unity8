@@ -100,6 +100,15 @@ bool MirSurfaceItem::live() const
     }
 }
 
+Mir::ShellChrome MirSurfaceItem::shellChrome() const
+{
+    if (m_qmlSurface) {
+        return m_qmlSurface->shellChrome();
+    } else {
+        return Mir::NormalChrome;
+    }
+}
+
 Mir::OrientationAngle MirSurfaceItem::orientationAngle() const
 {
     if (m_qmlSurface) {
