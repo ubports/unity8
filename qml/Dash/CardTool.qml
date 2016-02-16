@@ -219,7 +219,6 @@ Item {
         sourceComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, true);
         onLoaded: {
             item.objectName = "cardToolCard";
-            item.asynchronous = false;
             item.width = Qt.binding(function() { return cardTool.cardWidth !== -1 ? cardTool.cardWidth : item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight !== -1 ? cardTool.cardHeight : item.implicitHeight; });
         }

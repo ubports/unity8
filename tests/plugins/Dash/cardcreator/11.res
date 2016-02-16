@@ -9,7 +9,6 @@ AbstractButton {
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true; 
@@ -18,7 +17,7 @@ Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
-                                asynchronous: root.asynchronous; 
+                                asynchronous: true;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
@@ -63,7 +62,7 @@ Item {
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || decodeURI("%5C");
                                 active: cardArt != "";
-                                asynchronous: root.asynchronous; 
+                                asynchronous: true;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: Item { 
                                     id: artShape; 
@@ -120,7 +119,7 @@ Item {
                                         id: artImage; 
                                         objectName: "artImage"; 
                                         source: artShapeLoader.cardArt;
-                                        asynchronous: root.asynchronous; 
+                                        asynchronous: true;
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                         onStatusChanged: if (status === Image.Error) source = decodeURI("%5C");
