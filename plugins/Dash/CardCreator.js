@@ -228,7 +228,7 @@ function kHeaderRowCodeGenerator() {
     var isCardTool = args.shift();
     var heightCode;
     if (!isCardTool) {
-        heightCode = "height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n";
+        heightCode = "height: root.fixedHeaderHeight; \n";
     } else {
         heightCode = "";
     }
@@ -542,7 +542,7 @@ function cardString(template, components, isCardTool) {
         if (isCardTool) {
             headerHeightCode = "headerHeight";
         } else {
-            headerHeightCode = "(fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight)";
+            headerHeightCode = "root.fixedHeaderHeight";
         }
         code += kOverlayLoaderCode.arg(asynchronous).arg(headerHeightCode);
     }
@@ -817,7 +817,7 @@ function cardString(template, components, isCardTool) {
             if (isCardTool) {
                 audioButtonHeight = 'headerHeight + 2 * units.gu(1)';
             } else {
-                audioButtonHeight = '(root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1)';
+                audioButtonHeight = 'root.fixedHeaderHeight + 2 * units.gu(1)';
             }
         }
         code += kAudioButtonCode.arg(audioButtonAnchorsFill).arg(audioButtonWidth).arg(audioButtonHeight);

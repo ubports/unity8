@@ -90,7 +90,7 @@ Item  {
                         }
 Loader { 
                             id: overlayLoader; 
-                            readonly property real overlayHeight: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); 
+                            readonly property real overlayHeight: root.fixedHeaderHeight + units.gu(2);
                             anchors.fill: artShapeHolder; 
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; 
                             asynchronous: true;
