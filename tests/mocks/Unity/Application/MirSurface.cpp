@@ -133,7 +133,7 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
 
 Mir::ShellChrome MirSurface::shellChrome() const
 {
-    return m_shellChrome;    
+    return m_shellChrome;
 }
 
 void MirSurface::setShellChrome(Mir::ShellChrome shellChrome)
