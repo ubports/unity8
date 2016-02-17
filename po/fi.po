@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-04 18:32+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:45+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -267,16 +267,18 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
+"Laitteesi on nyt yhdistetty erilliseen näyttöön. Käytä tätä näyttöä "
+"kosketuslevynä vaikuttaaksesi hiiren toimintaan."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Avaa lukitus"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Yritä uudelleen"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Napauta avataksesi lukituksen"
 
@@ -497,8 +499,8 @@ msgid "Hi!"
 msgstr "Hei!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Tervetuloa Ubuntu-puhelimen pariin."
+msgid "Welcome to your Ubuntu device."
+msgstr "Tervetuloa Ubuntu-laitteesi pariin."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -530,8 +532,8 @@ msgid "Lock security"
 msgstr "Lukitusturva"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Valitse puhelimen lukituksen avaustapa."
+msgid "Please select how you’d like to unlock your device."
+msgstr "Valitse kuinka haluat avata laitteen lukituksen."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -636,8 +638,8 @@ msgid "Nice work!"
 msgstr "Hyvä!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Puhelimesi on nyt valmis käytettäväksi."
+msgid "Your device is now ready to use."
+msgstr "Laitteesi on nyt valmis käytettäväksi."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -774,6 +776,15 @@ msgstr "%1  〉"
 #~ msgid "Please re-enter"
 #~ msgstr "Anna uudelleen"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Tervetuloa Ubuntu-puhelimen pariin."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Valitse puhelimen lukituksen avaustapa."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Puhelimesi on nyt valmis käytettäväksi."
+
 #~ msgid "Tomorrow %l:%M %p"
 #~ msgstr "Huomenna %l:%M %p"
 
@@ -806,6 +817,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Soita takaisin"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Laitteesi on nyt liitetty ulkoiseen näyttöön."

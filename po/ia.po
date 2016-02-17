@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-08-25 19:31+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -271,11 +271,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "Liberar"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Re-provar"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Pulsa pro liberar"
 
@@ -496,8 +496,8 @@ msgid "Hi!"
 msgstr "Salute!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Benvenite a tu telephono Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -528,8 +528,8 @@ msgid "Lock security"
 msgstr "Bloco de securitate"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Per favor selige in qual maniera disblocar tu telephono."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -639,8 +639,8 @@ msgid "Nice work!"
 msgstr "Belle obra!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Tu telephono es ora preste al uso."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -767,6 +767,15 @@ msgstr "%1  〉"
 #~ "Tu es ora maestrate le gestos del bordo e pote initiar usar le "
 #~ "telephono<br><br>colpar sur le schermo pro initiar"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Benvenite a tu telephono Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Per favor selige in qual maniera disblocar tu telephono."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Tu telephono es ora preste al uso."
+
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b %H:%M"
 
@@ -796,6 +805,3 @@ msgstr "%1  〉"
 
 #~ msgid "Yesterday %l:%M %p"
 #~ msgstr "Heri"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Tu dispositivo es nunc connexe a un schermo externe"

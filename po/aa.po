@@ -1,498 +1,490 @@
-# English (United Kingdom) translation for unity
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the unity package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Afar translation for unity8
+# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
+# This file is distributed under the same license as the unity8 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: unity\n"
+"Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-02-12 00:28+0000\n"
-"PO-Revision-Date: 2015-04-23 12:59+0000\n"
-"Last-Translator: Andi Chandler <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"PO-Revision-Date: 2016-02-12 10:18+0000\n"
+"Last-Translator: Charif AYFARAH <ayfarah@ymail.com>\n"
+"Language-Team: Afar <aa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:42+0000\n"
 "X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
-msgstr "Password: "
+msgstr "Cuumita "
 
 #: plugins/Unity/Launcher/launcheritem.cpp:47
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Pin shortcut"
-msgstr "Pin shortcut"
+msgstr ""
 
 #: plugins/Unity/Launcher/launcheritem.cpp:52
 msgid "Quit"
-msgstr "Quit"
+msgstr "Kat"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:106
 msgid "Unpin shortcut"
-msgstr "Unpin shortcut"
+msgstr ""
 
 #: qml/Components/DelayedLockscreen.qml:49
 msgid "Device Locked"
-msgstr "Device Locked"
+msgstr ""
 
 #: qml/Components/DelayedLockscreen.qml:64
 msgid "You have been locked out due to too many failed passphrase attempts."
-msgstr "You have been locked out due to too many failed passphrase attempts."
+msgstr ""
 
 #: qml/Components/DelayedLockscreen.qml:65
 msgid "You have been locked out due to too many failed passcode attempts."
-msgstr "You have been locked out due to too many failed passcode attempts."
+msgstr ""
 
 #: qml/Components/DelayedLockscreen.qml:74
 #, qt-format
 msgid "Please wait %1 minute and then try again…"
 msgid_plural "Please wait %1 minutes and then try again…"
-msgstr[0] "Please wait %1 minute and then try again…"
-msgstr[1] "Please wait %1 minutes and then try again…"
+msgstr[0] "Maganak %1 minit qambaalaay, kaadu gabbat"
+msgstr[1] "Maganak %1 minit qambaalaay, kaadu gabbat"
 
 #: qml/Components/Dialogs.qml:144
 msgctxt "Title: Lock/Log out dialog"
 msgid "Log out"
-msgstr "Log out"
+msgstr "Eweq"
 
 #: qml/Components/Dialogs.qml:145
 msgid "Are you sure you want to log out?"
-msgstr "Are you sure you want to log out?"
+msgstr ""
 
 #: qml/Components/Dialogs.qml:147
 msgctxt "Button: Lock the system"
 msgid "Lock"
-msgstr "Lock"
+msgstr "Koflis"
 
 #: qml/Components/Dialogs.qml:154
 msgctxt "Button: Log out from the system"
 msgid "Log Out"
-msgstr "Log Out"
+msgstr "Eweq"
 
 #: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
 #: qml/Components/Dialogs.qml:253
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Bayis"
 
 #: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot/Shut down dialog"
 msgid "Shut down"
-msgstr "Shut down"
+msgstr "Bargus"
 
 #: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to shut down?"
-msgstr "Are you sure you want to shut down?"
+msgstr "Bargussuh digga maay litoo?"
 
 #: qml/Components/Dialogs.qml:176
 msgctxt "Button: Reboot the system"
 msgid "Reboot"
-msgstr "Reboot"
+msgstr "Wadir-ugus"
 
 #: qml/Components/Dialogs.qml:185
 msgctxt "Button: Shut down the system"
 msgid "Shut down"
-msgstr "Shut down"
+msgstr "Bargus"
 
 #: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
-msgstr "Reboot"
+msgstr "Wadir-ugus"
 
 #: qml/Components/Dialogs.qml:208
 msgid "Are you sure you want to reboot?"
-msgstr "Are you sure you want to reboot?"
+msgstr "Wadir-ugussuh digga maay litoo?"
 
 #: qml/Components/Dialogs.qml:210
 msgid "No"
-msgstr "No"
+msgstr "Maleey"
 
 #: qml/Components/Dialogs.qml:217
 msgid "Yes"
-msgstr "Yes"
+msgstr "Yeey"
 
 #: qml/Components/Dialogs.qml:232
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
-msgstr "Power"
+msgstr "Cayla"
 
 #: qml/Components/Dialogs.qml:233
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
-msgstr ""
-"Are you sure you would like\n"
-"to power off?"
+msgstr "Timmi haytuh digga maay litoo?"
 
 #: qml/Components/Dialogs.qml:235
 msgctxt "Button: Power off the system"
 msgid "Power off"
-msgstr "Power off"
+msgstr "Timmi hayis"
 
 #: qml/Components/Dialogs.qml:244
 msgctxt "Button: Restart the system"
 msgid "Restart"
-msgstr "Restart"
+msgstr "Wadir-qimbis"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr "Return to Call"
+msgstr "Seecol gacis"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
-msgstr "Emergency Call"
+msgstr ""
 
 #: qml/Components/Lockscreen.qml:277
 msgid "OK"
-msgstr "OK"
+msgstr "Hayya"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr "Apps may have unsaved data:"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr "Re-dock, save your work and close these apps to continue."
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr "Or force close now (unsaved data will be lost)."
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr "OK, I will reconnect"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr "Reconnect now!"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr "Close all"
+msgstr "Inkih alif"
 
 #: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
-msgstr "Store"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:273
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
-msgstr "Search"
+msgstr "Goranto"
 
 #: qml/Dash/DashPageHeader.qml:283
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
-msgstr "Settings"
+msgstr "Massosu"
 
 #: qml/Dash/DashPageHeader.qml:290
 msgid "Remove from Favorites"
-msgstr "Remove from Favourites"
+msgstr ""
 
 #: qml/Dash/DashPageHeader.qml:290
 msgid "Add to Favorites"
-msgstr "Add to Favourites"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
 msgid "See less"
-msgstr "See less"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:587
 msgid "See all"
-msgstr "See all"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:649
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
-msgstr "Search"
+msgstr "Goranto"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
-msgstr "More..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "Less..."
-msgstr "Less..."
+msgstr ""
 
 #: qml/Dash/Previews/PreviewCommentInput.qml:68
 #: qml/Dash/Previews/PreviewRatingInput.qml:174
 msgid "Send"
-msgstr "Send"
+msgstr "Rub"
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:84
 msgid "Rate this"
-msgstr "Rate this"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewRatingInput.qml:129
 msgid "Add a review"
-msgstr "Add a review"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
-msgstr "Preview Share Item"
+msgstr ""
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
-msgstr "Pull to refresh…"
+msgstr ""
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:60
 msgid "Release to refresh…"
-msgstr "Release to refresh…"
+msgstr ""
 
 #: qml/Dash/ScopeSettings/ScopeSettingBoolean.qml:43
 msgid "Enable location data"
-msgstr "Enable location data"
+msgstr ""
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
-msgstr "Manage"
+msgstr ""
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
-msgstr "Home"
+msgstr "Dabqi"
 
 #: qml/Dash/ScopesList.qml:114
 msgid "Also installed"
-msgstr "Also installed"
+msgstr ""
 
 #: qml/DisabledScreenNotice.qml:87
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
-"Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the mouse."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
-msgstr "Unlock"
+msgstr ""
 
 #: qml/Greeter/LoginList.qml:239
 msgid "Retry"
-msgstr "Retry"
+msgstr "Qagis"
 
 #: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
-msgstr "Tap to unlock"
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
 msgid "Sorry, incorrect passphrase."
-msgstr "Sorry, incorrect passphrase."
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr "Sorry, incorrect passcode."
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
-msgstr "This will be your last attempt."
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:58
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"If passphrase is entered incorrectly, your phone will conduct a factory "
-"reset and all personal data will be deleted."
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"If passcode is entered incorrectly, your phone will conduct a factory reset "
-"and all personal data will be deleted."
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
 msgid "Enter %1"
-msgstr "Enter %1"
+msgstr "%1 culus"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr "Enter passphrase"
+msgstr "Tatur-maxco culus"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
-msgstr "Enter passcode"
+msgstr "Tatur-mudenta culus"
 
 #: qml/Greeter/NarrowView.qml:119
 #, qt-format
 msgid "Sorry, incorrect %1"
-msgstr "Sorry, incorrect %1"
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:120
 msgid "Sorry, incorrect passphrase"
-msgstr "Sorry, incorrect passphrase"
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:121
 msgctxt "passphrase"
 msgid "Please re-enter"
-msgstr "Please re-enter"
+msgstr ""
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
-msgstr "Sorry, incorrect passcode"
+msgstr ""
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
-msgstr "Show password"
+msgstr "Cuumita uybulluy"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Tap to return to call..."
+msgstr ""
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
-msgstr "Conference"
+msgstr "Koboxu"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:753
 msgid "Nothing is playing"
-msgstr "Nothing is playing"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:882
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] "%1 hour"
-msgstr[1] "%1 hours"
+msgstr[0] "%1 saaqata"
+msgstr[1] "%1 saaqata"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] "%1 minute"
-msgstr[1] "%1 minutes"
+msgstr[0] "%1 miniti"
+msgstr[1] "%1 miniti"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] "%1 second"
-msgstr[1] "%1 seconds"
+msgstr[0] "%1 nammayye"
+msgstr[1] "%1 nammayye"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:894
 msgid "0 seconds"
-msgstr "0 seconds"
+msgstr "0 nammayye"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:896
 #, qt-format
 msgid "%1 remaining"
-msgstr "%1 remaining"
+msgstr "%1 raaqe"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "In queue…"
-msgstr "In queue…"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "Downloading"
-msgstr "Downloading"
+msgstr "Qulluumah"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:908
 msgid "Paused, tap to resume"
-msgstr "Paused, tap to resume"
+msgstr ""
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Canceled"
-msgstr "Cancelled"
+msgstr "Bayteh"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Finished"
-msgstr "Finished"
+msgstr "Duudumteh"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Failed, tap to retry"
-msgstr "Failed, tap to retry"
+msgstr ""
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:155
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr "Send"
+msgstr "Rub"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
 msgid "Reply"
-msgstr "Reply"
+msgstr ""
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr "Call back"
+msgstr ""
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
-msgstr "Unlock SIM"
+msgstr ""
 
 #: qml/Panel/Indicators/RoamingIndication.qml:27
 msgid "Roaming"
-msgstr "Roaming"
+msgstr ""
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
-msgstr "Open special menus"
+msgstr ""
 
 #: qml/Tutorial/TutorialBottom.qml:29
 msgid "Swipe up from the bottom edge."
-msgstr "Swipe up from the bottom edge."
+msgstr ""
 
 #: qml/Tutorial/TutorialBottomFinish.qml:24
 msgid "This action does different things for different apps"
-msgstr "This action does different things for different apps"
+msgstr ""
 
 #: qml/Tutorial/TutorialBottomFinish.qml:25
 msgid "Tap here to finish."
-msgstr "Tap here to finish."
+msgstr ""
 
 #: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
 #: qml/Tutorial/TutorialRight.qml:144
 msgid "Tap here to continue."
-msgstr "Tap here to continue."
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:26
 msgid "Open the launcher"
-msgstr "Open the launcher"
+msgstr ""
 
 #: qml/Tutorial/TutorialLeft.qml:27
 msgid "Short swipe from the left edge."
-msgstr "Short swipe from the left edge."
+msgstr ""
 
 #: qml/Tutorial/TutorialLeftFinish.qml:24
 msgid "These are the shortcuts to favorite apps"
-msgstr "These are the shortcuts to favourite apps"
+msgstr ""
 
 #: qml/Tutorial/TutorialPage.qml:178
 msgid "You almost got it!"
-msgstr "You almost got it!"
+msgstr ""
 
 #: qml/Tutorial/TutorialPage.qml:195
 msgid "Try again."
-msgstr "Try again."
+msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:31
 msgid "To view open apps"
-msgstr "To view open apps"
+msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:32
 msgid "Long swipe from the right edge."
-msgstr "Long swipe from the right edge."
+msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:122
 msgid "View all your running tasks."
-msgstr "View all your running tasks."
+msgstr ""
 
 #: qml/Wizard/Page.qml:89
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
-msgstr "Back"
+msgstr "Derre"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Hi!"
-msgstr "Hi!"
+msgstr "Nagaale!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
@@ -500,30 +492,30 @@ msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
-msgstr "Let’s get started."
+msgstr "Hayya qimbisnay."
 
 #: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
 #: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
 #: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
 #: qml/Wizard/Pages/passwd-set.qml:90
 msgid "Continue"
-msgstr "Continue"
+msgstr "Tatur"
 
 #: qml/Wizard/Pages/20-sim.qml:25
 msgid "Add a SIM card and restart your device"
-msgstr "Add a SIM card and restart your device"
+msgstr ""
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "Without it, you won’t be able to make calls or use text messaging."
+msgstr ""
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
-msgstr "Skip"
+msgstr "Kaqit"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:39
 msgid "Lock security"
-msgstr "Lock security"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
@@ -532,60 +524,60 @@ msgstr ""
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
 msgid "Swipe"
-msgstr "Swipe"
+msgstr "Uysuttuc"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:103
 msgctxt "Label: Description of security method"
 msgid "No security"
-msgstr "No security"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "Passcode"
-msgstr "Passcode"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:106
 msgctxt "Label: Description of security method"
 msgid "4 digits only"
-msgstr "4 digits only"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:108
 msgctxt "Label: Type of security method"
 msgid "Passphrase"
-msgstr "Passphrase"
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:109
 msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
-msgstr "Numbers and letters"
+msgstr ""
 
 #: qml/Wizard/Pages/40-wifi.qml:29
 msgid "Connect to Wi‑Fi"
-msgstr "Connect to Wi‑Fi"
+msgstr ""
 
 #: qml/Wizard/Pages/40-wifi.qml:168
 msgid "Available networks…"
-msgstr "Available networks…"
+msgstr ""
 
 #: qml/Wizard/Pages/40-wifi.qml:169
 msgid "No available networks."
-msgstr "No available networks."
+msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:27
 msgid "Location"
-msgstr "Location"
+msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:62
 msgid "Let the phone detect your location:"
-msgstr "Let the phone detect your location:"
+msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:69
 msgid "Using GPS only (less accurate)"
-msgstr "Using GPS only (less accurate)"
+msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr "Using GPS, anonymised Wi-Fi and cellular network info (recommended)"
+msgstr ""
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -593,44 +585,38 @@ msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
 msgstr ""
-"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-"conditions</a>."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
-msgstr "Not at all"
+msgstr ""
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "You can change your mind later in <b>System Settings</b>."
+msgstr ""
 
 #: qml/Wizard/Pages/60-reporting.qml:26
 msgid "Improving your experience"
-msgstr "Improving your experience"
+msgstr ""
 
 #: qml/Wizard/Pages/60-reporting.qml:46
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
 msgstr ""
-"Your phone is set up to automatically report errors to Canonical and its "
-"partners, the makers of the operating system."
 
 #: qml/Wizard/Pages/60-reporting.qml:53
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-"Privacy</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
-msgstr "All done"
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:39
 msgid "Nice work!"
-msgstr "Nice work!"
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
@@ -638,177 +624,44 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
-msgstr "Finish"
+msgstr ""
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr "Terms & Conditions"
+msgstr ""
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
-msgstr "Confirm passphrase"
+msgstr ""
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr "Confirm passcode"
+msgstr ""
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Please try again."
-msgstr "Please try again."
+msgstr ""
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr "Choose your passcode"
+msgstr ""
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
-msgstr "Passphrase must be 4 characters long"
+msgstr ""
 
 #. Translators: This is the arrow for "Back" buttons
 #: qml/Wizard/StackButton.qml:39
 #, qt-format
 msgid "〈  %1"
-msgstr "〈  %1"
+msgstr ""
 
 #. Translators: This is the arrow for "Forward" buttons
 #: qml/Wizard/StackButton.qml:42
 #, qt-format
 msgid "%1  〉"
-msgstr "%1  〉"
-
-#~ msgid "Confirm"
-#~ msgstr "Confirm"
-
-#~ msgid "Type or say a command"
-#~ msgstr "Type or say a command"
-
-#~ msgid "Loading. Please Wait..."
-#~ msgstr "Loading. Please Wait..."
-
-#~ msgid "Speak Now..."
-#~ msgstr "Speak Now..."
-
-#~ msgid "Speaking..."
-#~ msgstr "Speaking..."
-
-#~ msgid "Search"
-#~ msgstr "Search"
-
-#~ msgid "Try swiping from the right edge to unlock the phone"
-#~ msgstr "Try swiping from the right edge to unlock the phone"
-
-#~ msgid "Top edge"
-#~ msgstr "Top edge"
-
-#~ msgid "Try swiping from the top edge to access the indicators"
-#~ msgstr "Try swiping from the top edge to access the indicators"
-
-#~ msgid "Close"
-#~ msgstr "Close"
-
-#~ msgid "Swipe up again to close the settings screen"
-#~ msgstr "Swipe up again to close the settings screen"
-
-#~ msgid "Left edge"
-#~ msgstr "Left edge"
-
-#~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Swipe from the left to reveal the launcher for quick access to apps"
-
-#~ msgid "Well done"
-#~ msgstr "Well done"
-
-#~ msgid "Skip intro"
-#~ msgstr "Skip intro"
-
-#~ msgid "Right edge"
-#~ msgstr "Right edge"
-
-#~ msgid ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-#~ msgstr ""
-#~ "You have now mastered the edge gestures and can start using the "
-#~ "phone<br><br>Tap on the screen to start"
-
-#~ msgid "Store"
-#~ msgstr "Store"
-
-#~ msgid "All"
-#~ msgstr "All"
-
-#~ msgid "Favorites"
-#~ msgstr "Favourites"
-
-#~ msgid "Power off"
-#~ msgstr "Power off"
-
-#~ msgid "Done"
-#~ msgstr "Done"
-
-#~ msgid "Log out"
-#~ msgstr "Log out"
-
-#~ msgid "Reboot"
-#~ msgstr "Reboot"
-
-#~ msgid "Power"
-#~ msgstr "Power"
-
-#~ msgid "Shut down"
-#~ msgstr "Shut down"
-
-#~ msgid "Settings"
-#~ msgstr "Settings"
-
-#~ msgid "Restart"
-#~ msgstr "Restart"
-
-#~ msgid "Manage Scopes"
-#~ msgstr "Manage Scopes"
-
-#~ msgid "Please re-enter"
-#~ msgstr "Please re-enter"
-
-#~ msgid "Please select how you’d like to unlock your phone."
-#~ msgstr "Please select how you’d like to unlock your phone."
+msgstr ""
 
 #~ msgid "Welcome to your Ubuntu phone."
-#~ msgstr "Welcome to your Ubuntu phone."
-
-#~ msgid "Your phone is now ready to use."
-#~ msgstr "Your phone is now ready to use."
-
-#~ msgid "%a %H:%M"
-#~ msgstr "%a %H:%M"
-
-#~ msgid "%a %d %b %H:%M"
-#~ msgstr "%a %d %b %H:%M"
-
-#~ msgid "%a %l:%M %p"
-#~ msgstr "%a %l:%M %p"
-
-#~ msgid "Tomorrow %l:%M %p"
-#~ msgstr "Tomorrow %l:%M %p"
-
-#~ msgid "%l:%M %p"
-#~ msgstr "%l:%M %p"
-
-#~ msgid "Yesterday %l:%M %p"
-#~ msgstr "Yesterday %l:%M %p"
-
-#~ msgid "Tomorrow %H:%M"
-#~ msgstr "Tomorrow %H:%M"
-
-#~ msgid "%H:%M"
-#~ msgstr "%H:%M"
-
-#~ msgid "Yesterday %H:%M"
-#~ msgstr "Yesterday %H:%M"
-
-#~ msgid "%a %d %b %l:%M %p"
-#~ msgstr "%a %d %b %l:%M %p"
-
-#~ msgid "Call back"
-#~ msgstr "Call back"
+#~ msgstr "Ubuntu Telefoonul arcib"

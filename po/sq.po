@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-11-30 21:05+0000\n"
 "Last-Translator: Indrit Bashkimi <indrit.bashkimi@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:45+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:42+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -266,11 +266,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "Zhblloko"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Riprovo"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Preke për ta zhbllokuar"
 
@@ -487,8 +487,8 @@ msgid "Hi!"
 msgstr "Përshëndetje!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Mirëseerdhët në telefonin tuaj Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -518,8 +518,8 @@ msgid "Lock security"
 msgstr "Siguria e bllokimit"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Zgjidhni mënyrën e zhbllokimit të telefonit."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -619,8 +619,8 @@ msgid "Nice work!"
 msgstr "Punë e paqme!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Telefoni juaj tani është gati për përdorim."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -682,5 +682,11 @@ msgstr "%1  〉"
 #~ msgid "Right edge"
 #~ msgstr "Cepi djathtas"
 
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Pajisja juaj është tashmë e lidhur me një ekran të jashtëm."
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Mirëseerdhët në telefonin tuaj Ubuntu."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Telefoni juaj tani është gati për përdorim."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Zgjidhni mënyrën e zhbllokimit të telefonit."

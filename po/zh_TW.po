@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-31 09:29+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 "Language: zh_TW\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -266,11 +266,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "解鎖"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "重試"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "點按以解鎖"
 
@@ -484,8 +484,8 @@ msgid "Hi!"
 msgstr "您好！"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "歡迎使用您的 Ubuntu 手機。"
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -515,8 +515,8 @@ msgid "Lock security"
 msgstr "安全鎖"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "請選取您想要的手機解鎖方式。"
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -616,8 +616,8 @@ msgid "Nice work!"
 msgstr "做得漂亮！"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "您的手機現在已準備好使用。"
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -749,6 +749,15 @@ msgstr "%1  〉"
 #~ msgid "Please re-enter"
 #~ msgstr "請再輸入"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "歡迎使用您的 Ubuntu 手機。"
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "請選取您想要的手機解鎖方式。"
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "您的手機現在已準備好使用。"
+
 #~ msgid "Manage Scopes"
 #~ msgstr "管理 Scopes"
 
@@ -784,6 +793,3 @@ msgstr "%1  〉"
 
 #~ msgid "%a %d %b %l:%M %p"
 #~ msgstr "(%a) %d月%b日 %p %l:%M"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "您的裝目前已經連線到外部的螢幕."

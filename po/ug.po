@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-12-01 07:37+0000\n"
 "Last-Translator: Eltikin <eltikinuyghur@hotmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -267,11 +267,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "قۇلۇپسىزلا"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "قايتا سىنا"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "قۇلۇپسىزلا"
 
@@ -489,8 +489,8 @@ msgid "Hi!"
 msgstr "سالام!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "ئۇبۇنتۇ تېلېفونىغا مەرھابا."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -520,8 +520,8 @@ msgid "Lock security"
 msgstr "قۇلۇپلاش بىخەتەرلىكى"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "تېلېفوننى قانداق قۇلۇپسىزلاشنى تاللاڭ."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -627,8 +627,8 @@ msgid "Nice work!"
 msgstr "جاپا چەكتىڭىز!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "تېلېفونىڭىز ئىشلىتىشكە ھازىرلاندى."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -770,6 +770,15 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "تىلفۇن ئۇرلىۋاتىدۇ"
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "تېلېفوننى قانداق قۇلۇپسىزلاشنى تاللاڭ."
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "ئۇبۇنتۇ تېلېفونىغا مەرھابا."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "تېلېفونىڭىز ئىشلىتىشكە ھازىرلاندى."
 
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "ئەتە %H:%M"

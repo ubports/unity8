@@ -88,7 +88,7 @@ ColumnLayout {
 
             CheckBox {
                 id: _surfaceCheckbox;
-                checked: false;
+                checked: root.session.lastSurface ? true : false
                 activeFocusOnPress: false
                 enabled: root.session
                 onCheckedChanged: {
@@ -101,7 +101,7 @@ ColumnLayout {
 
                 Connections {
                     target: root.session ? root.session : null
-                    onSurfaceChanged: {
+                    onLastSurfaceChanged: {
                         surfaceCheckbox.checked = root.session.lastSurface !== null
                     }
                 }
@@ -137,7 +137,7 @@ ColumnLayout {
                 text: "Add Child"
                 onClicked: {
                     var screenshot = Math.round(Math.random()*100 % (screenshotIds.length-1));
-                    var session = ApplicationTest.addChildSession(root.session, root.screenshotIds[screenshot]);
+                    var session = ApplicationTest.addChildSession(root.session, root.screenshotIds[screenshot], true);
                 }
             }
         }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -268,16 +268,18 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
+"Vaša naprava je sedaj priključena na zunanji zaslon. Ta zaslon pa lahko "
+"uporabite kot sledilno ploščico za nadzor kazalke."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Odkleni"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Poskusi znova"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Tapnite za odklep"
 
@@ -504,8 +506,8 @@ msgid "Hi!"
 msgstr "Živjo!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Dobrodošli v svoj telefon Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -535,8 +537,8 @@ msgid "Lock security"
 msgstr "Varnost zaklepa"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Izberite, kako želite odkleniti svoj telefon."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -644,8 +646,8 @@ msgid "Nice work!"
 msgstr "Odlično!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Vaš telefon je sedaj pripravljen za uporabo."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -781,6 +783,15 @@ msgstr "%1  〉"
 #~ msgid "Please re-enter"
 #~ msgstr "Ponovno vnesite"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Dobrodošli v svoj telefon Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Izberite, kako želite odkleniti svoj telefon."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Vaš telefon je sedaj pripravljen za uporabo."
+
 #~ msgid "%a %H:%M"
 #~ msgstr "%a %H:%M"
 
@@ -804,9 +815,6 @@ msgstr "%1  〉"
 
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "Jutri %H:%M"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Vaša naprava je sedaj povezana na zunanji zaslon."
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b %H:%M"
