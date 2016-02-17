@@ -226,12 +226,7 @@ function kHeaderRowCodeGenerator() {
                     }\n';
     var args = Array.prototype.slice.call(arguments);
     var isCardTool = args.shift();
-    var heightCode;
-    if (!isCardTool) {
-        heightCode = "height: root.fixedHeaderHeight; \n";
-    } else {
-        heightCode = "";
-    }
+    var heightCode = isCardTool ? "" : "height: root.fixedHeaderHeight; \n";
     var code = kHeaderRowCodeTemplate.arg(args.shift()).arg(heightCode).arg(args.join(',\n'));
     return code;
 }
@@ -431,11 +426,7 @@ function cardString(template, components, isCardTool) {
                 enabled: %1; \n\
                 \n'.arg(templateInteractive);
 
-    if (!isCardTool) {
-        code = code.arg("property int fixedHeaderHeight: -1; \n");
-    } else {
-        code = code.arg("");
-    }
+    code = code.arg(isCardTool ? "" : "property int fixedHeaderHeight: -1; \n");
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
@@ -538,12 +529,7 @@ function cardString(template, components, isCardTool) {
     }
 
     if (headerAsOverlay) {
-        var headerHeightCode;
-        if (isCardTool) {
-            headerHeightCode = "headerHeight";
-        } else {
-            headerHeightCode = "root.fixedHeaderHeight";
-        }
+        var headerHeightCode = isCardTool ? "headerHeight" : "root.fixedHeaderHeight";
         code += kOverlayLoaderCode.arg(asynchronous).arg(headerHeightCode);
     }
 
@@ -829,11 +815,8 @@ function cardString(template, components, isCardTool) {
         } else {
             audioButtonAnchorsFill = 'undefined';
             audioButtonWidth = 'height';
-            if (isCardTool) {
-                audioButtonHeight = 'headerHeight + 2 * units.gu(1)';
-            } else {
-                audioButtonHeight = 'root.fixedHeaderHeight + 2 * units.gu(1)';
-            }
+            audioButtonHeight = isCardTool ? 'headerHeight + 2 * units.gu(1)'
+                                           : 'root.fixedHeaderHeight + 2 * units.gu(1)';
         }
         code += kAudioButtonCode.arg(audioButtonAnchorsFill).arg(audioButtonWidth).arg(audioButtonHeight);
     }
