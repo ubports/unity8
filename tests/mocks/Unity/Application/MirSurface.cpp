@@ -71,7 +71,6 @@ void MirSurface::setState(Mir::State state)
 
     m_state = state;
     Q_EMIT stateChanged(state);
-    qDebug() << "SETSTATE!" << state;
 }
 
 bool MirSurface::live() const

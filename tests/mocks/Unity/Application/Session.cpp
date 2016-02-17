@@ -74,8 +74,6 @@ void Session::release()
 
 void Session::updateFullscreenProperty()
 {
-    qDebug() << "updateFullscreenProperty!";
-
     if (m_surfaces.rowCount() > 0) {
         // TODO: Figure out something better
         setFullscreen(lastSurface()->state() == Mir::FullscreenState);

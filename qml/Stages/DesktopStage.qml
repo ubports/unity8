@@ -467,12 +467,6 @@ AbstractStage {
                     value: ApplicationManager.count + 1
                     when: index == spread.highlightedIndex && blurLayer.ready
                 }
-                Binding {
-                    target: root
-                    when: index == 0
-                    property: "mainAppWindowIsFullscreen"
-                    value: decoratedWindow.fullscreen
-                }
 
                 WindowResizeArea {
                     id: resizeArea
@@ -490,9 +484,10 @@ AbstractStage {
                     property bool saveStateOnDestruction: true
                     Connections {
                         target: root
-                        onSaveWindowState: {
+                        onStageUnloaded: {
                             resizeArea.saveWindowState();
                             resizeArea.saveStateOnDestruction = false;
+                            fullscreenPolicy.active = false;
                         }
                     }
                     Component.onDestruction: {
@@ -510,7 +505,6 @@ AbstractStage {
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
-                    fullscreen: application.fullscreen
 
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
@@ -522,18 +516,10 @@ AbstractStage {
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
 
-                property bool firstTimeSurface: true
-                property var lastSurface: decoratedWindow.application && decoratedWindow.application.session ?
-                                              decoratedWindow.application.session.lastSurface : null
-                onLastSurfaceChanged: {
-                    if (!lastSurface) return;
-                    if (!firstTimeSurface) return;
-                    firstTimeSurface = false;
-
-                    if (lastSurface.state === Mir.FullscreenState &&
-                        lastSurface.shellChrome === Mir.LowChrome) {
-                        lastSurface.state = Mir.RestoredState;
-                    }
+                DesktopFullscreenPolicy {
+                    id: fullscreenPolicy
+                    active: true
+                    application: decoratedWindow.application
                 }
             }
         }

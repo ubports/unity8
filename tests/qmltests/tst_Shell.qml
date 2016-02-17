@@ -245,6 +245,7 @@ Rectangle {
                         id: fullscreeAppCheck
 
                         onTriggered: {
+                            if (!controls.focusedSurface) return;
                             if (controls.focusedSurface.state == Mir.FullscreenState) {
                                 controls.focusedSurface.state = Mir.RestoredState;
                             } else {
@@ -254,9 +255,12 @@ Rectangle {
 
                         Binding {
                             target: fullscreeAppCheck
-                            when: controls.focusedSurface !== null
+                            when: controls.focusedSurface
                             property: "checked"
-                            value: controls.focusedSurface.state === Mir.FullscreenState
+                            value: {
+                                if (!controls.focusedSurface) return false;
+                                controls.focusedSurface.state === Mir.FullscreenState
+                            }
                         }
                     }
                     Label {
@@ -269,6 +273,7 @@ Rectangle {
                         id: chromeAppCheck
 
                         onTriggered: {
+                            if (!controls.focusedSurface) return;
                             if (controls.focusedSurface.shellChrome == Mir.LowChrome) {
                                 controls.focusedSurface.setShellChrome(Mir.NormalChrome);
                             } else {
@@ -280,7 +285,10 @@ Rectangle {
                             target: chromeAppCheck
                             when: controls.focusedSurface !== null
                             property: "checked"
-                            value: controls.focusedSurface.shellChrome === Mir.LowChrome
+                            value: {
+                                if (!controls.focusedSurface) return false;
+                                controls.focusedSurface.shellChrome === Mir.LowChrome
+                            }
                         }
                     }
                     Label {

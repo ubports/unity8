@@ -731,12 +731,6 @@ AbstractStage {
                         value: appWindowOrientationAngle
                     }
                     Binding {
-                        target: root
-                        when: index == 0
-                        property: "mainAppWindowIsFullscreen"
-                        value: decoratedWindow.fullscreen
-                    }
-                    Binding {
                         target: priv
                         when: model.appId == priv.mainStageAppId
                         property: "mainAppOrientationChangesEnabled"
@@ -750,17 +744,15 @@ AbstractStage {
                         progress: spreadTile.progress - spreadView.positionMarker1
                     }
 
-                    property var lastSurface: application && application.session ?
-                                                  application.session.lastSurface : null
-                    Binding {
-                        target: lastSurface
-                        when: lastSurface
-                        property: "state"
-                        value: {
-                            lastSurface.shellChrome === Mir.LowChrome ? Mir.FullscreenState : Mir.RestoredState
+                    PhoneFullscreenPolicy {
+                        id: fullscreenPolicy
+                        application: spreadTile.application
+
+                        Connections {
+                            target: root
+                            onStageUnloaded: fullscreenPolicy.active = false
                         }
                     }
-                    fullscreen: application.fullscreen
                 }
             }
         }

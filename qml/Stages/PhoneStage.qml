@@ -575,29 +575,21 @@ AbstractStage {
                         value: appWindowOrientationAngle
                     }
                     Binding {
-                        target: root
-                        when: index == 0
-                        property: "mainAppWindowIsFullscreen"
-                        value: appDelegate.fullscreen
-                    }
-                    Binding {
                         target: priv
                         when: index == 0
                         property: "focusedAppOrientationChangesEnabled"
                         value: orientationChangesEnabled
                     }
 
-                    property var lastSurface: application && application.session ?
-                                                  application.session.lastSurface : null
-                    Binding {
-                        target: lastSurface
-                        when: lastSurface
-                        property: "state"
-                        value: {
-                            lastSurface.shellChrome === Mir.LowChrome ? Mir.FullscreenState : Mir.RestoredState
+                    PhoneFullscreenPolicy {
+                        id: fullscreenPolicy
+                        application: appDelegate.application
+
+                        Connections {
+                            target: root
+                            onStageUnloaded: fullscreenPolicy.active = false
                         }
                     }
-                    fullscreen: application.fullscreen
                 }
             }
         }

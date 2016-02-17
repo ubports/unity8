@@ -254,7 +254,7 @@ Item {
                 }
             }
             onQmlComponentChanged: {
-                if (item) item.saveWindowState();
+                if (item) item.stageUnloaded();
                 source = qmlComponent;
             }
 
@@ -537,7 +537,8 @@ Item {
             }
 
             readonly property bool topmostApplicationIsFullscreen:
-                applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainAppWindowIsFullscreen : false
+                ApplicationManager.focusedApplicationId &&
+                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
