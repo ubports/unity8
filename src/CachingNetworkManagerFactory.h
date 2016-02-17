@@ -21,7 +21,7 @@
 #include <QQmlNetworkAccessManagerFactory>
 #include <QNetworkAccessManager>
 
-#include <ubuntu/connectivity/networking-status.h>
+#include <connectivityqt/connectivity.h>
 
 class CachingNetworkAccessManager : public QNetworkAccessManager
 {
@@ -32,7 +32,7 @@ protected:
     QNetworkReply* createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData = 0) override;
 
 private:
-    ubuntu::connectivity::NetworkingStatus* m_networkingStatus;
+    connectivityqt::Connectivity* m_networkingStatus;
 };
 
 class CachingNetworkManagerFactory : public QQmlNetworkAccessManagerFactory
