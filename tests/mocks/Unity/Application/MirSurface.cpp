@@ -17,6 +17,7 @@
 #include "MirSurface.h"
 
 #include <QDebug>
+#include <QQmlEngine>
 
 MirSurface::MirSurface(const QString& name,
         Mir::Type type,
