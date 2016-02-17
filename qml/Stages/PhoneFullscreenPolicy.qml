@@ -37,7 +37,7 @@ Item {
         target: priv.lastSurface
         onShellChromeChanged: {
             if (!active || !priv.lastSurface) return;
-            if (priv.lastSurface.shellChrome === Mir.LowChrome) {
+            if (priv.lastSurface.shellChrome === Mir.LowChrome || priv.lastSurface.state == Mir.FullscreenState) {
                 priv.lastSurface.state = Mir.FullscreenState;
             } else {
                 priv.lastSurface.state = Mir.RestoredState;
