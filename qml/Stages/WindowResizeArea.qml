@@ -40,7 +40,6 @@ MouseArea {
     property int defaultHeight: units.gu(50)
     property int screenWidth: 0
     property int screenHeight: 0
-    property bool saveStateOnDestruction: true
 
     QtObject {
         id: priv

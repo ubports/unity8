@@ -750,20 +750,17 @@ AbstractStage {
                         progress: spreadTile.progress - spreadView.positionMarker1
                     }
 
-                    property bool firstTimeSurface: true
                     property var lastSurface: application && application.session ?
                                                   application.session.lastSurface : null
-                    onLastSurfaceChanged: {
-                        if (!lastSurface) return;
-                        if (!firstTimeSurface) return;
-                        firstTimeSurface = false;
-
-                        if (lastSurface.state !==  Mir.FullscreenState &&
-                            lastSurface.shellChrome === Mir.LowChrome) {
-                            lastSurface.state = Mir.FullscreenState;
+                    Binding {
+                        target: lastSurface
+                        when: lastSurface
+                        property: "state"
+                        value: {
+                            lastSurface.shellChrome === Mir.LowChrome ? Mir.FullscreenState : Mir.RestoredState
                         }
                     }
-                    fullscreen: lastSurface ? lastSurface.shellChrome === Mir.LowChrome : false
+                    fullscreen: application.fullscreen
                 }
             }
         }
