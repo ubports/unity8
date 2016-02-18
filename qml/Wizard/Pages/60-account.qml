@@ -51,6 +51,11 @@ LocalComponents.Page {
         anchors.rightMargin: parent.rightMargin
         anchors.topMargin: customMargin
 
+        height: contentHeight - buttonBarHeight - Qt.inputMethod.keyboardRectangle.height - titleRectHeight
+        contentHeight: childrenRect.height
+
+        Behavior on contentY { UbuntuNumberAnimation{} }
+
         // name
         Label {
             id: nameLabel
@@ -70,6 +75,11 @@ LocalComponents.Page {
             anchors.topMargin: units.gu(1)
             inputMethodHints: Qt.ImhNoPredictiveText
             onAccepted: surnameInput.forceActiveFocus()
+            onActiveFocusChanged: {
+                if (activeFocus && Qt.inputMethod.visible) {
+                    column.contentY = nameLabel.y
+                }
+            }
         }
 
         // surname
@@ -93,6 +103,11 @@ LocalComponents.Page {
             anchors.topMargin: units.gu(1)
             inputMethodHints: Qt.ImhNoPredictiveText
             onAccepted: d.advance()
+            onActiveFocusChanged: {
+                if (activeFocus && Qt.inputMethod.visible) {
+                    column.contentY = surnameLabel.y
+                }
+            }
         }
     }
 

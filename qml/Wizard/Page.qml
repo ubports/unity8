@@ -20,7 +20,7 @@ import Wizard 0.1
 
 Item {
     readonly property real maximumContentWidth: units.gu(50)
-    readonly property bool desktopLook: width > units.gu(60) && width > height
+    readonly property bool desktopLook: width > units.gu(90) && width > height
 
     readonly property real buttonMargin: units.gu(3)
     readonly property real buttonWidth: (width - buttonMargin * 2) / 2 -
