@@ -17,7 +17,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Web 0.2
-import Ubuntu.SystemSettings.Diagnostics 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -29,7 +28,6 @@ LocalComponents.Page {
     customBack: true
     customTitle: webview.visible
 
-    skipValid: false
     skip: !diagnostics.reportCrashes // skip the page when the system is configured not to report crashes
 
     onBackClicked: {
@@ -38,12 +36,6 @@ LocalComponents.Page {
         } else {
             pageStack.prev();
         }
-    }
-
-    UbuntuDiagnostics {
-        id: diagnostics
-        objectName: "diagnostics"
-        Component.onCompleted: reportingPage.skipValid = true;
     }
 
     Column {

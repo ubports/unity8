@@ -18,6 +18,7 @@ import QtQuick 2.4
 import MeeGo.QOfono 0.2
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Ubuntu.SystemSettings.Diagnostics 1.0
 import Wizard 0.1
 import "../Components"
 
@@ -53,6 +54,11 @@ Item {
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
         objectName: "securityPrivacy"
+    }
+
+    UbuntuDiagnostics {
+        id: diagnostics
+        objectName: "diagnostics"
     }
 
     OfonoManager { // need it here for the language and country detection
