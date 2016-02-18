@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014,2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,16 @@ Item {
     property alias modemManager: modemManager
     property alias simManager0: simManager0
     property alias simManager1: simManager1
+
+    TimeZoneModel { // preload the heavy models
+        id: tzModel
+    }
+
+    TimeZoneFilterModel {
+        id: tzFilterModel
+        sourceModel: tzModel
+        country: countryCode
+    }
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy

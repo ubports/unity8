@@ -15,12 +15,12 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
 import Wizard 0.1
 import Ubuntu.SystemSettings.TimeDate 1.0
 import Utils 0.1 as Utils
-import QtQuick.Window 2.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -77,17 +77,6 @@ LocalComponents.Page {
         id: timeDatePanel
     }
 
-    TimeZoneModel {
-        id: tzModel
-    }
-
-    TimeZoneFilterModel {
-        id: tzFilterModel
-        sourceModel: tzModel
-        filter: searchField.text
-        country: root.countryCode
-    }
-
     Component.onCompleted: {
         if (tzList.count == 1) { // preselect the first (and only) TZ
             var tz = tzList.itemAt(0,0);
@@ -96,6 +85,7 @@ LocalComponents.Page {
             }
         }
 
+        tzFilterModel.filter = Qt.binding(function() { return searchField.text; });
         theme.palette.normal.backgroundText = "#cdcdcd";
         searchField.forceActiveFocus();
     }
@@ -113,7 +103,7 @@ LocalComponents.Page {
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
+                anchors.leftMargin: staticMargin
                 anchors.right: image.left
                 anchors.rightMargin: units.gu(2)
 
@@ -140,7 +130,7 @@ LocalComponents.Page {
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
-                    rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
+                    rightMargin: staticMargin
                 }
                 fillMode: Image.PreserveAspectFit
                 height: units.gu(1.5)
@@ -162,8 +152,12 @@ LocalComponents.Page {
         }
     }
 
-    Item {
-        id: column
+    GridLayout {
+        id: masterLayout
+        columns: 2
+        rows: 1
+        flow: GridLayout.TopToBottom
+        columnSpacing: units.gu(2)
         anchors {
             fill: content
             topMargin: units.gu(4)
@@ -171,62 +165,55 @@ LocalComponents.Page {
             rightMargin: desktopLook ? staticMargin : 0
         }
 
-        LocalComponents.WizardTextField {
-            id: searchField
-            objectName: "tzFilter"
-            anchors.left: parent.left
-            anchors.right: !desktopLook ? parent.right : undefined
-            anchors.leftMargin: column.anchors.leftMargin == 0 ? staticMargin : 0
-            anchors.rightMargin: column.anchors.rightMargin == 0 ? staticMargin : 0
-            placeholderText: i18n.tr("Enter your city")
-            inputMethodHints: Qt.ImhNoPredictiveText
-            onTextChanged: resetViews();
-        }
+        ColumnLayout {
+            anchors.left: desktopLook ? undefined : parent.left
+            anchors.right: desktopLook ? undefined : parent.right
+            Layout.fillWidth: !desktopLook
+            Layout.fillHeight: true
 
-        Rectangle {
-            id: divider
-            anchors.left: parent.left
-            anchors.right: !desktopLook ? parent.right : undefined
-            anchors.top: searchField.bottom
-            anchors.topMargin: units.gu(3)
-            height: units.dp(1)
-            color: dividerColor
-            visible: tzList.count > 0
-        }
-
-        ListView {
-            id: tzList
-            objectName: "tzList"
-            clip: true
-            currentIndex: -1
-            snapMode: ListView.SnapToItem
-
-            anchors {
-                left: parent.left
-                right: !desktopLook ? parent.right : undefined
-                top: divider.bottom
-                bottom: parent.bottom
+            LocalComponents.WizardTextField {
+                id: searchField
+                objectName: "tzFilter"
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: !desktopLook ? staticMargin : 0
+                anchors.rightMargin: !desktopLook ? staticMargin : 0
+                placeholderText: i18n.tr("Enter your city")
+                inputMethodHints: Qt.ImhNoPredictiveText
+                onTextChanged: resetViews();
             }
 
-            model: tzFilterModel
-            delegate: tzComponent
+            Rectangle {
+                Layout.fillWidth: true
+                id: divider
+                anchors.topMargin: units.gu(3)
+                height: units.dp(1)
+                color: dividerColor
+                visible: tzList.count > 0
+            }
+
+            ListView {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                id: tzList
+                objectName: "tzList"
+                clip: true
+                currentIndex: -1
+                model: tzFilterModel
+                delegate: tzComponent
+            }
         }
 
         Item {
+            Layout.fillWidth: desktopLook
+            Layout.fillHeight: true
             id: mapContainer
-            visible: content.width > maximumContentWidth + map.width
+            visible: desktopLook
             enabled: visible
-            anchors {
-                left: tzList.right
-                right: parent.right
-                top: parent.top
-                bottom: parent.bottom
-                leftMargin: units.gu(2)
-            }
 
             Item {
                 id: map
-                width: column.width - tzList.width
+                width: parent.width
                 height: width / 1.95 // keep our aspect ratio
                 anchors {
                     centerIn: parent
