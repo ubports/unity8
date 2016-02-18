@@ -96,8 +96,8 @@ Item {
 
             Column {
                 anchors.centerIn: parent
-                width: parent.width - units.gu(8)
-                spacing: units.gu(4)
+                width: parent.width - (internalGu * 8)
+                spacing: internalGu * 4
 
                 Label {
                     id: text
@@ -108,7 +108,7 @@ Item {
                     wrapMode: Text.Wrap
                 }
                 Icon {
-                    height: units.gu(8)
+                    height: internalGu * 8
                     width: height
                     name: "input-touchpad-symbolic"
                     color: "white"
