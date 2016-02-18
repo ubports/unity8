@@ -52,7 +52,7 @@ LocalComponents.Page {
         anchors.topMargin: customMargin
 
         height: contentHeight - buttonBarHeight - Qt.inputMethod.keyboardRectangle.height - titleRectHeight
-        contentHeight: childrenRect.height
+        contentHeight: contentItem.childrenRect.height
 
         Behavior on contentY { UbuntuNumberAnimation{} }
 
