@@ -79,26 +79,25 @@ Rectangle {
     InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
-        property int oldCount: 0
     }
-    readonly property int physicalInputDevices: miceModel.count + keyboardsModel.count + touchPadModel.count
-    onPhysicalInputDevicesChanged: {
-        console.log("Input devices changed:", physicalInputDevices, "current mode:", root.unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount + keyboardsModel.oldCount)
+
+    InputDeviceModel {
+        id: touchScreensModel
+        deviceFilter: InputInfo.TouchScreen
+    }
+
+    readonly property int pointerInputDevices: miceModel.count + touchPadModel.count
+    onPointerInputDevicesChanged: {
+        console.log("Pointer input devices changed:", pointerInputDevices, "current mode:", root.unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount)
         if (root.unity8Settings.usageMode === "Windowed") {
-            if (physicalInputDevices === 0) {
-                // All devices have been unplugged. Move to staged.
+            if (pointerInputDevices === 0) {
+                // All pointer devices have been unplugged. Move to staged.
                 root.unity8Settings.usageMode = "Staged";
             }
         } else {
             var longEdgeWidth = Math.max(root.width, root.height)
-            if (longEdgeWidth > units.gu(120)) {
-                if (keyboardsModel.count + miceModel.count + touchPadModel.count > 0 &&
-                        physicalInputDevices > miceModel.oldCount + touchPadModel.oldCount + keyboardsModel.oldCount) {
-                    root.unity8Settings.usageMode = "Windowed"
-                }
-            } else if (longEdgeWidth > units.gu(90)){
-                if (miceModel.count + touchPadModel.count > 0 &&
-                        miceModel.count + touchPadModel.count > miceModel.oldCount + touchPadModel.oldCount) {
+            if (longEdgeWidth > units.gu(90)){
+                if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
                     root.unity8Settings.usageMode = "Windowed";
                 }
             } else {
@@ -108,12 +107,6 @@ Rectangle {
         }
         miceModel.oldCount = miceModel.count;
         touchPadModel.oldCount = touchPadModel.count;
-        keyboardsModel.oldCount = keyboardsModel.count;
-    }
-
-    InputDeviceModel {
-        id: touchScreensModel
-        deviceFilter: InputInfo.TouchScreen
     }
 
     Screens {
