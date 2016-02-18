@@ -19,15 +19,22 @@
 #include <QSettings>
 #include <QFileInfo>
 #include <QDebug>
+#include <QStandardPaths>
 
 DeviceConfigParser::DeviceConfigParser(QObject *parent): QObject(parent)
 {
     QString path;
-    if (QFileInfo("./devices.conf").exists()) {
-        path = "./devices.conf";
-    } else {
+    Q_FOREACH (const QString &standardPath, QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation)) {
+        if (QFileInfo(standardPath + "/devices.conf").exists()) {
+            path = standardPath + "/devices.conf";
+            break;
+        }
+    }
+
+    if (path.isEmpty()) {
         path = "/etc/ubuntu/devices.conf";
     }
+    qDebug() << "Using" << path << "as device configuration file";
     m_config = new QSettings(path, QSettings::IniFormat, this);
 }
 
