@@ -37,6 +37,8 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_surfaceHeight(0)
     , m_touchPressCount(0)
     , m_touchReleaseCount(0)
+    , m_mousePressCount(0)
+    , m_mouseReleaseCount(0)
 {
 //    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
@@ -165,6 +167,8 @@ void MirSurfaceItem::touchEvent(QTouchEvent * event)
 
 void MirSurfaceItem::mousePressEvent(QMouseEvent * event)
 {
+    m_mousePressCount++;
+    Q_EMIT mousePressCountChanged(m_mousePressCount);
     event->accept();
 }
 
@@ -175,6 +179,8 @@ void MirSurfaceItem::mouseMoveEvent(QMouseEvent * event)
 
 void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
 {
+    m_mouseReleaseCount++;
+    Q_EMIT mouseReleaseCountChanged(m_mouseReleaseCount);
     event->accept();
 }
 

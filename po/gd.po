@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2015-07-16 10:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:45+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 "Language: gd\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -273,16 +273,19 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
+"Tha an t-uidheam agad air a cheangal ri uidheam-taisbeanaidh air an taobh a-"
+"muigh a-nis. Cleachd an sgrìn seo 'na phada-suathaidh gus gnìomh luchaige a "
+"dhèanamh."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Thoir a' ghlas dheth"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Feuch ris a-rithist"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Gnog gus a' ghlas a thoirt fo bharr"
 
@@ -511,8 +514,8 @@ msgid "Hi!"
 msgstr "Shin thu!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Fàilte dhan fhòn Ubuntu agad."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -542,8 +545,8 @@ msgid "Lock security"
 msgstr "Glas tèarainteachd"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Tagh an dòigh sa tha thu airson a' ghlas a thoirt far an fhòn agad."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -654,8 +657,8 @@ msgid "Nice work!"
 msgstr "Shin thu!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Gabhaidh am fòn agad cleachdadh a-nis."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -795,6 +798,15 @@ msgstr "%1  〉"
 #~ msgid "Manage Scopes"
 #~ msgstr "Stiùirich na sgòpaichean"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Fàilte dhan fhòn Ubuntu agad."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Tagh an dòigh sa tha thu airson a' ghlas a thoirt far an fhòn agad."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Gabhaidh am fòn agad cleachdadh a-nis."
+
 #~ msgid "%a %H:%M"
 #~ msgstr "%a %H:%M"
 
@@ -830,8 +842,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Fònaig air ais"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr ""
-#~ "Tha an t-uidheam agad ceangailte ri uidheam-taisbeanaidh air an taobh a-"
-#~ "muigh a-nis."

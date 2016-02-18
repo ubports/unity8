@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
-"PO-Revision-Date: 2015-07-24 18:03+0000\n"
-"Last-Translator: Torsten Franz <Unknown>\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
+"PO-Revision-Date: 2016-02-17 19:16+0000\n"
+"Last-Translator: schuko24 <gerdsaenger@t-online.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:45+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-18 05:48+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -269,16 +269,18 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
+"Ihr Gerät ist nun mit einer externen Anzeige verbunden. Benutzen Sie diesen "
+"Bildschirm als Touchpad zur Steuerung des Mauszeigers."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Entsperren"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Erneut versuchen"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Zum Entsperren tippen"
 
@@ -500,8 +502,8 @@ msgid "Hi!"
 msgstr "Hallo!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Willkommen zu Ihrem Ubuntu-Telefon."
+msgid "Welcome to your Ubuntu device."
+msgstr "Willkommen auf Ihrem Ubuntu-Gerät."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -531,8 +533,8 @@ msgid "Lock security"
 msgstr "Sicherheit nach dem Sperren"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Bitte wählen Sie aus, wie Sie Ihr Telefon entsperren wollen."
+msgid "Please select how you’d like to unlock your device."
+msgstr "Bitte wählen Sie, wie Sie dieses Gerät entsperren möchten."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -640,8 +642,8 @@ msgid "Nice work!"
 msgstr "Gute Arbeit!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Ihr Telefon ist nun einsatzbereit."
+msgid "Your device is now ready to use."
+msgstr "Ihr Gerät ist nun einsatzbereit."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -781,6 +783,15 @@ msgstr "%1  〉"
 #~ msgid "Please re-enter"
 #~ msgstr "Bitte erneut eingeben"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Willkommen zu Ihrem Ubuntu-Telefon."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Bitte wählen Sie aus, wie Sie Ihr Telefon entsperren wollen."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Ihr Telefon ist nun einsatzbereit."
+
 #~ msgid "%a %H:%M"
 #~ msgstr "%a %k:%M"
 
@@ -813,6 +824,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Zurückrufen"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Ihr Gerät ist jetzt mit einem externen Bildschirm verbunden."

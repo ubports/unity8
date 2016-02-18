@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-12 00:28+0000\n"
 "PO-Revision-Date: 2014-01-17 09:05+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -268,11 +268,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "Buka"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Cuba Lagi"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Ketik untuk buka"
 
@@ -493,8 +493,8 @@ msgid "Hi!"
 msgstr "Hai"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Selamat datang ke telefon Ubuntu anda."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -525,8 +525,8 @@ msgid "Lock security"
 msgstr "Kunci keselamatan"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Sila pilih bagaimana anda mahu membuka telefon anda."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -633,8 +633,8 @@ msgid "Nice work!"
 msgstr "Selesai!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Telefon anda kini boleh digunakan."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -771,6 +771,15 @@ msgstr "%1  〉"
 #~ "Anda kini telah memahami gerak isyarat pinggir dan boleh mula gunakan "
 #~ "telefon<br><br>Ketuk pada skrin untuk mula"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Selamat datang ke telefon Ubuntu anda."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Sila pilih bagaimana anda mahu membuka telefon anda."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Telefon anda kini boleh digunakan."
+
 #~ msgid "%a %H:%M"
 #~ msgstr "%a %H:%M"
 
@@ -803,6 +812,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Panggilan semula"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Peranti anda kini bersambung dengan paparan luar."
