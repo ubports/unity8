@@ -104,7 +104,7 @@ Item {
                     text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the pointer.")
                     color: "white"
                     width: parent.width
-                    fontSize: "large"
+                    font.pixelSize: 2.5 * internalGu
                     wrapMode: Text.Wrap
                 }
                 Icon {
