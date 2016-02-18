@@ -76,7 +76,7 @@ LocalComponents.Page {
             inputMethodHints: Qt.ImhNoPredictiveText
             onAccepted: surnameInput.forceActiveFocus()
             onActiveFocusChanged: {
-                if (activeFocus && Qt.inputMethod.visible) {
+                if (activeFocus) {
                     column.contentY = nameLabel.y
                 }
             }
@@ -104,7 +104,7 @@ LocalComponents.Page {
             inputMethodHints: Qt.ImhNoPredictiveText
             onAccepted: d.advance()
             onActiveFocusChanged: {
-                if (activeFocus && Qt.inputMethod.visible) {
+                if (activeFocus) {
                     column.contentY = surnameLabel.y
                 }
             }
