@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -276,5 +276,18 @@ void ApplicationInfo::setExemptFromLifecycle(bool exemptFromLifecycle)
     {
         m_exemptFromLifecycle = exemptFromLifecycle;
         Q_EMIT exemptFromLifecycleChanged(m_exemptFromLifecycle);
+    }
+}
+
+QSize ApplicationInfo::initialSurfaceSize() const
+{
+    return m_initialSurfaceSize;
+}
+
+void ApplicationInfo::setInitialSurfaceSize(const QSize &size)
+{
+    if (size != m_initialSurfaceSize) {
+        m_initialSurfaceSize = size;
+        Q_EMIT initialSurfaceSizeChanged(m_initialSurfaceSize);
     }
 }

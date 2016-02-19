@@ -23,6 +23,7 @@
 #include <QString>
 
 class AccountsServiceDBusAdaptor;
+class QDBusInterface;
 
 class AccountsService: public QObject
 {
@@ -112,6 +113,8 @@ private:
     void updateEnableLauncherWhileLocked(bool async = true);
     void updateEnableIndicatorsWhileLocked(bool async = true);
     void updateBackgroundFile(bool async = true);
+    void updateMouseCursorSpeed();
+    void updateTouchpadCursorSpeed();
     void updateStatsWelcomeScreen(bool async = true);
     void updatePasswordDisplayHint(bool async = true);
     void updateFailedLogins(bool async = true);
@@ -119,6 +122,7 @@ private:
     void updateHereLicensePath(bool async = true);
 
     AccountsServiceDBusAdaptor *m_service;
+    QDBusInterface *m_unityInput;
     QString m_user;
     bool m_demoEdges;
     bool m_enableLauncherWhileLocked;

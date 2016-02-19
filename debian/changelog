@@ -1,3 +1,135 @@
+unity8 (8.11+16.04.20160212-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Do not use components in card creator generated code
+  * Forward the makesurevisible signal from the inner preview widget
+  * Make fallback also be fallback when the image is empty and not only
+    on error (LP: #1531913)
+  * Make the artShapeSize assignment be updated when using dynamic grid
+    units
+  * Visual improvements to the dash audio play cards
+  * We don't use the unity-scope-scopes anymore (LP: #1439172)
+
+  [ Andrea Cimitan ]
+  * only request a bigger image if zoomable widget data property is
+    true, otherwise just leave the screen size (LP: #1536814)
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Daniel d'Andrada ]
+  * Set initial surface size (LP: #1532974)
+
+  [ Daniel d'Andrada, Michał Sawicz ]
+  * Window Size Hints
+
+  [ Florian Boucault ]
+  * Splash screen: delay showing the ActivityIndicator by 2 seconds.
+
+  [ Lukáš Tinkl ]
+  * Replace the word "phone" with a more generic term "device" in the
+    welcome wizard (LP: #1294732, #1543527)
+
+  [ Michael Terry ]
+  * Have the tablet greeter set appropriate OSK hints if the user has a
+    passcode instead of a passphrase. (LP: #1544173)
+
+  [ Michael Zanetti ]
+  * Don't eat mouse events in the edgebarrer
+
+  [ Michał Sawicz ]
+  * Bump unity-api dependencies
+
+  [ Nick Dedekind ]
+  * Added support for secondary indicator actions (LP: #1398888)
+  * Remove zombie if they're not animated. (LP: #1534541)
+  * Removed unused panel resources
+
+  [ Ted Gould ]
+  * Start the indicators after Unity8 starts instead of before
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 12 Feb 2016 00:12:41 +0000
+
+unity8 (8.11+16.04.20160208-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * LVWPH: Reset to initial values when list is empty (LP: #1540490)
+  * Make LazyImage qmltest less flaky on CI
+
+  [ Andrea Cimitan ]
+  * Make LazyImage qmltest less flaky on CI
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Michael Terry ]
+  * Display the current user's real name on the tablet lockscreen. (LP:
+    #1536714)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Mon, 08 Feb 2016 09:38:00 +0000
+
+unity8 (8.11+16.04.20160129-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Audio Preview Button: Don't gain focus on press (LP: #1517830)
+  * Better attempt at sanitization
+  * Better looking application scopes for wide screens
+  * Call printSettings correctly
+  * Card test: Limit the precision we ask for doubles to be equal
+  * Convert while into tryCompareFunction
+  * Do not use the same filepath parameter for all the card creator
+    createQmlObject calls (LP: #1536379)
+  * Fix some test shells being unstable in the armhf builders
+  * Make revealByEdgePush more stable
+  * More reliable compares
+  * Move the mouse over the bfb before waiting for rendering
+  * Remove the DDAs constrains for every test
+  * Set the background source size to the max we'll need + new
+    background (LP: #1539011)
+
+  [ Andrea Cimitan ]
+  * Dynamically  change click scope card size according to size (LP:
+    #1536745)
+  * Should fix lazyimage test failures on fast machines
+
+  [ CI Train Bot ]
+  * Fix card tests on the phone
+  * Update translation template
+
+  [ Daniel d'Andrada ]
+  * Desktop stage rotates only to follow screen orientation (LP:
+    #1515977)
+
+  [ Lukáš Tinkl ]
+  * Hide/reveal the mouse pointer on touch/mouse events renamed:
+    plugins/Utils/HomeKeyWatcher.cpp =>
+    plugins/Utils/WindowInputMonitor.cpp plugins/Utils/HomeKeyWatcher.h
+    => plugins/Utils/WindowInputMonitor.h
+    tests/mocks/Utils/HomeKeyWatcher.qml =>
+    tests/mocks/Utils/WindowInputMonitor.qml
+    tests/plugins/Utils/HomeKeyWatcherTest.cpp =>
+    tests/plugins/Utils/WindowInputMonitorTest.cpp
+
+  [ Michael Terry ]
+  * Synchronize the mouse-cursor-speed and touchpad-cursor-speed
+    properties with USC. (LP: #1536383)
+
+  [ Michael Zanetti ]
+  * Add InputMethod to secondary screen
+  * Add a virtual Touchpad while external screen is connected
+  * Make big tablets switch to windowed mode by plugging a kbd only (LP:
+    #1535399)
+  * Prevent alt key presses from being dispatched to the app on alt+tab
+    (LP: #1532862)
+
+  [ Michał Sawicz ]
+  * Make qmluitests.sh more robust and allow parallel test execution
+  * Skip SessionBackendTest::testLogin1Capabilities until we talk to a
+    mock instead (LP: #1532112, #1532113)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 29 Jan 2016 11:53:27 +0000
+
 unity8 (8.11+16.04.20160122-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

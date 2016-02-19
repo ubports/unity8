@@ -15,7 +15,26 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.3
+import Unity.Application 0.1
 
-QtObject {
-    signal activated()
+Row {
+    id: root
+    property alias textColor: label.color
+    property alias text: label.text
+    property string propertyName
+
+    Label {id: label; anchors.verticalCenter: parent.verticalCenter}
+    TextField {
+        width: units.gu(10); hasClearButton: false; maximumLength: 6
+        inputMask: "d00000"
+        text: ""
+        onTextChanged: {
+            if (text.length > 0) {
+                SurfaceManager[root.propertyName] = parseInt(text);
+            } else {
+                SurfaceManager[root.propertyName] = 0;
+            }
+        }
+    }
 }
