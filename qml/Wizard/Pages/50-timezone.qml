@@ -169,8 +169,8 @@ LocalComponents.Page {
         ColumnLayout {
             anchors.left: desktopLook ? undefined : parent.left
             anchors.right: desktopLook ? undefined : parent.right
-            Layout.fillWidth: !desktopLook
             Layout.fillHeight: true
+            Layout.maximumWidth: maximumContentWidth
 
             LocalComponents.WizardTextField {
                 id: searchField
