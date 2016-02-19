@@ -30,7 +30,9 @@ Item {
     property bool keyboardVisible
     property var lastInputTimestamp
 
-    readonly property bool launcherEnabled: !running || tutorialLeftLoader.shown
+    readonly property bool launcherEnabled: !running
+                                            || tutorialLeftLoader.shown
+                                            || tutorialLeftLongLoader.shown
     readonly property bool spreadEnabled: !running || tutorialRightLoader.shown
     readonly property bool panelEnabled: !running || tutorialTopLoader.shown
     readonly property bool running: tutorialLeftLoader.shown
@@ -102,6 +104,48 @@ Item {
     }
 
     Loader {
+        id: tutorialLeftLongLoader
+        objectName: "tutorialLeftLongLoader"
+        anchors.fill: parent
+
+        readonly property bool skipped: !d.mobileScenario || d.haveShown("left-long")
+        readonly property bool shown: item && item.shown
+        active: !skipped || (item && item.visible)
+        onSkippedChanged: if (skipped && shown) item.hide()
+
+        sourceComponent: TutorialLeftLong {
+            id: tutorialLeftLong
+            objectName: "tutorialLeftLong"
+            anchors.fill: parent
+            launcher: root.launcher
+            hides: [launcher, panel.indicators]
+            paused: root.paused
+
+            skipped: tutorialLeftLongLoader.skipped
+            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible &&
+                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
+
+            Timer {
+                id: tutorialLeftLongTimer
+                objectName: "tutorialLeftLongTimer"
+                interval: 5000
+                onTriggered: {
+                    if (parent.isReady) {
+                        if (!parent.shown) {
+                            parent.show();
+                        }
+                    } else if (!parent.skipped) {
+                        restart();
+                    }
+                }
+            }
+
+            onIsReadyChanged: if (isReady && !shown) tutorialLeftLongTimer.start()
+            onFinished: AccountsService.markDemoEdgeCompleted("left-long")
+        }
+    }
+
+    Loader {
         id: tutorialTopLoader
         objectName: "tutorialTopLoader"
         anchors.fill: parent
@@ -119,8 +163,8 @@ Item {
             hides: [launcher, panel.indicators]
             paused: root.paused
 
-            isReady: tutorialLeftLoader.skipped && !tutorialTopLoader.skipped &&
-                     !paused && !keyboardVisible &&
+            skipped: tutorialTopLoader.skipped
+            isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !keyboardVisible &&
                      !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
 
             // We fire 30s after left edge tutorial, with at least 3s of inactivity
@@ -162,8 +206,8 @@ Item {
             hides: [launcher, panel.indicators]
             paused: root.paused
 
-            isReady: tutorialTopLoader.skipped && !tutorialRightLoader.skipped &&
-                     !paused && !keyboardVisible &&
+            skipped: tutorialRightLoader.skipped
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible &&
                      !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow &&
                      ApplicationManager.count >= 3
 
@@ -231,6 +275,7 @@ Item {
             stage: root.stage
             application: d.focusedApp
 
+            skipped: tutorialBottomLoader.skipped
             isReady: !tutorialBottomLoader.skipped && !paused && !keyboardVisible &&
                      !tutorialTopLoader.shown && !tutorialRightLoader.shown &&
                      tutorialBottomLoader.mightShow &&

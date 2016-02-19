@@ -27,6 +27,7 @@ Showable {
     property alias mouseArea: mouseArea
     property real opacityOverride: 1
     property bool paused
+    property bool skipped
     property bool isReady
 
     signal finished()
