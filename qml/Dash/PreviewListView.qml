@@ -23,20 +23,14 @@ import "Previews" as Previews
 Item {
     id: root
 
-    property int initialIndex: -1
-    property var initialIndexPreviewStack: null
+    property bool open: false
     property var scope: null
     property var scopeStyle: null
-    property string categoryId
-    property bool usedInitialIndex: false
 
     property alias showSignatureLine: header.showSignatureLine
 
-    property alias open: previewListView.open
-    property alias model: previewListView.model
-    property alias currentIndex: previewListView.currentIndex
-    property alias currentItem: previewListView.currentItem
-    property alias count: previewListView.count
+    property alias currentItem: previewLoader.item
+    property var previewModel
 
     readonly property bool processing: currentItem && (!currentItem.previewModel.loaded
                                                        || currentItem.previewModel.processingAction)
@@ -55,73 +49,36 @@ Item {
         onBackClicked: root.backClicked()
     }
 
-    ListView  {
-        id: previewListView
-        objectName: "listView"
+    onOpenChanged: {
+        if (!open) {
+            // Cancel any pending preview requests or actions
+            if (currentItem && currentItem.previewData !== undefined) {
+                currentItem.previewData.cancelAction();
+            }
+            root.scope.cancelActivation();
+        }
+    }
+
+    Loader {
+        id: previewLoader
+        objectName: "loader"
         anchors {
             top: header.bottom
             bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
-        orientation: ListView.Horizontal
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        snapMode: ListView.SnapOneItem
-        boundsBehavior: Flickable.DragAndOvershootBounds
-        highlightMoveDuration: 250
-        flickDeceleration: units.gu(625)
-        maximumFlickVelocity: width * 5
-        cacheBuffer: 0
 
-        property bool open: false
-
-        onOpenChanged: {
-            if (!open) {
-                // Cancel any pending preview requests or actions
-                if (previewListView.currentItem && previewListView.currentItem.previewData !== undefined) {
-                    previewListView.currentItem.previewData.cancelAction();
-                }
-                root.scope.cancelActivation();
-                model = undefined;
-            }
-        }
-
-        onModelChanged: {
-            if (count > 0 && initialIndex >= 0 && !usedInitialIndex) {
-                usedInitialIndex = true;
-                previewListView.positionViewAtIndex(initialIndex, ListView.SnapPosition);
-            }
-        }
-
-        delegate: Previews.Preview {
+        sourceComponent: Previews.Preview {
             id: preview
-            objectName: "preview" + index
-            height: previewListView.height
-            width: previewListView.width
+            objectName: "preview"
+            height: previewLoader.height
+            width: previewLoader.width
+        }
 
-            isCurrent: ListView.isCurrentItem
-
-            readonly property var previewStack: {
-                if (root.open) {
-                    if (index === root.initialIndex) {
-                        return root.initialIndexPreviewStack;
-                    } else {
-                        return root.scope.preview(result, root.categoryId);
-                    }
-                } else {
-                    return null;
-                }
-            }
-
-            previewModel: {
-                if (previewStack) {
-                    return previewStack.getPreviewModel(0);
-                } else {
-                    return null;
-                }
-            }
-
-            scopeStyle: root.scopeStyle
+        onLoaded: {
+            item.scopeStyle = Qt.binding(function() { return root.scopeStyle; });
+            item.previewModel = Qt.binding(function() { return root.previewModel; });
         }
     }
 

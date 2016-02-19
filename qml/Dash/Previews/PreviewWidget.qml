@@ -19,9 +19,6 @@ import QtQuick 2.4
 /*! Interface for preview widgets. */
 
 Item {
-    //! Specifies the preview widget being currently used or not
-    property bool isCurrentPreview: true
-
     //! The widget identifier
     property string widgetId
 

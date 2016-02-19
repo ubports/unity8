@@ -199,14 +199,14 @@ void Scope::activate(QVariant const& result, QString const& categoryId)
     }
 }
 
-PreviewStack* Scope::preview(QVariant const& result, QString const& /*categoryId*/)
+PreviewModel* Scope::preview(QVariant const& result, QString const& /*categoryId*/)
 {
     Q_UNUSED(result);
 
     if (m_returnNullPreview) {
         return nullptr;
     } else {
-        return new PreviewStack(this);
+        return new PreviewModel(this);
     }
 }
 
