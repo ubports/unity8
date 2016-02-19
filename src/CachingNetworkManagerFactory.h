@@ -25,6 +25,7 @@
 
 class CachingNetworkAccessManager : public QNetworkAccessManager
 {
+Q_OBJECT
 public:
     CachingNetworkAccessManager(QObject *parent = 0);
 
