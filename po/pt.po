@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-18 05:48+0000\n"
+"X-Launchpad-Export-Date: 2016-02-19 05:42+0000\n"
 "X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -143,7 +143,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr "Volte para chamada"
+msgstr "Volte para a chamada"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -347,7 +347,7 @@ msgstr "Mostrar palavra-passe"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Toque para voltar a chamar..."
+msgstr "Toque para voltar à chamada..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
