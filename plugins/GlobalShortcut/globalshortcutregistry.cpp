@@ -75,7 +75,7 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        QKeySequence seq = QKeySequence(keyEvent->key() + keyEvent->modifiers());
+        int seq = keyEvent->key() + keyEvent->modifiers();
         if (m_shortcuts.contains(seq)) {
             const auto shortcuts = m_shortcuts.value(seq);
             Q_FOREACH(const auto &shortcut, shortcuts) {
