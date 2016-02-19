@@ -19,6 +19,7 @@ import QtQuick.Window 2.2
 import Unity.InputInfo 0.1
 import Unity.Session 0.1
 import Unity.Screens 0.1
+import Utils 0.1
 import GSettings 1.0
 import "Components"
 import "Rotation"
@@ -82,6 +83,30 @@ Rectangle {
     InputDeviceModel {
         id: touchScreensModel
         deviceFilter: InputInfo.TouchScreen
+    }
+
+    /* FIXME: This is a work arround for lp:1542224.
+     * When QInputInfo exposes NameRole to QML, the filtering should
+     * happen in the backend.
+     */
+    property bool blacklistedDevicePresent: false
+    property var blacklistedDeviceList: ["py-evdev-uinput"]
+    UnitySortFilterProxyModel {
+        id: blacklistedDevices
+        model: keyboardsModel
+        onCountChanged: {
+            root.blacklistedDevicePresent = blacklistedDevicePresent();
+        }
+
+        function blacklistedDevicePresent() {
+            for(var i = 0; i < count; i++) {
+                var device = get(i);
+                if (blacklistedDeviceList.indexOf(device.name) != -1) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     Screens {
@@ -195,7 +220,8 @@ Rectangle {
         //       have multiple keyboards around. For now we only enable one keyboard at a time
         //       thus hiding it here if there is a physical one around or if we have a second
         //       screen (the virtual touchpad & osk on the phone) attached.
-        oskEnabled: keyboardsModel.count === 0 && screens.count === 1
+        oskEnabled: (keyboardsModel.count === 0 && screens.count === 1) ||
+            blacklistedDevicePresent
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
