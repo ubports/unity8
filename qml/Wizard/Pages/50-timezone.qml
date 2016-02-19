@@ -86,6 +86,7 @@ LocalComponents.Page {
         }
 
         tzFilterModel.filter = Qt.binding(function() { return searchField.text; });
+        tzFilterModel.invalidate();
         theme.palette.normal.backgroundText = "#cdcdcd";
         searchField.forceActiveFocus();
     }
