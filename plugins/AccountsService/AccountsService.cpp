@@ -19,6 +19,7 @@
 #include "AccountsService.h"
 #include "AccountsServiceDBusAdaptor.h"
 
+#include <QDBusInterface>
 #include <QFile>
 #include <QStringList>
 #include <QDebug>
@@ -35,6 +36,11 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     m_hereEnabled(false),
     m_hereLicensePath() // null means not set yet
 {
+    m_unityInput = new QDBusInterface(QStringLiteral("com.canonical.Unity.Input"),
+                                      QStringLiteral("/com/canonical/Unity/Input"),
+                                      QStringLiteral("com.canonical.Unity.Input"),
+                                      QDBusConnection::SM_BUSNAME(), this);
+
     connect(m_service, &AccountsServiceDBusAdaptor::propertiesChanged, this, &AccountsService::onPropertiesChanged);
     connect(m_service, &AccountsServiceDBusAdaptor::maybeChanged, this, &AccountsService::onMaybeChanged);
 
@@ -58,6 +64,8 @@ void AccountsService::setUser(const QString &user)
     updateEnableLauncherWhileLocked(false);
     updateEnableIndicatorsWhileLocked(false);
     updateBackgroundFile(false);
+    updateMouseCursorSpeed();
+    updateTouchpadCursorSpeed();
     updateStatsWelcomeScreen(false);
     updatePasswordDisplayHint(false);
     updateFailedLogins(false);
@@ -246,6 +254,52 @@ void AccountsService::updateBackgroundFile(bool async)
     }
 }
 
+void AccountsService::updateMouseCursorSpeed()
+{
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    QStringLiteral("com.ubuntu.AccountsService.Input"),
+                                                                    QStringLiteral("MouseCursorSpeed"));
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'MouseCursorSpeed' property - " << reply.error().message();
+            return;
+        }
+
+        // Merely proxy this along to USC.  We don't care about keeping a copy
+        // or exporting it internally.
+        m_unityInput->asyncCall(QStringLiteral("setMouseCursorSpeed"), reply.value());
+    });
+}
+
+void AccountsService::updateTouchpadCursorSpeed()
+{
+    QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
+                                                                    QStringLiteral("com.ubuntu.AccountsService.Input"),
+                                                                    QStringLiteral("TouchpadCursorSpeed"));
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'TouchpadCursorSpeed' property - " << reply.error().message();
+            return;
+        }
+
+        // Merely proxy this along to USC.  We don't care about keeping a copy
+        // or exporting it internally.
+        m_unityInput->asyncCall(QStringLiteral("setTouchpadCursorSpeed"), reply.value());
+    });
+}
+
 void AccountsService::updateStatsWelcomeScreen(bool async)
 {
     QDBusPendingCall pendingReply = m_service->getUserPropertyAsync(m_user,
@@ -422,6 +476,13 @@ void AccountsService::onPropertiesChanged(const QString &user, const QString &in
     } else if (interface == QLatin1String("com.canonical.unity.AccountsService.Private")) {
         if (changed.contains(QStringLiteral("FailedLogins"))) {
             updateFailedLogins();
+        }
+    } else if (interface == QLatin1String("com.ubuntu.AccountsService.Input")) {
+        if (changed.contains(QStringLiteral("MouseCursorSpeed"))) {
+            updateMouseCursorSpeed();
+        }
+        if (changed.contains(QStringLiteral("TouchpadCursorSpeed"))) {
+            updateTouchpadCursorSpeed();
         }
     } else if (interface == QLatin1String("com.ubuntu.touch.AccountsService.SecurityPrivacy")) {
         if (changed.contains(QStringLiteral("StatsWelcomeScreen"))) {

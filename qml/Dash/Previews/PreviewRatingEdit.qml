@@ -74,6 +74,7 @@ PreviewWidget {
         reviewText: widgetData["review"]
 
         onTriggered: root.triggered(widgetId, actionId, data);
+        onMakeSureVisible: root.makeSureVisible(item);
     }
 
 }

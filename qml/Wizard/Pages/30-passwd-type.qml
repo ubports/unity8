@@ -76,7 +76,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Please select how you’d like to unlock your phone.")
+            text: i18n.tr("Please select how you’d like to unlock your device.")
         }
 
         ItemSelector {
