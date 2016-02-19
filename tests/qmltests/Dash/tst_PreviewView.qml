@@ -55,7 +55,6 @@ Rectangle {
         }
     }
 
-
     UT.UnityTestCase {
         id: testCase
         name: "PreviewView"
