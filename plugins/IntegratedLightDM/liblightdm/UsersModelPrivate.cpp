@@ -18,6 +18,7 @@
 
 #include "UsersModelPrivate.h"
 
+#include <glib.h>
 #include <QDir>
 #include <QSettings>
 #include <QStringList>
@@ -28,14 +29,29 @@ namespace QLightDM
 UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
   : q_ptr(parent)
 {
-    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
-    QStringList users = settings.value(QStringLiteral("users"), QStringList() << qgetenv("USER")).toStringList();
+    QFileInfo demoFile(QDir::homePath() + "/.unity8-greeter-demo");
+    QString currentUser = g_get_user_name();
 
-    entries.reserve(users.count());
-    Q_FOREACH(const QString &user, users)
-    {
-        QString name = settings.value(user + "/name", user).toString();
-        entries.append({user, name, 0, 0, false, false, 0, 0});
+    if (demoFile.exists()) {
+        QSettings settings(demoFile.filePath(), QSettings::NativeFormat);
+        QStringList users = settings.value(QStringLiteral("users"), QStringList() << currentUser).toStringList();
+
+        entries.reserve(users.count());
+        Q_FOREACH(const QString &user, users)
+        {
+            QString name = settings.value(user + "/name", user).toString();
+            entries.append({user, name, 0, 0, false, false, 0, 0});
+        }
+    } else {
+        // If we were using the actual liblightdm, we could just ask it
+        // for the user's real name.  But we aren't.  We *should* ask
+        // AccountsService for the real name, like liblightdm does internally,
+        // but this is close enough since AS and passwd are always in sync.
+        QString realName = QString::fromUtf8(g_get_real_name()); // gets name from passwd entry
+        if (realName == QStringLiteral("Unknown")) { // glib doesn't translate this string
+            realName.clear();
+        }
+        entries.append({currentUser, realName, 0, 0, false, false, 0, 0});
     }
 }
 
