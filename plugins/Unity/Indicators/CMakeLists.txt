@@ -1,9 +1,5 @@
 project(IndicatorsQml)
 
-pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
-pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
-pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
-
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Quick REQUIRED)
 

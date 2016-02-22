@@ -41,7 +41,7 @@ LocalComponents.Page {
             anchors.left: parent.left
             anchors.right: parent.right
             wrapMode: Text.Wrap
-            text: i18n.tr("Welcome to your Ubuntu phone.")
+            text: i18n.tr("Welcome to your Ubuntu device.")
         }
 
         Label {

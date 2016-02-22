@@ -152,6 +152,8 @@ FocusScope {
             popped.completed.connect(function() { root.session.release(); } );
             popped.end();
             d.animations = tmp;
+        } else {
+            root.session.release();
         }
     }
 

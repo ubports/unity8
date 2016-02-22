@@ -35,7 +35,7 @@ QtObject {
 
         property Timer printSettingsTimer: Timer {
             interval: 1
-            onTriggered: printSettings();
+            onTriggered: d.printSettings();
         }
         function printSettings() {
             console.log("EdgeBarrierSettings: min="+(minPushThreshold/units.gu(1))+"gu("+minPushThreshold+"px)"

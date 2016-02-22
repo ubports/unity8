@@ -71,6 +71,7 @@ PreviewWidget {
                         width: trackRow.column1Width
                         height: width
                         iconSource: DashAudioPlayer.playing && trackItem.isPlayingItem ? "image://theme/media-playback-pause" : "image://theme/media-playback-start"
+                        activeFocusOnPress: false
 
                         // Can't be "transparent" or "#00xxxxxx" as the button optimizes away the surrounding shape
                         // FIXME when this is resolved: https://bugs.launchpad.net/ubuntu-ui-toolkit/+bug/1251685
@@ -84,7 +85,11 @@ PreviewWidget {
                                     DashAudioPlayer.play();
                                 }
                             } else {
-                                DashAudioPlayer.playSource(sourceUrl);
+                                var playlist = [];
+                                for (var i = 0; i < trackRepeater.count; ++i) {
+                                    playlist.push(trackRepeater.itemAt(i).sourceUrl);
+                                }
+                                DashAudioPlayer.playSource(sourceUrl, playlist);
                             }
                         }
                     }
