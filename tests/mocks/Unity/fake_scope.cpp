@@ -206,7 +206,7 @@ PreviewModel* Scope::preview(QVariant const& result, QString const& /*categoryId
     if (m_returnNullPreview) {
         return nullptr;
     } else {
-        return new PreviewModel(this);
+        return new PreviewModel(this, this);
     }
 }
 
