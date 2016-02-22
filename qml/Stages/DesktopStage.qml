@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,11 @@ AbstractStage {
     mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null
+
+    // application windows never rotate independently
+    mainAppWindowOrientationAngle: shellOrientationAngle
+
+    orientationChangesEnabled: true
 
     Connections {
         target: ApplicationManager
@@ -251,6 +256,12 @@ AbstractStage {
                 height: decoratedWindow.height
                 property alias requestedWidth: decoratedWindow.requestedWidth
                 property alias requestedHeight: decoratedWindow.requestedHeight
+                property alias minimumWidth: decoratedWindow.minimumWidth
+                property alias minimumHeight: decoratedWindow.minimumHeight
+                property alias maximumWidth: decoratedWindow.maximumWidth
+                property alias maximumHeight: decoratedWindow.maximumHeight
+                property alias widthIncrement: decoratedWindow.widthIncrement
+                property alias heightIncrement: decoratedWindow.heightIncrement
 
                 QtObject {
                     id: appDelegatePrivate

@@ -138,15 +138,20 @@ Item {
         visible: d.showIcon
     }
 
+    Timer {
+        interval: 2000
+        onTriggered: spinner.running = true
+        running: true
+    }
+
     ActivityIndicator {
+        id: spinner
         anchors.centerIn: header.visible ? parent : undefined
         anchors.verticalCenterOffset: header.visible ? header.height / 2 : 0
 
         anchors.horizontalCenter: header.visible ? undefined : parent.horizontalCenter
         anchors.bottom: header.visible ? undefined : parent.bottom
         anchors.bottomMargin: header.visible ? 0 : units.gu(12)
-
-        running: true
     }
 
     MouseArea {

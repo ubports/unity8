@@ -48,6 +48,16 @@ Rectangle {
         , "fallback": "../../../tests/graphics/clock@18.png"
     }
 
+    property var sourcesModelEmptyWithFallback: {
+        "sources": [
+                    "../../graphics/phone_background.jpg",
+                    "../../graphics/tablet_background.jpg",
+                    "../../../tests/graphics/clock@18.png",
+                    ""
+                   ]
+        , "fallback": "../../../tests/graphics/clock@18.png"
+    }
+
     PreviewImageGallery {
         id: imageGallery
         width: parent.width
@@ -120,6 +130,15 @@ Rectangle {
             tryCompare(image3, "state", "error");
             imageGallery.widgetData = sourcesModel0;
             imageGallery.widgetData = sourcesModel1WithFallback;
+            image3 = findChild(imageGallery, "previewImage3");
+            tryCompare(image3, "state", "ready");
+        }
+
+        function test_empty_fallback() {
+            var image3 = findChild(imageGallery, "previewImage3");
+            tryCompare(image3, "state", "error");
+            imageGallery.widgetData = sourcesModel0;
+            imageGallery.widgetData = sourcesModelEmptyWithFallback;
             image3 = findChild(imageGallery, "previewImage3");
             tryCompare(image3, "state", "ready");
         }
