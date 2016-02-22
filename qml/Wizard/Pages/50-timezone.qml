@@ -189,8 +189,8 @@ LocalComponents.Page {
 
             Rectangle {
                 Layout.fillWidth: true
-                id: divider
-                anchors.topMargin: units.gu(3)
+                Layout.topMargin: units.gu(3)
+                id: divider                
                 height: units.dp(1)
                 color: dividerColor
                 visible: tzList.count > 0
