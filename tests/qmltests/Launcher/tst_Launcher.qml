@@ -159,6 +159,20 @@ Item {
         target: LauncherModel
     }
 
+    Item {
+        id: fakeDismissTimer
+        property bool running: false
+        signal triggered
+
+        function stop() {
+            running = false;
+        }
+
+        function restart() {
+            running = true;
+        }
+    }
+
     UnityTestCase {
         id: testCase
         name: "Launcher"
@@ -177,6 +191,11 @@ Item {
             launcherLoader.active = true;
         }
         function init() {
+            var panel = findChild(launcher, "launcherPanel");
+            verify(!!panel);
+
+            panel.dismissTimer = fakeDismissTimer;
+
             // Make sure we don't start the test with the mouse hovering the launcher
             mouseMove(root, root.width, root.height / 2);
 
@@ -195,6 +214,8 @@ Item {
 
             // Now do check that snapping is in fact enabled
             compare(listView.snapMode, ListView.SnapToItem, "Snapping is not enabled");
+
+            removeTimeConstraintsFromDirectionalDragAreas(root);
         }
 
         function dragLauncherIntoView() {
@@ -894,6 +915,11 @@ Item {
 
             // Now move the mouse away and make sure it hides in less than a second
             mouseMove(root, root.width, root.height / 2)
+
+            // trigger the hide timer
+            compare(fakeDismissTimer.running, true);
+            fakeDismissTimer.triggered();
+            tryCompare(panel, "x", 0);
 
             tryCompare(launcher, "state", "", 1000, "Launcher didn't hide after moving mouse away from it");
             waitUntilLauncherDisappears();

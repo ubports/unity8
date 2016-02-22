@@ -39,6 +39,11 @@ Rectangle {
         "fallback": "../../graphics/phone_background.jpg"
     }
 
+    property var widgetData3: {
+        "source": "",
+        "fallback": "../../graphics/phone_background.jpg"
+    }
+
     Loader {
         id: loader
         width: parent.width
@@ -96,6 +101,13 @@ Rectangle {
 
         function test_fallback() {
             zoomableImage.widgetData = widgetData2;
+            waitForRendering(zoomableImage);
+            waitForRendering(lazyImage);
+            tryCompare(lazyImage, "state", "ready");
+        }
+
+        function test_emptyfallback() {
+            zoomableImage.widgetData = widgetData3;
             waitForRendering(zoomableImage);
             waitForRendering(lazyImage);
             tryCompare(lazyImage, "state", "ready");

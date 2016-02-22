@@ -48,6 +48,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     void pushedLeftBoundary(qreal amount, Qt::MouseButtons buttons);
     void pushedRightBoundary(qreal amount, Qt::MouseButtons buttons);
+    void mouseMoved();
 
 protected:
     void itemChange(ItemChange change, const ItemChangeData &value) override;
