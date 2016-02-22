@@ -64,6 +64,7 @@ private Q_SLOTS:
             QVERIFY(lines[0].startsWith(templateString));
             QVERIFY(lines[1].startsWith(componentsString));
             QVERIFY(lines[2].startsWith(resultString));
+
             const QString templateJSON = lines[0].mid(templateString.length());
             const QString componentsJSON = lines[1].mid(componentsString.length());
             const QString resultFileName = lines[2].mid(resultString.length());
