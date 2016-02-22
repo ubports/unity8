@@ -77,18 +77,21 @@ LocalComponents.Page {
         id: timeDatePanel
     }
 
-    Component.onCompleted: {
-        if (tzList.count == 1) { // preselect the first (and only) TZ
-            var tz = tzList.itemAt(0,0);
-            if (!!tz) {
-                tz.clicked();
+    onContentAnimationRunningChanged: {
+        if (!contentAnimationRunning) {
+            if (tzList.count == 1) { // preselect the first (and only) TZ
+                var tz = tzList.itemAt(0,0);
+                if (!!tz) {
+                    tz.clicked();
+                }
             }
-        }
 
-        tzFilterModel.filter = Qt.binding(function() { return searchField.text; });
-        tzFilterModel.invalidate();
-        theme.palette.normal.backgroundText = "#cdcdcd";
-        searchField.forceActiveFocus();
+            resetViews();
+            tzFilterModel.filter = Qt.binding(function() { return searchField.text; });
+            tzFilterModel.invalidate();
+            theme.palette.normal.backgroundText = "#cdcdcd";
+            searchField.forceActiveFocus();
+        }
     }
 
     Component {
@@ -209,7 +212,7 @@ LocalComponents.Page {
             Layout.fillWidth: desktopLook
             Layout.fillHeight: true
             id: mapContainer
-            visible: desktopLook
+            visible: desktopLook && !contentAnimationRunning
             enabled: visible
 
             Item {
@@ -225,21 +228,22 @@ LocalComponents.Page {
                     source: "data/timezonemap/map.png"
                     sourceSize: Qt.size(map.width, map.height)
                     fillMode: Image.PreserveAspectFit
-                    smooth: true
+                    smooth: false
                     visible: false
+                    asynchronous: true
                 }
 
                 Image {
                     id: highlightImage
                     sourceSize: Qt.size(map.width, map.height)
                     fillMode: Image.PreserveAspectFit
-                    smooth: true
+                    smooth: false
                     visible: false
+                    asynchronous: true
                 }
 
                 Blend {
                     anchors.fill: map
-                    cached: true
                     source: backgroundImage
                     foregroundSource: highlightImage
                 }
