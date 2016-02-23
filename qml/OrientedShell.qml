@@ -89,19 +89,24 @@ Rectangle {
      * When QInputInfo exposes NameRole to QML, the filtering should
      * happen in the backend.
      */
-    property bool blacklistedDevicePresent: false
-    property var blacklistedDeviceList: ["py-evdev-uinput"]
+    property bool forceOSKEnabled: false
+    property var autopilotEmulatedDeviceNames: ["py-evdev-uinput"]
     UnitySortFilterProxyModel {
-        id: blacklistedDevices
+        id: autopilotDevices
         model: keyboardsModel
-        onCountChanged: {
-            root.blacklistedDevicePresent = blacklistedDevicePresent();
+        onDeviceAdded: {
+            root.forceOSKEnabled = autopilotDevicePresent();
         }
 
-        function blacklistedDevicePresent() {
+        onDeviceRemoved: {
+            root.forceOSKEnabled = autopilotDevicePresent();
+        }
+
+        function autopilotdDevicePresent() {
             for(var i = 0; i < count; i++) {
                 var device = get(i);
-                if (blacklistedDeviceList.indexOf(device.name) != -1) {
+                if (autopilotEmulatedDeviceNames.indexOf(device.name) != -1) {
+                    console.warn("Forcing the OSK to be enabled as there is an autopilot eumlated device present.")
                     return true;
                 }
             }
@@ -221,7 +226,7 @@ Rectangle {
         //       thus hiding it here if there is a physical one around or if we have a second
         //       screen (the virtual touchpad & osk on the phone) attached.
         oskEnabled: (keyboardsModel.count === 0 && screens.count === 1) ||
-            blacklistedDevicePresent
+                    forceOSKEnabled
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
