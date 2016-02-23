@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-12 00:28+0000\n"
-"PO-Revision-Date: 2015-10-06 12:07+0000\n"
+"POT-Creation-Date: 2016-02-16 03:29+0000\n"
+"PO-Revision-Date: 2016-02-19 19:39+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
 "X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -152,27 +152,29 @@ msgstr "Aceutar"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Apps que pueden tener datos sin guardar:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Pa siguir coneuta nuevamente'l preséu, guarda'l trabayu y zarra estes "
+"aplicaciones."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "O fuerza salir agora (perderás tolos datos sin guardar)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "D'alcuerdu, reconeutaré"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Reconeutar agora."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Zarrar too"
 
 #: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
@@ -233,7 +235,7 @@ msgstr "Amestar una reseña"
 
 #: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Entever l'elementu compartíu"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -411,7 +413,7 @@ msgstr "Falló, toca pa reintentar"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Unviar"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -421,7 +423,7 @@ msgstr "Responder"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Devolver llamada"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
