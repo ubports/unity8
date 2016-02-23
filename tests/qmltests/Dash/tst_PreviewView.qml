@@ -86,8 +86,7 @@ Rectangle {
         }
 
         function test_processing() {
-            verify(view.currentItem, "currentItem is not ready yet");
-            view.currentItem.previewModel.setLoaded(false);
+            view.previewModel.setLoaded(false);
 
             tryCompare(view, "processing", true);
 

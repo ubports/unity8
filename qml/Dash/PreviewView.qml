@@ -26,14 +26,9 @@ Item {
     property bool open: false
     property var scope: null
     property var scopeStyle: null
-
     property alias showSignatureLine: header.showSignatureLine
-
-    property alias currentItem: previewLoader.item
-    property var previewModel
-
-    readonly property bool processing: currentItem && (!currentItem.previewModel.loaded
-                                                       || currentItem.previewModel.processingAction)
+    property alias previewModel: preview.previewModel
+    readonly property bool processing: previewModel && (!previewModel.loaded || previewModel.processingAction)
 
     signal backClicked()
 
@@ -51,47 +46,31 @@ Item {
 
     onOpenChanged: {
         if (!open) {
-            // Cancel any pending preview requests or actions
-            if (currentItem && currentItem.previewData !== undefined) {
-                currentItem.previewData.cancelAction();
-            }
             root.scope.cancelActivation();
         }
     }
 
-    Loader {
-        id: previewLoader
-        objectName: "loader"
+    Previews.Preview {
+        id: preview
+        objectName: "preview"
         anchors {
             top: header.bottom
             bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
-
-        sourceComponent: Previews.Preview {
-            id: preview
-            objectName: "preview"
-            height: previewLoader.height
-            width: previewLoader.width
-        }
-
-        onLoaded: {
-            item.scopeStyle = Qt.binding(function() { return root.scopeStyle; });
-            item.previewModel = Qt.binding(function() { return root.previewModel; });
-        }
+        scopeStyle: root.scopeStyle
     }
 
     MouseArea {
         id: processingMouseArea
         objectName: "processingMouseArea"
         anchors {
-            left: parent.left
-            right: parent.right
             top: header.bottom
             bottom: parent.bottom
+            left: parent.left
+            right: parent.right
         }
-
         enabled: root.processing
     }
 }
