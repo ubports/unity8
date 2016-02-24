@@ -133,7 +133,10 @@ LocalComponents.Page {
                 }
             }
 
-            onClicked: unityMenuModel.activate(menuIndex);
+            onClicked: {
+                unityMenuModel.activate(menuIndex);
+                listview.positionViewAtBeginning();
+            }
 
             Component.onCompleted: {
                 loadAttributes();
@@ -143,11 +146,6 @@ LocalComponents.Page {
             }
             onMenuIndexChanged: {
                 loadAttributes();
-            }
-            onIsConnectedChanged: {
-                if (isConnected) {
-                    listview.positionViewAtIndex(0, ListView.Beginning);
-                }
             }
         }
     }

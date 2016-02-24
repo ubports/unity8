@@ -46,12 +46,13 @@ LocalComponents.Page {
         id: column
         clip: true
         flickableDirection: Flickable.VerticalFlick
-        anchors.fill: content
-        anchors.leftMargin: parent.leftMargin
-        anchors.rightMargin: parent.rightMargin
-        anchors.topMargin: customMargin
+        anchors {
+            fill: content
+            leftMargin: parent.leftMargin
+            rightMargin: parent.rightMargin
+            topMargin: customMargin
+        }
 
-        height: contentHeight - buttonBarHeight - Qt.inputMethod.keyboardRectangle.height - titleRectHeight
         contentHeight: contentItem.childrenRect.height
 
         Behavior on contentY { UbuntuNumberAnimation{} }
@@ -109,6 +110,13 @@ LocalComponents.Page {
                 }
             }
         }
+    }
+
+    Binding {
+        target: surnameInput
+        property: "anchors.bottomMargin"
+        value: Qt.inputMethod.keyboardRectangle.height
+        when: Qt.inputMethod.visible && !Qt.inputMethod.animating
     }
 
     Component {
