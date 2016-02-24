@@ -78,6 +78,13 @@ Rectangle {
     InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
+        onDeviceAdded: {
+            root.forceOSKEnabled = autopilotDevices.autopilotDevicePresent();
+        }
+
+        onDeviceRemoved: {
+            root.forceOSKEnabled = autopilotDevices.autopilotDevicePresent();
+        }
     }
 
     InputDeviceModel {
@@ -94,13 +101,6 @@ Rectangle {
     UnitySortFilterProxyModel {
         id: autopilotDevices
         model: keyboardsModel
-        onDeviceAdded: {
-            root.forceOSKEnabled = autopilotDevicePresent();
-        }
-
-        onDeviceRemoved: {
-            root.forceOSKEnabled = autopilotDevicePresent();
-        }
 
         function autopilotdDevicePresent() {
             for(var i = 0; i < count; i++) {
