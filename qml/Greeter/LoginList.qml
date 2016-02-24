@@ -35,6 +35,7 @@ Item {
 
     signal selected(int index)
     signal responded(string response)
+    signal promptlessLogin()
 
     function tryToUnlock() {
         if (wasPrompted) {
@@ -43,6 +44,7 @@ Item {
             if (root.locked) {
                 root.selected(currentIndex);
             } else {
+                promptlessLogin();
                 root.responded("");
             }
         }
