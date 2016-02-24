@@ -78,13 +78,8 @@ Rectangle {
     InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
-        onDeviceAdded: {
-            root.forceOSKEnabled = autopilotDevices.autopilotDevicePresent();
-        }
-
-        onDeviceRemoved: {
-            root.forceOSKEnabled = autopilotDevices.autopilotDevicePresent();
-        }
+        onDeviceAdded: forceOSKEnabled = autopilotDevicePresent();
+        onDeviceRemoved: forceOSKEnabled = autopilotDevicePresent();
     }
 
     InputDeviceModel {
@@ -92,26 +87,25 @@ Rectangle {
         deviceFilter: InputInfo.TouchScreen
     }
 
-    /* FIXME: This is a work arround for lp:1542224.
-     * When QInputInfo exposes NameRole to QML, the filtering should
-     * happen in the backend.
+    /* FIXME: This exposes the NameRole as a work arround for lp:1542224.
+     * When QInputInfo exposes NameRole to QML, this should be removed.
      */
     property bool forceOSKEnabled: false
     property var autopilotEmulatedDeviceNames: ["py-evdev-uinput"]
     UnitySortFilterProxyModel {
         id: autopilotDevices
         model: keyboardsModel
+    }
 
-        function autopilotdDevicePresent() {
-            for(var i = 0; i < count; i++) {
-                var device = get(i);
-                if (autopilotEmulatedDeviceNames.indexOf(device.name) != -1) {
-                    console.warn("Forcing the OSK to be enabled as there is an autopilot eumlated device present.")
-                    return true;
-                }
+    function autopilotDevicePresent() {
+        for(var i = 0; i < autopilotDevices.count; i++) {
+            var device = autopilotDevices.get(i);
+            if (autopilotEmulatedDeviceNames.indexOf(device.name) != -1) {
+                console.warn("Forcing the OSK to be enabled as there is an autopilot eumlated device present.")
+                return true;
             }
-            return false;
         }
+        return false;
     }
 
     Screens {
