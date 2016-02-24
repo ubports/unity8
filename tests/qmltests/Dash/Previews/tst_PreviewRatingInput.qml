@@ -120,8 +120,11 @@ Rectangle {
 
             previewRatingInput.widgetData = data.widgetData;
 
+            if (data.widgetData["visible"] === "both" && data.widgetData["required"] === "both")
+                compare(reviewTextArea.visible, false);
+
             if (data.widgetData["visible"] !== "review") {
-                verify(rating.visible === true);
+                compare(rating.visible, true);
 
                 rating.value = data.inputRating;
                 if (data.widgetData["required"] !== "rating" ||
@@ -136,7 +139,8 @@ Rectangle {
             }
 
             if (data.widgetData["visible"] !== "rating") {
-                verify(reviewTextArea.visible === true);
+                if (data.widgetData["visible"] === "review" || data.widgetData["required"] === "review")
+                    compare(reviewTextArea.visible, true);
 
                 reviewTextArea.text = data.inputText;
                 mouseClick(submitButton);
@@ -164,7 +168,7 @@ Rectangle {
                     }
                 }
             } else {
-                verify(reviewTextArea.visible === false);
+                compare(reviewTextArea.visible, false);
             }
 
             compare(spy.count === 1, data.emitted);

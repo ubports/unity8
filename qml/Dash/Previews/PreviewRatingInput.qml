@@ -40,7 +40,7 @@ PreviewWidget {
         switch(widgetData["visible"]) {
             default:
             case "both":
-                return ratingLabelAndWidgetContainer.implicitHeight + reviewContainer.implicitHeight;
+                return ratingLabelAndWidgetContainer.implicitHeight + (reviewContainer.visible ? reviewContainer.implicitHeight : 0);
             case "rating":
                 return ratingLabelAndWidgetContainer.implicitHeight;
             case "review":
@@ -114,7 +114,17 @@ PreviewWidget {
             bottom: parent.bottom
             topMargin: ratingLabelAndWidgetContainer.visible ? reviewContainer.innerMargin : 0
         }
-        visible: widgetData["visible"] !== "rating"
+        visible: {
+            switch(widgetData["visible"]) {
+                default:
+                case "both":
+                    return widgetData["required"] === "review" || rating.value > 0;
+                case "rating":
+                    return false;
+                case "review":
+                    return true;
+                }
+        }
 
         Label {
             objectName: "reviewLabel"
