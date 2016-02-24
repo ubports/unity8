@@ -35,6 +35,11 @@ Rectangle {
         "content-type": "text"
     }
 
+    property var shareDataString: {
+        "uri": "Text here",
+        "content-type": "text"
+    }
+
     PreviewSharing {
         id: previewSharing
         anchors { left: parent.left; bottom: parent.bottom; }
@@ -54,6 +59,15 @@ Rectangle {
         function test_open_picker() {
             mouseClick(previewSharing);
             compare(peerPicker.visible, true);
+        }
+
+        function test_createExportedItems() {
+            var exportedItems = previewSharing.createExportedItems(shareData["uri"]);
+            for (var i = 0; i < exportedItems.length; i++) {
+                verify(exportedItems[i].url.toString().search(shareData["uri"][i]) != -1);
+            }
+            exportedItems = previewSharing.createExportedItems(shareDataString["uri"]);
+            verify(exportedItems[0].url.toString().search(shareDataString["uri"][i]) != -1);
         }
     }
 }
