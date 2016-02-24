@@ -87,8 +87,7 @@ LocalComponents.Page {
             }
 
             resetViews();
-            tzFilterModel.filter = Qt.binding(function() { return searchField.text; });
-            tzFilterModel.invalidate();
+            timeDatePanel.filter = Qt.binding(function() { return searchField.text; });
             theme.palette.normal.backgroundText = "#cdcdcd";
             searchField.forceActiveFocus();
         }
@@ -205,7 +204,7 @@ LocalComponents.Page {
                 objectName: "tzList"
                 clip: true
                 currentIndex: -1
-                model: tzFilterModel
+                model: timeDatePanel.timeZoneModel
                 delegate: tzComponent
             }
         }

@@ -34,22 +34,11 @@ Item {
     property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
     property string password: ""
 
-    property string countryCode: "US" // default country (for the timezone page)
     property bool seenSIMPage: false // we want to see the SIM page at most once
 
     property alias modemManager: modemManager
     property alias simManager0: simManager0
     property alias simManager1: simManager1
-
-    TimeZoneModel { // preload the heavy models
-        id: tzModel
-    }
-
-    TimeZoneFilterModel {
-        id: tzFilterModel
-        sourceModel: tzModel
-        country: countryCode
-    }
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
