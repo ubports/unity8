@@ -70,15 +70,17 @@ PreviewWidget {
             left: parent.left
             right: parent.right
         }
-        implicitHeight: rating.height
+        implicitHeight: ratingLabel.height + rating.height
         visible: widgetData["visible"] !== "review"
 
         Label {
+            id: ratingLabel
             objectName: "ratingLabel"
             anchors {
-                verticalCenter: parent.verticalCenter
                 left: parent.left
+                right: parent.right
             }
+            fontSize: "large"
             color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
             opacity: .8
             text: widgetData["rating-label"] || i18n.tr("Rate this")
@@ -88,8 +90,8 @@ PreviewWidget {
             id: rating
             objectName: "rating"
             anchors {
-                verticalCenter: parent.verticalCenter
-                right: parent.right
+                top: ratingLabel.bottom
+                left: parent.left
             }
             size: 5
             onValueChanged: {
@@ -103,7 +105,7 @@ PreviewWidget {
 
     Item {
         id: reviewContainer
-        implicitHeight: reviewLabel.implicitHeight + reviewSubmitContainer.implicitHeight + anchors.topMargin
+        implicitHeight: reviewSubmitContainer.implicitHeight + anchors.topMargin
 
         readonly property real innerMargin: units.gu(1)
 
@@ -124,19 +126,6 @@ PreviewWidget {
                 case "review":
                     return true;
                 }
-        }
-
-        Label {
-            objectName: "reviewLabel"
-            id: reviewLabel
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-            }
-            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
-            opacity: .8
-            text: widgetData["review-label"] || i18n.tr("Add a review")
         }
 
         Item {
@@ -164,6 +153,7 @@ PreviewWidget {
                     right: submitButton.left
                     rightMargin: reviewContainer.innerMargin
                 }
+                placeholderText: widgetData["review-label"] || i18n.tr("Add a review")
             }
 
             Button {
