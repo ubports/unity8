@@ -207,6 +207,14 @@ LocalComponents.Page {
                 model: timeDatePanel.timeZoneModel
                 delegate: tzComponent
             }
+
+            ActivityIndicator {
+                anchors.centerIn: tzList
+                running: tzList.count == 0 &&
+                         searchField.length > 0 &&
+                         timeDatePanel.listUpdating
+                visible: running
+            }
         }
 
         Item {
