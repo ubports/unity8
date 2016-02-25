@@ -17,6 +17,7 @@
 #include "mockplugin.h"
 #include "MockSystem.h"
 #include "PageList.h"
+#include "timezonemodel.h"
 #include "LocalePlugin.h"
 #include "Status.h"
 
@@ -28,5 +29,6 @@ void MockWizardPlugin::registerTypes(const char *uri)
     qmlRegisterType<PageList>(uri, 0, 1, "PageList");
     qmlRegisterSingletonType<MockSystem>(uri, 0, 1, "System", [](QQmlEngine*, QJSEngine*) -> QObject* { return new MockSystem; });
     qmlRegisterSingletonType<Status>(uri, 0, 1, "Status", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Status; });
+    qmlRegisterType<TimeZoneLocationModel>(uri, 0, 1, "TimeZoneModel");
     qmlRegisterType<LocalePlugin>(uri, 0, 1, "LocalePlugin");
 }

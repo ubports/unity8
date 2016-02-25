@@ -87,7 +87,6 @@ LocalComponents.Page {
             }
 
             resetViews();
-            timeDatePanel.filter = Qt.binding(function() { return searchField.text; });
             theme.palette.normal.backgroundText = "#cdcdcd";
             searchField.forceActiveFocus();
         }
@@ -204,7 +203,11 @@ LocalComponents.Page {
                 objectName: "tzList"
                 clip: true
                 currentIndex: -1
-                model: timeDatePanel.timeZoneModel
+                model: TimeZoneModel {
+                    id: timeZoneModel
+                    filter: searchField.text
+                    country: i18n.language.split('_')[1].split('.')[0]
+                }
                 delegate: tzComponent
             }
 
@@ -212,7 +215,7 @@ LocalComponents.Page {
                 anchors.centerIn: tzList
                 running: tzList.count == 0 &&
                          searchField.length > 0 &&
-                         timeDatePanel.listUpdating
+                         timeZoneModel.listUpdating
                 visible: running
             }
         }
