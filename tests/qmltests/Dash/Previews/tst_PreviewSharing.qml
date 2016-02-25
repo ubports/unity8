@@ -64,10 +64,10 @@ Rectangle {
         function test_createExportedItems() {
             var exportedItems = previewSharing.createExportedItems(shareData["uri"]);
             for (var i = 0; i < exportedItems.length; i++) {
-                verify(exportedItems[i].url == shareData["uri"][i]);
+                compare(exportedItems[i].url, shareData["uri"][i]);
             }
             exportedItems = previewSharing.createExportedItems(shareDataString["uri"]);
-            verify(exportedItems[0].url == shareDataString["uri"]);
+            compare(exportedItems[0].url, shareDataString["uri"]);
         }
     }
 }
