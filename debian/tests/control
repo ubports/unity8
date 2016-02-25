@@ -3,3 +3,7 @@ Restrictions: allow-stderr
 Depends: @,
          @builddeps@,
          xvfb,
+
+Tests: autopilot.sh
+Restrictions: isolation-machine
+Depends: unity8-autopilot,
