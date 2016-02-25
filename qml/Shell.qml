@@ -352,7 +352,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "leftMargin"
-                value: launcher.lockedVisible ? launcher.panelWidth: 0
+                value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             }
         }
 

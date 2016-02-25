@@ -2113,24 +2113,49 @@ Rectangle {
             tryCompare(launcher, "focus", true)
         }
 
-        function test_lockedOutLauncherShrinksStage() {
+        function test_lockedOutLauncherAddsMarginsToMaximized() {
             loadShell("desktop");
             shell.usageScenario = "desktop";
             waitForRendering(shell);
-
             var appContainer = findChild(shell, "appContainer");
             var launcher = findChild(shell, "launcher");
 
+            var app = ApplicationManager.startApplication("music-app");
+            waitUntilAppWindowIsFullyLoaded(app);
+            var appDelegate = findChild(appContainer, "appDelegate_music-app");
+            appDelegate.maximize();
+            tryCompare(appDelegate, "visuallyMaximized", true);
+            waitForRendering(shell);
+
             GSettingsController.setAutohideLauncher(true);
             waitForRendering(shell)
-            var hiddenSize = appContainer.width;
+            var hiddenSize = appDelegate.width;
 
             GSettingsController.setAutohideLauncher(false);
             waitForRendering(shell)
-            var shownSize = appContainer.width;
+            var shownSize = appDelegate.width;
 
             compare(shownSize + launcher.panelWidth, hiddenSize);
         }
+
+        function test_fullscreenAppHidesLockedOutLauncher() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
+
+            GSettingsController.setAutohideLauncher(false);
+            waitForRendering(shell)
+
+            tryCompare(launcher, "lockedVisible", true);
+
+            var cameraApp = ApplicationManager.startApplication("camera-app");
+            waitUntilAppWindowIsFullyLoaded(cameraApp);
+
+            tryCompare(launcher, "lockedVisible", false);
+        }
+
 
         function test_inputEventsOnEdgesEndUpInAppSurface_data() {
             return [
@@ -2143,7 +2168,7 @@ Rectangle {
         function test_inputEventsOnEdgesEndUpInAppSurface(data) {
             loadShell(data.tag);
             shell.usageScenario = data.tag;
-
+            waitForRendering(shell);
             swipeAwayGreeter();
 
             // Let's open a fullscreen app
@@ -2172,26 +2197,6 @@ Rectangle {
             tap(shell, shell.width - 1, shell.height / 2);
             compare(topmostSurfaceItem.touchPressCount, 2);
             compare(topmostSurfaceItem.touchReleaseCount, 2);
-        }
-
-        function test_fullscreenAppHidesLockedOutLauncher() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop";
-            waitForRendering(shell);
-
-            var appContainer = findChild(shell, "appContainer");
-            var launcher = findChild(shell, "launcher");
-            var launcherPanel = findChild(launcher, "launcherPanel");
-
-            GSettingsController.setAutohideLauncher(false);
-            waitForRendering(shell)
-
-            tryCompare(appContainer, "width", shell.width - launcherPanel.width);
-
-            var cameraApp = ApplicationManager.startApplication("camera-app");
-            waitUntilAppWindowIsFullyLoaded(cameraApp);
-
-            tryCompare(appContainer, "width", shell.width);
         }
     }
 }

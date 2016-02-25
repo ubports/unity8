@@ -95,7 +95,7 @@ FocusScope {
 
     onLockedVisibleChanged: {
         if (lockedVisible && state == "") {
-            dismissTimer.stop();
+            panel.dismissTimer.stop();
             fadeOutAnimation.stop();
             switchToNextState("visible")
         } else if (!lockedVisible && state == "visible") {
