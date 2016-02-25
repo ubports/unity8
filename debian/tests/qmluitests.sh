@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# log all commands and abort on error
+set -xe
+
 SHELL_QML_PATH=$(pkg-config --variable=plugindir unity-shell-api)
 UNITY_SOURCE_DIR=$(readlink -f $(dirname $(readlink -f $0))/../..)
 
@@ -15,5 +18,4 @@ dh_auto_build --parallel -- -C tests/utils
 
 export UNITY_SOURCE_DIR
 
-# FIXME: --parallel here causes some failures
-dh_auto_build -- -k xvfballtests
+dh_auto_build --parallel -- -k xvfballtests

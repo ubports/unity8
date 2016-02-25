@@ -36,7 +36,7 @@ ApplicationTestInterface::ApplicationTestInterface(QObject* parent)
     connection.registerObject("/com/canonical/Unity8/Mocks", parent);
 }
 
-Session* ApplicationTestInterface::addChildSession(Session* existingSession, const QString& surfaceImage)
+Session* ApplicationTestInterface::addChildSession(Session* existingSession, const QString& surfaceImage, bool addSurface)
 {
     if (!existingSession) return nullptr;
 
@@ -49,7 +49,7 @@ Session* ApplicationTestInterface::addChildSession(Session* existingSession, con
                              .arg(existingSession->childSessions()->count()),
         screenshotUrl);
     existingSession->addChildSession(session);
-    session->createSurface();
+    if (addSurface) session->createSurface();
 
     return session;
 }
@@ -70,7 +70,7 @@ void ApplicationTestInterface::removeSurface(MirSurface* existingSurface)
         existingSurface->setLive(false);
 }
 
-quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage)
+quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 existingSessionId, const QString& surfaceImage, bool addSurface)
 {
     qDebug() << "ApplicationTestInterface::addChildSession to " << appId;
 
@@ -100,7 +100,7 @@ quint32 ApplicationTestInterface::addChildSession(const QString& appId, quint32 
                              .arg(parentSession->childSessions()->count()),
         screenshotUrl);
     parentSession->addChildSession(session);
-    session->createSurface();
+    if (addSurface) { session->createSurface(); }
     m_childSessions[sessionId] = session;
 
     return sessionId;

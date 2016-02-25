@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ Item {
     property bool beingResized
     property string usageScenario: "phone" // supported values: "phone", "tablet" or "desktop"
     property string mode: "full-greeter"
-    property bool cursorVisible: false
+    property alias oskEnabled: inputMethod.enabled
     function updateFocusedAppOrientation() {
         applicationsDisplayLoader.item.updateFocusedAppOrientation();
     }
@@ -85,8 +85,8 @@ Item {
             return Qt.PrimaryOrientation;
         } else if (greeter && greeter.shown) {
             return Qt.PrimaryOrientation;
-        } else if (mainApp) {
-            return shell.orientations.map(mainApp.supportedOrientations);
+        } else if (applicationsDisplayLoader.item) {
+            return shell.orientations.map(applicationsDisplayLoader.item.supportedOrientations);
         } else {
             // we just don't care
             return Qt.PortraitOrientation
@@ -177,8 +177,15 @@ Item {
         Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
     }
 
-    HomeKeyWatcher {
-        onActivated: { launcher.fadeOut(); shell.showHome(); }
+    WindowInputMonitor {
+        onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
+        onTouchBegun: { cursor.opacity = 0; }
+        onTouchEnded: {
+            // move the (hidden) cursor to the last known touch position
+            var mappedCoords = mapFromItem(null, pos.x, pos.y);
+            cursor.x = mappedCoords.x;
+            cursor.y = mappedCoords.y;
+        }
     }
 
     GSettings {
@@ -726,6 +733,8 @@ Item {
                 applicationsDisplayLoader.item.pushRightEdge(amount);
             }
         }
+
+        onMouseMoved: { cursor.opacity = 1; }
     }
 
     Rectangle {

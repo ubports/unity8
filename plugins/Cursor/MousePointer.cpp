@@ -42,6 +42,10 @@ void MousePointer::handleMouseEvent(ulong timestamp, QPointF movement, Qt::Mouse
         return;
     }
 
+    if (!movement.isNull()) {
+        Q_EMIT mouseMoved();
+    }
+
     qreal newX = x() + movement.x();
     if (newX < 0) {
         Q_EMIT pushedLeftBoundary(qAbs(newX), buttons);

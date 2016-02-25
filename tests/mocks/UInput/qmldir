@@ -1,0 +1,2 @@
+module UInput
+plugin FakeUInput-qml
