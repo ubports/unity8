@@ -288,14 +288,20 @@ Item {
         }
 
         function assertFocusOnIndex(index) {
-            var launcherListView = findChild(launcher, "launcherListView");
-            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
-
-            waitForRendering(launcher);
+            var launcherPanel = findChild(launcherLoader.item, "launcherPanel");
+            var launcherListView = findChild(launcherLoader.item, "launcherListView");
+            var bfbFocusHighlight = findChild(launcherLoader.item, "bfbFocusHighlight");
+            waitForRendering(launcherLoader.item);
+            tryCompare(launcherPanel, "highlightIndex", index);
             tryCompare(bfbFocusHighlight, "visible", index === -1);
             for (var i = 0; i < launcherListView.count; i++) {
-                var focusRing = findChild(findChild(launcher, "launcherDelegate" + i), "focusRing")
-                tryCompare(focusRing, "visible", index === i);
+                var item = findChild(launcher, "launcherDelegate" + i);
+                // Delegates might be destroyed when not visible. We can't check if they paint a focus highlight.
+                // Make sure the requested index does have focus. for the others, try best effort to check if they don't
+                if (index === i || item) {
+                    var focusRing = findChild(item, "focusRing")
+                    tryCompare(focusRing, "visible", index === i);
+                }
             }
         }
 
@@ -1090,7 +1096,6 @@ Item {
             var last = launcherListView.count - 1;
 
             compare(bfbFocusHighlight.visible, false);
-
             launcher.openForKeyboardNavigation();
 
             assertFocusOnIndex(-1);
@@ -1113,6 +1118,7 @@ Item {
 
             // The list should wrap around
             keyClick(Qt.Key_Up);
+            waitForRendering(launcher);
             assertFocusOnIndex(last);
 
             keyClick(Qt.Key_Down);
@@ -1145,6 +1151,9 @@ Item {
             // Go bar to top by wrapping around
             keyClick(Qt.Key_Down);
             assertFocusOnIndex(1);
+
+            keyClick(Qt.Key_Enter);
+            assertFocusOnIndex(-2);
         }
 
         function test_selectQuicklistItemByKeyboard() {
