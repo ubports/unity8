@@ -28,15 +28,15 @@ Rectangle {
 
     property var shareData: {
         "uri": [
-                    "Text here",
-                    "text here 2",
-                    "text here 3"
+                    "file:///this/is/an/url",
+                    "file:///this/is/an/url/2",
+                    "file:///this/is/an/url/3"
                 ],
         "content-type": "text"
     }
 
     property var shareDataString: {
-        "uri": "Text here",
+        "uri": "file:///this/is/an/url",
         "content-type": "text"
     }
 
@@ -64,10 +64,10 @@ Rectangle {
         function test_createExportedItems() {
             var exportedItems = previewSharing.createExportedItems(shareData["uri"]);
             for (var i = 0; i < exportedItems.length; i++) {
-                verify(exportedItems[i].url.toString().search(shareData["uri"][i]) != -1);
+                verify(exportedItems[i].url == Qt.resolvedUrl(shareData["uri"][i]));
             }
             exportedItems = previewSharing.createExportedItems(shareDataString["uri"]);
-            verify(exportedItems[0].url.toString().search(shareDataString["uri"][i]) != -1);
+            verify(exportedItems[0].url == Qt.resolvedUrl(shareDataString["uri"]));
         }
     }
 }
