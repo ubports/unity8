@@ -175,7 +175,7 @@ FocusScope {
             event.accepted = true;
             break;
         case Qt.Key_Escape:
-            panel.highlightIndex = -2
+            panel.highlightIndex = -2;
             // Falling through intentionally
         case Qt.Key_Enter:
         case Qt.Key_Return:
@@ -186,6 +186,7 @@ FocusScope {
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
             root.hide();
+            panel.highlightIndex = -2
             event.accepted = true;
             root.focus = false;
         }
