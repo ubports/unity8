@@ -126,6 +126,10 @@ Rectangle {
                 compare(rating.visible, true);
 
                 rating.value = data.inputRating;
+
+                if (data.inputRating > 0 && data.widgetData["visible"] === "both")
+                    compare(reviewTextArea.visible, true);
+
                 if (data.widgetData["required"] !== "rating" ||
                     data.widgetData["visible"] !== "rating" ||
                     data.inputRating < 0) {
@@ -134,7 +138,7 @@ Rectangle {
                     compare(spy.count, 1);
                 }
             } else {
-                verify(rating.visible === false);
+                compare(rating.visible, false);
             }
 
             if (data.widgetData["visible"] !== "rating") {
