@@ -24,6 +24,8 @@
 #include "SecurityPrivacyAdaptor.h"
 #include "LocationAdaptor.h"
 #include "AccountsPrivateAdaptor.h"
+#include "UscInputAdaptor.h"
+#include "UscServer.h"
 #include <QCoreApplication>
 
 int main(int argc, char *argv[])
@@ -36,8 +38,16 @@ int main(int argc, char *argv[])
     new SecurityPrivacyAdaptor(accounts);
     new LocationAdaptor(accounts);
     new AccountsPrivateAdaptor(accounts);
+
+    auto usc = new UscServer(&a);
+    new UscInputAdaptor(usc);
+
     // We use the session bus for testing.  The real plugin uses the system bus
     auto connection = QDBusConnection::sessionBus();
+    if (!connection.registerObject("/com/canonical/Unity/Input", usc))
+        return 1;
+    if (!connection.registerService("com.canonical.Unity.Input"))
+        return 1;
     if (!connection.registerObject("/org/freedesktop/Accounts", accounts))
         return 1;
     if (!connection.registerService("org.freedesktop.Accounts"))

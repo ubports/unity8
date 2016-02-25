@@ -42,7 +42,16 @@ public:
         : QObject(parent)
         , m_userInterface(nullptr)
         , m_spy(this, &AccountsServiceTest::propertiesChanged)
+        , m_mousePrimaryButtonSpy(this, &AccountsServiceTest::setMousePrimaryButtonCalled)
     {
+        m_uscInputInterface = new QDBusInterface("com.canonical.Unity.Input",
+                                                 "/com/canonical/Unity/Input",
+                                                 "com.canonical.Unity.Input",
+                                                 QDBusConnection::sessionBus(),
+                                                 this);
+
+        QObject::connect(m_uscInputInterface, SIGNAL(setMousePrimaryButtonCalled(int)),
+                         this, SIGNAL(setMousePrimaryButtonCalled(int)));
     }
 
 private Q_SLOTS:
@@ -71,6 +80,7 @@ private Q_SLOTS:
 
         delete m_userInterface;
         m_spy.clear();
+        m_mousePrimaryButtonSpy.clear();
     }
 
     void testInvalids()
@@ -215,12 +225,56 @@ private Q_SLOTS:
         QTRY_COMPARE(session.backgroundFile(), QString("/test/BackgroundFile"));
     }
 
+    void testProxyOnStartup()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 1);
+    }
+
+    void testProxyOnChange()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        m_mousePrimaryButtonSpy.clear();
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.Input",
+                                                    "MousePrimaryButton",
+                                                    dbusVariant("left")));
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
+    void testInvalidPrimaryButton()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        m_mousePrimaryButtonSpy.clear();
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.Input",
+                                                    "MousePrimaryButton",
+                                                    dbusVariant("NOPE")));
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
 Q_SIGNALS:
     void propertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
+    void setMousePrimaryButtonCalled(int button);
 
 private:
+    QDBusInterface* m_uscInputInterface;
     QDBusInterface* m_userInterface;
     QSignalSpy m_spy;
+    QSignalSpy m_mousePrimaryButtonSpy;
 };
 
 QTEST_MAIN(AccountsServiceTest)
