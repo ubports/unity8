@@ -122,10 +122,7 @@ PreviewWidget {
 
         Item {
             id: reviewSubmitContainer
-            anchors {
-                fill: parent
-                topMargin: reviewContainer.innerMargin
-            }
+            anchors.fill: parent
             implicitHeight: reviewTextArea.implicitHeight + anchors.topMargin
 
             TextArea {
