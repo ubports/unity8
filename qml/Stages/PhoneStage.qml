@@ -74,6 +74,12 @@ AbstractStage {
         }
     }
 
+    function pushRightEdge(amount) {
+        if (spreadView.contentX == -spreadView.shift) {
+            edgeBarrier.push(amount);
+        }
+    }
+
     mainApp: applicationManager.focusedApplicationId
             ? applicationManager.findApplication(applicationManager.focusedApplicationId)
             : null
@@ -647,6 +653,33 @@ AbstractStage {
                     // otherwise snap to the closest snap position we can find
                     // (might be back to start, to app 1 or to spread)
                     spreadView.snap();
+                }
+            }
+        }
+    }
+
+    EdgeBarrier {
+        id: edgeBarrier
+
+        // NB: it does its own positioning according to the specified edge
+        edge: Qt.RightEdge
+
+        onPassed: {
+            // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
+            snapAnimation.targetContentX = root.width * spreadView.positionMarker4 + 1 - spreadView.shift;
+            snapAnimation.start();
+        }
+        material: Component {
+            Item {
+                Rectangle {
+                    width: parent.height
+                    height: parent.width
+                    rotation: 90
+                    anchors.centerIn: parent
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.7)}
+                        GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
+                    }
                 }
             }
         }
