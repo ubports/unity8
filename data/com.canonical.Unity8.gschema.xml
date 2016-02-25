@@ -28,7 +28,7 @@
       <description>How much you have to push (in grid units) the mouse against an edge barrier when sensibility is 1.</description>
     </key>
     <key type="b" name="autohide-launcher">
-      <default>false</default>
+      <default>true</default>
       <summary>Autohide the launcher</summary>
       <description>This will only be applied in windowed mode. In staged mode, the launcher will always hide.</description>
     </key>
