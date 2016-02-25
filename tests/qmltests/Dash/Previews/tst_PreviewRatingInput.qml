@@ -73,11 +73,10 @@ Rectangle {
 
         function test_labels() {
             var ratingLabel = findChild(previewRatingInput, "ratingLabel");
-            var reviewLabel = findChild(previewRatingInput, "reviewLabel");
 
             previewRatingInput.widgetData = widgetDataNewLabels;
             compare(ratingLabel.text, widgetDataNewLabels["rating-label"]);
-            compare(reviewLabel.text, widgetDataNewLabels["review-label"]);
+            compare(reviewTextArea.placeholderText, widgetDataNewLabels["review-label"]);
             compare(submitButton.text, widgetDataNewLabels["submit-label"]);
         }
 

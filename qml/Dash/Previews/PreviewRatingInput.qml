@@ -64,22 +64,16 @@ PreviewWidget {
         triggered(root.widgetId, "rated", data);
     }
 
-    Item {
+    Column {
         id: ratingLabelAndWidgetContainer
-        anchors {
-            left: parent.left
-            right: parent.right
-        }
-        implicitHeight: ratingLabel.height + rating.height
+        anchors { left: parent.left; right: parent.right; }
+        spacing: units.gu(0.5)
         visible: widgetData["visible"] !== "review"
 
         Label {
             id: ratingLabel
             objectName: "ratingLabel"
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            anchors { left: parent.left; right: parent.right; }
             fontSize: "large"
             color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
             opacity: .8
@@ -89,17 +83,15 @@ PreviewWidget {
         Rating {
             id: rating
             objectName: "rating"
-            anchors {
-                top: ratingLabel.bottom
-                left: parent.left
-            }
+            anchors.left: parent.left
             size: 5
+            height: units.gu(4)
             onValueChanged: {
                 if (widgetData["visible"] === "rating") root.submit();
             }
 
-            property var urlIconEmpty: widgetData["rating-icon-empty"]
-            property var urlIconFull: widgetData["rating-icon-full"]
+            property var urlIconEmpty: widgetData["rating-icon-empty"] || "image://theme/non-starred"
+            property var urlIconFull: widgetData["rating-icon-full"] || "image://theme/starred"
         }
     }
 
@@ -131,10 +123,7 @@ PreviewWidget {
         Item {
             id: reviewSubmitContainer
             anchors {
-                top: reviewLabel.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
+                fill: parent
                 topMargin: reviewContainer.innerMargin
             }
             implicitHeight: reviewTextArea.implicitHeight + anchors.topMargin
