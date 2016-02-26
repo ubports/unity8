@@ -51,8 +51,10 @@ FocusScope {
             pinentryField.backspace();
         } else if (event.key === Qt.Key_Delete) {
             closeButton.clicked()
+        } else if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+            confirmButton.clicked()
         } else {
-            var digit = parseInt(event.text)
+            var digit = parseInt(event.text);
             if (!isNaN(digit) && typeof digit == "number") {
                 pinentryField.appendNumber(digit);
             }
@@ -231,6 +233,7 @@ FocusScope {
                 width: numbersGrid.buttonWidth
             }
             PinPadButton {
+                id: confirmButton
                 iconName: "tick"
                 objectName: "confirmButton"
                 height: units.gu(5)
