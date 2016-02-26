@@ -19,8 +19,9 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import "../Components"
 
-Item {
+FocusScope {
     id: root
+    focus: true
 
     property string infoText
     property string retryText
@@ -42,6 +43,19 @@ Item {
         if (showAnimation) {
             pinentryField.incorrectOverride = true;
             wrongPasswordAnimation.start();
+        }
+    }
+
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Backspace) {
+            pinentryField.backspace();
+        } else if (event.key === Qt.Key_Delete) {
+            closeButton.clicked()
+        } else {
+            var digit = parseInt(event.text)
+            if (!isNaN(digit) && typeof digit == "number") {
+                pinentryField.appendNumber(digit);
+            }
         }
     }
 
@@ -204,6 +218,7 @@ Item {
                 width: numbersGrid.buttonWidth
             }
             PinPadButton {
+                id: closeButton
                 iconName: "close"
                 height: units.gu(5) // visual spec has this row a little closer in
                 width: numbersGrid.buttonWidth
