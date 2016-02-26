@@ -83,6 +83,18 @@ QHash<int, QByteArray> TimeZoneLocationModel::roleNames() const
     return m_roleNames;
 }
 
+void TimeZoneLocationModel::setModel(QList<GeonamesCity *> locations)
+{
+    beginResetModel();
+
+    Q_FOREACH(GeonamesCity *city, m_locations) {
+        geonames_city_free(city);
+    }
+
+    m_locations = locations;
+    endResetModel();
+}
+
 void TimeZoneLocationModel::filterFinished(GObject      *source_object,
                                            GAsyncResult *res,
                                            gpointer      user_data)

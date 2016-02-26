@@ -17,7 +17,10 @@
 #ifndef TIMEZONEMODEL_H
 #define TIMEZONEMODEL_H
 
+extern "C" {
 #include <geonames.h>
+}
+
 #include <glib.h>
 #include <QAbstractListModel>
 
