@@ -5,5 +5,6 @@ Depends: @,
          xvfb,
 
 Tests: autopilot.sh
-Restrictions: isolation-machine
+Restrictions: allow-stderr,
+              isolation-machine,
 Depends: unity8-autopilot,
