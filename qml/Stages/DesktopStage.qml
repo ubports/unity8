@@ -275,6 +275,7 @@ AbstractStage {
                 readonly property alias maximizedLeft: appDelegatePrivate.maximizedLeft
                 readonly property alias maximizedRight: appDelegatePrivate.maximizedRight
                 readonly property alias minimized: appDelegatePrivate.minimized
+                readonly property alias fullscreen: decoratedWindow.fullscreen
 
                 readonly property string appId: model.appId
                 property bool animationsEnabled: true
