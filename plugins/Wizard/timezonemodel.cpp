@@ -110,6 +110,7 @@ void TimeZoneLocationModel::filterFinished(GObject      *source_object,
         if (!g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
             TimeZoneLocationModel *model = static_cast<TimeZoneLocationModel *>(user_data);
             g_clear_object(&model->m_cancellable);
+            model->setListUpdating(false);
             qWarning() << "Could not filter timezones:" << error->message;
         }
         return;

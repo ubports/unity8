@@ -24,7 +24,7 @@
 class TimeZoneLocationModel: public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString listUpdating READ listUpdating NOTIFY listUpdatingChanged)
+    Q_PROPERTY(bool listUpdating READ listUpdating NOTIFY listUpdatingChanged)
     Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
     Q_PROPERTY(QString country READ country WRITE setCountry NOTIFY countryChanged)
     Q_ENUMS(Roles)
