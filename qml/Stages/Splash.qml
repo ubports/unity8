@@ -88,7 +88,7 @@ Item {
         panelForegroundColor: config.foregroundColor
         config: PageHeadConfiguration {
             id: headerConfig
-            foregroundColor: styledItem.fakeTheme.palette.selected.backgroundText
+            foregroundColor: styledItem.fakeTheme.palette.normal.backgroundText
         }
 
         property var contents: null
@@ -134,7 +134,7 @@ Item {
         anchors.topMargin: units.gu(2)
         fontSize: "large"
 
-        color: styledItem.fakeTheme.palette.selected.backgroundText
+        color: styledItem.fakeTheme.palette.normal.backgroundText
         visible: d.showIcon
     }
 
