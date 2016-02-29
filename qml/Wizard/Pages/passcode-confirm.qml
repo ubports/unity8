@@ -39,9 +39,6 @@ LocalComponents.Page {
         anchors {
             fill: parent
             topMargin: customMargin
-            leftMargin: leftMargin
-            rightMargin: rightMargin
-            bottomMargin: buttonMargin
         }
 
         infoText: i18n.tr("Confirm passcode")
