@@ -35,7 +35,7 @@ PreviewWidget {
     Item {
         id: headerRoot
         objectName: "innerPreviewHeader"
-        readonly property url mascot: root.widgetData["mascot"] || ""
+        readonly property url mascot: root.widgetData["mascot"] || fallback
         readonly property url fallback: root.widgetData["fallback"] || ""
         readonly property string title: root.widgetData["title"] || ""
         readonly property string subtitle: root.widgetData["subtitle"] || ""
