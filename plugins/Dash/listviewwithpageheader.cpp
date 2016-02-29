@@ -1135,10 +1135,10 @@ void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF 
         if (!m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
             const auto prevFirstItemY = firstItem->y();
-            if (item == firstItem->sectionItem()) {
-                firstItem->setY(firstItem->y() + heightDiff);
-            } else  if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY()) {
+            if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY()) {
                 firstItem->setY(firstItem->y() - heightDiff);
+            } else if (item == firstItem->sectionItem()) {
+                firstItem->setY(firstItem->y() + heightDiff);
             }
 
             if (firstItem->y() != prevFirstItemY) {
