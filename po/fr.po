@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-02-16 03:29+0000\n"
-"PO-Revision-Date: 2016-02-13 09:30+0000\n"
+"PO-Revision-Date: 2016-02-28 17:22+0000\n"
 "Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
+"X-Launchpad-Export-Date: 2016-02-29 05:58+0000\n"
 "X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -506,7 +506,7 @@ msgstr "Salut !"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "Bienvenue sur votre appareil Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -540,6 +540,8 @@ msgstr "Sécurité de verrouillage"
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
 msgstr ""
+"Veuillez sélectionner la façon dont vous souhaitez déverrouiller votre "
+"appareil."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -649,7 +651,7 @@ msgstr "Beau travail !"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "Votre appareil est maintenant prêt à être utilisé."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
