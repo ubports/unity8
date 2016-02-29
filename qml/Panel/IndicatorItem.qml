@@ -32,7 +32,7 @@ IndicatorDelegate {
     property real iconHeight: units.gu(2)
     readonly property color color: {
         if (!expanded) return theme.palette.normal.backgroundText;
-        if (!selected) return theme.palette.inactive.backgroundText;
+        if (!selected) return theme.palette.disabled.backgroundText;
         return theme.palette.normal.backgroundText;
     }
 
