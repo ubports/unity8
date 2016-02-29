@@ -700,8 +700,10 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
 
 void ListViewWithPageHeader::releaseItem(ListItem *listItem)
 {
-    QQuickItemPrivate *itemPrivate = QQuickItemPrivate::get(listItem->m_item);
-    itemPrivate->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    QQuickItemPrivate::get(listItem->m_item)->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    if (listItem->sectionItem()) {
+        QQuickItemPrivate::get(listItem->sectionItem())->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    }
     m_itemsToRelease << listItem;
 }
 
@@ -768,7 +770,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
     }
     m_sectionDelegate->completeCreate();
 
-    // TODO attach to sectionItem so we can accomodate to it changing its height
+    QQuickItemPrivate::get(sectionItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
 
     return sectionItem;
 }
@@ -1126,15 +1128,23 @@ void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
     }
 }
 
-void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
+void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
+        if (!m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
-            firstItem->setY(firstItem->y() - heightDiff);
-            adjustMinYExtent();
-            layout();
+            const auto prevFirstItemY = firstItem->y();
+            if (item == firstItem->sectionItem()) {
+                firstItem->setY(firstItem->y() + heightDiff);
+            } else  if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY()) {
+                firstItem->setY(firstItem->y() - heightDiff);
+            }
+
+            if (firstItem->y() != prevFirstItemY) {
+                adjustMinYExtent();
+                layout();
+            }
         }
         refill();
         adjustMinYExtent();
