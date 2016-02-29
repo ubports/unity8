@@ -74,6 +74,7 @@ private:
     GCancellable *m_cancellable;
     QHash<int, QByteArray> m_roleNames;
     QList<GeonamesCity *> m_locations;
+    QList<GeonamesCity *> m_countryLocations;
 };
 
 #endif

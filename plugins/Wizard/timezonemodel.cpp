@@ -38,17 +38,25 @@ TimeZoneLocationModel::TimeZoneLocationModel(QObject *parent):
 
 int TimeZoneLocationModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
+    if (parent.isValid()) {
         return 0;
-    return m_locations.count();
+    } else if (m_filter.isEmpty()) {
+        return m_countryLocations.count();
+    } else {
+        return m_locations.count();
+    }
 }
 
 QVariant TimeZoneLocationModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() >= m_locations.count() || index.row() < 0)
+    GeonamesCity *city;
+    if (m_filter.isEmpty()) {
+        city = m_countryLocations.value(index.row());
+    } else {
+        city = m_locations.value(index.row());
+    }
+    if (!city)
         return QVariant();
-
-    GeonamesCity *city = m_locations[index.row()];
 
     switch (role) {
     case Qt::DisplayRole:
@@ -185,12 +193,32 @@ QString TimeZoneLocationModel::country() const
     return m_country;
 }
 
+static bool citycmp(GeonamesCity *a, GeonamesCity *b)
+{
+    return geonames_city_get_population(b) < geonames_city_get_population(a);
+}
+
 void TimeZoneLocationModel::setCountry(const QString &country)
 {
     if (m_country == country)
         return;
 
     m_country = country;
+
+    Q_FOREACH(GeonamesCity *city, m_countryLocations) {
+        geonames_city_free(city);
+    }
+
+    gint num_cities = geonames_get_n_cities();
+    for (gint i = 0; i < num_cities; i++) {
+        GeonamesCity *city = geonames_get_city(i);
+        if (city && m_country == geonames_city_get_country_code(city)) {
+            m_countryLocations.append(city);
+        }
+    }
+
+    std::sort(m_countryLocations.begin(), m_countryLocations.end(), citycmp);
+
     Q_EMIT countryChanged(country);
 }
 
@@ -199,6 +227,10 @@ TimeZoneLocationModel::~TimeZoneLocationModel()
     if (m_cancellable) {
         g_cancellable_cancel(m_cancellable);
         g_clear_object(&m_cancellable);
+    }
+
+    Q_FOREACH(GeonamesCity *city, m_countryLocations) {
+        geonames_city_free(city);
     }
 
     Q_FOREACH(GeonamesCity *city, m_locations) {
