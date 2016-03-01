@@ -184,10 +184,12 @@ LocalComponents.Page {
                 id: loader
 
                 readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
+                readonly property bool isConnected: item && item.menuData && item.menuData.actionState
 
-                height: !!sourceComponent ? units.gu(6) : 0
+                height: !!sourceComponent ? (isConnected ? units.gu(9) : units.gu(6)) : 0
                 anchors.left: parent.left
                 anchors.right: parent.right
+
                 asynchronous: true
                 sourceComponent: {
                     if (isAccessPoint) {
