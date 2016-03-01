@@ -47,6 +47,9 @@ FocusScope {
     }
 
     Keys.onPressed: {
+        if (pinentryField.text.length == root.maxPinLength)
+            return;
+
         if (event.key === Qt.Key_Backspace) {
             pinentryField.backspace();
         } else if (event.key === Qt.Key_Delete) {
