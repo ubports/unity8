@@ -61,7 +61,7 @@ Q_SIGNALS:
     void countryChanged(const QString &country);
 
 private:
-    void setModel(QList<GeonamesCity *> locations);
+    void setModel(const QList<GeonamesCity *> &locations);
     void setListUpdating(bool listUpdating);
     static void filterFinished(GObject      *source_object,
                                GAsyncResult *res,
