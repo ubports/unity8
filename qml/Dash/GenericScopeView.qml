@@ -47,7 +47,7 @@ FocusScope {
         style: scope ? scope.customizations : {}
     }
 
-    readonly property bool processing: scope ? scope.searchInProgress || subPageLoader.processing : false
+    readonly property bool processing: scope ? (scope.searchInProgress || scope.activationInProgress || subPageLoader.processing) : false
 
     signal backClicked()
 

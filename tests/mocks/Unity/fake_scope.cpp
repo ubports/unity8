@@ -87,6 +87,11 @@ bool Scope::searchInProgress() const
     return m_searching;
 }
 
+bool Scope::activationInProgress() const
+{
+    return false;
+}
+
 bool Scope::favorite() const
 {
     return m_favorite;

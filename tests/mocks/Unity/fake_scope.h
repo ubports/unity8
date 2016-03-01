@@ -42,6 +42,7 @@ public:
     QString searchHint() const override;
     QString shortcut() const override;
     bool searchInProgress() const override;
+    bool activationInProgress() const override;
     bool favorite() const override;
     unity::shell::scopes::CategoriesInterface* categories() const override;
     QString searchQuery() const override;
