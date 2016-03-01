@@ -166,12 +166,12 @@ LocalComponents.Page {
             fill: content
             leftMargin: desktopLook ? staticMargin : 0
             rightMargin: desktopLook ? staticMargin : 0
+            topMargin: customMargin
         }
 
         ColumnLayout {
             Layout.fillHeight: true
             Layout.maximumWidth: maximumContentWidth
-            spacing: units.gu(3)
 
             LocalComponents.WizardTextField {
                 id: searchField
@@ -180,27 +180,14 @@ LocalComponents.Page {
                 anchors.right: parent.right
                 anchors.leftMargin: !desktopLook ? staticMargin : 0
                 anchors.rightMargin: !desktopLook ? staticMargin : 0
-                anchors.top: parent.top
-                anchors.topMargin: units.gu(3)
                 placeholderText: i18n.tr("Enter your city")
                 inputMethodHints: Qt.ImhNoPredictiveText
                 onTextChanged: resetViews();
             }
 
-            Rectangle {
-                Layout.fillWidth: true
-                anchors.top: searchField.bottom
-                anchors.topMargin: units.gu(2)
-                id: divider
-                height: units.dp(1)
-                color: dividerColor
-                visible: tzList.count > 0
-            }
-
             ListView {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                anchors.top: divider.bottom
                 id: tzList
                 objectName: "tzList"
                 clip: true
