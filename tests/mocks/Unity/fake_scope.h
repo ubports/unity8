@@ -20,7 +20,7 @@
 #include <unity/shell/scopes/ScopeInterface.h>
 
 #include "fake_categories.h"
-#include "fake_previewstack.h"
+#include "fake_previewmodel.h"
 
 #include <QTimer>
 
@@ -62,7 +62,7 @@ public:
     Q_INVOKABLE void setSearchInProgress(const bool inProg); // This is not invokable in the Interface, here for testing benefits
 
     Q_INVOKABLE void activate(QVariant const& result, QString const& categoryId) override;
-    Q_INVOKABLE PreviewStack* preview(QVariant const& result, QString const& categoryId) override;
+    Q_INVOKABLE PreviewModel* preview(QVariant const& result, QString const& categoryId) override;
     Q_INVOKABLE void cancelActivation() override;
     Q_INVOKABLE void closeScope(unity::shell::scopes::ScopeInterface* scope) override;
 
