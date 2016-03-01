@@ -52,10 +52,9 @@ LocalComponents.Page {
             rightMargin: parent.rightMargin
             topMargin: customMargin
         }
+        bottomMargin: Qt.inputMethod.visible && !Qt.inputMethod.animating ? Qt.inputMethod.keyboardRectangle.height : 0
 
-        contentHeight: contentItem.childrenRect.height
-
-        Behavior on contentY { UbuntuNumberAnimation{} }
+        Behavior on contentY { UbuntuNumberAnimation {} }
 
         // name
         Label {
@@ -110,13 +109,6 @@ LocalComponents.Page {
                 }
             }
         }
-    }
-
-    Binding {
-        target: surnameInput
-        property: "anchors.bottomMargin"
-        value: Qt.inputMethod.keyboardRectangle.height
-        when: Qt.inputMethod.visible && !Qt.inputMethod.animating
     }
 
     Component {
