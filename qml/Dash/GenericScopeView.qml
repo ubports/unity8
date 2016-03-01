@@ -407,8 +407,8 @@ FocusScope {
                         scopeView.itemPressedAndHeld(index, result, target.model, categoryItemCount(), baseItem.category);
                     }
 
-                    onAction: { // (int index, var actionId)
-                        scopeview.activateAction(index, baseitem.categoryId, actionId);
+                    onAction: { // (int index, var result, var actionId)
+                        scope.activateAction(result, baseitem.categoryId, actionId);
                     }
 
                     function categoryItemCount() {
