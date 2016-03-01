@@ -1,10 +1,13 @@
 pkg_check_modules(LIBUSERMETRICSOUTPUT REQUIRED libusermetricsoutput-1)
 
+add_definitions(-DSM_BUSNAME=systemBus)
+
 set(LibLightDM_SOURCES
     Greeter.cpp
     UsersModel.cpp
     GreeterPrivate.cpp
     UsersModelPrivate.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsServiceDBusAdaptor.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qvariantlistmodel.cpp
     )
 
@@ -12,6 +15,7 @@ add_library(integratedLightDM STATIC ${LibLightDM_SOURCES})
 add_library(MockLightDM-demo-shared SHARED ${LibLightDM_SOURCES})
 
 include_directories(
+    ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${CMAKE_CURRENT_BINARY_DIR}
     ${GLIB_INCLUDE_DIRS}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
@@ -28,8 +32,8 @@ target_link_libraries(MockLightDM-demo-shared
     -lpam
 )
 
-qt5_use_modules(integratedLightDM Concurrent Gui)
-qt5_use_modules(MockLightDM-demo-shared Concurrent Gui)
+qt5_use_modules(integratedLightDM Concurrent DBus Gui)
+qt5_use_modules(MockLightDM-demo-shared Concurrent DBus Gui)
 
 set_target_properties(integratedLightDM PROPERTIES COMPILE_FLAGS -fPIC)
 set_target_properties(MockLightDM-demo-shared PROPERTIES
