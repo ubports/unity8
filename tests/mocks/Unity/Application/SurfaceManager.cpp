@@ -34,7 +34,7 @@ SurfaceManager::SurfaceManager(QObject *parent) :
     QObject(parent)
     , m_virtualKeyboard(nullptr)
 {
-    m_virtualKeyboard = new VirtualKeyboard;
+    m_virtualKeyboard = new VirtualKeyboard(this);
     connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
         MirSurface* surface = qobject_cast<MirSurface*>(obj);
         m_virtualKeyboard = nullptr;

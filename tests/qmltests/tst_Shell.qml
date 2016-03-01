@@ -773,7 +773,6 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var item = findChild(shell, "inputMethod");
-            tryCompareFunction(function() { return !!SurfaceManager.inputMethodSurface; }, true);
             var surface = SurfaceManager.inputMethodSurface;
 
             surface.setState(Mir.MinimizedState);
