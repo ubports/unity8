@@ -107,7 +107,7 @@ LocalComponents.Page {
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: staticMargin
+                anchors.leftMargin: !desktopLook ? staticMargin : 0
                 anchors.right: image.left
                 anchors.rightMargin: units.gu(2)
 
@@ -134,7 +134,7 @@ LocalComponents.Page {
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
-                    rightMargin: staticMargin
+                    rightMargin: !desktopLook ? staticMargin : 0
                 }
                 fillMode: Image.PreserveAspectFit
                 height: units.gu(1.5)
@@ -214,7 +214,7 @@ LocalComponents.Page {
             Layout.fillWidth: desktopLook
             Layout.fillHeight: true
             id: mapContainer
-            visible: desktopLook && !contentAnimationRunning
+            visible: desktopLook && !contentAnimationRunning && !Qt.inputMethod.visible
             enabled: visible
 
             Item {
