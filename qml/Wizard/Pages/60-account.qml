@@ -31,30 +31,18 @@ LocalComponents.Page {
 
     QtObject {
         id: d
-
-        function advance() {
-            var tmp = nameInput.text + " " + surnameInput.text;
-            var realName = tmp.trim();
-            if (realName !== "") {
-                AccountsService.realName = realName;
-            }
-            pageStack.next();
-        }
+        readonly property string validName: nameInput.text.trim()
     }
 
-    Flickable {
+    Column {
         id: column
-        clip: true
-        flickableDirection: Flickable.VerticalFlick
+        spacing: units.gu(1)
         anchors {
             fill: content
             leftMargin: parent.leftMargin
             rightMargin: parent.rightMargin
             topMargin: customMargin
         }
-        bottomMargin: Qt.inputMethod.visible && !Qt.inputMethod.animating ? Qt.inputMethod.keyboardRectangle.height : 0
-
-        Behavior on contentY { UbuntuNumberAnimation {} }
 
         // name
         Label {
@@ -71,51 +59,20 @@ LocalComponents.Page {
             objectName: "nameInput"
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: nameLabel.bottom
-            anchors.topMargin: units.gu(1)
             inputMethodHints: Qt.ImhNoPredictiveText
-            onAccepted: surnameInput.forceActiveFocus()
-            onActiveFocusChanged: {
-                if (activeFocus) {
-                    column.contentY = nameLabel.y
-                }
-            }
-        }
-
-        // surname
-        Label {
-            id: surnameLabel
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: nameInput.bottom
-            anchors.topMargin: units.gu(3)
-            text: i18n.tr("Your Surname")
-            color: textColor
-            font.weight: Font.Light
-        }
-
-        LocalComponents.WizardTextField {
-            id: surnameInput
-            objectName: "surnameInput"
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: surnameLabel.bottom
-            anchors.topMargin: units.gu(1)
-            inputMethodHints: Qt.ImhNoPredictiveText
-            onAccepted: d.advance()
-            onActiveFocusChanged: {
-                if (activeFocus) {
-                    column.contentY = surnameLabel.y
-                }
-            }
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: i18n.tr("Next")
-            onClicked: d.advance();
+            text: d.validName ? i18n.tr("Next") : i18n.tr("Skip")
+            onClicked: {
+                if (d.validName) {
+                    AccountsService.realName = d.validName;
+                }
+                pageStack.next();
+            }
         }
     }
 }
