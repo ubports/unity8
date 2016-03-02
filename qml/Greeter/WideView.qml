@@ -41,6 +41,7 @@ FocusScope {
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
 
+    signal promptlessLogin()
     signal selected(int index)
     signal responded(string response)
     signal tease()
@@ -207,6 +208,7 @@ FocusScope {
                         loginAreaLoader.currentSession = loginAreaLoader.item.currentSession
                     }
                 }
+                onPromptlessLogin: root.promptlessLogin()
 
                 onSessionChooserButtonClicked: loginListShown = false;
                 ignoreUnknownSignals: true

@@ -15,14 +15,17 @@ add_library(MockLightDM-demo-shared SHARED ${LibLightDM_SOURCES})
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${GLIB_INCLUDE_DIRS}
     ${LIBUSERMETRICSOUTPUT_INCLUDE_DIRS}
 )
 
 target_link_libraries(integratedLightDM
+    ${GLIB_LIBRARIES}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     -lpam
 )
 target_link_libraries(MockLightDM-demo-shared
+    ${GLIB_LIBRARIES}
     ${LIBUSERMETRICSOUTPUT_LDFLAGS}
     -lpam
 )

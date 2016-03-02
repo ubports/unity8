@@ -14,18 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "HomeKeyWatcher.h"
+#include "WindowInputMonitor.h"
 
 #include <QQuickWindow>
 
 using namespace UnityUtil;
 
-HomeKeyWatcher::HomeKeyWatcher(QQuickItem *parent)
-    : HomeKeyWatcher(new Timer, new ElapsedTimer, parent)
+WindowInputMonitor::WindowInputMonitor(QQuickItem *parent)
+    : WindowInputMonitor(new Timer, new ElapsedTimer, parent)
 {
 }
 
-HomeKeyWatcher::HomeKeyWatcher(UnityUtil::AbstractTimer *timer,
+WindowInputMonitor::WindowInputMonitor(UnityUtil::AbstractTimer *timer,
         UnityUtil::AbstractElapsedTimer *elapsedTimer,
         QQuickItem *parent)
     : QQuickItem(parent)
@@ -37,20 +37,20 @@ HomeKeyWatcher::HomeKeyWatcher(UnityUtil::AbstractTimer *timer,
     m_windowLastTouchedTimer->start();
 
     connect(this, &QQuickItem::windowChanged,
-            this, &HomeKeyWatcher::setupFilterOnWindow);
+            this, &WindowInputMonitor::setupFilterOnWindow);
 
     connect(m_activationTimer, &UnityUtil::AbstractTimer::timeout,
-        this, &HomeKeyWatcher::emitActivatedIfNoTouchesAround);
+        this, &WindowInputMonitor::emitActivatedIfNoTouchesAround);
     m_activationTimer->setInterval(msecsWithoutTouches);
 }
 
-HomeKeyWatcher::~HomeKeyWatcher()
+WindowInputMonitor::~WindowInputMonitor()
 {
     delete m_windowLastTouchedTimer;
     delete m_activationTimer;
 }
 
-bool HomeKeyWatcher::eventFilter(QObject *watched, QEvent *event)
+bool WindowInputMonitor::eventFilter(QObject *watched, QEvent *event)
 {
     Q_ASSERT(!m_filteredWindow.isNull());
     Q_ASSERT(watched == static_cast<QObject*>(m_filteredWindow.data()));
@@ -62,7 +62,7 @@ bool HomeKeyWatcher::eventFilter(QObject *watched, QEvent *event)
     return false;
 }
 
-void HomeKeyWatcher::update(QEvent *event)
+void WindowInputMonitor::update(QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
@@ -86,15 +86,22 @@ void HomeKeyWatcher::update(QEvent *event)
 
         m_activationTimer->stop();
         m_windowBeingTouched = true;
+        Q_EMIT touchBegun();
 
     } else if (event->type() == QEvent::TouchEnd) {
 
         m_windowBeingTouched = false;
         m_windowLastTouchedTimer->start();
+
+        QTouchEvent * touchEv = static_cast<QTouchEvent *>(event);
+        if (touchEv && !touchEv->touchPoints().isEmpty()) {
+            const QPointF pos = touchEv->touchPoints().last().screenPos();
+            Q_EMIT touchEnded(pos);
+        }
     }
 }
 
-void HomeKeyWatcher::setupFilterOnWindow(QQuickWindow *window)
+void WindowInputMonitor::setupFilterOnWindow(QQuickWindow *window)
 {
     if (!m_filteredWindow.isNull()) {
         m_filteredWindow->removeEventFilter(this);
@@ -107,10 +114,10 @@ void HomeKeyWatcher::setupFilterOnWindow(QQuickWindow *window)
     }
 }
 
-void HomeKeyWatcher::emitActivatedIfNoTouchesAround()
+void WindowInputMonitor::emitActivatedIfNoTouchesAround()
 {
     if (!m_homeKeyPressed && !m_windowBeingTouched &&
             (m_windowLastTouchedTimer->elapsed() > msecsWithoutTouches)) {
-        Q_EMIT activated();
+        Q_EMIT homeKeyActivated();
     }
 }

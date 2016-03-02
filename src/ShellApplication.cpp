@@ -112,13 +112,15 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     }
 
     if (parser.mode().compare("greeter") == 0) {
-        QString upstartCmd = "/sbin/initctl emit --no-wait unity8-greeter-started";
-        if (!QProcess::startDetached(upstartCmd)) {
+        QSize primaryScreenSize = this->primaryScreen()->size();
+        m_shellView->setHeight(primaryScreenSize.height());
+        m_shellView->setWidth(primaryScreenSize.width());
+        m_shellView->show();
+        m_shellView->requestActivate();
+        if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
             qDebug() << "Unable to send unity8-greeter-started event to Upstart";
         }
-    }
-
-     if (isMirServer || parser.hasFullscreen()) {
+    } else if (isMirServer || parser.hasFullscreen()) {
         m_shellView->showFullScreen();
     } else {
         m_shellView->show();

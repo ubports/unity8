@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-11 17:43+0000\n"
-"PO-Revision-Date: 2015-12-30 09:49+0000\n"
+"PO-Revision-Date: 2016-02-16 07:23+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "Language: hu\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-14 05:53+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -677,6 +677,22 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "Egy külső kijelzőhöz csatlakoztatta a készülékét. A telefon kijelzőjén "
+#~ "tett ujjmozdulatokkal mozgathatja az egeret."
+
+#~ msgid "Welcome to your Ubuntu device."
+#~ msgstr "Köszönti az Ubuntus eszköze."
+
+#~ msgid "Please select how you’d like to unlock your device."
+#~ msgstr "Válassza ki, hogy milyen módon szeretné feloldani az eszközét."
+
+#~ msgid "Your device is now ready to use."
+#~ msgstr "Az eszköze készen áll a használatra."
 
 #~ msgid "Confirm"
 #~ msgstr "Megerősítés"

@@ -1,0 +1,3 @@
+module LightDM.FullLightDM
+plugin FullLightDM-qml
+typeinfo FullLightDM.qmltypes

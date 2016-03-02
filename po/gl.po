@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-16 05:38+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -673,6 +673,22 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "O dispositivo está agora conectado a unha pantalla externa. Use esta "
+#~ "pantalla como área táctil para interactuar co rato."
+
+#~ msgid "Welcome to your Ubuntu device."
+#~ msgstr "Benvido/a ao seu dispositivo Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your device."
+#~ msgstr "Seleccione o xeito de desbloquear o dispositivo."
+
+#~ msgid "Your device is now ready to use."
+#~ msgstr "O dispositivo xa está listo para o seu uso."
 
 #~ msgid "Confirm"
 #~ msgstr "Confirmar"

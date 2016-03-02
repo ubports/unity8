@@ -1,15 +1,15 @@
 set(PLUGIN_CLASSNAME "IntegratedLightDM")
 
-# Written to source dir as thats where add_unity8_plugin expects it
-configure_file(../qmldir.in ${CMAKE_CURRENT_SOURCE_DIR}/qmldir)
-
 add_definitions(-DINTEGRATED_LIGHTDM)
 
+foreach(include_directory ${QMLPLUGIN_INCLUDES})
+        list(APPEND RELATIVE_QMLPLUGIN_INCLUDES ../${include_directory})
+endforeach()
+
 include_directories(
-    ${libunity8-private_SOURCE_DIR}
+    ../
     ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
-    ${CMAKE_BINARY_DIR}/tests/mocks/LightDM/IntegratedLightDM
-)
+    )
 
 foreach(source_file ${QMLPLUGIN_SRC})
     list(APPEND RELATIVE_QMLPLUGIN_SRC ../${source_file})

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-11 17:43+0000\n"
-"PO-Revision-Date: 2015-12-20 09:20+0000\n"
+"PO-Revision-Date: 2016-02-18 01:11+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "Language: pt\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-01-14 05:54+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -144,7 +144,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr "Volte para chamada"
+msgstr "Volte para a chamada"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -176,7 +176,7 @@ msgstr "Volte a ligar agora!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Fechar tudo"
 
 #: qml/Dash/DashPageHeader.qml:266
 msgctxt "Button: Open the Ubuntu Store"
@@ -344,7 +344,7 @@ msgstr "Mostrar palavra-passe"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Toque para voltar a chamar..."
+msgstr "Toque para voltar à chamada..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -678,6 +678,22 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "O dispositivo está ligado a um ecrã externo. Utilize o ecrã como touchpad "
+#~ "para manipular o ponteiro do rato."
+
+#~ msgid "Welcome to your Ubuntu device."
+#~ msgstr "Bem-vindo ao seu dispositivo Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your device."
+#~ msgstr "Escolha como quer desbloquear o seu dispositivo."
+
+#~ msgid "Your device is now ready to use."
+#~ msgstr "O seu dispositivo está pronto."
 
 #~ msgid "Top edge"
 #~ msgstr "Margem superior"

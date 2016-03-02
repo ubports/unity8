@@ -219,13 +219,7 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
         Q_FOREACH(ListItem *item, m_visibleItems)
             releaseItem(item);
         m_visibleItems.clear();
-        m_firstVisibleIndex = -1;
-        adjustMinYExtent();
-        setContentY(0);
-        m_clipItem->setY(0);
-        if (m_topSectionItem) {
-            QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
-        }
+        initializeValuesForEmptyList();
 
         m_delegateModel->setDelegate(delegate);
 
@@ -233,6 +227,17 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
         m_delegateValidated = false;
         m_contentHeightDirty = true;
         polish();
+    }
+}
+
+void ListViewWithPageHeader::initializeValuesForEmptyList()
+{
+    m_firstVisibleIndex = -1;
+    adjustMinYExtent();
+    setContentY(0);
+    m_clipItem->setY(0);
+    if (m_topSectionItem) {
+        QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
     }
 }
 
@@ -835,7 +840,7 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
         }
     }
     if (!foundVisible) {
-        m_firstVisibleIndex = -1;
+        initializeValuesForEmptyList();
     }
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
         adjustMinYExtent();
@@ -1092,7 +1097,11 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     }
 
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
-        adjustMinYExtent();
+        if (m_visibleItems.isEmpty()) {
+            initializeValuesForEmptyList();
+        } else {
+            adjustMinYExtent();
+        }
     }
 
     for (int i = 0; i < m_visibleItems.count(); ++i) {

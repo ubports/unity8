@@ -288,6 +288,7 @@ Showable {
             onSelected: {
                 d.selectUser(index, true);
             }
+            onPromptlessLogin: d.login();
             onResponded: {
                 if (root.locked) {
                     LightDMService.greeter.respond(response);
@@ -410,8 +411,8 @@ Showable {
 
             if (LightDMService.greeter.authenticated) {
                 AccountsService.failedLogins = 0;
-                d.login();
                 if (!LightDMService.greeter.promptless) {
+                    d.login();
                     loader.item.hide();
                 }
             } else {

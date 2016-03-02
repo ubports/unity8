@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-01-14 05:54+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -157,6 +157,8 @@ msgstr "Programy mogące mieć niezapisane dane:"
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Aby kontynuować, dodaj ponownie do doku, zapisz swoją pracę i zamknij te "
+"programy."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -677,6 +679,22 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "Twoje urządzenie jest teraz podłączone do zewnętrznego wyświetlacza. Użyj "
+#~ "tego ekranu jako panelu dotykowego do interakcji z myszą."
+
+#~ msgid "Welcome to your Ubuntu device."
+#~ msgstr "Witaj w swoim urządzeniu Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your device."
+#~ msgstr "Prosimy wybrać sposób, w jaki chcesz odblokować swoje urządzenie."
+
+#~ msgid "Your device is now ready to use."
+#~ msgstr "Twoje urządzenie jest już gotowe do użytku."
 
 #~ msgid "Confirm"
 #~ msgstr "Potwierdź"

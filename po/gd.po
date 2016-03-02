@@ -17,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-01-14 05:53+0000\n"
-"X-Generator: Launchpad (build 17886)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -697,6 +697,24 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "Tha an t-uidheam agad air a cheangal ri uidheam-taisbeanaidh air an taobh "
+#~ "a-muigh a-nis. Cleachd an sgrìn seo 'na phada-suathaidh gus gnìomh "
+#~ "luchaige a dhèanamh."
+
+#~ msgid "Welcome to your Ubuntu device."
+#~ msgstr "Fàilte dhan uidheam Ubuntu agad."
+
+#~ msgid "Please select how you’d like to unlock your device."
+#~ msgstr ""
+#~ "Tagh an dòigh sa tha thu airson a' ghlas a thoirt far an uidheam agad."
+
+#~ msgid "Your device is now ready to use."
+#~ msgstr "Tha an t-uidheam agad ullamh a-nis."
 
 #~ msgid "Skip intro"
 #~ msgstr "Gearr leum thairis air an ro-ràdh"
