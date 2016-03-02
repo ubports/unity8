@@ -201,13 +201,13 @@ LocalComponents.Page {
             Layout.fillWidth: desktopLook
             Layout.fillHeight: true
             id: mapContainer
-            visible: desktopLook && !contentAnimationRunning && !Qt.inputMethod.visible
+            visible: desktopLook && !contentAnimationRunning
             enabled: visible
 
             Item {
                 id: map
-                width: parent.width
-                height: width / 1.95 // keep our aspect ratio
+                width: Math.min(parent.width, height * 1.95) // keep our aspect ratio
+                height: parent.height
                 anchors {
                     centerIn: parent
                 }
