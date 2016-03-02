@@ -25,7 +25,7 @@
 class SurfaceManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(MirSurfaceInterface* inputMethodSurface READ inputMethodSurface NOTIFY inputMethodSurfaceChanged)
+    Q_PROPERTY(MirSurface* inputMethodSurface READ inputMethodSurface NOTIFY inputMethodSurfaceChanged)
     Q_PROPERTY(int newSurfaceMinimumWidth READ newSurfaceMinimumWidth WRITE setNewSurfaceMinimumWidth NOTIFY newSurfaceMinimumWidthChanged)
     Q_PROPERTY(int newSurfaceMaximumWidth READ newSurfaceMaximumWidth WRITE setNewSurfaceMaximumWidth NOTIFY newSurfaceMaximumWidthChanged)
     Q_PROPERTY(int newSurfaceMinimumHeight READ newSurfaceMinimumHeight WRITE setNewSurfaceMinimumHeight NOTIFY newSurfaceMinimumHeightChanged)
