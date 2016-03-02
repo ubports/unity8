@@ -15,10 +15,10 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import QMenuModel 0.1 as QMenuModel
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
-import Ubuntu.Settings.Menus 0.1 as Menus
 import Wizard 0.1
 import ".." as LocalComponents
 
@@ -89,7 +89,7 @@ LocalComponents.Page {
             readonly property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             readonly property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             readonly property bool isConnected: menuData && menuData.actionState
-            property int signalStrength: strengthAction.valid ? strengthAction.state : 0
+            readonly property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
             function loadAttributes() {
@@ -150,7 +150,7 @@ LocalComponents.Page {
         }
     }
 
-    Column {
+    ColumnLayout {
         id: column
         spacing: units.gu(2)
         anchors {
@@ -176,9 +176,9 @@ LocalComponents.Page {
             id: listview
             anchors.left: parent.left
             anchors.right: parent.right
-            height: column.height - label.height - column.spacing - topMargin
             clip: true
             model: menuModel
+            Layout.fillHeight: true
 
             delegate: Loader {
                 id: loader
