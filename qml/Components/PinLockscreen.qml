@@ -52,7 +52,7 @@ FocusScope {
 
         if (event.key === Qt.Key_Backspace) {
             pinentryField.backspace();
-        } else if (event.key === Qt.Key_Delete) {
+        } else if (event.key === Qt.Key_Delete || event.key === Qt.Key_Escape) {
             closeButton.clicked()
         } else if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
             confirmButton.clicked()
