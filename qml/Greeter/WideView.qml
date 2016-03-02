@@ -27,7 +27,7 @@ FocusScope {
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property alias background: coverPage.background
     property bool locked
-    property bool alphanumeric // unused
+    property alias alphanumeric: loginList.alphanumeric
     property alias userModel: loginList.model
     property alias infographicModel: coverPage.infographicModel
     readonly property bool fullyShown: coverPage.showProgress === 1
@@ -37,6 +37,7 @@ FocusScope {
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
 
+    signal promptlessLogin()
     signal selected(int index)
     signal responded(string response)
     signal tease()
@@ -128,6 +129,7 @@ FocusScope {
 
             locked: root.locked
 
+            onPromptlessLogin: root.promptlessLogin()
             onSelected: root.selected(index)
             onResponded: root.responded(response)
         }

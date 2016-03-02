@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2014-01-17 09:05+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
+"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -511,8 +512,7 @@ msgstr "Tambah kad SIM dan mulakan semula peranti anda"
 
 #: qml/Wizard/Pages/20-sim.qml:59
 msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
-"Tanpanya, anda tidak boleh membuat panggilan atau guna pemesejan teks."
+msgstr "Tanpanya, anda tidak boleh membuat panggilan atau guna pemesejan teks."
 
 #: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
 msgid "Skip"
@@ -582,8 +582,7 @@ msgstr "Hanya gunakan GPS (kurang tepat)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-"Gunakan GPS, Wi-Fi awanama dan maklumat rangkaian selular (disarankan)"
+msgstr "Gunakan GPS, Wi-Fi awanama dan maklumat rangkaian selular (disarankan)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -691,7 +690,8 @@ msgstr "%1  〉"
 #~ msgstr "Pinggir kiri"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
-#~ msgstr "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
+#~ msgstr ""
+#~ "Leret dari kiri untuk munculkan pelancar untuk capaian pantas ke apl"
 
 #~ msgid "Well done"
 #~ msgstr "Bagus"

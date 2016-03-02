@@ -102,6 +102,7 @@ Item {
                                                           "edgeMargins": units.gu(1)
                                                       }
                                                      );
+            searchTextField.forceActiveFocus();
         }
     }
 

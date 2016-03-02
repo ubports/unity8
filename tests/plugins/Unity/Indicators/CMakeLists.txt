@@ -1,7 +1,3 @@
-pkg_check_modules(GLIB REQUIRED glib-2.0>=2.32)
-pkg_check_modules(GIO REQUIRED gio-2.0>=2.32)
-pkg_check_modules(QMENUMODEL REQUIRED qmenumodel)
-
 set(INDICATORS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../../plugins/Unity/Indicators)
 set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
 

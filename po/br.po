@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-08 15:42+0000\n"
-"PO-Revision-Date: 2015-10-05 06:47+0000\n"
+"PO-Revision-Date: 2016-02-22 12:29+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
+"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -155,27 +156,29 @@ msgstr "Mat eo"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "Roadennoù ha n'int ket enrollet a c'hall bezañ gant an arloadoù :"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Adlugit, enrollit ho labour ha serrit an arloadoù-mañ evit kenderc'hel."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
 msgstr ""
+"Pe rediañ da serriñ bremañ (kollet e vo ar roadennoù n'int ket bet enrollet)."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "Mat eo, ez an da adkevreañ"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "Adkevreañ bremañ !"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "Serriñ pep tra"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -236,7 +239,7 @@ msgstr "Ouzhpennañ un ali"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "Rakwelet an elfenn lodet"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -412,7 +415,7 @@ msgstr "C'hwitet, touchit evit adkregiñ"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "Kas"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -422,7 +425,7 @@ msgstr "Respont"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "Gervel en-dro"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -527,8 +530,7 @@ msgstr "Surentez ar prennañ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:74
 msgid "Please select how you’d like to unlock your phone."
-msgstr ""
-"Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
+msgstr "Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:97
 msgctxt "Label: Type of security method"
@@ -586,8 +588,7 @@ msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
 
 #: qml/Wizard/Pages/50-location.qml:86
 msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-"Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
+msgstr "Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
 
 #. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
 #: qml/Wizard/Pages/50-location.qml:103
@@ -679,6 +680,22 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "N'eo ket kevreet ho penveg ouzh un diskwel diavaez. Implijit ar skramm-"
+#~ "mañ da douch evit ober gant al logodenn."
+
+#~ msgid "Welcome to your Ubuntu device."
+#~ msgstr "Donemat en ho penveg Ubuntu"
+
+#~ msgid "Please select how you’d like to unlock your device."
+#~ msgstr "Diuzit penaos e fell deoc'h dibrennañ ho penveg, mar plij."
+
+#~ msgid "Your device is now ready to use."
+#~ msgstr "Prest eo ho penveg da vezañ implijet bremañ."
+
 #~ msgid "Close"
 #~ msgstr "Serriñ"
 
@@ -718,11 +735,13 @@ msgstr "%1  〉"
 
 #~ msgid "Try swiping from the top edge to access the indicators"
 #~ msgstr ""
-#~ "Lakait ho piz da riklañ adalek ar bord uhelañ da lakaat ar merkerioù war wel."
+#~ "Lakait ho piz da riklañ adalek ar bord uhelañ da lakaat ar merkerioù war "
+#~ "wel."
 
 #~ msgid "Swipe up again to close the settings screen"
 #~ msgstr ""
-#~ "Lakait ho piz da riklañ war-du ar bord uhelañ da serriñ skramm an arventennoù"
+#~ "Lakait ho piz da riklañ war-du ar bord uhelañ da serriñ skramm an "
+#~ "arventennoù"
 
 #~ msgid "Try swiping from the right edge to unlock the phone"
 #~ msgstr ""
@@ -730,8 +749,8 @@ msgstr "%1  〉"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Lakait ho piz da riklañ adalek ar bord kleiz da ziskouez al lañser arloadoù "
-#~ "prim."
+#~ "Lakait ho piz da riklañ adalek ar bord kleiz da ziskouez al lañser "
+#~ "arloadoù prim."
 
 #~ msgid "Well done"
 #~ msgstr "Gourc'hemennoù !"

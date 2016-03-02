@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-08 15:42+0000\n"
-"PO-Revision-Date: 2015-11-07 19:43+0000\n"
-"Last-Translator: Jean-Marc <Unknown>\n"
+"PO-Revision-Date: 2016-02-28 17:22+0000\n"
+"Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
+"X-Launchpad-Export-Date: 2016-02-29 05:58+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -160,6 +161,8 @@ msgstr "Les applications peuvent avoir des données non enregistrées :"
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Rebranchez-vous sur la station d'accueil, enregistrez votre travail et "
+"fermez ces applications pour continuer."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -169,7 +172,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "OK, je vais me reconnecter"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
@@ -687,6 +690,24 @@ msgstr "〈  %1"
 msgid "%1  〉"
 msgstr "%1  〉"
 
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "Votre appareil est maintenant connecté à un affichage externe. Utilisez "
+#~ "cet écran comme un pavé tactile pour interagir avec la souris."
+
+#~ msgid "Welcome to your Ubuntu device."
+#~ msgstr "Bienvenue sur votre appareil Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your device."
+#~ msgstr ""
+#~ "Veuillez sélectionner la façon dont vous souhaitez déverrouiller votre "
+#~ "appareil."
+
+#~ msgid "Your device is now ready to use."
+#~ msgstr "Votre appareil est maintenant prêt à être utilisé."
+
 #~ msgid "Skip intro"
 #~ msgstr "Passer l'intro"
 
@@ -746,8 +767,8 @@ msgstr "%1  〉"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr ""
-#~ "Faites glisser votre doigt à partir du bord gauche pour afficher le lanceur "
-#~ "d'applications."
+#~ "Faites glisser votre doigt à partir du bord gauche pour afficher le "
+#~ "lanceur d'applications."
 
 #~ msgid "Power off"
 #~ msgstr "Éteindre"

@@ -522,5 +522,16 @@ Item {
 
             tryCompare(loginList, "height", view.height);
         }
+
+        function test_alphanumeric() {
+            var passwordInput = findChild(view, "passwordInput");
+
+            verify(view.alphanumeric);
+            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+            view.alphanumeric = false;
+            compare(passwordInput.inputMethodHints, Qt.ImhDigitsOnly);
+            view.alphanumeric = true;
+            compare(passwordInput.inputMethodHints, Qt.ImhNone);
+        }
     }
 }

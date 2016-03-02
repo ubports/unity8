@@ -6,17 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-08 15:42+0000\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-12-12 05:44+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -148,27 +149,27 @@ msgstr "확인"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:32
 msgid "Apps may have unsaved data:"
-msgstr ""
+msgstr "프로그램에 저장하지 않은 데이터가 있을 때:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "다시 도킹해 작업을 저장하고 프로그램을 닫은 후 계속합니다."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
-msgstr ""
+msgstr "강제로 지금 끝냅니다.(저장하지 않은 데이터를 잃게 됩니다.)"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:75
 msgid "OK, I will reconnect"
-msgstr ""
+msgstr "다시 접속합니다."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr ""
+msgstr "지급 다시 접속!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "모두 닫기"
 
 #: qml/Dash/DashPageHeader.qml:265
 msgctxt "Button: Open the Ubuntu Store"
@@ -229,7 +230,7 @@ msgstr "평가 추가"
 
 #: qml/Dash/Previews/PreviewSharing.qml:51
 msgid "Preview Share Item"
-msgstr ""
+msgstr "공유 항목 미리 보기"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -287,13 +288,17 @@ msgstr "마지막 시도입니다."
 msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
-msgstr "이번에도 올바르지 않은 암호문을 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
+msgstr ""
+"이번에도 올바르지 않은 암호문을 입력하면 휴대 전화를 공장 초기화하여 모든 개"
+"인 정보를 삭제합니다."
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
-msgstr "이번에도 올바르지 않은 패스코드를 입력하면 휴대 전화를 공장 초기화하여 모든 개인 정보를 삭제합니다."
+msgstr ""
+"이번에도 올바르지 않은 패스코드를 입력하면 휴대 전화를 공장 초기화하여 모든 "
+"개인 정보를 삭제합니다."
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
@@ -398,7 +403,7 @@ msgstr "실패, 두드리면 다시 시도합니다."
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "보내기"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -408,7 +413,7 @@ msgstr "답신"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "부재중 번호로 전화"
 
 #: qml/Panel/Indicators/ModemInfoItem.qml:105
 msgid "Unlock SIM"
@@ -578,7 +583,8 @@ msgstr "GPS와 익명 와이파이 통신사 네트워크를 사용(추천)"
 msgid ""
 "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
 "conditions</a>."
-msgstr "이 옵션을 선택하면 자동으로 <a href='%1'>노키아 HERE 사용 조건에 동의합니다."
+msgstr ""
+"이 옵션을 선택하면 자동으로 <a href='%1'>노키아 HERE 사용 조건에 동의합니다."
 
 #: qml/Wizard/Pages/50-location.qml:112
 msgid "Not at all"
@@ -596,13 +602,17 @@ msgstr "사용자 경험 개선"
 msgid ""
 "Your phone is set up to automatically report errors to Canonical and its "
 "partners, the makers of the operating system."
-msgstr "사용자의 전화를 자동으로 오류 보고를 운영 체제를 만든 캐노니컬 사와 협력사로 보내도록 설정했습니다."
+msgstr ""
+"사용자의 전화를 자동으로 오류 보고를 운영 체제를 만든 캐노니컬 사와 협력사로 "
+"보내도록 설정했습니다."
 
 #: qml/Wizard/Pages/60-reporting.qml:53
 msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
-msgstr "이 서비스는 <b>보안 &amp; 사생활 보호</b>에서 언제든 사용하지 않도록 설정할 수 있습니다."
+msgstr ""
+"이 서비스는 <b>보안 &amp; 사생활 보호</b>에서 언제든 사용하지 않도록 설정할 "
+"수 있습니다."
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
@@ -656,6 +666,13 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "장치를 외부 디스플레이와 연결햇습니다. 이 화면을 마우스와 상호작용 하는 터"
+#~ "치 패드로 사용합니다."
 
 #~ msgid "Search"
 #~ msgstr "검색"
@@ -724,7 +741,8 @@ msgstr "%1  〉"
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
-#~ "여러분은 가장자리에서 끌어오기 제스쳐를 완벽히 익히셨고 휴대 전화를 사용할 수 있습니다. <br><br> 스크린을 터치해서 시작하세요."
+#~ "여러분은 가장자리에서 끌어오기 제스쳐를 완벽히 익히셨고 휴대 전화를 사용"
+#~ "할 수 있습니다. <br><br> 스크린을 터치해서 시작하세요."
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "불러오는 중 입니다. 짐시 기다려주십시오..."

@@ -35,7 +35,8 @@ Rectangle {
       "title": "foo",
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
+      "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
+      "quickPreviewData": {"uri": "/some/file", "duration": "14"}
     }'
 
     property var cardsModel: [
@@ -106,6 +107,11 @@ Rectangle {
             "layout": { "template": { "card-layout": "horizontal" },
                         "components": JSON.parse(Helpers.fullMapping) }
         },
+        {
+            "name": "Art, title, subtitle - Audio",
+            "layout": { "template": { "card-layout": "horizontal", "quick-preview-type": "audio" },
+                        "components": { "art": "art", "title": "title", "subtitle": "subtitle", "quickPreviewData": "quickPreviewData" } }
+        },
     ]
 
     CardTool {
@@ -124,11 +130,11 @@ Rectangle {
         sourceComponent: cardTool.cardComponent
         clip: true
         onLoaded: {
-            item.components = Qt.binding(function() { return cardTool.components; });
             item.cardData = Qt.binding(function() { return Helpers.mapData(dataArea.text, cardTool.components, dataError); });
             item.width = Qt.binding(function() { return cardTool.cardWidth || item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight || item.implicitHeight; });
             item.fixedHeaderHeight = Qt.binding(function() { return cardTool.headerHeight; });
+            item.fixedArtShapeSize = Qt.binding(function() { return cardTool.artShapeSize; });
         }
     }
 
@@ -225,6 +231,7 @@ Rectangle {
         function init() {
             cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
             loader.visible = true;
+            waitForRendering(card);
         }
 
         function cleanup() {
@@ -299,8 +306,8 @@ Rectangle {
                 { tag: "Medium", width: units.gu(18), fill: Image.PreserveAspectCrop, index: 0 },
                 { tag: "Small", width: units.gu(12), index: 1 },
                 { tag: "Large", width: units.gu(38), index: 2 },
-                { tag: "Wide", height: units.gu(19), size: "large", index: 3 },
-                { tag: "Tall", height: units.gu(38) / 0.7, size: "large", width: units.gu(38), index: 4 },
+                { tag: "Wide", height: function() { return units.gu(19) }, size: "large", index: 3 },
+                { tag: "Tall", height: function() { return units.gu(38) / 0.7 }, size: "large", width: units.gu(38), index: 4 },
                 { tag: "VerticalWidth", width: function() { return headerRow.width + units.gu(1) }, index: 0 },
                 { tag: "HorizontalHeight", height: function() { return headerRow.height + units.gu(1) * 2 }, index: 5 },
                 { tag: "HorizontalWidth", width: function() { return headerRow.x - units.gu(1) }, index: 5 },
@@ -329,9 +336,7 @@ Rectangle {
             }
 
             if (data.hasOwnProperty("height")) {
-                if (typeof data.height === "function") {
-                    tryCompareFunction(function() { return art.height === data.height() }, true);
-                } else tryCompare(art, "height", data.height);
+                tryCompareFunction(function() { return art.height.toFixed(2) === data.height().toFixed(2) }, true);
             }
 
             if (data.hasOwnProperty("fill")) {
@@ -470,6 +475,15 @@ Rectangle {
             card.cardDataChanged();
             waitForRendering(card);
             tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/emblem.png"));
+
+            cardTool.components["art"]["fallback"] = Qt.resolvedUrl("artwork/checkers.png");
+            cardTool.componentsChanged();
+            card.cardData["art"] = "";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(art, "visible", true);
+            compare(artImage.source, Qt.resolvedUrl("artwork/checkers.png"));
 
             card.cardData["mascot"] = "somethingbroken2";
             card.cardDataChanged();
@@ -481,6 +495,15 @@ Rectangle {
             card.cardDataChanged();
             waitForRendering(card);
             tryCompare(mascotImage, "status", Image.Ready);
+            compare(mascotImage.source, Qt.resolvedUrl("artwork/emblem.png"));
+
+            cardTool.components["mascot"] = {"fallback": Qt.resolvedUrl("artwork/checkers.png")};
+            cardTool.componentsChanged();
+            card.cardData["mascot"] = "";
+            card.cardDataChanged();
+            waitForRendering(card);
+            tryCompare(mascotImage, "status", Image.Ready);
+            compare(mascotImage.source, Qt.resolvedUrl("artwork/checkers.png"));
         }
 
         function test_font_weights_data() {

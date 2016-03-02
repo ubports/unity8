@@ -18,6 +18,7 @@
 
 // Qt
 #include <QLibrary>
+#include <QProcess>
 #include <QScreen>
 
 #include <libintl.h>
@@ -28,15 +29,10 @@
 // local
 #include <paths.h>
 #include "CachingNetworkManagerFactory.h"
-#include "MouseTouchAdaptor.h"
 #include "UnityCommandLineParser.h"
 
 ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
     : QGuiApplication(argc, argv)
-    , m_shellView(nullptr)
-    , m_secondaryWindow(nullptr)
-    , m_mouseTouchAdaptor(nullptr)
-    , m_qmlEngine(nullptr)
 {
 
     setApplicationName(QStringLiteral("unity8"));
@@ -89,11 +85,14 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
         m_shellView->setFlags(Qt::FramelessWindowHint);
     }
 
+
+    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     // You will need this if you want to interact with touch-only components using a mouse
     // Needed only when manually testing on a desktop.
     if (parser.hasMouseToTouch()) {
         m_mouseTouchAdaptor = MouseTouchAdaptor::instance();
     }
+    #endif
 
 
     // Some hard-coded policy for now.
@@ -117,6 +116,10 @@ ShellApplication::ShellApplication(int & argc, char ** argv, bool isMirServer)
         m_shellView->setHeight(primaryScreenSize.height());
         m_shellView->setWidth(primaryScreenSize.width());
         m_shellView->show();
+        m_shellView->requestActivate();
+        if (!QProcess::startDetached("/sbin/initctl emit --no-wait unity8-greeter-started")) {
+            qDebug() << "Unable to send unity8-greeter-started event to Upstart";
+        }
     } else if (isMirServer || parser.hasFullscreen()) {
         m_shellView->showFullScreen();
     } else {
@@ -139,8 +142,10 @@ void ShellApplication::destroyResources()
     delete m_secondaryWindow;
     m_secondaryWindow = nullptr;
 
+    #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     delete m_mouseTouchAdaptor;
     m_mouseTouchAdaptor = nullptr;
+    #endif
 
     delete m_qmlEngine;
     m_qmlEngine = nullptr;

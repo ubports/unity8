@@ -34,7 +34,7 @@ Showable {
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
 
-    readonly property bool active: shown || hasLockedApp
+    readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
 
     // True when the greeter is waiting for PAM or other setup process
@@ -226,14 +226,17 @@ Showable {
         }
 
         function checkForForcedDelay() {
+            if (greeterSettings.lockedOutTime === 0) {
+                return;
+            }
+
             var now = new Date();
-            delayTarget = now;
-            delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
+            delayTarget = new Date(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
 
             // If tooEarly is true, something went very wrong.  Bug or NTP
             // misconfiguration maybe?
             var tooEarly = now.getTime() < greeterSettings.lockedOutTime;
-            var tooLate = now > delayTarget;
+            var tooLate = now >= delayTarget;
 
             // Compare stored time to system time. If a malicious actor is
             // able to manipulate time to avoid our lockout, they already have
@@ -275,6 +278,7 @@ Showable {
             onSelected: {
                 d.selectUser(index, true);
             }
+            onPromptlessLogin: d.login();
             onResponded: {
                 if (root.locked) {
                     LightDMService.greeter.respond(response);
@@ -397,8 +401,8 @@ Showable {
 
             if (LightDMService.greeter.authenticated) {
                 AccountsService.failedLogins = 0;
-                d.login();
                 if (!LightDMService.greeter.promptless) {
+                    d.login();
                     loader.item.hide();
                 }
             } else {
