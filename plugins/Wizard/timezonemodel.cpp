@@ -195,7 +195,7 @@ QString TimeZoneLocationModel::country() const
 
 static bool citycmp(GeonamesCity *a, GeonamesCity *b)
 {
-    return QString(geonames_city_get_name(a)).localeAwareCompare(geonames_city_get_name(b)) < 0;
+    return geonames_city_get_population(b) < geonames_city_get_population(a);
 }
 
 void TimeZoneLocationModel::setCountry(const QString &country)
