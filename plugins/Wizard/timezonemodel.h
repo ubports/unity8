@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical Ltd.
+ * Copyright (C) 2016 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -17,21 +17,21 @@
 #ifndef TIMEZONEMODEL_H
 #define TIMEZONEMODEL_H
 
+#include <geonames.h>
+#include <glib.h>
 #include <QAbstractListModel>
-#include <QSortFilterProxyModel>
-#include <QThread>
-#include <QtConcurrent>
-#include <QtGui/QImage>
-
-class TimeZonePopulateWorker;
 
 class TimeZoneLocationModel: public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(bool listUpdating READ listUpdating NOTIFY listUpdatingChanged)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
+    Q_PROPERTY(QString country READ country WRITE setCountry NOTIFY countryChanged)
     Q_ENUMS(Roles)
+
 public:
     explicit TimeZoneLocationModel(QObject *parent = nullptr);
-    ~TimeZoneLocationModel() = default;
+    ~TimeZoneLocationModel();
 
     enum Roles {
         TimeZoneRole = Qt::UserRole + 1,
@@ -43,56 +43,11 @@ public:
         LongitudeRole
     };
 
-    struct TzLocationWizard {
-        QString city;
-        QString country;
-        QString timezone;
-        QString state;
-        QString full_country;
-        double latitude;
-        double longitude;
-    };
-
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-private Q_SLOTS:
-    void processModelResult(const TzLocationWizard &location);
-    void store();
-
-private:
-    void init();
-    QHash<int, QByteArray> m_roleNames;
-    QList<TzLocationWizard> m_locations;
-    TimeZonePopulateWorker *m_workerThread;
-};
-
-Q_DECLARE_METATYPE (TimeZoneLocationModel::TzLocationWizard)
-
-class TimeZonePopulateWorker: public QThread
-{
-    Q_OBJECT
-public:
-    void run() override;
-
-Q_SIGNALS:
-    void resultReady(const TimeZoneLocationModel::TzLocationWizard &tz);
-
-private:
-    void buildCityMap();
-};
-
-class TimeZoneFilterModel: public QSortFilterProxyModel
-{
-    Q_OBJECT
-    Q_PROPERTY(QString filter READ filter WRITE setFilter NOTIFY filterChanged)
-    Q_PROPERTY(QString country READ country WRITE setCountry NOTIFY countryChanged)
-
-public:
-    explicit TimeZoneFilterModel(QObject *parent = nullptr);
-    ~TimeZoneFilterModel() = default;
-    bool filterAcceptsRow(int row, const QModelIndex &parentIndex) const override;
+    bool listUpdating() const;
 
     QString filter() const;
     void setFilter(const QString &filter);
@@ -101,13 +56,25 @@ public:
     void setCountry(const QString &country);
 
 Q_SIGNALS:
+    void listUpdatingChanged();
     void filterChanged();
     void countryChanged(const QString &country);
 
 private:
+    void setModel(const QList<GeonamesCity *> &locations);
+    void setListUpdating(bool listUpdating);
+    static void filterFinished(GObject      *source_object,
+                               GAsyncResult *res,
+                               gpointer      user_data);
+
+
+    bool m_listUpdating;
     QString m_filter;
-    QStringMatcher m_stringMatcher;
     QString m_country;
+    GCancellable *m_cancellable;
+    QHash<int, QByteArray> m_roleNames;
+    QList<GeonamesCity *> m_locations;
+    QList<GeonamesCity *> m_countryLocations;
 };
 
 #endif

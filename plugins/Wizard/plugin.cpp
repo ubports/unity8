@@ -30,6 +30,5 @@ void WizardPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<System>(uri, 0, 1, "System", [](QQmlEngine*, QJSEngine*) -> QObject* { return new System; });
     qmlRegisterSingletonType<Status>(uri, 0, 1, "Status", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Status; });
     qmlRegisterType<TimeZoneLocationModel>(uri, 0, 1, "TimeZoneModel");
-    qmlRegisterType<TimeZoneFilterModel>(uri, 0, 1, "TimeZoneFilterModel");
     qmlRegisterType<LocalePlugin>(uri, 0, 1, "LocalePlugin");
 }

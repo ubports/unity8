@@ -37,8 +37,7 @@ LocalComponents.Page {
     UnityComponents.Lockscreen {
         id: lockscreen
         anchors {
-            fill: parent
-            topMargin: customMargin
+            fill: content
         }
 
         infoText: i18n.tr("Confirm passcode")
