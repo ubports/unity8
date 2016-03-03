@@ -261,8 +261,9 @@ Item {
                         visible: width > 0
                         anchors {
                             top: parent.top
-                            right: cancelLabel.left
+                            right: cancelButton.left
                             bottom: parent.bottom
+                            rightMargin: units.gu(-1)
                         }
 
                         Icon {
@@ -277,25 +278,28 @@ Item {
                         }
                     }
 
-                    Label {
-                        id: cancelLabel
-                        text: i18n.tr("Cancel")
-                        color: header.panelForegroundColor
-                        verticalAlignment: Text.AlignVCenter
+                    AbstractButton {
+                        id: cancelButton
+                        width: cancelLabel.width + cancelLabel.anchors.rightMargin + cancelLabel.anchors.leftMargin
                         anchors {
                             top: parent.top
                             right: parent.right
                             bottom: parent.bottom
-                            margins: units.gu(2)
                         }
-                        AbstractButton {
-                            anchors.fill: parent
-                            // So that clicking in the empty area on the left of Cancel
-                            // has the same effect as clicking on the empty area on the right
-                            anchors.leftMargin: units.gu(-2)
-                            onClicked: {
-                                root.clearSearch(false);
-                                headerContainer.showSearch = false;
+                        onClicked: {
+                            root.clearSearch(false);
+                            headerContainer.showSearch = false;
+                        }
+                        Label {
+                            id: cancelLabel
+                            text: i18n.tr("Cancel")
+                            color: header.panelForegroundColor
+                            verticalAlignment: Text.AlignVCenter
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                right: parent.right
+                                rightMargin: units.gu(2)
+                                leftMargin: units.gu(1)
                             }
                         }
                     }
@@ -314,6 +318,7 @@ Item {
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
                 config: PageHeadConfiguration {
+                    title: root.title
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                     backAction: Action {
                         iconName: backIsClose ? "close" : "back"
@@ -354,21 +359,6 @@ Item {
                             onTriggered: root.favoriteClicked()
                         }
                     ]
-
-                    contents: Label {
-                        visible: header.contents === null
-                        LayoutMirroring.enabled: Qt.application.layoutDirection == Qt.RightToLeft
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            verticalCenter: parent.verticalCenter
-                        }
-                        text: root.title
-                        font.weight: header.fontWeight
-                        fontSize: header.fontSize
-                        color: header.panelForegroundColor
-                        elide: Text.ElideRight
-                    }
                 }
 
                 property var contents: null
