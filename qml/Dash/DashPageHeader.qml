@@ -296,6 +296,7 @@ Item {
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
                 config: PageHeadConfiguration {
+                    title: root.title
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                     backAction: Action {
                         iconName: backIsClose ? "close" : "back"
@@ -336,21 +337,6 @@ Item {
                             onTriggered: root.favoriteClicked()
                         }
                     ]
-
-                    contents: Label {
-                        visible: header.contents === null
-                        LayoutMirroring.enabled: Qt.application.layoutDirection == Qt.RightToLeft
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            verticalCenter: parent.verticalCenter
-                        }
-                        text: root.title
-                        font.weight: header.fontWeight
-                        fontSize: header.fontSize
-                        color: header.panelForegroundColor
-                        elide: Text.ElideRight
-                    }
                 }
 
                 property var contents: null
