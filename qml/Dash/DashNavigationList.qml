@@ -55,10 +55,10 @@ Item {
                 delegate: ListItem {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
-                    width: parent.width
+                    width: column.width
                     anchors {
-                        left: parent.left
-                        right: parent.right
+                        left: column.left
+                        right: column.right
                         leftMargin: units.gu(2)
                         rightMargin: units.gu(2)
                     }

@@ -74,7 +74,7 @@ Item {
             delegate: DashNavigationHeader {
                 objectName: "dashNavigationHeader" + index
                 height: index == 0 && headersModel.count > 1 ? 0 : units.gu(5)
-                width: parent.width
+                width: headersColumn.width
 
                 backVisible: index != 0
                 text: headerText
@@ -115,12 +115,7 @@ Item {
             left: parent.left
             right: parent.right
         }
-        property int maxHeight: -1
-        Component.onCompleted: updateMaxHeight();
-        function updateMaxHeight()
-        {
-            maxHeight = root.availableHeight - mapToItem(root, 0, 0).y;
-        }
+        readonly property int maxHeight: root.availableHeight - navigationListView.y
         property int prevHeight: maxHeight
         height: currentItem ? currentItem.height : maxHeight
 
@@ -137,7 +132,6 @@ Item {
             property real desiredHeight: {
                 if (navigation && navigation.loaded && x == navigationListView.contentX)
                 {
-                    navigationListView.updateMaxHeight();
                     return Math.min(implicitHeight, navigationListView.maxHeight);
                 } else {
                     return navigationListView.prevHeight;

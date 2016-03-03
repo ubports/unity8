@@ -22,7 +22,7 @@ import "Filters" as Filters
 Item {
     id: root
 
-    readonly property real searchesHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.margins : 0
+    readonly property real searchesHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.topMargin : 0
 
     implicitHeight: searchesHeight + dashNavigation.implicitHeight + dashNavigation.anchors.topMargin + primaryFilter.height + primaryFilter.anchors.topMargin
 
