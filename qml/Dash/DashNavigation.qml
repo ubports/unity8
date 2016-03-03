@@ -74,7 +74,7 @@ Item {
             delegate: DashNavigationHeader {
                 objectName: "dashNavigationHeader" + index
                 height: index == 0 && headersModel.count > 1 ? 0 : units.gu(5)
-                width: parent.width
+                width: headersColumn.width
 
                 backVisible: index != 0
                 text: headerText
