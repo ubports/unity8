@@ -298,7 +298,7 @@ MouseArea {
         }
 
         if (d.topBorder) {
-            var newTargetY = d.startY + deltaY;
+            var newTargetY = Math.max(d.startY + deltaY, PanelState.panelHeight); // disallow resizing up past Panel
             var bottomBorderY = target.y + target.height;
             if (bottomBorderY > newTargetY + d.minimumHeight) {
                 if (bottomBorderY < newTargetY + d.maximumHeight) {
