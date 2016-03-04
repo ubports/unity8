@@ -16,23 +16,27 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "." 0.1
 
 FocusScope {
     id: root
 
-    property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
-    property alias launcherOffset: coverPage.launcherOffset
-    property alias currentIndex: loginList.currentIndex
-    property int delayMinutes // TODO
-    property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property alias background: coverPage.background
-    property bool locked
-    property alias alphanumeric: loginList.alphanumeric
-    property alias userModel: loginList.model
+    property alias backgroundTopMargin: coverPage.backgroundTopMargin
+    property alias dragHandleLeftMargin: coverPage.dragHandleLeftMargin
     property alias infographicModel: coverPage.infographicModel
+    property alias launcherOffset: coverPage.launcherOffset
+    property alias loginListShown: loginAreaLoader.loginListShown
+    property int currentIndex // Set from outside
+    property int delayMinutes // TODO
+    property bool alphanumeric // unused
+    property bool locked
+    property alias sessionToStart: loginAreaLoader.currentSession
+    property var userModel // Set from outside
+
+    readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
     readonly property bool fullyShown: coverPage.showProgress === 1
     readonly property bool required: coverPage.required
-    readonly property bool animating: coverPage.showAnimation.running || coverPage.hideAnimation.running
 
     // so that it can be replaced in tests with a mock object
     property var inputMethod: Qt.inputMethod
@@ -43,38 +47,39 @@ FocusScope {
     signal tease()
     signal emergencyCall() // unused
 
-    function showMessage(html) {
-        loginList.showMessage(html);
+    /***** Functions that depend on LoginList being loaded *****/
+    // A decorator to only call LoginList functions when its shown
+    function ifLoginlistShownThen(f) {
+        return function() {
+            if (loginListShown) f.apply(this, arguments);
+        }
     }
 
-    function showPrompt(text, isSecret, isDefaultPrompt) {
-        loginList.showPrompt(text, isSecret, isDefaultPrompt);
+    readonly property var notifyAuthenticationFailed: ifLoginlistShownThen(doNotifyAuthenticationFailed);
+    function doNotifyAuthenticationFailed() {
+        loginAreaLoader.item.showError();
     }
 
-    function showLastChance() {
-        // TODO
+    readonly property var reset: ifLoginlistShownThen(doReset);
+    function doReset() {
+        loginAreaLoader.item.reset();
     }
 
-    function hide() {
-        coverPage.hide();
+    readonly property var showMessage: ifLoginlistShownThen(doShowMessage);
+    function doShowMessage(html) {
+        loginAreaLoader.item.showMessage(html);
     }
 
-    function notifyAuthenticationSucceeded() {
-        // Nothing needed
+    readonly property var showPrompt: ifLoginlistShownThen(doShowPrompt);
+    function doShowPrompt(text, isSecret, isDefaultPrompt) {
+        loginAreaLoader.item.showPrompt(text, isSecret, isDefaultPrompt);
     }
 
-    function notifyAuthenticationFailed() {
-        loginList.showError();
-    }
-
-    function reset() {
-        loginList.reset();
-    }
-
-    function tryToUnlock(toTheRight) {
+    readonly property var tryToUnlock: ifLoginlistShownThen(doTryToUnlock);
+    function doTryToUnlock(toTheRight) {
         if (root.locked) {
             coverPage.show();
-            loginList.tryToUnlock();
+            loginAreaLoader.item.tryToUnlock();
             return false;
         } else {
             var coverChanged = coverPage.shown;
@@ -85,6 +90,19 @@ FocusScope {
             }
             return coverChanged;
         }
+    }
+
+    /***** Functions that are agnostic of what object is loaded *****/
+    function hide() {
+        coverPage.hide();
+    }
+
+    function notifyAuthenticationSucceeded() {
+        // Nothing needed
+    }
+
+    function showLastChance() {
+        // TODO
     }
 
     Rectangle {
@@ -102,7 +120,7 @@ FocusScope {
 
         infographics {
             height: 0.75 * parent.height
-            anchors.leftMargin: loginList.x + loginList.width
+            anchors.leftMargin: loginAreaLoader.x + loginAreaLoader.width
         }
 
         onTease: root.tease()
@@ -113,25 +131,98 @@ FocusScope {
             }
         }
 
-        LoginList {
-            id: loginList
-            objectName: "loginList"
+        Loader {
+            id: loginAreaLoader
+            objectName: "loginAreaLoader"
+
+            // True when LoginList is shown, false when SessionList is shown
+            property bool loginListShown: true
+            property bool sessionUpdated: false
+            property string currentSession: LightDMService.sessions.defaultSession // Set as soon as LoginList is loaded
+
+            source: loginListShown ? "LoginList.qml" : "SessionsList.qml"
+            onSourceChanged: loadingAnimation.running = true
 
             anchors {
                 left: parent.left
                 leftMargin: Math.min(parent.width * 0.16, units.gu(20))
                 top: parent.top
             }
+
             width: units.gu(29)
-            height: inputMethod && inputMethod.visible ? parent.height - inputMethod.keyboardRectangle.height
-                                                       : parent.height
+            height: inputMethod && inputMethod.visible ?
+                parent.height - inputMethod.keyboardRectangle.height : parent.height
+
             Behavior on height { UbuntuNumberAnimation {} }
 
-            locked: root.locked
+            UbuntuNumberAnimation {
+                id: loadingAnimation
+                target: loginAreaLoader.item
+                property: "x"
+                from: loader.item ? loader.item.width : 0
+                to: 0
+                running: false
+            }
 
-            onPromptlessLogin: root.promptlessLogin()
-            onSelected: root.selected(index)
-            onResponded: root.responded(response)
+            Binding {
+                target: loginAreaLoader.item
+                property: "currentIndex"
+                value: loginListShown ? root.currentIndex : null
+            }
+
+            Binding {
+                target: loginAreaLoader.item
+                property: "locked"
+                value: root.locked
+            }
+
+            Binding {
+                target: loginAreaLoader.item
+                property: "model"
+                value: loginListShown ? root.userModel : null
+            }
+
+            // Only inform LoginList if the session isn't the user's default session
+            // because LoginList gets the default session on its own
+            Binding {
+                target: loginAreaLoader.item
+                property: "selectedSession"
+                value: loginListShown && loginAreaLoader.sessionUpdated ?
+                    loginAreaLoader.currentSession : null
+            }
+
+            Binding {
+                target: loginAreaLoader.item
+                property: "initiallySelectedSession"
+                value: !loginListShown ? loginAreaLoader.currentSession : null
+            }
+
+            Connections {
+                target: loginListShown ? loginAreaLoader.item : null
+                onSelected: root.selected(index)
+                onResponded: root.responded(response)
+                // The initially selected session lags behind the component completion
+                // so this provides the initial session name when available
+                onLoginListSessionChanged: {
+                    if (loginListShown && !loginAreaLoader.sessionUpdated) {
+                        loginAreaLoader.currentSession = loginAreaLoader.item.currentSession
+                    }
+                }
+                onPromptlessLogin: root.promptlessLogin()
+
+                onSessionChooserButtonClicked: loginListShown = false;
+                ignoreUnknownSignals: true
+            }
+
+            Connections {
+                target: !loginListShown ? loginAreaLoader.item : null
+                onSessionSelected: {
+                    loginAreaLoader.loginListShown = true
+                    loginAreaLoader.sessionUpdated = true
+                    loginAreaLoader.currentSession = sessionName
+                }
+                ignoreUnknownSignals: true
+            }
         }
     }
 }

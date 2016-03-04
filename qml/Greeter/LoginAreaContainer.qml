@@ -15,16 +15,13 @@
  */
 
 import QtQuick 2.4
-import LightDM.FullLightDM 0.1 as LightDM
+import "." 0.1
 
-Item{
-    id: implementation
-
-    property var greeter: LightDM.Greeter
-    property var infographic: LightDM.Infographic
-    property var sessions: LightDM.Sessions
-    property var sessionRoles: LightDM.SessionRoles
-    property var users: LightDM.Users
-    property var userRoles: LightDM.UserRoles
-
+Rectangle {
+    height: units.gu(10)
+    color: Qt.rgba(0.1, 0.1, 0.1, 0.4)
+    border.color: Qt.rgba(0.4, 0.4, 0.4, 0.4)
+    border.width: units.dp(1)
+    radius: units.gu(1.5)
+    antialiasing: true
 }

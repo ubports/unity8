@@ -110,7 +110,6 @@ Item {
             Column {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
-
                 Row {
                     Button {
                         text: "Show Last Chance"
@@ -262,6 +261,21 @@ Item {
                     }
                 }
                 Row {
+                    CheckBox {
+                        id: multipleSessions
+                        onClicked: {
+                            if (checked) {
+                                LightDM.Sessions.testScenario = "multipleSessions"
+                            } else {
+                                LightDM.Sessions.testScenario = "singleSession"
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Multiple sessions"
+                    }
+                }
+                Row {
                     Button {
                         text: "Reload View"
                         onClicked: {
@@ -311,6 +325,7 @@ Item {
         when: windowShown
 
         property Item view: loader.status === Loader.Ready ? loader.item : null
+        property url testIconDirectory: "./test_session_badges"
 
         function init() {
             selectIndex(0); // break binding with text field
@@ -318,6 +333,7 @@ Item {
             respondedSpy.clear();
             teaseSpy.clear();
             emergencySpy.clear();
+            LightDM.Sessions.testScenario = "multipleSessions"
         }
 
         function cleanup() {
@@ -373,6 +389,87 @@ Item {
                 {tag: "right", x: view.width, offset: 0, count: 1, locked: false},
             ]
         }
+
+        function test_sessionIconsAreValid() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            var originalDirectories = LightDM.Sessions.iconSearchDirectories
+            LightDM.Sessions.iconSearchDirectories = [testIconDirectory]
+
+            // Test the login list icon is valid
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            compare(sessionChooserButton.visible, true);
+
+            var session = String(view.sessionToStart).toLowerCase();
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf(session) > -1, true);
+
+            // Test the session list icons are valid
+            view.loginListShown = false;
+            var sessionsList = findChild(view, "sessionsList");
+            var sessionsListSelector = findChild(view, "sessionsListSelector");
+            tryCompare(sessionsList, "visible", true);
+            tryCompare(sessionsListSelector, "expanded", true);
+
+            waitForRendering(sessionsList)
+            for (var i = 0; i < LightDM.Sessions.count; i++) {
+                var delegateName = "sessionDelegate" + String(i);
+                var currentDelegate = findChild(view, delegateName);
+                var session = String(currentDelegate.text).toLowerCase();
+                var icon = String(currentDelegate.iconSource);
+                compare(icon.indexOf(session) > -1, true);
+            }
+        }
+
+        function test_choosingNewSessionChangesLoginListIcon() {
+            // Ensure the default session is selected (Ubuntu)
+            loader.active = false;
+            loader.active = true;
+
+            LightDM.Sessions.testScenario = "multipleSessions";
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            var icon = String(sessionChooserButton.icon);
+            compare(icon.indexOf("ubuntu") > -1, true);
+
+            tap(sessionChooserButton)
+            var sessionsListSelector = findChild(view, "sessionsListSelector");
+            waitForRendering(sessionsListSelector);
+            for(var i = 0; i < LightDM.Sessions.count; i++) {
+                var delegateName = "sessionDelegate" + String(i);
+                var currentDelegate = findChild(view, delegateName);
+                if (currentDelegate.text === "GNOME") {
+                    tap(currentDelegate);
+                    var sessionChooserButton = findChild(view, "sessionChooserButton");
+                    waitForRendering(sessionChooserButton);
+                    var icon = String(sessionChooserButton.icon);
+                    break;
+                }
+            }
+
+            compare(icon.indexOf("gnome") > -1, true,
+                "Expected icon to contain gnome but it was " + icon);
+        }
+
+        function test_noSessionsDoesntBreakView() {
+            LightDM.Sessions.testScenario = "noSessions"
+            compare(LightDM.Sessions.count, 0)
+        }
+
+        function test_sessionIconNotShownWithOneSession() {
+            LightDM.Sessions.testScenario = "singleSession"
+            compare(LightDM.Sessions.count, 1);
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", false);
+        }
+
+        function test_sessionIconShownWithMultipleSessions() {
+            LightDM.Sessions.testScenario = "multipleSessions"
+            compare(LightDM.Sessions.count > 1, true);
+
+            var sessionChooserButton = findChild(view, "sessionChooserButton");
+            tryCompare(sessionChooserButton, "visible", true);
+        }
+
         function test_tease(data) {
             view.locked = data.locked;
             view.dragHandleLeftMargin = data.offset;
@@ -503,7 +600,7 @@ Item {
         }
 
         function test_loginListNotCoveredByKeyboard() {
-            var loginList = findChild(view, "loginList");
+            var loginList = findChild(view, "loginAreaLoader").item;
             compare(loginList.height, view.height);
 
             // when the vkb shows up, loginList is moved up to remain fully uncovered

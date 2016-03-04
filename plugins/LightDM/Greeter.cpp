@@ -77,6 +77,12 @@ QString Greeter::defaultSessionHint() const
     return d->m_greeter->defaultSessionHint();
 }
 
+bool Greeter::lockHint() const
+{
+    Q_D(const Greeter);
+    return d->m_greeter->lockHint();
+}
+
 bool Greeter::promptless() const
 {
     Q_D(const Greeter);
