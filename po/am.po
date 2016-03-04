@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-12 00:28+0000\n"
+"POT-Creation-Date: 2016-02-16 03:29+0000\n"
 "PO-Revision-Date: 2015-11-19 19:27+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-02-16 05:36+0000\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
 "X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -495,7 +495,7 @@ msgstr "ሰላም"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "እንኳን ድህና መጡ ወደ ኡቡንቱ"
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -526,7 +526,7 @@ msgstr "ደህንነት መቆለፊያ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
-msgstr ""
+msgstr "እባክዎን የ እርስዎን አካል እንዴት እንደሚከፈት ይምረጡ"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -630,7 +630,7 @@ msgstr "ጥሩ ሰርተዋል!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "የ እርስዎ አካል አሁን ዝግጁ ነው"
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
