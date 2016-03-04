@@ -20,6 +20,7 @@ import QMenuModel 0.1 as QMenuModel
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Wizard 0.1
+import Ubuntu.Connectivity 1.0
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -29,7 +30,7 @@ LocalComponents.Page {
     title: i18n.tr("Connect to Wi‑Fi")
     forwardButtonSourceComponent: forwardButton
 
-    readonly property bool connected: Status.online
+    readonly property bool connected: Connectivity.online
 
     function getExtendedProperty(object, propertyName, defaultValue) {
         if (object && object.hasOwnProperty(propertyName)) {
