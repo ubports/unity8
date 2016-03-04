@@ -154,107 +154,113 @@ LocalComponents.Page {
         }
     }
 
-    GridLayout {
-        id: masterLayout
-        columns: 2
-        rows: 1
-        flow: GridLayout.TopToBottom
-        columnSpacing: units.gu(2)
+
+    ColumnLayout {
+        id: leftColumn
         anchors {
-            fill: content
+            left: content.left
+            top: content.top
+            bottom: content.bottom
+            right: !desktopLook ? content.right : undefined
             leftMargin: desktopLook ? staticMargin : 0
             rightMargin: desktopLook ? staticMargin : 0
             topMargin: customMargin
         }
 
-        ColumnLayout {
+        width: Math.min(parent.width, units.gu(34))
+
+        LocalComponents.WizardTextField {
+            id: searchField
+            objectName: "tzFilter"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: !desktopLook ? staticMargin : 0
+            anchors.rightMargin: !desktopLook ? staticMargin : 0
+            placeholderText: i18n.tr("Enter your city")
+            inputMethodHints: Qt.ImhNoPredictiveText
+            onTextChanged: resetViews();
+        }
+
+        ListView {
             Layout.fillHeight: true
-            Layout.maximumWidth: maximumContentWidth
-
-            LocalComponents.WizardTextField {
-                id: searchField
-                objectName: "tzFilter"
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: !desktopLook ? staticMargin : 0
-                anchors.rightMargin: !desktopLook ? staticMargin : 0
-                placeholderText: i18n.tr("Enter your city")
-                inputMethodHints: Qt.ImhNoPredictiveText
-                onTextChanged: resetViews();
+            Layout.fillWidth: true
+            id: tzList
+            objectName: "tzList"
+            clip: true
+            currentIndex: -1
+            model: TimeZoneModel {
+                id: timeZoneModel
+                filter: searchField.text
+                country: i18n.language.split('_')[1].split('.')[0]
             }
+            delegate: tzComponent
+        }
 
-            ListView {
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                id: tzList
-                objectName: "tzList"
-                clip: true
-                currentIndex: -1
-                model: TimeZoneModel {
-                    id: timeZoneModel
-                    filter: searchField.text
-                    country: i18n.language.split('_')[1].split('.')[0]
-                }
-                delegate: tzComponent
-            }
+        ActivityIndicator {
+            anchors.centerIn: tzList
+            running: tzList.count == 0 &&
+                     searchField.length > 0 &&
+                     timeZoneModel.listUpdating
+            visible: running
+        }
+    }
 
-            ActivityIndicator {
-                anchors.centerIn: tzList
-                running: tzList.count == 0 &&
-                         searchField.length > 0 &&
-                         timeZoneModel.listUpdating
-                visible: running
-            }
+    Item {
+        id: mapContainer
+        visible: desktopLook && !contentAnimationRunning
+        enabled: visible
+
+        anchors {
+            left: leftColumn.right
+            leftMargin: units.gu(2)
+            right: content.right
+            rightMargin: staticMargin
+            top: content.top
+            topMargin: customMargin
+            bottom: parent.bottom
+            bottomMargin: buttonBarHeight
         }
 
         Item {
-            Layout.fillWidth: desktopLook
-            Layout.fillHeight: true
-            id: mapContainer
-            visible: desktopLook && !contentAnimationRunning
-            enabled: visible
+            id: map
+            width: Math.min(parent.width, height * 1.95) // keep our aspect ratio
+            height: parent.height
+            anchors {
+                centerIn: parent
+            }
 
-            Item {
-                id: map
-                width: Math.min(parent.width, height * 1.95) // keep our aspect ratio
-                height: parent.height
-                anchors {
-                    centerIn: parent
-                }
+            Image {
+                id: backgroundImage
+                source: "data/timezonemap/map.png"
+                sourceSize: Qt.size(map.width, map.height)
+                fillMode: Image.PreserveAspectFit
+                smooth: false
+                visible: false
+                asynchronous: true
+            }
 
-                Image {
-                    id: backgroundImage
-                    source: "data/timezonemap/map.png"
-                    sourceSize: Qt.size(map.width, map.height)
-                    fillMode: Image.PreserveAspectFit
-                    smooth: false
-                    visible: false
-                    asynchronous: true
-                }
+            Image {
+                id: highlightImage
+                sourceSize: Qt.size(map.width, map.height)
+                fillMode: Image.PreserveAspectFit
+                smooth: false
+                visible: false
+                asynchronous: true
+            }
 
-                Image {
-                    id: highlightImage
-                    sourceSize: Qt.size(map.width, map.height)
-                    fillMode: Image.PreserveAspectFit
-                    smooth: false
-                    visible: false
-                    asynchronous: true
-                }
+            Blend {
+                anchors.fill: map
+                source: backgroundImage
+                foregroundSource: highlightImage
+            }
 
-                Blend {
-                    anchors.fill: map
-                    source: backgroundImage
-                    foregroundSource: highlightImage
-                }
-
-                Image {
-                    id: pinImage
-                    source: "data/timezonemap/pin.png"
-                    visible: x != 0 && y != 0
-                    width: units.dp(12)
-                    height: units.dp(20)
-                    z: map.z + 1
-                }
+            Image {
+                id: pinImage
+                source: "data/timezonemap/pin.png"
+                visible: x != 0 && y != 0
+                width: units.dp(12)
+                height: units.dp(20)
+                z: map.z + 1
             }
         }
     }
