@@ -29,7 +29,7 @@ Build-Depends: cmake,
                libqt5xmlpatterns5-dev,
                libsystemsettings-dev,
                libudev-dev,
-               libunity-api-dev (>= 7.105),
+               libunity-api-dev (>= 7.107),
                libusermetricsoutput1-dev,
 # Need those X11 libs touch emulation from mouse events in manual QML tests on a X11 desktop
                libx11-dev[!armhf],

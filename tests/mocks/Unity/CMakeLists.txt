@@ -8,7 +8,7 @@ add_subdirectory(DashCommunicator)
 add_subdirectory(Screens)
 
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
-pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=9)
+pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=10)
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}

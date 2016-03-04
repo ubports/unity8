@@ -635,7 +635,7 @@ Rectangle {
             }
         }
 
-        function test_clicked() {
+        function test_action() {
             selector.selectedIndex = 0;
             waitForRendering(card);
 
