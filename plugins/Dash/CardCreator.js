@@ -336,16 +336,16 @@ var kAttributesRowCode = 'CardAttributes { \n\
                             model: cardData && cardData["attributes"]; \n\
                           }\n';
 
-// %1 is used as anchors of socialAttributesRow
-// %2 is used as color of socialAttributesRow
-var kSocialAttributesRowCode = 'CardSocialAttributes { \n\
-                                  id: socialAttributesRow; \n\
-                                  objectName: "socialAttributesRow"; \n\
-                                  anchors { %1 } \n\
-                                  color: %2; \n\
-                                  model: cardData && cardData["socialAttributes"]; \n\
-                                  onClicked: root.action(actionId); \n\
-                                }\n';
+// %1 is used as anchors of socialActionsRow
+// %2 is used as color of socialActionsRow
+var kSocialActionsRowCode = 'CardSocialActions { \n\
+                               id: socialActionsRow; \n\
+                               objectName: "socialActionsRow"; \n\
+                               anchors { %1 } \n\
+                               color: %2; \n\
+                               model: cardData && cardData["socialActions"]; \n\
+                               onClicked: root.action(actionId); \n\
+                             }\n';
 
 // %1 is used as top anchor of summary
 // %2 is used as topMargin anchor of summary
@@ -433,7 +433,7 @@ function cardString(template, components) {
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
-    var hasSocialAttributes = hasTitle && components["socialAttributes"] || false;
+    var hasSocialActions = hasTitle && components["socialActions"] || false;
     var isAudio = template["quick-preview-type"] === "audio";
 
     code += 'signal action(var actionId);\n';
@@ -806,7 +806,7 @@ function cardString(template, components) {
         code += kSummaryLabelCode.arg(summaryTopAnchor).arg(summaryTopMargin).arg(summaryColor);
     }
 
-    if (hasSocialAttributes) {
+    if (hasSocialActions) {
         var socialAnchors;
         var socialTopAnchor;
 
@@ -833,7 +833,7 @@ function cardString(template, components) {
             socialColor = 'root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText';
         }
 
-        code += kSocialAttributesRowCode.arg(socialAnchors).arg(socialColor);
+        code += kSocialActionsRowCode.arg(socialAnchors).arg(socialColor);
     }
 
     var touchdownAnchors;
@@ -847,8 +847,8 @@ function cardString(template, components) {
     code += kTouchdownCode.arg(touchdownAnchors);
 
     var implicitHeight = 'implicitHeight: ';
-    if (hasSocialAttributes) {
-        implicitHeight += 'socialAttributesRow.y + socialAttributesRow.height + units.gu(1);\n';
+    if (hasSocialActions) {
+        implicitHeight += 'socialActionsRow.y + socialActionsRow.height + units.gu(1);\n';
     } else if (hasSummary) {
         implicitHeight += 'summary.y + summary.height + units.gu(1);\n';
     } else if (isAudio) {

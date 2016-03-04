@@ -88,7 +88,7 @@ Categories::data(const QModelIndex& index, int role) const
         }
         case RoleComponents:
         {
-            QVariantMap map, artMap, attributeMap, socialAttributeMap;
+            QVariantMap map, artMap, attributeMap, socialActionMap;
             if (index.row() % 2 != 0) {
                 artMap["aspect-ratio"] = QString("1.%1").arg(index.row());
             } else {
@@ -99,9 +99,9 @@ Categories::data(const QModelIndex& index, int role) const
             map["title"] = "HOLA";
             map["subtitle"] = "HOLA";
             attributeMap["field"] = "attribute";
-            socialAttributeMap["icon"] = "image://theme/cancel";
-            socialAttributeMap["id"] = "dislike";
-            map["socialAttributes"] = socialAttributeMap;
+            socialActionMap["icon"] = "image://theme/cancel";
+            socialActionMap["id"] = "dislike";
+            map["socialActions"] = socialActionMap;
             map["attributes"] = attributeMap;
             return map;
         }

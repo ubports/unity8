@@ -206,24 +206,24 @@ Item {
     }
 
     Item {
-        id: socialAttributesModel
-        property int numOfAttributes: 0
+        id: socialActionsModel
+        property int numOfActions: 0
         property var model: []
-        property bool hasAttributes: {
-            var attributes = components["socialAttributes"];
-            var hasAttributesFlag = (attributes != undefined);
+        property bool hasActions: {
+            var actions = components["socialActions"];
+            var hasActionsFlag = (actions != undefined);
 
-            if (hasAttributesFlag) {
-                if (attributes["max-count"]) {
-                    numOfAttributes = attributes["max-count"];
+            if (hasActionsFlag) {
+                if (actions["max-count"]) {
+                    numOfActions = actions["max-count"];
                 }
             }
-            return hasAttributesFlag
+            return hasActionsFlag
         }
 
-        onNumOfAttributesChanged: {
+        onNumOfActionsChanged: {
             model = []
-            for (var i = 0; i < numOfAttributes; i++) {
+            for (var i = 0; i < numOfActions; i++) {
                 model.push( {"id":"text"+(i+1), "icon":"image://theme/ok" } );
             }
         }
@@ -231,7 +231,7 @@ Item {
 
     Loader {
         id: cardLoader
-        readonly property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes", "socialAttributes"]
+        readonly property var fields: ["art", "mascot", "title", "subtitle", "summary", "attributes", "socialActions"]
         readonly property var maxData: {
             "art": Qt.resolvedUrl("graphics/pixel.png"),
             "mascot": Qt.resolvedUrl("graphics/pixel.png"),
@@ -239,7 +239,7 @@ Item {
             "subtitle": "—",
             "summary": "—\n—\n—\n—\n—",
             "attributes": attributesModel.model,
-            "socialAttributes": socialAttributesModel.model
+            "socialActions": socialActionsModel.model
         }
         sourceComponent: cardTool.cardComponent
         onLoaded: {

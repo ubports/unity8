@@ -16,7 +16,7 @@
 
 .pragma library
 
-var components = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "socialAttributes", "overlayColor", "quickPreviewData"]
+var components = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "socialActions", "overlayColor", "quickPreviewData"]
 
 var defaultLayout = ' \
 { \
@@ -39,7 +39,7 @@ var defaultLayout = ' \
     "emblem": null, \
     "summary": null, \
     "attributes": { "max-count": 2 },
-    "socialAttributes": { "max-count": 4 } \
+    "socialActions": { "max-count": 4 } \
   }, \
   "resources": {} \
 }'
@@ -54,7 +54,7 @@ var fullMapping = ' \
   "overlayColor": "overlayColor", \
   "summary": "summary", \
   "attributes": "attributes", \
-  "socialAttributes": "socialAttributes" \
+  "socialActions": "socialActions" \
 }'
 
 

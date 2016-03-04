@@ -127,12 +127,12 @@ Label {
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
-CardSocialAttributes {
-    id: socialAttributesRow;
-    objectName: "socialAttributesRow";
+CardSocialActions {
+    id: socialActionsRow;
+    objectName: "socialActionsRow";
     anchors { top: subtitleLabel.bottom; left: parent.left; right: parent.right; topMargin: units.gu(1); }
     color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
-    model: cardData && cardData["socialAttributes"];
+    model: cardData && cardData["socialActions"];
     onClicked: root.action(actionId);
 }
 UbuntuShape {
@@ -143,5 +143,5 @@ UbuntuShape {
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }
-implicitHeight: socialAttributesRow.y + socialAttributesRow.height + units.gu(1);
+implicitHeight: socialActionsRow.y + socialActionsRow.height + units.gu(1);
 }

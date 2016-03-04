@@ -36,10 +36,10 @@ Rectangle {
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
-      "socialAttributes": [{"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
-                           {"id":"share","label":"text2","icon":"image://theme/cancel"},
-                           {"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
-                           {"id":"share","label":"text2","icon":"image://theme/cancel"}],
+      "socialActions": [{"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
+                        {"id":"share","label":"text2","icon":"image://theme/cancel"},
+                        {"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
+                        {"id":"share","label":"text2","icon":"image://theme/cancel"}],
       "quickPreviewData": {"uri": "/some/file", "duration": "14"}
     }'
 
@@ -283,10 +283,10 @@ Rectangle {
                 { tag: "Wide", width: units.gu(18), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
-                { tag: "NoSummary", height: function() { var socialAttributesRow = findChild(cardTool, "socialAttributesRow");
-                                                         return socialAttributesRow.y + socialAttributesRow.height + units.gu(1) }, index: 6 },
-                { tag: "HorizontalNoSummary", height: function() { var socialAttributesRow = findChild(cardTool, "socialAttributesRow");
-                                                                   return socialAttributesRow.y + socialAttributesRow.height + units.gu(1) },
+                { tag: "NoSummary", height: function() { var socialActionsRow = findChild(cardTool, "socialActionsRow");
+                                                         return socialActionsRow.y + socialActionsRow.height + units.gu(1) }, index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { var socialActionsRow = findChild(cardTool, "socialActionsRow");
+                                                                   return socialActionsRow.y + socialActionsRow.height + units.gu(1) },
                                               card_layout: "horizontal", index: 6 },
             ]
         }
@@ -640,10 +640,10 @@ Rectangle {
             waitForRendering(card);
 
             signalSpy.target = card;
-            var socialAttributesRow = findChild(card, "socialAttributesRow");
-            var delegate0 = findChild(socialAttributesRow, "delegate0");
+            var socialActionsRow = findChild(card, "socialActionsRow");
+            var delegate0 = findChild(socialActionsRow, "delegate0");
             var icon0 = findChild(delegate0, "icon");
-            var delegate1 = findChild(socialAttributesRow, "delegate1");
+            var delegate1 = findChild(socialActionsRow, "delegate1");
             var icon1 = findChild(delegate1, "icon");
 
             compare(icon0.source, "image://theme/ok");

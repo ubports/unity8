@@ -20,7 +20,7 @@ import Ubuntu.Components 1.3
 import "../../../qml/Components/ListItems" as ListItems
 
 Column {
-    id: socialAttributes
+    id: socialActions
     spacing: units.gu(0.5)
 
     property alias model: repeater.model
@@ -72,12 +72,12 @@ Column {
                         // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
                         width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth
                         source: urlIcon
-                        color: socialAttributes.color
+                        color: socialActions.color
 
                         onUrlIconChanged: if (urlIcon) source = urlIcon
                     }
 
-                    onClicked: socialAttributes.clicked(modelData["id"]);
+                    onClicked: socialActions.clicked(modelData["id"]);
                     onPressedChanged: if (pressed && icon.urlTemporaryIcon != "") icon.source = icon.urlTemporaryIcon
                 }
             }
