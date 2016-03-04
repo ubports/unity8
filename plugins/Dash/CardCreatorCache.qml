@@ -23,7 +23,7 @@ QtObject {
 
     property var cache: new Object();
 
-    function getCardComponent(template, components, isCardTool) {
+    function getCardComponent(template, components, isCardTool, artShapeStyle) {
         if (template === undefined || components === undefined)
             return undefined;
 
@@ -32,7 +32,7 @@ QtObject {
         var allString = tString + cString + isCardTool;
         var component = cache[allString];
         if (component === undefined) {
-            component = CardCreator.createCardComponent(root, template, components, isCardTool, allString);
+            component = CardCreator.createCardComponent(root, template, components, isCardTool, artShapeStyle, allString);
             cache[allString] = component;
         }
         return component;

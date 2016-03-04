@@ -73,6 +73,7 @@ private Q_SLOTS:
     {
         const QString templateString("template: ");
         const QString componentsString("components: ");
+        const QString artShapeStyleString("artShapeStyle: ");
         const QString resultString("result: ");
 
         const QString testDirPath = DASHVIEWSTEST_FOLDER "/cardcreator/";
@@ -87,24 +88,26 @@ private Q_SLOTS:
 
             QVERIFY(lines[0].startsWith(templateString));
             QVERIFY(lines[1].startsWith(componentsString));
-            QVERIFY(lines[2].startsWith(resultString));
+            QVERIFY(lines[2].startsWith(artShapeStyleString));
+            QVERIFY(lines[3].startsWith(resultString));
 
             const QString templateJSON = lines[0].mid(templateString.length());
             const QString componentsJSON = lines[1].mid(componentsString.length());
-            const QString resultFileName = lines[2].mid(resultString.length());
+            const QString artShapeStyle = lines[2].mid(artShapeStyleString.length());
+            const QString resultFileName = lines[3].mid(resultString.length());
             QVariant cardStringResult;
             QVariant createCardComponentResult;
 
-            QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, false));
+            QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, false), Q_ARG(QVariant, artShapeStyle));
             compareFileContents(testDirPath + resultFileName, cardStringResult.toString());
 
-            QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, true));
+            QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, true), Q_ARG(QVariant, artShapeStyle));
             compareFileContents(testDirPath + resultFileName + ".cardcreator", cardStringResult.toString());
 
-            QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, false));
+            QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, false), Q_ARG(QVariant, artShapeStyle));
             QVERIFY(createCardComponentResult.toBool());
 
-            QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, true));
+            QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, true), Q_ARG(QVariant, artShapeStyle));
             QVERIFY(createCardComponentResult.toBool());
         }
     }
