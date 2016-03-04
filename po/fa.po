@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-16 03:29+0000\n"
 "PO-Revision-Date: 2015-07-11 15:43+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -269,11 +269,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "بازکردن قفل"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "تلاش دوباره"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "برای باز کردن قفل ضربه بزنید"
 
@@ -491,8 +491,8 @@ msgid "Hi!"
 msgstr "سلام!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "به تلفن اوبونتوی خودتان خوش آمدید."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -523,8 +523,8 @@ msgid "Lock security"
 msgstr "امنیت قفل"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "لطفاً برگزینید که می‌خواهید چگونه قفل تلفنتان را باز کنید."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -631,8 +631,8 @@ msgid "Nice work!"
 msgstr "عالی بود!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "هم‌اکنون تلفن شما آماده‌ی استفاده است."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -769,6 +769,15 @@ msgstr "%1  〉"
 #~ msgid "Manage Scopes"
 #~ msgstr "مدیریت حوزه‌ها"
 
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "لطفاً برگزینید که می‌خواهید چگونه قفل تلفنتان را باز کنید."
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "به تلفن اوبونتوی خودتان خوش آمدید."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "هم‌اکنون تلفن شما آماده‌ی استفاده است."
+
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b   %OH:%OM"
 
@@ -801,6 +810,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "پاسخ تماس"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "افزاره‌تان اکنون به یک نمایشگر خارجی وصل شده است."

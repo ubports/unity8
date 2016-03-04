@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-16 03:29+0000\n"
 "PO-Revision-Date: 2013-10-24 11:36+0000\n"
 "Last-Translator: Arun Kumar - அருண் குமார் <thangam.arunx@gmail.com>\n"
 "Language-Team: Ubuntu Tamil Team/Free Tamil Computing/Thamizha\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 "Language: ta\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -267,11 +267,11 @@ msgstr ""
 msgid "Unlock"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr ""
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr ""
 
@@ -488,7 +488,7 @@ msgid "Hi!"
 msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
+msgid "Welcome to your Ubuntu device."
 msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
@@ -519,7 +519,7 @@ msgid "Lock security"
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
+msgid "Please select how you’d like to unlock your device."
 msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
@@ -620,7 +620,7 @@ msgid "Nice work!"
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
+msgid "Your device is now ready to use."
 msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53

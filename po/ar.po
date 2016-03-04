@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-16 03:29+0000\n"
 "PO-Revision-Date: 2015-07-29 09:41+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:45+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -275,11 +275,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "فك القفل"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "إعادة المحاولة"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "انقر لفك القفل"
 
@@ -512,8 +512,8 @@ msgid "Hi!"
 msgstr "أهلا!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "مرحبا بك في أوبونتو للهواتف."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -544,8 +544,8 @@ msgid "Lock security"
 msgstr "قِفل الأمان"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "رجاءً اختر الطريقة التي ترغب بأن توصد هاتفك بها."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -653,8 +653,8 @@ msgid "Nice work!"
 msgstr "عمل جيد!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "هاتفك جاهز الآن للاستخدام."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -785,3 +785,12 @@ msgstr ""
 
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "مرحبا بك في أوبونتو للهواتف."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "رجاءً اختر الطريقة التي ترغب بأن توصد هاتفك بها."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "هاتفك جاهز الآن للاستخدام."

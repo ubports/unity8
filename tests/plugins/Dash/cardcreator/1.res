@@ -23,7 +23,8 @@ Item  {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                active: cardData && cardData["art"] || false; 
+                                readonly property string cardArt: cardData && cardData["art"] || "";
+                                active: cardArt != "";
                                 asynchronous: root.asynchronous; 
                                 visible: status == Loader.Ready; 
                                 sourceComponent: Item {
@@ -80,7 +81,7 @@ Item  {
                                     CroppedImageMinimumSourceSize {
                                         id: artImage;
                                         objectName: "artImage"; 
-                                        source: cardData && cardData["art"] || ""; 
+                                        source: artShapeLoader.cardArt;
                                         asynchronous: root.asynchronous; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 

@@ -65,7 +65,7 @@ Item {
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
 
-                    readonly property int sourceSizeMultiplier: 3
+                    readonly property int sourceSizeMultiplier: root.zoomable ? 3 : 1
 
                     sourceSize.width: root.width * sourceSizeMultiplier <= root.height * sourceSizeMultiplier ? root.width * sourceSizeMultiplier : 0
                     sourceSize.height: root.height * sourceSizeMultiplier <= root.width * sourceSizeMultiplier ? root.height * sourceSizeMultiplier : 0

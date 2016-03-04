@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-16 03:29+0000\n"
 "PO-Revision-Date: 2015-12-13 13:12+0000\n"
 "Last-Translator: Mikhail_SaTuRn <mikhail_saturn@tut.by>\n"
 "Language-Team: Belarusian <be@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:45+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -237,7 +237,7 @@ msgstr "Дадаць рэцэнзію"
 
 #: qml/Dash/Previews/PreviewSharing.qml:50
 msgid "Preview Share Item"
-msgstr "Падзяліцца праглядаймым"
+msgstr "Праглядзець элемент"
 
 #: qml/Dash/PullToRefreshScopeStyle.qml:55
 msgid "Pull to refresh…"
@@ -273,11 +273,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "Разблакаваць"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Паспрабаваць зноў"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Націсніце, каб разблакаваць"
 
@@ -501,8 +501,8 @@ msgid "Hi!"
 msgstr "Вітай!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Вітаем Вас у сістэме тэлефона Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -532,8 +532,8 @@ msgid "Lock security"
 msgstr "Блакіроўка"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Калі ласка, абярыце спосаб разблакавання тэлефона."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -640,8 +640,8 @@ msgid "Nice work!"
 msgstr "Выдатная праца!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Цяпер Вашым тэлефонам можна карыстацца."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -746,6 +746,15 @@ msgstr "%1  〉"
 #~ msgid "Store"
 #~ msgstr "Крама"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Вітаем Вас у сістэме тэлефона Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Калі ласка, абярыце спосаб разблакавання тэлефона."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Цяпер Вашым тэлефонам можна карыстацца."
+
 #~ msgid "Restart"
 #~ msgstr "Перазапусціць"
 
@@ -801,6 +810,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Зваротны выклік"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Прылада падлучана да вонкавага дысплэю."

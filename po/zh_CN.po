@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-02-16 03:29+0000\n"
 "PO-Revision-Date: 2015-07-27 10:26+0000\n"
 "Last-Translator: Ian Li <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:46+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -261,17 +261,17 @@ msgstr "已安装"
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
-msgstr ""
+msgstr "你的设备现已连接上了一个外接显示。将这个屏幕作为触控板使用，可与鼠标互动。"
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "解锁"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "重试"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "点击解锁"
 
@@ -485,8 +485,8 @@ msgid "Hi!"
 msgstr "您好！"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "欢迎使用您的 Ubuntu 手机。"
+msgid "Welcome to your Ubuntu device."
+msgstr "欢迎使用您的Ubuntu设备。"
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -516,8 +516,8 @@ msgid "Lock security"
 msgstr "锁屏安全设定"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "请选择您喜欢的手机解锁方式。"
+msgid "Please select how you’d like to unlock your device."
+msgstr "请选择你偏好的设备解锁方式。"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -617,8 +617,8 @@ msgid "Nice work!"
 msgstr "干得好！"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "您的手机现在可以使用了。"
+msgid "Your device is now ready to use."
+msgstr "您的设备已就绪。"
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -732,6 +732,15 @@ msgstr "%1  〉"
 #~ msgid "Please re-enter"
 #~ msgstr "请重新输入"
 
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "欢迎使用您的 Ubuntu 手机。"
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "请选择您喜欢的手机解锁方式。"
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "您的手机现在可以使用了。"
+
 #~ msgid "%H:%M"
 #~ msgstr "%H:%M"
 
@@ -764,6 +773,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "回电"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "您的设备目前已连接到了一台扩展显示装置。"
