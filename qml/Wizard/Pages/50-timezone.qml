@@ -161,11 +161,10 @@ LocalComponents.Page {
         flow: GridLayout.TopToBottom
         columnSpacing: units.gu(2)
         anchors {
-            fill: parent
+            fill: content
             leftMargin: desktopLook ? staticMargin : 0
             rightMargin: desktopLook ? staticMargin : 0
-            topMargin: titleRectHeight + customMargin
-            bottomMargin: buttonBarHeight
+            topMargin: customMargin
         }
 
         ColumnLayout {
