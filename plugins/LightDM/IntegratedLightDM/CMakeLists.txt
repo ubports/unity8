@@ -7,9 +7,9 @@ foreach(include_directory ${QMLPLUGIN_INCLUDES})
 endforeach()
 
 include_directories(
-    ${QMLPLUGIN_INCLUDES}
-    ${libunity8-private_SOURCE_DIR}
-)
+    ../
+    ${CMAKE_SOURCE_DIR}/tests/mocks/LightDM/IntegratedLightDM
+    )
 
 foreach(source_file ${QMLPLUGIN_SRC})
     list(APPEND RELATIVE_QMLPLUGIN_SRC ../${source_file})
