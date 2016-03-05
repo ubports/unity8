@@ -24,7 +24,7 @@ Item {
     property var scope: null
 
     // Properties used by parent
-    readonly property bool processing: scope ? scope.searchInProgress : false
+    readonly property bool processing: scope ? (scope.searchInProgress || scope.activationInProgress) : false
 
     // Signals
     signal backClicked()
