@@ -84,7 +84,6 @@ PreviewWidget {
                 widgetId: model.widgetId
                 widgetType: model.type
                 widgetData: model.properties
-                isCurrentPreview: root.isCurrentPreview
                 scopeStyle: root.scopeStyle
                 anchors {
                     left: parent.left

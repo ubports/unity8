@@ -88,6 +88,11 @@ bool Scope::searchInProgress() const
     return m_searching;
 }
 
+bool Scope::activationInProgress() const
+{
+    return false;
+}
+
 bool Scope::favorite() const
 {
     return m_favorite;
@@ -195,14 +200,14 @@ void Scope::activate(QVariant const& result, QString const& categoryId)
     }
 }
 
-PreviewStack* Scope::preview(QVariant const& result, QString const& /*categoryId*/)
+PreviewModel* Scope::preview(QVariant const& result, QString const& /*categoryId*/)
 {
     Q_UNUSED(result);
 
     if (m_returnNullPreview) {
         return nullptr;
     } else {
-        return new PreviewStack(this);
+        return new PreviewModel(this, this);
     }
 }
 
