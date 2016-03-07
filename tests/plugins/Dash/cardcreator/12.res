@@ -5,11 +5,9 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true;
@@ -23,8 +21,9 @@ Item  {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                active: cardData && cardData["art"] || false; 
-                                asynchronous: root.asynchronous; 
+                                readonly property string cardArt: cardData && cardData["art"] || ""; 
+                                active: cardArt != ""; 
+                                asynchronous: true; 
                                 visible: status == Loader.Ready;
                                 sourceComponent: Item {
                                     id: artShape;
@@ -80,8 +79,8 @@ Item  {
                                     CroppedImageMinimumSourceSize {
                                         id: artImage;
                                         objectName: "artImage";
-                                        source: cardData && cardData["art"] || "";
-                                        asynchronous: root.asynchronous;
+                                        source: artShapeLoader.cardArt;
+                                        asynchronous: true;
                                         width: root.width;
                                         height: width / artShape.aspect;
                                     }
@@ -107,7 +106,7 @@ Label {
                         width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: Text.AlignLeft; 
                     }
 Label { 
                             id: subtitleLabel; 

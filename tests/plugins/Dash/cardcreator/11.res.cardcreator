@@ -5,7 +5,6 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool showHeader: true; 
@@ -16,7 +15,7 @@ Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
-                                asynchronous: true;
+                                asynchronous: false;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
@@ -59,9 +58,9 @@ Item {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("%5C");
+                                readonly property string cardArt: cardData && cardData["art"] || "";
                                 active: cardArt != "";
-                                asynchronous: true;
+                                asynchronous: false;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: Item { 
                                     id: artShape; 
@@ -118,10 +117,9 @@ Item {
                                         id: artImage; 
                                         objectName: "artImage"; 
                                         source: artShapeLoader.cardArt;
-                                        asynchronous: true;
+                                        asynchronous: false;
                                         width: root.width; 
                                         height: width / artShape.aspect; 
-                                        onStatusChanged: if (status === Image.Error) source = decodeURI("%5C");
                                     } 
                                 } 
                             } 
@@ -132,7 +130,6 @@ Row {
                         objectName: "outerRow"; 
                         property real margins: units.gu(1); 
                         spacing: margins; 
-                        height: root.fixedHeaderHeight;
                         anchors { top: artShapeHolder.bottom; 
                                          topMargin: units.gu(1);
 left: parent.left;
@@ -145,13 +142,12 @@ left: parent.left;
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
-                            source: cardData && cardData["mascot"] || decodeURI("%22");
+                            source: cardData && cardData["mascot"] || "";
                             width: units.gu(6); 
                             height: units.gu(5.625); 
                             horizontalAlignment: Image.AlignHCenter; 
                             verticalAlignment: Image.AlignVCenter; 
                             visible: showHeader; 
-                             onStatusChanged: if (status === Image.Error) source = decodeURI("%22");
                         }
 ,Item { 
                             id: headerTitleContainer; 

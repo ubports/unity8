@@ -5,7 +5,6 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool showHeader: true; 
@@ -21,10 +20,10 @@ Item  {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
+                                readonly property string cardArt: cardData && cardData["art"] || "";
                                 active: cardArt != "";
-                                asynchronous: true;
-                                visible: status == Loader.Ready;
+                                asynchronous: false;
+                                visible: status == Loader.Ready; 
                                 sourceComponent: Item {
                                     id: artShape;
                                     objectName: "artShape";
@@ -64,31 +63,30 @@ Item  {
                                         }
                                     }
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1;
-                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 0.75;
+                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 1.6;
                                     Component.onCompleted: { updateWidthHeightBindings(); }
-                                    Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); }
-                                    function updateWidthHeightBindings() {
-                                        if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) {
-                                            width = root.fixedArtShapeSize.width;
-                                            height = root.fixedArtShapeSize.height;
-                                        } else {
+                                    Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
+                                    function updateWidthHeightBindings() { 
+                                        if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { 
+                                            width = root.fixedArtShapeSize.width; 
+                                            height = root.fixedArtShapeSize.height; 
+                                        } else { 
                                             width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width });
                                             height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height });
-                                        }
-                                    }
+                                        } 
+                                    } 
                                     CroppedImageMinimumSourceSize {
                                         id: artImage;
-                                        objectName: "artImage";
+                                        objectName: "artImage"; 
                                         source: artShapeLoader.cardArt;
-                                        asynchronous: true;
-                                        width: root.width;
-                                        height: width / artShape.aspect;
-                                        onStatusChanged: if (status === Image.Error) source = decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
-                                    }
+                                        asynchronous: false;
+                                        width: root.width; 
+                                        height: width / artShape.aspect; 
+                                    } 
                                 } 
                             } 
                         }
-readonly property int headerHeight: titleLabel.height + subtitleLabel.height + subtitleLabel.anchors.topMargin;
+readonly property int headerHeight: titleLabel.height;
 Label { 
                         id: titleLabel; 
                         objectName: "titleLabel"; 
@@ -107,26 +105,8 @@ Label {
                         width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: Text.AlignLeft;
+                        horizontalAlignment: Text.AlignHCenter;
                     }
-Label { 
-                            id: subtitleLabel; 
-                            objectName: "subtitleLabel"; 
-                            anchors { left: titleLabel.left; 
-                            leftMargin: titleLabel.leftMargin; 
-                            right: titleLabel.right; 
-                            top: titleLabel.bottom; 
-                            } 
-                            anchors.topMargin: units.dp(2);
-                            elide: Text.ElideRight; 
-                            maximumLineCount: 1; 
-                            fontSize: "x-small"; 
-                            font.pixelSize: Math.round(FontUtils.sizeToPixels(fontSize) * fontScale); 
-                            color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
-                            visible: titleLabel.visible && titleLabel.text; 
-                            text: cardData && cardData["subtitle"] || ""; 
-                            font.weight: Font.Light; 
-                        }
 UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
@@ -135,5 +115,5 @@ UbuntuShape {
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }
-implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
+implicitHeight: titleLabel.y + titleLabel.height + units.gu(1);
 }

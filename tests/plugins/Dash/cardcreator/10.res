@@ -5,11 +5,9 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true; 
@@ -18,7 +16,7 @@ Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
-                                asynchronous: root.asynchronous; 
+                                asynchronous: true;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
@@ -59,7 +57,7 @@ Row {
                         objectName: "outerRow"; 
                         property real margins: units.gu(1); 
                         spacing: margins; 
-                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; 
+                        height: root.fixedHeaderHeight;
                         anchors { top: parent.top; 
                                      topMargin: units.gu(1);
 left: parent.left;
@@ -103,7 +101,7 @@ left: parent.left;
                         width: undefined; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: Text.AlignLeft;
                     }
 ,Label { 
                             id: subtitleLabel; 
