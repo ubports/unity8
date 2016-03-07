@@ -1,3 +1,3 @@
 template: {"card-layout":"vertical","card-size":"small","category-layout":"grid","collapsed-rows":2}
-components: {"art":{"aspect-ratio":0.75,"field":"art"},"subtitle":{"field":"price"},"title":{"field":"title"},"attributes":{},"socialActions":[{"id":"like","label":"text1","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},{"id":"share","label":"text2","icon":"image://theme/cancel"}]}
+components: {"art":{"aspect-ratio":0.75,"field":"art"},"subtitle":{"field":"price"},"title":{"field":"title"},"attributes":{},"socialActions":{}}
 result: 12.res
