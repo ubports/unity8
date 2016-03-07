@@ -65,7 +65,7 @@ Column {
                         id: icon
                         objectName: "icon"
 
-                        readonly property url urlIcon: "image://theme/ok"
+                        readonly property url urlIcon: modelData && modelData["icon"] || ""
                         readonly property url urlTemporaryIcon: "temporaryIcon" in modelData && modelData["temporaryIcon"] || ""
 
                         height: units.gu(2)
