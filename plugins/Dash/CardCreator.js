@@ -863,20 +863,18 @@ function cardString(template, components, isCardTool) {
         var socialAnchors;
         var socialTopAnchor;
 
-        if (hasSummary) {
-            socialTopAnchor = 'summary.bottom;';
-        } else {
-            if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
-            else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
-            else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
-            else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
-            else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
-            else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
-            else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
-            else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
-            else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
-            else socialTopAnchor = 'parent.top';
-        }
+        if (hasSummary) socialTopAnchor = 'summary.bottom;';
+        else if (isHorizontal && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (headerAsOverlay && hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else if (hasHeaderRow) socialTopAnchor = 'row.bottom;';
+        else if (hasTitleContainer) socialTopAnchor = 'headerTitleContainer.bottom;';
+        else if (hasMascot) socialTopAnchor = 'mascotImage.bottom;';
+        else if (hasAttributes) socialTopAnchor = 'attributesRow.bottom;';
+        else if (hasSubtitle) socialTopAnchor = 'subtitleLabel.bottom;';
+        else if (hasTitle) socialTopAnchor = 'titleLabel.bottom;';
+        else if (hasArt) socialTopAnchor = 'artShapeHolder.bottom;';
+        else socialTopAnchor = 'parent.top';
+
         socialAnchors = 'top: ' + socialTopAnchor + ' left: parent.left; right: parent.right; topMargin: units.gu(1);'
 
         var socialColor;
