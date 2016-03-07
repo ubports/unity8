@@ -99,8 +99,8 @@ Categories::data(const QModelIndex& index, int role) const
             map["title"] = "HOLA";
             map["subtitle"] = "HOLA";
             attributeMap["field"] = "attribute";
-            socialActionMap["icon"] = "image://theme/cancel";
-            socialActionMap["id"] = "dislike";
+            socialActionMap["icon"] = "icon";
+            socialActionMap["id"] = "socialHola";
             map["socialActions"] = socialActionMap;
             map["attributes"] = attributeMap;
             return map;
