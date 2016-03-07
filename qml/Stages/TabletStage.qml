@@ -820,7 +820,7 @@ AbstractStage {
 
         onPassed: {
             // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
-            snapAnimation.targetContentX = root.width * spreadView.positionMarker4 + 1 - spreadView.shift;
+            snapAnimation.targetContentX = (root.width * spreadView.positionMarker4) + 1 - spreadView.shift;
             snapAnimation.start();
         }
         material: Component {
