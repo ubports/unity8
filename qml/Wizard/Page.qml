@@ -190,6 +190,7 @@ Item {
         }
         height: buttonBarHeight
         color: "#f5f5f5"
+        z: content.z + 1
 
         StackButton {
             id: backButton
@@ -201,7 +202,6 @@ Item {
                 leftMargin: staticMargin
                 verticalCenter: parent.verticalCenter
             }
-            z: 1
             text: backButtonText
             visible: pageStack.depth > 1 && hasBackButton
             backArrow: true
@@ -219,7 +219,6 @@ Item {
                 rightMargin: staticMargin
                 verticalCenter: parent.verticalCenter
             }
-            z: 1
         }
     }
 

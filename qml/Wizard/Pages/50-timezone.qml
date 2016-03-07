@@ -31,6 +31,7 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     property string selectedTimeZone: ""
+    readonly property bool showingMap: desktopLook && width >= units.gu(110)
 
     // for testing
     readonly property alias tdModule: timeDatePanel
@@ -161,9 +162,9 @@ LocalComponents.Page {
             left: content.left
             top: content.top
             bottom: content.bottom
-            right: !desktopLook ? content.right : undefined
-            leftMargin: desktopLook ? staticMargin : 0
-            rightMargin: desktopLook ? staticMargin : 0
+            right: !showingMap ? content.right : undefined
+            leftMargin: showingMap ? staticMargin : (desktopLook ? tzPage.leftMargin : 0)
+            rightMargin: showingMap ? staticMargin : (desktopLook ? tzPage.rightMargin : 0)
             topMargin: customMargin
         }
 
@@ -174,8 +175,8 @@ LocalComponents.Page {
             objectName: "tzFilter"
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: !desktopLook ? staticMargin : 0
-            anchors.rightMargin: !desktopLook ? staticMargin : 0
+            anchors.leftMargin: !showingMap && !desktopLook ? staticMargin : undefined
+            anchors.rightMargin: !showingMap && !desktopLook ? staticMargin : undefined
             placeholderText: i18n.tr("Enter your city")
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: resetViews();
@@ -183,10 +184,11 @@ LocalComponents.Page {
 
         ListView {
             Layout.fillHeight: true
-            Layout.fillWidth: true
             id: tzList
             objectName: "tzList"
             clip: true
+            anchors.left: parent.left
+            anchors.right: parent.right
             currentIndex: -1
             model: TimeZoneModel {
                 id: timeZoneModel
@@ -207,7 +209,7 @@ LocalComponents.Page {
 
     Item {
         id: mapContainer
-        visible: desktopLook && !contentAnimationRunning
+        visible: showingMap && !contentAnimationRunning
         enabled: visible
 
         anchors {
