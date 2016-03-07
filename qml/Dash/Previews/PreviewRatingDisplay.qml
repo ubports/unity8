@@ -40,7 +40,6 @@ PreviewWidget {
     id: root
     implicitHeight: childrenRect.height
 
-    onIsCurrentPreviewChanged: ratingsList.updateRanges();
     onParentFlickableChanged: ratingsList.updateRanges();
 
     Connections {

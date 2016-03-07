@@ -28,7 +28,6 @@ set(UnityQML_SOURCES
   fake_navigation.cpp
   fake_resultsmodel.cpp
   fake_previewmodel.cpp
-  fake_previewstack.cpp
   fake_previewwidgetmodel.cpp
   fake_filters.cpp
   fake_optionselectorfilter.cpp
@@ -41,7 +40,6 @@ set(UnityQML_SOURCES
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/OptionSelectorFilterInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/OptionSelectorOptionsInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewModelInterface.h
-  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewStackInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewWidgetModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ResultsModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopeInterface.h
