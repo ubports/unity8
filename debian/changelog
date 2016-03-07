@@ -1,3 +1,14 @@
+unity8 (8.11+16.04.20160307-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Rodney Dawes ]
+  * Re-enable the purchaseCancelled signal.
+
+ -- Rodney Dawes <ci-train-bot@canonical.com>  Mon, 07 Mar 2016 14:12:08 +0000
+
 unity8 (8.11+16.04.20160301-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
