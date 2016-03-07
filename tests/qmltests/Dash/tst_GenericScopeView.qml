@@ -236,12 +236,6 @@ Item {
                 verify(seeAll, "Can't find the seeAll element");
 
                 compare(seeAll.height, 0, "SeeAll should be 0-height.");
-
-                openPreview(4, 0);
-
-                compare(testCase.subPageLoader.count, 16, "There should only be 16 items in preview.");
-
-                closePreview();
             }
 
             function test_narrow_delegate_ranges_expand() {
@@ -401,28 +395,6 @@ Item {
                 tryCompare(testCase.subPageLoader, "x", 0);
                 mouseRelease(tile);
 
-                closePreview();
-            }
-
-            function test_previewCycle() {
-                var categoryListView = findChild(genericScopeView, "categoryListView");
-                categoryListView.positionAtBeginning();
-
-                tryCompare(testCase.subPageLoader, "open", false);
-
-                openPreview();
-                var previewListViewList = findChild(subPageLoader.item, "listView");
-
-                // flick to the next previews
-                tryCompare(testCase.subPageLoader, "count", 25);
-                for (var i = 1; i < testCase.subPageLoader.count; ++i) {
-                    mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.width - units.gu(1),
-                                                testCase.subPageLoader.height / 2,
-                                                units.gu(2),
-                                                testCase.subPageLoader.height / 2);
-                    tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.subPageLoader.currentItem, "objectName", "preview" + i);
-                }
                 closePreview();
             }
 
