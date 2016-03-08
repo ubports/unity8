@@ -16,7 +16,6 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
-import QtGraphicalEffects 1.0
 import Ubuntu.Components 1.3
 import Wizard 0.1
 import Ubuntu.SystemSettings.TimeDate 1.0
@@ -237,8 +236,9 @@ LocalComponents.Page {
                 sourceSize: Qt.size(map.width, map.height)
                 fillMode: Image.PreserveAspectFit
                 smooth: false
-                visible: false
+                visible: mapContainer.visible
                 asynchronous: true
+                anchors.fill: parent
             }
 
             Image {
@@ -246,14 +246,9 @@ LocalComponents.Page {
                 sourceSize: Qt.size(map.width, map.height)
                 fillMode: Image.PreserveAspectFit
                 smooth: false
-                visible: false
+                visible: selectedTimeZone != ""
                 asynchronous: true
-            }
-
-            Blend {
-                anchors.fill: map
-                source: backgroundImage
-                foregroundSource: highlightImage
+                anchors.fill: backgroundImage
             }
 
             Image {
