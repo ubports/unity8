@@ -37,6 +37,7 @@ Popover {
             var parentAndKeyboard = root.parent.height - posToRootParent - (Qt.inputMethod.visible ? Qt.inputMethod.keyboardRectangle.height + units.gu(3) : 0)
             return Math.min(parentAndKeyboard, Math.min(threeQuartersParent, column.height));
         }
+        clip: true
         contentHeight: column.height
         contentWidth: width
 
