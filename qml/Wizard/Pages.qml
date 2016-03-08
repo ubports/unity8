@@ -74,12 +74,14 @@ Item {
     function quitWizard() {
         pageStack.currentPage.enabled = false;
 
-        var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod)
-        if (errorMsg !== "") {
-            // Ignore (but log) any errors, since we're past where the user set
-            // the method.  Worst case, we just leave the user with a swipe
-            // security method and they fix it in the system settings.
-            console.log("Error setting security method:", errorMsg)
+        if (password != "") {
+            var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod)
+            if (errorMsg !== "") {
+                // Ignore (but log) any errors, since we're past where the user set
+                // the method.  Worst case, we just leave the user with a swipe
+                // security method and they fix it in the system settings.
+                console.log("Error setting security method:", errorMsg)
+            }
         }
 
         quit();
