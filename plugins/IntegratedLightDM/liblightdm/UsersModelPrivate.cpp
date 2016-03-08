@@ -19,6 +19,7 @@
 #include "UsersModelPrivate.h"
 
 #include "AccountsServiceDBusAdaptor.h"
+#include "UsersModel.h"
 
 #include <glib.h>
 #include <QDebug>
@@ -30,7 +31,7 @@ namespace QLightDM
 {
 
 UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
-  : QObject((QObject*)parent),
+  : QObject(parent),
     q_ptr(parent),
     m_service(new AccountsServiceDBusAdaptor(this))
 {
@@ -85,7 +86,6 @@ void UsersModelPrivate::updateName(bool async)
     });
     if (!async) {
         watcher->waitForFinished();
-        delete watcher;
     }
 }
 

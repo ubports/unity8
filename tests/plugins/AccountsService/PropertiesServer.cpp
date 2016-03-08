@@ -57,8 +57,8 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 
             oldValue = newValue;
 
-            // Special case for Background file.
-            if (interface == "org.freedesktop.Accounts.User" && property == "BackgroundFile") {
+            // Special case for user properties.
+            if (interface == "org.freedesktop.Accounts.User") {
                 Q_EMIT Changed();
             } else {
                 QVariantMap propertyChanges;
@@ -88,4 +88,5 @@ void PropertiesServer::Reset()
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseAccepted"] = false;
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseBasePath"] = "";
     m_properties["org.freedesktop.Accounts.User"]["BackgroundFile"] = "";
+    m_properties["org.freedesktop.Accounts.User"]["RealName"] = "";
 }
