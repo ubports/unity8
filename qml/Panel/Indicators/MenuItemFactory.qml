@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Window 2.2
 import Ubuntu.Settings.Menus 0.1 as Menus
 import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
@@ -22,6 +23,7 @@ import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import Ubuntu.Components 1.3
 import Unity.Session 0.1
+import Unity.Platform 1.0
 
 Item {
     id: menuFactory
@@ -61,9 +63,11 @@ Item {
 
             "com.canonical.indicator.calendar": calendarMenu,
             "com.canonical.indicator.location": timezoneMenu,
-
-            "indicator.user-menu-item": userMenuItem,
-            "indicator.guest-menu-item": userMenuItem
+        },
+        "indicator-session": {
+            "indicator.user-menu-item": Platform.isPC ? userMenuItem : null,
+            "indicator.guest-menu-item": Platform.isPC ? userMenuItem : null,
+            "com.canonical.indicator.switch": Screen.width >= units.gu(90) ? switchMenu : null // Desktop mode switch
         },
         "indicator-messages" : {
             "com.canonical.indicator.button"         : messagesButtonMenu
@@ -977,6 +981,14 @@ Item {
     }
 
     function load(modelData, context) {
+        // tweak indicator-session items
+        if (context === "indicator-session") {
+            if ((modelData.action === "indicator.logout" || modelData.action === "indicator.suspend" || modelData.action === "indicator.hibernate")
+                    && !Platform.isPC) {
+                return null; // logout, suspend and hibernate hidden on devices
+            }
+        }
+
         if (modelData.type !== undefined && modelData.type !== "") {
             var component = undefined;
 
