@@ -1,3 +1,27 @@
+unity8 (8.11+16.04.20160308-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make these tests pass with the new SDK
+
+  [ Andrea Cimitan, Nick Dedekind ]
+  * replace selected.backgroundText with normal.backgroundText in
+    Splash, Notifications, Wizard
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Fixed colours palette value set. Moved ModemItem to USC.
+
+  [ Michał Sawicz, Tim Peeters ]
+  * Update headers for Dash and Splash to work properly with the new UI
+    toolkit release.
+
+  [ Zoltán Balogh, Zsombor Egri ]
+  * Use SuruDark theme instead of the deprecated SuruGradient.
+
+ -- Zoltan Balogh <zoltan.balogh@canonical.com>  Tue, 08 Mar 2016 20:59:34 +0000
+
 unity8 (8.11+16.04.20160307-0ubuntu1) xenial; urgency=medium
 
   [ CI Train Bot ]
