@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import ".." as LocalComponents
 
@@ -31,13 +32,15 @@ LocalComponents.Page {
 
     property alias password: passwordField.text
 
-    Column {
+    GridLayout {
         id: column
+        columns: 1
+        rows: 3
         anchors.fill: content
         anchors.leftMargin: leftMargin
         anchors.rightMargin: rightMargin
         anchors.topMargin: customMargin
-        spacing: units.gu(3)
+        rowSpacing: units.gu(3)
 
         Label {
             id: infoLabel
@@ -52,22 +55,24 @@ LocalComponents.Page {
             text: i18n.tr("Enter 4 numbers to setup your passcode")
         }
 
-        Grid {
+        GridLayout {
             columns: 2
-            spacing: units.gu(2)
-            verticalItemAlignment: Grid.AlignVCenter
+            columnSpacing: units.gu(2)
+            rowSpacing: units.gu(2)
 
             Label {
                 text: i18n.tr("Choose passcode")
                 color: textColor
             }
             LocalComponents.WizardTextField {
+                Layout.fillWidth: true
                 id: passwordField
                 objectName: "passwordField"
                 echoMode: TextInput.Password
                 inputMethodHints: Qt.ImhDigitsOnly
                 validator: RegExpValidator { regExp: /^\d{4}$/ }
                 maximumLength: 4
+                onAccepted: password2Field.forceActiveFocus()
             }
 
             Label {
@@ -75,6 +80,7 @@ LocalComponents.Page {
                 color: textColor
             }
             LocalComponents.WizardTextField {
+                Layout.fillWidth: true
                 id: password2Field
                 objectName: "password2Field"
                 echoMode: TextInput.Password
@@ -82,6 +88,10 @@ LocalComponents.Page {
                 validator: RegExpValidator { regExp: /^\d{4}$/ }
                 maximumLength: 4
             }
+        }
+
+        Item { // spacer
+            Layout.fillHeight: true
         }
     }
 
