@@ -49,7 +49,7 @@ LocalComponents.Page {
             id: nameLabel
             anchors.left: parent.left
             anchors.right: parent.right
-            text: i18n.tr("Your Name")
+            text: i18n.tr("Preferred Name")
             color: textColor
             font.weight: Font.Light
         }
