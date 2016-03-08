@@ -26,7 +26,7 @@ Rectangle {
     id: root
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        theme.name = "Ubuntu.Components.Themes.SuruDark"
     }
 
     PageStack {
