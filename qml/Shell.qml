@@ -428,6 +428,11 @@ Item {
         }
     }
 
+    Connections {
+        target: DBusUnitySessionService
+        onLockRequested: lightDM.greeter.showGreeter()
+    }
+
     Timer {
         // See powerConnection for why this is useful
         id: showGreeterDelayed
