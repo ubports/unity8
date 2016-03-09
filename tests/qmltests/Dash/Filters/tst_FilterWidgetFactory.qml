@@ -42,7 +42,7 @@ Rectangle {
         function test_mapping_data() {
             return [
                 { tag: "OptionSelector", type: Filters.OptionSelectorFilter, source: "FilterOptionSelector.qml" },
-                { tag: "OptionSelector", type: Filters.RangeInputFilter, source: "FilterRangeInput.qml" }
+                { tag: "RangeInputFilter", type: Filters.RangeInputFilter, source: "FilterRangeInput.qml" }
             ];
         }
 
