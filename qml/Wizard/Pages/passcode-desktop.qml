@@ -30,7 +30,8 @@ LocalComponents.Page {
     title: i18n.tr("Lock Screen Passcode")
     forwardButtonSourceComponent: forwardButton
 
-    property alias password: passwordField.text
+    readonly property alias password: passwordField.text
+    readonly property alias password2: password2Field.text
 
     GridLayout {
         id: column
@@ -88,6 +89,27 @@ LocalComponents.Page {
                 validator: RegExpValidator { regExp: /^\d{4}$/ }
                 maximumLength: 4
             }
+
+            Label {
+                Layout.row: 2
+                Layout.column: 1
+                id: errorLabel
+                wrapMode: Text.Wrap
+                color: errorColor
+                visible: password && password2
+                fontSize: "small"
+                text: {
+                    if (password) {
+                        if (password2.length < password2Field.maximumLength)
+                            return i18n.tr("Passcode too short")
+                        else if (password == password2)
+                            return i18n.tr("Passcodes match")
+                        else if (password2)
+                            return i18n.tr("Passcodes do not match")
+                    }
+                    return ""
+                }
+            }
         }
 
         Item { // spacer
@@ -99,7 +121,7 @@ LocalComponents.Page {
         id: forwardButton
         LocalComponents.StackButton {
             text: i18n.tr("Next")
-            enabled: password != "" && password == password2Field.text
+            enabled: password != "" && password == password2
             onClicked: {
                 root.password = password;
                 pageStack.next();
