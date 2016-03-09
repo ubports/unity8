@@ -94,8 +94,9 @@ LocalComponents.Page {
                 Layout.row: 2
                 Layout.column: 1
                 id: errorLabel
+                property bool hasError: password && password != password2
                 wrapMode: Text.Wrap
-                color: errorColor
+                color: hasError ? errorColor : textColor
                 visible: password && password2
                 fontSize: "small"
                 text: {
