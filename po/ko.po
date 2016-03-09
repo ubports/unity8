@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-01 10:33+0000\n"
+"POT-Creation-Date: 2016-03-07 14:21+0000\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-05 06:19+0000\n"
+"X-Launchpad-Export-Date: 2016-03-09 05:51+0000\n"
 "X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -484,7 +484,7 @@ msgstr "안녕!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "우분투를 사용해주셔서 감사합니다."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -515,7 +515,7 @@ msgstr "보안 잠금"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
-msgstr ""
+msgstr "장치의 잠금 해제 방법을 선택해주십시오."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -616,7 +616,7 @@ msgstr "잘 하셨습니다!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "이제 장치를 사용할 수 있습니다."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
