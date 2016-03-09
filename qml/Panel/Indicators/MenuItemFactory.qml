@@ -983,7 +983,8 @@ Item {
     function load(modelData, context) {
         // tweak indicator-session items
         if (context === "indicator-session") {
-            if ((modelData.action === "indicator.logout" || modelData.action === "indicator.suspend" || modelData.action === "indicator.hibernate")
+            if ((modelData.action === "indicator.logout" || modelData.action === "indicator.suspend" || modelData.action === "indicator.hibernate" ||
+                 modelData.action === "indicator.reboot")
                     && !Platform.isPC) {
                 return null; // logout, suspend and hibernate hidden on devices
             }
