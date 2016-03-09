@@ -96,7 +96,7 @@ LocalComponents.Page {
                 id: errorLabel
                 property bool hasError: password && password != password2
                 wrapMode: Text.Wrap
-                color: hasError ? errorColor : textColor
+                color: hasError ? errorColor : UbuntuColors.ash
                 visible: password && password2
                 fontSize: "small"
                 text: {

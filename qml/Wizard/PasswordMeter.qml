@@ -92,7 +92,7 @@ Item {
 
             return i18n.tr("Very weak password");
         }
-        color: "#888888"
+        color: UbuntuColors.ash
         fontSize: "small"
         font.weight: Font.Light
         visible: password.length > 0
