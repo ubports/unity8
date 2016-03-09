@@ -64,9 +64,9 @@ Item {
             else if (passwordScore > 60)
                 return "#f9c00f";
             else if (passwordScore >= 30)
-                return "#ed3146";
+                return errorColor;
 
-            return "#ed3146";
+            return errorColor;
         }
         visible: password.length > 0
     }

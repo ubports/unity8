@@ -87,7 +87,6 @@ LocalComponents.Page {
             }
 
             resetViews();
-            theme.palette.normal.backgroundText = "#cdcdcd";
             searchField.forceActiveFocus();
         }
     }

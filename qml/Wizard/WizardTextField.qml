@@ -21,9 +21,5 @@ import Ubuntu.Components.Themes.Ambiance 1.3
 TextField {
     id: styledItem
     style: TextFieldStyle {
-        color: "#5d5d5d"
-        backgroundColor: (focus || highlighted) ? "#fdfdfd" : "#f5f5f5"
-        errorColor: "#e14141"
-        selectionColor: "#cdcdcd"
     }
 }

@@ -87,6 +87,7 @@ LocalComponents.Page {
             font.weight: Font.Light
             lineHeight: 1.2
             text: i18n.tr("Welcome to Ubuntu")
+            color: "white"
         }
 
         Label {
@@ -101,6 +102,7 @@ LocalComponents.Page {
             font.weight: Font.Light
             lineHeight: 1.2
             text: i18n.tr("You are ready to use your device now")
+            color: "white"
         }
 
         Rectangle {

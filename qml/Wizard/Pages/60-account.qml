@@ -25,10 +25,6 @@ LocalComponents.Page {
 
     forwardButtonSourceComponent: forwardButton
 
-    Component.onCompleted: {
-        theme.palette.normal.backgroundText = "#cdcdcd";
-    }
-
     QtObject {
         id: d
         readonly property string validName: nameInput.text.trim()

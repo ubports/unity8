@@ -38,10 +38,10 @@ Item {
 
     // colors
     readonly property color backgroundColor: "#fdfdfd"
-    readonly property color dividerColor: "#cdcdcd"
-    readonly property color textColor: "#5d5d5d"
-    readonly property color errorColor: "#e14141"
-    readonly property color okColor: "#3fb24f"
+    readonly property color dividerColor: UbuntuColors.silk
+    readonly property color textColor: UbuntuColors.slate
+    readonly property color errorColor: theme.palette.normal.negative
+    readonly property color okColor: theme.palette.normal.positive
 
     // If you want to skip a page, mark skipValid false while you figure out
     // whether to skip, then set it to true once you've determined the value

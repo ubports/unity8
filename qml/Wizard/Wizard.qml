@@ -47,5 +47,7 @@ Showable {
             target: loader.item
             onQuit: root.hide()
         }
+
+        onLoaded: theme.name = "Ubuntu.Components.Themes.Ambiance";
     }
 }
