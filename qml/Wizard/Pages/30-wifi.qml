@@ -90,6 +90,7 @@ LocalComponents.Page {
             readonly property bool secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             readonly property bool adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
             readonly property bool isConnected: menuData && menuData.actionState
+            readonly property bool isEnterprise: getExtendedProperty(extendedData, "xCanonicalWifiApIsEnterprise", false)
             readonly property int signalStrength: strengthAction.valid ? strengthAction.state : 0
             property int menuIndex: -1
 
@@ -97,6 +98,7 @@ LocalComponents.Page {
                 if (!unityMenuModel || menuIndex == -1) return;
                 unityMenuModel.loadExtendedAttributes(menuIndex, {'x-canonical-wifi-ap-is-adhoc': 'bool',
                                                           'x-canonical-wifi-ap-is-secure': 'bool',
+                                                          'x-canonical-wifi-ap-is-enterprise': 'bool',
                                                           'x-canonical-wifi-ap-strength-action': 'string'});
             }
 
@@ -186,6 +188,7 @@ LocalComponents.Page {
 
                 readonly property bool isAccessPoint: model.type === "unity.widgets.systemsettings.tablet.accesspoint"
                 readonly property bool isConnected: item && item.menuData && item.menuData.actionState
+                readonly property bool isEnterprise: item && item.isEnterprise
 
                 height: !!sourceComponent ? (isConnected ? units.gu(9) : units.gu(7)) : 0
                 anchors.left: parent.left
@@ -193,13 +196,10 @@ LocalComponents.Page {
 
                 asynchronous: true
                 sourceComponent: {
-                    if (isAccessPoint) {
-                        menuModel.loadExtendedAttributes(index, {'x-canonical-wifi-ap-is-enterprise': 'bool'}); // filter out enterprise wifis, lpbug:#1475023
-                        if (!getExtendedProperty(menuModel.ext, "xCanonicalWifiApIsEnterprise", false)) {
-                            return accessPointComponent;
-                        }
-                        return null;
+                    if (isAccessPoint && !isEnterprise) {
+                        return accessPointComponent;
                     }
+                    return null;
                 }
 
                 onLoaded: {
