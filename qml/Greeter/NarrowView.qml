@@ -125,6 +125,18 @@ FocusScope {
         onCancel: coverPage.show()
         onEmergencyCall: root.emergencyCall()
 
+        onEnabledChanged: {
+            if (enabled) {
+                lockscreen.forceActiveFocus();
+            }
+        }
+
+        onVisibleChanged: {
+            if (visible) {
+                lockscreen.forceActiveFocus();
+            }
+        }
+
         function maybeShow() {
             if (root.locked && !shown) {
                 showNow();
