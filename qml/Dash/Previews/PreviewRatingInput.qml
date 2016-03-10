@@ -93,6 +93,7 @@ PreviewWidget {
             }
             size: 5
             onValueChanged: {
+                root.makeSureVisible(rating);
                 if (widgetData["visible"] === "rating") root.submit();
             }
 
