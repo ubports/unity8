@@ -309,7 +309,7 @@ Rectangle {
             var tutorialTopTimer = findInvisibleChild(tutorialTop, "tutorialTopTimer");
 
             tutorialTopTimer.interval = 1;
-            AccountsService.demoEdgesCompleted = ["left"];
+            AccountsService.demoEdgesCompleted = ["left", "left-long"];
 
             tryCompare(tutorialLeftLoader, "active", false);
             tryCompare(tutorialTop, "shown", true);
@@ -320,7 +320,7 @@ Rectangle {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialRight = findChild(shell, "tutorialRight");
 
-            AccountsService.demoEdgesCompleted = ["left", "top"];
+            AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
             ApplicationManager.startApplication("gallery-app");
             ApplicationManager.startApplication("facebook-webapp");
 
@@ -333,7 +333,7 @@ Rectangle {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialBottom = findChild(shell, "tutorialBottom");
 
-            AccountsService.demoEdgesCompleted = ["left", "top", "right"];
+            AccountsService.demoEdgesCompleted = ["left", "left-long", "top", "right"];
             ApplicationManager.startApplication("dialer-app");
 
             tryCompare(tutorialLeftLoader, "active", false);
@@ -456,7 +456,7 @@ Rectangle {
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
 
             tryCompare(tutorialTop, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top"]);
             tryCompare(panel.indicators, "fullyOpened", true);
         }
 
@@ -482,12 +482,12 @@ Rectangle {
 
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialTop = findChild(shell, "tutorialTop");
-            AccountsService.demoEdgesCompleted = ["left"];
+            AccountsService.demoEdgesCompleted = ["left", "left-long"];
             tryCompare(tutorialLeftLoader, "active", false);
             verify(!tutorialTop.shown);
 
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top"]);
         }
 
         function test_tutorialRightEdges() {
@@ -518,7 +518,7 @@ Rectangle {
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
 
             tryCompare(tutorialRight, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "right"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top", "right"]);
         }
 
         function test_tutorialRightShortDrag() {
@@ -550,7 +550,7 @@ Rectangle {
             ApplicationManager.startApplication("facebook-webapp");
             tryCompare(ApplicationManager, "count", 3);
 
-            AccountsService.demoEdgesCompleted = ["left", "top"];
+            AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
             verify(tutorialRightTimer.running, true);
             verify(!tutorialRight.shown);
             tryCompare(tutorialRight, "shown", true);
@@ -560,11 +560,11 @@ Rectangle {
             // Test that we skip the tutorial if user uses right edge themselves
 
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
-            AccountsService.demoEdgesCompleted = ["left"];
+            AccountsService.demoEdgesCompleted = ["left", "left-long"];
             tryCompare(tutorialLeftLoader, "active", false);
 
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "right"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "right"]);
         }
 
         function test_tutorialBottomEdges() {
@@ -596,14 +596,13 @@ Rectangle {
             touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
 
             tryCompare(tutorialBottom, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "right", "bottom-dialer-app"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top", "right", "bottom-dialer-app"]);
 
             // OK, we did one, just confirm that when all are done, we mark whole tutorial as done.
             verify(AccountsService.demoEdges);
-            AccountsService.demoEdgesCompleted = ["left", "top", "right",
+            AccountsService.demoEdgesCompleted = ["left", "left-long", "top", "right",
                                                   "bottom-address-book-app",
                                                   "bottom-com.ubuntu.calculator_calculator",
-                                                  "bottom-com.ubuntu.clock_clock",
                                                   "bottom-dialer-app",
                                                   "bottom-messaging-app"];
             verify(!AccountsService.demoEdges);
@@ -617,7 +616,7 @@ Rectangle {
             var tutorialRight = findChild(shell, "tutorialRight");
             var tutorialBottom = findChild(shell, "tutorialBottom");
 
-            AccountsService.demoEdgesCompleted = ["left", "top"];
+            AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
             ApplicationManager.startApplication("gallery-app");
             ApplicationManager.startApplication("dialer-app");
 
@@ -717,7 +716,7 @@ Rectangle {
             verify(!tutorialRight.isReady);
             verify(!tutorialRight.shown);
             verify(!tutorialRight.paused);
-            compare(AccountsService.demoEdgesCompleted, ["left", "top"]);
+            compare(AccountsService.demoEdgesCompleted, ["left", "left-long", "top"]);
         }
 
         function test_desktopOnlyShowsTutorialRight() {
