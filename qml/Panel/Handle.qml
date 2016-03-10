@@ -19,7 +19,7 @@ import Ubuntu.Components 1.3
 
 Rectangle {
     id: handle
-    color: "#5d5d5d"
+    color: UbuntuColors.slate
     height: units.gu(2)
     property bool active: false
 
@@ -35,7 +35,7 @@ Rectangle {
                 id: dot
                 width: units.dp(3)
                 height: width
-                color: handle.active ? UbuntuColors.orange : "#888888"
+                color: handle.active ? UbuntuColors.orange : UbuntuColors.ash
                 radius: units.dp(1)
             }
         }

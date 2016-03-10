@@ -256,6 +256,12 @@ AbstractStage {
                 height: decoratedWindow.height
                 property alias requestedWidth: decoratedWindow.requestedWidth
                 property alias requestedHeight: decoratedWindow.requestedHeight
+                property alias minimumWidth: decoratedWindow.minimumWidth
+                property alias minimumHeight: decoratedWindow.minimumHeight
+                property alias maximumWidth: decoratedWindow.maximumWidth
+                property alias maximumHeight: decoratedWindow.maximumHeight
+                property alias widthIncrement: decoratedWindow.widthIncrement
+                property alias heightIncrement: decoratedWindow.heightIncrement
 
                 QtObject {
                     id: appDelegatePrivate

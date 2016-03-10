@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,15 +14,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Themes.Ambiance 1.3
+import Unity.Application 0.1
 
-PageHeadStyle {
-    // FIXME: Don't use this but PageHeader from Ubuntu.Components 1.3.
+Row {
     id: root
+    property alias textColor: label.color
+    property alias text: label.text
+    property string propertyName
 
-    property var styledItem: root
-    property string title
-    property var config: PageHeadConfiguration {}
-    property var contents: null
+    Label {id: label; anchors.verticalCenter: parent.verticalCenter}
+    TextField {
+        width: units.gu(10); hasClearButton: false; maximumLength: 6
+        inputMask: "d00000"
+        text: ""
+        onTextChanged: {
+            if (text.length > 0) {
+                SurfaceManager[root.propertyName] = parseInt(text);
+            } else {
+                SurfaceManager[root.propertyName] = 0;
+            }
+        }
+    }
 }

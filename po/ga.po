@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-08 09:50+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2016-01-25 11:33+0000\n"
 "Last-Translator: Joshua Kiley <Unknown>\n"
 "Language-Team: Irish <ga@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n==2 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-02-11 06:14+0000\n"
-"X-Generator: Launchpad (build 17923)\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -174,38 +174,38 @@ msgstr "Athnasc anois!"
 msgid "Close all"
 msgstr "Dún Gach Rud"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Siopa"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Cuardach"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Socruithe"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Bain ó Cheanáin"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Cuir le Ceanáin"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
 msgid "See less"
 msgstr "Taispeáin níos lú"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:565
 msgid "See all"
 msgstr "Taispeáin gach rud"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Cuardach"
@@ -269,11 +269,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "Oscail"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Bain triail as arís"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Cnag le hoscail"
 
@@ -426,14 +426,6 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Glaoch Ar Ais"
 
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Díghlasail an SIM"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Fánaíocht"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Oscail Roghchláir Speisialta"
@@ -497,8 +489,8 @@ msgid "Hi!"
 msgstr "Dia duit!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Tá fáilte romhat chuig do fhón Ubuntu."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -528,8 +520,8 @@ msgid "Lock security"
 msgstr "Slándáil ghlasála"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Roghnaigh conas ar mhaith leat do fhón a díghlasáil"
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -636,8 +628,8 @@ msgid "Nice work!"
 msgstr "D'éirigh leat!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Tá do fhón reidh le húsáid anois."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -679,3 +671,18 @@ msgstr ""
 #, qt-format
 msgid "%1  〉"
 msgstr ""
+
+#~ msgid "Unlock SIM"
+#~ msgstr "Díghlasail an SIM"
+
+#~ msgid "Roaming"
+#~ msgstr "Fánaíocht"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Tá fáilte romhat chuig do fhón Ubuntu."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Roghnaigh conas ar mhaith leat do fhón a díghlasáil"
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Tá do fhón reidh le húsáid anois."

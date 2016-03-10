@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-08 09:50+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2015-07-07 07:14+0000\n"
 "Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-11 06:14+0000\n"
-"X-Generator: Launchpad (build 17923)\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -177,38 +177,38 @@ msgstr ""
 msgid "Close all"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Winkel"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Zoeken"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Instellingen"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Verwijderen uit favorieten"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Toevoegen aan favorieten"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
 msgid "See less"
 msgstr "Minder zien"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:565
 msgid "See all"
 msgstr "Alles zien"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Zoeken"
@@ -272,11 +272,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "Ontgrendelen"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Opnieuw proberen"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Tik om te ontgrendelen"
 
@@ -426,14 +426,6 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr ""
 
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Simkaart deblokkeren"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Roaming"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Speciale menu's openen"
@@ -499,8 +491,8 @@ msgid "Hi!"
 msgstr "Hallo!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Welkom bij uw Ubuntutelefoon."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -530,8 +522,8 @@ msgid "Lock security"
 msgstr "Vergrendelbeveiliging"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Selecteer a.u.b. hoe u uw telefoon wilt ontgrendelen."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -638,8 +630,8 @@ msgid "Nice work!"
 msgstr "Mooi werk!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Uw telefoon is nu klaar voor gebruik."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -746,6 +738,9 @@ msgstr "%1  〉"
 #~ msgid "Store"
 #~ msgstr "Winkel"
 
+#~ msgid "Roaming"
+#~ msgstr "Roaming"
+
 #~ msgid "Done"
 #~ msgstr "Klaar"
 
@@ -767,6 +762,9 @@ msgstr "%1  〉"
 #~ msgid "Power"
 #~ msgstr "Energie"
 
+#~ msgid "Unlock SIM"
+#~ msgstr "Simkaart deblokkeren"
+
 #~ msgid "Restart"
 #~ msgstr "Herstarten"
 
@@ -775,6 +773,15 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Herhaal deze a.u.b."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Uw telefoon is nu klaar voor gebruik."
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Welkom bij uw Ubuntutelefoon."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Selecteer a.u.b. hoe u uw telefoon wilt ontgrendelen."
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %d %b %H:%M"

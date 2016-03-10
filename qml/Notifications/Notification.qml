@@ -281,7 +281,7 @@ Item {
                         }
                         visible: type !== Notification.Confirmation
                         fontSize: "medium"
-                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : theme.palette.normal.backgroundText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -296,7 +296,7 @@ Item {
                         }
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
-                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
+                        color: darkOnBright ? sdFontColor : theme.palette.normal.backgroundText
                         wrapMode: Text.Wrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
@@ -337,7 +337,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
                 fontSize: "medium"
-                color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
+                color: darkOnBright ? sdFontColor : theme.palette.normal.backgroundText
                 wrapMode: Text.WordWrap
                 maximumLineCount: 1
                 elide: Text.ElideRight

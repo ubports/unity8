@@ -1,3 +1,119 @@
+unity8 (8.11+16.04.20160308-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make these tests pass with the new SDK
+
+  [ Andrea Cimitan, Nick Dedekind ]
+  * replace selected.backgroundText with normal.backgroundText in
+    Splash, Notifications, Wizard
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Fixed colours palette value set. Moved ModemItem to USC.
+
+  [ Michał Sawicz, Tim Peeters ]
+  * Update headers for Dash and Splash to work properly with the new UI
+    toolkit release.
+
+  [ Zoltán Balogh, Zsombor Egri ]
+  * Use SuruDark theme instead of the deprecated SuruGradient.
+
+ -- Zoltan Balogh <zoltan.balogh@canonical.com>  Tue, 08 Mar 2016 20:59:34 +0000
+
+unity8 (8.11+16.04.20160307-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Rodney Dawes ]
+  * Re-enable the purchaseCancelled signal.
+
+ -- Rodney Dawes <ci-train-bot@canonical.com>  Mon, 07 Mar 2016 14:12:08 +0000
+
+unity8 (8.11+16.04.20160301-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Hook the new scope.activationInProgress property (LP: #1537132)
+
+  [ Andrea Cimitan ]
+  * Updated the Preview view to use a single PreviewModel instead old
+    PreviewStack, using a Loader instead ListView (LP: #1541967)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Michał Sawicz ]
+  * Add autopilot as DEP-8 tests added: debian/tests/autopilot.sh
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 01 Mar 2016 10:28:52 +0000
+
+unity8 (8.11+16.04.20160216.1-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make the audio previews create a playlist (LP: #1540477)
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/aa.po
+  * Update translation template
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 16 Feb 2016 03:24:46 +0000
+
+unity8 (8.11+16.04.20160212-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Do not use components in card creator generated code
+  * Forward the makesurevisible signal from the inner preview widget
+  * Make fallback also be fallback when the image is empty and not only
+    on error (LP: #1531913)
+  * Make the artShapeSize assignment be updated when using dynamic grid
+    units
+  * Visual improvements to the dash audio play cards
+  * We don't use the unity-scope-scopes anymore (LP: #1439172)
+
+  [ Andrea Cimitan ]
+  * only request a bigger image if zoomable widget data property is
+    true, otherwise just leave the screen size (LP: #1536814)
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Daniel d'Andrada ]
+  * Set initial surface size (LP: #1532974)
+
+  [ Daniel d'Andrada, Michał Sawicz ]
+  * Window Size Hints
+
+  [ Florian Boucault ]
+  * Splash screen: delay showing the ActivityIndicator by 2 seconds.
+
+  [ Lukáš Tinkl ]
+  * Replace the word "phone" with a more generic term "device" in the
+    welcome wizard (LP: #1294732, #1543527)
+
+  [ Michael Terry ]
+  * Have the tablet greeter set appropriate OSK hints if the user has a
+    passcode instead of a passphrase. (LP: #1544173)
+
+  [ Michael Zanetti ]
+  * Don't eat mouse events in the edgebarrer
+
+  [ Michał Sawicz ]
+  * Bump unity-api dependencies
+
+  [ Nick Dedekind ]
+  * Added support for secondary indicator actions (LP: #1398888)
+  * Remove zombie if they're not animated. (LP: #1534541)
+  * Removed unused panel resources
+
+  [ Ted Gould ]
+  * Start the indicators after Unity8 starts instead of before
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 12 Feb 2016 00:12:41 +0000
+
 unity8 (8.11+16.04.20160208-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

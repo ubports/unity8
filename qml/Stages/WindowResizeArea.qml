@@ -72,8 +72,8 @@ MouseArea {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
                                                             Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
 
-        target.requestedWidth = Math.min(Math.max(windowGeometry.width, minWidth), screenWidth);
-        target.requestedHeight = Math.min(Math.max(windowGeometry.height, minHeight), root.screenHeight - PanelState.panelHeight);
+        target.requestedWidth = Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth);
+        target.requestedHeight = Math.min(Math.max(windowGeometry.height, d.minimumHeight), root.screenHeight - PanelState.panelHeight);
         target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - target.requestedWidth), 0)
         target.y = Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight)
 
@@ -91,6 +91,65 @@ MouseArea {
 
     QtObject {
         id: d
+
+        readonly property int maxSafeInt: 2147483647
+        readonly property int maxSizeIncrement: units.gu(40)
+
+        readonly property int minimumWidth: root.target ? Math.max(root.minWidth, root.target.minimumWidth) : root.minWidth
+        onMinimumWidthChanged: {
+            if (target.requestedWidth < minimumWidth) {
+                target.requestedWidth = minimumWidth;
+            }
+        }
+        readonly property int minimumHeight: root.target ? Math.max(root.minHeight, root.target.minimumHeight) : root.minHeight
+        onMinimumHeightChanged: {
+            if (target.requestedHeight < minimumHeight) {
+                target.requestedHeight = minimumHeight;
+            }
+        }
+        readonly property int maximumWidth: root.target && root.target.maximumWidth >= minimumWidth && root.target.maximumWidth > 0
+            ? root.target.maximumWidth : maxSafeInt
+        onMaximumWidthChanged: {
+            if (target.requestedWidth > maximumWidth) {
+                target.requestedWidth = maximumWidth;
+            }
+        }
+        readonly property int maximumHeight: root.target && root.target.maximumHeight >= minimumHeight && root.target.maximumHeight > 0
+            ? root.target.maximumHeight : maxSafeInt
+        onMaximumHeightChanged: {
+            if (target.requestedHeight > maximumHeight) {
+                target.requestedHeight = maximumHeight;
+            }
+        }
+        readonly property int widthIncrement: {
+            if (!root.target) {
+                return 1;
+            }
+            if (root.target.widthIncrement > 0) {
+                if (root.target.widthIncrement < maxSizeIncrement) {
+                    return root.target.widthIncrement;
+                } else {
+                    return maxSizeIncrement;
+                }
+            } else {
+                return 1;
+            }
+        }
+        readonly property int heightIncrement: {
+            if (!root.target) {
+                return 1;
+            }
+            if (root.target.heightIncrement > 0) {
+                if (root.target.heightIncrement < maxSizeIncrement) {
+                    return root.target.heightIncrement;
+                } else {
+                    return maxSizeIncrement;
+                }
+            } else {
+                return 1;
+            }
+        }
+
         property bool leftBorder: false
         property bool rightBorder: false
         property bool topBorder: false
@@ -209,38 +268,58 @@ MouseArea {
 
         var pos = mapToItem(target.parent, mouse.x, mouse.y);
 
-        var deltaX = pos.x - d.startMousePosX;
-        var deltaY = pos.y - d.startMousePosY;
+        var deltaX = Math.floor((pos.x - d.startMousePosX) / d.widthIncrement) * d.widthIncrement;
+        var deltaY = Math.floor((pos.y - d.startMousePosY) / d.heightIncrement) * d.heightIncrement;
 
         if (d.leftBorder) {
             var newTargetX = d.startX + deltaX;
-            if (target.x + target.width > newTargetX + minWidth) {
-                target.requestedWidth = target.x + target.width - newTargetX;
+            var rightBorderX = target.x + target.width;
+            if (rightBorderX > newTargetX + d.minimumWidth) {
+                if (rightBorderX  < newTargetX + d.maximumWidth) {
+                    target.requestedWidth = rightBorderX - newTargetX;
+                } else {
+                    target.requestedWidth = d.maximumWidth;
+                }
             } else {
-                target.requestedWidth = minWidth;
+                target.requestedWidth = d.minimumWidth;
             }
 
         } else if (d.rightBorder) {
-            if (d.startWidth + deltaX >= minWidth) {
-                target.requestedWidth = d.startWidth + deltaX;
+            var newWidth = d.startWidth + deltaX;
+            if (newWidth > d.minimumWidth) {
+                if (newWidth < d.maximumWidth) {
+                    target.requestedWidth = newWidth;
+                } else {
+                    target.requestedWidth = d.maximumWidth;
+                }
             } else {
-                target.requestedWidth = minWidth;
+                target.requestedWidth = d.minimumWidth;
             }
         }
 
         if (d.topBorder) {
             var newTargetY = d.startY + deltaY;
-            if (target.y + target.height > newTargetY + minHeight) {
-                target.requestedHeight = target.y + target.height - newTargetY;
+            var bottomBorderY = target.y + target.height;
+            if (bottomBorderY > newTargetY + d.minimumHeight) {
+                if (bottomBorderY < newTargetY + d.maximumHeight) {
+                    target.requestedHeight = bottomBorderY - newTargetY;
+                } else {
+                    target.requestedHeight = d.maximumHeight;
+                }
             } else {
-                target.requestedHeight = minHeight;
+                target.requestedHeight = d.minimumHeight;
             }
 
         } else if (d.bottomBorder) {
-            if (d.startHeight + deltaY >= minHeight) {
-                target.requestedHeight = d.startHeight + deltaY;
+            var newHeight = d.startHeight + deltaY;
+            if (newHeight > d.minimumHeight) {
+                if (newHeight < d.maximumHeight) {
+                    target.requestedHeight = newHeight;
+                } else {
+                    target.requestedHeight = d.maximumHeight;
+                }
             } else {
-                target.requestedHeight = minHeight;
+                target.requestedHeight = d.minimumHeight;
             }
         }
     }

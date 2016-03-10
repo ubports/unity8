@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-08 09:50+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2015-07-06 12:05+0000\n"
 "Last-Translator: Folmer Fredslund <Unknown>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-11 06:14+0000\n"
-"X-Generator: Launchpad (build 17923)\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -178,38 +178,38 @@ msgstr ""
 msgid "Close all"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Butik"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Søg"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Fjern fra Favoritter"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Tilføj til Favoritter"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
 msgid "See less"
 msgstr "Vis mindre"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:565
 msgid "See all"
 msgstr "Se alle"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Søg"
@@ -273,11 +273,11 @@ msgstr ""
 msgid "Unlock"
 msgstr "Lås op"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Forsøg igen"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Tap for at låse op"
 
@@ -427,14 +427,6 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr ""
 
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Lås SIM-kort op"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Roaming"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Åben specialmenuer"
@@ -498,8 +490,8 @@ msgid "Hi!"
 msgstr "Hej!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Velkommen til din Ubuntu-telefon."
+msgid "Welcome to your Ubuntu device."
+msgstr ""
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -531,8 +523,8 @@ msgid "Lock security"
 msgstr "Låsesikkerhed"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Vælg venligst hvordan du ønsker at låse din telefon op."
+msgid "Please select how you’d like to unlock your device."
+msgstr ""
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -639,8 +631,8 @@ msgid "Nice work!"
 msgstr "Godt arbejde!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Din telefon er nu klar til brug."
+msgid "Your device is now ready to use."
+msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -738,8 +730,23 @@ msgstr "%1 〉"
 #~ "Du mestrer nu kantbevægelserne og kan begynde at bruge telefonen<br><br>Tryk "
 #~ "på skærmen for at starte"
 
+#~ msgid "Unlock SIM"
+#~ msgstr "Lås SIM-kort op"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Vær venlig at genindtaste"
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Vælg venligst hvordan du ønsker at låse din telefon op."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Din telefon er nu klar til brug."
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Velkommen til din Ubuntu-telefon."
+
+#~ msgid "Roaming"
+#~ msgstr "Roaming"
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a %b. %d %H:%M"
