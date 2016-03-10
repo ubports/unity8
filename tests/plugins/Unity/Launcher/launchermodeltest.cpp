@@ -61,6 +61,8 @@ public:
     bool isTouchApp() const override { return true; }
     bool exemptFromLifecycle() const override { return false; }
     void setExemptFromLifecycle(bool) override {}
+    QSize initialSurfaceSize() const override { return QSize(); }
+    void setInitialSurfaceSize(const QSize &) override {}
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }

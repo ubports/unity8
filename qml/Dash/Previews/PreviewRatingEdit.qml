@@ -68,13 +68,13 @@ PreviewWidget {
 
         widgetId: root.widgetId
         widgetData: root.widgetData
-        isCurrentPreview: root.isCurrentPreview
         scopeStyle: root.scopeStyle
 
         ratingValue: widgetData["rating"]
         reviewText: widgetData["review"]
 
         onTriggered: root.triggered(widgetId, actionId, data);
+        onMakeSureVisible: root.makeSureVisible(item);
     }
 
 }

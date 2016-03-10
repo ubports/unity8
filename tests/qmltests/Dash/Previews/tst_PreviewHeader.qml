@@ -54,6 +54,14 @@ Rectangle {
         "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
     }
 
+    property var emptyfallbackheaderjson: {
+        "title": "THE TITLE",
+        "subtitle": "Something catchy",
+        "mascot": "",
+        "fallback": "../graphics/play_button.png",
+        "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
+    }
+
     PreviewHeader {
         id: previewHeader
         widgetData: headerjson
@@ -146,6 +154,13 @@ Rectangle {
 
             previewHeader.widgetData = {};
             previewHeader.widgetData = fallbackheaderjson;
+            tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
+            var mascot = findChild(previewHeader, "mascotShape");
+            tryCompare(mascot, "visible", true);
+            tryCompare(mascot.source, "status", Image.Ready);
+
+            previewHeader.widgetData = {};
+            previewHeader.widgetData = emptyfallbackheaderjson;
             tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
             var mascot = findChild(previewHeader, "mascotShape");
             tryCompare(mascot, "visible", true);
