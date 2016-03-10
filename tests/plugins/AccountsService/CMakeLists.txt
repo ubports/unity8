@@ -16,6 +16,7 @@ make_dbus_class(SecurityPrivacy com.ubuntu.touch.AccountsService.SecurityPrivacy
 make_dbus_class(Location com.ubuntu.location.providers.here.AccountsService)
 make_dbus_class(AccountsUser org.freedesktop.Accounts.User)
 make_dbus_class(AccountsPrivate com.canonical.unity.AccountsService.Private)
+make_dbus_class(UscInput com.canonical.Unity.Input)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -32,9 +33,11 @@ add_executable(mock-server
     ${CMAKE_CURRENT_BINARY_DIR}/PropertiesAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/LocationAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/SecurityPrivacyAdaptor.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/UscInputAdaptor.cpp
     server.cpp
     AccountsServer.cpp
     PropertiesServer.cpp
+    UscServer.cpp
     )
 qt5_use_modules(mock-server Core DBus)
 

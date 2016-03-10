@@ -40,9 +40,32 @@
 #define PROP_LICENSE_ACCEPTED                  QStringLiteral("LicenseAccepted")
 #define PROP_LICENSE_BASE_PATH                 QStringLiteral("LicenseBasePath")
 #define PROP_MOUSE_CURSOR_SPEED                QStringLiteral("MouseCursorSpeed")
+#define PROP_MOUSE_DOUBLE_CLICK_SPEED          QStringLiteral("MouseDoubleClickSpeed")
+#define PROP_MOUSE_PRIMARY_BUTTON              QStringLiteral("MousePrimaryButton")
+#define PROP_MOUSE_SCROLL_SPEED                QStringLiteral("MouseScrollSpeed")
 #define PROP_PASSWORD_DISPLAY_HINT             QStringLiteral("PasswordDisplayHint")
 #define PROP_STATS_WELCOME_SCREEN              QStringLiteral("StatsWelcomeScreen")
 #define PROP_TOUCHPAD_CURSOR_SPEED             QStringLiteral("TouchpadCursorSpeed")
+#define PROP_TOUCHPAD_DISABLE_WHILE_TYPING     QStringLiteral("TouchpadDisableWhileTyping")
+#define PROP_TOUCHPAD_DISABLE_WITH_MOUSE       QStringLiteral("TouchpadDisableWithMouse")
+#define PROP_TOUCHPAD_DOUBLE_CLICK_SPEED       QStringLiteral("TouchpadDoubleClickSpeed")
+#define PROP_TOUCHPAD_PRIMARY_BUTTON           QStringLiteral("TouchpadPrimaryButton")
+#define PROP_TOUCHPAD_SCROLL_SPEED             QStringLiteral("TouchpadScrollSpeed")
+#define PROP_TOUCHPAD_TAP_TO_CLICK             QStringLiteral("TouchpadTapToClick")
+#define PROP_TOUCHPAD_TWO_FINGER_SCROLL        QStringLiteral("TouchpadTwoFingerScroll")
+
+
+QVariant primaryButtonConverter(const QVariant &value)
+{
+    QString stringValue = value.toString();
+    if (stringValue == "left") {
+        return QVariant::fromValue(0);
+    } else if (stringValue == "right") {
+        return QVariant::fromValue(1); // Mir is less clear on this -- any non-zero value is the same
+    } else {
+        return QVariant::fromValue(0); // default to left
+    }
+}
 
 AccountsService::AccountsService(QObject* parent, const QString &user)
     : QObject(parent)
@@ -68,8 +91,30 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
 
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_CURSOR_SPEED,
                   m_unityInput, QStringLiteral("setMouseCursorSpeed"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_DOUBLE_CLICK_SPEED,
+                  m_unityInput, QStringLiteral("setMouseDoubleClickSpeed"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_PRIMARY_BUTTON,
+                  m_unityInput, QStringLiteral("setMousePrimaryButton"),
+                  primaryButtonConverter);
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_SCROLL_SPEED,
+                  m_unityInput, QStringLiteral("setMouseScrollSpeed"));
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_CURSOR_SPEED,
                   m_unityInput, QStringLiteral("setTouchpadCursorSpeed"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_SCROLL_SPEED,
+                  m_unityInput, QStringLiteral("setTouchpadScrollSpeed"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DISABLE_WHILE_TYPING,
+                  m_unityInput, QStringLiteral("setTouchpadDisableWhileTyping"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DISABLE_WITH_MOUSE,
+                  m_unityInput, QStringLiteral("setTouchpadDisableWithMouse"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_DOUBLE_CLICK_SPEED,
+                  m_unityInput, QStringLiteral("setTouchpadDoubleClickSpeed"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_PRIMARY_BUTTON,
+                  m_unityInput, QStringLiteral("setTouchpadPrimaryButton"),
+                  primaryButtonConverter);
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TAP_TO_CLICK,
+                  m_unityInput, QStringLiteral("setTouchpadTapToClick"));
+    registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
+                  m_unityInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
     setUser(!user.isEmpty() ? user : QString::fromUtf8(qgetenv("USER")));
 }
@@ -200,7 +245,13 @@ void AccountsService::updateCache(const QString &interface, const QString &prope
     PropertyInfo &info = m_properties[interface][property];
 
     if (info.proxyInterface) {
-        info.proxyInterface->asyncCall(info.proxyMethod, value);
+        QVariant finalValue;
+        if (info.proxyConverter) {
+            finalValue = info.proxyConverter(value);
+        } else {
+            finalValue = value;
+        }
+        info.proxyInterface->asyncCall(info.proxyMethod, finalValue);
         return; // don't bother saving a copy
     }
 
@@ -259,12 +310,13 @@ void AccountsService::updateAllProperties(const QString &interface, bool async)
     }
 }
 
-void AccountsService::registerProxy(const QString &interface, const QString &property, QDBusInterface *iface, const QString &method)
+void AccountsService::registerProxy(const QString &interface, const QString &property, QDBusInterface *iface, const QString &method, ProxyConverter converter)
 {
     registerProperty(interface, property, nullptr);
 
     m_properties[interface][property].proxyInterface = iface;
     m_properties[interface][property].proxyMethod = method;
+    m_properties[interface][property].proxyConverter = converter;
 }
 
 void AccountsService::registerProperty(const QString &interface, const QString &property, const QString &signal)

@@ -111,9 +111,11 @@ private Q_SLOTS:
     void onMaybeChanged(const QString &user);
 
 private:
+    typedef QVariant (*ProxyConverter)(const QVariant &);
+
     void refresh(bool async);
     void registerProperty(const QString &interface, const QString &property, const QString &signal);
-    void registerProxy(const QString &interface, const QString &property, QDBusInterface *iface, const QString &method);
+    void registerProxy(const QString &interface, const QString &property, QDBusInterface *iface, const QString &method, ProxyConverter converter = nullptr);
 
     void updateAllProperties(const QString &interface, bool async);
     void updateProperty(const QString &interface, const QString &property);
@@ -129,6 +131,7 @@ private:
         QString signal{};
         QDBusInterface *proxyInterface{};
         QString proxyMethod{};
+        ProxyConverter proxyConverter{};
     };
     typedef QHash< QString, QHash<QString, PropertyInfo> > PropertyHash;
     PropertyHash m_properties;

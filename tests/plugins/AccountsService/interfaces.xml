@@ -44,4 +44,14 @@
     <signal name="Changed" />
   </interface>
   <interface name="com.canonical.unity.AccountsService.Private" />
+
+  <interface name="com.canonical.Unity.Input">
+    <method name="setMousePrimaryButton">
+      <arg name="button" type="i" direction="in" />
+    </method>
+    <!-- Just for testing -->
+    <signal name="setMousePrimaryButtonCalled">
+      <arg name="button" type="i" direction="out" />
+    </signal>
+  </interface>
 </node>
