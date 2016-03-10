@@ -1447,9 +1447,17 @@ Rectangle {
             tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
 
-        function test_altTabSwitchesFocus() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop"
+        function test_altTabSwitchesFocus_data() {
+            return [
+                { tag: "windowed", shellType: "desktop" },
+                { tag: "staged", shellType: "phone" },
+                { tag: "sidestaged", shellType: "tablet" }
+            ];
+        }
+
+        function test_altTabSwitchesFocus(data) {
+            loadShell(data.shellType);
+            shell.usageScenario = data.shellType;
             waitForRendering(root)
 
             var desktopStage = findChild(shell, "stage");
@@ -1467,18 +1475,10 @@ Rectangle {
             keyClick(Qt.Key_Tab, Qt.AltModifier)
             tryCompare(app2.session.lastSurface, "activeFocus", true)
 
-            var desktopSpread = findChild(shell, "spread")
-
-            tryCompare(desktopSpread, "state", "")
-
-            // Just press Alt, make sure the spread comes up
+            // Press Alt+Tab
             keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
-            tryCompare(desktopSpread, "state", "altTab")
-
-            // Release control, check if spread disappears
             keyRelease(Qt.Key_Alt)
-            tryCompare(desktopSpread, "state", "")
 
             // Focus should have switched back now
             tryCompare(app3.session.lastSurface, "activeFocus", true)
