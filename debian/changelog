@@ -4,6 +4,70 @@ unity8 (8.13+15.04.20150914-0ubuntu1) UNRELEASED; urgency=medium
 
  -- Lukas Tinkl <ltinkl@canonical.com>  Mon, 14 Sep 2015 19:19:23 +0200
 
+unity8 (8.11+16.04.20160308-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make these tests pass with the new SDK
+
+  [ Andrea Cimitan, Nick Dedekind ]
+  * replace selected.backgroundText with normal.backgroundText in
+    Splash, Notifications, Wizard
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Fixed colours palette value set. Moved ModemItem to USC.
+
+  [ Michał Sawicz, Tim Peeters ]
+  * Update headers for Dash and Splash to work properly with the new UI
+    toolkit release.
+
+  [ Zoltán Balogh, Zsombor Egri ]
+  * Use SuruDark theme instead of the deprecated SuruGradient.
+
+ -- Zoltan Balogh <zoltan.balogh@canonical.com>  Tue, 08 Mar 2016 20:59:34 +0000
+
+unity8 (8.11+16.04.20160307-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Rodney Dawes ]
+  * Re-enable the purchaseCancelled signal.
+
+ -- Rodney Dawes <ci-train-bot@canonical.com>  Mon, 07 Mar 2016 14:12:08 +0000
+
+unity8 (8.11+16.04.20160301-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Hook the new scope.activationInProgress property (LP: #1537132)
+
+  [ Andrea Cimitan ]
+  * Updated the Preview view to use a single PreviewModel instead old
+    PreviewStack, using a Loader instead ListView (LP: #1541967)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Michał Sawicz ]
+  * Add autopilot as DEP-8 tests added: debian/tests/autopilot.sh
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 01 Mar 2016 10:28:52 +0000
+
+unity8 (8.11+16.04.20160216.1-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make the audio previews create a playlist (LP: #1540477)
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/aa.po
+  * Update translation template
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 16 Feb 2016 03:24:46 +0000
+
 unity8 (8.11+16.04.20160212-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

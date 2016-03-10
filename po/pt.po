@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-12 00:28+0000\n"
-"PO-Revision-Date: 2015-12-20 09:20+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
+"PO-Revision-Date: 2016-02-18 01:11+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -143,7 +143,7 @@ msgstr "Reiniciar"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Return to Call"
-msgstr "Volte para chamada"
+msgstr "Volte para a chamada"
 
 #: qml/Components/Lockscreen.qml:245
 msgid "Emergency Call"
@@ -177,38 +177,38 @@ msgstr "Volte a ligar agora!"
 msgid "Close all"
 msgstr "Fechar tudo"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Store"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Procurar"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Definições"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Remover dos favoritos"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Adicionar aos favoritos"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:565
 msgid "See all"
 msgstr "Ver todos"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Procurar"
@@ -347,7 +347,7 @@ msgstr "Mostrar palavra-passe"
 
 #: qml/Panel/ActiveCallHint.qml:79
 msgid "Tap to return to call..."
-msgstr "Toque para voltar a chamar..."
+msgstr "Toque para voltar à chamada..."
 
 #: qml/Panel/ActiveCallHint.qml:92
 msgid "Conference"
@@ -428,14 +428,6 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Ligar de volta"
 
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Desbloquear SIM"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Roaming"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Abrir menus especiais"
@@ -500,7 +492,7 @@ msgstr "Olá!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "Bem-vindo ao seu dispositivo Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -532,7 +524,7 @@ msgstr "Bloqueio de segurança"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
-msgstr ""
+msgstr "Escolha como quer desbloquear o seu dispositivo."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -607,7 +599,7 @@ msgstr "De modo nenhum"
 
 #: qml/Wizard/Pages/50-location.qml:124
 msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "Pode mudar de ideias mais tarde em  <b>Definições</b>."
+msgstr "Pode mudar de ideias mais tarde nas  <b>Definições</b>."
 
 #: qml/Wizard/Pages/60-reporting.qml:26
 msgid "Improving your experience"
@@ -626,8 +618,8 @@ msgid ""
 "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
 "Privacy</b>"
 msgstr ""
-"Isto pode ser desligado nas <b>Definições do Sistema</b> debaixo da "
-"<b>Segurança eamp; Privacidade</b>"
+"Isto pode ser desligado nas <b>Definições</b> debaixo da <b>Segurança eamp; "
+"Privacidade</b>"
 
 #: qml/Wizard/Pages/80-finished.qml:24
 msgid "All done"
@@ -639,7 +631,7 @@ msgstr "Bom trabalho!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "O seu dispositivo está pronto."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -655,7 +647,7 @@ msgstr "Confirmar a palavra-passe"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:50
 msgid "Confirm passcode"
-msgstr "Confirmar código"
+msgstr "Confirme o código"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:53
 #: qml/Wizard/Pages/passwd-confirm.qml:54
@@ -664,7 +656,7 @@ msgstr "Por favor, tente novamente."
 
 #: qml/Wizard/Pages/passwd-set.qml:61
 msgid "Choose your passcode"
-msgstr "Escolha o seu código"
+msgstr "Escolha o código"
 
 #: qml/Wizard/Pages/passwd-set.qml:68
 msgid "Passphrase must be 4 characters long"
@@ -721,6 +713,9 @@ msgstr "%1  〉"
 #~ msgid "All"
 #~ msgstr "Todos"
 
+#~ msgid "Unlock SIM"
+#~ msgstr "Desbloquear SIM"
+
 #~ msgid "Favorites"
 #~ msgstr "Favoritos"
 
@@ -729,6 +724,9 @@ msgstr "%1  〉"
 
 #~ msgid "Done"
 #~ msgstr "Concluído"
+
+#~ msgid "Roaming"
+#~ msgstr "Roaming"
 
 #~ msgid "Log out"
 #~ msgstr "Terminar sessão"
