@@ -23,8 +23,8 @@ import Unity.Application 0.1
 FocusScope {
     id: root
 
-    width: applicationWindow.width
-    height: (decorationShown ? decoration.height : 0) + applicationWindow.height
+    width: !counterRotate ? applicationWindow.width : applicationWindow.height
+    height: visibleDecorationHeight + (!counterRotate ? applicationWindow.height : applicationWindow.width)
 
     property alias window: applicationWindow
     property alias application: applicationWindow.application
@@ -39,6 +39,8 @@ FocusScope {
     property real requestedWidth
     property real requestedHeight
     property alias surfaceOrientationAngle: applicationWindow.surfaceOrientationAngle
+    readonly property real visibleDecorationHeight: root.decorationShown ? decoration.height : 0
+    readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
 
     property alias minimumWidth: applicationWindow.minimumWidth
     readonly property int minimumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.minimumHeight
@@ -99,11 +101,22 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: decoration.height
         anchors.left: parent.left
-        readonly property real requestedHeightMinusDecoration: root.requestedHeight - (root.decorationShown ? decoration.height : 0)
-        readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
+        readonly property real requestedHeightMinusDecoration: root.requestedHeight - root.visibleDecorationHeight
         requestedHeight: !counterRotate ? requestedHeightMinusDecoration : root.requestedWidth
         requestedWidth: !counterRotate ? root.requestedWidth : requestedHeightMinusDecoration
         interactive: true
         focus: true
+
+        transform: Rotation {
+                readonly property int rotationAngle: applicationWindow.application &&
+                                                     applicationWindow.application.rotatesWindowContents
+                                                     ? ((360 - applicationWindow.surfaceOrientationAngle) % 360) : 0
+                readonly property real rotationOrigin: rotationAngle == 90 ? applicationWindow.height / 2
+                                                                           : rotationAngle == 270 ? applicationWindow.width / 2
+                                                                                                  : 0
+                origin.x: rotationOrigin
+                origin.y: rotationOrigin
+                angle: rotationAngle
+        }
     }
 }

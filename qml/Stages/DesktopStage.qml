@@ -255,9 +255,32 @@ AbstractStage {
                 focus: appId === priv.focusedAppId
                 width: decoratedWindow.width
                 height: decoratedWindow.height
-                rotation: decoratedWindow.application && decoratedWindow.application.rotatesWindowContents
-                          ? ((360 - shellOrientationAngle) % 360) : 0
 
+                Connections {
+                    target: root
+                    onShellOrientationAngleChanged: {
+                        // at this point decoratedWindow.surfaceOrientationAngle is the old shellOrientationAngle
+                        if (application && application.rotatesWindowContents) {
+                            if (state == "normal") {
+                                var angleDiff = decoratedWindow.surfaceOrientationAngle - shellOrientationAngle;
+                                angleDiff = (360 + angleDiff) % 360;
+                                if (angleDiff === 90 || angleDiff === 270) {
+                                    var aux = decoratedWindow.requestedHeight;
+                                    decoratedWindow.requestedHeight = decoratedWindow.requestedWidth + decoratedWindow.visibleDecorationHeight;
+                                    decoratedWindow.requestedWidth = aux - decoratedWindow.visibleDecorationHeight;
+                                }
+                            }
+                            decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                        } else {
+                            decoratedWindow.surfaceOrientationAngle = 0;
+                        }
+                    }
+                }
+                Component.onCompleted: {
+                    decoratedWindow.surfaceOrientationAngle = shellOrientationAngle;
+                }
+
+                readonly property alias application: decoratedWindow.application
                 property alias requestedWidth: decoratedWindow.requestedWidth
                 property alias requestedHeight: decoratedWindow.requestedHeight
                 property alias minimumWidth: decoratedWindow.minimumWidth
@@ -470,7 +493,6 @@ AbstractStage {
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
-                    surfaceOrientationAngle: application && application.rotatesWindowContents ? shellOrientationAngle : 0
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
