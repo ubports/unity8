@@ -212,7 +212,7 @@ LocalComponents.Page {
 
         anchors {
             left: leftColumn.right
-            leftMargin: units.gu(2)
+            leftMargin: units.gu(4)
             right: content.right
             rightMargin: staticMargin
             top: content.top
