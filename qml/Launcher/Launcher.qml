@@ -329,8 +329,8 @@ FocusScope {
                     rotation: -90
                     anchors.centerIn: parent
                     gradient: Gradient {
-                        GradientStop { position: 0.0; color: panel.color}
-                        GradientStop { position: 1.0; color: Qt.rgba(panel.r,panel.g,panel.b,0)}
+                        GradientStop { position: 0.0; color: Qt.rgba(panel.color.r, panel.color.g, panel.color.b, .5)}
+                        GradientStop { position: 1.0; color: Qt.rgba(panel.color.r,panel.color.g,panel.color.b,0)}
                     }
                 }
             }
