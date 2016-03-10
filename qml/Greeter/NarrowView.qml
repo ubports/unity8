@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -145,6 +145,7 @@ FocusScope {
         width: parent.width
         background: root.background
         onTease: root.tease()
+        onClicked: hide()
 
         onShowProgressChanged: {
             if (showProgress === 1) {
