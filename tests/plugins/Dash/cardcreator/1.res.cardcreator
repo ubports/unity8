@@ -5,10 +5,9 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool showHeader: true;
+                property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true;
 
@@ -23,7 +22,7 @@ Item  {
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 active: cardArt != "";
-                                asynchronous: true; 
+                                asynchronous: false;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: Item {
                                     id: artShape;
@@ -80,7 +79,7 @@ Item  {
                                         id: artImage;
                                         objectName: "artImage"; 
                                         source: artShapeLoader.cardArt;
-                                        asynchronous: true;
+                                        asynchronous: false;
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                     } 

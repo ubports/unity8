@@ -5,7 +5,6 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool showHeader: true; 
@@ -70,7 +69,7 @@ CardAudioProgress {
                             id: audioButton; 
                             anchors.fill: undefined; 
                             width: height; 
-                            height: root.fixedHeaderHeight + 2 * units.gu(1);
+                            height: headerHeight + 2 * units.gu(1);
                             readonly property url source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; 
                             UbuntuShape { 
                                 anchors.fill: parent; 
@@ -91,8 +90,8 @@ CardAudioProgress {
                                 opacity: 0.9; 
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; 
                                 color: "white"; 
-                                asynchronous: true; 
-                            }
+                                asynchronous: false;
+                            } 
                             onClicked: { 
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { 
                                     if (DashAudioPlayer.playing) { 

@@ -5,7 +5,6 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool showHeader: true; 
@@ -16,7 +15,7 @@ Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
-                                asynchronous: true;
+                                asynchronous: false;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
@@ -46,20 +45,93 @@ Loader {
                                         if (cardData && typeof cardData["background"] === "object" 
                                             && (cardData["background"]["type"] === "color" || cardData["background"]["type"] === "gradient")) { 
                                             return cardData["background"]["elements"][index]; 
-                                        } else return index === 0 ? "" : ""; 
+                                        } else return index === 0 ? "#E9E9E9" : undefined; 
                                     } 
                                 } 
                             }
-readonly property size artShapeSize: Qt.size(-1, -1);
+readonly property size artShapeSize: artShapeLoader.item ? Qt.size(artShapeLoader.item.width, artShapeLoader.item.height) : Qt.size(-1, -1);
+Item { 
+                            id: artShapeHolder; 
+                            height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; 
+                            width: root.fixedArtShapeSize.width > 0 ? root.fixedArtShapeSize.width : artShapeLoader.width; 
+                            anchors { horizontalCenter: parent.horizontalCenter; } 
+                            Loader { 
+                                id: artShapeLoader; 
+                                objectName: "artShapeLoader"; 
+                                readonly property string cardArt: cardData && cardData["art"] || "";
+                                active: cardArt != "";
+                                asynchronous: false;
+                                visible: status == Loader.Ready; 
+                                sourceComponent: Item { 
+                                    id: artShape; 
+                                    objectName: "artShape"; 
+                                    visible: image.status == Image.Ready; 
+                                    readonly property alias image: artImage; 
+                                    ShaderEffectSource { 
+                                        id: artShapeSource; 
+                                        sourceItem: artImage; 
+                                        anchors.centerIn: parent; 
+                                        width: 1; 
+                                        height: 1; 
+                                        hideSource: true;
+                                    } 
+                                    Loader { 
+                                        anchors.fill: parent; 
+                                        visible: true;
+                                        sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; 
+                                        Component { 
+                                            id: artShapeShapeComponent; 
+                                            UbuntuShape { 
+                                                source: artShapeSource; 
+                                                sourceFillMode: UbuntuShape.PreserveAspectCrop; 
+                                                radius: "medium"; 
+                                                aspect: { 
+                                                    switch (root.artShapeStyle) { 
+                                                        case "inset": return UbuntuShape.Inset; 
+                                                        case "shadow": return UbuntuShape.DropShadow; 
+                                                        default: 
+                                                        case "flat": return UbuntuShape.Flat; 
+                                                    } 
+                                                } 
+                                            } 
+                                        } 
+                                        Component { 
+                                            id: artShapeIconComponent; 
+                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; } 
+                                        } 
+                                    } 
+                                    readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; 
+                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 1;
+                                    Component.onCompleted: { updateWidthHeightBindings(); } 
+                                    Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
+                                    function updateWidthHeightBindings() { 
+                                        if (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) { 
+                                            width = root.fixedArtShapeSize.width; 
+                                            height = root.fixedArtShapeSize.height; 
+                                        } else { 
+                                            width = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.width }); 
+                                            height = Qt.binding(function() { return image.status !== Image.Ready ? 0 : image.height }); 
+                                        } 
+                                    } 
+                                    CroppedImageMinimumSourceSize { 
+                                        id: artImage; 
+                                        objectName: "artImage"; 
+                                        source: artShapeLoader.cardArt;
+                                        asynchronous: false;
+                                        width: root.width; 
+                                        height: width / artShape.aspect; 
+                                    } 
+                                } 
+                            } 
+                        }
 readonly property int headerHeight: row.height;
 Row { 
                         id: row; 
                         objectName: "outerRow"; 
                         property real margins: units.gu(1); 
                         spacing: margins; 
-                        height: root.fixedHeaderHeight;
-                        anchors { top: parent.top; 
-                                     topMargin: units.gu(1);
+                        anchors { top: artShapeHolder.bottom; 
+                                         topMargin: units.gu(1);
 left: parent.left;
  } 
                         anchors.right: parent.right; 
@@ -70,13 +142,12 @@ left: parent.left;
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
-                            source: cardData && cardData["mascot"] || ""; 
+                            source: cardData && cardData["mascot"] || "";
                             width: units.gu(6); 
                             height: units.gu(5.625); 
                             horizontalAlignment: Image.AlignHCenter; 
                             verticalAlignment: Image.AlignVCenter; 
                             visible: showHeader; 
-                             
                         }
 ,Item { 
                             id: headerTitleContainer; 
