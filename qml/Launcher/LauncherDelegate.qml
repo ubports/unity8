@@ -149,6 +149,7 @@ Item {
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
                 source: root.iconName
+                cache: false // see lpbug#1543290 why no cache
             }
         }
 
