@@ -42,6 +42,7 @@ Item {
     readonly property color textColor: UbuntuColors.slate
     readonly property color errorColor: theme.palette.normal.negative
     readonly property color okColor: theme.palette.normal.positive
+    readonly property color indicatorColor: "white"
 
     // If you want to skip a page, mark skipValid false while you figure out
     // whether to skip, then set it to true once you've determined the value
@@ -155,7 +156,7 @@ Item {
             Label {
                 id: indicatorTime
                 anchors.verticalCenter: parent.verticalCenter
-                color: "white"
+                color: indicatorColor
                 fontSize: "small"
             }
         }
