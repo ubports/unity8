@@ -57,7 +57,7 @@ Row {
                         objectName: "outerRow"; 
                         property real margins: units.gu(1); 
                         spacing: margins; 
-                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; 
+                        height: root.fixedHeaderHeight;
                         anchors { top: parent.top; 
                         topMargin: units.gu(1);
                         left: parent.left;

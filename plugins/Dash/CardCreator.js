@@ -190,9 +190,10 @@ var kAudioButtonCode = 'AbstractButton { \n\
                         }';
 
 // %1 is whether the loader should be asynchronous or not
+// %2 is the header height code
 var kOverlayLoaderCode = 'Loader { \n\
                             id: overlayLoader; \n\
-                            readonly property real overlayHeight: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
+                            readonly property real overlayHeight: %2 + units.gu(2); \n\
                             anchors.fill: artShapeHolder; \n\
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
                             asynchronous: %1; \n\
@@ -214,17 +215,19 @@ function kHeaderRowCodeGenerator() {
                         objectName: "outerRow"; \n\
                         property real margins: units.gu(1); \n\
                         spacing: margins; \n\
-                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; \n\
+                        %2\
                         anchors { %1 } \n\
                         anchors.right: parent.right; \n\
                         anchors.margins: margins; \n\
                         anchors.rightMargin: 0; \n\
                         data: [ \n\
-                                %2 \n\
+                                %3 \n\
                                 ] \n\
                     }\n';
     var args = Array.prototype.slice.call(arguments);
-    var code = kHeaderRowCodeTemplate.arg(args.shift()).arg(args.join(',\n'));
+    var isCardTool = args.shift();
+    var heightCode = isCardTool ? "" : "height: root.fixedHeaderHeight; \n";
+    var code = kHeaderRowCodeTemplate.arg(args.shift()).arg(heightCode).arg(args.join(',\n'));
     return code;
 }
 
@@ -415,13 +418,15 @@ function cardString(template, components, isCardTool) {
                 property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
-                property int fixedHeaderHeight: -1; \n\
+                %2\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
                 property bool showHeader: true; \n\
                 implicitWidth: childrenRect.width; \n\
                 enabled: %1; \n\
                 \n'.arg(templateInteractive);
+
+    code = code.arg(isCardTool ? "" : "property int fixedHeaderHeight: -1; \n");
 
     var hasArt = components["art"] && components["art"]["field"] || false;
     var hasSummary = components["summary"] || false;
@@ -524,7 +529,8 @@ function cardString(template, components, isCardTool) {
     }
 
     if (headerAsOverlay) {
-        code += kOverlayLoaderCode.arg(asynchronous);
+        var headerHeightCode = isCardTool ? "headerHeight" : "root.fixedHeaderHeight";
+        code += kOverlayLoaderCode.arg(asynchronous).arg(headerHeightCode);
     }
 
     var headerVerticalAnchors;
@@ -785,7 +791,7 @@ function cardString(template, components, isCardTool) {
         if (mascotShapeCode != '') {
            rowCode.unshift(mascotShapeCode);
         }
-        code += kHeaderRowCodeGenerator(headerVerticalAnchors + headerLeftAnchor, rowCode)
+        code += kHeaderRowCodeGenerator(isCardTool, headerVerticalAnchors + headerLeftAnchor, rowCode)
     } else {
         code += mascotShapeCode + mascotCode + titleSubtitleCode;
     }
@@ -809,7 +815,8 @@ function cardString(template, components, isCardTool) {
         } else {
             audioButtonAnchorsFill = 'undefined';
             audioButtonWidth = 'height';
-            audioButtonHeight = '(root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1)';
+            audioButtonHeight = isCardTool ? 'headerHeight + 2 * units.gu(1)'
+                                           : 'root.fixedHeaderHeight + 2 * units.gu(1)';
         }
         code += kAudioButtonCode.arg(audioButtonAnchorsFill).arg(audioButtonWidth).arg(audioButtonHeight);
     }

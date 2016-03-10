@@ -70,7 +70,7 @@ CardAudioProgress {
                             id: audioButton; 
                             anchors.fill: undefined; 
                             width: height; 
-                            height: (root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1); 
+                            height: root.fixedHeaderHeight + 2 * units.gu(1);
                             readonly property url source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; 
                             UbuntuShape { 
                                 anchors.fill: parent; 
