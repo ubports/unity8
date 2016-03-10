@@ -1879,6 +1879,31 @@ Rectangle {
             compare(appDelegate.y >= PanelState.panelHeight, true);
         }
 
+        function test_cantResizeWindowUnderPanel() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app);
+
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_dialer-app");
+            var decoration = findChild(appDelegate, "appWindowDecoration_dialer-app");
+            verify(decoration);
+
+            // move it away from launcher and panel
+            appDelegate.x = units.gu(10)
+            appDelegate.y = units.gu(10)
+
+            // drag-resize the area up
+            mousePress(decoration, decoration.width/2, -units.gu(1));
+            mouseMove(decoration, decoration.width/2, -units.gu(100));
+
+            // verify we don't go past the panel
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
         function test_restoreWindowStateFixesIfUnderPanel() {
             loadDesktopShellWithApps();
             var appRepeater = findChild(shell, "appRepeater")
