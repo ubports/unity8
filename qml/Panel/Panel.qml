@@ -169,8 +169,10 @@ Item {
             objectName: "windowDecorationTitle"
             anchors {
                 left: parent.left
+                right: __indicators.left
                 top: parent.top
                 leftMargin: units.gu(1)
+                rightMargin: units.gu(1)
                 topMargin: units.gu(0.5)
                 bottomMargin: units.gu(0.5)
             }
@@ -181,6 +183,8 @@ Item {
             fontSize: "medium"
             font.weight: Font.Normal
             text: PanelState.title
+            elide: Text.ElideRight
+            maximumLineCount: 1
         }
 
         // TODO here would the Locally integrated menus come
