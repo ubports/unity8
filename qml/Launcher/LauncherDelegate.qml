@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 Item {
     id: root
 
+    property int itemIndex: 0
     property string iconName
     property int count: 0
     property bool countVisible: false
@@ -29,10 +30,12 @@ Item {
     property real maxAngle: 0
     property bool inverted: false
     property bool alerting: false
-    readonly property alias wiggling: wiggleAnim.running
+    property bool highlighted: false
+    property bool shortcutHintShown: false
 
     readonly property int effectiveHeight: Math.cos(angle * Math.PI / 180) * itemHeight
     readonly property real foldedHeight: Math.cos(maxAngle * Math.PI / 180) * itemHeight
+    readonly property alias wiggling: wiggleAnim.running
 
     property int itemWidth
     property int itemHeight
@@ -121,14 +124,25 @@ Item {
 
     Item {
         id: iconItem
-        width: parent.itemWidth + units.gu(1)
+        width: root.width
         height: parent.itemHeight + units.gu(1)
         anchors.centerIn: parent
+
+        Image {
+            objectName: "focusRing"
+            anchors.centerIn: iconShape
+            height: width * 15 / 16
+            width: iconShape.width + units.gu(1)
+            source: "graphics/launcher-app-focus-ring.svg"
+            sourceSize.width: width
+            sourceSize.height: height
+            visible: root.highlighted
+        }
 
         ProportionalShape {
             id: iconShape
             anchors.centerIn: parent
-            width: parent.width - units.gu(2)
+            width: root.itemWidth
             aspect: UbuntuShape.DropShadow
             source: Image {
                 id: iconImage
@@ -144,7 +158,8 @@ Item {
             anchors {
                 right: parent.right
                 bottom: parent.bottom
-                margins: units.dp(3)
+                rightMargin: (iconItem.width - root.itemWidth) / 2 - units.dp(2)
+                margins: units.dp(5)
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
@@ -172,16 +187,11 @@ Item {
             id: progressOverlay
             objectName: "progressOverlay"
 
-            anchors {
-                left: iconItem.left
-                right: iconItem.right
-                verticalCenter: parent.verticalCenter
-                leftMargin: units.gu(1.5)
-                rightMargin: units.gu(1.5)
-            }
+            anchors.centerIn: parent
+            width: root.itemWidth * .8
             height: units.gu(1)
             visible: root.progress > -1
-            color: UbuntuColors.darkGrey
+            backgroundColor: UbuntuColors.darkGrey
             borderSource: "none"
 
             Item {
@@ -199,32 +209,56 @@ Item {
                         top: parent.top
                         bottom: parent.bottom
                     }
-                    color: "white"
+                    backgroundColor: "white"
                     borderSource: "none"
                     width: progressOverlay.width
                 }
             }
         }
 
-        Image {
-            objectName: "runningHighlight"
+        Column {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
             }
-            visible: root.itemRunning
-            rotation: 180
-            source: "graphics/focused_app_arrow.png"
+            spacing: units.gu(.5)
+            Repeater {
+                model: 1 // TODO: This should be "Math.min(3, app.surfaceCount)" once we have multiple surfaces
+                Rectangle {
+                    objectName: "runningHighlight" + index
+                    width: units.gu(0.25)
+                    height: units.gu(.5)
+                    color: "white"
+                    visible: root.itemRunning
+                }
+            }
         }
 
-        Image {
+        Rectangle {
             objectName: "focusedHighlight"
             anchors {
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
+            width: units.gu(0.25)
+            height: units.gu(.5)
+            color: "white"
             visible: root.itemFocused
-            source: "graphics/focused_app_arrow.png"
+        }
+
+        Rectangle {
+            objectName: "shortcutHint"
+            anchors.centerIn: parent
+            width: units.gu(3)
+            height: width
+            color: "#E0292929"
+            visible: root.shortcutHintShown
+            Label {
+                anchors.centerIn: parent
+                text: (itemIndex + 1) % 10
+                color: "white"
+                font.weight: Font.DemiBold
+            }
         }
     }
 

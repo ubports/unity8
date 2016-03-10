@@ -40,6 +40,7 @@ MouseArea {
     property int defaultHeight: units.gu(50)
     property int screenWidth: 0
     property int screenHeight: 0
+    property int leftMargin: 0
 
     QtObject {
         id: priv
@@ -72,9 +73,9 @@ MouseArea {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
                                                             Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
 
-        target.requestedWidth = Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth);
+        target.requestedWidth = Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin);
         target.requestedHeight = Math.min(Math.max(windowGeometry.height, d.minimumHeight), root.screenHeight - PanelState.panelHeight);
-        target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - target.requestedWidth), 0)
+        target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.requestedWidth), root.leftMargin)
         target.y = Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight)
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
