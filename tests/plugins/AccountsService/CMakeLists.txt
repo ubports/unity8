@@ -10,6 +10,7 @@ macro(make_dbus_class NAME INTERFACE)
 endmacro(make_dbus_class)
 
 make_dbus_class(Accounts org.freedesktop.Accounts)
+make_dbus_class(Input com.ubuntu.AccountsService.Input)
 make_dbus_class(Properties org.freedesktop.DBus.Properties)
 make_dbus_class(SecurityPrivacy com.ubuntu.touch.AccountsService.SecurityPrivacy)
 make_dbus_class(Location com.ubuntu.location.providers.here.AccountsService)
@@ -27,6 +28,7 @@ add_executable(mock-server
     ${CMAKE_CURRENT_BINARY_DIR}/AccountsAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/AccountsPrivateAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/AccountsUserAdaptor.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/InputAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/PropertiesAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/LocationAdaptor.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/SecurityPrivacyAdaptor.cpp
