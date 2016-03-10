@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-16 03:29+0000\n"
-"PO-Revision-Date: 2016-02-13 09:30+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
+"PO-Revision-Date: 2016-02-28 17:22+0000\n"
 "Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-02-23 06:03+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -181,38 +181,38 @@ msgstr "Se reconnecter maintenant !"
 msgid "Close all"
 msgstr "Tout fermer"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Logithèque"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Rechercher"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Retirer des favoris"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Ajouter aux favoris"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
 msgid "See less"
 msgstr "Voir moins"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:565
 msgid "See all"
 msgstr "Tout voir"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Rechercher"
@@ -434,14 +434,6 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Rappeler"
 
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Déverrouiller la carte SIM"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Roaming"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Ouvrir les menus spéciaux"
@@ -506,7 +498,7 @@ msgstr "Salut !"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "Bienvenue sur votre appareil Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -540,6 +532,8 @@ msgstr "Sécurité de verrouillage"
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
 msgstr ""
+"Veuillez sélectionner la façon dont vous souhaitez déverrouiller votre "
+"appareil."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -649,7 +643,7 @@ msgstr "Beau travail !"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "Votre appareil est maintenant prêt à être utilisé."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -754,6 +748,9 @@ msgstr "%1  〉"
 #~ "Faites glisser votre doigt à partir du bord gauche pour afficher le lanceur "
 #~ "d'applications."
 
+#~ msgid "Unlock SIM"
+#~ msgstr "Déverrouiller la carte SIM"
+
 #~ msgid "Power off"
 #~ msgstr "Éteindre"
 
@@ -768,6 +765,9 @@ msgstr "%1  〉"
 
 #~ msgid "Favorites"
 #~ msgstr "Favorites"
+
+#~ msgid "Roaming"
+#~ msgstr "Roaming"
 
 #~ msgid "Log out"
 #~ msgstr "Se déconnecter"

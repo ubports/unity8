@@ -89,7 +89,7 @@ Item {
 
         Rectangle {
             id: indicatorAreaBackground
-            color: callHint.visible ? "green" : "#292929"
+            color: callHint.visible ? UbuntuColors.green : theme.palette.normal.background
             anchors {
                 top: parent.top
                 left: parent.left
