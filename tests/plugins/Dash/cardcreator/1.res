@@ -5,7 +5,6 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
@@ -108,7 +107,7 @@ Label {
                         width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: Text.AlignHCenter;
                     }
 UbuntuShape {
     id: touchdown;

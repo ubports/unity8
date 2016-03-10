@@ -139,29 +139,6 @@ Item {
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
     property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
 
-    /*!
-     \brief Desired alignment of title
-     */
-    readonly property int titleAlignment: {
-        if (template["card-layout"] === "horizontal"
-            || typeof components["title"] !== "object"
-            || components["title"]["align"] === "left") return Text.AlignLeft;
-
-        var keys = ["mascot", "emblem", "subtitle", "attributes", "summary"];
-
-        for (var key in keys) {
-            key = keys[key];
-            try {
-                if (typeof components[key] === "string"
-                    || typeof components[key]["field"] === "string") return Text.AlignLeft;
-            } catch (e) {
-                continue;
-            }
-        }
-
-        return Text.AlignHCenter;
-    }
-
     QtObject {
         id: carouselTool
 

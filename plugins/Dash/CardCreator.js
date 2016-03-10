@@ -275,6 +275,7 @@ var kMascotImageCode = 'CroppedImageMinimumSourceSize { \n\
 // %2 is used as color of titleLabel
 // %3 is used as extra condition for visible of titleLabel
 // %4 is used as title width
+// %5 is used as horizontal alignment
 var kTitleLabelCode = 'Label { \n\
                         id: titleLabel; \n\
                         objectName: "titleLabel"; \n\
@@ -289,7 +290,7 @@ var kTitleLabelCode = 'Label { \n\
                         width: %4; \n\
                         text: root.title; \n\
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; \n\
-                        horizontalAlignment: root.titleAlignment; \n\
+                        horizontalAlignment: %5; \n\
                     }\n';
 
 // %1 is used as extra anchors of emblemIcon
@@ -410,7 +411,6 @@ function cardString(template, components, isCardTool) {
                 property string backgroundShapeStyle: "inset"; \n\
                 property real fontScale: 1.0; \n\
                 property var scopeStyle: null; \n\
-                property int titleAlignment: Text.AlignLeft; \n\
                 property int fixedHeaderHeight: -1; \n\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
@@ -715,9 +715,24 @@ function cardString(template, components, isCardTool) {
             }
         }
 
+        var titleAlignment = "Text.AlignHCenter";
+        if (template["card-layout"] === "horizontal"
+            || typeof components["title"] !== "object"
+            || components["title"]["align"] === "left") titleAlignment = "Text.AlignLeft";
+        var keys = ["mascot", "emblem", "subtitle", "attributes", "summary"];
+        for (var key in keys) {
+            key = keys[key];
+            try {
+                if (typeof components[key] === "string"
+                    || typeof components[key]["field"] === "string") titleAlignment = "Text.AlignLeft";
+            } catch (e) {
+                continue;
+            }
+        }
+
         // code for different elements
         var titleLabelVisibleExtra = (headerAsOverlay ? '&& overlayLoader.active': '');
-        var titleCode = kTitleLabelCode.arg(titleAnchors).arg(titleColor).arg(titleLabelVisibleExtra).arg(titleWidth);
+        var titleCode = kTitleLabelCode.arg(titleAnchors).arg(titleColor).arg(titleLabelVisibleExtra).arg(titleWidth).arg(titleAlignment);
         var subtitleCode;
         var attributesCode;
 
