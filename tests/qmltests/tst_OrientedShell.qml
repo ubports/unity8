@@ -551,6 +551,7 @@ Rectangle {
         function test_appRotatesWindowContents_data() {
             return [
                 {tag: "mako", deviceName: "mako", orientationAngleAfterRotation: 90},
+                {tag: "mako_windowed", deviceName: "mako", orientationAngleAfterRotation: 90, windowed: true},
                 {tag: "manta", deviceName: "manta", orientationAngleAfterRotation: 90},
                 {tag: "flo", deviceName: "flo", orientationAngleAfterRotation: 180}
             ];
@@ -559,6 +560,12 @@ Rectangle {
             loadShell(data.deviceName);
             var cameraApp = ApplicationManager.startApplication("camera-app");
             verify(cameraApp);
+
+            if (data.windowed) {
+                usageModeSelector.selectWindowed();
+            } else {
+                usageModeSelector.selectStaged();
+            }
 
             // ensure the mock camera-app is as we expect
             compare(cameraApp.fullscreen, true);

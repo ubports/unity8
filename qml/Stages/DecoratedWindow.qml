@@ -36,8 +36,9 @@ FocusScope {
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    property alias requestedWidth: applicationWindow.requestedWidth
+    property real requestedWidth
     property real requestedHeight
+    property alias surfaceOrientationAngle: applicationWindow.surfaceOrientationAngle
 
     property alias minimumWidth: applicationWindow.minimumWidth
     readonly property int minimumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.minimumHeight
@@ -98,7 +99,10 @@ FocusScope {
         anchors.top: parent.top
         anchors.topMargin: decoration.height
         anchors.left: parent.left
-        requestedHeight: root.requestedHeight - (root.decorationShown ? decoration.height : 0)
+        readonly property real requestedHeightMinusDecoration: root.requestedHeight - (root.decorationShown ? decoration.height : 0)
+        readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
+        requestedHeight: !counterRotate ? requestedHeightMinusDecoration : root.requestedWidth
+        requestedWidth: !counterRotate ? root.requestedWidth : requestedHeightMinusDecoration
         interactive: true
         focus: true
     }

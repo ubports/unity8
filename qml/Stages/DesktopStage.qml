@@ -255,6 +255,9 @@ AbstractStage {
                 focus: appId === priv.focusedAppId
                 width: decoratedWindow.width
                 height: decoratedWindow.height
+                rotation: decoratedWindow.application && decoratedWindow.application.rotatesWindowContents
+                          ? ((360 - shellOrientationAngle) % 360) : 0
+
                 property alias requestedWidth: decoratedWindow.requestedWidth
                 property alias requestedHeight: decoratedWindow.requestedHeight
                 property alias minimumWidth: decoratedWindow.minimumWidth
@@ -356,7 +359,8 @@ AbstractStage {
                         name: "fullscreen"; when: decoratedWindow.fullscreen
                         PropertyChanges {
                             target: appDelegate;
-                            x: 0; y: -PanelState.panelHeight
+                            x: rotation == 0 ? 0 : (parent.width - width) / 2 + (shellOrientationAngle == 90 ? -PanelState.panelHeight : PanelState.panelHeight)
+                            y: rotation == 0 ? -PanelState.panelHeight : (parent.height - height) / 2
                             requestedWidth: appContainer.width; requestedHeight: appContainer.height;
                         }
                     },
@@ -466,6 +470,7 @@ AbstractStage {
                     application: ApplicationManager.get(index)
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
+                    surfaceOrientationAngle: application && application.rotatesWindowContents ? shellOrientationAngle : 0
 
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
