@@ -53,8 +53,8 @@ LocalComponents.Page {
     Column {
         id: column
         anchors.fill: content
-        anchors.leftMargin: staticMargin
-        anchors.rightMargin: staticMargin
+        anchors.leftMargin: desktopLook ? parent.leftMargin : staticMargin
+        anchors.rightMargin: desktopLook ? parent.rightMargin : staticMargin
         spacing: units.gu(3)
 
         Label {
