@@ -17,6 +17,7 @@
 #include "MirSurface.h"
 
 #include <QDebug>
+#include <QQmlEngine>
 
 MirSurface::MirSurface(const QString& name,
         Mir::Type type,
@@ -38,6 +39,8 @@ MirSurface::MirSurface(const QString& name,
     , m_slowToResize(false)
 {
 //    qDebug() << "MirSurface::MirSurface() " << name;
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
     m_delayedResizeTimer.setInterval(600);
     m_delayedResizeTimer.setSingleShot(true);
     connect(&m_delayedResizeTimer, &QTimer::timeout, this, &MirSurface::applyDelayedResize);
