@@ -556,7 +556,9 @@ Rectangle {
                 {tag: "mako", deviceName: "mako", orientationAngleAfterRotation: 90},
                 {tag: "mako_windowed", deviceName: "mako", orientationAngleAfterRotation: 90, windowed: true},
                 {tag: "manta", deviceName: "manta", orientationAngleAfterRotation: 90},
-                {tag: "flo", deviceName: "flo", orientationAngleAfterRotation: 180}
+                {tag: "manta_windowed", deviceName: "manta", orientationAngleAfterRotation: 90, windowed: true},
+                {tag: "flo", deviceName: "flo", orientationAngleAfterRotation: 180},
+                {tag: "flo_windowed", deviceName: "flo", orientationAngleAfterRotation: 180, windowed: true}
             ];
         }
         function test_appRotatesWindowContents(data) {
