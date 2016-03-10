@@ -66,7 +66,7 @@ Item {
         return layout;
     }
 
-    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components);
+    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, false);
 
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
@@ -216,7 +216,7 @@ Item {
             "summary": "—\n—\n—\n—\n—",
             "attributes": attributesModel.model
         }
-        sourceComponent: cardTool.cardComponent
+        sourceComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, true);
         onLoaded: {
             item.objectName = "cardToolCard";
             item.asynchronous = false;
