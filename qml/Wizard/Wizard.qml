@@ -35,7 +35,7 @@ Showable {
         if (!required) {
             theme.name = "Ubuntu.Components.Themes.SuruDark";
             System.wizardEnabled = false;
-        } else {
+        } else if (active) {
             theme.name = "Ubuntu.Components.Themes.Ambiance";
         }
     }
