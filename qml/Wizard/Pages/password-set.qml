@@ -15,9 +15,9 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import ".." as LocalComponents
-import "../../Components" as UnityComponents
 
 /**
  * See the main passwd-type page for an explanation of why we don't actually
@@ -27,147 +27,88 @@ import "../../Components" as UnityComponents
 LocalComponents.Page {
     id: passwdSetPage
     objectName: "passwdSetPage"
-    customTitle: true
-    buttonBarVisible: false
-    title: confirmPhase ? i18n.tr("Confirm Password") : i18n.tr("Choose Password")
+    title: i18n.tr("Lock Screen Password")
+    forwardButtonSourceComponent: forwardButton
 
-    property alias password: passwordField.text
-    property bool confirmPhase: false
+    readonly property alias password: passwordField.text
+    readonly property alias password2: password2Field.text
+    readonly property bool passwordsMatching: password == password2 && password.trim().length > 7
 
-    // If we are entering this page, clear any saved password and get focus
-    onEnabledChanged: if (enabled) password = ""
-
-    Component.onCompleted: {
-        setInfo();
-        passwordField.forceActiveFocus();
-    }
-
-    function confirm() {
-        root.password = password;
-        confirmTimer.start();
-    }
-
-    Timer {
-        id: confirmTimer
-        interval: UbuntuAnimation.SnapDuration
-        onTriggered: {
-            confirmPhase = true;
-            password = "";
-            passwordField.forceActiveFocus();
-        }
-    }
-
-    function setError(text) {
-        if (!!text) {
-            infoLabel.hasError = true;
-            infoLabel.text = text;
-        }
-    }
-
-    function setInfo(text) {
-        infoLabel.hasError = false;
-        if (!!text) {
-            infoLabel.text = text;
-        } else {
-            infoLabel.text = i18n.tr("Enter at least 8 characters");
-        }
-    }
-
-    Item {
+    ColumnLayout {
         id: column
         anchors.fill: content
         anchors.leftMargin: leftMargin
         anchors.rightMargin: rightMargin
+        anchors.topMargin: customMargin
+        spacing: units.gu(3)
 
         Label {
             id: infoLabel
             objectName: "infoLabel"
-            property bool hasError: false
             anchors {
                 left: parent.left
                 right: parent.right
-                topMargin: units.gu(3)
             }
             wrapMode: Text.Wrap
-            color: hasError ? errorColor : textColor
+            font.weight: Font.Light
+            color: textColor
+            text: i18n.tr("Enter at least 8 characters")
         }
 
-        LocalComponents.WizardTextField {
-            id: passwordField
-            objectName: "passwordField"
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: infoLabel.bottom
-                topMargin: units.gu(1)
+        ColumnLayout {
+            id: innerLayout
+            Label {
+                text: i18n.tr("Choose password")
+                color: textColor
             }
-            echoMode: TextInput.Password
-            onTextChanged: {
-                if (confirmPhase) {
-                    if (password.length == 0) {
-                        setInfo();
-                    } else if (password !== root.password) {
-                        setError(i18n.tr("Passwords do not match"));
-                    } else {
-                        setInfo(i18n.tr("Passwords match"));
-                    }
-                }
+            LocalComponents.WizardTextField {
+                Layout.fillWidth: true
+                id: passwordField
+                objectName: "passwordField"
+                echoMode: TextInput.Password
+                onAccepted: password2Field.forceActiveFocus()
+            }
+
+            Label {
+                text: i18n.tr("Confirm password")
+                color: textColor
+                anchors.topMargin: units.gu(1)
+            }
+            LocalComponents.WizardTextField {
+                Layout.fillWidth: true
+                id: password2Field
+                objectName: "password2Field"
+                echoMode: TextInput.Password
             }
         }
 
         // password meter
         LocalComponents.PasswordMeter {
             id: passMeter
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: passwordField.bottom
-            anchors.topMargin: units.gu(1)
-            password: passwordField.text
-        }
-
-        // buttons
-        Button {
-            id: cancelButton
-            objectName: "cancelButton"
             anchors {
-                top: passMeter.bottom
                 left: parent.left
-                right: parent.horizontalCenter
-                rightMargin: units.gu(1)
-                topMargin: units.gu(4)
+                right: parent.right
+                top: innerLayout.bottom
+                topMargin: units.gu(1)
             }
-            text: i18n.tr("Cancel")
-            onClicked: {
-                if (confirmPhase) {
-                    confirmPhase = false;
-                    password = "";
-                    setInfo();
-                    passwordField.forceActiveFocus();
-                } else {
-                    pageStack.prev();
-                }
-            }
+
+            password: passwordField.text
+            matching: passwordsMatching
         }
 
-        Button {
-            id: okButton
-            objectName: "okButton"
-            anchors {
-                top: passMeter.bottom
-                left: parent.horizontalCenter
-                right: parent.right
-                leftMargin: units.gu(1)
-                topMargin: units.gu(4)
-            }
-            text: i18n.tr("OK")
-            color: okColor
-            enabled: confirmPhase ? password === root.password : password.length > 7 // TODO set more sensible restrictions for the length?
+        Item { // spacer
+            Layout.fillHeight: true
+        }
+    }
+
+    Component {
+        id: forwardButton
+        LocalComponents.StackButton {
+            text: i18n.tr("Next")
+            enabled: passwordsMatching
             onClicked: {
-                if (confirmPhase) {
-                    pageStack.next();
-                } else {
-                    passwdSetPage.confirm();
-                }
+                root.password = password;
+                pageStack.next();
             }
         }
     }

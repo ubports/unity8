@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 Item {
     property string password: ""
     readonly property int passwordScore: scorePassword(password)
+    property bool matching: false
 
     function scorePassword(pass) {
         var score = 0;
@@ -81,13 +82,13 @@ Item {
         }
         wrapMode: Text.Wrap
         text: {
-            if (password.length < 8)
-                return i18n.tr("Password too short")
+            if (matching)
+                return i18n.tr("Passwords match");
             else if (passwordScore > 80)
                 return i18n.tr("Strong password");
             else if (passwordScore > 60)
-                return i18n.tr("Fair password")
-            if (passwordScore >= 30)
+                return i18n.tr("Fair password");
+            else if (passwordScore >= 30)
                 return i18n.tr("Weak password");
 
             return i18n.tr("Very weak password");

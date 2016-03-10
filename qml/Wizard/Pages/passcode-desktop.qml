@@ -102,13 +102,13 @@ LocalComponents.Page {
                 text: {
                     if (password) {
                         if (password2.length < password2Field.maximumLength)
-                            return i18n.tr("Passcode too short")
+                            return i18n.tr("Passcode too short");
                         else if (password == password2)
-                            return i18n.tr("Passcodes match")
+                            return i18n.tr("Passcodes match");
                         else if (password2)
-                            return i18n.tr("Passcodes do not match")
+                            return i18n.tr("Passcodes do not match");
                     }
-                    return ""
+                    return "";
                 }
             }
         }
