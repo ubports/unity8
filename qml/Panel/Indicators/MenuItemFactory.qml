@@ -228,7 +228,6 @@ Item {
             text: menuData && menuData.label || ""
             iconSource: menuData && menuData.icon || ""
             value : menuData && menuData.actionState || 0.0
-            enabled: menuData && menuData.sensitive || false
             highlightWhenPressed: false
         }
     }
