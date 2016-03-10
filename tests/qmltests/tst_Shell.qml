@@ -50,11 +50,6 @@ Rectangle {
         shellLoader.active = true;
     }
 
-    MouseArea {
-        id: clickThroughCatcher
-        anchors.fill: shellContainer
-    }
-
     Item {
         id: shellContainer
         anchors.left: root.left
@@ -316,12 +311,6 @@ Rectangle {
         id: appRemovedSpy
         target: ApplicationManager
         signalName: "applicationRemoved"
-    }
-
-    SignalSpy {
-        id: clickThroughSpy
-        target: clickThroughCatcher
-        signalName: "clicked"
     }
 
     Telephony.CallEntry {
