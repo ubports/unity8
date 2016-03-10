@@ -37,7 +37,7 @@ Showable {
     readonly property bool fullyClosed: unitProgress == 0
     property bool enableHint: true
     property bool showOnClick: true
-    property color panelColor: "#292929"
+    property color panelColor: theme.palette.normal.background
 
     signal showTapped(point position)
 
@@ -75,6 +75,7 @@ Showable {
     MenuContent {
         id: content
         objectName: "menuContent"
+        color: root.panelColor
 
         anchors {
             left: parent.left
@@ -108,7 +109,7 @@ Showable {
             height: units.gu(0.5)
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "transparent" }
-                GradientStop { position: 1.0; color: "#292929" }
+                GradientStop { position: 1.0; color: root.panelColor }
             }
             opacity: 0.3
         }
