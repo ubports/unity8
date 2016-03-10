@@ -34,6 +34,7 @@ Item {
     Loader {
         id: launcherLoader
         anchors.fill: parent
+        focus: true
         property bool itemDestroyed: false
         sourceComponent: Component {
             Launcher {
@@ -68,6 +69,7 @@ Item {
 
                 Component.onCompleted: {
                     launcherLoader.itemDestroyed = false;
+                    launcherLoader.focus = true
                     edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");
                 }
                 Component.onDestruction: {
@@ -99,6 +101,15 @@ Item {
         Button {
             text: "rotate"
             onClicked: launcherLoader.item.inverted = !launcherLoader.item.inverted
+            Layout.fillWidth: true
+        }
+
+        Button {
+            text: "open for kbd navigation"
+            onClicked: {
+                launcherLoader.item.openForKeyboardNavigation()
+                launcherLoader.item.forceActiveFocus();// = true
+            }
             Layout.fillWidth: true
         }
 
@@ -276,6 +287,24 @@ Item {
             }
         }
 
+        function assertFocusOnIndex(index) {
+            var launcherPanel = findChild(launcherLoader.item, "launcherPanel");
+            var launcherListView = findChild(launcherLoader.item, "launcherListView");
+            var bfbFocusHighlight = findChild(launcherLoader.item, "bfbFocusHighlight");
+            waitForRendering(launcherLoader.item);
+            tryCompare(launcherPanel, "highlightIndex", index);
+            tryCompare(bfbFocusHighlight, "visible", index === -1);
+            for (var i = 0; i < launcherListView.count; i++) {
+                var item = findChild(launcher, "launcherDelegate" + i);
+                // Delegates might be destroyed when not visible. We can't check if they paint a focus highlight.
+                // Make sure the requested index does have focus. for the others, try best effort to check if they don't
+                if (index === i || item) {
+                    var focusRing = findChild(item, "focusRing")
+                    tryCompare(focusRing, "visible", index === i);
+                }
+            }
+        }
+
         // Drag from the left edge of the screen rightwards and check that the launcher
         // appears (as if being dragged by the finger/pointer)
         function test_dragLeftEdgeToRevealLauncherAndTapCenterToDismiss() {
@@ -290,10 +319,10 @@ Item {
             dragLauncherIntoView()
 
             // tapping on the center of the screen should dismiss the launcher
-            mouseClick(launcher)
+            mouseClick(launcher, panel.width + units.gu(5), launcher.height / 2)
 
             // should eventually get fully retracted (hidden)
-            tryCompare(panel, "x", -launcher.panelWidth, 1000)
+            tryCompare(panel, "x", -launcher.panelWidth, 2000)
         }
 
         /* If I click on the icon of an application on the launcher
@@ -421,7 +450,7 @@ Item {
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
-                compare(findChild(delegate, "runningHighlight").visible, LauncherModel.get(i).running)
+                compare(findChild(delegate, "runningHighlight0").visible, LauncherModel.get(i).running)
             }
         }
 
@@ -764,14 +793,15 @@ Item {
         function test_launcher_dismiss() {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
-            mouseClick(root);
+
+            mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
             verify(launcher.state == "visible");
-            mouseClick(root);
+            mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
         }
@@ -1043,6 +1073,127 @@ Item {
             waitForWiggleToStop(appIcon1)
             LauncherModel.setCountVisible(LauncherModel.get(1).appId, 0)
             LauncherModel.setCount(LauncherModel.get(1).appId, oldCount)
+        }
+
+        function test_longpressSuperKeyShowsHints() {
+            var shortCutHint0 = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint");
+
+            tryCompare(shortCutHint0, "visible", false);
+
+            launcher.superPressed = true;
+            tryCompare(launcher, "state", "visible");
+            tryCompare(shortCutHint0, "visible", true);
+
+            launcher.superPressed = false;
+            tryCompare(launcher, "state", "");
+            tryCompare(shortCutHint0, "visible", false);
+        }
+
+        function test_keyboardNavigation() {
+            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+            var quickList = findChild(launcher, "quickList");
+            var launcherListView = findChild(launcher, "launcherListView");
+            var last = launcherListView.count - 1;
+
+            compare(bfbFocusHighlight.visible, false);
+            launcher.openForKeyboardNavigation();
+
+            assertFocusOnIndex(-1);
+
+            // Down should go down
+            keyClick(Qt.Key_Down);
+            assertFocusOnIndex(0);
+
+            // Tab should go down
+            keyClick(Qt.Key_Tab);
+            assertFocusOnIndex(1);
+
+            // Up should go up
+            keyClick(Qt.Key_Up);
+            assertFocusOnIndex(0);
+
+            // Backtab should go up
+            keyClick(Qt.Key_Backtab);
+            assertFocusOnIndex(-1); // BFB
+
+            // The list should wrap around
+            keyClick(Qt.Key_Up);
+            waitForRendering(launcher);
+            assertFocusOnIndex(last);
+
+            keyClick(Qt.Key_Down);
+            waitForRendering(launcher);
+            keyClick(Qt.Key_Down);
+            assertFocusOnIndex(0); // Back to Top
+
+            // Right opens the quicklist
+            keyClick(Qt.Key_Right);
+            assertFocusOnIndex(0); // Navigating the quicklist... the launcher focus should not move
+            tryCompare(quickList, "visible", true);
+            tryCompare(quickList, "selectedIndex", 0)
+
+            // Down should move down the quicklist
+            keyClick(Qt.Key_Down);
+            tryCompare(quickList, "selectedIndex", 1)
+
+            // The quicklist should wrap around too
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
+            keyClick(Qt.Key_Down);
+            tryCompare(quickList, "selectedIndex", 0)
+
+            // Left gets us back to the launcher
+            keyClick(Qt.Key_Left);
+            assertFocusOnIndex(0);
+            tryCompare(quickList, "visible", false);
+
+            // Launcher navigation should still work
+            // Go bar to top by wrapping around
+            keyClick(Qt.Key_Down);
+            assertFocusOnIndex(1);
+
+            keyClick(Qt.Key_Enter);
+            assertFocusOnIndex(-2);
+        }
+
+        function test_selectQuicklistItemByKeyboard() {
+            launcher.openForKeyboardNavigation();
+            waitForRendering(launcher);
+
+            signalSpy.clear();
+            signalSpy.signalName = "quickListTriggered"
+
+            keyClick(Qt.Key_Down); // Down to launcher item 0
+            keyClick(Qt.Key_Down); // Down to launcher item 1
+            keyClick(Qt.Key_Right); // Into quicklist
+            keyClick(Qt.Key_Down); // Down to quicklist item 1
+            keyClick(Qt.Key_Down); // Down to quicklist item 2
+            keyClick(Qt.Key_Enter); // Trigger it
+
+            compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
+            compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
+            compare(signalSpy.signalArguments[0][1], 2)
+        }
+
+        function test_cancelKbdNavigationWitMouse() {
+            launcher.openForKeyboardNavigation();
+            waitForRendering(launcher);
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            tryCompare(launcherPanel, "x", 0);
+
+            var quickList = findChild(launcher, "quickList");
+
+            keyClick(Qt.Key_Down); // Down to launcher item 0
+            keyClick(Qt.Key_Down); // Down to launcher item 1
+            keyClick(Qt.Key_Right); // Into quicklist
+
+            waitForRendering(launcher)
+            tryCompare(quickList, "visible", true)
+
+            mouseClick(root, root.width / 2, units.gu(2));
+
+            tryCompare(launcher, "state", "");
+            tryCompare(launcherPanel, "highlightIndex", -2);
         }
     }
 }

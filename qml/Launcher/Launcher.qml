@@ -19,8 +19,9 @@ import "../Components"
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import GlobalShortcut 1.0
 
-Item {
+FocusScope {
     id: root
 
     property bool autohideEnabled: false
@@ -33,6 +34,9 @@ Item {
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
+
+    property bool superPressed: false
+    property bool superTabPressed: false
 
     readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
@@ -54,6 +58,37 @@ Item {
             panel.dismissTimer.stop()
         } else {
             panel.dismissTimer.restart()
+        }
+    }
+
+    onSuperPressedChanged: {
+        if (superPressed) {
+            superPressTimer.start();
+            superLongPressTimer.start();
+        } else {
+            superPressTimer.stop();
+            superLongPressTimer.stop();
+            launcher.switchToNextState("");
+            panel.shortcutHintsShown = false;
+        }
+    }
+
+    onSuperTabPressedChanged: {
+        if (superTabPressed) {
+            switchToNextState("visible")
+            panel.highlightIndex = -1;
+            root.focus = true;
+            superPressTimer.stop();
+            superLongPressTimer.stop();
+        } else {
+            if (panel.highlightIndex == -1) {
+                showDashHome();
+            } else if (panel.highlightIndex >= 0){
+                launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
+            }
+            panel.highlightIndex = -2;
+            switchToNextState("");
+            root.focus = false;
         }
     }
 
@@ -87,6 +122,77 @@ Item {
     function pushEdge(amount) {
         if (root.state === "") {
             edgeBarrier.push(amount);
+        }
+    }
+
+    function openForKeyboardNavigation() {
+        panel.highlightIndex = -1; // The BFB
+        root.focus = true;
+        switchToNextState("visible")
+    }
+
+    Keys.onPressed: {
+        switch (event.key) {
+        case Qt.Key_Backtab:
+            panel.highlightPrevious();
+            event.accepted = true;
+            break;
+        case Qt.Key_Up:
+            if (root.inverted) {
+                panel.highlightNext()
+            } else {
+                panel.highlightPrevious();
+            }
+            event.accepted = true;
+            break;
+        case Qt.Key_Tab:
+            panel.highlightNext();
+            event.accepted = true;
+            break;
+        case Qt.Key_Down:
+            if (root.inverted) {
+                panel.highlightPrevious();
+            } else {
+                panel.highlightNext();
+            }
+            event.accepted = true;
+            break;
+        case Qt.Key_Right:
+            panel.openQuicklist(panel.highlightIndex)
+            event.accepted = true;
+            break;
+        case Qt.Key_Escape:
+            panel.highlightIndex = -2;
+            // Falling through intentionally
+        case Qt.Key_Enter:
+        case Qt.Key_Return:
+        case Qt.Key_Space:
+            if (panel.highlightIndex == -1) {
+                showDashHome();
+            } else if (panel.highlightIndex >= 0) {
+                launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
+            }
+            panel.highlightIndex = -2
+            root.state = ""
+            event.accepted = true;
+            root.focus = false;
+        }
+    }
+
+    Timer {
+        id: superPressTimer
+        interval: 200
+        onTriggered: {
+            switchToNextState("visible")
+        }
+    }
+
+    Timer {
+        id: superLongPressTimer
+        interval: 1000
+        onTriggered: {
+            switchToNextState("visible")
+            panel.shortcutHintsShown = true;
         }
     }
 
@@ -252,6 +358,11 @@ Item {
             if (panel.dismissTimer.running) {
                 panel.dismissTimer.restart();
             }
+        }
+
+        onKbdNavigationCancelled: {
+            root.state = "";
+            root.focus = false;
         }
 
         Behavior on x {
