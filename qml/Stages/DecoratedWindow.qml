@@ -42,12 +42,12 @@ FocusScope {
     readonly property real visibleDecorationHeight: root.decorationShown ? decoration.height : 0
     readonly property bool counterRotate: surfaceOrientationAngle != 0 && surfaceOrientationAngle != 180
 
-    property alias minimumWidth: applicationWindow.minimumWidth
-    readonly property int minimumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.minimumHeight
-    property alias maximumWidth: applicationWindow.maximumWidth
-    readonly property int maximumHeight: (root.decorationShown ? decoration.height : 0) + applicationWindow.maximumHeight
-    property alias widthIncrement: applicationWindow.widthIncrement
-    property alias heightIncrement: applicationWindow.heightIncrement
+    readonly property int minimumWidth: !counterRotate ? applicationWindow.minimumWidth : applicationWindow.minimumHeight
+    readonly property int minimumHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.minimumHeight : applicationWindow.minimumWidth)
+    readonly property int maximumWidth: !counterRotate ? applicationWindow.maximumWidth : applicationWindow.maximumHeight
+    readonly property int maximumHeight: visibleDecorationHeight + (!counterRotate ? applicationWindow.maximumHeight : applicationWindow.maximumWidth)
+    readonly property int widthIncrement: !counterRotate ? applicationWindow.widthIncrement : applicationWindow.heightIncrement
+    readonly property int heightIncrement: !counterRotate ? applicationWindow.heightIncrement : applicationWindow.widthIncrement
 
     signal close()
     signal maximize()
