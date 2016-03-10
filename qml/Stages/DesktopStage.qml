@@ -281,14 +281,14 @@ AbstractStage {
                 }
 
                 readonly property alias application: decoratedWindow.application
+                readonly property alias minimumWidth: decoratedWindow.minimumWidth
+                readonly property alias minimumHeight: decoratedWindow.minimumHeight
+                readonly property alias maximumWidth: decoratedWindow.maximumWidth
+                readonly property alias maximumHeight: decoratedWindow.maximumHeight
+                readonly property alias widthIncrement: decoratedWindow.widthIncrement
+                readonly property alias heightIncrement: decoratedWindow.heightIncrement
                 property alias requestedWidth: decoratedWindow.requestedWidth
                 property alias requestedHeight: decoratedWindow.requestedHeight
-                property alias minimumWidth: decoratedWindow.minimumWidth
-                property alias minimumHeight: decoratedWindow.minimumHeight
-                property alias maximumWidth: decoratedWindow.maximumWidth
-                property alias maximumHeight: decoratedWindow.maximumHeight
-                property alias widthIncrement: decoratedWindow.widthIncrement
-                property alias heightIncrement: decoratedWindow.heightIncrement
 
                 QtObject {
                     id: appDelegatePrivate
