@@ -28,8 +28,8 @@ import Utils 0.1 // For EdgeBarrierSettings
    launcher. */
 Item {
     id: root
-    width: units.gu(50)
-    height: units.gu(55)
+    width: units.gu(140)
+    height: units.gu(70)
 
     Loader {
         id: launcherLoader
@@ -79,10 +79,39 @@ Item {
         }
     }
 
+    Binding {
+        target: launcherLoader.item
+        property: "lockedVisible"
+        value: lockedVisibleCheckBox.checked
+    }
+    Binding {
+        target: launcherLoader.item
+        property: "panelWidth"
+        value: units.gu(Math.round(widthSlider.value))
+    }
+
     ColumnLayout {
         anchors { bottom: parent.bottom; right: parent.right; margins: units.gu(1) }
         spacing: units.gu(1)
         width: childrenRect.width
+
+        RowLayout {
+            CheckBox {
+                id: lockedVisibleCheckBox
+                checked: false
+            }
+            Label {
+                text: "Launcher always visible"
+            }
+        }
+
+        Slider {
+            id: widthSlider
+            Layout.fillWidth: true
+            minimumValue: 6
+            maximumValue: 12
+            value: 10
+        }
 
         MouseTouchEmulationCheckbox {}
 
@@ -217,10 +246,6 @@ Item {
             // growing while populating it with icons etc.
             tryCompare(listView, "flicking", false);
 
-            // Make sure noone changed the height of the window. The issue this test case
-            // is verifying only happens on certain heights of the Launcher
-            compare(root.height, units.gu(55));
-
             compare(listView.contentY, -listView.topMargin, "Launcher did not start up with first item unfolded");
 
             // Now do check that snapping is in fact enabled
@@ -277,23 +302,31 @@ Item {
 
         function positionLauncherListAtBeginning() {
             var listView = testCase.findChild(launcherLoader.item, "launcherListView");
-            listView.contentY = -listView.topMargin;
+            var moveAnimation = findInvisibleChild(listView, "moveAnimation")
+
+            listView.moveToIndex(0);
+
+            waitForRendering(listView);
+            tryCompare(moveAnimation, "running", false);
         }
         function positionLauncherListAtEnd() {
             var listView = testCase.findChild(launcherLoader.item, "launcherListView");
-            if ((listView.contentHeight + listView.topMargin + listView.bottomMargin) > listView.height) {
-                listView.contentY = listView.topMargin + listView.contentHeight
-                    - listView.height;
-            }
+            var moveAnimation = findInvisibleChild(listView, "moveAnimation")
+
+            listView.moveToIndex(listView.count -1);
+
+            waitForRendering(listView);
+            tryCompare(moveAnimation, "running", false);
         }
 
         function assertFocusOnIndex(index) {
-            var launcherPanel = findChild(launcherLoader.item, "launcherPanel");
-            var launcherListView = findChild(launcherLoader.item, "launcherListView");
-            var bfbFocusHighlight = findChild(launcherLoader.item, "bfbFocusHighlight");
-            waitForRendering(launcherLoader.item);
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            var launcherListView = findChild(launcher, "launcherListView");
+            var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
+
+            waitForRendering(launcher);
             tryCompare(launcherPanel, "highlightIndex", index);
-            tryCompare(bfbFocusHighlight, "visible", index === -1);
+            compare(bfbFocusHighlight.visible, index === -1);
             for (var i = 0; i < launcherListView.count; i++) {
                 var item = findChild(launcher, "launcherDelegate" + i);
                 // Delegates might be destroyed when not visible. We can't check if they paint a focus highlight.
@@ -406,6 +439,7 @@ Item {
                 wait(100)
                 compare(launcher.maxPanelX, -launcher.panelWidth, "Launcher moved even if it shouldn't")
             }
+
             waitUntilLauncherDisappears();
             launcher.available = true;
         }
@@ -429,6 +463,8 @@ Item {
             dragLauncherIntoView();
             var launcherListView = findChild(launcher, "launcherListView");
             for (var i = 0; i < launcherListView.count; ++i) {
+                launcherListView.moveToIndex(i);
+                waitForRendering(launcherListView);
                 var delegate = findChild(launcherListView, "launcherDelegate" + i)
                 compare(findChild(delegate, "countEmblem").visible, LauncherModel.get(i).countVisible)
                 // Intentionally allow type coercion (string/number)
@@ -489,6 +525,7 @@ Item {
             launcher.lastSelectedApplication = "";
             dragLauncherIntoView();
             var listView = findChild(launcher, "launcherListView");
+            var moveAnimation = findInvisibleChild(listView, "moveAnimation")
 
             // flicking is unreliable. sometimes it works, sometimes the
             // list view moves just a tiny bit or not at all, making tests fail.
@@ -499,12 +536,14 @@ Item {
             } else {
                 positionLauncherListAtEnd();
             }
-            tryCompare(listView, "flicking", false);
-
             var oldY = listView.contentY;
 
             mouseClick(listView, listView.width / 2, data.clickY);
-            tryCompare(listView, "flicking", false);
+
+            if (data.expectFlick) {
+                tryCompare(moveAnimation, "running", true);
+            }
+            tryCompare(moveAnimation, "running", false);
 
             if (data.expectFlick) {
                 verify(listView.contentY != oldY);
@@ -1092,11 +1131,14 @@ Item {
         function test_keyboardNavigation() {
             var bfbFocusHighlight = findChild(launcher, "bfbFocusHighlight");
             var quickList = findChild(launcher, "quickList");
+            var launcherPanel = findChild(launcher, "launcherPanel");
             var launcherListView = findChild(launcher, "launcherListView");
             var last = launcherListView.count - 1;
 
             compare(bfbFocusHighlight.visible, false);
             launcher.openForKeyboardNavigation();
+            tryCompare(launcherPanel, "x", 0);
+            waitForRendering(launcher);
 
             assertFocusOnIndex(-1);
 
@@ -1173,11 +1215,47 @@ Item {
             compare(signalSpy.count, 1, "Quicklist signal wasn't triggered")
             compare(signalSpy.signalArguments[0][0], LauncherModel.get(1).appId)
             compare(signalSpy.signalArguments[0][1], 2)
+            assertFocusOnIndex(-2);
         }
 
-        function test_cancelKbdNavigationWitMouse() {
+        function test_hideNotWorkingWhenLockedOut_data() {
+            return [
+                {tag: "locked visible", locked: true},
+                {tag: "no locked visible", locked: false},
+            ]
+        }
+
+        function test_hideNotWorkingWhenLockedOut(data) {
+            launcher.lockedVisible = data.locked;
+            if (data.locked) {
+                tryCompare(launcher, "state", "visible");
+            } else {
+                tryCompare(launcher, "state", "");
+            }
+
+            launcher.hide();
+            waitForRendering(launcher);
+            if (data.locked) {
+                verify(launcher.state == "visible");
+            } else {
+                verify(launcher.state == "");
+            }
+        }
+
+        function test_cancelKbdNavigationWitMouse_data() {
+            return [
+                        {tag: "locked out - no quicklist", autohide: false, withQuickList: false },
+                        {tag: "locked out - with quicklist", autohide: false, withQuickList: true },
+                        {tag: "autohide - no quicklist", autohide: true, withQuickList: false },
+                        {tag: "autohide - with quicklist", autohide: true, withQuickList: true },
+            ]
+        }
+
+        function test_cancelKbdNavigationWitMouse(data) {
+            launcher.autohideEnabled = data.autohide;
             launcher.openForKeyboardNavigation();
             waitForRendering(launcher);
+
             var launcherPanel = findChild(launcher, "launcherPanel");
             tryCompare(launcherPanel, "x", 0);
 
@@ -1185,15 +1263,22 @@ Item {
 
             keyClick(Qt.Key_Down); // Down to launcher item 0
             keyClick(Qt.Key_Down); // Down to launcher item 1
-            keyClick(Qt.Key_Right); // Into quicklist
 
+            if (data.withQuickList) {
+                keyClick(Qt.Key_Right); // Into quicklist
+                tryCompare(quickList, "visible", true)
+            }
             waitForRendering(launcher)
-            tryCompare(quickList, "visible", true)
 
-            mouseClick(root, root.width / 2, units.gu(2));
+            mouseClick(root);
 
-            tryCompare(launcher, "state", "");
-            tryCompare(launcherPanel, "highlightIndex", -2);
+            if (data.autohide) {
+                tryCompare(launcher, "state", "");
+            } else {
+                tryCompare(launcher, "state", "visible");
+            }
+
+            assertFocusOnIndex(-2);
         }
     }
 }

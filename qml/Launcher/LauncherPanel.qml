@@ -53,14 +53,14 @@ Rectangle {
         if (highlightIndex >= launcherListView.count) {
             highlightIndex = -1;
         }
-        moveAnimation.moveToIndex(Math.max(highlightIndex, 0));
+        launcherListView.moveToIndex(Math.max(highlightIndex, 0));
     }
     function highlightPrevious() {
         highlightIndex--;
         if (highlightIndex <= -2) {
             highlightIndex = launcherListView.count - 1;
         }
-        moveAnimation.moveToIndex(Math.max(highlightIndex, 0));
+        launcherListView.moveToIndex(Math.max(highlightIndex, 0));
     }
     function openQuicklist(index) {
         quickList.open(index);
@@ -83,13 +83,13 @@ Rectangle {
         Rectangle {
             objectName: "buttonShowDashHome"
             width: parent.width
-            height: units.gu(7)
+            height: width * .9
             color: UbuntuColors.orange
             readonly property bool highlighted: root.highlightIndex == -1;
 
             Image {
                 objectName: "dashItem"
-                width: units.gu(5)
+                width: parent.width * .6
                 height: width
                 anchors.centerIn: parent
                 source: "graphics/home.png"
@@ -125,10 +125,8 @@ Rectangle {
                     objectName: "launcherListView"
                     anchors {
                         fill: parent
-                        topMargin: -extensionSize + units.gu(0.5)
-                        bottomMargin: -extensionSize + units.gu(1)
-                        leftMargin: units.gu(0.5)
-                        rightMargin: units.gu(0.5)
+                        topMargin: -extensionSize + width * .15
+                        bottomMargin: -extensionSize + width * .15
                     }
                     topMargin: extensionSize
                     bottomMargin: extensionSize
@@ -163,11 +161,11 @@ Rectangle {
                     }
 
                     // The height of the area where icons start getting folded
-                    property int foldingStartHeight: units.gu(6.5)
+                    property int foldingStartHeight: itemHeight
                     // The height of the area where the items reach the final folding angle
                     property int foldingStopHeight: foldingStartHeight - itemHeight - spacing
-                    property int itemWidth: units.gu(7)
-                    property int itemHeight: units.gu(6.5)
+                    property int itemWidth: width * .75
+                    property int itemHeight: itemWidth * 15 / 16 + units.gu(1)
                     property int clickFlickSpeed: units.gu(60)
                     property int draggedIndex: dndArea.draggedIndex
                     property real realContentY: contentY - originY + topMargin
@@ -195,22 +193,24 @@ Rectangle {
 
                     UbuntuNumberAnimation {
                         id: moveAnimation
+                        objectName: "moveAnimation"
                         target: launcherListView
                         property: "contentY"
                         function moveTo(contentY) {
                             from = launcherListView.contentY;
                             to = contentY;
-                            start();
+                            restart();
                         }
-                        function moveToIndex(index) {
-                            var itemPosition = index * launcherListView.itemHeight;
-                            var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
-                            var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
-                            if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
-                                moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
-                            } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
-                                moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
-                            }
+                    }
+                    function moveToIndex(index) {
+                        var totalItemHeight = launcherListView.itemHeight + launcherListView.spacing
+                        var itemPosition = index * totalItemHeight;
+                        var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+                        var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : totalItemHeight
+                        if (itemPosition + totalItemHeight + distanceToEnd > launcherListView.contentY + launcherListView.originY + launcherListView.topMargin + height) {
+                            moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd - launcherListView.originY);
+                        } else if (itemPosition - distanceToEnd < launcherListView.contentY - launcherListView.originY + launcherListView.topMargin) {
+                            moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin + launcherListView.originY);
                         }
                     }
 
@@ -228,7 +228,7 @@ Rectangle {
                         itemIndex: index
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
-                        width: itemWidth
+                        width: parent.width
                         height: itemHeight
                         iconName: model.icon
                         count: model.count
@@ -277,7 +277,7 @@ Rectangle {
                         onAlertingChanged: {
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
-                                    moveAnimation.moveToIndex(index)
+                                    launcherListView.moveToIndex(index)
                                     if (!dragging && launcher.state !== "visible") {
                                         peekingAnimation.start()
                                     }
@@ -439,10 +439,8 @@ Rectangle {
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
-                                if (clickedItem.angle > 12) {
-                                    launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                                } else if (clickedItem.angle < -12) {
-                                    launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                                if (clickedItem.angle > 12 || clickedItem.angle < -12) {
+                                    launcherListView.moveToIndex(index);
                                 } else {
                                     root.applicationSelected(LauncherModel.get(index).appId);
                                 }
@@ -450,10 +448,8 @@ Rectangle {
                             }
 
                             // the rest launches apps up to an angle of 30 degrees
-                            if (clickedItem.angle > 30) {
-                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                            } else if (clickedItem.angle < -30) {
-                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                            if (clickedItem.angle > 30 || clickedItem.angle < -30) {
+                                launcherListView.moveToIndex(index);
                             } else {
                                 root.applicationSelected(LauncherModel.get(index).appId);
                             }
@@ -668,7 +664,6 @@ Rectangle {
         onClicked: {
             quickList.state = "";
             quickList.focus = false;
-            root.highlightIndex = -2;
             root.kbdNavigationCancelled();
         }
 
@@ -739,16 +734,21 @@ Rectangle {
             case Qt.Key_Left:
             case Qt.Key_Escape:
                 quickList.selectedIndex = -1;
-                // Falling through intentionally
+                quickList.focus = false;
+                quickList.state = ""
+                event.accepted = true;
+                break;
             case Qt.Key_Enter:
             case Qt.Key_Return:
             case Qt.Key_Space:
                 if (quickList.selectedIndex >= 0) {
                     LauncherModel.quickListActionInvoked(quickList.appId, quickList.selectedIndex)
                 }
+                quickList.selectedIndex = -1;
                 quickList.focus = false;
                 quickList.state = ""
-                // Don't consume the event. We want to close the Launcher too, not just the quicklist.
+                root.kbdNavigationCancelled();
+                event.accepted = true;
                 break;
             }
         }

@@ -124,7 +124,7 @@ Item {
 
     Item {
         id: iconItem
-        width: parent.itemWidth + units.gu(1)
+        width: root.width
         height: parent.itemHeight + units.gu(1)
         anchors.centerIn: parent
 
@@ -142,7 +142,7 @@ Item {
         ProportionalShape {
             id: iconShape
             anchors.centerIn: parent
-            width: parent.width - units.gu(2)
+            width: root.itemWidth
             aspect: UbuntuShape.DropShadow
             source: Image {
                 id: iconImage
@@ -158,7 +158,8 @@ Item {
             anchors {
                 right: parent.right
                 bottom: parent.bottom
-                margins: units.dp(3)
+                rightMargin: (iconItem.width - root.itemWidth) / 2 - units.dp(2)
+                margins: units.dp(5)
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
@@ -186,16 +187,11 @@ Item {
             id: progressOverlay
             objectName: "progressOverlay"
 
-            anchors {
-                left: iconItem.left
-                right: iconItem.right
-                verticalCenter: parent.verticalCenter
-                leftMargin: units.gu(1.5)
-                rightMargin: units.gu(1.5)
-            }
+            anchors.centerIn: parent
+            width: root.itemWidth * .8
             height: units.gu(1)
             visible: root.progress > -1
-            color: UbuntuColors.darkGrey
+            backgroundColor: UbuntuColors.darkGrey
             borderSource: "none"
 
             Item {
@@ -213,7 +209,7 @@ Item {
                         top: parent.top
                         bottom: parent.bottom
                     }
-                    color: "white"
+                    backgroundColor: "white"
                     borderSource: "none"
                     width: progressOverlay.width
                 }

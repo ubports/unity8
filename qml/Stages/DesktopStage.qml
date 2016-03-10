@@ -224,6 +224,7 @@ AbstractStage {
         PanelState.dropShadow = false;
     }
 
+
     FocusScope {
         id: appContainer
         objectName: "appContainer"
@@ -293,6 +294,7 @@ AbstractStage {
                 visible: !visuallyMinimized &&
                          !greeter.fullyShown &&
                          (priv.foregroundMaximizedAppZ === -1 || priv.foregroundMaximizedAppZ <= z) ||
+                         decoratedWindow.fullscreen ||
                          (spread.state == "altTab" && index === spread.highlightedIndex)
 
                 Binding {
@@ -351,10 +353,10 @@ AbstractStage {
                 states: [
                     State {
                         name: "fullscreen"; when: decoratedWindow.fullscreen
-                        extend: "maximized"
                         PropertyChanges {
                             target: appDelegate;
-                            y: -PanelState.panelHeight
+                            x: 0; y: -PanelState.panelHeight
+                            requestedWidth: appContainer.width; requestedHeight: appContainer.height;
                         }
                     },
                     State {
@@ -371,21 +373,21 @@ AbstractStage {
                         name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: 0; y: 0;
-                            requestedWidth: root.width; requestedHeight: root.height;
+                            x: root.leftMargin; y: 0;
+                            requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appContainer.height;
                             visuallyMinimized: false;
                             visuallyMaximized: true
                         }
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: 0; y: PanelState.panelHeight;
-                            requestedWidth: root.width/2; requestedHeight: root.height - PanelState.panelHeight }
+                        PropertyChanges { target: appDelegate; x: root.leftMargin; y: PanelState.panelHeight;
+                            requestedWidth: (appContainer.width - root.leftMargin)/2; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.width/2; y: PanelState.panelHeight;
-                            requestedWidth: root.width/2; requestedHeight: root.height - PanelState.panelHeight }
+                        PropertyChanges { target: appDelegate; x: (appContainer.width + root.leftMargin)/2; y: PanelState.panelHeight;
+                            requestedWidth: (appContainer.width - root.leftMargin)/2; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -448,8 +450,9 @@ AbstractStage {
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
                     windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
-                    screenWidth: root.width
-                    screenHeight: root.height
+                    screenWidth: appContainer.width
+                    screenHeight: appContainer.height
+                    leftMargin: root.leftMargin
 
                     onPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
@@ -475,7 +478,7 @@ AbstractStage {
 
     BlurLayer {
         id: blurLayer
-        anchors.fill: parent
+        anchors.fill: appContainer
         source: appContainer
         visible: false
     }
@@ -527,7 +530,7 @@ AbstractStage {
     DesktopSpread {
         id: spread
         objectName: "spread"
-        anchors.fill: parent
+        anchors.fill: appContainer
         workspace: appContainer
         focus: state == "altTab"
         altTabPressed: root.altTabPressed

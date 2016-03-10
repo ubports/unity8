@@ -25,11 +25,12 @@ FocusScope {
     id: root
 
     property bool autohideEnabled: false
+    property bool lockedVisible: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
     property bool shadeBackground: true // can be used to disable background shade when launcher is visible
 
-    property int panelWidth: units.gu(8)
+    property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
@@ -92,12 +93,24 @@ FocusScope {
         }
     }
 
+    onLockedVisibleChanged: {
+        if (lockedVisible && state == "") {
+            panel.dismissTimer.stop();
+            fadeOutAnimation.stop();
+            switchToNextState("visible")
+        } else if (!lockedVisible && state == "visible") {
+            hide();
+        }
+    }
+
     function hide() {
         switchToNextState("")
     }
 
     function fadeOut() {
-        fadeOutAnimation.start();
+        if (!root.lockedVisible) {
+            fadeOutAnimation.start();
+        }
     }
 
     function switchToNextState(state) {
@@ -172,8 +185,8 @@ FocusScope {
             } else if (panel.highlightIndex >= 0) {
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
+            root.hide();
             panel.highlightIndex = -2
-            root.state = ""
             event.accepted = true;
             root.focus = false;
         }
@@ -212,6 +225,13 @@ FocusScope {
         interval: 1
         property string nextState: ""
         onTriggered: {
+            if (root.lockedVisible && nextState == "") {
+                // Due to binding updates when switching between modes
+                // it could happen that our request to show will be overwritten
+                // with a hide request. Rewrite it when we know hiding is not allowed.
+                nextState = "visible"
+            }
+
             // switching to an intermediate state here to make sure all the
             // values are restored, even if we were already in the target state
             root.state = "tmp"
@@ -257,7 +277,7 @@ FocusScope {
 
     MouseArea {
         id: launcherDragArea
-        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary")
+        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary") && !root.lockedVisible
         anchors.fill: panel
         anchors.rightMargin: -units.gu(2)
         drag {
@@ -278,9 +298,10 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.shadeBackground && root.state == "visible"
+        enabled: root.shadeBackground && root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
         visible: enabled
         onPressed: {
+            panel.highlightIndex = -2
             root.hide();
         }
     }
@@ -289,7 +310,7 @@ FocusScope {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.shadeBackground && root.state == "visible" ? 0.6 : 0
+        opacity: root.shadeBackground && root.state == "visible" && !root.lockedVisible ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
@@ -333,7 +354,7 @@ FocusScope {
         Connections {
             target: panel.dismissTimer
             onTriggered: {
-                if (root.autohideEnabled) {
+                if (root.autohideEnabled && !root.lockedVisible) {
                     if (!panel.preventHiding) {
                         root.state = ""
                     } else {
@@ -346,11 +367,11 @@ FocusScope {
         property bool animate: true
 
         onApplicationSelected: {
-            root.state = ""
+            root.hide();
             launcherApplicationSelected(appId)
         }
         onShowDashHome: {
-            root.state = ""
+            root.hide();
             root.showDashHome();
         }
 
@@ -361,7 +382,8 @@ FocusScope {
         }
 
         onKbdNavigationCancelled: {
-            root.state = "";
+            panel.highlightIndex = -2;
+            root.hide();
             root.focus = false;
         }
 

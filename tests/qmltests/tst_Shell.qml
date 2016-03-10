@@ -223,6 +223,19 @@ Rectangle {
                     }
                 }
 
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    CheckBox {
+                        id: autohideLauncherCheckbox
+                        onCheckedChanged:  {
+                            GSettingsController.setAutohideLauncher(checked)
+                        }
+                    }
+                    Label {
+                        text: "Autohide launcher"
+                    }
+                }
+
                 Label { text: "Applications"; font.bold: true }
 
                 Button {
@@ -921,6 +934,7 @@ Rectangle {
         function dragLauncherIntoView() {
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
+            waitForRendering(launcher);
             verify(launcherPanel.x = - launcherPanel.width);
 
             var touchStartX = 2;
@@ -1678,7 +1692,7 @@ Rectangle {
             var x = 0;
             var y = shell.height * .5
             mouseMove(shell, x, y)
-            while (x <= spreadFlickable.width) {
+            while (x <= shell.width) {
                 x+=10;
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated
@@ -1752,25 +1766,38 @@ Rectangle {
             keyRelease(Qt.Key_Alt);
         }
 
-        function test_focusAppFromLauncherExitsSpread() {
-            loadDesktopShellWithApps()
+        function test_focusAppFromLauncherExitsSpread_data() {
+            return [
+                {tag: "autohide launcher", launcherLocked: false },
+                {tag: "locked launcher", launcherLocked: true }
+            ]
+        }
 
-            var desktopSpread = findChild(shell, "spread");
+        function test_focusAppFromLauncherExitsSpread(data) {
+            loadDesktopShellWithApps()
             var launcher = findChild(shell, "launcher");
+            var desktopSpread = findChild(shell, "spread");
             var bfb = findChild(launcher, "buttonShowDashHome");
+
+            GSettingsController.setAutohideLauncher(!data.launcherLocked);
+            waitForRendering(shell);
 
             keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(desktopSpread, "state", "altTab")
 
-            revealLauncherByEdgePushWithMouse();
-            tryCompare(launcher, "x", 0);
-            mouseMove(bfb, bfb.width / 2, bfb.height / 2)
-            waitForRendering(shell)
+            if (!data.launcherLocked) {
+                revealLauncherByEdgePushWithMouse();
+                tryCompare(launcher, "x", 0);
+                mouseMove(bfb, bfb.width / 2, bfb.height / 2)
+                waitForRendering(shell)
+            }
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
-            tryCompare(launcher, "state", "")
+            if (!data.launcherLocked) {
+                tryCompare(launcher, "state", "")
+            }
             tryCompare(desktopSpread, "state", "")
 
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
@@ -1998,16 +2025,24 @@ Rectangle {
             }
         }
 
-        function test_superTabToCycleLauncher() {
+        function test_superTabToCycleLauncher_data() {
+            return [
+                {tag: "autohide launcher", launcherLocked: false},
+                {tag: "locked launcher", launcherLocked: true}
+            ]
+        }
+
+        function test_superTabToCycleLauncher(data) {
             loadShell("desktop");
             shell.usageScenario = "desktop";
+            GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
 
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
             var firstAppInLauncher = LauncherModel.get(0).appId;
 
-            compare(launcher.state, "");
+            compare(launcher.state, data.launcherLocked ? "visible": "");
             compare(launcherPanel.highlightIndex, -2);
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
@@ -2019,7 +2054,7 @@ Rectangle {
             keyClick(Qt.Key_Tab);
             tryCompare(launcherPanel, "highlightIndex", 0);
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
-            tryCompare(launcher, "state", "");
+            tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
 
@@ -2029,7 +2064,7 @@ Rectangle {
             tryCompare(launcher, "state", "visible");
             tryCompare(launcherPanel, "highlightIndex", -1);
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
-            tryCompare(launcher, "state", "");
+            tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
             tryCompare(launcherPanel, "highlightIndex", -2);
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
@@ -2077,6 +2112,50 @@ Rectangle {
             tryCompare(launcher, "state", "visible");
             tryCompare(launcher, "focus", true)
         }
+
+        function test_lockedOutLauncherAddsMarginsToMaximized() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            var appContainer = findChild(shell, "appContainer");
+            var launcher = findChild(shell, "launcher");
+
+            var app = ApplicationManager.startApplication("music-app");
+            waitUntilAppWindowIsFullyLoaded(app);
+            var appDelegate = findChild(appContainer, "appDelegate_music-app");
+            appDelegate.maximize();
+            tryCompare(appDelegate, "visuallyMaximized", true);
+            waitForRendering(shell);
+
+            GSettingsController.setAutohideLauncher(true);
+            waitForRendering(shell)
+            var hiddenSize = appDelegate.width;
+
+            GSettingsController.setAutohideLauncher(false);
+            waitForRendering(shell)
+            var shownSize = appDelegate.width;
+
+            compare(shownSize + launcher.panelWidth, hiddenSize);
+        }
+
+        function test_fullscreenAppHidesLockedOutLauncher() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
+
+            GSettingsController.setAutohideLauncher(false);
+            waitForRendering(shell)
+
+            tryCompare(launcher, "lockedVisible", true);
+
+            var cameraApp = ApplicationManager.startApplication("camera-app");
+            waitUntilAppWindowIsFullyLoaded(cameraApp);
+
+            tryCompare(launcher, "lockedVisible", false);
+        }
+
 
         function test_inputEventsOnEdgesEndUpInAppSurface_data() {
             return [

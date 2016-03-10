@@ -25,6 +25,7 @@ import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
+import GSettings 1.0
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -187,6 +188,11 @@ Item {
         }
     }
 
+    GSettings {
+        id: settings
+        schema.id: "com.canonical.Unity8"
+    }
+
     Item {
         id: stages
         objectName: "stages"
@@ -343,6 +349,11 @@ Item {
                 property: "altTabPressed"
                 value: physicalKeysMapper.altTabPressed
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "leftMargin"
+                value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
+            }
         }
 
         Tutorial {
@@ -373,7 +384,11 @@ Item {
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
-        anchors { fill: parent; topMargin: panel.panelHeight }
+        anchors {
+            fill: parent
+            topMargin: panel.panelHeight
+            leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
+        }
         z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
     }
 
@@ -559,6 +574,8 @@ Item {
             shadeBackground: !tutorial.running
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
+            panelWidth: units.gu(settings.launcherWidth)
+            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
 
             onShowDashHome: showHome()
             onDash: showDash()
