@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-07 14:21+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2016-02-24 04:40+0000\n"
 "Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-09 05:52+0000\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
 "X-Generator: Launchpad (build 17936)\n"
 "Language: zh_TW\n"
 
@@ -171,26 +171,26 @@ msgstr "即刻重新連線!"
 msgid "Close all"
 msgstr "全部關閉"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "商城"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "搜尋"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "設定"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "自「最愛」移除"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "加入到「最愛」"
 
@@ -412,14 +412,6 @@ msgstr "回覆"
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "回撥"
-
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "解鎖 SIM 卡"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "漫遊"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -743,11 +735,17 @@ msgstr "%1  〉"
 #~ msgid "Done"
 #~ msgstr "完成"
 
+#~ msgid "Roaming"
+#~ msgstr "漫遊"
+
 #~ msgid "Restart"
 #~ msgstr "重新啟動"
 
 #~ msgid "Please re-enter"
 #~ msgstr "請再輸入"
+
+#~ msgid "Unlock SIM"
+#~ msgstr "解鎖 SIM 卡"
 
 #~ msgid "Welcome to your Ubuntu phone."
 #~ msgstr "歡迎使用您的 Ubuntu 手機。"
