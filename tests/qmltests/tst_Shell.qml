@@ -681,6 +681,7 @@ Rectangle {
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
+            waitForGreeterToStabilize();
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
@@ -855,7 +856,6 @@ Rectangle {
         function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
-            waitForGreeterToStabilize();
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
