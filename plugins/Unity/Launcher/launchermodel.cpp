@@ -389,7 +389,8 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
         if (countVisible && desktopFile.isValid()) {
             LauncherItem *item = new LauncherItem(appId,
                                                   desktopFile.displayName(),
-                                                  desktopFile.icon());
+                                                  desktopFile.icon(),
+                                                  this);
             item->setCountVisible(true);
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(item);
