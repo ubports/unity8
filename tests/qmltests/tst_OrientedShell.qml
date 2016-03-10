@@ -26,6 +26,7 @@ import Powerd 0.1
 import Unity.InputInfo 0.1
 
 import "../../qml"
+import "Stages"
 
 Rectangle {
     id: root
@@ -406,6 +407,8 @@ Rectangle {
                     }
                 }
             }
+
+            SurfaceManagerControls { textColor: "white" }
         }
     }
 
