@@ -261,7 +261,7 @@ Item {
                     name: "settings"
                     height: units.gu(3)
                     width: height
-                    color: theme.palette.selected.backgroundText
+                    color: theme.palette.normal.backgroundText
                 }
             }
         }
@@ -293,7 +293,7 @@ Item {
                     source: menuData.icon
                     height: units.gu(3)
                     width: height
-                    color: theme.palette.selected.backgroundText
+                    color: theme.palette.normal.backgroundText
                 }
             }
         }
@@ -620,7 +620,7 @@ Item {
 
     Component {
         id: modeminfoitem;
-        ModemInfoItem {
+        Menus.ModemInfoItem {
             objectName: "modemInfoItem"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel

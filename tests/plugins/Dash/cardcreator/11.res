@@ -1,6 +1,5 @@
 AbstractButton { 
                 id: root; 
-                property var components; 
                 property var cardData; 
                 property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
@@ -62,13 +61,13 @@ Item {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                active: cardData && cardData["art"] || false; 
+                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("%5C");
+                                active: cardArt != "";
                                 asynchronous: root.asynchronous; 
                                 visible: status == Loader.Ready; 
                                 sourceComponent: Item { 
                                     id: artShape; 
                                     objectName: "artShape"; 
-                                    readonly property bool doShapeItem: components["art"]["conciergeMode"] !== true; 
                                     visible: image.status == Image.Ready; 
                                     readonly property alias image: artImage; 
                                     ShaderEffectSource { 
@@ -77,11 +76,11 @@ Item {
                                         anchors.centerIn: parent; 
                                         width: 1; 
                                         height: 1; 
-                                        hideSource: doShapeItem; 
+                                        hideSource: true;
                                     } 
                                     Loader { 
                                         anchors.fill: parent; 
-                                        visible: artShape.doShapeItem; 
+                                        visible: true;
                                         sourceComponent: root.artShapeStyle === "icon" ? artShapeIconComponent : artShapeShapeComponent; 
                                         Component { 
                                             id: artShapeShapeComponent; 
@@ -105,7 +104,7 @@ Item {
                                         } 
                                     } 
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; 
-                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : components !== undefined ? components["art"]["aspect-ratio"] : 1; 
+                                    readonly property real aspect: fixedArtShapeSizeAspect > 0 ? fixedArtShapeSizeAspect : 1;
                                     Component.onCompleted: { updateWidthHeightBindings(); } 
                                     Connections { target: root; onFixedArtShapeSizeChanged: updateWidthHeightBindings(); } 
                                     function updateWidthHeightBindings() { 
@@ -120,7 +119,7 @@ Item {
                                     CroppedImageMinimumSourceSize { 
                                         id: artImage; 
                                         objectName: "artImage"; 
-                                        source: cardData && cardData["art"] || ""; 
+                                        source: artShapeLoader.cardArt;
                                         asynchronous: root.asynchronous; 
                                         width: root.width; 
                                         height: width / artShape.aspect; 
@@ -148,7 +147,7 @@ left: parent.left;
                             id: mascotImage; 
                             objectName: "mascotImage"; 
                             anchors { verticalCenter: parent.verticalCenter; } 
-                            source: cardData && cardData["mascot"] || ""; 
+                            source: cardData && cardData["mascot"] || decodeURI("%22");
                             width: units.gu(6); 
                             height: units.gu(5.625); 
                             horizontalAlignment: Image.AlignHCenter; 
