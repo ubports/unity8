@@ -33,7 +33,10 @@ Showable {
 
     onRequiredChanged: {
         if (!required) {
+            theme.name = "Ubuntu.Components.Themes.SuruDark";
             System.wizardEnabled = false;
+        } else {
+            theme.name = "Ubuntu.Components.Themes.Ambiance";
         }
     }
 
@@ -47,7 +50,5 @@ Showable {
             target: loader.item
             onQuit: root.hide()
         }
-
-        onLoaded: theme.name = "Ubuntu.Components.Themes.Ambiance";
     }
 }
