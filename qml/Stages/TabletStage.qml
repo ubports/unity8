@@ -108,6 +108,38 @@ AbstractStage {
         priv.oldInverseProgress = inverseProgress;
     }
 
+    onAltTabPressedChanged: {
+        if (!spreadEnabled) {
+            return;
+        }
+        if (altTabPressed) {
+            priv.highlightIndex = Math.min(spreadRepeater.count - 1, 1);
+            spreadView.snapToSpread();
+        } else {
+            for (var i = 0; i < spreadRepeater.count; i++) {
+                if (spreadRepeater.itemAt(i).zIndex === priv.highlightIndex) {
+                    spreadView.snapTo(i);
+                    return;
+                }
+            }
+        }
+    }
+
+    FocusScope {
+        focus: root.altTabPressed
+
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_Tab:
+                priv.highlightIndex = (priv.highlightIndex + 1) % spreadRepeater.count
+                break;
+            case Qt.Key_Backtab:
+                priv.highlightIndex = (priv.highlightIndex + spreadRepeater.count - 1) % spreadRepeater.count
+                break;
+            }
+        }
+    }
+
     QtObject {
         id: priv
         objectName: "stagesPriv"
@@ -135,6 +167,8 @@ AbstractStage {
         property string appId1
 
         property int oldInverseProgress: 0
+
+        property int highlightIndex: 0
 
         onFocusedAppIdChanged: {
             if (priv.focusedAppId.length > 0) {
@@ -190,6 +224,10 @@ AbstractStage {
                 smallestX = gesturePoints[i];
             }
             return oneWayFlick;
+        }
+
+        onHighlightIndexChanged: {
+            spreadView.contentX = highlightIndex * spreadView.contentWidth / (spreadRepeater.count + 2)
         }
     }
 
@@ -397,11 +435,16 @@ AbstractStage {
             } else if (shiftedContentX < phase1Width) {
                 snapTo(1);
             } else {
-                // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
-                snapAnimation.targetContentX = spreadView.width * spreadView.positionMarker4 + 1 - shift;
-                snapAnimation.start();
+                snapToSpread();
             }
         }
+
+        function snapToSpread() {
+            // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
+            snapAnimation.targetContentX = (spreadView.width * spreadView.positionMarker4) + 1 - shift;
+            snapAnimation.start();
+        }
+
         function snapTo(index) {
             spreadView.selectedIndex = index;
             snapAnimation.targetContentX = -shift;
@@ -485,6 +528,11 @@ AbstractStage {
                     }
                 }
             }
+        }
+
+        Behavior on contentX {
+            enabled: root.altTabPressed
+            UbuntuNumberAnimation {}
         }
 
         MouseArea {
@@ -617,6 +665,7 @@ AbstractStage {
                     dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 && spreadView.phase === 0 ? root.inverseProgress : 0
                     application: ApplicationManager.get(index)
                     closeable: !isDash
+                    highlightShown: root.altTabPressed && priv.highlightIndex == zIndex
 
                     readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
@@ -819,9 +868,7 @@ AbstractStage {
         edge: Qt.RightEdge
 
         onPassed: {
-            // Add 1 pixel to make sure we definitely hit positionMarker4 even with rounding errors of the animation.
-            snapAnimation.targetContentX = (root.width * spreadView.positionMarker4) + 1 - spreadView.shift;
-            snapAnimation.start();
+            spreadView.snapToSpread();
         }
         material: Component {
             Item {
