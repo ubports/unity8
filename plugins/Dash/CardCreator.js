@@ -18,12 +18,13 @@
 
 // %1 is the template["card-background"]["elements"][0]
 // %2 is the template["card-background"]["elements"][1]
-// %3 is the template["card-background"] string
+// %3 is whether the loader should be asynchronous or not
+// %4 is the template["card-background"] string
 var kBackgroundLoaderCode = 'Loader {\n\
                                 id: backgroundLoader; \n\
                                 objectName: "backgroundLoader"; \n\
                                 anchors.fill: parent; \n\
-                                asynchronous: root.asynchronous; \n\
+                                asynchronous: %3; \n\
                                 visible: status == Loader.Ready; \n\
                                 sourceComponent: UbuntuShape { \n\
                                     objectName: "background"; \n\
@@ -46,7 +47,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
                                         objectName: "backgroundImage"; \n\
                                         source: { \n\
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; \n\
-                                            else return %3; \n\
+                                            else return %4; \n\
                                         } \n\
                                     } \n\
                                     function getColor(index) { \n\
@@ -63,8 +64,9 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %3 is used as image height
 // %4 is used for artShapeSource.hideSource and inner Loader visible
 // %5 is used as aspect ratio fallback
-// %6 is injected as code to artImage
-// %7 is used as image fallback
+// %6 is whether the loader should be asynchronous or not
+// %7 is injected as code to artImage
+// %8 is used as image fallback
 var kArtShapeHolderCode = 'Item { \n\
                             id: artShapeHolder; \n\
                             height: root.fixedArtShapeSize.height > 0 ? root.fixedArtShapeSize.height : artShapeLoader.height; \n\
@@ -73,9 +75,9 @@ var kArtShapeHolderCode = 'Item { \n\
                             Loader { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
-                                readonly property string cardArt: cardData && cardData["art"] || %7; \n\
+                                readonly property string cardArt: cardData && cardData["art"] || %8; \n\
                                 active: cardArt != ""; \n\
-                                asynchronous: root.asynchronous; \n\
+                                asynchronous: %6; \n\
                                 visible: status == Loader.Ready; \n\
                                 sourceComponent: Item { \n\
                                     id: artShape; \n\
@@ -132,10 +134,10 @@ var kArtShapeHolderCode = 'Item { \n\
                                         id: artImage; \n\
                                         objectName: "artImage"; \n\
                                         source: artShapeLoader.cardArt; \n\
-                                        asynchronous: root.asynchronous; \n\
+                                        asynchronous: %6; \n\
                                         width: %2; \n\
                                         height: %3; \n\
-                                        %6 \n\
+                                        %7 \n\
                                     } \n\
                                 } \n\
                             } \n\
@@ -187,12 +189,13 @@ var kAudioButtonCode = 'AbstractButton { \n\
                             } \n\
                         }';
 
+// %1 is whether the loader should be asynchronous or not
 var kOverlayLoaderCode = 'Loader { \n\
                             id: overlayLoader; \n\
                             readonly property real overlayHeight: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); \n\
                             anchors.fill: artShapeHolder; \n\
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; \n\
-                            asynchronous: root.asynchronous; \n\
+                            asynchronous: %1; \n\
                             visible: showHeader && status == Loader.Ready; \n\
                             sourceComponent: UbuntuShapeOverlay { \n\
                                 id: overlay; \n\
@@ -242,10 +245,11 @@ function kHeaderContainerCodeGenerator() {
 }
 
 // %1 is used as anchors of mascotShapeLoader
+// %2 is whether the loader should be asynchronous or not
 var kMascotShapeLoaderCode = 'Loader { \n\
                                 id: mascotShapeLoader; \n\
                                 objectName: "mascotShapeLoader"; \n\
-                                asynchronous: root.asynchronous; \n\
+                                asynchronous: %2; \n\
                                 active: mascotImage.status === Image.Ready; \n\
                                 visible: showHeader && active && status == Loader.Ready; \n\
                                 width: units.gu(6); \n\
@@ -414,7 +418,6 @@ function cardString(template, components, isCardTool) {
                 property int fixedHeaderHeight: -1; \n\
                 property size fixedArtShapeSize: Qt.size(-1, -1); \n\
                 readonly property string title: cardData && cardData["title"] || ""; \n\
-                property bool asynchronous: true; \n\
                 property bool showHeader: true; \n\
                 implicitWidth: childrenRect.width; \n\
                 enabled: %1; \n\
@@ -435,6 +438,7 @@ function cardString(template, components, isCardTool) {
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
     var isAudio = template["quick-preview-type"] === "audio";
+    var asynchronous = isCardTool ? "false" : "true";
 
     if (isAudio) {
         // For now we only support audio cards with [optional] art, title, subtitle
@@ -468,7 +472,7 @@ function cardString(template, components, isCardTool) {
                 backgroundElements1 = '"%1"'.arg(element1);
             }
         }
-        code += kBackgroundLoaderCode.arg(backgroundElements0).arg(backgroundElements1).arg(templateCardBackground);
+        code += kBackgroundLoaderCode.arg(backgroundElements0).arg(backgroundElements1).arg(asynchronous).arg(templateCardBackground);
     }
 
     if (hasArt) {
@@ -503,17 +507,24 @@ function cardString(template, components, isCardTool) {
         var fallbackURICode = '""';
         if (fallback !== "") {
             // fallbackStatusCode has %6 in it because we want to substitute it for fallbackURICode
-            // which in kArtShapeHolderCode is %7
-            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %7;';
+            // which in kArtShapeHolderCode is %8
+            fallbackStatusCode += 'onStatusChanged: if (status === Image.Error) source = %8;';
             fallbackURICode = 'decodeURI("%1")'.arg(fallback);
         }
-        code += kArtShapeHolderCode.arg(artAnchors).arg(widthCode).arg(heightCode).arg(isConciergeMode ? "false" : "true").arg(aspectRatio).arg(fallbackStatusCode).arg(fallbackURICode);
+        code += kArtShapeHolderCode.arg(artAnchors)
+                                   .arg(widthCode)
+                                   .arg(heightCode)
+                                   .arg(isConciergeMode ? "false" : "true")
+                                   .arg(aspectRatio)
+                                   .arg(asynchronous)
+                                   .arg(fallbackStatusCode)
+                                   .arg(fallbackURICode);
     } else {
         code += 'readonly property size artShapeSize: Qt.size(-1, -1);\n'
     }
 
     if (headerAsOverlay) {
-        code += kOverlayLoaderCode;
+        code += kOverlayLoaderCode.arg(asynchronous);
     }
 
     var headerVerticalAnchors;
@@ -595,7 +606,7 @@ function cardString(template, components, isCardTool) {
         }
 
         if (useMascotShape) {
-            mascotShapeCode = kMascotShapeLoaderCode.arg(mascotAnchors);
+            mascotShapeCode = kMascotShapeLoaderCode.arg(mascotAnchors).arg(asynchronous);
         }
 
         var mascotImageVisible = useMascotShape ? 'false' : 'showHeader';
