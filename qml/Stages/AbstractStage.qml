@@ -17,8 +17,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import GSettings 1.0
-import GlobalShortcut 1.0
-import AccountsService 0.1
 
 Rectangle {
     id: root
@@ -68,58 +66,5 @@ Rectangle {
             }
         }
         return false;
-    }
-
-    // keymap switching, shared between stages
-    GlobalShortcut {
-        shortcut: Qt.MetaModifier|Qt.Key_Space
-        onTriggered: keymapPriv.nextKeymap()
-        active: keymapPriv.keymapCount > 1
-    }
-
-    GlobalShortcut {
-        shortcut: Qt.MetaModifier|Qt.ShiftModifier|Qt.Key_Space
-        onTriggered: keymapPriv.previousKeymap()
-        active: keymapPriv.keymapCount > 1
-    }
-
-    QtObject {
-        id: keymapPriv
-
-        readonly property var keymaps: AccountsService.keymaps
-        readonly property int keymapCount: keymaps.length
-        readonly property int activeKeymapIndex: mainAppWindow ? keymaps.indexOf(mainAppWindow.activeKeymap) : 0 // the one that the window currently has
-        property int currentKeymapIndex: 0  // the new one that we're setting
-        onCurrentKeymapIndexChanged: switchToKeymap();
-
-        function nextKeymap() {
-            var nextIndex = 0;
-
-            if (activeKeymapIndex !== -1 && activeKeymapIndex < keymapCount - 1) {
-                nextIndex = activeKeymapIndex + 1;
-            }
-            print("!!! next keymap:", currentKeymapIndex, "->", nextIndex);
-            currentKeymapIndex = nextIndex;
-        }
-
-        function previousKeymap() {
-            var prevIndex = keymapCount - 1;
-
-            if (activeKeymapIndex > 0) {
-                prevIndex = activeKeymapIndex - 1;
-            }
-            print("!!! prev keymap:", currentKeymapIndex, "->", prevIndex);
-            currentKeymapIndex = prevIndex;
-        }
-
-        function switchToKeymap() {
-            if (mainAppWindow) {
-                mainAppWindow.switchToKeymap(keymaps[currentKeymapIndex]);
-            }
-        }
-    }
-
-    onMainAppWindowChanged: {
-        keymapPriv.switchToKeymap()
     }
 }
