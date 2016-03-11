@@ -20,7 +20,7 @@ import Ubuntu.Components 1.3
 Item {
     property string password: ""
     readonly property int passwordScore: scorePassword(password)
-    property bool matching: false
+    property var matching
 
     function scorePassword(pass) {
         var score = 0;
@@ -82,9 +82,14 @@ Item {
         }
         wrapMode: Text.Wrap
         text: {
-            if (matching)
-                return i18n.tr("Passwords match");
-            else if (passwordScore > 80)
+            if (matching !== undefined) {
+                if (matching)
+                    return i18n.tr("Passwords match");
+                else if (!matching)
+                    return i18n.tr("Passwords do not match");
+            }
+
+            if (passwordScore > 80)
                 return i18n.tr("Strong password");
             else if (passwordScore > 60)
                 return i18n.tr("Fair password");

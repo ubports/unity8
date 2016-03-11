@@ -131,7 +131,7 @@ LocalComponents.Page {
             }
 
             password: passwordField.text
-            matching: passwordsMatching
+            matching: passwordsMatching ? true : (password2.trim().length > 0 ? false : undefined)
         }
     }
 
