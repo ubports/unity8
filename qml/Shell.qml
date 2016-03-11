@@ -140,7 +140,7 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        theme.name = "Ubuntu.Components.Themes.SuruDark"
         if (ApplicationManager.count > 0) {
             ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
         }

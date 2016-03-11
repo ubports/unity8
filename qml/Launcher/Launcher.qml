@@ -175,7 +175,7 @@ FocusScope {
             event.accepted = true;
             break;
         case Qt.Key_Escape:
-            panel.highlightIndex = -2
+            panel.highlightIndex = -2;
             // Falling through intentionally
         case Qt.Key_Enter:
         case Qt.Key_Return:
@@ -186,6 +186,7 @@ FocusScope {
                 launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
             }
             root.hide();
+            panel.highlightIndex = -2
             event.accepted = true;
             root.focus = false;
         }
@@ -328,8 +329,8 @@ FocusScope {
                     rotation: -90
                     anchors.centerIn: parent
                     gradient: Gradient {
-                        GradientStop { position: 0.0; color: panel.color}
-                        GradientStop { position: 1.0; color: Qt.rgba(panel.r,panel.g,panel.b,0)}
+                        GradientStop { position: 0.0; color: Qt.rgba(panel.color.r, panel.color.g, panel.color.b, .5)}
+                        GradientStop { position: 1.0; color: Qt.rgba(panel.color.r,panel.color.g,panel.color.b,0)}
                     }
                 }
             }

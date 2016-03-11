@@ -50,11 +50,6 @@ Rectangle {
         shellLoader.active = true;
     }
 
-    MouseArea {
-        id: clickThroughCatcher
-        anchors.fill: shellContainer
-    }
-
     Item {
         id: shellContainer
         anchors.left: root.left
@@ -316,12 +311,6 @@ Rectangle {
         id: appRemovedSpy
         target: ApplicationManager
         signalName: "applicationRemoved"
-    }
-
-    SignalSpy {
-        id: clickThroughSpy
-        target: clickThroughCatcher
-        signalName: "clicked"
     }
 
     Telephony.CallEntry {
@@ -692,6 +681,7 @@ Rectangle {
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
+            waitForGreeterToStabilize();
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
@@ -795,7 +785,7 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var item = findChild(shell, "inputMethod");
-            var surface = SurfaceManager.inputMethodSurface();
+            var surface = SurfaceManager.inputMethodSurface;
 
             surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
@@ -866,7 +856,6 @@ Rectangle {
         function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
-            waitForGreeterToStabilize();
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
@@ -1447,9 +1436,17 @@ Rectangle {
             tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
 
-        function test_altTabSwitchesFocus() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop"
+        function test_altTabSwitchesFocus_data() {
+            return [
+                { tag: "windowed", shellType: "desktop" },
+                { tag: "staged", shellType: "phone" },
+                { tag: "sidestaged", shellType: "tablet" }
+            ];
+        }
+
+        function test_altTabSwitchesFocus(data) {
+            loadShell(data.shellType);
+            shell.usageScenario = data.shellType;
             waitForRendering(root)
 
             var desktopStage = findChild(shell, "stage");
@@ -1467,18 +1464,10 @@ Rectangle {
             keyClick(Qt.Key_Tab, Qt.AltModifier)
             tryCompare(app2.session.lastSurface, "activeFocus", true)
 
-            var desktopSpread = findChild(shell, "spread")
-
-            tryCompare(desktopSpread, "state", "")
-
-            // Just press Alt, make sure the spread comes up
+            // Press Alt+Tab
             keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
-            tryCompare(desktopSpread, "state", "altTab")
-
-            // Release control, check if spread disappears
             keyRelease(Qt.Key_Alt)
-            tryCompare(desktopSpread, "state", "")
 
             // Focus should have switched back now
             tryCompare(app3.session.lastSurface, "activeFocus", true)
@@ -1887,6 +1876,31 @@ Rectangle {
             mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
             mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
 
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
+        function test_cantResizeWindowUnderPanel() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app);
+
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_dialer-app");
+            var decoration = findChild(appDelegate, "appWindowDecoration_dialer-app");
+            verify(decoration);
+
+            // move it away from launcher and panel
+            appDelegate.x = units.gu(10)
+            appDelegate.y = units.gu(10)
+
+            // drag-resize the area up
+            mousePress(decoration, decoration.width/2, -units.gu(1));
+            mouseMove(decoration, decoration.width/2, -units.gu(100));
+
+            // verify we don't go past the panel
             compare(appDelegate.y >= PanelState.panelHeight, true);
         }
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-12 00:28+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2015-07-05 19:44+0000\n"
 "Last-Translator: Mathias Bynke <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-17 05:43+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -177,38 +177,38 @@ msgstr "Koble til nå!"
 msgid "Close all"
 msgstr "Lukk alle"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Butikk"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Søk"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Fjern fra favoritter"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Legg til i favoritter"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
 msgid "See less"
 msgstr "Vis mindre"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:565
 msgid "See all"
 msgstr "Vis alt"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Søk"
@@ -267,6 +267,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
+"Enheten er nå koblet til en ekstern skjerm. Bruk denne skjermen som "
+"styreplate."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
@@ -426,14 +428,6 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Ring tilbake"
 
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Lås opp SIM"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Fremmednett"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Åpne spesialmenyer"
@@ -498,7 +492,7 @@ msgstr "Hei!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "Velkommen til Ubuntu-enheten din."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -529,7 +523,7 @@ msgstr "Låsesikkerhet"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
-msgstr ""
+msgstr "Velg hvordan du vil låse opp enheten."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -636,7 +630,7 @@ msgstr "Godt jobba!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "Enheten er nå klar til bruk."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -731,6 +725,9 @@ msgstr "%1  〉"
 #~ msgid "All"
 #~ msgstr "Alt"
 
+#~ msgid "Unlock SIM"
+#~ msgstr "Lås opp SIM"
+
 #~ msgid "Favorites"
 #~ msgstr "Favoritter"
 
@@ -742,6 +739,9 @@ msgstr "%1  〉"
 
 #~ msgid "Done"
 #~ msgstr "Ferdig"
+
+#~ msgid "Roaming"
+#~ msgstr "Fremmednett"
 
 #~ msgid "Swipe from the left to reveal the launcher for quick access to apps"
 #~ msgstr "Skyv fra venstre for å få tilgang til programoppstarteren"

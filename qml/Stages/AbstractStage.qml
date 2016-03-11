@@ -21,7 +21,7 @@ import GSettings 1.0
 Rectangle {
     id: root
 
-    color: "#111111"
+    color: "#060606"
 
     // Controls to be set from outside
     property bool altTabPressed

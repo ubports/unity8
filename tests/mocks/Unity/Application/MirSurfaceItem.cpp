@@ -20,6 +20,7 @@
 
 #include <QGuiApplication>
 #include <QQuickView>
+#include <QQmlContext>
 #include <QQmlProperty>
 #include <QQmlEngine>
 #include <QString>
@@ -220,10 +221,6 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
         connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
 
-        // The assumptions I make here really should hold.
-        QQuickView *quickView =
-            qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
         QUrl qmlComponentFilePath;
         if (!m_qmlSurface->qmlFilePath().isEmpty()) {
             qmlComponentFilePath = m_qmlSurface->qmlFilePath();
@@ -231,7 +228,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
             qmlComponentFilePath = QUrl("qrc:///Unity/Application/MirSurfaceItem.qml");
         }
 
-        m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);
+        m_qmlContentComponent = new QQmlComponent(QQmlEngine::contextForObject(parent())->engine(), qmlComponentFilePath);
 
         switch (m_qmlContentComponent->status()) {
             case QQmlComponent::Ready:

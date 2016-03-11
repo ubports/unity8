@@ -377,6 +377,19 @@ AbstractStage {
                     ApplicationManager.focusApplication(appId);
                 }
 
+                function playFocusAnimation() {
+                    focusAnimation.start()
+                }
+
+                UbuntuNumberAnimation {
+                    id: focusAnimation
+                    target: appDelegate
+                    property: "scale"
+                    from: 0.98
+                    to: 1
+                    duration: UbuntuAnimation.SnapDuration
+                }
+
                 states: [
                     State {
                         name: "fullscreen"; when: decoratedWindow.fullscreen
@@ -468,7 +481,7 @@ AbstractStage {
                     target: appDelegate
                     property: "z"
                     value: ApplicationManager.count + 1
-                    when: index == spread.highlightedIndex && blurLayer.ready
+                    when: index == spread.highlightedIndex && spread.ready
                 }
 
                 WindowResizeArea {
@@ -504,27 +517,6 @@ AbstractStage {
         }
     }
 
-    BlurLayer {
-        id: blurLayer
-        anchors.fill: appContainer
-        source: appContainer
-        visible: false
-    }
-
-    Rectangle {
-        id: spreadBackground
-        anchors.fill: parent
-        color: "#55000000"
-        visible: false
-    }
-
-    MouseArea {
-        id: eventEater
-        anchors.fill: parent
-        visible: spreadBackground.visible
-        enabled: visible
-    }
-
     EdgeBarrier {
         id: edgeBarrier
 
@@ -540,7 +532,7 @@ AbstractStage {
                     rotation: 90
                     anchors.centerIn: parent
                     gradient: Gradient {
-                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.7)}
+                        GradientStop { position: 0.0; color: Qt.rgba(0.16,0.16,0.16,0.5)}
                         GradientStop { position: 1.0; color: Qt.rgba(0.16,0.16,0.16,0)}
                     }
                 }
@@ -562,5 +554,9 @@ AbstractStage {
         workspace: appContainer
         focus: state == "altTab"
         altTabPressed: root.altTabPressed
+
+        onPlayFocusAnimation: {
+            appRepeater.itemAt(index).playFocusAnimation();
+        }
     }
 }
