@@ -122,9 +122,7 @@ Item {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
-            var execFlags = shell.usageScenario === "phone" ? ApplicationManager.ForceMainStage
-                                                            : ApplicationManager.NoFlag;
-            ApplicationManager.startApplication(appId, execFlags);
+            ApplicationManager.startApplication(appId);
         }
     }
 
@@ -250,7 +248,7 @@ Item {
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                            ? "phone"
                                            : shell.usageScenario
-            source: {
+            property string qmlComponent: {
                 if(shell.mode === "greeter") {
                     return "Stages/ShimStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
@@ -260,6 +258,10 @@ Item {
                 } else {
                     return "Stages/DesktopStage.qml";
                 }
+            }
+            onQmlComponentChanged: {
+                if (item) item.stageUnloaded();
+                source = qmlComponent;
             }
 
             property bool interactive: tutorial.spreadEnabled
@@ -549,9 +551,7 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            readonly property bool topmostApplicationIsFullscreen:
-                ApplicationManager.focusedApplicationId &&
-                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+            readonly property bool topmostApplicationIsFullscreen: mainApp && mainApp.fullscreen
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
@@ -634,7 +634,6 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {

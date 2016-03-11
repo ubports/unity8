@@ -631,6 +631,16 @@ AbstractStage {
                         property: "focusedAppOrientationChangesEnabled"
                         value: orientationChangesEnabled
                     }
+
+                    PhoneFullscreenPolicy {
+                        id: fullscreenPolicy
+                        application: appDelegate.application
+
+                        Connections {
+                            target: root
+                            onStageUnloaded: fullscreenPolicy.active = false
+                        }
+                    }
                 }
             }
         }

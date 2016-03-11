@@ -25,23 +25,18 @@ AbstractButton {
     property bool backArrow: false
 
     width: label.width
-    height: label.height + units.gu(4)
+    height: units.gu(5)
 
     Label {
         id: label
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
-        color: enabled ? theme.palette.normal.backgroundText : Qt.darker(theme.palette.normal.backgroundText, 1.5)
-        text: {
-            if (backArrow) {
-                // Translators: This is the arrow for "Back" buttons
-                return i18n.tr("〈  %1".arg(stackButton.text))
-            } else {
-                // Translators: This is the arrow for "Forward" buttons
-                return i18n.tr("%1  〉".arg(stackButton.text))
-            }
-        }
+        color: "#333333"
+        opacity: enabled ? 1.0 : 0.5
+        fontSize: "medium"
+        font.weight: backArrow ? Font.Light : Font.DemiBold
+        text: stackButton.text
         horizontalAlignment: backArrow ? Text.AlignLeft : Text.AlignRight
     }
 }

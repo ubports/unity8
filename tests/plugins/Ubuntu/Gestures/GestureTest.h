@@ -72,13 +72,25 @@ class GestureTest : public QObject
 {
     Q_OBJECT
 public:
-    // \param qmlFilename name of the qml file to be loaded by the QQuickView
+    // \param qmlFilename name of the qml file to be loaded by the QQuickView
     GestureTest(const QString &qmlFilename);
 
 protected Q_SLOTS:
     void initTestCase(); // will be called before the first test function is executed
     virtual void init(); // called right before each and every test function is executed
     virtual void cleanup(); // called right after each and every test function is executed
+
+protected:
+    // QTest::touchEvent takes QPoint instead of QPointF and I don't want to
+    // lose precision due to rounding.
+    // Besides, those helper functions lead to more compact code.
+    void sendTouchPress(qint64 timestamp, int id, QPointF pos);
+    void sendTouchUpdate(qint64 timestamp, int id, QPointF pos);
+    void sendTouchRelease(qint64 timestamp, int id, QPointF pos);
+    void sendTouch(qint64 timestamp, int id, QPointF pos,
+            Qt::TouchPointState pointState, QEvent::Type eventType);
+
+    void passTime(qint64 timeSpanMs);
 
 protected:
     QTouchDevice *m_device;

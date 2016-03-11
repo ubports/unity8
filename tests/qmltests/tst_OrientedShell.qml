@@ -232,6 +232,9 @@ Rectangle {
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation0;
                 }
+                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation0 ?
+                                                                                                    UbuntuColors.green :
+                                                                                                    __styleInstance.defaultColor
             }
             Button {
                 id: rotate90Button
@@ -240,6 +243,9 @@ Rectangle {
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation90;
                 }
+                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation90 ?
+                                                                                                     UbuntuColors.green :
+                                                                                                     __styleInstance.defaultColor
             }
             Button {
                 id: rotate180Button
@@ -248,6 +254,9 @@ Rectangle {
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation180;
                 }
+                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation180 ?
+                                                                                                      UbuntuColors.green :
+                                                                                                      __styleInstance.defaultColor
             }
             Button {
                 id: rotate270Button
@@ -256,6 +265,9 @@ Rectangle {
                 onClicked: {
                     orientedShellLoader.item.physicalOrientation = root.physicalOrientation270;
                 }
+                color: orientedShellLoader.item && orientedShellLoader.item.physicalOrientation === root.physicalOrientation270 ?
+                                                                                                      UbuntuColors.green :
+                                                                                                      __styleInstance.defaultColor
             }
             RowLayout {
                 Layout.fillWidth: true
@@ -471,15 +483,8 @@ Rectangle {
             tearDown();
         }
 
-        function test_appSupportingOnlyPrimaryOrientationMakesShellStayPut_data() {
-            return [
-                {tag: "mako", deviceName: "mako"},
-                {tag: "manta", deviceName: "manta"},
-                {tag: "flo", deviceName: "flo"}
-            ];
-        }
-        function test_appSupportingOnlyPrimaryOrientationMakesShellStayPut(data) {
-            loadShell(data.deviceName);
+        function test_appSupportingOnlyPrimaryOrientationMakesPhoneShellStayPut() {
+            loadShell("mako");
 
             // unity8-dash supports only primary orientation and should be already running
             var dashAppWindow = findChild(shell, "appWindow_unity8-dash");
@@ -509,6 +514,45 @@ Rectangle {
 
             verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
+        }
+
+        function test_appSupportingOnlyPrimaryOrientationWillOnlyRotateInLandscape_data() {
+            return [
+                {tag: "manta", deviceName: "manta"},
+                {tag: "flo", deviceName: "flo"}
+            ];
+        }
+        function test_appSupportingOnlyPrimaryOrientationWillOnlyRotateInLandscape(data) {
+            loadShell(data.deviceName);
+
+            // unity8-dash supports only primary orientation and should be already running
+            var dashAppWindow = findChild(shell, "appWindow_unity8-dash");
+            verify(dashAppWindow);
+            compare(ApplicationManager.focusedApplicationId, "unity8-dash");
+            var dashApp = dashAppWindow.application
+            verify(dashApp);
+            compare(dashApp.rotatesWindowContents, false);
+            compare(dashApp.supportedOrientations, Qt.PrimaryOrientation);
+            compare(dashApp.stage, ApplicationInfoInterface.MainStage);
+
+            tryCompareFunction(function(){return dashApp.session.lastSurface != null;}, true);
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+
+            compare(shell.transformRotationAngle, root.primaryOrientationAngle);
+            rotateTo(90);
+
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+            compare(shell.transformRotationAngle, root.primaryOrientationAngle);
+
+            rotateTo(180);
+
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180));
+            compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
+
+            rotateTo(270);
+
+            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180));
+            compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
         }
 
         function test_greeterRemainsInPrimaryOrientation_data() {
@@ -813,12 +857,12 @@ Rectangle {
 
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
             verify(twitterApp);
+            twitterApp.stage = ApplicationInfoInterface.SideStage;
 
             // ensure the mock twitter-webapp is as we expect
             compare(twitterApp.rotatesWindowContents, false);
             compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
-            compare(twitterApp.stage, ApplicationInfoInterface.SideStage);
 
             // Wait until spreadRepeaterConnections hs caught the new SpreadDelegate and
             // set up the signalSpy target accordingly.
@@ -852,11 +896,11 @@ Rectangle {
 
             var dialerApp = ApplicationManager.startApplication("dialer-app");
             verify(dialerApp);
+            dialerApp.stage = ApplicationInfoInterface.SideStage;
 
             // ensure the mock dialer-app is as we expect
             compare(dialerApp.rotatesWindowContents, false);
             compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
-            compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
 
             tryCompareFunction(function(){ return dialerDelegate != null; }, true);
             tryCompare(dialerDelegate, "orientationChangesEnabled", true);
@@ -899,11 +943,11 @@ Rectangle {
 
             var dialerApp = ApplicationManager.startApplication("dialer-app");
             verify(dialerApp);
+            dialerApp.stage = ApplicationInfoInterface.SideStage;
 
             // ensure the mock dialer-app is as we expect
             compare(dialerApp.rotatesWindowContents, false);
             compare(dialerApp.supportedOrientations, Qt.PortraitOrientation | Qt.InvertedPortraitOrientation);
-            compare(dialerApp.stage, ApplicationInfoInterface.SideStage);
 
             tryCompareFunction(function(){ return dialerDelegate != null; }, true);
             waitUntilAppDelegateIsFullyInit(dialerDelegate);
@@ -919,12 +963,12 @@ Rectangle {
 
             var twitterApp = ApplicationManager.startApplication("twitter-webapp");
             verify(twitterApp);
+            twitterApp.stage = ApplicationInfoInterface.SideStage;
 
             // ensure the mock twitter-webapp is as we expect
             compare(twitterApp.rotatesWindowContents, false);
             compare(twitterApp.supportedOrientations, Qt.PortraitOrientation | Qt.LandscapeOrientation
                     | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation);
-            compare(twitterApp.stage, ApplicationInfoInterface.SideStage);
 
             tryCompareFunction(function(){ return twitterDelegate != null; }, true);
             waitUntilAppDelegateIsFullyInit(twitterDelegate);
