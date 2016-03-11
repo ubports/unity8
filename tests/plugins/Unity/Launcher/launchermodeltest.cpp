@@ -48,6 +48,7 @@ public:
     QString comment() const override { return "this is a mock"; }
     QUrl icon() const override { return QUrl(); }
     ApplicationInfoInterface::Stage stage() const override { return ApplicationInfoInterface::MainStage; }
+    void setStage(ApplicationInfoInterface::Stage) override {}
     ApplicationInfoInterface::State state() const override { return ApplicationInfoInterface::Running; }
     bool focused() const override { return m_focused; }
     QString splashTitle() const override { return QString(); }

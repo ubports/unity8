@@ -71,6 +71,8 @@ using QTest::QTouchEventSequence;
 namespace {
 MouseTouchAdaptor *g_instance = nullptr;
 
+const Qt::KeyboardModifiers TRI_PRESS_MODIFIER = Qt::ShiftModifier|Qt::ControlModifier|Qt::AltModifier;
+
 Qt::MouseButton translateMouseButton(xcb_button_t detail)
 {
     switch (detail) {
@@ -81,10 +83,25 @@ Qt::MouseButton translateMouseButton(xcb_button_t detail)
         default: return Qt::NoButton;
     }
 }
+
+Qt::KeyboardModifiers translateMofidier(uint32_t mod)
+{
+    Qt::KeyboardModifiers qtMod = Qt::NoModifier;
+
+    if (mod & 0x01) qtMod |= Qt::ShiftModifier;
+    if (mod & 0x04) qtMod |= Qt::ControlModifier;
+    if (mod & 0x08) qtMod |= Qt::AltModifier;
+    if (mod & 0x80) qtMod |= Qt::MetaModifier;
+
+    return qtMod;
+}
 } // end of anonymous namespace
 
 MouseTouchAdaptor::MouseTouchAdaptor()
-    : QObject(nullptr), m_leftButtonIsPressed(false), m_enabled(true)
+    : QObject(nullptr)
+    , m_leftButtonIsPressed(false)
+    , m_triPressModifier(false)
+    , m_enabled(true)
 {
     QCoreApplication::instance()->installNativeEventFilter(this);
 
@@ -192,17 +209,20 @@ bool MouseTouchAdaptor::xi2HandleEvent(xcb_ge_event_t *event)
         return handleButtonPress(
                 static_cast<WId>(xiDeviceEvent->event),
                 xiDeviceEvent->detail,
+                xiDeviceEvent->mods.base_mods,
                 fixed1616ToReal(xiDeviceEvent->event_x),
                 fixed1616ToReal(xiDeviceEvent->event_y));
     case XI_ButtonRelease:
         return handleButtonRelease(
                 static_cast<WId>(xiDeviceEvent->event),
                 xiDeviceEvent->detail,
+                    xiDeviceEvent->mods.base_mods,
                 fixed1616ToReal(xiDeviceEvent->event_x),
                 fixed1616ToReal(xiDeviceEvent->event_y));
     case XI_Motion:
         return handleMotionNotify(
                 static_cast<WId>(xiDeviceEvent->event),
+                xiDeviceEvent->mods.base_mods,
                 fixed1616ToReal(xiDeviceEvent->event_x),
                 fixed1616ToReal(xiDeviceEvent->event_y));
         return true;
@@ -232,17 +252,18 @@ bool MouseTouchAdaptor::nativeEventFilter(const QByteArray & eventType,
     switch (xcbEvent->response_type & ~0x80) {
         case XCB_BUTTON_PRESS: {
             auto pressEvent = reinterpret_cast<xcb_button_press_event_t *>(xcbEvent);
-            return handleButtonPress(static_cast<WId>(pressEvent->event), pressEvent->detail,
+            return handleButtonPress(static_cast<WId>(pressEvent->event), pressEvent->detail, 0,
                     pressEvent->event_x, pressEvent->event_y);
         }
         case XCB_BUTTON_RELEASE: {
             auto releaseEvent = reinterpret_cast<xcb_button_release_event_t *>(xcbEvent);
-            return handleButtonRelease(static_cast<WId>(releaseEvent->event), releaseEvent->detail,
+            return handleButtonRelease(static_cast<WId>(releaseEvent->event), releaseEvent->detail, 0,
                     releaseEvent->event_x, releaseEvent->event_y);
         }
         case XCB_MOTION_NOTIFY: {
             auto motionEvent = reinterpret_cast<xcb_motion_notify_event_t *>(xcbEvent);
-            return handleMotionNotify(static_cast<WId>(motionEvent->event), motionEvent->event_x, motionEvent->event_y);
+            return handleMotionNotify(static_cast<WId>(motionEvent->event), 0,
+                                      motionEvent->event_x, motionEvent->event_y);
         }
         case XCB_GE_GENERIC:
             if (m_xi2Enabled) {
@@ -255,9 +276,10 @@ bool MouseTouchAdaptor::nativeEventFilter(const QByteArray & eventType,
     };
 }
 
-bool MouseTouchAdaptor::handleButtonPress(WId windowId, uint32_t detail, int x, int y)
+bool MouseTouchAdaptor::handleButtonPress(WId windowId, uint32_t detail, uint32_t modifiers, int x, int y)
 {
     Qt::MouseButton button = translateMouseButton(detail);
+    Qt::KeyboardModifiers qtMod = translateMofidier(modifiers);
 
     // Just eat the event if it wasn't a left mouse press
     if (button != Qt::LeftButton)
@@ -270,19 +292,24 @@ bool MouseTouchAdaptor::handleButtonPress(WId windowId, uint32_t detail, int x, 
     QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
     touchEvent.press(0 /* touchId */, windowPos);
+    if (qtMod == TRI_PRESS_MODIFIER) {
+        touchEvent.press(1, windowPos);
+        touchEvent.press(2, windowPos);
+        m_triPressModifier = true;
+    }
     touchEvent.commit(false /* processEvents */);
 
     m_leftButtonIsPressed = true;
     return true;
 }
 
-bool MouseTouchAdaptor::handleButtonRelease(WId windowId, uint32_t detail, int x, int y)
+bool MouseTouchAdaptor::handleButtonRelease(WId windowId, uint32_t detail, uint32_t, int x, int y)
 {
     Qt::MouseButton button = translateMouseButton(detail);
 
-    // Just eat the event if it wasn't a left mouse release
+    // Don't eat the event if it wasn't a left mouse press
     if (button != Qt::LeftButton)
-        return true;
+        return false;
 
     QWindow *targetWindow = findQWindowWithXWindowID(windowId);
 
@@ -291,17 +318,23 @@ bool MouseTouchAdaptor::handleButtonRelease(WId windowId, uint32_t detail, int x
     QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
     touchEvent.release(0 /* touchId */, windowPos);
+    if (m_triPressModifier) {
+        touchEvent.release(1, windowPos);
+        touchEvent.release(2, windowPos);
+    }
     touchEvent.commit(false /* processEvents */);
 
     m_leftButtonIsPressed = false;
+    m_triPressModifier = false;
     return true;
 }
 
-bool MouseTouchAdaptor::handleMotionNotify(WId windowId, int x, int y)
+bool MouseTouchAdaptor::handleMotionNotify(WId windowId, uint32_t modifiers, int x, int y)
 {
     if (!m_leftButtonIsPressed) {
         return true;
     }
+    Qt::KeyboardModifiers qtMod = translateMofidier(modifiers);
 
     QWindow *targetWindow = findQWindowWithXWindowID(windowId);
 
@@ -310,6 +343,17 @@ bool MouseTouchAdaptor::handleMotionNotify(WId windowId, int x, int y)
     QTouchEventSequence touchEvent = QTest::touchEvent(targetWindow, m_touchDevice,
                                                        false /* autoCommit */);
     touchEvent.move(0 /* touchId */, windowPos);
+    if (m_triPressModifier) {
+        if (qtMod == TRI_PRESS_MODIFIER) {
+            touchEvent.move(1, windowPos);
+            touchEvent.move(2, windowPos);
+        } else {
+            // released modifiers
+            touchEvent.release(1, windowPos);
+            touchEvent.release(2, windowPos);
+            m_triPressModifier = false;
+        }
+    }
     touchEvent.commit(false /* processEvents */);
 
     return true;

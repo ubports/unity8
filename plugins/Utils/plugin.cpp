@@ -37,6 +37,8 @@
 #include "timezoneFormatter.h"
 #include "applicationsfiltermodel.h"
 #include "inputeventgenerator.h"
+#include "deviceconfigparser.h"
+#include "globalfunctions.h"
 
 static QObject *createWindowStateStorage(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -50,6 +52,13 @@ static QObject *createConstants(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
     return new Constants();
+}
+
+static QObject *createGlobalFunctions(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return new GlobalFunctions();
 }
 
 void UtilsPlugin::registerTypes(const char *uri)
@@ -70,6 +79,8 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
     qmlRegisterType<ApplicationsFilterModel>(uri, 0, 1, "ApplicationsFilterModel");
     qmlRegisterType<InputEventGenerator>(uri, 0, 1, "InputEventGenerator");
+    qmlRegisterType<DeviceConfigParser>(uri, 0, 1, "DeviceConfigParser");
+    qmlRegisterSingletonType<GlobalFunctions>(uri, 0, 1, "Functions", createGlobalFunctions);
 }
 
 void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

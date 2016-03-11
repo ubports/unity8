@@ -26,6 +26,7 @@ import Unity.Application 0.1
 import Unity.Connectivity 0.1
 import Unity.Indicators 0.1
 import Unity.Notifications 1.0
+import Unity.Launcher 0.1
 import Unity.Test 0.1
 import Powerd 0.1
 import Wizard 0.1 as Wizard
@@ -47,11 +48,6 @@ Rectangle {
         LightDM.Greeter.mockMode = "single";
         LightDM.Users.mockMode = "single";
         shellLoader.active = true;
-    }
-
-    MouseArea {
-        id: clickThroughCatcher
-        anchors.fill: shellContainer
     }
 
     Item {
@@ -120,10 +116,6 @@ Rectangle {
                     }
                     Component.onDestruction: {
                         shellLoader.itemDestroyed = true;
-                    }
-                    Component.onCompleted: {
-                        var keyMapper = testCase.findChild(__shell, "physicalKeysMapper");
-                        keyMapper.controlInsteadOfAlt = true;
                     }
                 }
             }
@@ -215,6 +207,31 @@ Rectangle {
                     id: mouseEmulation
                     checked: true
                     color: "white"
+                }
+                ListItem.ItemSelector {
+                    id: ctrlModifier
+                    anchors { left: parent.left; right: parent.right }
+                    activeFocusOnPress: false
+                    text: "Ctrl key as"
+                    model: ["Ctrl", "Alt", "Super"]
+                    onSelectedIndexChanged: {
+                        var keyMapper = testCase.findChild(shellContainer, "physicalKeysMapper");
+                        keyMapper.controlInsteadOfAlt = selectedIndex == 1;
+                        keyMapper.controlInsteadOfSuper = selectedIndex == 2;
+                    }
+                }
+
+                Row {
+                    anchors { left: parent.left; right: parent.right }
+                    CheckBox {
+                        id: autohideLauncherCheckbox
+                        onCheckedChanged:  {
+                            GSettingsController.setAutohideLauncher(checked)
+                        }
+                    }
+                    Label {
+                        text: "Autohide launcher"
+                    }
                 }
 
                 Label { text: "Applications"; font.bold: true }
@@ -356,12 +373,6 @@ Rectangle {
         id: appRemovedSpy
         target: ApplicationManager
         signalName: "applicationRemoved"
-    }
-
-    SignalSpy {
-        id: clickThroughSpy
-        target: clickThroughCatcher
-        signalName: "clicked"
     }
 
     Telephony.CallEntry {
@@ -732,6 +743,7 @@ Rectangle {
         function swipeAwayGreeter() {
             var greeter = findChild(shell, "greeter");
             tryCompare(greeter, "fullyShown", true);
+            waitForGreeterToStabilize();
             removeTimeConstraintsFromDirectionalDragAreas(greeter);
 
             var touchX = shell.width - (shell.edgeSize / 2);
@@ -835,7 +847,7 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var item = findChild(shell, "inputMethod");
-            var surface = SurfaceManager.inputMethodSurface();
+            var surface = SurfaceManager.inputMethodSurface;
 
             surface.setState(Mir.MinimizedState);
             tryCompare(item, "visible", false);
@@ -906,7 +918,6 @@ Rectangle {
         function test_launchedAppHasActiveFocus(data) {
             loadShell(data.formFactor);
             shell.usageScenario = data.usageScenario;
-            waitForGreeterToStabilize();
             swipeAwayGreeter();
 
             var webApp = ApplicationManager.startApplication("webbrowser-app");
@@ -974,6 +985,7 @@ Rectangle {
         function dragLauncherIntoView() {
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
+            waitForRendering(launcher);
             verify(launcherPanel.x = - launcherPanel.width);
 
             var touchStartX = 2;
@@ -1486,9 +1498,17 @@ Rectangle {
             tryCompare(galleryApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
 
-        function test_altTabSwitchesFocus() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop"
+        function test_altTabSwitchesFocus_data() {
+            return [
+                { tag: "windowed", shellType: "desktop" },
+                { tag: "staged", shellType: "phone" },
+                { tag: "sidestaged", shellType: "tablet" }
+            ];
+        }
+
+        function test_altTabSwitchesFocus(data) {
+            loadShell(data.shellType);
+            shell.usageScenario = data.shellType;
             waitForRendering(root)
 
             var desktopStage = findChild(shell, "stage");
@@ -1503,21 +1523,13 @@ Rectangle {
 
             // Do a quick alt-tab and see if focus changes
             tryCompare(app3.session.lastSurface, "activeFocus", true)
-            keyClick(Qt.Key_Tab, Qt.ControlModifier)
+            keyClick(Qt.Key_Tab, Qt.AltModifier)
             tryCompare(app2.session.lastSurface, "activeFocus", true)
 
-            var desktopSpread = findChild(shell, "spread")
-
-            tryCompare(desktopSpread, "state", "")
-
-            // Just press Alt, make sure the spread comes up
-            keyPress(Qt.Key_Control);
+            // Press Alt+Tab
+            keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
-            tryCompare(desktopSpread, "state", "altTab")
-
-            // Release control, check if spread disappears
-            keyRelease(Qt.Key_Control)
-            tryCompare(desktopSpread, "state", "")
+            keyRelease(Qt.Key_Alt)
 
             // Focus should have switched back now
             tryCompare(app3.session.lastSurface, "activeFocus", true)
@@ -1544,7 +1556,7 @@ Rectangle {
             tryCompare(desktopSpread, "state", "")
 
             // Just press Alt, make sure the spread comes up
-            keyPress(Qt.Key_Control);
+            keyPress(Qt.Key_Alt);
             keyClick(Qt.Key_Tab);
             tryCompare(desktopSpread, "state", "altTab")
             tryCompare(spreadRepeater, "highlightedIndex", 1)
@@ -1565,7 +1577,7 @@ Rectangle {
             tryCompare(spreadRepeater, "highlightedIndex", 0)
 
             // Release control, check if spread disappears
-            keyRelease(Qt.Key_Control)
+            keyRelease(Qt.Key_Alt)
             tryCompare(desktopSpread, "state", "")
 
             // Make sure that after wrapping around once, we have the same one focused as at the beginning
@@ -1578,7 +1590,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
             tryCompare(spreadRepeater, "highlightedIndex", 1);
 
@@ -1600,7 +1612,7 @@ Rectangle {
             keyClick(Qt.Key_Backtab);
             tryCompare(spreadRepeater, "highlightedIndex", 1);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_highlightFollowsMouse() {
@@ -1609,7 +1621,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(spreadRepeater, "highlightedIndex", 1);
@@ -1628,7 +1640,7 @@ Rectangle {
 
             verify(y < 4000);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_closeFromSpread() {
@@ -1637,7 +1649,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             appRemovedSpy.clear();
@@ -1664,7 +1676,7 @@ Rectangle {
             tryCompare(appRemovedSpy, "count", 1)
             compare(appRemovedSpy.signalArguments[0][0], closedAppId);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_selectFromSpreadWithMouse_data() {
@@ -1684,7 +1696,7 @@ Rectangle {
             var spreadRepeater = findInvisibleChild(shell, "spreadRepeater");
             verify(spreadRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             var focusAppId = ApplicationManager.get(2).appId;
@@ -1711,7 +1723,7 @@ Rectangle {
             tryCompare(stage, "state", "");
             tryCompare(ApplicationManager, "focusedApplicationId", focusAppId);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         function test_progressiveAutoScrolling() {
@@ -1720,7 +1732,7 @@ Rectangle {
             var appRepeater = findInvisibleChild(shell, "appRepeater");
             verify(appRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             var spreadFlickable = findChild(shell, "spreadFlickable")
@@ -1731,7 +1743,7 @@ Rectangle {
             var x = 0;
             var y = shell.height * .5
             mouseMove(shell, x, y)
-            while (x <= spreadFlickable.width) {
+            while (x <= shell.width) {
                 x+=10;
                 mouseMove(shell, x, y)
                 wait(0); // spin the loop so bindings get evaluated
@@ -1746,7 +1758,7 @@ Rectangle {
             }
             tryCompare(spreadFlickable, "contentX", 0);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         // This makes sure the hoverMouseArea is set to invisible AND disabled
@@ -1758,13 +1770,13 @@ Rectangle {
             tryCompare(hoverMouseArea, "enabled", false)
             tryCompare(hoverMouseArea, "visible", false)
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(hoverMouseArea, "enabled", true)
             tryCompare(hoverMouseArea, "visible", true)
 
-            keyRelease(Qt.Key_Control)
+            keyRelease(Qt.Key_Alt)
 
             tryCompare(hoverMouseArea, "enabled", false)
             tryCompare(hoverMouseArea, "visible", false)
@@ -1781,7 +1793,7 @@ Rectangle {
             var appRepeater = findInvisibleChild(shell, "appRepeater");
             verify(appRepeater !== null);
 
-            keyPress(Qt.Key_Control)
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(spreadRepeater, "highlightedIndex", 1);
@@ -1802,33 +1814,46 @@ Rectangle {
 
             verify(y < 4000);
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
-        function test_focusAppFromLauncherExitsSpread() {
-            loadDesktopShellWithApps()
+        function test_focusAppFromLauncherExitsSpread_data() {
+            return [
+                {tag: "autohide launcher", launcherLocked: false },
+                {tag: "locked launcher", launcherLocked: true }
+            ]
+        }
 
-            var desktopSpread = findChild(shell, "spread");
+        function test_focusAppFromLauncherExitsSpread(data) {
+            loadDesktopShellWithApps()
             var launcher = findChild(shell, "launcher");
+            var desktopSpread = findChild(shell, "spread");
             var bfb = findChild(launcher, "buttonShowDashHome");
 
-            keyPress(Qt.Key_Control)
+            GSettingsController.setAutohideLauncher(!data.launcherLocked);
+            waitForRendering(shell);
+
+            keyPress(Qt.Key_Alt)
             keyClick(Qt.Key_Tab);
 
             tryCompare(desktopSpread, "state", "altTab")
 
-            revealLauncherByEdgePushWithMouse();
-            tryCompare(launcher, "x", 0);
-            mouseMove(bfb, bfb.width / 2, bfb.height / 2)
-            waitForRendering(shell)
+            if (!data.launcherLocked) {
+                revealLauncherByEdgePushWithMouse();
+                tryCompare(launcher, "x", 0);
+                mouseMove(bfb, bfb.width / 2, bfb.height / 2)
+                waitForRendering(shell)
+            }
 
             mouseClick(bfb, bfb.width / 2, bfb.height / 2)
-            tryCompare(launcher, "state", "")
+            if (!data.launcherLocked) {
+                tryCompare(launcher, "state", "")
+            }
             tryCompare(desktopSpread, "state", "")
 
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash")
 
-            keyRelease(Qt.Key_Control);
+            keyRelease(Qt.Key_Alt);
         }
 
         // regression test for http://pad.lv/1443319
@@ -1913,6 +1938,31 @@ Rectangle {
             mousePress(appDelegate, appDelegate.width / 2, units.gu(1))
             mouseMove(appDelegate, appDelegate.width / 2, -units.gu(100))
 
+            compare(appDelegate.y >= PanelState.panelHeight, true);
+        }
+
+        function test_cantResizeWindowUnderPanel() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app);
+
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_dialer-app");
+            var decoration = findChild(appDelegate, "appWindowDecoration_dialer-app");
+            verify(decoration);
+
+            // move it away from launcher and panel
+            appDelegate.x = units.gu(10)
+            appDelegate.y = units.gu(10)
+
+            // drag-resize the area up
+            mousePress(decoration, decoration.width/2, -units.gu(1));
+            mouseMove(decoration, decoration.width/2, -units.gu(100));
+
+            // verify we don't go past the panel
             compare(appDelegate.y >= PanelState.panelHeight, true);
         }
 
@@ -2050,6 +2100,138 @@ Rectangle {
                 compare(ApplicationManager.findApplication("libreoffice") === null, true);
             }
         }
+
+        function test_superTabToCycleLauncher_data() {
+            return [
+                {tag: "autohide launcher", launcherLocked: false},
+                {tag: "locked launcher", launcherLocked: true}
+            ]
+        }
+
+        function test_superTabToCycleLauncher(data) {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            GSettingsController.setAutohideLauncher(!data.launcherLocked);
+            waitForRendering(shell);
+
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
+            var firstAppInLauncher = LauncherModel.get(0).appId;
+
+            compare(launcher.state, data.launcherLocked ? "visible": "");
+            compare(launcherPanel.highlightIndex, -2);
+            compare(ApplicationManager.focusedApplicationId, "unity8-dash");
+
+            // Use Super + Tab Tab to cycle to the first entry in the launcher
+            keyPress(Qt.Key_Super_L, Qt.MetaModifier);
+            keyClick(Qt.Key_Tab);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(launcherPanel, "highlightIndex", -1);
+            keyClick(Qt.Key_Tab);
+            tryCompare(launcherPanel, "highlightIndex", 0);
+            keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
+            tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
+            tryCompare(launcherPanel, "highlightIndex", -2);
+            tryCompare(ApplicationManager, "focusedApplicationId", firstAppInLauncher);
+
+            // Now go back to the dash
+            keyPress(Qt.Key_Super_L, Qt.MetaModifier);
+            keyClick(Qt.Key_Tab);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(launcherPanel, "highlightIndex", -1);
+            keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
+            tryCompare(launcher, "state", data.launcherLocked ? "visible" : "");
+            tryCompare(launcherPanel, "highlightIndex", -2);
+            tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
+        }
+
+        function test_longpressSuperOpensLauncher() {
+            loadShell("desktop");
+            var launcher = findChild(shell, "launcher");
+            var shortcutHint = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint")
+
+            compare(launcher.state, "");
+            keyPress(Qt.Key_Super_L, Qt.MetaModifier);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(shortcutHint, "visible", true);
+
+            keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
+            tryCompare(launcher, "state", "");
+            tryCompare(shortcutHint, "visible", false);
+        }
+
+        function test_metaNumberLaunchesFromLauncher_data() {
+            return [
+                {tag: "Meta+1", key: Qt.Key_1, index: 0},
+                {tag: "Meta+2", key: Qt.Key_2, index: 1},
+                {tag: "Meta+4", key: Qt.Key_5, index: 4},
+                {tag: "Meta+0", key: Qt.Key_0, index: 9},
+            ]
+        }
+
+        function test_metaNumberLaunchesFromLauncher(data) {
+            loadShell("desktop");
+            var launcher = findChild(shell, "launcher");
+            var appId = LauncherModel.get(data.index).appId;
+            waitForRendering(shell);
+
+            keyClick(data.key, Qt.MetaModifier);
+            tryCompare(ApplicationManager, "focusedApplicationId", appId);
+        }
+
+        function test_altF1OpensLauncherForKeyboardNavigation() {
+            loadShell("desktop");
+            waitForRendering(shell);
+            var launcher = findChild(shell, "launcher");
+
+            keyClick(Qt.Key_F1, Qt.AltModifier);
+            tryCompare(launcher, "state", "visible");
+            tryCompare(launcher, "focus", true)
+        }
+
+        function test_lockedOutLauncherAddsMarginsToMaximized() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            var appContainer = findChild(shell, "appContainer");
+            var launcher = findChild(shell, "launcher");
+
+            var app = ApplicationManager.startApplication("music-app");
+            waitUntilAppWindowIsFullyLoaded(app);
+            var appDelegate = findChild(appContainer, "appDelegate_music-app");
+            appDelegate.maximize();
+            tryCompare(appDelegate, "visuallyMaximized", true);
+            waitForRendering(shell);
+
+            GSettingsController.setAutohideLauncher(true);
+            waitForRendering(shell)
+            var hiddenSize = appDelegate.width;
+
+            GSettingsController.setAutohideLauncher(false);
+            waitForRendering(shell)
+            var shownSize = appDelegate.width;
+
+            compare(shownSize + launcher.panelWidth, hiddenSize);
+        }
+
+        function test_fullscreenAppHidesLockedOutLauncher() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+
+            var launcher = findChild(shell, "launcher");
+            var launcherPanel = findChild(launcher, "launcherPanel");
+
+            GSettingsController.setAutohideLauncher(false);
+            waitForRendering(shell)
+
+            tryCompare(launcher, "lockedVisible", true);
+
+            var cameraApp = ApplicationManager.startApplication("camera-app");
+            waitUntilAppWindowIsFullyLoaded(cameraApp);
+
+            tryCompare(launcher, "lockedVisible", false);
+        }
+
 
         function test_inputEventsOnEdgesEndUpInAppSurface_data() {
             return [

@@ -41,7 +41,8 @@ public:
             Mir::Type type,
             Mir::State state,
             const QUrl& screenshot,
-            const QUrl &qmlFilePath = QUrl());
+            const QUrl &qmlFilePath = QUrl(),
+            QObject *parent = nullptr);
     virtual ~MirSurface();
 
     ////
