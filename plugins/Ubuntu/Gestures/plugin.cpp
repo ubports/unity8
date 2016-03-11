@@ -21,6 +21,7 @@
 #include "FloatingFlickable.h"
 #include "PressedOutsideNotifier.h"
 #include "TouchGate.h"
+#include "TouchGestureArea.h"
 
 #include <qqml.h>
 
@@ -38,4 +39,6 @@ void UbuntuGesturesQmlPlugin::registerTypes(const char *uri)
     qmlRegisterType<FloatingFlickable>(uri, 0, 1, "FloatingFlickable");
     qmlRegisterType<PressedOutsideNotifier>(uri, 0, 1, "PressedOutsideNotifier");
     qmlRegisterType<TouchGate>(uri, 0, 1, "TouchGate");
+    qmlRegisterType<TouchGestureArea>(uri, 0, 1, "TouchGestureArea");
+    qmlRegisterUncreatableType<GestureTouchPoint>(uri, 0, 1, "GestureTouchPoint", "Cannot create GestureTouchPoints");
 }

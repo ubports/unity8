@@ -313,7 +313,10 @@ TestCase {
     // perform a drag in the given direction until the given condition is true
     // The condition is a function to be evaluated after every step
     function touchDragUntil(item, startX, startY, stepX, stepY, condition) {
+        multiTouchDragUntil([0], item, startX, startY, stepX, stepY, condition);
+    }
 
+    function multiTouchDragUntil(touchIds, item, startX, startY, stepX, stepY, condition) {
         var root = fetchRootItem(item);
         var pos = item.mapToItem(root, startX, startY);
 
@@ -326,7 +329,9 @@ TestCase {
         stepY = stepEnd.y - stepStart.y;
 
         var event = touchEvent(item)
-        event.press(0 /* touchId */, pos.x, pos.y)
+        for (var i = 0; i < touchIds.length; i++) {
+            event.press(touchIds[i], pos.x, pos.y)
+        }
         event.commit()
 
         // we have to stop at some point
@@ -341,23 +346,30 @@ TestCase {
             pos.y += stepY;
 
             event = touchEvent(item);
-            event.move(0 /* touchId */, pos.x, pos.y);
+            for (i = 0; i < touchIds.length; i++) {
+                event.move(touchIds[i], pos.x, pos.y);
+            }
             event.commit();
 
             stepsDone += 1;
         }
 
         event = touchEvent(item)
-        event.release(0 /* touchId */, pos.x, pos.y)
+        for (i = 0; i < touchIds.length; i++) {
+            event.release(touchIds[i], pos.x, pos.y)
+        }
         event.commit()
     }
 
-    function touchMove(item, tox, toy) {
+    function touchMove(item, tox, toy) { multiTouchMove(0, item, tox, toy); }
+
+    function multiTouchMove(touchId, item, tox, toy) {
+        if (typeof touchId !== "number") touchId = 0;
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, tox, toy)
 
         var event = touchEvent(item);
-        event.move(0 /* touchId */, rootPoint.x, rootPoint.y);
+        event.move(touchId, rootPoint.x, rootPoint.y);
         event.commit();
     }
 
@@ -394,21 +406,55 @@ TestCase {
             return item
     }
 
-    function touchPress(item, x, y) {
+    function touchPress(item, x, y) { touchPress(0, item, x, y, []); }
+
+    /*! \brief Release a touch point
+
+      \param touchId The touchId to be pressed
+      \param item The item
+      \param x The x coordinate of the press, defaults to horizontal center
+      \param y The y coordinate of the press, defaults to vertical center
+      \param stationaryPoints An array of touchIds which are "already touched"
+    */
+    function multiTouchPress(touchId, item, x, y, stationaryPoints) {
+        if (typeof touchId !== "number") touchId = 0;
+        if (typeof x !== "number") x = item.width / 2;
+        if (typeof y !== "number") y = item.height / 2;
+        if (typeof stationaryPoints !== "object") stationaryPoints = []
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
         var event = touchEvent(item)
-        event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
+        event.press(touchId, rootPoint.x, rootPoint.y)
+        for (var i = 0; i < stationaryPoints.length; i++) {
+            event.stationary(stationaryPoints[i]);
+        }
         event.commit()
     }
 
-    function touchRelease(item, x, y) {
+    function touchRelease(item, x, y) { multiTouchRelease(0, item, x, y, []); }
+
+    /*! \brief Release a touch point
+
+      \param touchId The touchId to be released
+      \param item The item
+      \param x The x coordinate of the release, defaults to horizontal center
+      \param y The y coordinate of the release, defaults to vertical center
+      \param stationaryPoints An array of touchIds which are "still touched"
+     */
+    function multiTouchRelease(touchId, item, x, y, stationaryPoints) {
+        if (typeof touchId !== "number") touchId = 0;
+        if (typeof x !== "number") x = item.width / 2;
+        if (typeof y !== "number") y = item.height / 2;
+        if (typeof stationaryPoints !== "object") stationaryPoints = []
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
         var event = touchEvent(item)
-        event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
+        event.release(touchId, rootPoint.x, rootPoint.y)
+        for (var i = 0; i < stationaryPoints.length; i++) {
+            event.stationary(stationaryPoints[i]);
+        }
         event.commit()
     }
 
@@ -419,6 +465,11 @@ TestCase {
       \param y The y coordinate of the tap, defaults to vertical center
      */
     function tap(item, x, y) {
+        multiTouchTap([0], item, x, y);
+    }
+
+    function multiTouchTap(touchIds, item, x, y) {
+        if (typeof touchIds !== "object") touchIds = [0];
         if (typeof x !== "number") x = item.width / 2;
         if (typeof y !== "number") y = item.height / 2;
 
@@ -426,13 +477,18 @@ TestCase {
         var rootPoint = item.mapToItem(root, x, y)
 
         var event = touchEvent(item)
-        event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
+        for (var i = 0; i < touchIds.length; i++) {
+            event.press(touchIds[i], rootPoint.x, rootPoint.y)
+        }
         event.commit()
 
         event = touchEvent(item)
-        event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
+        for (i = 0; i < touchIds.length; i++) {
+            event.release(touchIds[i], rootPoint.x, rootPoint.y)
+        }
         event.commit()
     }
+
 
     Component.onCompleted: {
         var rootItem = parent;

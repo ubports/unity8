@@ -35,6 +35,11 @@ public:
     virtual int interval() const = 0;
     virtual void setInterval(int msecs) = 0;
     virtual void start() { m_isRunning = true; }
+    virtual void start(int msecs)
+    {
+        setInterval(msecs);
+        start();
+    }
     virtual void stop() { m_isRunning = false; }
     bool isRunning() const { return m_isRunning; }
     virtual bool isSingleShot() const = 0;

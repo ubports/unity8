@@ -24,6 +24,7 @@ set(QMLPLUGIN_SRC
     timezoneFormatter.cpp
     inputeventgenerator.cpp
     deviceconfigparser.cpp
+    globalfunctions.cpp
     plugin.cpp
     )
 

@@ -123,6 +123,7 @@ private:
     int m_touchReleaseCount;
     int m_mousePressCount;
     int m_mouseReleaseCount;
+    QVariantMap m_touchTrail;
 
     FillMode m_fillMode{Stretch};
 
