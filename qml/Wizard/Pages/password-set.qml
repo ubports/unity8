@@ -43,7 +43,9 @@ LocalComponents.Page {
         anchors.rightMargin: parent.rightMargin
         anchors.topMargin: customMargin
 
-        bottomMargin: Qt.inputMethod.keyboardRectangle.height
+        bottomMargin: Qt.inputMethod.keyboardRectangle.height - height
+
+        Behavior on contentY { UbuntuNumberAnimation {} }
 
         // info label
         Label {
@@ -82,6 +84,11 @@ LocalComponents.Page {
             objectName: "passwordField"
             echoMode: TextInput.Password
             onAccepted: password2Field.forceActiveFocus()
+            onActiveFocusChanged: {
+                if (activeFocus) {
+                    column.contentY = pass1Label.y
+                }
+            }
         }
 
         // password 2
@@ -106,6 +113,11 @@ LocalComponents.Page {
             id: password2Field
             objectName: "password2Field"
             echoMode: TextInput.Password
+            onActiveFocusChanged: {
+                if (activeFocus) {
+                    column.contentY = pass2Label.y
+                }
+            }
         }
 
         // password meter
