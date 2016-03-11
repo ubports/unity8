@@ -34,14 +34,18 @@ LocalComponents.Page {
     readonly property alias password2: password2Field.text
     readonly property bool passwordsMatching: password == password2 && password.trim().length > 7
 
-    ColumnLayout {
+    Flickable {
         id: column
+        clip: true
+        flickableDirection: Flickable.VerticalFlick
         anchors.fill: content
-        anchors.leftMargin: leftMargin
-        anchors.rightMargin: rightMargin
+        anchors.leftMargin: parent.leftMargin
+        anchors.rightMargin: parent.rightMargin
         anchors.topMargin: customMargin
-        spacing: units.gu(3)
 
+        bottomMargin: Qt.inputMethod.keyboardRectangle.height
+
+        // info label
         Label {
             id: infoLabel
             objectName: "infoLabel"
@@ -55,31 +59,53 @@ LocalComponents.Page {
             text: i18n.tr("Enter at least 8 characters")
         }
 
-        ColumnLayout {
-            id: innerLayout
-            Label {
-                text: i18n.tr("Choose password")
-                color: textColor
+        // password
+        Label {
+            id: pass1Label
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: infoLabel.bottom
+                topMargin: units.gu(3)
             }
-            LocalComponents.WizardTextField {
-                Layout.fillWidth: true
-                id: passwordField
-                objectName: "passwordField"
-                echoMode: TextInput.Password
-                onAccepted: password2Field.forceActiveFocus()
+            text: i18n.tr("Choose password")
+            color: textColor
+        }
+        LocalComponents.WizardTextField {
+            id: passwordField
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: pass1Label.bottom
+                topMargin: units.gu(1)
             }
+            objectName: "passwordField"
+            echoMode: TextInput.Password
+            onAccepted: password2Field.forceActiveFocus()
+        }
 
-            Label {
-                text: i18n.tr("Confirm password")
-                color: textColor
-                anchors.topMargin: units.gu(1)
+        // password 2
+        Label {
+            id: pass2Label
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: passwordField.bottom
+                topMargin: units.gu(3)
             }
-            LocalComponents.WizardTextField {
-                Layout.fillWidth: true
-                id: password2Field
-                objectName: "password2Field"
-                echoMode: TextInput.Password
+            text: i18n.tr("Confirm password")
+            color: textColor
+        }
+        LocalComponents.WizardTextField {
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: pass2Label.bottom
+                topMargin: units.gu(1)
             }
+            id: password2Field
+            objectName: "password2Field"
+            echoMode: TextInput.Password
         }
 
         // password meter
@@ -88,16 +114,12 @@ LocalComponents.Page {
             anchors {
                 left: parent.left
                 right: parent.right
-                top: innerLayout.bottom
+                top: password2Field.bottom
                 topMargin: units.gu(1)
             }
 
             password: passwordField.text
             matching: passwordsMatching
-        }
-
-        Item { // spacer
-            Layout.fillHeight: true
         }
     }
 

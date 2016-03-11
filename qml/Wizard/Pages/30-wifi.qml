@@ -140,16 +140,6 @@ LocalComponents.Page {
                 unityMenuModel.activate(menuIndex);
                 listview.positionViewAtBeginning();
             }
-
-            Component.onCompleted: {
-                loadAttributes();
-            }
-            onUnityMenuModelChanged: {
-                loadAttributes();
-            }
-            onMenuIndexChanged: {
-                loadAttributes();
-            }
         }
     }
 
@@ -205,6 +195,7 @@ LocalComponents.Page {
                 onLoaded: {
                     item.menuData = Qt.binding(function() { return model; });
                     item.menuIndex = Qt.binding(function() { return index; });
+                    item.loadAttributes();
                 }
             }
         }
