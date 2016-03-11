@@ -131,7 +131,7 @@ Item {
                 name: "no-simcard"
                 height: parent.height
                 width: height
-                visible: !(root.simManager0.present || root.simManager1.present)
+                visible: !(root.simManager0.present || root.simManager1.present) && root.modemManager.modems.length > 0
                 color: "white"
             }
 

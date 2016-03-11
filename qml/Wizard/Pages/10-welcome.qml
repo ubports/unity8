@@ -158,10 +158,12 @@ LocalComponents.Page {
 
                 if (!root.modemManager.available || !root.modemManager.ready || root.modemManager.modems.length === 0 ||
                         (root.simManager0.present && root.simManager0.ready) || (root.simManager1.present && root.simManager1.ready) ||
-                        root.seenSIMPage) // go to next page
+                        root.seenSIMPage) { // go to next page
                     pageStack.next();
-                else
+                }
+                else {
                     pageStack.load(Qt.resolvedUrl("sim.qml")); // show the SIM page
+                }
             }
         }
     }

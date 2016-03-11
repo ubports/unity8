@@ -42,7 +42,7 @@ LocalComponents.Page {
 
         infoText: i18n.tr("Confirm passcode")
 
-        errorText: i18n.tr("Incorrect passcode.") + "\n" + i18n.tr("Please re-enter.")
+        errorText: i18n.tr("Incorrect passcode.") + "\n" + i18n.ctr("Enter the passcode again", "Please re-enter.")
 
         foregroundColor: textColor
 
