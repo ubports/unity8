@@ -20,7 +20,6 @@
 #ifndef UNITY_PROPERTIESSERVER_H
 #define UNITY_PROPERTIESSERVER_H
 
-#include "PropertiesServer.h"
 #include <QDBusContext>
 #include <QDBusVariant>
 #include <QObject>

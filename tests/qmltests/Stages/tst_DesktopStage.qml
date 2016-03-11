@@ -21,6 +21,7 @@ import Ubuntu.Components.ListItems 1.3
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
+import AccountsService 0.1
 
 import ".." // For EdgeBarrierControls
 import "../../../qml/Stages"
@@ -128,6 +129,11 @@ Item {
                 SurfaceManagerControls { textColor: "white" }
             }
         }
+    }
+
+    SignalSpy {
+        id: keymapSpy
+        signalName: "activated"
     }
 
     UnityTestCase {
@@ -510,8 +516,6 @@ Item {
         }
 
         function test_dropShadow() {
-            killAllRunningApps();
-
             // verify the drop shadow is not visible initially
             verify(PanelState.dropShadow == false);
 
@@ -535,6 +539,51 @@ Item {
 
             // verify the drop shadow is gone
             verify(PanelState.dropShadow == false);
+        }
+
+        function test_switchKeymap() {
+            AccountsService.keymaps = ["cz+qwerty", "fr", "us"] // "configure" the keymaps for user
+
+            var facebookApp = startApplication("facebook-webapp");
+            var appSurface = facebookApp.session.lastSurface;
+            verify(appSurface);
+
+            // verify the initial keymap is the first one from the list
+            tryCompare(appSurface, "keymapLayout", AccountsService.keymaps[0].split("+")[0]); // cz
+            tryCompare(appSurface, "keymapVariant", AccountsService.keymaps[0].split("+")[1]); // qwerty
+
+            var facebookWindow = desktopStage.mainAppWindow;
+            verify(facebookWindow);
+
+            // switch to next keymap (should be "fr")
+            facebookWindow.switchToKeymap(1);
+            var frKeymap = AccountsService.keymaps[1].split("+");
+            tryCompare(appSurface, "keymapLayout", frKeymap[0]);
+            tryCompare(appSurface, "keymapVariant", "");
+
+            // verify the surface reports the same keymap as the ApplicationWindow
+            tryCompare(appSurface, "keymapLayout", facebookWindow.activeKeymap);
+
+            // switch to next keymap again (should be "us")
+            facebookWindow.switchToKeymap(2);
+            tryCompare(facebookWindow, "activeKeymap", "us");
+        }
+
+        function test_switchKeymapShortcuts() {
+            var keymapActionGroup = findInvisibleChild(desktopStage, "keymapActionGroup");
+            verify(keymapActionGroup);
+
+            keymapSpy.target = keymapActionGroup.nextAction;
+
+            // switch to next keymap
+            keyClick(Qt.Key_Space, Qt.MetaModifier);
+            tryCompare(keymapSpy, "count", 1);
+
+            keymapSpy.clear();
+
+            // switch to previous keymap
+            keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
+            tryCompare(keymapSpy, "count", 1);
         }
     }
 }

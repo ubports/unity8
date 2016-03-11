@@ -152,3 +152,20 @@ bool AccountsService::hereLicensePathValid() const
 {
     return !m_hereLicensePath.isNull();
 }
+
+QStringList AccountsService::keymaps() const
+{
+    if (!m_kbdMap.isEmpty()) {
+        return m_kbdMap;
+    }
+
+    return {QStringLiteral("us")};
+}
+
+void AccountsService::setKeymaps(const QStringList &keymaps)
+{
+    if (keymaps != m_kbdMap) {
+        m_kbdMap = keymaps;
+        Q_EMIT keymapsChanged();
+    }
+}

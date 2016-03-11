@@ -76,6 +76,8 @@ AbstractStage {
         }
     }
 
+    mainAppWindow: priv.focusedAppDelegate ? priv.focusedAppDelegate.appWindow : null
+
     orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
 
     supportedOrientations: mainApp ? mainApp.supportedOrientations

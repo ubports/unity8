@@ -40,6 +40,8 @@ AbstractStage {
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null
 
+    mainAppWindow: priv.focusedAppDelegate ? priv.focusedAppDelegate.appWindow : null
+
     // application windows never rotate independently
     mainAppWindowOrientationAngle: shellOrientationAngle
 
@@ -283,6 +285,8 @@ AbstractStage {
                 readonly property string appName: model.name
                 property bool visuallyMaximized: false
                 property bool visuallyMinimized: false
+
+                readonly property alias appWindow: decoratedWindow.window
 
                 onFocusChanged: {
                     if (focus && ApplicationManager.focusedApplicationId !== appId) {

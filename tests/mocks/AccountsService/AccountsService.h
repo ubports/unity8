@@ -70,6 +70,10 @@ class AccountsService: public QObject
     Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
                READ hereLicensePathValid
                NOTIFY hereLicensePathChanged)
+    Q_PROPERTY(QStringList keymaps
+               READ keymaps
+               WRITE setKeymaps // only in mock
+               NOTIFY keymapsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -99,6 +103,8 @@ public:
     QString hereLicensePath() const;
     void setHereLicensePath(const QString &path);
     bool hereLicensePathValid() const;
+    QStringList keymaps() const;
+    void setKeymaps(const QStringList &keymaps);
 
 Q_SIGNALS:
     void userChanged();
@@ -111,6 +117,7 @@ Q_SIGNALS:
     void failedLoginsChanged();
     void hereEnabledChanged();
     void hereLicensePathChanged();
+    void keymapsChanged();
 
 private:
     bool m_enableLauncherWhileLocked;
@@ -122,6 +129,7 @@ private:
     bool m_demoEdges;
     bool m_hereEnabled;
     QString m_hereLicensePath;
+    QStringList m_kbdMap;
 };
 
 #endif

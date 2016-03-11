@@ -29,6 +29,7 @@ FocusScope {
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
     readonly property string title: sessionContainer.surface && sessionContainer.surface.name !== "" ?
                                         sessionContainer.surface.name : d.name
+    readonly property string activeKeymap: sessionContainer.surfaceContainer ? sessionContainer.surfaceContainer.activeKeymap : "us"
 
     // to be set from outside
     property QtObject application
@@ -36,6 +37,10 @@ FocusScope {
     property alias resizeSurface: sessionContainer.resizeSurface
     property int requestedWidth: -1
     property int requestedHeight: -1
+
+    function switchToKeymap(keymap) {
+        sessionContainer.surfaceContainer.switchToKeymap(keymap);
+    }
 
     readonly property int minimumWidth: sessionContainer.surface ? sessionContainer.surface.minimumWidth : 0
     readonly property int minimumHeight: sessionContainer.surface ? sessionContainer.surface.minimumHeight : 0
