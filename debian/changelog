@@ -1,3 +1,9 @@
+unity8 (8.13+15.04.20150914-0ubuntu1) UNRELEASED; urgency=medium
+
+  * bump version to fix OOBE build
+
+ -- Lukas Tinkl <ltinkl@canonical.com>  Mon, 14 Sep 2015 19:19:23 +0200
+
 unity8 (8.11+16.04.20160310.4-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

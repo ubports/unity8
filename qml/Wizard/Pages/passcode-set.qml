@@ -26,11 +26,10 @@ import "../../Components" as UnityComponents
  */
 
 LocalComponents.Page {
-    id: passwdSetPage
-    objectName: "passwdSetPage"
-    forwardButtonSourceComponent: forwardButton
-
-    skip: root.passwordMethod === UbuntuSecurityPrivacyPanel.Swipe
+    id: passcodeSetPage
+    objectName: "passcodeSetPage"
+    customTitle: true
+    backButtonText: i18n.tr("Cancel")
 
     // If we are entering this page, clear any saved password and get focus
     onEnabledChanged: if (enabled) lockscreen.clear(false)
@@ -43,52 +42,37 @@ LocalComponents.Page {
     Timer {
         id: confirmTimer
         interval: UbuntuAnimation.SnapDuration
-        onTriggered: pageStack.load(Qt.resolvedUrl("passwd-confirm.qml"));
+        onTriggered: pageStack.load(Qt.resolvedUrl("passcode-confirm.qml"));
     }
 
     UnityComponents.Lockscreen {
         id: lockscreen
         anchors {
-            fill: parent
-            topMargin: topMargin
-            leftMargin: leftMargin
-            rightMargin: rightMargin
-            bottomMargin: buttonMargin
+            fill: content
         }
 
-        infoText: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase ?
-                  i18n.tr("Enter passphrase") :
-                  i18n.tr("Choose your passcode")
+        infoText: i18n.tr("Choose passcode")
+        foregroundColor: textColor
 
         // Note that the number four comes from PAM settings,
         // which we don't have a good way to interrogate.  We
         // only do this matching instead of PAM because we want
         // to set the password via PAM in a different place
         // than this page.  See comments at top of passwd-type file.
-        errorText: i18n.tr("Passphrase must be 4 characters long")
+        errorText: i18n.tr("Passcode must be 4 characters long")
 
         showEmergencyCallButton: false
         showCancelButton: false
-        alphaNumeric: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
+        alphaNumeric: false
         minPinLength: 4
         maxPinLength: 4
 
         onEntered: {
             if (passphrase.length >= 4) {
-                passwdSetPage.confirm();
+                passcodeSetPage.confirm();
             } else {
-                lockscreen.clear(true)
+                lockscreen.clear(true);
             }
-        }
-    }
-
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
-            visible: root.passwordMethod === UbuntuSecurityPrivacyPanel.Passphrase
-            enabled: lockscreen.passphrase.length >= 4
-            text: i18n.tr("Continue")
-            onClicked: passwdSetPage.confirm()
         }
     }
 }
