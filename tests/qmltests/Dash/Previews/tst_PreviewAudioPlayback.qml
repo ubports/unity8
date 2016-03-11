@@ -100,11 +100,15 @@ Rectangle {
             }
         }
 
-        function checkPlayerSource(index) {
-            var modelFilename = previewAudioPlayback.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
-            var playerFilename = DashAudioPlayer.currentSource.toString().replace(/^.*[\\\/]/, '');
+        function checkPlayerUrls(modelFilename, playerUrl) {
+            var modelFilename = modelFilename.replace(/^.*[\\\/]/, '');
+            var playerFilename = playerUrl.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
+        }
+
+        function checkPlayerSource(index) {
+            checkPlayerUrls(previewAudioPlayback.widgetData["tracks"][index]["source"], DashAudioPlayer.currentSource);
         }
 
         function test_playback() {
@@ -156,6 +160,11 @@ Rectangle {
 
             tryCompare(audio, "playbackState", Audio.PlayingState);
             checkPlayerSource(1);
+
+            // Check the playlist is song 0, 1, 2
+            checkPlayerUrls(tracksModel2["tracks"][0].source, audio.playlist.itemSource(0));
+            checkPlayerUrls(tracksModel2["tracks"][1].source, audio.playlist.itemSource(1));
+            checkPlayerUrls(tracksModel2["tracks"][2].source, audio.playlist.itemSource(2));
 
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", true);

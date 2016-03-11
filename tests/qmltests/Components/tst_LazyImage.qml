@@ -112,6 +112,11 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: signalSpy
+        signalName: "runningChanged"
+    }
+
     UT.UnityTestCase {
         name: "LazyImage"
         when: windowShown
@@ -123,6 +128,18 @@ Rectangle {
             tryCompare(lazy2, "height", units.gu(10));
             controls3.blank();
             tryCompare(lazy3, "width", units.gu(10));
+
+            tryCompare(lazy1, "state", "default");
+            var transition = findChildIn(lazy1, "transitions", "genericTransition");
+            tryCompare(transition, "running", false);
+
+            tryCompare(lazy2, "state", "default");
+            transition = findChildIn(lazy2, "transitions", "genericTransition");
+            tryCompare(transition, "running", false);
+
+            tryCompare(lazy3, "state", "default");
+            transition = findChildIn(lazy3, "transitions", "genericTransition");
+            tryCompare(transition, "running", false);
         }
 
         function test_lazyimage_data() {
@@ -131,33 +148,34 @@ Rectangle {
                 {tag: "Unbound Wide", image: lazy1, func: controls1.wide, transition: "readyTransition", width: 160, height: 80, imageWidth: 160, imageHeight: 80, initialWidth: units.gu(10), initialHeight: units.gu(10)},
                 {tag: "Unbound Square", image: lazy1, func: controls1.square, transition: "readyTransition", width: 160, height: 160, imageWidth: 160, imageHeight: 160, initialWidth: units.gu(10), initialHeight: units.gu(10)},
                 {tag: "Unbound Portrait", image: lazy1, func: controls1.portrait, transition: "readyTransition", width: 80, height: 160, imageWidth: 80, imageHeight: 160, initialWidth: units.gu(10), initialHeight: units.gu(10)},
-                {tag: "Unbound Bad path", image: lazy1, func: controls1.badpath, transition: "genericTransition", width: units.gu(10), height: units.gu(10), imageWidth: units.gu(10), imageHeight: units.gu(10), initialWidth: units.gu(10), initialHeight: units.gu(10), placeholder: true, error: true},
+                {tag: "Unbound Bad path", image: lazy1, func: controls1.badpath, transition: "genericTransition", state: "error", width: units.gu(10), height: units.gu(10), imageWidth: units.gu(10), imageHeight: units.gu(10), initialWidth: units.gu(10), initialHeight: units.gu(10), placeholder: true, error: true},
                 {tag: "Width-bound Blank", image: lazy2, func: controls2.blank, width: units.gu(30), height: units.gu(10), imageWidth: units.gu(30), imageHeight: units.gu(10), initialWidth: units.gu(30), initialHeight: units.gu(10), placeholder: true},
                 {tag: "Width-bound Wide", image: lazy2, func: controls2.wide, transition: "readyTransition", width: units.gu(30), height: units.gu(15), imageWidth: units.gu(30), imageHeight: units.gu(15), initialWidth: units.gu(30), initialHeight: units.gu(10)},
                 {tag: "Width-bound Square", image: lazy2, func: controls2.square, transition: "readyTransition", width: units.gu(30), height: units.gu(30), imageWidth: units.gu(30), imageHeight: units.gu(30), initialWidth: units.gu(30), initialHeight: units.gu(10)},
                 {tag: "Width-bound Portrait", image: lazy2, func: controls2.portrait, transition: "readyTransition", width: units.gu(30), height: units.gu(60), imageWidth: units.gu(30), imageHeight: units.gu(60), initialWidth: units.gu(30), initialHeight: units.gu(10)},
-                {tag: "Width-bound Bad path", image: lazy2, func: controls2.badpath, transition: "genericTransition", width: units.gu(30), height: units.gu(10), imageWidth: units.gu(30), imageHeight: units.gu(10), initialWidth: units.gu(30), initialHeight: units.gu(10), placeholder: true, error: true},
+                {tag: "Width-bound Bad path", image: lazy2, func: controls2.badpath, transition: "genericTransition", state: "error", width: units.gu(30), height: units.gu(10), imageWidth: units.gu(30), imageHeight: units.gu(10), initialWidth: units.gu(30), initialHeight: units.gu(10), placeholder: true, error: true},
                 {tag: "Height-bound Blank", image: lazy3, func: controls3.blank, width: units.gu(10), height: units.gu(12), imageWidth: units.gu(10), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12), placeholder: true},
                 {tag: "Height-bound Wide", image: lazy3, func: controls3.wide, transition: "readyTransition", width: units.gu(24), height: units.gu(12), imageWidth: units.gu(24), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12)},
                 {tag: "Height-bound Square", image: lazy3, func: controls3.square, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12)},
                 {tag: "Height-bound Portrait", image: lazy3, func: controls3.portrait, transition: "readyTransition", width: units.gu(6), height: units.gu(12), imageWidth: units.gu(6), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12)},
-                {tag: "Height-bound Bad path", image: lazy3, func: controls3.badpath, transition: "genericTransition", width: units.gu(10), height: units.gu(12), imageWidth: units.gu(10), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12), placeholder: true, error: true},
+                {tag: "Height-bound Bad path", image: lazy3, func: controls3.badpath, transition: "genericTransition", state: "error", width: units.gu(10), height: units.gu(12), imageWidth: units.gu(10), imageHeight: units.gu(12), initialWidth: units.gu(10), initialHeight: units.gu(12), placeholder: true, error: true},
                 {tag: "Fit Blank", image: lazy4, func: controls4.blank, width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12), placeholder: true},
                 {tag: "Fit Wide", image: lazy4, func: controls4.wide, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(6), initialWidth: units.gu(12), initialHeight: units.gu(12)},
                 {tag: "Fit Square", image: lazy4, func: controls4.square, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
                 {tag: "Fit Portrait", image: lazy4, func: controls4.portrait, transition: "readyTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(6), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12)},
-                {tag: "Fit Bad path", image: lazy4, func: controls4.badpath, transition: "genericTransition", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12), placeholder: true, error: true},
+                {tag: "Fit Bad path", image: lazy4, func: controls4.badpath, transition: "genericTransition", state: "error", width: units.gu(12), height: units.gu(12), imageWidth: units.gu(12), imageHeight: units.gu(12), initialWidth: units.gu(12), initialHeight: units.gu(12), placeholder: true, error: true},
             ]
         }
 
         function test_lazyimage(data) {
+            var transition = findChildIn(data.image, "transitions", data.transition);
+            signalSpy.target = transition;
+            signalSpy.clear();
+
             data.func();
 
             if (data.transition) {
-                waitForRendering(data.image);
-                // wait for the transition to complete
-                var transition = findChildIn(data.image, "transitions", data.transition);
-                tryCompare(transition, "running", true);
+                tryCompare(data.image, "state", data.state ? data.state : "ready");
                 tryCompare(transition, "running", false);
             }
 
@@ -186,7 +204,7 @@ Rectangle {
 
             // check the error image
             var error = findChild(data.image, "errorImage");
-            compare(error.visible, data.error ? true : false);
+            tryCompare(error, "visible", data.error ? true : false);
         }
     }
 }

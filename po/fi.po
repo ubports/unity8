@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-01-29 11:58+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2015-07-04 18:32+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-02-02 05:45+0000\n"
-"X-Generator: Launchpad (build 17908)\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -177,38 +177,38 @@ msgstr "Yhdistä uudelleen nyt!"
 msgid "Close all"
 msgstr "Sulje kaikki"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Kauppa"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Etsi"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Asetukset"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Poista suosikeista"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Lisää suosikkeihin"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
 msgid "See less"
 msgstr "Näytä vähemmän"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:565
 msgid "See all"
 msgstr "Näytä kaikki"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Etsi"
@@ -267,16 +267,18 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the mouse."
 msgstr ""
+"Laitteesi on nyt yhdistetty erilliseen näyttöön. Käytä tätä näyttöä "
+"kosketuslevynä vaikuttaaksesi hiiren toimintaan."
 
 #: qml/Greeter/CoverPage.qml:107
 msgid "Unlock"
 msgstr "Avaa lukitus"
 
-#: qml/Greeter/LoginList.qml:236
+#: qml/Greeter/LoginList.qml:239
 msgid "Retry"
 msgstr "Yritä uudelleen"
 
-#: qml/Greeter/LoginList.qml:237
+#: qml/Greeter/LoginList.qml:240
 msgid "Tap to unlock"
 msgstr "Napauta avataksesi lukituksen"
 
@@ -426,14 +428,6 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Soita takaisin"
 
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Avaa SIM-kortin lukitus"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Verkkovierailu"
-
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
 msgstr "Avaa erikoisvalikot"
@@ -497,8 +491,8 @@ msgid "Hi!"
 msgstr "Hei!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu phone."
-msgstr "Tervetuloa Ubuntu-puhelimen pariin."
+msgid "Welcome to your Ubuntu device."
+msgstr "Tervetuloa Ubuntu-laitteesi pariin."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -530,8 +524,8 @@ msgid "Lock security"
 msgstr "Lukitusturva"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your phone."
-msgstr "Valitse puhelimen lukituksen avaustapa."
+msgid "Please select how you’d like to unlock your device."
+msgstr "Valitse kuinka haluat avata laitteen lukituksen."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -636,8 +630,8 @@ msgid "Nice work!"
 msgstr "Hyvä!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your phone is now ready to use."
-msgstr "Puhelimesi on nyt valmis käytettäväksi."
+msgid "Your device is now ready to use."
+msgstr "Laitteesi on nyt valmis käytettäväksi."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -735,6 +729,9 @@ msgstr "%1  〉"
 #~ "Hallitset nyt reunaeleet, joten voit aloittaa puhelimen "
 #~ "käytön<br><br>Napauta näyttöä aloittaaksesi"
 
+#~ msgid "Unlock SIM"
+#~ msgstr "Avaa SIM-kortin lukitus"
+
 #~ msgid "All"
 #~ msgstr "Kaikki"
 
@@ -749,6 +746,9 @@ msgstr "%1  〉"
 
 #~ msgid "Done"
 #~ msgstr "Valmis"
+
+#~ msgid "Roaming"
+#~ msgstr "Verkkovierailu"
 
 #~ msgid "Log out"
 #~ msgstr "Kirjaudu ulos"
@@ -773,6 +773,15 @@ msgstr "%1  〉"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Anna uudelleen"
+
+#~ msgid "Welcome to your Ubuntu phone."
+#~ msgstr "Tervetuloa Ubuntu-puhelimen pariin."
+
+#~ msgid "Please select how you’d like to unlock your phone."
+#~ msgstr "Valitse puhelimen lukituksen avaustapa."
+
+#~ msgid "Your phone is now ready to use."
+#~ msgstr "Puhelimesi on nyt valmis käytettäväksi."
 
 #~ msgid "Tomorrow %l:%M %p"
 #~ msgstr "Huomenna %l:%M %p"
@@ -806,6 +815,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Soita takaisin"
-
-#~ msgid "Your device is now connected to an external display."
-#~ msgstr "Laitteesi on nyt liitetty ulkoiseen näyttöön."
