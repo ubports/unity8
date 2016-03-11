@@ -75,8 +75,8 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 
             oldValue = newValue;
 
-            // Special case for Background file.
-            if (interface == "org.freedesktop.Accounts.User" && (property == "BackgroundFile" || property == "InputSources")) {
+            // Special case for user properties.
+            if (interface == "org.freedesktop.Accounts.User") {
                 Q_EMIT Changed();
             } else {
                 QVariantMap propertyChanges;
@@ -101,8 +101,6 @@ void PropertiesServer::Reset()
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
     m_properties["com.ubuntu.AccountsService.Input"]["MousePrimaryButton"] = "right";
-    m_properties["com.ubuntu.AccountsService.Input"]["MouseCursorSpeed"] = 0.5;
-    m_properties["com.ubuntu.AccountsService.Input"]["TouchpadCursorSpeed"] = 0.5;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableIndicatorsWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["PasswordDisplayHint"] = AccountsService::Keyboard;
