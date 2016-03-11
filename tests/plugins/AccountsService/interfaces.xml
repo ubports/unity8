@@ -5,6 +5,11 @@
       <arg name="property" type="s" direction="in" />
       <arg name="value" type="v" direction="out" />
     </method>
+    <method name="GetAll">
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>
+      <arg name="interface" type="s" direction="in" />
+      <arg name="value" type="a{sv}" direction="out" />
+    </method>
     <method name="Set">
       <arg name="interface" type="s" direction="in" />
       <arg name="property" type="s" direction="in" />
@@ -32,10 +37,21 @@
       <arg name="success" type="b" direction="out" />
     </method>
   </interface>
+  <interface name="com.ubuntu.AccountsService.Input" />
   <interface name="com.ubuntu.touch.AccountsService.SecurityPrivacy" />
   <interface name="com.ubuntu.location.providers.here.AccountsService" />
   <interface name="org.freedesktop.Accounts.User">
     <signal name="Changed" />
   </interface>
   <interface name="com.canonical.unity.AccountsService.Private" />
+
+  <interface name="com.canonical.Unity.Input">
+    <method name="setMousePrimaryButton">
+      <arg name="button" type="i" direction="in" />
+    </method>
+    <!-- Just for testing -->
+    <signal name="setMousePrimaryButtonCalled">
+      <arg name="button" type="i" direction="out" />
+    </signal>
+  </interface>
 </node>

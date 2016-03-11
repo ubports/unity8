@@ -23,7 +23,7 @@ import QMenuModel 0.1
 import Utils 0.1
 import "../Components"
 
-Item {
+StyledItem {
     id: notification
 
     property alias iconSource: icon.fileSource
@@ -57,6 +57,10 @@ Item {
 
     color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 1 - (x / notification.width) // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
+
+    theme: ThemeSettings {
+        name: "Ubuntu.Components.Themes.Ambiance"
+    }
 
     state: {
         var result = "";
@@ -297,7 +301,7 @@ Item {
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
                         color: darkOnBright ? sdFontColor : theme.palette.normal.backgroundText
-                        wrapMode: Text.WordWrap
+                        wrapMode: Text.Wrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
