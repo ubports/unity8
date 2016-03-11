@@ -22,7 +22,7 @@ import Ubuntu.SystemSettings.Diagnostics 1.0
 import Wizard 0.1
 import "../Components"
 
-Item {
+StyledItem {
     id: root
     objectName: "wizardPages"
     focus: true
@@ -39,6 +39,10 @@ Item {
     property alias modemManager: modemManager
     property alias simManager0: simManager0
     property alias simManager1: simManager1
+
+    theme: ThemeSettings {
+        name: "Ubuntu.Components.Themes.Ambiance"
+    }
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy

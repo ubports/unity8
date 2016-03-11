@@ -87,7 +87,7 @@ LocalComponents.Page {
             font.weight: Font.Light
             lineHeight: 1.2
             text: i18n.tr("Welcome to Ubuntu")
-            color: "white"
+            color: whiteColor
         }
 
         Label {
@@ -102,7 +102,7 @@ LocalComponents.Page {
             font.weight: Font.Light
             lineHeight: 1.2
             text: i18n.tr("You are ready to use your device now")
-            color: "white"
+            color: whiteColor
         }
 
         Rectangle {
@@ -113,14 +113,14 @@ LocalComponents.Page {
             }
             color: "transparent"
             border.width: units.dp(1)
-            border.color: "white"
+            border.color: whiteColor
             radius: units.dp(4)
             width: buttonLabel.paintedWidth + units.gu(6)
             height: buttonLabel.paintedHeight + units.gu(1.8)
 
             Label {
                 id: buttonLabel
-                color: "white"
+                color: whiteColor
                 text: i18n.tr("Get Started")
                 fontSize: "medium"
                 anchors.centerIn: parent

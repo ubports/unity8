@@ -107,6 +107,8 @@ LocalComponents.Page {
             id: itemDelegate
             objectName: "languageDelegate" + index
             highlightColor: backgroundColor
+            divider.colorFrom: dividerColor
+            divider.colorTo: backgroundColor
             readonly property bool isCurrent: index === ListView.view.currentIndex
 
             Label {

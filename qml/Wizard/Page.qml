@@ -42,7 +42,7 @@ Item {
     readonly property color textColor: UbuntuColors.slate
     readonly property color errorColor: theme.palette.normal.negative
     readonly property color okColor: theme.palette.normal.positive
-    readonly property color indicatorColor: "white"
+    readonly property color whiteColor: "white" // workaround for a UITK bug
 
     // If you want to skip a page, mark skipValid false while you figure out
     // whether to skip, then set it to true once you've determined the value
@@ -156,7 +156,7 @@ Item {
             Label {
                 id: indicatorTime
                 anchors.verticalCenter: parent.verticalCenter
-                color: indicatorColor
+                color: whiteColor
                 fontSize: "small"
             }
         }
