@@ -640,6 +640,9 @@ void DirectionalDragAreaPrivate::setStatus(Status newStatus)
             Q_EMIT q->pressedChanged(true);
             break;
         case Recognized:
+            if (oldStatus == WaitingForTouch) { // for immediate recognition
+                Q_EMIT q->pressedChanged(true);
+            }
             Q_EMIT q->draggingChanged(true);
             break;
         default:

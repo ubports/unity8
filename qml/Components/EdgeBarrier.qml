@@ -105,7 +105,7 @@ Item {
         },
         Transition {
             from: "resisting"; to: "passed"
-            UbuntuNumberAnimation { target: materialContainer; property: "opacity" }
+            UbuntuNumberAnimation { duration: UbuntuAnimation.BriskDuration; target: materialContainer; property: "opacity" }
         }
     ]
 }

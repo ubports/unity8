@@ -19,19 +19,24 @@ import "../Components"
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
+import GlobalShortcut 1.0
 
-Item {
+FocusScope {
     id: root
 
     property bool autohideEnabled: false
+    property bool lockedVisible: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
 
-    property int panelWidth: units.gu(8)
+    property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
     property int minimizeDistance: units.gu(26)
     property real progress: dragArea.dragging && dragArea.touchX > panelWidth ?
                                 (width * (dragArea.touchX-panelWidth) / (width - panelWidth)) : 0
+
+    property bool superPressed: false
+    property bool superTabPressed: false
 
     readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
@@ -56,12 +61,55 @@ Item {
         }
     }
 
+    onSuperPressedChanged: {
+        if (superPressed) {
+            superPressTimer.start();
+            superLongPressTimer.start();
+        } else {
+            superPressTimer.stop();
+            superLongPressTimer.stop();
+            launcher.switchToNextState("");
+            panel.shortcutHintsShown = false;
+        }
+    }
+
+    onSuperTabPressedChanged: {
+        if (superTabPressed) {
+            switchToNextState("visible")
+            panel.highlightIndex = -1;
+            root.focus = true;
+            superPressTimer.stop();
+            superLongPressTimer.stop();
+        } else {
+            if (panel.highlightIndex == -1) {
+                showDashHome();
+            } else if (panel.highlightIndex >= 0){
+                launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
+            }
+            panel.highlightIndex = -2;
+            switchToNextState("");
+            root.focus = false;
+        }
+    }
+
+    onLockedVisibleChanged: {
+        if (lockedVisible && state == "") {
+            panel.dismissTimer.stop();
+            fadeOutAnimation.stop();
+            switchToNextState("visible")
+        } else if (!lockedVisible && state == "visible") {
+            hide();
+        }
+    }
+
     function hide() {
         switchToNextState("")
     }
 
     function fadeOut() {
-        fadeOutAnimation.start();
+        if (!root.lockedVisible) {
+            fadeOutAnimation.start();
+        }
     }
 
     function switchToNextState(state) {
@@ -89,6 +137,77 @@ Item {
         }
     }
 
+    function openForKeyboardNavigation() {
+        panel.highlightIndex = -1; // The BFB
+        root.focus = true;
+        switchToNextState("visible")
+    }
+
+    Keys.onPressed: {
+        switch (event.key) {
+        case Qt.Key_Backtab:
+            panel.highlightPrevious();
+            event.accepted = true;
+            break;
+        case Qt.Key_Up:
+            if (root.inverted) {
+                panel.highlightNext()
+            } else {
+                panel.highlightPrevious();
+            }
+            event.accepted = true;
+            break;
+        case Qt.Key_Tab:
+            panel.highlightNext();
+            event.accepted = true;
+            break;
+        case Qt.Key_Down:
+            if (root.inverted) {
+                panel.highlightPrevious();
+            } else {
+                panel.highlightNext();
+            }
+            event.accepted = true;
+            break;
+        case Qt.Key_Right:
+            panel.openQuicklist(panel.highlightIndex)
+            event.accepted = true;
+            break;
+        case Qt.Key_Escape:
+            panel.highlightIndex = -2;
+            // Falling through intentionally
+        case Qt.Key_Enter:
+        case Qt.Key_Return:
+        case Qt.Key_Space:
+            if (panel.highlightIndex == -1) {
+                showDashHome();
+            } else if (panel.highlightIndex >= 0) {
+                launcherApplicationSelected(LauncherModel.get(panel.highlightIndex).appId);
+            }
+            root.hide();
+            panel.highlightIndex = -2
+            event.accepted = true;
+            root.focus = false;
+        }
+    }
+
+    Timer {
+        id: superPressTimer
+        interval: 200
+        onTriggered: {
+            switchToNextState("visible")
+        }
+    }
+
+    Timer {
+        id: superLongPressTimer
+        interval: 1000
+        onTriggered: {
+            switchToNextState("visible")
+            panel.shortcutHintsShown = true;
+        }
+    }
+
     Timer {
         id: teaseTimer
         interval: mode == "teasing" ? 200 : 300
@@ -105,6 +224,13 @@ Item {
         interval: 1
         property string nextState: ""
         onTriggered: {
+            if (root.lockedVisible && nextState == "") {
+                // Due to binding updates when switching between modes
+                // it could happen that our request to show will be overwritten
+                // with a hide request. Rewrite it when we know hiding is not allowed.
+                nextState = "visible"
+            }
+
             // switching to an intermediate state here to make sure all the
             // values are restored, even if we were already in the target state
             root.state = "tmp"
@@ -150,7 +276,7 @@ Item {
 
     MouseArea {
         id: launcherDragArea
-        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary")
+        enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary") && !root.lockedVisible
         anchors.fill: panel
         anchors.rightMargin: -units.gu(2)
         drag {
@@ -171,9 +297,10 @@ Item {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.state == "visible"
+        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
         visible: enabled
         onPressed: {
+            panel.highlightIndex = -2
             root.hide();
         }
     }
@@ -182,7 +309,7 @@ Item {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.state == "visible" ? 0.6 : 0
+        opacity: root.state == "visible" && !root.lockedVisible ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
@@ -201,8 +328,8 @@ Item {
                     rotation: -90
                     anchors.centerIn: parent
                     gradient: Gradient {
-                        GradientStop { position: 0.0; color: panel.color}
-                        GradientStop { position: 1.0; color: Qt.rgba(panel.r,panel.g,panel.b,0)}
+                        GradientStop { position: 0.0; color: Qt.rgba(panel.color.r, panel.color.g, panel.color.b, .5)}
+                        GradientStop { position: 1.0; color: Qt.rgba(panel.color.r,panel.color.g,panel.color.b,0)}
                     }
                 }
             }
@@ -226,7 +353,7 @@ Item {
         Connections {
             target: panel.dismissTimer
             onTriggered: {
-                if (root.autohideEnabled) {
+                if (root.autohideEnabled && !root.lockedVisible) {
                     if (!panel.preventHiding) {
                         root.state = ""
                     } else {
@@ -239,11 +366,11 @@ Item {
         property bool animate: true
 
         onApplicationSelected: {
-            root.state = ""
+            root.hide();
             launcherApplicationSelected(appId)
         }
         onShowDashHome: {
-            root.state = ""
+            root.hide();
             root.showDashHome();
         }
 
@@ -251,6 +378,12 @@ Item {
             if (panel.dismissTimer.running) {
                 panel.dismissTimer.restart();
             }
+        }
+
+        onKbdNavigationCancelled: {
+            panel.highlightIndex = -2;
+            root.hide();
+            root.focus = false;
         }
 
         Behavior on x {

@@ -33,7 +33,7 @@ endif()
 
 pkg_check_modules(ANDROID_PROPERTIES REQUIRED libandroid-properties)
 add_executable(${SHELL_APP} ${SOURCE_FILES})
-qt5_use_modules(${SHELL_APP} Gui Qml Quick Test)
+qt5_use_modules(${SHELL_APP} DBus Gui Qml Quick Test)
 
 if (NOT "${ANDROID_PROPERTIES_INCLUDE_DIRS}" STREQUAL "")
     set_target_properties(${SHELL_APP} PROPERTIES INCLUDE_DIRECTORIES ${ANDROID_PROPERTIES_INCLUDE_DIRS})

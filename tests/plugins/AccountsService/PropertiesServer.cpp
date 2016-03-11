@@ -32,13 +32,23 @@ PropertiesServer::PropertiesServer(QObject *parent)
     Reset();
 }
 
-QDBusVariant PropertiesServer::Get(const QString &interface, const QString &property)
+QDBusVariant PropertiesServer::Get(const QString &interface, const QString &property) const
 {
-    if (m_properties[interface].contains(property)) {
+    if (m_properties.contains(interface) && m_properties[interface].contains(property)) {
         return QDBusVariant(m_properties[interface][property]);
     } else {
         sendErrorReply(QDBusError::InvalidArgs, "Bad interface or property");
         return QDBusVariant(QVariant());
+    }
+}
+
+QVariantMap PropertiesServer::GetAll(const QString &interface) const
+{
+    if (m_properties.contains(interface)) {
+        return m_properties[interface];
+    } else {
+        sendErrorReply(QDBusError::InvalidArgs, "Bad interface");
+        return QVariantMap();
     }
 }
 
@@ -57,8 +67,8 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 
             oldValue = newValue;
 
-            // Special case for Background file.
-            if (interface == "org.freedesktop.Accounts.User" && property == "BackgroundFile") {
+            // Special case for user properties.
+            if (interface == "org.freedesktop.Accounts.User") {
                 Q_EMIT Changed();
             } else {
                 QVariantMap propertyChanges;
@@ -83,10 +93,12 @@ void PropertiesServer::Reset()
     m_properties["com.canonical.unity.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
+    m_properties["com.ubuntu.AccountsService.Input"]["MousePrimaryButton"] = "right";
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableIndicatorsWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["PasswordDisplayHint"] = AccountsService::Keyboard;
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseAccepted"] = false;
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseBasePath"] = "";
     m_properties["org.freedesktop.Accounts.User"]["BackgroundFile"] = "";
+    m_properties["org.freedesktop.Accounts.User"]["RealName"] = "";
 }

@@ -151,10 +151,6 @@ void ApplicationManager::add(ApplicationInfo *application) {
 
     beginInsertRows(QModelIndex(), m_runningApplications.size(), m_runningApplications.size());
     m_runningApplications.append(application);
-    endInsertRows();
-    Q_EMIT applicationAdded(application->appId());
-    Q_EMIT countChanged();
-    if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
 
     connect(application, &ApplicationInfo::sessionChanged, this, [application, this]() {
         QModelIndex appIndex = findIndex(application);
@@ -171,6 +167,16 @@ void ApplicationManager::add(ApplicationInfo *application) {
         if (!appIndex.isValid()) return;
         Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleState);
     });
+    connect(application, &ApplicationInfo::stageChanged, this, [application, this]() {
+        QModelIndex appIndex = findIndex(application);
+        if (!appIndex.isValid()) return;
+        Q_EMIT dataChanged(appIndex, appIndex, QVector<int>() << ApplicationManager::RoleStage);
+    });
+
+    endInsertRows();
+    Q_EMIT applicationAdded(application->appId());
+    Q_EMIT countChanged();
+    if (count() == 1) Q_EMIT emptyChanged(isEmpty()); // was empty but not anymore
 }
 
 void ApplicationManager::remove(ApplicationInfo *application) {
@@ -203,22 +209,10 @@ void ApplicationManager::move(int from, int to) {
 ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
                                               const QStringList &arguments)
 {
-    return startApplication(appId, NoFlag, arguments);
-}
-
-ApplicationInfo* ApplicationManager::startApplication(const QString &appId,
-                                              ExecFlags flags,
-                                              const QStringList &arguments)
-{
     Q_UNUSED(arguments)
     ApplicationInfo *application = add(appId);
     if (!application)
         return 0;
-
-    if (flags.testFlag(ApplicationManager::ForceMainStage)
-            && application->stage() == ApplicationInfo::SideStage) {
-        application->setStage(ApplicationInfo::MainStage);
-    }
     application->setState(ApplicationInfo::Starting);
 
     return application;
@@ -317,7 +311,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("unity8-dash");
     application->setName("Unity 8 Mock Dash");
     application->setScreenshotId("unity8-dash");
-    application->setStage(ApplicationInfo::MainStage);
     application->setSupportedOrientations(Qt::PrimaryOrientation);
     m_availableApplications.append(application);
 
@@ -326,7 +319,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Dialer");
     application->setScreenshotId("dialer");
     application->setIconId("dialer-app");
-    application->setStage(ApplicationInfo::SideStage);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::InvertedPortraitOrientation);
     m_availableApplications.append(application);
@@ -350,7 +342,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setScreenshotId("gallery");
     application->setIconId("gallery");
     application->setFullscreen(true);
-    application->setStage(ApplicationInfo::MainStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -358,7 +349,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Facebook");
     application->setScreenshotId("facebook");
     application->setIconId("facebook");
-    application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -374,7 +364,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Twitter");
     application->setScreenshotId("twitter");
     application->setIconId("twitter");
-    application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -390,7 +379,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setIconId("gmail");
     application->setScreenshotId("gmail-webapp.svg");
     application->setFullscreen(false);
-    application->setStage(ApplicationInfo::MainStage);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
                                         | Qt::InvertedPortraitOrientation
@@ -403,7 +391,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setIconId("soundcloud");
     application->setScreenshotId("music");
     application->setFullscreen(false);
-    application->setStage(ApplicationInfo::MainStage);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
                                         | Qt::InvertedPortraitOrientation
@@ -423,14 +410,12 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setAppId("notes-app");
     application->setName("Notepad");
     application->setIconId("notepad");
-    application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
     application->setAppId("calendar-app");
     application->setName("Calendar");
     application->setIconId("calendar");
-    application->setStage(ApplicationInfo::SideStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2013-2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,37 +21,115 @@ import ".." as LocalComponents
 LocalComponents.Page {
     objectName: "finishedPage"
 
-    title: i18n.tr("All done")
-    forwardButtonSourceComponent: forwardButton
     hasBackButton: false
+    customTitle: true
+    lastPage: true
+    buttonBarVisible: false
 
-    Column {
-        id: column
-        anchors.fill: content
-        spacing: units.gu(1)
+    Component.onCompleted: {
+        state = "reanchored";
+    }
 
-        Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            wrapMode: Text.Wrap
-            fontSize: "large"
-            font.bold: true
-            text: i18n.tr("Nice work!")
-        }
-
-        Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            wrapMode: Text.Wrap
-            text: i18n.tr("Your device is now ready to use.")
+    states: State {
+        name: "reanchored"
+        AnchorChanges { target: bgImage; anchors.top: parent.top; anchors.bottom: parent.bottom }
+        AnchorChanges { target: column;
+            anchors.verticalCenter: parent.verticalCenter;
+            anchors.top: undefined
         }
     }
 
-    Component {
-        id: forwardButton
-        LocalComponents.StackButton {
-            text: i18n.tr("Finish")
-            onClicked: root.quitWizard()
+    transitions: Transition {
+        ParallelAnimation {
+            AnchorAnimation {
+                targets: [bgImage, column]
+                duration: UbuntuAnimation.SlowDuration
+                easing.type: Easing.OutCirc
+            }
+            NumberAnimation {
+                targets: [bgImage,column]
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: UbuntuAnimation.SlowDuration
+                easing.type: Easing.OutCirc
+            }
+        }
+    }
+
+    Image {
+        id: bgImage
+        source: wideMode ? "data/Desktop_splash_screen_bkg.png" : "data/Phone_splash_screen_bkg.png"
+        scale: Image.PreserveAspectFit
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.top // outside to let it slide down
+        visible: opacity > 0
+    }
+
+    Item {
+        id: column
+        anchors.leftMargin: leftMargin
+        anchors.rightMargin: rightMargin
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.bottom // outside to let it slide in
+        height: childrenRect.height
+        visible: opacity > 0
+
+        Label {
+            id: welcomeLabel
+            anchors.left: parent.left
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+            fontSize: "x-large"
+            font.weight: Font.Light
+            lineHeight: 1.2
+            text: i18n.tr("Welcome to Ubuntu")
+            color: whiteColor
+        }
+
+        Label {
+            id: welcomeText
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: welcomeLabel.bottom
+            anchors.topMargin: units.gu(2)
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+            fontSize: "large"
+            font.weight: Font.Light
+            lineHeight: 1.2
+            text: i18n.tr("You are ready to use your device now")
+            color: whiteColor
+        }
+
+        Rectangle {
+            anchors {
+                top: welcomeText.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: units.gu(4)
+            }
+            color: "transparent"
+            border.width: units.dp(1)
+            border.color: whiteColor
+            radius: units.dp(4)
+            width: buttonLabel.paintedWidth + units.gu(6)
+            height: buttonLabel.paintedHeight + units.gu(1.8)
+
+            Label {
+                id: buttonLabel
+                color: whiteColor
+                text: i18n.tr("Get Started")
+                fontSize: "medium"
+                anchors.centerIn: parent
+            }
+            AbstractButton {
+                objectName: "finishButton"
+                anchors.fill: parent
+                onClicked: root.quitWizard()
+            }
         }
     }
 }

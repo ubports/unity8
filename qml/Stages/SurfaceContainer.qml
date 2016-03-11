@@ -118,6 +118,7 @@ FocusScope {
 
 
     TouchGate {
+        objectName: "touchGate-"+name
         targetItem: surfaceItem
         anchors.fill: root
         enabled: surfaceItem.enabled

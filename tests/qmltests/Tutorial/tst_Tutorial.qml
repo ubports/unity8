@@ -191,7 +191,7 @@ Rectangle {
                 CheckBox {
                     activeFocusOnPress: false
                     onCheckedChanged: {
-                        var surface = SurfaceManager.inputMethodSurface();
+                        var surface = SurfaceManager.inputMethodSurface;
                         if (checked) {
                             surface.setState(Mir.RestoredState);
                         } else {
@@ -256,7 +256,6 @@ Rectangle {
             if (app) {
                 app.setStage(ApplicationInfoInterface.SideStage);
             }
-            SurfaceManager.inputMethodSurface().destroy(); // so that InputMethod will notice new one
             // kill all (fake) running apps
             killApps();
 
@@ -742,7 +741,7 @@ Rectangle {
             var tutorialLeft = findChild(shell, "tutorialLeft");
             verify(tutorialLeft.shown);
 
-            var surface = SurfaceManager.inputMethodSurface();
+            var surface = SurfaceManager.inputMethodSurface;
             surface.setState(Mir.RestoredState);
 
             var inputMethod = findInvisibleChild(shell, "inputMethod");
@@ -752,7 +751,7 @@ Rectangle {
         }
 
         function test_oskPreventsTutorial() {
-            var surface = SurfaceManager.inputMethodSurface();
+            var surface = SurfaceManager.inputMethodSurface;
             var inputMethod = findInvisibleChild(shell, "inputMethod");
 
             AccountsService.demoEdges = false;

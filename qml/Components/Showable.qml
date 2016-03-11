@@ -31,6 +31,7 @@ Item {
     property bool required
     property bool __shouldShow: false
     property bool __skipShowAnimation: false
+    property bool __skipHideAnimation: false
 
     property list<QtObject> hides
     property var showAnimation
@@ -120,12 +121,21 @@ Item {
             if (!hideAnimation.running) {
                 hideAnimation.restart()
             }
+            if (__skipHideAnimation) {
+                hideAnimation.complete();
+            }
         } else {
             visible = false
             required = false
         }
 
         shown = false
+        __skipHideAnimation = false;
+    }
+
+    function hideNow() {
+        __skipHideAnimation = true;
+        hide();
     }
 
     Connections {

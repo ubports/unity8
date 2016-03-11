@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,16 +12,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
 #ifndef UNITY_ACCOUNTSSERVICE_H
 #define UNITY_ACCOUNTSSERVICE_H
 
+#include <QHash>
 #include <QObject>
 #include <QString>
 #include <QStringList>
+#include <QVariant>
 
 class AccountsServiceDBusAdaptor;
 class QDBusInterface;
@@ -70,6 +70,8 @@ class AccountsService: public QObject
     Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
                READ hereLicensePathValid
                NOTIFY hereLicensePathChanged)
+    Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
+    Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -97,6 +99,10 @@ public:
     void setHereEnabled(bool enabled);
     QString hereLicensePath() const;
     bool hereLicensePathValid() const;
+    QString realName() const;
+    void setRealName(const QString &realName);
+    QString email() const;
+    void setEmail(const QString &email);
 
 Q_SIGNALS:
     void userChanged();
@@ -110,38 +116,41 @@ Q_SIGNALS:
     void failedLoginsChanged();
     void hereEnabledChanged();
     void hereLicensePathChanged();
+    void realNameChanged();
+    void emailChanged();
 
 private Q_SLOTS:
     void onPropertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
     void onMaybeChanged(const QString &user);
 
 private:
-    void updateDemoEdges(bool async = true);
-    void updateDemoEdgesCompleted(bool async = true);
-    void updateEnableLauncherWhileLocked(bool async = true);
-    void updateEnableIndicatorsWhileLocked(bool async = true);
-    void updateBackgroundFile(bool async = true);
-    void updateMouseCursorSpeed();
-    void updateTouchpadCursorSpeed();
-    void updateStatsWelcomeScreen(bool async = true);
-    void updatePasswordDisplayHint(bool async = true);
-    void updateFailedLogins(bool async = true);
-    void updateHereEnabled(bool async = true);
-    void updateHereLicensePath(bool async = true);
+    typedef QVariant (*ProxyConverter)(const QVariant &);
 
+    void refresh(bool async);
+    void registerProperty(const QString &interface, const QString &property, const QString &signal);
+    void registerProxy(const QString &interface, const QString &property, QDBusInterface *iface, const QString &method, ProxyConverter converter = nullptr);
+
+    void updateAllProperties(const QString &interface, bool async);
+    void updateProperty(const QString &interface, const QString &property);
+    void updateCache(const QString &interface, const QString &property, const QVariant &value);
+
+    void setProperty(const QString &interface, const QString &property, const QVariant &value);
+    QVariant getProperty(const QString &interface, const QString &property) const;
+
+    void emitChangedForProperty(const QString &interface, const QString &property);
+
+    struct PropertyInfo {
+        QVariant value{};
+        QString signal{};
+        QDBusInterface *proxyInterface{};
+        QString proxyMethod{};
+        ProxyConverter proxyConverter{};
+    };
+    typedef QHash< QString, QHash<QString, PropertyInfo> > PropertyHash;
+    PropertyHash m_properties;
     AccountsServiceDBusAdaptor *m_service;
     QDBusInterface *m_unityInput;
     QString m_user;
-    bool m_demoEdges;
-    QStringList m_demoEdgesCompleted;
-    bool m_enableLauncherWhileLocked;
-    bool m_enableIndicatorsWhileLocked;
-    QString m_backgroundFile;
-    bool m_statsWelcomeScreen;
-    PasswordDisplayHint m_passwordDisplayHint;
-    uint m_failedLogins;
-    bool m_hereEnabled;
-    QString m_hereLicensePath;
 };
 
 #endif

@@ -34,6 +34,13 @@ SurfaceManager::SurfaceManager(QObject *parent) :
     QObject(parent)
     , m_virtualKeyboard(nullptr)
 {
+    m_virtualKeyboard = new VirtualKeyboard(this);
+    connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
+        MirSurface* surface = qobject_cast<MirSurface*>(obj);
+        m_virtualKeyboard = nullptr;
+        Q_EMIT inputMethodSurfaceChanged();
+        Q_EMIT surfaceDestroyed(surface);
+    });
 }
 
 MirSurface *SurfaceManager::createSurface(const QString& name,
@@ -58,17 +65,8 @@ MirSurface *SurfaceManager::createSurface(const QString& name,
     return surface;
 }
 
-MirSurface *SurfaceManager::inputMethodSurface()
+MirSurface *SurfaceManager::inputMethodSurface() const
 {
-    if (!m_virtualKeyboard) {
-        m_virtualKeyboard = new VirtualKeyboard;
-        connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
-            m_virtualKeyboard = nullptr;
-            MirSurface* surface = qobject_cast<MirSurface*>(obj);
-            Q_EMIT surfaceDestroyed(surface);
-        });
-        Q_EMIT surfaceCreated(m_virtualKeyboard);
-    }
     return m_virtualKeyboard;
 }
 

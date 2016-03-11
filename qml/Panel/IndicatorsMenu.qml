@@ -37,7 +37,7 @@ Showable {
     readonly property bool fullyClosed: unitProgress == 0
     property bool enableHint: true
     property bool showOnClick: true
-    property color panelColor: theme.palette.normal.background
+    property color panelColor: UbuntuColors.jet
 
     signal showTapped(point position)
 

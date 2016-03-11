@@ -25,6 +25,7 @@ import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
 import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
+import GSettings 1.0
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -119,9 +120,7 @@ Item {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
-            var execFlags = shell.usageScenario === "phone" ? ApplicationManager.ForceMainStage
-                                                            : ApplicationManager.NoFlag;
-            ApplicationManager.startApplication(appId, execFlags);
+            ApplicationManager.startApplication(appId);
         }
     }
 
@@ -186,6 +185,11 @@ Item {
             cursor.x = mappedCoords.x;
             cursor.y = mappedCoords.y;
         }
+    }
+
+    GSettings {
+        id: settings
+        schema.id: "com.canonical.Unity8"
     }
 
     Item {
@@ -343,13 +347,22 @@ Item {
                 property: "altTabPressed"
                 value: physicalKeysMapper.altTabPressed
             }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "leftMargin"
+                value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
+            }
         }
     }
 
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
-        anchors { fill: parent; topMargin: panel.panelHeight }
+        anchors {
+            fill: parent
+            topMargin: panel.panelHeight
+            leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
+        }
         z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running ? overlay.z + 1 : overlay.z - 1
     }
 
@@ -503,9 +516,7 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            readonly property bool topmostApplicationIsFullscreen:
-                ApplicationManager.focusedApplicationId &&
-                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+            readonly property bool topmostApplicationIsFullscreen: mainApp && mainApp.fullscreen
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
@@ -527,6 +538,10 @@ Item {
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
             inverted: shell.usageScenario !== "desktop"
+            superPressed: physicalKeysMapper.superPressed
+            superTabPressed: physicalKeysMapper.superTabPressed
+            panelWidth: units.gu(settings.launcherWidth)
+            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -542,6 +557,37 @@ Item {
             onShownChanged: {
                 if (shown) {
                     panel.indicators.hide()
+                }
+            }
+            onFocusChanged: {
+                if (!focus) {
+                    applicationsDisplayLoader.focus = true;
+                }
+            }
+
+            GlobalShortcut {
+                shortcut: Qt.AltModifier | Qt.Key_F1
+                onTriggered: {
+                    launcher.openForKeyboardNavigation();
+                }
+            }
+            GlobalShortcut {
+                shortcut: Qt.MetaModifier | Qt.Key_0
+                onTriggered: {
+                    if (LauncherModel.get(9)) {
+                        activateApplication(LauncherModel.get(9).appId);
+                    }
+                }
+            }
+            Repeater {
+                model: 9
+                GlobalShortcut {
+                    shortcut: Qt.MetaModifier | (Qt.Key_1 + index)
+                    onTriggered: {
+                        if (LauncherModel.get(index)) {
+                            activateApplication(LauncherModel.get(index).appId);
+                        }
+                    }
                 }
             }
         }
@@ -564,7 +610,6 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
