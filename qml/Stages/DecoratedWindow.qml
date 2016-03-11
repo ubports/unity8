@@ -111,11 +111,18 @@ FocusScope {
                 readonly property int rotationAngle: applicationWindow.application &&
                                                      applicationWindow.application.rotatesWindowContents
                                                      ? ((360 - applicationWindow.surfaceOrientationAngle) % 360) : 0
-                readonly property real rotationOrigin: rotationAngle == 90 ? applicationWindow.height / 2
-                                                                           : rotationAngle == 270 ? applicationWindow.width / 2
-                                                                                                  : 0
-                origin.x: rotationOrigin
-                origin.y: rotationOrigin
+                origin.x: {
+                    if (rotationAngle == 90) return applicationWindow.height / 2;
+                    else if (rotationAngle == 270) return applicationWindow.width / 2;
+                    else if (rotationAngle == 180) return applicationWindow.width / 2;
+                    else return 0;
+                }
+                origin.y: {
+                    if (rotationAngle == 90) return applicationWindow.height / 2;
+                    else if (rotationAngle == 270) return applicationWindow.width / 2;
+                    else if (rotationAngle == 180) return applicationWindow.height / 2;
+                    else return 0;
+                }
                 angle: rotationAngle
         }
     }
