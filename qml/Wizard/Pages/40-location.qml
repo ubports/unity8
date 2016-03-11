@@ -54,8 +54,8 @@ LocalComponents.Page {
         id: column
         anchors.fill: content
         anchors.topMargin: customMargin
-        anchors.leftMargin: desktopLook ? parent.leftMargin : 0
-        anchors.rightMargin: desktopLook ? parent.rightMargin : 0
+        anchors.leftMargin: wideMode ? parent.leftMargin : 0
+        anchors.rightMargin: wideMode ? parent.rightMargin : 0
 
         Item {
             id: hereCheckGroup

@@ -59,7 +59,7 @@ LocalComponents.Page {
 
     Image {
         id: bgImage
-        source: desktopLook ? "data/Desktop_splash_screen_bkg.png" : "data/Phone_splash_screen_bkg.png"
+        source: wideMode ? "data/Desktop_splash_screen_bkg.png" : "data/Phone_splash_screen_bkg.png"
         scale: Image.PreserveAspectFit
         anchors.left: parent.left
         anchors.right: parent.right

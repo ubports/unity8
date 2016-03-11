@@ -148,8 +148,8 @@ LocalComponents.Page {
         anchors {
             fill: content
             topMargin: customMargin
-            leftMargin: desktopLook ? parent.leftMargin : 0
-            rightMargin: desktopLook ? parent.rightMargin : 0
+            leftMargin: wideMode ? parent.leftMargin : 0
+            rightMargin: wideMode ? parent.rightMargin : 0
         }
 
         Label {

@@ -30,7 +30,7 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     property string selectedTimeZone: ""
-    readonly property bool showingMap: desktopLook && width >= units.gu(110)
+    readonly property bool showingMap: wideMode && width >= units.gu(110)
 
     // for testing
     readonly property alias tdModule: timeDatePanel
@@ -104,7 +104,7 @@ LocalComponents.Page {
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: !desktopLook ? staticMargin : 0
+                anchors.leftMargin: !wideMode ? staticMargin : 0
                 anchors.right: image.left
                 anchors.rightMargin: units.gu(2)
 
@@ -131,7 +131,7 @@ LocalComponents.Page {
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
-                    rightMargin: !desktopLook ? staticMargin : 0
+                    rightMargin: !wideMode ? staticMargin : 0
                 }
                 fillMode: Image.PreserveAspectFit
                 height: units.gu(1.5)
@@ -161,8 +161,8 @@ LocalComponents.Page {
             top: content.top
             bottom: content.bottom
             right: !showingMap ? content.right : undefined
-            leftMargin: showingMap ? staticMargin : (desktopLook ? tzPage.leftMargin : 0)
-            rightMargin: showingMap ? staticMargin : (desktopLook ? tzPage.rightMargin : 0)
+            leftMargin: showingMap ? staticMargin : (wideMode ? tzPage.leftMargin : 0)
+            rightMargin: showingMap ? staticMargin : (wideMode ? tzPage.rightMargin : 0)
             topMargin: customMargin
         }
 
@@ -173,8 +173,8 @@ LocalComponents.Page {
             objectName: "tzFilter"
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: !showingMap && !desktopLook ? staticMargin : undefined
-            anchors.rightMargin: !showingMap && !desktopLook ? staticMargin : undefined
+            anchors.leftMargin: !showingMap && !wideMode ? staticMargin : undefined
+            anchors.rightMargin: !showingMap && !wideMode ? staticMargin : undefined
             placeholderText: i18n.tr("Enter your city")
             inputMethodHints: Qt.ImhNoPredictiveText
             onTextChanged: resetViews();

@@ -54,7 +54,7 @@ LocalComponents.Page {
         id: column
         anchors.fill: content
         anchors.leftMargin: staticMargin
-        anchors.rightMargin: desktopLook ? parent.rightMargin : staticMargin
+        anchors.rightMargin: wideMode ? parent.rightMargin : staticMargin
         spacing: units.gu(3)
 
         Label {

@@ -64,7 +64,7 @@ LocalComponents.Page {
         anchors.left: parent.left
         anchors.right: parent.right
         height: parent.height
-        source: desktopLook ? "data/Desktop_splash_screen_bkg.png" : "data/Phone_splash_screen_bkg.png"
+        source: wideMode ? "data/Desktop_splash_screen_bkg.png" : "data/Phone_splash_screen_bkg.png"
         fillMode: Image.PreserveAspectCrop
         z: 2
         visible: opacity > 0
@@ -96,9 +96,9 @@ LocalComponents.Page {
 
         anchors {
             fill: content
-            leftMargin: desktopLook ? parent.leftMargin : 0
-            rightMargin: desktopLook ? parent.rightMargin : 0
-            topMargin: desktopLook ? parent.customMargin : 0
+            leftMargin: wideMode ? parent.leftMargin : 0
+            rightMargin: wideMode ? parent.rightMargin : 0
+            topMargin: wideMode ? parent.customMargin : 0
         }
 
         model: plugin.languageNames

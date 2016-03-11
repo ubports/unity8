@@ -20,7 +20,7 @@ import Wizard 0.1
 
 Item {
     readonly property real maximumContentWidth: units.gu(50)
-    readonly property bool desktopLook: width > units.gu(90) && width > height
+    readonly property bool wideMode: width > units.gu(90) && width > height
     readonly property bool contentAnimationRunning: contentAnimation.running
 
     readonly property real buttonMargin: units.gu(3)
@@ -33,7 +33,7 @@ Item {
     readonly property real bottomMargin: units.gu(3)
     readonly property real leftMargin: Math.max(units.gu(3), (width - maximumContentWidth) / 3)
     readonly property real rightMargin: leftMargin
-    readonly property real customMargin: desktopLook ? units.gu(8) : units.gu(4) // margin for the content
+    readonly property real customMargin: wideMode ? units.gu(8) : units.gu(4) // margin for the content
     readonly property real staticMargin: units.gu(3)
 
     // colors
@@ -86,7 +86,7 @@ Item {
             left: parent.left
             right: parent.right
         }
-        source: customTitle ? "" : (desktopLook ? "Pages/data/Desktop_header_bkg.png" : "Pages/data/Phone_header_bkg.png")
+        source: customTitle ? "" : (wideMode ? "Pages/data/Desktop_header_bkg.png" : "Pages/data/Phone_header_bkg.png")
         height: titleRectHeight
         clip: true
 

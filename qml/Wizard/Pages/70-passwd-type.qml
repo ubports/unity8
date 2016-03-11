@@ -64,8 +64,8 @@ LocalComponents.Page {
         id: column
         anchors.fill: content
         anchors.topMargin: customMargin
-        anchors.leftMargin: desktopLook ? parent.leftMargin : 0
-        anchors.rightMargin: desktopLook ? parent.rightMargin : 0
+        anchors.leftMargin: wideMode ? parent.leftMargin : 0
+        anchors.rightMargin: wideMode ? parent.rightMargin : 0
 
         ListView {
             id: selector
@@ -152,7 +152,7 @@ LocalComponents.Page {
                     else
                         pageStack.next(); // got the password already, go next page
                 } else if (method === UbuntuSecurityPrivacyPanel.Passcode) { // passcode
-                    if (desktopLook) {
+                    if (wideMode) {
                         pageStack.load(Qt.resolvedUrl("passcode-desktop.qml"));
                     } else {
                         pageStack.load(Qt.resolvedUrl("passcode-set.qml"));
