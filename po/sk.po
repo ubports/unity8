@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-08 21:04+0000\n"
+"POT-Creation-Date: 2016-03-10 22:48+0000\n"
 "PO-Revision-Date: 2016-03-02 01:54+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -15,24 +15,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
-"X-Generator: Launchpad (build 17936)\n"
+"X-Launchpad-Export-Date: 2016-03-12 06:06+0000\n"
+"X-Generator: Launchpad (build 17939)\n"
 "Language: sk\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Heslo: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:47
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Pin shortcut"
 msgstr "Pripnúť odkaz"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:52
+#: plugins/Unity/Launcher/launcheritem.cpp:53
 msgid "Quit"
 msgstr "Ukončiť"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Unpin shortcut"
 msgstr "Odopnúť odkaz"
 
@@ -143,15 +143,15 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reštartovať"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Return to Call"
 msgstr "Návrat k hovoru"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Emergency Call"
 msgstr "Tiesňový hovor"
 
-#: qml/Components/Lockscreen.qml:277
+#: qml/Components/Lockscreen.qml:263
 msgid "OK"
 msgstr "OK"
 
@@ -160,9 +160,10 @@ msgid "Apps may have unsaved data:"
 msgstr "Aplikácia môže mať neuložené údaje:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
+msgctxt ""
+"Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"Re-dock, uložte si prácu a zatvorte tieto aplikácie pre pokračovanie."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -203,15 +204,15 @@ msgstr "Odstrániť z obľúbených"
 msgid "Add to Favorites"
 msgstr "Pridať k obľúbeným"
 
-#: qml/Dash/GenericScopeView.qml:565 qml/Dash/GenericScopeView.qml:723
+#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
 msgid "See less"
 msgstr "Zobraziť menej"
 
-#: qml/Dash/GenericScopeView.qml:565
+#: qml/Dash/GenericScopeView.qml:567
 msgid "See all"
 msgstr "Zobraziť všetko"
 
-#: qml/Dash/GenericScopeView.qml:627
+#: qml/Dash/GenericScopeView.qml:629
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Hľadať"
@@ -237,7 +238,7 @@ msgstr "Ohodnotiť"
 msgid "Add a review"
 msgstr "Pridať recenziu"
 
-#: qml/Dash/Previews/PreviewSharing.qml:50
+#: qml/Dash/Previews/PreviewSharing.qml:66
 msgid "Preview Share Item"
 msgstr "Náhľad zdieľaných položiek"
 
@@ -265,15 +266,13 @@ msgstr "Domov"
 msgid "Also installed"
 msgstr "Tiež nainštalované"
 
-#: qml/DisabledScreenNotice.qml:87
+#: qml/DisabledScreenNotice.qml:104
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the mouse."
+"touch pad to interact with the pointer."
 msgstr ""
-"Zariadenie je pripojené k externej obrazovke. Použite obrazovku ako touchpad "
-"pre spoluprácu s myšou."
 
-#: qml/Greeter/CoverPage.qml:107
+#: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
 msgstr "Odomknúť"
 
@@ -356,11 +355,11 @@ msgstr "Kliknúť pre návrat k hovoru..."
 msgid "Conference"
 msgstr "Konferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:753
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Nothing is playing"
 msgstr "Nič nehrá"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:881
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -368,7 +367,7 @@ msgstr[0] "%1 hodín"
 msgstr[1] "%1 hodina"
 msgstr[2] "%1 hodiny"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:885
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -376,7 +375,7 @@ msgstr[0] "%1 minút"
 msgstr[1] "%1 minúta"
 msgstr[2] "%1 minúty"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -384,37 +383,37 @@ msgstr[0] "%1 sekúnd"
 msgstr[1] "%1 sekunda"
 msgstr[2] "%1 sekundy"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:893
 msgid "0 seconds"
 msgstr "0 sekúnd"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 remaining"
 msgstr "Zostáva %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:901
 msgid "In queue…"
 msgstr "V poradí..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:906
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 msgid "Downloading"
 msgstr "Sťahuje sa"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:908
+#: qml/Panel/Indicators/MenuItemFactory.qml:907
 msgid "Paused, tap to resume"
 msgstr "Pauza, kliknúť pre pokračovanie"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:909
 msgid "Canceled"
 msgstr "Zrušené"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:912
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "Finished"
 msgstr "Ukončené"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:913
 msgid "Failed, tap to retry"
 msgstr "Zlyhanie, kliknúť pre zopakovanie"
 
@@ -678,6 +677,17 @@ msgstr "〈  %1"
 #, qt-format
 msgid "%1  〉"
 msgstr "%1  〉"
+
+#~ msgid "Re-dock, save your work and close these apps to continue."
+#~ msgstr ""
+#~ "Re-dock, uložte si prácu a zatvorte tieto aplikácie pre pokračovanie."
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "Zariadenie je pripojené k externej obrazovke. Použite obrazovku ako touchpad "
+#~ "pre spoluprácu s myšou."
 
 #~ msgid "Unlock SIM"
 #~ msgstr "Odomknúť SIM"
