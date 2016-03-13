@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-12 06:06+0000\n"
+"X-Launchpad-Export-Date: 2016-03-13 05:50+0000\n"
 "X-Generator: Launchpad (build 17939)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -158,6 +158,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Dokkoljon újra, mentse a munkáját, majd zárjon be minden alkalmazást a "
+"folytatáshoz."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -265,6 +267,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Az eszköz jelenleg egy külső kijelzőhöz van csatlakoztatva. Használja ezt a "
+"kijelzőt érintőpadként, hogy irányítsa a mutatót."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
