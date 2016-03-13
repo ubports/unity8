@@ -42,11 +42,9 @@ StyledItem {
     property int margins
     readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
     readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
-    readonly property color red: "#fc4949"
-    readonly property color green: "#3fb24f"
+    readonly property color red: UbuntuColors.red
+    readonly property color green: UbuntuColors.green
     readonly property color sdLightGrey: "#eaeaea"
-    readonly property color sdDarkGrey: "#dddddd"
-    readonly property color sdFontColor: "#5d5d5d"
     readonly property real contentSpacing: units.gu(2)
     readonly property bool canBeClosed: type === Notification.Ephemeral
     property bool hasMouse
@@ -59,7 +57,7 @@ StyledItem {
     opacity: 1 - (x / notification.width) // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
 
     theme: ThemeSettings {
-        name: "Ubuntu.Components.Themes.Ambiance"
+        name: darkOnBright ? "Ubuntu.Components.Themes.Ambiance" : "Ubuntu.Components.Themes.SuruDark"
     }
 
     state: {
@@ -285,7 +283,6 @@ StyledItem {
                         }
                         visible: type !== Notification.Confirmation
                         fontSize: "medium"
-                        color: darkOnBright ? sdFontColor : theme.palette.normal.backgroundText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -300,7 +297,6 @@ StyledItem {
                         }
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
-                        color: darkOnBright ? sdFontColor : theme.palette.normal.backgroundText
                         wrapMode: Text.Wrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
@@ -341,7 +337,6 @@ StyledItem {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
                 fontSize: "medium"
-                color: darkOnBright ? sdFontColor : theme.palette.normal.backgroundText
                 wrapMode: Text.WordWrap
                 maximumLineCount: 1
                 elide: Text.ElideRight
@@ -361,7 +356,7 @@ StyledItem {
                 }
 
                 height: units.gu(1)
-                backgroundColor: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
+                backgroundColor: theme.palette.normal.background
                 aspect: UbuntuShape.Flat
                 radius: "small"
 
@@ -370,7 +365,7 @@ StyledItem {
                     objectName: "innerBar"
                     width: valueIndicator.width * valueIndicator.value / 100
                     height: units.gu(1)
-                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
+                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? theme.palette.normal.activity : theme.palette.highlighted.foreground
                     aspect: UbuntuShape.Flat
                     radius: "small"
                 }
@@ -447,7 +442,7 @@ StyledItem {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : sdDarkGrey
+                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : theme.palette.normal.baseText
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -475,7 +470,7 @@ StyledItem {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing * 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : theme.palette.normal.baseText
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -536,7 +531,7 @@ StyledItem {
                                 width: buttonRow.width / 2 - spacing * 2
                                 text: loader.actionLabel
                                 color: {
-                                    var result = sdDarkGrey;
+                                    var result = theme.palette.normal.baseText;
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
                                         result = green;
                                     }
