@@ -111,7 +111,8 @@ Depends: dmz-cursor-theme,
          unity8-private | unity-launcher-impl,
          ${misc:Depends},
          ${shlibs:Depends},
-Recommends: unity-scope-click,
+Recommends: indicator-session,
+            unity-scope-click,
             unity-scope-mediascanner2,
 Breaks: indicator-network (<< 0.5.1+14.10.20141014),
         ubuntu-touch-session (<< 0.107),
@@ -135,7 +136,7 @@ Depends: qml-module-qtquick-layouts,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-10,
          unity8-fake-env | unity-application-impl,
-         unity8-schemas,
+         unity8-schemas (= ${source:Version}),
          ${misc:Depends},
 Breaks: unity8 (<< 7.86),
 Replaces: unity8 (<< 7.86),
@@ -215,6 +216,8 @@ Description: Documentation for Unity8
 Package: unity8-schemas
 Architecture: all
 Multi-Arch: foreign
-Depends: ${misc:Depends}
+Depends: ${misc:Depends},
+Breaks: unity8-common (<< 8.12),
+Replaces: unity8-common (<< 8.12),
 Description: GSettings schemas for Unity8
- The Unity 8 shell is the primary user interface for Ubuntu devices.
+ The Unity 8 shell is the primary user interface for Ubuntu devices. (schemas)
