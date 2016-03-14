@@ -70,6 +70,42 @@ Item {
             waitForRendering(findChild(dash, "scopeLoader0").item);
         }
 
+        function scrollToCategory(categoryName) {
+            var dashContentList = findChild(dash, "dashContentList");
+            var genericScopeView = dashContentList.currentItem;
+            var categoryListView = findChild(genericScopeView, "categoryListView");
+            tryCompareFunction(function() {
+                var category = findChild(genericScopeView, categoryName);
+                if (category && category.y > 0 && category.y < genericScopeView.height) return true;
+                touchFlick(genericScopeView, genericScopeView.width/2, units.gu(20),
+                            genericScopeView.width/2, genericScopeView.y)
+                tryCompare(categoryListView, "moving", false);
+                return false;
+            }, true);
+
+            tryCompareFunction(function() { return findChild(genericScopeView, "delegate0") !== null; }, true);
+            return findChild(genericScopeView, categoryName);
+        }
+
+        function clickCategoryDelegate(category, delegate) {
+            var dashContentList = findChild(dash, "dashContentList");
+            var genericScopeView = dashContentList.currentItem;
+            if (category === undefined) category = 0;
+            if (delegate === undefined) delegate = 0;
+            tryCompareFunction(function() {
+                                    var cardGrid = findChild(genericScopeView, "dashCategory"+category);
+                                    if (cardGrid != null) {
+                                        var tile = findChild(cardGrid, "delegate"+delegate);
+                                        return tile != null;
+                                    }
+                                    return false;
+                                },
+                                true);
+            var tile = findChild(findChild(genericScopeView, "dashCategory"+category), "delegate"+delegate);
+            waitForRendering(tile);
+            mouseClick(tile);
+        }
+
         function test_manage_dash_clickscope_unfavoritable() {
             // Show the manage dash
             touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
@@ -564,6 +600,59 @@ Item {
             tryCompare(dashContentList, "currentIndex", 0);
             tryCompare(dashTempScopeItem, "x", dashTempScopeItem.width);
             tryCompare(dashTempScopeItem, "visible", false);
+        }
+
+        function test_openScope()
+        {
+            scrollToCategory("dashCategory2");
+            clickCategoryDelegate(2, 2);
+
+            var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
+            tryCompare(dashTempScopeItem, "x", 0);
+            tryCompare(dashTempScopeItem, "visible", true);
+            tryCompare(dashContent, "x", -dash.width);
+
+            // Go back
+            var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
+            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
+            mouseClick(backButton);
+
+            // Check temp scope is gone
+            tryCompare(dashTempScopeItem, "x", dash.width);
+            tryCompare(dashTempScopeItem, "visible", false);
+            tryCompare(dashContent, "x", 0);
+        }
+
+        function test_tempScopeItemXOnResize()
+        {
+            // Go to a temp scope
+            touchFlick(dash, dash.width / 2, dash.height - 1, dash.width / 2, units.gu(2));
+            var bottomEdgeController = findInvisibleChild(dash, "bottomEdgeController");
+            tryCompare(bottomEdgeController, "progress", 1);
+            var nonfavScopesListCategory = findChild(dash, "scopesListCategoryother");
+            var nonfavScopesListCategoryList = findChild(nonfavScopesListCategory, "scopesListCategoryInnerList");
+            tryCompare(nonfavScopesListCategoryList, "currentIndex", 0);
+            mouseClick(nonfavScopesListCategoryList.currentItem);
+            var dashTempScopeItem = findChild(dash, "dashTempScopeItem");
+            tryCompare(dashTempScopeItem, "x", 0);
+            tryCompare(dashTempScopeItem, "visible", true);
+
+            shell.width = units.gu(80);
+            tryCompare(dashTempScopeItem, "x", 0);
+            tryCompare(dashContent, "x", -dash.width);
+
+            shell.width = units.gu(40);
+            tryCompare(dashTempScopeItem, "x", 0);
+
+            // Go back
+            var dashTempScopeItemHeader = findChild(dashTempScopeItem, "scopePageHeader");
+            var backButton = findChild(findChild(dashTempScopeItemHeader, "innerPageHeader"), "customBackButton");
+            mouseClick(backButton);
+
+            // Check temp scope is gone
+            tryCompare(dashTempScopeItem, "x", dash.width);
+            tryCompare(dashTempScopeItem, "visible", false);
+            tryCompare(dashContent, "x", 0);
         }
     }
 }

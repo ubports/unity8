@@ -41,7 +41,7 @@ class Q_DECL_EXPORT UsersModel : public QAbstractListModel
 
 public:
     explicit UsersModel(QObject *parent = 0);
-    virtual ~UsersModel();
+    virtual ~UsersModel() = default;
 
     enum UserModelRoles {NameRole = Qt::UserRole,
                          RealNameRole,

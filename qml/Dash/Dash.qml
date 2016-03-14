@@ -37,6 +37,7 @@ Showable {
     }
 
     property bool windowActive: window.active
+    property bool showOverlayScope: false
 
     DashCommunicatorService {
         objectName: "dashCommunicatorService"
@@ -80,7 +81,7 @@ Showable {
             return
         }
 
-        closeOverlayScope();
+        dash.showOverlayScope = false;
 
         dashContent.closePreview();
 
@@ -91,12 +92,6 @@ Showable {
 
         dashContent.workaroundRestoreIndex = -1;
         dashContent.setCurrentScopeAtIndex(scopeIndex, animate, reset)
-    }
-
-    function closeOverlayScope() {
-        if (dashContent.x != 0) {
-            dashContent.x = 0;
-        }
     }
 
     Scopes {
@@ -133,12 +128,13 @@ Showable {
         height: dash.height
         scopes: scopes
         visible: x != -width
+        x: dash.showOverlayScope ? -width : 0
         onGotoScope: {
             dash.setCurrentScope(scopeId, true, false);
         }
         onOpenScope: {
             scopeItem.scope = scope;
-            x = -width;
+            dash.showOverlayScope = true;
         }
         Behavior on x {
             UbuntuNumberAnimation {
@@ -207,7 +203,7 @@ Showable {
                 bottomEdgeController.enableAnimation = true;
                 bottomEdgeController.progress = 0;
                 scopeItem.scope = scope;
-                dashContent.x = -dashContent.width;
+                dash.showOverlayScope = true;
             }
             onGotoScope: {
                 bottomEdgeController.enableAnimation = true;
@@ -226,7 +222,7 @@ Showable {
         id: scopeItem
         objectName: "dashTempScopeItem"
 
-        x: dashContent.x + width
+        x: dash.showOverlayScope ? 0 : width
         y: dashContent.y
         width: parent.width
         height: parent.height
@@ -234,7 +230,7 @@ Showable {
         hasBackAction: true
         isCurrent: visible
         onBackClicked: {
-            closeOverlayScope();
+            dash.showOverlayScope = false;
             closePreview();
         }
 
@@ -249,6 +245,10 @@ Showable {
                 scopeItem.scope = scope;
                 scopes.closeScope(oldScope);
             }
+        }
+
+        Behavior on x {
+            UbuntuNumberAnimation { }
         }
     }
 
