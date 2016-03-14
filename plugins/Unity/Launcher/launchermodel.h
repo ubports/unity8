@@ -38,7 +38,7 @@ class LauncherModel: public LauncherModelInterface
    Q_OBJECT
 
 public:
-    LauncherModel(QObject *parent = 0);
+    LauncherModel(QObject *parent = nullptr);
     ~LauncherModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

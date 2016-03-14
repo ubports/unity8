@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-01 10:33+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2014-01-17 09:05+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-05 06:19+0000\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
 "X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -173,26 +173,26 @@ msgstr "Sambung semula sekarang!"
 msgid "Close all"
 msgstr "Tutup semua"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Kedai"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Gelintar"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Tetapan"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Buang dari Kegemaran"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Tambah ke Kegemaran"
 
@@ -421,14 +421,6 @@ msgstr "Balas"
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Panggilan semula"
-
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Buka SIM"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Perayauan"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -758,11 +750,17 @@ msgstr "%1  〉"
 #~ msgid "Done"
 #~ msgstr "Selesai"
 
+#~ msgid "Roaming"
+#~ msgstr "Perayauan"
+
 #~ msgid "Please re-enter"
 #~ msgstr "Sila masuk-semula"
 
 #~ msgid "Manage Scopes"
 #~ msgstr "Urus Skop"
+
+#~ msgid "Unlock SIM"
+#~ msgstr "Buka SIM"
 
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "

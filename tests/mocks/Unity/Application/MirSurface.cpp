@@ -17,13 +17,15 @@
 #include "MirSurface.h"
 
 #include <QDebug>
+#include <QQmlEngine>
 
 MirSurface::MirSurface(const QString& name,
         Mir::Type type,
         Mir::State state,
         const QUrl& screenshot,
-        const QUrl &qmlFilePath)
-    : unity::shell::application::MirSurfaceInterface(nullptr)
+        const QUrl &qmlFilePath,
+        QObject *parent)
+    : unity::shell::application::MirSurfaceInterface(parent)
     , m_name(name)
     , m_type(type)
     , m_state(state)
@@ -38,6 +40,8 @@ MirSurface::MirSurface(const QString& name,
     , m_slowToResize(false)
 {
 //    qDebug() << "MirSurface::MirSurface() " << name;
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
     m_delayedResizeTimer.setInterval(600);
     m_delayedResizeTimer.setSingleShot(true);
     connect(&m_delayedResizeTimer, &QTimer::timeout, this, &MirSurface::applyDelayedResize);

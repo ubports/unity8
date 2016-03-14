@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-01 10:33+0000\n"
+"POT-Creation-Date: 2016-03-08 21:04+0000\n"
 "PO-Revision-Date: 2015-12-01 07:37+0000\n"
 "Last-Translator: Eltikin <eltikinuyghur@hotmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-05 06:19+0000\n"
+"X-Launchpad-Export-Date: 2016-03-10 05:58+0000\n"
 "X-Generator: Launchpad (build 17936)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -172,26 +172,26 @@ msgstr ""
 msgid "Close all"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "ساقلا"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "ئىزدە"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "تەڭشەك"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "يىغقۇچتىن چىقىرىۋەت"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "يىغقۇچقا قوش"
 
@@ -417,14 +417,6 @@ msgstr "جاۋاب قايتۇر"
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "تىلفۇن ئۇرلىۋاتىدۇ"
-
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "SIM نى قۇلۇپسىزلاش"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "كەزمە"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -755,6 +747,12 @@ msgstr "%1  〉"
 
 #~ msgid "All"
 #~ msgstr "ھەممىسى"
+
+#~ msgid "Unlock SIM"
+#~ msgstr "SIM نى قۇلۇپسىزلاش"
+
+#~ msgid "Roaming"
+#~ msgstr "كەزمە"
 
 #~ msgid "Restart"
 #~ msgstr "قايتا قوزغات"

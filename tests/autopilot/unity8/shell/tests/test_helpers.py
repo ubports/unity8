@@ -117,13 +117,11 @@ class GenericScopeViewHelperTestCase(tests.DashBaseTestCase):
     def test_open_preview(self):
         preview = self.generic_scope.open_preview('0', 'Title.0.0')
         self.assertIsInstance(preview, dash_helpers.Preview)
-        self.assertTrue(preview.isCurrent)
 
     def test_open_preview_of_non_visible_item(self):
         """Open an item that requires swiping to make it visible."""
         preview = self.generic_scope.open_preview('2', 'Title.2.0')
         self.assertIsInstance(preview, dash_helpers.Preview)
-        self.assertTrue(preview.isCurrent)
 
 
 class DashAppsHelperTestCase(tests.DashBaseTestCase):
