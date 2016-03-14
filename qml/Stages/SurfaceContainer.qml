@@ -50,7 +50,6 @@ FocusScope {
         savedKeymap = keymap; // save the keymap in case the surface changes later
 
         if (surface) {
-            print("!!! Switching to keymap", keymap);
             surface.setKeymap(finalKeymap[0], finalKeymap[1] || "");
         }
     }
