@@ -47,7 +47,7 @@ FocusScope {
         style: scope ? scope.customizations : {}
     }
 
-    readonly property bool processing: scope ? scope.searchInProgress || subPageLoader.processing : false
+    readonly property bool processing: scope ? (scope.searchInProgress || scope.activationInProgress || subPageLoader.processing) : false
 
     signal backClicked()
 
@@ -73,49 +73,30 @@ FocusScope {
     }
 
     property var maybePreviewResult;
-    property int maybePreviewIndex;
-    property var maybePreviewResultsModel;
-    property int maybePreviewLimitedCategoryItemCount;
     property string maybePreviewCategoryId;
 
     function clearMaybePreviewData() {
         scopeView.maybePreviewResult = undefined;
-        scopeView.maybePreviewIndex = -1;
-        scopeView.maybePreviewResultsModel = undefined;
-        scopeView.maybePreviewLimitedCategoryItemCount = -1;
         scopeView.maybePreviewCategoryId = "";
     }
 
-    function itemClicked(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
+    function itemClicked(result, categoryId) {
         scopeView.maybePreviewResult = result;
-        scopeView.maybePreviewIndex = index;
-        scopeView.maybePreviewResultsModel = resultsModel;
-        scopeView.maybePreviewLimitedCategoryItemCount = limitedCategoryItemCount;
         scopeView.maybePreviewCategoryId = categoryId;
 
         scope.activate(result, categoryId);
     }
 
-    function itemPressedAndHeld(index, result, resultsModel, limitedCategoryItemCount, categoryId) {
+    function itemPressedAndHeld(result, categoryId) {
         clearMaybePreviewData();
 
-        openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId);
+        openPreview(result, categoryId);
     }
 
-    function openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId) {
-        var previewStack = scope.preview(result, categoryId);
-        if (previewStack) {
-            if (limitedCategoryItemCount > 0) {
-                previewLimitModel.model = resultsModel;
-                previewLimitModel.limit = limitedCategoryItemCount;
-                subPageLoader.model = previewLimitModel;
-            } else {
-                subPageLoader.model = resultsModel;
-            }
-            subPageLoader.initialIndex = -1;
-            subPageLoader.initialIndex = index;
-            subPageLoader.categoryId = categoryId;
-            subPageLoader.previewStack = previewStack;
+    function openPreview(result, categoryId) {
+        var previewModel = scope.preview(result, categoryId);
+        if (previewModel) {
+            subPageLoader.previewModel = previewModel;
             subPageLoader.openSubPage("preview");
         }
     }
@@ -166,9 +147,6 @@ FocusScope {
         onPreviewRequested: { // (QVariant const& result)
             if (result === scopeView.maybePreviewResult) {
                 openPreview(result,
-                            scopeView.maybePreviewIndex,
-                            scopeView.maybePreviewResultsModel,
-                            scopeView.maybePreviewLimitedCategoryItemCount,
                             scopeView.maybePreviewCategoryId);
 
                 clearMaybePreviewData();
@@ -392,6 +370,8 @@ FocusScope {
                             } else {
                                 cardTool.cardWidth = units.gu(10);
                             }
+                        } else {
+                            cardTool.cardWidth = units.gu(12);
                         }
                         item.minimumHorizontalSpacing = item.defaultMinimumHorizontalSpacing;
                     }
@@ -400,11 +380,11 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: { // (int index, var result, var item, var itemModel)
-                        scopeView.itemClicked(index, result, itemModel, target.model, categoryItemCount(), baseItem.category);
+                        scopeView.itemClicked(result, baseItem.category);
                     }
 
                     onPressAndHold: { // (int index, var result, var itemModel)
-                        scopeView.itemPressedAndHeld(index, result, target.model, categoryItemCount(), baseItem.category);
+                        scopeView.itemPressedAndHeld(result, baseItem.category);
                     }
 
                     function categoryItemCount() {
@@ -779,13 +759,10 @@ FocusScope {
         property var scope: scopeView.scope
         property var scopeStyle: scopeView.scopeStyle
         property int initialIndex: -1
-        property var previewStack;
-        property string categoryId
-        property var model: null
+        property var previewModel;
 
         readonly property bool processing: item && item.processing || false
         readonly property int count: item && item.count || 0
-        readonly property int currentIndex: item && item.currentIndex || 0
         readonly property var currentItem: item && item.currentItem || null
 
         property string subPage: ""
@@ -800,7 +777,7 @@ FocusScope {
         }
 
         source: switch(subPage) {
-            case "preview": return "PreviewListView.qml";
+            case "preview": return "PreviewView.qml";
             case "settings": return "ScopeSettingsPage.qml";
             default: return "";
         }
@@ -810,11 +787,8 @@ FocusScope {
             item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle; } )
             if (subPage == "preview") {
                 item.open = Qt.binding(function() { return subPageLoader.open; } )
-                item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
-                item.model = Qt.binding(function() { return subPageLoader.model; } )
-                item.categoryId = Qt.binding(function() { return subPageLoader.categoryId; } )
-                item.initialIndexPreviewStack = subPageLoader.previewStack;
-                subPageLoader.previewStack = null;
+                item.previewModel = subPageLoader.previewModel;
+                subPageLoader.previewModel = null;
             }
             open = true;
         }

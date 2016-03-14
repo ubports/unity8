@@ -90,7 +90,8 @@ CardAudioProgress {
                                 opacity: 0.9; 
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; 
                                 color: "white"; 
-                            } 
+                                asynchronous: true; 
+                            }
                             onClicked: { 
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { 
                                     if (DashAudioPlayer.playing) { 

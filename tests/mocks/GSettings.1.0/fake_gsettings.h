@@ -50,6 +50,8 @@ class GSettingsQml: public QObject
     Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
     Q_PROPERTY(qint64 lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY lockedOutTimeChanged)
     Q_PROPERTY(QStringList lifecycleExemptAppids READ lifecycleExemptAppids WRITE setLifecycleExemptAppids NOTIFY lifecycleExemptAppidsChanged)
+    Q_PROPERTY(bool autohideLauncher READ autohideLauncher WRITE setAutohideLauncher NOTIFY autohideLauncherChanged)
+    Q_PROPERTY(int launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -59,11 +61,15 @@ public:
     QString usageMode() const;
     qint64 lockedOutTime() const;
     QStringList lifecycleExemptAppids() const;
+    bool autohideLauncher() const;
+    int launcherWidth() const;
 
     void setPictureUri(const QString &str);
     void setUsageMode(const QString &usageMode);
     void setLockedOutTime(qint64 timestamp);
     void setLifecycleExemptAppids(const QStringList &appIds);
+    void setAutohideLauncher(bool autohideLauncher);
+    void setLauncherWidth(int launcherWidth);
 
 Q_SIGNALS:
     void schemaChanged();
@@ -71,6 +77,8 @@ Q_SIGNALS:
     void usageModeChanged(const QString&);
     void lockedOutTimeChanged(qint64);
     void lifecycleExemptAppidsChanged(const QStringList &);
+    void autohideLauncherChanged(bool);
+    void launcherWidthChanged(int launcherWidth);
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -98,11 +106,19 @@ public:
     QStringList lifecycleExemptAppids() const;
     Q_INVOKABLE void setLifecycleExemptAppids(const QStringList &appIds);
 
+    bool autohideLauncher() const;
+    Q_INVOKABLE void setAutohideLauncher(bool autohideLauncher);
+
+    int launcherWidth() const;
+    Q_INVOKABLE void setLauncherWidth(int launcherWidth);
+
 Q_SIGNALS:
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
     void lockedOutTimeChanged(qint64 timestamp);
     void lifecycleExemptAppidsChanged(const QStringList&);
+    void autohideLauncherChanged(bool autohideLauncher);
+    void launcherWidthChanged(int launcherWidth);
 
 private:
     GSettingsControllerQml();
@@ -111,6 +127,8 @@ private:
     QString m_usageMode;
     qint64 m_lockedOutTime;
     QStringList m_lifecycleExemptAppids;
+    bool m_autohideLauncher;
+    int m_launcherWidth;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

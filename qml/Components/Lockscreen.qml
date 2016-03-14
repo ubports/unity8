@@ -121,107 +121,93 @@ Showable {
         opacity: root.darkenBackground
     }
 
-    MouseArea {
-        anchors.fill: root
-        onClicked: {
-            if (pinPadLoader.item)
-                pinPadLoader.item.forceActiveFocus()
-        }
-    }
-
-    FocusScope {
-        id: loaderScope
+    Loader {
+        id: pinPadLoader
+        objectName: "pinPadLoader"
         anchors.fill: parent
+        property bool resetting: false
+        property bool waiting: false
+        property bool showWrongText: false
+        focus: true
 
-        Loader {
-            id: pinPadLoader
-            objectName: "pinPadLoader"
-            anchors.fill: parent
-            property bool resetting: false
-            property bool waiting: false
-            property bool showWrongText: false
-
-            source: {
-                if (resetting || !root.required) {
-                    return ""
-                } else if (root.delayMinutes > 0) {
-                    return "DelayedLockscreen.qml"
-                } else if (root.alphaNumeric) {
-                    return "PassphraseLockscreen.qml"
-                } else {
-                    return "PinLockscreen.qml"
-                }
+        source: {
+            if (resetting || !root.required) {
+                return ""
+            } else if (root.delayMinutes > 0) {
+                return "DelayedLockscreen.qml"
+            } else if (root.alphaNumeric) {
+                return "PassphraseLockscreen.qml"
+            } else {
+                return "PinLockscreen.qml"
             }
-            onSourceChanged: {
-                waiting = false
-                showWrongText = false
-                if (loaderScope.activeFocus && pinPadLoader.item)
-                    pinPadLoader.item.forceActiveFocus()
-            }
+        }
+        onSourceChanged: {
+            waiting = false
+            showWrongText = false
+        }
 
-            Connections {
-                target: pinPadLoader.item
+        Connections {
+            target: pinPadLoader.item
 
-                onEntered: {
-                    pinPadLoader.waiting = true
-                    root.entered(passphrase);
-                }
-
-                onCancel: {
-                    root.cancel()
-                }
+            onEntered: {
+                pinPadLoader.waiting = true
+                root.entered(passphrase);
             }
 
-            Binding {
-                target: pinPadLoader.item
-                property: "minPinLength"
-                value: root.minPinLength
+            onCancel: {
+                root.cancel()
             }
-            Binding {
-                target: pinPadLoader.item
-                property: "maxPinLength"
-                value: root.maxPinLength
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "infoText"
-                value: root.infoText
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "retryText"
-                value: root.retryText
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "errorText"
-                value: pinPadLoader.showWrongText ? root.errorText : ""
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "entryEnabled"
-                value: !pinPadLoader.waiting
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "alphaNumeric"
-                value: root.alphaNumeric
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "delayMinutes"
-                value: root.delayMinutes
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "showCancelButton"
-                value: root.showCancelButton
-            }
-            Binding {
-                target: pinPadLoader.item
-                property: "foregroundColor"
-                value: root.foregroundColor
-            }
+        }
+
+        Binding {
+            target: pinPadLoader.item
+            property: "minPinLength"
+            value: root.minPinLength
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "maxPinLength"
+            value: root.maxPinLength
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "infoText"
+            value: root.infoText
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "retryText"
+            value: root.retryText
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "errorText"
+            value: pinPadLoader.showWrongText ? root.errorText : ""
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "entryEnabled"
+            value: !pinPadLoader.waiting
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "alphaNumeric"
+            value: root.alphaNumeric
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "delayMinutes"
+            value: root.delayMinutes
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "showCancelButton"
+            value: root.showCancelButton
+        }
+        Binding {
+            target: pinPadLoader.item
+            property: "foregroundColor"
+            value: root.foregroundColor
         }
     }
 

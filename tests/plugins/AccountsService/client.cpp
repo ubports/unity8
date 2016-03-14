@@ -42,7 +42,16 @@ public:
         : QObject(parent)
         , m_userInterface(nullptr)
         , m_spy(this, &AccountsServiceTest::propertiesChanged)
+        , m_mousePrimaryButtonSpy(this, &AccountsServiceTest::setMousePrimaryButtonCalled)
     {
+        m_uscInputInterface = new QDBusInterface("com.canonical.Unity.Input",
+                                                 "/com/canonical/Unity/Input",
+                                                 "com.canonical.Unity.Input",
+                                                 QDBusConnection::sessionBus(),
+                                                 this);
+
+        QObject::connect(m_uscInputInterface, SIGNAL(setMousePrimaryButtonCalled(int)),
+                         this, SIGNAL(setMousePrimaryButtonCalled(int)));
     }
 
 private Q_SLOTS:
@@ -71,6 +80,7 @@ private Q_SLOTS:
 
         delete m_userInterface;
         m_spy.clear();
+        m_mousePrimaryButtonSpy.clear();
     }
 
     void testInvalids()
@@ -107,7 +117,7 @@ private Q_SLOTS:
         QCOMPARE(session.hereEnabled(), true);
     }
 
-    void testAsynchornousChangeForDemoEdges()
+    void testAsynchronousChangeForDemoEdges()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -119,7 +129,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.demoEdges(), true);
     }
 
-    void testAsynchornousChangeForFailedLogins()
+    void testAsynchronousChangeForFailedLogins()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -131,7 +141,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.failedLogins(), (uint)5);
     }
 
-    void testAsynchornousChangeForStatsWelcomeScreen()
+    void testAsynchronousChangeForStatsWelcomeScreen()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -143,7 +153,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.statsWelcomeScreen(), false);
     }
 
-    void testAsynchornousChangeForStatsEnableLauncherWhileLocked()
+    void testAsynchronousChangeForEnableLauncherWhileLocked()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -155,7 +165,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.enableLauncherWhileLocked(), false);
     }
 
-    void testAsynchornousChangeForStatsEnableIndicatorsWhileLocked()
+    void testAsynchronousChangeForEnableIndicatorsWhileLocked()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -167,7 +177,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.enableIndicatorsWhileLocked(), false);
     }
 
-    void testAsynchornousChangeForStatsPasswordDisplayHint()
+    void testAsynchronousChangeForPasswordDisplayHint()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -179,7 +189,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.passwordDisplayHint(), AccountsService::Numeric);
     }
 
-    void testAsynchornousChangeForStatsLicenseAccepted()
+    void testAsynchronousChangeForLicenseAccepted()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -191,7 +201,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.hereEnabled(), true);
     }
 
-    void testAsynchornousChangeForLicenseBasePath()
+    void testAsynchronousChangeForLicenseBasePath()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -203,7 +213,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.hereLicensePath(), QString("/"));
     }
 
-    void testAsynchornousChangeForStatsBackgroundFile()
+    void testAsynchronousChangeForBackgroundFile()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -215,12 +225,56 @@ private Q_SLOTS:
         QTRY_COMPARE(session.backgroundFile(), QString("/test/BackgroundFile"));
     }
 
+    void testProxyOnStartup()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 1);
+    }
+
+    void testProxyOnChange()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        m_mousePrimaryButtonSpy.clear();
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.Input",
+                                                    "MousePrimaryButton",
+                                                    dbusVariant("left")));
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
+    void testInvalidPrimaryButton()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        m_mousePrimaryButtonSpy.clear();
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.Input",
+                                                    "MousePrimaryButton",
+                                                    dbusVariant("NOPE")));
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
 Q_SIGNALS:
     void propertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
+    void setMousePrimaryButtonCalled(int button);
 
 private:
+    QDBusInterface* m_uscInputInterface;
     QDBusInterface* m_userInterface;
     QSignalSpy m_spy;
+    QSignalSpy m_mousePrimaryButtonSpy;
 };
 
 QTEST_MAIN(AccountsServiceTest)

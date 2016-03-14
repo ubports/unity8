@@ -25,6 +25,7 @@ import "../"
  *  The mascot fall back image comes in widgetData["fallback"]
  *  The subtitle comes in widgetData["subtitle"]
  *  The attributes comes in widgetData["attributes"]
+ *  The emblem comes in widgetData["emblem"]
  */
 
 PreviewWidget {
@@ -40,6 +41,7 @@ PreviewWidget {
         readonly property string title: root.widgetData["title"] || ""
         readonly property string subtitle: root.widgetData["subtitle"] || ""
         readonly property var attributes: root.widgetData["attributes"] || null
+        readonly property url emblem: root.widgetData["emblem"] || ""
         readonly property color fontColor: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText
 
         // Rewire the source since we may have unwired it on onStatusChanged
@@ -98,16 +100,42 @@ PreviewWidget {
                 spacing: units.dp(2)
                 anchors.verticalCenter: parent.verticalCenter
 
-                Label {
-                    id: titleLabel
-                    objectName: "titleLabel"
+                Item {
                     anchors { left: parent.left; right: parent.right }
-                    elide: Text.ElideRight
-                    font.weight: Font.Normal
-                    fontSize: "large"
-                    wrapMode: Text.Wrap
-                    color: headerRoot.fontColor
-                    text: headerRoot.title
+                    height: titleLabel.height
+
+                    Label {
+                        id: titleLabel
+                        objectName: "titleLabel"
+                        anchors {
+                            left: parent.left;
+                            right: iconLoader.right
+                            rightMargin: iconLoader.width > 0 ? units.gu(0.5) : 0
+                        }
+                        elide: Text.ElideRight
+                        font.weight: Font.Normal
+                        fontSize: "large"
+                        wrapMode: Text.Wrap
+                        color: headerRoot.fontColor
+                        text: headerRoot.title
+                    }
+
+                    Loader {
+                        id: iconLoader
+                        active: headerRoot.emblem != ""
+                        anchors {
+                            bottom: titleLabel.baseline
+                            right: parent.right
+                        }
+                        sourceComponent: Icon {
+                            objectName: "emblemIcon"
+                            source: headerRoot.emblem
+                            color: headerRoot.fontColor
+                            height: source != "" ? titleLabel.font.pixelSize : 0
+                            // FIXME Workaround for bug https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1421293
+                            width: implicitWidth > 0 && implicitHeight > 0 ? (implicitWidth / implicitHeight * height) : implicitWidth
+                        }
+                    }
                 }
 
                 Loader {

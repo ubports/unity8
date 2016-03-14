@@ -37,7 +37,15 @@ Dialog {
 
     focus: true
 
+    // FIXME: this is a hack because Dialog subtheming seems broken atm
+    // https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1555548
+    ThemeSettings {
+        id: themeHack
+        name: "Ubuntu.Components.Themes.Ambiance"
+    }
+
     Component.onCompleted: {
+        __foreground.theme = themeHack
         show();
     }
 }
