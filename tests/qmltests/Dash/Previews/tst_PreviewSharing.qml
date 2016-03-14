@@ -28,10 +28,15 @@ Rectangle {
 
     property var shareData: {
         "uri": [
-                    "Text here",
-                    "text here 2",
-                    "text here 3"
+                    "file:///this/is/an/url",
+                    "file:///this/is/an/url/2",
+                    "file:///this/is/an/url/3"
                 ],
+        "content-type": "text"
+    }
+
+    property var shareDataString: {
+        "uri": "file:///this/is/an/url",
         "content-type": "text"
     }
 
@@ -54,6 +59,15 @@ Rectangle {
         function test_open_picker() {
             mouseClick(previewSharing);
             compare(peerPicker.visible, true);
+        }
+
+        function test_createExportedItems() {
+            var exportedItems = previewSharing.createExportedItems(shareData["uri"]);
+            for (var i = 0; i < exportedItems.length; i++) {
+                compare(exportedItems[i].url, shareData["uri"][i]);
+            }
+            exportedItems = previewSharing.createExportedItems(shareDataString["uri"]);
+            compare(exportedItems[0].url, shareDataString["uri"]);
         }
     }
 }

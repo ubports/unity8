@@ -308,5 +308,12 @@ Rectangle {
             tryCompare(closeAnimation, "running", false);
         }
 
+        function test_showHighLight() {
+            loadWithGalleryApp.clicked();
+            var highlightRect = findChild(spreadDelegateLoader.item, "selectionHighlight")
+            tryCompare(highlightRect, "visible", false)
+            spreadDelegateLoader.item.highlightShown = true;
+            tryCompare(highlightRect, "visible", true)
+        }
     }
 }
