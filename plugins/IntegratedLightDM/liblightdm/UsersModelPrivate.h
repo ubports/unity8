@@ -19,8 +19,11 @@
 #ifndef UNITY_MOCK_USERSMODEL_PRIVATE_H
 #define UNITY_MOCK_USERSMODEL_PRIVATE_H
 
-#include <QtCore/QList>
-#include <QtCore/QString>
+#include <QList>
+#include <QObject>
+#include <QString>
+
+class AccountsServiceDBusAdaptor;
 
 namespace QLightDM
 {
@@ -39,19 +42,28 @@ public:
     QString infographic;
 };
 
-class UsersModelPrivate
+class UsersModelPrivate : public QObject
 {
+    Q_OBJECT
+
 public:
     explicit UsersModelPrivate(UsersModel *parent = 0);
     virtual ~UsersModelPrivate() = default;
 
     QList<Entry> entries;
 
+Q_SIGNALS:
+    void dataChanged(int);
+
 protected:
     UsersModel * const q_ptr;
 
 private:
     Q_DECLARE_PUBLIC(UsersModel)
+
+    void updateName(bool async);
+
+    AccountsServiceDBusAdaptor *m_service;
 };
 
 }

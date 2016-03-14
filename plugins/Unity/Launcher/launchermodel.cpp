@@ -103,7 +103,7 @@ void LauncherModel::setAlerting(const QString &appId, bool alerting) {
         LauncherItem *item = m_list.at(index);
         if (!item->focused()) {
             item->setAlerting(alerting);
-            Q_EMIT dataChanged(modelIndex, modelIndex, QVector<int>() << RoleAlerting);
+            Q_EMIT dataChanged(modelIndex, modelIndex, {RoleAlerting});
         }
     }
 }
@@ -389,7 +389,8 @@ void LauncherModel::countVisibleChanged(const QString &appId, bool countVisible)
         if (countVisible && desktopFile.isValid()) {
             LauncherItem *item = new LauncherItem(appId,
                                                   desktopFile.displayName(),
-                                                  desktopFile.icon());
+                                                  desktopFile.icon(),
+                                                  this);
             item->setCountVisible(true);
             beginInsertRows(QModelIndex(), m_list.count(), m_list.count());
             m_list.append(item);
@@ -414,10 +415,19 @@ void LauncherModel::refresh()
         } else {
             int idx = m_list.indexOf(item);
             item->setName(desktopFile.displayName());
-            item->setIcon(desktopFile.icon());
             item->setPinned(item->pinned()); // update pinned text if needed
             item->setRunning(item->running());
-            Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleIcon, RoleRunning});
+            Q_EMIT dataChanged(index(idx), index(idx), {RoleName, RoleRunning});
+
+            const QString oldIcon = item->icon();
+            if (oldIcon == desktopFile.icon()) { // same icon file, perhaps different contents, simulate changing the icon name to force reload
+                item->setIcon(QString());
+                Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
+            }
+
+            // now set the icon for real
+            item->setIcon(desktopFile.icon());
+            Q_EMIT dataChanged(index(idx), index(idx), {RoleIcon});
         }
     }
 
@@ -489,7 +499,7 @@ void LauncherModel::alert(const QString &appId)
     if (idx >= 0) {
         LauncherItem *item = m_list.at(idx);
         setAlerting(item->appId(), true);
-        Q_EMIT dataChanged(index(idx), index(idx), QVector<int>() << RoleAlerting);
+        Q_EMIT dataChanged(index(idx), index(idx), {RoleAlerting});
     }
 }
 

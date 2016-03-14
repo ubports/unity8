@@ -32,7 +32,7 @@ AbstractButton {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
-        color: enabled ? theme.palette.selected.backgroundText : Qt.darker(theme.palette.selected.backgroundText, 1.5)
+        color: enabled ? theme.palette.normal.backgroundText : Qt.darker(theme.palette.normal.backgroundText, 1.5)
         text: {
             if (backArrow) {
                 // Translators: This is the arrow for "Back" buttons

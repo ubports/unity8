@@ -518,5 +518,14 @@ Item {
             tryCompare(coverPage, "shown", false);
             tryCompare(coverPage, "showProgress", 0);
         }
+
+        // Make sure that if user has a mouse, they can still get rid of cover page
+        function test_mouseClickHidesCoverPage() {
+            var coverPage = findChild(view, "coverPage");
+
+            verify(coverPage.shown);
+            mouseClick(coverPage, coverPage.width/2, coverPage.height - units.gu(2));
+            verify(!coverPage.shown);
+        }
     }
 }
