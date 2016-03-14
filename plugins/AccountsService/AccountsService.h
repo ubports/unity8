@@ -19,8 +19,10 @@
 #ifndef UNITY_ACCOUNTSSERVICE_H
 #define UNITY_ACCOUNTSSERVICE_H
 
+#include <QHash>
 #include <QObject>
 #include <QString>
+#include <QVariant>
 
 class AccountsServiceDBusAdaptor;
 class QDBusInterface;
@@ -109,30 +111,33 @@ private Q_SLOTS:
     void onMaybeChanged(const QString &user);
 
 private:
-    void updateDemoEdges(bool async = true);
-    void updateEnableLauncherWhileLocked(bool async = true);
-    void updateEnableIndicatorsWhileLocked(bool async = true);
-    void updateBackgroundFile(bool async = true);
-    void updateMouseCursorSpeed();
-    void updateTouchpadCursorSpeed();
-    void updateStatsWelcomeScreen(bool async = true);
-    void updatePasswordDisplayHint(bool async = true);
-    void updateFailedLogins(bool async = true);
-    void updateHereEnabled(bool async = true);
-    void updateHereLicensePath(bool async = true);
+    typedef QVariant (*ProxyConverter)(const QVariant &);
 
+    void refresh(bool async);
+    void registerProperty(const QString &interface, const QString &property, const QString &signal);
+    void registerProxy(const QString &interface, const QString &property, QDBusInterface *iface, const QString &method, ProxyConverter converter = nullptr);
+
+    void updateAllProperties(const QString &interface, bool async);
+    void updateProperty(const QString &interface, const QString &property);
+    void updateCache(const QString &interface, const QString &property, const QVariant &value);
+
+    void setProperty(const QString &interface, const QString &property, const QVariant &value);
+    QVariant getProperty(const QString &interface, const QString &property) const;
+
+    void emitChangedForProperty(const QString &interface, const QString &property);
+
+    struct PropertyInfo {
+        QVariant value{};
+        QString signal{};
+        QDBusInterface *proxyInterface{};
+        QString proxyMethod{};
+        ProxyConverter proxyConverter{};
+    };
+    typedef QHash< QString, QHash<QString, PropertyInfo> > PropertyHash;
+    PropertyHash m_properties;
     AccountsServiceDBusAdaptor *m_service;
     QDBusInterface *m_unityInput;
     QString m_user;
-    bool m_demoEdges;
-    bool m_enableLauncherWhileLocked;
-    bool m_enableIndicatorsWhileLocked;
-    QString m_backgroundFile;
-    bool m_statsWelcomeScreen;
-    PasswordDisplayHint m_passwordDisplayHint;
-    uint m_failedLogins;
-    bool m_hereEnabled;
-    QString m_hereLicensePath;
 };
 
 #endif
