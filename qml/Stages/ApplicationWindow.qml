@@ -28,7 +28,6 @@ FocusScope {
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
     readonly property string title: sessionContainer.surface && sessionContainer.surface.name !== "" ?
                                         sessionContainer.surface.name : d.name
-    readonly property string activeKeymap: sessionContainer.surfaceContainer ? sessionContainer.surfaceContainer.activeKeymap : "us"
 
     // overridable from outside
     property bool fullscreen: application ? application.fullscreen : false

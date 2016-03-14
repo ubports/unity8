@@ -35,8 +35,6 @@ FocusScope {
     property int requestedWidth: -1
     property int requestedHeight: -1
 
-    readonly property string activeKeymap: surface ? (surface.keymapVariant !== "" ? surface.keymapLayout + "+" + surface.keymapVariant : surface.keymapLayout)
-                                                   : "us"
     property string savedKeymap: AccountsService.keymaps[0] // start with the user default
 
     onSurfaceChanged: {

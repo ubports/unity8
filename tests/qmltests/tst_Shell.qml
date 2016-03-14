@@ -2321,6 +2321,22 @@ Rectangle {
             keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
             tryCompare(app.session.lastSurface, "keymapLayout", "cz");
             tryCompare(app.session.lastSurface, "keymapVariant", "qwerty");
+
+            // go next twice to "sk", past the end
+            keyClick(Qt.Key_Space, Qt.MetaModifier);
+            keyClick(Qt.Key_Space, Qt.MetaModifier);
+            tryCompare(app.session.lastSurface, "keymapLayout", "sk");
+            tryCompare(app.session.lastSurface, "keymapVariant", "");
+
+            // go back once to past the beginning, to "fr"
+            keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
+            tryCompare(app.session.lastSurface, "keymapLayout", "fr");
+            tryCompare(app.session.lastSurface, "keymapVariant", "");
+
+            // switch to app2, should also get "fr"
+            ApplicationManager.requestFocusApplication("calendar-app");
+            tryCompare(app2.session.lastSurface, "keymapLayout", "fr");
+            tryCompare(app2.session.lastSurface, "keymapVariant", "");
         }
     }
 }

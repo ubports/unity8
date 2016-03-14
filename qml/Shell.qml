@@ -756,27 +756,24 @@ Item {
 
         readonly property var keymaps: AccountsService.keymaps
         readonly property int keymapCount: keymaps.length
-        readonly property int activeKeymapIndex: mainAppWindow ? keymaps.indexOf(mainAppWindow.activeKeymap) : 0 // the one that the window currently has
         property int currentKeymapIndex: 0  // the new one that we're setting
         onCurrentKeymapIndexChanged: switchToKeymap();
 
         function nextKeymap() {
             var nextIndex = 0;
 
-            if (activeKeymapIndex !== -1 && activeKeymapIndex < keymapCount - 1) {
-                nextIndex = activeKeymapIndex + 1;
+            if (currentKeymapIndex !== -1 && currentKeymapIndex < keymapCount - 1) {
+                nextIndex = currentKeymapIndex + 1;
             }
-            print("!!! next keymap:", currentKeymapIndex, "->", nextIndex);
             currentKeymapIndex = nextIndex;
         }
 
         function previousKeymap() {
             var prevIndex = keymapCount - 1;
 
-            if (activeKeymapIndex > 0) {
-                prevIndex = activeKeymapIndex - 1;
+            if (currentKeymapIndex > 0) {
+                prevIndex = currentKeymapIndex - 1;
             }
-            print("!!! prev keymap:", currentKeymapIndex, "->", prevIndex);
             currentKeymapIndex = prevIndex;
         }
 
