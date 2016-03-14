@@ -5,11 +5,9 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true; 
@@ -36,7 +34,7 @@ top: parent.top;
                         width: undefined; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: Text.AlignLeft;
                     }
 Label { 
                             id: subtitleLabel; 
@@ -72,7 +70,7 @@ CardAudioProgress {
                             id: audioButton; 
                             anchors.fill: undefined; 
                             width: height; 
-                            height: (root.fixedHeaderHeight > 0 ? root.fixedHeaderHeight : headerHeight) + 2 * units.gu(1); 
+                            height: root.fixedHeaderHeight + 2 * units.gu(1);
                             readonly property url source: (cardData["quickPreviewData"] && cardData["quickPreviewData"]["uri"]) || ""; 
                             UbuntuShape { 
                                 anchors.fill: parent; 
@@ -93,7 +91,8 @@ CardAudioProgress {
                                 opacity: 0.9; 
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; 
                                 color: "white"; 
-                            } 
+                                asynchronous: true; 
+                            }
                             onClicked: { 
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { 
                                     if (DashAudioPlayer.playing) { 

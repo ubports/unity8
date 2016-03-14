@@ -21,6 +21,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 
+import ".."
 import "../../../qml/Stages"
 import "../../../qml/Components"
 
@@ -77,6 +78,15 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
+            EdgeBarrierControls {
+                id: edgeBarrierControls
+                text: "Drag here to pull out spread"
+                backgroundColor: "blue"
+                onDragged: { tabletStageLoader.item.pushRightEdge(amount); }
+                Component.onCompleted: {
+                    edgeBarrierControls.target = testCase.findChild(tabletStageLoader, "edgeBarrierController");
+                }
+            }
             ApplicationCheckBox {
                 id: webbrowserCheckBox
                 appId: "webbrowser-app"
@@ -365,6 +375,14 @@ Rectangle {
             tryCompare(webbrowserApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
             tryCompare(dialerApp, "requestedState", ApplicationInfoInterface.RequestedRunning);
         }
-    }
 
+        function test_mouseEdgePush() {
+            var spreadView = findChild(tabletStageLoader, "spreadView")
+            mouseMove(tabletStageLoader, tabletStageLoader.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                tabletStageLoader.item.pushRightEdge(1);
+            }
+            tryCompare(spreadView, "phase", 2);
+        }
+    }
 }
