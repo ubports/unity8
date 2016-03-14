@@ -42,8 +42,6 @@ StyledItem {
     property int margins
     readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
     readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
-    readonly property color red: UbuntuColors.red
-    readonly property color green: UbuntuColors.green
     readonly property color sdLightGrey: "#eaeaea"
     readonly property real contentSpacing: units.gu(2)
     readonly property bool canBeClosed: type === Notification.Ephemeral
@@ -442,7 +440,7 @@ StyledItem {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : theme.palette.normal.baseText
+                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? UbuntuColors.green : theme.palette.normal.baseText
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -470,7 +468,7 @@ StyledItem {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing * 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : theme.palette.normal.baseText
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? UbuntuColors.red : theme.palette.normal.baseText
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -533,10 +531,10 @@ StyledItem {
                                 color: {
                                     var result = theme.palette.normal.baseText;
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
-                                        result = green;
+                                        result = UbuntuColors.green;
                                     }
                                     if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
-                                        result = red;
+                                        result = UbuntuColors.red;
                                     }
                                     return result;
                                 }
