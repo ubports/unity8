@@ -78,8 +78,9 @@ void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<unity::shell::application::ApplicationInfoInterface>(uri, 0, 1, "ApplicationInfoInterface", "Abstract interface. Cannot be created in QML");
     qmlRegisterUncreatableType<Session>(uri, 0, 1, "Session", "Session can't be instantiated from QML");
     qmlRegisterUncreatableType<MirSurface>(uri, 0, 1, "MirSurface", "MirSurface can't be instantiated from QML");
+    qmlRegisterUncreatableType<unity::shell::application::MirSurfaceInterface>(
+                    uri, 0, 1, "MirSurface", "MirSurface can't be instantiated from QML");
     qmlRegisterType<MirSurfaceItem>(uri, 0, 1, "MirSurfaceItem");
-
     qmlRegisterType<ApplicationInfo>(uri, 0, 1, "ApplicationInfo");
 
     qmlRegisterSingletonType<ApplicationManager>(uri, 0, 1, "ApplicationManager", applicationManagerSingleton);

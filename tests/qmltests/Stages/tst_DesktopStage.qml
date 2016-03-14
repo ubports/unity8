@@ -65,8 +65,9 @@ Item {
         property bool itemDestroyed: false
         sourceComponent: Component {
             DesktopStage {
-                color: "darkblue"
+                color: "white"
                 anchors.fill: parent
+                background: "../../../qml/graphics/tablet_background.jpg"
 
                 Component.onCompleted: {
                     edgeBarrierControls.target = testCase.findChild(this, "edgeBarrierController");

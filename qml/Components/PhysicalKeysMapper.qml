@@ -42,12 +42,15 @@ Item {
     signal screenshotTriggered;
 
     readonly property bool altTabPressed: d.altTabPressed
+    readonly property bool superPressed: d.superPressed
+    readonly property bool superTabPressed: d.superTabPressed
 
     property int powerKeyLongPressTime: 2000
 
     // For testing. If running windowed (e.g. tryShell), Alt+Tab is taken by the
     // running desktop, set this to true to use Ctrl+Tab instead.
     property bool controlInsteadOfAlt: false
+    property bool controlInsteadOfSuper: false
 
     QtObject {
         id: d
@@ -58,6 +61,9 @@ Item {
 
         property bool altPressed: false
         property bool altTabPressed: false
+
+        property bool superPressed: false
+        property bool superTabPressed: false
 
         property var powerButtonPressStart: 0
 
@@ -119,9 +125,21 @@ Item {
                 event.accepted = true;
                 d.altPressInjected = false;
             }
+
+        // Adding MetaModifier here because that's what keyboards do. Pressing Super_L actually gives
+        // Super_L + MetaModifier. This helps to make sure we only invoke superPressed if no other
+        // Modifier is pressed too.
+        } else if (((event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R) && event.modifiers === Qt.MetaModifier)
+                    || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)
+                    ) {
+            d.superPressed = true;
         } else if (event.key == Qt.Key_Tab) {
             if (d.altPressed && !d.altTabPressed) {
                 d.altTabPressed = true;
+                event.accepted = true;
+            }
+            if (d.superPressed && !d.superTabPressed) {
+                d.superTabPressed = true;
                 event.accepted = true;
             }
         }
@@ -152,6 +170,12 @@ Item {
             d.altPressed = false;
         } else if (event.key == Qt.Key_Tab) {
             if (d.altTabPressed) {
+                event.accepted = true;
+            }
+        } else if (event.key == Qt.Key_Super_L || event.key == Qt.Key_Super_R || (root.controlInsteadOfSuper && event.key == Qt.Key_Control)) {
+            d.superPressed = false;
+            if (d.superTabPressed) {
+                d.superTabPressed = false;
                 event.accepted = true;
             }
         }

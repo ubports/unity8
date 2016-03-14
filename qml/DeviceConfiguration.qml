@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import Utils 0.1
 
 QtObject {
     id: root
@@ -34,57 +35,83 @@ QtObject {
 
     readonly property alias category: priv.category
 
+    readonly property var deviceConfigParser: DeviceConfigParser {
+        name: root.name
+    }
+
     readonly property var priv: StateGroup {
         id: priv
 
-        property int primaryOrientation: root.useNativeOrientation
+        property int primaryOrientation: deviceConfigParser.primaryOrientation == Qt.PrimaryOrientation ?
+                                             root.useNativeOrientation : deviceConfigParser.primaryOrientation
 
-        property int supportedOrientations: Qt.PortraitOrientation
-                                          | Qt.InvertedPortraitOrientation
-                                          | Qt.LandscapeOrientation
-                                          | Qt.InvertedLandscapeOrientation
+        property int supportedOrientations: deviceConfigParser.supportedOrientations
 
-        property int landscapeOrientation: Qt.LandscapeOrientation
-        property int invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
-        property int portraitOrientation: Qt.PortraitOrientation
-        property int invertedPortraitOrientation: Qt.InvertedPortraitOrientation
-
-        // Supported values so far:
-        // "phone", "tablet" or "desktop"
-        property string category: "phone"
+        property int landscapeOrientation: deviceConfigParser.landscapeOrientation
+        property int invertedLandscapeOrientation: deviceConfigParser.invertedLandscapeOrientation
+        property int portraitOrientation: deviceConfigParser.portraitOrientation
+        property int invertedPortraitOrientation: deviceConfigParser.invertedPortraitOrientation
+        property string category: deviceConfigParser.category
 
         states: [
             State {
                 name: "mako"
                 PropertyChanges {
                     target: priv
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
+                    landscapeOrientation: Qt.LandscapeOrientation
+                    invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
+                    portraitOrientation: Qt.PortraitOrientation
+                    invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+                    category: "phone"
                 }
             },
             State {
                 name: "krillin"
                 PropertyChanges {
                     target: priv
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
+                    landscapeOrientation: Qt.LandscapeOrientation
+                    invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
+                    portraitOrientation: Qt.PortraitOrientation
+                    invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+                    category: "phone"
                 }
             },
             State {
                 name: "arale"
                 PropertyChanges {
                     target: priv
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: Qt.PortraitOrientation
                                          | Qt.LandscapeOrientation
                                          | Qt.InvertedLandscapeOrientation
+                    landscapeOrientation: Qt.LandscapeOrientation
+                    invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
+                    portraitOrientation: Qt.PortraitOrientation
+                    invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+                    category: "phone"
                 }
             },
             State {
                 name: "manta"
                 PropertyChanges {
                     target: priv
+                    primaryOrientation: root.useNativeOrientation
+                    supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.InvertedPortraitOrientation
+                                         | Qt.LandscapeOrientation
+                                         | Qt.InvertedLandscapeOrientation
+                    landscapeOrientation: Qt.LandscapeOrientation
+                    invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
+                    portraitOrientation: Qt.PortraitOrientation
+                    invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "tablet"
                 }
             },
@@ -92,9 +119,15 @@ QtObject {
                 name: "flo"
                 PropertyChanges {
                     target: priv
+                    primaryOrientation: Qt.InvertedLandscapeOrientation
+                    supportedOrientations: Qt.PortraitOrientation
+                                         | Qt.InvertedPortraitOrientation
+                                         | Qt.LandscapeOrientation
+                                         | Qt.InvertedLandscapeOrientation
                     landscapeOrientation: Qt.InvertedLandscapeOrientation
                     invertedLandscapeOrientation: Qt.LandscapeOrientation
-                    primaryOrientation: Qt.InvertedLandscapeOrientation
+                    portraitOrientation: Qt.PortraitOrientation
+                    invertedPortraitOrientation: Qt.InvertedPortraitOrientation
                     category: "tablet"
                 }
             },
@@ -102,8 +135,13 @@ QtObject {
                 name: "desktop"
                 PropertyChanges {
                     target: priv
-                    category: "desktop"
+                    primaryOrientation: root.useNativeOrientation
                     supportedOrientations: root.useNativeOrientation
+                    landscapeOrientation: Qt.LandscapeOrientation
+                    invertedLandscapeOrientation: Qt.InvertedLandscapeOrientation
+                    portraitOrientation: Qt.PortraitOrientation
+                    invertedPortraitOrientation: Qt.InvertedPortraitOrientation
+                    category: "desktop"
                 }
             }
         ]

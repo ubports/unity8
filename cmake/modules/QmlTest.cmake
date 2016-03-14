@@ -183,7 +183,7 @@ function(add_manual_test COMPONENT_NAME TARGET)
     cmake_parse_arguments(QMLTEST "${QMLTEST_OPTIONS}" "${QMLTEST_SINGLE}" "${QMLTEST_MULTI}" ${ARGN})
     mangle_arguments()
 
-    bake_arguments("${QMLTEST_ARG_PREFIX}" args -qmljsdebugger=port:3768)
+    bake_arguments("${QMLTEST_ARG_PREFIX}" args -qmljsdebugger=port:3768,3800)
 
     set(qmltry_command
         $<TARGET_FILE:${TARGET}>

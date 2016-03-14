@@ -76,6 +76,7 @@ Item {
     }
 
     Ambiance.PageHeadStyle {
+        // FIXME: Replace PageHeadStyle by PageHeader from Ubuntu.Components 1.3.
         id: header
         anchors {
             left: parent.left;
@@ -86,9 +87,10 @@ Item {
         property color dividerColor: Qt.darker(styledItem.backgroundColor, 1.1)
         property color panelColor: Qt.lighter(styledItem.backgroundColor, 1.1)
         panelForegroundColor: config.foregroundColor
+        backgroundColor: "transparent"
         config: PageHeadConfiguration {
             id: headerConfig
-            foregroundColor: styledItem.fakeTheme.palette.selected.backgroundText
+            foregroundColor: styledItem.fakeTheme.palette.normal.backgroundText
         }
 
         property var contents: null
@@ -134,7 +136,7 @@ Item {
         anchors.topMargin: units.gu(2)
         fontSize: "large"
 
-        color: styledItem.fakeTheme.palette.selected.backgroundText
+        color: styledItem.fakeTheme.palette.normal.backgroundText
         visible: d.showIcon
     }
 

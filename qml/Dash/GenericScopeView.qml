@@ -370,6 +370,8 @@ FocusScope {
                             } else {
                                 cardTool.cardWidth = units.gu(10);
                             }
+                        } else {
+                            cardTool.cardWidth = units.gu(12);
                         }
                         item.minimumHorizontalSpacing = item.defaultMinimumHorizontalSpacing;
                     }
@@ -386,7 +388,7 @@ FocusScope {
                     }
 
                     onAction: { // (int index, var result, var actionId)
-                        scope.activateAction(result, baseitem.categoryId, actionId);
+                        scope.activateAction(result, baseItem.categoryId, actionId);
                     }
 
                     function categoryItemCount() {

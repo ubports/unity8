@@ -146,6 +146,7 @@ var kArtShapeHolderCode = 'Item { \n\
 // %1 is anchors.fill
 // %2 is width
 // %3 is height
+// %4 is whether the icon should be asynchronous or not
 var kAudioButtonCode = 'AbstractButton { \n\
                             id: audioButton; \n\
                             anchors.fill: %1; \n\
@@ -171,6 +172,7 @@ var kAudioButtonCode = 'AbstractButton { \n\
                                 opacity: 0.9; \n\
                                 name: DashAudioPlayer.playing && AudioUrlComparer.compare(parent.source, DashAudioPlayer.currentSource) ? "media-playback-pause" : "media-playback-start"; \n\
                                 color: "white"; \n\
+                                asynchronous: %4; \n\
                             } \n\
                             onClicked: { \n\
                                 if (AudioUrlComparer.compare(source, DashAudioPlayer.currentSource)) { \n\
@@ -831,7 +833,7 @@ function cardString(template, components, isCardTool) {
             audioButtonHeight = isCardTool ? 'headerHeight + 2 * units.gu(1)'
                                            : 'root.fixedHeaderHeight + 2 * units.gu(1)';
         }
-        code += kAudioButtonCode.arg(audioButtonAnchorsFill).arg(audioButtonWidth).arg(audioButtonHeight);
+        code += kAudioButtonCode.arg(audioButtonAnchorsFill).arg(audioButtonWidth).arg(audioButtonHeight).arg(asynchronous);
     }
 
     if (hasSummary) {
