@@ -1,4 +1,4 @@
-import QtQuick.tooling 1.1
+import QtQuick.tooling 1.2
 
 // This file describes the plugin-supplied types contained in the library.
 // It is used for QML tooling purposes only.
@@ -7,17 +7,10 @@ import QtQuick.tooling 1.1
 // 'qmlplugindump -notrelocatable Unity 0.2 tests/mocks'
 
 Module {
+    dependencies: ["QtQuick 2.4", "Unity.Indicators 0.1"]
     Component {
         name: "Categories"
         prototype: "unity::shell::scopes::CategoriesInterface"
-        Method {
-            name: "addSpecialCategory"
-            Parameter { name: "categoryId"; type: "string" }
-            Parameter { name: "name"; type: "string" }
-            Parameter { name: "icon"; type: "string" }
-            Parameter { name: "rawTemplate"; type: "string" }
-            Parameter { name: "countObject"; type: "QObject"; isPointer: true }
-        }
         Method {
             name: "overrideCategoryJson"
             type: "bool"
@@ -61,18 +54,6 @@ Module {
         }
     }
     Component {
-        name: "PreviewStack"
-        prototype: "unity::shell::scopes::PreviewStackInterface"
-        exports: ["Unity/PreviewStack 0.2"]
-        isCreatable: false
-        exportMetaObjectRevisions: [0]
-        Method {
-            name: "getPreviewModel"
-            type: "unity::shell::scopes::PreviewModelInterface*"
-            Parameter { name: "index"; type: "int" }
-        }
-    }
-    Component {
         name: "PreviewWidgetModel"
         prototype: "unity::shell::scopes::PreviewWidgetModelInterface"
         exports: ["Unity/PreviewWidgetModel 0.2"]
@@ -95,11 +76,11 @@ Module {
         prototype: "unity::shell::scopes::ScopeInterface"
         exports: ["Unity/MockScope 0.2"]
         exportMetaObjectRevisions: [0]
+        Signal { name: "refreshed" }
         Signal {
-            name: "performQuery"
+            name: "queryPerformed"
             Parameter { name: "query"; type: "string" }
         }
-        Signal { name: "refreshed" }
         Method {
             name: "setId"
             Parameter { name: "id"; type: "string" }
@@ -115,11 +96,13 @@ Module {
         Method {
             name: "activate"
             Parameter { name: "result"; type: "QVariant" }
+            Parameter { name: "categoryId"; type: "string" }
         }
         Method {
             name: "preview"
-            type: "PreviewStack*"
+            type: "PreviewModel*"
             Parameter { name: "result"; type: "QVariant" }
+            Parameter { name: "categoryId"; type: "string" }
         }
         Method { name: "cancelActivation" }
         Method {
@@ -142,6 +125,12 @@ Module {
             Parameter { name: "isAltNavigation"; type: "bool" }
         }
         Method { name: "refresh" }
+        Method {
+            name: "activateAction"
+            Parameter { name: "result"; type: "QVariant" }
+            Parameter { name: "categoryId"; type: "string" }
+            Parameter { name: "actionId"; type: "string" }
+        }
     }
     Component {
         name: "Scopes"
@@ -182,6 +171,10 @@ Module {
             Parameter { name: "index"; type: "int" }
         }
         Method {
+            name: "closeScope"
+            Parameter { name: "scope"; type: "unity::shell::scopes::ScopeInterface"; isPointer: true }
+        }
+        Method {
             name: "getScopeFromAll"
             type: "Scope*"
             Parameter { name: "scope_id"; type: "string" }
@@ -213,14 +206,6 @@ Module {
             type: "bool"
             Parameter { name: "categoryId"; type: "string" }
             Parameter { name: "json"; type: "string" }
-        }
-        Method {
-            name: "addSpecialCategory"
-            Parameter { name: "categoryId"; type: "string" }
-            Parameter { name: "name"; type: "string" }
-            Parameter { name: "icon"; type: "string" }
-            Parameter { name: "rawTemplate"; type: "string" }
-            Parameter { name: "countObject"; type: "QObject"; isPointer: true }
         }
     }
     Component {
@@ -271,22 +256,6 @@ Module {
         }
     }
     Component {
-        name: "unity::shell::scopes::PreviewStackInterface"
-        prototype: "QAbstractListModel"
-        Enum {
-            name: "Roles"
-            values: {
-                "RolePreviewModel": 0
-            }
-        }
-        Property { name: "widgetColumnCount"; type: "int" }
-        Method {
-            name: "getPreviewModel"
-            type: "unity::shell::scopes::PreviewModelInterface*"
-            Parameter { name: "index"; type: "int" }
-        }
-    }
-    Component {
         name: "unity::shell::scopes::PreviewWidgetModelInterface"
         prototype: "QAbstractListModel"
         Enum {
@@ -316,7 +285,8 @@ Module {
                 "RoleSummary": 9,
                 "RoleAttributes": 10,
                 "RoleBackground": 11,
-                "RoleOverlayColor": 12
+                "RoleOverlayColor": 12,
+                "RoleQuickPreviewData": 13
             }
         }
         Property { name: "categoryId"; type: "string" }
@@ -343,6 +313,7 @@ Module {
         Property { name: "description"; type: "string"; isReadonly: true }
         Property { name: "searchHint"; type: "string"; isReadonly: true }
         Property { name: "searchInProgress"; type: "bool"; isReadonly: true }
+        Property { name: "activationInProgress"; type: "bool"; isReadonly: true }
         Property { name: "favorite"; type: "bool" }
         Property { name: "shortcut"; type: "string"; isReadonly: true }
         Property {
@@ -393,11 +364,13 @@ Module {
         Method {
             name: "activate"
             Parameter { name: "result"; type: "QVariant" }
+            Parameter { name: "categoryId"; type: "string" }
         }
         Method {
             name: "preview"
-            type: "unity::shell::scopes::PreviewStackInterface*"
+            type: "unity::shell::scopes::PreviewModelInterface*"
             Parameter { name: "result"; type: "QVariant" }
+            Parameter { name: "categoryId"; type: "string" }
         }
         Method { name: "cancelActivation" }
         Method {
@@ -424,6 +397,12 @@ Module {
             Parameter { name: "cannedQuery"; type: "string" }
         }
         Method { name: "refresh" }
+        Method {
+            name: "activateAction"
+            Parameter { name: "result"; type: "QVariant" }
+            Parameter { name: "categoryId"; type: "string" }
+            Parameter { name: "actionId"; type: "string" }
+        }
     }
     Component {
         name: "unity::shell::scopes::ScopesInterface"
@@ -463,6 +442,10 @@ Module {
             name: "moveFavoriteTo"
             Parameter { name: "scopeId"; type: "string" }
             Parameter { name: "index"; type: "int" }
+        }
+        Method {
+            name: "closeScope"
+            Parameter { name: "scope"; type: "unity::shell::scopes::ScopeInterface"; isPointer: true }
         }
     }
     Component {

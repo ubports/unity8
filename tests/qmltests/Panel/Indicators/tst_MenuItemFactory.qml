@@ -274,15 +274,14 @@ Item {
 
         function test_create_progressMenu_data() {
             return [
-                {label: "testLabel1", enabled: true, value: 10 },
-                {label: "testLabel2", enabled: false, value: 55 },
+                {label: "testLabel1", value: 10 },
+                {label: "testLabel2", value: 55 },
             ];
         }
 
         function test_create_progressMenu(data) {
             menuData.type = "com.canonical.indicator.progress"
             menuData.label = data.label;
-            menuData.sensitive = data.enabled;
             menuData.actionState = data.value;
 
             loader.data = menuData;
@@ -292,7 +291,6 @@ Item {
 
             compare(loader.item.text, data.label, "Label does not match data");
             compare(loader.item.value, data.value, "Value does not match data");
-            compare(loader.item.enabled, data.enabled, "Enabled does not match data");
         }
 
         function test_create_standardMenu_data() {

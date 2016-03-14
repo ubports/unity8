@@ -19,6 +19,7 @@ import QtQuick.Window 2.2
 import Unity.InputInfo 0.1
 import Unity.Session 0.1
 import Unity.Screens 0.1
+import Utils 0.1
 import GSettings 1.0
 import "Components"
 import "Rotation"
@@ -77,11 +78,34 @@ Rectangle {
     InputDeviceModel {
         id: keyboardsModel
         deviceFilter: InputInfo.Keyboard
+        onDeviceAdded: forceOSKEnabled = autopilotDevicePresent();
+        onDeviceRemoved: forceOSKEnabled = autopilotDevicePresent();
     }
 
     InputDeviceModel {
         id: touchScreensModel
         deviceFilter: InputInfo.TouchScreen
+    }
+
+    /* FIXME: This exposes the NameRole as a work arround for lp:1542224.
+     * When QInputInfo exposes NameRole to QML, this should be removed.
+     */
+    property bool forceOSKEnabled: false
+    property var autopilotEmulatedDeviceNames: ["py-evdev-uinput"]
+    UnitySortFilterProxyModel {
+        id: autopilotDevices
+        model: keyboardsModel
+    }
+
+    function autopilotDevicePresent() {
+        for(var i = 0; i < autopilotDevices.count; i++) {
+            var device = autopilotDevices.get(i);
+            if (autopilotEmulatedDeviceNames.indexOf(device.name) != -1) {
+                console.warn("Forcing the OSK to be enabled as there is an autopilot eumlated device present.")
+                return true;
+            }
+        }
+        return false;
     }
 
     Screens {
@@ -195,7 +219,8 @@ Rectangle {
         //       have multiple keyboards around. For now we only enable one keyboard at a time
         //       thus hiding it here if there is a physical one around or if we have a second
         //       screen (the virtual touchpad & osk on the phone) attached.
-        oskEnabled: keyboardsModel.count === 0 && screens.count === 1
+        oskEnabled: (keyboardsModel.count === 0 && screens.count === 1) ||
+                    forceOSKEnabled
 
         // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
         //       what's the output device (eg: big TV, desktop monitor, phone display), etc.

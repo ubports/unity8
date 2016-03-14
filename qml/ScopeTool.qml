@@ -52,14 +52,6 @@ Rectangle {
         color: "#FCFCFC"
     }
 
-    Image {
-        anchors.fill: dashContent
-        source: root.width > root.height ? "Dash/graphics/paper_landscape.png" : "Dash/graphics/paper_portrait.png"
-        fillMode: Image.PreserveAspectCrop
-        horizontalAlignment: Image.AlignRight
-        verticalAlignment: Image.AlignTop
-    }
-
     DashContent {
         id: dashContent
 
