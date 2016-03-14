@@ -32,7 +32,7 @@ class LauncherItem: public LauncherItemInterface
 {
     Q_OBJECT
 public:
-    LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent = 0);
+    LauncherItem(const QString &appId, const QString &name, const QString &icon, QObject *parent);
 
     QString appId() const override;
     QString name() const override;

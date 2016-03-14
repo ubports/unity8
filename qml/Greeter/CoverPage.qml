@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014,2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ Showable {
     readonly property real showProgress: MathUtils.clamp((width - Math.abs(x)) / width, 0, 1)
 
     signal tease()
+    signal clicked()
 
     function hideRight() {
         d.forceRightOnNextHideAnimation = true;
@@ -55,7 +56,17 @@ Showable {
     // instead, we can get a little extra horizontal push by using transforms.
     transform: Translate { id: translation; x: root.draggable ? launcherOffset : 0 }
 
-    MouseArea { anchors.fill: parent; }
+    // Eat events elsewhere on the coverpage, except mouse clicks which we pass
+    // up (they are used in the NarrowView to hide the cover page)
+    MouseArea {
+        anchors.fill: parent
+        onClicked: root.clicked()
+
+        MultiPointTouchArea {
+            anchors.fill: parent
+            mouseEnabled: false
+        }
+    }
 
     Rectangle {
         // In case background fails to load

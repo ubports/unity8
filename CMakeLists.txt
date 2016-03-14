@@ -131,7 +131,7 @@ if(NOT QUIET_LOGGER)
     set(STDOUT_LOGGER "-o" "-,txt")
 endif()
 
-execute_process(COMMAND arch OUTPUT_VARIABLE ARCH)
+execute_process(COMMAND dpkg-architecture -qDEB_HOST_ARCH OUTPUT_VARIABLE ARCH)
 if (NOT ARCH MATCHES "arm*")
     set(ENABLE_TOUCH_EMULATION true)
     add_definitions(-DUNITY8_ENABLE_TOUCH_EMULATION)

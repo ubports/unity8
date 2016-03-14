@@ -314,7 +314,7 @@ Rectangle {
                     checked: false
                     activeFocusOnPress: false
                     onCheckedChanged: {
-                        var surface = SurfaceManager.inputMethodSurface();
+                        var surface = SurfaceManager.inputMethodSurface;
                         if (checked) {
                             surface.setState(Mir.RestoredState);
                         } else {

@@ -38,7 +38,7 @@ Showable {
     property bool enableHint: true
     property bool contentEnabled: true
     property bool showOnClick: true
-    property color panelColor: theme.palette.normal.background
+    property color panelColor: UbuntuColors.jet
 
     signal showTapped()
 
