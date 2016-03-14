@@ -22,15 +22,6 @@ import Ubuntu.Gestures 0.1
 Item {
     id: root
 
-    Connections {
-        target: SurfaceManager
-        onSurfaceCreated: {
-            if (surface.type == Mir.InputMethodType) {
-                surfaceItem.surface = surface;
-            }
-        }
-    }
-
     property int transitionDuration: UbuntuAnimation.FastDuration
 
     MirSurfaceItem {
@@ -41,6 +32,7 @@ Item {
 
         surfaceWidth: width
         surfaceHeight: height
+        surface: SurfaceManager.inputMethodSurface
 
         onLiveChanged: {
             if (surface !== null && !live) {

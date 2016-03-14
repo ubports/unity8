@@ -35,13 +35,13 @@ GlobalShortcutList GlobalShortcutRegistry::shortcuts() const
 
 bool GlobalShortcutRegistry::hasShortcut(const QVariant &seq) const
 {
-    return m_shortcuts.keys().contains(seq);
+    return m_shortcuts.contains(seq);
 }
 
 void GlobalShortcutRegistry::addShortcut(const QVariant &seq, GlobalShortcut *sc)
 {
     if (sc) {
-        if (!m_shortcuts.keys().contains(seq)) { // create a new entry
+        if (!m_shortcuts.contains(seq)) { // create a new entry
             m_shortcuts.insert(seq, {sc});
         } else { // append to an existing one
             auto shortcuts = m_shortcuts[seq];
@@ -75,8 +75,8 @@ bool GlobalShortcutRegistry::eventFilter(QObject *obj, QEvent *event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        QKeySequence seq = QKeySequence(keyEvent->key() + keyEvent->modifiers());
-        if (m_shortcuts.keys().contains(seq)) {
+        int seq = keyEvent->key() + keyEvent->modifiers();
+        if (m_shortcuts.contains(seq)) {
             const auto shortcuts = m_shortcuts.value(seq);
             Q_FOREACH(const auto &shortcut, shortcuts) {
                 if (shortcut) {

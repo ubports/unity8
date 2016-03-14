@@ -339,22 +339,22 @@ Rectangle {
         function test_card_title_alignment(data) {
             selector.selectedIndex = data.index;
 
-            tryCompare(cardTool, "titleAlignment", Text.AlignLeft);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == Text.AlignLeft; }, true);
 
             cardTool.components['title'] = { "field": "title", "align": "center" };
             cardTool.componentsChanged();
 
-            tryCompare(cardTool, "titleAlignment", data.value);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == data.value; }, true);
 
             cardTool.components['title'] = { "field": "title" };
             cardTool.componentsChanged();
 
-            tryCompare(cardTool, "titleAlignment", data.value);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == data.value; }, true);
 
             cardTool.components['title'] = { "field": "title", "align": "left" };
             cardTool.componentsChanged();
 
-            tryCompare(cardTool, "titleAlignment", Text.AlignLeft);
+            tryCompareFunction(function() { return findChild(internalCard, "titleLabel").horizontalAlignment == Text.AlignLeft; }, true);
         }
 
         function test_categoryLayout_data() {

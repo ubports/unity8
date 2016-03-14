@@ -54,7 +54,7 @@ ShellDialog {
     }
 
     Label {
-        text: i18n.tr("Re-dock, save your work and close these apps to continue.")
+        text: i18n.ctr("Re-dock means connect the device again to an external screen/mouse/keyboard", "Re-dock, save your work and close these apps to continue.")
         wrapMode: Text.WordWrap
         color: "#888888"
     }

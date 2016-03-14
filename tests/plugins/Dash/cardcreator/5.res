@@ -5,11 +5,9 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: false;
@@ -25,7 +23,7 @@ Item  {
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
                                 active: cardArt != "";
-                                asynchronous: root.asynchronous; 
+                                asynchronous: true;
                                 visible: status == Loader.Ready;
                                 sourceComponent: Item {
                                     id: artShape;
@@ -82,7 +80,7 @@ Item  {
                                         id: artImage;
                                         objectName: "artImage";
                                         source: artShapeLoader.cardArt;
-                                        asynchronous: root.asynchronous;
+                                        asynchronous: true;
                                         width: root.width;
                                         height: width / artShape.aspect;
                                     }
@@ -91,10 +89,10 @@ Item  {
                         }
 Loader { 
                             id: overlayLoader; 
-                            readonly property real overlayHeight: (fixedHeaderHeight > 0 ? fixedHeaderHeight : headerHeight) + units.gu(2); 
+                            readonly property real overlayHeight: root.fixedHeaderHeight + units.gu(2);
                             anchors.fill: artShapeHolder; 
                             active: artShapeLoader.active && artShapeLoader.item && artShapeLoader.item.image.status === Image.Ready || false; 
-                            asynchronous: root.asynchronous; 
+                            asynchronous: true;
                             visible: showHeader && status == Loader.Ready; 
                             sourceComponent: UbuntuShapeOverlay { 
                                 id: overlay; 
@@ -126,7 +124,7 @@ Label {
                         width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: Text.AlignLeft;
                     }
 Label { 
                             id: subtitleLabel; 

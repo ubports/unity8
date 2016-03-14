@@ -40,12 +40,6 @@ Item {
         orientations: Orientations {}
     }
 
-    Binding {
-        target: ApplicationManager
-        property: "rightMargin"
-        value: phoneStage.anchors.rightMargin
-    }
-
     Rectangle {
         anchors { fill: parent; leftMargin: phoneStage.width }
 
@@ -75,6 +69,15 @@ Item {
                 activeFocusOnPress: false
                 onClicked: {
                     ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
+                }
+            }
+            EdgeBarrierControls {
+                id: edgeBarrierControls
+                text: "Drag here to pull out spread"
+                backgroundColor: "blue"
+                onDragged: { phoneStage.pushRightEdge(amount); }
+                Component.onCompleted: {
+                    edgeBarrierControls.target = testCase.findChild(phoneStage, "edgeBarrierController");
                 }
             }
         }
@@ -462,6 +465,16 @@ Item {
             phoneStage.suspended = false;
 
             tryCompare(delegate.application, "requestedState", ApplicationInfoInterface.RequestedRunning);
+        }
+
+        function test_mouseEdgePush() {
+            var spreadView = findChild(phoneStage, "spreadView")
+            addApps(1);
+            mouseMove(phoneStage, phoneStage.width -  1, units.gu(10));
+            for (var i = 0; i < units.gu(10); i++) {
+                phoneStage.pushRightEdge(1);
+            }
+            tryCompare(spreadView, "phase", 2);
         }
     }
 }
