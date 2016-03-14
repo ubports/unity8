@@ -25,7 +25,7 @@ class VirtualKeyboard : public MirSurface
 {
     Q_OBJECT
 public:
-    explicit VirtualKeyboard();
+    explicit VirtualKeyboard(QObject *parent = nullptr);
     ~VirtualKeyboard();
 };
 

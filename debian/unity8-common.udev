@@ -1,0 +1,2 @@
+# Make local foreground session able to inject input
+KERNEL=="uinput", SUBSYSTEM=="misc", TAG+="uaccess"

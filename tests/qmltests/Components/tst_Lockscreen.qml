@@ -235,11 +235,14 @@ Rectangle {
 
         function test_unlock_data() {
             return [
-                {tag: "numeric", alphanumeric: false, password: "1234", minPinLength: 4, maxPinLength: 4},
-                {tag: "alphanumeric",  alphanumeric: true, password: "password", minPinLength: -1, maxPinLength: -1},
-                {tag: "numeric (wrong)",  alphanumeric: false, password: "4321", minPinLength: 4, maxPinLength: 4},
-                {tag: "alphanumeric (wrong)",  alphanumeric: true, password: "drowssap", minPinLength: -1, maxPinLength: -1},
-                {tag: "flexible length",  alphanumeric: false, password: "1234", minPinLength: -1, maxPinLength: -1},
+                {tag: "numeric", alphanumeric: false, password: "1234", minPinLength: 4, maxPinLength: 4, keyboard: false},
+                {tag: "alphanumeric",  alphanumeric: true, password: "password", minPinLength: -1, maxPinLength: -1, keyboard: false},
+                {tag: "numeric (wrong)",  alphanumeric: false, password: "4321", minPinLength: 4, maxPinLength: 4, keyboard: false},
+                {tag: "alphanumeric (wrong)",  alphanumeric: true, password: "drowssap", minPinLength: -1, maxPinLength: -1, keyboard: false},
+                {tag: "flexible length",  alphanumeric: false, password: "1234", minPinLength: -1, maxPinLength: -1, keyboard: false},
+                {tag: "numeric", alphanumeric: false, password: "1234", minPinLength: 4, maxPinLength: 4, keyboard: true},
+                {tag: "numeric (wrong)",  alphanumeric: false, password: "4321", minPinLength: 4, maxPinLength: 4, keyboard: true},
+                {tag: "flexible length",  alphanumeric: false, password: "1234", minPinLength: -1, maxPinLength: -1, keyboard: true}
             ]
         }
 
@@ -259,8 +262,12 @@ Rectangle {
             } else {
                 for (var i = 0; i < data.password.length; ++i) {
                     var character = data.password.charAt(i)
-                    var button = findChild(lockscreen, "pinPadButton" + character)
-                    mouseClick(button, units.gu(1), units.gu(1))
+                    if (data.keyboard) {
+                        typeString(character)
+                    } else {
+                        var button = findChild(lockscreen, "pinPadButton" + character)
+                        mouseClick(button, units.gu(1), units.gu(1))
+                    }
                 }
                 var confirmButton = findChild(lockscreen, "confirmButton");
                 mouseClick(confirmButton, units.gu(1), units.gu(1));
