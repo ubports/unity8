@@ -328,6 +328,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Camera");
     application->setScreenshotId("camera");
     application->setIconId("camera");
+    application->setShellChrome(Mir::LowChrome);
     application->setFullscreen(true);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
@@ -341,7 +342,8 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Gallery");
     application->setScreenshotId("gallery");
     application->setIconId("gallery");
-    application->setFullscreen(true);
+    application->setShellChrome(Mir::LowChrome);
+    application->setStage(ApplicationInfo::MainStage);
     m_availableApplications.append(application);
 
     application = new ApplicationInfo(this);
@@ -353,7 +355,7 @@ void ApplicationManager::buildListOfAvailableApplications()
 
     application = new ApplicationInfo(this);
     application->setAppId("webbrowser-app");
-    application->setFullscreen(true);
+    application->setShellChrome(Mir::LowChrome);
     application->setName("Browser");
     application->setScreenshotId("browser");
     application->setIconId("browser");
@@ -378,7 +380,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("GMail");
     application->setIconId("gmail");
     application->setScreenshotId("gmail-webapp.svg");
-    application->setFullscreen(false);
+    application->setStage(ApplicationInfo::MainStage);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
                                         | Qt::InvertedPortraitOrientation
@@ -390,7 +392,7 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Music");
     application->setIconId("soundcloud");
     application->setScreenshotId("music");
-    application->setFullscreen(false);
+    application->setStage(ApplicationInfo::MainStage);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation
                                         | Qt::InvertedPortraitOrientation
