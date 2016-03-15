@@ -17,6 +17,10 @@
 import QtQml 2.2
 import Unity.Application 0.1
 
+// This component will change the state of the surface when the stage is loaded.
+//
+// On first surface load; if the surface is set to low chrome & fullscreen, the
+// state of the window is returned to restored.
 QtObject {
     property bool active: true
     property QtObject application: null

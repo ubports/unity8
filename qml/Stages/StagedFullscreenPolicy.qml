@@ -17,6 +17,14 @@
 import QtQuick 2.4
 import Unity.Application 0.1
 
+// This component will change the state of the surface based on the surface
+// state and shell chrome.
+//
+// Chrome changed to LowChrome -> server sets client window state to "fullscreen"
+// Chrome changed to NormalChrome -> server sets client window to "restored" state.
+// Chrome set and state change to restored -> server RESETS client window state to "fullscreen"
+// Chrome not set and state change to restored -> client window stays "restored"
+// Chrome not set and state change to fulscreen -> client window stays "fullscreen"
 QtObject {
     property bool active: true
     property QtObject application: null
