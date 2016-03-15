@@ -688,6 +688,9 @@ AbstractStage {
 
                     readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
+                    readonly property string appId: model.appId
+                    readonly property bool isDash: model.appId == "unity8-dash"
+
                     stage: model.stage
                     fullscreen: {
                         if (mainApp && stage === ApplicationInfoInterface.SideStage) {
@@ -714,8 +717,6 @@ AbstractStage {
                         }
                     }
 
-                    readonly property string appId: model.appId
-                    readonly property bool isDash: appId == "unity8-dash"
 
                     Binding {
                         target: spreadTile.application
