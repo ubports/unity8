@@ -186,7 +186,7 @@ Item {
                 property bool overflow: row.width - x > overFlowWidth
                 property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator)
                 // HACK for indicator-session
-                readonly property bool hideSessionIndicator: identifier == "indicator-session" && Screen.width < units.gu(50)
+                readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
 
                 height: row.height
                 expanded: root.expanded

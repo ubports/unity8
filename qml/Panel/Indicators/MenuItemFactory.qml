@@ -67,7 +67,7 @@ Item {
         "indicator-session": {
             "indicator.user-menu-item": Platform.isPC ? userMenuItem : null,
             "indicator.guest-menu-item": Platform.isPC ? userMenuItem : null,
-            "com.canonical.indicator.switch": Screen.width >= units.gu(90) ? switchMenu : null // Desktop mode switch
+            "com.canonical.indicator.switch": Math.min(Screen.width, Screen.height) > units.gu(60) ? switchMenu : null // Desktop mode switch
         },
         "indicator-messages" : {
             "com.canonical.indicator.button"         : messagesButtonMenu
