@@ -51,7 +51,8 @@ Rectangle {
             factory.widgetData = {};
             factory.widgetType = data.type;
 
-            verify((String(factory.source)).indexOf(data.source) != -1);
+            var loader = findChild(factory, "loader");
+            verify((String(loader.source)).indexOf(data.source) != -1);
         }
     }
 }
