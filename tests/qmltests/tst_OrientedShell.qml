@@ -48,7 +48,6 @@ Rectangle {
         id: mockUnity8Settings
         property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
         onUsageModeChanged: {
-print("usage mode changed", usageMode);
             usageModeSelector.selectedIndex = usageModeSelector.model.indexOf(usageMode)
         }
     }
@@ -300,7 +299,6 @@ print("usage mode changed", usageMode);
                 function selectWindowed() {selectedIndex = 1;}
                 function selectAutomatic() {selectedIndex = 2;}
                 onSelectedIndexChanged: {
-                    print("usageModeSelector index changed", selectedIndex)
                     mockUnity8Settings.usageMode = usageModeSelector.model[usageModeSelector.selectedIndex]
                 }
             }
