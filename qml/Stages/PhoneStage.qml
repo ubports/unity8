@@ -633,7 +633,8 @@ AbstractStage {
                     StagedFullscreenPolicy {
                         id: fullscreenPolicy
                         application: appDelegate.application
-                    }                    
+                    }
+
                     Connections {
                         target: root
                         onStageAboutToBeUnloaded: fullscreenPolicy.active = false
