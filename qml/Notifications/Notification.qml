@@ -41,11 +41,12 @@ StyledItem {
     property int maxHeight
     property int margins
     readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
-    readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
+    readonly property bool darkOnBright: inverseMode || type === Notification.SnapDecision
     readonly property color sdLightGrey: "#eaeaea"
     readonly property real contentSpacing: units.gu(2)
     readonly property bool canBeClosed: type === Notification.Ephemeral
     property bool hasMouse
+    property bool inverseMode
     property url background: ""
 
     objectName: "background"

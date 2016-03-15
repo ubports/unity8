@@ -663,6 +663,7 @@ Item {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
+            inverseMode: panel.indicators.shown
             background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
