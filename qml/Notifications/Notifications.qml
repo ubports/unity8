@@ -68,13 +68,12 @@ ListView {
         // FIXME: disabled all transitions because of LP: #1354406 workaround
         //layer.enabled: add.running || remove.running || populate.running
 
-        Component.onCompleted: {
-            if (index == 1) {
-                notificationList.topmostIsFullscreen = fullscreen
-            }
-        }
+        readonly property int theIndex: index
+        onTheIndexChanged: updateListTopMostIsFullscreen();
+        Component.onCompleted: updateListTopMostIsFullscreen();
+        onFullscreenChanged: updateListTopMostIsFullscreen();
 
-        onFullscreenChanged: {
+        function updateListTopMostIsFullscreen() {
             // index 1 because 0 is the PlaceHolder...
             if (index == 1) {
                 notificationList.topmostIsFullscreen = fullscreen
