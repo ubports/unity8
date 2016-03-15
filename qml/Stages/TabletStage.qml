@@ -27,8 +27,8 @@ AbstractStage {
     objectName: "stages"
     anchors.fill: parent
 
-    property bool sideStageVisible: priv.sideStageAppId
-    property real sideStageWidth: units.gu(40)
+    property alias sideStageVisible: spreadView.sideStageVisible
+    property alias sideStageWidth: spreadView.sideStageWidth
 
     // Functions to be called from outside
     function updateFocusedAppOrientation() {
@@ -343,14 +343,14 @@ AbstractStage {
         // 2: The list is dragged further and snaps into the spread view when entering phase 2
         property int phase
 
-        readonly property int phase0Width: root.sideStageWidth
-        readonly property int phase1Width: root.sideStageWidth
+        readonly property int phase0Width: sideStageWidth
+        readonly property int phase1Width: sideStageWidth
 
         // Those markers mark the various positions in the spread (ratio to screen width from right to left):
         // 0 - 1: following finger, snap back to the beginning on release
         readonly property real positionMarker1: 0.2
         // 1 - 2: curved snapping movement, snap to nextInStack on release
-        readonly property real positionMarker2: root.sideStageWidth / spreadView.width
+        readonly property real positionMarker2: sideStageWidth / spreadView.width
         // 2 - 3: movement follows finger, snaps to phase 2 (full spread) on release
         readonly property real positionMarker3: 0.6
         // passing 3, we detach movement from the finger and snap to phase 2 (full spread)
@@ -386,6 +386,9 @@ AbstractStage {
         }
 
         property real sideStageDragProgress: sideStage.progress
+        property bool sideStageVisible: priv.sideStageAppId
+        property real sideStageWidth: units.gu(40)
+
         property bool surfaceDragging: triGestureArea.recognisedDrag
 
         // In case the ApplicationManager already holds an app when starting up we're missing animations
@@ -692,8 +695,6 @@ AbstractStage {
 
                     readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
-                    readonly property bool isDash: model.appId == "unity8-dash"
-
                     stage: model.stage
                     fullscreen: {
                         if (mainApp && stage === ApplicationInfoInterface.SideStage) {
@@ -838,7 +839,7 @@ AbstractStage {
 
                             PropertyChanges {
                                 target: spreadTile
-                                width: root.sideStageWidth
+                                width: spreadView.sideStageWidth
                                 height: priv.landscapeHeight
 
                                 supportedOrientations: Qt.PortraitOrientation
