@@ -136,7 +136,6 @@ Depends: qml-module-qtquick-layouts,
          unity-plugin-scopes | unity-scopes-impl,
          unity-scopes-impl-10,
          unity8-fake-env | unity-application-impl,
-         unity8-schemas (= ${source:Version}),
          ${misc:Depends},
 Breaks: unity8 (<< 7.86),
 Replaces: unity8 (<< 7.86),
@@ -212,12 +211,3 @@ Multi-Arch: foreign
 Depends: ${misc:Depends},
 Description: Documentation for Unity8
  The Unity 8 shell is the primary user interface for Ubuntu devices. (documentation)
-
-Package: unity8-schemas
-Architecture: all
-Multi-Arch: foreign
-Depends: ${misc:Depends},
-Breaks: unity8-common (<< 8.12),
-Replaces: unity8-common (<< 8.12),
-Description: GSettings schemas for Unity8
- The Unity 8 shell is the primary user interface for Ubuntu devices. (schemas)
