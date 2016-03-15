@@ -51,7 +51,7 @@ Rectangle {
                                       | Qt.InvertedPortraitOrientation
                                       | Qt.InvertedLandscapeOrientation
 
-    signal stageUnloaded
+    signal stageAboutToBeUnloaded
 
     // Shared code for use in stage implementations
     GSettings {

@@ -17,36 +17,33 @@
 import QtQuick 2.4
 import Unity.Application 0.1
 
-Item {
+QtObject {
     property bool active: true
     property QtObject application: null
 
-    QtObject {
-        id: priv
-        property var lastSurface: application && application.session ?
-                                  application.session.lastSurface : null
-        onLastSurfaceChanged: {
-            if (!active || !lastSurface) return;
-            if (lastSurface.shellChrome === Mir.LowChrome) {
-                lastSurface.state = Mir.FullscreenState;
-            }
+    readonly property var lastSurface: application && application.session ?
+                              application.session.lastSurface : null
+    onLastSurfaceChanged: {
+        if (!active || !lastSurface) return;
+        if (lastSurface.shellChrome === Mir.LowChrome) {
+            lastSurface.state = Mir.FullscreenState;
         }
     }
 
-    Connections {
-        target: priv.lastSurface
+    property var _connections: Connections {
+        target: lastSurface
         onShellChromeChanged: {
-            if (!active || !priv.lastSurface) return;
-            if (priv.lastSurface.shellChrome === Mir.LowChrome) {
-                priv.lastSurface.state = Mir.FullscreenState;
+            if (!active || !lastSurface) return;
+            if (lastSurface.shellChrome === Mir.LowChrome) {
+                lastSurface.state = Mir.FullscreenState;
             } else {
-                priv.lastSurface.state = Mir.RestoredState;
+                lastSurface.state = Mir.RestoredState;
             }
         }
         onStateChanged: {
             if (!active) return;
-            if (priv.lastSurface.state === Mir.RestoredState && priv.lastSurface.shellChrome === Mir.LowChrome) {
-                priv.lastSurface.state = Mir.FullscreenState;
+            if (lastSurface.state === Mir.RestoredState && lastSurface.shellChrome === Mir.LowChrome) {
+                lastSurface.state = Mir.FullscreenState;
             }
         }
     }

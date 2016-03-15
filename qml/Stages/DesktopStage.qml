@@ -501,7 +501,7 @@ AbstractStage {
                     property bool saveStateOnDestruction: true
                     Connections {
                         target: root
-                        onStageUnloaded: {
+                        onStageAboutToBeUnloaded: {
                             resizeArea.saveWindowState();
                             resizeArea.saveStateOnDestruction = false;
                             fullscreenPolicy.active = false;
@@ -533,7 +533,7 @@ AbstractStage {
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
 
-                DesktopFullscreenPolicy {
+                WindowedFullscreenPolicy {
                     id: fullscreenPolicy
                     active: true
                     application: decoratedWindow.application

@@ -14,27 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQml 2.2
 import Unity.Application 0.1
 
-Item {
+QtObject {
     property bool active: true
     property QtObject application: null
 
-    QtObject {
-        id: priv
-        property bool firstTimeSurface: true
-        property var lastSurface: application && application.session ?
+    readonly property var lastSurface: application && application.session ?
                                       application.session.lastSurface : null
-        onLastSurfaceChanged: {
-            if (!active || !lastSurface) return;
-            if (!firstTimeSurface) return;
-            firstTimeSurface = false;
+    property bool _firstTimeSurface: true
 
-            if (lastSurface.state === Mir.FullscreenState &&
-                lastSurface.shellChrome === Mir.LowChrome) {
-                lastSurface.state = Mir.RestoredState;
-            }
+    onLastSurfaceChanged: {
+        if (!active || !lastSurface) return;
+        if (!_firstTimeSurface) return;
+        _firstTimeSurface = false;
+
+        if (lastSurface.state === Mir.FullscreenState && lastSurface.shellChrome === Mir.LowChrome) {
+            lastSurface.state = Mir.RestoredState;
         }
     }
 }

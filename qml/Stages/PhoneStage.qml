@@ -630,14 +630,13 @@ AbstractStage {
                         value: orientationChangesEnabled
                     }
 
-                    PhoneFullscreenPolicy {
+                    StagedFullscreenPolicy {
                         id: fullscreenPolicy
                         application: appDelegate.application
-
-                        Connections {
-                            target: root
-                            onStageUnloaded: fullscreenPolicy.active = false
-                        }
+                    }                    
+                    Connections {
+                        target: root
+                        onStageAboutToBeUnloaded: fullscreenPolicy.active = false
                     }
                 }
             }

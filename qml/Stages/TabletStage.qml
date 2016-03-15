@@ -688,8 +688,6 @@ AbstractStage {
 
                     readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
-                    readonly property bool isDash: model.appId == "unity8-dash"
-
                     stage: model.stage
                     fullscreen: {
                         if (mainApp && stage === ApplicationInfoInterface.SideStage) {
@@ -949,14 +947,13 @@ AbstractStage {
                         progress: spreadTile.progress - spreadView.positionMarker1
                     }
 
-                    PhoneFullscreenPolicy {
+                    StagedFullscreenPolicy {
                         id: fullscreenPolicy
                         application: spreadTile.application
-
-                        Connections {
-                            target: root
-                            onStageUnloaded: fullscreenPolicy.active = false
-                        }
+                    }
+                    Connections {
+                        target: root
+                        onStageAboutToBeUnloaded: fullscreenPolicy.active = false
                     }
                 }
             }

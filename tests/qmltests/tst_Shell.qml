@@ -276,7 +276,7 @@ Rectangle {
                             property: "checked"
                             value: {
                                 if (!controls.focusedSurface) return false;
-                                controls.focusedSurface.state === Mir.FullscreenState
+                                return controls.focusedSurface.state === Mir.FullscreenState
                             }
                         }
                     }
