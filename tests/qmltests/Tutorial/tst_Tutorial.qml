@@ -23,6 +23,7 @@ import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Test 0.1 as UT
+import Utils 0.1
 
 import "../../../qml"
 import "../../../qml/Components"
@@ -251,11 +252,6 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(shellLoader, "itemDestroyed", true);
 
-            // Reset any futzing our tests may have done with persistent objects
-            var app = ApplicationManager.findApplication("dialer-app");
-            if (app) {
-                app.setStage(ApplicationInfoInterface.SideStage);
-            }
             // kill all (fake) running apps
             killApps();
 
@@ -269,6 +265,7 @@ Rectangle {
         function prepareShell() {
             tryCompare(shell, "enabled", true); // enabled by greeter when ready  
 
+            WindowStateStorage.clear();
             SurfaceManager.inputMethodSurface.setState(Mir.MinimizedState);
             callManager.foregroundCall = null;
             AccountsService.demoEdges = false;
@@ -334,10 +331,11 @@ Rectangle {
             var tutorialBottom = findChild(shell, "tutorialBottom");
 
             AccountsService.demoEdgesCompleted = ["left", "left-long", "top", "right"];
-            ApplicationManager.startApplication("dialer-app");
-            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
-
             tryCompare(tutorialLeftLoader, "active", false);
+
+            ApplicationManager.startApplication("dialer-app");
+            ApplicationManager.requestFocusApplication("dialer-app");
+
             tryCompare(tutorialBottom, "shown", true);
             tryCompare(tutorialBottom, "opacity", 1);
         }
@@ -635,9 +633,8 @@ Rectangle {
             var mainStageX = units.gu(20);
             var sideStageX = shell.width - units.gu(20);
 
+            WindowStateStorage.saveStage("dialer-app", ApplicationInfoInterface.SideStage);
             openTutorialBottom();
-            var app = ApplicationManager.findApplication("dialer-app");
-            app.setStage(ApplicationInfoInterface.SideStage);
 
             touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, true, false);
             compare(tutorialBottom.opacity, 1);
@@ -656,14 +653,10 @@ Rectangle {
             var mainStageX = units.gu(20);
             var sideStageX = shell.width - units.gu(20);
 
-            ApplicationManager.startApplication("gallery-app");
-            var app = ApplicationManager.findApplication("gallery-app");
-            app.setStage(ApplicationInfoInterface.SideStage);
-            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+            WindowStateStorage.saveStage("notes-app", ApplicationInfoInterface.SideStage);
+            ApplicationManager.startApplication("notes-app");
 
             openTutorialBottom();
-            app = ApplicationManager.findApplication("dialer-app");
-            app.setStage(ApplicationInfoInterface.MainStage);
 
             touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, true, false);
             compare(tutorialBottom.opacity, 1);
