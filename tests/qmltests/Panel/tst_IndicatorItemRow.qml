@@ -39,7 +39,7 @@ IndicatorTest {
             color: "blue"
 
             Rectangle {
-                color: "black"
+                color: theme.palette.normal.background
                 anchors.fill: indicatorsRow
             }
 
