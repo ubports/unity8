@@ -78,8 +78,6 @@ TutorialPage {
                                     i18n.tr("Swipe up to add a contact") :
               application.appId === "com.ubuntu.calculator_calculator" ?
                                     i18n.tr("Swipe up for favorite calculations") :
-              application.appId === "com.ubuntu.clock_clock" ?
-                                    i18n.tr("Swipe up to manage alarms") :
               application.appId === "dialer-app" ?
                                     i18n.tr("Swipe up for recent calls") :
               application.appId === "messaging-app" ?

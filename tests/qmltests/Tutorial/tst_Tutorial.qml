@@ -267,8 +267,9 @@ Rectangle {
         }
 
         function prepareShell() {
-            tryCompare(shell, "enabled", true); // enabled by greeter when ready
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready  
 
+            SurfaceManager.inputMethodSurface.setState(Mir.MinimizedState);
             callManager.foregroundCall = null;
             AccountsService.demoEdges = false;
             AccountsService.demoEdgesCompleted = [];
@@ -334,6 +335,7 @@ Rectangle {
 
             AccountsService.demoEdgesCompleted = ["left", "left-long", "top", "right"];
             ApplicationManager.startApplication("dialer-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
 
             tryCompare(tutorialLeftLoader, "active", false);
             tryCompare(tutorialBottom, "shown", true);
@@ -381,7 +383,7 @@ Rectangle {
             // compare opacity with a bound rather than hard 0.6 because progress doesn't
             // always match the drag perfectly (takes a moment for drag to kick in)
             tryCompareFunction(function() {
-                return tutorialLeft.opacity >= 0.6 && tutorialLeft.opacity < 0.7;
+                return tutorialLeft.opacity >= 0.6 && tutorialLeft.opacity < 0.8;
             }, true);
             touchFlick(shell, 0, halfHeight, launcher.panelWidth * 0.4, halfHeight, false, true);
 
@@ -412,7 +414,7 @@ Rectangle {
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeft, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long"]);
         }
 
         function test_tutorialLeftAutoSkipped() {
@@ -634,6 +636,8 @@ Rectangle {
             var sideStageX = shell.width - units.gu(20);
 
             openTutorialBottom();
+            var app = ApplicationManager.findApplication("dialer-app");
+            app.setStage(ApplicationInfoInterface.SideStage);
 
             touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, true, false);
             compare(tutorialBottom.opacity, 1);
@@ -652,8 +656,13 @@ Rectangle {
             var mainStageX = units.gu(20);
             var sideStageX = shell.width - units.gu(20);
 
+            ApplicationManager.startApplication("gallery-app");
+            var app = ApplicationManager.findApplication("gallery-app");
+            app.setStage(ApplicationInfoInterface.SideStage);
+            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+
             openTutorialBottom();
-            var app = ApplicationManager.findApplication("dialer-app");
+            app = ApplicationManager.findApplication("dialer-app");
             app.setStage(ApplicationInfoInterface.MainStage);
 
             touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, true, false);
