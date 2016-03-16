@@ -264,6 +264,7 @@ Item {
 
     SequentialAnimation { // animations for the content
         id: contentAnimation
+        objectName: "contentAnimation"
         property int animationDurationBase: UbuntuAnimation.BriskDuration
         readonly property int additionalDuration: 200
         property int direction: Qt.LeftToRight
@@ -296,7 +297,7 @@ Item {
 
     ParallelAnimation {  // animation for the secondary pages
         id: secondaryAnimation
-
+        objectName: "secondaryAnimation"
         NumberAnimation { // the slide-up animation
             target: titleLabel
             property: 'animatedTopMargin'

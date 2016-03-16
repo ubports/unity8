@@ -102,7 +102,6 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark";
         setup();
     }
 
@@ -208,13 +207,6 @@ Item {
             if (name === page.objectName) return page;
             tap(findChild(page, "nameInput"));
             typeString("foobar");
-            tap(findChild(page, "passInput"));
-            typeString("12345678");
-            var pass2Input = findChild(page, "pass2Input");
-            // give it a bit of time to finish the scroll-into-view animation
-            tryCompareFunction(function() { return pass2Input !== null; }, true);
-            tap(pass2Input);
-            typeString("12345678");
             tap(findChild(page, "forwardButton"));
 
             page = waitForPage("passwdPage");
@@ -300,21 +292,31 @@ Item {
             waitForPage("wifiPage"); // thus skipping passwdPage
         }
 
+        function verifyAnimationsNotRunning(page) {
+            var contentAnimation = findInvisibleChild(page, "contentAnimation");
+            var secondaryAnimation = findInvisibleChild(page, "secondaryAnimation");
+            tryCompare(contentAnimation, "running", false);
+            tryCompare(secondaryAnimation, "running", false);
+        }
+
         function test_passwdPasscode() {
             var page = goToPage("passwdPage");
-            tap(findChild(page, "passwdDelegate2")); // passcode option
+            tap(findChild(page, "passwdDelegate1")); // passcode option
             tap(findChild(page, "forwardButton"));
             page = waitForPage("passcodeSetPage");
+            verifyAnimationsNotRunning(page);
 
             enterPasscode("1111");
             page = waitForPage("passcodeConfirmPage");
+            verifyAnimationsNotRunning(page);
 
-            // make sure we go back to 'set' page not 'type' page
             tap(findChild(page, "backButton"));
             page = waitForPage("passcodeSetPage");
+            verifyAnimationsNotRunning(page);
 
             enterPasscode("1111");
             page = waitForPage("passcodeConfirmPage");
+            verifyAnimationsNotRunning(page);
 
             enterPasscode("1112");
             var error = findChild(page, "wrongNoticeLabel");
@@ -337,47 +339,29 @@ Item {
 
         function test_passwdPassphrase() {
             var page = goToPage("passwdPage");
-            tap(findChild(page, "passwdDelegate1")); // password option
+            tap(findChild(page, "passwdDelegate0")); // password option
             tap(findChild(page, "forwardButton"));
             page = waitForPage("passwdSetPage");
 
             var passwdField = findChild(page, "passwordField");
             verify(passwdField);
             tap(passwdField);
+            waitUntilTransitionsEnd(passwdField);
             typeString("aaa");
-            var continueButton = findChild(page, "okButton");
-            tryCompare(continueButton, "enabled", false);
+            var continueButton = findChild(page, "forwardButton");
+            tryCompare(page, "passwordsMatching", false);
 
             tap(passwdField);
+            waitUntilTransitionsEnd(passwdField);
             passwdField.selectAll(); // overwrite the text
             typeString("12345678");
-            tap(continueButton);
-            wait(200);
+            tryCompare(page, "passwordsMatching", false);
 
-            // make sure we go back to 'set' page not 'type' page
-            var back = findChild(page, "cancelButton");
-            tap(back);
-            wait(200);
-
-            passwdField = findChild(page, "passwordField");
-            tryCompareFunction(function() {return !!passwdField}, true);
-            tap(passwdField);
-            typeString("aaab");
-
-            continueButton = findChild(page, "okButton");
-            tryCompare(continueButton, "enabled", false);
-            var error = findChild(page, "infoLabel");
-            tryCompareFunction(function() { return error.text !== ""; }, true);
-
-            tap(passwdField);
-            passwdField.selectAll(); // overwrite the text
+            var passwd2Field = findChild(page, "password2Field");
+            tap(passwd2Field);
+            waitUntilTransitionsEnd(passwd2Field);
             typeString("12345678");
-            tap(continueButton);
-            wait(200);
-
-            tap(passwdField);
-            passwdField.selectAll(); // overwrite the text
-            typeString("12345678");
+            tryCompare(continueButton, "enabled", true);
             tap(continueButton);
 
             // now finish up
@@ -395,7 +379,7 @@ Item {
 
         function test_passwdSwipe() {
             var page = goToPage("passwdPage");
-            tap(findChild(page, "passwdDelegate3")); // swipe option
+            tap(findChild(page, "passwdDelegate2")); // swipe option
 
             // now finish up
             tap(findChild(page, "forwardButton"));
@@ -405,10 +389,7 @@ Item {
             waitUntilTransitionsEnd(page);
             tap(findChild(page, "finishButton"));
 
-            tryCompare(setSecuritySpy, "count", 1);
-            //compare(setSecuritySpy.signalArguments[0][0], ""); // FIXME the swipe method collides with the account password
-            //compare(setSecuritySpy.signalArguments[0][1], "");
-            compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Swipe);
+            tryCompare(setSecuritySpy, "count", 0); // not called for swipe method
         }
 
         function test_locationGpsOnly() {
@@ -501,50 +482,10 @@ Item {
 
         function test_accountPage() {
             var page = goToPage("accountPage");
-            var password1 = findChild(page, "passInput");
-            var password2 = findChild(page, "pass2Input");
             var forwardButton = findChild(page, "forwardButton");
 
             tap(findChild(page, "nameInput"));
             typeString("foobar");
-
-            verify(forwardButton.enabled, false); // no passwords yet
-
-            tap(password1);
-            typeString("12345");
-
-            verify(forwardButton.enabled, false); // password too short
-
-            tap(password2);
-            typeString("12345678");
-
-            verify(forwardButton.enabled, false); // passwords don't match
-
-            tap(password1);
-            password1.selectAll();
-            typeString("12345678");
-
-            verify(forwardButton.enabled, true); // now they match
-
-            var pages = findChild(wizard, "wizardPages");
-            var security = findInvisibleChild(pages, "securityPrivacy");
-            setSecuritySpy.target = security;
-
-            // now finish up
-            tap(forwardButton);
-            page = waitForPage("passwdPage");
-            tap(findChild(page, "passwdDelegate0")); // account option
-            tap(findChild(page, "forwardButton"));
-            page = waitForPage("reportingPage");
-            tap(findChild(page, "forwardButton"));
-            page = waitForPage("finishedPage");
-            waitUntilTransitionsEnd(page);
-            tap(findChild(page, "finishButton"));
-
-            tryCompare(setSecuritySpy, "count", 1);
-            compare(setSecuritySpy.signalArguments[0][0], "");
-            compare(setSecuritySpy.signalArguments[0][1], "12345678");
-            compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
         }
     }
 }
