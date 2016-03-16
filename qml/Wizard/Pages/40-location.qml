@@ -102,9 +102,8 @@ LocalComponents.Page {
                 fontSize: "small"
                 lineHeight: 1.2
                 linkColor: UbuntuColors.orange
-                text: i18n.tr("By selecting this option you agree to the Nokia HERE") + " <a href='#'>" +
-                      // TRANSLATORS: "terms and conditions" is part of the sentence above
-                      i18n.tr("terms and conditions") + "</a>."
+                text: i18n.tr("By selecting this option you agree to the Nokia HERE %1.")
+                             .arg("<a href='#'>" + i18n.ctr("part of: Nokia HERE terms and conditions", "terms and conditions") + "</a>")
                 Mouse.forwardTo: hereCheckArea // clicking on the link also selects this group
                 Mouse.priority: Mouse.AfterItem
                 onLinkActivated: {

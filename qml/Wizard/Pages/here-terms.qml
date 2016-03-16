@@ -78,9 +78,7 @@ LocalComponents.Page {
             fontSize: "small"
             font.weight: Font.Light
             lineHeight: 1.2
-            text: i18n.tr("To provide you with positioning services and to improve their quality, HERE collects " +
-                          "information about nearby cell towers and Wi-Fi hotspots around your current location " +
-                          "whenever your position is being found.")
+            text: i18n.tr("To provide you with positioning services and to improve their quality, HERE collects information about nearby cell towers and Wi-Fi hotspots around your current location whenever your position is being found.")
         }
 
         Label {
@@ -92,8 +90,7 @@ LocalComponents.Page {
             fontSize: "small"
             font.weight: Font.Light
             lineHeight: 1.2
-            text: i18n.tr("The information collected is used to analyze the service and to " +
-                          "improve the use of service, but not to identify you personally.")
+            text: i18n.tr("The information collected is used to analyze the service and to improve the use of service, but not to identify you personally.")
         }
 
         Label {
@@ -106,8 +103,9 @@ LocalComponents.Page {
             font.weight: Font.Light
             lineHeight: 1.2
             linkColor: UbuntuColors.orange
-            text: i18n.tr("By continuing, you agree to the HERE platform <a href=\"http://here.com/terms/service-terms\">Service Terms</a> " +
-                          "and <a href=\"http://here.com/privacy/privacy-policy\">Privacy Policy</a>.");
+            text: i18n.tr("By continuing, you agree to the HERE platform %1 and %2.")
+                         .arg("<a href=\"http://here.com/terms/service-terms\">" + i18n.tr("Service Terms") + "</a>")
+                         .arg("<a href=\"http://here.com/privacy/privacy-policy\">" + i18n.tr("Privacy Policy") + "</a>");
             onLinkActivated: {
                 showBrowser(true);
                 webview.url = link;
