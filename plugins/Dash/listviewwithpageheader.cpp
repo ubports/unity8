@@ -285,7 +285,7 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
 
         m_sectionDelegate = delegate;
 
-        m_topSectionItem = getSectionItem(QString());
+        m_topSectionItem = getSectionItem(QString(), false /*watchGeometry*/);
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
         connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
@@ -746,7 +746,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, bool alreadyI
     return getSectionItem(section);
 }
 
-QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
+QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText, bool watchGeometry)
 {
     QQuickItem *sectionItem = nullptr;
 
@@ -770,7 +770,9 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
     }
     m_sectionDelegate->completeCreate();
 
-    QQuickItemPrivate::get(sectionItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
+    if (watchGeometry) {
+        QQuickItemPrivate::get(sectionItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
+    }
 
     return sectionItem;
 }
