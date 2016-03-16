@@ -406,7 +406,7 @@ TestCase {
             return item
     }
 
-    function touchPress(item, x, y) { touchPress(0, item, x, y, []); }
+    function touchPress(item, x, y) { multiTouchPress(0, item, x, y, []); }
 
     /*! \brief Release a touch point
 
