@@ -346,20 +346,20 @@ Item {
             var passwdField = findChild(page, "passwordField");
             verify(passwdField);
             tap(passwdField);
-            waitUntilTransitionsEnd(passwdField);
+            verifyAnimationsNotRunning(page);
             typeString("aaa");
             var continueButton = findChild(page, "forwardButton");
             tryCompare(page, "passwordsMatching", false);
 
             tap(passwdField);
-            waitUntilTransitionsEnd(passwdField);
+            verifyAnimationsNotRunning(page);
             passwdField.selectAll(); // overwrite the text
             typeString("12345678");
             tryCompare(page, "passwordsMatching", false);
 
             var passwd2Field = findChild(page, "password2Field");
             tap(passwd2Field);
-            waitUntilTransitionsEnd(passwd2Field);
+            verifyAnimationsNotRunning(page);
             typeString("12345678");
             tryCompare(continueButton, "enabled", true);
             tap(continueButton);
