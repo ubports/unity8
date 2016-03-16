@@ -263,7 +263,7 @@ Rectangle {
         }
 
         function prepareShell() {
-            tryCompare(shell, "enabled", true); // enabled by greeter when ready  
+            tryCompare(shell, "enabled", true); // enabled by greeter when ready
 
             WindowStateStorage.clear();
             SurfaceManager.inputMethodSurface.setState(Mir.MinimizedState);
