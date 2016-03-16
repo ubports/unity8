@@ -1,3 +1,94 @@
+unity8 (8.11+16.04.20160310.4-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add context for Re-dock as asked by translators (LP: #1534608)
+  * Add emblem to the preview header widget (LP: #1424720)
+  * Add haptics to ScopesListCategoryItem buttons
+  * Audio Cards: Make some of the image loading async (LP: #1533432)
+  * Do not create fallback code for the card tool fake card (LP:
+    #1545865)
+  * Fix resizing the dash bringing temp scopes size out of sync (LP:
+    #1543130)
+  * Minor fixes for unity-scope-tool
+  * Resolve title alignment on card creator time instead of on runtime
+  * Use fixedHeaderHeight only in the non cardtool cards
+  * Use the new undeprecated connectivityqt::Connectivity
+  * asynchronous is only false on the fake card in cardtool
+  * clazy fixes
+
+  [ Albert Astals Cid, CI Train Bot ]
+  * click scope: Add the else branch so we reset the card size in all
+    situations
+
+  [ Andrea Cimitan ]
+  * PreviewSharing widget now accepts both string and array of
+    widgetData["share-data"]["uri"] (LP: #1549056)
+  * Update AP tests for new single preview
+  * Use Text.Wrap for body notification text (LP: #1544909)
+
+  [ Andrea Cimitan, Lukáš Tinkl, Michael Zanetti, Nick Dedekind ]
+  * some fixes for the new palette (LP: #1554616)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ CI Train Bot, Daniel d'Andrada ]
+  * Ensure the QML engine doesn't delete our mock MirSurfaces on its
+    own.
+
+  [ Daniel d'Andrada ]
+  * tst_Shell: Remove unused qml items
+
+  [ Josh Arenson ]
+  * Allow the shell to blacklist input devices and force the OSK shown.
+    (LP: #1542224)
+
+  [ Lukáš Tinkl ]
+  * Disallow resizing windows up, past the Panel (LP: #1544766)
+  * Elide the window title not to let it overflow into the indicators
+    area (LP: #1535767)
+  * Enable the PIN lockscreen to be used with a HW keyboard (LP:
+    #1550359)
+  * Fix tiny windows when switching stages
+  * Provide a range of ports to QML JS Debugger
+  * Watch for launcher item icon changes (LP: #1543290)
+
+  [ Michael Terry ]
+  * Proxy more mouse and touchpad properties to USC (LP: #1540398) (LP:
+    #1543344, #1540398)
+  * Refactor the AccountsService plugin and make it slightly faster.
+  * To let the user log in if a mouse is connected, hide the greeter
+    cover page on a mouse click (but NOT a touch click). (LP: #1540497)
+  * Watch AccountsService for changes to the user's real name.  This was
+    preventing us from noticing when the user set their name in the
+    welcome wizard.
+
+  [ Michael Zanetti ]
+  * Allow alt+tabbing in staged mode too (LP: #1540502)
+  * Allow invoking the staged mode spreads by mouse right edge pushes
+    too (LP: #1540392)
+  * Allow loading the device configuration from an external file
+  * Implement Launcher's keyboard navigation and updated pip design
+  * Make launcher scalable, allow it locking (LP: #1511015)
+  * Properly parent launcher items in all cases (LP: #1495732)
+  * Read inputMethod surface from the new property int QtMir (LP:
+    #1545286)
+  * Some visual updates and rotation lock for the virtual touchpad (LP:
+    #1549087)
+  * Visual updates for the windowed spread (LP: #1488148)
+  * stabilize swipeAwayGreeter()
+
+  [ Michał Sawicz ]
+  * Add udev rules to make sure we have access to uinput
+  * Make dash respawn indefinitely (LP: #1550056)
+  * Use dpkg-architecture, not arch, to disable touch emulation
+
+  [ Vesa Rautiainen ]
+  * Fixing the vertical position of desktop spread item icon.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 10 Mar 2016 22:44:16 +0000
+
 unity8 (8.11+16.04.20160308-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

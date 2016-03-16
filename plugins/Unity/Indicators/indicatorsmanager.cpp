@@ -116,7 +116,7 @@ void IndicatorsManager::loadFile(const QFileInfo& file_info)
     QSettings indicator_settings(file_info.absoluteFilePath(), QSettings::IniFormat, this);
     const QString name = indicator_settings.value(QStringLiteral("Indicator Service/Name")).toString();
 
-    if (m_platform.isPC() && name == "indicator-keyboard") {
+    if (m_platform.isPC() && name == QLatin1String("indicator-keyboard")) {
         return; // convergence: skip this indicator until it works in Mir
     }
 
@@ -293,7 +293,7 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
     if ((new_indicator->identifier() == QStringLiteral("indicator-session") && m_platform.isMultiSession())
             || (new_indicator->identifier() == QStringLiteral("indicator-power") && m_platform.isPC())) {
-        new_indicator->setProfile("desktop");
+        new_indicator->setProfile(QStringLiteral("desktop"));
     } else {
         new_indicator->setProfile(m_profile);
     }

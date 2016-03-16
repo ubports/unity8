@@ -43,6 +43,7 @@ FocusScope {
     property int shellOrientationAngle
     property int shellOrientation
     property QtObject orientations
+    property bool highlightShown: false
 
     function matchShellOrientation() {
         if (!root.application)
@@ -259,6 +260,25 @@ FocusScope {
                 source: "graphics/dropshadow2gu.sci"
                 opacity: root.dropShadow ? .3 : 0
                 Behavior on opacity { UbuntuNumberAnimation {} }
+            }
+
+            Rectangle {
+                id: selectionHighlight
+                objectName: "selectionHighlight"
+                anchors.fill: appWindow
+                anchors.margins: -units.gu(1)
+                color: "white"
+                opacity: root.highlightShown ? 0.15 : 0
+                antialiasing: true
+                visible: opacity > 0
+            }
+
+            Rectangle {
+                anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
+                height: units.dp(2)
+                color: UbuntuColors.orange
+                visible: root.highlightShown
+                antialiasing: true
             }
 
             ApplicationWindow {
