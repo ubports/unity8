@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,49 +16,59 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.SystemSettings.Diagnostics 1.0
+import AccountsService 0.1
 import ".." as LocalComponents
 
 LocalComponents.Page {
-    id: reportingPage
-    objectName: "reportingPage"
+    objectName: "accountPage"
+    title: i18n.tr("Personalize Your Device")
 
-    title: i18n.tr("Improving your experience")
     forwardButtonSourceComponent: forwardButton
 
-    skipValid: false
-    skip: !diagnostics.reportCrashes // skip the page when the system is configured not to report crashes
-
-    UbuntuDiagnostics {
-        id: diagnostics
-        Component.onCompleted: reportingPage.skipValid = true;
+    QtObject {
+        id: d
+        readonly property string validName: nameInput.text.trim()
     }
 
     Column {
         id: column
-        anchors.fill: content
-        spacing: units.gu(2)
-
-        Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            wrapMode: Text.Wrap
-            text: i18n.tr("Your phone is set up to automatically report errors to Canonical and its partners, the makers of the operating system.")
+        spacing: units.gu(1)
+        anchors {
+            fill: content
+            leftMargin: parent.leftMargin
+            rightMargin: parent.rightMargin
+            topMargin: customMargin
         }
 
+        // name
         Label {
+            id: nameLabel
             anchors.left: parent.left
             anchors.right: parent.right
-            wrapMode: Text.Wrap
-            text: i18n.tr("This can be disabled in <b>System Settings</b> under <b>Security &amp; Privacy</b>")
+            text: i18n.tr("Preferred Name")
+            color: textColor
+            font.weight: Font.Light
+        }
+
+        LocalComponents.WizardTextField {
+            id: nameInput
+            objectName: "nameInput"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            inputMethodHints: Qt.ImhNoPredictiveText
         }
     }
 
     Component {
         id: forwardButton
         LocalComponents.StackButton {
-            text: i18n.tr("Continue")
-            onClicked: pageStack.next()
+            text: d.validName ? i18n.tr("Next") : i18n.tr("Skip")
+            onClicked: {
+                if (d.validName) {
+                    AccountsService.realName = d.validName;
+                }
+                pageStack.next();
+            }
         }
     }
 }

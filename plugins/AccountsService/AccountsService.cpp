@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "AccountsService.h"
@@ -34,6 +32,7 @@
 
 #define PROP_BACKGROUND_FILE                   QStringLiteral("BackgroundFile")
 #define PROP_DEMO_EDGES                        QStringLiteral("demo-edges")
+#define PROP_EMAIL                             QStringLiteral("Email")
 #define PROP_ENABLE_INDICATORS_WHILE_LOCKED    QStringLiteral("EnableIndicatorsWhileLocked")
 #define PROP_ENABLE_LAUNCHER_WHILE_LOCKED      QStringLiteral("EnableLauncherWhileLocked")
 #define PROP_FAILED_LOGINS                     QStringLiteral("FailedLogins")
@@ -44,6 +43,7 @@
 #define PROP_MOUSE_PRIMARY_BUTTON              QStringLiteral("MousePrimaryButton")
 #define PROP_MOUSE_SCROLL_SPEED                QStringLiteral("MouseScrollSpeed")
 #define PROP_PASSWORD_DISPLAY_HINT             QStringLiteral("PasswordDisplayHint")
+#define PROP_REAL_NAME                         QStringLiteral("RealName")
 #define PROP_STATS_WELCOME_SCREEN              QStringLiteral("StatsWelcomeScreen")
 #define PROP_TOUCHPAD_CURSOR_SPEED             QStringLiteral("TouchpadCursorSpeed")
 #define PROP_TOUCHPAD_DISABLE_WHILE_TYPING     QStringLiteral("TouchpadDisableWhileTyping")
@@ -80,6 +80,8 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     connect(m_service, &AccountsServiceDBusAdaptor::maybeChanged, this, &AccountsService::onMaybeChanged);
 
     registerProperty(IFACE_ACCOUNTS_USER, PROP_BACKGROUND_FILE, QStringLiteral("backgroundFileChanged"));
+    registerProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, QStringLiteral("emailChanged"));
+    registerProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, QStringLiteral("realNameChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_ACCEPTED, QStringLiteral("hereEnabledChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH, QStringLiteral("hereLicensePathChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
@@ -204,6 +206,28 @@ bool AccountsService::hereLicensePathValid() const
 {
     auto value = getProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH);
     return !value.toString().isNull();
+}
+
+QString AccountsService::realName() const
+{
+    auto value = getProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME);
+    return value.toString();
+}
+
+void AccountsService::setRealName(const QString &realName)
+{
+    setProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, realName);
+}
+
+QString AccountsService::email() const
+{
+    auto value = getProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL);
+    return value.toString();
+}
+
+void AccountsService::setEmail(const QString &email)
+{
+    setProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, email);
 }
 
 uint AccountsService::failedLogins() const

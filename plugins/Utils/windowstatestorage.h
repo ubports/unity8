@@ -38,6 +38,9 @@ public:
     Q_INVOKABLE void saveGeometry(const QString &windowId, const QRect rect);
     Q_INVOKABLE QRect getGeometry(const QString &windowId, const QRect defaultValue) const;
 
+    Q_INVOKABLE void saveStage(const QString &appId, int stage);
+    Q_INVOKABLE int getStage(const QString &appId) const;
+
 private:
     void initdb();
 
