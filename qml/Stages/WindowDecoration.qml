@@ -67,7 +67,7 @@ MouseArea {
         anchors.fill: parent
         anchors.bottomMargin: -radius
         radius: units.gu(.5)
-        color: UbuntuColors.jet
+        color: theme.palette.normal.background
     }
 
     Row {
