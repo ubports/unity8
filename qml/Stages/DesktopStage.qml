@@ -369,8 +369,10 @@ AbstractStage {
                         name: "fullscreen"; when: decoratedWindow.fullscreen
                         PropertyChanges {
                             target: appDelegate;
-                            x: 0; y: -PanelState.panelHeight
-                            requestedWidth: appContainer.width; requestedHeight: appContainer.height;
+                            x: 0;
+                            y: -PanelState.panelHeight
+                            requestedWidth: appContainer.width;
+                            requestedHeight: appContainer.height;
                         }
                     },
                     State {
@@ -387,14 +389,15 @@ AbstractStage {
                         name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: root.leftMargin; y: 0;
+                            x: root.leftMargin;
+                            y: 0;
                             visuallyMinimized: false;
                             visuallyMaximized: true
                         }
                         PropertyChanges {
                             target: decoratedWindow
-                            requestedWidth: root.width;
-                            requestedHeight: root.height;
+                            requestedWidth: appContainer.width - root.leftMargin;
+                            requestedHeight: appContainer.height;
                         }
                     },
                     State {

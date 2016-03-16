@@ -203,7 +203,7 @@ void ApplicationInfo::setFullscreen(bool value)
 
 bool ApplicationInfo::fullscreen() const
 {
-    return m_session ? m_session->fullscreen() : false;
+    return m_session ? m_session->fullscreen() : m_fullscreen;
 }
 
 void ApplicationInfo::setManualSurfaceCreation(bool value)
