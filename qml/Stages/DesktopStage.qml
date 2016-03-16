@@ -498,6 +498,10 @@ AbstractStage {
 
                     onPressed: { ApplicationManager.focusApplication(model.appId) }
 
+                    Component.onCompleted: {
+                        loadWindowState();
+                    }
+
                     property bool saveStateOnDestruction: true
                     Connections {
                         target: root

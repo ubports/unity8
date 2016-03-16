@@ -69,7 +69,7 @@ MouseArea {
         onHeightChanged: priv.updateNormalGeometry();
     }
 
-    Component.onCompleted: {
+    function loadWindowState() {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
                                                             Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
 
