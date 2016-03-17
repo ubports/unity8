@@ -31,6 +31,10 @@ LocalComponents.Page {
         id: plugin
     }
 
+    OnScreenKeyboardPlugin {
+        id: oskPlugin
+    }
+
     function init()
     {
         var detectedLang = "";
@@ -153,8 +157,11 @@ LocalComponents.Page {
             enabled: languagesListView.currentIndex != -1
             onClicked: {
                 if (plugin.currentLanguage !== languagesListView.currentIndex) {
+                    var locale = plugin.languageCodes[languagesListView.currentIndex];
+                    var language = locale.split("_")[0].split(".")[0];
                     plugin.currentLanguage = languagesListView.currentIndex;
-                    System.updateSessionLocale(plugin.languageCodes[plugin.currentLanguage]);
+                    oskPlugin.setCurrentLayout(language);
+                    System.updateSessionLocale(locale);
                 }
                 i18n.language = plugin.languageCodes[plugin.currentLanguage]; // re-notify of change after above call (for qlocale change)
 
