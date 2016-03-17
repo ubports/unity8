@@ -151,12 +151,12 @@ private:
 
     QString section(QQuickItem *item)
     {
-        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("section")).toString() : QString();
+        return item ? item->property("text").toString() : QString();
     }
 
     int sectionDelegateIndex(QQuickItem *item)
     {
-        return item ? QQmlEngine::contextForObject(item)->parentContext()->contextProperty(QLatin1String("delegateIndex")).toInt() : -1;
+        return item ? item->property("delegateIndex").toInt() : -1;
     }
 
 private Q_SLOTS:
