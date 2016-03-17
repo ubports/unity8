@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -126,6 +126,18 @@ FocusScope {
         onCancel: coverPage.show()
         onEmergencyCall: root.emergencyCall()
 
+        onEnabledChanged: {
+            if (enabled) {
+                lockscreen.forceActiveFocus();
+            }
+        }
+
+        onVisibleChanged: {
+            if (visible) {
+                lockscreen.forceActiveFocus();
+            }
+        }
+
         function maybeShow() {
             if (root.locked && !shown) {
                 showNow();
@@ -146,6 +158,7 @@ FocusScope {
         width: parent.width
         background: root.background
         onTease: root.tease()
+        onClicked: hide()
 
         onShowProgressChanged: {
             if (showProgress === 1) {

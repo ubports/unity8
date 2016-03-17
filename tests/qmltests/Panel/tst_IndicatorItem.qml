@@ -24,7 +24,9 @@ import "../../../qml/Panel"
 Rectangle {
     width: units.gu(80)
     height: units.gu(30)
-    color: "white"
+    color: theme.palette.normal.background
+
+    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
     RowLayout {
         anchors.fill: parent
@@ -37,7 +39,7 @@ Rectangle {
             Layout.fillHeight: true
 
             Rectangle {
-                color: "black"
+                color: theme.palette.normal.background
                 anchors.fill: indicatorItem
             }
 
@@ -181,25 +183,25 @@ Rectangle {
         }
 
         function test_select() {
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.normal.backgroundText);
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ffffff");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ffffff");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", theme.palette.normal.backgroundText);
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", theme.palette.normal.backgroundText);
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", theme.palette.normal.backgroundText);
 
             indicatorItem.expanded = true;
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#888888");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.disabled.backgroundText);
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 0.6);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#888888");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#888888");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#888888");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", theme.palette.disabled.backgroundText);
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", theme.palette.disabled.backgroundText);
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", theme.palette.disabled.backgroundText);
 
             indicatorItem.selected = true;
-            tryCompare(findChild(indicatorItem, "icon0"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.normal.backgroundText);
             tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
-            tryCompare(findChild(indicatorItem, "leftLabel"), "color", "#ffffff");
-            tryCompare(findChild(indicatorItem, "rightLabel"), "color", "#ffffff");
-            tryCompare(findChild(indicatorItem, "indicatorName"), "color", "#ffffff");
+            tryCompare(findChild(indicatorItem, "leftLabel"), "color", theme.palette.normal.backgroundText);
+            tryCompare(findChild(indicatorItem, "rightLabel"), "color", theme.palette.normal.backgroundText);
+            tryCompare(findChild(indicatorItem, "indicatorName"), "color", theme.palette.normal.backgroundText);
         }
     }
 }

@@ -158,7 +158,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: units.gu(2.5)
                 height: width
-                color: theme.palette.normal.foregroundText
+                color: "white"
                 name: "close"
             }
         }

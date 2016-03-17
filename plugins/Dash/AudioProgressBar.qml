@@ -31,6 +31,7 @@ Item {
         anchors { left: parent.left; right: parent.right }
         height: units.dp(6)
         source: "graphics/music_progress_bg.png"
+        asynchronous: true
         sourceSize.width: width
         sourceSize.height: height
     }
