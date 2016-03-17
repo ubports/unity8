@@ -226,6 +226,7 @@ Row {
 
             // remove top-most and verify one of the remaining ones is still getting expanded
 
+            waitForRendering(notifications);
             // make first snap-decision expand
             mouseClick(snap_decision[0]);
 

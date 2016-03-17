@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Michael Terry <michael.terry@canonical.com>
  */
 
 #ifndef UNITY_ACCOUNTSSERVICEDBUSADAPTOR_H
@@ -35,8 +33,9 @@ public:
     explicit AccountsServiceDBusAdaptor(QObject *parent = 0);
     ~AccountsServiceDBusAdaptor() = default;
 
-    Q_INVOKABLE QDBusPendingReply<QVariant> getUserPropertyAsync(const QString &user, const QString &interface, const QString &property);
-    Q_INVOKABLE QDBusPendingCall setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
+    QDBusPendingReply<QVariantMap> getAllPropertiesAsync(const QString &user, const QString &interface);
+    QDBusPendingReply<QVariant> getUserPropertyAsync(const QString &user, const QString &interface, const QString &property);
+    QDBusPendingCall setUserPropertyAsync(const QString &user, const QString &interface, const QString &property, const QVariant &value);
 
 Q_SIGNALS:
     void propertiesChanged(const QString &user, const QString &interface, const QStringList &changed);
@@ -48,7 +47,7 @@ private Q_SLOTS:
 
 private:
     QDBusInterface *getUserInterface(const QString &user);
-    QString getUserForPath(const QString &path);
+    QString getUserForPath(const QString &path) const;
 
     QDBusInterface *m_accountsManager;
     QMap<QString, QDBusInterface *> m_users;
