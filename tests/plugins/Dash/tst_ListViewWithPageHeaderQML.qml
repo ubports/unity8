@@ -81,9 +81,10 @@ Rectangle {
         sectionDelegate: Component {
             id: sectionHeaderComponent
             Rectangle {
+                property alias text: theText.text
                 color: "green"
                 height: listView.sectionHeaderHeight
-                Text { text: section; font.pixelSize: 34 }
+                Text { id: theText; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
             }
         }
@@ -92,9 +93,10 @@ Rectangle {
     Component {
         id: otherSectionHeaderComponent
         Rectangle {
+            property alias text: theText.text
             color: "green"
             height: 50
-            Text { text: section; font.pixelSize: 34 }
+            Text { id: theText; font.pixelSize: 34 }
             anchors { left: parent.left; right: parent.right }
         }
     }
