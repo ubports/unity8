@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-16 03:29+0000\n"
+"POT-Creation-Date: 2016-03-10 22:48+0000\n"
 "PO-Revision-Date: 2015-07-04 05:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,23 +16,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
+"X-Generator: Launchpad (build 17939)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "Пароль: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:47
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Pin shortcut"
 msgstr "Заблокувати кнопку"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:52
+#: plugins/Unity/Launcher/launcheritem.cpp:53
 msgid "Quit"
 msgstr "Вийти"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Unpin shortcut"
 msgstr "Розблокувати кнопку"
 
@@ -143,15 +143,15 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Перезапустити"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Return to Call"
 msgstr "Повернутися до дзвінка"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Emergency Call"
 msgstr "Терміновий виклик"
 
-#: qml/Components/Lockscreen.qml:277
+#: qml/Components/Lockscreen.qml:263
 msgid "OK"
 msgstr "Гаразд"
 
@@ -160,9 +160,10 @@ msgid "Apps may have unsaved data:"
 msgstr "Додатки можуть містити незбережені дані:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
+msgctxt ""
+"Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
-"Перепідключення, збережіть Вашу роботу й закрийте ці додатки для продовження."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -180,38 +181,38 @@ msgstr "Перепід’єднатися зараз!"
 msgid "Close all"
 msgstr "Закрити усе"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Крамниця"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Пошук"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Параметри"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "Вилучити з вибраного"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "Додати до вибраного"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
 msgid "See less"
 msgstr "Стисліше"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:567
 msgid "See all"
 msgstr "Детальніше"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:629
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Пошук"
@@ -237,7 +238,7 @@ msgstr "Оцінити"
 msgid "Add a review"
 msgstr "Додати рецензію"
 
-#: qml/Dash/Previews/PreviewSharing.qml:50
+#: qml/Dash/Previews/PreviewSharing.qml:66
 msgid "Preview Share Item"
 msgstr "Попередній перегляд спільного запису"
 
@@ -265,15 +266,13 @@ msgstr "Домівка"
 msgid "Also installed"
 msgstr "Також встановлено"
 
-#: qml/DisabledScreenNotice.qml:87
+#: qml/DisabledScreenNotice.qml:104
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the mouse."
+"touch pad to interact with the pointer."
 msgstr ""
-"Ваш пристрій з’єднано із зовнішнім дисплеєм. Скористайтеся його екраном як "
-"сенсорною панеллю для імітації роботи із мишею."
 
-#: qml/Greeter/CoverPage.qml:107
+#: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
 msgstr "Розблокувати"
 
@@ -356,11 +355,11 @@ msgstr "Торкніться, щоб повернутися до дзвінка�
 msgid "Conference"
 msgstr "Конференція"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:753
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Nothing is playing"
 msgstr "Нічого не відтворюється"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:881
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -368,7 +367,7 @@ msgstr[0] "%1 година"
 msgstr[1] "%1 години"
 msgstr[2] "%1 годин"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:885
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -376,7 +375,7 @@ msgstr[0] "%1 хвилина"
 msgstr[1] "%1 хвилини"
 msgstr[2] "%1 хвилин"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -384,37 +383,37 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунди"
 msgstr[2] "%1 секунд"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:893
 msgid "0 seconds"
 msgstr "0 секунд"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 remaining"
 msgstr "Залишилося %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:901
 msgid "In queue…"
 msgstr "У черзі…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:906
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 msgid "Downloading"
 msgstr "Отримуємо"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:908
+#: qml/Panel/Indicators/MenuItemFactory.qml:907
 msgid "Paused, tap to resume"
 msgstr "Призупинено, торкніться, щоб поновити"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:909
 msgid "Canceled"
 msgstr "Скасовано"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:912
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "Finished"
 msgstr "Завершено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:913
 msgid "Failed, tap to retry"
 msgstr "Помилка, торкніться, щоб повторити спробу"
 
@@ -433,14 +432,6 @@ msgstr "Відповісти"
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Зворотний виклик"
-
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "Розблокувати SIM"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "Роумінг"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -751,6 +742,9 @@ msgstr "%1  〉"
 #~ msgid "All"
 #~ msgstr "Все"
 
+#~ msgid "Unlock SIM"
+#~ msgstr "Розблокувати SIM"
+
 #~ msgid "Favorites"
 #~ msgstr "Улюблене"
 
@@ -762,6 +756,9 @@ msgstr "%1  〉"
 
 #~ msgid "Done"
 #~ msgstr "Виконано"
+
+#~ msgid "Roaming"
+#~ msgstr "Роумінг"
 
 #~ msgid "Log out"
 #~ msgstr "Вийти"
@@ -828,3 +825,14 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Зворотний виклик"
+
+#~ msgid "Re-dock, save your work and close these apps to continue."
+#~ msgstr ""
+#~ "Перепідключення, збережіть Вашу роботу й закрийте ці додатки для продовження."
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr ""
+#~ "Ваш пристрій з’єднано із зовнішнім дисплеєм. Скористайтеся його екраном як "
+#~ "сенсорною панеллю для імітації роботи із мишею."

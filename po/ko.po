@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-16 03:29+0000\n"
+"POT-Creation-Date: 2016-03-10 22:48+0000\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,23 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
+"X-Generator: Launchpad (build 17939)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "암호: "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:47
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Pin shortcut"
 msgstr "바로 가기를 고정"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:52
+#: plugins/Unity/Launcher/launcheritem.cpp:53
 msgid "Quit"
 msgstr "끝내기"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Unpin shortcut"
 msgstr "바로 가기를 고정 해제"
 
@@ -134,15 +134,15 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "다시 시작"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Return to Call"
 msgstr "다시 전화하기"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Emergency Call"
 msgstr "긴급 통화"
 
-#: qml/Components/Lockscreen.qml:277
+#: qml/Components/Lockscreen.qml:263
 msgid "OK"
 msgstr "확인"
 
@@ -151,8 +151,10 @@ msgid "Apps may have unsaved data:"
 msgstr "프로그램에 저장하지 않은 데이터가 있을 때:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
+msgctxt ""
+"Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr "다시 도킹해 작업을 저장하고 프로그램을 닫은 후 계속합니다."
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -170,38 +172,38 @@ msgstr "지급 다시 접속!"
 msgid "Close all"
 msgstr "모두 닫기"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "상점"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "검색"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "설정"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "즐겨찾기에서 제거"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "즐겨찾기에 추가"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
 msgid "See less"
 msgstr "간단히 표시"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:567
 msgid "See all"
 msgstr "모두 보기"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:629
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "검색"
@@ -227,7 +229,7 @@ msgstr "이 프로그램 평가"
 msgid "Add a review"
 msgstr "평가 추가"
 
-#: qml/Dash/Previews/PreviewSharing.qml:50
+#: qml/Dash/Previews/PreviewSharing.qml:66
 msgid "Preview Share Item"
 msgstr "공유 항목 미리 보기"
 
@@ -255,13 +257,13 @@ msgstr "홈"
 msgid "Also installed"
 msgstr "설치함"
 
-#: qml/DisabledScreenNotice.qml:87
+#: qml/DisabledScreenNotice.qml:104
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the mouse."
-msgstr "장치를 외부 디스플레이와 연결햇습니다. 이 화면을 마우스와 상호작용 하는 터치 패드로 사용합니다."
+"touch pad to interact with the pointer."
+msgstr ""
 
-#: qml/Greeter/CoverPage.qml:107
+#: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
 msgstr "잠금 해제"
 
@@ -340,59 +342,59 @@ msgstr "다시 통화하려면 두드려주십시오."
 msgid "Conference"
 msgstr "회의"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:753
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Nothing is playing"
 msgstr "연주하는 항목 없음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:881
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1시간"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:885
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1분"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1초"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:893
 msgid "0 seconds"
 msgstr "0초"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 남음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:901
 msgid "In queue…"
 msgstr "대기 중..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:906
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:908
+#: qml/Panel/Indicators/MenuItemFactory.qml:907
 msgid "Paused, tap to resume"
 msgstr "일시 중지하였습니다. 계속하려면 두드려주십시오."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:909
 msgid "Canceled"
 msgstr "취소함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:912
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "Finished"
 msgstr "완료함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:913
 msgid "Failed, tap to retry"
 msgstr "실패, 두드리면 다시 시도합니다."
 
@@ -411,14 +413,6 @@ msgstr "답신"
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "부재중 번호로 전화"
-
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "심 카드 잠금 해제"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "로밍"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -484,7 +478,7 @@ msgstr "안녕!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "우분투를 사용해주셔서 감사합니다."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -515,7 +509,7 @@ msgstr "보안 잠금"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
-msgstr ""
+msgstr "장치의 잠금 해제 방법을 선택해주십시오."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -616,7 +610,7 @@ msgstr "잘 하셨습니다!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "이제 장치를 사용할 수 있습니다."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -695,6 +689,9 @@ msgstr "%1  〉"
 #~ msgid "All"
 #~ msgstr "모두"
 
+#~ msgid "Roaming"
+#~ msgstr "로밍"
+
 #~ msgid "Favorites"
 #~ msgstr "즐겨찾기"
 
@@ -730,6 +727,9 @@ msgstr "%1  〉"
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "불러오는 중 입니다. 짐시 기다려주십시오..."
+
+#~ msgid "Unlock SIM"
+#~ msgstr "심 카드 잠금 해제"
 
 #~ msgid "Try swiping from the top edge to access the indicators"
 #~ msgstr "위쪽 가장자리에서 쓸면 알림에 접근할 수 있습니다."
@@ -793,3 +793,11 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "부재중 번호로 전화"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr "장치를 외부 디스플레이와 연결햇습니다. 이 화면을 마우스와 상호작용 하는 터치 패드로 사용합니다."
+
+#~ msgid "Re-dock, save your work and close these apps to continue."
+#~ msgstr "다시 도킹해 작업을 저장하고 프로그램을 닫은 후 계속합니다."

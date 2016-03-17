@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
+import Unity.Session 0.1
 import QtQuick.Window 2.2
 import "Components"
 
@@ -25,19 +26,36 @@ Item {
 
     property bool infoNoteDisplayed: true
 
-    WallpaperResolver {
-        width: root.width
-        id: wallpaperResolver
+    // For testing
+    property var screen: Screen
+    property var orientationLock: OrientationLock
+
+    DeviceConfiguration {
+        id: deviceConfiguration
+        name: applicationArguments.deviceName
     }
 
     Item {
         id: contentContainer
+        objectName: "contentContainer"
         anchors.centerIn: parent
         height: rotation == 90 || rotation == 270 ? parent.width : parent.height
         width: rotation == 90 || rotation == 270 ? parent.height : parent.width
 
+        property int savedOrientation: deviceConfiguration.primaryOrientation == deviceConfiguration.useNativeOrientation
+                                       ? (root.width > root.height ? Qt.LandscapeOrientation : Qt.PortraitOrientation)
+                                       : deviceConfiguration.primaryOrientation
+
         rotation: {
-            switch (Screen.orientation) {
+            var usedOrientation = root.screen.orientation;
+
+            if (root.orientationLock.enabled) {
+                usedOrientation = savedOrientation;
+            }
+
+            savedOrientation = usedOrientation;
+
+            switch (usedOrientation) {
             case Qt.PortraitOrientation:
                 return 0;
             case Qt.LandscapeOrientation:
@@ -47,6 +65,8 @@ Item {
             case Qt.InvertedLandscapeOrientation:
                 return 90;
             }
+
+            return 0;
         }
         transformOrigin: Item.Center
 
@@ -60,9 +80,9 @@ Item {
             }
         }
 
-        Image {
+        Rectangle {
             anchors.fill: parent
-            source: wallpaperResolver.background
+            color: "#3b3b3b"
         }
 
         Item {
@@ -74,22 +94,26 @@ Item {
                 UbuntuNumberAnimation { }
             }
 
-            Rectangle {
-                anchors.fill: parent
-                color: "black"
-                opacity: 0.4
-            }
-
-            Label {
-                id: text
+            Column {
                 anchors.centerIn: parent
                 width: parent.width - units.gu(8)
-                text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the mouse.")
-                color: "white"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                fontSize: "x-large"
-                wrapMode: Text.Wrap
+                spacing: units.gu(4)
+
+                Label {
+                    id: text
+                    text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the pointer.")
+                    color: "white"
+                    width: parent.width
+                    fontSize: "large"
+                    wrapMode: Text.Wrap
+                }
+                Icon {
+                    height: units.gu(8)
+                    width: height
+                    name: "input-touchpad-symbolic"
+                    color: "white"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
         }
 

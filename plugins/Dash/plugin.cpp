@@ -28,12 +28,12 @@
 static QUrl oauthCleanedUrl(QUrl u)
 {
     QUrlQuery q(u);
-    q.removeQueryItem("oauth_nonce");
-    q.removeQueryItem("oauth_timestamp");
-    q.removeQueryItem("oauth_consumer_key");
-    q.removeQueryItem("oauth_signature_method");
-    q.removeQueryItem("oauth_version");
-    q.removeQueryItem("oauth_signature");
+    q.removeQueryItem(QStringLiteral("oauth_nonce"));
+    q.removeQueryItem(QStringLiteral("oauth_timestamp"));
+    q.removeQueryItem(QStringLiteral("oauth_consumer_key"));
+    q.removeQueryItem(QStringLiteral("oauth_signature_method"));
+    q.removeQueryItem(QStringLiteral("oauth_version"));
+    q.removeQueryItem(QStringLiteral("oauth_signature"));
     u.setQuery(q);
     return u;
 }

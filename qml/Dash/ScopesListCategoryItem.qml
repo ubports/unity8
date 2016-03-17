@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 
-MouseArea {
+AbstractButton {
     id: root
 
     signal requestFavorite(string scopeId, bool favorite)
@@ -84,15 +84,19 @@ MouseArea {
                 visible: text != ""
             }
         }
-        MouseArea {
+        AbstractButton {
             id: starArea
             objectName: "starArea"
             height: parent.height
             width: height
             anchors.right: parent.right
             onClicked: if (!editMode) root.requestFavorite(model.scopeId, !isFavorite);
-            onPressed: if (editMode) root.handlePressed(starArea);
-            onReleased: if (editMode) root.handleReleased(starArea);
+            onPressedChanged: {
+                if (editMode) {
+                    if (pressed) root.handlePressed(starArea.__mouseArea);
+                    else root.handleReleased(starArea.__mouseArea);
+                }
+            }
             visible: editMode || showStar
             Icon {
                 id: star

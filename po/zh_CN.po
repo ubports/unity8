@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-16 03:29+0000\n"
+"POT-Creation-Date: 2016-03-10 22:48+0000\n"
 "PO-Revision-Date: 2015-07-27 10:26+0000\n"
 "Last-Translator: Ian Li <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
@@ -15,23 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-02-23 06:04+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
+"X-Generator: Launchpad (build 17939)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
 msgstr "密码： "
 
-#: plugins/Unity/Launcher/launcheritem.cpp:47
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:48
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Pin shortcut"
 msgstr "固定快捷方式"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:52
+#: plugins/Unity/Launcher/launcheritem.cpp:53
 msgid "Quit"
 msgstr "退出"
 
-#: plugins/Unity/Launcher/launcheritem.cpp:106
+#: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Unpin shortcut"
 msgstr "取消固定快捷方式"
 
@@ -136,15 +136,15 @@ msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "重启"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Return to Call"
 msgstr "回到呼叫"
 
-#: qml/Components/Lockscreen.qml:245
+#: qml/Components/Lockscreen.qml:231
 msgid "Emergency Call"
 msgstr "紧急呼叫"
 
-#: qml/Components/Lockscreen.qml:277
+#: qml/Components/Lockscreen.qml:263
 msgid "OK"
 msgstr "确定"
 
@@ -153,8 +153,10 @@ msgid "Apps may have unsaved data:"
 msgstr "应用中可能有未保存数据:"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:57
+msgctxt ""
+"Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr "重新接驳系统，保存您的工作，关闭这些应用然后继续。"
+msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -172,38 +174,38 @@ msgstr "即刻重新连接！"
 msgid "Close all"
 msgstr "关闭所有"
 
-#: qml/Dash/DashPageHeader.qml:266
+#: qml/Dash/DashPageHeader.qml:270
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "商店"
 
-#: qml/Dash/DashPageHeader.qml:273
+#: qml/Dash/DashPageHeader.qml:277
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "搜索"
 
-#: qml/Dash/DashPageHeader.qml:283
+#: qml/Dash/DashPageHeader.qml:287
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "设置"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Remove from Favorites"
 msgstr "从收藏夹中移除"
 
-#: qml/Dash/DashPageHeader.qml:290
+#: qml/Dash/DashPageHeader.qml:294
 msgid "Add to Favorites"
 msgstr "添加到收藏夹"
 
-#: qml/Dash/GenericScopeView.qml:587 qml/Dash/GenericScopeView.qml:745
+#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
 msgid "See less"
 msgstr "显示更少"
 
-#: qml/Dash/GenericScopeView.qml:587
+#: qml/Dash/GenericScopeView.qml:567
 msgid "See all"
 msgstr "查看全部"
 
-#: qml/Dash/GenericScopeView.qml:649
+#: qml/Dash/GenericScopeView.qml:629
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "搜索"
@@ -229,7 +231,7 @@ msgstr "评分"
 msgid "Add a review"
 msgstr "添加评论"
 
-#: qml/Dash/Previews/PreviewSharing.qml:50
+#: qml/Dash/Previews/PreviewSharing.qml:66
 msgid "Preview Share Item"
 msgstr "预览分享项目"
 
@@ -257,13 +259,13 @@ msgstr "首页"
 msgid "Also installed"
 msgstr "已安装"
 
-#: qml/DisabledScreenNotice.qml:87
+#: qml/DisabledScreenNotice.qml:104
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
-"touch pad to interact with the mouse."
-msgstr "你的设备现已连接上了一个外接显示。将这个屏幕作为触控板使用，可与鼠标互动。"
+"touch pad to interact with the pointer."
+msgstr ""
 
-#: qml/Greeter/CoverPage.qml:107
+#: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
 msgstr "解锁"
 
@@ -342,59 +344,59 @@ msgstr "点击回到通话..."
 msgid "Conference"
 msgstr "会议"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:753
+#: qml/Panel/Indicators/MenuItemFactory.qml:752
 msgid "Nothing is playing"
 msgstr "无正在播放的项目"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:882
+#: qml/Panel/Indicators/MenuItemFactory.qml:881
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 小时"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:886
+#: qml/Panel/Indicators/MenuItemFactory.qml:885
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 分钟"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:891
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 秒"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:893
 msgid "0 seconds"
 msgstr "0 秒"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:896
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 remaining"
 msgstr "剩余 %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:901
 msgid "In queue…"
 msgstr "排队中..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:906
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 msgid "Downloading"
 msgstr "正在下载"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:908
+#: qml/Panel/Indicators/MenuItemFactory.qml:907
 msgid "Paused, tap to resume"
 msgstr "已暂停，点击继续"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:909
 msgid "Canceled"
 msgstr "已取消"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:912
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "Finished"
 msgstr "已完成"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:913
 msgid "Failed, tap to retry"
 msgstr "下载失败，请点击重试"
 
@@ -413,14 +415,6 @@ msgstr "回复"
 msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "回电"
-
-#: qml/Panel/Indicators/ModemInfoItem.qml:105
-msgid "Unlock SIM"
-msgstr "解开 SIM"
-
-#: qml/Panel/Indicators/RoamingIndication.qml:27
-msgid "Roaming"
-msgstr "漫游"
 
 #: qml/Tutorial/TutorialBottom.qml:28
 msgid "Open special menus"
@@ -717,6 +711,9 @@ msgstr "%1  〉"
 #~ msgid "All"
 #~ msgstr "所有"
 
+#~ msgid "Unlock SIM"
+#~ msgstr "解开 SIM"
+
 #~ msgid "Favorites"
 #~ msgstr "收藏夹"
 
@@ -728,6 +725,9 @@ msgstr "%1  〉"
 
 #~ msgid "Done"
 #~ msgstr "完成"
+
+#~ msgid "Roaming"
+#~ msgstr "漫游"
 
 #~ msgid "Please re-enter"
 #~ msgstr "请重新输入"
@@ -773,3 +773,11 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "回电"
+
+#~ msgid "Re-dock, save your work and close these apps to continue."
+#~ msgstr "重新接驳系统，保存您的工作，关闭这些应用然后继续。"
+
+#~ msgid ""
+#~ "Your device is now connected to an external display. Use this screen as a "
+#~ "touch pad to interact with the mouse."
+#~ msgstr "你的设备现已连接上了一个外接显示。将这个屏幕作为触控板使用，可与鼠标互动。"
