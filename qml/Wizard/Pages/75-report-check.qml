@@ -16,7 +16,6 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Web 0.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -82,7 +81,7 @@ LocalComponents.Page {
             visible: false
             active: false
             property string url
-            sourceComponent: WebView {
+            sourceComponent: LocalComponents.DelayedWebView {
                 objectName: "webview"
                 url: webview.url
             }
