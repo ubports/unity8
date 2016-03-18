@@ -767,38 +767,42 @@ Rectangle {
             quickList.state = "open";
         }
 
-        Column {
-            id: quickListColumn
+        StyledItem {
             width: parent.width
-            height: childrenRect.height
+            height: quickListColumn.height
 
-            Repeater {
-                id: popoverRepeater
-                model: quickList.model
+            theme: ThemeSettings {
+                name: "Ubuntu.Components.Themes.Ambiance"
+            }
 
-                ListItems.Standard {
-                    objectName: "quickListEntry" + index
-                    text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
-                    highlightWhenPressed: model.clickable
-                    selected: index === quickList.selectedIndex
+            Column {
+                id: quickListColumn
+                width: parent.width
+                height: childrenRect.height
 
-                    // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
-                    // ListItems don't know that they are sitting in a themed Popover where the color
-                    // needs to be inverted.
-                    __foregroundColor: "black"
+                Repeater {
+                    id: popoverRepeater
+                    model: quickList.model
 
-                    onClicked: {
-                        if (!model.clickable) {
-                            return;
+                    ListItems.Standard {
+                        objectName: "quickListEntry" + index
+                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
+                        highlightWhenPressed: model.clickable
+                        selected: index === quickList.selectedIndex
+
+                        onClicked: {
+                            if (!model.clickable) {
+                                return;
+                            }
+                            Haptics.play();
+                            quickList.state = "";
+                            // Unsetting model to prevent showing changing entries during fading out
+                            // that may happen because of triggering an action.
+                            LauncherModel.quickListActionInvoked(quickList.appId, index);
+                            quickList.focus = false;
+                            root.kbdNavigationCancelled();
+                            quickList.model = undefined;
                         }
-                        Haptics.play();
-                        quickList.state = "";
-                        // Unsetting model to prevent showing changing entries during fading out
-                        // that may happen because of triggering an action.
-                        LauncherModel.quickListActionInvoked(quickList.appId, index);
-                        quickList.focus = false;
-                        root.kbdNavigationCancelled();
-                        quickList.model = undefined;
                     }
                 }
             }
