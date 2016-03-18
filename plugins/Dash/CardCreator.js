@@ -92,6 +92,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                 id: artShapeLoader; \n\
                                 objectName: "artShapeLoader"; \n\
                                 readonly property string cardArt: cardData && cardData["art"] || %9; \n\
+                                onCardArtChanged: { if (item) { item.image.source = cardArt; } } \n\
                                 active: cardArt != ""; \n\
                                 asynchronous: %6; \n\
                                 visible: status == Loader.Ready; \n\

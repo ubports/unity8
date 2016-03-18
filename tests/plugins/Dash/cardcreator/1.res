@@ -21,6 +21,7 @@ Item  {
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || "";
+                                onCardArtChanged: { if (item) { item.image.source = cardArt; } }
                                 active: cardArt != "";
                                 asynchronous: true; 
                                 visible: status == Loader.Ready; 
