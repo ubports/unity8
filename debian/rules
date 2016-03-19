@@ -37,7 +37,12 @@ override_dh_makeshlibs:
 override_dh_shlibdeps:
 	dh_shlibdeps -XlibMockLightDM-qml.so
 
+# TODO: This is transitional and can be dropped once this MP is merged:
+# https://code.launchpad.net/~robru/cupstream2distro/no-source-build-deps/+merge/289446
 override_dh_auto_clean:
 	dh_auto_clean
-	sh ./debian/bileto_pre_release_hook
-	[ -z "$(SILONAME)" ] || bzr commit --message "Update translation template" po/unity8.pot
+	# only run under "CI Train"
+	if [ -n "$(SILONAME)" -a -x /usr/bin/bzr ]; then \
+	    ./debian/bileto_pre_release_hook; \
+	    bzr commit --message "Update translation template" po/unity8.pot; \
+	fi
