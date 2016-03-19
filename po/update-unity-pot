@@ -1,14 +1,15 @@
 #!/bin/sh
 set -e
-cd "$(dirname "$(readlink --canonicalize "$0")")"
-PO_DIR=$PWD
+PO_DIR="$(dirname "$(readlink --canonicalize "$0")")"
+
+cd "$(dirname $PO_DIR)"
 
 PROGNAME=$(basename $0)
 
 # Create a list of files to scan
 GETTEXT_FILES=".tmp.unity8.lst"
 trap 'rm -f "$GETTEXT_FILES"' EXIT
-cd ..
+
 find \( -name '*.h' -o -name '*.cpp' -o -name '*.qml' -o -name '*.js' \) \
     -a ! \( -path './debian/*' -o -path './builddir/*' -o -path './build/*' -o -path './tests/*' -o -path './.bzr/*' \) | sort \
 > $GETTEXT_FILES
