@@ -6,7 +6,7 @@ PO_DIR=$PWD
 PROGNAME=$(basename $0)
 
 # Create a list of files to scan
-GETTEXT_FILES=$(mktemp --tmpdir unity8.lst.XXXXX)
+GETTEXT_FILES=".tmp.unity8.lst"
 trap 'rm -f "$GETTEXT_FILES"' EXIT
 cd ..
 find \( -name '*.h' -o -name '*.cpp' -o -name '*.qml' -o -name '*.js' \) \
