@@ -40,3 +40,4 @@ override_dh_shlibdeps:
 override_dh_auto_clean:
 	dh_auto_clean
 	./debian/bileto_pre_release_hook
+	[ -n "$(SILONAME)" -a -x /usr/bin/bzr ] && bzr commit --message "Update translation template" po/unity8.pot
