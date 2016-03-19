@@ -1,1 +1,3 @@
-../po/update-unity-pot
+#!/bin/sh
+
+sh ./po/update-unity-pot
