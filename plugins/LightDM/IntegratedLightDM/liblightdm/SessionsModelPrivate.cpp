@@ -27,15 +27,7 @@ namespace QLightDM
 SessionsModelPrivate::SessionsModelPrivate(SessionsModel* parent)
   : q_ptr(parent)
 {
-    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
-    const QStringList sessions = settings.value(QStringLiteral("sessions"), QStringList() << qgetenv("DESKTOP_SESSION")).toStringList();
-
-    sessionItems.reserve(sessions.count());
-    Q_FOREACH(const QString& session, sessions)
-    {
-        sessionItems.append({"", "", session, ""});
-    }
-
+    sessionItems.append({"", "", qgetenv("XDG_SESSION_DESKTOP"), ""});
 }
 
 } // namespace QLightDM
