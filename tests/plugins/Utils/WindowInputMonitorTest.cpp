@@ -71,6 +71,8 @@ public:
 
 using namespace UnityUtil;
 
+Q_DECLARE_METATYPE(Qt::Key) // because of QTest::addColumn<Qt::Key>
+
 class WindowInputMonitorTest : public QObject {
     Q_OBJECT
 private Q_SLOTS:
