@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-10 22:48+0000\n"
-"PO-Revision-Date: 2016-02-16 07:23+0000\n"
+"PO-Revision-Date: 2016-03-17 08:46+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:50+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-18 06:08+0000\n"
+"X-Generator: Launchpad (build 17947)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -73,8 +73,9 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Kijelentkezés"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
-#: qml/Components/Dialogs.qml:253
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Mégse"
 
@@ -97,29 +98,29 @@ msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Leállítás"
 
-#: qml/Components/Dialogs.qml:207
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Újraindítás"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "Biztosan újra szeretné indítani?"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "Nem"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:183
 msgid "Yes"
 msgstr "Igen"
 
-#: qml/Components/Dialogs.qml:232
+#: qml/Components/Dialogs.qml:198
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Menü"
 
-#: qml/Components/Dialogs.qml:233
+#: qml/Components/Dialogs.qml:199
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -127,12 +128,12 @@ msgstr ""
 "Biztos benne, hogy ki\n"
 "szeretné kapcsolni?"
 
-#: qml/Components/Dialogs.qml:235
+#: qml/Components/Dialogs.qml:201
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Kikapcsolás"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:210
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Újraindítás"
@@ -177,38 +178,38 @@ msgstr "Újracsatlakozás most!"
 msgid "Close all"
 msgstr "Minden bezárása"
 
-#: qml/Dash/DashPageHeader.qml:270
+#: qml/Dash/DashPageHeader.qml:337
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Áruház"
 
-#: qml/Dash/DashPageHeader.qml:277
+#: qml/Dash/DashPageHeader.qml:344
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Keresés"
 
-#: qml/Dash/DashPageHeader.qml:287
+#: qml/Dash/DashPageHeader.qml:354
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Beállítások"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Remove from Favorites"
 msgstr "Eltávolítás a kedvencek közül"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Add to Favorites"
 msgstr "Hozzáadás a kedvencekhez"
 
-#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
+#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
 msgstr "Kevesebb"
 
-#: qml/Dash/GenericScopeView.qml:567
+#: qml/Dash/GenericScopeView.qml:570
 msgid "See all"
 msgstr "Összes megtekintése"
 
-#: qml/Dash/GenericScopeView.qml:629
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Keresés"
@@ -268,7 +269,7 @@ msgid ""
 "touch pad to interact with the pointer."
 msgstr ""
 "Az eszköz jelenleg egy külső kijelzőhöz van csatlakoztatva. Használja ezt a "
-"kijelzőt érintőpadként, hogy irányítsa a mutatót."
+"kijelzőt érintőtáblaként, melynek segítéségével irányíthatja a mutatót."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -282,11 +283,11 @@ msgstr "Újra"
 msgid "Tap to unlock"
 msgstr "Koppintson a feloldáshoz"
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "Elnézést, helytelen jelmondat."
 
-#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Elnézést, helytelen jelkód."
 
@@ -315,7 +316,7 @@ msgstr ""
 msgid "Enter %1"
 msgstr "%1 megadása"
 
-#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
 msgstr "Jelmondat megadása"
 
@@ -353,62 +354,62 @@ msgstr "Ide koppintva visszatérhet a híváshoz"
 msgid "Conference"
 msgstr "Konferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Nothing is playing"
 msgstr "Nincs lejátszás"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:885
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 óra"
 msgstr[1] "%1 óra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:889
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 perc"
 msgstr[1] "%1 perc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:894
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 másodperc"
 msgstr[1] "%1 másodperc"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:897
 msgid "0 seconds"
 msgstr "0 másodperc"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:899
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 van hátra"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 msgid "In queue…"
 msgstr "Sorban…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:909
 msgid "Downloading"
 msgstr "Letöltés"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "Paused, tap to resume"
 msgstr "Szüneteltetve, koppintson a folytatáshoz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:913
 msgid "Canceled"
 msgstr "Megszakítva"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Finished"
 msgstr "Befejeződött"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Failed, tap to retry"
 msgstr "Sikertelen, koppintson az újrapróbáláshoz"
 
@@ -481,7 +482,7 @@ msgstr "Húzza az ujját hosszan a kijelző jobboldalától indulva."
 msgid "View all your running tasks."
 msgstr "A futó alkalmazások itt tekinthetőek meg."
 
-#: qml/Wizard/Page.qml:89
+#: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Vissza"
@@ -515,7 +516,8 @@ msgstr ""
 "Anélkül nem indíthat vagy fogadhat hívásokat, és nem küldhet vagy fogadhat "
 "üzeneteket."
 
-#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Kihagyás"
 
@@ -557,7 +559,7 @@ msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "Betűk és számok"
 
-#: qml/Wizard/Pages/40-wifi.qml:29
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Csatlakozás Wi-Fi hálózathoz"
 
@@ -638,7 +640,7 @@ msgstr "Az eszköze készen áll a használatra."
 msgid "Finish"
 msgstr "Befejezés"
 
-#: qml/Wizard/Pages/here-terms.qml:27
+#: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
 msgstr "Felhasználási feltételek"
 
@@ -646,7 +648,8 @@ msgstr "Felhasználási feltételek"
 msgid "Confirm passphrase"
 msgstr "Jelmondat megerősítése"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:50
+#: qml/Wizard/Pages/passcode-confirm.qml:43
+#: qml/Wizard/Pages/passcode-desktop.qml:80
 msgid "Confirm passcode"
 msgstr "Jelkód megerősítése"
 
@@ -818,15 +821,3 @@ msgstr "%1  〉"
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%b. %d., %a  %H.%M"
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr ""
-#~ "Dokkoljon újra, mentse a munkáját, majd zárjon be minden alkalmazást a "
-#~ "folytatáshoz."
-
-#~ msgid ""
-#~ "Your device is now connected to an external display. Use this screen as a "
-#~ "touch pad to interact with the mouse."
-#~ msgstr ""
-#~ "Egy külső kijelzőhöz csatlakoztatta a készülékét. A telefon kijelzőjén tett "
-#~ "ujjmozdulatokkal mozgathatja az egeret."
