@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-10 22:48+0000\n"
-"PO-Revision-Date: 2016-01-15 14:48+0000\n"
-"Last-Translator: Víctor R. Ruiz <Unknown>\n"
+"PO-Revision-Date: 2016-03-21 04:18+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-21 06:03+0000\n"
+"X-Generator: Launchpad (build 17947)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -77,8 +77,9 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Cerrar la sesión"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
-#: qml/Components/Dialogs.qml:253
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -101,29 +102,29 @@ msgctxt "Button: Shut down the system"
 msgid "Shut down"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:207
+#: qml/Components/Dialogs.qml:173
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Reiniciar"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "¿Seguro que quiere reiniciar?"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "No"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:183
 msgid "Yes"
 msgstr "Sí"
 
-#: qml/Components/Dialogs.qml:232
+#: qml/Components/Dialogs.qml:198
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:233
+#: qml/Components/Dialogs.qml:199
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -131,12 +132,12 @@ msgstr ""
 "¿Seguro que quiere\n"
 "apagar?"
 
-#: qml/Components/Dialogs.qml:235
+#: qml/Components/Dialogs.qml:201
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Apagar"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:210
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reiniciar"
@@ -162,6 +163,7 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Reconecte, guarde el trabajo y cierre estas aplicaciones para continuar."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -179,38 +181,38 @@ msgstr "¡Reconectar ahora!"
 msgid "Close all"
 msgstr "Cerrar todo"
 
-#: qml/Dash/DashPageHeader.qml:270
+#: qml/Dash/DashPageHeader.qml:337
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Tienda"
 
-#: qml/Dash/DashPageHeader.qml:277
+#: qml/Dash/DashPageHeader.qml:344
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Buscar"
 
-#: qml/Dash/DashPageHeader.qml:287
+#: qml/Dash/DashPageHeader.qml:354
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Remove from Favorites"
 msgstr "Quitar de favoritos"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Add to Favorites"
 msgstr "Añadir a favoritos"
 
-#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
+#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
 msgstr "Ver menos"
 
-#: qml/Dash/GenericScopeView.qml:567
+#: qml/Dash/GenericScopeView.qml:570
 msgid "See all"
 msgstr "Ver todo"
 
-#: qml/Dash/GenericScopeView.qml:629
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Búsqueda"
@@ -269,6 +271,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Se ha conectado el dispositivo a una pantalla externa. Utilice esta ventana "
+"como panel táctil para mover el puntero."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -282,11 +286,11 @@ msgstr "Reintentar"
 msgid "Tap to unlock"
 msgstr "Toque para desbloquear"
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "La contraseña es incorrecta."
 
-#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Código de acceso incorrecto."
 
@@ -315,7 +319,7 @@ msgstr ""
 msgid "Enter %1"
 msgstr "Introduzca %1"
 
-#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
 msgstr "Introduzca la contraseña"
 
@@ -353,62 +357,62 @@ msgstr "Toque para volver a la llamada…"
 msgid "Conference"
 msgstr "Conferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:756
 msgid "Nothing is playing"
 msgstr "Ningún contenido en reproducción"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:885
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 hora"
 msgstr[1] "%1 horas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:889
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minuto"
 msgstr[1] "%1 minutos"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:894
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 segundo"
 msgstr[1] "%1 segundos"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:897
 msgid "0 seconds"
 msgstr "0 segundos"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:899
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 restante(s)"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 msgid "In queue…"
 msgstr "En espera…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:909
 msgid "Downloading"
 msgstr "Descargando"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "Paused, tap to resume"
 msgstr "Pausado, toque para reanudar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:913
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Finished"
 msgstr "Finalizado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Failed, tap to retry"
 msgstr "Falló, toque para reintentar"
 
@@ -481,7 +485,7 @@ msgstr "Deslizamiento largo desde el borde derecho."
 msgid "View all your running tasks."
 msgstr "Ver todas las tareas en ejecución."
 
-#: qml/Wizard/Page.qml:89
+#: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Atrás"
@@ -513,7 +517,8 @@ msgstr "Inserte una tarjeta SIM y reinicie el dispositivo"
 msgid "Without it, you won’t be able to make calls or use text messaging."
 msgstr "Sin ella, no podrá hacer llamadas ni enviar mensajes."
 
-#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
 msgid "Skip"
 msgstr "Omitir"
 
@@ -555,7 +560,7 @@ msgctxt "Label: Description of security method"
 msgid "Numbers and letters"
 msgstr "Números y letras"
 
-#: qml/Wizard/Pages/40-wifi.qml:29
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Conectar con wifi"
 
@@ -630,13 +635,13 @@ msgstr "¡Buen trabajo!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr "El dispositivo ya está listo."
+msgstr "El dispositivo está listo para su uso."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
 msgstr "Finalizar"
 
-#: qml/Wizard/Pages/here-terms.qml:27
+#: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
 msgstr "Términos y condiciones"
 
@@ -644,7 +649,8 @@ msgstr "Términos y condiciones"
 msgid "Confirm passphrase"
 msgstr "Confirme la contraseña"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:50
+#: qml/Wizard/Pages/passcode-confirm.qml:43
+#: qml/Wizard/Pages/passcode-desktop.qml:80
 msgid "Confirm passcode"
 msgstr "Confirme el código"
 
@@ -817,15 +823,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Devolver llamada"
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr ""
-#~ "Re-acople el dispositivo, guarde el trabajo y cierre estas aplicaciones para "
-#~ "continuar."
-
-#~ msgid ""
-#~ "Your device is now connected to an external display. Use this screen as a "
-#~ "touch pad to interact with the mouse."
-#~ msgstr ""
-#~ "Ahora está conectado a una pantalla externa. Utilice esta pantalla como "
-#~ "dispositivo táctil para controlar el ratón."

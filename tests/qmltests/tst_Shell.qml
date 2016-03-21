@@ -141,8 +141,10 @@ Rectangle {
                 anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
                 spacing: units.gu(1)
 
-                Row {
+                Flow {
                     spacing: units.gu(1)
+                    anchors { left: parent.left; right: parent.right }
+
                     Button {
                         text: "Show Greeter"
                         activeFocusOnPress: false
@@ -167,6 +169,16 @@ Rectangle {
                             if (greeter.shown) {
                                 greeter.hide()
                             }
+                        }
+                    }
+                    Button {
+                        text: callManager.foregroundCall ? "Hide Call" : "Show Call"
+                        activeFocusOnPress: false
+                        onClicked: {
+                            if (shellLoader.status !== Loader.Ready)
+                                return;
+
+                            callManager.foregroundCall = callManager.foregroundCall ? null : phoneCall;
                         }
                     }
                 }

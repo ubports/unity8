@@ -67,7 +67,7 @@ MouseArea {
         anchors.fill: parent
         anchors.bottomMargin: -radius
         radius: units.gu(.5)
-        color: "#292929"
+        color: theme.palette.normal.background
     }
 
     Row {
