@@ -27,7 +27,7 @@
       <summary>Maximum push needed to overcome edge barrier</summary>
       <description>How much you have to push (in grid units) the mouse against an edge barrier when sensibility is 1.</description>
     </key>
-    <key type="i" name="edge-drag-width">
+    <key type="u" name="edge-drag-width">
       <default>2</default>
       <summary>The width of the edge drag areas</summary>
       <description>How big (in grid units) the edge-drag sensitive area should be.</description>
