@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@ WindowInputMonitor::WindowInputMonitor(UnityUtil::AbstractTimer *timer,
         QQuickItem *parent)
     : QQuickItem(parent)
     , m_windowBeingTouched(false)
-    , m_homeKeyPressed(false)
     , m_windowLastTouchedTimer(elapsedTimer)
     , m_activationTimer(timer)
 {
@@ -42,6 +41,7 @@ WindowInputMonitor::WindowInputMonitor(UnityUtil::AbstractTimer *timer,
     connect(m_activationTimer, &UnityUtil::AbstractTimer::timeout,
         this, &WindowInputMonitor::emitActivatedIfNoTouchesAround);
     m_activationTimer->setInterval(msecsWithoutTouches);
+    m_activationTimer->setSingleShot(true);
 }
 
 WindowInputMonitor::~WindowInputMonitor()
@@ -67,19 +67,19 @@ void WindowInputMonitor::update(QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        m_homeKeyPressed = true;
-
-        if (keyEvent->key() == Qt::Key_Super_L && !keyEvent->isAutoRepeat()
+        if (m_pressedHomeKey == 0 && m_homeKeys.contains(keyEvent->key()) && !keyEvent->isAutoRepeat()
+                && !m_activationTimer->isRunning()
                 && !m_windowBeingTouched
                 && m_windowLastTouchedTimer->elapsed() >= msecsWithoutTouches) {
+            m_pressedHomeKey = keyEvent->key();
             m_activationTimer->start();
         }
 
     } else if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        if (keyEvent->key() == Qt::Key_Super_L) {
-            m_homeKeyPressed = false;
+        if (keyEvent->key() == m_pressedHomeKey) {
+            m_pressedHomeKey = 0;
         }
 
     } else if (event->type() == QEvent::TouchBegin) {
@@ -116,7 +116,7 @@ void WindowInputMonitor::setupFilterOnWindow(QQuickWindow *window)
 
 void WindowInputMonitor::emitActivatedIfNoTouchesAround()
 {
-    if (!m_homeKeyPressed && !m_windowBeingTouched &&
+    if (m_pressedHomeKey == 0 && !m_windowBeingTouched &&
             (m_windowLastTouchedTimer->elapsed() > msecsWithoutTouches)) {
         Q_EMIT homeKeyActivated();
     }
