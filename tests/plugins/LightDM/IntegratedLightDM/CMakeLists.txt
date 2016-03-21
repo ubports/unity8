@@ -99,7 +99,7 @@ target_link_libraries(GreeterIntegratedTestExec
     )
 target_include_directories(GreeterIntegratedTestExec PUBLIC
     ${GLIB_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/liblightdm
+    ${CMAKE_SOURCE_DIR}/plugins/LightDM/IntegratedLightDM/liblightdm
     )
 add_unity8_unittest(GreeterIntegrated dbus-test-runner
     ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/IntegratedLightDM/liblightdm/
