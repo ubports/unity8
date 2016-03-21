@@ -98,7 +98,7 @@ Rectangle {
             var header = findChild(view, "innerPageHeader");
             verify(header, "Could not find the preview header");
 
-            compare(header.config.title, "Mock Scope");
+            compare(header.config.contents.text, "Mock Scope");
         }
 
         function test_header_style() {

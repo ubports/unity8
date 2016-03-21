@@ -455,7 +455,7 @@ function cardString(template, components, isCardTool) {
     var hasSubtitle = hasTitle && components["subtitle"] || false;
     var hasHeaderRow = hasMascot && hasTitle;
     var hasAttributes = hasTitle && components["attributes"] && components["attributes"]["field"] || false;
-    var hasSocialActions = hasTitle && components["socialActions"] || false;
+    var hasSocialActions = hasTitle && components["social-actions"] || false;
     var isAudio = template["quick-preview-type"] === "audio";
     var asynchronous = isCardTool ? "false" : "true";
 

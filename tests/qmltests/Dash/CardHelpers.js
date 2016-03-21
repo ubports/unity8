@@ -16,7 +16,8 @@
 
 .pragma library
 
-var components = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "socialActions", "overlayColor", "quickPreviewData"]
+var components = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "social-actions", "overlayColor", "quickPreviewData"]
+var dataKeys = ["title", "art", "subtitle", "mascot", "emblem", "summary", "attributes", "socialActions", "overlayColor", "quickPreviewData"]
 
 var defaultLayout = ' \
 { \
@@ -39,7 +40,7 @@ var defaultLayout = ' \
     "emblem": null, \
     "summary": null, \
     "attributes": { "max-count": 2 },
-    "socialActions": { "max-count": 4 } \
+    "social-actions": null \
   }, \
   "resources": {} \
 }'
@@ -54,9 +55,8 @@ var fullMapping = ' \
   "overlayColor": "overlayColor", \
   "summary": "summary", \
   "attributes": "attributes", \
-  "socialActions": "socialActions" \
+  "social-actions": "socialActions" \
 }'
-
 
 function tryParse(json, errorLabel) {
     var o = undefined;
@@ -84,12 +84,12 @@ function mapData(json, layout, errorLabel) {
         for (var k in components) {
             try {
                 if (typeof layout[components[k]] == "object") {
-                    d[components[k]] = o[layout[components[k]]['field']];
+                    d[dataKeys[k]] = o[layout[components[k]]['field']];
                 } else {
-                    d[components[k]] = o[layout[components[k]]];
+                    d[dataKeys[k]] = o[layout[components[k]]];
                 }
             } catch(err) {
-                d[components[k]] = undefined;
+                d[dataKeys[k]] = undefined;
             }
         }
     }

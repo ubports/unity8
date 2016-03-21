@@ -17,7 +17,6 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
-import "../../../qml/Components/ListItems" as ListItems
 
 Column {
     id: socialActions
@@ -28,10 +27,17 @@ Column {
 
     signal clicked(var actionId)
 
-    ListItems.ThinDivider {
+    Rectangle {
         id: divider
         visible: repeater.count > 0
-        anchors { left: parent.left; right: parent.right; }
+        anchors {
+            left: parent.left;
+            right: parent.right;
+            leftMargin:units.dp(1);
+            rightMargin: units.dp(1);
+        }
+        color: Qt.darker(theme.palette.normal.background, 1.12)
+        height: visible ? units.dp(1) : 0
     }
 
     Row {
@@ -74,7 +80,9 @@ Column {
                         source: urlIcon
                         color: socialActions.color
 
-                        onUrlIconChanged: if (urlIcon) source = urlIcon
+                        onUrlIconChanged: {
+                            if (urlIcon) source = urlIcon
+                        }
                     }
 
                     onClicked: socialActions.clicked(modelData["id"]);
