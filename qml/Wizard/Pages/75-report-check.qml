@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Ubuntu.Web 0.2
 import ".." as LocalComponents
 
 LocalComponents.Page {
@@ -62,29 +63,18 @@ LocalComponents.Page {
             onLinkActivated: {
                 webview.url = "http://www.ubuntu.com/legal/terms-and-policies/privacy-policy";
                 webview.visible = true;
-                webview.active = true;
             }
         }
 
-        // FIXME: we use a loader, because we're seeing freezes in unity8 after
-        // wizard shuts down, seemingly due to oxide?  So for now, as a hotfix,
-        // we only load the webview when necessary.
-        // Also see Wizard.qml, where we avoid unloading the wizard at all for
-        // similar mitigation reasons while we root-cause the problem.
-        Loader {
+        WebView {
             id: webview
+            objectName: "webview"
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: -leftMargin
             anchors.rightMargin: -rightMargin
             height: parent.height
             visible: false
-            active: false
-            property string url
-            sourceComponent: LocalComponents.DelayedWebView {
-                objectName: "webview"
-                url: webview.url
-            }
         }
     }
 

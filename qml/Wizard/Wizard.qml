@@ -27,7 +27,7 @@ Showable {
     // changing values. Having it cached as a proper Qml bool property prevents
     // unnecessary 'changed' emissions and provides consuming classes the
     // expected behavior of no emission on startup.
-    readonly property bool active: System.wizardEnabled
+    readonly property bool active: loader.active
 
     hideAnimation: StandardAnimation { property: "opacity"; to: 0 }
 
@@ -37,20 +37,11 @@ Showable {
         }
     }
 
-    // FIXME: we make active state a one way road, because we're seeing freezes
-    // in unity8 after wizard shuts down, seemingly due to oxide?  So for now,
-    // as a hotfix, just don't shut the wizard memory down.
-    // Also see 75-report-check.qml, where we avoid unloading the wizard at all
-    // for similar mitigation reasons while we root-cause the problem.
-    onActiveChanged: if (active) loader.active = true
-    Component.onCompleted: if (active) loader.active = true
-
     Loader {
         id: loader
         anchors.fill: parent
-        active: false
+        active: System.wizardEnabled
         source: "Pages.qml"
-        visible: root.visible && root.active
 
         Connections {
             target: loader.item
