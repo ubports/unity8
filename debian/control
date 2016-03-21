@@ -188,7 +188,6 @@ Pre-Depends: ${misc:Pre-Depends},
 Depends: ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,
-          unity-application-impl-12,
           unity-application-impl-13,
 Replaces: unity8-autopilot (<< 8.02+15.04.20150422-0ubuntu1)
 Description: Fake environment for running Unity 8 shell
