@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
+"POT-Creation-Date: 2016-03-18 17:18+0000\n"
 "PO-Revision-Date: 2015-11-19 19:27+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:50+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-22 05:59+0000\n"
+"X-Generator: Launchpad (build 17958)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -157,7 +157,7 @@ msgstr "መተግበሪያው ያልተቀመጠ ዳታ ይዟል:"
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "እንደገና-ማሳረፊያ: ስራዎትን ያስቀምጡ እና ይዝጉ መተግበሪያው እንዲቀጥል"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -264,7 +264,7 @@ msgstr "እንዲሁም የተገጠሙ"
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
-msgstr ""
+msgstr "የ እርስዎ አካል አሁን ከ ውጪ ማሳያ ጋር ተገናኝቷል: ይህን መመልከቻ እንደ ተችፓድ መጠቀሚያ"
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -349,62 +349,62 @@ msgstr "ወደ ጥሪው ለመመለስ መታ ያድርጉ..."
 msgid "Conference"
 msgstr "ስብሰባ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:757
 msgid "Nothing is playing"
 msgstr "ምንም አይጫወትም"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ሰአት"
 msgstr[1] "%1 ሰአቶች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 ደቂቃ"
 msgstr[1] "%1 ደቂቃዎች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 ሰከንድ"
 msgstr[1] "%1 ሰከንዶች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:898
 msgid "0 seconds"
 msgstr "0 ሰከንዶች"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 የቀረው"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "In queue…"
 msgstr "ወረፋ በመጠበቅ ላይ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Downloading"
 msgstr "በማውረድ ላይ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Paused, tap to resume"
 msgstr "ማስቆሚያ: ለመቀጠል መታ ያድርጉ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Canceled"
 msgstr "ተሰርዟል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 msgid "Finished"
 msgstr "ጨርሷል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:918
 msgid "Failed, tap to retry"
 msgstr "አልተቻለም: እንደገና ለመሞከር መታ ያድርጉ"
 
@@ -806,12 +806,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "መልሶ መደወያ"
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr "እንደገና-ማሳረፊያ: ስራዎትን ያስቀምጡ እና ይዝጉ መተግበሪያው እንዲቀጥል"
-
-#~ msgid ""
-#~ "Your device is now connected to an external display. Use this screen as a "
-#~ "touch pad to interact with the mouse."
-#~ msgstr ""
-#~ "የ እርስዎ አካል አሁን ከ ውጪ ማሳያ ጋር ተገናኝቷል: ይህን መመልከቻ እንደ ተችፓድ ከ አይጥ ጋር ተባብሮ ይሰራል"

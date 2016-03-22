@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
+"POT-Creation-Date: 2016-03-18 17:18+0000\n"
 "PO-Revision-Date: 2015-09-18 08:24+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:50+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-22 05:59+0000\n"
+"X-Generator: Launchpad (build 17958)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -162,6 +162,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Ricollegare il dispositivo, salvare il proprio lavoro e chiudere tutte le "
+"applicazioni per continuare."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -269,6 +271,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Il dispositivo è ora collegato a un display esterno: usare lo schermo come "
+"un touchpad per interagire con il puntatore."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -353,62 +357,62 @@ msgstr "Tocca per tornare alla chiamata..."
 msgid "Conference"
 msgstr "Conferenza"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:757
 msgid "Nothing is playing"
 msgstr "Niente in riproduzione"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ora"
 msgstr[1] "%1 ore"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minuto"
 msgstr[1] "%1 minuti"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 secondo"
 msgstr[1] "%1 secondi"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:898
 msgid "0 seconds"
 msgstr "0 secondi"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 remaining"
 msgstr "Tempo residuo: %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "In queue…"
 msgstr "In coda..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Downloading"
 msgstr "Scaricamento in corso"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Paused, tap to resume"
 msgstr "In pausa. Tocca per riprendere"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Canceled"
 msgstr "Annullato"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 msgid "Finished"
 msgstr "Completato"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:918
 msgid "Failed, tap to retry"
 msgstr "Non riuscito. Tocca per riprovare"
 
@@ -492,7 +496,7 @@ msgstr "Ciao!"
 
 #: qml/Wizard/Pages/10-welcome.qml:44
 msgid "Welcome to your Ubuntu device."
-msgstr ""
+msgstr "Benvenuti sul vostro dispositivo Ubuntu."
 
 #: qml/Wizard/Pages/10-welcome.qml:52
 msgid "Let’s get started."
@@ -525,7 +529,7 @@ msgstr "Sicurezza di blocco"
 
 #: qml/Wizard/Pages/30-passwd-type.qml:79
 msgid "Please select how you’d like to unlock your device."
-msgstr ""
+msgstr "Selezionare come sbloccare il proprio dispositivo."
 
 #: qml/Wizard/Pages/30-passwd-type.qml:102
 msgctxt "Label: Type of security method"
@@ -634,7 +638,7 @@ msgstr "Ottimo lavoro!"
 
 #: qml/Wizard/Pages/80-finished.qml:46
 msgid "Your device is now ready to use."
-msgstr ""
+msgstr "Il dispositivo è ora pronto all'uso."
 
 #: qml/Wizard/Pages/80-finished.qml:53
 msgid "Finish"
@@ -823,8 +827,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Richiama"
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr ""
-#~ "Collegare nuovamente il dispositivo, salvare il lavoro e chiudere queste app "
-#~ "per continuare."

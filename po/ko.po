@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
+"POT-Creation-Date: 2016-03-18 17:18+0000\n"
 "PO-Revision-Date: 2014-08-19 13:02+0000\n"
 "Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-22 06:00+0000\n"
+"X-Generator: Launchpad (build 17958)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -154,7 +154,7 @@ msgstr "프로그램에 저장하지 않은 데이터가 있을 때:"
 msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
-msgstr ""
+msgstr "다시 연결합니다. 계속 진행하려면 작업을 저장한 후 앱을 닫아주십시오."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -261,7 +261,7 @@ msgstr "설치함"
 msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
-msgstr ""
+msgstr "장치를 외부 디스플레이에 연결했습니다. 포인터를 사용하려면 화면을 터치 패드로 사용해주십시오."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -342,59 +342,59 @@ msgstr "다시 통화하려면 두드려주십시오."
 msgid "Conference"
 msgstr "회의"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:757
 msgid "Nothing is playing"
 msgstr "연주하는 항목 없음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1시간"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1분"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1초"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:898
 msgid "0 seconds"
 msgstr "0초"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 남음"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "In queue…"
 msgstr "대기 중..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Downloading"
 msgstr "다운로드 중"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Paused, tap to resume"
 msgstr "일시 중지하였습니다. 계속하려면 두드려주십시오."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Canceled"
 msgstr "취소함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 msgid "Finished"
 msgstr "완료함"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:918
 msgid "Failed, tap to retry"
 msgstr "실패, 두드리면 다시 시도합니다."
 
@@ -793,11 +793,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "부재중 번호로 전화"
-
-#~ msgid ""
-#~ "Your device is now connected to an external display. Use this screen as a "
-#~ "touch pad to interact with the mouse."
-#~ msgstr "장치를 외부 디스플레이와 연결햇습니다. 이 화면을 마우스와 상호작용 하는 터치 패드로 사용합니다."
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr "다시 도킹해 작업을 저장하고 프로그램을 닫은 후 계속합니다."

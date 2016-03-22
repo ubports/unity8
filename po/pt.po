@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
+"POT-Creation-Date: 2016-03-18 17:18+0000\n"
 "PO-Revision-Date: 2016-02-18 01:11+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:51+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-22 06:00+0000\n"
+"X-Generator: Launchpad (build 17958)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -162,6 +162,7 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Volta a conectar, guarde o seu trabalho e termine estas apps para continuar."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -173,7 +174,7 @@ msgstr "Ok, vou ligar novamente"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:76
 msgid "Reconnect now!"
-msgstr "Volte a ligar agora!"
+msgstr "Volte reconectar agora!"
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
@@ -269,6 +270,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"O seu dispositivo está agora ligado a um ecrã externo. Use este ecrã como "
+"touchpad para mover o ponteiro."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -288,7 +291,7 @@ msgstr "Desculpe, frase de acesso incorreta."
 
 #: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
 msgid "Sorry, incorrect passcode."
-msgstr "Código incorreto."
+msgstr "Desculpe, código incorreto."
 
 #: qml/Greeter/NarrowView.qml:56
 msgid "This will be your last attempt."
@@ -299,16 +302,16 @@ msgid ""
 "If passphrase is entered incorrectly, your phone will conduct a factory "
 "reset and all personal data will be deleted."
 msgstr ""
-"Se a frase de acesso for introduzida incorretamente, o seu telemóvel vai "
-"proceder ao restauro de fábrica e apagará toda a sua informação pessoal."
+"Se a palavra-passe for introduzida incorretamente, o seu telemóvel apagará "
+"toda a sua informação pessoal."
 
 #: qml/Greeter/NarrowView.qml:59
 msgid ""
 "If passcode is entered incorrectly, your phone will conduct a factory reset "
 "and all personal data will be deleted."
 msgstr ""
-"Se o código não for introduzido corretamente, todos os dados pessoais do seu "
-"telemóvel serão apagados."
+"Se o código for introduzido incorretamente, todos os dados pessoais serão "
+"apagados."
 
 #: qml/Greeter/NarrowView.qml:116
 #, qt-format
@@ -317,7 +320,7 @@ msgstr "Introduziu %1"
 
 #: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
 msgid "Enter passphrase"
-msgstr "Indique a palavra-passe"
+msgstr "Introduza a palavra-passe"
 
 #: qml/Greeter/NarrowView.qml:118
 msgid "Enter passcode"
@@ -339,7 +342,7 @@ msgstr "Por favor, volte a introduzir"
 
 #: qml/Greeter/NarrowView.qml:122
 msgid "Sorry, incorrect passcode"
-msgstr "Código incorreto"
+msgstr "Desculpe, código incorreto"
 
 #: qml/Notifications/NotificationMenuItemFactory.qml:129
 msgid "Show password"
@@ -353,62 +356,62 @@ msgstr "Toque para voltar à chamada..."
 msgid "Conference"
 msgstr "Conferência"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:757
 msgid "Nothing is playing"
 msgstr "Nada está a ser tocado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 hora"
 msgstr[1] "%1 horas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minuto"
 msgstr[1] "%1 minutos"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 segundo"
 msgstr[1] "%1 segundos"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:898
 msgid "0 seconds"
 msgstr "0 segundos"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 remaining"
 msgstr "Falta %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "In queue…"
 msgstr "Em fila..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Downloading"
 msgstr "A transferir"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Paused, tap to resume"
 msgstr "Parado, toque para continuar"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Canceled"
 msgstr "Cancelado"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 msgid "Finished"
 msgstr "Concluído"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:918
 msgid "Failed, tap to retry"
 msgstr "Falhou, toque para repetir"
 
@@ -639,7 +642,7 @@ msgstr "Concluir"
 
 #: qml/Wizard/Pages/here-terms.qml:27
 msgid "Terms & Conditions"
-msgstr "Termos e Condições"
+msgstr "Termos e condições"
 
 #: qml/Wizard/Pages/passwd-confirm.qml:49
 msgid "Confirm passphrase"
@@ -816,13 +819,3 @@ msgstr "%1  〉"
 
 #~ msgid "Loading. Please Wait..."
 #~ msgstr "A carregar. Por favor, aguarde..."
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr "Volte a ligar, guarda o seu trabalho e feche as apps para continuar."
-
-#~ msgid ""
-#~ "Your device is now connected to an external display. Use this screen as a "
-#~ "touch pad to interact with the mouse."
-#~ msgstr ""
-#~ "O dispositivo está ligado a um ecrã externo. Utilize o ecrã como touchpad "
-#~ "para manipular o ponteiro do rato."

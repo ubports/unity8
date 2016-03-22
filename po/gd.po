@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
+"POT-Creation-Date: 2016-03-18 17:18+0000\n"
 "PO-Revision-Date: 2015-07-16 10:56+0000\n"
 "Last-Translator: GunChleoc <Unknown>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:50+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-22 05:59+0000\n"
+"X-Generator: Launchpad (build 17958)\n"
 "Language: gd\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -166,6 +166,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Ath-dhocaich, sàbhail d' obair is dùin na h-aplacaidean sin gus leantainn "
+"air adhart."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -273,6 +275,9 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Tha an t-uidheam agad air a cheangal ri uidheam-taisbeanaidh air an taobh a-"
+"muigh a-nis. Cleachd an sgrìn seo 'na phada-suathaidh gus gnìomh tomhaire a "
+"dhèanamh."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -359,11 +364,11 @@ msgstr "Gnog gus tilleadh dhan ghairm..."
 msgid "Conference"
 msgstr "Gairm co-labhairt"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:757
 msgid "Nothing is playing"
 msgstr "Chan eil dad 'ga chluich"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:886
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -372,7 +377,7 @@ msgstr[1] "%1 uair a thìde"
 msgstr[2] "%1 uairean a thìde"
 msgstr[3] "%1 uair a thìde"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -381,7 +386,7 @@ msgstr[1] "%1 mhionaid"
 msgstr[2] "%1 mionaidean"
 msgstr[3] "%1 mionaid"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -390,37 +395,37 @@ msgstr[1] "%1 dhiog"
 msgstr[2] "%1 diogan"
 msgstr[3] "%1 diog"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:898
 msgid "0 seconds"
 msgstr "0 diog"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 air fhàgail"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:906
 msgid "In queue…"
 msgstr "Air a' chiudha…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "Downloading"
 msgstr "'Ga luchdadh a-nuas"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:912
 msgid "Paused, tap to resume"
 msgstr "'Na stad, thoir gnogag gus leantainn air"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Canceled"
 msgstr "Air a sgur dheth"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 msgid "Finished"
 msgstr "Coileanta"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:918
 msgid "Failed, tap to retry"
 msgstr "Dh'fhàillig leis, thoir gnogag gus feuchainn a-rithist"
 
@@ -838,16 +843,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Fònaig air ais"
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr ""
-#~ "Ath-dhocaich, sàbhail d' obair is dùin na h-aplacaidean sin gus leantainn "
-#~ "air adhart."
-
-#~ msgid ""
-#~ "Your device is now connected to an external display. Use this screen as a "
-#~ "touch pad to interact with the mouse."
-#~ msgstr ""
-#~ "Tha an t-uidheam agad air a cheangal ri uidheam-taisbeanaidh air an taobh a-"
-#~ "muigh a-nis. Cleachd an sgrìn seo 'na phada-suathaidh gus gnìomh luchaige a "
-#~ "dhèanamh."
