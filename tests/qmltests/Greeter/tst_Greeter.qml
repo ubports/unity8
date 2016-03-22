@@ -545,6 +545,7 @@ Item {
 
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
+            tryCompare(viewShowPromptSpy, "count", 1);
         }
     }
 }
