@@ -215,7 +215,6 @@ Rectangle {
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
                     checked: true
-                    color: "white"
                 }
                 ListItem.ItemSelector {
                     id: ctrlModifier
@@ -2223,6 +2222,30 @@ Rectangle {
             tap(shell, shell.width - 1, shell.height / 2);
             compare(topmostSurfaceItem.touchPressCount, 2);
             compare(topmostSurfaceItem.touchReleaseCount, 2);
+        }
+
+        function test_dragPanelToRestoreMaximizedWindow() {
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+            var panel = findChild(shell, "windowControlArea");
+            verify(panel);
+
+            var app = ApplicationManager.startApplication("dialer-app")
+            waitUntilAppWindowIsFullyLoaded(app);
+
+            // start dialer, maximize it
+            var appContainer = findChild(shell, "appContainer");
+            var appDelegate = findChild(appContainer, "appDelegate_dialer-app");
+            verify(appDelegate);
+            appDelegate.maximize();
+            tryCompare(appDelegate, "state", "maximized");
+
+            mousePress(panel);
+            mouseMove(shell, shell.width/2, shell.height/2);
+            mouseRelease(shell);
+
+            tryCompare(appDelegate, "state", "normal");
         }
     }
 }

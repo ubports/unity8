@@ -34,7 +34,6 @@ FocusScope {
 
     readonly property bool decorationShown: !fullscreen
     property bool highlightShown: false
-    property real shadowOpacity: 1
 
     property alias requestedWidth: applicationWindow.requestedWidth
     property real requestedHeight
@@ -64,16 +63,6 @@ FocusScope {
         height: units.dp(2)
         color: UbuntuColors.orange
         visible: highlightShown
-    }
-
-    BorderImage {
-        anchors {
-            fill: root
-            margins: active ? -units.gu(2) : -units.gu(1.5)
-        }
-        source: "graphics/dropshadow2gu.sci"
-        opacity: root.shadowOpacity * .3
-        enabled: !fullscreen
     }
 
     WindowDecoration {

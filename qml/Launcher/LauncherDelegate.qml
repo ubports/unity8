@@ -164,7 +164,7 @@ Item {
             }
             width: Math.min(root.itemWidth, Math.max(units.gu(2), countLabel.implicitWidth + units.gu(1)))
             height: units.gu(2)
-            backgroundColor: UbuntuColors.orange
+            backgroundColor: UbuntuColors.green
             visible: root.countVisible
             aspect: UbuntuShape.Flat
 
@@ -173,14 +173,12 @@ Item {
                 objectName: "countLabel"
                 text: root.count
                 anchors.centerIn: parent
-                // FIXME: verticalCenter seems to be off wee bit and QML doesn't have a centerLine
-                // property for Text: https://bugreports.qt-project.org/browse/QTBUG-40479
-                anchors.verticalCenterOffset: -units.dp(.5)
                 width: root.itemWidth - units.gu(1)
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: "white"
                 fontSize: "x-small"
+                font.weight: Font.Light
             }
         }
 
@@ -190,9 +188,9 @@ Item {
 
             anchors.centerIn: parent
             width: root.itemWidth * .8
-            height: units.gu(1)
+            height: units.dp(3)
             visible: root.progress > -1
-            backgroundColor: UbuntuColors.darkGrey
+            backgroundColor: "white"
             borderSource: "none"
 
             Item {
@@ -210,7 +208,7 @@ Item {
                         top: parent.top
                         bottom: parent.bottom
                     }
-                    backgroundColor: "white"
+                    backgroundColor: UbuntuColors.blue
                     borderSource: "none"
                     width: progressOverlay.width
                 }
@@ -247,18 +245,19 @@ Item {
             visible: root.itemFocused
         }
 
-        Rectangle {
+        UbuntuShape {
             objectName: "shortcutHint"
             anchors.centerIn: parent
-            width: units.gu(3)
+            width: units.gu(2)
             height: width
-            color: "#E0292929"
+            backgroundColor: Qt.rgba(17/255, 17/255, 17/255, 0.95) // #111111, 95%
             visible: root.shortcutHintShown
+            aspect: UbuntuShape.Flat
             Label {
                 anchors.centerIn: parent
                 text: (itemIndex + 1) % 10
                 color: "white"
-                font.weight: Font.DemiBold
+                font.weight: Font.Light
             }
         }
     }

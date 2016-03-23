@@ -65,7 +65,6 @@ Item {
         property bool itemDestroyed: false
         sourceComponent: Component {
             DesktopStage {
-                color: "white"
                 anchors.fill: parent
                 background: "../../../qml/graphics/tablet_background.jpg"
 
@@ -82,13 +81,13 @@ Item {
 
     Rectangle {
         id: controls
-        color: "darkgrey"
         width: units.gu(30)
         anchors {
             top: parent.top
             bottom: parent.bottom
             right: parent.right
         }
+        color: "darkgrey"
 
         Flickable {
             anchors.fill: parent
@@ -98,7 +97,6 @@ Item {
                 spacing: units.gu(1)
 
                 Button {
-                    color: "white"
                     text: "Make surface slow to resize"
                     activeFocusOnPress: false
                     onClicked: {
@@ -125,7 +123,7 @@ Item {
                     }
                 }
 
-                SurfaceManagerControls { textColor: "white" }
+                SurfaceManagerControls { }
             }
         }
     }

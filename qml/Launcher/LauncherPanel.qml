@@ -25,7 +25,7 @@ import "../Components/"
 
 Rectangle {
     id: root
-    color: "#E0292929"
+    color: Qt.rgba(17/255, 17/255, 17/255, 0.95) // #111111, 95%
 
     rotation: inverted ? 180 : 0
 
@@ -633,9 +633,10 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.8 : 0
+        opacity: quickList.state === "open" ? 0.95 : 0 // FIXME: should this have some transparency at all?
         visible: opacity > 0
         rotation: root.rotation
+        aspect: UbuntuShape.Flat
 
         Behavior on opacity {
             UbuntuNumberAnimation {}
@@ -696,7 +697,7 @@ Rectangle {
     Rectangle {
         id: quickList
         objectName: "quickList"
-        color: "#f5f5f5"
+        color: UbuntuColors.jet
         // Because we're setting left/right anchors depending on orientation, it will break the
         // width setting after rotating twice. This makes sure we also re-apply width on rotation
         width: root.inverted ? units.gu(30) : units.gu(30)
@@ -767,13 +768,9 @@ Rectangle {
             quickList.state = "open";
         }
 
-        StyledItem {
+        Item {
             width: parent.width
             height: quickListColumn.height
-
-            theme: ThemeSettings {
-                name: "Ubuntu.Components.Themes.Ambiance"
-            }
 
             Column {
                 id: quickListColumn
@@ -784,11 +781,23 @@ Rectangle {
                     id: popoverRepeater
                     model: quickList.model
 
-                    ListItems.Standard {
+                    ListItem {
                         objectName: "quickListEntry" + index
-                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
-                        highlightWhenPressed: model.clickable
                         selected: index === quickList.selectedIndex
+                        divider.colorFrom: UbuntuColors.slate
+                        divider.colorTo: UbuntuColors.slate
+                        highlightColor: !model.clickable ? quickList.color : undefined
+
+                        Label {
+                            anchors.fill: parent
+                            anchors.leftMargin: units.gu(4) // 2 GU for an optional checkmark
+                            anchors.rightMargin: units.gu(1)
+                            verticalAlignment: Label.AlignVCenter
+                            text: model.label
+                            color: model.clickable ? "white" /*theme.palette.normal.backgroundText*/ : theme.palette.normal.backgroundSecondaryText
+                            //fontSize: model.clickable && index == 0 ? "medium" : "small" // FIXME too small
+                            font.weight: index == 0 ? Font.Medium : Font.Light
+                        }
 
                         onClicked: {
                             if (!model.clickable) {

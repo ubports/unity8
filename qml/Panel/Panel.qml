@@ -101,6 +101,7 @@ Item {
         }
 
         MouseArea {
+            objectName: "windowControlArea"
             anchors {
                 top: parent.top
                 left: parent.left
@@ -110,6 +111,15 @@ Item {
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
             onDoubleClicked: PanelState.maximize()
+
+            property bool mouseWasPressed: false
+            onPressed: mouseWasPressed = containsPress
+            onExited: {
+                if (mouseWasPressed && !indicatorAreaBackground.contains(Qt.point(mouseX, mouseY))) {
+                    PanelState.maximize(); // restore the window when "dragging" the panel down
+                    mouseWasPressed = false;
+                }
+            }
 
             // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
             // cf. https://bugreports.qt.io/browse/QTBUG-32909
@@ -176,12 +186,12 @@ Item {
                 topMargin: units.gu(0.5)
                 bottomMargin: units.gu(0.5)
             }
-            color: PanelState.buttonsVisible ? "#ffffff" : "#5d5d5d"
+            color: PanelState.buttonsVisible ? "white" : UbuntuColors.slate
             height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
             visible: !windowControlButtons.visible && !root.locked && !callHint.visible
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: Font.Normal
+            font.weight: PanelState.buttonsVisible ? Font.Light : Font.Medium
             text: PanelState.title
             elide: Text.ElideRight
             maximumLineCount: 1

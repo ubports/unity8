@@ -41,7 +41,7 @@ Row {
             width: units.gu(2)
             height: units.gu(2)
             radius: height / 2
-            color: "#ed3146"
+            color: UbuntuColors.red
             visible: parent.containsMouse
         }
         Icon {
@@ -49,7 +49,7 @@ Row {
             height: parent.height *.5
             anchors.centerIn: parent
             source: "graphics/window-close.svg"
-            color: root.active ? "white" : "#5d5d5d"
+            color: root.active ? "white" : UbuntuColors.slate
             keyColor: "black"
         }
     }
@@ -67,7 +67,7 @@ Row {
             width: units.gu(2)
             height: units.gu(2)
             radius: height / 2
-            color: "#888888"
+            color: UbuntuColors.graphite
             visible: parent.containsMouse
         }
         Icon {
@@ -75,7 +75,7 @@ Row {
             height: parent.height *.5
             anchors.centerIn: parent
             source: "graphics/window-minimize.svg"
-            color: root.active ? "white" : "#5d5d5d"
+            color: root.active ? "white" : UbuntuColors.slate
             keyColor: "black"
         }
     }
@@ -93,7 +93,7 @@ Row {
             width: units.gu(2)
             height: units.gu(2)
             radius: height / 2
-            color: "#888888"
+            color: UbuntuColors.graphite
             visible: parent.containsMouse
         }
         Icon {
@@ -101,7 +101,7 @@ Row {
             height: parent.height *.5
             anchors.centerIn: parent
             source: "graphics/window-maximize.svg"
-            color: root.active ? "white" : "#5d5d5d"
+            color: root.active ? "white" : UbuntuColors.slate
             keyColor: "black"
         }
     }
