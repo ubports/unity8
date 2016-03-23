@@ -33,6 +33,8 @@ set(UnityQML_SOURCES
   fake_optionselectorfilter.cpp
   fake_optionselectoroptions.cpp
   fake_rangeinputfilter.cpp
+  fake_valuesliderfilter.cpp
+  fake_valueslidervalues.cpp
   fake_unity_plugin.cpp
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/CategoriesInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/FilterBaseInterface.h
@@ -47,6 +49,8 @@ set(UnityQML_SOURCES
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopeInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopesInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/SettingsModelInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ValueSliderFilterInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ValueSliderValuesInterface.h
 )
 
 # Workaround for gcc failure LP: #1417664
