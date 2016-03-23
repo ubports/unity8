@@ -67,7 +67,7 @@ Row {
             width: units.gu(2)
             height: units.gu(2)
             radius: height / 2
-            color: UbuntuColors.graphite
+            color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
             visible: parent.containsMouse
         }
         Icon {
@@ -93,7 +93,7 @@ Row {
             width: units.gu(2)
             height: units.gu(2)
             radius: height / 2
-            color: UbuntuColors.graphite
+            color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
             visible: parent.containsMouse
         }
         Icon {
