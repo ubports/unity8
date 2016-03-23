@@ -202,51 +202,43 @@ Item {
                             left: parent.left
                             bottom: parent.bottom
                             bottomMargin: units.gu(1)
-                            right: cancelLabel.left
-                            rightMargin: units.gu(1)
+                            right: settingsButton.left
+                            rightMargin: settingsButton.visible ? 0 : units.gu(2)
                         }
 
-                        readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
-
-                        primaryItem: Label {
-                            text: root.navigationTag
+                        primaryItem: Rectangle {
+                            color: "#F5F4F5"
+                            width: root.navigationTag != "" ? tagLabel.width + units.gu(2) : 0
+                            height: root.navigationTag != "" ? tagLabel.height + units.gu(1) : 0
+                            radius: units.gu(0.5)
+                            Label {
+                                id: tagLabel
+                                text: root.navigationTag
+                                anchors.centerIn: parent
+                                color: "#333333"
+                            }
                         }
 
-                        secondaryItem: Row {
+                        secondaryItem: AbstractButton {
+                            id: clearButton
                             height: searchTextField.height
+                            width: height
+                            enabled: searchTextField.text.length > 0 || root.navigationTag != ""
 
-                            AbstractButton {
-                                id: clearOrSettingsButton
-                                height: parent.height
-                                width: height
-                                enabled: searchTextField.text.length > 0 || root.navigationTag != ""
-
-                                Image {
-                                    objectName: "clearIcon"
-                                    anchors.fill: parent
-                                    anchors.margins: units.gu(.75)
-                                    source: searchTextField.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
-                                    opacity: parent.enabled
-                                    visible: opacity > 0
-                                    Behavior on opacity {
-                                        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
-                                    }
-                                }
-
-                                onClicked: {
-                                    if (searchTextField.clearIsSettings) {
-                                        root.showFiltersPopup(clearOrSettingsButton);
-                                    } else {
-                                        root.clearSearch(true);
-                                    }
+                            Image {
+                                objectName: "clearIcon"
+                                anchors.fill: parent
+                                anchors.margins: units.gu(1)
+                                source: "image://theme/clear"
+                                opacity: parent.enabled
+                                visible: opacity > 0
+                                Behavior on opacity {
+                                    UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
                                 }
                             }
 
-                            Label {
-                                visible: searchTextField.clearIsSettings && root.activeFiltersCount > 0
-                                height: parent.height
-                                text: root.activeFiltersCount
-                                verticalAlignment: Text.AlignVCenter
+                            onClicked: {
+                                root.clearSearch(true);
                             }
                         }
 
@@ -264,22 +256,52 @@ Item {
                         }
                     }
 
-                    Label {
-                        id: cancelLabel
-                        text: i18n.tr("Cancel")
-                        color: header.panelForegroundColor
-                        verticalAlignment: Text.AlignVCenter
+                    AbstractButton {
+                        id: settingsButton
+
+                        width: root.scopeHasFilters ? height : 0
+                        visible: width > 0
+                        anchors {
+                            top: parent.top
+                            right: cancelButton.left
+                            bottom: parent.bottom
+                            rightMargin: units.gu(-1)
+                        }
+
+                        Icon {
+                            anchors.fill: parent
+                            anchors.margins: units.gu(2)
+                            name: "filters"
+                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : Qt.rgba(0.0, 0.0, 0.0, 0.0)
+                        }
+
+                        onClicked: {
+                            root.showFiltersPopup(settingsButton);
+                        }
+                    }
+
+                    AbstractButton {
+                        id: cancelButton
+                        width: cancelLabel.width + cancelLabel.anchors.rightMargin + cancelLabel.anchors.leftMargin
                         anchors {
                             top: parent.top
                             right: parent.right
                             bottom: parent.bottom
-                            margins: units.gu(1)
                         }
-                        AbstractButton {
-                            anchors.fill: parent
-                            onClicked: {
-                                root.clearSearch(false);
-                                headerContainer.showSearch = false;
+                        onClicked: {
+                            root.clearSearch(false);
+                            headerContainer.showSearch = false;
+                        }
+                        Label {
+                            id: cancelLabel
+                            text: i18n.tr("Cancel")
+                            color: header.panelForegroundColor
+                            verticalAlignment: Text.AlignVCenter
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                right: parent.right
+                                rightMargin: units.gu(2)
+                                leftMargin: units.gu(1)
                             }
                         }
                     }

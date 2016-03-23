@@ -651,6 +651,7 @@ FocusScope {
                 }
             }
             onShowFiltersPopup: { // item
+                extraPanel.visible = false;
                 scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
             }
         }
@@ -668,7 +669,6 @@ FocusScope {
 
             searchHistory: SearchHistoryModel
             scope: scopeView.scope
-            scopeStyle: scopeView.scopeStyle
             windowHeight: scopeView.height
 
             onHistoryItemClicked: {

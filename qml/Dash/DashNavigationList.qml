@@ -16,16 +16,12 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
 import "../Components"
 
 Item {
     id: root
-    property real itemsIndent: 0
     property var navigation: null
     property var currentNavigation: null
-    property var scopeStyle: null
-    property color foregroundColor: theme.palette.normal.baseText
     signal enterNavigation(var newNavigationId, string newNavigationLabel, bool hasChildren)
 
     readonly property int itemHeight: units.gu(5)
@@ -56,27 +52,42 @@ Item {
             Repeater {
                 model: navigation && navigation.loaded ? navigation : null
                 clip: true
-                delegate: ListItem.Standard {
+                delegate: ListItem {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
-                    showDivider: index != navigation.count - 1
-                    selected: isActive
-                    anchors.left: parent.left
-                    anchors.leftMargin: itemsIndent
-                    anchors.right: parent.right
+                    width: column.width
+                    anchors {
+                        left: column.left
+                        right: column.right
+                        leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
+                    }
 
                     onClicked: root.enterNavigation(navigationId, allLabel != "" ? allLabel : label, hasChildren)
+
+                    Icon {
+                        id: leftIcon
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            left: parent.left
+                        }
+                        height: units.gu(2)
+                        width: height
+                        name: "tick"
+                        color: "#3EB34F"
+                        visible: isActive
+                    }
 
                     Label {
                         anchors {
                             verticalCenter: parent.verticalCenter
-                            left: parent.left
-                            leftMargin: itemsIndent > 0 ? 0 : units.gu(2)
-                            right: rightIcon.visible ? rightIcon.left : parent.right
-                            rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
+                            left: leftIcon.right
+                            leftMargin: units.gu(1)
+                            right: rightIcon.left
+                            rightMargin: units.gu(2)
                         }
                         text: label
-                        color: root.foregroundColor
+                        color: isActive ? "#333333" : "#888888"
                         wrapMode: Text.Wrap
                         maximumLineCount: 2
                         elide: Text.ElideMiddle
@@ -87,14 +98,14 @@ Item {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
-                            rightMargin: units.gu(2)
                         }
                         height: units.gu(2)
                         width: height
-                        name: hasChildren ? "go-next" : "tick"
-                        color: root.foregroundColor
-                        visible: hasChildren || isActive
+                        name: "go-next"
+                        visible: hasChildren
                     }
+
+                    divider.visible: index != navigation.count - 1
                 }
             }
         }

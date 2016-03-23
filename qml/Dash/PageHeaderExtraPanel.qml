@@ -16,20 +16,19 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import "Filters" as Filters
 
 Item {
     id: root
 
-    readonly property real searchesHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.margins : 0
+    readonly property real searchesHeight: recentSearchesRepeater.count > 0 ? searchColumn.height + recentSearchesLabels.height + recentSearchesLabels.anchors.topMargin : 0
 
-    implicitHeight: searchesHeight + dashNavigation.implicitHeight + primaryFilter.height
+    implicitHeight: searchesHeight + dashNavigation.implicitHeight + dashNavigation.anchors.topMargin + primaryFilter.height + primaryFilter.anchors.topMargin
 
     // Set by parent
     property ListModel searchHistory
     property var scope: null
-    property var scopeStyle: null
     property real windowHeight
 
     // Used by PageHeader
@@ -47,6 +46,10 @@ Item {
         anchors.fill: parent
     }
 
+    ListItems.ThinDivider {
+        anchors.top: parent.top
+    }
+
     Label {
         id: recentSearchesLabels
         text: i18n.tr("Recent Searches")
@@ -54,7 +57,8 @@ Item {
         anchors {
             top: parent.top
             left: parent.left
-            margins: units.gu(1)
+            margins: units.gu(2)
+            topMargin: units.gu(3)
         }
     }
 
@@ -65,7 +69,8 @@ Item {
         anchors {
             top: parent.top
             right: parent.right
-            margins: units.gu(1)
+            margins: units.gu(2)
+            topMargin: units.gu(3)
         }
 
         AbstractButton {
@@ -87,13 +92,40 @@ Item {
             objectName: "recentSearchesRepeater"
             model: searchHistory
 
-            delegate: Standard {
-                showDivider: index < recentSearchesRepeater.count - 1
-                height: units.gu(4)
-                text: query
-                iconName: "search"
-                iconFrame: false
-                onClicked: root.historyItemClicked(text)
+            delegate: ListItem {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    leftMargin: units.gu(2)
+                    rightMargin: units.gu(2)
+                }
+                height: units.gu(5)
+
+                Icon {
+                    id: searchIcon
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                    }
+                    height: units.gu(1.5)
+                    width: height
+                    name: "search"
+                }
+
+                Label {
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: searchIcon.right
+                        leftMargin: units.gu(1)
+                        right: parent.right
+                    }
+                    text: query
+                    color: "#888888"
+                }
+
+                divider.visible: index != repeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
+
+                onClicked: root.historyItemClicked(query)
             }
         }
     }
@@ -103,10 +135,10 @@ Item {
         scope: root.scope
         anchors {
             top: recentSearchesRepeater.count > 0 ? searchColumn.bottom : parent.top
+            topMargin: implicitHeight && recentSearchesRepeater.count > 0 ? units.gu(2) : 0
             left: parent.left
             right: parent.right
         }
-        scopeStyle: root.scopeStyle
         availableHeight: windowHeight * 4 / 6 - searchesHeight
 
         onLeafClicked: root.dashNavigationLeafClicked();
@@ -120,6 +152,7 @@ Item {
 
         anchors {
             top: recentSearchesRepeater.count > 0 ? searchColumn.bottom : parent.top
+            topMargin: active && recentSearchesRepeater.count > 0 ? units.gu(2) : 0
             left: parent.left
             right: parent.right
         }
