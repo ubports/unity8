@@ -21,6 +21,7 @@
 
 #include "fake_filters.h"
 #include "fake_navigation.h"
+#include "fake_optionselectorfilter.h"
 #include "fake_resultsmodel.h"
 #include "fake_scopes.h"
 #include "fake_settingsmodel.h"
@@ -38,6 +39,8 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_searching(false)
     , m_favorite(favorite)
     , m_isActive(false)
+    , m_hasNavigation(true)
+    , m_hasPrimaryFilter(true)
     , m_currentNavigationId("root")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
@@ -46,6 +49,8 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
 {
+    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
+    connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
 }
 
 QString Scope::id() const
@@ -230,7 +235,13 @@ QString Scope::currentNavigationId() const
 
 bool Scope::hasNavigation() const
 {
-    return true;
+    return m_hasNavigation;
+}
+
+void Scope::setHasNavigation(bool hasNavigation)
+{
+    m_hasNavigation = hasNavigation;
+    Q_EMIT hasNavigationChanged();
 }
 
 Scope::Status Scope::status() const
@@ -303,7 +314,7 @@ void Scope::setNavigationState(const QString &navigationId)
 
 unity::shell::scopes::FilterBaseInterface* Scope::primaryNavigationFilter() const
 {
-    return nullptr;
+    return m_hasPrimaryFilter ? m_primaryNavigationFilter : nullptr;
 }
 
 unity::shell::scopes::FiltersInterface* Scope::filters() const
@@ -321,8 +332,7 @@ QString Scope::primaryNavigationTag() const
 
 int Scope::activeFiltersCount() const
 {
-    // TODO
-    return 0;
+    return m_filters->activeFiltersCount();
 }
 
 void Scope::resetPrimaryNavigationTag()
@@ -330,6 +340,12 @@ void Scope::resetPrimaryNavigationTag()
     if (m_currentNavigationId != "root") {
         setNavigationState("root");
     }
+}
+
+void Scope::setHasPrimaryFilter(bool hasPrimaryFilter)
+{
+    m_hasPrimaryFilter = hasPrimaryFilter;
+    Q_EMIT primaryNavigationFilterChanged();
 }
 
 void Scope::performQuery(const QString& query)

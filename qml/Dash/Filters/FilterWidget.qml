@@ -14,33 +14,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FAKE_FILTERS_H
-#define FAKE_FILTERS_H
+import QtQuick 2.4
 
-#include <unity/shell/scopes/FiltersInterface.h>
+/*! Interface for filter widgets. */
 
-class Scope;
-class FakeOptionSelectorFilter;
+Item {
+    //! The widget identifier
+    property string widgetId
 
-class Filters : public unity::shell::scopes::FiltersInterface
-{
-    Q_OBJECT
+    //! Variable used to contain widget's data
+    property var widgetData
 
-public:
-    Filters(Scope* parent);
-
-    int rowCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-
-    int activeFiltersCount() const;
-
-Q_SIGNALS:
-    void activeFiltersCountChanged();
-
-private:
-    void addFilter(FakeOptionSelectorFilter* f);
-
-    QVector<FakeOptionSelectorFilter*> m_filters;
-};
-
-#endif
+    objectName: widgetId
+}

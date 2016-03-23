@@ -22,9 +22,14 @@
 Filters::Filters(Scope* parent)
  : unity::shell::scopes::FiltersInterface(parent)
 {
-    auto optionFilter1 = new FakeOptionSelectorFilter("OSF1", "Tag1", "Which Cake you like More", false, QStringList() << "cheese" << "carrot" << "chocolate", this);
-    auto optionFilter2 = new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this);
-    m_filters << optionFilter1 << optionFilter2;
+    addFilter(new FakeOptionSelectorFilter("OSF1", "Tag1", "Which Cake you like More", false, QStringList() << "cheese" << "carrot" << "chocolate", this));
+    addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
+}
+
+void Filters::addFilter(FakeOptionSelectorFilter *f)
+{
+    connect(f, &FakeOptionSelectorFilter::isActiveChanged, this, &Filters::activeFiltersCountChanged);
+    m_filters << f;
 }
 
 int Filters::rowCount(const QModelIndex &parent) const
@@ -53,4 +58,13 @@ QVariant Filters::data(const QModelIndex &index, int role) const
         default:
             return QVariant();
     }
+}
+
+int Filters::activeFiltersCount() const
+{
+    int active = 0;
+    Q_FOREACH(FakeOptionSelectorFilter *f, m_filters) {
+        if (f->isActive()) ++active;
+    }
+    return active;
 }

@@ -19,6 +19,8 @@
 
 #include <unity/shell/scopes/OptionSelectorFilterInterface.h>
 
+class FakeOptionSelectorOptions;
+
 class FakeOptionSelectorFilter : public unity::shell::scopes::OptionSelectorFilterInterface
 {
     Q_OBJECT
@@ -33,13 +35,18 @@ public:
     bool multiSelect() const override;
     unity::shell::scopes::OptionSelectorOptionsInterface* options() const override;
 
+    bool isActive() const;
+
+Q_SIGNALS:
+    void isActiveChanged();
+
 private:
     QString m_filterId;
     QString m_filterTag;
     QString m_title;
     QString m_label;
     bool m_multiSelect;
-    unity::shell::scopes::OptionSelectorOptionsInterface* m_options;
+    FakeOptionSelectorOptions* m_options;
 };
 
 #endif

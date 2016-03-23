@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import "../Components/SearchHistoryModel"
 import Utils 0.1
 import Unity 0.2
@@ -42,6 +43,7 @@ FocusScope {
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
     property var holdingList: null
     property bool wasCurrentOnMoveStart: false
+    property var filtersPopover: null
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
@@ -121,6 +123,10 @@ FocusScope {
         }
         categoryView.pageHeader.resetSearch();
         subPageLoader.closeSubPage();
+        if (filtersPopover) {
+            PopupUtils.close(filtersPopover)
+            scopeView.filtersPopover = null;
+        }
     }
 
     Binding {
@@ -619,6 +625,8 @@ FocusScope {
             extraPanel: peExtraPanel
             searchHistory: SearchHistoryModel
             searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
+            scopeHasFilters: scopeView.scope.filters != null
+            activeFiltersCount: scopeView.scope.activeFiltersCount
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
@@ -641,6 +649,9 @@ FocusScope {
                 if ((panelOpen || searchHistory.count > 0) && keepPanelOpen) {
                     openPopup();
                 }
+            }
+            onShowFiltersPopup: { // item
+                scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
             }
         }
 

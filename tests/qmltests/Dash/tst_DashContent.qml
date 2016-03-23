@@ -513,6 +513,52 @@ Item {
             tryCompare(peExtraPanel, "visible", true);
         }
 
+        function test_navigationShowFilterButton() {
+            goToSecondLevel();
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
+
+            verify(!searchTextField.focus)
+            verify(searchTextField.clearIsSettings)
+
+            mouseClick(searchTextField)
+
+            verify(searchTextField.focus)
+            verify(!searchTextField.clearIsSettings)
+        }
+
+        function test_navigationShowFilterPopup() {
+            goToSecondLevel();
+
+            var dashContentList = findChild(dashContent, "dashContentList");
+            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
+            var clearIcon = findChild(searchTextField, "clearIcon");
+
+            var filtersPopover = findChild(shell, "filtersPopover")
+            verify(!filtersPopover);
+
+            mouseClick(clearIcon);
+
+            filtersPopover = findChild(shell, "filtersPopover")
+
+            verify(filtersPopover);
+        }
+
+        function test_primaryFilter() {
+            var dashContentList = findChild(dashContent, "dashContentList");
+            tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
+            dashContentList.currentItem.item.scope.setHasNavigation(false);
+            var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
+            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
+
+            compare(peExtraPanel.visible, false);
+            mouseClick(searchButton);
+            tryCompare(peExtraPanel, "visible", true);
+
+            tryCompareFunction(function() { return findChild(peExtraPanel, "OSF3") != null; }, true);
+        }
+
         function test_searchHint() {
             var dashContentList = findChild(dashContent, "dashContentList");
             verify(dashContentList !== null);

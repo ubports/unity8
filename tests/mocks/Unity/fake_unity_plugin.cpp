@@ -22,7 +22,9 @@
 // local
 #include "fake_scopes.h"
 #include "fake_categories.h"
+#include "fake_filters.h"
 #include "fake_navigation.h"
+#include "fake_optionselectoroptions.h"
 #include "fake_previewmodel.h"
 #include "fake_previewwidgetmodel.h"
 #include "fake_resultsmodel.h"
@@ -52,4 +54,7 @@ void FakeUnityPlugin::registerTypes(const char *uri)
     qmlRegisterType<ResultsModel>(uri, 0, 2, "FakeResultsModel");
     qmlRegisterType<PreviewModel>(uri, 0, 2, "FakePreviewModel");
     qmlRegisterUncreatableType<PreviewWidgetModel>(uri, 0, 2, "PreviewWidgetModel", "Can't create new PreviewWidgetModel in QML. Get them from PreviewModel instance.");
+    qmlRegisterUncreatableType<unity::shell::scopes::FiltersInterface>(uri, 0, 2, "Filters", "Can't create Filters object in QML. Get them from Scope instance.");
+    qmlRegisterUncreatableType<unity::shell::scopes::FilterBaseInterface>(uri, 0, 2, "Filter", "Can't create Filter object in QML. Get them from Scope instance.");
+    qmlRegisterUncreatableType<unity::shell::scopes::OptionSelectorOptionsInterface>(uri, 0, 2, "OptionSelectorOptions", "Can't create Filters object in QML. Get them from OptionSelector instance.");
 }

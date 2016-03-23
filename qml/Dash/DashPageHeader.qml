@@ -17,7 +17,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Themes.Ambiance 1.3
-import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
 import "../Components"
 
@@ -27,6 +26,8 @@ Item {
     implicitHeight: headerContainer.height + signatureLineHeight
     readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
 
+    property int activeFiltersCount: 0
+    property bool scopeHasFilters: false
     property bool showBackButton: false
     property bool backIsClose: false
     property string title
@@ -54,6 +55,7 @@ Item {
     signal settingsClicked()
     signal favoriteClicked()
     signal searchTextFieldFocused()
+    signal showFiltersPopup(var item)
 
     onScopeStyleChanged: refreshLogo()
     onSearchQueryChanged: {
@@ -204,29 +206,47 @@ Item {
                             rightMargin: units.gu(1)
                         }
 
+                        readonly property bool clearIsSettings: !searchTextField.focus && root.scopeHasFilters
+
                         primaryItem: Label {
                             text: root.navigationTag
                         }
 
-                        secondaryItem: AbstractButton {
+                        secondaryItem: Row {
                             height: searchTextField.height
-                            width: height
-                            enabled: searchTextField.text.length > 0 || root.navigationTag != ""
 
-                            Image {
-                                objectName: "clearIcon"
-                                anchors.fill: parent
-                                anchors.margins: units.gu(.75)
-                                source: "image://theme/clear"
-                                opacity: parent.enabled
-                                visible: opacity > 0
-                                Behavior on opacity {
-                                    UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                            AbstractButton {
+                                id: clearOrSettingsButton
+                                height: parent.height
+                                width: height
+                                enabled: searchTextField.text.length > 0 || root.navigationTag != ""
+
+                                Image {
+                                    objectName: "clearIcon"
+                                    anchors.fill: parent
+                                    anchors.margins: units.gu(.75)
+                                    source: searchTextField.clearIsSettings ? "image://theme/settings" : "image://theme/clear"
+                                    opacity: parent.enabled
+                                    visible: opacity > 0
+                                    Behavior on opacity {
+                                        UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                                    }
+                                }
+
+                                onClicked: {
+                                    if (searchTextField.clearIsSettings) {
+                                        root.showFiltersPopup(clearOrSettingsButton);
+                                    } else {
+                                        root.clearSearch(true);
+                                    }
                                 }
                             }
 
-                            onClicked: {
-                                root.clearSearch(true);
+                            Label {
+                                visible: searchTextField.clearIsSettings && root.activeFiltersCount > 0
+                                height: parent.height
+                                text: root.activeFiltersCount
+                                verticalAlignment: Text.AlignVCenter
                             }
                         }
 

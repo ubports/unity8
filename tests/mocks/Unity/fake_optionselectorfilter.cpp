@@ -26,6 +26,7 @@ FakeOptionSelectorFilter::FakeOptionSelectorFilter(const QString &id, const QStr
    m_multiSelect(multiselect)
 {
     m_options = new FakeOptionSelectorOptions(optionLabels, this);
+    connect(m_options, &FakeOptionSelectorOptions::anyCheckedChanged, this, &FakeOptionSelectorFilter::isActiveChanged);
 }
 
 QString FakeOptionSelectorFilter::filterId() const
@@ -56,4 +57,9 @@ bool FakeOptionSelectorFilter::multiSelect() const
 unity::shell::scopes::OptionSelectorOptionsInterface* FakeOptionSelectorFilter::options() const
 {
     return m_options;
+}
+
+bool FakeOptionSelectorFilter::isActive() const
+{
+    return m_options->anyChecked();
 }

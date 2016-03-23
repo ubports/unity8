@@ -34,6 +34,11 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     Q_INVOKABLE void setChecked(int index, bool checked) override;
 
+    bool anyChecked() const;
+
+Q_SIGNALS:
+    void anyCheckedChanged();
+
 private:
     QStringList m_optionLabels;
     QSet<int> m_checkedIndexes;
