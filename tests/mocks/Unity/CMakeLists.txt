@@ -32,6 +32,7 @@ set(UnityQML_SOURCES
   fake_filters.cpp
   fake_optionselectorfilter.cpp
   fake_optionselectoroptions.cpp
+  fake_rangeinputfilter.cpp
   fake_unity_plugin.cpp
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/CategoriesInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/FilterBaseInterface.h
@@ -41,6 +42,7 @@ set(UnityQML_SOURCES
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/OptionSelectorOptionsInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewWidgetModelInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/RangeInputFilterInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ResultsModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopeInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ScopesInterface.h

@@ -23,7 +23,7 @@ Item {
     property string widgetId
 
     //! Variable used to contain widget's data
-    property var widgetData
+    property var widgetData: null
 
     objectName: widgetId
 }

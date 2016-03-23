@@ -15,13 +15,13 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Unity 0.2
 
 //! \brief This component loads the widgets based on widgetType.
 
-Loader {
+Item {
     id: root
-
     //! Identifier of the widget.
     property string widgetId: ""
 
@@ -31,19 +31,48 @@ Loader {
     //! Widget data, forwarded to the widget as is.
     property var widgetData: null
 
-    source: widgetSource
+    implicitHeight: title.height + title.anchors.topMargin + loader.height
 
-    //! \cond private
-    readonly property url widgetSource: {
-        switch (widgetType) {
-            case Filters.OptionSelectorFilter: return "FilterOptionSelector.qml";
-            default: return "";
+    Label {
+        id: title
+        text: widgetData ? widgetData.title : ""
+        height: text != "" ? implicitHeight : 0
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+
+            topMargin: height > 0 ? units.gu(1) : 0
+            leftMargin: units.gu(2)
+            rightMargin: anchors.leftMargin
         }
     }
-    //! \endcond
 
-    onLoaded: {
-        item.widgetId = Qt.binding(function() { return root.widgetId } )
-        item.widgetData = Qt.binding(function() { return root.widgetData } )
+    property alias active: loader.active
+
+    Loader {
+        id: loader
+
+        anchors {
+            top: title.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        source: widgetSource
+
+        readonly property url widgetSource: {
+            switch (widgetType) {
+                case Filters.OptionSelectorFilter: return "FilterOptionSelector.qml";
+                case Filters.RangeInputFilter: return "FilterRangeInput.qml";
+                default: return "";
+            }
+        }
+
+        onLoaded: {
+            item.widgetId = Qt.binding(function() { return root.widgetId } )
+            item.widgetData = Qt.binding(function() { return root.widgetData } )
+        }
     }
 }

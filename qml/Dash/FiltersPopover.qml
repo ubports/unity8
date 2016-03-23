@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import "Filters" as Filters
 
 Popover {
@@ -83,6 +84,7 @@ Popover {
             }
 
             Repeater {
+                id: repeater
                 model: scopeView.scope.filters
 
                 delegate: Filters.FilterWidgetFactory {
@@ -91,6 +93,11 @@ Popover {
                     widgetId: id
                     widgetType: type
                     widgetData: filter
+
+                    ListItems.ThinDivider {
+                        anchors.bottom: parent.bottom
+                        visible: index != repeater.count - 1
+                    }
                 }
             }
         }

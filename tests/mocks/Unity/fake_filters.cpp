@@ -17,18 +17,42 @@
 #include "fake_filters.h"
 
 #include "fake_optionselectorfilter.h"
+#include "fake_rangeinputfilter.h"
 #include "fake_scope.h"
 
 Filters::Filters(Scope* parent)
  : unity::shell::scopes::FiltersInterface(parent)
 {
     addFilter(new FakeOptionSelectorFilter("OSF1", "Tag1", "Which Cake you like More", false, QStringList() << "cheese" << "carrot" << "chocolate", this));
+
+    FakeRangeInputFilter *rif = new FakeRangeInputFilter("RIF1", "Tag3", this);
+    rif->setTitle("How much do you want to walk?");
+    rif->setCentralLabel("to");
+    rif->setStartPostfixLabel("m");
+    rif->setEndPostfixLabel("m");
+    addFilter(rif);
+
     addFilter(new FakeOptionSelectorFilter("OSF2", "Tag2", "Which Countries have you been to?", true, QStringList() << "Germany" << "UK" << "New Zealand", this));
 }
 
-void Filters::addFilter(FakeOptionSelectorFilter *f)
+void Filters::addFilter(unity::shell::scopes::FilterBaseInterface *f)
 {
-    connect(f, &FakeOptionSelectorFilter::isActiveChanged, this, &Filters::activeFiltersCountChanged);
+    switch (f->filterType()) {
+        case  FiltersInterface::OptionSelectorFilter: {
+            FakeOptionSelectorFilter *osf = static_cast<FakeOptionSelectorFilter *>(f);
+            connect(osf, &FakeOptionSelectorFilter::isActiveChanged, this, &Filters::activeFiltersCountChanged);
+        }
+        break;
+
+        case  FiltersInterface::RangeInputFilter: {
+            FakeRangeInputFilter *rif = static_cast<FakeRangeInputFilter *>(f);
+            connect(rif, &FakeRangeInputFilter::isActiveChanged, this, &Filters::activeFiltersCountChanged);
+        }
+        break;
+
+        case Invalid:
+        break;
+    }
     m_filters << f;
 }
 
@@ -63,8 +87,23 @@ QVariant Filters::data(const QModelIndex &index, int role) const
 int Filters::activeFiltersCount() const
 {
     int active = 0;
-    Q_FOREACH(FakeOptionSelectorFilter *f, m_filters) {
-        if (f->isActive()) ++active;
+    Q_FOREACH(unity::shell::scopes::FilterBaseInterface *f, m_filters) {
+        switch (f->filterType()) {
+            case  FiltersInterface::OptionSelectorFilter: {
+                FakeOptionSelectorFilter *osf = static_cast<FakeOptionSelectorFilter *>(f);
+                if (osf->isActive()) ++active;
+            }
+            break;
+
+            case  FiltersInterface::RangeInputFilter: {
+                FakeRangeInputFilter *rif = static_cast<FakeRangeInputFilter *>(f);
+                if (rif->isActive()) ++active;
+            }
+            break;
+
+            case Invalid:
+            break;
+        }
     }
     return active;
 }
