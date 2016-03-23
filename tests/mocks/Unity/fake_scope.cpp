@@ -298,6 +298,7 @@ void Scope::setNavigationState(const QString &navigationId)
 {
     m_currentNavigationId = navigationId;
     Q_EMIT currentNavigationIdChanged();
+    Q_EMIT primaryNavigationTagChanged();
 }
 
 unity::shell::scopes::FilterBaseInterface* Scope::primaryNavigationFilter() const
@@ -312,8 +313,10 @@ unity::shell::scopes::FiltersInterface* Scope::filters() const
 
 QString Scope::primaryNavigationTag() const
 {
-    // TODO
-    return QString();
+    if (m_currentNavigationId == "root")
+        return QString();
+    else
+        return const_cast<Scope*>(this)->getNavigation(m_currentNavigationId)->label();
 }
 
 int Scope::activeFiltersCount() const
@@ -324,6 +327,9 @@ int Scope::activeFiltersCount() const
 
 void Scope::resetPrimaryNavigationTag()
 {
+    if (m_currentNavigationId != "root") {
+        setNavigationState("root");
+    }
 }
 
 void Scope::performQuery(const QString& query)

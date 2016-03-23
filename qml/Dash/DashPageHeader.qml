@@ -20,33 +20,35 @@ import Ubuntu.Components.Themes.Ambiance 1.3
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Components.ListItems 1.3
 import "../Components"
-import "../Components/SearchHistoryModel"
 
 Item {
     id: root
     objectName: "pageHeader"
-    implicitHeight: headerContainer.height + bottomContainer.height + (showSignatureLine ? units.gu(2) : 0)
+    implicitHeight: headerContainer.height + signatureLineHeight
+    readonly property real signatureLineHeight: showSignatureLine ? units.gu(2) : 0
 
     property bool showBackButton: false
     property bool backIsClose: false
     property string title
+    property var extraPanel
+    property string navigationTag
 
     property bool storeEntryEnabled: false
     property bool searchEntryEnabled: false
     property bool settingsEnabled: false
     property bool favoriteEnabled: false
     property bool favorite: false
-    property ListModel searchHistory: SearchHistoryModel
+    property ListModel searchHistory
     property alias searchQuery: searchTextField.text
     property alias searchHint: searchTextField.placeholderText
     property bool showSignatureLine: true
 
-    property alias bottomItem: bottomContainer.children
     property int paginationCount: 0
     property int paginationIndex: -1
 
     property var scopeStyle: null
 
+    signal clearSearch(bool keepPanelOpen)
     signal backClicked()
     signal storeClicked()
     signal settingsClicked()
@@ -60,6 +62,12 @@ Item {
             headerContainer.showSearch = true;
         }
     }
+    onNavigationTagChanged: {
+        // Make sure we are at the search page if the navigation tag changes behind our feet
+        if (navigationTag) {
+            headerContainer.showSearch = true;
+        }
+    }
 
     function triggerSearch() {
         if (searchEntryEnabled) {
@@ -69,11 +77,13 @@ Item {
     }
 
     function closePopup(keepFocus) {
-        if (headerContainer.popover != null) {
-            headerContainer.popover.unfocusOnDestruction = !keepFocus;
-            PopupUtils.close(headerContainer.popover);
+        if (extraPanel.visible) {
+            extraPanel.visible = false;
         } else if (!keepFocus) {
             unfocus();
+        }
+        if (!searchTextField.text && !root.navigationTag && searchHistory.count == 0) {
+            headerContainer.showSearch = false;
         }
     }
 
@@ -87,22 +97,17 @@ Item {
 
     function unfocus() {
         searchTextField.focus = false;
-        if (!searchTextField.text) {
+        if (!searchTextField.text && !root.navigationTag) {
             headerContainer.showSearch = false;
         }
     }
 
-    function openSearchHistory() {
+    function openPopup() {
         if (openSearchAnimation.running) {
-            openSearchAnimation.openSearchHistory = true;
-        } else if (root.searchHistory.count > 0 && headerContainer.popover == null) {
-            headerContainer.popover = PopupUtils.open(popoverComponent, searchTextField,
-                                                      {
-                                                          "contentWidth": searchTextField.width,
-                                                          "edgeMargins": units.gu(1)
-                                                      }
-                                                     );
-            searchTextField.forceActiveFocus();
+            openSearchAnimation.openPopup = true;
+        } else if (extraPanel.hasContents) {
+            // Show extraPanel
+            extraPanel.visible = true;
         }
     }
 
@@ -121,13 +126,11 @@ Item {
     }
 
     InverseMouseArea {
-        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + bottomContainer.height }
+        anchors { fill: parent; margins: units.gu(1); bottomMargin: units.gu(3) + (extraPanel ? extraPanel.height : 0) }
         visible: headerContainer.showSearch
         onPressed: {
+            extraPanel.visible = false;
             closePopup(/* keepFocus */false);
-            if (!searchTextField.text) {
-                headerContainer.showSearch = false;
-            }
             mouse.accepted = false;
         }
     }
@@ -143,7 +146,6 @@ Item {
         contentY: showSearch ? 0 : height
 
         property bool showSearch: false
-        property var popover: null
 
         Background {
             id: background
@@ -154,12 +156,12 @@ Item {
         Behavior on contentY {
             UbuntuNumberAnimation {
                 id: openSearchAnimation
-                property bool openSearchHistory: false
+                property bool openPopup: false
 
                 onRunningChanged: {
-                    if (!running && openSearchAnimation.openSearchHistory) {
-                        openSearchAnimation.openSearchHistory = false;
-                        root.openSearchHistory();
+                    if (!running && openSearchAnimation.openPopup) {
+                        openSearchAnimation.openPopup = false;
+                        root.openPopup();
                     }
                 }
             }
@@ -183,60 +185,82 @@ Item {
                 backgroundColor: "transparent"
                 config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
-                    backAction: Action {
-                        iconName: "back"
-                        onTriggered: {
-                            root.resetSearch();
-                            headerContainer.showSearch = false;
-                        }
-                    }
                 }
-                property var contents: TextField {
-                    id: searchTextField
-                    objectName: "searchTextField"
-                    inputMethodHints: Qt.ImhNoPredictiveText
-                    hasClearButton: false
-                    anchors {
-                        fill: parent
-                        leftMargin: units.gu(1)
-                        topMargin: units.gu(1)
-                        bottomMargin: units.gu(1)
-                        rightMargin: root.width > units.gu(60) ? root.width - units.gu(40) : units.gu(1)
-                    }
+                property var contents: Item {
+                    anchors.fill: parent
 
-                    secondaryItem: AbstractButton {
-                        height: searchTextField.height
-                        width: height
-                        enabled: searchTextField.text.length > 0
+                    TextField {
+                        id: searchTextField
+                        objectName: "searchTextField"
+                        inputMethodHints: Qt.ImhNoPredictiveText
+                        hasClearButton: false
+                        anchors {
+                            top: parent.top
+                            topMargin: units.gu(1)
+                            left: parent.left
+                            bottom: parent.bottom
+                            bottomMargin: units.gu(1)
+                            right: cancelLabel.left
+                            rightMargin: units.gu(1)
+                        }
 
-                        Image {
-                            objectName: "clearIcon"
-                            anchors.fill: parent
-                            anchors.margins: units.gu(.75)
-                            source: "image://theme/clear"
-                            opacity: searchTextField.text.length > 0
-                            visible: opacity > 0
-                            Behavior on opacity {
-                                UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                        primaryItem: Label {
+                            text: root.navigationTag
+                        }
+
+                        secondaryItem: AbstractButton {
+                            height: searchTextField.height
+                            width: height
+                            enabled: searchTextField.text.length > 0 || root.navigationTag != ""
+
+                            Image {
+                                objectName: "clearIcon"
+                                anchors.fill: parent
+                                anchors.margins: units.gu(.75)
+                                source: "image://theme/clear"
+                                opacity: parent.enabled
+                                visible: opacity > 0
+                                Behavior on opacity {
+                                    UbuntuNumberAnimation { duration: UbuntuAnimation.FastDuration }
+                                }
+                            }
+
+                            onClicked: {
+                                root.clearSearch(true);
                             }
                         }
 
-                        onClicked: {
-                            root.resetSearch(true);
-                            root.openSearchHistory();
+                        onActiveFocusChanged: {
+                            if (activeFocus) {
+                                root.searchTextFieldFocused();
+                                root.openPopup();
+                            }
+                        }
+
+                        onTextChanged: {
+                            if (text != "") {
+                                closePopup(/* keepFocus */true);
+                            }
                         }
                     }
 
-                    onActiveFocusChanged: {
-                        if (activeFocus) {
-                            root.searchTextFieldFocused();
-                            root.openSearchHistory();
+                    Label {
+                        id: cancelLabel
+                        text: i18n.tr("Cancel")
+                        color: header.panelForegroundColor
+                        verticalAlignment: Text.AlignVCenter
+                        anchors {
+                            top: parent.top
+                            right: parent.right
+                            bottom: parent.bottom
+                            margins: units.gu(1)
                         }
-                    }
-
-                    onTextChanged: {
-                        if (text != "") {
-                            closePopup(/* keepFocus */true);
+                        AbstractButton {
+                            anchors.fill: parent
+                            onClicked: {
+                                root.clearSearch(false);
+                                headerContainer.showSearch = false;
+                            }
                         }
                     }
                 }
@@ -322,47 +346,6 @@ Item {
         }
     }
 
-    Component {
-        id: popoverComponent
-        Popover {
-            id: popover
-            autoClose: false
-
-            property bool unfocusOnDestruction: false
-
-            Component.onDestruction: {
-                headerContainer.popover = null;
-                if (unfocusOnDestruction) {
-                    root.unfocus();
-                }
-            }
-
-            Column {
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                }
-
-                Repeater {
-                    id: recentSearches
-                    objectName: "recentSearches"
-                    model: searchHistory
-
-                    delegate: Standard {
-                        showDivider: index < recentSearches.count - 1
-                        text: query
-                        onClicked: {
-                            searchHistory.addQuery(text);
-                            searchTextField.text = text;
-                            closePopup(/* keepFocus */false);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     Rectangle {
         id: bottomBorder
         visible: showSignatureLine
@@ -370,7 +353,7 @@ Item {
             top: headerContainer.bottom
             left: parent.left
             right: parent.right
-            bottom: bottomContainer.top
+            bottom: parent.bottom
         }
 
         color: root.scopeStyle ? root.scopeStyle.headerDividerColor : "#e0e0e0"
@@ -411,7 +394,7 @@ Item {
         id: bottomHighlight
         visible: bottomBorder.visible
         anchors {
-            top: bottomContainer.top
+            top: parent.bottom
             left: parent.left
             right: parent.right
         }
@@ -419,30 +402,13 @@ Item {
         height: units.dp(1)
         opacity: 0.6
 
-        // FIXME this should be a shader when bottomItem exists
-        // to support image backgrounds
         Rectangle {
             anchors.fill: parent
-            color: if (bottomItem && bottomItem.background) {
-                       Qt.lighter(Qt.rgba(bottomItem.background.topColor.r,
-                                          bottomItem.background.topColor.g,
-                                          bottomItem.background.topColor.b, 1.0), 1.2);
-                   } else if (!bottomItem && root.scopeStyle) {
+            color: if (root.scopeStyle) {
                        Qt.lighter(Qt.rgba(root.scopeStyle.background.r,
                                           root.scopeStyle.background.g,
                                           root.scopeStyle.background.b, 1.0), 1.2);
                    } else "#CCFFFFFF"
         }
-    }
-
-    Item {
-        id: bottomContainer
-
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-        height: childrenRect.height
     }
 }

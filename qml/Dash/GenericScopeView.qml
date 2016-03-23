@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "../Components/SearchHistoryModel"
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
@@ -25,7 +26,6 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationDisableParentInteractive: categoryView.pageHeader.bottomItem[0].disableParentInteractive
     property bool forceNonInteractive: false
     property var scope: null
     property UnitySortFilterProxyModel categories: categoryFilter
@@ -35,6 +35,7 @@ FocusScope {
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
     readonly property alias subPageShown: subPageLoader.subPageShown
+    readonly property alias extraPanelShown: peExtraPanel.visible
     property int paginationCount: 0
     property int paginationIndex: 0
     property bool visibleToParent: false
@@ -615,28 +616,59 @@ FocusScope {
             objectName: "scopePageHeader"
             width: parent.width
             title: scopeView.scope ? scopeView.scope.name : ""
+            extraPanel: peExtraPanel
+            searchHistory: SearchHistoryModel
             searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
             showBackButton: scopeView.hasBackAction
             searchEntryEnabled: true
             settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
             favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
             favorite: scopeView.scope && scopeView.scope.favorite
+            navigationTag: scopeView.scope ? scopeView.scope.primaryNavigationTag : ""
             scopeStyle: scopeView.scopeStyle
             paginationCount: scopeView.paginationCount
             paginationIndex: scopeView.paginationIndex
-
-            bottomItem: DashNavigation {
-                scope: scopeView.scope
-                anchors { left: parent.left; right: parent.right }
-                windowHeight: scopeView.height
-                windowWidth: scopeView.width
-                scopeStyle: scopeView.scopeStyle
-            }
 
             onBackClicked: scopeView.backClicked()
             onSettingsClicked: subPageLoader.openSubPage("settings")
             onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
             onSearchTextFieldFocused: scopeView.showHeader()
+            onClearSearch: { // keepPanelOpen
+                var panelOpen = peExtraPanel.visible;
+                resetSearch(keepPanelOpen);
+                scopeView.scope.resetPrimaryNavigationTag();
+                peExtraPanel.resetNavigation();
+                if ((panelOpen || searchHistory.count > 0) && keepPanelOpen) {
+                    openPopup();
+                }
+            }
+        }
+
+        PageHeaderExtraPanel {
+            id: peExtraPanel
+            objectName: "peExtraPanel"
+            width: parent.width >= units.gu(60) ? units.gu(40) : parent.width
+            anchors {
+                top: categoryView.pageHeader.bottom
+                topMargin: -categoryView.pageHeader.signatureLineHeight
+            }
+            z: 1
+            visible: false
+
+            searchHistory: SearchHistoryModel
+            scope: scopeView.scope
+            scopeStyle: scopeView.scopeStyle
+            windowHeight: scopeView.height
+
+            onHistoryItemClicked: {
+                SearchHistoryModel.addQuery(text);
+                categoryView.pageHeader.searchQuery = text;
+            }
+
+            onDashNavigationLeafClicked: {
+                categoryView.pageHeader.closePopup();
+                categoryView.pageHeader.unfocus();
+            }
         }
     }
 
@@ -645,7 +677,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: parent.height - pullToRefresh.contentY + (categoryView.pageHeader.bottomItem[0].height - categoryView.pageHeader.height)
+        height: parent.height - pullToRefresh.contentY - categoryView.pageHeader.height
         clip: true
 
         PullToRefresh {
