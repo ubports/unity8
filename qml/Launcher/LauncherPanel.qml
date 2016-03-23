@@ -19,7 +19,6 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
-import GlobalShortcut 1.0
 import "../Components/ListItems"
 import "../Components/"
 
@@ -781,24 +780,12 @@ Rectangle {
                     id: popoverRepeater
                     model: quickList.model
 
-                    ListItem {
+                    ListItems.Standard {
                         objectName: "quickListEntry" + index
+                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
+                        highlightWhenPressed: model.clickable
                         selected: index === quickList.selectedIndex
-                        // hide the divider after last item
-                        divider.colorFrom: index == popoverRepeater.count-1 ? quickList.color : UbuntuColors.slate
-                        divider.colorTo: index == popoverRepeater.count-1 ? quickList.color : UbuntuColors.slate
-                        highlightColor: !model.clickable ? quickList.color : undefined
-
-                        Label {
-                            anchors.fill: parent
-                            anchors.leftMargin: units.gu(4) // 2 GU for an optional checkmark
-                            anchors.rightMargin: units.gu(1)
-                            verticalAlignment: Label.AlignVCenter
-                            text: model.label
-                            color: model.clickable ? "white" /*theme.palette.normal.backgroundText*/ : theme.palette.normal.backgroundSecondaryText
-                            //fontSize: model.clickable && index == 0 ? "medium" : "small" // FIXME too small
-                            font.weight: index == 0 ? Font.Medium : Font.Light
-                        }
+                        __foregroundColor: "white"
 
                         onClicked: {
                             if (!model.clickable) {
