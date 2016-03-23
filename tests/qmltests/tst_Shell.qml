@@ -131,6 +131,9 @@ Rectangle {
         anchors.right: root.right
         width: units.gu(30)
 
+        property var focusedApp: ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+        property var focusedSurface: focusedApp && focusedApp.session ? focusedApp.session.lastSurface : null
+
         Rectangle {
             id: controlRect
             anchors { left: parent.left; right: parent.right }
@@ -263,6 +266,65 @@ Rectangle {
                         appId: modelData
                     }
                 }
+
+                Label { text: "Focused Application"; font.bold: true }
+
+                Row {
+                    CheckBox {
+                        id: fullscreeAppCheck
+
+                        onTriggered: {
+                            if (!controls.focusedSurface) return;
+                            if (controls.focusedSurface.state == Mir.FullscreenState) {
+                                controls.focusedSurface.state = Mir.RestoredState;
+                            } else {
+                                controls.focusedSurface.state = Mir.FullscreenState;
+                            }
+                        }
+
+                        Binding {
+                            target: fullscreeAppCheck
+                            when: controls.focusedSurface
+                            property: "checked"
+                            value: {
+                                if (!controls.focusedSurface) return false;
+                                return controls.focusedSurface.state === Mir.FullscreenState
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Fullscreen"
+                    }
+                }
+
+                Row {
+                    CheckBox {
+                        id: chromeAppCheck
+
+                        onTriggered: {
+                            if (!controls.focusedSurface) return;
+                            if (controls.focusedSurface.shellChrome == Mir.LowChrome) {
+                                controls.focusedSurface.setShellChrome(Mir.NormalChrome);
+                            } else {
+                                controls.focusedSurface.setShellChrome(Mir.LowChrome);
+                            }
+                        }
+
+                        Binding {
+                            target: chromeAppCheck
+                            when: controls.focusedSurface !== null
+                            property: "checked"
+                            value: {
+                                if (!controls.focusedSurface) return false;
+                                controls.focusedSurface.shellChrome === Mir.LowChrome
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Low Chrome"
+                    }
+                }
+
             }
         }
     }

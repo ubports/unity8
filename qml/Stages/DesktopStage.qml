@@ -255,8 +255,8 @@ AbstractStage {
                 focus: appId === priv.focusedAppId
                 width: decoratedWindow.width
                 height: decoratedWindow.height
-                property alias requestedWidth: decoratedWindow.requestedWidth
-                property alias requestedHeight: decoratedWindow.requestedHeight
+                property int requestedWidth: -1
+                property int requestedHeight: -1
                 property alias minimumWidth: decoratedWindow.minimumWidth
                 property alias minimumHeight: decoratedWindow.minimumHeight
                 property alias maximumWidth: decoratedWindow.maximumWidth
@@ -369,8 +369,10 @@ AbstractStage {
                         name: "fullscreen"; when: decoratedWindow.fullscreen
                         PropertyChanges {
                             target: appDelegate;
-                            x: 0; y: -PanelState.panelHeight
-                            requestedWidth: appContainer.width; requestedHeight: appContainer.height;
+                            x: 0;
+                            y: -PanelState.panelHeight
+                            requestedWidth: appContainer.width;
+                            requestedHeight: appContainer.height;
                         }
                     },
                     State {
@@ -387,21 +389,42 @@ AbstractStage {
                         name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: root.leftMargin; y: 0;
-                            requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appContainer.height;
+                            x: root.leftMargin;
+                            y: 0;
                             visuallyMinimized: false;
                             visuallyMaximized: true
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: appContainer.width - root.leftMargin;
+                            requestedHeight: appContainer.height;
                         }
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.leftMargin; y: PanelState.panelHeight;
-                            requestedWidth: (appContainer.width - root.leftMargin)/2; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        PropertyChanges {
+                            target: appDelegate
+                            x: root.leftMargin
+                            y: PanelState.panelHeight
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: (appContainer.width - root.leftMargin)/2
+                            requestedHeight: appContainer.height - PanelState.panelHeight
+                        }
                     },
                     State {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: (appContainer.width + root.leftMargin)/2; y: PanelState.panelHeight;
-                            requestedWidth: (appContainer.width - root.leftMargin)/2; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: (appContainer.width + root.leftMargin)/2
+                            y: PanelState.panelHeight
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: (appContainer.width - root.leftMargin)/2
+                            requestedHeight: appContainer.height - PanelState.panelHeight
+                        }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -421,13 +444,17 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
+                        UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
                     },
                     Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
+                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                            }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
@@ -443,7 +470,10 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
+                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                            }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     }
@@ -458,6 +488,7 @@ AbstractStage {
                 }
 
                 WindowResizeArea {
+                    id: resizeArea
                     objectName: "windowResizeArea"
                     target: appDelegate
                     minWidth: units.gu(10)
@@ -469,6 +500,25 @@ AbstractStage {
                     leftMargin: root.leftMargin
 
                     onPressed: { ApplicationManager.focusApplication(model.appId) }
+
+                    Component.onCompleted: {
+                        loadWindowState();
+                    }
+
+                    property bool saveStateOnDestruction: true
+                    Connections {
+                        target: root
+                        onStageAboutToBeUnloaded: {
+                            resizeArea.saveWindowState();
+                            resizeArea.saveStateOnDestruction = false;
+                            fullscreenPolicy.active = false;
+                        }
+                    }
+                    Component.onDestruction: {
+                        if (saveStateOnDestruction) {
+                            saveWindowState();
+                        }
+                    }
                 }
 
                 DecoratedWindow {
@@ -480,11 +530,20 @@ AbstractStage {
                     active: ApplicationManager.focusedApplicationId === model.appId
                     focus: true
 
+                    requestedWidth: appDelegate.requestedWidth
+                    requestedHeight: appDelegate.requestedHeight
+
                     onClose: ApplicationManager.stopApplication(model.appId)
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
                                 ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
+                }
+
+                WindowedFullscreenPolicy {
+                    id: fullscreenPolicy
+                    active: true
+                    application: decoratedWindow.application
                 }
             }
         }

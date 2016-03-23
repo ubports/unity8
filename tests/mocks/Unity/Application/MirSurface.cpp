@@ -38,6 +38,7 @@ MirSurface::MirSurface(const QString& name,
     , m_width(-1)
     , m_height(-1)
     , m_slowToResize(false)
+    , m_shellChrome(Mir::NormalChrome)
 {
 //    qDebug() << "MirSurface::MirSurface() " << name;
     QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
@@ -131,6 +132,21 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
 
     m_orientationAngle = angle;
     Q_EMIT orientationAngleChanged(angle);
+}
+
+
+Mir::ShellChrome MirSurface::shellChrome() const
+{
+    return m_shellChrome;
+}
+
+void MirSurface::setShellChrome(Mir::ShellChrome shellChrome)
+{
+    if (shellChrome == m_shellChrome)
+        return;
+
+    m_shellChrome = shellChrome;
+    Q_EMIT shellChromeChanged(shellChrome);
 }
 
 

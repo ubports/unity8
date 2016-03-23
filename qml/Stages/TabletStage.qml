@@ -947,6 +947,15 @@ AbstractStage {
                         period: (spreadView.positionMarker2 - spreadView.positionMarker1) / 3
                         progress: spreadTile.progress - spreadView.positionMarker1
                     }
+
+                    StagedFullscreenPolicy {
+                        id: fullscreenPolicy
+                        application: spreadTile.application
+                    }
+                    Connections {
+                        target: root
+                        onStageAboutToBeUnloaded: fullscreenPolicy.active = false
+                    }
                 }
             }
         }
