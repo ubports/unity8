@@ -82,12 +82,12 @@ Item {
     Rectangle {
         id: controls
         width: units.gu(30)
+        color: "darkgrey"
         anchors {
             top: parent.top
             bottom: parent.bottom
             right: parent.right
         }
-        color: "darkgrey"
 
         Flickable {
             anchors.fill: parent
