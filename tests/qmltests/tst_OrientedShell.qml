@@ -47,6 +47,9 @@ Rectangle {
     QtObject {
         id: mockUnity8Settings
         property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
+        onUsageModeChanged: {
+            usageModeSelector.selectedIndex = usageModeSelector.model.indexOf(usageMode)
+        }
     }
 
     QtObject{
@@ -307,6 +310,9 @@ Rectangle {
                 function selectStaged() {selectedIndex = 0;}
                 function selectWindowed() {selectedIndex = 1;}
                 function selectAutomatic() {selectedIndex = 2;}
+                onSelectedIndexChanged: {
+                    mockUnity8Settings.usageMode = usageModeSelector.model[usageModeSelector.selectedIndex]
+                }
             }
             MouseTouchEmulationCheckbox {
                 checked: true
@@ -1058,7 +1064,7 @@ Rectangle {
                 { tag: "big screen, mouse", screenWidth: units.gu(200), mouse: true, kbd: false, expectedMode: "desktop", oskExpected: true },
                 { tag: "small screen, kbd", screenWidth: units.gu(50), mouse: false, kbd: true, expectedMode: "phone", oskExpected: false },
                 { tag: "medium screen, kbd", screenWidth: units.gu(100), mouse: false, kbd: true, expectedMode: "phone", oskExpected: false },
-                { tag: "big screen, kbd", screenWidth: units.gu(200), mouse: false, kbd: true, expectedMode: "desktop", oskExpected: false },
+                { tag: "big screen, kbd", screenWidth: units.gu(200), mouse: false, kbd: true, expectedMode: "phone", oskExpected: false },
                 { tag: "small screen, mouse & kbd", screenWidth: units.gu(50), mouse: true, kbd: true, expectedMode: "phone", oskExpected: false },
                 { tag: "medium screen, mouse & kbd", screenWidth: units.gu(100), mouse: true, kbd: true, expectedMode: "desktop", oskExpected: false },
                 { tag: "big screen, mouse & kbd", screenWidth: units.gu(200), mouse: true, kbd: true, expectedMode: "desktop", oskExpected: false },
@@ -1066,9 +1072,6 @@ Rectangle {
         }
 
         function test_attachRemoveInputDevices(data) {
-            usageModeSelector.selectAutomatic();
-            tryCompare(mockUnity8Settings, "usageMode", "Automatic")
-
             loadShell("mako")
             var shell = findChild(orientedShell, "shell");
             var inputMethod = findChild(shell, "inputMethod");
@@ -1097,6 +1100,67 @@ Rectangle {
             if (data.mouse) {
                 MockInputDeviceBackend.removeDevice("/mouse0");
             }
+
+            // Restore width
+            orientedShellLoader.width = oldWidth;
+        }
+
+        function test_overrideStaged() {
+            loadShell("mako")
+
+            // make sure we're big enough so that the automatism starts working
+            var oldWidth = orientedShellLoader.width;
+            orientedShellLoader.width = units.gu(100);
+
+            // start off by plugging a mouse, we should switch to windowed
+            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            tryCompare(shell, "usageScenario", "desktop");
+
+            // Use the toggle to go back to Staged
+            usageModeSelector.selectStaged();
+            tryCompare(shell, "usageScenario", "phone");
+
+            // attach a second mouse, we should switch again
+            MockInputDeviceBackend.addMockDevice("/mouse1", InputInfo.Mouse);
+            tryCompare(shell, "usageScenario", "desktop");
+
+            // Remove one mouse again, stay in windowed as there is another
+            MockInputDeviceBackend.removeDevice("/mouse1");
+            tryCompare(shell, "usageScenario", "desktop");
+
+            // use the toggle again
+            usageModeSelector.selectStaged();
+            tryCompare(shell, "usageScenario", "phone");
+
+            // Remove the other mouse again, stay in staged
+            MockInputDeviceBackend.removeDevice("/mouse0");
+            tryCompare(shell, "usageScenario", "phone");
+
+            // Restore width
+            orientedShellLoader.width = oldWidth;
+        }
+
+        function test_overrideWindowed() {
+            loadShell("mako")
+
+            // make sure we're big enough so that the automatism starts working
+            var oldWidth = orientedShellLoader.width;
+            orientedShellLoader.width = units.gu(100);
+
+            // No mouse attached... we should be in staged
+            tryCompare(shell, "usageScenario", "phone");
+
+            // use the toggle to go to windowed
+            usageModeSelector.selectWindowed();
+            tryCompare(shell, "usageScenario", "desktop");
+
+            // Connect a mouse, stay in windowed
+            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            tryCompare(shell, "usageScenario", "desktop");
+
+            // Remove the mouse again, we should go to staged
+            MockInputDeviceBackend.removeDevice("/mouse0");
+            tryCompare(shell, "usageScenario", "phone");
 
             // Restore width
             orientedShellLoader.width = oldWidth;
