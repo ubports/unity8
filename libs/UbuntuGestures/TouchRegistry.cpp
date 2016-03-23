@@ -359,10 +359,6 @@ void TouchRegistry::removeCandidateOwnerForTouchByIndex(Pool<TouchRegistry::Touc
 
 void TouchRegistry::requestTouchOwnership(int id, QQuickItem *candidate)
 {
-    #if TOUCHREGISTRY_DEBUG
-    UG_DEBUG << "requestTouchOwnership id " << id << "candidate" << candidate;
-    #endif
-
     Pool<TouchInfo>::Iterator touchInfo = findTouchInfo(id);
     if (!touchInfo) { qFatal("TouchRegistry: Failed to find TouchInfo"); }
 
@@ -379,6 +375,9 @@ void TouchRegistry::requestTouchOwnership(int id, QQuickItem *candidate)
             break;
         }
     }
+    #if TOUCHREGISTRY_DEBUG
+    UG_DEBUG << "requestTouchOwnership id " << id << "candidate" << candidate << "index: " << candidateIndex;
+    #endif
 
     // add it as a candidate if not present yet
     if (candidateIndex < 0) {
@@ -533,16 +532,22 @@ void TouchRegistry::TouchInfo::notifyCandidatesOfOwnershipResolution()
         << " gained) to candidate" << candidates[0].item;
     #endif
 
-    TouchOwnershipEvent gainedOwnershipEvent(id, true /*gained*/);
-    QCoreApplication::sendEvent(candidates[0].item, &gainedOwnershipEvent);
+    // need to take a copy of the item list in case
+    // we call back in to remove candidate during the lost ownership event.
+    QList<QPointer<QQuickItem>> items;
+    Q_FOREACH(const CandidateInfo& info, candidates) {
+        items << info.item;
+    }
 
+    TouchOwnershipEvent gainedOwnershipEvent(id, true /*gained*/);
+    QCoreApplication::sendEvent(items[0], &gainedOwnershipEvent);
 
     TouchOwnershipEvent lostOwnershipEvent(id, false /*gained*/);
-    for (int i = 1; i < candidates.count(); ++i) {
+    for (int i = 1; i < items.count(); ++i) {
         #if TOUCHREGISTRY_DEBUG
-        UG_DEBUG << "sending TouchWonershipEvent(id =" << id << " lost) to candidate"
-            << candidates[i].item;
+        UG_DEBUG << "sending TouchOwnershipEvent(id =" << id << " lost) to candidate"
+            << items[i];
         #endif
-        QCoreApplication::sendEvent(candidates[i].item, &lostOwnershipEvent);
+        QCoreApplication::sendEvent(items[i], &lostOwnershipEvent);
     }
 }

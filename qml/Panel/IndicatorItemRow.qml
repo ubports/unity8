@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Window 2.2
 import Ubuntu.Components 1.3
 
 Item {
@@ -183,7 +184,9 @@ Item {
 
                 property int ownIndex: index
                 property bool overflow: row.width - x > overFlowWidth
-                property bool hidden: !expanded && (overflow || !indicatorVisible)
+                property bool hidden: !expanded && (overflow || !indicatorVisible || hideSessionIndicator)
+                // HACK for indicator-session
+                readonly property bool hideSessionIndicator: identifier == "indicator-session" && Math.min(Screen.width, Screen.height) <= units.gu(60)
 
                 height: row.height
                 expanded: root.expanded
@@ -199,7 +202,7 @@ Item {
                     NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }
                 }
 
-                width: (expanded || indicatorVisible) ? implicitWidth : 0
+                width: ((expanded || indicatorVisible) && !hideSessionIndicator) ? implicitWidth : 0
 
                 Behavior on width {
                     NumberAnimation { duration: UbuntuAnimation.SnapDuration; easing: UbuntuAnimation.StandardEasing }

@@ -34,7 +34,8 @@ Module {
                 "Leftwards": 1,
                 "Downwards": 2,
                 "Upwards": 3,
-                "Horizontal": 4
+                "Horizontal": 4,
+                "Vertical": 5
             }
         }
         Method {
@@ -59,14 +60,6 @@ Module {
         prototype: "QQuickItem"
         exports: ["Ubuntu.Gestures/DirectionalDragArea 0.1"]
         exportMetaObjectRevisions: [0]
-        Enum {
-            name: "Status"
-            values: {
-                "WaitingForTouch": 0,
-                "Undecided": 1,
-                "Recognized": 2
-            }
-        }
         Property { name: "direction"; type: "Direction::Type" }
         Property { name: "distance"; type: "double"; isReadonly: true }
         Property { name: "sceneDistance"; type: "double"; isReadonly: true }
@@ -74,24 +67,19 @@ Module {
         Property { name: "touchY"; type: "double"; isReadonly: true }
         Property { name: "touchSceneX"; type: "double"; isReadonly: true }
         Property { name: "touchSceneY"; type: "double"; isReadonly: true }
-        Property { name: "status"; type: "Status"; isReadonly: true }
         Property { name: "dragging"; type: "bool"; isReadonly: true }
-        Property { name: "maxDeviation"; type: "double" }
-        Property { name: "wideningAngle"; type: "double" }
-        Property { name: "distanceThreshold"; type: "double" }
-        Property { name: "minSpeed"; type: "double" }
-        Property { name: "maxSilenceTime"; type: "int" }
-        Property { name: "compositionTime"; type: "int" }
+        Property { name: "pressed"; type: "bool"; isReadonly: true }
+        Property { name: "immediateRecognition"; type: "bool" }
         Signal {
             name: "directionChanged"
             Parameter { name: "direction"; type: "Direction::Type" }
         }
         Signal {
-            name: "statusChanged"
-            Parameter { name: "value"; type: "Status" }
+            name: "draggingChanged"
+            Parameter { name: "value"; type: "bool" }
         }
         Signal {
-            name: "draggingChanged"
+            name: "pressedChanged"
             Parameter { name: "value"; type: "bool" }
         }
         Signal {
@@ -101,30 +89,6 @@ Module {
         Signal {
             name: "sceneDistanceChanged"
             Parameter { name: "value"; type: "double" }
-        }
-        Signal {
-            name: "maxDeviationChanged"
-            Parameter { name: "value"; type: "double" }
-        }
-        Signal {
-            name: "wideningAngleChanged"
-            Parameter { name: "value"; type: "double" }
-        }
-        Signal {
-            name: "distanceThresholdChanged"
-            Parameter { name: "value"; type: "double" }
-        }
-        Signal {
-            name: "minSpeedChanged"
-            Parameter { name: "value"; type: "double" }
-        }
-        Signal {
-            name: "maxSilenceTimeChanged"
-            Parameter { name: "value"; type: "int" }
-        }
-        Signal {
-            name: "compositionTimeChanged"
-            Parameter { name: "value"; type: "int" }
         }
         Signal {
             name: "touchXChanged"
@@ -142,7 +106,35 @@ Module {
             name: "touchSceneYChanged"
             Parameter { name: "value"; type: "double" }
         }
-        Signal { name: "tapped" }
+        Signal {
+            name: "immediateRecognitionChanged"
+            Parameter { name: "value"; type: "bool" }
+        }
+        Method { name: "removeTimeConstraints" }
+    }
+    Component {
+        name: "FloatingFlickable"
+        defaultProperty: "data"
+        prototype: "QQuickItem"
+        exports: ["Ubuntu.Gestures/FloatingFlickable 0.1"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "contentWidth"; type: "double" }
+        Property { name: "contentHeight"; type: "double" }
+        Property { name: "contentX"; type: "double" }
+        Property { name: "contentY"; type: "double" }
+        Property { name: "direction"; type: "Direction::Type" }
+    }
+    Component {
+        name: "GestureTouchPoint"
+        prototype: "QObject"
+        exports: ["Ubuntu.Gestures/GestureTouchPoint 0.1"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Property { name: "pointId"; type: "int"; isReadonly: true }
+        Property { name: "pressed"; type: "bool"; isReadonly: true }
+        Property { name: "x"; type: "double"; isReadonly: true }
+        Property { name: "y"; type: "double"; isReadonly: true }
+        Property { name: "dragging"; type: "bool"; isReadonly: true }
     }
     Component {
         name: "PressedOutsideNotifier"
@@ -163,6 +155,55 @@ Module {
             name: "targetItemChanged"
             Parameter { name: "item"; type: "QQuickItem"; isPointer: true }
         }
-        Signal { name: "pressed" }
+    }
+    Component {
+        name: "TouchGestureArea"
+        defaultProperty: "data"
+        prototype: "QQuickItem"
+        exports: ["Ubuntu.Gestures/TouchGestureArea 0.1"]
+        exportMetaObjectRevisions: [0]
+        Enum {
+            name: "Status"
+            values: {
+                "WaitingForTouch": 0,
+                "Undecided": 1,
+                "Recognized": 2,
+                "Rejected": 3
+            }
+        }
+        Property { name: "touchPoints"; type: "GestureTouchPoint"; isList: true; isReadonly: true }
+        Property { name: "dragging"; type: "bool"; isReadonly: true }
+        Property { name: "minimumTouchPoints"; type: "int" }
+        Property { name: "maximumTouchPoints"; type: "int" }
+        Signal {
+            name: "statusChanged"
+            Parameter { name: "status"; type: "Status" }
+        }
+        Signal { name: "touchPointsUpdated" }
+        Signal {
+            name: "draggingChanged"
+            Parameter { name: "dragging"; type: "bool" }
+        }
+        Signal {
+            name: "minimumTouchPointsChanged"
+            Parameter { name: "value"; type: "bool" }
+        }
+        Signal {
+            name: "maximumTouchPointsChanged"
+            Parameter { name: "value"; type: "bool" }
+        }
+        Signal {
+            name: "pressed"
+            Parameter { name: "points"; type: "QList<QObject*>" }
+        }
+        Signal {
+            name: "released"
+            Parameter { name: "points"; type: "QList<QObject*>" }
+        }
+        Signal {
+            name: "updated"
+            Parameter { name: "points"; type: "QList<QObject*>" }
+        }
+        Signal { name: "clicked" }
     }
 }

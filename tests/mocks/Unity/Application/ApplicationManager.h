@@ -46,11 +46,6 @@ class ApplicationManager : public ApplicationManagerInterface {
         RoleSession = RoleExemptFromLifecycle+1,
         RoleFullscreen,
     };
-    enum Flag {
-        NoFlag = 0x0,
-        ForceMainStage = 0x1,
-    };
-    Q_DECLARE_FLAGS(ExecFlags, Flag)
 
     // QAbstractItemModel methods.
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -65,7 +60,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     Q_INVOKABLE bool focusApplication(const QString &appId) override;
     Q_INVOKABLE void unfocusCurrentApplication() override;
     Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, const QStringList &arguments = QStringList()) override;
-    Q_INVOKABLE ApplicationInfo *startApplication(const QString &appId, ExecFlags flags, const QStringList &arguments = QStringList());
     Q_INVOKABLE bool stopApplication(const QString &appId) override;
 
     QString focusedApplicationId() const override;
@@ -97,8 +91,6 @@ class ApplicationManager : public ApplicationManagerInterface {
 
     static ApplicationManager *the_application_manager;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(ApplicationManager::ExecFlags)
 
 Q_DECLARE_METATYPE(ApplicationManager*)
 

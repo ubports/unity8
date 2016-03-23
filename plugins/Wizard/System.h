@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical Ltd.
+ * Copyright (C) 2014-2015 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -28,12 +28,13 @@ class System : public QObject
 
 public:
     System();
+    ~System() = default;
 
     bool wizardEnabled() const;
     void setWizardEnabled(bool enabled);
 
 public Q_SLOTS:
-    void updateSessionLanguage(const QString &locale);
+    void updateSessionLocale(const QString &locale);
 
 Q_SIGNALS:
     void wizardEnabledChanged();
