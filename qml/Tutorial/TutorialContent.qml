@@ -88,7 +88,8 @@ Item {
             hides: [launcher, panel.indicators]
             paused: root.paused
 
-            isReady: !tutorialLeftLoader.skipped && !paused && !keyboardVisible
+            isReady: !tutorialLeftLoader.skipped && !paused && !keyboardVisible &&
+                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
 
             // Use an idle timer here, because when constructed, all our isReady variables will be false.
             // Qml needs a moment to copy their values from Tutorial.qml.  So we idle it and recheck.
@@ -277,6 +278,7 @@ Item {
 
             skipped: tutorialBottomLoader.skipped
             isReady: !tutorialBottomLoader.skipped && !paused && !keyboardVisible &&
+                     !tutorialLeftLoader.shown && !tutorialLeftLongLoader.shown &&
                      !tutorialTopLoader.shown && !tutorialRightLoader.shown &&
                      tutorialBottomLoader.mightShow &&
                      d.focusedApp.state === ApplicationInfoInterface.Running

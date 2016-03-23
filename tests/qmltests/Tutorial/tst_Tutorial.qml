@@ -682,6 +682,31 @@ Rectangle {
             verify(!tutorialLeft.paused);
         }
 
+        function test_dialerInterruptionWithNoOverlappingTutorials() {
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialBottom = findChild(shell, "tutorialBottom");
+            verify(tutorialLeft.shown);
+
+            // Start call, hiding left tutorial
+            callManager.foregroundCall = phoneCall;
+            tryCompare(tutorialLeft, "shown", false);
+
+            // Start dialer app
+            ApplicationManager.startApplication("dialer-app");
+            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
+            verify(!tutorialBottom.shown);
+
+            // Dismiss call, bottom tutorial should appear
+            callManager.foregroundCall = null;
+            tryCompare(tutorialBottom, "shown", true);
+            verify(!tutorialLeft.shown);
+
+            // Get rid of bottom tutorial, left should now be shown
+            touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
+            tryCompare(tutorialBottom, "shown", false);
+            tryCompare(tutorialLeft, "shown", true);
+        }
+
         function test_greeterInterruptsTutorial() {
             var tutorialLeft = findChild(shell, "tutorialLeft");
             verify(tutorialLeft.shown);
