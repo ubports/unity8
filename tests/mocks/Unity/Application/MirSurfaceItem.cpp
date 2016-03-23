@@ -156,12 +156,29 @@ void MirSurfaceItem::createQmlContentItem()
 
 void MirSurfaceItem::touchEvent(QTouchEvent * event)
 {
+    if (event->type() == QEvent::TouchBegin) {
+        m_touchTrail.clear();
+    }
+
     if (event->touchPointStates() & Qt::TouchPointPressed) {
         ++m_touchPressCount;
         Q_EMIT touchPressCountChanged(m_touchPressCount);
     } else if (event->touchPointStates() & Qt::TouchPointReleased) {
         ++m_touchReleaseCount;
         Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
+    }
+
+    Q_FOREACH(QTouchEvent::TouchPoint touchPoint, event->touchPoints()) {
+        QString id(touchPoint.id());
+        QVariantList list =  m_touchTrail[id].toList();
+        list.append(QVariant::fromValue(touchPoint.pos()));
+        if (list.count() > 100) list.pop_front();
+        m_touchTrail[id] = list;
+    }
+
+    if (m_qmlItem) {
+        QQmlProperty touchTrail(m_qmlItem, "touchTrail");
+        touchTrail.write(m_touchTrail);
     }
 }
 
