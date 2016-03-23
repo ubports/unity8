@@ -784,8 +784,9 @@ Rectangle {
                     ListItem {
                         objectName: "quickListEntry" + index
                         selected: index === quickList.selectedIndex
-                        divider.colorFrom: UbuntuColors.slate
-                        divider.colorTo: UbuntuColors.slate
+                        // hide the divider after last item
+                        divider.colorFrom: index == popoverRepeater.count-1 ? quickList.color : UbuntuColors.slate
+                        divider.colorTo: index == popoverRepeater.count-1 ? quickList.color : UbuntuColors.slate
                         highlightColor: !model.clickable ? quickList.color : undefined
 
                         Label {

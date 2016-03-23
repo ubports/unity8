@@ -25,10 +25,16 @@
 #include <QDBusMessage>
 #include <QDBusMetaType>
 
+using StringMap = QMap<QString,QString>;
+using StringMapList = QList<StringMap>;
+Q_DECLARE_METATYPE(StringMapList)
+
 PropertiesServer::PropertiesServer(QObject *parent)
     : QObject(parent)
 {
     qDBusRegisterMetaType<QList<QVariantMap>>();
+    qDBusRegisterMetaType<StringMap>();
+    qDBusRegisterMetaType<StringMapList>();
     Reset();
 }
 
@@ -63,6 +69,8 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
             if (interface == QStringLiteral("com.canonical.unity.AccountsService") &&
                     property == QStringLiteral("LauncherItems")) {
                 newValue = QVariant::fromValue(qdbus_cast<QList<QVariantMap>>(newValue.value<QDBusArgument>()));
+            } else if (interface == "org.freedesktop.Accounts.User" && property == "InputSources") {
+                newValue = QVariant::fromValue(qdbus_cast<StringMapList>(newValue.value<QDBusArgument>()));
             }
 
             oldValue = newValue;
@@ -89,6 +97,7 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 void PropertiesServer::Reset()
 {
     m_properties["com.canonical.unity.AccountsService"]["demo-edges"] = false;
+    m_properties["com.canonical.unity.AccountsService"]["DemoEdgesCompleted"] = QStringList();
     m_properties["com.canonical.unity.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
@@ -100,4 +109,5 @@ void PropertiesServer::Reset()
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseBasePath"] = "";
     m_properties["org.freedesktop.Accounts.User"]["BackgroundFile"] = "";
     m_properties["org.freedesktop.Accounts.User"]["RealName"] = "";
+    m_properties["org.freedesktop.Accounts.User"]["InputSources"] = QVariant::fromValue(StringMapList());
 }

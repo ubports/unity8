@@ -27,6 +27,7 @@ Rectangle {
 
     property QtObject indicatorsModel: null
     property int currentMenuIndex: -1
+    color: theme.palette.normal.background
 
     width: units.gu(40)
     height: units.gu(42)

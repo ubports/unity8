@@ -20,7 +20,6 @@
 #include <QtQml/QQmlEngine>
 #include <QPointer>
 #include <private/qquickmousearea_p.h>
-#include <private/qquickwindow_p.h>
 
 
 #include <DirectionalDragArea.h>
@@ -109,18 +108,6 @@ private Q_SLOTS:
     void makoRightEdgeDrag_verticalDownwards();
     void makoLeftEdgeDrag_slowStart();
     void makoLeftEdgeDrag_movesSlightlyBackwardsOnStart();
-
-private:
-    // QTest::touchEvent takes QPoint instead of QPointF and I don't want to
-    // lose precision due to rounding.
-    // Besides, those helper functions lead to more compact code.
-    void sendTouchPress(qint64 timestamp, int id, QPointF pos);
-    void sendTouchUpdate(qint64 timestamp, int id, QPointF pos);
-    void sendTouchRelease(qint64 timestamp, int id, QPointF pos);
-    void sendTouch(qint64 timestamp, int id, QPointF pos,
-            Qt::TouchPointState pointState, QEvent::Type eventType);
-
-    void passTime(qint64 timeSpanMs);
 };
 
 tst_DirectionalDragArea::tst_DirectionalDragArea()
@@ -139,49 +126,6 @@ void tst_DirectionalDragArea::init()
     m_view->resize(m_view->rootObject()->width(), m_view->rootObject()->height());
     QTRY_COMPARE(m_view->width(), (int)m_view->rootObject()->width());
     QTRY_COMPARE(m_view->height(), (int)m_view->rootObject()->height());
-}
-
-void tst_DirectionalDragArea::sendTouchPress(qint64 timestamp, int id, QPointF pos)
-{
-    sendTouch(timestamp, id, pos, Qt::TouchPointPressed, QEvent::TouchBegin);
-}
-
-void tst_DirectionalDragArea::sendTouchUpdate(qint64 timestamp, int id, QPointF pos)
-{
-    sendTouch(timestamp, id, pos, Qt::TouchPointMoved, QEvent::TouchUpdate);
-}
-
-void tst_DirectionalDragArea::sendTouchRelease(qint64 timestamp, int id, QPointF pos)
-{
-    sendTouch(timestamp, id, pos, Qt::TouchPointReleased, QEvent::TouchEnd);
-}
-
-void tst_DirectionalDragArea::sendTouch(qint64 timestamp, int id, QPointF pos,
-                                 Qt::TouchPointState pointState, QEvent::Type eventType)
-{
-    m_fakeTimerFactory->updateTime(timestamp);
-
-    QTouchEvent::TouchPoint point;
-
-    point.setState(pointState);
-    point.setId(id);
-    point.setScenePos(pos);
-    point.setPos(pos);
-
-    QList<QTouchEvent::TouchPoint> points;
-    points << point;
-
-    QTouchEvent touchEvent(eventType, m_device, Qt::NoModifier, Qt::TouchPointPressed, points);
-    QCoreApplication::sendEvent(m_view, &touchEvent);
-
-    QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
-    windowPrivate->flushDelayedTouchEvent();
-}
-
-void tst_DirectionalDragArea::passTime(qint64 timeSpanMs)
-{
-    qint64 finalTime = m_fakeTimerFactory->timeSource()->msecsSinceReference() + timeSpanMs;
-    m_fakeTimerFactory->updateTime(finalTime);
 }
 
 namespace {

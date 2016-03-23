@@ -24,7 +24,7 @@ import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
-import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
+import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
 import GSettings 1.0
 import Utils 0.1
 import Powerd 0.1
@@ -102,6 +102,8 @@ Item {
     // internal props from here onwards
     readonly property var mainApp:
             applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
+    readonly property var mainAppWindow:
+            applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainAppWindow : null
 
     // Disable everything while greeter is waiting, so that the user can't swipe
     // the greeter or launcher until we know whether the session is locked.
@@ -120,9 +122,7 @@ Item {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
-            var execFlags = shell.usageScenario === "phone" ? ApplicationManager.ForceMainStage
-                                                            : ApplicationManager.NoFlag;
-            ApplicationManager.startApplication(appId, execFlags);
+            ApplicationManager.startApplication(appId);
         }
     }
 
@@ -169,12 +169,13 @@ Item {
     }
 
     GlobalShortcut {
-        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
+        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowInputFilter
     }
 
-    WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
+    WindowInputFilter {
+        id: inputFilter
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, lastInputTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, lastInputTimestamp);
     }
 
     WindowInputMonitor {
@@ -207,7 +208,7 @@ Item {
             onFocusedApplicationIdChanged: {
                 var appId = ApplicationManager.focusedApplicationId;
 
-                if (tutorial.running && appId != "" && appId != "unity8-dash") {
+                if (wizard.active && appId != "" && appId != "unity8-dash") {
                     // If this happens on first boot, we may be in edge
                     // tutorial or wizard while receiving a call.  But a call
                     // is more important than wizard so just bail out of those.
@@ -248,7 +249,7 @@ Item {
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                            ? "phone"
                                            : shell.usageScenario
-            source: {
+            readonly property string qmlComponent: {
                 if(shell.mode === "greeter") {
                     return "Stages/ShimStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
@@ -259,9 +260,12 @@ Item {
                     return "Stages/DesktopStage.qml";
                 }
             }
+            onQmlComponentChanged: {
+                if (item) item.stageAboutToBeUnloaded();
+                source = qmlComponent;
+            }
 
-            property bool interactive: tutorial.spreadEnabled
-                    && (!greeter || !greeter.shown)
+            property bool interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
                     && launcher.progress == 0
                     && !notifications.useModal
@@ -355,30 +359,6 @@ Item {
                 value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             }
         }
-
-        Tutorial {
-            id: tutorial
-            objectName: "tutorial"
-            anchors.fill: parent
-
-            // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
-            // we skip the tutorial on the Desktop to avoid using them.  The
-            // Desktop doesn't use the same spread design anyway.  The tutorial is
-            // all a bit of a placeholder on non-phone form factors right now.
-            // When the design team gives us more guidance, we can do something
-            // more clever here.
-            active: usageScenario != "desktop" && AccountsService.demoEdges
-
-            paused: lightDM.greeter.active
-            launcher: launcher
-            panel: panel
-            edgeSize: shell.edgeSize
-
-            onFinished: {
-                AccountsService.demoEdges = false;
-                active = false; // for immediate response / if AS is having problems
-            }
-        }
     }
 
     InputMethod {
@@ -389,7 +369,7 @@ Item {
             topMargin: panel.panelHeight
             leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
         }
-        z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
+        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running ? overlay.z + 1 : overlay.z - 1
     }
 
     Connections {
@@ -420,7 +400,7 @@ Item {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: tutorial.running
+            forcedUnlock: wizard.active
             background: wallpaperResolver.background
 
             // avoid overlapping with Launcher's edge drag area
@@ -477,7 +457,7 @@ Item {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    !callManager.hasCalls && !tutorial.running) {
+                    !callManager.hasCalls && !wizard.active) {
                 // We don't want to simply call greeter.showNow() here, because
                 // that will take too long.  Qt will delay button event
                 // handling until the greeter is done loading and may think the
@@ -493,10 +473,6 @@ Item {
     }
 
     function showHome() {
-        if (tutorial.running) {
-            return
-        }
-
         greeter.notifyAboutToFocusApp("unity8-dash");
 
         var animate = !lightDM.greeter.active && !stages.shown
@@ -530,7 +506,6 @@ Item {
                 available: tutorial.panelEnabled
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
-                contentEnabled: tutorial.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -547,9 +522,7 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            readonly property bool topmostApplicationIsFullscreen:
-                ApplicationManager.focusedApplicationId &&
-                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
+            readonly property bool topmostApplicationIsFullscreen: mainApp && mainApp.fullscreen
 
             fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
@@ -571,7 +544,6 @@ Item {
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
             inverted: shell.usageScenario !== "desktop"
-            shadeBackground: !tutorial.running
             superPressed: physicalKeysMapper.superPressed
             superTabPressed: physicalKeysMapper.superTabPressed
             panelWidth: units.gu(settings.launcherWidth)
@@ -585,10 +557,8 @@ Item {
                 }
             }
             onLauncherApplicationSelected: {
-                if (!tutorial.running) {
-                    greeter.notifyAboutToFocusApp(appId);
-                    shell.activateApplication(appId)
-                }
+                greeter.notifyAboutToFocusApp(appId);
+                shell.activateApplication(appId);
             }
             onShownChanged: {
                 if (shown) {
@@ -628,11 +598,24 @@ Item {
             }
         }
 
+        Tutorial {
+            id: tutorial
+            objectName: "tutorial"
+            anchors.fill: parent
+
+            paused: callManager.hasCalls || greeter.shown
+            keyboardVisible: inputMethod.state === "shown"
+            usageScenario: shell.usageScenario
+            lastInputTimestamp: inputFilter.lastInputTimestamp
+            launcher: launcher
+            panel: panel
+            stage: applicationsDisplayLoader.item
+        }
+
         Wizard {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
@@ -737,6 +720,54 @@ Item {
 
         onMouseMoved: { cursor.opacity = 1; }
     }
+
+    // keymap switching
+    GlobalShortcut {
+        shortcut: Qt.MetaModifier|Qt.Key_Space
+        onTriggered: keymapPriv.nextKeymap()
+        active: keymapPriv.keymapCount > 1
+    }
+
+    GlobalShortcut {
+        shortcut: Qt.MetaModifier|Qt.ShiftModifier|Qt.Key_Space
+        onTriggered: keymapPriv.previousKeymap()
+        active: keymapPriv.keymapCount > 1
+    }
+
+    QtObject {
+        id: keymapPriv
+
+        readonly property var keymaps: AccountsService.keymaps
+        readonly property int keymapCount: keymaps.length
+        property int currentKeymapIndex: 0  // the new one that we're setting
+        onCurrentKeymapIndexChanged: switchToKeymap();
+
+        function nextKeymap() {
+            var nextIndex = 0;
+
+            if (currentKeymapIndex !== -1 && currentKeymapIndex < keymapCount - 1) {
+                nextIndex = currentKeymapIndex + 1;
+            }
+            currentKeymapIndex = nextIndex;
+        }
+
+        function previousKeymap() {
+            var prevIndex = keymapCount - 1;
+
+            if (currentKeymapIndex > 0) {
+                prevIndex = currentKeymapIndex - 1;
+            }
+            currentKeymapIndex = prevIndex;
+        }
+
+        function switchToKeymap() {
+            if (mainAppWindow) {
+                mainAppWindow.switchToKeymap(keymaps[currentKeymapIndex]);
+            }
+        }
+    }
+
+    onMainAppWindowChanged: keymapPriv.switchToKeymap()
 
     Rectangle {
         id: shutdownFadeOutRectangle

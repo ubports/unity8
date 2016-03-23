@@ -40,20 +40,20 @@ PageList::PageList(QObject *parent)
       m_index(-1),
       m_pages()
 {
-    QString qmlSuffix = QStringLiteral(".qml");
-    QString disabledSuffix = QStringLiteral(".disabled");
+    const QString qmlSuffix = QStringLiteral(".qml");
+    const QString disabledSuffix = QStringLiteral(".disabled");
     QSet<QString> disabledPages;
     QStringList dataDirs;
 
     if (!isRunningInstalled() && getenv("WIZARD_TESTING") == nullptr) {
-        dataDirs = QStringList() << qmlDirectory();
+        dataDirs << qmlDirectory();
     } else {
         dataDirs = shellDataDirs();
     }
 
     Q_FOREACH(const QString &dataDir, dataDirs) {
         QDir dir(dataDir + "/Wizard/Pages");
-        QStringList entries = dir.entryList(QStringList(QStringLiteral("[0-9]*")), QDir::Files | QDir::Readable);
+        const QStringList entries = dir.entryList(QStringList(QStringLiteral("[0-9]*")), QDir::Files | QDir::Readable);
         Q_FOREACH(const QString &entry, entries) {
             if (!m_pages.contains(entry) && entry.endsWith(qmlSuffix))
                 m_pages.insert(entry, dir.absoluteFilePath(entry));

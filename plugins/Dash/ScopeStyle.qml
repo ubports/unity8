@@ -58,7 +58,7 @@ QtObject {
     readonly property url headerLogo: "logo" in d.headerStyle ? d.headerStyle["logo"] : ""
 
     /// Background style for the header
-    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : "color:///#f5f5f5"
+    readonly property url headerBackground: "background" in d.headerStyle ? d.headerStyle["background"] : "color:///#ffffff"
 
     /// Foreground color for the header
     readonly property color headerForeground: "foreground-color" in d.headerStyle ? d.headerStyle["foreground-color"] : foreground
