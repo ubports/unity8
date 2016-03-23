@@ -258,6 +258,7 @@ Item {
 
                     AbstractButton {
                         id: settingsButton
+                        objectName: "settingsButton"
 
                         width: root.scopeHasFilters ? height : 0
                         visible: width > 0

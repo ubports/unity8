@@ -428,8 +428,8 @@ Item {
 
             function test_header_style_data() {
                 return [
-                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#f5f5f5", logo: "" },
-                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#ffffff", logo: "" },
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#ffffff", logo: "" },
                     { tag: "Logo+Background", index: 2, foreground: UbuntuColors.darkGrey, background: "gradient:///lightgrey/grey",
                       logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
