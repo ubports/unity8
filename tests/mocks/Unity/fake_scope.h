@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2014 Canonical, Ltd.
+ * Copyright (C) 2013, 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,11 +68,15 @@ public:
 
     QString currentNavigationId() const  override;
     bool hasNavigation() const  override;
-    QString currentAltNavigationId() const  override;
-    bool hasAltNavigation() const  override;
     Q_INVOKABLE unity::shell::scopes::NavigationInterface* getNavigation(QString const& navigationId) override;
-    Q_INVOKABLE unity::shell::scopes::NavigationInterface* getAltNavigation(QString const& altNavigationId) override;
-    Q_INVOKABLE void setNavigationState(const QString &navigationId, bool isAltNavigation) override;
+    Q_INVOKABLE void setNavigationState(const QString &navigationId) override;
+
+    unity::shell::scopes::FilterBaseInterface* primaryNavigationFilter() const override;
+    unity::shell::scopes::FiltersInterface* filters() const override;
+    QString primaryNavigationTag() const override;
+    int activeFiltersCount() const override;
+    Q_INVOKABLE void resetPrimaryNavigationTag() override;
+
     void performQuery(const QString& query) override;
 
     Status status() const override;
@@ -80,7 +84,9 @@ public:
 
     Q_INVOKABLE void refresh() override;
 
-    Q_INVOKABLE virtual void activateAction(QVariant const& result, QString const& categoryId, QString const& actionId) override;
+    Q_INVOKABLE void resetFilters() override;
+
+    Q_INVOKABLE void activateAction(QVariant const& result, QString const& categoryId, QString const& actionId) override;
 
 Q_SIGNALS:
     // These are not in the Interface, here for testing benefits
@@ -100,13 +106,13 @@ protected:
     bool m_favorite;
     bool m_isActive;
     QString m_currentNavigationId;
-    QString m_currentAltNavigationId;
 
     QString m_previewRendererName;
 
     unity::shell::scopes::CategoriesInterface* m_categories;
     unity::shell::scopes::ScopeInterface* m_openScope;
     unity::shell::scopes::SettingsModelInterface* m_settings;
+    unity::shell::scopes::FiltersInterface* m_filters;
 
     bool m_returnNullPreview;
 };

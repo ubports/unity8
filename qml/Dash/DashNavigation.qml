@@ -30,28 +30,24 @@ Item {
     property alias windowHeight: blackRect.height
     readonly property var openList: {
         if (navigationButton.showList) return navigationButton.listView;
-        if (altNavigationButton.showList) return altNavigationButton.listView;
         return null;
     }
     readonly property bool disableParentInteractive: {
-        return navigationButton.showList || altNavigationButton.showList ||
-               navigationButton.inverseMousePressed || altNavigationButton.inverseMousePressed;
+        return navigationButton.showList || navigationButton.inverseMousePressed;
     }
 
     // FIXME this is only here for highlight purposes (see Background.qml, too)
     readonly property var background: backgroundItem
 
     visible: height != 0
-    height: navigationButton.currentNavigation || altNavigationButton.currentNavigation ? units.gu(5) : 0
+    height: navigationButton.currentNavigation ? units.gu(5) : 0
 
     QtObject {
         id: d
         readonly property color foregroundColor: root.scopeStyle
                                                  ? root.scopeStyle.getTextColor(backgroundItem.luminance)
                                                  : theme.palette.normal.baseText
-        readonly property bool bothVisible: altNavigationButton.visible && navigationButton.visible
         readonly property real navigationWidth: root.width >= units.gu(60) ? units.gu(40) : root.width
-        readonly property real buttonWidth: navigationWidth / (bothVisible ? 2 : 1)
     }
 
     Rectangle {
@@ -77,41 +73,15 @@ Item {
     }
 
     DashNavigationButton {
-        id: altNavigationButton
-        objectName: "altNavigationButton"
-        height: root.height
-        width: d.buttonWidth
-        scope: root.scope
-        scopeStyle: root.scopeStyle
-        foregroundColor: d.foregroundColor
-        listView.width: d.navigationWidth
-        isAltNavigation: true
-        showDivider: navigationButton.visible || root.width > d.navigationWidth
-        // needed so that InverseMouseArea is above navigationButton
-        z: listView.height > 0 ? 1 : 0
-    }
-
-    DashNavigationButton {
         id: navigationButton
         objectName: "navigationButton"
         height: root.height
-        width: altNavigationButton.visible ? d.buttonWidth : d.navigationWidth
-        x: altNavigationButton.visible ? d.buttonWidth : 0
+        width: d.navigationWidth
         scope: root.scope
         scopeStyle: root.scopeStyle
         foregroundColor: d.foregroundColor
         listView.width: d.navigationWidth
         listView.x: -x
         showDivider: root.width > d.navigationWidth
-    }
-
-    Image {
-        fillMode: Image.Stretch
-        source: backgroundItem.luminance > 0.7 ? "graphics/navigation_shadow.png" : "graphics/navigation_shadow_light.png"
-        x: navigationButton.listView.height > 0 ? altNavigationButton.x : navigationButton.x
-        width: d.buttonWidth
-        rotation: 180
-        anchors.bottom: parent.bottom
-        visible: d.bothVisible && (navigationButton.listView.height > 0 || altNavigationButton.listView.height > 0)
     }
 }

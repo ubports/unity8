@@ -25,7 +25,7 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationDisableParentInteractive: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].disableParentInteractive : false
+    readonly property bool navigationDisableParentInteractive: categoryView.pageHeader.bottomItem[0].disableParentInteractive
     property bool forceNonInteractive: false
     property var scope: null
     property UnitySortFilterProxyModel categories: categoryFilter
@@ -34,7 +34,6 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
-    property bool showPageHeader: true
     readonly property alias subPageShown: subPageLoader.subPageShown
     property int paginationCount: 0
     property int paginationIndex: 0
@@ -68,8 +67,7 @@ FocusScope {
     }
 
     function resetSearch() {
-        if(pageHeaderLoader.item && showPageHeader)
-            pageHeaderLoader.item.resetSearch()
+        categoryView.pageHeader.resetSearch()
     }
 
     property var maybePreviewResult;
@@ -120,24 +118,22 @@ FocusScope {
         if (!holdingList || !holdingList.moving) {
             wasCurrentOnMoveStart = scopeView.isCurrent;
         }
-        if (pageHeaderLoader.item && showPageHeader) {
-            pageHeaderLoader.item.resetSearch();
-        }
+        categoryView.pageHeader.resetSearch();
         subPageLoader.closeSubPage();
     }
 
     Binding {
         target: scopeView.scope
         property: "searchQuery"
-        value: pageHeaderLoader.item ? pageHeaderLoader.item.searchQuery : ""
-        when: isCurrent && showPageHeader
+        value: categoryView.pageHeader.searchQuery
+        when: isCurrent
     }
 
     Binding {
-        target: pageHeaderLoader.item
+        target: categoryView.pageHeader
         property: "searchQuery"
         value: scopeView.scope ? scopeView.scope.searchQuery : ""
-        when: isCurrent && showPageHeader
+        when: isCurrent
     }
 
     Connections {
@@ -189,8 +185,8 @@ FocusScope {
         property string expandedCategoryId: ""
         property int runMaximizeAfterSizeChanges: 0
 
-        readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
-            ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
+        readonly property bool pageHeaderTotallyVisible:
+            ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == categoryView.pageHeader.height))
 
         onExpandedCategoryIdChanged: {
             var firstCreated = firstCreatedIndex();
@@ -615,41 +611,32 @@ FocusScope {
             }
         }
 
-        pageHeader: scopeView.showPageHeader ? pageHeaderLoader : null
-        Loader {
-            id: pageHeaderLoader
+        pageHeader: DashPageHeader {
+            objectName: "scopePageHeader"
             width: parent.width
-            sourceComponent: scopeView.showPageHeader ? pageHeaderComponent : undefined
-            Component {
-                id: pageHeaderComponent
-                DashPageHeader {
-                    objectName: "scopePageHeader"
-                    width: parent.width
-                    title: scopeView.scope ? scopeView.scope.name : ""
-                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
-                    showBackButton: scopeView.hasBackAction
-                    searchEntryEnabled: true
-                    settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
-                    favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
-                    favorite: scopeView.scope && scopeView.scope.favorite
-                    scopeStyle: scopeView.scopeStyle
-                    paginationCount: scopeView.paginationCount
-                    paginationIndex: scopeView.paginationIndex
+            title: scopeView.scope ? scopeView.scope.name : ""
+            searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
+            showBackButton: scopeView.hasBackAction
+            searchEntryEnabled: true
+            settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
+            favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
+            favorite: scopeView.scope && scopeView.scope.favorite
+            scopeStyle: scopeView.scopeStyle
+            paginationCount: scopeView.paginationCount
+            paginationIndex: scopeView.paginationIndex
 
-                    bottomItem: DashNavigation {
-                        scope: scopeView.scope
-                        anchors { left: parent.left; right: parent.right }
-                        windowHeight: scopeView.height
-                        windowWidth: scopeView.width
-                        scopeStyle: scopeView.scopeStyle
-                    }
-
-                    onBackClicked: scopeView.backClicked()
-                    onSettingsClicked: subPageLoader.openSubPage("settings")
-                    onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
-                    onSearchTextFieldFocused: scopeView.showHeader()
-                }
+            bottomItem: DashNavigation {
+                scope: scopeView.scope
+                anchors { left: parent.left; right: parent.right }
+                windowHeight: scopeView.height
+                windowWidth: scopeView.width
+                scopeStyle: scopeView.scopeStyle
             }
+
+            onBackClicked: scopeView.backClicked()
+            onSettingsClicked: subPageLoader.openSubPage("settings")
+            onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
+            onSearchTextFieldFocused: scopeView.showHeader()
         }
     }
 
@@ -658,7 +645,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: parent.height - pullToRefresh.contentY + (pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].height - pageHeaderLoader.item.height : 0)
+        height: parent.height - pullToRefresh.contentY + (categoryView.pageHeader.bottomItem[0].height - categoryView.pageHeader.height)
         clip: true
 
         PullToRefresh {
@@ -793,7 +780,7 @@ FocusScope {
             open = true;
         }
 
-        onOpenChanged: pageHeaderLoader.item.unfocus()
+        onOpenChanged: categoryView.pageHeader.unfocus()
 
         onVisibleChanged: if (!visible) subPage = ""
 

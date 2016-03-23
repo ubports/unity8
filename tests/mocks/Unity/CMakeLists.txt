@@ -8,7 +8,7 @@ add_subdirectory(DashCommunicator)
 add_subdirectory(Screens)
 
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
-pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=10)
+pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=11)
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -29,9 +29,16 @@ set(UnityQML_SOURCES
   fake_resultsmodel.cpp
   fake_previewmodel.cpp
   fake_previewwidgetmodel.cpp
+  fake_filters.cpp
+  fake_optionselectorfilter.cpp
+  fake_optionselectoroptions.cpp
   fake_unity_plugin.cpp
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/CategoriesInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/FilterBaseInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/FiltersInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/NavigationInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/OptionSelectorFilterInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/OptionSelectorOptionsInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/PreviewWidgetModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ResultsModelInterface.h

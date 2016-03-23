@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2014 Canonical, Ltd.
+ * Copyright (C) 2013, 2014, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 #include "fake_scope.h"
 
+#include "fake_filters.h"
 #include "fake_navigation.h"
 #include "fake_resultsmodel.h"
 #include "fake_scopes.h"
@@ -38,11 +39,11 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_favorite(favorite)
     , m_isActive(false)
     , m_currentNavigationId("root")
-    , m_currentAltNavigationId("altrootChild1")
     , m_previewRendererName("preview-generic")
     , m_categories(new Categories(categories, this))
     , m_openScope(nullptr)
     , m_settings(new SettingsModel(this))
+    , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
 {
 }
@@ -232,16 +233,6 @@ bool Scope::hasNavigation() const
     return true;
 }
 
-QString Scope::currentAltNavigationId() const
-{
-    return m_currentAltNavigationId;
-}
-
-bool Scope::hasAltNavigation() const
-{
-    return true;
-}
-
 Scope::Status Scope::status() const
 {
     return Status::Okay;
@@ -276,6 +267,11 @@ void Scope::refresh()
     Q_EMIT refreshed();
 }
 
+void Scope::resetFilters()
+{
+    qWarning() << "Scope::resetFilters is unimplemented";
+}
+
 void Scope::activateAction(QVariant const& /*result*/, QString const& /*categoryId*/, QString const& /*actionId*/)
 {
     qFatal("Using Scope::activateAction");
@@ -298,29 +294,36 @@ unity::shell::scopes::NavigationInterface* Scope::getNavigation(const QString& i
     return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
 }
 
-unity::shell::scopes::NavigationInterface* Scope::getAltNavigation(QString const& id)
+void Scope::setNavigationState(const QString &navigationId)
 {
-    if (id.isEmpty())
-        return nullptr;
-
-    QString parentId;
-    QString parentLabel;
-    if (id != "altroot") {
-        parentId = "altroot";
-        parentLabel = "altroot";
-    }
-    return new Navigation(id, id, "all"+id, parentId, parentLabel, this);
+    m_currentNavigationId = navigationId;
+    Q_EMIT currentNavigationIdChanged();
 }
 
-void Scope::setNavigationState(const QString &navigationId, bool isAltNavigation)
+unity::shell::scopes::FilterBaseInterface* Scope::primaryNavigationFilter() const
 {
-    if (isAltNavigation) {
-        m_currentAltNavigationId = navigationId;
-        Q_EMIT currentAltNavigationIdChanged();
-    } else {
-        m_currentNavigationId = navigationId;
-        Q_EMIT currentNavigationIdChanged();
-    }
+    return nullptr;
+}
+
+unity::shell::scopes::FiltersInterface* Scope::filters() const
+{
+    return m_filters;
+}
+
+QString Scope::primaryNavigationTag() const
+{
+    // TODO
+    return QString();
+}
+
+int Scope::activeFiltersCount() const
+{
+    // TODO
+    return 0;
+}
+
+void Scope::resetPrimaryNavigationTag()
+{
 }
 
 void Scope::performQuery(const QString& query)

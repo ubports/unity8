@@ -25,11 +25,10 @@ AbstractButton {
     property var scope: null
     property var scopeStyle: null
     property color foregroundColor: theme.palette.normal.baseText
-    property bool isAltNavigation: false
     property bool showDivider: false
 
     // Used by parent
-    readonly property var currentNavigation: scope && scope[hasNavigation] ? getNavigation(scope[currentNavigationId]) : null
+    readonly property var currentNavigation: scope && scope.hasNavigation ? scope.getNavigation(scope.currentNavigationId) : null
     readonly property alias listView: navigationListView
     readonly property bool inverseMousePressed: inverseMouseArea.pressed
     property bool showList: false
@@ -37,15 +36,6 @@ AbstractButton {
     // Internal
     // Are we drilling down the tree or up?
     property bool isGoingBack: false
-    readonly property string hasNavigation: isAltNavigation ? "hasAltNavigation" : "hasNavigation"
-    readonly property string currentNavigationId: isAltNavigation ? "currentAltNavigationId" : "currentNavigationId"
-    function getNavigation(navId) {
-        if (isAltNavigation) {
-            return scope.getAltNavigation(navId);
-        } else {
-            return scope.getNavigation(navId);
-        }
-    }
 
     visible: root.currentNavigation != null
 
@@ -125,10 +115,10 @@ AbstractButton {
                 }
             }
             height: desiredHeight
-            navigation: (nullifyNavigation || !scope) ? null : getNavigation(navigationId)
+            navigation: (nullifyNavigation || !scope) ? null : scope.getNavigation(navigationId)
             currentNavigation: root.currentNavigation
             onEnterNavigation: {
-                scope.setNavigationState(newNavigationId, isAltNavigation);
+                scope.setNavigationState(newNavigationId);
                 // We only need to add a new item to the model
                 // if we have children, otherwise just load it
                 if (hasChildren) {
@@ -151,7 +141,7 @@ AbstractButton {
                     navigationListView.highlightMoveDuration = aux;
                 }
 
-                scope.setNavigationState(navigation.parentNavigationId, isAltNavigation);
+                scope.setNavigationState(navigation.parentNavigationId);
                 isGoingBack = true;
                 navigationModel.setProperty(navigationListView.currentIndex - 1, "nullifyNavigation", false);
                 navigationListView.currentIndex--;
@@ -160,7 +150,7 @@ AbstractButton {
                 showList = false;
                 if (root.currentNavigation.parentNavigationId == navigation.navigationId) {
                     // For leaves we have to go to the parent too
-                    scope.setNavigationState(root.currentNavigation.parentNavigationId, isAltNavigation);
+                    scope.setNavigationState(root.currentNavigation.parentNavigationId);
                 }
             }
         }
@@ -198,7 +188,7 @@ AbstractButton {
         if (isFirstLoad && currentNavigation && currentNavigation.loaded) {
             isFirstLoad = false;
             if (currentNavigation.count > 0) {
-                navigationModel.append({"navigationId": scope[currentNavigationId], "nullifyNavigation": false});
+                navigationModel.append({"navigationId": scope.currentNavigationId, "nullifyNavigation": false});
             } else {
                 navigationModel.append({"navigationId": currentNavigation.parentNavigationId, "nullifyNavigation": false});
             }
