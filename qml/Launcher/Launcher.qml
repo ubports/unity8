@@ -41,6 +41,7 @@ FocusScope {
     readonly property bool dragging: dragArea.dragging
     readonly property real dragDistance: dragArea.dragging ? dragArea.touchX : 0
     readonly property real visibleWidth: panel.width + panel.x
+    readonly property alias shortcutHintsShown: panel.shortcutHintsShown
 
     readonly property bool shown: panel.x > -panel.width
 

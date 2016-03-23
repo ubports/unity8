@@ -2152,19 +2152,22 @@ Rectangle {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
 
-        function test_longpressSuperOpensLauncher() {
+        function test_longpressSuperOpensLauncherAndShortcutsOverlay() {
             loadShell("desktop");
             var launcher = findChild(shell, "launcher");
             var shortcutHint = findChild(findChild(launcher, "launcherDelegate0"), "shortcutHint")
+            var shortcutsOverlay = findChild(shell, "shortcutsOverlay");
 
             compare(launcher.state, "");
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "visible");
             tryCompare(shortcutHint, "visible", true);
+            tryCompare(shortcutsOverlay, "visible", true);
 
             keyRelease(Qt.Key_Super_L, Qt.MetaModifier);
             tryCompare(launcher, "state", "");
             tryCompare(shortcutHint, "visible", false);
+            tryCompare(shortcutsOverlay, "visible", false);
         }
 
         function test_metaNumberLaunchesFromLauncher_data() {

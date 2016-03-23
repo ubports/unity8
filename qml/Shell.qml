@@ -598,6 +598,14 @@ Item {
             }
         }
 
+        KeyboardShortcutsOverlay {
+            objectName: "shortcutsOverlay"
+            visible: launcher.shortcutHintsShown
+            enabled: visible
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
+        }
+
         Tutorial {
             id: tutorial
             objectName: "tutorial"
