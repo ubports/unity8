@@ -697,7 +697,7 @@ Rectangle {
     Rectangle {
         id: quickList
         objectName: "quickList"
-        color: UbuntuColors.jet
+        color: theme.palette.normal.background
         // Because we're setting left/right anchors depending on orientation, it will break the
         // width setting after rotating twice. This makes sure we also re-apply width on rotation
         width: root.inverted ? units.gu(30) : units.gu(30)
