@@ -32,6 +32,7 @@
 
 #define PROP_BACKGROUND_FILE                   QStringLiteral("BackgroundFile")
 #define PROP_DEMO_EDGES                        QStringLiteral("demo-edges")
+#define PROP_DEMO_EDGES_COMPLETED              QStringLiteral("DemoEdgesCompleted")
 #define PROP_EMAIL                             QStringLiteral("Email")
 #define PROP_ENABLE_INDICATORS_WHILE_LOCKED    QStringLiteral("EnableIndicatorsWhileLocked")
 #define PROP_ENABLE_LAUNCHER_WHILE_LOCKED      QStringLiteral("EnableLauncherWhileLocked")
@@ -89,6 +90,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_PASSWORD_DISPLAY_HINT, QStringLiteral("passwordDisplayHintChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN, QStringLiteral("statsWelcomeScreenChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES, QStringLiteral("demoEdgesChanged"));
+    registerProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, QStringLiteral("demoEdgesCompletedChanged"));
     registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
 
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_CURSOR_SPEED,
@@ -150,6 +152,20 @@ bool AccountsService::demoEdges() const
 void AccountsService::setDemoEdges(bool demoEdges)
 {
     setProperty(IFACE_UNITY, PROP_DEMO_EDGES, demoEdges);
+}
+
+QStringList AccountsService::demoEdgesCompleted() const
+{
+    auto value = getProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED);
+    return value.toStringList();
+}
+
+void AccountsService::markDemoEdgeCompleted(const QString &edge)
+{
+    auto currentList = demoEdgesCompleted();
+    if (!currentList.contains(edge)) {
+        setProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, currentList << edge);
+    }
 }
 
 bool AccountsService::enableLauncherWhileLocked() const

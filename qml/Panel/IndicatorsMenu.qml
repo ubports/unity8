@@ -36,7 +36,6 @@ Showable {
     readonly property bool partiallyOpened: unitProgress > 0 && unitProgress < 1.0
     readonly property bool fullyClosed: unitProgress == 0
     property bool enableHint: true
-    property bool contentEnabled: true
     property bool showOnClick: true
     property color panelColor: theme.palette.normal.background
 
@@ -85,7 +84,6 @@ Showable {
         height: openedHeight - bar.height - handle.height
         indicatorsModel: root.indicatorsModel
         visible: root.unitProgress > 0
-        enabled: contentEnabled
         currentMenuIndex: bar.currentItemIndex
     }
 

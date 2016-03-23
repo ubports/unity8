@@ -160,6 +160,14 @@ Showable {
                 return false;
             }
         }
+
+        function checkForcedUnlock() {
+            if (forcedUnlock && shown && loader.item) {
+                // pretend we were just authenticated
+                loader.item.notifyAuthenticationSucceeded();
+                loader.item.hide();
+            }
+        }
     }
 
     onLauncherOffsetChanged: {
@@ -168,12 +176,8 @@ Showable {
         }
     }
 
-    onForcedUnlockChanged: {
-        if (forcedUnlock && shown) {
-            // pretend we were just authenticated
-            loader.item.notifyAuthenticationSucceeded();
-        }
-    }
+    onForcedUnlockChanged: d.checkForcedUnlock()
+    Component.onCompleted: d.checkForcedUnlock()
 
     onRequiredChanged: {
         if (required) {

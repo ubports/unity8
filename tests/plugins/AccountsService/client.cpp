@@ -117,6 +117,43 @@ private Q_SLOTS:
         QCOMPARE(session.hereEnabled(), true);
     }
 
+    void testMarkDemoEdgeCompleted()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QSignalSpy changedSpy(&session, &AccountsService::demoEdgesCompletedChanged);
+
+        QCOMPARE(changedSpy.count(), 0);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList());
+
+        session.markDemoEdgeCompleted("testedge");
+        QCOMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+
+        session.markDemoEdgeCompleted("testedge");
+        QCOMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+
+        session.markDemoEdgeCompleted("testedge2");
+        QCOMPARE(changedSpy.count(), 2);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge" << "testedge2");
+    }
+
+    void testAsynchronousChangeForDemoEdgesCompleted()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QSignalSpy changedSpy(&session, &AccountsService::demoEdgesCompletedChanged);
+
+        QCOMPARE(changedSpy.count(), 0);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList());
+
+        ASSERT_DBUS_CALL(m_userInterface->call("Set",
+                                               "com.canonical.unity.AccountsService",
+                                               "DemoEdgesCompleted",
+                                               dbusVariant(QStringList() << "testedge")));
+        QTRY_COMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+    }
+
     void testAsynchronousChangeForDemoEdges()
     {
         AccountsService session(this, QTest::currentTestFunction());

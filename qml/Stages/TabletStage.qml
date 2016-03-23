@@ -27,6 +27,9 @@ AbstractStage {
     objectName: "stages"
     anchors.fill: parent
 
+    property alias sideStageVisible: spreadView.sideStageVisible
+    property alias sideStageWidth: spreadView.sideStageWidth
+
     // Functions to be called from outside
     function updateFocusedAppOrientation() {
         var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
@@ -96,6 +99,9 @@ AbstractStage {
                    Qt.InvertedLandscapeOrientation;
         }
     }
+
+    // How far left the stage has been dragged, used externally by tutorial code
+    dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0
 
     onWidthChanged: {
         spreadView.selectedIndex = -1;
@@ -318,8 +324,6 @@ AbstractStage {
         contentX: -shift
 
         property int tileDistance: units.gu(20)
-        property int sideStageWidth: units.gu(40)
-        property bool sideStageVisible: priv.sideStageAppId
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
@@ -382,6 +386,9 @@ AbstractStage {
         }
 
         property real sideStageDragProgress: sideStage.progress
+        property bool sideStageVisible: priv.sideStageAppId
+        property real sideStageWidth: units.gu(40)
+
         property bool surfaceDragging: triGestureArea.recognisedDrag
 
         // In case the ApplicationManager already holds an app when starting up we're missing animations

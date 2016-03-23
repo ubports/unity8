@@ -19,6 +19,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 class AccountsService: public QObject
@@ -33,6 +34,10 @@ class AccountsService: public QObject
                 READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QStringList demoEdgesCompleted
+                READ demoEdgesCompleted
+                WRITE setDemoEdgesCompleted // only available in mock
+                NOTIFY demoEdgesCompletedChanged)
     Q_PROPERTY (bool enableLauncherWhileLocked
                 READ enableLauncherWhileLocked
                 WRITE setEnableLauncherWhileLocked // only available in mock
@@ -82,6 +87,9 @@ public:
     void setUser(const QString &user);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
+    QStringList demoEdgesCompleted() const;
+    void setDemoEdgesCompleted(const QStringList &demoEdges);
+    Q_INVOKABLE void markDemoEdgeCompleted(const QString &edge);
     bool enableLauncherWhileLocked() const;
     void setEnableLauncherWhileLocked(bool enableLauncherWhileLocked);
     bool enableIndicatorsWhileLocked() const;
@@ -106,6 +114,7 @@ public:
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
+    void demoEdgesCompletedChanged();
     void enableLauncherWhileLockedChanged();
     void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
@@ -125,6 +134,7 @@ private:
     bool m_statsWelcomeScreen;
     uint m_failedLogins;
     bool m_demoEdges;
+    QStringList m_demoEdgesCompleted;
     bool m_hereEnabled;
     QString m_hereLicensePath;
     QString m_realName;

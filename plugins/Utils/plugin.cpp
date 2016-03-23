@@ -30,7 +30,7 @@
 #include "qlimitproxymodelqml.h"
 #include "unitysortfilterproxymodelqml.h"
 #include "unitymenumodelpaths.h"
-#include "windowkeysfilter.h"
+#include "windowinputfilter.h"
 #include "windowscreenshotprovider.h"
 #include "windowstatestorage.h"
 #include "constants.h"
@@ -69,7 +69,7 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
-    qmlRegisterType<WindowKeysFilter>(uri, 0, 1, "WindowKeysFilter");
+    qmlRegisterType<WindowInputFilter>(uri, 0, 1, "WindowInputFilter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");

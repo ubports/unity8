@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ TutorialPage {
 
     property var launcher
 
-    opacityOverride: 1 - launcher.visibleWidth / launcher.panelWidth
+    opacityOverride: 1 - launcher.dragDistance / launcher.minimizeDistance
 
     mouseArea {
         anchors.leftMargin: launcher.dragAreaWidth
@@ -44,7 +44,7 @@ TutorialPage {
     }
 
     label {
-        text: i18n.tr("Swipe from the left edge to open the launcher")
+        text: i18n.tr("Long swipe from the left edge to open the Today scope")
         anchors.left: arrow.right
         anchors.leftMargin: units.gu(3)
         anchors.right: root.right

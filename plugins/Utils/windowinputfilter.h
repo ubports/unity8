@@ -16,8 +16,8 @@
  * Author: Daniel d'Andrada <daniel.dandrada@canonical.com>
  */
 
-#ifndef UNITY_WINDOWKEYSFILTER_H
-#define UNITY_WINDOWKEYSFILTER_H
+#ifndef UNITY_WINDOWINPUTFILTER_H
+#define UNITY_WINDOWINPUTFILTER_H
 
 #include <QQuickItem>
 #include <QPointer>
@@ -29,30 +29,30 @@
    accepted ones will be filtered out. Events are accepted by default, so make sure you reject
    the keys you're not interested in.
 
-   If more than one WindowKeysFilter exist in the same QML scene (and thus in the same QQuickWindow)
+   If more than one WindowInputFilter exist in the same QML scene (and thus in the same QQuickWindow)
    they will be called in the order of creation, which can be tricky to assess. So the best practice
-   is to have at most one WindowKeysFilter per QML scene.
+   is to have at most one WindowInputFilter per QML scene.
  */
-class WindowKeysFilter : public QQuickItem
+class WindowInputFilter : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(ulong currentEventTimestamp READ currentEventTimestamp NOTIFY currentEventTimestampChanged)
+    Q_PROPERTY(ulong lastInputTimestamp READ lastInputTimestamp NOTIFY lastInputTimestampChanged)
 public:
-    WindowKeysFilter(QQuickItem *parent = 0);
+    WindowInputFilter(QQuickItem *parent = 0);
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 
-    ulong currentEventTimestamp() const;
+    ulong lastInputTimestamp() const;
 
 Q_SIGNALS:
-    void currentEventTimestampChanged();
+    void lastInputTimestampChanged();
 
 private Q_SLOTS:
     void setupFilterOnWindow(QQuickWindow *window);
 
 private:
     QPointer<QQuickWindow> m_filteredWindow;
-    ulong m_currentEventTimestamp;
+    ulong m_lastInputTimestamp;
 };
 
-#endif // UNITY_WINDOWKEYSFILTER_H
+#endif // UNITY_WINDOWINPUTFILTER_H

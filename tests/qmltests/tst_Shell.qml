@@ -499,6 +499,7 @@ Rectangle {
             setLightDMMockMode("single"); // back to the default value
 
             AccountsService.demoEdges = false;
+            AccountsService.demoEdgesCompleted = [];
             Wizard.System.wizardEnabled = false;
 
             // kill all (fake) running apps
@@ -650,9 +651,8 @@ Rectangle {
 
         function test_tabletLeftEdgeDrag_data() {
             return [
-                {tag: "without password", user: "no-password", loggedIn: true, demo: false},
-                {tag: "with password", user: "has-password", loggedIn: false, demo: false},
-                {tag: "with demo", user: "has-password", loggedIn: true, demo: true},
+                {tag: "without password", user: "no-password", loggedIn: true},
+                {tag: "with password", user: "has-password", loggedIn: false},
             ]
         }
 
@@ -661,10 +661,6 @@ Rectangle {
             loadShell("tablet");
 
             selectUser(data.user)
-
-            AccountsService.demoEdges = data.demo
-            var tutorial = findChild(shell, "tutorial");
-            tryCompare(tutorial, "running", data.demo);
 
             swipeFromLeftEdge(shell.width * 0.75)
             wait(500) // to give time to handle dash() signal from Launcher
@@ -1262,7 +1258,6 @@ Rectangle {
             var tutorial = findChild(shell, "tutorial");
 
             AccountsService.demoEdges = true;
-            tryCompare(tutorial, "running", true);
             tryCompare(tutorial, "paused", true);
 
             swipeAwayGreeter();

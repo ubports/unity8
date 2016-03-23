@@ -60,7 +60,7 @@ public:
 
     QUrl icon() const override { return m_icon; }
 
-    void setStage(Stage value);
+    Q_INVOKABLE void setStage(Stage value); // invokable only for mock
     Stage stage() const override { return m_stage; }
 
     Q_INVOKABLE void setState(State value);

@@ -26,6 +26,7 @@ AccountsService::AccountsService(QObject* parent)
     m_statsWelcomeScreen(true),
     m_failedLogins(0),
     m_demoEdges(false),
+    m_demoEdgesCompleted(),
     m_hereEnabled(false),
     m_hereLicensePath("")
 {
@@ -52,6 +53,25 @@ void AccountsService::setDemoEdges(bool demoEdges)
 {
     m_demoEdges = demoEdges;
     Q_EMIT demoEdgesChanged();
+}
+
+QStringList AccountsService::demoEdgesCompleted() const
+{
+    return m_demoEdgesCompleted;
+}
+
+void AccountsService::markDemoEdgeCompleted(const QString &edge)
+{
+    if (!m_demoEdgesCompleted.contains(edge)) {
+        m_demoEdgesCompleted << edge;
+        Q_EMIT demoEdgesCompletedChanged();
+    }
+}
+
+void AccountsService::setDemoEdgesCompleted(const QStringList &demoEdgesCompleted)
+{
+    m_demoEdgesCompleted = demoEdgesCompleted;
+    Q_EMIT demoEdgesCompletedChanged();
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
