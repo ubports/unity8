@@ -177,7 +177,6 @@ Item {
                 onClicked: {
                     rebootDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Yes")
@@ -213,14 +212,12 @@ Item {
                     unitySessionService.reboot();
                     powerDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
         }
     }
