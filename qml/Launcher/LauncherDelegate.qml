@@ -248,7 +248,7 @@ Item {
         UbuntuShape {
             objectName: "shortcutHint"
             anchors.centerIn: parent
-            width: units.gu(2)
+            width: units.gu(2.5)
             height: width
             backgroundColor: Qt.rgba(17/255, 17/255, 17/255, 0.95) // #111111, 95%
             visible: root.shortcutHintShown
