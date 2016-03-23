@@ -632,7 +632,6 @@ Item {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {

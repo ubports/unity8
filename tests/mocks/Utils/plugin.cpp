@@ -35,6 +35,7 @@
 #include <windowkeysfilter.h>
 #include <windowscreenshotprovider.h>
 #include <easingcurve.h>
+#include <timezoneFormatter.h>
 #include <applicationsfiltermodel.h>
 #include <inputeventgenerator.h>
 #include <deviceconfigparser.h>
@@ -65,6 +66,8 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");
     qmlRegisterSingletonType<Constants>(uri, 0, 1, "Constants", createConstants);
+    qmlRegisterSingletonType<TimezoneFormatter>(uri, 0, 1, "TimezoneFormatter",
+                                                [](QQmlEngine*, QJSEngine*) -> QObject* { return new TimezoneFormatter; });
     qmlRegisterType<ActiveFocusLogger>(uri, 0, 1, "ActiveFocusLogger");
     qmlRegisterType<ApplicationsFilterModel>(uri, 0, 1, "ApplicationsFilterModel");
     qmlRegisterType<InputEventGenerator>(uri, 0, 1, "InputEventGenerator");

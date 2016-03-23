@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Gerry Boland <gerry.boland@canonical.com>
- *          Michael Terry <michael.terry@canonical.com>
  */
 
 #ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
@@ -70,11 +67,13 @@ class AccountsService: public QObject
     Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
                READ hereLicensePathValid
                NOTIFY hereLicensePathChanged)
+    Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
+    Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
 
 public:
     enum PasswordDisplayHint {
         Keyboard,
-        Numeric,
+        Numeric
     };
 
     explicit AccountsService(QObject *parent = 0);
@@ -99,6 +98,10 @@ public:
     QString hereLicensePath() const;
     void setHereLicensePath(const QString &path);
     bool hereLicensePathValid() const;
+    QString realName() const;
+    void setRealName(const QString &realName);
+    QString email() const;
+    void setEmail(const QString &email);
 
 Q_SIGNALS:
     void userChanged();
@@ -111,6 +114,8 @@ Q_SIGNALS:
     void failedLoginsChanged();
     void hereEnabledChanged();
     void hereLicensePathChanged();
+    void realNameChanged();
+    void emailChanged();
 
 private:
     bool m_enableLauncherWhileLocked;
@@ -122,6 +127,8 @@ private:
     bool m_demoEdges;
     bool m_hereEnabled;
     QString m_hereLicensePath;
+    QString m_realName;
+    QString m_email;
 };
 
 #endif

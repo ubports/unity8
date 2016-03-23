@@ -8,13 +8,14 @@ Build-Depends: cmake,
                doxyqml,
 # To allow cross-compiling to work, we also must append :native
 # to g++ so we don't try to run armhf g++
-# on an x86 CPU for eaxmple, when cross-compiling.
+# on an x86 CPU for example, when cross-compiling.
                g++:native,
                libandroid-properties-dev,
                graphviz,
                gsettings-ubuntu-schemas (>= 0.0.2+14.10.20140815),
                libconnectivity-qt1-dev (>= 0.7.1),
                libevdev-dev,
+               libgeonames-dev (>= 0.2),
                libgl1-mesa-dev[!armhf] | libgl-dev[!armhf],
                libgl1-mesa-dri,
                libgles2-mesa-dev[armhf],
