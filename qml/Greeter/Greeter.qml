@@ -20,6 +20,7 @@ import GSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
+import Unity.Session 0.1
 import "../Components"
 
 Showable {
@@ -445,6 +446,11 @@ Showable {
                 }
             }
         }
+    }
+
+    Connections {
+        target: DBusUnitySessionService
+        onLockRequested: root.forceShow()
     }
 
     Binding {
