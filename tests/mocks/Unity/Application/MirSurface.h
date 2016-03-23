@@ -75,6 +75,9 @@ public:
     int heightIncrement() const override { return m_heightIncrement; }
 
     Mir::ShellChrome shellChrome() const override;
+    QString keymapLayout() const override;
+    QString keymapVariant() const override;
+    Q_INVOKABLE void setKeymap(const QString &layout, const QString &variant) override;
 
     ////
     // API for tests
@@ -158,6 +161,8 @@ private:
         bool visible;
     };
     QHash<qintptr, View> m_views;
+
+    QPair<QString,QString> m_keyMap; // pair of layout+variant
 };
 
 #endif // MOCK_MIR_SURFACE_H

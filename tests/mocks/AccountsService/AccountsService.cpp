@@ -192,3 +192,20 @@ void AccountsService::setEmail(const QString &email)
     m_email = email;
     Q_EMIT emailChanged();
 }
+
+QStringList AccountsService::keymaps() const
+{
+    if (!m_kbdMap.isEmpty()) {
+        return m_kbdMap;
+    }
+
+    return {QStringLiteral("us")};
+}
+
+void AccountsService::setKeymaps(const QStringList &keymaps)
+{
+    if (keymaps != m_kbdMap) {
+        m_kbdMap = keymaps;
+        Q_EMIT keymapsChanged();
+    }
+}

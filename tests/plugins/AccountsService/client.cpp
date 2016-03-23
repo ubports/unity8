@@ -23,6 +23,11 @@
 #include <QTest>
 #include <QDebug>
 #include <QDBusReply>
+#include <QDBusMetaType>
+
+using StringMap = QMap<QString,QString>;
+using StringMapList = QList<StringMap>;
+Q_DECLARE_METATYPE(StringMapList)
 
 template <class T>
 QVariant dbusVariant(const T& value) { return QVariant::fromValue(QDBusVariant(value)); }
@@ -52,6 +57,9 @@ public:
 
         QObject::connect(m_uscInputInterface, SIGNAL(setMousePrimaryButtonCalled(int)),
                          this, SIGNAL(setMousePrimaryButtonCalled(int)));
+
+        qDBusRegisterMetaType<StringMap>();
+        qDBusRegisterMetaType<StringMapList>();
     }
 
 private Q_SLOTS:
@@ -301,6 +309,28 @@ private Q_SLOTS:
         QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
         QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
         QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
+    void testAsynchronousChangeForKeymaps()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        QCOMPARE(session.keymaps(), {"us"});
+
+        StringMapList inputSources;
+        StringMap map1;
+        map1.insert("xkb", "cz+qwerty");
+        inputSources.append(map1);
+        StringMap map2;
+        map2.insert("xkb", "fr");
+        inputSources.append(map2);
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "org.freedesktop.Accounts.User",
+                                                    "InputSources",
+                                                    QVariant::fromValue(QDBusVariant(QVariant::fromValue(inputSources)))));
+        QStringList result = {"cz+qwerty", "fr"};
+        QTRY_COMPARE(session.keymaps(), result);
     }
 
 Q_SIGNALS:

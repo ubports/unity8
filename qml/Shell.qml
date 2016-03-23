@@ -102,6 +102,8 @@ Item {
     // internal props from here onwards
     readonly property var mainApp:
             applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
+    readonly property var mainAppWindow:
+            applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainAppWindow : null
 
     // Disable everything while greeter is waiting, so that the user can't swipe
     // the greeter or launcher until we know whether the session is locked.
@@ -718,6 +720,54 @@ Item {
 
         onMouseMoved: { cursor.opacity = 1; }
     }
+
+    // keymap switching
+    GlobalShortcut {
+        shortcut: Qt.MetaModifier|Qt.Key_Space
+        onTriggered: keymapPriv.nextKeymap()
+        active: keymapPriv.keymapCount > 1
+    }
+
+    GlobalShortcut {
+        shortcut: Qt.MetaModifier|Qt.ShiftModifier|Qt.Key_Space
+        onTriggered: keymapPriv.previousKeymap()
+        active: keymapPriv.keymapCount > 1
+    }
+
+    QtObject {
+        id: keymapPriv
+
+        readonly property var keymaps: AccountsService.keymaps
+        readonly property int keymapCount: keymaps.length
+        property int currentKeymapIndex: 0  // the new one that we're setting
+        onCurrentKeymapIndexChanged: switchToKeymap();
+
+        function nextKeymap() {
+            var nextIndex = 0;
+
+            if (currentKeymapIndex !== -1 && currentKeymapIndex < keymapCount - 1) {
+                nextIndex = currentKeymapIndex + 1;
+            }
+            currentKeymapIndex = nextIndex;
+        }
+
+        function previousKeymap() {
+            var prevIndex = keymapCount - 1;
+
+            if (currentKeymapIndex > 0) {
+                prevIndex = currentKeymapIndex - 1;
+            }
+            currentKeymapIndex = prevIndex;
+        }
+
+        function switchToKeymap() {
+            if (mainAppWindow) {
+                mainAppWindow.switchToKeymap(keymaps[currentKeymapIndex]);
+            }
+        }
+    }
+
+    onMainAppWindowChanged: keymapPriv.switchToKeymap()
 
     Rectangle {
         id: shutdownFadeOutRectangle

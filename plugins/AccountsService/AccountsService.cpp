@@ -37,6 +37,7 @@
 #define PROP_ENABLE_INDICATORS_WHILE_LOCKED    QStringLiteral("EnableIndicatorsWhileLocked")
 #define PROP_ENABLE_LAUNCHER_WHILE_LOCKED      QStringLiteral("EnableLauncherWhileLocked")
 #define PROP_FAILED_LOGINS                     QStringLiteral("FailedLogins")
+#define PROP_INPUT_SOURCES                     QStringLiteral("InputSources")
 #define PROP_LICENSE_ACCEPTED                  QStringLiteral("LicenseAccepted")
 #define PROP_LICENSE_BASE_PATH                 QStringLiteral("LicenseBasePath")
 #define PROP_MOUSE_CURSOR_SPEED                QStringLiteral("MouseCursorSpeed")
@@ -54,6 +55,10 @@
 #define PROP_TOUCHPAD_SCROLL_SPEED             QStringLiteral("TouchpadScrollSpeed")
 #define PROP_TOUCHPAD_TAP_TO_CLICK             QStringLiteral("TouchpadTapToClick")
 #define PROP_TOUCHPAD_TWO_FINGER_SCROLL        QStringLiteral("TouchpadTwoFingerScroll")
+
+using StringMap = QMap<QString,QString>;
+using StringMapList = QList<StringMap>;
+Q_DECLARE_METATYPE(StringMapList)
 
 
 QVariant primaryButtonConverter(const QVariant &value)
@@ -83,6 +88,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_ACCOUNTS_USER, PROP_BACKGROUND_FILE, QStringLiteral("backgroundFileChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, QStringLiteral("emailChanged"));
     registerProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, QStringLiteral("realNameChanged"));
+    registerProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QStringLiteral("keymapsChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_ACCEPTED, QStringLiteral("hereEnabledChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH, QStringLiteral("hereLicensePathChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
@@ -244,6 +250,26 @@ QString AccountsService::email() const
 void AccountsService::setEmail(const QString &email)
 {
     setProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, email);
+}
+
+QStringList AccountsService::keymaps() const
+{
+    auto value = getProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES);
+    QDBusArgument arg = value.value<QDBusArgument>();
+    StringMapList maps = qdbus_cast<StringMapList>(arg);
+    QStringList simplifiedMaps;
+
+    Q_FOREACH(const StringMap &map, maps) {
+        Q_FOREACH(const QString &entry, map) {
+            simplifiedMaps.append(entry);
+        }
+    }
+
+    if (!simplifiedMaps.isEmpty()) {
+        return simplifiedMaps;
+    }
+
+    return {QStringLiteral("us")};
 }
 
 uint AccountsService::failedLogins() const

@@ -74,6 +74,10 @@ class AccountsService: public QObject
                NOTIFY hereLicensePathChanged)
     Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
+    Q_PROPERTY(QStringList keymaps
+               READ keymaps
+               WRITE setKeymaps // only in mock
+               NOTIFY keymapsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -110,6 +114,8 @@ public:
     void setRealName(const QString &realName);
     QString email() const;
     void setEmail(const QString &email);
+    QStringList keymaps() const;
+    void setKeymaps(const QStringList &keymaps);
 
 Q_SIGNALS:
     void userChanged();
@@ -125,6 +131,7 @@ Q_SIGNALS:
     void hereLicensePathChanged();
     void realNameChanged();
     void emailChanged();
+    void keymapsChanged();
 
 private:
     bool m_enableLauncherWhileLocked;
@@ -138,6 +145,7 @@ private:
     bool m_hereEnabled;
     QString m_hereLicensePath;
     QString m_realName;
+    QStringList m_kbdMap;
     QString m_email;
 };
 

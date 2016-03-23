@@ -39,6 +39,10 @@ FocusScope {
     property int requestedWidth: -1
     property int requestedHeight: -1
 
+    function switchToKeymap(keymap) {
+        sessionContainer.surfaceContainer.switchToKeymap(keymap);
+    }
+
     readonly property int minimumWidth: sessionContainer.surface ? sessionContainer.surface.minimumWidth : 0
     readonly property int minimumHeight: sessionContainer.surface ? sessionContainer.surface.minimumHeight : 0
     readonly property int maximumWidth: sessionContainer.surface ? sessionContainer.surface.maximumWidth : 0
