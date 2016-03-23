@@ -2308,6 +2308,10 @@ Rectangle {
             keyClick(Qt.Key_Space, Qt.MetaModifier);
 
             // go to e.g. desktop stage
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
             // start a second app, should get the last configured keyboard, "fr"
             var app2 = ApplicationManager.startApplication("calendar-app");
             waitUntilAppWindowIsFullyLoaded(app2);
