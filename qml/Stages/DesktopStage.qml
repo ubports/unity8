@@ -253,7 +253,8 @@ AbstractStage {
                 // to calculate occlusion detection
                 property int normalZ: ApplicationManager.count - index
                 z: normalZ
-                y: PanelState.panelHeight
+                x: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
+                y: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
                 focus: appId === priv.focusedAppId
                 width: decoratedWindow.width
                 height: decoratedWindow.height
