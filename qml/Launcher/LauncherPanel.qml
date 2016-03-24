@@ -632,7 +632,7 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.95 : 0 // FIXME: should this have some transparency at all?
+        opacity: quickList.state === "open" ? 0.95 : 0
         visible: opacity > 0
         rotation: root.rotation
         aspect: UbuntuShape.Flat
