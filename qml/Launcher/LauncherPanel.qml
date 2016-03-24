@@ -791,7 +791,7 @@ Rectangle {
                         Label {
                             id: label
                             anchors.fill: parent
-                            anchors.leftMargin: units.gu(4) // 2 GU for checkmark
+                            anchors.leftMargin: units.gu(3) // 2 GU for checkmark, 3 GU total
                             anchors.rightMargin: units.gu(2)
                             anchors.topMargin: units.gu(2)
                             anchors.bottomMargin: units.gu(2)
