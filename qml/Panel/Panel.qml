@@ -186,7 +186,7 @@ Item {
                 topMargin: units.gu(0.5)
                 bottomMargin: units.gu(0.5)
             }
-            color: PanelState.buttonsVisible ? "white" : UbuntuColors.slate
+            color: "white"
             height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
             visible: !windowControlButtons.visible && !root.locked && !callHint.visible
             verticalAlignment: Text.AlignVCenter
