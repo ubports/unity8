@@ -2131,6 +2131,7 @@ Rectangle {
             compare(ApplicationManager.focusedApplicationId, "unity8-dash");
 
             // Use Super + Tab Tab to cycle to the first entry in the launcher
+            wait(1000);
             keyPress(Qt.Key_Super_L, Qt.MetaModifier);
             keyClick(Qt.Key_Tab);
             tryCompare(launcher, "state", "visible");

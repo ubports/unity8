@@ -95,9 +95,9 @@ TutorialPage {
 
     // Watches drag events but does not intercept them, so that the app beneath
     // will still drag the bottom edge up.
-    DirectionalDragArea {
+    SwipeArea {
         id: dragArea
-        monitorOnly: true
+        grabGesture: false
         direction: Direction.Upwards
         anchors.left: parent.left
         anchors.right: parent.right
