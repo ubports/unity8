@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.Themes 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 
 Showable {
@@ -256,7 +257,18 @@ Showable {
         Dialog {
             id: dialog
             objectName: "infoPopup"
-            modal: true
+
+            // FIXME: this is a hack because Dialog subtheming seems broken atm
+            // https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1555548
+            ThemeSettings {
+                id: themeHack
+            }
+
+            Component.onCompleted: {
+                themeHack.palette.normal.overlay = "white";
+                themeHack.palette.normal.overlayText = UbuntuColors.slate;
+                __foreground.theme = themeHack
+            }
 
             Button {
                 objectName: "infoPopupOkButton"
