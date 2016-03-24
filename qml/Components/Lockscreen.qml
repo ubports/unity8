@@ -254,21 +254,10 @@ Showable {
 
     Component {
         id: infoPopupComponent
-        Dialog {
+        ShellDialog {
             id: dialog
             objectName: "infoPopup"
-
-            // FIXME: this is a hack because Dialog subtheming seems broken atm
-            // https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1555548
-            ThemeSettings {
-                id: themeHack
-            }
-
-            Component.onCompleted: {
-                themeHack.palette.normal.overlay = "white";
-                themeHack.palette.normal.overlayText = UbuntuColors.slate;
-                __foreground.theme = themeHack
-            }
+            property var dialogLoader // dummy to satisfy ShellDialog's context dependent prop
 
             Button {
                 objectName: "infoPopupOkButton"
