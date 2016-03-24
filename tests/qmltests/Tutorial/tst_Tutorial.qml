@@ -469,7 +469,7 @@ Rectangle {
             // compare opacity with a bound rather than hard 0.6 because progress doesn't
             // always match the drag perfectly (takes a moment for drag to kick in)
             tryCompareFunction(function() {
-                return tutorialTop.opacity >= 0.6 && tutorialTop.opacity < 0.7;
+                return tutorialTop.opacity >= 0.5 && tutorialTop.opacity < 0.7;
             }, true);
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height * 0.4, false, true);
 

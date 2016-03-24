@@ -51,7 +51,7 @@ TutorialPage {
     readonly property real dragAreaHeight: units.gu(3) // based on PageWithBottomEdge.qml
     readonly property real targetDistance: height * 0.2 + dragAreaHeight // based on PageWithBottomEdge.qml
 
-    opacityOverride: dragArea.dragging ? 1 - (-dragArea.distance / targetDistance) : 1
+    opacityOverride: dragArea.dragging ? 1 - (dragArea.distance / targetDistance) : 1
 
     mouseArea {
         anchors.bottomMargin: root.dragAreaHeight
