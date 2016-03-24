@@ -42,6 +42,10 @@ public:
     QSet<int> ownedTouches;
     QSet<int> lostTouches;
     QList<TouchMemento> unownedTouchEvents;
+
+Q_SIGNALS:
+    void gainedOwnership();
+    void lostOwnership();
 };
 
 class tst_TouchRegistry : public QObject
@@ -68,6 +72,7 @@ private Q_SLOTS:
     void removeOldUndecidedCandidates();
     void interimOwnerWontGetUnownedTouchEvents();
     void candidateVanishes();
+    void candicateOwnershipReentrace();
 
 private:
     TouchRegistry *touchRegistry;
@@ -864,6 +869,58 @@ void tst_TouchRegistry::candidateVanishes()
     QVERIFY(mainCandidate.ownedTouches.contains(0));
 }
 
+/*
+  Regression test for canidate reentrance
+
+  Bug caused by candidates getting removed during ownership resolution
+ */
+void tst_TouchRegistry::candicateOwnershipReentrace()
+{
+    DummyCandidate mainCandidate;
+    DummyCandidate candicate2;
+    DummyCandidate candicate3;
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointPressed);
+        QTouchEvent touchEvent(QEvent::TouchBegin,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointPressed,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    // Re-entrance!
+    connect(&candicate2, &DummyCandidate::lostOwnership, this, [&]() {
+        touchRegistry->removeCandidateOwnerForTouch(0, &candicate2);
+    });
+
+    touchRegistry->addCandidateOwnerForTouch(0, &mainCandidate);
+    touchRegistry->addCandidateOwnerForTouch(0, &candicate2);
+    touchRegistry->addCandidateOwnerForTouch(0, &candicate3);
+
+    {
+        QList<QTouchEvent::TouchPoint> touchPoints;
+        touchPoints.append(QTouchEvent::TouchPoint(0));
+        touchPoints[0].setState(Qt::TouchPointMoved);
+        QTouchEvent touchEvent(QEvent::TouchUpdate,
+                               0 /* device */,
+                               Qt::NoModifier,
+                               Qt::TouchPointMoved,
+                               touchPoints);
+        touchRegistry->update(&touchEvent);
+    }
+
+    touchRegistry->requestTouchOwnership(0, &mainCandidate);
+
+    QCOMPARE(mainCandidate.ownedTouches.count(), 1);
+    QCOMPARE(candicate2.lostTouches.count(), 1);
+    QCOMPARE(candicate3.lostTouches.count(), 1);
+}
+
+
 ////////////// TouchMemento //////////
 
 TouchMemento::TouchMemento(const QTouchEvent *touchEvent)
@@ -897,8 +954,10 @@ bool DummyCandidate::event(QEvent *e)
 
         if (touchOwnershipEvent->gained()) {
             ownedTouches.insert(touchOwnershipEvent->touchId());
+            Q_EMIT gainedOwnership();
         } else {
             lostTouches.insert(touchOwnershipEvent->touchId());
+            Q_EMIT lostOwnership();
         }
         return true;
     } else if (e->type() == UnownedTouchEvent::unownedTouchEventType()) {

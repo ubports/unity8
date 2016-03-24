@@ -32,6 +32,12 @@ FocusScope {
     readonly property alias appWindowOrientationAngle: appWindowWithShadow.orientationAngle
     readonly property alias appWindowRotation: appWindowWithShadow.rotation
     readonly property alias orientationChangesEnabled: appWindow.orientationChangesEnabled
+    property int supportedOrientations: application ? application.supportedOrientations :
+                                                      Qt.PortraitOrientation
+                                                      | Qt.LandscapeOrientation
+                                                      | Qt.InvertedPortraitOrientation
+                                                      | Qt.InvertedLandscapeOrientation
+    readonly property alias appWindow: appWindow
 
     // to be set from outside
     property bool interactive: true
@@ -44,6 +50,9 @@ FocusScope {
     property int shellOrientation
     property QtObject orientations
     property bool highlightShown: false
+
+    // overrideable from outside
+    property alias fullscreen: appWindow.fullscreen
 
     function matchShellOrientation() {
         if (!root.application)
@@ -154,7 +163,8 @@ FocusScope {
                             if (!root.application || root.application.rotatesWindowContents) {
                                 return 0;
                             }
-                            var supportedOrientations = root.application.supportedOrientations;
+
+                            var supportedOrientations = root.supportedOrientations;
 
                             if (supportedOrientations === Qt.PrimaryOrientation) {
                                 supportedOrientations = root.orientations.primary;
