@@ -604,6 +604,7 @@ Item {
             enabled: visible
             anchors.centerIn: parent
             anchors.horizontalCenterOffset: launcher.lockedVisible ? launcher.panelWidth/2 : 0
+            opacity: 0.95
         }
 
         Tutorial {
