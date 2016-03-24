@@ -111,6 +111,8 @@ AbstractStage {
             ? applicationManager.findApplication(applicationManager.focusedApplicationId)
             : null
 
+    mainAppWindow: priv.focusedAppDelegate ? priv.focusedAppDelegate.appWindow : null
+
     orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
                                && !priv.focusedAppDelegateIsDislocated
                                && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)
@@ -120,13 +122,10 @@ AbstractStage {
                                    : (Qt.PortraitOrientation | Qt.LandscapeOrientation
                                       | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation)
 
-    // How far left the stage has been dragged
-    readonly property real dragProgress: spreadRepeater.count > 0 ? -spreadRepeater.itemAt(0).xTranslate : 0
+    // How far left the stage has been dragged, used externally by tutorial code
+    dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0
 
     readonly property alias dragging: spreadDragArea.dragging
-
-    // Only used by the tutorial right now, when it is teasing the right edge
-    property real dragAreaOverlap
 
     signal opened()
 
@@ -629,6 +628,16 @@ AbstractStage {
                         property: "focusedAppOrientationChangesEnabled"
                         value: orientationChangesEnabled
                     }
+
+                    StagedFullscreenPolicy {
+                        id: fullscreenPolicy
+                        application: appDelegate.application
+                    }
+
+                    Connections {
+                        target: root
+                        onStageAboutToBeUnloaded: fullscreenPolicy.active = false
+                    }
                 }
             }
         }
@@ -647,7 +656,7 @@ AbstractStage {
         direction: Direction.Leftwards
         enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging
 
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; rightMargin: -root.dragAreaOverlap }
+        anchors { top: parent.top; right: parent.right; bottom: parent.bottom; }
         width: root.dragAreaWidth
 
         property var gesturePoints: new Array()

@@ -28,7 +28,6 @@ FocusScope {
     property bool lockedVisible: false
     property bool available: true // can be used to disable all interactions
     property alias inverted: panel.inverted
-    property bool shadeBackground: true // can be used to disable background shade when launcher is visible
 
     property int panelWidth: units.gu(10)
     property int dragAreaWidth: units.gu(1)
@@ -298,7 +297,7 @@ FocusScope {
     InverseMouseArea {
         id: closeMouseArea
         anchors.fill: panel
-        enabled: root.shadeBackground && root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
+        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
         visible: enabled
         onPressed: {
             panel.highlightIndex = -2
@@ -310,7 +309,7 @@ FocusScope {
         id: backgroundShade
         anchors.fill: parent
         color: "black"
-        opacity: root.shadeBackground && root.state == "visible" && !root.lockedVisible ? 0.6 : 0
+        opacity: root.state == "visible" && !root.lockedVisible ? 0.6 : 0
 
         Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }

@@ -17,6 +17,7 @@
 #include "GestureTest.h"
 
 #include <qpa/qwindowsysteminterface.h>
+#include <private/qquickwindow_p.h>
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QtTest>
@@ -70,6 +71,49 @@ void GestureTest::cleanup()
 
     delete m_view;
     m_view = nullptr;
+}
+
+void GestureTest::sendTouchPress(qint64 timestamp, int id, QPointF pos)
+{
+    sendTouch(timestamp, id, pos, Qt::TouchPointPressed, QEvent::TouchBegin);
+}
+
+void GestureTest::sendTouchUpdate(qint64 timestamp, int id, QPointF pos)
+{
+    sendTouch(timestamp, id, pos, Qt::TouchPointMoved, QEvent::TouchUpdate);
+}
+
+void GestureTest::sendTouchRelease(qint64 timestamp, int id, QPointF pos)
+{
+    sendTouch(timestamp, id, pos, Qt::TouchPointReleased, QEvent::TouchEnd);
+}
+
+void GestureTest::sendTouch(qint64 timestamp, int id, QPointF pos,
+                                 Qt::TouchPointState pointState, QEvent::Type eventType)
+{
+    m_fakeTimerFactory->updateTime(timestamp);
+
+    QTouchEvent::TouchPoint point;
+
+    point.setState(pointState);
+    point.setId(id);
+    point.setScenePos(pos);
+    point.setPos(pos);
+
+    QList<QTouchEvent::TouchPoint> points;
+    points << point;
+
+    QTouchEvent touchEvent(eventType, m_device, Qt::NoModifier, Qt::TouchPointPressed, points);
+    QCoreApplication::sendEvent(m_view, &touchEvent);
+
+    QQuickWindowPrivate *windowPrivate = QQuickWindowPrivate::get(m_view);
+    windowPrivate->flushDelayedTouchEvent();
+}
+
+void GestureTest::passTime(qint64 timeSpanMs)
+{
+    qint64 finalTime = m_fakeTimerFactory->timeSource()->msecsSinceReference() + timeSpanMs;
+    m_fakeTimerFactory->updateTime(finalTime);
 }
 
 ////////////////////////// TouchMemento /////////////////////////////

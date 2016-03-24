@@ -9,6 +9,7 @@ set(UbuntuGesturesQml_SOURCES
     PressedOutsideNotifier.cpp
     TouchDispatcher.cpp
     TouchGate.cpp
+    TouchGestureArea.cpp
 )
 
 pkg_check_modules(UBUNTUGESTURES REQUIRED UbuntuGestures)

@@ -36,7 +36,6 @@ __all__ = [
     'greeter',
     'launcher',
     'main_window',
-    'tutorial',
     'UnityEmulatorException',
 ]
 
@@ -46,7 +45,6 @@ from unity8 import (
     dash,
     launcher,
     shell as main_window,
-    tutorial,
     UnityException as UnityEmulatorException
 )
 from unity8.shell import create_interactive_notification

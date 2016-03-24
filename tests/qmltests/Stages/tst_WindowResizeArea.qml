@@ -72,6 +72,13 @@ Item {
                 windowId: "test-window-id"
                 screenWidth: root.width
                 screenHeight: root.height
+
+                Component.onCompleted: {
+                    loadWindowState();
+                }
+                Component.onDestruction: {
+                    saveWindowState();
+                }
             }
 
             Rectangle {

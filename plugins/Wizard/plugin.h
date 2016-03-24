@@ -17,13 +17,12 @@
 #ifndef WIZARD_PLUGIN_H
 #define WIZARD_PLUGIN_H
 
-#include <QtQml/QQmlEngine>
 #include <QtQml/QQmlExtensionPlugin>
 
 class WizardPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
     void registerTypes(const char *uri) override;

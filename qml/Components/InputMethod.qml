@@ -51,7 +51,10 @@ Item {
     }
 
     state: {
-        if (surfaceItem.surface && surfaceItem.surfaceState != Mir.MinimizedState && root.enabled) {
+        if (surfaceItem.surface &&
+              surfaceItem.surfaceState != Mir.HiddenState &&
+              surfaceItem.surfaceState != Mir.MinimizedState &&
+              root.enabled) {
             return "shown";
         } else {
             return "hidden";
