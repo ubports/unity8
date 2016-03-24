@@ -99,7 +99,7 @@ Rectangle {
             Rectangle {
                 property alias text: theText.text
                 color: "green"
-                height: 40
+                height: section === "" ? 0 : section != "halfheight" ? 40 : 20;
                 Text { id: theText; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
             }
