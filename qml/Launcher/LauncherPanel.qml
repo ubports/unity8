@@ -16,7 +16,6 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItems
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
 import "../Components/ListItems"
@@ -780,12 +779,28 @@ Rectangle {
                     id: popoverRepeater
                     model: quickList.model
 
-                    ListItems.Standard {
+                    ListItem {
                         objectName: "quickListEntry" + index
-                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
-                        highlightWhenPressed: model.clickable
                         selected: index === quickList.selectedIndex
-                        __foregroundColor: "white"
+                        height: label.implicitHeight + label.anchors.topMargin + label.anchors.bottomMargin
+                        color: model.clickable ? (selected ? theme.palette.highlighted.background : "transparent") : theme.palette.disabled.background
+                        highlightColor: !model.clickable ? quickList.color : undefined // make disabled items visually unclickable
+                        divider.colorFrom: UbuntuColors.inkstone
+                        divider.colorTo: UbuntuColors.inkstone
+
+                        Label {
+                            id: label
+                            anchors.fill: parent
+                            anchors.leftMargin: units.gu(4) // 2 GU for checkmark
+                            anchors.rightMargin: units.gu(2)
+                            anchors.topMargin: units.gu(2)
+                            anchors.bottomMargin: units.gu(2)
+                            verticalAlignment: Label.AlignVCenter
+                            text: model.label
+                            fontSize: index == 0 ? "medium" : "small"
+                            font.weight: index == 0 ? Font.Medium : Font.Light
+                            color: model.clickable ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
+                        }
 
                         onClicked: {
                             if (!model.clickable) {
