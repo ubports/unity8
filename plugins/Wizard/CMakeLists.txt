@@ -1,10 +1,16 @@
+include_directories(${GLIB_INCLUDE_DIRS} ${GEONAMES_INCLUDE_DIRS})
+
 add_library(Wizard-qml MODULE
     plugin.cpp
     PageList.cpp
     System.cpp
+    LocalePlugin.cpp
+    timezonemodel.cpp
+    Status.cpp
 )
 
-qt5_use_modules(Wizard-qml DBus Qml)
+qt5_use_modules(Wizard-qml DBus Qml Concurrent)
+target_link_libraries(Wizard-qml ${GLIB_LDFLAGS} ${GEONAMES_LDFLAGS})
 add_unity8_plugin(Wizard 0.1 Wizard TARGETS Wizard-qml)
 
 set(POLKIT_LIB_DIR "${CMAKE_INSTALL_LOCALSTATEDIR}/lib/polkit-1")

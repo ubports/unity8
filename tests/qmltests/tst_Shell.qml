@@ -131,6 +131,9 @@ Rectangle {
         anchors.right: root.right
         width: units.gu(30)
 
+        property var focusedApp: ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
+        property var focusedSurface: focusedApp && focusedApp.session ? focusedApp.session.lastSurface : null
+
         Rectangle {
             id: controlRect
             anchors { left: parent.left; right: parent.right }
@@ -263,6 +266,65 @@ Rectangle {
                         appId: modelData
                     }
                 }
+
+                Label { text: "Focused Application"; font.bold: true }
+
+                Row {
+                    CheckBox {
+                        id: fullscreeAppCheck
+
+                        onTriggered: {
+                            if (!controls.focusedSurface) return;
+                            if (controls.focusedSurface.state == Mir.FullscreenState) {
+                                controls.focusedSurface.state = Mir.RestoredState;
+                            } else {
+                                controls.focusedSurface.state = Mir.FullscreenState;
+                            }
+                        }
+
+                        Binding {
+                            target: fullscreeAppCheck
+                            when: controls.focusedSurface
+                            property: "checked"
+                            value: {
+                                if (!controls.focusedSurface) return false;
+                                return controls.focusedSurface.state === Mir.FullscreenState
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Fullscreen"
+                    }
+                }
+
+                Row {
+                    CheckBox {
+                        id: chromeAppCheck
+
+                        onTriggered: {
+                            if (!controls.focusedSurface) return;
+                            if (controls.focusedSurface.shellChrome == Mir.LowChrome) {
+                                controls.focusedSurface.setShellChrome(Mir.NormalChrome);
+                            } else {
+                                controls.focusedSurface.setShellChrome(Mir.LowChrome);
+                            }
+                        }
+
+                        Binding {
+                            target: chromeAppCheck
+                            when: controls.focusedSurface !== null
+                            property: "checked"
+                            value: {
+                                if (!controls.focusedSurface) return false;
+                                controls.focusedSurface.shellChrome === Mir.LowChrome
+                            }
+                        }
+                    }
+                    Label {
+                        text: "Low Chrome"
+                    }
+                }
+
             }
         }
     }
@@ -437,6 +499,7 @@ Rectangle {
             setLightDMMockMode("single"); // back to the default value
 
             AccountsService.demoEdges = false;
+            AccountsService.demoEdgesCompleted = [];
             Wizard.System.wizardEnabled = false;
 
             // kill all (fake) running apps
@@ -588,9 +651,8 @@ Rectangle {
 
         function test_tabletLeftEdgeDrag_data() {
             return [
-                {tag: "without password", user: "no-password", loggedIn: true, demo: false},
-                {tag: "with password", user: "has-password", loggedIn: false, demo: false},
-                {tag: "with demo", user: "has-password", loggedIn: true, demo: true},
+                {tag: "without password", user: "no-password", loggedIn: true},
+                {tag: "with password", user: "has-password", loggedIn: false},
             ]
         }
 
@@ -599,10 +661,6 @@ Rectangle {
             loadShell("tablet");
 
             selectUser(data.user)
-
-            AccountsService.demoEdges = data.demo
-            var tutorial = findChild(shell, "tutorial");
-            tryCompare(tutorial, "running", data.demo);
 
             swipeFromLeftEdge(shell.width * 0.75)
             wait(500) // to give time to handle dash() signal from Launcher
@@ -1200,7 +1258,6 @@ Rectangle {
             var tutorial = findChild(shell, "tutorial");
 
             AccountsService.demoEdges = true;
-            tryCompare(tutorial, "running", true);
             tryCompare(tutorial, "paused", true);
 
             swipeAwayGreeter();
@@ -2223,6 +2280,70 @@ Rectangle {
             tap(shell, shell.width - 1, shell.height / 2);
             compare(topmostSurfaceItem.touchPressCount, 2);
             compare(topmostSurfaceItem.touchReleaseCount, 2);
+        }
+
+        function test_switchKeymap() {
+            // start with phone shell
+            loadShell("phone");
+            shell.usageScenario = "shell";
+            waitForRendering(shell);
+            swipeAwayGreeter();
+
+            // configure keymaps
+            AccountsService.keymaps = ["sk", "cz+qwerty", "fr"] // "configure" the keymaps for user
+
+            // start some app
+            var app = ApplicationManager.startApplication("dialer-app");
+            waitUntilAppWindowIsFullyLoaded(app);
+
+            // verify the initial keymap of the newly started app is the first one from the list
+            tryCompare(app.session.lastSurface, "keymapLayout", "sk");
+            tryCompare(app.session.lastSurface, "keymapVariant", "");
+
+            // switch to next keymap, should go to "cz+qwerty"
+            keyClick(Qt.Key_Space, Qt.MetaModifier);
+            tryCompare(app.session.lastSurface, "keymapLayout", "cz");
+            tryCompare(app.session.lastSurface, "keymapVariant", "qwerty");
+
+            // switch to next keymap, should go to "fr"
+            keyClick(Qt.Key_Space, Qt.MetaModifier);
+
+            // go to e.g. desktop stage
+            loadShell("desktop");
+            shell.usageScenario = "desktop";
+            waitForRendering(shell);
+
+            // start a second app, should get the last configured keyboard, "fr"
+            var app2 = ApplicationManager.startApplication("calendar-app");
+            waitUntilAppWindowIsFullyLoaded(app2);
+            tryCompare(app2.session.lastSurface, "keymapLayout", "fr");
+            tryCompare(app2.session.lastSurface, "keymapVariant", "");
+
+            // focus our first app, make sure it also has the "fr" keymap
+            ApplicationManager.requestFocusApplication("dialer-app");
+            tryCompare(app.session.lastSurface, "keymapLayout", "fr");
+            tryCompare(app.session.lastSurface, "keymapVariant", "");
+
+            // switch to previous keymap, should be "cz+qwerty"
+            keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
+            tryCompare(app.session.lastSurface, "keymapLayout", "cz");
+            tryCompare(app.session.lastSurface, "keymapVariant", "qwerty");
+
+            // go next twice to "sk", past the end
+            keyClick(Qt.Key_Space, Qt.MetaModifier);
+            keyClick(Qt.Key_Space, Qt.MetaModifier);
+            tryCompare(app.session.lastSurface, "keymapLayout", "sk");
+            tryCompare(app.session.lastSurface, "keymapVariant", "");
+
+            // go back once to past the beginning, to "fr"
+            keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
+            tryCompare(app.session.lastSurface, "keymapLayout", "fr");
+            tryCompare(app.session.lastSurface, "keymapVariant", "");
+
+            // switch to app2, should also get "fr"
+            ApplicationManager.requestFocusApplication("calendar-app");
+            tryCompare(app2.session.lastSurface, "keymapLayout", "fr");
+            tryCompare(app2.session.lastSurface, "keymapVariant", "");
         }
     }
 }

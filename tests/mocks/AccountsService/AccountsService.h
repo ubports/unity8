@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Gerry Boland <gerry.boland@canonical.com>
- *          Michael Terry <michael.terry@canonical.com>
  */
 
 #ifndef UNITY_MOCK_ACCOUNTSSERVICE_H
@@ -22,6 +19,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 class AccountsService: public QObject
@@ -36,6 +34,10 @@ class AccountsService: public QObject
                 READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QStringList demoEdgesCompleted
+                READ demoEdgesCompleted
+                WRITE setDemoEdgesCompleted // only available in mock
+                NOTIFY demoEdgesCompletedChanged)
     Q_PROPERTY (bool enableLauncherWhileLocked
                 READ enableLauncherWhileLocked
                 WRITE setEnableLauncherWhileLocked // only available in mock
@@ -70,11 +72,17 @@ class AccountsService: public QObject
     Q_PROPERTY(bool hereLicensePathValid // qml sees a null string as "", so we use proxy setting for that
                READ hereLicensePathValid
                NOTIFY hereLicensePathChanged)
+    Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
+    Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
+    Q_PROPERTY(QStringList keymaps
+               READ keymaps
+               WRITE setKeymaps // only in mock
+               NOTIFY keymapsChanged)
 
 public:
     enum PasswordDisplayHint {
         Keyboard,
-        Numeric,
+        Numeric
     };
 
     explicit AccountsService(QObject *parent = 0);
@@ -83,6 +91,9 @@ public:
     void setUser(const QString &user);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
+    QStringList demoEdgesCompleted() const;
+    void setDemoEdgesCompleted(const QStringList &demoEdges);
+    Q_INVOKABLE void markDemoEdgeCompleted(const QString &edge);
     bool enableLauncherWhileLocked() const;
     void setEnableLauncherWhileLocked(bool enableLauncherWhileLocked);
     bool enableIndicatorsWhileLocked() const;
@@ -99,10 +110,17 @@ public:
     QString hereLicensePath() const;
     void setHereLicensePath(const QString &path);
     bool hereLicensePathValid() const;
+    QString realName() const;
+    void setRealName(const QString &realName);
+    QString email() const;
+    void setEmail(const QString &email);
+    QStringList keymaps() const;
+    void setKeymaps(const QStringList &keymaps);
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
+    void demoEdgesCompletedChanged();
     void enableLauncherWhileLockedChanged();
     void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
@@ -111,6 +129,9 @@ Q_SIGNALS:
     void failedLoginsChanged();
     void hereEnabledChanged();
     void hereLicensePathChanged();
+    void realNameChanged();
+    void emailChanged();
+    void keymapsChanged();
 
 private:
     bool m_enableLauncherWhileLocked;
@@ -120,8 +141,12 @@ private:
     bool m_statsWelcomeScreen;
     uint m_failedLogins;
     bool m_demoEdges;
+    QStringList m_demoEdgesCompleted;
     bool m_hereEnabled;
     QString m_hereLicensePath;
+    QString m_realName;
+    QStringList m_kbdMap;
+    QString m_email;
 };
 
 #endif

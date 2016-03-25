@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
+import Utils 0.1
 
 import ".."
 import "../../../qml/Stages"
@@ -78,6 +79,7 @@ Rectangle {
         Column {
             anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
             spacing: units.gu(1)
+
             EdgeBarrierControls {
                 id: edgeBarrierControls
                 text: "Drag here to pull out spread"
@@ -87,6 +89,16 @@ Rectangle {
                     edgeBarrierControls.target = testCase.findChild(tabletStageLoader, "edgeBarrierController");
                 }
             }
+
+            Button {
+                text: testCase.sideStage ? testCase.sideStage.shown ? "Hide Side-stage" : "Show Side-stage" : ""
+                enabled: testCase.sideStage
+                onClicked: {
+                    if (testCase.sideStage.shown) testCase.sideStage.hide();
+                    else testCase.sideStage.show();
+                }
+            }
+
             ApplicationCheckBox {
                 id: webbrowserCheckBox
                 appId: "webbrowser-app"
@@ -112,6 +124,7 @@ Rectangle {
         when: windowShown
 
         property Item tabletStage: tabletStageLoader.status === Loader.Ready ? tabletStageLoader.item : null
+        property Item sideStage: tabletStage ? findChild(tabletStage, "sideStage") : null
 
         function init() {
             tabletStageLoader.active = true;
@@ -129,6 +142,7 @@ Rectangle {
             }
 
             waitUntilAppSurfaceShowsUp("unity8-dash");
+            sideStage.hideNow()
         }
 
         function cleanup() {
@@ -148,6 +162,7 @@ Rectangle {
             galleryCheckBox.checked = false;
             dialerCheckBox.checked = false;
             facebookCheckBox.checked = false;
+            WindowStateStorage.clear();
         }
 
         function waitUntilAppSurfaceShowsUp(appId) {
@@ -187,6 +202,8 @@ Rectangle {
         }
 
         function test_tappingSwitchesFocusBetweenStages() {
+            WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
+
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
@@ -222,6 +239,8 @@ Rectangle {
         }
 
         function test_closeAppInSideStage() {
+            WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
+
             dialerCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(dialerCheckBox.appId);
 
@@ -293,6 +312,8 @@ Rectangle {
 
 
         function test_foregroundMainAndSideStageAppsAreKeptRunning() {
+            WindowStateStorage.saveStage(facebookCheckBox.appId, ApplicationInfoInterface.SideStage)
+            WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
             var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
             verify(stagesPriv);
@@ -351,6 +372,8 @@ Rectangle {
         }
 
         function test_foregroundAppsAreSuspendedWhenStageIsSuspended() {
+            WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
+
             webbrowserCheckBox.checked = true;
             waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId)
             var webbrowserApp = ApplicationManager.findApplication(webbrowserCheckBox.appId);
@@ -383,6 +406,126 @@ Rectangle {
                 tabletStageLoader.item.pushRightEdge(1);
             }
             tryCompare(spreadView, "phase", 2);
+        }
+
+        function test_threeFingerTapOpensSideStage_data() {
+            return [
+                { tag: "1 finger", touchIds: [0], result: false },
+                { tag: "2 finger", touchIds: [0, 1], result: false },
+                { tag: "3 finger", touchIds: [0, 1, 2], result: true },
+                { tag: "4 finger", touchIds: [0, 1, 2, 3], result: false },
+            ];
+        }
+
+        function test_threeFingerTapOpensSideStage(data) {
+            multiTouchTap(data.touchIds, tabletStage, tabletStage.width / 2, tabletStage.height / 2);
+            wait(200);
+            tryCompare(sideStage, "shown", data.result);
+        }
+
+
+        function test_threeFingerTapClosesSideStage_data() {
+            return [
+                { tag: "1 finger", touchIds: [0], result: true },
+                { tag: "2 finger", touchIds: [0, 1], result: true },
+                { tag: "3 finger", touchIds: [0, 1, 2], result: false },
+                { tag: "4 finger", touchIds: [0, 1, 2, 3], result: true },
+            ];
+        }
+
+        function test_threeFingerTapClosesSideStage(data) {
+            sideStage.showNow();
+
+            multiTouchTap(data.touchIds, tabletStage, tabletStage.width / 2, tabletStage.height / 2);
+            wait(200);
+            tryCompare(sideStage, "shown", data.result);
+        }
+
+        function test_threeFingerDragOpensSidestage() {
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                tabletStage.width / 4,
+                                tabletStage.height / 4,
+                                units.gu(1),
+                                0,
+                                function() { return sideStage.shown; });
+        }
+
+        function test_applicationLoadsInCorrectStage_data() {
+            return [
+                { tag: "MainStage", stage: ApplicationInfoInterface.MainStage, mainStageAppId: "webbrowser-app", sideStageAppId: ""},
+                { tag: "SideStage", stage: ApplicationInfoInterface.SideStage, mainStageAppId: "unity8-dash", sideStageAppId: "webbrowser-app" },
+            ];
+        }
+
+        function test_applicationLoadsInCorrectStage(data) {
+            WindowStateStorage.saveStage(webbrowserCheckBox.appId, data.stage)
+
+            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            verify(stagesPriv);
+
+            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            tryCompare(stagesPriv, "sideStageAppId", "");
+
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId)
+
+            tryCompare(stagesPriv, "mainStageAppId", data.mainStageAppId);
+            tryCompare(stagesPriv, "sideStageAppId", data.sideStageAppId);
+        }
+
+        function test_loadSideStageByDragginFromMainStage() {
+            sideStage.showNow();
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+
+            var appDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + webbrowserCheckBox.appId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
+
+            var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+            var end_pos = tabletStage.width - sideStage.width / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                units.gu(3),
+                                0,
+                                function() {
+                                    pos += units.gu(3);
+                                    return sideStage.shown && !sideStage.showAnimation.running &&
+                                           pos >= end_pos;
+                                });
+
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
+        }
+
+        function test_unloadSideStageByDragginFromStageStage() {
+            sideStage.showNow();
+            WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserCheckBox.appId);
+
+            var appDelegate = findChild(tabletStage, "tabletSpreadDelegate_" + webbrowserCheckBox.appId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
+
+            var pos = tabletStage.width - sideStage.width / 2;
+            var end_pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                -units.gu(3),
+                                0,
+                                function() {
+                                    pos -= units.gu(3);
+                                    return pos <= end_pos;
+                                });
+
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
         }
     }
 }

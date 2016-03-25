@@ -28,6 +28,7 @@ Rectangle {
     property url background
     property bool beingResized
     property int dragAreaWidth
+    property real dragProgress // How far left the stage has been dragged, used externally by tutorial code
     property bool interactive
     property real inverseProgress // This is the progress for left edge drags, in pixels.
     property bool keepDashRunning: true
@@ -44,12 +45,15 @@ Rectangle {
 
     // To be read from outside
     property var mainApp: null
-    property int mainAppWindowOrientationAngle
+    property var mainAppWindow: null
+    property int mainAppWindowOrientationAngle: 0
     property bool orientationChangesEnabled
     property int supportedOrientations: Qt.PortraitOrientation
                                       | Qt.LandscapeOrientation
                                       | Qt.InvertedPortraitOrientation
                                       | Qt.InvertedLandscapeOrientation
+
+    signal stageAboutToBeUnloaded
 
     // Shared code for use in stage implementations
     GSettings {
