@@ -22,7 +22,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 
 Rectangle {
-    color: UbuntuColors.jet
+    color: theme.palette.normal.background
     id: root
 
     Component.onCompleted: {
