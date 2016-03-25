@@ -20,6 +20,8 @@ import GSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
+import Unity.Session 0.1
+
 import "." 0.1
 import "../Components"
 
@@ -170,6 +172,14 @@ Showable {
                 return false;
             }
         }
+
+        function checkForcedUnlock() {
+            if (forcedUnlock && shown && loader.item) {
+                // pretend we were just authenticated
+                loader.item.notifyAuthenticationSucceeded();
+                loader.item.hide();
+            }
+        }
     }
 
     onLauncherOffsetChanged: {
@@ -178,12 +188,8 @@ Showable {
         }
     }
 
-    onForcedUnlockChanged: {
-        if (forcedUnlock && shown) {
-            // pretend we were just authenticated
-            loader.item.notifyAuthenticationSucceeded();
-        }
-    }
+    onForcedUnlockChanged: d.checkForcedUnlock()
+    Component.onCompleted: d.checkForcedUnlock()
 
     onRequiredChanged: {
         if (required) {
@@ -452,6 +458,11 @@ Showable {
                 }
             }
         }
+    }
+
+    Connections {
+        target: DBusUnitySessionService
+        onLockRequested: root.forceShow()
     }
 
     Binding {

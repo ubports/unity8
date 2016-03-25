@@ -16,21 +16,29 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import AccountsService 0.1
+
+/**
+ * This object is always present, so it should be lean and mean.  It will
+ * use a Loader to create the heavier tutorial pages if needed.
+ */
 
 Item {
     id: root
 
     property alias active: loader.active
-    property bool paused
-    property real edgeSize
 
     property Item launcher
     property Item panel
+    property Item stage
+    property string usageScenario
+    property bool paused
+    property bool keyboardVisible
+    property int lastInputTimestamp
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
     readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
     readonly property bool panelEnabled: loader.item ? loader.item.panelEnabled : true
-    readonly property bool panelContentEnabled: loader.item ? loader.item.panelContentEnabled : true
     readonly property bool running: loader.item ? loader.item.running : false
 
     function finish() {
@@ -39,24 +47,11 @@ Item {
         }
     }
 
-    signal finished()
-
     Loader {
         id: loader
         anchors.fill: parent
         source: "TutorialContent.qml"
-
-        Binding {
-            target: loader.item
-            property: "paused"
-            value: root.paused
-        }
-
-        Binding {
-            target: loader.item
-            property: "edgeSize"
-            value: root.edgeSize
-        }
+        active: AccountsService.demoEdges
 
         Binding {
             target: loader.item
@@ -70,9 +65,39 @@ Item {
             value: root.panel
         }
 
+        Binding {
+            target: loader.item
+            property: "stage"
+            value: root.stage
+        }
+
+        Binding {
+            target: loader.item
+            property: "usageScenario"
+            value: root.usageScenario
+        }
+
+        Binding {
+            target: loader.item
+            property: "paused"
+            value: root.paused
+        }
+
+        Binding {
+            target: loader.item
+            property: "keyboardVisible"
+            value: root.keyboardVisible
+        }
+
+        Binding {
+            target: loader.item
+            property: "lastInputTimestamp"
+            value: root.lastInputTimestamp
+        }
+
         Connections {
             target: loader.item
-            onFinished: root.finished()
+            onFinished: AccountsService.demoEdges = false
         }
     }
 }

@@ -270,28 +270,6 @@ Item {
             tryCompare(sessionSpy, "count", 1)
         }
 
-        function test_edgeDemoHidesLockscreen() {
-            LightDM.Greeter.showGreeter()
-            sessionSpy.clear()
-            var lockscreen = findChild(shell, "lockscreen")
-
-            tryCompare(lockscreen, "shown", true)
-            AccountsService.demoEdges = true
-            tryCompare(lockscreen, "shown", false)
-
-            var greeter = findChild(shell, "greeter");
-            swipeAwayGreeter(false);
-            tryCompare(greeter, "shown", false);
-            tryCompare(sessionSpy, "count", 1)
-
-            // Lockscreen is only hidden by the edge demo, so if we turn that
-            // off and show greeter again, lockscreen should appear
-            AccountsService.demoEdges = false
-            LightDM.Greeter.showGreeter()
-            lockscreen = findChild(shell, "lockscreen");
-            tryCompare(lockscreen, "shown", true)
-        }
-
         function test_disabledEdges() {
             var launcher = findChild(shell, "launcher")
             tryCompare(launcher, "available", true)
