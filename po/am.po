@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-23 10:01+0000\n"
-"PO-Revision-Date: 2015-11-19 19:27+0000\n"
+"PO-Revision-Date: 2016-03-24 19:07+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-24 06:07+0000\n"
-"X-Generator: Launchpad (build 17958)\n"
+"X-Launchpad-Export-Date: 2016-03-25 05:54+0000\n"
+"X-Generator: Launchpad (build 17967)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -182,11 +182,11 @@ msgstr "ወደምወዳቸው መጨመሪያ"
 
 #: qml/Dash/FiltersPopover.qml:60
 msgid "Refine your results"
-msgstr ""
+msgstr "የ እርስዎን ውጤቶች እንደገና ማጣሪያ"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr ""
+msgstr "እንደ ነበረ መመለሻ"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
@@ -203,11 +203,11 @@ msgstr "መፈለጊያ"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:55
 msgid "Recent Searches"
-msgstr ""
+msgstr "የ ቅርብ ጊዜ ፍለጋዎች"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:66
 msgid "Clear All"
-msgstr ""
+msgstr "ሁሉንም ማጽጃ"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -424,51 +424,51 @@ msgstr "መልሶ መደወያ"
 
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "መጎተቻ 3 ጣቶች በ መጠቀም ማንኛውንም መተግበሪያ ከ አንድ መስኮት ወደ ሌላ"
 
 #: qml/Tutorial/TutorialBottom.qml:78
 msgid "Swipe up to add a contact"
-msgstr ""
+msgstr "ወደ ላይ ይጥረጉ ግንኙነት ለ መጨመር"
 
 #: qml/Tutorial/TutorialBottom.qml:80
 msgid "Swipe up for favorite calculations"
-msgstr ""
+msgstr "ወደ ላይ ይጥረጉ የሚወዱትን ለማስላት"
 
 #: qml/Tutorial/TutorialBottom.qml:82
 msgid "Swipe up for recent calls"
-msgstr ""
+msgstr "ወደ ላይ ይጥረጉ ለ ቅርብ ጊዜ ጥሪዎች"
 
 #: qml/Tutorial/TutorialBottom.qml:84
 msgid "Swipe up to create a message"
-msgstr ""
+msgstr "ወደ ላይ ይጥረጉ መልእክት ለ መፍጠር"
 
 #: qml/Tutorial/TutorialBottom.qml:85
 msgid "Swipe up to manage the app"
-msgstr ""
+msgstr "ወደ ላይ ይጥረጉ መተግበሪያ ለማስተዳደር"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "ከ ግራ ጠርዝ በኩል ይጥረጉ ማስጀመሪያውን ለ መክፈት"
 
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
-msgstr ""
+msgstr "በ ረጅሙ ከ ግራ ጠርዝ በኩል ይጥረጉ የ ዛሬን ክልል ለ መክፈት"
 
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Hover your mouse on the right edge to view your open apps"
-msgstr ""
+msgstr "የ እርስዎን አይጥ ወደ ቀኝ ጠርዝ በኩል ሲያደርጉ የ ተከፈቱ መተግበሪያዎች መመልከቻ"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Short or long swipe from the right edge to view your open apps"
-msgstr ""
+msgstr "በ አጭሩ ወይንም በ ረጅሙ ይጥረጉ ከ ቀኝ ጠረዝ በኩል የ ተከፈቱ መተግበሪያዎችን ለማየት"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top right edge to open the notification bar"
-msgstr ""
+msgstr "ከ ላይ ቀኝ ጠርዝ በኩል ይጥረጉ የ ማስታወቂያ መደርደሪያ ለ መክፈት"
 
 #: qml/Tutorial/TutorialTop.qml:54
 msgid "Swipe from the top edge to open the notification bar"
-msgstr ""
+msgstr "ከ ላይ ጠርዝ በኩል ይጥረጉ የ ማስታወቂያ መደርደሪያ ለ መክፈት"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -477,7 +477,7 @@ msgstr "ወደ ኋላ"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Language"
-msgstr ""
+msgstr "ቋንቋ"
 
 #: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
@@ -486,7 +486,7 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:124
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr ""
+msgstr "ይቀጥሉ"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -494,15 +494,15 @@ msgstr "ወደ ዋይ‑ፋይ መገናኛ"
 
 #: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
-msgstr ""
+msgstr "ተገናኝቷል"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "ዝግጁ የ ዋይ-ፋይ ኔትዎርኮች"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "ምንም ዝግጁ ዋይ-ፋይ ኔትዎርኮች አልተገኙም"
 
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/sim.qml:101
@@ -511,98 +511,98 @@ msgstr "መዝለያ"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "የ አካባቢ ግልጋሎት"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
-msgstr ""
+msgstr "ይጠቀሙ ጂፒኤስ: ዋይ-ፋይ: hotspots እና ተንቀሳቃሽ ኔትዎርክ ሳይታወቁ አካባቢ ለማግኘት (ይመከራሉ)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "ይህን ምርጫ በ መምረጥ እርስዎ ተስማምተዋል ከ Nokia HERE %1."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "ስምምነት እና ሁኔታዎች"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr ""
+msgstr "ጂፒኤስ ብቻ"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "የ እኔን አካባቢ አትጠቀም"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "እርስዎ በኋላ በ ስርአት ማሰናጃ ውስጥ መቀየር ይችላሉ"
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr ""
+msgstr "የ ሰአት ክልል"
 
 #: qml/Wizard/Pages/50-timezone.qml:178
 msgid "Enter your city"
-msgstr ""
+msgstr "የ እርስዎን ከተማ ያስገቡ"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "የ እርስዎን አካል የ ግልዎ ያድርጉ"
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "የመረጡት ስም"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:39
 msgid "Lock Screen"
-msgstr ""
+msgstr "መመልከቻውን መቆለፊያ"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "አዲስ የ መግቢያ ቃል መፍጠሪያ"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "አዲስ የ ማለፊያ ኮድ መፍጠሪያ (ቁጥር ብቻ)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "ምንም መቆለፊያ ኮድ አልተገኘም"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "የ ግላዊነት መመሪያ"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "እንድንሻሻል ይርዱን"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
-msgstr ""
+msgstr "የ ስርአቱን አፈጻጸም ለማሻሻል የ ግጭት እና የ ስህተት መልእክቶች ይላኩልን"
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
-msgstr ""
+msgstr "የ ግላዊነት መመሪያ"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "እንኳን ደህና መጡ ወደ ኡቡንቱ"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "የ እርስዎን አካል ለ መጠቀም አሁን ዝግጁ ነው"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "እንጀምር"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -610,7 +610,7 @@ msgstr "ውሎች & ሁኔታዎች"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "የ እርስዎ አካል ይጠቀማል ያሉበትን አካባቢ ቴክኖሎጂ የቀረበውን በ HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -618,21 +618,23 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"እርስዎ ያሉበትን አካባቢ ግልጋሎት ለ መስጠት እና ለማሻሻል: HERE መረጃ ይሰበስባል በቅርብ ያሉ የ ሴል ምሶሶዎች እና "
+"ዋይ-ፋይ hotspots እርስዎ አሁን ያሉበትን አካባቢ ሲታወቅ"
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
-msgstr ""
+msgstr "የ ተሰበሰበው መረጃ የሚጠቅመው ግልጋሎት ለማሻሻል ነው: ነገር ግን እርስዎን በ ግል ለ መለየት አይደለም"
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "በ መቀጠል እርስዎ ተስማምተዋል ከ HERE platform %1 እና %2."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "የ ግልጋሎት ስምምነቶች"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:80
@@ -641,69 +643,69 @@ msgstr "የማለፊያ ኮድ ማረጋገጫ"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "የ ተሳሳተ የማለፊያ ኮድ"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "እባክዎን እንደገና-ያስገቡ"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:30
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "የ መመልከቻው መቆለፊያ የ ማለፊያ ኮድ"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:56
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "ያስገቡ 4 ቁጥሮች የ እርስዎን የ ማለፊያ ኮድ ለማሰናዳት"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:65
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "የ ማለፊያ ኮድ ይምረጡ"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:105
 msgid "Passcode too short"
-msgstr ""
+msgstr "የ ማለፊያ ኮዱ በጣም አጭር ነው"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:107
 msgid "Passcodes match"
-msgstr ""
+msgstr "የ ማለፊያ ኮዶቹ ተመሳሳይ ናቸው"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:109
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "የ ማለፊያ ኮዶቹ አይመሳሰሉም"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "የ ማለፊያ ኮድ 4 ባህሪዎች መሆን አለበት"
 
 #: qml/Wizard/Pages/password-set.qml:30
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "የ መመልከቻ መቆለፊያ የ መግቢያ ቃል"
 
 #: qml/Wizard/Pages/password-set.qml:61
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "ያስገቡ ቢያንስ 8 ባህሪዎች"
 
 #: qml/Wizard/Pages/password-set.qml:73
 msgid "Choose password"
-msgstr ""
+msgstr "የ መግቢያ ቃል ይምረጡ"
 
 #: qml/Wizard/Pages/password-set.qml:103
 msgid "Confirm password"
-msgstr ""
+msgstr "የ መግቢያ ቃሉን ያረጋግጡ"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "ምንም ሲም ካርድ አልተገጠመም"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "ሲም ካርድ ተጨምሯል"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "እርስዎ አካሉን እንደገና ማስጀመር አለብዎት ተንቀሳቃሽ ኔትዎርክ ጋር ለ መድረስ"
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -711,35 +713,35 @@ msgstr "እንደገና ማስጀመሪያ"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "ያለ ሲም ካርድ እርስዎ ጥሪ መፈጸም ወይንም በ ጽሁፍ መልእክት መላክ አይችሉም"
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "ያለ ሲም ለ መቀጠል መዝለያውን መታ ያድርጉ"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
-msgstr ""
+msgstr "የ መግቢያ ቃሎቹ ተመሳሳይ ናቸው"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords do not match"
-msgstr ""
+msgstr "የ መግቢያ ቃሎቹ ተመሳሳይ አይደሉም"
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"
-msgstr ""
+msgstr "ጠንካራ የ መግቢያ ቃል"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Fair password"
-msgstr ""
+msgstr "ደህና የ መግቢያ ቃል"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
-msgstr ""
+msgstr "ደካማ የ መግቢያ ቃል"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Very weak password"
-msgstr ""
+msgstr "በጣም ደካማ የ መግቢያ ቃል"
 
 #~ msgid "Top edge"
 #~ msgstr "የላይ ጠርዝ"

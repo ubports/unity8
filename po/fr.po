@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-23 10:01+0000\n"
-"PO-Revision-Date: 2016-03-13 10:58+0000\n"
-"Last-Translator: Anne <anneonyme017@gmail.com>\n"
+"PO-Revision-Date: 2016-03-24 22:32+0000\n"
+"Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-24 06:07+0000\n"
-"X-Generator: Launchpad (build 17958)\n"
+"X-Launchpad-Export-Date: 2016-03-25 05:54+0000\n"
+"X-Generator: Launchpad (build 17967)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -190,11 +190,11 @@ msgstr "Ajouter aux favoris"
 
 #: qml/Dash/FiltersPopover.qml:60
 msgid "Refine your results"
-msgstr ""
+msgstr "Affiner vos résultats"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr ""
+msgstr "Réinitialiser"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
@@ -211,7 +211,7 @@ msgstr "Rechercher"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:55
 msgid "Recent Searches"
-msgstr ""
+msgstr "Recherches récentes"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:66
 msgid "Clear All"
@@ -437,10 +437,12 @@ msgstr "Rappeler"
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
+"Faites glisser avec 3 doigts n'importe quelle application d'une fenêtre à "
+"l'autre"
 
 #: qml/Tutorial/TutorialBottom.qml:78
 msgid "Swipe up to add a contact"
-msgstr ""
+msgstr "Faites glisser vers le haut pour ajouter un contact"
 
 #: qml/Tutorial/TutorialBottom.qml:80
 msgid "Swipe up for favorite calculations"
@@ -452,11 +454,11 @@ msgstr ""
 
 #: qml/Tutorial/TutorialBottom.qml:84
 msgid "Swipe up to create a message"
-msgstr ""
+msgstr "Faites glisser vers le haut pour créer un message"
 
 #: qml/Tutorial/TutorialBottom.qml:85
 msgid "Swipe up to manage the app"
-msgstr ""
+msgstr "Faites glisser vers le haut pour gérer l'application"
 
 #: qml/Tutorial/TutorialLeft.qml:47
 msgid "Swipe from the left edge to open the launcher"
@@ -498,7 +500,7 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:124
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -506,15 +508,15 @@ msgstr "Se connecter au Wi-Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
-msgstr ""
+msgstr "Connecté"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Réseaux Wi-Fi disponibles"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Aucun réseau Wi-Fi disponible"
 
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/sim.qml:101
@@ -523,7 +525,7 @@ msgstr "Passer"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "Services de localisation"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
@@ -534,12 +536,12 @@ msgstr ""
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "En sélectionnant cette option, vous acceptez les %1 de Nokia HERE."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "conditions générales d'utilisation"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
@@ -547,7 +549,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "Ne pas utiliser ma position"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
@@ -555,7 +557,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr ""
+msgstr "Fuseau horaire"
 
 #: qml/Wizard/Pages/50-timezone.qml:178
 msgid "Enter your city"
@@ -590,7 +592,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
