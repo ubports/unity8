@@ -328,8 +328,14 @@ Item {
             LightDM.Greeter.active = true;
 
             greeter.forcedUnlock = true;
-            compare(view.locked, false);
+            compare(greeter.required, false);
             greeter.forcedUnlock = false;
+
+            // Now recover from tearing down the view above
+            LightDM.Greeter.showGreeter();
+            tryCompare(greeter, "required", true);
+            tryCompare(greeter, "waiting", false);
+            view = findChild(greeter, "testView");
 
             selectUser("no-password");
             tryCompare(view, "locked", false);

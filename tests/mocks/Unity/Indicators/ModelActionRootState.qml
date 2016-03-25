@@ -33,17 +33,39 @@ Item {
     property string submenuAction: {
         if (!menu) return "";
         var ext = menu.get(0, "ext");
-        var submenuVar = ext ? ext["submenu-action"] : undefined;
-        return submenuVar ? submenuVar : ""
+        var action = ext ? ext["submenu-action"] : undefined;
+        return action ? action : ""
     }
+
+    property string secondaryAction: {
+        if (!menu) return "";
+        var ext = menu.get(0, "ext");
+        var action = ext ? ext["x-canonical-secondary-action"] : undefined;
+        return action ? action : ""
+    }
+
+    property string scrollAction: {
+        if (!menu) return "";
+        var ext = menu.get(0, "ext");
+        var action = ext ? ext["x-canonical-scroll-action"] : undefined;
+        return action ? action : ""
+    }
+
     Connections {
         target: menu
         onModelDataChanged: {
             cachedState = menu.get(0, "actionState");
 
             var ext = menu.get(0, "ext");
-            var submenuVar = ext ? ext["submenu-action"] : undefined;
-            submenuAction = submenuVar ? submenuVar : ""
+
+            var action = ext ? ext["submenu-action"] : undefined;
+            submenuAction = action ? action : ""
+
+            action = ext ? ext["x-canonical-secondary-action"] : undefined;
+            secondaryAction = action ? action : ""
+
+            action = ext ? ext["x-canonical-scroll-action"] : undefined;
+            scrollAction = action ? action : ""
         }
     }
 

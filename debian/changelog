@@ -1,3 +1,52 @@
+unity8 (8.12+16.04.20160323.2-0ubuntu1) xenial; urgency=medium
+
+  [ Michael Terry ]
+  * 
+  * Fix setting OSK layout in OOBE wizard
+  * Stop the left edge tutorial from being shown when the bottom edge
+    tutorial wants to be shown after receiving a call.
+
+  [ Albert Astals Cid ]
+  * Filter implementation with Option Selector filter as the only filter
+  * Get the engine from the parent context
+  * Implement the API changes due to filters
+  * Match design visuals for the new dash navigation/page header popup
+  * New Dash Navigation UX
+  * Range Input filter
+  * Value slider filter
+  * Workaround SDK ListItem bug
+
+  [ Albert Astals Cid, Lukáš Tinkl ]
+  * Fix various tests
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Lukáš Tinkl, Michael Terry ]
+  * New first-run wizard for the phone (part of the OOBE effort) (LP:
+    #1536688, #1536617, #1543790, #1555222)
+
+  [ Lukáš Tinkl, Michał Sawicz ]
+  * Keymap switching support (LP: #1524400, #1412492, #1491340)
+
+  [ Michael Terry, Michael Zanetti ]
+  * Redesign the first-boot edge tutorial
+
+  [ Michael Zanetti ]
+  * disabling some tests that are flaky in adt but can't be made fail on
+    our machines
+
+  [ Michael Zanetti, Michał Sawicz ]
+  * Change the behavior alond with the switch in indicator-display (LP:
+    #1538591)
+
+  [ Michael Zanetti, Michał Sawicz, Nick Dedekind ]
+  * Add support for low shell chrome. (LP: #1535397)
+  * Sidestage load/unload redesign (LP: #1544479)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Wed, 23 Mar 2016 09:53:17 +0000
+
 unity8 (8.11+16.04.20160318.1-0ubuntu1) xenial; urgency=medium
 
   [ CI Train Bot ]
