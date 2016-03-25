@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1 // For TouchGate
 import Utils 0.1 // for InputWatcher
 import Unity.Application 0.1 // for MirSurfaceItem
+import AccountsService 0.1
 
 FocusScope {
     id: root
@@ -34,10 +35,22 @@ FocusScope {
     property int requestedWidth: -1
     property int requestedHeight: -1
 
+    property string savedKeymap: AccountsService.keymaps[0] // start with the user default
+
     onSurfaceChanged: {
         if (surface) {
             surfaceItem.surface = surface;
             root.hadSurface = false;
+            switchToKeymap(savedKeymap);
+        }
+    }
+
+    function switchToKeymap(keymap) {
+        var finalKeymap = keymap.split("+");
+        savedKeymap = keymap; // save the keymap in case the surface changes later
+
+        if (surface) {
+            surface.setKeymap(finalKeymap[0], finalKeymap[1] || "");
         }
     }
 
@@ -118,6 +131,7 @@ FocusScope {
 
 
     TouchGate {
+        objectName: "touchGate-"+name
         targetItem: surfaceItem
         anchors.fill: root
         enabled: surfaceItem.enabled

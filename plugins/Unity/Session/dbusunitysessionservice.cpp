@@ -336,6 +336,9 @@ void DBusUnitySessionService::PromptLock()
 
 void DBusUnitySessionService::Lock()
 {
+    // signal u8 to show the lockscreen/greeter
+    PromptLock();
+
     // lock the session using the org.freedesktop.DisplayManager system DBUS service
     const QString sessionPath = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
     QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DisplayManager"),
@@ -348,7 +351,7 @@ void DBusUnitySessionService::Lock()
     connect(watcher, &QDBusPendingCallWatcher::finished,
         this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QVariant> reply = *watcher;
+        QDBusPendingReply<void> reply = *watcher;
         watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Lock call failed" << reply.error().message();
