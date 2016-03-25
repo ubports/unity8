@@ -178,7 +178,6 @@ Item {
                 elide: Text.ElideRight
                 color: "white"
                 fontSize: "x-small"
-                font.weight: Font.Light
             }
         }
 
