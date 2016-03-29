@@ -408,7 +408,7 @@ Rectangle {
             ApplicationManager.startApplication("gallery-app");
 
             var launcher = findChild(shell, "launcher");
-            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialLeft = findChild(shell, "tutorialLeftLoader");
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeft, "shown", false);
