@@ -544,63 +544,6 @@ AbstractStage {
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
 
-                BorderImage {
-                    anchors {
-                        fill: decoratedWindow
-                        margins: decoratedWindow.active ? -units.gu(2) : -units.gu(1.5)
-                    }
-                    source: "graphics/dropshadow2gu.sci"
-                    opacity: .3
-                    visible: !decoratedWindow.fullscreen && !appDelegate.maximized
-                    enabled: visible
-                }
-
-                Rectangle {
-                    id: mask
-                    radius: appDelegate.maximized ? 0 : units.gu(.7) // disable rounded corners when maximized
-                    anchors.fill: decoratedWindow
-                }
-
-                ShaderEffectSource {
-                    id: sourceMask
-                    hideSource: true
-                    sourceItem: mask
-                }
-
-                ShaderEffectSource {
-                    id: sourceImage
-                    hideSource: !decoratedWindow.fullscreen
-                    sourceItem: decoratedWindow
-                }
-
-                ShaderEffect {
-                    id: maskEffect
-                    anchors.fill: mask
-                    blending: false
-                    enabled: state == "normal" || state == "closing"
-                             || appDelegate.maximizedLeft || appDelegate.maximizedRight
-
-                    property variant sourceTexture: sourceImage
-                    property variant maskTexture: sourceMask
-
-                    fragmentShader: "
-                    uniform sampler2D sourceTexture;
-                    uniform sampler2D maskTexture;
-                    varying highp vec2 qt_TexCoord0;
-
-                    void main()
-                    {
-                        highp vec4 c = texture2D(sourceTexture, qt_TexCoord0);
-                        highp vec4 m = texture2D(maskTexture, qt_TexCoord0);
-
-                        if (m.a == 0.0) // if the mask is transparent, discard the pixel
-                            discard;
-                        else
-                            gl_FragColor = c; // otherwise use the original color
-                    }
-                    "
-                }
-
                 WindowedFullscreenPolicy {
                     id: fullscreenPolicy
                     active: true

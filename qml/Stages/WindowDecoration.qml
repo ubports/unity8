@@ -22,6 +22,7 @@ import "../Components/PanelState"
 
 MouseArea {
     id: root
+    clip: true
 
     property Item target
     property alias title: titleLabel.text
@@ -63,6 +64,9 @@ MouseArea {
     }
 
     Rectangle {
+        anchors.fill: parent
+        anchors.bottomMargin: -radius
+        radius: units.gu(.5)
         color: theme.palette.normal.background
     }
 

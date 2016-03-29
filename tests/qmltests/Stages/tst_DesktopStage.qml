@@ -40,7 +40,10 @@ Item {
         value: false
     }
 
-    Component.onCompleted: resetGeometry()
+    Component.onCompleted: {
+        theme.name = "Ubuntu.Components.Themes.SuruDark";
+        resetGeometry();
+    }
 
     function resetGeometry() {
         // ensures apps which are tested decorations are in view.
@@ -82,7 +85,7 @@ Item {
     Rectangle {
         id: controls
         width: units.gu(30)
-        color: "darkgrey"
+        color: theme.palette.normal.background
         anchors {
             top: parent.top
             bottom: parent.bottom
