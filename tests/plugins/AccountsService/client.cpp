@@ -23,6 +23,11 @@
 #include <QTest>
 #include <QDebug>
 #include <QDBusReply>
+#include <QDBusMetaType>
+
+using StringMap = QMap<QString,QString>;
+using StringMapList = QList<StringMap>;
+Q_DECLARE_METATYPE(StringMapList)
 
 template <class T>
 QVariant dbusVariant(const T& value) { return QVariant::fromValue(QDBusVariant(value)); }
@@ -52,6 +57,9 @@ public:
 
         QObject::connect(m_uscInputInterface, SIGNAL(setMousePrimaryButtonCalled(int)),
                          this, SIGNAL(setMousePrimaryButtonCalled(int)));
+
+        qDBusRegisterMetaType<StringMap>();
+        qDBusRegisterMetaType<StringMapList>();
     }
 
 private Q_SLOTS:
@@ -115,6 +123,43 @@ private Q_SLOTS:
         QCOMPARE(session.hereEnabled(), false);
         session.setHereEnabled(true);
         QCOMPARE(session.hereEnabled(), true);
+    }
+
+    void testMarkDemoEdgeCompleted()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QSignalSpy changedSpy(&session, &AccountsService::demoEdgesCompletedChanged);
+
+        QCOMPARE(changedSpy.count(), 0);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList());
+
+        session.markDemoEdgeCompleted("testedge");
+        QCOMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+
+        session.markDemoEdgeCompleted("testedge");
+        QCOMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+
+        session.markDemoEdgeCompleted("testedge2");
+        QCOMPARE(changedSpy.count(), 2);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge" << "testedge2");
+    }
+
+    void testAsynchronousChangeForDemoEdgesCompleted()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QSignalSpy changedSpy(&session, &AccountsService::demoEdgesCompletedChanged);
+
+        QCOMPARE(changedSpy.count(), 0);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList());
+
+        ASSERT_DBUS_CALL(m_userInterface->call("Set",
+                                               "com.canonical.unity.AccountsService",
+                                               "DemoEdgesCompleted",
+                                               dbusVariant(QStringList() << "testedge")));
+        QTRY_COMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
     }
 
     void testAsynchronousChangeForDemoEdges()
@@ -264,6 +309,28 @@ private Q_SLOTS:
         QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
         QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
         QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
+    void testAsynchronousChangeForKeymaps()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        QCOMPARE(session.keymaps(), {"us"});
+
+        StringMapList inputSources;
+        StringMap map1;
+        map1.insert("xkb", "cz+qwerty");
+        inputSources.append(map1);
+        StringMap map2;
+        map2.insert("xkb", "fr");
+        inputSources.append(map2);
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "org.freedesktop.Accounts.User",
+                                                    "InputSources",
+                                                    QVariant::fromValue(QDBusVariant(QVariant::fromValue(inputSources)))));
+        QStringList result = {"cz+qwerty", "fr"};
+        QTRY_COMPARE(session.keymaps(), result);
     }
 
 Q_SIGNALS:

@@ -77,6 +77,10 @@ class UBUNTUGESTURESQML_EXPORT DirectionalDragArea : public QQuickItem {
             WRITE setImmediateRecognition
             NOTIFY immediateRecognitionChanged)
 
+    // Whether we are merely monitoring touch events (in which case, we don't
+    // claim ownership of the touch).
+    Q_PROPERTY(bool monitorOnly READ monitorOnly WRITE setMonitorOnly NOTIFY monitorOnlyChanged)
+
     Q_ENUMS(Direction)
 public:
     DirectionalDragArea(QQuickItem *parent = 0);
@@ -99,6 +103,9 @@ public:
 
     bool immediateRecognition() const;
     void setImmediateRecognition(bool enabled);
+
+    bool monitorOnly() const;
+    void setMonitorOnly(bool monitorOnly);
 
     bool event(QEvent *e) override;
 
@@ -123,6 +130,7 @@ Q_SIGNALS:
     void touchSceneXChanged(qreal value);
     void touchSceneYChanged(qreal value);
     void immediateRecognitionChanged(bool value);
+    void monitorOnlyChanged(bool value);
 
 protected:
     void touchEvent(QTouchEvent *event) override;

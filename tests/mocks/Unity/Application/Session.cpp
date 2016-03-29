@@ -34,6 +34,7 @@ Session::Session(const QString &name,
     , m_surface(nullptr)
     , m_parentSession(nullptr)
     , m_children(new SessionModel(this))
+    , m_fullscreen(false)
 {
 //    qDebug() << "Session::Session() " << this->name();
 
@@ -71,6 +72,25 @@ void Session::release()
     deleteLater();
 }
 
+void Session::updateFullscreenProperty()
+{
+    if (m_surfaces.rowCount() > 0) {
+        // TODO: Figure out something better
+        setFullscreen(lastSurface()->state() == Mir::FullscreenState);
+    } else {
+        // Keep the current value of the fullscreen property until we get a new
+        // surface
+    }
+}
+
+void Session::setFullscreen(bool fullscreen)
+{
+    if (m_fullscreen != fullscreen) {
+        m_fullscreen = fullscreen;
+        Q_EMIT fullscreenChanged(m_fullscreen);
+    }
+}
+
 void Session::setApplication(ApplicationInfo* application)
 {
     if (m_application == application)
@@ -82,15 +102,18 @@ void Session::setApplication(ApplicationInfo* application)
 
 void Session::appendSurface(MirSurface* surface)
 {
-    // qDebug() << "Session::appendSurface - session=" << name() << "surface=" << surface;
+     qDebug() << "Session::appendSurface - session=" << name() << "surface=" << surface;
 
     m_surfaces.insert(m_surfaces.rowCount(), surface);
 
+    connect(surface, &MirSurfaceInterface::stateChanged, this, &Session::updateFullscreenProperty);
     connect(surface, &QObject::destroyed,
             this, [this, surface]() { this->removeSurface(surface); });
 
     Q_EMIT lastSurfaceChanged(surface);
     Q_EMIT surfaceAdded(surface);
+
+    updateFullscreenProperty();
 }
 
 void Session::removeSurface(MirSurface* surface)
@@ -99,6 +122,8 @@ void Session::removeSurface(MirSurface* surface)
     if (m_surfaces.contains(surface)) {
         m_surfaces.remove(surface);
     }
+
+    updateFullscreenProperty();
 }
 
 void Session::setScreenshot(const QUrl& screenshot)

@@ -29,6 +29,7 @@ ListView {
     property real margin
     property bool useModal: snapDecisionProxyModel.count > 0
     property bool hasMouse
+    property bool inverseMode
     property url background: ""
 
     UnitySortFilterProxyModel {
@@ -61,6 +62,7 @@ ListView {
         maxHeight: notificationList.height
         margins: notificationList.margin
         hasMouse: notificationList.hasMouse
+        inverseMode: notificationList.inverseMode
         background: notificationList.background
 
         // make sure there's no opacity-difference between the several

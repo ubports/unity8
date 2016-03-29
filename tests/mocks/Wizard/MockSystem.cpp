@@ -14,6 +14,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QDebug>
+
 #include "MockSystem.h"
 
 MockSystem::MockSystem()
@@ -33,7 +35,7 @@ void MockSystem::setWizardEnabled(bool enabled)
     Q_EMIT wizardEnabledChanged();
 }
 
-void MockSystem::updateSessionLanguage(const QString &locale)
+void MockSystem::updateSessionLocale(const QString &locale)
 {
-    Q_EMIT updateSessionLanguageCalled(locale);
+    Q_EMIT updateSessionLocaleCalled(locale);
 }

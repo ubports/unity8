@@ -24,11 +24,13 @@ FocusScope {
     implicitHeight: sessionContainer.implicitHeight
 
     // to be read from outside
-    readonly property bool fullscreen: application ? application.fullscreen : false
     property alias interactive: sessionContainer.interactive
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
     readonly property string title: sessionContainer.surface && sessionContainer.surface.name !== "" ?
                                         sessionContainer.surface.name : d.name
+
+    // overridable from outside
+    property bool fullscreen: application ? application.fullscreen : false
 
     // to be set from outside
     property QtObject application
@@ -36,6 +38,10 @@ FocusScope {
     property alias resizeSurface: sessionContainer.resizeSurface
     property int requestedWidth: -1
     property int requestedHeight: -1
+
+    function switchToKeymap(keymap) {
+        sessionContainer.surfaceContainer.switchToKeymap(keymap);
+    }
 
     readonly property int minimumWidth: sessionContainer.surface ? sessionContainer.surface.minimumWidth : 0
     readonly property int minimumHeight: sessionContainer.surface ? sessionContainer.surface.minimumHeight : 0
@@ -58,7 +64,6 @@ FocusScope {
         readonly property color splashColor: root.application ? root.application.splashColor : "#00000000"
         readonly property color splashColorHeader: root.application ? root.application.splashColorHeader : "#00000000"
         readonly property color splashColorFooter: root.application ? root.application.splashColorFooter : "#00000000"
-        readonly property url defaultScreenshot: (root.application && root.application.defaultScreenshot !== undefined) ? root.application.defaultScreenshot : ""
 
         // Whether the Application had a surface before but lost it.
         property bool hadSurface: sessionContainer.surfaceContainer.hadSurface
@@ -110,7 +115,6 @@ FocusScope {
     Image {
         id: screenshotImage
         objectName: "screenshotImage"
-        source: d.defaultScreenshot
         anchors.fill: parent
         antialiasing: !root.interactive
 

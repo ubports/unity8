@@ -51,13 +51,15 @@ private:
     void fetchXInput2Info();
     bool xi2HandleEvent(xcb_ge_event_t *event);
 
-    bool handleButtonPress(WId windowId, uint32_t detail, int x, int y);
-    bool handleButtonRelease(WId windowId, uint32_t detail, int x, int y);
-    bool handleMotionNotify(WId windowId, int x, int y);
+    bool handleButtonPress(WId windowId, uint32_t detail, uint32_t modifiers, int x, int y);
+    bool handleButtonRelease(WId windowId, uint32_t detail, uint32_t modifiers, int x, int y);
+    bool handleMotionNotify(WId windowId, uint32_t modifiers, int x, int y);
     QWindow *findQWindowWithXWindowID(WId windowId);
 
     QTouchDevice *m_touchDevice;
     bool m_leftButtonIsPressed;
+    bool m_triPressModifier;
+
 
     bool m_enabled;
 
