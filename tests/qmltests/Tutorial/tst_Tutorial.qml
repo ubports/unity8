@@ -764,6 +764,22 @@ Rectangle {
             tryCompare(tutorialRightLoader, "shown", true);
         }
 
+        function test_desktopTutorialRightFinish() {
+            loadShell("desktop");
+
+            var tutorialRight = findChild(shell, "tutorialRight");
+            ApplicationManager.startApplication("dialer-app");
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(tutorialRight, "shown", true);
+
+            var stage = findChild(shell, "stage");
+            mouseMove(shell, shell.width, shell.height / 2);
+            stage.pushRightEdge(units.gu(8));
+            tryCompare(tutorialRight, "shown", false);
+
+            tryCompare(AccountsService, "demoEdges", false);
+        }
+
         function test_oskDoesNotHideTutorial() {
             var tutorialLeft = findChild(shell, "tutorialLeft");
             verify(tutorialLeft.shown);
