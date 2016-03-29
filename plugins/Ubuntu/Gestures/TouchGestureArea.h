@@ -137,7 +137,7 @@ public:
         Recognized,
         Rejected
     };
-    TouchGestureArea(QQuickItem* parent = NULL);
+    TouchGestureArea(QQuickItem* parent = nullptr);
     ~TouchGestureArea();
 
     bool event(QEvent *e) override;
@@ -165,10 +165,10 @@ Q_SIGNALS:
 
     void touchPointsUpdated();
     void draggingChanged(bool dragging);
-    void minimumTouchPointsChanged(bool value);
-    void maximumTouchPointsChanged(bool value);
-    void recognitionPeriodChanged(bool value);
-    void releaseRejectPeriodChanged(bool value);
+    void minimumTouchPointsChanged(int value);
+    void maximumTouchPointsChanged(int value);
+    void recognitionPeriodChanged(int value);
+    void releaseRejectPeriodChanged(int value);
 
     void pressed(const QList<QObject*>& points);
     void released(const QList<QObject*>& points);

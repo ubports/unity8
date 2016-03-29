@@ -374,7 +374,7 @@ void TouchGestureArea::unownedTouchEvent_waitingForMoreTouches(QTouchEvent *even
         }
     }
 
-    if (m_candidateTouches.count() == 0) {
+    if (m_candidateTouches.isEmpty()) {
         setInternalStatus(InternalStatus::WaitingForTouch);
     }
 }
@@ -438,7 +438,7 @@ void TouchGestureArea::unownedTouchEvent_rejected(QTouchEvent *event)
         }
     }
 
-    if (m_watchedTouches.count() == 0) {
+    if (m_watchedTouches.isEmpty()) {
         setInternalStatus(InternalStatus::WaitingForTouch);
     }
 }
@@ -526,7 +526,7 @@ void TouchGestureArea::updateTouchPoints(QTouchEvent *touchEvent)
     if (updateable) {
         if (!dragging() && m_status == InternalStatus::Recognized) {
             bool allWantDrag = !m_liveTouchPoints.isEmpty();
-            Q_FOREACH(auto point, m_liveTouchPoints) {
+            Q_FOREACH(const auto &point, m_liveTouchPoints) {
                 allWantDrag &= point->dragging();
             }
             // only dragging if all points are dragging.
@@ -643,11 +643,9 @@ bool TouchGestureArea::dragging() const
 QQmlListProperty<GestureTouchPoint> TouchGestureArea::touchPoints()
 {
     return QQmlListProperty<GestureTouchPoint>(this,
-                                                    0,
-                                                    nullptr,
-                                                    TouchGestureArea::touchPoint_count,
-                                                    TouchGestureArea::touchPoint_at,
-                                               0);
+                                               nullptr,
+                                               TouchGestureArea::touchPoint_count,
+                                               TouchGestureArea::touchPoint_at);
 }
 
 int TouchGestureArea::minimumTouchPoints() const
@@ -718,7 +716,7 @@ void TouchGestureArea::rejectGesture()
     }
     m_candidateTouches.clear();
 
-    if (m_watchedTouches.count() == 0) {
+    if (m_watchedTouches.isEmpty()) {
         setInternalStatus(InternalStatus::WaitingForTouch);
     } else {
         setInternalStatus(InternalStatus::Rejected);
