@@ -871,7 +871,7 @@ Rectangle {
 
             // Doing longpress
             mousePress(draggedItem);
-            tryCompare(quickListShape, "opacity", 0.8);
+            tryCompare(quickListShape, "opacity", 0.95);
             mouseRelease(draggedItem);
 
             verify(quickList.y >= units.gu(1));
