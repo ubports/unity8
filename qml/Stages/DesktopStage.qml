@@ -544,6 +544,10 @@ AbstractStage {
                     onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
                 }
 
+                WindowControlsOverlay {
+                    target: resizeArea
+                }
+
                 WindowedFullscreenPolicy {
                     id: fullscreenPolicy
                     active: true

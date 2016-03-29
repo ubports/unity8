@@ -19,6 +19,11 @@ import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 
 Item {
+    // to be set from outside
+    property Item target: null
+
+    anchors.fill: target
+
     TabletSideStageTouchGesture {
         minimumTouchPoints: 2
         maximumTouchPoints: 2

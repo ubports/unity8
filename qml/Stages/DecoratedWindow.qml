@@ -103,8 +103,4 @@ FocusScope {
         interactive: true
         focus: true
     }
-
-    WindowControlsOverlay {
-        anchors.fill: root
-    }
 }
