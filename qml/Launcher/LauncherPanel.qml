@@ -23,7 +23,7 @@ import "../Components/"
 
 Rectangle {
     id: root
-    color: Qt.rgba(17/255, 17/255, 17/255, 0.95) // #111111, 95%
+    color: "#F2111111"
 
     rotation: inverted ? 180 : 0
 

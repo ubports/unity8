@@ -249,7 +249,7 @@ Item {
             anchors.centerIn: parent
             width: units.gu(2.5)
             height: width
-            backgroundColor: Qt.rgba(17/255, 17/255, 17/255, 0.95) // #111111, 95%
+            backgroundColor: "#F2111111"
             visible: root.shortcutHintShown
             aspect: UbuntuShape.Flat
             Label {
