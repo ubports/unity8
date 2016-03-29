@@ -2344,29 +2344,5 @@ Rectangle {
             tryCompare(app2.session.lastSurface, "keymapLayout", "fr");
             tryCompare(app2.session.lastSurface, "keymapVariant", "");
         }
-
-        function test_dragPanelToRestoreMaximizedWindow() {
-            loadShell("desktop");
-            shell.usageScenario = "desktop";
-            waitForRendering(shell);
-            var panel = findChild(shell, "windowControlArea");
-            verify(panel);
-
-            var app = ApplicationManager.startApplication("dialer-app")
-            waitUntilAppWindowIsFullyLoaded(app);
-
-            // start dialer, maximize it
-            var appContainer = findChild(shell, "appContainer");
-            var appDelegate = findChild(appContainer, "appDelegate_dialer-app");
-            verify(appDelegate);
-            appDelegate.maximize();
-            tryCompare(appDelegate, "state", "maximized");
-
-            mousePress(panel);
-            mouseMove(shell, shell.width/2, shell.height/2);
-            mouseRelease(shell);
-
-            tryCompare(appDelegate, "state", "normal");
-        }
     }
 }
