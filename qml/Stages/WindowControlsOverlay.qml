@@ -89,8 +89,8 @@ Item {
     Item {
         id: overlay
         anchors.fill: parent
-        visible: (overlayTimer.running && target && !target.maximized && !target.fullscreen) ||
-                 gestureArea.recognisedDrag
+        visible: (overlayTimer.running || priv.dragging) &&
+                 target && !target.maximized && !target.fullscreen
         enabled: visible
 
         Image {
