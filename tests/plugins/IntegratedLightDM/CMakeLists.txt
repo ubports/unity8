@@ -22,6 +22,7 @@ target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/tests/mocks/IntegratedLightDM
     )
 add_unity8_uitest(GreeterDBus dbus-test-runner
+    ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
     DEPENDS MockLightDM
