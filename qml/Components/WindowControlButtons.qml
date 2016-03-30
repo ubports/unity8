@@ -23,6 +23,7 @@ Row {
 
     // to be set from outside
     property bool active: false
+    property bool closeButtonShown: true
 
     signal close()
     signal minimize()
@@ -35,6 +36,7 @@ Row {
         height: parent.height
         width: height
         onClicked: root.close()
+        visible: root.closeButtonShown
 
         Rectangle {
             anchors.centerIn: parent
