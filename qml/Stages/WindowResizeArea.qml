@@ -28,6 +28,7 @@ MouseArea {
     hoverEnabled: target && !target.maximized // don't grab the resize under the panel
 
     property var windowStateStorage: WindowStateStorage
+    readonly property alias dragging: d.dragging
 
     // The target item managed by this. Must be a parent or a sibling
     // The area will anchor to it and manage move and resize events
@@ -180,7 +181,7 @@ MouseArea {
         property real currentWidth
         property real currentHeight
 
-        property string cursorName: {
+        readonly property string cursorName: {
             if (root.containsMouse || root.pressed) {
                 if (leftBorder && !topBorder && !bottomBorder) {
                     return "left_side";

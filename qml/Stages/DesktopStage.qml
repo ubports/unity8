@@ -547,6 +547,7 @@ AbstractStage {
                 WindowControlsOverlay {
                     anchors.fill: resizeArea
                     target: appDelegate
+                    resizeTarget: resizeArea
                     borderThickness: resizeArea.borderThickness
                 }
 

@@ -23,6 +23,7 @@ Item {
     id: root
     // to be set from outside
     property Item target // appDelegate
+    property Item resizeTarget // WindowResizeArea
     property int borderThickness
 
     TabletSideStageTouchGesture {
@@ -47,6 +48,7 @@ Item {
     Timer { // dismiss timer
         id: overlayTimer
         interval: 2000
+        repeat: priv.dragging || root.resizeTarget.dragging
     }
 
     InverseMouseArea { // dismiss area
@@ -62,7 +64,7 @@ Item {
     }
 
     MouseArea {
-        anchors.fill: parent
+        anchors.fill: overlay
         visible: overlay.visible
         enabled: visible
 
@@ -89,8 +91,7 @@ Item {
     Item {
         id: overlay
         anchors.fill: parent
-        visible: (overlayTimer.running || priv.dragging) &&
-                 target && !target.maximized && !target.fullscreen
+        visible: overlayTimer.running && target && !target.maximized && !target.fullscreen
         enabled: visible
 
         Image {
@@ -105,7 +106,8 @@ Item {
             anchors.horizontalCenterOffset: borderThickness
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: borderThickness
-            visible: target && !target.maximizedLeft && !target.maximizedRight
+            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            resizeTarget: root.resizeTarget
         }
 
         ResizeGrip { // top center
@@ -113,7 +115,8 @@ Item {
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: borderThickness
             rotation: 45
-            visible: target && !target.maximizedLeft && !target.maximizedRight
+            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            resizeTarget: root.resizeTarget
         }
 
         ResizeGrip { // top right
@@ -122,7 +125,8 @@ Item {
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: borderThickness
             rotation: 90
-            visible: target && !target.maximizedLeft && !target.maximizedRight
+            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            resizeTarget: root.resizeTarget
         }
 
         ResizeGrip { // right
@@ -130,7 +134,8 @@ Item {
             anchors.horizontalCenterOffset: -borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedRight
+            visible: resizeTarget && !resizeTarget.maximizedRight
+            resizeTarget: root.resizeTarget
         }
 
         ResizeGrip { // bottom right
@@ -138,7 +143,8 @@ Item {
             anchors.horizontalCenterOffset: -borderThickness
             anchors.verticalCenter: parent.bottom
             anchors.verticalCenterOffset: -borderThickness
-            visible: target && !target.maximizedLeft && !target.maximizedRight
+            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            resizeTarget: root.resizeTarget
         }
 
         ResizeGrip { // bottom center
@@ -146,7 +152,8 @@ Item {
             anchors.verticalCenter: parent.bottom
             anchors.verticalCenterOffset: -borderThickness
             rotation: 45
-            visible: target && !target.maximizedLeft && !target.maximizedRight
+            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            resizeTarget: root.resizeTarget
         }
 
         ResizeGrip { // bottom left
@@ -155,7 +162,8 @@ Item {
             anchors.verticalCenter: parent.bottom
             anchors.verticalCenterOffset: -borderThickness
             rotation: 90
-            visible: target && !target.maximizedLeft && !target.maximizedRight
+            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            resizeTarget: root.resizeTarget
         }
 
         ResizeGrip { // left
@@ -163,7 +171,8 @@ Item {
             anchors.horizontalCenterOffset: borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: target && !target.maximizedLeft
+            visible: resizeTarget && !resizeTarget.maximizedLeft
+            resizeTarget: root.resizeTarget
         }
     }
 }

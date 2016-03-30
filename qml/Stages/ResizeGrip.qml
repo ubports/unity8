@@ -23,10 +23,21 @@ Rectangle {
     radius: height / 2
     color: theme.palette.normal.background
 
+    // to be set from outside
+    property Item resizeTarget
+
     Image {
         source: "graphics/arrows.png"
         anchors.centerIn: parent
         width: units.gu(2)
         height: width
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+
+        Mouse.enabled: resizeTarget
+        Mouse.forwardTo: resizeTarget
     }
 }
