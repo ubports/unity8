@@ -66,14 +66,11 @@ private Q_SLOTS:
         QCOMPARE(m_model->data(index, QLightDM::UsersModel::RealNameRole).toString(),
                  QStringLiteral(""));
 
-        // The real AccountsService doesn't let you set via dbus properties. You
-        // have to call SetRealName instead (so that they can protect the call
-        // via policykit). But our test server does let us.
-        QVariant wrapped = QVariant::fromValue(QDBusVariant(QStringLiteral("Test User")));
-        QDBusReply<void> reply = m_user->call(QStringLiteral("Set"),
-                                              QStringLiteral("org.freedesktop.Accounts.User"),
-                                              QStringLiteral("RealName"),
-                                              wrapped);
+        QDBusInterface accountsIface(m_user->service(),
+                                     m_user->path(),
+                                     "org.freedesktop.Accounts.User");
+        QDBusReply<void> reply = accountsIface.call(QStringLiteral("SetRealName"),
+                                                    QStringLiteral("Test User"));
         QVERIFY(reply.isValid());
 
         QTRY_COMPARE(m_model->data(index, QLightDM::UsersModel::RealNameRole).toString(),
