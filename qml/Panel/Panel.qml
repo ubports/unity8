@@ -114,8 +114,8 @@ Item {
 
             property bool mouseWasPressed: false
             onPressed: mouseWasPressed = containsPress
-            onExited: {
-                if (mouseWasPressed && !indicatorAreaBackground.contains(Qt.point(mouseX, mouseY))) {
+            onMouseYChanged: {
+                if (mouseWasPressed && mouseY > panelHeight) {
                     PanelState.maximize(); // restore the window when "dragging" the panel down
                     mouseWasPressed = false;
                 }
