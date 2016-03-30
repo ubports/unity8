@@ -73,6 +73,10 @@ FocusScope {
         lockscreen.clear(true);
     }
 
+    function showErrorMessage(msg) {
+        coverPage.showErrorMessage(msg);
+    }
+
     function reset() {
         coverPage.show();
     }

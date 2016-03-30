@@ -19,6 +19,7 @@ import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 1.3
+import Ubuntu.Fingerprints 0.1
 import AccountsService 0.1
 import GSettings 1.0
 import IntegratedLightDM 0.1 as LightDM
@@ -126,6 +127,12 @@ Item {
         }
 
         SignalSpy {
+            id: viewShowErrorMessageSpy
+            target: testCase.view
+            signalName: "_showErrorMessageCalled"
+        }
+
+        SignalSpy {
             id: viewResetSpy
             target: testCase.view
             signalName: "_resetCalled"
@@ -149,6 +156,7 @@ Item {
             viewHideSpy.clear();
             viewAuthenticationSucceededSpy.clear();
             viewAuthenticationFailedSpy.clear();
+            viewShowErrorMessageSpy.clear();
             viewResetSpy.clear();
             viewTryToUnlockSpy.clear();
             tryCompare(greeter, "waiting", false);
@@ -551,6 +559,48 @@ Item {
 
             LightDM.Greeter.showGreeter();
             compare(viewResetSpy.count, 1);
+        }
+
+        function test_fingerprintSuccess() {
+            selectUser("has-password");
+            Fingerprints.mockIdentification(0, Fingerprints.None);
+            verify(greeter.forcedUnlock);
+        }
+
+        function test_fingerprintFailureMessage() {
+            selectUser("has-password");
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            compare(viewShowErrorMessageSpy.count, 1);
+            compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
+        }
+
+        function test_fingerprintTooManyFailures() {
+            selectUser("has-password");
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            compare(viewTryToUnlockSpy.count, 0);
+
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            compare(viewTryToUnlockSpy.count, 1);
+
+            compare(viewShowErrorMessageSpy.count, 3);
+        }
+
+        function test_fingerprintFailureCountReset() {
+            selectUser("has-password");
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            compare(viewTryToUnlockSpy.count, 0);
+
+            greeter.forceShow();
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            compare(viewTryToUnlockSpy.count, 0);
+
+            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            compare(viewTryToUnlockSpy.count, 1);
+
+            compare(viewShowErrorMessageSpy.count, 5);
         }
     }
 }

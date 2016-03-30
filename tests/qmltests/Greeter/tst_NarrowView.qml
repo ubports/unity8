@@ -527,5 +527,21 @@ Item {
             mouseClick(coverPage, coverPage.width/2, coverPage.height - units.gu(2));
             verify(!coverPage.shown);
         }
+
+        function test_showErrorMessage() {
+            var coverPage = findChild(view, "coverPage");
+            var swipeHint = findChild(coverPage, "swipeHint");
+            var errorMessageAnimation = findInvisibleChild(coverPage, "errorMessageAnimation");
+            var showLabelAnimation = findInvisibleChild(coverPage, "showLabelAnimation");
+
+            view.showErrorMessage("hello");
+            compare(swipeHint.text, "《    hello    》");
+            verify(errorMessageAnimation.running);
+            verify(showLabelAnimation.running);
+
+            errorMessageAnimation.complete();
+            showLabelAnimation.complete();
+            compare(swipeHint.text, "《    " + i18n.tr("Unlock") + "    》");
+        }
     }
 }

@@ -66,6 +66,10 @@ FocusScope {
         loginList.showError();
     }
 
+    function showErrorMessage(msg) {
+        coverPage.showErrorMessage(msg);
+    }
+
     function reset() {
         loginList.reset();
     }

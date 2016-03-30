@@ -18,6 +18,7 @@ import QtQuick 2.4
 import AccountsService 0.1
 import GSettings 1.0
 import Ubuntu.Components 1.3
+import Ubuntu.Fingerprints 0.1
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import Unity.Session 0.1
@@ -60,8 +61,9 @@ Showable {
     signal emergencyCall()
 
     function forceShow() {
+        forcedUnlock = false;
         showNow();
-        loader.item.reset();
+        d.selectUser(d.currentIndex, true);
     }
 
     function notifyAppFocused(appId) {
@@ -114,6 +116,7 @@ Showable {
         readonly property bool multiUser: lightDM.users.count > 1
         property int currentIndex
         property bool waiting
+        property int fingerprintFailureCount
 
         // We want 'launcherOffset' to animate down to zero.  But not to animate
         // while being dragged.  So ideally we change this only when the user
@@ -129,8 +132,16 @@ Showable {
             UbuntuNumberAnimation {}
         }
 
+        onFingerprintFailureCountChanged: {
+            if (d.fingerprintFailureCount >= 3) {
+                d.startUnlock(false /* toTheRight */);
+                d.fingerprintFailureCount = 0;
+            }
+        }
+
         function selectUser(uid, reset) {
             d.waiting = true;
+            d.fingerprintFailureCount = 0;
             if (reset) {
                 loader.item.reset();
             }
@@ -468,5 +479,19 @@ Showable {
     Connections {
         target: i18n
         onLanguageChanged: lightDM.infographic.readyForDataChange()
+    }
+
+    Connections {
+        target: Fingerprints
+        onIdentificationCompleted: {
+            // FIXME validate uid
+            if (root.active)
+                root.forcedUnlock = true;
+        }
+        onIdentificationFailed: {
+            d.fingerprintFailureCount++;
+            if (loader.item)
+                loader.item.showErrorMessage(i18n.tr("Try again"));
+        }
     }
 }

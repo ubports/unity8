@@ -33,9 +33,11 @@ Item {
     property var infographicModel
     readonly property bool fullyShown: _fullyShown
     readonly property bool required: _required
+    readonly property bool animating: _animating
 
     property bool _fullyShown: true
     property bool _required: true
+    property bool _animating: true
 
     signal selected(int index)
     signal responded(string response)
@@ -48,6 +50,7 @@ Item {
     signal _hideCalled()
     signal _notifyAuthenticationSucceededCalled()
     signal _notifyAuthenticationFailedCalled()
+    signal _showErrorMessageCalled(string msg)
     signal _resetCalled()
     signal _tryToUnlockCalled(bool toTheRight)
 
@@ -75,6 +78,10 @@ Item {
 
     function notifyAuthenticationFailed() {
         _notifyAuthenticationFailedCalled();
+    }
+
+    function showErrorMessage(msg) {
+        _showErrorMessageCalled(msg);
     }
 
     function reset() {
