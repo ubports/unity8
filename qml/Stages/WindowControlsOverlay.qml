@@ -98,13 +98,14 @@ Item {
         enabled: visible
 
         Behavior on opacity {
-            OpacityAnimator { duration: UbuntuNumberAnimation.duration; easing: UbuntuNumberAnimation.easing }
+            OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
 
         Image {
             source: "graphics/arrows-centre.png"
             width: units.gu(8)
             height: width
+            sourceSize: Qt.size(width, height)
             anchors.centerIn: parent
         }
 
