@@ -93,9 +93,11 @@ Item {
     Item {
         id: overlay
         anchors.fill: parent
-        opacity: overlayTimer.running && target && !target.maximized && !target.fullscreen ? 1 : 0
+        opacity: overlayTimer.running && target && !target.fullscreen ? 1 : 0
         visible: opacity == 1
         enabled: visible
+
+        readonly property bool anyMaximized: target && (target.maximized || target.maximizedLeft || target.maximizedRight)
 
         Behavior on opacity {
             OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
@@ -114,7 +116,7 @@ Item {
             anchors.horizontalCenterOffset: borderThickness
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: borderThickness
-            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
         }
 
@@ -123,7 +125,7 @@ Item {
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: borderThickness
             rotation: 45
-            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
         }
 
@@ -133,7 +135,7 @@ Item {
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: borderThickness
             rotation: 90
-            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
         }
 
@@ -142,7 +144,7 @@ Item {
             anchors.horizontalCenterOffset: -borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: resizeTarget && !resizeTarget.maximizedRight
+            visible: target && !target.maximizedRight && !target.maximized
             resizeTarget: root.resizeTarget
         }
 
@@ -151,7 +153,7 @@ Item {
             anchors.horizontalCenterOffset: -borderThickness
             anchors.verticalCenter: parent.bottom
             anchors.verticalCenterOffset: -borderThickness
-            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
         }
 
@@ -160,7 +162,7 @@ Item {
             anchors.verticalCenter: parent.bottom
             anchors.verticalCenterOffset: -borderThickness
             rotation: 45
-            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
         }
 
@@ -170,7 +172,7 @@ Item {
             anchors.verticalCenter: parent.bottom
             anchors.verticalCenterOffset: -borderThickness
             rotation: 90
-            visible: resizeTarget && !resizeTarget.maximizedLeft && !resizeTarget.maximizedRight
+            visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
         }
 
@@ -179,7 +181,7 @@ Item {
             anchors.horizontalCenterOffset: borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
-            visible: resizeTarget && !resizeTarget.maximizedLeft
+            visible: target && !target.maximizedLeft && !target.maximized
             resizeTarget: root.resizeTarget
         }
     }
