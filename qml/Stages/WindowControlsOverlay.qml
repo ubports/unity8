@@ -61,6 +61,7 @@ Item {
         visible: overlay.visible
         enabled: visible
         hoverEnabled: true
+        cursorShape: priv.dragging ? Qt.ClosedHandCursor : (overlay.visible ? Qt.OpenHandCursor : Qt.ArrowCursor)
 
         onPressedChanged: {
             if (pressed) {
@@ -119,6 +120,7 @@ Item {
             anchors.verticalCenterOffset: borderThickness
             visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeFDiagCursor
         }
 
         ResizeGrip { // top center
@@ -128,6 +130,7 @@ Item {
             rotation: 45
             visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeVerCursor
         }
 
         ResizeGrip { // top right
@@ -138,6 +141,7 @@ Item {
             rotation: 90
             visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeBDiagCursor
         }
 
         ResizeGrip { // right
@@ -147,6 +151,7 @@ Item {
             rotation: 135
             visible: target && !target.maximizedRight && !target.maximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeHorCursor
         }
 
         ResizeGrip { // bottom right
@@ -156,6 +161,7 @@ Item {
             anchors.verticalCenterOffset: -borderThickness
             visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeFDiagCursor
         }
 
         ResizeGrip { // bottom center
@@ -165,6 +171,7 @@ Item {
             rotation: 45
             visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeVerCursor
         }
 
         ResizeGrip { // bottom left
@@ -175,6 +182,7 @@ Item {
             rotation: 90
             visible: !overlay.anyMaximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeBDiagCursor
         }
 
         ResizeGrip { // left
@@ -184,6 +192,7 @@ Item {
             rotation: 135
             visible: target && !target.maximizedLeft && !target.maximized
             resizeTarget: root.resizeTarget
+            cursorShape: Qt.SizeHorCursor
         }
     }
 }
