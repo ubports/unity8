@@ -1,5 +1,6 @@
 add_subdirectory(Connectivity)
 add_subdirectory(DownloadDaemonListener)
+add_subdirectory(Fingerprints)
 add_subdirectory(Payments)
 add_subdirectory(SystemImage)
 add_subdirectory(SystemSettings)
