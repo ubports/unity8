@@ -24,6 +24,7 @@ GSettingsControllerQml::GSettingsControllerQml()
     : m_usageMode("Staged")
     , m_autohideLauncher(false)
     , m_launcherWidth(8)
+    , m_edgeDragWidth(2)
 {
 }
 
@@ -116,6 +117,19 @@ void GSettingsControllerQml::setLauncherWidth(int launcherWidth)
     }
 }
 
+uint GSettingsControllerQml::edgeDragWidth() const
+{
+    return m_edgeDragWidth;
+}
+
+void GSettingsControllerQml::setEdgeDragWidth(uint edgeDragWidth)
+{
+    if (m_edgeDragWidth != edgeDragWidth) {
+        m_edgeDragWidth = edgeDragWidth;
+        Q_EMIT edgeDragWidthChanged(edgeDragWidth);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -161,6 +175,8 @@ GSettingsQml::GSettingsQml(QObject *parent)
             this, &GSettingsQml::autohideLauncherChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::launcherWidthChanged,
             this, &GSettingsQml::launcherWidthChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::edgeDragWidthChanged,
+            this, &GSettingsQml::edgeDragWidthChanged);
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -242,6 +258,14 @@ int GSettingsQml::launcherWidth() const
     }
 }
 
+uint GSettingsQml::edgeDragWidth() const
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->edgeDragWidth();
+    }
+    return 0;
+}
+
 void GSettingsQml::setLifecycleExemptAppids(const QStringList &appIds)
 {
     if (m_schema->id() == "com.canonical.qtmir") {
@@ -260,5 +284,12 @@ void GSettingsQml::setLauncherWidth(int launcherWidth)
 {
     if (m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setLauncherWidth(launcherWidth);
+    }
+}
+
+void GSettingsQml::setEdgeDragWidth(uint edgeDragWidth)
+{
+    if (m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setEdgeDragWidth(edgeDragWidth);
     }
 }

@@ -52,6 +52,7 @@ class GSettingsQml: public QObject
     Q_PROPERTY(QStringList lifecycleExemptAppids READ lifecycleExemptAppids WRITE setLifecycleExemptAppids NOTIFY lifecycleExemptAppidsChanged)
     Q_PROPERTY(bool autohideLauncher READ autohideLauncher WRITE setAutohideLauncher NOTIFY autohideLauncherChanged)
     Q_PROPERTY(int launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
+    Q_PROPERTY(uint edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -63,6 +64,7 @@ public:
     QStringList lifecycleExemptAppids() const;
     bool autohideLauncher() const;
     int launcherWidth() const;
+    uint edgeDragWidth() const;
 
     void setPictureUri(const QString &str);
     void setUsageMode(const QString &usageMode);
@@ -70,6 +72,7 @@ public:
     void setLifecycleExemptAppids(const QStringList &appIds);
     void setAutohideLauncher(bool autohideLauncher);
     void setLauncherWidth(int launcherWidth);
+    void setEdgeDragWidth(uint edgeDragWidth);
 
 Q_SIGNALS:
     void schemaChanged();
@@ -79,6 +82,7 @@ Q_SIGNALS:
     void lifecycleExemptAppidsChanged(const QStringList &);
     void autohideLauncherChanged(bool);
     void launcherWidthChanged(int launcherWidth);
+    void edgeDragWidthChanged(uint edgeDragWidth);
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -112,6 +116,9 @@ public:
     int launcherWidth() const;
     Q_INVOKABLE void setLauncherWidth(int launcherWidth);
 
+    uint edgeDragWidth() const;
+    Q_INVOKABLE void setEdgeDragWidth(uint edgeDragWidth);
+
 Q_SIGNALS:
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
@@ -119,6 +126,7 @@ Q_SIGNALS:
     void lifecycleExemptAppidsChanged(const QStringList&);
     void autohideLauncherChanged(bool autohideLauncher);
     void launcherWidthChanged(int launcherWidth);
+    void edgeDragWidthChanged(uint edgeDragWidth);
 
 private:
     GSettingsControllerQml();
@@ -129,6 +137,7 @@ private:
     QStringList m_lifecycleExemptAppids;
     bool m_autohideLauncher;
     int m_launcherWidth;
+    uint m_edgeDragWidth;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;
