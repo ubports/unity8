@@ -391,7 +391,7 @@ FocusScope {
                     }
 
                     onAction: { // (int index, var result, var actionId)
-                        scope.activateAction(result, baseItem.categoryId, actionId);
+                        scope.activateAction(result, baseItem.category, actionId);
                     }
 
                     function categoryItemCount() {
