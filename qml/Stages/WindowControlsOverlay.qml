@@ -60,6 +60,7 @@ Item {
         anchors.fill: overlay
         visible: overlay.visible
         enabled: visible
+        hoverEnabled: true
 
         onPressedChanged: {
             if (pressed) {
