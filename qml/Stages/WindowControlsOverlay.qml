@@ -20,11 +20,11 @@ import Ubuntu.Gestures 0.1
 
 Item {
     // to be set from outside
-    property Item target: null
-
-    anchors.fill: target
+    property Item target // appDelegate
+    property int borderThickness
 
     TabletSideStageTouchGesture {
+        id: gestureArea
         minimumTouchPoints: 2
         maximumTouchPoints: 2
         anchors.fill: parent
@@ -35,17 +35,20 @@ Item {
                 overlayTimer.running = true;
             }
         }
+        onRecognisedDragChanged: {
+            print("Drag recognized:", recognisedDrag)
+        }
         onDragStarted: print("Drag started")
         onDropped: print("Dropped")
         onCancelled: print("Cancelled")
     }
 
-    Timer {
+    Timer { // dismiss timer
         id: overlayTimer
         interval: 2000
     }
 
-    InverseMouseArea {
+    InverseMouseArea { // dismiss area
         anchors.fill: overlay
         onClicked: overlayTimer.stop()
     }
@@ -53,7 +56,8 @@ Item {
     Item {
         id: overlay
         anchors.fill: parent
-        visible: overlayTimer.running
+        visible: (overlayTimer.running && target && !target.maximized && !target.fullscreen) ||
+                 gestureArea.recognisedDrag
         enabled: visible
 
         Image {
@@ -65,48 +69,68 @@ Item {
 
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
+            anchors.horizontalCenterOffset: borderThickness
             anchors.verticalCenter: parent.top
+            anchors.verticalCenterOffset: borderThickness
+            visible: target && !target.maximizedLeft && !target.maximizedRight
         }
 
         ResizeGrip { // top center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
+            anchors.verticalCenterOffset: borderThickness
             rotation: 45
+            visible: target && !target.maximizedLeft && !target.maximizedRight
         }
 
         ResizeGrip { // top right
             anchors.horizontalCenter: parent.right
+            anchors.horizontalCenterOffset: -borderThickness
             anchors.verticalCenter: parent.top
+            anchors.verticalCenterOffset: borderThickness
             rotation: 90
+            visible: target && !target.maximizedLeft && !target.maximizedRight
         }
 
         ResizeGrip { // right
             anchors.horizontalCenter: parent.right
+            anchors.horizontalCenterOffset: -borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
+            visible: target && !target.maximizedRight
         }
 
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
+            anchors.horizontalCenterOffset: -borderThickness
             anchors.verticalCenter: parent.bottom
+            anchors.verticalCenterOffset: -borderThickness
+            visible: target && !target.maximizedLeft && !target.maximizedRight
         }
 
         ResizeGrip { // bottom center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
+            anchors.verticalCenterOffset: -borderThickness
             rotation: 45
+            visible: target && !target.maximizedLeft && !target.maximizedRight
         }
 
         ResizeGrip { // bottom left
             anchors.horizontalCenter: parent.left
+            anchors.horizontalCenterOffset: borderThickness
             anchors.verticalCenter: parent.bottom
+            anchors.verticalCenterOffset: -borderThickness
             rotation: 90
+            visible: target && !target.maximizedLeft && !target.maximizedRight
         }
 
         ResizeGrip { // left
             anchors.horizontalCenter: parent.left
+            anchors.horizontalCenterOffset: borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
+            visible: target && !target.maximizedLeft
         }
     }
 }
