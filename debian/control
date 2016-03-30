@@ -66,7 +66,7 @@ Homepage: http://launchpad.net/unity
 # and sync up the code again.
 Vcs-Bzr: https://code.launchpad.net/unity8
 Vcs-Browser: https://bazaar.launchpad.net/~unity-team/unity8/trunk
-Testsuite: autopkgtest
+XS-Testsuite: autopkgtest
 X-Ubuntu-Use-Langpack: yes
 
 Package: indicators-client
