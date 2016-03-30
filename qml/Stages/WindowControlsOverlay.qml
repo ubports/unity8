@@ -33,16 +33,10 @@ Item {
         maximumTouchPoints: 2
 
         onRecognisedPressChanged: {
-            print("Press recognized:", recognisedPress)
             if (recognisedPress) {
                 overlayTimer.running = true;
             }
         }
-        onRecognisedDragChanged: {
-            print("Drag recognized:", recognisedDrag)
-        }
-        onPressed: print("Pressed:", x, y)
-        onDropped: print("Dropped")
     }
 
 
@@ -50,7 +44,7 @@ Item {
     Timer {
         id: overlayTimer
         interval: 2000
-        repeat: priv.dragging || root.resizeTarget.dragging
+        repeat: priv.dragging || root.resizeTarget.dragging // show it as long as we're moving/resizing
     }
 
 
@@ -109,7 +103,7 @@ Item {
 
         Image {
             source: "graphics/arrows-centre.png"
-            width: units.gu(6)
+            width: units.gu(8)
             height: width
             anchors.centerIn: parent
         }

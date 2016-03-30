@@ -18,7 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 Rectangle {
-    width: units.gu(4)
+    width: units.gu(5)
     height: width
     radius: height / 2
     color: theme.palette.normal.background
@@ -29,7 +29,7 @@ Rectangle {
     Image {
         source: "graphics/arrows.png"
         anchors.centerIn: parent
-        width: units.gu(2)
+        width: parent.width / 2
         height: width
     }
 
