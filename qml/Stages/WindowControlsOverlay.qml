@@ -17,17 +17,19 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
+import "../Components/PanelState"
 
 Item {
+    id: root
     // to be set from outside
     property Item target // appDelegate
     property int borderThickness
 
     TabletSideStageTouchGesture {
         id: gestureArea
+        anchors.fill: parent
         minimumTouchPoints: 2
         maximumTouchPoints: 2
-        anchors.fill: parent
 
         onRecognisedPressChanged: {
             print("Press recognized:", recognisedPress)
@@ -38,9 +40,8 @@ Item {
         onRecognisedDragChanged: {
             print("Drag recognized:", recognisedDrag)
         }
-        onDragStarted: print("Drag started")
+        onPressed: print("Pressed:", x, y)
         onDropped: print("Dropped")
-        onCancelled: print("Cancelled")
     }
 
     Timer { // dismiss timer
@@ -51,6 +52,38 @@ Item {
     InverseMouseArea { // dismiss area
         anchors.fill: overlay
         onClicked: overlayTimer.stop()
+    }
+
+    QtObject {
+        id: priv
+        property real distanceX
+        property real distanceY
+        property bool dragging
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        visible: overlay.visible
+        enabled: visible
+
+        onPressedChanged: {
+            if (pressed) {
+                var pos = mapToItem(root.target, mouseX, mouseY);
+                priv.distanceX = pos.x;
+                priv.distanceY = pos.y;
+                priv.dragging = true;
+            } else {
+                priv.dragging = false;
+            }
+        }
+
+        onPositionChanged: {
+            if (priv.dragging) {
+                var pos = mapToItem(root.target.parent, mouseX, mouseY);
+                root.target.x = pos.x - priv.distanceX;
+                root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
+            }
+        }
     }
 
     Item {
