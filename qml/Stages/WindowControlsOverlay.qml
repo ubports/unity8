@@ -56,7 +56,11 @@ Item {
         anchors.fill: overlay
         visible: overlay.visible
         enabled: visible
-        onClicked: overlayTimer.stop()
+        onPressed: {
+            overlayTimer.stop();
+            mouse.accepted = false;
+        }
+        propagateComposedEvents: true
     }
 
 
