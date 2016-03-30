@@ -45,24 +45,23 @@ Item {
         onDropped: print("Dropped")
     }
 
-    Timer { // dismiss timer
+
+    // dismiss timer
+    Timer {
         id: overlayTimer
         interval: 2000
         repeat: priv.dragging || root.resizeTarget.dragging
     }
 
-    InverseMouseArea { // dismiss area
+
+    // dismiss area
+    InverseMouseArea {
         anchors.fill: overlay
         onClicked: overlayTimer.stop()
     }
 
-    QtObject {
-        id: priv
-        property real distanceX
-        property real distanceY
-        property bool dragging
-    }
 
+    // move handler
     MouseArea {
         anchors.fill: overlay
         visible: overlay.visible
@@ -88,11 +87,25 @@ Item {
         }
     }
 
+    QtObject {
+        id: priv
+        property real distanceX
+        property real distanceY
+        property bool dragging
+    }
+
+
+    // the visual overlay
     Item {
         id: overlay
         anchors.fill: parent
-        visible: overlayTimer.running && target && !target.maximized && !target.fullscreen
+        opacity: overlayTimer.running && target && !target.maximized && !target.fullscreen ? 1 : 0
+        visible: opacity == 1
         enabled: visible
+
+        Behavior on opacity {
+            OpacityAnimator { duration: UbuntuNumberAnimation.duration; easing: UbuntuNumberAnimation.easing }
+        }
 
         Image {
             source: "graphics/arrows-centre.png"
