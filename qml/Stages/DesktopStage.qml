@@ -549,6 +549,7 @@ AbstractStage {
                     target: appDelegate
                     resizeTarget: resizeArea
                     borderThickness: resizeArea.borderThickness
+                    onActivated: ApplicationManager.focusApplication(model.appId)
                 }
 
                 WindowedFullscreenPolicy {

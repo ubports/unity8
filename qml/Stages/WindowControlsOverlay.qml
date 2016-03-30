@@ -26,6 +26,8 @@ Item {
     property Item resizeTarget // WindowResizeArea
     property int borderThickness
 
+    signal activated
+
     TabletSideStageTouchGesture {
         id: gestureArea
         anchors.fill: parent
@@ -33,8 +35,9 @@ Item {
         maximumTouchPoints: 2
 
         onRecognisedPressChanged: {
-            if (recognisedPress) {
+            if (recognisedPress && target && !target.fullscreen) {
                 overlayTimer.running = true;
+                root.activated();
             }
         }
     }
@@ -51,6 +54,8 @@ Item {
     // dismiss area
     InverseMouseArea {
         anchors.fill: overlay
+        visible: overlay.visible
+        enabled: visible
         onClicked: overlayTimer.stop()
     }
 
@@ -95,7 +100,7 @@ Item {
     Item {
         id: overlay
         anchors.fill: parent
-        opacity: overlayTimer.running && target && !target.fullscreen ? 1 : 0
+        opacity: overlayTimer.running ? 1 : 0
         visible: opacity == 1
         enabled: visible
 
