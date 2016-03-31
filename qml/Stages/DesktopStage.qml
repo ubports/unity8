@@ -220,6 +220,12 @@ AbstractStage {
         value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIndex !== -1
     }
 
+    Binding {
+        target: PanelState
+        property: "closeButtonShown"
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && priv.focusedAppId != "unity8-dash"
+    }
+
     Component.onDestruction: {
         PanelState.title = "";
         PanelState.buttonsVisible = false;

@@ -22,6 +22,7 @@ QtObject {
 
     property string title: ""
     property bool buttonsVisible: false
+    property bool closeButtonShown: true
     property bool dropShadow: false
     property int panelHeight: units.gu(3)
 
