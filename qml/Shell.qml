@@ -627,11 +627,6 @@ Item {
             onActiveChanged: unlockWhenDoneWithWizard()
         }
 
-        MouseArea {
-            anchors.fill: parent
-            visible: notifications.useModal
-        }
-
         Notifications {
             id: notifications
 
