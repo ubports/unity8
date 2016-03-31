@@ -627,17 +627,9 @@ Item {
             onActiveChanged: unlockWhenDoneWithWizard()
         }
 
-        Rectangle {
-            id: modalNotificationBackground
-
-            visible: notifications.useModal
-            color: "#000000"
+        MouseArea {
             anchors.fill: parent
-            opacity: 0.9
-
-            MouseArea {
-                anchors.fill: parent
-            }
+            visible: notifications.useModal
         }
 
         Notifications {

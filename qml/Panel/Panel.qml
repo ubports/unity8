@@ -30,22 +30,13 @@ Item {
     property real indicatorAreaShowProgress: 1.0
     property bool locked: false
 
-    Rectangle {
-        id: darkenedArea
-        property real darkenedOpacity: 0.6
-        anchors {
-            fill: parent
-            topMargin: panelHeight
-        }
-        color: "black"
-        opacity: indicators.unitProgress * darkenedOpacity
+    MouseArea {
+        anchors.fill: parent
+        anchors.topMargin: panelHeight
         visible: !indicators.fullyClosed
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: if (indicators.fullyOpened) indicators.hide();
-            hoverEnabled: true // should also eat hover events, otherwise they will pass through
-        }
+        enabled: visible
+        onClicked: if (indicators.fullyOpened) indicators.hide();
+        hoverEnabled: true // should also eat hover events, otherwise they will pass through
     }
 
     Binding {
