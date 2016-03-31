@@ -47,6 +47,7 @@ Item {
     Timer {
         id: overlayTimer
         interval: 2000
+        repeat: priv.dragging || root.resizeTarget.dragging
     }
 
 
@@ -103,7 +104,7 @@ Item {
     Item {
         id: overlay
         anchors.fill: parent
-        opacity: overlayTimer.running || priv.dragging || root.resizeTarget.dragging ? 1 : 0
+        opacity: overlayTimer.running ? 1 : 0
         visible: opacity == 1
         enabled: visible
 
