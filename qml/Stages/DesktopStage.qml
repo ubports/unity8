@@ -36,6 +36,9 @@ AbstractStage {
         }
     }
 
+    // Used by TutorialRight
+    property bool spreadShown: spread.state == "altTab"
+
     mainApp: ApplicationManager.focusedApplicationId
             ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
             : null

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-23 10:01+0000\n"
-"PO-Revision-Date: 2016-03-24 16:02+0000\n"
+"PO-Revision-Date: 2016-03-30 14:29+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-25 05:55+0000\n"
+"X-Launchpad-Export-Date: 2016-03-31 05:49+0000\n"
 "X-Generator: Launchpad (build 17967)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -140,6 +140,7 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"برای ادامه، دوباره متّصل کرده، کارتان را ذخیره کنید و این کاره‌ها را ببندید."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -182,7 +183,7 @@ msgstr "افزودن به برگزیده‌ها"
 
 #: qml/Dash/FiltersPopover.qml:60
 msgid "Refine your results"
-msgstr ""
+msgstr "نتایجتان را بهبود دهید"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
@@ -263,6 +264,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"افزاره‌تان هم‌تکنون به یک نمایشگر خارجی وصل شده است. از این صفحه به عنوان یک "
+"صفحه‌لمسی برای کارکردن با نشانگر استفاده کنید."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -421,7 +424,7 @@ msgstr "پاسخ تماس"
 
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "هر پنجره‌ای را با کشیدن سه‌انگشت از پنجره‌ای به ینجرهٔ دیگر ببرید"
 
 #: qml/Tutorial/TutorialBottom.qml:78
 msgid "Swipe up to add a contact"
@@ -515,6 +518,8 @@ msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"برای تشخیص موقعیّت، به صورت ناشناس از جی‌پی‌اس، نقطه‌های داغ وای‌فای و "
+"شبکه‌های تلفن همراه استفاده شود (توصیه شده)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
@@ -583,7 +588,7 @@ msgstr "کمک به بهبود"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
-msgstr ""
+msgstr "کارایی سامانه با ارسال گزارش‌های خطا بهبود دهید."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
@@ -608,6 +613,7 @@ msgstr "شرایط و ضوابط"
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
 msgstr ""
+"افزاره‌تان از فن‌آوری‌های موقعیّت‌یابی فراهم‌شده توسّط HERE استفاده مي‌کند."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -615,17 +621,22 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"به منظور فراهم کردن خدمات موقعیّت‌یابی و بهبود کیفیت آن‌ها، به هنگام پیدا "
+"شدن موقعیتتان، HERE اطّلاعاتی دربارهٔ برج‌های تلفن همراه نزدیک و نقطه‌های "
+"داغ وای‌فای اطراف موقعیّت فعلیتان را حمع‌آوری می‌کند."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"اطّلاعات جمع‌آوری شده برای تحلیل خدمت و بهبود استفاده از آن، و نه برای تشخیص "
+"شخص شما استفاده می‌شوند"
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "با ادامه، با %1 و %2 بن‌سازهٔ HERE موافقت می‌کنید."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
@@ -726,19 +737,19 @@ msgstr "گذرواژه‌ها مطابق نیستند"
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"
-msgstr ""
+msgstr "گذرواژهٔ قوی"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Fair password"
-msgstr ""
+msgstr "گذرواژهٔ معتدل"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
-msgstr ""
+msgstr "گذرواژهٔ ضعیف"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Very weak password"
-msgstr ""
+msgstr "گذرواژهٔ خیلی ضعیف"
 
 #~ msgid "Right edge"
 #~ msgstr "لبه‌ی راست"
