@@ -535,5 +535,30 @@ Item {
             // verify the drop shadow is gone
             verify(PanelState.dropShadow == false);
         }
+
+        function test_threeFingerTapShowsWindowControls_data() {
+            return [
+                { tag: "1 finger", touchIds: [0], result: false },
+                { tag: "2 finger", touchIds: [0, 1], result: false },
+                { tag: "3 finger", touchIds: [0, 1, 2], result: true },
+                { tag: "4 finger", touchIds: [0, 1, 2, 3], result: false },
+            ];
+        }
+
+        function test_threeFingerTapShowsWindowControls(data) {
+            var facebookApp = startApplication("facebook-webapp");
+            var facebookAppDelegate = findChild(desktopStage, "appDelegate_facebook-webapp");
+            verify(facebookAppDelegate);
+            var overlay = findChild(facebookAppDelegate, "windowControlsOverlay");
+            verify(overlay);
+
+            multiTouchTap(data.touchIds, facebookAppDelegate);
+            tryCompare(overlay, "visible", data.result);
+
+            if (data.result) { // if shown, try to hide it by clicking outside
+                mouseClick(desktopStage);
+                tryCompare(overlay, "visible", false);
+            }
+        }
     }
 }

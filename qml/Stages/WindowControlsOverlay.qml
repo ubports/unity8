@@ -31,8 +31,10 @@ Item {
     TabletSideStageTouchGesture {
         id: gestureArea
         anchors.fill: parent
-        minimumTouchPoints: 2
-        maximumTouchPoints: 2
+
+        // NB: for testing, not to clash with unity7 touch overlay controls
+        // minimumTouchPoints: 2
+        // maximumTouchPoints: 2
 
         onRecognisedPressChanged: {
             if (recognisedPress && target && !target.fullscreen) {
@@ -103,6 +105,7 @@ Item {
     // the visual overlay
     Item {
         id: overlay
+        objectName: "windowControlsOverlay"
         anchors.fill: parent
         opacity: overlayTimer.running ? 1 : 0
         visible: opacity == 1
