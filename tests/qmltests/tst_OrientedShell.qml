@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
+import GSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
@@ -44,9 +45,8 @@ Rectangle {
         property int savedOrientation
     }
 
-    QtObject {
-        id: mockUnity8Settings
-        property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
+    Connections {
+        target: GSettingsController
         onUsageModeChanged: {
             usageModeSelector.selectedIndex = usageModeSelector.model.indexOf(usageMode)
         }
@@ -157,7 +157,6 @@ Rectangle {
         sourceComponent: Component {
             OrientedShell {
                 anchors.fill: parent
-                unity8Settings: mockUnity8Settings
                 oskSettings: mockOskSettings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
@@ -311,7 +310,7 @@ Rectangle {
                 function selectWindowed() {selectedIndex = 1;}
                 function selectAutomatic() {selectedIndex = 2;}
                 onSelectedIndexChanged: {
-                    mockUnity8Settings.usageMode = usageModeSelector.model[usageModeSelector.selectedIndex]
+                    GSettingsController.setUsageMode(usageModeSelector.model[usageModeSelector.selectedIndex]);
                 }
             }
             MouseTouchEmulationCheckbox {
@@ -1138,6 +1137,16 @@ Rectangle {
 
             // Restore width
             orientedShellLoader.width = oldWidth;
+        }
+
+        function test_setsUsageModeOnStartup() {
+            // Prepare inconsistent beginning (mouse & staged mode)
+            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            usageModeSelector.selectStaged();
+
+            // Load shell, and have it pick desktop
+            loadShell("desktop");
+            compare(shell.usageScenario, "desktop");
         }
 
         function test_overrideWindowed() {
