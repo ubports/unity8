@@ -90,7 +90,12 @@ Rectangle {
     }
 
     readonly property int pointerInputDevices: miceModel.count + touchPadModel.count
-    onPointerInputDevicesChanged: {
+    onPointerInputDevicesChanged: calculateUsageMode()
+
+    function calculateUsageMode() {
+        if (root.unity8Settings.usageMode === undefined)
+            return; // gsettings isn't loaded yet, we'll try again in Component.onCompleted
+
         console.log("Pointer input devices changed:", pointerInputDevices, "current mode:", root.unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount)
         if (root.unity8Settings.usageMode === "Windowed") {
             if (pointerInputDevices === 0) {
@@ -98,8 +103,8 @@ Rectangle {
                 root.unity8Settings.usageMode = "Staged";
             }
         } else {
-            var longEdgeWidth = Math.max(root.width, root.height)
-            if (longEdgeWidth > units.gu(90)){
+            var longEdgeWidth = Math.max(Screen.width, Screen.height);
+            if (longEdgeWidth > units.gu(90)) {
                 if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
                     root.unity8Settings.usageMode = "Windowed";
                 }
@@ -154,6 +159,9 @@ Rectangle {
         if (orientationLocked) {
             orientation = orientationLock.savedOrientation;
         }
+
+        calculateUsageMode();
+
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
         oskSettings.disableHeight = !shell.oskEnabled || shell.usageScenario == "desktop"
