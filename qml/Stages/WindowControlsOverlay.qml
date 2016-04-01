@@ -28,16 +28,20 @@ Item {
 
     signal activated
 
-    TabletSideStageTouchGesture {
+    TouchGestureArea {
         id: gestureArea
         anchors.fill: parent
 
-        // NB: for testing, not to clash with unity7 touch overlay controls
-        // minimumTouchPoints: 2
-        // maximumTouchPoints: 2
+        // NB: for testing set to 2, not to clash with unity7 touch overlay controls
+        minimumTouchPoints: 3
+        maximumTouchPoints: minimumTouchPoints
 
-        onRecognisedPressChanged: {
-            if (recognisedPress && target && !target.fullscreen) {
+        readonly property bool recognizedPress: status == TouchGestureArea.Recognized &&
+                                                touchPoints.length >= minimumTouchPoints &&
+                                                touchPoints.length <= maximumTouchPoints
+
+        onRecognizedPressChanged: {
+            if (recognizedPress && target && !target.fullscreen) {
                 overlayTimer.running = true;
                 root.activated();
             }
