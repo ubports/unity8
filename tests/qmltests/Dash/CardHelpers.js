@@ -39,7 +39,7 @@ var defaultLayout = ' \
     "mascot": null, \
     "emblem": null, \
     "summary": null, \
-    "attributes": { "max-count": 2 },
+    "attributes": { "max-count": 2 }, \
     "social-actions": null \
   }, \
   "resources": {} \
