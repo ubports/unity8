@@ -471,6 +471,13 @@ Rectangle {
             // kill all (fake) running apps
             killApps();
 
+            while (miceModel.count > 0)
+                MockInputDeviceBackend.removeDevice("/mouse" + (miceModel.count - 1));
+            while (touchpadModel.count > 0)
+                MockInputDeviceBackend.removeDevice("/touchpad" + (touchpadModel.count - 1));
+            while (keyboardsModel.count > 0)
+                MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
+
             spreadRepeaterConnections.target = null;
             spreadRepeaterConnections.itemAddedCallback = null;
             signalSpy.target = null;

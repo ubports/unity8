@@ -79,12 +79,12 @@ public:
 
 Q_SIGNALS:
     void schemaChanged();
-    void pictureUriChanged(const QString&);
-    void usageModeChanged(const QString&);
-    void lockedOutTimeChanged(qint64);
-    void lifecycleExemptAppidsChanged(const QStringList &);
-    void autohideLauncherChanged(bool);
-    void launcherWidthChanged(int launcherWidth);
+    void pictureUriChanged();
+    void usageModeChanged();
+    void lockedOutTimeChanged();
+    void lifecycleExemptAppidsChanged();
+    void autohideLauncherChanged();
+    void launcherWidthChanged();
 
 private:
     GSettingsSchemaQml* m_schema;

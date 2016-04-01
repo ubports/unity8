@@ -174,6 +174,13 @@ void GSettingsQml::componentComplete()
             this, &GSettingsQml::autohideLauncherChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::launcherWidthChanged,
             this, &GSettingsQml::launcherWidthChanged);
+
+    Q_EMIT pictureUriChanged();
+    Q_EMIT usageModeChanged();
+    Q_EMIT lockedOutTimeChanged();
+    Q_EMIT lifecycleExemptAppidsChanged();
+    Q_EMIT autohideLauncherChanged();
+    Q_EMIT launcherWidthChanged();
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
