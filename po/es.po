@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-23 10:01+0000\n"
-"PO-Revision-Date: 2016-03-25 00:37+0000\n"
-"Last-Translator: Víctor R. Ruiz <Unknown>\n"
+"PO-Revision-Date: 2016-03-25 12:02+0000\n"
+"Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-25 05:55+0000\n"
+"X-Launchpad-Export-Date: 2016-03-26 05:44+0000\n"
 "X-Generator: Launchpad (build 17967)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -191,7 +191,7 @@ msgstr "Refinar resultados"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr "Reiniciar"
+msgstr "Restablecer"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
@@ -253,7 +253,7 @@ msgstr "Activar datos de ubicación"
 
 #: qml/Dash/ScopesList.qml:67
 msgid "Manage"
-msgstr "Administrar"
+msgstr "Gestionar"
 
 #: qml/Dash/ScopesList.qml:113
 msgid "Home"
@@ -545,7 +545,7 @@ msgstr "términos y condiciones"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr "Sólo GPS"
+msgstr "Solo GPS"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
@@ -553,11 +553,11 @@ msgstr "No usar mi ubicación"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr "Puede cambiarlo luego en Configuración del sistema"
+msgstr "Puede cambiarlo luego en Configuración del sistema."
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr "Zona horaria"
+msgstr "Huso horario"
 
 #: qml/Wizard/Pages/50-timezone.qml:178
 msgid "Enter your city"
@@ -578,12 +578,12 @@ msgstr "Bloquear pantalla"
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr "Crear nueva contraseña"
+msgstr "Crear contraseña nueva"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr "Crear código (sólo dígitos)"
+msgstr "Crear código (solo dígitos)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
@@ -608,7 +608,7 @@ msgstr "Política de privacidad"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr "Bienvenido a Ubuntu"
+msgstr "Le damos la bienvenida a Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
@@ -1075,12 +1075,3 @@ msgstr "Contraseña muy débil"
 
 #~ msgid "Call back"
 #~ msgstr "Devolver llamada"
-
-#~ msgid "Welcome to your Ubuntu device."
-#~ msgstr "Bienvenido a su dispositivo Ubuntu."
-
-#~ msgid "Please select how you’d like to unlock your device."
-#~ msgstr "Por favor, seleccione cómo desea desbloquear el dispositivo."
-
-#~ msgid "Your device is now ready to use."
-#~ msgstr "El dispositivo está listo para su uso."

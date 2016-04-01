@@ -358,6 +358,7 @@ Item {
                 value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
             }
         }
+    }
 
     InputMethod {
         id: inputMethod
@@ -615,7 +616,6 @@ Item {
             objectName: "wizard"
             anchors.fill: parent
             deferred: shell.mode === "greeter"
-            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
