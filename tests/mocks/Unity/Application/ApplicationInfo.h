@@ -112,15 +112,12 @@ public:
     //////
     // internal mock stuff
     void close();
+    void requestFocus();
 
 Q_SIGNALS:
     void fullscreenChanged(bool value);
     void manualSurfaceCreationChanged(bool value);
     void closed();
-
-    ////
-    // FIXME: Move to unity::shell::application::ApplicationInfoInterface
-    void focusRequested();
 
 public Q_SLOTS:
     Q_INVOKABLE void createSurface();

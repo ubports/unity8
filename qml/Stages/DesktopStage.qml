@@ -284,13 +284,26 @@ AbstractStage {
 
                 readonly property var surface: model.surface
 
+                function claimFocus() {
+                    if (spread.state == "altTab") {
+                        spread.cancel();
+                    }
+                    appDelegate.restore();
+                }
                 Connections {
                     target: model.surface
+                    onFocusRequested: claimFocus();
+                }
+                Connections {
+                    target: model.application
                     onFocusRequested: {
-                        if (spread.state == "altTab") {
-                            spread.cancel();
+                        if (!model.surface) {
+                            // when an app has no surfaces, we assume there's only  one entry representing it,
+                            // this delegate.
+                            claimFocus();
+                        } else {
+                            // if the application has surfaces, focus request should be at surface-level.
                         }
-                        appDelegate.restore();
                     }
                 }
 

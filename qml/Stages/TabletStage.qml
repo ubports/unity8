@@ -766,6 +766,18 @@ AbstractStage {
                         target: model.surface
                         onFocusRequested: spreadTile.focus = true;
                     }
+                    Connections {
+                        target: model.application
+                        onFocusRequested: {
+                            if (!model.surface) {
+                                // when an app has no surfaces, we assume there's only  one entry representing it,
+                                // this delegate.
+                                spreadTile.focus = true;
+                            } else {
+                                // if the application has surfaces, focus request should be at surface-level.
+                            }
+                        }
+                    }
 
                     fullscreen: {
                         if (priv.mainStageDelegate && stage === ApplicationInfoInterface.SideStage) {

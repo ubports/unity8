@@ -108,9 +108,6 @@ void ApplicationInfo::createSurface()
             m_closingSurfaces.removeAll(surface);
         }
     });
-    connect(surface, &MirSurface::focusRequested, this, [this](){
-        Q_EMIT this->focusRequested();
-    });
     connect(surface, &MirSurface::closeRequested, this, [this, surface](){
         m_closingSurfaces.append(surface);
         if (m_state == Suspended) {
@@ -365,5 +362,14 @@ void ApplicationInfo::onSurfaceCountChanged()
 {
     if (m_surfaceList.count() == 0 && m_state == Running) {
         setState(Stopped);
+    }
+}
+
+void ApplicationInfo::requestFocus()
+{
+    if (m_surfaceList.count() == 0) {
+        Q_EMIT focusRequested();
+    } else {
+        m_surfaceList.get(0)->requestFocus();
     }
 }

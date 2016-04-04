@@ -531,13 +531,26 @@ AbstractStage {
                             }
                         }
                     }
+                    function claimFocus() {
+                        if (spreadView.phase > 0) {
+                            spreadView.snapTo(model.index);
+                        } else {
+                            appDelegate.focus = true;
+                        }
+                    }
                     Connections {
                         target: model.surface
+                        onFocusRequested: claimFocus()
+                    }
+                    Connections {
+                        target: model.application
                         onFocusRequested: {
-                            if (spreadView.phase > 0) {
-                                spreadView.snapTo(model.index);
+                            if (!model.surface) {
+                                // when an app has no surfaces, we assume there's only  one entry representing it,
+                                // this delegate.
+                                claimFocus();
                             } else {
-                                appDelegate.focus = true;
+                                // if the application has surfaces, focus request should be at surface-level.
                             }
                         }
                     }

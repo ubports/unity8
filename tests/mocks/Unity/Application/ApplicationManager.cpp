@@ -302,11 +302,7 @@ bool ApplicationManager::requestFocusApplication(const QString &appId)
     if (application == nullptr)
         return false;
 
-    auto surfaceList = static_cast<MirSurfaceListModel*>(application->surfaceList());
-    if (surfaceList->count() == 0)
-        return false;
-
-    surfaceList->get(0)->requestFocus();
+    application->requestFocus();
 
     return true;
 }
