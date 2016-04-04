@@ -131,9 +131,6 @@ Rectangle {
         anchors.right: root.right
         width: units.gu(30)
 
-        property var focusedApp: ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
-        property var focusedSurface: focusedApp && focusedApp.session ? focusedApp.session.lastSurface : null
-
         Rectangle {
             id: controlRect
             anchors { left: parent.left; right: parent.right }
@@ -285,21 +282,21 @@ Rectangle {
                         id: fullscreeAppCheck
 
                         onTriggered: {
-                            if (!controls.focusedSurface) return;
-                            if (controls.focusedSurface.state == Mir.FullscreenState) {
-                                controls.focusedSurface.state = Mir.RestoredState;
+                            if (!MirFocusController.focusedSurface) return;
+                            if (MirFocusController.focusedSurface.state == Mir.FullscreenState) {
+                                MirFocusController.focusedSurface.state = Mir.RestoredState;
                             } else {
-                                controls.focusedSurface.state = Mir.FullscreenState;
+                                MirFocusController.focusedSurface.state = Mir.FullscreenState;
                             }
                         }
 
                         Binding {
                             target: fullscreeAppCheck
-                            when: controls.focusedSurface
+                            when: MirFocusController.focusedSurface
                             property: "checked"
                             value: {
-                                if (!controls.focusedSurface) return false;
-                                return controls.focusedSurface.state === Mir.FullscreenState
+                                if (!MirFocusController.focusedSurface) return false;
+                                return MirFocusController.focusedSurface.state === Mir.FullscreenState
                             }
                         }
                     }
@@ -313,21 +310,21 @@ Rectangle {
                         id: chromeAppCheck
 
                         onTriggered: {
-                            if (!controls.focusedSurface) return;
-                            if (controls.focusedSurface.shellChrome == Mir.LowChrome) {
-                                controls.focusedSurface.setShellChrome(Mir.NormalChrome);
+                            if (!MirFocusController.focusedSurface) return;
+                            if (MirFocusController.focusedSurface.shellChrome == Mir.LowChrome) {
+                                MirFocusController.focusedSurface.setShellChrome(Mir.NormalChrome);
                             } else {
-                                controls.focusedSurface.setShellChrome(Mir.LowChrome);
+                                MirFocusController.focusedSurface.setShellChrome(Mir.LowChrome);
                             }
                         }
 
                         Binding {
                             target: chromeAppCheck
-                            when: controls.focusedSurface !== null
+                            when: MirFocusController.focusedSurface !== null
                             property: "checked"
                             value: {
-                                if (!controls.focusedSurface) return false;
-                                controls.focusedSurface.shellChrome === Mir.LowChrome
+                                if (!MirFocusController.focusedSurface) return false;
+                                MirFocusController.focusedSurface.shellChrome === Mir.LowChrome
                             }
                         }
                     }
