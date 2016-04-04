@@ -167,11 +167,6 @@ AbstractStage {
         onListChanged: priv.updateMainAndSideStageIndexes()
     }
 
-    onTopLevelSurfaceListChanged: {
-        // Initialize their values
-        priv.updateMainAndSideStageIndexes();
-    }
-
     QtObject {
         id: priv
         objectName: "stagesPriv"
@@ -183,7 +178,7 @@ AbstractStage {
             if (!root.topLevelSurfaceList)
                 return;
 
-            for (var i = 0; i < root.topLevelSurfaceList.count && (!choseMainStage || !choseSideStage); ++i) {
+            for (var i = 0; i < spreadRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
                 var spreadDelegate = spreadRepeater.itemAt(i);
                 if (!spreadView.sideStageHidden && spreadDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
@@ -298,6 +293,7 @@ AbstractStage {
         target: MirFocusController
         property: "focusedSurface"
         value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        when: root.parent && !spreadRepeater.startingUp
     }
 
     Flickable {
@@ -687,18 +683,20 @@ AbstractStage {
                 }
             }
 
-            Repeater {
+            TopLevelSurfaceRepeater {
                 id: spreadRepeater
                 objectName: "spreadRepeater"
                 model: root.topLevelSurfaceList
 
                 onItemAdded: {
+                    priv.updateMainAndSideStageIndexes();
                     if (spreadView.phase == 2) {
                         spreadView.snapTo(index);
                     }
                 }
 
                 onItemRemoved: {
+                    priv.updateMainAndSideStageIndexes();
                     // Unless we're closing the app ourselves in the spread,
                     // lets make sure the spread doesn't mess up by the changing app list.
                     if (spreadView.closingIndex == -1) {
@@ -746,9 +744,9 @@ AbstractStage {
                     readonly property bool isDash: model.application.appId == "unity8-dash"
 
                     onFocusChanged: {
-                        if (focus) {
+                        if (focus && !spreadRepeater.startingUp) {
                             priv.focusedAppDelegate = spreadTile;
-                            root.topLevelSurfaceList.move(model.id, 0);
+                            root.topLevelSurfaceList.raiseId(model.id);
                         }
                         if (focus && priv.sideStageEnabled && stage === ApplicationInfoInterface.SideStage) {
                             sideStage.show();
@@ -824,9 +822,7 @@ AbstractStage {
                     Component.onCompleted: {
                         // a top level window is always the focused one when it first appears, unfocusing
                         // any preexisting one
-                        if (model.index == 0) {
-                            focus = true;
-                        }
+                        focus = true;
                         refreshStage();
                         _constructing = false;
                     }

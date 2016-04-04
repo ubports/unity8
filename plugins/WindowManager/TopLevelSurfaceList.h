@@ -124,13 +124,17 @@ public Q_SLOTS:
 
     /**
      * @brief Returns the index where the row with the given id is located
+     *
+     * Returns -1 if there's no row with the given id.
      */
     int indexForId(int id) const;
 
     /**
-     * @brief Moves the row with the given id to the specified index
+     * @brief Raises the row with the given id to index 0
      */
-    void move(int id, int toIndex);
+    void raiseId(int id);
+
+    void doRaiseId(int id);
 
 Q_SIGNALS:
     void countChanged();
@@ -152,8 +156,8 @@ private:
 
     int indexOf(unity::shell::application::MirSurfaceInterface *surface);
     void raise(unity::shell::application::MirSurfaceInterface *surface);
-    void moveSurface(int from, int to);
-    void prependSurfaceHelper(unity::shell::application::MirSurfaceInterface *surface,
+    void move(int from, int to);
+    void appendSurfaceHelper(unity::shell::application::MirSurfaceInterface *surface,
                               unity::shell::application::ApplicationInfoInterface *application);
     void connectSurface(unity::shell::application::MirSurfaceInterface *surface);
     int generateId();
@@ -173,7 +177,7 @@ private:
 
         It's a model row containing a null surface and the given application.
      */
-    void prependPlaceholder(unity::shell::application::ApplicationInfoInterface *application);
+    void appendPlaceholder(unity::shell::application::ApplicationInfoInterface *application);
 
     /*
         Adds a model row with the given surface and application
@@ -181,7 +185,7 @@ private:
         Alternatively, if a placeholder exists for the given application it's
         filled with the given surface instead.
      */
-    void prependSurface(unity::shell::application::MirSurfaceInterface *surface,
+    void appendSurface(unity::shell::application::MirSurfaceInterface *surface,
             unity::shell::application::ApplicationInfoInterface *application);
 
     struct ModelEntry {
@@ -202,6 +206,15 @@ private:
 
     QAbstractListModel* m_applicationsModel{nullptr};
     int m_applicationRole{-1};
+
+    enum ModelState {
+        IdleState,
+        InsertingState,
+        RemovingState,
+        MovingState,
+        ResettingState
+    };
+    ModelState m_modelState{IdleState};
 };
 
 Q_DECLARE_METATYPE(TopLevelSurfaceList*)

@@ -21,6 +21,8 @@
 #include <unity/shell/application/MirSurfaceInterface.h>
 #include <unity/shell/application/MirSurfaceListInterface.h>
 
+#include <QMetaObject>
+
 Q_LOGGING_CATEGORY(UNITY_TOPSURFACELIST, "unity.topsurfacelist")
 
 #define DEBUG_MSG qCDebug(UNITY_TOPSURFACELIST).nospace().noquote() << __func__
@@ -69,17 +71,18 @@ void TopLevelSurfaceList::raise(MirSurfaceInterface *surface)
 
     int i = indexOf(surface);
     if (i != -1) {
-        moveSurface(i, 0);
+        raiseId(m_surfaceList.at(i).id);
     }
 }
 
-void TopLevelSurfaceList::prependPlaceholder(ApplicationInfoInterface *application)
+void TopLevelSurfaceList::appendPlaceholder(ApplicationInfoInterface *application)
 {
     DEBUG_MSG << "(" << application->appId() << ")";
-    prependSurfaceHelper(nullptr, application);
+
+    appendSurfaceHelper(nullptr, application);
 }
 
-void TopLevelSurfaceList::prependSurface(MirSurfaceInterface *surface, ApplicationInfoInterface *application)
+void TopLevelSurfaceList::appendSurface(MirSurfaceInterface *surface, ApplicationInfoInterface *application)
 {
     Q_ASSERT(surface != nullptr);
 
@@ -89,7 +92,8 @@ void TopLevelSurfaceList::prependSurface(MirSurfaceInterface *surface, Applicati
         if (entry.application == application && entry.surface == nullptr) {
             entry.surface = surface;
             connectSurface(surface);
-            DEBUG_MSG << " appId=" << application->appId() << " surface=" << surface << ", filling out placeholder. after: " << toString();
+            DEBUG_MSG << " appId=" << application->appId() << " surface=" << surface
+                      << ", filling out placeholder. after: " << toString();
             Q_EMIT dataChanged(index(i) /* topLeft */, index(i) /* bottomRight */, QVector<int>() << SurfaceRole);
             filledPlaceholder = true;
         }
@@ -97,22 +101,34 @@ void TopLevelSurfaceList::prependSurface(MirSurfaceInterface *surface, Applicati
 
     if (!filledPlaceholder) {
         DEBUG_MSG << " appId=" << application->appId() << " surface=" << surface << ", adding new row";
-        prependSurfaceHelper(surface, application);
+        appendSurfaceHelper(surface, application);
     }
 }
 
-void TopLevelSurfaceList::prependSurfaceHelper(MirSurfaceInterface *surface, ApplicationInfoInterface *application)
+void TopLevelSurfaceList::appendSurfaceHelper(MirSurfaceInterface *surface, ApplicationInfoInterface *application)
 {
-    beginInsertRows(QModelIndex(), 0 /*first*/, 0 /*last*/);
+    if (m_modelState == IdleState) {
+        m_modelState = InsertingState;
+        beginInsertRows(QModelIndex(), m_surfaceList.size() /*first*/, m_surfaceList.size() /*last*/);
+    } else {
+        Q_ASSERT(m_modelState == ResettingState);
+        // No point in signaling anything if we're resetting the whole model
+    }
+
     int id = generateId();
-    m_surfaceList.prepend(ModelEntry(surface, application, id));
+    m_surfaceList.append(ModelEntry(surface, application, id));
     if (surface) {
         connectSurface(surface);
     }
-    endInsertRows();
+
+    if (m_modelState == InsertingState) {
+        endInsertRows();
+        Q_EMIT countChanged();
+        Q_EMIT listChanged();
+        m_modelState = IdleState;
+    }
+
     DEBUG_MSG << " after " << toString();
-    Q_EMIT countChanged();
-    Q_EMIT listChanged();
 }
 
 void TopLevelSurfaceList::connectSurface(MirSurfaceInterface *surface)
@@ -171,12 +187,24 @@ void TopLevelSurfaceList::onSurfaceDestroyed(MirSurfaceInterface *surface)
 
 void TopLevelSurfaceList::removeAt(int index)
 {
-    beginRemoveRows(QModelIndex(), index, index);
+    if (m_modelState == IdleState) {
+        beginRemoveRows(QModelIndex(), index, index);
+        m_modelState = RemovingState;
+    } else {
+        Q_ASSERT(m_modelState == ResettingState);
+        // No point in signaling anything if we're resetting the whole model
+    }
+
     m_surfaceList.removeAt(index);
-    endRemoveRows();
+
+    if (m_modelState == RemovingState) {
+        endRemoveRows();
+        Q_EMIT countChanged();
+        Q_EMIT listChanged();
+        m_modelState = IdleState;
+    }
+
     DEBUG_MSG << " after " << toString();
-    Q_EMIT countChanged();
-    Q_EMIT listChanged();
 }
 
 int TopLevelSurfaceList::indexOf(MirSurfaceInterface *surface)
@@ -189,7 +217,7 @@ int TopLevelSurfaceList::indexOf(MirSurfaceInterface *surface)
     return -1;
 }
 
-void TopLevelSurfaceList::moveSurface(int from, int to)
+void TopLevelSurfaceList::move(int from, int to)
 {
     if (from == to) return;
     DEBUG_MSG << " from=" << from << " to=" << to;
@@ -200,11 +228,17 @@ void TopLevelSurfaceList::moveSurface(int from, int to)
            by one, as explained in the documentation:
            http://qt-project.org/doc/qt-5.0/qtcore/qabstractitemmodel.html#beginMoveRows */
 
+        Q_ASSERT(m_modelState == IdleState);
+        m_modelState = MovingState;
+
         beginMoveRows(parent, from, from, parent, to + (to > from ? 1 : 0));
         m_surfaceList.move(from, to);
-        DEBUG_MSG << " after " << toString();
         endMoveRows();
         Q_EMIT listChanged();
+
+        m_modelState = IdleState;
+
+        DEBUG_MSG << " after " << toString();
     }
 }
 
@@ -245,12 +279,27 @@ int TopLevelSurfaceList::indexForId(int id) const
     return -1;
 }
 
-void TopLevelSurfaceList::move(int id, int toIndex)
+void TopLevelSurfaceList::doRaiseId(int id)
 {
-    DEBUG_MSG << " id=" << id << " toIndex=" << toIndex;
     int fromIndex = indexForId(id);
     if (fromIndex != -1) {
-        moveSurface(fromIndex, toIndex);
+        move(fromIndex, 0 /* toIndex */);
+    }
+}
+
+void TopLevelSurfaceList::raiseId(int id)
+{
+    if (m_modelState == IdleState) {
+        DEBUG_MSG << "(id=" << id << ") - do it now.";
+        doRaiseId(id);
+    } else {
+        DEBUG_MSG << "(id=" << id << ") - Model busy (modelState=" << m_modelState << "). Try again in the next event loop.";
+        // The model has just signalled some change. If we have a Repeater responding to this update, it will get nuts
+        // if we perform yet another model change straight away.
+        //
+        // A bad sympton of this problem is a Repeater.itemAt(index) call returning null event though Repeater.count says
+        // the index is definitely within bounds.
+        QMetaObject::invokeMethod(this, "raiseId", Qt::QueuedConnection, Q_ARG(int, id));
     }
 }
 
@@ -306,10 +355,10 @@ void TopLevelSurfaceList::addApplication(ApplicationInfoInterface *application)
 
     if (application->state() != ApplicationInfoInterface::Stopped) {
         if (surfaceList->count() == 0) {
-            prependPlaceholder(application);
+            appendPlaceholder(application);
         } else {
             for (int i = 0; i < surfaceList->count(); ++i) {
-                prependSurface(surfaceList->get(i), application);
+                appendSurface(surfaceList->get(i), application);
             }
         }
     }
@@ -318,7 +367,7 @@ void TopLevelSurfaceList::addApplication(ApplicationInfoInterface *application)
             [this, application, surfaceList](const QModelIndex & /*parent*/, int first, int last)
             {
                 for (int i = last; i >= first; --i) {
-                    this->prependSurface(surfaceList->get(i), application);
+                    this->appendSurface(surfaceList->get(i), application);
                 }
             });
 }
@@ -332,6 +381,9 @@ void TopLevelSurfaceList::removeApplication(ApplicationInfoInterface *applicatio
 
     disconnect(surfaceList, 0, this, 0);
 
+    Q_ASSERT(m_modelState == IdleState);
+    m_modelState = RemovingState;
+
     int i = 0;
     while (i < m_surfaceList.count()) {
         if (m_surfaceList.at(i).application == application) {
@@ -344,6 +396,8 @@ void TopLevelSurfaceList::removeApplication(ApplicationInfoInterface *applicatio
             ++i;
         }
     }
+
+    m_modelState = IdleState;
 
     DEBUG_MSG << " after " << toString();
 
@@ -362,6 +416,9 @@ void TopLevelSurfaceList::setApplicationsModel(QAbstractListModel* value)
     }
 
     DEBUG_MSG << "(" << value << ")";
+
+    Q_ASSERT(m_modelState == IdleState);
+    m_modelState = ResettingState;
 
     beginResetModel();
 
@@ -399,6 +456,7 @@ void TopLevelSurfaceList::setApplicationsModel(QAbstractListModel* value)
     }
 
     endResetModel();
+    m_modelState = IdleState;
 }
 
 ApplicationInfoInterface *TopLevelSurfaceList::getApplicationFromModelAt(int index)

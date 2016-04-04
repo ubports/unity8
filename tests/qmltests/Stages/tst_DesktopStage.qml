@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Unity.Application 0.1
 import Unity.Test 0.1
+import WindowManager 0.1
 import Utils 0.1
 
 import ".." // For EdgeBarrierControls

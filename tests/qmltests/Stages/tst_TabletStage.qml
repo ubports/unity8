@@ -21,6 +21,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
 import Unity.Test 0.1
 import Utils 0.1
+import WindowManager 0.1
 
 import ".."
 import "../../../qml/Stages"
@@ -170,11 +171,7 @@ Rectangle {
             // Shell instance gets destroyed.
             tryCompare(tabletStageLoader, "itemDestroyed", true);
 
-            // kill all (fake) running apps
-            webbrowserCheckBox.checked = false;
-            galleryCheckBox.checked = false;
-            dialerCheckBox.checked = false;
-            facebookCheckBox.checked = false;
+            killApps();
             WindowStateStorage.clear();
         }
 

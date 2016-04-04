@@ -227,6 +227,7 @@ AbstractStage {
         target: MirFocusController
         property: "focusedSurface"
         value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        when: root.parent && !spreadRepeater.startingUp
     }
 
     Flickable {
@@ -446,7 +447,7 @@ AbstractStage {
                 }
             }
 
-            Repeater {
+            TopLevelSurfaceRepeater {
                 id: spreadRepeater
                 objectName: "spreadRepeater"
                 model: topLevelSurfaceList
@@ -497,17 +498,27 @@ AbstractStage {
                     readonly property bool isDash: model.application.appId == "unity8-dash"
 
                     Component.onCompleted: {
-                        // a top level window is always the focused one when it first appears, unfocusing
-                        // any preexisting one
-                        if (model.index == 0) {
+                        // NB: We're differentiating if this delegate was created in response to a new entry in the model
+                        //     or if the Repeater is just populating itself with delegates to match the model it received.
+                        if (!spreadRepeater.startingUp) {
+                            // a top level window is always the focused one when it first appears, unfocusing
+                            // any preexisting one
+                            //
+                            // new items are appended and must be manually brought to front.
+                            // that's how it *must* be in order to get the animation for new
+                            // surfaces working
                             focus = true;
                         }
                     }
 
                     onFocusChanged: {
-                        if (focus) {
+                        if (focus && !spreadRepeater.startingUp) {
                             priv.focusedAppDelegate = appDelegate;
-                            topLevelSurfaceList.move(model.id, 0);
+                            // If we're orphan (!parent) it means this stage is no longer the current one
+                            // and will be deleted shortly. So we should no longer have a say over the model
+                            if (root.parent) {
+                                topLevelSurfaceList.raiseId(model.id);
+                            }
                         }
                     }
                     Connections {

@@ -263,9 +263,6 @@ void MirSurface::setActiveFocus(bool value)
         return;
 
     m_activeFocus = value;
-    if (value) {
-        MirFocusController::instance()->setFocusedSurface(this);
-    }
 
     Q_EMIT activeFocusChanged(value);
 }

@@ -215,6 +215,7 @@ AbstractStage {
         target: MirFocusController
         property: "focusedSurface"
         value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        when: !appRepeater.startingUp && root.parent
     }
 
     FocusScope {
@@ -231,7 +232,7 @@ AbstractStage {
             fillMode: Image.PreserveAspectCrop
         }
 
-        Repeater {
+        TopLevelSurfaceRepeater {
             id: appRepeater
             model: topLevelSurfaceList
             objectName: "appRepeater"
@@ -294,19 +295,25 @@ AbstractStage {
                 }
 
                 onFocusChanged: {
-                    if (focus) {
+                    if (focus && !appRepeater.startingUp) {
                         priv.focusedAppDelegate = appDelegate;
-                        topLevelSurfaceList.move(model.id, 0);
                     }
                 }
                 Component.onCompleted: {
-                    // a top level window is always the focused one when it first appears, unfocusing
-                    // any preexisting one
-                    if (index == 0) {
+                    // NB: We're differentiating if this delegate was created in response to a new entry in the model
+                    //     or if the Repeater is just populating itself with delegates to match the model it received.
+                    if (!appRepeater.startingUp) {
+                        // a top level window is always the focused one when it first appears, unfocusing
+                        // any preexisting one
                         focus = true;
                     }
                 }
                 Component.onDestruction: {
+                    if (!root.parent) {
+                        // This stage is about to be destroyed. Don't mess up with the model at this point
+                        return;
+                    }
+
                     if (focus) {
                         // focus some other window
                         for (var i = 0; i < appRepeater.count; i++) {
