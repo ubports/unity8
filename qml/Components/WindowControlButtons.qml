@@ -23,6 +23,7 @@ Row {
 
     // to be set from outside
     property bool active: false
+    property bool inPanel: false
 
     signal close()
     signal minimize()
@@ -37,20 +38,16 @@ Row {
         onClicked: root.close()
 
         Rectangle {
-            anchors.centerIn: parent
-            width: units.gu(2)
-            height: units.gu(2)
+            anchors.fill: parent
             radius: height / 2
-            color: "#ed3146"
+            color: UbuntuColors.red
             visible: parent.containsMouse
         }
         Icon {
-            width: height
-            height: parent.height *.5
-            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: units.dp(3)
             source: "graphics/window-close.svg"
-            color: root.active ? "white" : "#5d5d5d"
-            keyColor: "black"
+            color: root.active ? "white" : UbuntuColors.slate
         }
     }
 
@@ -63,20 +60,16 @@ Row {
         onClicked: root.minimize()
 
         Rectangle {
-            anchors.centerIn: parent
-            width: units.gu(2)
-            height: units.gu(2)
+            anchors.fill: parent
             radius: height / 2
-            color: "#888888"
+            color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
             visible: parent.containsMouse
         }
         Icon {
-            width: height
-            height: parent.height *.5
-            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: units.dp(3)
             source: "graphics/window-minimize.svg"
-            color: root.active ? "white" : "#5d5d5d"
-            keyColor: "black"
+            color: root.active ? "white" : UbuntuColors.slate
         }
     }
 
@@ -89,20 +82,16 @@ Row {
         onClicked: root.maximize()
 
         Rectangle {
-            anchors.centerIn: parent
-            width: units.gu(2)
-            height: units.gu(2)
+            anchors.fill: parent
             radius: height / 2
-            color: "#888888"
+            color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
             visible: parent.containsMouse
         }
         Icon {
-            width: height
-            height: parent.height *.5
-            anchors.centerIn: parent
-            source: "graphics/window-maximize.svg"
-            color: root.active ? "white" : "#5d5d5d"
-            keyColor: "black"
+            anchors.fill: parent
+            anchors.margins: units.dp(3)
+            source: root.inPanel ? "graphics/window-window.svg" : "graphics/window-maximize.svg"
+            color: root.active ? "white" : UbuntuColors.slate
         }
     }
 }
