@@ -212,14 +212,24 @@ AbstractStage {
 
     Instantiator {
         model: root.applicationManager
-        delegate: Binding {
-            readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
-            target: model.application
-            property: "requestedState"
-            value: (isDash && root.keepDashRunning)
-                       || (!root.suspended && model.application && priv.focusedAppId === model.application.appId)
-                   ? ApplicationInfoInterface.RequestedRunning
-                   : ApplicationInfoInterface.RequestedSuspended
+        delegate: QtObject {
+            property var stateBinding: Binding {
+                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
+                target: model.application
+                property: "requestedState"
+                value: (isDash && root.keepDashRunning)
+                           || (!root.suspended && model.application && priv.focusedAppId === model.application.appId)
+                       ? ApplicationInfoInterface.RequestedRunning
+                       : ApplicationInfoInterface.RequestedSuspended
+            }
+
+            property var lifecycleBinding: Binding {
+                target: model.application
+                property: "exemptFromLifecycle"
+                value: model.application
+                            ? (!model.application.isTouchApp || isExemptFromLifecycle(model.application.appId))
+                            : false
+            }
         }
     }
 
@@ -530,12 +540,6 @@ AbstractStage {
                                 appDelegate.focus = true;
                             }
                         }
-                    }
-
-                    Binding {
-                        target: appDelegate.application
-                        property: "exemptFromLifecycle"
-                        value: !model.isTouchApp || isExemptFromLifecycle(model.appId)
                     }
 
                     z: isDash && !spreadView.active ? -1 : behavioredIndex

@@ -271,21 +271,31 @@ AbstractStage {
 
     Instantiator {
         model: root.applicationManager
-        delegate: Binding {
-            readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
-            target: model.application
-            property: "requestedState"
+        delegate: QtObject {
+            property var stateBinding: Binding {
+                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
+                target: model.application
+                property: "requestedState"
 
-            // NB: the first application clause is just to ensure we never get warnings for trying to access
-            //     members of a null variable.
-            value: model.application &&
-                    (
-                      (isDash && root.keepDashRunning)
-                       || (!root.suspended && (model.application.appId === priv.mainStageAppId
-                                               || model.application.appId === priv.sideStageAppId))
-                    )
-                   ? ApplicationInfoInterface.RequestedRunning
-                   : ApplicationInfoInterface.RequestedSuspended
+                // NB: the first application clause is just to ensure we never get warnings for trying to access
+                //     members of a null variable.
+                value: model.application &&
+                        (
+                          (isDash && root.keepDashRunning)
+                           || (!root.suspended && (model.application.appId === priv.mainStageAppId
+                                                   || model.application.appId === priv.sideStageAppId))
+                        )
+                       ? ApplicationInfoInterface.RequestedRunning
+                       : ApplicationInfoInterface.RequestedSuspended
+            }
+
+            property var lifecycleBinding: Binding {
+                target: model.application
+                property: "exemptFromLifecycle"
+                value: model.application
+                            ? (!model.application.isTouchApp || isExemptFromLifecycle(model.application.appId))
+                            : false
+            }
         }
     }
 
@@ -785,12 +795,6 @@ AbstractStage {
                                    Qt.InvertedPortraitOrientation |
                                    Qt.InvertedLandscapeOrientation;
                         }
-                    }
-
-                    Binding {
-                        target: spreadTile.application
-                        property: "exemptFromLifecycle"
-                        value: !model.application.isTouchApp || isExemptFromLifecycle(model.application.appId)
                     }
 
                     // FIXME: A regular binding doesn't update any more after closing an app.
