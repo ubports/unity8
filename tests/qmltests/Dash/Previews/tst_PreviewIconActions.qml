@@ -99,6 +99,7 @@ Rectangle {
         }
 
         function test_checkButtonWithTemporary(data) {
+            waitForRendering(preview);
             spy.target = preview;
 
             var buttonId = actionDataActions.actions[data.index].id;
