@@ -121,13 +121,11 @@ FocusScope {
         function take() {
             // Save memory by using a half-resolution (thus quarter size) screenshot.
             // Do not make this a binding, we can only take the screenshot once!
-            sourceSize.width = root.width / 2;
-            sourceSize.height = root.height / 2;
-
-            // Format: "image://application/$APP_ID/$CURRENT_TIME_MS"
-            // eg: "image://application/calculator-app/123456"
-            var timeMs = new Date().getTime();
-            source = "image://application/" + root.application.appId + "/" + timeMs;
+            sessionContainer.grabToImage(
+                function(result) {
+                    screenshotImage.source = result.url;
+                },
+                Qt.size(root.width / 2, root.height / 2));
         }
     }
 

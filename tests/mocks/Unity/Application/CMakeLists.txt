@@ -2,7 +2,6 @@ set(FakeUnityApplicationQml_SOURCES
     plugin.cpp
     ApplicationInfo.cpp
     ApplicationManager.cpp
-    ApplicationScreenshotProvider.cpp
     ApplicationTestInterface.cpp
     MirSurface.cpp
     MirSurfaceItem.cpp
