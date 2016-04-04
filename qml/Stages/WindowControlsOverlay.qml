@@ -127,6 +127,7 @@ Item {
             height: width
             sourceSize: Qt.size(width, height)
             anchors.centerIn: parent
+            opacity: 0.95
         }
 
         ResizeGrip { // top left

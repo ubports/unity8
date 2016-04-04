@@ -22,6 +22,7 @@ Rectangle {
     height: width
     radius: height / 2
     color: theme.palette.normal.background
+    opacity: 0.95
 
     // to be set from outside
     property Item resizeTarget
