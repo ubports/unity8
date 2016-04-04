@@ -712,7 +712,7 @@ void tst_TouchRegistry::rejectingTouchfterItsEnd()
     touchRegistry->removeCandidateOwnerForTouch(0, &earlyCandidate);
 
     QCOMPARE(lateCandidate.ownedTouches.count(), 1);
-    QCOMPARE(lateCandidate.ownedTouches.contains(0), 1);
+    QVERIFY(lateCandidate.ownedTouches.contains(0));
 
     // Check that there's no trace left of touch 0 as we no longer need to keep tabs on it.
     QVERIFY(!touchRegistry->findTouchInfo(0));
