@@ -23,6 +23,31 @@
 
 #if MIRSURFACE_DEBUG
 #define DEBUG_MSG(params) qDebug().nospace() << "MirSurface[" << (void*)this << "," << m_name << "]::" << __func__  << " " << params
+
+const char *stateToStr(Mir::State state)
+{
+    switch(state) {
+    case Mir::UnknownState:
+        return "unknown";
+    case Mir::RestoredState:
+        return "restored";
+    case Mir::MinimizedState:
+        return "minimized";
+    case Mir::MaximizedState:
+        return "maximized";
+    case Mir::VertMaximizedState:
+        return "vert-maximized";
+    case Mir::FullscreenState:
+        return "fullscreen";
+    case Mir::HorizMaximizedState:
+        return "horiz-maximized";
+    case Mir::HiddenState:
+        return "hidden";
+    default:
+        return "???";
+    };
+}
+
 #else
 #define DEBUG_MSG(params) ((void)0)
 #endif
@@ -95,6 +120,7 @@ void MirSurface::setState(Mir::State state)
     if (state == m_state)
         return;
 
+    DEBUG_MSG(stateToStr(state));
     m_state = state;
     Q_EMIT stateChanged(state);
 }
@@ -159,6 +185,7 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
 void MirSurface::setKeymap(const QString &value)
 {
     if (value != m_keymap) {
+        DEBUG_MSG(value);
         m_keymap = value;
         Q_EMIT keymapChanged(m_keymap);
     }
@@ -179,6 +206,7 @@ void MirSurface::setShellChrome(Mir::ShellChrome shellChrome)
     if (shellChrome == m_shellChrome)
         return;
 
+    DEBUG_MSG(shellChrome);
     m_shellChrome = shellChrome;
     Q_EMIT shellChromeChanged(shellChrome);
 }

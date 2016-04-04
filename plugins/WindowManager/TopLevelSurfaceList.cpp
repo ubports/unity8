@@ -25,7 +25,7 @@ Q_LOGGING_CATEGORY(UNITY_TOPSURFACELIST, "unity.topsurfacelist")
 
 #define DEBUG_MSG qCDebug(UNITY_TOPSURFACELIST).nospace().noquote() << __func__
 
-namespace unityapi = unity::shell::application;
+using namespace unity::shell::application;
 
 TopLevelSurfaceList::TopLevelSurfaceList(QObject *parent) :
     QAbstractListModel(parent)
@@ -49,7 +49,7 @@ QVariant TopLevelSurfaceList::data(const QModelIndex& index, int role) const
         return QVariant();
 
     if (role == SurfaceRole) {
-        unityapi::MirSurfaceInterface *surface = m_surfaceList.at(index.row()).surface;
+        MirSurfaceInterface *surface = m_surfaceList.at(index.row()).surface;
         return QVariant::fromValue(surface);
     } else if (role == ApplicationRole) {
         return QVariant::fromValue(m_surfaceList.at(index.row()).application);
@@ -60,7 +60,7 @@ QVariant TopLevelSurfaceList::data(const QModelIndex& index, int role) const
     }
 }
 
-void TopLevelSurfaceList::raise(unityapi::MirSurfaceInterface *surface)
+void TopLevelSurfaceList::raise(MirSurfaceInterface *surface)
 {
     if (!surface)
         return;
@@ -73,13 +73,13 @@ void TopLevelSurfaceList::raise(unityapi::MirSurfaceInterface *surface)
     }
 }
 
-void TopLevelSurfaceList::prependPlaceholder(unityapi::ApplicationInfoInterface *application)
+void TopLevelSurfaceList::prependPlaceholder(ApplicationInfoInterface *application)
 {
     DEBUG_MSG << "(" << application->appId() << ")";
     prependSurfaceHelper(nullptr, application);
 }
 
-void TopLevelSurfaceList::prependSurface(unityapi::MirSurfaceInterface *surface, unityapi::ApplicationInfoInterface *application)
+void TopLevelSurfaceList::prependSurface(MirSurfaceInterface *surface, ApplicationInfoInterface *application)
 {
     Q_ASSERT(surface != nullptr);
 
@@ -101,7 +101,7 @@ void TopLevelSurfaceList::prependSurface(unityapi::MirSurfaceInterface *surface,
     }
 }
 
-void TopLevelSurfaceList::prependSurfaceHelper(unityapi::MirSurfaceInterface *surface, unityapi::ApplicationInfoInterface *application)
+void TopLevelSurfaceList::prependSurfaceHelper(MirSurfaceInterface *surface, ApplicationInfoInterface *application)
 {
     beginInsertRows(QModelIndex(), 0 /*first*/, 0 /*last*/);
     int id = generateId();
@@ -115,14 +115,14 @@ void TopLevelSurfaceList::prependSurfaceHelper(unityapi::MirSurfaceInterface *su
     Q_EMIT listChanged();
 }
 
-void TopLevelSurfaceList::connectSurface(unityapi::MirSurfaceInterface *surface)
+void TopLevelSurfaceList::connectSurface(MirSurfaceInterface *surface)
 {
-    connect(surface, &unityapi::MirSurfaceInterface::focusedChanged, this, [this, surface](bool focused){
+    connect(surface, &MirSurfaceInterface::focusedChanged, this, [this, surface](bool focused){
             if (focused) {
                 this->raise(surface);
             }
         });
-    connect(surface, &unityapi::MirSurfaceInterface::liveChanged, this, [this, surface](bool live){
+    connect(surface, &MirSurfaceInterface::liveChanged, this, [this, surface](bool live){
             if (!live) {
                 onSurfaceDied(surface);
             }
@@ -130,7 +130,7 @@ void TopLevelSurfaceList::connectSurface(unityapi::MirSurfaceInterface *surface)
     connect(surface, &QObject::destroyed, this, [this, surface](){ this->onSurfaceDestroyed(surface); });
 }
 
-void TopLevelSurfaceList::onSurfaceDied(unityapi::MirSurfaceInterface *surface)
+void TopLevelSurfaceList::onSurfaceDied(MirSurfaceInterface *surface)
 {
     int i = indexOf(surface);
     if (i == -1) {
@@ -140,9 +140,9 @@ void TopLevelSurfaceList::onSurfaceDied(unityapi::MirSurfaceInterface *surface)
     auto application = m_surfaceList[i].application;
 
     // can't be starting if it already has a surface
-    Q_ASSERT(application->state() != unityapi::ApplicationInfoInterface::Starting);
+    Q_ASSERT(application->state() != ApplicationInfoInterface::Starting);
 
-    if (application->state() == unityapi::ApplicationInfoInterface::Running) {
+    if (application->state() == ApplicationInfoInterface::Running) {
         m_surfaceList[i].removeOnceSurfaceDestroyed = true;
     } else {
         // assume it got killed by the out-of-memory daemon.
@@ -153,7 +153,7 @@ void TopLevelSurfaceList::onSurfaceDied(unityapi::MirSurfaceInterface *surface)
     }
 }
 
-void TopLevelSurfaceList::onSurfaceDestroyed(unityapi::MirSurfaceInterface *surface)
+void TopLevelSurfaceList::onSurfaceDestroyed(MirSurfaceInterface *surface)
 {
     int i = indexOf(surface);
     if (i == -1) {
@@ -179,7 +179,7 @@ void TopLevelSurfaceList::removeAt(int index)
     Q_EMIT listChanged();
 }
 
-int TopLevelSurfaceList::indexOf(unityapi::MirSurfaceInterface *surface)
+int TopLevelSurfaceList::indexOf(MirSurfaceInterface *surface)
 {
     for (int i = 0; i < m_surfaceList.count(); ++i) {
         if (m_surfaceList.at(i).surface == surface) {
@@ -208,7 +208,7 @@ void TopLevelSurfaceList::moveSurface(int from, int to)
     }
 }
 
-unityapi::MirSurfaceInterface *TopLevelSurfaceList::surfaceAt(int index) const
+MirSurfaceInterface *TopLevelSurfaceList::surfaceAt(int index) const
 {
     if (index >=0 && index < m_surfaceList.count()) {
         return m_surfaceList[index].surface;
@@ -217,7 +217,7 @@ unityapi::MirSurfaceInterface *TopLevelSurfaceList::surfaceAt(int index) const
     }
 }
 
-unityapi::ApplicationInfoInterface *TopLevelSurfaceList::applicationAt(int index) const
+ApplicationInfoInterface *TopLevelSurfaceList::applicationAt(int index) const
 {
     if (index >=0 && index < m_surfaceList.count()) {
         return m_surfaceList[index].application;
@@ -296,15 +296,15 @@ QString TopLevelSurfaceList::toString()
     return str;
 }
 
-void TopLevelSurfaceList::addApplication(unityapi::ApplicationInfoInterface *application)
+void TopLevelSurfaceList::addApplication(ApplicationInfoInterface *application)
 {
     DEBUG_MSG << "(" << application->appId() << ")";
     Q_ASSERT(!m_applications.contains(application));
     m_applications.append(application);
 
-    unityapi::MirSurfaceListInterface *surfaceList = application->surfaceList();
+    MirSurfaceListInterface *surfaceList = application->surfaceList();
 
-    if (application->state() != unityapi::ApplicationInfoInterface::Stopped) {
+    if (application->state() != ApplicationInfoInterface::Stopped) {
         if (surfaceList->count() == 0) {
             prependPlaceholder(application);
         } else {
@@ -323,12 +323,12 @@ void TopLevelSurfaceList::addApplication(unityapi::ApplicationInfoInterface *app
             });
 }
 
-void TopLevelSurfaceList::removeApplication(unityapi::ApplicationInfoInterface *application)
+void TopLevelSurfaceList::removeApplication(ApplicationInfoInterface *application)
 {
     DEBUG_MSG << "(" << application->appId() << ")";
     Q_ASSERT(m_applications.contains(application));
 
-    unityapi::MirSurfaceListInterface *surfaceList = application->surfaceList();
+    MirSurfaceListInterface *surfaceList = application->surfaceList();
 
     disconnect(surfaceList, 0, this, 0);
 
@@ -401,23 +401,22 @@ void TopLevelSurfaceList::setApplicationsModel(QAbstractListModel* value)
     endResetModel();
 }
 
-unityapi::ApplicationInfoInterface *TopLevelSurfaceList::getApplicationFromModelAt(int index)
+ApplicationInfoInterface *TopLevelSurfaceList::getApplicationFromModelAt(int index)
 {
     QModelIndex modelIndex = m_applicationsModel->index(index);
 
     QVariant variant =  m_applicationsModel->data(modelIndex, m_applicationRole);
 
-    // variant.value<unityapi::ApplicationInfoInterface*>() returns null for some reason.
-    return static_cast<unityapi::ApplicationInfoInterface*>(variant.value<QObject*>());
+    // variant.value<ApplicationInfoInterface*>() returns null for some reason.
+    return static_cast<ApplicationInfoInterface*>(variant.value<QObject*>());
 }
 
 void TopLevelSurfaceList::findApplicationRole()
 {
     QHash<int, QByteArray> namesHash = m_applicationsModel->roleNames();
-    QHash<int, QByteArray>::iterator i;
 
     m_applicationRole = -1;
-    for (i = namesHash.begin(); i != namesHash.end() && m_applicationRole == -1; ++i) {
+    for (auto i = namesHash.begin(); i != namesHash.end() && m_applicationRole == -1; ++i) {
         if (i.value() == "application") {
             m_applicationRole = i.key();
         }

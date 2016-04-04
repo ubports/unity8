@@ -101,19 +101,18 @@ Item {
             applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
     onMainAppChanged: {
         if (mainApp) {
-            _makeGreeterReactToAppChange(mainApp.appId);
+            _onMainAppChanged(mainApp.appId);
         }
-
     }
     Connections {
         target: ApplicationManager
         onFocusRequested: {
             if (shell.mainApp && shell.mainApp.appId === appId) {
-                _makeGreeterReactToAppChange(appId);
+                _onMainAppChanged(appId);
             }
         }
     }
-    function _makeGreeterReactToAppChange(appId) {
+    function _onMainAppChanged(appId) {
         if (tutorial.running && appId != "" && appId != "unity8-dash") {
             // If this happens on first boot, we may be in edge
             // tutorial or wizard while receiving a call.  But a call
@@ -570,6 +569,7 @@ Item {
             }
             onLauncherApplicationSelected: {
                 greeter.notifyUserRequestedApp(appId);
+                shell.activateApplication(appId);
             }
             onShownChanged: {
                 if (shown) {

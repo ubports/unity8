@@ -39,6 +39,7 @@ StateGroup {
     transitions: [
         Transition {
             from: "*"; to: "zombie"
+            // Slide downwards until it's out of view, through the bottom of the window
             SequentialAnimation {
                 // clip so we don't go out of parent's bounds during spread
                 PropertyAction { target: root.container.parent; property: "clip"; value: true }
@@ -47,12 +48,15 @@ StateGroup {
                 PropertyAction { target: root.surfaceItem; property: "visible"; value: false }
                 PropertyAction { target: container.parent; property: "clip"; value: false }
                 ScriptAction { script: {
+                    // Unity.Application can't destroy a zombie MirSurface if it's still being
+                    // referenced by a MirSurfaceItem.
                     root.surfaceItem.surface = null;
                 } }
             }
         },
         Transition {
             from: "*"; to: "ready"
+            // Slide upwards into view, from the bottom of the window
             SequentialAnimation {
                 // clip so we don't go out of parent's bounds during spread
                 PropertyAction { target: root.container.parent; property: "clip"; value: true }

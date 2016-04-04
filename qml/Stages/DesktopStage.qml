@@ -332,10 +332,6 @@ AbstractStage {
 
                 function close() {
                     model.surface.close();
-                    // TODO: Should we brute force and stop the application if it doesn't quit
-                    //       after having its last window closed?
-                    // TODO: Destroy the surface if the application doesn't comply after a given
-                    //       amount of time.
                 }
 
                 function maximize(animated) {

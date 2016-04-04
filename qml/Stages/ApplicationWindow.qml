@@ -55,6 +55,10 @@ FocusScope {
     readonly property int heightIncrement: surface ? surface.heightIncrement : 0
 
     onSurfaceChanged: {
+        // The order in which the instructions are executed here matters, to that the correct state
+        // transitions in stateGroup take place.
+        // More specifically, the moment surfaceContainer.surface gets updated relative to the
+        // other instructions.
         if (surface) {
             surfaceContainer.surface = surface;
             d.liveSurface = surface.live;
@@ -78,9 +82,9 @@ FocusScope {
             onLiveChanged: d.liveSurface = root.surface.live
         }
         // using liveSurface instead of root.surface.live because with the latter
-        // this expression is not reevaluated when root.surface.live changes
-        property bool needToTakeScreenshot: root.surface && d.surfaceInitialized && !d.liveSurface
-                                         && applicationState !== ApplicationInfoInterface.Running
+        // this expression is not reevaluated when root.surface changes
+        readonly property bool needToTakeScreenshot: root.surface && d.surfaceInitialized && !d.liveSurface
+                                                  && applicationState !== ApplicationInfoInterface.Running
         onNeedToTakeScreenshotChanged: {
             if (needToTakeScreenshot && screenshotImage.status === Image.Null) {
                 screenshotImage.take();

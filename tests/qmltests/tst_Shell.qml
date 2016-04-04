@@ -2299,9 +2299,18 @@ Rectangle {
 
             tryCompare(launcher, "lockedVisible", true);
 
-            var cameraSurfaceId = topLevelSurfaceList.nextId;
-            var cameraApp = ApplicationManager.startApplication("camera-app");
-            waitUntilAppWindowIsFullyLoaded(cameraSurfaceId);
+            var surfaceId = topLevelSurfaceList.nextId;
+            var app = ApplicationManager.startApplication("gmail-webapp");
+
+            waitUntilAppWindowIsFullyLoaded(surfaceId);
+
+            // Sanity check: ensure the fake app we chose creates a surface the way
+            // we expect it to.
+            compare(app.surfaceList.get(0).shellChrome, Mir.NormalChrome);
+
+            compare(launcher.lockedVisible, true);
+
+            app.surfaceList.get(0).state = Mir.FullscreenState;
 
             tryCompare(launcher, "lockedVisible", false);
         }
@@ -2361,19 +2370,21 @@ Rectangle {
             AccountsService.keymaps = ["sk", "cz+qwerty", "fr"] // "configure" the keymaps for user
 
             // start some app
+            var appSurfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication("dialer-app");
-            waitUntilAppWindowIsFullyLoaded(app);
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
+            var appSurface = app.surfaceList.get(0);
 
             // verify the initial keymap of the newly started app is the first one from the list
-            tryCompare(app.session.lastSurface, "keymap", "sk");
+            tryCompare(appSurface, "keymap", "sk");
 
             // switch to next keymap, should go to "cz+qwerty"
             keyClick(Qt.Key_Space, Qt.MetaModifier);
-            tryCompare(app.session.lastSurface, "keymap", "cz+qwerty");
+            tryCompare(appSurface, "keymap", "cz+qwerty");
 
             // switch to next keymap, should go to "fr"
             keyClick(Qt.Key_Space, Qt.MetaModifier);
-            tryCompare(app.session.lastSurface, "keymap", "fr");
+            tryCompare(appSurface, "keymap", "fr");
 
             // go to e.g. desktop stage
             loadShell("desktop");
@@ -2381,30 +2392,32 @@ Rectangle {
             waitForRendering(shell);
 
             // start a second app, should get the last configured keyboard, "fr"
+            var app2SurfaceId = topLevelSurfaceList.nextId;
             var app2 = ApplicationManager.startApplication("calendar-app");
-            waitUntilAppWindowIsFullyLoaded(app2);
-            tryCompare(app2.session.lastSurface, "keymap", "fr");
+            waitUntilAppWindowIsFullyLoaded(app2SurfaceId);
+            var app2Surface = app2.surfaceList.get(0);
+            tryCompare(app2Surface, "keymap", "fr");
 
             // focus our first app, make sure it also has the "fr" keymap
             ApplicationManager.requestFocusApplication("dialer-app");
-            tryCompare(app.session.lastSurface, "keymap", "fr");
+            tryCompare(appSurface, "keymap", "fr");
 
             // switch to previous keymap, should be "cz+qwerty"
             keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
-            tryCompare(app.session.lastSurface, "keymap", "cz+qwerty");
+            tryCompare(appSurface, "keymap", "cz+qwerty");
 
             // go next twice to "sk", past the end
             keyClick(Qt.Key_Space, Qt.MetaModifier);
             keyClick(Qt.Key_Space, Qt.MetaModifier);
-            tryCompare(app.session.lastSurface, "keymap", "sk");
+            tryCompare(appSurface, "keymap", "sk");
 
             // go back once to past the beginning, to "fr"
             keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
-            tryCompare(app.session.lastSurface, "keymap", "fr");
+            tryCompare(appSurface, "keymap", "fr");
 
             // switch to app2, should also get "fr"
             ApplicationManager.requestFocusApplication("calendar-app");
-            tryCompare(app2.session.lastSurface, "keymap", "fr");
+            tryCompare(app2Surface, "keymap", "fr");
         }
     }
 }

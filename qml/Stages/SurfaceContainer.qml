@@ -36,9 +36,9 @@ FocusScope {
     property bool inPromptSession: false
 
     onSurfaceChanged: {
-        // not a binding because in some cases
-        // we remove the surface from the surfaceItem programatically,
-        // even though root.surface is still !null
+        // Not a binding because animations might remove the surface from the surfaceItem
+        // programatically (in order to signal that a zombie surface is free for deletion),
+        // even though root.surface is still !null.
         surfaceItem.surface = surface;
     }
 

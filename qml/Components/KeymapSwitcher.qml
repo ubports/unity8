@@ -59,7 +59,6 @@ QtObject {
 
     property Binding surfaceKeymapBinding: Binding {
         target: MirFocusController.focusedSurface
-        when: target != null && target.live
         property: "keymap"
         value: root.currentKeymap
     }

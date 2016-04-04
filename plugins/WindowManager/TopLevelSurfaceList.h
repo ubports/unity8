@@ -91,11 +91,10 @@ public:
     // QAbstractItemModel methods
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
-    QHash<int, QByteArray> roleNames() const {
-        QHash<int, QByteArray> roleNames;
-        roleNames.insert(SurfaceRole, "surface");
-        roleNames.insert(ApplicationRole, "application");
-        roleNames.insert(IdRole, "id");
+    QHash<int, QByteArray> roleNames() const override {
+        QHash<int, QByteArray> roleNames { {SurfaceRole, "surface"},
+                                           {ApplicationRole, "application"},
+                                           {IdRole, "id"} };
         return roleNames;
     }
 

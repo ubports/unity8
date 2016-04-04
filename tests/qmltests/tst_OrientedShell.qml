@@ -495,17 +495,23 @@ Rectangle {
         function test_appSupportingOnlyPrimaryOrientationMakesPhoneShellStayPut() {
             loadShell("mako");
 
+            var spreadRepeater = findChild(shell, "spreadRepeater");
+            verify(spreadRepeater);
+
             // unity8-dash supports only primary orientation and should be already running
-            var dashAppWindow = findChild(shell, "appWindow_unity8-dash");
-            verify(dashAppWindow);
-            compare(ApplicationManager.focusedApplicationId, "unity8-dash");
-            var dashApp = dashAppWindow.application
+            compare(spreadRepeater.count, 1);
+            var dashDelegate = spreadRepeater.itemAt(0);
+            var dashApp = dashDelegate.application;
             verify(dashApp);
+            compare(dashApp.appId, "unity8-dash");
+            var dashAppWindow = findChild(dashDelegate, "appWindow");
+            verify(dashAppWindow);
+            compare(dashDelegate.focus, true);
             compare(dashApp.rotatesWindowContents, false);
             compare(dashApp.supportedOrientations, Qt.PrimaryOrientation);
             compare(dashApp.stage, ApplicationInfoInterface.MainStage);
 
-            tryCompareFunction(function(){return dashApp.session.lastSurface != null;}, true);
+            tryCompareFunction(function(){return dashDelegate.surface != null;}, true);
             verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
 
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
@@ -915,9 +921,9 @@ Rectangle {
                 verify(item.application.appId, "dialer-app");
             }
 
+            WindowStateStorage.saveStage("dialer-app", ApplicationInfoInterface.SideStage)
             var dialerApp = ApplicationManager.startApplication("dialer-app");
             verify(dialerApp);
-            dialerApp.stage = ApplicationInfoInterface.SideStage;
 
             // ensure the mock dialer-app is as we expect
             compare(dialerApp.rotatesWindowContents, false);
@@ -962,9 +968,9 @@ Rectangle {
                 verify(item.application.appId, "dialer-app");
             }
 
+            WindowStateStorage.saveStage("dialer-app", ApplicationInfoInterface.SideStage)
             var dialerApp = ApplicationManager.startApplication("dialer-app");
             verify(dialerApp);
-            dialerApp.stage = ApplicationInfoInterface.SideStage;
 
             // ensure the mock dialer-app is as we expect
             compare(dialerApp.rotatesWindowContents, false);

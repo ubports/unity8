@@ -29,7 +29,7 @@ FocusScope {
     property alias application: applicationWindow.application
     property alias surface: applicationWindow.surface
     property alias active: decoration.active
-    property alias title: decoration.title
+    readonly property alias title: applicationWindow.title
     property alias fullscreen: applicationWindow.fullscreen
 
     readonly property bool decorationShown: !fullscreen

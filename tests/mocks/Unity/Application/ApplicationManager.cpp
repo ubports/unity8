@@ -352,7 +352,6 @@ void ApplicationManager::buildListOfAvailableApplications()
     application->setName("Camera");
     application->setScreenshotId("camera");
     application->setIconId("camera");
-    application->setShellChrome(Mir::LowChrome);
     application->setFullscreen(true);
     application->setSupportedOrientations(Qt::PortraitOrientation
                                         | Qt::LandscapeOrientation

@@ -367,7 +367,7 @@ AbstractStage {
             }
         }
         function undoContentXReset() {
-            if (contentWidth === -1) {
+            if (contentWidth <= 0) {
                 contentWidthOnLastContentXChange = contentWidth;
                 lastContentX = contentX;
                 return false;
@@ -536,7 +536,6 @@ AbstractStage {
             if (index > 2) return index;
 
             var mainStageIndex = root.topLevelSurfaceList.indexForId(priv.mainStageItemId);
-            var sideStageIndex = root.topLevelSurfaceList.indexForId(priv.sideStageItemId);
 
             if (index == mainStageIndex) {
                 // Active main stage always at 0
@@ -719,7 +718,7 @@ AbstractStage {
                     id: spreadTile
                     objectName: "spreadDelegate_" + model.id
 
-                    property int index: model.index
+                    readonly property int index: model.index
                     width: spreadView.width
                     height: spreadView.height
                     active: model.id == priv.mainStageItemId || model.id == priv.sideStageItemId

@@ -291,14 +291,14 @@ AbstractStage {
             }
         }
         function undoContentXReset() {
-            if (contentWidth === -1) {
+            if (contentWidth <= 0) {
                 contentWidthOnLastContentXChange = contentWidth;
                 lastContentX = contentX;
                 return false;
             }
 
-            if (contentWidth != contentWidthOnLastContentXChange
-                    && lastContentX == -shift && contentX == 0) {
+            if (contentWidth !== contentWidthOnLastContentXChange
+                    && lastContentX === -shift && contentX === 0) {
                 // Flickable is resetting contentX because contentWidth has changed. Undo it.
                 contentX = -shift;
                 return true;
@@ -310,6 +310,7 @@ AbstractStage {
         }
         property real contentWidthOnLastContentXChange: -1
         property real lastContentX: 0
+        // </FIXME-contentX>
 
         Behavior on contentX {
             enabled: root.altTabPressed
