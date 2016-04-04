@@ -20,16 +20,20 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 
 Rectangle {
+    id: root
     width: parent.width * 2/3
     height: parent.height * 2/3
     color: theme.palette.normal.background
     radius: units.gu(.5)
 
+    readonly property int maxTextSize: (root.width / 4) - padding
+    readonly property int padding: units.gu(4)
+
     GridLayout {
         anchors.fill: parent
-        anchors.margins: units.gu(4)
+        anchors.margins: padding
         columns: 2
-        columnSpacing: units.gu(4)
+        columnSpacing: padding
 
         Label {
             Layout.columnSpan: 2
@@ -41,7 +45,6 @@ Rectangle {
 
         GridLayout {
             columns: 2
-            rows: 10
             columnSpacing: units.gu(4)
             Layout.alignment: Qt.AlignTop
 
@@ -63,6 +66,8 @@ Rectangle {
                 text: i18n.tr("Takes a screenshot.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -74,6 +79,8 @@ Rectangle {
                 text: i18n.tr("Switches to next keyboard layout.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -85,6 +92,8 @@ Rectangle {
                 text: i18n.tr("Switches to previous keyboard layout.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
 
@@ -107,6 +116,8 @@ Rectangle {
                 text: i18n.tr("Opens the launcher, displays shortcuts.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -118,6 +129,8 @@ Rectangle {
                 text: i18n.tr("Opens launcher keyboard navigation mode.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -129,6 +142,8 @@ Rectangle {
                 text: i18n.tr("Switches applications via the launcher.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -140,6 +155,8 @@ Rectangle {
                 text: i18n.tr("Same as clicking on a launcher icon.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
 
@@ -162,13 +179,14 @@ Rectangle {
                 text: i18n.tr("Opens the Scopes home.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
         }
 
         GridLayout {
             columns: 2
-            rows: 10
-            columnSpacing: units.gu(4)
+            columnSpacing: padding
             Layout.alignment: Qt.AlignTop
 
             // Switching section
@@ -189,6 +207,8 @@ Rectangle {
                 text: i18n.tr("Switches between applications.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -200,6 +220,8 @@ Rectangle {
                 text: i18n.tr("Opens the desktop spread.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -211,6 +233,8 @@ Rectangle {
                 text: i18n.tr("Moves the focus.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
 
@@ -233,6 +257,8 @@ Rectangle {
                 text: i18n.tr("Minimizes all windows.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -244,6 +270,8 @@ Rectangle {
                 text: i18n.tr("Maximizes the current window.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -255,6 +283,8 @@ Rectangle {
                 text: i18n.tr("Minimizes or restores the current window.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -266,6 +296,8 @@ Rectangle {
                 text: i18n.tr("Semi-maximizes the current window.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
 
             Label {
@@ -277,6 +309,8 @@ Rectangle {
                 text: i18n.tr("Closes the current window.")
                 fontSize: "small"
                 font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
             }
         }
 
