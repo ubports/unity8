@@ -123,7 +123,7 @@ Item {
 
         Image {
             source: "graphics/arrows-centre.png"
-            width: units.gu(8)
+            width: units.gu(10)
             height: width
             sourceSize: Qt.size(width, height)
             anchors.centerIn: parent
