@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 
 #include "SurfaceManager.h"
 
+#include "ApplicationInfo.h"
 #include "VirtualKeyboard.h"
 
 #include <paths.h>
@@ -44,9 +45,9 @@ SurfaceManager::SurfaceManager(QObject *parent) :
 }
 
 MirSurface *SurfaceManager::createSurface(const QString& name,
-                                              Mir::Type type,
-                                              Mir::State state,
-                                              const QUrl& screenshot)
+                                          Mir::Type type,
+                                          Mir::State state,
+                                          const QUrl& screenshot)
 {
     MirSurface* surface = new MirSurface(name, type, state, screenshot);
     connect(surface, &QObject::destroyed, this, [this](QObject *obj) {

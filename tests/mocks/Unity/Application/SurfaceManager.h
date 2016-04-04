@@ -22,6 +22,8 @@
 #include "MirSurface.h"
 #include "VirtualKeyboard.h"
 
+class ApplicationInfo;
+
 class SurfaceManager : public QObject
 {
     Q_OBJECT

@@ -20,19 +20,24 @@
 #include <QObject>
 
 class MirSurface;
-class Session;
 
 // unity-api
 #include <unity/shell/application/ApplicationInfoInterface.h>
 #include <unity/shell/application/Mir.h>
+
+#include "MirSurfaceListModel.h"
+
+#include <QList>
+#include <QTimer>
 
 using namespace unity::shell::application;
 
 class ApplicationInfo : public ApplicationInfoInterface {
     Q_OBJECT
 
+    ////
+    // FIXME: Remove those
     Q_PROPERTY(bool fullscreen READ fullscreen WRITE setFullscreen NOTIFY fullscreenChanged)
-    Q_PROPERTY(Session* session READ session NOTIFY sessionChanged)
 
     // Only exists in this fake implementation
 
@@ -66,8 +71,7 @@ public:
     Q_INVOKABLE void setState(State value);
     State state() const override { return m_state; }
 
-    void setFocused(bool value);
-    bool focused() const override { return m_focused; }
+    bool focused() const override;
 
     QString splashTitle() const override { return QString(); }
     QUrl splashImage() const override { return QUrl(); }
@@ -100,21 +104,29 @@ public:
     void setInitialSurfaceSize(const QSize &size) override;
 
     Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
-public:
-    void setSession(Session* session);
-    Session* session() const { return m_session; }
+
+    MirSurfaceListInterface* surfaceList() override { return &m_surfaceList; }
+
+    void setFocused(bool value);
+
+    //////
+    // internal mock stuff
+    void close();
 
 Q_SIGNALS:
-    void sessionChanged(Session*);
     void fullscreenChanged(bool value);
     void manualSurfaceCreationChanged(bool value);
+    void closed();
+
+    ////
+    // FIXME: Move to unity::shell::application::ApplicationInfoInterface
+    void focusRequested();
 
 public Q_SLOTS:
-    Q_INVOKABLE void createSession();
-    Q_INVOKABLE void destroySession();
+    Q_INVOKABLE void createSurface();
 
 private Q_SLOTS:
-    void onSessionSurfaceAdded(MirSurface*);
+    void onSurfaceCountChanged();
 
 private:
     void setIcon(const QUrl &value);
@@ -124,20 +136,24 @@ private:
     QString m_appId;
     QString m_name;
     QUrl m_icon;
-    Stage m_stage;
-    State m_state;
-    bool m_focused;
-    bool m_fullscreen;
-    Session* m_session;
-    Qt::ScreenOrientations m_supportedOrientations;
-    bool m_rotatesWindowContents;
-    RequestedState m_requestedState;
-    bool m_isTouchApp;
-    bool m_exemptFromLifecycle;
+    Stage m_stage{MainStage};
+    State m_state{Stopped};
+    bool m_fullscreen{false};
+    Qt::ScreenOrientations m_supportedOrientations{Qt::PortraitOrientation |
+            Qt::LandscapeOrientation |
+            Qt::InvertedPortraitOrientation |
+            Qt::InvertedLandscapeOrientation};
+    bool m_rotatesWindowContents{false};
+    RequestedState m_requestedState{RequestedRunning};
+    bool m_isTouchApp{true};
+    bool m_exemptFromLifecycle{false};
     QSize m_initialSurfaceSize;
-
-    bool m_manualSurfaceCreation;
-    Mir::ShellChrome m_shellChrome;
+    MirSurfaceListModel m_surfaceList;
+    int m_liveSurfaceCount{0};
+    QTimer m_surfaceCreationTimer;
+    QList<MirSurface*> m_closingSurfaces;
+    bool m_manualSurfaceCreation{false};
+    Mir::ShellChrome m_shellChrome{Mir::NormalChrome};
 };
 
 Q_DECLARE_METATYPE(ApplicationInfo*)

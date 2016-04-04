@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,12 +26,19 @@
 // unity-api
 #include <unity/shell/application/ApplicationManagerInterface.h>
 
+namespace unity {
+    namespace shell {
+        namespace application {
+            class MirSurfaceInterface;
+        }
+    }
+}
+
 class QQuickItem;
 using namespace unity::shell::application;
 
 class ApplicationManager : public ApplicationManagerInterface {
     Q_OBJECT
-    Q_FLAGS(ExecFlags)
 
     Q_PROPERTY(bool empty READ isEmpty NOTIFY emptyChanged)
     Q_PROPERTY(QStringList availableApplications READ availableApplications NOTIFY availableApplicationsChanged)
@@ -41,11 +48,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     virtual ~ApplicationManager();
 
     static ApplicationManager *singleton();
-
-    enum MoreRoles {
-        RoleSession = RoleExemptFromLifecycle+1,
-        RoleFullscreen,
-    };
 
     // QAbstractItemModel methods.
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -79,12 +81,14 @@ class ApplicationManager : public ApplicationManagerInterface {
 
  private Q_SLOTS:
     void onWindowCreatedTimerTimeout();
+    void updateFocusedApplication();
 
  private:
-    void add(ApplicationInfo *application);
+    bool add(ApplicationInfo *application);
     void remove(ApplicationInfo* application);
     void buildListOfAvailableApplications();
     void onWindowCreated();
+    ApplicationInfo *findApplication(MirSurface* surface);
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QTimer m_windowCreatedTimer;
