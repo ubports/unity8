@@ -26,7 +26,6 @@ Rectangle {
 
     // to be set from outside
     property Item resizeTarget
-    property alias cursorShape: mouseArea.cursorShape
 
     Image {
         source: "graphics/arrows.png"
@@ -36,7 +35,6 @@ Rectangle {
     }
 
     MouseArea {
-        id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
 
