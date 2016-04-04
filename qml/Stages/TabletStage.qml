@@ -180,7 +180,7 @@ AbstractStage {
 
             for (var i = 0; i < spreadRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
                 var spreadDelegate = spreadRepeater.itemAt(i);
-                if (!spreadView.sideStageHidden && spreadDelegate.stage == ApplicationInfoInterface.SideStage
+                if (sideStage.shown && spreadDelegate.stage == ApplicationInfoInterface.SideStage
                         && !choseSideStage) {
                     priv.sideStageDelegate = spreadDelegate
                     priv.sideStageItemId = root.topLevelSurfaceList.idAt(i);
@@ -537,6 +537,7 @@ AbstractStage {
             if (!app) {
                 return index;
             }
+            var stage = spreadRepeater.itemAt(index) ? spreadRepeater.itemAt(index).stage : app.stage;
 
             // don't shuffle indexes greater than "actives or next"
             if (index > 2) return index;
@@ -549,18 +550,18 @@ AbstractStage {
             }
 
             if (spreadView.nextInStack > 0) {
-                var nextAppInStack = root.topLevelSurfaceList.applicationAt(spreadView.nextInStack);
+                var stageOfNextInStack = spreadRepeater.itemAt(spreadView.nextInStack).stage;
 
                 if (index === spreadView.nextInStack) {
                     // this is the next app in stack.
 
-                    if (app.stage ===  ApplicationInfoInterface.SideStage) {
+                    if (stage ===  ApplicationInfoInterface.SideStage) {
                         // if the next app in stack is a sidestage app, it must order on top of other side stage app
                         return Math.min(2, root.topLevelSurfaceList.count-1);
                     }
                     return 1;
                 }
-                if (nextAppInStack.stage ===  ApplicationInfoInterface.SideStage) {
+                if (stageOfNextInStack === ApplicationInfoInterface.SideStage) {
                     // if the next app in stack is a sidestage app, it must order on top of other side stage app
                     return 1;
                 }
@@ -639,9 +640,9 @@ AbstractStage {
                     if (!priv.mainStageItemId) return 0;
 
                     if (priv.sideStageItemId && spreadView.nextInStack > 0) {
-                        var nextAppInStack = root.topLevelSurfaceList.applicationAt(spreadView.nextInStack);
+                        var nextDelegateInStack = spreadRepeater.itemAt(spreadView.nextInStack);
 
-                        if (nextAppInStack.stage ===  ApplicationInfoInterface.MainStage) {
+                        if (nextDelegateInStack.stage ===  ApplicationInfoInterface.MainStage) {
                             // if the next app in stack is a main stage app, put the sidestage on top of it.
                             return 2;
                         }
@@ -944,10 +945,6 @@ AbstractStage {
                                                 priv.sideStageEnabled && !sideStage.shown) {
                                             // Sidestage was focused, so show the side stage.
                                             sideStage.show();
-                                        // if we've switched to a main app which doesnt support portrait, hide the side stage.
-                                        } else if (priv.sideStageDelegate === spreadTile &&
-                                                mainApp && (mainApp.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) == 0) {
-                                            sideStage.hideNow();
                                         }
                                     }
                                 }

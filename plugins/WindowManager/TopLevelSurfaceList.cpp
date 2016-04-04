@@ -23,7 +23,7 @@
 
 #include <QMetaObject>
 
-Q_LOGGING_CATEGORY(UNITY_TOPSURFACELIST, "unity.topsurfacelist")
+Q_LOGGING_CATEGORY(UNITY_TOPSURFACELIST, "unity.topsurfacelist", QtDebugMsg)
 
 #define DEBUG_MSG qCDebug(UNITY_TOPSURFACELIST).nospace().noquote() << __func__
 
