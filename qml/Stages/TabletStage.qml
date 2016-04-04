@@ -1007,7 +1007,7 @@ AbstractStage {
 
                     StagedFullscreenPolicy {
                         id: fullscreenPolicy
-                        application: spreadTile.application
+                        surface: model.surface
                     }
                     Connections {
                         target: root

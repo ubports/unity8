@@ -681,7 +681,7 @@ AbstractStage {
 
                     StagedFullscreenPolicy {
                         id: fullscreenPolicy
-                        application: appDelegate.application
+                        surface: model.surface
                     }
 
                     Connections {
