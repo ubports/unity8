@@ -381,7 +381,10 @@ Item {
             var dialerDelegate = startApplication("dialer-app");
             startApplication("camera-app");
 
-            ApplicationManager.focusApplication("dialer-app");
+            tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
+            dialerDelegate.surface.requestFocus();
+            tryCompare(dialerDelegate, "focus", true);
+
             keyClick(Qt.Key_Up, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Up shortcut to maximize
             tryCompare(dialerDelegate, "maximized", true);
             tryCompare(dialerDelegate, "minimized", false);
@@ -391,7 +394,10 @@ Item {
             var dialerDelegate = startApplication("dialer-app");
             startApplication("camera-app");
 
-            ApplicationManager.focusApplication("dialer-app");
+            tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
+            dialerDelegate.surface.requestFocus();
+            tryCompare(dialerDelegate, "focus", true);
+
             keyClick(Qt.Key_Left, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Left shortcut to maximizeLeft
             tryCompare(dialerDelegate, "maximized", false);
             tryCompare(dialerDelegate, "minimized", false);
@@ -403,7 +409,10 @@ Item {
             var dialerDelegate = startApplication("dialer-app");
             startApplication("camera-app");
 
-            ApplicationManager.focusApplication("dialer-app");
+            tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
+            dialerDelegate.surface.requestFocus();
+            tryCompare(dialerDelegate, "focus", true);
+
             keyClick(Qt.Key_Right, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Right shortcut to maximizeRight
             tryCompare(dialerDelegate, "maximized", false);
             tryCompare(dialerDelegate, "minimized", false);
@@ -415,7 +424,10 @@ Item {
             var dialerDelegate = startApplication("dialer-app");
             startApplication("camera-app");
 
-            ApplicationManager.focusApplication("dialer-app");
+            tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
+            dialerDelegate.surface.requestFocus();
+            tryCompare(dialerDelegate, "focus", true);
+
             keyClick(Qt.Key_Down, Qt.MetaModifier|Qt.ControlModifier); // Ctrl+Super+Down shortcut to minimize
             tryCompare(dialerDelegate, "maximized", false);
             tryCompare(dialerDelegate, "minimized", true);
@@ -566,13 +578,13 @@ Item {
             tryCompare(facebookAppDelegate, "visible", true);
 
             // Bring dash to front. make sure dash and the maximized facebook are visible, the restored one behind is hidden
-            ApplicationManager.focusApplication("unity8-dash");
+            dashAppDelegate.focus = true;
             tryCompare(dashAppDelegate, "visible", true);
             tryCompare(dialerAppDelegate, "visible", false);
             tryCompare(facebookAppDelegate, "visible", true);
 
             // Now focus the dialer app. all 3 should be visible again
-            ApplicationManager.focusApplication("dialer-app");
+            dialerAppDelegate.focus = true;
             tryCompare(dashAppDelegate, "visible", true);
             tryCompare(dialerAppDelegate, "visible", true);
             tryCompare(facebookAppDelegate, "visible", true);

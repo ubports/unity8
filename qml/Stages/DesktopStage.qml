@@ -140,8 +140,6 @@ AbstractStage {
                     appDelegate.minimize();
                 }
             }
-
-            root.applicationManager.unfocusCurrentApplication(); // no app should have focus at this point
         }
 
         function focusNext() {
@@ -308,8 +306,15 @@ AbstractStage {
                 }
 
                 onFocusChanged: {
-                    if (focus && !appRepeater.startingUp) {
+                    if (appRepeater.startingUp)
+                        return;
+
+                    if (focus) {
                         priv.focusedAppDelegate = appDelegate;
+                    } else if (!focus && priv.focusedAppDelegate === appDelegate) {
+                        priv.focusedAppDelegate = null;
+                        // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
+                        MirFocusController.focusedSurface = null;
                     }
                 }
                 Component.onCompleted: {
@@ -412,7 +417,7 @@ AbstractStage {
 
                 states: [
                     State {
-                        name: "fullscreen"; when: decoratedWindow.fullscreen
+                        name: "fullscreen"; when: decoratedWindow.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
                             x: 0;
@@ -505,6 +510,7 @@ AbstractStage {
                             ScriptAction {
                                 script: {
                                     if (appDelegate.minimized) {
+                                        appDelegate.focus = false;
                                         priv.focusNext();
                                     }
                                 }
