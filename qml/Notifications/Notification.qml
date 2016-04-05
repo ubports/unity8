@@ -36,7 +36,7 @@ StyledItem {
     property var type
     property var hints
     property var notification
-    property color color: UbuntuColors.silk // TODO theme.palette.normal.overlay
+    property color color: theme.palette.normal.overlay
     property bool fullscreen: false
     property int maxHeight
     property int margins: units.gu(1)
@@ -129,9 +129,17 @@ StyledItem {
         }
     ]
 
-    clip: fullscreen ? false : true
-
     visible: type !== Notification.PlaceHolder
+
+    BorderImage {
+        anchors {
+            fill: contents
+            margins: shapedBack.visible ? -units.gu(1) : -units.gu(1.5)
+        }
+        source: "../Stages/graphics/dropshadow2gu.sci"
+        opacity: notification.opacity * 0.5
+        enabled: !fullscreen
+    }
 
     UbuntuShape {
         id: shapedBack
@@ -141,7 +149,6 @@ StyledItem {
             fill: parent
         }
         backgroundColor: parent.color
-        opacity: parent.opacity
         radius: "medium"
         aspect: UbuntuShape.Flat
     }
@@ -152,7 +159,6 @@ StyledItem {
         visible: fullscreen
         anchors.fill: parent
         color: parent.color
-        opacity: parent.opacity
     }
 
     onXChanged: {
@@ -333,31 +339,18 @@ StyledItem {
                 textFormat: Text.PlainText
             }
 
-            UbuntuShape {
+            ProgressBar {
                 id: valueIndicator
                 objectName: "valueIndicator"
                 visible: type === Notification.Confirmation
-                property double value
-
+                showProgressPercentage: false
+                minimumValue: 0
+                maximumValue: 100
                 anchors {
                     left: parent.left
                     right: parent.right
                 }
-
                 height: units.gu(1)
-                backgroundColor: theme.palette.normal.background
-                aspect: UbuntuShape.Flat
-                radius: "small"
-
-                UbuntuShape {
-                    id: innerBar
-                    objectName: "innerBar"
-                    width: valueIndicator.width * valueIndicator.value / 100
-                    height: units.gu(1)
-                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? theme.palette.highlighted.activity : theme.palette.normal.activity
-                    aspect: UbuntuShape.Flat
-                    radius: "small"
-                }
             }
 
             Column {

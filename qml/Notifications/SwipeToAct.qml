@@ -20,7 +20,7 @@ import Ubuntu.Components 1.3
 Item {
     id: swipeToAct
 
-    height: clickToAct ? leftButton.height : childrenRect.height
+    height: clickToAct ? leftButton.height : row.height
 
     signal leftTriggered()
     signal rightTriggered()
@@ -35,7 +35,7 @@ Item {
 
         property double opacityDelta
         readonly property double sliderHeight: units.gu(8)
-        readonly property double gap: units.gu(0.5)
+        readonly property double gap: units.gu(1)
         readonly property color sliderMainColor: theme.palette.normal.base
         readonly property color sliderBGColor: theme.palette.normal.foreground
         readonly property double halfWay: mouseArea.drag.maximumX / 2
@@ -73,7 +73,7 @@ Item {
         anchors.left: parent.left
         iconName: leftIconName
         visible: clickToAct
-        width: (parent.width / 2) - priv.gap
+        width: (parent.width / 2) - priv.gap / 2
         color: theme.palette.normal.negative
         onClicked: {
             leftTriggered()
@@ -87,7 +87,7 @@ Item {
         anchors.right: parent.right
         iconName: rightIconName
         visible: clickToAct
-        width: (parent.width / 2) - priv.gap
+        width: (parent.width / 2) - priv.gap / 2
         color: theme.palette.normal.positive
         onClicked: {
             rightTriggered()
@@ -111,7 +111,6 @@ Item {
             backgroundColor: theme.palette.normal.negative
             aspect: UbuntuShape.Flat
 
-            state: "normal"
             height: units.gu(6)
             width: units.gu(6)
             radius: "medium"
@@ -229,7 +228,6 @@ Item {
             backgroundColor: theme.palette.normal.positive
             aspect: UbuntuShape.Flat
 
-            state: "normal"
             height: units.gu(6)
             width: units.gu(6)
             radius: "medium"
