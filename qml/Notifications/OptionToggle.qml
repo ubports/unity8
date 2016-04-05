@@ -96,7 +96,7 @@ UbuntuShape {
 
                             width: parent.width
                             text: splitLabel[3]
-                            color: theme.palette.normal.backgroundText
+                            color: theme.palette.normal.backgroundSecondaryText
                             fontSize: "small"
                             font.weight: Font.Light
                             maximumLineCount: 1

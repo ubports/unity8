@@ -509,7 +509,7 @@ StyledItem {
 
                             Button {
                                 objectName: "notify_button" + index
-                                width: buttonRow.width / 2 - spacing * 2
+                                width: buttonRow.width / 2 - spacing / 2
                                 text: loader.actionLabel
                                 color: {
                                     var result = theme.palette.normal.baseText;
