@@ -87,7 +87,6 @@ void ApplicationManager::onWindowCreatedTimerTimeout()
 void ApplicationManager::onWindowCreated()
 {
     startApplication("unity8-dash");
-    focusApplication("unity8-dash");
 }
 
 int ApplicationManager::rowCount(const QModelIndex& parent) const {
@@ -269,9 +268,6 @@ bool ApplicationManager::stopApplication(const QString &appId)
     if (application == nullptr)
         return false;
 
-    if (application->appId() == focusedApplicationId()) {
-        unfocusCurrentApplication();
-    }
     application->close();
     return true;
 }
@@ -285,17 +281,6 @@ QString ApplicationManager::focusedApplicationId() const {
     return QString();
 }
 
-bool ApplicationManager::focusApplication(const QString &appId)
-{
-    ApplicationInfo *application = findApplication(appId);
-    if (application == nullptr)
-        return false;
-
-    application->setFocused(true);
-
-    return true;
-}
-
 bool ApplicationManager::requestFocusApplication(const QString &appId)
 {
     ApplicationInfo *application = findApplication(appId);
@@ -305,15 +290,6 @@ bool ApplicationManager::requestFocusApplication(const QString &appId)
     application->requestFocus();
 
     return true;
-}
-
-void ApplicationManager::unfocusCurrentApplication()
-{
-    for (ApplicationInfo *app : m_runningApplications) {
-        if (app->focused()) {
-            app->setFocused(false);
-        }
-    }
 }
 
 void ApplicationManager::buildListOfAvailableApplications()
