@@ -649,5 +649,22 @@ Item {
             // only unity8-dash surface is left
             compare(topLevelSurfaceList.count, 1);
         }
+
+
+        /*
+            Check that when an application starts while the spread is open, the
+            spread closes and that new app is brought to front (gets focused).
+         */
+        function test_launchAppWithSpreadOpen()
+        {
+            performEdgeSwipeToShowAppSpread();
+
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
+            compare(webbrowserApp.focused, true);
+        }
     }
 }

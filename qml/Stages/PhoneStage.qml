@@ -462,12 +462,6 @@ AbstractStage {
                 objectName: "spreadRepeater"
                 model: topLevelSurfaceList
 
-                onItemAdded: {
-                    if (spreadView.phase == 2) {
-                        spreadView.snapTo(spreadRepeater.count - 1);
-                    }
-                }
-
                 onItemRemoved: {
                     // Unless we're closing the app ourselves in the spread,
                     // lets make sure the spread doesn't mess up by the changing app list.
@@ -517,7 +511,7 @@ AbstractStage {
                             // new items are appended and must be manually brought to front.
                             // that's how it *must* be in order to get the animation for new
                             // surfaces working
-                            focus = true;
+                            claimFocus();
                         }
                     }
 
