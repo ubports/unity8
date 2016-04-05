@@ -529,10 +529,10 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             var notifications = findChild(shell, "notificationList");
+            var appSurfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication("camera-app");
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
             var stage = findChild(shell, "stage")
-            // Open an application
-            waitUntilApplicationWindowIsFullyVisible(app);
 
             var appSurface = app.surfaceList.get(0);
             verify(appSurface);
@@ -625,10 +625,9 @@ Rectangle {
             loadShell("phone");
             swipeAwayGreeter();
             dragLauncherIntoView();
+            var appSurfaceId = topLevelSurfaceList.nextId;
             tapOnAppIconInLauncher();
-            waitUntilApplicationWindowIsFullyVisible();
-            ApplicationManager.focusApplication(data.focusedApp)
-            waitUntilApplicationWindowIsFullyVisible();
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var greeter = findChild(shell, "greeter");
             if (data.greeterShown) {
@@ -644,7 +643,6 @@ Rectangle {
                 waitUntilDashIsFocused();
                 tryCompare(greeter, "shown", false);
             } else {
-                waitUntilApplicationWindowIsFullyVisible();
                 compare(greeter.fullyShown, data.greeterShown);
             }
 
@@ -683,10 +681,11 @@ Rectangle {
             dragLauncherIntoView();
             dashCommunicatorSpy.clear();
 
+            var appSurfaceId = topLevelSurfaceList.nextId;
             tapOnAppIconInLauncher();
-            waitUntilApplicationWindowIsFullyVisible();
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
-            verify(ApplicationManager.focusedApplicationId !== "unity8-dash")
+            tryCompareFunction(function() { return ApplicationManager.focusedApplicationId !== "unity8-dash"; }, true);
 
             //Long left swipe
             swipeFromLeftEdge(units.gu(30));
@@ -719,8 +718,9 @@ Rectangle {
 
             // Launch an app from the launcher
             dragLauncherIntoView();
+            var appSurfaceId = topLevelSurfaceList.nextId;
             tapOnAppIconInLauncher();
-            waitUntilApplicationWindowIsFullyVisible();
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             var mainAppId = ApplicationManager.focusedApplicationId;
             verify(mainAppId != "");
@@ -845,9 +845,9 @@ Rectangle {
             dragLauncherIntoView();
 
             // Launch an app from the launcher
+            var appSurfaceId = topLevelSurfaceList.nextId;
             tapOnAppIconInLauncher();
-
-            waitUntilApplicationWindowIsFullyVisible();
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             verify(ApplicationManager.focusedApplicationId !== "unity8-dash")
 
@@ -1040,12 +1040,6 @@ Rectangle {
             }
         }
 
-        function waitUntilApplicationWindowIsFullyVisible() {
-            var appDelegate = findChild(shell, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
-            var surfaceContainer = findChild(appDelegate, "surfaceContainer");
-            tryCompareFunction(function() { return surfaceContainer.surface !== null; }, true);
-        }
-
         function waitUntilDashIsFocused() {
             tryCompare(ApplicationManager, "focusedApplicationId", "unity8-dash");
         }
@@ -1102,8 +1096,9 @@ Rectangle {
             swipeAwayGreeter();
             var greeter = findChild(shell, "greeter");
 
+            var appSurfaceId = topLevelSurfaceList.nextId;
             var app = ApplicationManager.startApplication("dialer-app");
-            waitUntilApplicationWindowIsFullyVisible(app);
+            waitUntilAppWindowIsFullyLoaded(appSurfaceId);
 
             // Minimize the application we just launched
             swipeFromLeftEdge(shell.width * 0.75);
@@ -1164,11 +1159,13 @@ Rectangle {
             swipeAwayGreeter();
             var panel = findChild(shell, "panel");
             compare(panel.fullscreenMode, false);
+            var cameraSurfaceId = topLevelSurfaceList.nextId;
             var cameraApp = ApplicationManager.startApplication("camera-app");
-            waitUntilApplicationWindowIsFullyVisible(cameraApp);
+            waitUntilAppWindowIsFullyLoaded(cameraSurfaceId);
             tryCompare(panel, "fullscreenMode", true);
+            var dialerSurfaceId = topLevelSurfaceList.nextId;
             var dialerApp = ApplicationManager.startApplication("dialer-app");
-            waitUntilApplicationWindowIsFullyVisible(dialerApp);
+            waitUntilAppWindowIsFullyLoaded(dialerSurfaceId);
             tryCompare(panel, "fullscreenMode", false);
             ApplicationManager.requestFocusApplication(cameraApp.appId);
             tryCompare(panel, "fullscreenMode", true);
@@ -2037,7 +2034,7 @@ Rectangle {
             waitForRendering(shell)
 
             // Make sure the newly started one is at index 0 again
-            tryCompare(topLevelSurfaceList.applicationAt(0), "appId", application.appId);
+            tryCompareFunction(function () { return topLevelSurfaceList.applicationAt(0).appId; }, application.appId);
 
             appDelegate = appRepeater.itemAt(0);
             compare(appDelegate.y >= PanelState.panelHeight, true);
