@@ -25,6 +25,10 @@ int main(int argc, const char *argv[])
         isMirServer = true;
     }
 
+    if (getenv("ENABLE_QML_DEBUGGER")) {
+        QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
+    }
+
     ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
 
     int result = application->exec();
