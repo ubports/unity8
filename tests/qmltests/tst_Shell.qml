@@ -1383,6 +1383,16 @@ Rectangle {
             tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
 
+        function test_physicalHomeKeyPressDoesNothingWithActiveGreeter() {
+            loadShell("phone");
+
+            var windowInputMonitor = findChild(shell, "windowInputMonitor");
+            var greeter = findChild(shell, "greeter");
+
+            windowInputMonitor.homeKeyActivated();
+            verify(greeter.shown);
+        }
+
         function test_tabletLogin_data() {
             return [
                 {tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
