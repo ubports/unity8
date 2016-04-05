@@ -450,7 +450,7 @@ StyledItem {
 
                                 Button {
                                     objectName: "notify_oot_button" + index
-                                    width: oneOverTwoCase.width / 2 - spacing * 2
+                                    width: oneOverTwoCase.width / 2 - spacing / 2
                                     text: oneOverTwoLoaderBottom.actionLabel
                                     color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
                                                                                                                              : theme.palette.normal.baseText
