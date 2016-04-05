@@ -1387,10 +1387,10 @@ Rectangle {
             loadShell("phone");
 
             var windowInputMonitor = findInvisibleChild(shell, "windowInputMonitor");
-            var greeter = findChild(shell, "greeter");
+            var coverPage = findChild(shell, "coverPage");
 
             windowInputMonitor.homeKeyActivated();
-            verify(greeter.shown);
+            verify(coverPage.shown);
         }
 
         function test_tabletLogin_data() {
