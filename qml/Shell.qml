@@ -181,7 +181,7 @@ Item {
     WindowInputMonitor {
         objectName: "windowInputMonitor"
         onHomeKeyActivated: {
-            // Don't active when greeter's active, to avoid pocket presses
+            // Ignore when greeter is active, to avoid pocket presses
             if (!greeter.active) {
                 launcher.fadeOut();
                 shell.showHome();
