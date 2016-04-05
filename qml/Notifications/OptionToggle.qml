@@ -25,7 +25,7 @@ UbuntuShape {
     property bool expanded
     property var model
     property int startIndex
-    readonly property double itemHeight: units.gu(5)
+    readonly property double itemHeight: units.gu(4)
 
     signal triggered(string id)
 
