@@ -1386,7 +1386,7 @@ Rectangle {
         function test_physicalHomeKeyPressDoesNothingWithActiveGreeter() {
             loadShell("phone");
 
-            var windowInputMonitor = findChild(shell, "windowInputMonitor");
+            var windowInputMonitor = findInvisibleChild(shell, "windowInputMonitor");
             var greeter = findChild(shell, "greeter");
 
             windowInputMonitor.homeKeyActivated();
