@@ -627,26 +627,12 @@ Item {
             onActiveChanged: unlockWhenDoneWithWizard()
         }
 
-        Rectangle {
-            id: modalNotificationBackground
-
-            visible: notifications.useModal
-            color: "#000000"
-            anchors.fill: parent
-            opacity: 0.9
-
-            MouseArea {
-                anchors.fill: parent
-            }
-        }
-
         Notifications {
             id: notifications
 
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
-            inverseMode: panel.indicators.shown
             background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight

@@ -110,6 +110,7 @@ Item {
                 margin: units.gu(1)
 
                 anchors.fill: parent
+                anchors.margins: units.gu(1)
                 model: mockModel
                 hasMouse: false
             }

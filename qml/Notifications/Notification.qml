@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,38 +36,37 @@ StyledItem {
     property var type
     property var hints
     property var notification
-    property color color
+    property color color: UbuntuColors.silk // TODO theme.palette.normal.overlay
     property bool fullscreen: false
     property int maxHeight
-    property int margins
-    readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
-    readonly property bool darkOnBright: inverseMode || type === Notification.SnapDecision
-    readonly property color sdLightGrey: "#eaeaea"
-    readonly property real contentSpacing: units.gu(2)
+    property int margins: units.gu(1)
+    readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") ||
+                                      type === Notification.Interactive ||
+                                      type === Notification.Ephemeral
     readonly property bool canBeClosed: type === Notification.Ephemeral
+    readonly property real defaultOpacity: 0.95
     property bool hasMouse
-    property bool inverseMode
     property url background: ""
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + margins * 2) : 0
 
-    color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 1 - (x / notification.width) // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
+    // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
+    opacity: defaultOpacity - Math.abs(x / notification.width)
 
     theme: ThemeSettings {
-        name: darkOnBright ? "Ubuntu.Components.Themes.Ambiance" : "Ubuntu.Components.Themes.SuruDark"
+        name: "Ubuntu.Components.Themes.Ambiance"
     }
 
     state: {
         var result = "";
 
-        if (type == Notification.SnapDecision) {
-            if (ListView.view.currentIndex == index) {
+        if (type === Notification.SnapDecision) {
+            if (ListView.view.currentIndex === index) {
                 result = "expanded";
             } else {
                 if (ListView.view.count > 2) {
-                    if (ListView.view.currentIndex == -1 && index == 1) {
+                    if (ListView.view.currentIndex === -1 && index == 1) {
                         result = "expanded";
                     } else {
                         result = "contracted";
@@ -90,39 +89,30 @@ StyledItem {
     Component.onCompleted: {
         // Turn on screen as needed (Powerd.Notification means the screen
         // stays on for a shorter amount of time)
-        if (type == Notification.SnapDecision) {
+        if (type === Notification.SnapDecision) {
             Powerd.setStatus(Powerd.On, Powerd.SnapDecision);
-        } else if (type != Notification.Confirmation) {
+        } else if (type !== Notification.Confirmation) {
             Powerd.setStatus(Powerd.On, Powerd.Notification);
         }
 
         // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
-        if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
+        if (opacity == defaultOpacity && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
 
     Behavior on x {
-        id: normalXBehavior
-
         enabled: draggable
-        UbuntuNumberAnimation {
-            duration: UbuntuAnimation.FastDuration
-            easing.type: Easing.OutBounce
-        }
+        UbuntuNumberAnimation { easing.type: Easing.OutBounce }
     }
 
     onHintsChanged: {
-        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
+        if (type === Notification.Confirmation && opacity == defaultOpacity && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
 
     Behavior on height {
-        id: normalHeightBehavior
-
-        //enabled: menuItemFactory.progress == 1
-        enabled: true
         UbuntuNumberAnimation {
             duration: UbuntuAnimation.SnapDuration
         }
@@ -131,7 +121,7 @@ StyledItem {
     states:[
         State {
             name: "contracted"
-            PropertyChanges {target: notification; height: units.gu(10)}
+            PropertyChanges {target: notification; height: topRow.childrenRect.height + notification.margins * 2}
         },
         State {
             name: "expanded"
@@ -141,7 +131,7 @@ StyledItem {
 
     clip: fullscreen ? false : true
 
-    visible: type != Notification.PlaceHolder
+    visible: type !== Notification.PlaceHolder
 
     UbuntuShape {
         id: shapedBack
@@ -149,9 +139,6 @@ StyledItem {
         visible: !fullscreen
         anchors {
             fill: parent
-            leftMargin: notification.margins
-            rightMargin: notification.margins
-            topMargin: type === Notification.Confirmation ? units.gu(.5) : 0
         }
         backgroundColor: parent.color
         opacity: parent.opacity
@@ -169,7 +156,7 @@ StyledItem {
     }
 
     onXChanged: {
-        if (draggable && notification.x > 0.75 * notification.width) {
+        if (draggable && Math.abs(notification.x) > 0.75 * notification.width) {
             notification.notification.close()
         }
     }
@@ -212,11 +199,11 @@ StyledItem {
 
             drag.target: draggable ? notification : undefined
             drag.axis: Drag.XAxis
-            drag.minimumX: 0
+            drag.minimumX: -notification.width
             drag.maximumX: notification.width
 
             onClicked: {
-                if (notification.type == Notification.Interactive) {
+                if (notification.type === Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
                 } else if (hasMouse && canBeClosed) {
                     notification.notification.close()
@@ -225,7 +212,7 @@ StyledItem {
                 }
             }
             onReleased: {
-                if (notification.x < notification.width / 2) {
+                if (Math.abs(notification.x) < notification.width / 2) {
                     notification.x = 0
                 } else {
                     notification.x = notification.width
@@ -240,30 +227,28 @@ StyledItem {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                margins: 0
-                topMargin: fullscreen ? 0 : type === Notification.Confirmation ? units.gu(1) : units.gu(2)
+                margins: notification.margins
             }
 
-            spacing: type === Notification.Confirmation ? units.gu(1) : units.gu(2)
+            spacing: notification.margins
 
             Row {
                 id: topRow
 
-                spacing: contentSpacing
+                spacing: notification.margins
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
 
                 ShapedIcon {
                     id: icon
 
                     objectName: "icon"
-                    width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
+                    width: units.gu(6)
                     height: width
-                    shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
-                    visible: iconSource !== undefined && iconSource !== "" && type !== Notification.Confirmation
+                    shaped: notification.hints["x-canonical-non-shaped-icon"] !== "true"
+                    visible: iconSource !== "" && type !== Notification.Confirmation
                 }
 
                 Column {
@@ -282,6 +267,8 @@ StyledItem {
                         }
                         visible: type !== Notification.Confirmation
                         fontSize: "medium"
+                        font.weight: Font.Light
+                        color: theme.palette.normal.backgroundSecondaryText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -296,8 +283,10 @@ StyledItem {
                         }
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
+                        font.weight: Font.Light
+                        color: theme.palette.normal.backgroundTertiaryText
                         wrapMode: Text.Wrap
-                        maximumLineCount: type == Notification.SnapDecision ? 12 : 2
+                        maximumLineCount: type === Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -315,17 +304,17 @@ StyledItem {
             }
 
             ListItem.ThinDivider {
-                visible: type == Notification.SnapDecision
+                visible: type === Notification.SnapDecision && notification.state !== "contracted"
             }
 
             ShapedIcon {
                 id: centeredIcon
                 objectName: "centeredIcon"
-                width: units.gu(5)
+                width: units.gu(6)
                 height: width
-                shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
+                shaped: notification.hints["x-canonical-non-shaped-icon"] !== "true"
                 fileSource: icon.fileSource
-                visible: fileSource !== undefined && fileSource !== "" && type === Notification.Confirmation
+                visible: fileSource !== "" && type === Notification.Confirmation
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
@@ -336,6 +325,8 @@ StyledItem {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
                 fontSize: "medium"
+                font.weight: Font.Light
+                color: theme.palette.normal.backgroundSecondaryText
                 wrapMode: Text.WordWrap
                 maximumLineCount: 1
                 elide: Text.ElideRight
@@ -351,7 +342,6 @@ StyledItem {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
 
                 height: units.gu(1)
@@ -364,7 +354,7 @@ StyledItem {
                     objectName: "innerBar"
                     width: valueIndicator.width * valueIndicator.value / 100
                     height: units.gu(1)
-                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? theme.palette.normal.activity : theme.palette.highlighted.foreground
+                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? theme.palette.highlighted.activity : theme.palette.normal.activity
                     aspect: UbuntuShape.Flat
                     radius: "small"
                 }
@@ -373,7 +363,7 @@ StyledItem {
             Column {
                 id: dialogColumn
                 objectName: "dialogListView"
-                spacing: units.gu(2)
+                spacing: notification.margins
 
                 visible: count > 0
 
@@ -417,12 +407,11 @@ StyledItem {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
 
-                spacing: contentSpacing
+                spacing: notification.margins
 
-                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3
+                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3 && notification.state === "expanded"
 
                 Repeater {
                     id: oneOverTwoRepeaterTop
@@ -441,7 +430,8 @@ StyledItem {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? UbuntuColors.green : theme.palette.normal.baseText
+                                color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
+                                                                                                             : theme.palette.normal.baseText
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -450,7 +440,7 @@ StyledItem {
                 }
 
                 Row {
-                    spacing: contentSpacing
+                    spacing: notification.margins
 
                     Repeater {
                         id: oneOverTwoRepeaterBottom
@@ -469,7 +459,8 @@ StyledItem {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing * 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? UbuntuColors.red : theme.palette.normal.baseText
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
+                                                                                                                             : theme.palette.normal.baseText
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -486,10 +477,9 @@ StyledItem {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
-                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
-                spacing: contentSpacing
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible && notification.state === "expanded"
+                spacing: notification.margins
                 layoutDirection: Qt.RightToLeft
 
                 Loader {
@@ -531,11 +521,11 @@ StyledItem {
                                 text: loader.actionLabel
                                 color: {
                                     var result = theme.palette.normal.baseText;
-                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
-                                        result = UbuntuColors.green;
+                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {
+                                        result = theme.palette.normal.positive;
                                     }
-                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
-                                        result = UbuntuColors.red;
+                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true") {
+                                        result = theme.palette.normal.negative;
                                     }
                                     return result;
                                 }
@@ -554,10 +544,9 @@ StyledItem {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
 
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible && notification.state === "expanded"
                 model: notification.actions
                 expanded: false
                 startIndex: 2

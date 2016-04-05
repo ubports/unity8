@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014,2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ UbuntuShape {
                             id: delegateIcon
                             anchors {
                                 left: parent.left
-                                leftMargin: units.gu(2)
+                                leftMargin: units.gu(1)
                                 verticalCenter: parent.verticalCenter
                             }
                             visible: index !== startIndex
@@ -90,7 +90,7 @@ UbuntuShape {
                                 left: delegateIcon.visible ? delegateIcon.right : parent.left
                                 leftMargin: delegateIcon.visible ? units.gu(1) : units.gu(2)
                                 right: parent.right
-                                rightMargin: units.gu(2)
+                                rightMargin: units.gu(1)
                                 verticalCenter: delegateIcon.visible ? delegateIcon.verticalCenter : parent.verticalCenter
                             }
 
@@ -98,6 +98,7 @@ UbuntuShape {
                             text: splitLabel[3]
                             color: theme.palette.normal.backgroundText
                             fontSize: "small"
+                            font.weight: Font.Light
                             maximumLineCount: 1
                             elide: Text.ElideRight
                         }
@@ -105,7 +106,7 @@ UbuntuShape {
                         Icon {
                             anchors {
                                 right: parent.right
-                                rightMargin: units.gu(2)
+                                rightMargin: units.gu(1)
                                 verticalCenter: delegateIcon.verticalCenter
                             }
 

@@ -186,9 +186,9 @@ Item {
                 margin: units.gu(1)
 
                 anchors.fill: parent
+                anchors.margins: units.gu(1)
                 model: mockModel
                 hasMouse: fakeMouseCB.checked
-                inverseMode: inverseModeCB.checked
             }
         }
 
@@ -265,17 +265,6 @@ Item {
                     }
                     Label {
                         text: "With fake mouse"
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-                    CheckBox {
-                        id: inverseModeCB
-                    }
-                    Label {
-                        text: "Inverse mode"
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }

@@ -35,9 +35,9 @@ Item {
 
         property double opacityDelta
         readonly property double sliderHeight: units.gu(8)
-        readonly property double gap: units.gu(1)
-        readonly property color sliderMainColor: "#b2b2b2"
-        readonly property color sliderBGColor: "#f4f4f4"
+        readonly property double gap: units.gu(0.5)
+        readonly property color sliderMainColor: theme.palette.normal.base
+        readonly property color sliderBGColor: theme.palette.normal.foreground
         readonly property double halfWay: mouseArea.drag.maximumX / 2
 
         UbuntuNumberAnimation on opacityDelta {
@@ -74,7 +74,7 @@ Item {
         iconName: leftIconName
         visible: clickToAct
         width: (parent.width / 2) - priv.gap
-        color: UbuntuColors.red
+        color: theme.palette.normal.negative
         onClicked: {
             leftTriggered()
         }
@@ -88,7 +88,7 @@ Item {
         iconName: rightIconName
         visible: clickToAct
         width: (parent.width / 2) - priv.gap
-        color: UbuntuColors.green
+        color: theme.palette.normal.positive
         onClicked: {
             rightTriggered()
         }
@@ -108,7 +108,7 @@ Item {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: priv.gap
-            backgroundColor: UbuntuColors.red
+            backgroundColor: theme.palette.normal.negative
             aspect: UbuntuShape.Flat
 
             state: "normal"
@@ -226,7 +226,7 @@ Item {
             anchors.top: parent.top
             anchors.right: parent.right
             anchors.margins: priv.gap
-            backgroundColor: UbuntuColors.green
+            backgroundColor: theme.palette.normal.positive
             aspect: UbuntuShape.Flat
 
             state: "normal"

@@ -96,7 +96,7 @@ Row {
 
         width: units.gu(40)
         height: units.gu(81)
-        color: "#cccccc"
+        color: theme.palette.normal.background
 
         MouseArea{
             id: clickThroughCatcher
@@ -110,6 +110,7 @@ Row {
             margin: units.gu(1)
 
             anchors.fill: parent
+            anchors.margins: units.gu(1)
             model: mockModel
         }
     }
