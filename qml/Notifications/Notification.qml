@@ -343,14 +343,13 @@ StyledItem {
                 id: valueIndicator
                 objectName: "valueIndicator"
                 visible: type === Notification.Confirmation
-                showProgressPercentage: false
                 minimumValue: 0
                 maximumValue: 100
                 anchors {
                     left: parent.left
                     right: parent.right
                 }
-                height: units.gu(1)
+                height: units.gu(2)
             }
 
             Column {
