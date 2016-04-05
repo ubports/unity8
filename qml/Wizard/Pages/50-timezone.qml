@@ -18,7 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Wizard 0.1
-import Ubuntu.SystemSettings.TimeDate 1.0
+import Ubuntu.SystemSettings.TimeDate 1.1
 import Utils 0.1 as Utils
 import ".." as LocalComponents
 
@@ -30,6 +30,7 @@ LocalComponents.Page {
     forwardButtonSourceComponent: forwardButton
 
     property string selectedTimeZone: ""
+    property string selectedTimeZoneName: ""
     readonly property bool showingMap: wideMode && width >= units.gu(110)
 
     // for testing
@@ -67,6 +68,7 @@ LocalComponents.Page {
 
     function resetViews() {
         selectedTimeZone = ""
+        selectedTimeZoneName = ""
         tzList.currentIndex = -1
         highlightImage.source = ""
         pinImage.x = 0;
@@ -144,6 +146,7 @@ LocalComponents.Page {
                 highlightTimezone(offset);
                 ListView.view.currentIndex = index;
                 selectedTimeZone = timeZone;
+                selectedTimeZoneName = city;
                 //print("Clicked at city with coords:", longitude, latitude);
                 //print("Clicked on TZ:", timeZone);
                 //print("Highlight at (x,y):", longitudeToX(longitude, map.width), latitudeToY(latitude, map.height));
@@ -267,7 +270,7 @@ LocalComponents.Page {
             text: i18n.tr("Next")
             enabled: selectedTimeZone != ""
             onClicked: {
-                timeDatePanel.timeZone = selectedTimeZone;
+                timeDatePanel.setTimeZone(selectedTimeZone, selectedTimeZoneName);
                 pageStack.next();
             }
         }

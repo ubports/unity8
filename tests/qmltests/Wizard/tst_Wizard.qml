@@ -21,7 +21,7 @@ import MeeGo.QOfono 0.2
 import QMenuModel 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
-import Ubuntu.SystemSettings.TimeDate 1.0
+import Ubuntu.SystemSettings.TimeDate 1.1
 import Unity.Test 0.1 as UT
 import Wizard 0.1
 import "../../../qml/Wizard"
@@ -463,7 +463,7 @@ Item {
             var tzFilter = findChild(page, "tzFilter");
             verify(tzFilter);
             tap(tzFilter);
-            typeString("London");
+            typeString("Belfa");
 
             var tzList = findChild(page, "tzList");
             verify(tzList);
@@ -477,7 +477,8 @@ Item {
             // go next and verify the (mock) signal got fired
             tap(findChild(page, "forwardButton"));
             tryCompare(timezoneSpy, "count", 1);
-            tryCompare(page.tdModule, "timeZone", timezoneSpy.signalArguments[0][0]);
+            compare(timezoneSpy.signalArguments[0][0], "Europe/London");
+            compare(timezoneSpy.signalArguments[0][1], "Belfast");
         }
 
         function test_accountPage() {
