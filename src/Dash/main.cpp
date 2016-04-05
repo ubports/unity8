@@ -73,6 +73,10 @@ int main(int argc, const char *argv[])
         }
     }
 
+    if (getenv("ENABLE_QML_DEBUGGER")) {
+        QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
+    }
+
     bindtextdomain("unity8", translationDirectory().toUtf8().data());
     textdomain("unity8");
 
