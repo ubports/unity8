@@ -326,7 +326,9 @@ FocusScope {
                         Label {
                             Layout.fillWidth: true
                             Layout.preferredHeight: units.gu(6)
-                            text: model.surface ? model.surface.name : ""
+                            property string surfaceName: model.surface ? model.surface.name : ""
+                            property string applicationName: model.application ? model.application.name : ""
+                            text: surfaceName ? surfaceName : applicationName
                             wrapMode: Text.WordWrap
                             elide: Text.ElideRight
                             maximumLineCount: 2
