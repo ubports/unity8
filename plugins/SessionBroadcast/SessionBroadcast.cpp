@@ -19,9 +19,16 @@
 #include "SessionBroadcast.h"
 #include <QDBusConnection>
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
 SessionBroadcast::SessionBroadcast(QObject* parent)
   : QObject(parent)
 {
+    auto pw = getpwuid(getuid());
+    m_username = pw->pw_name;
+
     auto connection = QDBusConnection::SM_BUSNAME();
 
     connection.connect(QStringLiteral("com.canonical.Unity.Greeter.Broadcast"),
@@ -35,7 +42,7 @@ SessionBroadcast::SessionBroadcast(QObject* parent)
 void SessionBroadcast::onShowHome(const QString &username)
 {
     // Only listen to requests meant for us
-    if (username == qgetenv("USER")) {
+    if (username == m_username) {
         Q_EMIT showHome();
     }
 }

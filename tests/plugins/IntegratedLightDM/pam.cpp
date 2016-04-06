@@ -18,6 +18,10 @@
 
 #include <QtTest>
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
 class GreeterPamTest : public QObject
 {
     Q_OBJECT
@@ -37,7 +41,8 @@ private Q_SLOTS:
 
     void testRapidFireAuthentication()
     {
-        m_greeterpriv->authenticationUser = qgetenv("USER");
+        auto pw = getpwuid(getuid());
+        m_greeterpriv->authenticationUser = pw->pw_name;
         for (int i = 0; i < 100; i++) {
             m_greeterpriv->handleAuthenticate();
         }

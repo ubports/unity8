@@ -34,6 +34,10 @@
 #include <QDBusMetaType>
 #include <QDomDocument>
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
@@ -71,6 +75,11 @@ private:
     QString m_appId;
     bool m_focused;
 };
+
+QString getUsername () {
+    auto pw = getpwuid(getuid());
+    return pw->pw_name;
+}
 
 // This is a mock, specifically to test the LauncherModel
 class MockAppManager: public unity::shell::application::ApplicationManagerInterface
@@ -142,7 +151,7 @@ private:
 
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
-        QDBusReply<QVariant> reply = as->getUserPropertyAsync(QString(qgetenv("USER")),
+        QDBusReply<QVariant> reply = as->getUserPropertyAsync(getUsername(),
                                                               "com.canonical.unity.AccountsService",
                                                               "LauncherItems");
         return qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>());
@@ -167,7 +176,7 @@ private Q_SLOTS:
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
         QDBusReply<bool> addReply = accountsInterface.call(QStringLiteral("AddUser"),
-                                                           QString(qgetenv("USER")));
+                                                           getUsername());
         QVERIFY(addReply.isValid());
         QCOMPARE(addReply.value(), true);
 
@@ -193,7 +202,7 @@ private Q_SLOTS:
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
         QDBusReply<bool> removeReply = accountsInterface.call(QStringLiteral("RemoveUser"),
-                                                              QString(qgetenv("USER")));
+                                                              getUsername());
         QVERIFY(removeReply.isValid());
         QCOMPARE(removeReply.value(), true);
     }
