@@ -37,7 +37,7 @@ Item {
         readonly property double sliderHeight: units.gu(8)
         readonly property double gap: units.gu(1)
         readonly property color sliderMainColor: theme.palette.normal.base
-        readonly property color sliderBGColor: theme.palette.normal.foreground
+        readonly property color sliderBGColor: theme.palette.normal.background
         readonly property double halfWay: mouseArea.drag.maximumX / 2
 
         UbuntuNumberAnimation on opacityDelta {
@@ -194,7 +194,7 @@ Item {
             Icon {
                 anchors.fill: parent
                 anchors.margins: units.gu(1.5)
-                source: "grip-large.svg"
+                name: "grip-large"
                 color: "white"
             }
         }

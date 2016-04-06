@@ -312,7 +312,7 @@ StyledItem {
                 width: height
                 height: units.gu(1.5)
                 anchors.horizontalCenter: parent.horizontalCenter
-                color: theme.palette.normal.backgroundTertiaryText
+                color: theme.palette.normal.base
             }
 
             ShapedIcon {

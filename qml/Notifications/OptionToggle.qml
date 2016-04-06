@@ -19,7 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Components.Popups 1.3
 
-UbuntuShape {
+Rectangle {
     id: optionToggle
 
     property bool expanded
@@ -29,12 +29,13 @@ UbuntuShape {
 
     signal triggered(string id)
 
-    backgroundColor: theme.palette.normal.base
-    aspect: UbuntuShape.Flat
+    color: theme.palette.normal.background
     height: expanded ? (optionToggleRepeater.count - startIndex) * itemHeight : itemHeight
     width: parent.width
-    radius: "medium"
+    radius: itemHeight/4
     clip: true
+    border.width: units.dp(1)
+    border.color: theme.palette.normal.base
 
     Column {
         id: optionToggleContent
