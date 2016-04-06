@@ -573,10 +573,7 @@ Item {
                 var notification = findChild(notifications, "notification" + (mockModel.count - 1))
                 waitForRendering(notification);
                 verify(notification, "notification wasn't found");
-
-                var topRow = findChild(notification, "topRow");
-                tryCompare(notification, "height", notification.state === "contracted" ? topRow.childrenRect.height + notification.margins * 2
-                                                                                       : notification.implicitHeight);
+                tryCompare(notification, "height", notification.implicitHeight);
 
                 var icon = findChild(notification, "icon")
                 var centeredIcon = findChild(notification, "centeredIcon")
@@ -617,8 +614,8 @@ Item {
                 for (var i = 0; i < mockModel.count; ++i) {
                     var n = findChild(notifications, "notification" + i)
                     waitForRendering(n);
-                    var topRow = findChild(n, "topRow");
-                    tryCompare(n, "height", n.state === "contracted" ? topRow.childrenRect.height + n.margins * 2 : n.implicitHeight);
+                    var outterColumn = findChild(n, "outterColumn");
+                    tryCompare(n, "height", outterColumn.height + n.margins * 2);
                 }
 
                 if (data.hasSound) {

@@ -217,6 +217,7 @@ StyledItem {
 
         Column {
             id: outterColumn
+            objectName: "outterColumn"
 
             anchors {
                 left: parent.left
@@ -229,7 +230,6 @@ StyledItem {
 
             Row {
                 id: topRow
-                objectName: "topRow"
 
                 spacing: notification.margins
                 anchors {
