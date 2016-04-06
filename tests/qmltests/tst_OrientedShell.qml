@@ -1142,6 +1142,7 @@ Rectangle {
             // Prepare inconsistent beginning (mouse & staged mode)
             MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
             usageModeSelector.selectStaged();
+            compare(unity8Settings.usageMode, "Staged");
 
             // Load shell, and have it pick desktop
             loadShell("desktop");
