@@ -49,6 +49,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(GSettingsSchemaQml* schema READ schema NOTIFY schemaChanged)
+    Q_PROPERTY(QVariant disableHeight READ disableHeight WRITE setDisableHeight NOTIFY disableHeightChanged)
     Q_PROPERTY(QVariant pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
     Q_PROPERTY(QVariant usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
     Q_PROPERTY(QVariant lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY lockedOutTimeChanged)
@@ -63,6 +64,7 @@ public:
     void componentComplete();
 
     GSettingsSchemaQml * schema() const;
+    QVariant disableHeight() const;
     QVariant pictureUri() const;
     QVariant usageMode() const;
     QVariant lockedOutTime() const;
@@ -70,6 +72,7 @@ public:
     QVariant autohideLauncher() const;
     QVariant launcherWidth() const;
 
+    void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
     void setUsageMode(const QVariant &usageMode);
     void setLockedOutTime(const QVariant &timestamp);
@@ -78,6 +81,7 @@ public:
     void setLauncherWidth(const QVariant &launcherWidth);
 
 Q_SIGNALS:
+    void disableHeightChanged();
     void schemaChanged();
     void pictureUriChanged();
     void usageModeChanged();
@@ -101,6 +105,9 @@ public:
     static GSettingsControllerQml* instance();
     ~GSettingsControllerQml();
 
+    bool disableHeight() const;
+    Q_INVOKABLE void setDisableHeight(bool val);
+
     QString pictureUri() const;
     Q_INVOKABLE void setPictureUri(const QString &str);
 
@@ -120,8 +127,9 @@ public:
     Q_INVOKABLE void setLauncherWidth(int launcherWidth);
 
 Q_SIGNALS:
+    void disableHeightChanged();
     void pictureUriChanged(const QString&);
-    void usageModeChanged(const QString &usageMode);
+    void usageModeChanged(const QString&);
     void lockedOutTimeChanged(qint64 timestamp);
     void lifecycleExemptAppidsChanged(const QStringList&);
     void autohideLauncherChanged(bool autohideLauncher);
@@ -130,6 +138,7 @@ Q_SIGNALS:
 private:
     GSettingsControllerQml();
 
+    bool m_disableHeight;
     QString m_pictureUri;
     QString m_usageMode;
     qint64 m_lockedOutTime;

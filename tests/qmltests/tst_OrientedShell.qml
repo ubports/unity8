@@ -45,17 +45,17 @@ Rectangle {
         property int savedOrientation
     }
 
-    Connections {
-        target: GSettingsController
+    GSettings {
+        id: unity8Settings
+        schema.id: "com.canonical.Unity8"
         onUsageModeChanged: {
             usageModeSelector.selectedIndex = usageModeSelector.model.indexOf(usageMode)
         }
     }
 
-    QtObject{
-        id: mockOskSettings
-        property bool stayHidden: false
-        property bool disableHeight: false
+    GSettings {
+        id: oskSettings
+        schema.id: "com.canonical.keyboard.maliit"
     }
 
     InputDeviceModel {
@@ -157,7 +157,6 @@ Rectangle {
         sourceComponent: Component {
             OrientedShell {
                 anchors.fill: parent
-                oskSettings: mockOskSettings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
                 orientationLock: mockOrientationLock
@@ -1087,7 +1086,7 @@ Rectangle {
 
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(inputMethod, "enabled", true);
-            tryCompare(mockOskSettings, "disableHeight", false);
+            tryCompare(oskSettings, "disableHeight", false);
 
             if (data.kbd) {
                 MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
@@ -1098,14 +1097,7 @@ Rectangle {
 
             tryCompare(shell, "usageScenario", data.expectedMode);
             tryCompare(inputMethod, "enabled", data.oskExpected);
-            tryCompare(mockOskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
-
-            if (data.kbd) {
-                MockInputDeviceBackend.removeDevice("/kbd0");
-            }
-            if (data.mouse) {
-                MockInputDeviceBackend.removeDevice("/mouse0");
-            }
+            tryCompare(oskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
 
             // Restore width
             orientedShellLoader.width = oldWidth;
@@ -1154,6 +1146,7 @@ Rectangle {
             // Load shell, and have it pick desktop
             loadShell("desktop");
             compare(shell.usageScenario, "desktop");
+            compare(unity8Settings.usageMode, "Windowed");
         }
 
         function test_overrideWindowed() {

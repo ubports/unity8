@@ -21,7 +21,8 @@
 GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 
 GSettingsControllerQml::GSettingsControllerQml()
-    : m_usageMode("Staged")
+    : m_disableHeight(false)
+    , m_usageMode("Staged")
     , m_autohideLauncher(false)
     , m_launcherWidth(8)
 {
@@ -36,6 +37,19 @@ GSettingsControllerQml* GSettingsControllerQml::instance()  {
         s_controllerInstance = new GSettingsControllerQml();
     }
     return s_controllerInstance;
+}
+
+bool GSettingsControllerQml::disableHeight() const
+{
+    return m_disableHeight;
+}
+
+void GSettingsControllerQml::setDisableHeight(bool val)
+{
+    if (val != m_disableHeight) {
+        m_disableHeight = val;
+        Q_EMIT disableHeightChanged();
+    }
 }
 
 QString GSettingsControllerQml::pictureUri() const
@@ -162,6 +176,10 @@ void GSettingsQml::componentComplete()
     // values until we are completed loading.
     m_valid = true;
 
+    // FIXME: We should make this dynamic, instead of hard-coding all possible
+    // properties in one object.  We should create properties based on the schema.
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::disableHeightChanged,
+            this, &GSettingsQml::disableHeightChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::pictureUriChanged,
             this, &GSettingsQml::pictureUriChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::usageModeChanged,
@@ -175,6 +193,7 @@ void GSettingsQml::componentComplete()
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::launcherWidthChanged,
             this, &GSettingsQml::launcherWidthChanged);
 
+    Q_EMIT disableHeightChanged();
     Q_EMIT pictureUriChanged();
     Q_EMIT usageModeChanged();
     Q_EMIT lockedOutTimeChanged();
@@ -185,6 +204,22 @@ void GSettingsQml::componentComplete()
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
     return m_schema;
+}
+
+QVariant GSettingsQml::disableHeight() const
+{
+    if (m_valid && m_schema->id() == "com.canonical.keyboard.maliit") {
+        return GSettingsControllerQml::instance()->disableHeight();
+    } else {
+        return QVariant();
+    }
+}
+
+void GSettingsQml::setDisableHeight(const QVariant &val)
+{
+    if (m_valid && m_schema->id() == "com.canonical.keyboard.maliit") {
+        GSettingsControllerQml::instance()->setDisableHeight(val.toBool());
+    }
 }
 
 QVariant GSettingsQml::pictureUri() const
