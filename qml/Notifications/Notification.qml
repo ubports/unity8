@@ -240,6 +240,7 @@ StyledItem {
 
             Row {
                 id: topRow
+                objectName: "topRow"
 
                 spacing: notification.margins
                 anchors {

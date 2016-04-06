@@ -571,10 +571,12 @@ Item {
                 waitForRendering(notifications);
 
                 var notification = findChild(notifications, "notification" + (mockModel.count - 1))
-                verify(notification !== undefined, "notification wasn't found");
-
                 waitForRendering(notification);
-                tryCompare(notification, "height", notification.state === "contracted" ? units.gu(10) : notification.implicitHeight);
+                verify(notification, "notification wasn't found");
+
+                var topRow = findChild(notification, "topRow");
+                tryCompare(notification, "height", notification.state === "contracted" ? topRow.childrenRect.height + notification.margins * 2
+                                                                                       : notification.implicitHeight);
 
                 var icon = findChild(notification, "icon")
                 var centeredIcon = findChild(notification, "centeredIcon")
@@ -585,7 +587,6 @@ Item {
                 var buttonRow = findChild(notification, "buttonRow")
                 var valueIndicator = findChild(notification, "valueIndicator")
                 var valueLabel = findChild(notification, "valueLabel")
-                var innerBar = findChild(notification, "innerBar")
 
                 compare(icon.visible, data.iconVisible, "avatar-icon visibility is incorrect")
                 if (icon.visible) {
@@ -596,9 +597,6 @@ Item {
                     compare(centeredIcon.shaped, data.shaped, "shaped-status is incorrect")
                 }
                 compare(valueIndicator.visible, data.valueVisible, "value-indicator visibility is incorrect")
-                if (valueIndicator.visible) {
-                    verify(innerBar.color === data.valueTinted ? UbuntuColors.orange : "white", "value-bar has the wrong color-tint")
-                }
                 compare(valueLabel.visible, data.valueLabelVisible, "value-label visibility is incorrect")
 
                 // test input does not fall through
@@ -618,7 +616,9 @@ Item {
                 // for their height animations to finish before continuing
                 for (var i = 0; i < mockModel.count; ++i) {
                     var n = findChild(notifications, "notification" + i)
-                    tryCompare(n, "height", n.state === "contracted" ? units.gu(10) : n.implicitHeight);
+                    waitForRendering(n);
+                    var topRow = findChild(n, "topRow");
+                    tryCompare(n, "height", n.state === "contracted" ? topRow.childrenRect.height + n.margins * 2 : n.implicitHeight);
                 }
 
                 if (data.hasSound) {
@@ -651,7 +651,7 @@ Item {
                         tryCompareFunction(function() { return comboButton.expanded === false; }, true);
 
                         // click to expand
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded === true; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded; }, true);
 
                         // try clicking on choices in expanded comboList
                         var choiceButton1 = findChild(notification, "notify_button3")
@@ -665,7 +665,7 @@ Item {
                         actionSpy.clear()
 
                         // click to collapse
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return !comboButton.expanded; }, true);
                     } else {
                         mouseClick(buttonCancel)
                         compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")

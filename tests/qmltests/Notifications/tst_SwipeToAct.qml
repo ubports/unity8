@@ -302,6 +302,7 @@ Item {
 
                     // add a mock mouse, test clicking the left/right buttons
                     notifications.hasMouse = true;
+                    waitForRendering(notification);
                     var leftButton = findChild(swipeButton, "leftButton");
                     var rightButton = findChild(swipeButton, "rightButton");
 
