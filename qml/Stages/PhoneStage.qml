@@ -540,7 +540,7 @@ AbstractStage {
                         target: model.application
                         onFocusRequested: {
                             if (!model.surface) {
-                                // when an app has no surfaces, we assume there's only  one entry representing it,
+                                // when an app has no surfaces, we assume there's only one entry representing it:
                                 // this delegate.
                                 claimFocus();
                             } else {

@@ -296,7 +296,7 @@ AbstractStage {
                     target: model.application
                     onFocusRequested: {
                         if (!model.surface) {
-                            // when an app has no surfaces, we assume there's only  one entry representing it,
+                            // when an app has no surfaces, we assume there's only one entry representing it:
                             // this delegate.
                             claimFocus();
                         } else {
@@ -311,6 +311,12 @@ AbstractStage {
 
                     if (focus) {
                         priv.focusedAppDelegate = appDelegate;
+
+                        // If we're orphan (!parent) it means this stage is no longer the current one
+                        // and will be deleted shortly. So we should no longer have a say over the model
+                        if (root.parent) {
+                            topLevelSurfaceList.raiseId(model.id);
+                        }
                     } else if (!focus && priv.focusedAppDelegate === appDelegate) {
                         priv.focusedAppDelegate = null;
                         // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
