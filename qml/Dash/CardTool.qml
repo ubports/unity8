@@ -185,15 +185,13 @@ Item {
     Item {
         id: socialActionsModel
         property var model: []
-        readonly property bool hasActions: {
-            var actions = components["social-actions"];
-            var hasActionsFlag = (actions != undefined);
+        readonly property bool hasActions: components["social-actions"] != undefined
 
+        onHasActionsChanged: {
             model = []
-            if (hasActionsFlag) {
-                model.push( {"id":"text",  "icon":"image://theme/ok" } );
+            if (hasActions) {
+                model.push( {"id":"text", "icon":"image://theme/ok" } );
             }
-            return hasActionsFlag
         }
     }
 
