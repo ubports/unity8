@@ -346,11 +346,12 @@ StyledItem {
                 visible: type === Notification.Confirmation
                 minimumValue: 0
                 maximumValue: 100
+                showProgressPercentage: false
                 anchors {
                     left: parent.left
                     right: parent.right
                 }
-                height: units.gu(2)
+                height: units.gu(1)
             }
 
             Column {
