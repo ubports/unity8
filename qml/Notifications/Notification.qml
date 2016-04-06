@@ -36,7 +36,7 @@ StyledItem {
     property var type
     property var hints
     property var notification
-    property color color: theme.palette.normal.overlay
+    property color color: theme.palette.normal.background
     property bool fullscreen: false
     property int maxHeight
     property int margins: units.gu(1)
@@ -421,12 +421,13 @@ StyledItem {
                         Component {
                             id: oneOverTwoButtonTop
 
-                            Button {
+                            NotificationButton {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
+                                outline: notification.hints["x-canonical-private-affirmative-tint"] !== "true"
                                 color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
-                                                                                                             : theme.palette.normal.baseText
+                                                                                                             : theme.palette.normal.background
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -450,12 +451,13 @@ StyledItem {
                             Component {
                                 id: oneOverTwoButtonBottom
 
-                                Button {
+                                NotificationButton {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing / 2
                                     text: oneOverTwoLoaderBottom.actionLabel
+                                    outline: notification.hints["x-canonical-private-rejection-tint"] !== "true"
                                     color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
-                                                                                                                             : theme.palette.normal.baseText
+                                                                                                                             : theme.palette.normal.background
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -510,12 +512,14 @@ StyledItem {
                         Component {
                             id: actionButton
 
-                            Button {
+                            NotificationButton {
                                 objectName: "notify_button" + index
                                 width: buttonRow.width / 2 - spacing / 2
                                 text: loader.actionLabel
+                                outline: (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] !== "true") ||
+                                         (index == 1 && notification.hints["x-canonical-private-rejection-tint"] !== "true")
                                 color: {
-                                    var result = theme.palette.normal.baseText;
+                                    var result = theme.palette.normal.background;
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {
                                         result = theme.palette.normal.positive;
                                     }

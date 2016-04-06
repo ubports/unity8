@@ -66,13 +66,14 @@ Item {
         }
     }
 
-    Button {
+    NotificationButton {
         id: leftButton
         objectName: "leftButton"
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         iconName: leftIconName
         visible: clickToAct
+        outline: false
         width: (parent.width / 2) - priv.gap / 2
         color: theme.palette.normal.negative
         onClicked: {
@@ -80,13 +81,14 @@ Item {
         }
     }
 
-    Button {
+    NotificationButton {
         id: rightButton
         objectName: "rightButton"
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         iconName: rightIconName
         visible: clickToAct
+        outline: false
         width: (parent.width / 2) - priv.gap / 2
         color: theme.palette.normal.positive
         onClicked: {

@@ -32,7 +32,7 @@ Rectangle {
     color: theme.palette.normal.background
     height: expanded ? (optionToggleRepeater.count - startIndex) * itemHeight : itemHeight
     width: parent.width
-    radius: itemHeight/4
+    radius: units.dp(4)
     clip: true
     border.width: units.dp(1)
     border.color: theme.palette.normal.base
