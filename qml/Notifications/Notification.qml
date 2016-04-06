@@ -303,8 +303,8 @@ StyledItem {
                     id: secondaryIcon
 
                     objectName: "secondaryIcon"
-                    width: units.gu(3)
-                    height: units.gu(3)
+                    width: units.gu(2)
+                    height: width
                     visible: status === Image.Ready
                     fillMode: Image.PreserveAspectCrop
                 }
