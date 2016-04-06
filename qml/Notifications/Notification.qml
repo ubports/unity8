@@ -251,7 +251,7 @@ StyledItem {
 
                 Column {
                     id: labelColumn
-                    width: secondaryIcon.visible ? parent.width - x - units.gu(4.5) : parent.width - x
+                    width: secondaryIcon.visible ? parent.width - x - units.gu(3) : parent.width - x
 
                     anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
 
