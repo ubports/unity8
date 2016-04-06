@@ -118,17 +118,6 @@ StyledItem {
         }
     }
 
-    states:[
-        State {
-            name: "contracted"
-            PropertyChanges {target: notification; height: topRow.childrenRect.height + notification.margins * 2}
-        },
-        State {
-            name: "expanded"
-            PropertyChanges {target: notification; height: implicitHeight}
-        }
-    ]
-
     visible: type !== Notification.PlaceHolder
 
     BorderImage {
@@ -312,6 +301,16 @@ StyledItem {
 
             ListItem.ThinDivider {
                 visible: type === Notification.SnapDecision && notification.state !== "contracted"
+            }
+
+            Icon {
+                id: chevron
+                name: "go-down"
+                visible: type === Notification.SnapDecision && notification.state === "contracted"
+                width: height
+                height: visible ? units.gu(1.5) : 0
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: theme.palette.normal.backgroundTertiaryText
             }
 
             ShapedIcon {
