@@ -115,6 +115,7 @@ void ApplicationInfo::createSurface()
             setState(Running);
         }
     });
+    connect(surface, &MirSurface::focusRequested, this, &ApplicationInfo::focusRequested);
 
     if (m_state == Starting) {
         if (m_requestedState == RequestedRunning) {
