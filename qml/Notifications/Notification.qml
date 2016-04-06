@@ -49,7 +49,9 @@ StyledItem {
     property url background: ""
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + margins * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight :
+                                                                      outterColumn.height + margins + (state !== "contracted" ? + margins : 0))
+                                                      : 0
 
     // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
     opacity: defaultOpacity - Math.abs(x / notification.width)
@@ -308,7 +310,7 @@ StyledItem {
                 name: "go-down"
                 visible: type === Notification.SnapDecision && notification.state === "contracted"
                 width: height
-                height: visible ? units.gu(1.5) : 0
+                height: units.gu(1.5)
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: theme.palette.normal.backgroundTertiaryText
             }
