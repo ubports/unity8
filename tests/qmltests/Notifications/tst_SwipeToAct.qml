@@ -73,7 +73,7 @@ Item {
                 summary: "Incoming call",
                 body: "Frank Zappa\n+44 (0)7736 027340",
                 icon: "../../tests/graphics/avatars/amanda.png",
-                secondaryIcon: "incoming-call",
+                secondaryIcon: "image://theme/incoming-call",
                 actions: [{ id: "ok_id", label: "Ok"},
                     { id: "cancel_id", label: "Cancel"},
                     { id: "foo_id", label: "Foo"},

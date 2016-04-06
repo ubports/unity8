@@ -22,8 +22,8 @@ Rectangle {
 
     height: units.gu(4)
     radius: units.dp(4)
-    border.width: outline ? units.dp(1) : undefined
-    border.color: outline ? theme.palette.normal.base : undefined
+    border.width: outline ? units.dp(1) : 0
+    border.color: outline ? theme.palette.normal.base : "transparent"
 
     // to be set from outside
     property bool outline: true

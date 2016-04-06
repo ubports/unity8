@@ -76,9 +76,7 @@ Item {
         outline: false
         width: (parent.width / 2) - priv.gap / 2
         color: theme.palette.normal.negative
-        onClicked: {
-            leftTriggered()
-        }
+        onClicked: leftTriggered()
     }
 
     NotificationButton {
@@ -91,9 +89,7 @@ Item {
         outline: false
         width: (parent.width / 2) - priv.gap / 2
         color: theme.palette.normal.positive
-        onClicked: {
-            rightTriggered()
-        }
+        onClicked: rightTriggered()
     }
 
     UbuntuShape {
