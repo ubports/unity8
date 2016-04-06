@@ -149,7 +149,7 @@ StyledItem {
             fill: parent
         }
         backgroundColor: parent.color
-        radius: "medium"
+        radius: "small"
         aspect: UbuntuShape.Flat
     }
 
