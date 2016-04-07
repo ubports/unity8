@@ -258,13 +258,6 @@ AbstractStage {
             spreadView.contentX = highlightIndex * spreadView.contentWidth / (spreadRepeater.count + 2)
         }
 
-        function setAppStage(appId, stage) {
-            var app = root.applicationManager.findApplication(appId);
-            if (app) {
-                app.stage = stage;
-            }
-        }
-
         readonly property bool sideStageEnabled: root.shellOrientation == Qt.LandscapeOrientation ||
                                                  root.shellOrientation == Qt.InvertedLandscapeOrientation
     }
