@@ -48,7 +48,7 @@ StyledItem {
     property url background: ""
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + 2* margins) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + shapedBack.anchors.topMargin + margins * 2) : 0
 
     // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
     opacity: defaultOpacity - Math.abs(x / notification.width)
@@ -131,12 +131,14 @@ StyledItem {
 
     UbuntuShape {
         id: shapedBack
+        objectName: "shapedBack"
 
         visible: !fullscreen
         anchors {
             fill: parent
             leftMargin: notification.margins
             rightMargin: notification.margins
+            topMargin: index == 0 ? notification.margins : 0
         }
         backgroundColor: parent.color
         radius: "small"

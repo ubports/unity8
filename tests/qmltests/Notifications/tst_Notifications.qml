@@ -619,7 +619,8 @@ Item {
                     var n = findChild(notifications, "notification" + i)
                     waitForRendering(n);
                     var outterColumn = findChild(n, "outterColumn");
-                    tryCompare(n, "height", outterColumn.height + n.margins * 2);
+                    var shapedBack = findChild(n, "shapedBack");
+                    tryCompare(n, "height", outterColumn.height + n.margins * 2 + shapedBack.anchors.topMargin);
                 }
 
                 if (data.hasSound) {
