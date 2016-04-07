@@ -619,7 +619,7 @@ Item {
                     var n = findChild(notifications, "notification" + i)
                     waitForRendering(n);
                     var outterColumn = findChild(n, "outterColumn");
-                    tryCompare(n, "height", outterColumn.height + n.margins + (n.state !== "contracted" ? + n.margins : 0));
+                    tryCompare(n, "height", outterColumn.height + n.margins * 2);
                 }
 
                 if (data.hasSound) {

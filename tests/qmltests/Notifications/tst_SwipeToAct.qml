@@ -35,7 +35,7 @@ Item {
 
             QtObject {
                 function invokeAction(actionId) {
-                    mockModel.actionInvoked(actionId);
+                    mockModel.actionInvoked(actionId)
                 }
 
                 function close() {
