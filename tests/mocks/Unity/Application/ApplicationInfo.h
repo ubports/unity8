@@ -44,6 +44,8 @@ class ApplicationInfo : public ApplicationInfoInterface {
     // whether the test code will explicitly control the creation of the application surface
     Q_PROPERTY(bool manualSurfaceCreation READ manualSurfaceCreation WRITE setManualSurfaceCreation NOTIFY manualSurfaceCreationChanged)
 
+    Q_PROPERTY(QString screenshot READ screenshot CONSTANT)
+
 public:
     ApplicationInfo(QObject *parent = nullptr);
     ApplicationInfo(const QString &appId, QObject *parent = nullptr);

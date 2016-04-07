@@ -39,10 +39,12 @@ Rectangle {
         id: surfaceContainerComponent
 
         SurfaceContainer {
-            id: surfaceContainer
             anchors.fill: parent
             focus: true
             interactive: interactiveCheckbox.checked
+            Component.onDestruction: {
+                surfaceContainerLoader.itemDestroyed = true;
+            }
         }
     }
 
@@ -56,6 +58,7 @@ Rectangle {
             left: parent.left
         }
         width: units.gu(40)
+        property bool itemDestroyed: false
         sourceComponent: surfaceContainerComponent
     }
 
@@ -102,7 +105,7 @@ Rectangle {
                             application.setState(ApplicationInfoInterface.Starting);
 
                             surfaceContainerLoader.item.surface = SurfaceManager.createSurface("foo",
-                                    Mir.NormalType, Mir.MaximizedState, application);
+                                    Mir.NormalType, Mir.MaximizedState, application.screenshot);
 
                             application.setState(ApplicationInfoInterface.Running);
                         } else {
@@ -143,18 +146,27 @@ Rectangle {
 
     UT.UnityTestCase {
         id: testCase
-        name: "SessionContainer"
+        name: "SurfaceContainer"
 
         property Item surfaceContainer: surfaceContainerLoader.status === Loader.Ready ? surfaceContainerLoader.item : null
 
         function cleanup() {
             // reload our test subject to get it in a fresh state once again
+
+            surfaceContainerLoader.itemDestroyed = false;
             surfaceContainerLoader.active = false;
+
+            tryCompare(surfaceContainerLoader, "status", Loader.Null);
+            tryCompare(surfaceContainerLoader, "item", null);
+            tryCompare(surfaceContainerLoader, "itemDestroyed", true);
+
+            killApps();
+
             surfaceCheckbox.checked = false;
             interactiveCheckbox.checked = true;
-            surfaceContainerLoader.active = true;
 
-            tryCompare(surfaceContainerLoader.item, "surface", null);
+            surfaceContainerLoader.active = true;
+            tryCompare(surfaceContainerLoader, "status", Loader.Ready);
         }
 
         when: windowShown
