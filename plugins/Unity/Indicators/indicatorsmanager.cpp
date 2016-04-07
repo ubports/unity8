@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Nick Dedekind <nick.dedekind@canonical.com>
  */
 
 #include "indicatorsmanager.h"
@@ -286,12 +284,12 @@ Indicator::Ptr IndicatorsManager::indicator(const QString& indicator_name)
     new_indicator->init(data->m_fileInfo.fileName(), settings);
 
     // convergence:
-    // 1) enable session indicator conditionally, typically when running in a multisession/multiuser environment
+    // 1) enable session indicator
     // 2) on a PC, switch the battery/power indicator to desktop mode,
     //    can't control brightness for now and phone-on-desktop broken (FIXME)
     //
     // The rest of the indicators respect their default profile (which is "phone", even on desktop PCs)
-    if ((new_indicator->identifier() == QStringLiteral("indicator-session") && m_platform.isMultiSession())
+    if ((new_indicator->identifier() == QStringLiteral("indicator-session"))
             || (new_indicator->identifier() == QStringLiteral("indicator-power") && m_platform.isPC())) {
         new_indicator->setProfile(QStringLiteral("desktop"));
     } else {

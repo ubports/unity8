@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014,2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,9 +31,11 @@ ListItem.Empty {
     signal linkActivated(string link)
 
     implicitHeight: Math.max(label.height, checkBox.height)
+    highlightWhenPressed: false
 
-    Item {
+    FocusScope {
         anchors.fill: parent
+        focus: true
 
         CheckBox {
             id: checkBox
@@ -77,8 +79,14 @@ ListItem.Empty {
                 rightMargin: listItem.rightMargin
             }
             wrapMode: Text.Wrap
-            linkColor: theme.palette.normal.foregroundText
+            linkColor: UbuntuColors.orange
+            color: textColor
+            font.weight: Font.Light
+            fontSize: "small"
+            lineHeight: 1.2
             onLinkActivated: listItem.linkActivated(link)
         }
+
+        Keys.onSpacePressed: checkBox.trigger()
     }
 }

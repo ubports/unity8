@@ -47,6 +47,7 @@ public:
     //getters
     QString name() const { return m_name; }
     bool live() const { return m_live; }
+    bool fullscreen() const { return m_fullscreen; }
     ApplicationInfo* application() const { return m_application; }
     MirSurface *lastSurface() const;
     ObjectListModel<MirSurface>* surfaces() const;
@@ -57,6 +58,7 @@ public:
     void removeSurface(MirSurface* surface);
     void setScreenshot(const QUrl& m_screenshot);
     void setLive(bool live);
+    void setFullscreen(bool fullscreen);
 
     Q_INVOKABLE void addChildSession(Session* session);
     void insertChildSession(uint index, Session* session);
@@ -68,12 +70,16 @@ Q_SIGNALS:
     void liveChanged(bool live);
     void surfaceAdded(MirSurface *surface);
     void lastSurfaceChanged(MirSurface *surface);
+    void fullscreenChanged(bool fullscreen);
 
     // internal mock use
     void deregister();
 
 public Q_SLOTS:
     Q_INVOKABLE void createSurface();
+
+private Q_SLOTS:
+    void updateFullscreenProperty();
 
 private:
     SessionModel* childSessions() const;
@@ -87,6 +93,7 @@ private:
     Session* m_parentSession;
     SessionModel* m_children;
     ObjectListModel<MirSurface> m_surfaces;
+    bool m_fullscreen;
 
     friend class ApplicationTestInterface;
 };

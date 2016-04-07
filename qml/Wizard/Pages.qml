@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013,2014,2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,40 +15,77 @@
  */
 
 import QtQuick 2.4
+import MeeGo.QOfono 0.2
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Ubuntu.SystemSettings.Diagnostics 1.0
 import Wizard 0.1
 import "../Components"
 
-Item {
+StyledItem {
     id: root
     objectName: "wizardPages"
     focus: true
-
-    // The background wallpaper to use
-    property string background
 
     signal quit()
 
     // These should be set by a security page and we apply the settings when
     // the user exits the wizard.
-    property int passwordMethod: UbuntuSecurityPrivacyPanel.Passcode
+    property int passwordMethod: UbuntuSecurityPrivacyPanel.Passphrase
     property string password: ""
+
+    property bool seenSIMPage: false // we want to see the SIM page at most once
+
+    property alias modemManager: modemManager
+    property alias simManager0: simManager0
+    property alias simManager1: simManager1
+
+    theme: ThemeSettings {
+        name: "Ubuntu.Components.Themes.Ambiance"
+    }
 
     UbuntuSecurityPrivacyPanel {
         id: securityPrivacy
         objectName: "securityPrivacy"
     }
 
+    UbuntuDiagnostics {
+        id: diagnostics
+        objectName: "diagnostics"
+    }
+
+    OfonoManager { // need it here for the language and country detection
+        id: modemManager
+        readonly property bool gotSimCard: available && ((simManager0.ready && simManager0.present) || (simManager1.ready && simManager1.present))
+        property bool ready: false
+        onModemsChanged: {
+            ready = true;
+        }
+    }
+
+    // Ideally we would query the system more cleverly than hardcoding two
+    // sims.  But we don't yet have a more clever way.  :(
+    OfonoSimManager {
+        id: simManager0
+        modemPath: modemManager.modems.length >= 1 ? modemManager.modems[0] : ""
+    }
+
+    OfonoSimManager {
+        id: simManager1
+        modemPath: modemManager.modems.length >= 2 ? modemManager.modems[1] : ""
+    }
+
     function quitWizard() {
         pageStack.currentPage.enabled = false;
 
-        var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod)
-        if (errorMsg !== "") {
-            // Ignore (but log) any errors, since we're past where the user set
-            // the method.  Worst case, we just leave the user with a swipe
-            // security method and they fix it in the system settings.
-            console.log("Error setting security method:", errorMsg)
+        if (password != "") {
+            var errorMsg = securityPrivacy.setSecurity("", password, passwordMethod)
+            if (errorMsg !== "") {
+                // Ignore (but log) any errors, since we're past where the user set
+                // the method.  Worst case, we just leave the user with a swipe
+                // security method and they fix it in the system settings.
+                console.log("Error setting security method:", errorMsg)
+            }
         }
 
         quit();
@@ -58,19 +95,10 @@ Item {
         anchors.fill: parent
     }
 
-    Image {
-        id: image
-        // Use x/y/height/width instead of anchors so that we don't adjust
-        // the image when the OSK appears.
-        x: 0
-        y: 0
-        height: root.height
-        width: root.width
-        sourceSize.height: height
-        sourceSize.width: width
-        source: root.background
-        fillMode: Image.PreserveAspectCrop
-        visible: status === Image.Ready
+    Rectangle {
+        id: background
+        anchors.fill: root
+        color: "#fdfdfd"
     }
 
     PageList {
@@ -86,18 +114,26 @@ Item {
             // If we've opened any extra (non-main) pages, pop them before
             // continuing so back button returns to the previous main page.
             while (pageList.index < pageStack.depth - 1)
-                pop()
-            load(pageList.next())
+                pop();
+            load(pageList.next());
         }
 
         function prev() {
-            if (pageList.index >= pageStack.depth - 1)
-                pageList.prev() // update pageList.index, but not for extra pages
+            var isPrimaryPage = currentPage && !currentPage.customTitle;
+            if (pageList.index >= pageStack.depth - 1) {
+                pageList.prev(); // update pageList.index, but not for extra pages
+            }
             pop()
             if (!currentPage || currentPage.opacity === 0) { // undo skipped pages
-                prev()
+                prev();
             } else {
-                currentPage.enabled = true
+                currentPage.enabled = true;
+            }
+
+            if (isPrimaryPage) {
+                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.LeftToRight);
+            } else {
+                currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
             }
         }
 
@@ -115,6 +151,13 @@ Item {
             // Check for immediate skip or not.  We may have to wait for
             // skipValid to be assigned (see Connections object below)
             checkSkip()
+
+            var isPrimaryPage = !currentPage.customTitle;
+            if (isPrimaryPage) {
+                currentPage.aboutToShow(UbuntuAnimation.BriskDuration, Qt.RightToLeft);
+            } else {
+                currentPage.aboutToShowSecondary(UbuntuAnimation.BriskDuration);
+            }
         }
 
         function checkSkip() {
@@ -136,6 +179,7 @@ Item {
             objectName: "timeout"
             interval: 2000 // wizard pages shouldn't take long
             onTriggered: {
+                console.warn("Wizard page " + pageStack.currentPage.objectName + " skipped due to taking too long!!!");
                 pageStack.currentPage.skip = true;
                 pageStack.currentPage.skipValid = true;
             }

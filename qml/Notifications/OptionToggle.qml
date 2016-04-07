@@ -96,7 +96,7 @@ UbuntuShape {
 
                             width: parent.width
                             text: splitLabel[3]
-                            color:"#5d5d5d"
+                            color: theme.palette.normal.backgroundText
                             fontSize: "small"
                             maximumLineCount: 1
                             elide: Text.ElideRight
