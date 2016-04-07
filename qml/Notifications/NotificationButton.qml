@@ -25,6 +25,9 @@ Rectangle {
     border.width: outline ? units.dp(1) : 0
     border.color: outline ? theme.palette.normal.base : "transparent"
 
+    // to be read from outside
+    readonly property bool containsMouse: button.__mouseArea.containsMouse
+
     // to be set from outside
     property bool outline: true
     property alias text: label.text
@@ -48,7 +51,7 @@ Rectangle {
 
         Icon {
             id: icon
-            height: units.gu(3)
+            height: root.height * 2 / 3
             width: height
             anchors.centerIn: parent
             color: "white"

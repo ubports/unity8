@@ -186,7 +186,6 @@ Item {
                 margin: units.gu(1)
 
                 anchors.fill: parent
-                anchors.margins: units.gu(1)
                 model: mockModel
                 hasMouse: fakeMouseCB.checked
             }
@@ -267,6 +266,11 @@ Item {
                         text: "With fake mouse"
                         anchors.verticalCenter: parent.verticalCenter
                     }
+                }
+
+                MouseTouchEmulationCheckbox {
+                    id: mouseEmulation
+                    checked: false
                 }
             }
         }

@@ -27,7 +27,6 @@ ListView {
     interactive: false
 
     property real margin
-    property bool useModal: snapDecisionProxyModel.count > 0
     property bool hasMouse
     property url background: ""
 

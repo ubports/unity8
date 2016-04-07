@@ -36,6 +36,10 @@ Row {
                 console.log("Action invoked", actionId);
                 mockModel.actionInvoked(actionId)
             }
+
+            function close() {
+                console.log("Close notification");
+            }
         }
     }
 
@@ -110,7 +114,6 @@ Row {
             margin: units.gu(1)
 
             anchors.fill: parent
-            anchors.margins: units.gu(1)
             model: mockModel
         }
     }
@@ -143,6 +146,11 @@ Row {
                 width: parent.width
                 text: "clear model"
                 onClicked: clearNotifications()
+            }
+
+            MouseTouchEmulationCheckbox {
+                id: mouseEmulation
+                checked: false
             }
         }
     }

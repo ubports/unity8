@@ -35,7 +35,11 @@ Item {
 
             QtObject {
                 function invokeAction(actionId) {
-                    mockModel.actionInvoked(actionId)
+                    mockModel.actionInvoked(actionId);
+                }
+
+                function close() {
+                    console.log("Close notification");
                 }
             }
         }
@@ -110,7 +114,6 @@ Item {
                 margin: units.gu(1)
 
                 anchors.fill: parent
-                anchors.margins: units.gu(1)
                 model: mockModel
                 hasMouse: false
             }
@@ -162,6 +165,11 @@ Item {
                         text: "With fake mouse"
                         anchors.verticalCenter: parent.verticalCenter
                     }
+                }
+
+                MouseTouchEmulationCheckbox {
+                    id: mouseEmulation
+                    checked: false
                 }
             }
         }

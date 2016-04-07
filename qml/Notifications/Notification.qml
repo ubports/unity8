@@ -43,7 +43,6 @@ StyledItem {
     readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") ||
                                       type === Notification.Interactive ||
                                       type === Notification.Ephemeral
-    readonly property bool canBeClosed: type === Notification.Ephemeral
     readonly property real defaultOpacity: 0.95
     property bool hasMouse
     property url background: ""
@@ -136,6 +135,8 @@ StyledItem {
         visible: !fullscreen
         anchors {
             fill: parent
+            leftMargin: notification.margins
+            rightMargin: notification.margins
         }
         backgroundColor: parent.color
         radius: "small"
@@ -196,12 +197,11 @@ StyledItem {
             drag.axis: Drag.XAxis
             drag.minimumX: -notification.width
             drag.maximumX: notification.width
+            hoverEnabled: true
 
             onClicked: {
                 if (notification.type === Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-                } else if (hasMouse && canBeClosed) {
-                    notification.notification.close()
                 } else {
                     notificationList.currentIndex = index;
                 }
@@ -213,6 +213,20 @@ StyledItem {
                     notification.x = notification.width
                 }
             }
+        }
+
+        NotificationButton {
+            width: units.gu(2)
+            height: width
+            radius: width / 2
+            visible: draggable && (containsMouse || interactiveArea.containsMouse)
+            iconName: "close"
+            outline: false
+            color: theme.palette.normal.negative
+            anchors.horizontalCenter: parent.left
+            anchors.verticalCenter: parent.top
+
+            onClicked: notification.notification.close()
         }
 
         Column {
