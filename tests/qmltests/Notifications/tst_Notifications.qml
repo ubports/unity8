@@ -187,7 +187,8 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
-                hasMouse: false
+                hasMouse: fakeMouseCB.checked
+                inverseMode: inverseModeCB.checked
             }
         }
 
@@ -261,16 +262,20 @@ Item {
                     Layout.fillWidth: true
                     CheckBox {
                         id: fakeMouseCB
-                        onClicked: {
-                            if (checked) {
-                                notifications.hasMouse = true;
-                            } else {
-                                notifications.hasMouse = false;
-                            }
-                        }
                     }
                     Label {
                         text: "With fake mouse"
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    CheckBox {
+                        id: inverseModeCB
+                    }
+                    Label {
+                        text: "Inverse mode"
                         anchors.verticalCenter: parent.verticalCenter
                     }
                 }

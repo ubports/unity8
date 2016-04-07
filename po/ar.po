@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
+"POT-Creation-Date: 2016-03-23 10:01+0000\n"
 "PO-Revision-Date: 2015-07-29 09:41+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:50+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-03-24 06:07+0000\n"
+"X-Generator: Launchpad (build 17958)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -80,53 +80,35 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
-#: qml/Components/Dialogs.qml:253
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "إلغاء"
 
 #: qml/Components/Dialogs.qml:173
-msgctxt "Title: Reboot/Shut down dialog"
-msgid "Shut down"
-msgstr "إطفاء الجهاز"
-
-#: qml/Components/Dialogs.qml:174
-msgid "Are you sure you want to shut down?"
-msgstr "هل أنت متأكد من رغبتك في إطفاء الجهاز؟"
-
-#: qml/Components/Dialogs.qml:176
-msgctxt "Button: Reboot the system"
-msgid "Reboot"
-msgstr "إعادة التشغيل"
-
-#: qml/Components/Dialogs.qml:185
-msgctxt "Button: Shut down the system"
-msgid "Shut down"
-msgstr "إطفاء الجهاز"
-
-#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "إعادة التشغيل"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "هل أنت متأكد من رغبتك في إعادة تشغيل الجهاز؟"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "لا"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:183
 msgid "Yes"
 msgstr "نعم"
 
-#: qml/Components/Dialogs.qml:232
+#: qml/Components/Dialogs.qml:198
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "الطاقة"
 
-#: qml/Components/Dialogs.qml:233
+#: qml/Components/Dialogs.qml:199
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -134,12 +116,12 @@ msgstr ""
 "هل أنت متأكد من رغبتك\n"
 "في إيقاف التشغيل؟"
 
-#: qml/Components/Dialogs.qml:235
+#: qml/Components/Dialogs.qml:201
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "إيقاف التشغيل"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:210
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "إعادة التشغيل"
@@ -182,41 +164,57 @@ msgstr ""
 msgid "Close all"
 msgstr ""
 
-#: qml/Dash/DashPageHeader.qml:270
+#: qml/Dash/DashPageHeader.qml:337
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "المتجر"
 
-#: qml/Dash/DashPageHeader.qml:277
+#: qml/Dash/DashPageHeader.qml:344
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "بحث"
 
-#: qml/Dash/DashPageHeader.qml:287
+#: qml/Dash/DashPageHeader.qml:354
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "الإعدادات"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Remove from Favorites"
 msgstr "حذف من المفضلات"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Add to Favorites"
 msgstr "إضافة إلى المفضلات"
 
-#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
+#: qml/Dash/FiltersPopover.qml:60
+msgid "Refine your results"
+msgstr ""
+
+#: qml/Dash/FiltersPopover.qml:69
+msgid "Reset"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
 msgstr "شاهد أقل"
 
-#: qml/Dash/GenericScopeView.qml:567
+#: qml/Dash/GenericScopeView.qml:570
 msgid "See all"
 msgstr "عرض الكل"
 
-#: qml/Dash/GenericScopeView.qml:629
+#: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "بحث"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:55
+msgid "Recent Searches"
+msgstr ""
+
+#: qml/Dash/PageHeaderExtraPanel.qml:66
+msgid "Clear All"
+msgstr ""
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -285,11 +283,11 @@ msgstr "إعادة المحاولة"
 msgid "Tap to unlock"
 msgstr "انقر لفك القفل"
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "عذرًا، عبارة سرّية خاطئة."
 
-#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "عذرًا، رمز سرّي خاطيء."
 
@@ -318,7 +316,7 @@ msgstr ""
 msgid "Enter %1"
 msgstr "أدخِل %1"
 
-#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
 msgstr "أدخِل العبارة السرية"
 
@@ -356,11 +354,11 @@ msgstr "انقر للعودة إلى المكالمة..."
 msgid "Conference"
 msgstr "مؤتمر"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:761
 msgid "Nothing is playing"
 msgstr "لا شيء مُشغّل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:890
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -371,7 +369,7 @@ msgstr[3] "%1 ساعات"
 msgstr[4] "%1 ساعة"
 msgstr[5] "%1 ساعة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:894
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -382,7 +380,7 @@ msgstr[3] "%1 دقائق"
 msgstr[4] "%1 دقيقة"
 msgstr[5] "%1 دقيقة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:899
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -393,37 +391,37 @@ msgstr[3] "%1 ثوان"
 msgstr[4] "%1 ثانية"
 msgstr[5] "%1 ثانية"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "0 seconds"
 msgstr "أقل من ثانية"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:904
 #, qt-format
 msgid "%1 remaining"
 msgstr "باق %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "In queue…"
 msgstr "في الانتظار..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:914
 msgid "Downloading"
 msgstr "التنزيل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:916
 msgid "Paused, tap to resume"
 msgstr "مُلبث، انقر للاستئناف"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:918
 msgid "Canceled"
 msgstr "تم إلغائه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:920
 msgid "Finished"
 msgstr "انتهى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:922
 msgid "Failed, tap to retry"
 msgstr "فشل، انقل لإعادة المحاولة"
 
@@ -443,252 +441,323 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr ""
 
-#: qml/Tutorial/TutorialBottom.qml:28
-msgid "Open special menus"
-msgstr "فتح قوائم خاصة"
-
-#: qml/Tutorial/TutorialBottom.qml:29
-msgid "Swipe up from the bottom edge."
-msgstr "اسحب لأعلى من الحافة السفلى."
-
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "هذا الإجراء يقوم بأشياء مختلفة على التطبيقات المختلفة"
-
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "انقر هنا للإنهاء."
-
-#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
-#: qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
-msgstr "انقر هنا للمتابعة."
-
-#: qml/Tutorial/TutorialLeft.qml:26
-msgid "Open the launcher"
+#: qml/Stages/SideStage.qml:76
+msgid "Drag using 3 fingers any application from one window to the other"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:27
-msgid "Short swipe from the left edge."
-msgstr "اسحب سحبة قصيرة من الحافة اليسرى."
-
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "هذه اختصارات للتطبيقات المُفضلة"
-
-#: qml/Tutorial/TutorialPage.qml:178
-msgid "You almost got it!"
-msgstr "انت حصلت على ذلك تقريبا!"
-
-#: qml/Tutorial/TutorialPage.qml:195
-msgid "Try again."
-msgstr "حاول مجددًا."
-
-#: qml/Tutorial/TutorialRight.qml:31
-msgid "To view open apps"
+#: qml/Tutorial/TutorialBottom.qml:78
+msgid "Swipe up to add a contact"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:32
-msgid "Long swipe from the right edge."
-msgstr "سحبة طويلة من الحافة اليمنى."
+#: qml/Tutorial/TutorialBottom.qml:80
+msgid "Swipe up for favorite calculations"
+msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:122
-msgid "View all your running tasks."
-msgstr "عرض جميع المهام النشطة."
+#: qml/Tutorial/TutorialBottom.qml:82
+msgid "Swipe up for recent calls"
+msgstr ""
 
-#: qml/Wizard/Page.qml:89
+#: qml/Tutorial/TutorialBottom.qml:84
+msgid "Swipe up to create a message"
+msgstr ""
+
+#: qml/Tutorial/TutorialBottom.qml:85
+msgid "Swipe up to manage the app"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr ""
+
+#: qml/Tutorial/TutorialLeftLong.qml:47
+msgid "Long swipe from the left edge to open the Today scope"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:54
+msgid "Hover your mouse on the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:55
+msgid "Short or long swipe from the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialTop.qml:53
+msgid "Swipe from the top right edge to open the notification bar"
+msgstr ""
+
+#: qml/Tutorial/TutorialTop.qml:54
+msgid "Swipe from the top edge to open the notification bar"
+msgstr ""
+
+#: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "عودة"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
-msgid "Hi!"
-msgstr "أهلا!"
-
-#: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu device."
+msgid "Language"
 msgstr ""
 
-#: qml/Wizard/Pages/10-welcome.qml:52
-msgid "Let’s get started."
-msgstr "هيا بنا نبدأ."
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "متابعة"
-
-#: qml/Wizard/Pages/20-sim.qml:25
-msgid "Add a SIM card and restart your device"
-msgstr "أدخِل شريحة SIM ثم أعِد تشغيل الجهاز"
-
-#: qml/Wizard/Pages/20-sim.qml:59
-msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr ""
-"بدونها لن تتمكن من إجراء أي مكالمات هاتفية أو استخدام الرسائل النصية."
-
-#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
-msgid "Skip"
-msgstr "تخطي"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:39
-msgid "Lock security"
-msgstr "قِفل الأمان"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your device."
+#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/password-set.qml:141
+msgid "Next"
 msgstr ""
 
-#: qml/Wizard/Pages/30-passwd-type.qml:102
-msgctxt "Label: Type of security method"
-msgid "Swipe"
-msgstr "سحبة"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:103
-msgctxt "Label: Description of security method"
-msgid "No security"
-msgstr "بدون أمان"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:105
-msgctxt "Label: Type of security method"
-msgid "Passcode"
-msgstr "رمز سري"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:106
-msgctxt "Label: Description of security method"
-msgid "4 digits only"
-msgstr "4 أرقام فقط"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:108
-msgctxt "Label: Type of security method"
-msgid "Passphrase"
-msgstr "عبارة سرية"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:109
-msgctxt "Label: Description of security method"
-msgid "Numbers and letters"
-msgstr "أرقام وحروف"
-
-#: qml/Wizard/Pages/40-wifi.qml:29
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "اتصل بالواي فاي"
 
-#: qml/Wizard/Pages/40-wifi.qml:168
-msgid "Available networks…"
-msgstr "الشبكات المتاحة..."
-
-#: qml/Wizard/Pages/40-wifi.qml:169
-msgid "No available networks."
-msgstr "لا توجد شبكات متاحة."
-
-#: qml/Wizard/Pages/50-location.qml:27
-msgid "Location"
-msgstr "الموقع"
-
-#: qml/Wizard/Pages/50-location.qml:62
-msgid "Let the phone detect your location:"
-msgstr "دع هاتفك يحدد موقعك:"
-
-#: qml/Wizard/Pages/50-location.qml:69
-msgid "Using GPS only (less accurate)"
-msgstr "باستخدام نظام تحديد المواقع (GPS) فقط (أقل دقّة)"
-
-#: qml/Wizard/Pages/50-location.qml:86
-msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+#: qml/Wizard/Pages/30-wifi.qml:130
+msgid "Connected"
 msgstr ""
-"باستخدام نظام تحديد المواقع (GPS)، والواي فاي، وبيانات الشبكة الخلوية "
-"(مستحسن)"
 
-#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
-#: qml/Wizard/Pages/50-location.qml:103
+#: qml/Wizard/Pages/30-wifi.qml:163
+msgid "Available Wi-Fi networks"
+msgstr ""
+
+#: qml/Wizard/Pages/30-wifi.qml:164
+msgid "No available Wi-Fi networks"
+msgstr ""
+
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
+msgid "Skip"
+msgstr "تخطي"
+
+#: qml/Wizard/Pages/40-location.qml:27
+msgid "Location Services"
+msgstr ""
+
+#: qml/Wizard/Pages/40-location.qml:83
 msgid ""
-"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-"conditions</a>."
-msgstr ""
-"باختيارك لهذا الخيار فإنك توافق على <a href='#'>الشروط والأحكام</a> الخاصة "
-"بـ Nokia HERE."
-
-#: qml/Wizard/Pages/50-location.qml:112
-msgid "Not at all"
+"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+"(recommended)"
 msgstr ""
 
-#: qml/Wizard/Pages/50-location.qml:124
-msgid "You can change your mind later in <b>System Settings</b>."
-msgstr "يمكنك تغيير رأيك في وقت لاحق عن طريق <b>إعدادات النظام</b>."
-
-#: qml/Wizard/Pages/60-reporting.qml:26
-msgid "Improving your experience"
-msgstr "تحسين تجربتك"
-
-#: qml/Wizard/Pages/60-reporting.qml:46
-msgid ""
-"Your phone is set up to automatically report errors to Canonical and its "
-"partners, the makers of the operating system."
-msgstr ""
-"هاتفك مُعدّ لإرسال تقارير آلية بالأخطاء إلى كانونيكال وشركائها (صانعي نظام "
-"التشغيل)."
-
-#: qml/Wizard/Pages/60-reporting.qml:53
-msgid ""
-"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-"Privacy</b>"
-msgstr ""
-"يمكن تعطيل ذلك بالذهاب إلى <b>إعدادات النظام</b> من خلال <b>الأمان "
-"والخصوصية</b>"
-
-#: qml/Wizard/Pages/80-finished.qml:24
-msgid "All done"
-msgstr "تم ذلك"
-
-#: qml/Wizard/Pages/80-finished.qml:39
-msgid "Nice work!"
-msgstr "عمل جيد!"
-
-#: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your device is now ready to use."
+#: qml/Wizard/Pages/40-location.qml:105
+#, qt-format
+msgid "By selecting this option you agree to the Nokia HERE %1."
 msgstr ""
 
-#: qml/Wizard/Pages/80-finished.qml:53
-msgid "Finish"
-msgstr "إنهاء"
+#: qml/Wizard/Pages/40-location.qml:106
+msgctxt "part of: Nokia HERE terms and conditions"
+msgid "terms and conditions"
+msgstr ""
 
-#: qml/Wizard/Pages/here-terms.qml:27
+#: qml/Wizard/Pages/40-location.qml:160
+msgid "GPS only"
+msgstr ""
+
+#: qml/Wizard/Pages/40-location.qml:214
+msgid "Don't use my location"
+msgstr ""
+
+#: qml/Wizard/Pages/40-location.qml:260
+msgid "You can change it later in System Settings."
+msgstr ""
+
+#: qml/Wizard/Pages/50-timezone.qml:29
+msgid "Time Zone"
+msgstr ""
+
+#: qml/Wizard/Pages/50-timezone.qml:178
+msgid "Enter your city"
+msgstr ""
+
+#: qml/Wizard/Pages/60-account.qml:24
+msgid "Personalize Your Device"
+msgstr ""
+
+#: qml/Wizard/Pages/60-account.qml:48
+msgid "Preferred Name"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:39
+msgid "Lock Screen"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:101
+msgctxt "Label: Type of security method"
+msgid "Create new password"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:103
+msgctxt "Label: Type of security method"
+msgid "Create passcode (numbers only)"
+msgstr ""
+
+#: qml/Wizard/Pages/70-passwd-type.qml:105
+msgctxt "Label: Type of security method"
+msgid "No lock code"
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+msgid "Privacy Policy"
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:26
+msgid "Help Us Improve"
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:59
+msgid "Improve system performance by sending us crashes and error reports."
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:60
+msgid "Privacy policy"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:89
+msgid "Welcome to Ubuntu"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:104
+msgid "You are ready to use your device now"
+msgstr ""
+
+#: qml/Wizard/Pages/80-finished.qml:124
+msgid "Get Started"
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
 msgstr "الشروط والأحكام"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "تأكيد العبارة السرية"
+#: qml/Wizard/Pages/here-terms.qml:69
+msgid "Your device uses positioning technologies provided by HERE."
+msgstr ""
 
-#: qml/Wizard/Pages/passwd-confirm.qml:50
+#: qml/Wizard/Pages/here-terms.qml:81
+msgid ""
+"To provide you with positioning services and to improve their quality, HERE "
+"collects information about nearby cell towers and Wi-Fi hotspots around your "
+"current location whenever your position is being found."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:93
+msgid ""
+"The information collected is used to analyze the service and to improve the "
+"use of service, but not to identify you personally."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:106
+#, qt-format
+msgid "By continuing, you agree to the HERE platform %1 and %2."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:107
+msgid "Service Terms"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-confirm.qml:43
+#: qml/Wizard/Pages/passcode-desktop.qml:80
 msgid "Confirm passcode"
 msgstr "تأكيد الرمز السري"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "حاول مجددا."
-
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "اختر الرمز السري خاصتك"
-
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "يجب أن تحتوي العبارة السرية على 4 أحرف على الأقل"
-
-#. Translators: This is the arrow for "Back" buttons
-#: qml/Wizard/StackButton.qml:39
-#, qt-format
-msgid "〈  %1"
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgid "Incorrect passcode."
 msgstr ""
 
-#. Translators: This is the arrow for "Forward" buttons
-#: qml/Wizard/StackButton.qml:42
-#, qt-format
-msgid "%1  〉"
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgctxt "Enter the passcode again"
+msgid "Please re-enter."
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:30
+msgid "Lock Screen Passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:56
+msgid "Enter 4 numbers to setup your passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-set.qml:54
+msgid "Choose passcode"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:105
+msgid "Passcode too short"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:107
+msgid "Passcodes match"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-desktop.qml:109
+msgid "Passcodes do not match"
+msgstr ""
+
+#: qml/Wizard/Pages/passcode-set.qml:62
+msgid "Passcode must be 4 characters long"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:30
+msgid "Lock Screen Password"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:61
+msgid "Enter at least 8 characters"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:73
+msgid "Choose password"
+msgstr ""
+
+#: qml/Wizard/Pages/password-set.qml:103
+msgid "Confirm password"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:27
+msgid "No SIM card installed"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:54
+msgid "SIM card added"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:55
+msgid "You must restart the device to access the mobile network."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:59
+msgid "Restart"
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:78
+msgid "You won’t be able to make calls or use text messaging without a SIM."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:90
+msgid "To proceed with no SIM tap Skip."
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:87
+msgid "Passwords match"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:89
+msgid "Passwords do not match"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:93
+msgid "Strong password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:95
+msgid "Fair password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:97
+msgid "Weak password"
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:99
+msgid "Very weak password"
 msgstr ""
 
 #~ msgid "Confirm"
@@ -777,20 +846,179 @@ msgstr ""
 #~ msgid "Tomorrow %H:%M"
 #~ msgstr "غدًا %H:%M"
 
+#~ msgid "Are you sure you want to shut down?"
+#~ msgstr "هل أنت متأكد من رغبتك في إطفاء الجهاز؟"
+
+#~ msgctxt "Button: Shut down the system"
+#~ msgid "Shut down"
+#~ msgstr "إطفاء الجهاز"
+
+#~ msgctxt "Title: Reboot/Shut down dialog"
+#~ msgid "Shut down"
+#~ msgstr "إطفاء الجهاز"
+
+#~ msgctxt "Button: Reboot the system"
+#~ msgid "Reboot"
+#~ msgstr "إعادة التشغيل"
+
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"
+
+#~ msgid "This action does different things for different apps"
+#~ msgstr "هذا الإجراء يقوم بأشياء مختلفة على التطبيقات المختلفة"
+
+#~ msgid "These are the shortcuts to favorite apps"
+#~ msgstr "هذه اختصارات للتطبيقات المُفضلة"
 
 #~ msgid "Roaming"
 #~ msgstr "التجوال"
 
+#~ msgid "Short swipe from the left edge."
+#~ msgstr "اسحب سحبة قصيرة من الحافة اليسرى."
+
+#~ msgid "Tap here to continue."
+#~ msgstr "انقر هنا للمتابعة."
+
+#~ msgid "Swipe up from the bottom edge."
+#~ msgstr "اسحب لأعلى من الحافة السفلى."
+
+#~ msgid "Open special menus"
+#~ msgstr "فتح قوائم خاصة"
+
+#~ msgid "Tap here to finish."
+#~ msgstr "انقر هنا للإنهاء."
+
+#~ msgid "Long swipe from the right edge."
+#~ msgstr "سحبة طويلة من الحافة اليمنى."
+
+#~ msgid "View all your running tasks."
+#~ msgstr "عرض جميع المهام النشطة."
+
+#~ msgid "Confirm passphrase"
+#~ msgstr "تأكيد العبارة السرية"
+
+#~ msgid "Try again."
+#~ msgstr "حاول مجددًا."
+
+#~ msgid "Please try again."
+#~ msgstr "حاول مجددا."
+
+#~ msgid "Lock security"
+#~ msgstr "قِفل الأمان"
+
+#~ msgid "Without it, you won’t be able to make calls or use text messaging."
+#~ msgstr ""
+#~ "بدونها لن تتمكن من إجراء أي مكالمات هاتفية أو استخدام الرسائل النصية."
+
+#~ msgid "Add a SIM card and restart your device"
+#~ msgstr "أدخِل شريحة SIM ثم أعِد تشغيل الجهاز"
+
+#~ msgid "Hi!"
+#~ msgstr "أهلا!"
+
 #~ msgid "Welcome to your Ubuntu phone."
 #~ msgstr "مرحبا بك في أوبونتو للهواتف."
+
+#~ msgid "Let’s get started."
+#~ msgstr "هيا بنا نبدأ."
+
+#~ msgid "Continue"
+#~ msgstr "متابعة"
+
+#~ msgid "Choose your passcode"
+#~ msgstr "اختر الرمز السري خاصتك"
+
+#~ msgid "Passphrase must be 4 characters long"
+#~ msgstr "يجب أن تحتوي العبارة السرية على 4 أحرف على الأقل"
+
+#~ msgid "Available networks…"
+#~ msgstr "الشبكات المتاحة..."
 
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr "رجاءً اختر الطريقة التي ترغب بأن توصد هاتفك بها."
 
+#~ msgctxt "Label: Description of security method"
+#~ msgid "No security"
+#~ msgstr "بدون أمان"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Swipe"
+#~ msgstr "سحبة"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "4 digits only"
+#~ msgstr "4 أرقام فقط"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passcode"
+#~ msgstr "رمز سري"
+
+#~ msgid "No available networks."
+#~ msgstr "لا توجد شبكات متاحة."
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passphrase"
+#~ msgstr "عبارة سرية"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "Numbers and letters"
+#~ msgstr "أرقام وحروف"
+
+#~ msgid "Improving your experience"
+#~ msgstr "تحسين تجربتك"
+
+#~ msgid "You can change your mind later in <b>System Settings</b>."
+#~ msgstr "يمكنك تغيير رأيك في وقت لاحق عن طريق <b>إعدادات النظام</b>."
+
+#~ msgid "Location"
+#~ msgstr "الموقع"
+
+#~ msgid "Let the phone detect your location:"
+#~ msgstr "دع هاتفك يحدد موقعك:"
+
+#~ msgid "Using GPS only (less accurate)"
+#~ msgstr "باستخدام نظام تحديد المواقع (GPS) فقط (أقل دقّة)"
+
+#~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+#~ msgstr ""
+#~ "باستخدام نظام تحديد المواقع (GPS)، والواي فاي، وبيانات الشبكة الخلوية "
+#~ "(مستحسن)"
+
+#~ msgid ""
+#~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+#~ "Privacy</b>"
+#~ msgstr ""
+#~ "يمكن تعطيل ذلك بالذهاب إلى <b>إعدادات النظام</b> من خلال <b>الأمان "
+#~ "والخصوصية</b>"
+
+#~ msgid "Nice work!"
+#~ msgstr "عمل جيد!"
+
+#~ msgid "All done"
+#~ msgstr "تم ذلك"
+
+#~ msgid "Finish"
+#~ msgstr "إنهاء"
+
 #~ msgid "Your phone is now ready to use."
 #~ msgstr "هاتفك جاهز الآن للاستخدام."
 
+#~ msgid "You almost got it!"
+#~ msgstr "انت حصلت على ذلك تقريبا!"
+
+#~ msgid ""
+#~ "Your phone is set up to automatically report errors to Canonical and its "
+#~ "partners, the makers of the operating system."
+#~ msgstr ""
+#~ "هاتفك مُعدّ لإرسال تقارير آلية بالأخطاء إلى كانونيكال وشركائها (صانعي نظام "
+#~ "التشغيل)."
+
 #~ msgid "Unlock SIM"
 #~ msgstr "فتح قفل بطاقة SIM"
+
+#~ msgid ""
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+#~ "conditions</a>."
+#~ msgstr ""
+#~ "باختيارك لهذا الخيار فإنك توافق على <a href='#'>الشروط والأحكام</a> الخاصة "
+#~ "بـ Nokia HERE."

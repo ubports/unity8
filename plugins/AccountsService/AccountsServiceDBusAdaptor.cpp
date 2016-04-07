@@ -57,8 +57,18 @@ QDBusPendingCall AccountsServiceDBusAdaptor::setUserPropertyAsync(const QString 
 {
     QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
-        // The value needs to be carefully wrapped
-        return iface->asyncCall(QStringLiteral("Set"), interface, property, QVariant::fromValue(QDBusVariant(value)));
+        if (interface == QStringLiteral("org.freedesktop.Accounts.User")) {
+            // Standard AccountsService properties use special set methods.
+            // It will not let you use the usual DBus property setters.
+            QDBusInterface accountsIface(iface->service(),
+                                         iface->path(),
+                                         interface,
+                                         iface->connection());
+            return accountsIface.asyncCall(QStringLiteral("Set") + property, value);
+        } else {
+            // The value needs to be carefully wrapped
+            return iface->asyncCall(QStringLiteral("Set"), interface, property, QVariant::fromValue(QDBusVariant(value)));
+        }
     }
     return QDBusPendingCall::fromCompletedCall(QDBusMessage::createError(QDBusError::Other, QStringLiteral("Invalid Interface")));
 }
