@@ -27,8 +27,12 @@ AbstractStage {
     objectName: "stages"
     anchors.fill: parent
 
+    // <tutorial-hacks> The Tutorial looks into our implementation details
     property alias sideStageVisible: spreadView.sideStageVisible
     property alias sideStageWidth: spreadView.sideStageWidth
+    // The stage the currently focused surface is in
+    property int stageFocusedSurface: priv.focusedAppDelegate ? priv.focusedAppDelegate.stage : ApplicationInfoInterface.MainStage
+    // </tutorial-hacks>
 
     // Functions to be called from outside
     function updateFocusedAppOrientation() {

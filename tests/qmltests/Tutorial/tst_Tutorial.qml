@@ -113,6 +113,8 @@ Rectangle {
             sourceComponent: Component {
                 Shell {
                     usageScenario: shellLoader.state
+                    nativeWidth: width
+                    nativeHeight: height
                     property string indicatorProfile: "phone"
                     orientation: shellLoader.shellOrientation
                     orientations: Orientations {
@@ -401,6 +403,8 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
             var tutorialLeft = findChild(shell, "tutorialLeftLoader");
+            verify(tutorialLeft);
+
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeft, "shown", false);
