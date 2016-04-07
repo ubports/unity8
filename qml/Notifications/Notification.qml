@@ -221,7 +221,7 @@ StyledItem {
             width: units.gu(2)
             height: width
             radius: width / 2
-            visible: draggable && (containsMouse || interactiveArea.containsMouse)
+            visible: hasMouse && draggable && (containsMouse || interactiveArea.containsMouse)
             iconName: "close"
             outline: false
             color: theme.palette.normal.negative
