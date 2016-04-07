@@ -33,6 +33,7 @@ Rectangle {
     signal clicked()
 
     AbstractButton {
+        id: button
         anchors.fill: root
         onClicked: root.clicked()
 
@@ -47,11 +48,20 @@ Rectangle {
 
         Icon {
             id: icon
-            height: parent.height / 3 * 2
+            height: units.gu(3)
             width: height
             anchors.centerIn: parent
             color: "white"
             visible: !label.visible
+        }
+    }
+
+    transformOrigin: Item.Top
+    scale: button.pressed ? 0.98 : 1.0
+    Behavior on scale {
+        ScaleAnimator {
+            duration: UbuntuAnimation.SnapDuration
+            easing.type: Easing.Linear
         }
     }
 }
