@@ -304,7 +304,6 @@ StyledItem {
             }
 
             Icon {
-                id: chevron
                 source: "arrow-down.png"
                 visible: type === Notification.SnapDecision && notification.state === "contracted"
                 width: units.gu(3)

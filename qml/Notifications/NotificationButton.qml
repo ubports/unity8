@@ -41,7 +41,7 @@ Rectangle {
             fontSize: "medium"
             font.weight: Font.Light
             anchors.centerIn: parent
-            color: outline ? theme.palette.normal.baseText : "white"
+            color: outline ? theme.palette.normal.backgroundSecondaryText : "white"
             visible: text !== ""
         }
 
