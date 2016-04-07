@@ -49,9 +49,7 @@ StyledItem {
     property url background: ""
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight :
-                                                                      outterColumn.height + margins + (state !== "contracted" ? + margins : 0))
-                                                      : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + 2* margins) : 0
 
     // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
     opacity: defaultOpacity - Math.abs(x / notification.width)
@@ -307,10 +305,10 @@ StyledItem {
 
             Icon {
                 id: chevron
-                name: "go-down"
+                source: "arrow-down.png"
                 visible: type === Notification.SnapDecision && notification.state === "contracted"
-                width: height
-                height: units.gu(1.5)
+                width: units.gu(3)
+                height: units.gu(1)
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: theme.palette.normal.base
             }
