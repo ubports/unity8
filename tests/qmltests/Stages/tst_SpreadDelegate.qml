@@ -163,8 +163,8 @@ Rectangle {
             unloadSpreadDelegate();
             spyClosedSignal.clear();
             shellOrientationAngleSelector.selectedIndex = 0;
-            ApplicationManager.stopApplication(root.fakeApplication.appId);
             root.fakeApplication = null;
+            killApps();
         }
 
         function restartWithApp(appId) {
