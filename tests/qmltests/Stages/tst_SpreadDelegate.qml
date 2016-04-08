@@ -61,6 +61,7 @@ Rectangle {
                 swipeToCloseEnabled: swipeToCloseCheckbox.checked
                 closeable: closeableCheckbox.checked
                 application: fakeApplication
+                surface: fakeApplication && fakeApplication.surfaceList.count > 0 ? fakeApplication.surfaceList.get(0) : null
                 shellOrientationAngle: shellOrientationAngleSelector.value
                 shellOrientation: {
                     switch (shellOrientationAngleSelector.value) {
@@ -258,7 +259,7 @@ Rectangle {
         function test_loadingLandscapeOnlyAppWhenShellInPortrait() {
             loadWithWeatherApp.clicked();
 
-            var appWindow = findChild(spreadDelegate, "appWindow_ubuntu-weather-app");
+            var appWindow = findChild(spreadDelegate, "appWindow");
             verify(appWindow);
 
             // It must have landscape dimensions as it does not support portrait
