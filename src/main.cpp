@@ -16,6 +16,7 @@
 
 // local
 #include "ShellApplication.h"
+#include "qmldebuggerutils.h"
 
 int main(int argc, const char *argv[])
 {
@@ -25,7 +26,7 @@ int main(int argc, const char *argv[])
         isMirServer = true;
     }
 
-    if (getenv("ENABLE_QML_DEBUGGER")) {
+    if (enableQmlDebugger(argc, argv)) {
         QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }
 
