@@ -30,6 +30,8 @@ ListView {
     property bool hasMouse
     property url background: ""
 
+    readonly property bool useModal: snapDecisionProxyModel.count > 0
+
     UnitySortFilterProxyModel {
         id: snapDecisionProxyModel
         objectName: "snapDecisionProxyModel"

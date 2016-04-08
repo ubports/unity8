@@ -218,6 +218,7 @@ StyledItem {
         }
 
         NotificationButton {
+            objectName: "closeButton"
             width: units.gu(2)
             height: width
             radius: width / 2
@@ -226,7 +227,9 @@ StyledItem {
             outline: false
             color: theme.palette.normal.negative
             anchors.horizontalCenter: parent.left
+            anchors.horizontalCenterOffset: notification.parent.state === "narrow" ? notification.margins / 2 : 0
             anchors.verticalCenter: parent.top
+            anchors.verticalCenterOffset: notification.parent.state === "narrow" ? notification.margins / 2 : 0
 
             onClicked: notification.notification.close()
         }
@@ -266,8 +269,8 @@ StyledItem {
                 Column {
                     id: labelColumn
                     width: secondaryIcon.visible ? parent.width - x - units.gu(3) : parent.width - x
-
                     anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+                    spacing: units.gu(.4)
 
                     Label {
                         id: summaryLabel
@@ -301,6 +304,7 @@ StyledItem {
                         maximumLineCount: type === Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
+                        lineHeight: 1.1
                     }
                 }
 
@@ -331,7 +335,7 @@ StyledItem {
             ShapedIcon {
                 id: centeredIcon
                 objectName: "centeredIcon"
-                width: units.gu(6)
+                width: units.gu(4)
                 height: width
                 shaped: notification.hints["x-canonical-non-shaped-icon"] !== "true"
                 fileSource: icon.fileSource
