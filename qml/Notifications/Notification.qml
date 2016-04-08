@@ -326,8 +326,8 @@ StyledItem {
             Icon {
                 source: "arrow-down.png"
                 visible: type === Notification.SnapDecision && notification.state === "contracted"
-                width: units.gu(3)
-                height: units.gu(1)
+                width: units.gu(2)
+                height: units.gu(0.6)
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: theme.palette.normal.base
             }
