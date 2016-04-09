@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-23 10:01+0000\n"
-"PO-Revision-Date: 2016-04-07 08:52+0000\n"
+"PO-Revision-Date: 2016-04-08 18:34+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
 "(n > 2 && n < 20) ? 2 : 3;\n"
-"X-Launchpad-Export-Date: 2016-04-08 05:44+0000\n"
+"X-Launchpad-Export-Date: 2016-04-09 05:45+0000\n"
 "X-Generator: Launchpad (build 17990)\n"
 "Language: gd\n"
 
@@ -485,18 +485,23 @@ msgstr ""
 #: qml/Tutorial/TutorialRight.qml:54
 msgid "Hover your mouse on the right edge to view your open apps"
 msgstr ""
+"Fan an luchag agad os cionn na h-oir dheas a dh’fhaicinn nan aplacaidean a "
+"tha fosgailte agad"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
+"Dèan grad-shlaighdeadh fada no goirid on oir dheas a dh’fhaicinn nan "
+"aplacaidean fosgailte agad"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top right edge to open the notification bar"
 msgstr ""
+"Dèan grad-shlaighdeadh a-nuas on oir dheas a dh’fhosgladh bàr nam brathan"
 
 #: qml/Tutorial/TutorialTop.qml:54
 msgid "Swipe from the top edge to open the notification bar"
-msgstr ""
+msgstr "Dèan grad-shlaighdeadh a-nuas on oir a dh’fhosgladh bàr nam brathan"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -526,11 +531,11 @@ msgstr "Ceangailte"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Lìonraidhean WiFi a tha ri làimh"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Chan eil lìonra WiFi sam bith ann"
 
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/sim.qml:101
@@ -539,35 +544,38 @@ msgstr "Leum thairis air"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "Seirbheisean ionaid"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"Cleachd GPS, hotspots WiFi is lìonraidhean mobile gun urra a dh’fhiosrachadh "
+"d’ ionaid (mholamaid seo)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
 msgstr ""
+"Ma thaghas tu an roghainn seo, bidh thu ag aontachadh ri %1 Nokia HERE."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "teirmichean is cumhaichean"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr ""
+msgstr "GPS a-mhàin"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "Na cleachd m’ ionad"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "’S urrainn dhut seo atharrachadh sna roghainnean uair sam bith"
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
@@ -575,34 +583,34 @@ msgstr "Roinn-tìde"
 
 #: qml/Wizard/Pages/50-timezone.qml:178
 msgid "Enter your city"
-msgstr ""
+msgstr "Cuir a-steach do bhaile"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Cuir dreach pearsanta air an uidheam agad"
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "An t-ainm as fhearr leat"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:39
 msgid "Lock Screen"
-msgstr ""
+msgstr "Glais  an sgrìn"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Cruthaich facal-faire ùr"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Cruthaich còd-faire (àireamhan a-mhàin)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Gun chòd-faire"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
@@ -610,11 +618,13 @@ msgstr "Am poileasaidh prìobhaideachd"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "Cuidich leinn ’ga leasachadh"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
+"Leasaich an siostam còmhla rinn is tu a’ cur thugainn aithisgean mu "
+"thuislidhean is mearachdan."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
@@ -626,11 +636,11 @@ msgstr "Fàilte gu Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Tha an t-uidheam deas ri do làimh a-nis"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "Toiseach-tòiseachaidh"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -638,7 +648,7 @@ msgstr "Teirmichean ⁊ cumhaichean"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "’S e HERE a tha a’ solar teicneolas ionad an uidheim agad."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -646,21 +656,28 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Airson ’s gun urrainn dha HERE d’ ionad a dh’fhiosrachadh dhut is càileachd "
+"nan seirbheisean aca a leasachadh, cruinnichidh iad fiosrachadh mu thùir nam "
+"fònaichean-làimhe is hotspots WiFI faisg ort nuair a dh’fhiosraicheas iad d’ "
+"ionad."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"Cleachdar am fiosrachadh seo airson mion-sgrùdadh a dhèanamh air an t-"
+"seirbheis agus a leasachadh ach chan ann gus d’ aithneachadh gu pearsanta."
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
 msgstr ""
+"Ma leanas tu air adhart, bidh thu ag aontachadh ri %1 agus %2 ùrlar HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "teirmichean na seirbheise"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:80
@@ -669,20 +686,20 @@ msgstr "Dearbhaich an còd-faire"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Tha an còd-faire cearr."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Cuir a-steach e às ùr."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:30
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Còd-faire na sgrin-ghlasaidh"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:56
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Cuir a-steach 4 àireamhan a bhios ’nan còd-faire agad"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:65
 #: qml/Wizard/Pages/passcode-set.qml:54
@@ -691,31 +708,31 @@ msgstr "Tagh còd-faire"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:105
 msgid "Passcode too short"
-msgstr ""
+msgstr "Tha an còd-faire ro ghoirid"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:107
 msgid "Passcodes match"
-msgstr ""
+msgstr "Tha an dà chòd-faire co-ionnann"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:109
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Chan eil an dà chòd-faire co-ionnann"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Feumaidh an còd-faire a bhith 4 caractaran a dh’fhaid"
 
 #: qml/Wizard/Pages/password-set.qml:30
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Facal-faire na sgrìn-ghlasaidh"
 
 #: qml/Wizard/Pages/password-set.qml:61
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Cuir a-steach co-dhiù 8 caractaran"
 
 #: qml/Wizard/Pages/password-set.qml:73
 msgid "Choose password"
-msgstr ""
+msgstr "Tagh facal-faire"
 
 #: qml/Wizard/Pages/password-set.qml:103
 msgid "Confirm password"
@@ -723,15 +740,17 @@ msgstr "Dearbh am facal-faire"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Cha deach cairt SIM a stàladh"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "Chaidh cairt SIM a chur ris"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
 msgstr ""
+"Feumaidh tu an t-uidheam ath-thòiseachadh mus fhaigh thu cothrom air an "
+"lìonra mobile."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -739,15 +758,16 @@ msgstr "Ath-thòisich"
 
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
-msgstr ""
+msgstr "Chan urrainn dhut fòn no SMS a chur as aonais SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
 msgstr ""
+"Leum thairis air seo ma tha thu airson leantainn air adhart as aonais SIM."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
-msgstr ""
+msgstr "Tha an dà fhacal-faire co-ionnann"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords do not match"
@@ -763,11 +783,11 @@ msgstr "Facal-faire meadhanach"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
-msgstr ""
+msgstr "Facal-faire lag"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Very weak password"
-msgstr ""
+msgstr "Facal-faire glè lag"
 
 #~ msgid "Skip intro"
 #~ msgstr "Gearr leum thairis air an ro-ràdh"
