@@ -30,13 +30,14 @@ Rectangle {
     property bool outline: true
     property alias text: label.text
     property alias iconName: icon.name
+    property bool hoverEnabled: false
 
     signal clicked()
 
     AbstractButton {
         id: button
         anchors.fill: root
-        __mouseArea.hoverEnabled: false
+        __mouseArea.hoverEnabled: root.hoverEnabled
         onClicked: root.clicked()
 
         Label {

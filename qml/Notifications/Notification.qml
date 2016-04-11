@@ -40,7 +40,6 @@ StyledItem {
     property bool fullscreen: false
     property int maxHeight
     property int margins: units.gu(1)
-    readonly property bool draggable: type !== Notification.SnapDecision || state === "contracted"
 
     readonly property real defaultOpacity: 1.0
     property bool hasMouse
@@ -99,8 +98,14 @@ StyledItem {
         }
     }
 
+    function closeNotification() {
+        if (notification.actions.count > 1) { // perform the "reject" action
+            notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
+        }
+        notification.notification.close();
+    }
+
     Behavior on x {
-        enabled: draggable
         UbuntuNumberAnimation { easing.type: Easing.OutBounce }
     }
 
@@ -153,8 +158,8 @@ StyledItem {
     }
 
     onXChanged: {
-        if (draggable && Math.abs(notification.x) > 0.75 * notification.width) {
-            notification.notification.close()
+        if (Math.abs(notification.x) > 0.75 * notification.width) {
+            closeNotification();
         }
     }
 
@@ -194,7 +199,7 @@ StyledItem {
             anchors.fill: parent
             objectName: "interactiveArea"
 
-            drag.target: draggable ? notification : undefined
+            drag.target: notification
             drag.axis: Drag.XAxis
             drag.minimumX: -notification.width
             drag.maximumX: notification.width
@@ -221,16 +226,17 @@ StyledItem {
             width: units.gu(2)
             height: width
             radius: width / 2
-            visible: hasMouse && draggable && (containsMouse || interactiveArea.containsMouse)
+            visible: hasMouse && (containsMouse || interactiveArea.containsMouse)
             iconName: "close"
             outline: false
+            hoverEnabled: true
             color: theme.palette.normal.negative
             anchors.horizontalCenter: parent.left
             anchors.horizontalCenterOffset: notification.parent.state === "narrow" ? notification.margins / 2 : 0
             anchors.verticalCenter: parent.top
             anchors.verticalCenterOffset: notification.parent.state === "narrow" ? notification.margins / 2 : 0
 
-            onClicked: notification.notification.close()
+            onClicked: closeNotification();
         }
 
         Column {
