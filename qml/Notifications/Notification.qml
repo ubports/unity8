@@ -40,6 +40,7 @@ StyledItem {
     property bool fullscreen: false
     property int maxHeight
     property int margins: units.gu(1)
+    readonly property bool draggable: type !== Notification.SnapDecision || state === "contracted"
 
     readonly property real defaultOpacity: 1.0
     property bool hasMouse
@@ -99,6 +100,7 @@ StyledItem {
     }
 
     Behavior on x {
+        enabled: draggable
         UbuntuNumberAnimation { easing.type: Easing.OutBounce }
     }
 
@@ -151,7 +153,7 @@ StyledItem {
     }
 
     onXChanged: {
-        if (Math.abs(notification.x) > 0.75 * notification.width) {
+        if (draggable && Math.abs(notification.x) > 0.75 * notification.width) {
             notification.notification.close()
         }
     }
@@ -192,7 +194,7 @@ StyledItem {
             anchors.fill: parent
             objectName: "interactiveArea"
 
-            drag.target: notification
+            drag.target: draggable ? notification : undefined
             drag.axis: Drag.XAxis
             drag.minimumX: -notification.width
             drag.maximumX: notification.width
@@ -219,7 +221,7 @@ StyledItem {
             width: units.gu(2)
             height: width
             radius: width / 2
-            visible: hasMouse && (containsMouse || interactiveArea.containsMouse)
+            visible: hasMouse && draggable && (containsMouse || interactiveArea.containsMouse)
             iconName: "close"
             outline: false
             color: theme.palette.normal.negative
