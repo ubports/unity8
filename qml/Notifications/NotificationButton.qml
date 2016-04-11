@@ -22,8 +22,6 @@ Rectangle {
 
     height: units.gu(4)
     radius: units.dp(4)
-    border.width: outline ? units.dp(1) : 0
-    border.color: outline ? theme.palette.normal.base : "transparent"
 
     // to be read from outside
     readonly property bool containsMouse: button.__mouseArea.containsMouse
@@ -38,6 +36,7 @@ Rectangle {
     AbstractButton {
         id: button
         anchors.fill: root
+        __mouseArea.hoverEnabled: false
         onClicked: root.clicked()
 
         Label {

@@ -40,10 +40,8 @@ StyledItem {
     property bool fullscreen: false
     property int maxHeight
     property int margins: units.gu(1)
-    readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") ||
-                                      type === Notification.Interactive ||
-                                      type === Notification.Ephemeral
-    readonly property real defaultOpacity: 0.95
+
+    readonly property real defaultOpacity: 1.0
     property bool hasMouse
     property url background: ""
 
@@ -101,7 +99,6 @@ StyledItem {
     }
 
     Behavior on x {
-        enabled: draggable
         UbuntuNumberAnimation { easing.type: Easing.OutBounce }
     }
 
@@ -154,7 +151,7 @@ StyledItem {
     }
 
     onXChanged: {
-        if (draggable && Math.abs(notification.x) > 0.75 * notification.width) {
+        if (Math.abs(notification.x) > 0.75 * notification.width) {
             notification.notification.close()
         }
     }
@@ -195,7 +192,7 @@ StyledItem {
             anchors.fill: parent
             objectName: "interactiveArea"
 
-            drag.target: draggable ? notification : undefined
+            drag.target: notification
             drag.axis: Drag.XAxis
             drag.minimumX: -notification.width
             drag.maximumX: notification.width
@@ -222,7 +219,7 @@ StyledItem {
             width: units.gu(2)
             height: width
             radius: width / 2
-            visible: hasMouse && draggable && (containsMouse || interactiveArea.containsMouse)
+            visible: hasMouse && (containsMouse || interactiveArea.containsMouse)
             iconName: "close"
             outline: false
             color: theme.palette.normal.negative
@@ -444,7 +441,7 @@ StyledItem {
                                 text: oneOverTwoLoaderTop.actionLabel
                                 outline: notification.hints["x-canonical-private-affirmative-tint"] !== "true"
                                 color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
-                                                                                                             : theme.palette.normal.background
+                                                                                                             : theme.palette.normal.foreground
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -474,7 +471,7 @@ StyledItem {
                                     text: oneOverTwoLoaderBottom.actionLabel
                                     outline: notification.hints["x-canonical-private-rejection-tint"] !== "true"
                                     color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
-                                                                                                                             : theme.palette.normal.background
+                                                                                                                             : theme.palette.normal.foreground
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -536,7 +533,7 @@ StyledItem {
                                 outline: (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] !== "true") ||
                                          (index == 1 && notification.hints["x-canonical-private-rejection-tint"] !== "true")
                                 color: {
-                                    var result = theme.palette.normal.background;
+                                    var result = theme.palette.normal.foreground;
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {
                                         result = theme.palette.normal.positive;
                                     }
