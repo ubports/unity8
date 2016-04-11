@@ -21,7 +21,7 @@ Rectangle {
     id: root
 
     height: units.gu(4)
-    radius: units.dp(4)
+    radius: units.gu(0.6)
 
     // to be read from outside
     readonly property bool containsMouse: button.__mouseArea.containsMouse
