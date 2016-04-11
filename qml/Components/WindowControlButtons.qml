@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ Row {
 
     // to be set from outside
     property bool active: false
-    property bool inPanel: false
+    property bool windowIsMaximized: false
 
     signal close()
     signal minimize()
@@ -90,7 +90,7 @@ Row {
         Icon {
             anchors.fill: parent
             anchors.margins: units.dp(3)
-            source: root.inPanel ? "graphics/window-window.svg" : "graphics/window-maximize.svg"
+            source: root.windowIsMaximized ? "graphics/window-window.svg" : "graphics/window-maximize.svg"
             color: root.active ? "white" : UbuntuColors.slate
         }
     }

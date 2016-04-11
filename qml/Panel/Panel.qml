@@ -126,7 +126,7 @@ Item {
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
                 visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
                 active: PanelState.buttonsVisible
-                inPanel: true
+                windowIsMaximized: true
                 onClose: PanelState.close()
                 onMinimize: PanelState.minimize()
                 onMaximize: PanelState.maximize()
