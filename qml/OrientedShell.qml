@@ -111,7 +111,7 @@ Rectangle {
                 unity8Settings.usageMode = "Staged";
             }
         } else {
-            if (Math.min(Screen.width, Screen.height) > units.gu(60)) {
+            if (Math.min(root.width, root.height) > units.gu(60)) {
                 if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
                     unity8Settings.usageMode = "Windowed";
                 }

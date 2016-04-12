@@ -100,7 +100,7 @@ Rectangle {
             PropertyChanges {
                 target: orientedShellLoader
                 width: units.gu(160)
-                height: units.gu(100)
+                height: units.gu(60)
             }
             PropertyChanges {
                 target: root
@@ -115,7 +115,7 @@ Rectangle {
             name: "flo"
             PropertyChanges {
                 target: orientedShellLoader
-                width: units.gu(62)
+                width: units.gu(60)
                 height: units.gu(100)
             }
             PropertyChanges {
@@ -132,7 +132,7 @@ Rectangle {
             PropertyChanges {
                 target: orientedShellLoader
                 width: units.gu(100)
-                height: units.gu(56)
+                height: units.gu(65)
             }
             PropertyChanges {
                 target: root
