@@ -31,26 +31,26 @@ Item {
     height: notificationsRect.height
     property int index: 0
 
+    // add the default/PlaceHolder notification to the model
+    Component.onCompleted: {
+        var component = Qt.createComponent("Notification.qml")
+        var n = component.createObject("notification", {"nid": index++,
+                                                        "type": Notification.PlaceHolder,
+                                                        "hints": {},
+                                                        "summary": "",
+                                                        "body": "",
+                                                        "icon": "",
+                                                        "secondaryIcon": "",
+                                                        "rawActions": []})
+        n.completed.connect(mockModel.onCompleted)
+        mockModel.append(n)
+    }
+
     Row {
         id: rootRow
 
         NotificationModel {
             id: mockModel
-
-            // add the default/PlaceHolder notification to the model
-            Component.onCompleted: {
-                var component = Qt.createComponent("Notification.qml")
-                var n = component.createObject("notification", {"nid": index++,
-                                                                "type": Notification.PlaceHolder,
-                                                                "hints": {},
-                                                                "summary": "",
-                                                                "body": "",
-                                                                "icon": "",
-                                                                "secondaryIcon": "",
-                                                                "rawActions": []})
-                n.completed.connect(mockModel.onCompleted)
-                append(n)
-            }
         }
 
         function add2over1SnapDecisionNotification() {
