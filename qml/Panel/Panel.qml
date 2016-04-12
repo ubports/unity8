@@ -129,7 +129,7 @@ Item {
                 windowIsMaximized: true
                 onClose: PanelState.close()
                 onMinimize: PanelState.minimize()
-                onMaximize: PanelState.maximize()
+                onMaximize: PanelState.restore()
             }
         }
 

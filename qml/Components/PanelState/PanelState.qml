@@ -27,6 +27,6 @@ QtObject {
 
     signal close()
     signal minimize()
-    signal maximize()
+    signal restore()
     signal focusMaximizedApp()
 }
