@@ -682,11 +682,7 @@ Item {
                 var dragY = notification.height / 2;
                 touchFlick(notification, dragStart, dragY, dragEnd, dragY)
                 waitForRendering(notification)
-                if ((data.n.type === Notification.SnapDecision && notification.state === "expanded") || data.n.type === Notification.Confirmation) {
-                    tryCompare(mockModel, "count", before)
-                } else {
-                    tryCompare(mockModel, "count", before - 1)
-                }
+                tryCompare(mockModel, "count", before - 1)
             }
 
             function test_closeButton_data() { // reuse the data
@@ -715,6 +711,7 @@ Item {
                 tryCompare(closeButton, "visible", true);
                 var before = mockModel.count;
                 mouseClick(closeButton);
+                waitForRendering(notification);
 
                 // closing the notification, the model count should be one less
                 tryCompare(mockModel, "count", before - 1)
