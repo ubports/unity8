@@ -689,12 +689,15 @@ Item {
                 }
             }
 
-            function test_clickToClose_data() { // reuse the data
+            function test_closeButton_data() { // reuse the data
                 notifications.hasMouse = true;
                 return test_NotificationRenderer_data();
             }
 
-            function test_clickToClose(data) {
+            function test_closeButton(data) {
+                // hook up notification's completed-signal with model's onCompleted-slot, so that remove() (model) happens on close() (notification)
+                data.n.completed.connect(mockModel.onCompleted)
+
                 // populate model with some mock notifications
                 mockModel.append(data.n)
 
@@ -703,21 +706,18 @@ Item {
                 waitForRendering(notifications);
 
                 var notification = findChild(notifications, "notification" + (mockModel.count - 1))
+                waitForRendering(notification);
                 verify(!!notification, "notification wasn't found");
 
-                // click-to-dismiss check
-                waitForRendering(notification);
+                // close button check
+                mouseMove(notification, notification.width/2, notification.height/2);
+                var closeButton = findChild(notification, "closeButton");
+                tryCompare(closeButton, "visible", true);
                 var before = mockModel.count;
-                var canBeClosed = notification.canBeClosed;
-                mouseClick(notification);
+                mouseClick(closeButton);
 
-                if (canBeClosed) {
-                    // closing the notification, the model count should be one less
-                    tryCompare(mockModel, "count", before - 1)
-                } else {
-                    // not closing, model stays the same
-                    tryCompare(mockModel, "count", before)
-                }
+                // closing the notification, the model count should be one less
+                tryCompare(mockModel, "count", before - 1)
             }
 
             function cleanupTestCase() {
