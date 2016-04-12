@@ -296,7 +296,7 @@ Showable {
             id: activityPulse
             anchors { top: parent.top;  bottom: parent.bottom }
             width: parent.width / 4
-            color: UbuntuColors.blue
+            color: theme.palette.normal.activity
 
             SequentialAnimation {
                 running: indicator.visible
