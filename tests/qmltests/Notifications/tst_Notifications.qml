@@ -617,6 +617,8 @@ Item {
                 // for their height animations to finish before continuing
                 for (var i = 0; i < mockModel.count; ++i) {
                     var n = findChild(notifications, "notification" + i)
+                    if (n.type === Notification.PlaceHolder)
+                        continue;
                     waitForRendering(n);
                     var outterColumn = findChild(n, "outterColumn");
                     var shapedBack = findChild(n, "shapedBack");
