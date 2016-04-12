@@ -144,12 +144,13 @@ FocusScope {
 
                 AbstractButton {
                     objectName: "backspaceIcon"
-                    anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
+                    anchors { right: parent.right; top: parent.top; bottom: parent.bottom; margins: -units.gu(1) }
                     width: height
                     enabled: root.entryEnabled
 
                     Icon {
                         anchors.fill: parent
+                        anchors.margins: units.gu(1)
                         name: "erase"
                         color: root.foregroundColor
                     }
@@ -196,8 +197,10 @@ FocusScope {
                              pinentryField.text.length < root.maxPinLength ||
                              pinentryField.incorrectOverride)
 
-                    onClicked: {
-                        pinentryField.appendNumber(index + 1)
+                    onPressedChanged: {
+                        if (!pressed) {
+                            pinentryField.appendNumber(index + 1)
+                        }
                     }
                 }
             }
@@ -214,8 +217,10 @@ FocusScope {
                          pinentryField.text.length < root.maxPinLength ||
                          pinentryField.incorrectOverride)
 
-                onClicked: {
-                    pinentryField.appendNumber(0)
+                onPressedChanged: {
+                    if (!pressed) {
+                        pinentryField.appendNumber(0)
+                    }
                 }
             }
             Item {
