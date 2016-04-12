@@ -26,6 +26,7 @@ import GlobalShortcut 1.0
 AbstractStage {
     id: root
     anchors.fill: parent
+    paintBackground: false
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
