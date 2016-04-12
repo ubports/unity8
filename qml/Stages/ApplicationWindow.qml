@@ -26,7 +26,7 @@ FocusScope {
     // to be read from outside
     property alias interactive: surfaceContainer.interactive
     property bool orientationChangesEnabled: d.supportsSurfaceResize ? d.surfaceOldEnoughToBeResized : true
-    readonly property string title: surface && surface.name !== "" ? surface.name + " - " + d.name : d.name
+    readonly property string title: surface && surface.name !== "" ? surface.name : d.name
 
     // overridable from outside
     property bool fullscreen: {
