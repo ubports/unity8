@@ -296,7 +296,7 @@ Showable {
             id: orange
             anchors { top: parent.top;  bottom: parent.bottom }
             width: parent.width / 4
-            color: UbuntuColors.orange
+            color: UbuntuColors.blue
 
             SequentialAnimation {
                 running: indicator.visible
