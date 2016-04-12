@@ -326,7 +326,6 @@ AbstractStage {
         }
 
         onShiftedContentXChanged: {
-print("shiftedContent", shiftedContentX, "content", contentX)
             if (root.beingResized) {
                 // Flickabe.contentX wiggles during resizes. Don't react to it.
                 return;
