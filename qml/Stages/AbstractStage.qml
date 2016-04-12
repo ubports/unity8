@@ -18,10 +18,8 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import GSettings 1.0
 
-Rectangle {
+Item {
     id: root
-
-    color: "#060606"
 
     // Controls to be set from outside
     property bool altTabPressed
@@ -42,6 +40,7 @@ Rectangle {
     property bool suspended
      // A Stage should paint a wallpaper etc over its full size but not use the margins for window placement
     property int leftMargin: 0
+    property alias paintBackground: background.visible
 
     // To be read from outside
     property var mainApp: null
@@ -69,5 +68,11 @@ Rectangle {
             }
         }
         return false;
+    }
+
+    Rectangle {
+        id: background
+        anchors.fill: parent
+        color: "#060606"
     }
 }

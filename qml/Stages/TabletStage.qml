@@ -30,6 +30,8 @@ AbstractStage {
     property alias sideStageVisible: spreadView.sideStageVisible
     property alias sideStageWidth: spreadView.sideStageWidth
 
+    paintBackground: spreadView.shiftedContentX !== 0
+
     // Functions to be called from outside
     function updateFocusedAppOrientation() {
         var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
