@@ -329,10 +329,10 @@ StyledItem {
             }
 
             Icon {
-                source: "arrow-down.png"
+                name: "toolkit_chevron-down_3gu"
                 visible: type === Notification.SnapDecision && !notification.expanded
                 width: units.gu(2)
-                height: units.gu(0.6)
+                height: width
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: theme.palette.normal.base
             }
