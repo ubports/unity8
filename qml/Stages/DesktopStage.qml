@@ -112,25 +112,22 @@ AbstractStage {
             if (spread.state == "altTab") {
                 spread.state = "";
             }
-            updateForegroundMaximizedApp();
         }
 
-        property int foregroundMaximizedAppZ: -1
-        property int foregroundMaximizedAppIndex: -1 // for stuff like drop shadow and focusing maximized app by clicking panel
-
+        property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         function updateForegroundMaximizedApp() {
-            var tmp = -1;
-            var tmpAppId = -1;
-            for (var i = appRepeater.count - 1; i >= 0; i--) {
+            var found = false;
+            for (var i = 0; i < appRepeater.count && !found; i++) {
                 var item = appRepeater.itemAt(i);
                 if (item && item.visuallyMaximized) {
-                    tmpAppId = i;
-                    tmp = Math.max(tmp, item.normalZ);
+                    foregroundMaximizedAppDelegate = item;
+                    found = true;
                 }
             }
-            foregroundMaximizedAppZ = tmp;
-            foregroundMaximizedAppIndex = tmpAppId;
+            if (!found) {
+                foregroundMaximizedAppDelegate = null;
+            }
         }
 
         function minimizeAllWindows() {
@@ -158,6 +155,11 @@ AbstractStage {
         onClose: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
         onMinimize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
         onMaximize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
+        onFocusMaximizedApp: {
+            if (priv.foregroundMaximizedAppDelegate) {
+                priv.foregroundMaximizedAppDelegate.focus = true;
+             }
+        }
     }
 
     Binding {
@@ -185,7 +187,7 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "dropShadow"
-        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIndex !== -1
+        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppDelegate !== null
     }
 
     Component.onDestruction: {
@@ -241,12 +243,12 @@ AbstractStage {
                 // z might be overriden in some cases by effects, but we need z ordering
                 // to calculate occlusion detection
                 property int normalZ: topLevelSurfaceList.count - index
-                z: normalZ
-                onZChanged: {
+                onNormalZChanged: {
                     if (visuallyMaximized) {
                         priv.updateForegroundMaximizedApp();
                     }
                 }
+                z: normalZ
                 y: PanelState.panelHeight
 
                 width: decoratedWindow.width
@@ -338,6 +340,10 @@ AbstractStage {
                         return;
                     }
 
+                    if (visuallyMaximized) {
+                        priv.updateForegroundMaximizedApp();
+                    }
+
                     if (focus) {
                         // focus some other window
                         for (var i = 0; i < appRepeater.count; i++) {
@@ -348,18 +354,17 @@ AbstractStage {
                             }
                         }
                     }
-                    if (visuallyMaximized) {
-                        priv.updateForegroundMaximizedApp();
-                    }
                 }
 
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
 
-                visible: !visuallyMinimized &&
-                         !greeter.fullyShown &&
-                         (priv.foregroundMaximizedAppZ === -1 || priv.foregroundMaximizedAppZ <= z) ||
-                         decoratedWindow.fullscreen ||
-                         (spread.state == "altTab" && index === spread.highlightedIndex)
+                visible: (
+                          !visuallyMinimized
+                          && !greeter.fullyShown
+                          && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
+                         )
+                         || decoratedWindow.fullscreen
+                         || (spread.state == "altTab" && index === spread.highlightedIndex)
 
                 function close() {
                     model.surface.close();
