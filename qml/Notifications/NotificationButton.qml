@@ -19,12 +19,11 @@ import Ubuntu.Components 1.3
 
 Rectangle {
     id: root
-
     height: units.gu(4)
     radius: units.gu(0.6)
 
     // to be read from outside
-    readonly property bool containsMouse: button.__mouseArea.containsMouse
+    readonly property alias containsMouse: mouseArea.containsMouse
 
     // to be set from outside
     property bool outline: true
@@ -34,33 +33,36 @@ Rectangle {
 
     signal clicked()
 
-    AbstractButton {
-        id: button
+    Label {
+        id: label
+        fontSize: "medium"
+        font.weight: Font.Light
+        anchors.centerIn: root
+        color: outline ? theme.palette.normal.backgroundSecondaryText : "white"
+        visible: text !== ""
+    }
+
+    Icon {
+        id: icon
+        height: root.height * 2 / 3
+        width: height
+        anchors.centerIn: root
+        color: "white"
+        visible: !label.visible
+    }
+
+    MouseArea {
+        id: mouseArea
         anchors.fill: root
-        __mouseArea.hoverEnabled: root.hoverEnabled
-        onClicked: root.clicked()
-
-        Label {
-            id: label
-            fontSize: "medium"
-            font.weight: Font.Light
-            anchors.centerIn: parent
-            color: outline ? theme.palette.normal.backgroundSecondaryText : "white"
-            visible: text !== ""
-        }
-
-        Icon {
-            id: icon
-            height: root.height * 2 / 3
-            width: height
-            anchors.centerIn: parent
-            color: "white"
-            visible: !label.visible
+        hoverEnabled: root.hoverEnabled
+        onClicked: {
+            Haptics.play();
+            root.clicked();
         }
     }
 
     transformOrigin: Item.Top
-    scale: button.pressed ? 0.98 : 1.0
+    scale: mouseArea.pressed ? 0.98 : 1.0
     Behavior on scale {
         ScaleAnimator {
             duration: UbuntuAnimation.SnapDuration
