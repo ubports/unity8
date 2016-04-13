@@ -1141,7 +1141,9 @@ Rectangle {
 
             showGreeter();
 
-            tryCompare(sessionSpy, "count", 1);
+            var greeter = findChild(shell, "greeter");
+            verify(!greeter.locked);
+            verify(sessionSpy.count > 0);
         }
 
         function test_fullscreen() {

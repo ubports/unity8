@@ -1,3 +1,31 @@
+unity8 (8.12+16.04.20160401-0ubuntu1) xenial; urgency=medium
+
+  * Add missing Testsuite header
+  * Skip the failing test until we have a working solution for bug
+    #1564571 (LP: #1564571)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 01 Apr 2016 08:32:16 +0000
+
+unity8 (8.12+16.04.20160330-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Use tutorialLeftLoader instead of tutorialLeft
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Lukáš Tinkl ]
+  * Fix the last chance popup colors/theme
+
+  [ Michael Terry ]
+  * Adjust text for desktop right edge tutorial to be accurate. (LP:
+    #1563103)
+  * Fix OOBE wizard not setting your name. (LP: #1562872)
+  * Fix showing "Retry" in password prompt when turning on screen in
+    tablet mode.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 30 Mar 2016 07:46:51 +0000
+
 unity8 (8.12+16.04.20160323.2-0ubuntu1) xenial; urgency=medium
 
   [ Michael Terry ]

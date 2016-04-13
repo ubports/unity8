@@ -408,7 +408,7 @@ Rectangle {
             ApplicationManager.startApplication("gallery-app");
 
             var launcher = findChild(shell, "launcher");
-            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialLeft = findChild(shell, "tutorialLeftLoader");
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeft, "shown", false);
@@ -762,6 +762,22 @@ Rectangle {
             ApplicationManager.startApplication("camera-app");
             tryCompare(tutorialRightLoader.item, "isReady", true);
             tryCompare(tutorialRightLoader, "shown", true);
+        }
+
+        function test_desktopTutorialRightFinish() {
+            loadShell("desktop");
+
+            var tutorialRight = findChild(shell, "tutorialRight");
+            ApplicationManager.startApplication("dialer-app");
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(tutorialRight, "shown", true);
+
+            var stage = findChild(shell, "stage");
+            mouseMove(shell, shell.width, shell.height / 2);
+            stage.pushRightEdge(units.gu(8));
+            tryCompare(tutorialRight, "shown", false);
+
+            tryCompare(AccountsService, "demoEdges", false);
         }
 
         function test_oskDoesNotHideTutorial() {

@@ -61,7 +61,7 @@ Showable {
 
     function forceShow() {
         showNow();
-        loader.item.reset();
+        d.selectUser(d.currentIndex, true);
     }
 
     function notifyAppFocused(appId) {
