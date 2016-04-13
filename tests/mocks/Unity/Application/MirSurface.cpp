@@ -60,9 +60,8 @@ MirSurface::MirSurface(const QString& name,
         Mir::Type type,
         Mir::State state,
         const QUrl& screenshot,
-        const QUrl &qmlFilePath,
-        QObject *parent)
-    : unity::shell::application::MirSurfaceInterface(parent)
+        const QUrl &qmlFilePath)
+    : unity::shell::application::MirSurfaceInterface(nullptr)
     , m_name(name)
     , m_type(type)
     , m_state(state)
@@ -95,7 +94,7 @@ MirSurface::~MirSurface()
     DEBUG_MSG("");
 
     auto controller = MirFocusController::instance();
-    if (controller->focusedSurface() == this) {
+    if (controller && controller->focusedSurface() == this) {
         controller->clear();
     }
 }
@@ -436,7 +435,12 @@ void MirSurface::requestFocus()
 void MirSurface::setFocused(bool value)
 {
     DEBUG_MSG(value);
+
     auto controller = MirFocusController::instance();
+    if (!controller) {
+        return;
+    }
+
     if (value) {
         controller->setFocusedSurface(this);
     } else if (controller->focusedSurface() == this) {
@@ -446,7 +450,9 @@ void MirSurface::setFocused(bool value)
 
 bool MirSurface::focused() const
 {
-    return MirFocusController::instance()->focusedSurface() == this;
+    auto controller = MirFocusController::instance();
+
+    return controller ? controller->focusedSurface() == this : false;
 }
 
 #if MIRSURFACE_DEBUG
@@ -479,10 +485,19 @@ void MirFocusController::setFocusedSurface(MirSurfaceInterface *surface)
 
 MirFocusController* MirFocusController::instance()
 {
-    if (!m_instance) {
-        m_instance = new MirFocusController;
-    }
     return m_instance;
+}
+
+MirFocusController::MirFocusController()
+{
+    Q_ASSERT(m_instance == nullptr);
+    m_instance = this;
+}
+
+MirFocusController::~MirFocusController()
+{
+    Q_ASSERT(m_instance == this);
+    m_instance = nullptr;
 }
 
 void MirFocusController::clear()

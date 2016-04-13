@@ -36,7 +36,8 @@ static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scrip
 static QObject* surfaceManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
-    return SurfaceManager::singleton();
+    // QQmlEngine takes ownership over it (ie, it's deleted on ~QQmlEngine)
+    return new SurfaceManager;
 }
 
 static QObject* ubuntuKeyboardInfoSingleton(QQmlEngine*, QJSEngine*) {
@@ -45,7 +46,8 @@ static QObject* ubuntuKeyboardInfoSingleton(QQmlEngine*, QJSEngine*) {
 
 static QObject* mirFocusControllerSingleton(QQmlEngine*, QJSEngine*)
 {
-    return MirFocusController::instance();
+    // QQmlEngine takes ownership over it (ie, it's deleted on ~QQmlEngine)
+    return new MirFocusController;
 }
 
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)

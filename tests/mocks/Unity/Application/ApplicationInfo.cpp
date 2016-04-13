@@ -80,7 +80,12 @@ void ApplicationInfo::createSurface()
         surfaceName.append(QString(" %1").arg(m_surfaceList.count()+1));
     }
 
-    auto surface = SurfaceManager::singleton()->createSurface(surfaceName,
+    auto surfaceManager = SurfaceManager::instance();
+    if (!surfaceManager) {
+        return;
+    }
+
+    auto surface = surfaceManager->createSurface(surfaceName,
            Mir::NormalType,
            fullscreen() ? Mir::FullscreenState : Mir::MaximizedState,
            m_screenshotFileName);

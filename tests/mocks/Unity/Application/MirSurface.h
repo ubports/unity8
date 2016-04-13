@@ -34,7 +34,8 @@ class MirFocusController : public unity::shell::application::MirFocusControllerI
 {
     Q_OBJECT
 public:
-    MirFocusController(){}
+    MirFocusController();
+    virtual ~MirFocusController();
     static MirFocusController* instance();
 
     void setFocusedSurface(unity::shell::application::MirSurfaceInterface *surface) override;
@@ -63,8 +64,7 @@ public:
             Mir::Type type,
             Mir::State state,
             const QUrl& screenshot,
-            const QUrl &qmlFilePath = QUrl(),
-            QObject *parent = nullptr);
+            const QUrl &qmlFilePath = QUrl());
     virtual ~MirSurface();
 
     ////

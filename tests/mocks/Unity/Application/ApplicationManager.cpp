@@ -474,12 +474,17 @@ void ApplicationManager::updateFocusedApplication()
     ApplicationInfo *focusedApplication = nullptr;
     ApplicationInfo *previouslyFocusedApplication = nullptr;
 
-    MirSurface *surface = static_cast<MirSurface*>(MirFocusController::instance()->focusedSurface());
+    auto controller = MirFocusController::instance();
+    if (!controller) {
+        return;
+    }
+
+    MirSurface *surface = static_cast<MirSurface*>(controller->focusedSurface());
     if (surface) {
         focusedApplication = findApplication(surface);
     }
 
-    surface = static_cast<MirSurface*>(MirFocusController::instance()->previouslyFocusedSurface());
+    surface = static_cast<MirSurface*>(controller->previouslyFocusedSurface());
     if (surface) {
         previouslyFocusedApplication = findApplication(surface);
     }
