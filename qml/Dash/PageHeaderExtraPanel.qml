@@ -124,7 +124,7 @@ Item {
                     color: "#888888"
                 }
 
-                divider.visible: index != repeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
+                divider.visible: index != recentSearchesRepeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
 
                 onClicked: root.historyItemClicked(query)
             }
