@@ -197,11 +197,7 @@ FocusScope {
                              pinentryField.text.length < root.maxPinLength ||
                              pinentryField.incorrectOverride)
 
-                    onPressedChanged: {
-                        if (!pressed) {
-                            pinentryField.appendNumber(index + 1)
-                        }
-                    }
+                    onClicked: pinentryField.appendNumber(index + 1)
                 }
             }
             Item {
@@ -217,11 +213,7 @@ FocusScope {
                          pinentryField.text.length < root.maxPinLength ||
                          pinentryField.incorrectOverride)
 
-                onPressedChanged: {
-                    if (!pressed) {
-                        pinentryField.appendNumber(0)
-                    }
-                }
+                onClicked: pinentryField.appendNumber(0)
             }
             Item {
                 height: numbersGrid.buttonHeight
