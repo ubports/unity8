@@ -1454,8 +1454,8 @@ Rectangle {
             var spreadView = findChild(shell, "spreadView");
             verify(spreadView);
 
-            verify(ApplicationManager.count >= 2);
-            var previousApp = ApplicationManager.get(1);
+            verify(topLevelSurfaceList.count >= 2);
+            var previousSurfaceId = topLevelSurfaceList.idAt(1);
 
             var touchStartX = shell.width - 1;
             var touchStartY = shell.height / 2;
@@ -1481,7 +1481,7 @@ Rectangle {
             // ensure the app switch animation has ended
             tryCompare(spreadView, "shiftedContentX", 0);
 
-            compare(ApplicationManager.get(0).appId, previousApp.appId);
+            tryCompareFunction(function(){ return topLevelSurfaceList.idAt(0); }, previousSurfaceId);
         }
 
         function performEdgeSwipeToShowAppSpread() {
