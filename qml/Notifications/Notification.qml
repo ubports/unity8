@@ -55,21 +55,21 @@ StyledItem {
         name: "Ubuntu.Components.Themes.Ambiance"
     }
 
-    state: {
-        var result = "";
+    readonly property bool expanded: {
+        var result = false;
 
         if (type === Notification.SnapDecision) {
             if (ListView.view.currentIndex === index) {
-                result = "expanded";
+                result = true;
             } else {
                 if (ListView.view.count > 2) {
                     if (ListView.view.currentIndex === -1 && index == 1) {
-                        result = "expanded";
+                        result = true;
                     } else {
-                        result = "contracted";
+                        result = false;
                     }
                 } else {
-                    result = "expanded";
+                    result = true;
                 }
             }
         }
@@ -325,12 +325,12 @@ StyledItem {
             }
 
             ListItem.ThinDivider {
-                visible: type === Notification.SnapDecision && notification.state !== "contracted"
+                visible: type === Notification.SnapDecision && notification.expanded
             }
 
             Icon {
                 source: "arrow-down.png"
-                visible: type === Notification.SnapDecision && notification.state === "contracted"
+                visible: type === Notification.SnapDecision && !notification.expanded
                 width: units.gu(2)
                 height: units.gu(0.6)
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -428,7 +428,7 @@ StyledItem {
 
                 spacing: notification.margins
 
-                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3 && notification.state === "expanded"
+                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3 && notification.expanded
 
                 Repeater {
                     id: oneOverTwoRepeaterTop
@@ -497,7 +497,7 @@ StyledItem {
                     left: parent.left
                     right: parent.right
                 }
-                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible && notification.state === "expanded"
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible && notification.expanded
                 spacing: notification.margins
                 layoutDirection: Qt.RightToLeft
 
@@ -567,7 +567,7 @@ StyledItem {
                     right: parent.right
                 }
 
-                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible && notification.state === "expanded"
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible && notification.expanded
                 model: notification.actions
                 expanded: false
                 startIndex: 2
