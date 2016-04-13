@@ -102,8 +102,6 @@ void tst_FloatingFlickable::flickChangesContentY()
     QSKIP("This fails due to bug #1564571");
     QQuickItem *floatingFlickable =
         m_view->rootObject()->findChild<QQuickItem*>("floatingFlickable");
-    FloatingFlickable *floatingFlickable =
-        m_view->rootObject()->findChild<FloatingFlickable*>("floatingFlickable");
     QVERIFY(floatingFlickable != nullptr);
 
     floatingFlickable->setProperty("direction", Direction::Vertical);
