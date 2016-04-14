@@ -346,7 +346,7 @@ void GSettingsQml::setLauncherWidth(const QVariant &launcherWidth)
 
 void GSettingsQml::setEdgeDragWidth(const QVariant &edgeDragWidth)
 {
-    if (m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setEdgeDragWidth(edgeDragWidth.toUInt());
     }
 }
