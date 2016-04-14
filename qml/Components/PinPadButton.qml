@@ -25,13 +25,11 @@ Item {
     property string iconName
     property color foregroundColor: "#000000"
 
-    readonly property alias pressed: mouseArea.pressed
-
     signal clicked();
 
     UbuntuShape {
         anchors.fill: parent
-        opacity: root.pressed ? 1 : 0
+        opacity: mouseArea.pressed ? 1 : 0
         Behavior on opacity {
             UbuntuNumberAnimation {}
         }
