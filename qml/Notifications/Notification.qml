@@ -247,7 +247,7 @@ StyledItem {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                margins: notification.margins
+                margins: !fullscreen ? notification.margins : 0
             }
 
             spacing: notification.margins
