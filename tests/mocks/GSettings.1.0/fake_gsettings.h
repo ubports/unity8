@@ -56,6 +56,7 @@ class GSettingsQml: public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant lifecycleExemptAppids READ lifecycleExemptAppids WRITE setLifecycleExemptAppids NOTIFY lifecycleExemptAppidsChanged)
     Q_PROPERTY(QVariant autohideLauncher READ autohideLauncher WRITE setAutohideLauncher NOTIFY autohideLauncherChanged)
     Q_PROPERTY(QVariant launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
+    Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
@@ -71,6 +72,7 @@ public:
     QVariant lifecycleExemptAppids() const;
     QVariant autohideLauncher() const;
     QVariant launcherWidth() const;
+    QVariant edgeDragWidth() const;
 
     void setDisableHeight(const QVariant &val);
     void setPictureUri(const QVariant &str);
@@ -79,6 +81,7 @@ public:
     void setLifecycleExemptAppids(const QVariant &appIds);
     void setAutohideLauncher(const QVariant &autohideLauncher);
     void setLauncherWidth(const QVariant &launcherWidth);
+    void setEdgeDragWidth(const QVariant &edgeDragWidth);
 
 Q_SIGNALS:
     void disableHeightChanged();
@@ -89,6 +92,7 @@ Q_SIGNALS:
     void lifecycleExemptAppidsChanged();
     void autohideLauncherChanged();
     void launcherWidthChanged();
+    void edgeDragWidthChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
@@ -126,6 +130,9 @@ public:
     int launcherWidth() const;
     Q_INVOKABLE void setLauncherWidth(int launcherWidth);
 
+    uint edgeDragWidth() const;
+    Q_INVOKABLE void setEdgeDragWidth(uint edgeDragWidth);
+
 Q_SIGNALS:
     void disableHeightChanged();
     void pictureUriChanged(const QString&);
@@ -134,6 +141,7 @@ Q_SIGNALS:
     void lifecycleExemptAppidsChanged(const QStringList&);
     void autohideLauncherChanged(bool autohideLauncher);
     void launcherWidthChanged(int launcherWidth);
+    void edgeDragWidthChanged(uint edgeDragWidth);
 
 private:
     GSettingsControllerQml();
@@ -145,6 +153,7 @@ private:
     QStringList m_lifecycleExemptAppids;
     bool m_autohideLauncher;
     int m_launcherWidth;
+    uint m_edgeDragWidth;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

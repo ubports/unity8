@@ -25,6 +25,7 @@ GSettingsControllerQml::GSettingsControllerQml()
     , m_usageMode("Staged")
     , m_autohideLauncher(false)
     , m_launcherWidth(8)
+    , m_edgeDragWidth(2)
 {
 }
 
@@ -130,6 +131,19 @@ void GSettingsControllerQml::setLauncherWidth(int launcherWidth)
     }
 }
 
+uint GSettingsControllerQml::edgeDragWidth() const
+{
+    return m_edgeDragWidth;
+}
+
+void GSettingsControllerQml::setEdgeDragWidth(uint edgeDragWidth)
+{
+    if (m_edgeDragWidth != edgeDragWidth) {
+        m_edgeDragWidth = edgeDragWidth;
+        Q_EMIT edgeDragWidthChanged(edgeDragWidth);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -192,6 +206,8 @@ void GSettingsQml::componentComplete()
             this, &GSettingsQml::autohideLauncherChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::launcherWidthChanged,
             this, &GSettingsQml::launcherWidthChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::edgeDragWidthChanged,
+            this, &GSettingsQml::edgeDragWidthChanged);
 
     Q_EMIT disableHeightChanged();
     Q_EMIT pictureUriChanged();
@@ -200,6 +216,7 @@ void GSettingsQml::componentComplete()
     Q_EMIT lifecycleExemptAppidsChanged();
     Q_EMIT autohideLauncherChanged();
     Q_EMIT launcherWidthChanged();
+    Q_EMIT edgeDragWidthChanged();
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
@@ -297,6 +314,15 @@ QVariant GSettingsQml::launcherWidth() const
     }
 }
 
+QVariant GSettingsQml::edgeDragWidth() const
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->edgeDragWidth();
+    } else {
+        return QVariant();
+    }
+}
+
 void GSettingsQml::setLifecycleExemptAppids(const QVariant &appIds)
 {
     if (m_valid && m_schema->id() == "com.canonical.qtmir") {
@@ -315,5 +341,12 @@ void GSettingsQml::setLauncherWidth(const QVariant &launcherWidth)
 {
     if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         GSettingsControllerQml::instance()->setLauncherWidth(launcherWidth.toInt());
+    }
+}
+
+void GSettingsQml::setEdgeDragWidth(const QVariant &edgeDragWidth)
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setEdgeDragWidth(edgeDragWidth.toUInt());
     }
 }
