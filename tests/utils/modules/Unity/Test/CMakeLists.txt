@@ -26,7 +26,9 @@ if (ENABLE_TOUCH_EMULATION)
     target_link_libraries(UnityTestQml ${MOUSETOUCHADAPTOR_LIBS_LDFLAGS})
 endif()
 
+# To find libUbuntuGestures.so
+set_target_properties(UnityTestQml PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
+
 qt5_use_modules(UnityTestQml Core Quick Test)
 
-export_qmlfiles(Unity.Test Unity/Test)
-export_qmlplugin(Unity.Test 0.1 Unity/Test TARGETS UnityTestQml)
+add_unity8_mock(Unity.Test 0.1 Unity/Test PREFIX utils TARGETS UnityTestQml)

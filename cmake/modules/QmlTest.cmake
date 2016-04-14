@@ -71,6 +71,8 @@ function(add_qml_unittest PATH COMPONENT_NAME)
         ${ARGN}
         ARGS -input ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
+
+    install_qmltest("${PATH}" "${COMPONENT_NAME}")
 endfunction()
 
 
@@ -91,6 +93,8 @@ function(add_manual_qml_test PATH COMPONENT_NAME)
         ${ARGN}
         ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
+
+    install_qmltest("${PATH}" "${COMPONENT_NAME}")
 endfunction()
 
 
@@ -209,6 +213,67 @@ endfunction()
 
 ################### INTERNAL ####################
 
+function(install_qmltest PATH COMPONENT_NAME)
+    set(filename "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
+    set(out_filename "${CMAKE_CURRENT_BINARY_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
+    if (EXISTS "${filename}")
+        file(READ "${filename}" contents)
+        string(REGEX REPLACE "(import \"[./]*)/qml" "\\1" contents "${contents}")
+        file(WRITE "${out_filename}" "${contents}")
+        install(FILES "${out_filename}"
+            DESTINATION "${SHELL_APP_DIR}/tests/qmltests/${PATH}"
+        )
+    endif()
+endfunction()
+
+function(add_test_target TARGET_NAME)
+    cmake_parse_arguments(TEST "" "" "COMMAND;ENVIRONMENT;DEPENDS" ${ARGN})
+
+    add_custom_target(${TARGET_NAME}
+        env ${TEST_ENVIRONMENT}
+        ${TEST_COMMAND}
+        DEPENDS ${TEST_DEPENDS}
+    )
+
+    # Now write the above test into a shell script that we can run on an
+    # installed system.
+    set(script "#!/bin/sh\n\n")
+    foreach(ONE_ENV ${TEST_ENVIRONMENT})
+        set(script "${script}export ${ONE_ENV}\n")
+    endforeach()
+    set(script "${script}export UNITY_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/\"\n")
+    set(script "${script}\n")
+    foreach(ONE_CMD ${TEST_COMMAND})
+        if (NOT ONE_CMD MATCHES "\\$\\(")
+            # skip variables that look like subcommands like $(FUNCTION)
+            set(script "${script}'${ONE_CMD}' ")
+        endif()
+    endforeach()
+    set(script "${script}$@")
+
+    # Now some replacements...
+    # replace build/source roots with their install paths
+    string(REPLACE "${CMAKE_BINARY_DIR}/tests/mocks" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml/mocks" script "${script}")
+    string(REPLACE "${CMAKE_BINARY_DIR}/tests/uqmlscene" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}" script "${script}")
+    string(REPLACE "${CMAKE_BINARY_DIR}/tests/utils/modules" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml/utils" script "${script}")
+    string(REPLACE "${CMAKE_BINARY_DIR}/plugins" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml" script "${script}")
+    string(REPLACE "${CMAKE_SOURCE_DIR}/tests/qmltests" "${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/qmltests" script "${script}")
+    # tests like to write xml output to our builddir; we don't need that
+    string(REGEX REPLACE "( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' " " " script "${script}")
+
+    file(GENERATE
+         OUTPUT "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh"
+         CONTENT "${script}"
+    )
+
+    install(FILES "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh"
+        PERMISSIONS OWNER_EXECUTE OWNER_READ
+                    GROUP_EXECUTE GROUP_READ
+                    WORLD_EXECUTE WORLD_READ
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests"
+    )
+endfunction()
+
 # add_qmltest_target(target_name target
 #    COMMAND test_exe [arg1 [...]]       # execute this test with arguments
 #    [...]                               # see above for available arguments:
@@ -225,9 +290,9 @@ function(add_qmltest_target TARGET_NAME TARGET)
         set(function "$(FUNCTION)")
     endif()
 
-    add_custom_target(${TARGET_NAME}
-        env ${QMLTEST_ENVIRONMENT}
-        ${QMLTEST_COMMAND} ${function}
+    add_test_target(${TARGET_NAME}
+        ENVIRONMENT ${QMLTEST_ENVIRONMENT}
+        COMMAND ${QMLTEST_COMMAND} ${function}
         DEPENDS ${TARGET} ${QMLTEST_DEPENDS}
     )
 

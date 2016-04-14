@@ -48,6 +48,7 @@ macro(unity8_parse_arguments)
         list(APPEND ld_paths
             ${UNITY_MOCKPATH}/libusermetrics
             ${UNITY_MOCKPATH}/IntegratedLightDM/liblightdm
+            ${UNITY_MOCKPATH}/QMenuModel
         )
     endif()
 
@@ -125,6 +126,19 @@ endfunction()
 function(add_unity8_qmlbenchmark PATH COMPONENT_NAME ITERATIONS)
     add_unity8_qmltest(${PATH} ${COMPONENT_NAME} ITERATIONS ${ITERATIONS} ${ARGN})
 endfunction()
+
+# add files needed for qml tests
+function(add_unity8_qmltest_data PATH COMPONENT_NAME)
+    set(filename "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/${COMPONENT_NAME}.qml")
+    install(FILES "${filename}"
+        DESTINATION "${SHELL_APP_DIR}/tests/qmltests/${PATH}"
+    )
+endfunction()
+
+
+install(DIRECTORY graphics
+    DESTINATION "${SHELL_APP_DIR}/tests"
+)
 
 
 # Actual test definitions

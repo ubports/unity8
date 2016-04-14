@@ -16,6 +16,10 @@ target_link_libraries(DragHandleTestExec UbuntuGesturesQml UbuntuGestures)
 
 add_unity8_uitest(DragHandle DragHandleTestExec ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/Ubuntu/Gestures)
 add_manual_qml_test(. DragHandle IMPORT_PATHS ${UNITY_IMPORT_PATHS})
+add_unity8_qmltest_data(tst_DragHandle BidirectionalShowable)
+add_unity8_qmltest_data(tst_DragHandle HorizontalShowable)
+add_unity8_qmltest_data(tst_DragHandle SimpleButton)
+add_unity8_qmltest_data(tst_DragHandle VerticalShowable)
 
 ########## tst_EdgeDragEvaluator
 add_executable(EdgeDragEvaluatorTestExec tst_EdgeDragEvaluator.cpp)
