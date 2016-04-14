@@ -69,7 +69,7 @@ MouseArea {
         onHeightChanged: priv.updateNormalGeometry();
     }
 
-    Component.onCompleted: {
+    function loadWindowState() {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
                                                             Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
 
@@ -87,7 +87,7 @@ MouseArea {
         priv.updateNormalGeometry();
     }
 
-    Component.onDestruction: {
+    function saveWindowState() {
         windowStateStorage.saveState(root.windowId, target.state == "maximized" ? WindowStateStorage.WindowStateMaximized : WindowStateStorage.WindowStateNormal)
         windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight))
     }

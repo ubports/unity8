@@ -184,21 +184,18 @@ Rectangle {
 
         function test_select() {
             tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.normal.backgroundText);
-            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
             tryCompare(findChild(indicatorItem, "leftLabel"), "color", theme.palette.normal.backgroundText);
             tryCompare(findChild(indicatorItem, "rightLabel"), "color", theme.palette.normal.backgroundText);
             tryCompare(findChild(indicatorItem, "indicatorName"), "color", theme.palette.normal.backgroundText);
 
             indicatorItem.expanded = true;
             tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.disabled.backgroundText);
-            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 0.6);
             tryCompare(findChild(indicatorItem, "leftLabel"), "color", theme.palette.disabled.backgroundText);
             tryCompare(findChild(indicatorItem, "rightLabel"), "color", theme.palette.disabled.backgroundText);
             tryCompare(findChild(indicatorItem, "indicatorName"), "color", theme.palette.disabled.backgroundText);
 
             indicatorItem.selected = true;
             tryCompare(findChild(indicatorItem, "icon0"), "color", theme.palette.normal.backgroundText);
-            tryCompare(findChild(indicatorItem, "icon0"), "opacity", 1.0);
             tryCompare(findChild(indicatorItem, "leftLabel"), "color", theme.palette.normal.backgroundText);
             tryCompare(findChild(indicatorItem, "rightLabel"), "color", theme.palette.normal.backgroundText);
             tryCompare(findChild(indicatorItem, "indicatorName"), "color", theme.palette.normal.backgroundText);

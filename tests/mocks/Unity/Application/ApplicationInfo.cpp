@@ -44,6 +44,7 @@ ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     , m_isTouchApp(true)
     , m_exemptFromLifecycle(false)
     , m_manualSurfaceCreation(false)
+    , m_shellChrome(Mir::NormalChrome)
 {
 }
 
@@ -63,6 +64,7 @@ ApplicationInfo::ApplicationInfo(QObject *parent)
     , m_isTouchApp(true)
     , m_exemptFromLifecycle(false)
     , m_manualSurfaceCreation(false)
+    , m_shellChrome(Mir::NormalChrome)
 {
 }
 
@@ -102,9 +104,11 @@ void ApplicationInfo::setSession(Session* session)
     if (m_session) {
         m_session->setApplication(this);
         m_session->setParent(this);
+        m_session->setFullscreen(m_fullscreen);
         SessionManager::singleton()->registerSession(m_session);
         connect(m_session, &Session::surfaceAdded,
                 this, &ApplicationInfo::onSessionSurfaceAdded);
+        connect(m_session, &Session::fullscreenChanged, this, &ApplicationInfo::fullscreenChanged);
 
         if (!m_manualSurfaceCreation) {
             QTimer::singleShot(500, m_session, &Session::createSurface);
@@ -191,10 +195,15 @@ void ApplicationInfo::setFocused(bool value)
 
 void ApplicationInfo::setFullscreen(bool value)
 {
-    if (value != m_fullscreen) {
-        m_fullscreen = value;
-        Q_EMIT fullscreenChanged(value);
+    m_fullscreen = value;
+    if (m_session) {
+        m_session->setFullscreen(value);
     }
+}
+
+bool ApplicationInfo::fullscreen() const
+{
+    return m_session ? m_session->fullscreen() : m_fullscreen;
 }
 
 void ApplicationInfo::setManualSurfaceCreation(bool value)
@@ -262,6 +271,7 @@ void ApplicationInfo::onSessionSurfaceAdded(MirSurface* surface)
         } else {
             setState(Suspended);
         }
+        surface->setShellChrome(m_shellChrome);
     }
 }
 
@@ -289,5 +299,13 @@ void ApplicationInfo::setInitialSurfaceSize(const QSize &size)
     if (size != m_initialSurfaceSize) {
         m_initialSurfaceSize = size;
         Q_EMIT initialSurfaceSizeChanged(m_initialSurfaceSize);
+    }
+}
+
+void ApplicationInfo::setShellChrome(Mir::ShellChrome shellChrome)
+{
+    m_shellChrome = shellChrome;
+    if (m_session && m_session->lastSurface()) {
+        m_session->lastSurface()->setShellChrome(shellChrome);
     }
 }

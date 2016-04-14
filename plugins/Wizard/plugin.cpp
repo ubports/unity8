@@ -17,19 +17,18 @@
 #include "plugin.h"
 #include "PageList.h"
 #include "System.h"
+#include "timezonemodel.h"
+#include "LocalePlugin.h"
+#include "Status.h"
 
 #include <QtQml/qqml.h>
-
-static QObject *system_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new System();
-}
 
 void WizardPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("Wizard"));
     qmlRegisterType<PageList>(uri, 0, 1, "PageList");
-    qmlRegisterSingletonType<System>(uri, 0, 1, "System", system_provider);
+    qmlRegisterSingletonType<System>(uri, 0, 1, "System", [](QQmlEngine*, QJSEngine*) -> QObject* { return new System; });
+    qmlRegisterSingletonType<Status>(uri, 0, 1, "Status", [](QQmlEngine*, QJSEngine*) -> QObject* { return new Status; });
+    qmlRegisterType<TimeZoneLocationModel>(uri, 0, 1, "TimeZoneModel");
+    qmlRegisterType<LocalePlugin>(uri, 0, 1, "LocalePlugin");
 }
