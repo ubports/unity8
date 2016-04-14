@@ -93,6 +93,7 @@ MirSurface::~MirSurface()
 {
     DEBUG_MSG("");
 
+    // controller instance might have been already destroyed by QQmlEngine destructor
     auto controller = MirFocusController::instance();
     if (controller && controller->focusedSurface() == this) {
         controller->clear();
@@ -437,6 +438,7 @@ void MirSurface::setFocused(bool value)
     DEBUG_MSG(value);
 
     auto controller = MirFocusController::instance();
+    // controller instance might have been already destroyed by QQmlEngine destructor
     if (!controller) {
         return;
     }
@@ -452,6 +454,7 @@ bool MirSurface::focused() const
 {
     auto controller = MirFocusController::instance();
 
+    // controller instance might have been already destroyed by QQmlEngine destructor
     return controller ? controller->focusedSurface() == this : false;
 }
 
@@ -490,6 +493,7 @@ MirFocusController* MirFocusController::instance()
 
 MirFocusController::MirFocusController()
 {
+    DEBUG_MSG("");
     Q_ASSERT(m_instance == nullptr);
     m_instance = this;
 }

@@ -50,6 +50,8 @@ QString stateToStr(ApplicationInfo::State state)
 #define DEBUG_MSG(params) ((void)0)
 #endif
 
+#define WARNING_MSG(params) qWarning().nospace() << "Application["<<appId()<<"]::" << __func__  << " " << params
+
 ApplicationInfo::ApplicationInfo(const QString &appId, QObject *parent)
     : ApplicationInfoInterface(appId, parent)
     , m_appId(appId)
@@ -82,6 +84,7 @@ void ApplicationInfo::createSurface()
 
     auto surfaceManager = SurfaceManager::instance();
     if (!surfaceManager) {
+        WARNING_MSG("No SurfaceManager");
         return;
     }
 

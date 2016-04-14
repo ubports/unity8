@@ -47,8 +47,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     ApplicationManager(QObject *parent = nullptr);
     virtual ~ApplicationManager();
 
-    static ApplicationManager *singleton();
-
     // QAbstractItemModel methods.
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role) const override;
@@ -90,8 +88,6 @@ class ApplicationManager : public ApplicationManagerInterface {
     QList<ApplicationInfo*> m_runningApplications;
     QList<ApplicationInfo*> m_availableApplications;
     QTimer m_windowCreatedTimer;
-
-    static ApplicationManager *the_application_manager;
 };
 
 Q_DECLARE_METATYPE(ApplicationManager*)

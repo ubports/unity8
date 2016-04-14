@@ -27,28 +27,45 @@
 #include <qqml.h>
 #include <QQmlEngine>
 
-static QObject* applicationManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-    return ApplicationManager::singleton();
-}
+namespace {
 
-static QObject* surfaceManagerSingleton(QQmlEngine* engine, QJSEngine* scriptEngine) {
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-    // QQmlEngine takes ownership over it (ie, it's deleted on ~QQmlEngine)
-    return new SurfaceManager;
-}
-
-static QObject* ubuntuKeyboardInfoSingleton(QQmlEngine*, QJSEngine*) {
-    return UbuntuKeyboardInfo::singleton();
-}
-
-static QObject* mirFocusControllerSingleton(QQmlEngine*, QJSEngine*)
+// Creates the singletons that are called throughout C++ code
+void createUnityApplicationSharedSingletons()
 {
-    // QQmlEngine takes ownership over it (ie, it's deleted on ~QQmlEngine)
-    return new MirFocusController;
+    // they have to be created in a specific order
+    if (!MirFocusController::instance()) {
+        new MirFocusController;
+    }
+    if (!SurfaceManager::instance()) {
+        new SurfaceManager;
+    }
 }
+
+QObject* applicationManagerSingleton(QQmlEngine*, QJSEngine*)
+{
+    createUnityApplicationSharedSingletons();
+    return new ApplicationManager;
+}
+
+QObject* surfaceManagerSingleton(QQmlEngine*, QJSEngine*)
+{
+    createUnityApplicationSharedSingletons();
+    return SurfaceManager::instance();
+}
+
+QObject* ubuntuKeyboardInfoSingleton(QQmlEngine*, QJSEngine*)
+{
+    createUnityApplicationSharedSingletons();
+    return new UbuntuKeyboardInfo;
+}
+
+QObject* mirFocusControllerSingleton(QQmlEngine*, QJSEngine*)
+{
+    createUnityApplicationSharedSingletons();
+    return MirFocusController::instance();
+}
+
+} // anonymous namespace
 
 void FakeUnityApplicationQmlPlugin::registerTypes(const char *uri)
 {

@@ -40,25 +40,10 @@
 
 namespace unityapi = unity::shell::application;
 
-ApplicationManager *ApplicationManager::the_application_manager = nullptr;
-
-ApplicationManager *ApplicationManager::singleton()
-{
-    if (!the_application_manager) {
-        the_application_manager = new ApplicationManager();
-
-        // Emit signal to notify Upstart that Mir is ready to receive client connections
-        // see http://upstart.ubuntu.com/cookbook/#expect-stop
-        if (qgetenv("UNITY_MIR_EMITS_SIGSTOP") == "1") {
-            raise(SIGSTOP);
-        }
-    }
-    return the_application_manager;
-}
-
 ApplicationManager::ApplicationManager(QObject *parent)
     : ApplicationManagerInterface(parent)
 {
+    DEBUG_MSG("");
     buildListOfAvailableApplications();
 
     // polling to find out when the toplevel window has been created as there's
@@ -68,6 +53,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
     m_windowCreatedTimer.setSingleShot(false);
     m_windowCreatedTimer.start(200);
 
+    Q_ASSERT(MirFocusController::instance());
     connect(MirFocusController::instance(), &MirFocusController::focusedSurfaceChanged,
         this, &ApplicationManager::updateFocusedApplication, Qt::QueuedConnection);
 }
