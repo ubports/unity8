@@ -627,6 +627,12 @@ Item {
             onActiveChanged: unlockWhenDoneWithWizard()
         }
 
+        MouseArea { // modal notifications prevent interacting with other contents
+            anchors.fill: parent
+            visible: notifications.useModal
+            enabled: visible
+        }
+
         Notifications {
             id: notifications
 
