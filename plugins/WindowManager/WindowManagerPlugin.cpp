@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,23 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "VirtualKeyboard.h"
+#include "WindowManagerPlugin.h"
 
-#include <paths.h>
+#include "TopLevelSurfaceList.h"
 
-#include <QString>
+#include <QtQml>
 
-#include <QDebug>
-
-VirtualKeyboard::VirtualKeyboard()
-    : MirSurface("input-method",
-                     Mir::InputMethodType,
-                     Mir::MinimizedState,
-                     QUrl("qrc:///Unity/Application/vkb_portrait.png"),
-                     QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"))
+void WindowManagerPlugin::registerTypes(const char *uri)
 {
-}
+    qmlRegisterType<TopLevelSurfaceList>(uri, 0, 1, "TopLevelSurfaceList");
 
-VirtualKeyboard::~VirtualKeyboard()
-{
+    qRegisterMetaType<QAbstractListModel*>("QAbstractListModel*");
 }
