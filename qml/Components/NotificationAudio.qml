@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtMultimedia 5.6
 
 Item {
     id: root
@@ -30,13 +31,9 @@ Item {
 
     QtObject {
         id: priv
-        property var audio: {
-            try {
-                return Qt.createQmlObject("import QtMultimedia 5.6; Audio { source: root.source; audioRole: MediaPlayer.NotificationRole }", priv)
-            } catch(err) {
-                console.log("Upstream audioRole enum not available, falling back to old role name.");
-                return Qt.createQmlObject("import QtMultimedia 5.0; Audio { source: root.source; audioRole: MediaPlayer.alert }", priv)
-            }
+        property var audio: Audio {
+            source: root.source
+            audioRole: MediaPlayer.NotificationRole
         }
     }
 }
