@@ -49,18 +49,6 @@ Item {
         anchors.fill: parent
     }
 
-    Binding {
-        target: root.scope
-        property: "searchQuery"
-        value: header.searchQuery
-    }
-
-    Binding {
-        target: header
-        property: "searchQuery"
-        value: root.scope ? root.scope.searchQuery : ""
-    }
-
     DashPageHeader {
         id: header
         objectName: "pageHeader"
@@ -70,7 +58,7 @@ Item {
         showBackButton: true
         backIsClose: root.state == "edit"
         storeEntryEnabled: root.state == "browse"
-        searchEntryEnabled: false // Disable search for now
+        searchEntryEnabled: false
         scopeStyle: root.scopeStyle
         onBackClicked: {
             if (backIsClose) {
