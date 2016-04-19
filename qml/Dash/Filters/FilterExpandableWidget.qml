@@ -18,7 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 
-/*! Option Selector Filter Widget. */
+/*! Expandable Filter Widget. */
 
 FilterWidget {
     id: root
