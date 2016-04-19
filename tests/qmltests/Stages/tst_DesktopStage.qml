@@ -512,7 +512,7 @@ Item {
             verify(decoratedWindow);
 
             tryCompare(dashSurface, "visible", true);
-            decoratedWindow.minimize();
+            decoratedWindow.minimizeClicked();
             tryCompare(dashSurface, "visible", false);
         }
 
