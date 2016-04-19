@@ -199,8 +199,8 @@ Item {
             if (name === page.objectName) return page;
             waitUntilTransitionsEnd(page);
             var tzList = findChild(page, "tzList");
-            waitForRendering(tzList);
             verify(tzList);
+            waitForRendering(tzList);
             page.selectedTimeZone = "Pacific/Honolulu";
             tap(findChild(page, "forwardButton"));
 
