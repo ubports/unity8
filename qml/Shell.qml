@@ -109,7 +109,7 @@ Item {
     // the greeter or launcher until we know whether the session is locked.
     enabled: greeter && !greeter.waiting
 
-    property real edgeSize: units.gu(2)
+    property real edgeSize: units.gu(settings.edgeDragWidth)
 
     WallpaperResolver {
         id: wallpaperResolver
