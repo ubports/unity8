@@ -174,6 +174,7 @@ Item {
             anchors { left: parent.left; right: parent.right }
 
             PageHeadStyle {
+                // FIXME: Replace PageHeadStyle from the Ambiance theme by the new PageHeader from Ubuntu.Components 1.3.
                 id: searchHeader
                 anchors { left: parent.left; right: parent.right }
                 opacity: headerContainer.clip || headerContainer.showSearch ? 1 : 0 // setting visible false cause column to relayout
@@ -183,6 +184,7 @@ Item {
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
+                backgroundColor: "transparent"
                 config: PageHeadConfiguration {
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText
                 }
@@ -256,6 +258,7 @@ Item {
 
                     AbstractButton {
                         id: settingsButton
+                        objectName: "settingsButton"
 
                         width: root.scopeHasFilters ? height : 0
                         visible: width > 0
@@ -307,6 +310,7 @@ Item {
             }
 
             PageHeadStyle {
+                // FIXME: Replace PageHeadStyle from the Ambiance theme by the new PageHeader from Ubuntu.Components 1.3.
                 id: header
                 objectName: "innerPageHeader"
                 anchors { left: parent.left; right: parent.right }
@@ -317,6 +321,7 @@ Item {
                 property color dividerColor: "transparent" // Doesn't matter as we don't have PageHeadSections
                 property color panelColor: background.topColor
                 panelForegroundColor: config.foregroundColor
+                backgroundColor: "transparent"
                 config: PageHeadConfiguration {
                     title: root.title
                     foregroundColor: root.scopeStyle ? root.scopeStyle.headerForeground : theme.palette.normal.baseText

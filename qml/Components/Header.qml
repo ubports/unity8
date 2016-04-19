@@ -18,6 +18,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.Themes.Ambiance 1.3
 
 PageHeadStyle {
+    // FIXME: Don't use this but PageHeader from Ubuntu.Components 1.3.
     id: root
 
     property var styledItem: root

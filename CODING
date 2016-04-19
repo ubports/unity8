@@ -54,6 +54,8 @@ $ ./run.sh -p OR -k
 Notes
 -----
 - to navigate, utilize the mouse left button as you would your finger
+- a three point drag (for side stage operations) can be performed by using
+  the Shift+Control+Alt (all together) keyboard modifiers while using the mouse.
 - to get the translations work, currently you have to do make install to
   put the *.mo files into correct structure. We'll look for a better solution
   later.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "AccountsServiceDBusAdaptor.h"
@@ -37,6 +35,15 @@ AccountsServiceDBusAdaptor::AccountsServiceDBusAdaptor(QObject* parent)
                                            connection, this);
 }
 
+QDBusPendingReply<QVariantMap> AccountsServiceDBusAdaptor::getAllPropertiesAsync(const QString &user, const QString &interface)
+{
+    QDBusInterface *iface = getUserInterface(user);
+    if (iface != nullptr && iface->isValid()) {
+        return iface->asyncCall(QStringLiteral("GetAll"), interface);
+    }
+    return QDBusPendingReply<QVariantMap>(QDBusMessage::createError(QDBusError::Other, QStringLiteral("Invalid Interface")));
+}
+
 QDBusPendingReply<QVariant> AccountsServiceDBusAdaptor::getUserPropertyAsync(const QString &user, const QString &interface, const QString &property)
 {
     QDBusInterface *iface = getUserInterface(user);
@@ -50,8 +57,18 @@ QDBusPendingCall AccountsServiceDBusAdaptor::setUserPropertyAsync(const QString 
 {
     QDBusInterface *iface = getUserInterface(user);
     if (iface != nullptr && iface->isValid()) {
-        // The value needs to be carefully wrapped
-        return iface->asyncCall(QStringLiteral("Set"), interface, property, QVariant::fromValue(QDBusVariant(value)));
+        if (interface == QStringLiteral("org.freedesktop.Accounts.User")) {
+            // Standard AccountsService properties use special set methods.
+            // It will not let you use the usual DBus property setters.
+            QDBusInterface accountsIface(iface->service(),
+                                         iface->path(),
+                                         interface,
+                                         iface->connection());
+            return accountsIface.asyncCall(QStringLiteral("Set") + property, value);
+        } else {
+            // The value needs to be carefully wrapped
+            return iface->asyncCall(QStringLiteral("Set"), interface, property, QVariant::fromValue(QDBusVariant(value)));
+        }
     }
     return QDBusPendingCall::fromCompletedCall(QDBusMessage::createError(QDBusError::Other, QStringLiteral("Invalid Interface")));
 }
@@ -80,7 +97,7 @@ void AccountsServiceDBusAdaptor::maybeChangedSlot()
     m_ignoreNextChanged = false;
 }
 
-QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path)
+QString AccountsServiceDBusAdaptor::getUserForPath(const QString &path) const
 {
     QMap<QString, QDBusInterface *>::const_iterator i;
     for (i = m_users.constBegin(); i != m_users.constEnd(); ++i) {

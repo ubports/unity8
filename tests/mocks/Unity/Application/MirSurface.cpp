@@ -17,13 +17,15 @@
 #include "MirSurface.h"
 
 #include <QDebug>
+#include <QQmlEngine>
 
 MirSurface::MirSurface(const QString& name,
         Mir::Type type,
         Mir::State state,
         const QUrl& screenshot,
-        const QUrl &qmlFilePath)
-    : unity::shell::application::MirSurfaceInterface(nullptr)
+        const QUrl &qmlFilePath,
+        QObject *parent)
+    : unity::shell::application::MirSurfaceInterface(parent)
     , m_name(name)
     , m_type(type)
     , m_state(state)
@@ -36,8 +38,11 @@ MirSurface::MirSurface(const QString& name,
     , m_width(-1)
     , m_height(-1)
     , m_slowToResize(false)
+    , m_shellChrome(Mir::NormalChrome)
 {
 //    qDebug() << "MirSurface::MirSurface() " << name;
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
     m_delayedResizeTimer.setInterval(600);
     m_delayedResizeTimer.setSingleShot(true);
     connect(&m_delayedResizeTimer, &QTimer::timeout, this, &MirSurface::applyDelayedResize);
@@ -129,7 +134,38 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
     Q_EMIT orientationAngleChanged(angle);
 }
 
+Mir::ShellChrome MirSurface::shellChrome() const
+{
+    return m_shellChrome;
+}
 
+void MirSurface::setShellChrome(Mir::ShellChrome shellChrome)
+{
+    if (shellChrome == m_shellChrome)
+        return;
+
+    m_shellChrome = shellChrome;
+    Q_EMIT shellChromeChanged(shellChrome);
+}
+
+QString MirSurface::keymapLayout() const
+{
+    return m_keyMap.first;
+}
+
+QString MirSurface::keymapVariant() const
+{
+    return m_keyMap.second;
+}
+
+void MirSurface::setKeymap(const QString &layout, const QString &variant)
+{
+    if (layout.isEmpty()) {
+        return;
+    }
+    m_keyMap = qMakePair(layout, variant);
+    Q_EMIT keymapChanged(layout, variant);
+}
 
 void MirSurface::registerView(qintptr viewId)
 {

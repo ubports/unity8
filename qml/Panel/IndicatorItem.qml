@@ -32,9 +32,9 @@ IndicatorDelegate {
     property bool selected: false
     property real iconHeight: units.gu(2)
     readonly property color color: {
-        if (!expanded) return "#ffffff";
-        if (!selected) return "#888888";
-        return "#ffffff";
+        if (!expanded) return theme.palette.normal.backgroundText;
+        if (!selected) return theme.palette.disabled.backgroundText;
+        return theme.palette.normal.backgroundText;
     }
 
     implicitWidth: mainItems.width
@@ -113,13 +113,6 @@ IndicatorDelegate {
                         source: modelData
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
-
-                        opacity: {
-                            if (!expanded) return 1.0;
-                            if (!selected) return 0.6;
-                            return 1.0;
-                        }
-                        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
                     }
                 }
             }

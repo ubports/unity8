@@ -225,7 +225,7 @@ Row {
             }
 
             // test input does not fall through
-            mouseClick(notification)
+            mouseClick(notification, units.gu(2), units.gu(2))
             if(data.type == Notification.Interactive) {
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")

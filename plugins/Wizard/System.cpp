@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical Ltd.
+ * Copyright (C) 2014-2015 Canonical Ltd.
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -25,10 +25,10 @@
 #include <QLocale>
 #include <QMap>
 #include <QProcess>
+#include <QDebug>
 
 System::System()
-    : QObject(),
-      m_fsWatcher()
+    : QObject()
 {
     // Register the argument needed for UpdateActivationEnvironment below
     qDBusRegisterMetaType<QMap<QString,QString>>();
@@ -88,7 +88,7 @@ void System::setSessionVariable(const QString &variable, const QString &value)
     QDBusConnection::sessionBus().asyncCall(msg);
 }
 
-void System::updateSessionLanguage(const QString &locale)
+void System::updateSessionLocale(const QString &locale)
 {
     const QString language = locale.split(QStringLiteral("."))[0];
 
@@ -106,5 +106,6 @@ void System::updateSessionLanguage(const QString &locale)
                                      initctl stop smart-scopes-proxy; \
                                      initctl emit --no-wait indicator-services-start; \
                                      initctl restart --no-wait maliit-server; \
+                                     initctl restart --no-wait indicator-messages; \
                                      initctl restart --no-wait unity8-dash\""));
 }

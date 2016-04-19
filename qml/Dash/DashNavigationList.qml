@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../Components"
 
 Item {
@@ -52,7 +53,8 @@ Item {
             Repeater {
                 model: navigation && navigation.loaded ? navigation : null
                 clip: true
-                delegate: ListItem {
+                // FIXME Move to ListItem (and remove import) once 1556971 is fixed
+                delegate: ListItems.Empty {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
                     width: column.width

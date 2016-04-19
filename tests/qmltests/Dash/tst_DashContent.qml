@@ -215,7 +215,7 @@ Item {
             verify(pageHeader, "Could not find the scope page header.");
             var innerHeader = findChild(pageHeader, "innerPageHeader");
             verify(innerHeader, "Could not find the scope page header.");
-            compare(innerHeader.config.contents.text, scopesModel.getScope(data.index).name);
+            compare(innerHeader.config.title, scopesModel.getScope(data.index).name);
         }
 
         function test_is_active_data() {
@@ -285,11 +285,12 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_button");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
             tryCompare(peExtraPanel, "visible", true);
+            peExtraPanel.searchHistory.clear();
 
             var navigationListView = findChild(dashNavigation, "navigationListView");
             tryCompareFunction(function() {
@@ -405,7 +406,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             var dashNavigation = findChild(dashContentList.currentItem, "dashNavigation");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_button");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
@@ -497,7 +498,7 @@ Item {
 
         function test_clearSearchWithNavigationClosed() {
             var dashContentList = findChild(dashContent, "dashContentList");
-            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_button");
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
             var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
 
@@ -513,32 +514,16 @@ Item {
             tryCompare(peExtraPanel, "visible", true);
         }
 
-        function test_navigationShowFilterButton() {
-            goToSecondLevel();
-
-            var dashContentList = findChild(dashContent, "dashContentList");
-            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
-
-            verify(!searchTextField.focus)
-            verify(searchTextField.clearIsSettings)
-
-            mouseClick(searchTextField)
-
-            verify(searchTextField.focus)
-            verify(!searchTextField.clearIsSettings)
-        }
-
         function test_navigationShowFilterPopup() {
             goToSecondLevel();
 
             var dashContentList = findChild(dashContent, "dashContentList");
-            var searchTextField = findChild(dashContentList.currentItem, "searchTextField");
-            var clearIcon = findChild(searchTextField, "clearIcon");
+            var settingsButton = findChild(dashContentList.currentItem, "settingsButton");
 
             var filtersPopover = findChild(shell, "filtersPopover")
             verify(!filtersPopover);
 
-            mouseClick(clearIcon);
+            mouseClick(settingsButton);
 
             filtersPopover = findChild(shell, "filtersPopover")
 
@@ -550,7 +535,7 @@ Item {
             tryCompareFunction(function() { return findChild(dashContentList.currentItem, "dashNavigation") != null; }, true);
             dashContentList.currentItem.item.scope.setHasNavigation(false);
             var peExtraPanel = findChild(dashContentList.currentItem, "peExtraPanel");
-            var searchButton = findChild(dashContentList.currentItem, "search_action_button");
+            var searchButton = findChild(dashContentList.currentItem, "search_button");
 
             compare(peExtraPanel.visible, false);
             mouseClick(searchButton);
