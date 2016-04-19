@@ -153,9 +153,9 @@ AbstractStage {
 
     Connections {
         target: PanelState
-        onClose: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
-        onMinimize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
-        onMaximize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
+        onCloseClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
+        onMinimizeClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
+        onRestoreClicked: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
         onFocusMaximizedApp: {
             if (priv.foregroundMaximizedAppDelegate) {
                 priv.foregroundMaximizedAppDelegate.focus = true;
@@ -606,13 +606,13 @@ AbstractStage {
                     requestedWidth: appDelegate.requestedWidth
                     requestedHeight: appDelegate.requestedHeight
 
-                    onClose: { appDelegate.close(); }
-                    onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
-                                || appDelegate.maximizedHorizontally || appDelegate.maximizedVertically
-                                ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
-                    onMaximizeHorizontally: appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
-                    onMaximizeVertically: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
-                    onMinimize: appDelegate.minimize()
+                    onCloseClicked: { appDelegate.close(); }
+                    onMaximizeClicked: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
+                                       || appDelegate.maximizedHorizontally || appDelegate.maximizedVertically
+                                       ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
+                    onMaximizeHorizontallyClicked: appDelegate.maximizedHorizontally ? appDelegate.restoreFromMaximized() : appDelegate.maximizeHorizontally()
+                    onMaximizeVerticallyClicked: appDelegate.maximizedVertically ? appDelegate.restoreFromMaximized() : appDelegate.maximizeVertically()
+                    onMinimizeClicked: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
                 }
 

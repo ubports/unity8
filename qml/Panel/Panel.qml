@@ -126,9 +126,9 @@ Item {
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
                 visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
                 active: PanelState.buttonsVisible
-                onClose: PanelState.close()
-                onMinimize: PanelState.minimize()
-                onMaximize: PanelState.maximize()
+                onCloseClicked: PanelState.closeClicked()
+                onMinimizeClicked: PanelState.minimizeClicked()
+                onMaximizeClicked: PanelState.restoreClicked()
             }
         }
 

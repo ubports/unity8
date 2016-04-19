@@ -24,11 +24,11 @@ Row {
     // to be set from outside
     property bool active: false
 
-    signal close()
-    signal minimize()
-    signal maximize()
-    signal maximizeVertically()
-    signal maximizeHorizontally()
+    signal closeClicked()
+    signal minimizeClicked()
+    signal maximizeClicked()
+    signal maximizeVerticallyClicked()
+    signal maximizeHorizontallyClicked()
 
     MouseArea {
         id: closeWindowButton
@@ -36,7 +36,7 @@ Row {
         hoverEnabled: true
         height: parent.height
         width: height
-        onClicked: root.close()
+        onClicked: root.closeClicked()
 
         Rectangle {
             anchors.centerIn: parent
@@ -62,7 +62,7 @@ Row {
         hoverEnabled: true
         height: parent.height
         width: height
-        onClicked: root.minimize()
+        onClicked: root.minimizeClicked()
 
         Rectangle {
             anchors.centerIn: parent
@@ -91,11 +91,11 @@ Row {
         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
         onClicked: {
             if (mouse.button == Qt.LeftButton) {
-                root.maximize();
+                root.maximizeClicked();
             } else if (mouse.button == Qt.RightButton) {
-                root.maximizeHorizontally();
+                root.maximizeHorizontallyClicked();
             } else if (mouse.button == Qt.MiddleButton) {
-                root.maximizeVertically();
+                root.maximizeVerticallyClicked();
             }
         }
 

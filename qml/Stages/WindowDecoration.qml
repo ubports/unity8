@@ -29,11 +29,11 @@ MouseArea {
     property bool active: false
     hoverEnabled: true
 
-    signal close()
-    signal minimize()
-    signal maximize()
-    signal maximizeHorizontally()
-    signal maximizeVertically()
+    signal closeClicked()
+    signal minimizeClicked()
+    signal maximizeClicked()
+    signal maximizeHorizontallyClicked()
+    signal maximizeVerticallyClicked()
 
     onDoubleClicked: root.maximize()
 
@@ -86,11 +86,11 @@ MouseArea {
             id: buttons
             height: parent.height
             active: root.active
-            onClose: root.close();
-            onMinimize: root.minimize();
-            onMaximize: root.maximize();
-            onMaximizeHorizontally: root.maximizeHorizontally();
-            onMaximizeVertically: root.maximizeVertically();
+            onCloseClicked: root.closeClicked();
+            onMinimizeClicked: root.minimizeClicked();
+            onMaximizeClicked: root.maximizeClicked();
+            onMaximizeHorizontallyClicked: root.maximizeHorizontallyClicked();
+            onMaximizeVerticallyClicked: root.maximizeVerticallyClicked();
         }
 
         Label {
