@@ -81,16 +81,25 @@ MouseArea {
         target.y = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
-        if (windowState === WindowStateStorage.WindowStateMaximized) {
-            target.maximize(false);
-        } else if (windowState === WindowStateStorage.WindowStateMaximizedLeft) {
-            target.maximizeLeft();
-        } else if (windowState === WindowStateStorage.WindowStateMaximizedRight) {
-            target.maximizeRight();
-        } else if (windowState === WindowStateStorage.WindowStateMaximizedHorizontally) {
-            target.maximizeHorizontally();
-        } else if (windowState === WindowStateStorage.WindowStateMaximizedVertically) {
-            target.maximizeVertically();
+        switch (windowState) {
+            case WindowStateStorage.WindowStateMaximized:
+                target.maximize(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedLeft:
+                target.maximizeLeft(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedRight:
+                target.maximizeRight(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedHorizontally:
+                target.maximizeHorizontally(false);
+                break;
+            case WindowStateStorage.WindowStateMaximizedVertically:
+                target.maximizeVertically(false);
+                break;
+            default:
+                console.warn("Unsupported window state");
+                break;
         }
 
         priv.updateNormalGeometry();

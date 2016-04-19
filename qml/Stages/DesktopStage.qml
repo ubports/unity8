@@ -372,16 +372,20 @@ AbstractStage {
                     animationsEnabled = (animated === undefined) || animated;
                     windowState = WindowStateStorage.WindowStateMaximized;
                 }
-                function maximizeLeft() {
+                function maximizeLeft(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     windowState = WindowStateStorage.WindowStateMaximizedLeft;
                 }
-                function maximizeRight() {
+                function maximizeRight(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     windowState = WindowStateStorage.WindowStateMaximizedRight;
                 }
-                function maximizeHorizontally() {
+                function maximizeHorizontally(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     windowState = WindowStateStorage.WindowStateMaximizedHorizontally;
                 }
-                function maximizeVertically() {
+                function maximizeVertically(animated) {
+                    animationsEnabled = (animated === undefined) || animated;
                     windowState = WindowStateStorage.WindowStateMaximizedVertically;
                 }
                 function minimize(animated) {
@@ -485,11 +489,13 @@ AbstractStage {
                     },
                     State {
                         name: "maximizedHorizontally"; when: appDelegate.maximizedHorizontally && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.leftMargin; requestedWidth: appContainer.width - root.leftMargin }
+                        PropertyChanges { target: appDelegate; x: root.leftMargin }
+                        PropertyChanges { target: decoratedWindow; requestedWidth: appContainer.width - root.leftMargin }
                     },
                     State {
                         name: "maximizedVertically"; when: appDelegate.maximizedVertically && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; y: PanelState.panelHeight; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        PropertyChanges { target: appDelegate; y: PanelState.panelHeight }
+                        PropertyChanges { target: decoratedWindow; requestedHeight: appContainer.height - PanelState.panelHeight }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized

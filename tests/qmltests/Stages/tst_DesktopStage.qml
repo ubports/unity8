@@ -464,9 +464,6 @@ Item {
         function test_windowMaximizeHorizontally() {
             var dialerDelegate = startApplication("dialer-app");
 
-            tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
-            tryCompare(dialerDelegate, "focus", true);
-
             var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
             verify(dialerMaximizeButton);
 
@@ -481,9 +478,6 @@ Item {
 
         function test_windowMaximizeVertically() {
             var dialerDelegate = startApplication("dialer-app");
-
-            tryCompareFunction(function(){ return dialerDelegate.surface !== null; }, true);
-            tryCompare(dialerDelegate, "focus", true);
 
             var dialerMaximizeButton = findChild(dialerDelegate, "maximizeWindowButton");
             verify(dialerMaximizeButton);
