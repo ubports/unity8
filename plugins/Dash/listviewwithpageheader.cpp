@@ -514,6 +514,11 @@ qreal ListViewWithPageHeader::minYExtent() const
     return m_minYExtent;
 }
 
+qreal ListViewWithPageHeader::maxYExtent() const
+{
+    return height() - contentHeight();
+}
+
 void ListViewWithPageHeader::componentComplete()
 {
     if (m_delegateModel)

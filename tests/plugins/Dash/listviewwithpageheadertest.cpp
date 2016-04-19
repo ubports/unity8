@@ -1981,7 +1981,7 @@ private Q_SLOTS:
     {
         QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 3), Q_ARG(QVariant, 3));
 
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < 10; ++i) {
             scrollToBottom();
             lvwph->showHeader();
             QTRY_VERIFY(!lvwph->m_contentYAnimation->isRunning());

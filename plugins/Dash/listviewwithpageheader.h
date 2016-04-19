@@ -115,6 +115,7 @@ protected:
     void componentComplete() override;
     void viewportMoved(Qt::Orientations orient) override;
     qreal minYExtent() const override;
+    qreal maxYExtent() const override;
     void itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry) override;
     void itemImplicitHeightChanged(QQuickItem *item) override;
     void updatePolish() override;
