@@ -82,6 +82,8 @@ MouseArea {
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
         switch (windowState) {
+            case WindowStateStorage.WindowStateNormal:
+                break;
             case WindowStateStorage.WindowStateMaximized:
                 target.maximize(false);
                 break;
