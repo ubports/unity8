@@ -32,7 +32,8 @@ FilterWidget {
         objectName: "expandingItem"
 
         expandedHeight: collapsedHeight + column.height
-        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
         showDivider: false
 
         onClicked: {
@@ -45,7 +46,8 @@ FilterWidget {
             id: titleHolder
             anchors.top: parent.top
             height: expandingItem.collapsedHeight
-            width: parent.width
+            anchors.left: parent.left
+            anchors.right: parent.right
 
             Label {
                 anchors.left: parent.left
@@ -68,7 +70,8 @@ FilterWidget {
 
         Column {
             id: column
-            width: parent.width
+            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.top: titleHolder.bottom
 
             Repeater {
@@ -84,7 +87,7 @@ FilterWidget {
 
                     ListItems.ThinDivider {
                         anchors.bottom: parent.bottom
-                        visible: index != repeater.count - 1
+                        visible: index !== repeater.count - 1
                     }
                 }
             }
