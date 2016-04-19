@@ -19,15 +19,12 @@
 #include "SessionBroadcast.h"
 #include <QDBusConnection>
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <pwd.h>
+#include <glib.h>
 
 SessionBroadcast::SessionBroadcast(QObject* parent)
   : QObject(parent)
 {
-    auto pw = getpwuid(getuid());
-    m_username = pw->pw_name;
+    m_username = QString::fromUtf8(g_get_user_name());
 
     auto connection = QDBusConnection::SM_BUSNAME();
 

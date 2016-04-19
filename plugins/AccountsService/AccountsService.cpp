@@ -22,9 +22,7 @@
 #include <QStringList>
 #include <QDebug>
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <pwd.h>
+#include <glib.h>
 
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
 #define IFACE_LOCATION_HERE          QStringLiteral("com.ubuntu.location.providers.here.AccountsService")
@@ -75,12 +73,6 @@ QVariant primaryButtonConverter(const QVariant &value)
     } else {
         return QVariant::fromValue(0); // default to left
     }
-}
-
-QString systemUsername ()
-{
-    auto pw = getpwuid(getuid());
-    return pw->pw_name;
 }
 
 AccountsService::AccountsService(QObject* parent, const QString &user)
@@ -136,7 +128,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
                   m_unityInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
-    setUser(!user.isEmpty() ? user : systemUsername());
+    setUser(!user.isEmpty() ? user : QString::fromUtf8(g_get_user_name()));
 }
 
 QString AccountsService::user() const
