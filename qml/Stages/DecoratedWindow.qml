@@ -48,6 +48,8 @@ FocusScope {
 
     signal close()
     signal maximize()
+    signal maximizeHorizontally()
+    signal maximizeVertically()
     signal minimize()
     signal decorationPressed()
 
@@ -88,6 +90,8 @@ FocusScope {
 
         onClose: root.close();
         onMaximize: { root.decorationPressed(); root.maximize(); }
+        onMaximizeHorizontally: { root.decorationPressed(); root.maximizeHorizontally(); }
+        onMaximizeVertically: { root.decorationPressed(); root.maximizeVertically(); }
         onMinimize: root.minimize();
         onPressed: root.decorationPressed();
     }

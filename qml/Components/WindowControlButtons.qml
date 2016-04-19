@@ -27,6 +27,8 @@ Row {
     signal close()
     signal minimize()
     signal maximize()
+    signal maximizeVertically()
+    signal maximizeHorizontally()
 
     MouseArea {
         id: closeWindowButton
@@ -86,7 +88,16 @@ Row {
         hoverEnabled: true
         height: parent.height
         width: height
-        onClicked: root.maximize()
+        acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+        onClicked: {
+            if (mouse.button == Qt.LeftButton) {
+                root.maximize();
+            } else if (mouse.button == Qt.RightButton) {
+                root.maximizeHorizontally();
+            } else if (mouse.button == Qt.MiddleButton) {
+                root.maximizeVertically();
+            }
+        }
 
         Rectangle {
             anchors.centerIn: parent

@@ -32,6 +32,8 @@ MouseArea {
     signal close()
     signal minimize()
     signal maximize()
+    signal maximizeHorizontally()
+    signal maximizeVertically()
 
     onDoubleClicked: root.maximize()
 
@@ -87,6 +89,8 @@ MouseArea {
             onClose: root.close();
             onMinimize: root.minimize();
             onMaximize: root.maximize();
+            onMaximizeHorizontally: root.maximizeHorizontally();
+            onMaximizeVertically: root.maximizeVertically();
         }
 
         Label {
