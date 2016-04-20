@@ -148,8 +148,7 @@ Item {
     Flickable {
         id: primaryFilterContainer
 
-        height: dashNavigation.availableHeight
-
+        height: primaryFilter.implicitHeight
         anchors {
             top: recentSearchesRepeater.count > 0 ? searchColumn.bottom : parent.top
             topMargin: primaryFilter.active && recentSearchesRepeater.count > 0 ? units.gu(2) : 0
