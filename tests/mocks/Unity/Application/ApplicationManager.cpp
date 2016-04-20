@@ -60,7 +60,7 @@ ApplicationManager::ApplicationManager(QObject *parent)
 
     // Emit signal to notify Upstart that Mir is ready to receive client connections
     // see http://upstart.ubuntu.com/cookbook/#expect-stop
-    // We do ths because some autopilot tests actually use this mock Unity.Application module,
+    // We do this because some autopilot tests actually use this mock Unity.Application module,
     // so we have to mimic what the real ApplicationManager does in that regard.
     if (qgetenv("UNITY_MIR_EMITS_SIGSTOP") == "1") {
         raise(SIGSTOP);
