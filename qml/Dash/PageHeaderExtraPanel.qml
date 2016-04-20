@@ -148,7 +148,12 @@ Item {
     Flickable {
         id: primaryFilterContainer
 
-        height: primaryFilter.implicitHeight
+        height: contentHeight > dashNavigation.availableHeight ?
+                dashNavigation.availableHeight : contentHeight
+
+        clip: contentY < contentHeight
+        contentHeight: primaryFilter.implicitHeight
+
         anchors {
             top: recentSearchesRepeater.count > 0 ? searchColumn.bottom : parent.top
             topMargin: primaryFilter.active && recentSearchesRepeater.count > 0 ? units.gu(2) : 0
@@ -166,14 +171,6 @@ Item {
             widgetId: filter ? filter.filterId : ""
             widgetType: filter ? filter.filterType : -1
             widgetData: filter
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    propagateComposedEvents = true
-                    mouse.accepted = false
-                }
-            }
         }
     }
 
