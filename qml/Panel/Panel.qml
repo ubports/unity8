@@ -109,7 +109,7 @@ Item {
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.maximize()
+            onDoubleClicked: PanelState.restoreClicked()
 
             // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
             // cf. https://bugreports.qt.io/browse/QTBUG-32909
