@@ -39,7 +39,7 @@ QString TimezoneFormatter::currentTimeInTimezoneWithAbbrev(const QVariant &tzId)
     QTimeZone tz(tzId.toByteArray());
     if (tz.isValid()) {
         const QDateTime now = QDateTime::currentDateTime().toTimeZone(tz);
-        return QStringLiteral("%1 %2").arg(now.time().toString(QStringLiteral("h:mm"))).arg(tz.abbreviation(now));
+        return QStringLiteral("%1 %2").arg(now.time().toString(QStringLiteral("h:mm")), tz.abbreviation(now));
     }
     return QString();
 }

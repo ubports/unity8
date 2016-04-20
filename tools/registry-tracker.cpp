@@ -110,7 +110,7 @@ void RegistryTracker::runRegistry()
     }
 
     // FIXME: keep in sync with the SSRegistry config
-    QString runtime_ini = QString(RUNTIME_CONFIG).arg(m_registry_config.fileName()).arg(m_mw_config.fileName()).arg(m_serverScopes ? "SSRegistry" : "");
+    QString runtime_ini = QString(RUNTIME_CONFIG).arg(m_registry_config.fileName(), m_mw_config.fileName(), m_serverScopes ? "SSRegistry" : "");
     if (!m_systemScopes) {
         m_scopeInstallDir.reset(new QTemporaryDir(tmp.filePath("scopes.XXXXXX")));
         if (!m_scopeInstallDir->isValid()) {
@@ -118,7 +118,7 @@ void RegistryTracker::runRegistry()
         }
         scopeInstallDir = m_scopeInstallDir->path();
     }
-    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_mw_config.fileName()).arg(scopeInstallDir).arg(scopeRunnerBin);
+    QString registry_ini = QString(REGISTRY_CONFIG).arg(m_mw_config.fileName(), scopeInstallDir, scopeRunnerBin);
     QString mw_ini = QString(MW_CONFIG).arg(m_endpoints_dir.path());
 
     if (!m_systemScopes) {

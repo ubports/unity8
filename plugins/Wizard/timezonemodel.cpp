@@ -60,12 +60,12 @@ QVariant TimeZoneLocationModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case Qt::DisplayRole:
-        return QStringLiteral("%1, %2, %3").arg(geonames_city_get_name(city))
-                                           .arg(geonames_city_get_state(city))
-                                           .arg(geonames_city_get_country(city));
+        return QStringLiteral("%1, %2, %3").arg(geonames_city_get_name(city),
+                                                geonames_city_get_state(city),
+                                                geonames_city_get_country(city));
     case SimpleRole:
-        return QStringLiteral("%1, %2").arg(geonames_city_get_name(city))
-                                       .arg(geonames_city_get_country(city));
+        return QStringLiteral("%1, %2").arg(geonames_city_get_name(city),
+                                            geonames_city_get_country(city));
     case TimeZoneRole:
         return geonames_city_get_timezone(city);
     case CountryRole:
