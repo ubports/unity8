@@ -71,6 +71,19 @@ Rectangle {
             }
 
             Label {
+                text: i18n.tr("Ctrl + PrtScr")
+                fontSize: "small"
+                font.weight: Font.Medium
+            }
+            Label {
+                text: i18n.tr("Takes a screenshot of a window.")
+                fontSize: "small"
+                font.weight: Font.Light
+                wrapMode: Text.Wrap
+                Layout.maximumWidth: maxTextSize
+            }
+
+            Label {
                 text: i18n.tr("Super + Space")
                 fontSize: "small"
                 font.weight: Font.Medium
@@ -121,7 +134,7 @@ Rectangle {
             }
 
             Label {
-                text: i18n.tr("Alt+F1")
+                text: i18n.tr("Alt + F1")
                 fontSize: "small"
                 font.weight: Font.Medium
             }
