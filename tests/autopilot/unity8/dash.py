@@ -175,9 +175,8 @@ class Dash(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         return page_header.select_single(objectName='searchTextField')
 
     def _get_current_page_header(self):
-        dashContentList = self.select_single(objectName="dashContentList")
-        all_headers = dashContentList.select_many("QQuickLoader")
-        for i in all_headers:
+        all_scopes = self.dash_content_list.select_many("GenericScopeView")
+        for i in all_scopes:
             if i.isCurrent:
                 return i.select_single(objectName="scopePageHeader")
         return None
