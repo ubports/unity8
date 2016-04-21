@@ -16,6 +16,8 @@
 
 #include "windowstatestorage.h"
 
+#include <unity/shell/application/ApplicationInfoInterface.h>
+
 WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)
 {
@@ -45,10 +47,21 @@ QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect &defa
     return m_geometry.value(windowId).toRect();
 }
 
+void WindowStateStorage::saveStage(const QString &appId, int stage)
+{
+    m_stage[appId] = stage;
+}
+
+int WindowStateStorage::getStage(const QString &appId) const
+{
+    return m_stage.value(appId, unity::shell::application::ApplicationInfoInterface::MainStage);
+}
+
 void WindowStateStorage::clear()
 {
     m_state.clear();
     m_geometry.clear();
+    m_stage.clear();
 }
 
 void WindowStateStorage::saveState(const QString &windowId, WindowState state)

@@ -47,6 +47,7 @@ public:
     Mir::Type type() const override;
     QString name() const override;
     bool live() const override;
+    Mir::ShellChrome shellChrome() const override;
 
     Mir::State surfaceState() const override;
     void setSurfaceState(Mir::State) override {}
@@ -123,6 +124,7 @@ private:
     int m_touchReleaseCount;
     int m_mousePressCount;
     int m_mouseReleaseCount;
+    QVariantMap m_touchTrail;
 
     FillMode m_fillMode{Stretch};
 

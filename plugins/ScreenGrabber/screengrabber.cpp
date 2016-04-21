@@ -46,12 +46,10 @@ ScreenGrabber::ScreenGrabber(QObject *parent)
 
     QDir screenshotsDir;
     if (qEnvironmentVariableIsSet("UNITY_TESTING")) {
-        qDebug() << "Using test environment";
         QTemporaryDir tDir;
         tDir.setAutoRemove(false);
         screenshotsDir = tDir.path();
     } else {
-        qDebug() << "Using real environment";
         screenshotsDir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     }
     screenshotsDir.mkpath(QStringLiteral("Screenshots"));

@@ -23,7 +23,7 @@ import QMenuModel 0.1
 import Utils 0.1
 import "../Components"
 
-Item {
+StyledItem {
     id: notification
 
     property alias iconSource: icon.fileSource
@@ -41,15 +41,12 @@ Item {
     property int maxHeight
     property int margins
     readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
-    readonly property bool darkOnBright: panel.indicators.shown || type === Notification.SnapDecision
-    readonly property color red: "#fc4949"
-    readonly property color green: "#3fb24f"
+    readonly property bool darkOnBright: inverseMode || type === Notification.SnapDecision
     readonly property color sdLightGrey: "#eaeaea"
-    readonly property color sdDarkGrey: "#dddddd"
-    readonly property color sdFontColor: "#5d5d5d"
     readonly property real contentSpacing: units.gu(2)
     readonly property bool canBeClosed: type === Notification.Ephemeral
     property bool hasMouse
+    property bool inverseMode
     property url background: ""
 
     objectName: "background"
@@ -57,6 +54,10 @@ Item {
 
     color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
     opacity: 1 - (x / notification.width) // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
+
+    theme: ThemeSettings {
+        name: darkOnBright ? "Ubuntu.Components.Themes.Ambiance" : "Ubuntu.Components.Themes.SuruDark"
+    }
 
     state: {
         var result = "";
@@ -281,7 +282,6 @@ Item {
                         }
                         visible: type !== Notification.Confirmation
                         fontSize: "medium"
-                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -296,8 +296,7 @@ Item {
                         }
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
-                        color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
-                        wrapMode: Text.WordWrap
+                        wrapMode: Text.Wrap
                         maximumLineCount: type == Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
@@ -337,7 +336,6 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
                 fontSize: "medium"
-                color: darkOnBright ? sdFontColor : theme.palette.selected.backgroundText
                 wrapMode: Text.WordWrap
                 maximumLineCount: 1
                 elide: Text.ElideRight
@@ -357,7 +355,7 @@ Item {
                 }
 
                 height: units.gu(1)
-                backgroundColor: darkOnBright ? UbuntuColors.darkGrey : UbuntuColors.lightGrey
+                backgroundColor: theme.palette.normal.background
                 aspect: UbuntuShape.Flat
                 radius: "small"
 
@@ -366,7 +364,7 @@ Item {
                     objectName: "innerBar"
                     width: valueIndicator.width * valueIndicator.value / 100
                     height: units.gu(1)
-                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? UbuntuColors.orange : darkOnBright ? UbuntuColors.lightGrey : "white"
+                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? theme.palette.normal.activity : theme.palette.highlighted.foreground
                     aspect: UbuntuShape.Flat
                     radius: "small"
                 }
@@ -443,7 +441,7 @@ Item {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? green : sdDarkGrey
+                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? UbuntuColors.green : theme.palette.normal.baseText
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -471,7 +469,7 @@ Item {
                                     objectName: "notify_oot_button" + index
                                     width: oneOverTwoCase.width / 2 - spacing * 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? red : sdDarkGrey
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? UbuntuColors.red : theme.palette.normal.baseText
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -532,12 +530,12 @@ Item {
                                 width: buttonRow.width / 2 - spacing * 2
                                 text: loader.actionLabel
                                 color: {
-                                    var result = sdDarkGrey;
+                                    var result = theme.palette.normal.baseText;
                                     if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
-                                        result = green;
+                                        result = UbuntuColors.green;
                                     }
                                     if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
-                                        result = red;
+                                        result = UbuntuColors.red;
                                     }
                                     return result;
                                 }

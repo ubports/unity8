@@ -27,6 +27,7 @@ public:
     ~TimezoneFormatter() = default;
 
     Q_INVOKABLE QString currentTimeInTimezone(const QVariant &tzId) const;
+    Q_INVOKABLE QString currentTimeInTimezoneWithAbbrev(const QVariant &tzId) const;
 };
 
 #endif

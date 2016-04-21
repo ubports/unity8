@@ -1,3 +1,261 @@
+unity8 (8.12+16.04.20160414.1-0ubuntu1) xenial; urgency=medium
+
+  [ Michael Terry ]
+  * Make sure that usageMode is set on startup, fixing a problem with
+    the tutorial not noticing that it is running on a desktop. (LP:
+    #1564351)
+
+  [ Michael Zanetti ]
+  * make the edge drag area width configurable (LP: #1559512)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Thu, 14 Apr 2016 21:20:28 +0000
+
+unity8 (8.12+16.04.20160401-0ubuntu1) xenial; urgency=medium
+
+  * Add missing Testsuite header
+  * Skip the failing test until we have a working solution for bug
+    #1564571 (LP: #1564571)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 01 Apr 2016 08:32:16 +0000
+
+unity8 (8.12+16.04.20160330-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Use tutorialLeftLoader instead of tutorialLeft
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Lukáš Tinkl ]
+  * Fix the last chance popup colors/theme
+
+  [ Michael Terry ]
+  * Adjust text for desktop right edge tutorial to be accurate. (LP:
+    #1563103)
+  * Fix OOBE wizard not setting your name. (LP: #1562872)
+  * Fix showing "Retry" in password prompt when turning on screen in
+    tablet mode.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 30 Mar 2016 07:46:51 +0000
+
+unity8 (8.12+16.04.20160323.2-0ubuntu1) xenial; urgency=medium
+
+  [ Michael Terry ]
+  * 
+  * Fix setting OSK layout in OOBE wizard
+  * Stop the left edge tutorial from being shown when the bottom edge
+    tutorial wants to be shown after receiving a call.
+
+  [ Albert Astals Cid ]
+  * Filter implementation with Option Selector filter as the only filter
+  * Get the engine from the parent context
+  * Implement the API changes due to filters
+  * Match design visuals for the new dash navigation/page header popup
+  * New Dash Navigation UX
+  * Range Input filter
+  * Value slider filter
+  * Workaround SDK ListItem bug
+
+  [ Albert Astals Cid, Lukáš Tinkl ]
+  * Fix various tests
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Lukáš Tinkl, Michael Terry ]
+  * New first-run wizard for the phone (part of the OOBE effort) (LP:
+    #1536688, #1536617, #1543790, #1555222)
+
+  [ Lukáš Tinkl, Michał Sawicz ]
+  * Keymap switching support (LP: #1524400, #1412492, #1491340)
+
+  [ Michael Terry, Michael Zanetti ]
+  * Redesign the first-boot edge tutorial
+
+  [ Michael Zanetti ]
+  * disabling some tests that are flaky in adt but can't be made fail on
+    our machines
+
+  [ Michael Zanetti, Michał Sawicz ]
+  * Change the behavior alond with the switch in indicator-display (LP:
+    #1538591)
+
+  [ Michael Zanetti, Michał Sawicz, Nick Dedekind ]
+  * Add support for low shell chrome. (LP: #1535397)
+  * Sidestage load/unload redesign (LP: #1544479)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Wed, 23 Mar 2016 09:53:17 +0000
+
+unity8 (8.11+16.04.20160318.1-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Lukáš Tinkl ]
+  * Fix notifications with the new UITK color schemes (LP: #1554616,
+    #1556523)
+
+  [ Lukáš Tinkl, Michael Zanetti, Nick Dedekind ]
+  * more fixes for the new theme palette (LP: #1554616, #1557534)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Fri, 18 Mar 2016 17:12:53 +0000
+
+unity8 (8.11+16.04.20160310.4-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add context for Re-dock as asked by translators (LP: #1534608)
+  * Add emblem to the preview header widget (LP: #1424720)
+  * Add haptics to ScopesListCategoryItem buttons
+  * Audio Cards: Make some of the image loading async (LP: #1533432)
+  * Do not create fallback code for the card tool fake card (LP:
+    #1545865)
+  * Fix resizing the dash bringing temp scopes size out of sync (LP:
+    #1543130)
+  * Minor fixes for unity-scope-tool
+  * Resolve title alignment on card creator time instead of on runtime
+  * Use fixedHeaderHeight only in the non cardtool cards
+  * Use the new undeprecated connectivityqt::Connectivity
+  * asynchronous is only false on the fake card in cardtool
+  * clazy fixes
+
+  [ Albert Astals Cid, CI Train Bot ]
+  * click scope: Add the else branch so we reset the card size in all
+    situations
+
+  [ Andrea Cimitan ]
+  * PreviewSharing widget now accepts both string and array of
+    widgetData["share-data"]["uri"] (LP: #1549056)
+  * Update AP tests for new single preview
+  * Use Text.Wrap for body notification text (LP: #1544909)
+
+  [ Andrea Cimitan, Lukáš Tinkl, Michael Zanetti, Nick Dedekind ]
+  * some fixes for the new palette (LP: #1554616)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ CI Train Bot, Daniel d'Andrada ]
+  * Ensure the QML engine doesn't delete our mock MirSurfaces on its
+    own.
+
+  [ Daniel d'Andrada ]
+  * tst_Shell: Remove unused qml items
+
+  [ Josh Arenson ]
+  * Allow the shell to blacklist input devices and force the OSK shown.
+    (LP: #1542224)
+
+  [ Lukáš Tinkl ]
+  * Disallow resizing windows up, past the Panel (LP: #1544766)
+  * Elide the window title not to let it overflow into the indicators
+    area (LP: #1535767)
+  * Enable the PIN lockscreen to be used with a HW keyboard (LP:
+    #1550359)
+  * Fix tiny windows when switching stages
+  * Provide a range of ports to QML JS Debugger
+  * Watch for launcher item icon changes (LP: #1543290)
+
+  [ Michael Terry ]
+  * Proxy more mouse and touchpad properties to USC (LP: #1540398) (LP:
+    #1543344, #1540398)
+  * Refactor the AccountsService plugin and make it slightly faster.
+  * To let the user log in if a mouse is connected, hide the greeter
+    cover page on a mouse click (but NOT a touch click). (LP: #1540497)
+  * Watch AccountsService for changes to the user's real name.  This was
+    preventing us from noticing when the user set their name in the
+    welcome wizard.
+
+  [ Michael Zanetti ]
+  * Allow alt+tabbing in staged mode too (LP: #1540502)
+  * Allow invoking the staged mode spreads by mouse right edge pushes
+    too (LP: #1540392)
+  * Allow loading the device configuration from an external file
+  * Implement Launcher's keyboard navigation and updated pip design
+  * Make launcher scalable, allow it locking (LP: #1511015)
+  * Properly parent launcher items in all cases (LP: #1495732)
+  * Read inputMethod surface from the new property int QtMir (LP:
+    #1545286)
+  * Some visual updates and rotation lock for the virtual touchpad (LP:
+    #1549087)
+  * Visual updates for the windowed spread (LP: #1488148)
+  * stabilize swipeAwayGreeter()
+
+  [ Michał Sawicz ]
+  * Add udev rules to make sure we have access to uinput
+  * Make dash respawn indefinitely (LP: #1550056)
+  * Use dpkg-architecture, not arch, to disable touch emulation
+
+  [ Vesa Rautiainen ]
+  * Fixing the vertical position of desktop spread item icon.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Thu, 10 Mar 2016 22:44:16 +0000
+
+unity8 (8.11+16.04.20160308-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make these tests pass with the new SDK
+
+  [ Andrea Cimitan, Nick Dedekind ]
+  * replace selected.backgroundText with normal.backgroundText in
+    Splash, Notifications, Wizard
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Michał Sawicz, Nick Dedekind ]
+  * Fixed colours palette value set. Moved ModemItem to USC.
+
+  [ Michał Sawicz, Tim Peeters ]
+  * Update headers for Dash and Splash to work properly with the new UI
+    toolkit release.
+
+  [ Zoltán Balogh, Zsombor Egri ]
+  * Use SuruDark theme instead of the deprecated SuruGradient.
+
+ -- Zoltan Balogh <zoltan.balogh@canonical.com>  Tue, 08 Mar 2016 20:59:34 +0000
+
+unity8 (8.11+16.04.20160307-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Rodney Dawes ]
+  * Re-enable the purchaseCancelled signal.
+
+ -- Rodney Dawes <ci-train-bot@canonical.com>  Mon, 07 Mar 2016 14:12:08 +0000
+
+unity8 (8.11+16.04.20160301-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Hook the new scope.activationInProgress property (LP: #1537132)
+
+  [ Andrea Cimitan ]
+  * Updated the Preview view to use a single PreviewModel instead old
+    PreviewStack, using a Loader instead ListView (LP: #1541967)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Michał Sawicz ]
+  * Add autopilot as DEP-8 tests added: debian/tests/autopilot.sh
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 01 Mar 2016 10:28:52 +0000
+
+unity8 (8.11+16.04.20160216.1-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Make the audio previews create a playlist (LP: #1540477)
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/aa.po
+  * Update translation template
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Tue, 16 Feb 2016 03:24:46 +0000
+
 unity8 (8.11+16.04.20160212-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]

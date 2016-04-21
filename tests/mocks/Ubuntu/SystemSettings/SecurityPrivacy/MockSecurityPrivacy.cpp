@@ -31,5 +31,5 @@ QString MockSecurityPrivacy::setSecurity(const QString &oldPasswd, const QString
 {
     m_type = newType;
     Q_EMIT setSecurityCalled(oldPasswd, newPasswd, newType);
-    return "";
+    return QString();
 }

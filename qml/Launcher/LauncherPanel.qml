@@ -19,12 +19,13 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
+import GlobalShortcut 1.0
 import "../Components/ListItems"
 import "../Components/"
 
 Rectangle {
     id: root
-    color: "#B2000000"
+    color: "#E0292929"
 
     rotation: inverted ? 180 : 0
 
@@ -33,16 +34,38 @@ Rectangle {
     property bool dragging: false
     property bool moving: launcherListView.moving || launcherListView.flicking
     property bool preventHiding: moving || dndArea.draggedIndex >= 0 || quickList.state === "open" || dndArea.pressed
-                              || mouseEventEater.containsMouse || dashItem.hovered
-    property int highlightIndex: -1
+                                 || mouseEventEater.containsMouse || dashItem.hovered
+    property int highlightIndex: -2
+    property bool shortcutHintsShown: false
 
     signal applicationSelected(string appId)
     signal showDashHome()
+    signal kbdNavigationCancelled()
 
     onXChanged: {
         if (quickList.state == "open") {
             quickList.state = ""
         }
+    }
+
+    function highlightNext() {
+        highlightIndex++;
+        if (highlightIndex >= launcherListView.count) {
+            highlightIndex = -1;
+        }
+        launcherListView.moveToIndex(Math.max(highlightIndex, 0));
+    }
+    function highlightPrevious() {
+        highlightIndex--;
+        if (highlightIndex <= -2) {
+            highlightIndex = launcherListView.count - 1;
+        }
+        launcherListView.moveToIndex(Math.max(highlightIndex, 0));
+    }
+    function openQuicklist(index) {
+        quickList.open(index);
+        quickList.selectedIndex = 0;
+        quickList.focus = true;
     }
 
     MouseArea {
@@ -57,24 +80,16 @@ Rectangle {
             fill: parent
         }
 
-        Item {
+        Rectangle {
             objectName: "buttonShowDashHome"
             width: parent.width
-            height: units.gu(7)
-            clip: true
-
-            UbuntuShape {
-                anchors {
-                    fill: parent
-                    topMargin: -units.gu(2)
-                }
-                aspect: UbuntuShape.Flat
-                backgroundColor: UbuntuColors.orange
-            }
+            height: width * .9
+            color: UbuntuColors.orange
+            readonly property bool highlighted: root.highlightIndex == -1;
 
             Image {
                 objectName: "dashItem"
-                width: units.gu(5)
+                width: parent.width * .6
                 height: width
                 anchors.centerIn: parent
                 source: "graphics/home.png"
@@ -84,6 +99,14 @@ Rectangle {
                 id: dashItem
                 anchors.fill: parent
                 onClicked: root.showDashHome()
+            }
+            Rectangle {
+                objectName: "bfbFocusHighlight"
+                anchors.fill: parent
+                border.color: "white"
+                border.width: units.dp(1)
+                color: "transparent"
+                visible: parent.highlighted
             }
         }
 
@@ -102,10 +125,8 @@ Rectangle {
                     objectName: "launcherListView"
                     anchors {
                         fill: parent
-                        topMargin: -extensionSize + units.gu(0.5)
-                        bottomMargin: -extensionSize + units.gu(1)
-                        leftMargin: units.gu(0.5)
-                        rightMargin: units.gu(0.5)
+                        topMargin: -extensionSize + width * .15
+                        bottomMargin: -extensionSize + width * .15
                     }
                     topMargin: extensionSize
                     bottomMargin: extensionSize
@@ -140,11 +161,11 @@ Rectangle {
                     }
 
                     // The height of the area where icons start getting folded
-                    property int foldingStartHeight: units.gu(6.5)
+                    property int foldingStartHeight: itemHeight
                     // The height of the area where the items reach the final folding angle
                     property int foldingStopHeight: foldingStartHeight - itemHeight - spacing
-                    property int itemWidth: units.gu(7)
-                    property int itemHeight: units.gu(6.5)
+                    property int itemWidth: width * .75
+                    property int itemHeight: itemWidth * 15 / 16 + units.gu(1)
                     property int clickFlickSpeed: units.gu(60)
                     property int draggedIndex: dndArea.draggedIndex
                     property real realContentY: contentY - originY + topMargin
@@ -172,12 +193,24 @@ Rectangle {
 
                     UbuntuNumberAnimation {
                         id: moveAnimation
+                        objectName: "moveAnimation"
                         target: launcherListView
                         property: "contentY"
                         function moveTo(contentY) {
                             from = launcherListView.contentY;
                             to = contentY;
-                            start();
+                            restart();
+                        }
+                    }
+                    function moveToIndex(index) {
+                        var totalItemHeight = launcherListView.itemHeight + launcherListView.spacing
+                        var itemPosition = index * totalItemHeight;
+                        var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+                        var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : totalItemHeight
+                        if (itemPosition + totalItemHeight + distanceToEnd > launcherListView.contentY + launcherListView.originY + launcherListView.topMargin + height) {
+                            moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd - launcherListView.originY);
+                        } else if (itemPosition - distanceToEnd < launcherListView.contentY - launcherListView.originY + launcherListView.topMargin) {
+                            moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin + launcherListView.originY);
                         }
                     }
 
@@ -192,9 +225,10 @@ Rectangle {
                         // the right app when running autopilot tests for
                         // multiple apps.
                         readonly property string appId: model.appId
+                        itemIndex: index
                         itemHeight: launcherListView.itemHeight
                         itemWidth: launcherListView.itemWidth
-                        width: itemWidth
+                        width: parent.width
                         height: itemHeight
                         iconName: model.icon
                         count: model.count
@@ -204,6 +238,8 @@ Rectangle {
                         itemFocused: model.focused
                         inverted: root.inverted
                         alerting: model.alerting
+                        highlighted: root.highlightIndex == index
+                        shortcutHintShown: root.shortcutHintsShown && index <= 9
                         z: -Math.abs(offset)
                         maxAngle: 55
                         property bool dragging: false
@@ -241,14 +277,7 @@ Rectangle {
                         onAlertingChanged: {
                             if(alerting) {
                                 if (!dragging && (launcherListView.peekingIndex === -1 || launcher.visibleWidth > 0)) {
-                                      var itemPosition = index * launcherListView.itemHeight;
-                                      var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
-                                      var distanceToEnd = index == 0 || index == launcherListView.count - 1 ? 0 : launcherListView.itemHeight
-                                      if (itemPosition + launcherListView.itemHeight + distanceToEnd > launcherListView.contentY + launcherListView.topMargin + height) {
-                                          moveAnimation.moveTo(itemPosition + launcherListView.itemHeight - launcherListView.topMargin - height + distanceToEnd);
-                                      } else if (itemPosition - distanceToEnd < launcherListView.contentY + launcherListView.topMargin) {
-                                          moveAnimation.moveTo(itemPosition - distanceToEnd - launcherListView.topMargin);
-                                      }
+                                    launcherListView.moveToIndex(index)
                                     if (!dragging && launcher.state !== "visible") {
                                         peekingAnimation.start()
                                     }
@@ -402,10 +431,7 @@ Rectangle {
 
                             if (mouse.button & Qt.RightButton) { // context menu
                                 // Opening QuickList
-                                quickList.item = clickedItem;
-                                quickList.model = launcherListView.model.get(index).quickList;
-                                quickList.appId = launcherListView.model.get(index).appId;
-                                quickList.state = "open";
+                                quickList.open(index);
                                 return;
                             }
 
@@ -413,10 +439,8 @@ Rectangle {
 
                             // First/last item do the scrolling at more than 12 degrees
                             if (index == 0 || index == launcherListView.count - 1) {
-                                if (clickedItem.angle > 12) {
-                                    launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                                } else if (clickedItem.angle < -12) {
-                                    launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                                if (clickedItem.angle > 12 || clickedItem.angle < -12) {
+                                    launcherListView.moveToIndex(index);
                                 } else {
                                     root.applicationSelected(LauncherModel.get(index).appId);
                                 }
@@ -424,10 +448,8 @@ Rectangle {
                             }
 
                             // the rest launches apps up to an angle of 30 degrees
-                            if (clickedItem.angle > 30) {
-                                launcherListView.flick(0, -launcherListView.clickFlickSpeed);
-                            } else if (clickedItem.angle < -30) {
-                                launcherListView.flick(0, launcherListView.clickFlickSpeed);
+                            if (clickedItem.angle > 30 || clickedItem.angle < -30) {
+                                launcherListView.moveToIndex(index);
                             } else {
                                 root.applicationSelected(LauncherModel.get(index).appId);
                             }
@@ -481,11 +503,7 @@ Rectangle {
 
                             draggedIndex = Math.floor((mouse.y + launcherListView.realContentY) / launcherListView.realItemHeight);
 
-                            // Opening QuickList
-                            quickList.item = selectedItem;
-                            quickList.model = launcherListView.model.get(draggedIndex).quickList;
-                            quickList.appId = launcherListView.model.get(draggedIndex).appId;
-                            quickList.state = "open";
+                            quickList.open(draggedIndex)
 
                             launcherListView.interactive = false
 
@@ -644,7 +662,9 @@ Rectangle {
         enabled: quickList.state == "open" || pressed
 
         onClicked: {
-            quickList.state = ""
+            quickList.state = "";
+            quickList.focus = false;
+            root.kbdNavigationCancelled();
         }
 
         // Forward for dragging to work when quickList is open
@@ -693,41 +713,96 @@ Rectangle {
         property var model
         property string appId
         property var item
+        property int selectedIndex: -1
+
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_Down:
+                selectedIndex++;
+                if (selectedIndex >= popoverRepeater.count) {
+                    selectedIndex = 0;
+                }
+                event.accepted = true;
+                break;
+            case Qt.Key_Up:
+                selectedIndex--;
+                if (selectedIndex < 0) {
+                    selectedIndex = popoverRepeater.count - 1;
+                }
+                event.accepted = true;
+                break;
+            case Qt.Key_Left:
+            case Qt.Key_Escape:
+                quickList.selectedIndex = -1;
+                quickList.focus = false;
+                quickList.state = ""
+                event.accepted = true;
+                break;
+            case Qt.Key_Enter:
+            case Qt.Key_Return:
+            case Qt.Key_Space:
+                if (quickList.selectedIndex >= 0) {
+                    LauncherModel.quickListActionInvoked(quickList.appId, quickList.selectedIndex)
+                }
+                quickList.selectedIndex = -1;
+                quickList.focus = false;
+                quickList.state = ""
+                root.kbdNavigationCancelled();
+                event.accepted = true;
+                break;
+            }
+        }
 
         // internal
         property int itemCenter: item ? root.mapFromItem(quickList.item).y + (item.height / 2) + quickList.item.offset : units.gu(1)
         property int offset: itemCenter + (height/2) + units.gu(1) > parent.height ? -itemCenter - (height/2) - units.gu(1) + parent.height :
                              itemCenter - (height/2) < units.gu(1) ? (height/2) - itemCenter + units.gu(1) : 0
 
-        Column {
-            id: quickListColumn
+        function open(index) {
+            var itemPosition = index * launcherListView.itemHeight;
+            var height = launcherListView.height - launcherListView.topMargin - launcherListView.bottomMargin
+            item = launcherListView.itemAt(launcherListView.width / 2, itemPosition + launcherListView.itemHeight / 2);
+            quickList.model = launcherListView.model.get(index).quickList;
+            quickList.appId = launcherListView.model.get(index).appId;
+            quickList.state = "open";
+        }
+
+        StyledItem {
             width: parent.width
-            height: childrenRect.height
+            height: quickListColumn.height
 
-            Repeater {
-                id: popoverRepeater
-                model: quickList.model
+            theme: ThemeSettings {
+                name: "Ubuntu.Components.Themes.Ambiance"
+            }
 
-                ListItems.Standard {
-                    objectName: "quickListEntry" + index
-                    text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
-                    highlightWhenPressed: model.clickable
+            Column {
+                id: quickListColumn
+                width: parent.width
+                height: childrenRect.height
 
-                    // FIXME: This is a workaround for the theme not being context sensitive. I.e. the
-                    // ListItems don't know that they are sitting in a themed Popover where the color
-                    // needs to be inverted.
-                    __foregroundColor: "black"
+                Repeater {
+                    id: popoverRepeater
+                    model: quickList.model
 
-                    onClicked: {
-                        if (!model.clickable) {
-                            return;
+                    ListItems.Standard {
+                        objectName: "quickListEntry" + index
+                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
+                        highlightWhenPressed: model.clickable
+                        selected: index === quickList.selectedIndex
+
+                        onClicked: {
+                            if (!model.clickable) {
+                                return;
+                            }
+                            Haptics.play();
+                            quickList.state = "";
+                            // Unsetting model to prevent showing changing entries during fading out
+                            // that may happen because of triggering an action.
+                            LauncherModel.quickListActionInvoked(quickList.appId, index);
+                            quickList.focus = false;
+                            root.kbdNavigationCancelled();
+                            quickList.model = undefined;
                         }
-                        Haptics.play();
-                        quickList.state = "";
-                        // Unsetting model to prevent showing changing entries during fading out
-                        // that may happen because of triggering an action.
-                        LauncherModel.quickListActionInvoked(quickList.appId, index);
-                        quickList.model = undefined;
                     }
                 }
             }

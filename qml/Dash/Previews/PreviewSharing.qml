@@ -44,6 +44,22 @@ Item {
         }
     }
 
+    function createExportedItems(url) {
+        var items = new Array();
+        if (typeof url === "string") {
+            var exportItem = exportItemComponent.createObject();
+            exportItem.url = url;
+            items.push(exportItem);
+        } else {
+            for (var i = 0; i < url.length; i++) {
+                var exportItem = exportItemComponent.createObject();
+                exportItem.url = url[i];
+                items.push(exportItem);
+            }
+        }
+        return items;
+    }
+
     Component {
         id: exportItemComponent
         ContentItem {
@@ -76,13 +92,7 @@ Item {
             onPeerSelected: {
                 var transfer = peer.request();
                 if (transfer.state === ContentTransfer.InProgress) {
-                    var items = new Array();
-                    for (var i = 0; i < url.length; i++) {
-                        var exportItem = exportItemComponent.createObject();
-                        exportItem.url = url[i];
-                        items.push(exportItem);
-                    }
-                    transfer.items = items;
+                    transfer.items = createExportedItems(url);
                     transfer.state = ContentTransfer.Charged;
                 }
                 peerPicker.visible = false;

@@ -18,10 +18,11 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "../Components"
 
-Item {
+FocusScope {
     id: root
     y: units.gu(4)
     height: shakeContainer.height
+    focus: true
 
     property string infoText
     property string errorText
@@ -42,8 +43,6 @@ Item {
         }
     }
 
-    onActiveFocusChanged: if (activeFocus) pinentryField.forceActiveFocus()
-
     Column {
         id: shakeContainer
         anchors.horizontalCenter: parent.horizontalCenter
@@ -59,14 +58,16 @@ Item {
             text: root.infoText
         }
 
-        Item {
+        FocusScope {
             id: entryContainer
             anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
             height: units.gu(4)
+            focus: true
 
             TextInput {
                 id: pinentryField
                 objectName: "pinentryField"
+                focus: true
 
                 property bool incorrectOverride: false
 
