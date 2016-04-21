@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,31 +14,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SESSIONMANAGER_H
-#define SESSIONMANAGER_H
+#ifndef WINDOWMANAGER_PLUGIN_H
+#define WINDOWMANAGER_PLUGIN_H
 
-#include <QObject>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-class Session;
-
-class SessionManager : public QObject
+class WindowManagerPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
 public:
-    explicit SessionManager(QObject *parent = 0);
-
-    static SessionManager *singleton();
-
-    Q_INVOKABLE Session* createSession(const QString& name, const QUrl& screenshot);
-
-    void registerSession(Session *session);
-
-Q_SIGNALS:
-    void sessionStarting(Session *session);
-    void sessionStopping(Session *session);
-
-private:
-    static SessionManager *the_session_manager;
+    void registerTypes(const char *uri) override;
 };
 
-#endif // SESSIONMANAGER_H
+#endif // WINDOWMANAGER_PLUGIN_H

@@ -1,0 +1,2 @@
+module WindowManager
+plugin windowmanager-qml

@@ -57,16 +57,8 @@ QtObject {
         currentKeymapIndex = prevIndex;
     }
 
-    // Code below will get much simpler with surface-based window management (the upcoming MirFocusController)
-    property var application: ApplicationManager.focusedApplicationId
-            ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
-            : null
-    property var session: application && application.session ? application.session : null
-    property var surface: session ? session.lastSurface : null
-
     property Binding surfaceKeymapBinding: Binding {
-        target: root.surface
-        when: root.surface != null && root.surface.live
+        target: MirFocusController.focusedSurface
         property: "keymap"
         value: root.currentKeymap
     }
