@@ -51,6 +51,28 @@ inline QString translationDirectory() {
     }
 }
 
+inline QString testDataDir() {
+    // Can't use isRunningInstalled, since tests don't use the normal unity8
+    // executable.  $UNITY_TESTING_DATADIR is set by installed tests.
+    QString datadir(qgetenv("UNITY_TESTING_DATADIR"));
+    if (datadir.isEmpty()) {
+        return sourceDirectory() + "/tests";
+    } else {
+        return datadir + "/tests";
+    }
+}
+
+inline QString testLibDir() {
+    // Can't use isRunningInstalled, since tests don't use the normal unity8
+    // executable.  $UNITY_TESTING_DATADIR is set by installed tests.
+    QString libdir(qgetenv("UNITY_TESTING_LIBDIR"));
+    if (libdir.isEmpty()) {
+        return buildDirectory() + "/tests";
+    } else {
+        return libdir + "/tests";
+    }
+}
+
 inline QString qmlDirectory() {
     if (isRunningInstalled()) {
         return QStringLiteral("@CMAKE_INSTALL_PREFIX@/@SHELL_APP_DIR@/");

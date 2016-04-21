@@ -30,6 +30,9 @@ macro(add_lvwph_test FILENAME TESTNAME)
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../plugins/Dash/listviewwithpageheader.cpp)
     qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
     target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    install(TARGETS ${TESTNAME}TestExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+    )
 
     add_unity8_uitest(${TESTNAME} ${TESTNAME}TestExec DEPENDS Dash-qml)
 endmacro()
@@ -46,6 +49,9 @@ macro(add_dashview_try_test FILENAME TESTNAME)
     )
     qt5_use_modules(${TESTNAME}TestExec Test Core Qml)
     target_link_libraries(${TESTNAME}TestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    install(TARGETS ${TESTNAME}TestExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+    )
 
     add_unity8_uitest(${TESTNAME} ${TESTNAME}TestExec DEPENDS Dash-qml)
 
@@ -56,6 +62,9 @@ macro(add_dashview_try_test FILENAME TESTNAME)
     )
     qt5_use_modules(${TESTNAME}TryExec Test Core Qml)
     target_link_libraries(${TESTNAME}TryExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+    install(TARGETS ${TESTNAME}TryExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+    )
     add_manual_test(${TESTNAME} ${TESTNAME}TryExec DEPENDS Dash-qml)
 endmacro()
 
@@ -67,6 +76,9 @@ add_dashview_try_test(organicgrid OrganicGrid)
 add_executable(CardCreatorTestExec cardcreatortest.cpp)
 qt5_use_modules(CardCreatorTestExec Test Core Qml)
 target_link_libraries(CardCreatorTestExec ${Qt5Gui_LIBRARIES} ${Qt5Quick_LIBRARIES})
+install(TARGETS CardCreatorTestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+)
 add_unity8_uitest(CardCreator CardCreatorTestExec DEPENDS Dash-qml)
 
 # plain qml test

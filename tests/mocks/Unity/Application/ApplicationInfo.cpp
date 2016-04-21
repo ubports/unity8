@@ -120,11 +120,7 @@ void ApplicationInfo::setSession(Session* session)
 
 void ApplicationInfo::setIconId(const QString &iconId)
 {
-    QString datadir(qgetenv("UNITY_TESTING_DATADIR"));
-    if (datadir.isEmpty())
-        datadir = "../.."; // relative path for code checkout
-
-    setIcon(QUrl(datadir + "/tests/graphics/applicationIcons/" + iconId + "@18.png"));
+    setIcon(QUrl(testDataDir() + "/graphics/applicationIcons/" + iconId + "@18.png"));
 }
 
 void ApplicationInfo::setScreenshotId(const QString &screenshotId)

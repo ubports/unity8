@@ -9,7 +9,7 @@ include_directories(
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
-add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DTESTDIR="plugins/Greeter/Unity/Launcher")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelASTest
@@ -31,7 +31,10 @@ target_link_libraries(launchermodelastestExec
     ${GSETTINGS_QT_LDFLAGS}
     )
 add_dependencies(launchermodelastestExec mock-server)
-qt5_use_modules(launchermodelastestExec Test Core DBus Gui)
+qt5_use_modules(launchermodelastestExec Test Core DBus Gui Qml)
+install(TARGETS launchermodelastestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Greeter/Unity/Launcher"
+)
 add_unity8_unittest(LauncherModelAS dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS
@@ -40,21 +43,3 @@ add_unity8_unittest(LauncherModelAS dbus-test-runner
         --task $<TARGET_FILE:launchermodelastestExec>
         --wait-for org.freedesktop.Accounts
 )
-
-# copy .desktop files into build directory for shadow builds
-file(GLOB DESKTOP_FILES *.desktop)
-
-foreach(DESKTOP_FILE ${DESKTOP_FILES})
-    file(COPY "${DESKTOP_FILE}"
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-        )
-endforeach()
-
-# copy .svg files into build directory for shadow builds
-file(GLOB DESKTOP_FILES *.svg)
-
-foreach(DESKTOP_FILE ${DESKTOP_FILES})
-    file(COPY "${DESKTOP_FILE}"
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-        )
-endforeach()

@@ -41,6 +41,9 @@ add_executable(mock-server
     UscServer.cpp
     )
 qt5_use_modules(mock-server Core DBus)
+install(TARGETS mock-server
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/AccountsService"
+)
 
 add_executable(test-accountsservice
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService/AccountsService.cpp
@@ -48,6 +51,9 @@ add_executable(test-accountsservice
     client.cpp
     )
 qt5_use_modules(test-accountsservice Core DBus Test)
+install(TARGETS test-accountsservice
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/AccountsService"
+)
 
 add_unity8_unittest(AccountsService dbus-test-runner
     ARG_PREFIX "--parameter"

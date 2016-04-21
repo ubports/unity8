@@ -55,6 +55,45 @@ function(add_qml_test PATH COMPONENT_NAME)
 endfunction()
 
 
+# add_qml_test_data(path component_name
+#     [...]
+# )
+#
+# Install file called ${component_name} (or ${component_name}.qml) under
+# ${path}.
+
+function(add_qml_test_data PATH COMPONENT_NAME)
+    set(filename "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/${COMPONENT_NAME}")
+
+    if (IS_DIRECTORY "${filename}")
+        # As a convenience, allow specifying a directory and we will install
+        # all files in the dir.  We do it this way rather than passing
+        # DIRECTORY to install() because we want to process any qml files.
+        file(GLOB subfiles RELATIVE "${filename}" "${filename}/*")
+        foreach(subfile ${subfiles})
+            add_qml_test_data("${PATH}/${COMPONENT_NAME}" "${subfile}")
+        endforeach()
+        return()
+    endif()
+
+    if (NOT EXISTS "${filename}")
+        set(filename "${filename}.qml")
+        set(COMPONENT_NAME "${COMPONENT_NAME}.qml")
+    endif()
+
+    if ("${filename}" MATCHES "\\.qml$")
+        file(READ "${filename}" contents)
+        string(REGEX REPLACE "(\"[./]*/)qml/" "\\1" contents "${contents}")
+        set(filename "${CMAKE_CURRENT_BINARY_DIR}/${PATH}/${COMPONENT_NAME}")
+        file(WRITE "${filename}" "${contents}")
+    endif()
+
+    install(FILES "${filename}"
+        DESTINATION "${SHELL_APP_DIR}/tests/qmltests/${PATH}"
+    )
+endfunction()
+
+
 # add_qml_unittest(path component_name
 #     [...]
 # )
@@ -72,7 +111,9 @@ function(add_qml_unittest PATH COMPONENT_NAME)
         ARGS -input ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
 
-    install_qmltest("${PATH}" "${COMPONENT_NAME}")
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
+        add_qml_test_data("${PATH}" "tst_${COMPONENT_NAME}.qml")
+    endif()
 endfunction()
 
 
@@ -94,7 +135,9 @@ function(add_manual_qml_test PATH COMPONENT_NAME)
         ARGS ${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml ${QMLTEST_ARGS}
     )
 
-    install_qmltest("${PATH}" "${COMPONENT_NAME}")
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
+        add_qml_test_data("${PATH}" "tst_${COMPONENT_NAME}.qml")
+    endif()
 endfunction()
 
 
@@ -213,19 +256,6 @@ endfunction()
 
 ################### INTERNAL ####################
 
-function(install_qmltest PATH COMPONENT_NAME)
-    set(filename "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
-    set(out_filename "${CMAKE_CURRENT_BINARY_DIR}/${PATH}/tst_${COMPONENT_NAME}.qml")
-    if (EXISTS "${filename}")
-        file(READ "${filename}" contents)
-        string(REGEX REPLACE "(import \"[./]*)/qml" "\\1" contents "${contents}")
-        file(WRITE "${out_filename}" "${contents}")
-        install(FILES "${out_filename}"
-            DESTINATION "${SHELL_APP_DIR}/tests/qmltests/${PATH}"
-        )
-    endif()
-endfunction()
-
 function(add_test_target TARGET_NAME)
     cmake_parse_arguments(TEST "" "" "COMMAND;ENVIRONMENT;DEPENDS" ${ARGN})
 
@@ -241,7 +271,8 @@ function(add_test_target TARGET_NAME)
     foreach(ONE_ENV ${TEST_ENVIRONMENT})
         set(script "${script}export ${ONE_ENV}\n")
     endforeach()
-    set(script "${script}export UNITY_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/\"\n")
+    set(script "${script}export UNITY_TESTING_DATADIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}\"\n")
+    set(script "${script}export UNITY_TESTING_LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\"\n")
     set(script "${script}\n")
     foreach(ONE_CMD ${TEST_COMMAND})
         if (NOT ONE_CMD MATCHES "\\$\\(")
@@ -251,26 +282,44 @@ function(add_test_target TARGET_NAME)
     endforeach()
     set(script "${script}$@")
 
-    # Now some replacements...
-    # replace build/source roots with their install paths
-    string(REPLACE "${CMAKE_BINARY_DIR}/tests/mocks" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml/mocks" script "${script}")
-    string(REPLACE "${CMAKE_BINARY_DIR}/tests/uqmlscene" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}" script "${script}")
-    string(REPLACE "${CMAKE_BINARY_DIR}/tests/utils/modules" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml/utils" script "${script}")
-    string(REPLACE "${CMAKE_BINARY_DIR}/plugins" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml" script "${script}")
-    string(REPLACE "${CMAKE_SOURCE_DIR}/tests/qmltests" "${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/qmltests" script "${script}")
-    # tests like to write xml output to our builddir; we don't need that
-    string(REGEX REPLACE "( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' " " " script "${script}")
+    set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
 
+    # Generate script to file then read it back to resolve any generator
+    # expressions before we try to replace paths.
     file(GENERATE
-         OUTPUT "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh"
+         OUTPUT "${filename}"
          CONTENT "${script}"
     )
 
-    install(FILES "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh"
+    # Do replacement at install time to save needless work and to make sure
+    # we are modifying file after generate step above (which doesn't happen
+    # immediately).  We can't use a custom-defined function or macro here...
+    # So instead we use a giant ugly code block.
+
+    # START OF CODE BLOCK --------------------------------------------------
+    install(CODE "
+    file(READ \"${filename}\" replacestr)
+
+    # Now some replacements...
+    # replace build/source roots with their install paths
+    string(REPLACE \"${CMAKE_BINARY_DIR}/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/mocks\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/plugins\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/uqmlscene\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/utils/modules\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/utils\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/qmltests\" replacestr \"\${replacestr}\")
+    # tests like to write xml output to our builddir; we don't need that
+    string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' \" \" \" replacestr \"\${replacestr}\")
+
+    file(WRITE \"${filename}\" \"\${replacestr}\")
+    ")
+    # END OF CODE BLOCK --------------------------------------------------
+
+    install(FILES "${filename}"
         PERMISSIONS OWNER_EXECUTE OWNER_READ
                     GROUP_EXECUTE GROUP_READ
                     WORLD_EXECUTE WORLD_READ
-        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests"
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/scripts"
     )
 endfunction()
 

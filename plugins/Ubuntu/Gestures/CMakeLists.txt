@@ -16,7 +16,7 @@ set(UbuntuGesturesQml_SOURCES
 
 add_definitions(-DUBUNTUGESTURESQML_LIBRARY)
 
-add_library(UbuntuGesturesQml MODULE ${UbuntuGesturesQml_SOURCES})
+add_library(UbuntuGesturesQml SHARED ${UbuntuGesturesQml_SOURCES})
 target_link_libraries(UbuntuGesturesQml UbuntuGestures)
 
 qt5_use_modules(UbuntuGesturesQml Core Quick)

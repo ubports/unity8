@@ -65,4 +65,7 @@ target_link_libraries(FakeUnityQml
 
 qt5_use_modules(FakeUnityQml Qml)
 
+add_unity8_mock(Unity 0.2 Unity TARGETS FakeUnityQml)
+
+# and one copy in a separate directory for autopilot
 add_unity8_mock(Unity 0.2 Unity PREFIX scopefakes TARGETS FakeUnityQml)

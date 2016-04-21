@@ -258,11 +258,11 @@ QVariantMap Scope::customizations() const
         m["foreground-color"] = "blue";
         m["page-header"] = h;
     } else if (m_id == "MockScope4") {
-        h["navigation-background"] = QUrl(sourceDirectory() + "/tests/qmltests/Dash/artwork/background.png");
+        h["navigation-background"] = QUrl(testDataDir() + "/qmltests/Dash/artwork/background.png");
         m["page-header"] = h;
     } else if (m_id == "MockScope5") {
         h["background"] = "gradient:///lightgrey/grey";
-        h["logo"] = QUrl(sourceDirectory() + "/tests/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
+        h["logo"] = QUrl(testDataDir() + "/qmltests/Dash/tst_PageHeader/logo-ubuntu-orange.svg");
         h["divider-color"] = "red";
         h["navigation-background"] = "color:///black";
         m["page-header"] = h;

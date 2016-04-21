@@ -24,8 +24,18 @@ macro(indicator_test TEST)
         ${GIO_LIBRARIES}
         ${QMENUMODEL_LDFLAGS}
         )
+    install(TARGETS ${TEST}Exec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Indicators"
+        )
 
-    add_unity8_unittest(${TEST} ${TEST}Exec)
+    set(ldpath "")
+    foreach(lib ${test_ADDITIONAL_LIBS})
+        set(ldpath "$<TARGET_FILE_DIR:${lib}>:")
+    endforeach(lib)
+
+    add_unity8_unittest(${TEST} ${TEST}Exec
+        ENVIRONMENT "LD_LIBRARY_PATH=${ldpath}"
+        )
 endmacro(indicator_test)
 
 indicator_test(IndicatorsManager ADDITIONAL_LIBS IndicatorsQml)

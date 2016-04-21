@@ -34,6 +34,8 @@
 #include <QDBusMetaType>
 #include <QDomDocument>
 
+#include <paths.h>
+
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
@@ -163,6 +165,9 @@ private Q_SLOTS:
 
     // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
     void init() {
+        // Launcher will look in current dir in testing mode for data
+        QDir::setCurrent(testLibDir() + "/" + TESTDIR);
+
         QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
@@ -576,7 +581,6 @@ private Q_SLOTS:
         appManager->removeApplication(0);
 
         // "delete" the .desktop files
-        QString oldCurrent = QDir::currentPath();
         if (deleted) {
             // In testing mode, the launcher searches the current dir for the sample .desktop file
             // We can make that fail by changing the current dir
@@ -591,9 +595,6 @@ private Q_SLOTS:
         QCOMPARE(reply.isValid(), true);
 
         QCOMPARE(launcherModel->rowCount(), deleted ? 0 : 2);
-
-        // Restoring current dir
-        QDir::setCurrent(oldCurrent);
     }
 
     void testSettings() {

@@ -12,12 +12,19 @@ include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     )
 
-export_qmlfiles(UbuntuGesturesTest .)
+export_qmlfiles(UbuntuGesturesTest .
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Ubuntu/Gestures"
+)
 
 macro(build_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp GestureTest.cpp TestItem.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Qml Gui Quick)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGesturesQml UbuntuGestures)
+    install(TARGETS ${CLASSNAME}TestExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Ubuntu/Gestures"
+    )
+    # To find libUbuntuGestures.so
+    set_target_properties(${CLASSNAME}TestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}")
 endmacro()
 
 set(UNITY_IMPORT_PATHS

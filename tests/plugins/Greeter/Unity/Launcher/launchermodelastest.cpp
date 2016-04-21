@@ -28,6 +28,7 @@
 #include <QSignalSpy>
 #include <QtTest>
 
+#include <paths.h>
 
 class LauncherModelASTest : public QObject
 {
@@ -45,6 +46,9 @@ private Q_SLOTS:
     }
 
     void init() {
+        // Launcher will look in current dir in testing mode for data
+        QDir::setCurrent(testLibDir() + "/" + TESTDIR);
+
         // Prepare some fake list
         QList<QVariantMap> list;
         QVariantMap item;

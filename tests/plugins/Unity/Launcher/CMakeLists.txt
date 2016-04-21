@@ -11,7 +11,7 @@ include_directories(
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
-add_definitions(-DSRCDIR="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DTESTDIR="plugins/Unity/Launcher")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelTest
@@ -37,7 +37,10 @@ target_link_libraries(launchermodeltestExec
     ${GSETTINGS_QT_LDFLAGS}
     )
 add_dependencies(launchermodeltestExec mock-server)
-qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui)
+qt5_use_modules(launchermodeltestExec Test Core DBus Xml Gui Qml)
+install(TARGETS launchermodeltestExec
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
+    )
 
 add_unity8_unittest(LauncherModel dbus-test-runner
     ARG_PREFIX "--parameter"
@@ -56,6 +59,9 @@ foreach(DESKTOP_FILE ${DESKTOP_FILES})
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
         )
 endforeach()
+install(FILES ${DESKTOP_FILES}
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
+    )
 
 # copy .svg files into build directory for shadow builds
 file(GLOB DESKTOP_FILES *.svg)
@@ -65,3 +71,6 @@ foreach(DESKTOP_FILE ${DESKTOP_FILES})
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
         )
 endforeach()
+install(FILES ${DESKTOP_FILES}
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
+    )

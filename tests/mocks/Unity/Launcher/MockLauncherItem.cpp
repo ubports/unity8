@@ -29,7 +29,7 @@ MockLauncherItem::MockLauncherItem(const QString &appId, const QString& desktopF
     m_appId(appId),
     m_desktopFile(desktopFile),
     m_name(name),
-    m_icon(icon),
+    m_icon(testDataDir() + "/graphics/applicationIcons/" + icon + ".png"),
     m_pinned(false),
     m_running(false),
     m_recent(false),
@@ -63,11 +63,7 @@ QString MockLauncherItem::name() const
 
 QString MockLauncherItem::icon() const
 {
-    QString datadir(qgetenv("UNITY_TESTING_DATADIR"));
-    if (datadir.isEmpty())
-        datadir = "../.."; // relative path for code checkout
-
-    return datadir + "/tests/graphics/applicationIcons/" + m_icon + ".png";
+    return m_icon;
 }
 
 bool MockLauncherItem::pinned() const
