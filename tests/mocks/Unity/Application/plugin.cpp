@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 #include "plugin.h"
 #include "ApplicationInfo.h"
 #include "ApplicationManager.h"
-#include "ApplicationScreenshotProvider.h"
 #include "Session.h"
 #include "MirSurfaceItem.h"
 #include "SurfaceManager.h"
@@ -96,7 +95,6 @@ void FakeUnityApplicationQmlPlugin::initializeEngine(QQmlEngine *engine, const c
 {
     QQmlExtensionPlugin::initializeEngine(engine, uri);
 
-    engine->addImageProvider(QLatin1String("application"), new ApplicationScreenshotProvider(ApplicationManager::singleton()));
     // make sure we initialise our test interface.
     applicationTestInterface(engine, nullptr);
 }
