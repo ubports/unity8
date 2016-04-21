@@ -111,8 +111,6 @@ AbstractStage {
             ? applicationManager.findApplication(applicationManager.focusedApplicationId)
             : null
 
-    mainAppWindow: priv.focusedAppDelegate ? priv.focusedAppDelegate.appWindow : null
-
     orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
                                && !priv.focusedAppDelegateIsDislocated
                                && !(priv.focusedAppDelegate && priv.focusedAppDelegate.xBehavior.running)

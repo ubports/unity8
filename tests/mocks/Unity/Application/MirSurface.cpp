@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -134,6 +134,19 @@ void MirSurface::setOrientationAngle(Mir::OrientationAngle angle)
     Q_EMIT orientationAngleChanged(angle);
 }
 
+void MirSurface::setKeymap(const QString &value)
+{
+    if (value != m_keymap) {
+        m_keymap = value;
+        Q_EMIT keymapChanged(m_keymap);
+    }
+}
+
+QString MirSurface::keymap() const
+{
+    return m_keymap;
+}
+
 Mir::ShellChrome MirSurface::shellChrome() const
 {
     return m_shellChrome;
@@ -146,25 +159,6 @@ void MirSurface::setShellChrome(Mir::ShellChrome shellChrome)
 
     m_shellChrome = shellChrome;
     Q_EMIT shellChromeChanged(shellChrome);
-}
-
-QString MirSurface::keymapLayout() const
-{
-    return m_keyMap.first;
-}
-
-QString MirSurface::keymapVariant() const
-{
-    return m_keyMap.second;
-}
-
-void MirSurface::setKeymap(const QString &layout, const QString &variant)
-{
-    if (layout.isEmpty()) {
-        return;
-    }
-    m_keyMap = qMakePair(layout, variant);
-    Q_EMIT keymapChanged(layout, variant);
 }
 
 void MirSurface::registerView(qintptr viewId)

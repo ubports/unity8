@@ -2299,16 +2299,15 @@ Rectangle {
             waitUntilAppWindowIsFullyLoaded(app);
 
             // verify the initial keymap of the newly started app is the first one from the list
-            tryCompare(app.session.lastSurface, "keymapLayout", "sk");
-            tryCompare(app.session.lastSurface, "keymapVariant", "");
+            tryCompare(app.session.lastSurface, "keymap", "sk");
 
             // switch to next keymap, should go to "cz+qwerty"
             keyClick(Qt.Key_Space, Qt.MetaModifier);
-            tryCompare(app.session.lastSurface, "keymapLayout", "cz");
-            tryCompare(app.session.lastSurface, "keymapVariant", "qwerty");
+            tryCompare(app.session.lastSurface, "keymap", "cz+qwerty");
 
             // switch to next keymap, should go to "fr"
             keyClick(Qt.Key_Space, Qt.MetaModifier);
+            tryCompare(app.session.lastSurface, "keymap", "fr");
 
             // go to e.g. desktop stage
             loadShell("desktop");
@@ -2318,34 +2317,28 @@ Rectangle {
             // start a second app, should get the last configured keyboard, "fr"
             var app2 = ApplicationManager.startApplication("calendar-app");
             waitUntilAppWindowIsFullyLoaded(app2);
-            tryCompare(app2.session.lastSurface, "keymapLayout", "fr");
-            tryCompare(app2.session.lastSurface, "keymapVariant", "");
+            tryCompare(app2.session.lastSurface, "keymap", "fr");
 
             // focus our first app, make sure it also has the "fr" keymap
             ApplicationManager.requestFocusApplication("dialer-app");
-            tryCompare(app.session.lastSurface, "keymapLayout", "fr");
-            tryCompare(app.session.lastSurface, "keymapVariant", "");
+            tryCompare(app.session.lastSurface, "keymap", "fr");
 
             // switch to previous keymap, should be "cz+qwerty"
             keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
-            tryCompare(app.session.lastSurface, "keymapLayout", "cz");
-            tryCompare(app.session.lastSurface, "keymapVariant", "qwerty");
+            tryCompare(app.session.lastSurface, "keymap", "cz+qwerty");
 
             // go next twice to "sk", past the end
             keyClick(Qt.Key_Space, Qt.MetaModifier);
             keyClick(Qt.Key_Space, Qt.MetaModifier);
-            tryCompare(app.session.lastSurface, "keymapLayout", "sk");
-            tryCompare(app.session.lastSurface, "keymapVariant", "");
+            tryCompare(app.session.lastSurface, "keymap", "sk");
 
             // go back once to past the beginning, to "fr"
             keyClick(Qt.Key_Space, Qt.MetaModifier|Qt.ShiftModifier);
-            tryCompare(app.session.lastSurface, "keymapLayout", "fr");
-            tryCompare(app.session.lastSurface, "keymapVariant", "");
+            tryCompare(app.session.lastSurface, "keymap", "fr");
 
             // switch to app2, should also get "fr"
             ApplicationManager.requestFocusApplication("calendar-app");
-            tryCompare(app2.session.lastSurface, "keymapLayout", "fr");
-            tryCompare(app2.session.lastSurface, "keymapVariant", "");
+            tryCompare(app2.session.lastSurface, "keymap", "fr");
         }
     }
 }

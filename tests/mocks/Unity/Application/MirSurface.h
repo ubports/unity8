@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,10 +74,10 @@ public:
     int widthIncrement() const override { return m_widthIncrement; }
     int heightIncrement() const override { return m_heightIncrement; }
 
+    virtual void setKeymap(const QString &);
+    virtual QString keymap() const;
+
     Mir::ShellChrome shellChrome() const override;
-    QString keymapLayout() const override;
-    QString keymapVariant() const override;
-    Q_INVOKABLE void setKeymap(const QString &layout, const QString &variant) override;
 
     ////
     // API for tests
@@ -150,6 +150,8 @@ private:
     int m_widthIncrement{0};
     int m_heightIncrement{0};
 
+    QString m_keymap;
+
     bool m_slowToResize;
     QTimer m_delayedResizeTimer;
     QSize m_delayedResize;
@@ -161,8 +163,6 @@ private:
         bool visible;
     };
     QHash<qintptr, View> m_views;
-
-    QPair<QString,QString> m_keyMap; // pair of layout+variant
 };
 
 #endif // MOCK_MIR_SURFACE_H

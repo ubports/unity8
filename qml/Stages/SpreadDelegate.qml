@@ -37,7 +37,6 @@ FocusScope {
                                                       | Qt.LandscapeOrientation
                                                       | Qt.InvertedPortraitOrientation
                                                       | Qt.InvertedLandscapeOrientation
-    readonly property alias appWindow: appWindow
 
     // to be set from outside
     property bool interactive: true
