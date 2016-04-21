@@ -2156,14 +2156,14 @@ Rectangle {
 
             // Popup must be gone now
             popup = findChild(root, "modeSwitchWarningDialog");
-            compare(popup === null, true);
+            tryCompareFunction(function() { return popup === null}, true);
 
             if (data.replug) {
                 // Libreoffice must still be running
                 compare(ApplicationManager.findApplication("libreoffice") !== null, true);
             } else {
-                // Libreoffice must be gone now
-                compare(ApplicationManager.findApplication("libreoffice") === null, true);
+                // Libreoffice must be gone now (or soon at least)
+                tryCompareFunction(function() { return ApplicationManager.findApplication("libreoffice") === null}, true);
             }
         }
 
