@@ -31,31 +31,31 @@ Rectangle {
 
     property var sourcesModel1: {
         "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
-                    "../../../tests/graphics/clock@18.png",
-                    "../../graphics/borked"
+                    Qt.resolvedUrl("../../../../graphics/phone_background.jpg"),
+                    Qt.resolvedUrl("../../../../graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../graphics/clock@18.png"),
+                    Qt.resolvedUrl("../../../../graphics/borked")
                    ]
     }
 
     property var sourcesModel1WithFallback: {
         "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
-                    "../../../tests/graphics/clock@18.png",
-                    "../../graphics/borked"
+                    Qt.resolvedUrl("../../../../graphics/phone_background.jpg"),
+                    Qt.resolvedUrl("../../../../graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../graphics/clock@18.png"),
+                    Qt.resolvedUrl("../../../../graphics/borked")
                    ]
-        , "fallback": "../../../tests/graphics/clock@18.png"
+        , "fallback": Qt.resolvedUrl("../../../graphics/clock@18.png")
     }
 
     property var sourcesModelEmptyWithFallback: {
         "sources": [
-                    "../../graphics/phone_background.jpg",
-                    "../../graphics/tablet_background.jpg",
-                    "../../../tests/graphics/clock@18.png",
+                    Qt.resolvedUrl("../../../../graphics/phone_background.jpg"),
+                    Qt.resolvedUrl("../../../../graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../graphics/clock@18.png"),
                     ""
                    ]
-        , "fallback": "../../../tests/graphics/clock@18.png"
+        , "fallback": Qt.resolvedUrl("../../../graphics/clock@18.png")
     }
 
     PreviewImageGallery {

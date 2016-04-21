@@ -29,6 +29,8 @@
 
 #include "TestItem.h"
 
+#include <paths.h>
+
 class CandidateItem : public QQuickItem
 {
     Q_OBJECT
@@ -96,7 +98,7 @@ void tst_TouchGate::init()
     touchRegistry = TouchRegistry::instance();
 
     view = createView();
-    view->setSource(QUrl::fromLocalFile("touchGateExample.qml"));
+    view->setSource(QUrl::fromLocalFile(testLibDir() + "/plugins/Ubuntu/Gestures/touchGateExample.qml"));
     view->show();
     QVERIFY(QTest::qWaitForWindowExposed(view));
     QVERIFY(view->rootObject() != 0);

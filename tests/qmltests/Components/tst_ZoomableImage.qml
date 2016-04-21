@@ -36,7 +36,7 @@ Rectangle {
     }
 
     property var widgetData2: {
-        "source": "../../mocks/Unity/Application/resources/screenshots/gallery@12.png",
+        "source": Qt.resolvedUrl("../../graphics/screenshots/gallery@12.png"),
         "zoomable": true
     }
 

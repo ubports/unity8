@@ -83,7 +83,7 @@ function(add_qml_test_data PATH COMPONENT_NAME)
 
     if ("${filename}" MATCHES "\\.qml$")
         file(READ "${filename}" contents)
-        string(REGEX REPLACE "(\"[./]*/)qml/" "\\1" contents "${contents}")
+        string(REGEX REPLACE "(\"[./]*)/qml(/|\")" "\\1\\2" contents "${contents}")
         set(filename "${CMAKE_CURRENT_BINARY_DIR}/${PATH}/${COMPONENT_NAME}")
         file(WRITE "${filename}" "${contents}")
     endif()
@@ -316,7 +316,7 @@ function(add_test_target TARGET_NAME)
     # END OF CODE BLOCK --------------------------------------------------
 
     install(FILES "${filename}"
-        PERMISSIONS OWNER_EXECUTE OWNER_READ
+        PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE
                     GROUP_EXECUTE GROUP_READ
                     WORLD_EXECUTE WORLD_READ
         DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/scripts"

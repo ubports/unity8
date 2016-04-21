@@ -132,7 +132,7 @@ function(add_unity8_qmltest_data PATH COMPONENT_NAME)
 endfunction()
 
 
-install(DIRECTORY graphics
+install(DIRECTORY data graphics
     DESTINATION "${SHELL_APP_DIR}/tests"
 )
 
