@@ -7,10 +7,14 @@ macro(add_gesture_test CLASSNAME)
     add_executable(${CLASSNAME}TestExec tst_${CLASSNAME}.cpp)
     qt5_use_modules(${CLASSNAME}TestExec Test Core Gui Quick)
     target_link_libraries(${CLASSNAME}TestExec UbuntuGestures)
-
-    add_unity8_unittest(${CLASSNAME} ${CLASSNAME}TestExec
-        ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/libs/UbuntuGestures
+    install(TARGETS ${CLASSNAME}TestExec
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/libs/UbuntuGestures"
     )
+    set_target_properties(${CLASSNAME}TestExec PROPERTIES
+        INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}"
+    )
+
+    add_unity8_unittest(${CLASSNAME} ${CLASSNAME}TestExec)
 endmacro(add_gesture_test)
 
 add_gesture_test(TouchRegistry)

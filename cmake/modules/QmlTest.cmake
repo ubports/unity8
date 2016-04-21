@@ -64,6 +64,7 @@ endfunction()
 
 function(add_qml_test_data PATH COMPONENT_NAME)
     set(filename "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/${COMPONENT_NAME}")
+    file(RELATIVE_PATH relcurpath "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
 
     if (IS_DIRECTORY "${filename}")
         # As a convenience, allow specifying a directory and we will install
@@ -89,7 +90,7 @@ function(add_qml_test_data PATH COMPONENT_NAME)
     endif()
 
     install(FILES "${filename}"
-        DESTINATION "${SHELL_APP_DIR}/tests/qmltests/${PATH}"
+        DESTINATION "${SHELL_APP_DIR}/${relcurpath}/${PATH}"
     )
 endfunction()
 
@@ -302,11 +303,15 @@ function(add_test_target TARGET_NAME)
 
     # Now some replacements...
     # replace build/source roots with their install paths
+    string(REPLACE \"${CMAKE_BINARY_DIR}/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/libs\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/libs\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/tests/mocks\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/plugins\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_BINARY_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/qmltests\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/tests/uqmlscene\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_BINARY_DIR}/tests/utils/modules\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/utils\" replacestr \"\${replacestr}\")
+    string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/plugins\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/plugins\" replacestr \"\${replacestr}\")
     string(REPLACE \"${CMAKE_SOURCE_DIR}/tests/qmltests\" \"${CMAKE_INSTALL_PREFIX}/${SHELL_APP_DIR}/tests/qmltests\" replacestr \"\${replacestr}\")
     # tests like to write xml output to our builddir; we don't need that
     string(REGEX REPLACE \"( '--parameter')? '-o'( '--parameter')? '[^ ]*,xunitxml' \" \" \" replacestr \"\${replacestr}\")
