@@ -402,8 +402,10 @@ void MirSurface::raise()
 void MirSurface::close()
 {
     DEBUG_MSG("");
-    m_zombieTimer.start();
-    Q_EMIT closeRequested();
+    if (!m_zombieTimer.isActive()) {
+        m_zombieTimer.start();
+        Q_EMIT closeRequested();
+    }
 }
 
 void MirSurface::createPromptSurface()
