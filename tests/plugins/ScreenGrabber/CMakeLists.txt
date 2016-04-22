@@ -12,6 +12,6 @@ install(TARGETS ScreenGrabberTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/ScreenGrabber"
 )
 install(FILES grabber.qml
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/ScreenGrabber"
+    DESTINATION "${SHELL_APP_DIR}/tests/plugins/ScreenGrabber"
 )
 add_unity8_uitest(ScreenGrabber ScreenGrabberTestExec DEPENDS ScreenGrabber-qml)

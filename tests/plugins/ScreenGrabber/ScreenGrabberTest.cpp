@@ -32,7 +32,7 @@ private Q_SLOTS:
     void initTestCase()
     {
         m_view = new QQuickView();
-        m_view->setSource(QUrl::fromLocalFile(testLibDir() + "/" TEST_DIR "/grabber.qml"));
+        m_view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/grabber.qml"));
         m_grabber = dynamic_cast<ScreenGrabber*>(m_view->rootObject()->property("grabber").value<QObject*>());
         QVERIFY(m_grabber);
         m_view->show();

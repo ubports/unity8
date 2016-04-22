@@ -18,7 +18,7 @@ install(TARGETS GreeterDBusTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/IntegratedLightDM"
 )
 install(FILES greeter.qml
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/IntegratedLightDM"
+    DESTINATION "${SHELL_APP_DIR}/tests/plugins/IntegratedLightDM"
 )
 add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"

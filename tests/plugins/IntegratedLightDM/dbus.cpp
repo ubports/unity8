@@ -59,7 +59,7 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(testLibDir() + "/plugins/IntegratedLightDM/greeter.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/plugins/IntegratedLightDM/greeter.qml"));
         greeter = dynamic_cast<Greeter*>(view->rootObject()->property("greeter").value<QObject*>());
         QVERIFY(greeter);
         QVERIFY(greeter->authenticationUser() == "");

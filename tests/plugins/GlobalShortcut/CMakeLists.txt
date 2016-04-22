@@ -12,7 +12,7 @@ install(TARGETS GlobalShortcutTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/GlobalShortcut"
 )
 install(FILES shortcut.qml
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/GlobalShortcut"
+    DESTINATION "${SHELL_APP_DIR}/tests/plugins/GlobalShortcut"
 )
 add_unity8_uitest(GlobalShortcut GlobalShortcutTestExec
         DEPENDS GlobalShortcut-qml

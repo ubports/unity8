@@ -32,7 +32,7 @@ private Q_SLOTS:
     void initTestCase()
     {
         m_view = new QQuickView();
-        m_view->setSource(QUrl::fromLocalFile(testLibDir() + "/" TEST_DIR "/shortcut.qml"));
+        m_view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/shortcut.qml"));
         m_shortcut = dynamic_cast<GlobalShortcut*>(m_view->rootObject()->property("shortcut").value<QObject*>());
         QVERIFY(m_shortcut);
         m_inactiveShortcut = dynamic_cast<GlobalShortcut*>(m_view->rootObject()->property("inactiveShortcut").value<QObject*>());
