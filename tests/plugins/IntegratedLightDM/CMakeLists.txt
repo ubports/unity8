@@ -1,4 +1,5 @@
 include_directories(
+    ${GLIB_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
     )
 
