@@ -28,6 +28,8 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
+#include <paths.h>
+
 class ListViewWithPageHeaderTestSection : public QObject
 {
     Q_OBJECT
@@ -133,7 +135,7 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsection.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/listviewwithpageheadertestsection.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         model = view->rootObject()->findChild<QQmlListModel*>();
         otherDelegate = view->rootObject()->findChild<QQmlComponent*>();

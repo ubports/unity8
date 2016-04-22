@@ -9,7 +9,7 @@ include_directories(
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
-add_definitions(-DTESTDIR="plugins/Greeter/Unity/Launcher")
+add_definitions(-DTEST_DIR="plugins/Greeter/Unity/Launcher")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelASTest

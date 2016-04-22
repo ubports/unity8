@@ -26,6 +26,8 @@
 #include <Direction.h>
 #include <Timer.h>
 
+#include <paths.h>
+
 using namespace UbuntuGestures;
 
 class tst_EdgeDragEvaluator: public QObject
@@ -67,7 +69,7 @@ void tst_EdgeDragEvaluator::init()
 {
 
     m_view = createView();
-    m_view->setSource(QUrl::fromLocalFile(TEST_DIR"/tst_EdgeDragEvaluator.qml"));
+    m_view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/tst_EdgeDragEvaluator.qml"));
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
     QVERIFY(m_view->rootObject() != 0);
@@ -99,7 +101,7 @@ QQuickView *tst_EdgeDragEvaluator::createView()
 {
     QQuickView *window = new QQuickView(0);
     window->setResizeMode(QQuickView::SizeRootObjectToView);
-    window->engine()->addImportPath(QLatin1String(TEST_DIR));
+    window->engine()->addImportPath(testDataDir() + "/" TEST_DIR);
 
     return window;
 }

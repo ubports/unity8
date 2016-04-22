@@ -29,6 +29,8 @@
 #include <private/qquickitem_p.h>
 #pragma GCC diagnostic pop
 
+#include <paths.h>
+
 class StringListModel : public QAbstractListModel
 {
 public:
@@ -168,7 +170,7 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/listviewwithpageheadertestsectionexternalmodel.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/listviewwithpageheadertestsectionexternalmodel.qml"));
         lvwph = dynamic_cast<ListViewWithPageHeader*>(view->rootObject()->findChild<QQuickFlickable*>());
         QVERIFY(lvwph);
         view->show();

@@ -32,7 +32,7 @@ private Q_SLOTS:
 
     void initTestCase()
     {
-        setenv("XDG_DATA_DIRS", (sourceDirectory() + "/tests/data").toLatin1().data(), 1);
+        setenv("XDG_DATA_DIRS", (testDataDir() + "/data").toLatin1().data(), 1);
     }
 
     void cleanupTestCase()

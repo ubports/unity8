@@ -26,6 +26,8 @@
 
 #include "horizontaljournal.h"
 
+#include <paths.h>
+
 class QWidthModela : public QStringListModel {
     Q_OBJECT
 public:
@@ -75,7 +77,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("listModel", &listModel);
     view->rootContext()->setContextProperty("vjModel", &model);
 
-    view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/horizontaljournaltry.qml"));
+    view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/horizontaljournaltry.qml"));
 
     view->show();
     view->resize(530, 400);

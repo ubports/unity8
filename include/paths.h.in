@@ -28,9 +28,12 @@
 #include <QStandardPaths>
 
 inline bool isRunningInstalled() {
+    // Tests don't use the normal binary, so we want to check binary *and*
+    // the environment.  Installed tests have UNITY_TESTING_DATADIR set.
     static bool installed = (QCoreApplication::applicationDirPath() ==
                              QDir(QStringLiteral("@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_BINDIR@")).canonicalPath());
-    return installed;
+    static bool installed_test_env = !qgetenv("UNITY_TESTING_DATADIR").isEmpty();
+    return installed || installed_test_env;
 }
 
 inline QString buildDirectory() {

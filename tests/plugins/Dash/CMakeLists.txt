@@ -22,7 +22,7 @@ include_directories(
 
 remove_definitions(-DQT_NO_KEYWORDS)
 
-add_definitions(-DDASHVIEWSTEST_FOLDER="${CMAKE_CURRENT_SOURCE_DIR}")
+add_definitions(-DTEST_DIR="plugins/Dash")
 
 macro(add_lvwph_test FILENAME TESTNAME)
     add_executable(${TESTNAME}TestExec
@@ -72,6 +72,10 @@ add_dashview_try_test(verticaljournal VerticalJournal)
 add_dashview_try_test(horizontaljournal HorizontalJournal)
 add_dashview_try_test(organicgrid OrganicGrid)
 
+# Install data files needed for tests
+file(GLOB qml_files *.qml)
+install(FILES ${qml_files} DESTINATION "${SHELL_APP_DIR}/tests/plugins/Dash")
+
 # CardCreator test
 add_executable(CardCreatorTestExec cardcreatortest.cpp)
 qt5_use_modules(CardCreatorTestExec Test Core Qml)
@@ -80,6 +84,7 @@ install(TARGETS CardCreatorTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
 )
 add_unity8_uitest(CardCreator CardCreatorTestExec DEPENDS Dash-qml)
+install(DIRECTORY cardcreator DESTINATION "${SHELL_APP_DIR}/tests/plugins/Dash")
 
 # plain qml test
 foreach(dash_test ScopeStyle ListViewWithPageHeaderQML CardAttributes CroppedImageMinimumSourceSize)

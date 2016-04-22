@@ -30,6 +30,8 @@
 
 #include "organicgrid.h"
 
+#include <paths.h>
+
 class DummyModel : public QAbstractListModel {
 public:
     DummyModel() : m_count(0) {}
@@ -130,7 +132,7 @@ private Q_SLOTS:
         model = new DummyModel();
         model->setCount(21);
 
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/organicgridtest.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/organicgridtest.qml"));
 
         view->show();
         QTest::qWaitForWindowExposed(view);

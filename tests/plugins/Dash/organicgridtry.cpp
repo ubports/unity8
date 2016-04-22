@@ -26,6 +26,8 @@
 
 #include "verticaljournal.h"
 
+#include <paths.h>
+
 class DummyModel : public QAbstractListModel {
     Q_OBJECT
 public:
@@ -83,7 +85,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("listModel", &listModel);
     view->rootContext()->setContextProperty("gridModel", &model);
 
-    view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/organicgridtry.qml"));
+    view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/organicgridtry.qml"));
 
     view->show();
     view->resize(530, 400);

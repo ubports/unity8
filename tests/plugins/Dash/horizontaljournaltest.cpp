@@ -30,6 +30,8 @@
 
 #include "horizontaljournal.h"
 
+#include <paths.h>
+
 class WidthModel : public QAbstractListModel {
 public:
     QHash<int, QByteArray> roleNames() const override
@@ -129,7 +131,7 @@ private Q_SLOTS:
         widthList << "100" << "50" << "125" << "10" << "40" << "70" << "200" << "110" << "160" << "20" << "20" << "65" << "80" << "200" << "300" << "130" << "400" << "300" << "500" << "10";
         model->setStringList(widthList);
 
-        view->setSource(QUrl::fromLocalFile(DASHVIEWSTEST_FOLDER "/horizontaljournaltest.qml"));
+        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/horizontaljournaltest.qml"));
 
         view->show();
         view->resize(470, 400);

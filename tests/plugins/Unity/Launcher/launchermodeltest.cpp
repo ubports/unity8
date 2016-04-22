@@ -166,7 +166,7 @@ private Q_SLOTS:
     // Adding 2 apps to the mock appmanager. Both should appear in the launcher.
     void init() {
         // Launcher will look in current dir in testing mode for data
-        QDir::setCurrent(testLibDir() + "/" + TESTDIR);
+        QDir::setCurrent(testLibDir() + "/" + TEST_DIR);
 
         QDBusInterface accountsInterface(QStringLiteral("org.freedesktop.Accounts"),
                                          QStringLiteral("/org/freedesktop/Accounts"),

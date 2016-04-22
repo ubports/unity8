@@ -3,10 +3,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     )
 
-add_definitions(
-    -DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
-    )
-add_definitions(-DBUILT_PLUGINS_DIR="${CMAKE_BINARY_DIR}/plugins")
+add_definitions(-DTEST_DIR="plugins/GlobalShortcut")
 
 add_executable(GlobalShortcutTestExec GlobalShortcutTest.cpp ${CMAKE_SOURCE_DIR}/plugins/GlobalShortcut/globalshortcut.cpp)
 qt5_use_modules(GlobalShortcutTestExec Test Quick)

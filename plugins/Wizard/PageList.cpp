@@ -45,7 +45,9 @@ PageList::PageList(QObject *parent)
     QSet<QString> disabledPages;
     QStringList dataDirs;
 
-    if (!isRunningInstalled() && getenv("WIZARD_TESTING") == nullptr) {
+    if (getenv("WIZARD_TESTING") != nullptr) {
+        dataDirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    } else if (!isRunningInstalled()) {
         dataDirs << qmlDirectory();
     } else {
         dataDirs = shellDataDirs();

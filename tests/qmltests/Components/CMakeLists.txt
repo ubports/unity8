@@ -1,4 +1,4 @@
-add_definitions(-DTEST_DIR="${CMAKE_CURRENT_LIST_DIR}")
+add_definitions(-DTEST_DIR="qmltests/Components")
 
 ########## tst_DragHandle
 
@@ -22,10 +22,8 @@ set_target_properties(DragHandleTestExec PROPERTIES
 
 add_unity8_uitest(DragHandle DragHandleTestExec)
 add_manual_qml_test(. DragHandle IMPORT_PATHS ${UNITY_IMPORT_PATHS})
-add_unity8_qmltest_data(tst_DragHandle BidirectionalShowable)
-add_unity8_qmltest_data(tst_DragHandle HorizontalShowable)
-add_unity8_qmltest_data(tst_DragHandle SimpleButton)
-add_unity8_qmltest_data(tst_DragHandle VerticalShowable)
+add_unity8_qmltest_data(. tst_DragHandle.qml)
+add_unity8_qmltest_data(. tst_DragHandle)
 
 ########## tst_EdgeDragEvaluator
 add_executable(EdgeDragEvaluatorTestExec tst_EdgeDragEvaluator.cpp)
@@ -39,3 +37,4 @@ set_target_properties(EdgeDragEvaluatorTestExec PROPERTIES
     )
 
 add_unity8_uitest(EdgeDragEvaluator EdgeDragEvaluatorTestExec)
+add_unity8_qmltest_data(. tst_EdgeDragEvaluator.qml)

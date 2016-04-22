@@ -21,6 +21,8 @@
 #include <QtQuick/QQuickItem>
 #include <QQmlEngine>
 
+#include <paths.h>
+
 class GlobalShortcutTest: public QObject
 {
     Q_OBJECT
@@ -30,8 +32,7 @@ private Q_SLOTS:
     void initTestCase()
     {
         m_view = new QQuickView();
-        m_view->engine()->addImportPath(BUILT_PLUGINS_DIR);
-        m_view->setSource(QUrl::fromLocalFile(CURRENT_SOURCE_DIR "/shortcut.qml"));
+        m_view->setSource(QUrl::fromLocalFile(testLibDir() + "/" TEST_DIR "/shortcut.qml"));
         m_shortcut = dynamic_cast<GlobalShortcut*>(m_view->rootObject()->property("shortcut").value<QObject*>());
         QVERIFY(m_shortcut);
         m_inactiveShortcut = dynamic_cast<GlobalShortcut*>(m_view->rootObject()->property("inactiveShortcut").value<QObject*>());

@@ -11,7 +11,7 @@ include_directories(
     )
 
 add_definitions(-DSM_BUSNAME=sessionBus)
-add_definitions(-DTESTDIR="plugins/Unity/Launcher")
+add_definitions(-DTEST_DIR="plugins/Unity/Launcher")
 add_definitions(-DLAUNCHER_TESTING)
 
 ### LauncherModelTest
