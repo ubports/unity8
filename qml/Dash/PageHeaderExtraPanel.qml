@@ -150,8 +150,16 @@ Item {
 
         readonly property alias active: primaryFilter.active
 
-        height: contentHeight > dashNavigation.availableHeight ?
-                dashNavigation.availableHeight : contentHeight
+        height: {
+            if (!active) {
+                return 0;
+            }
+            else if (contentHeight > dashNavigation.availableHeight) {
+                return dashNavigation.availableHeight;
+            } else {
+                return contentHeight;
+            }
+        }
 
         clip: contentY < contentHeight
         contentHeight: primaryFilter.implicitHeight
