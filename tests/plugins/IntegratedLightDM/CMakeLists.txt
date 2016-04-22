@@ -7,13 +7,18 @@ add_executable(GreeterDBusTestExec
     dbus.cpp
     ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/Greeter.cpp
     )
+# This add_dependencies is needed since we're linking with with -L and -l below
+# make seems to work but ninja breaks without it
+add_dependencies(GreeterDBusTestExec MockLightDM)
 qt5_use_modules(GreeterDBusTestExec Core DBus Quick Test)
-target_link_libraries(GreeterDBusTestExec MockLightDM)
+target_link_libraries(GreeterDBusTestExec
+    -L${CMAKE_BINARY_DIR}/tests/mocks/IntegratedLightDM/liblightdm
+    -llightdm-qt5-2
+    )
 target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM
     ${CMAKE_SOURCE_DIR}/tests/mocks/IntegratedLightDM
     )
-set_target_properties(GreeterDBusTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml/mocks/IntegratedLightDM/liblightdm")
 install(TARGETS GreeterDBusTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/IntegratedLightDM"
 )
@@ -23,8 +28,7 @@ install(FILES greeter.qml
 add_unity8_uitest(GreeterDBus dbus-test-runner
     ARG_PREFIX "--parameter"
     ARGS --task $<TARGET_FILE:GreeterDBusTestExec>
-    DEPENDS MockLightDM
-    IMPORT_PATHS  ${UNITY_MOCKPATH}
+    DEPENDS MockLightDM MockLightDM-qml
     LIGHTDM
     )
 
@@ -49,14 +53,19 @@ add_executable(GreeterUsersModelTestExec
     ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/UsersModel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     )
+# This add_dependencies is needed since we're linking with with -L and -l below
+# make seems to work but ninja breaks without it
+add_dependencies(GreeterUsersModelTestExec MockLightDM)
 qt5_use_modules(GreeterUsersModelTestExec Core Test)
-target_link_libraries(GreeterUsersModelTestExec MockLightDM)
+target_link_libraries(GreeterUsersModelTestExec
+    -L${CMAKE_BINARY_DIR}/tests/mocks/IntegratedLightDM/liblightdm
+    -llightdm-qt5-2
+    )
 target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/IntegratedLightDM
     )
-set_target_properties(GreeterUsersModelTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/qml/mocks/IntegratedLightDM/liblightdm")
 install(TARGETS GreeterUsersModelTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/IntegratedLightDM"
 )
