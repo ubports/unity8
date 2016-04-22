@@ -60,7 +60,7 @@ foreach(DESKTOP_FILE ${DESKTOP_FILES})
         )
 endforeach()
 install(FILES ${DESKTOP_FILES}
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
+    DESTINATION "${SHELL_APP_DIR}/tests/plugins/Unity/Launcher"
     )
 
 # copy .svg files into build directory for shadow builds
@@ -72,5 +72,5 @@ foreach(DESKTOP_FILE ${DESKTOP_FILES})
         )
 endforeach()
 install(FILES ${DESKTOP_FILES}
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Unity/Launcher"
+    DESTINATION "${SHELL_APP_DIR}/tests/plugins/Unity/Launcher"
     )

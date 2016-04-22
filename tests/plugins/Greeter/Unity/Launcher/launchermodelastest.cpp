@@ -47,7 +47,7 @@ private Q_SLOTS:
 
     void init() {
         // Launcher will look in current dir in testing mode for data
-        QDir::setCurrent(testLibDir() + "/" + TEST_DIR);
+        QDir::setCurrent(testDataDir() + "/" TEST_DIR);
 
         // Prepare some fake list
         QList<QVariantMap> list;
