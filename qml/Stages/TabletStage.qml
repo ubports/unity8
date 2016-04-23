@@ -696,6 +696,7 @@ AbstractStage {
                     application: ApplicationManager.get(index)
                     closeable: !isDash
                     highlightShown: root.altTabPressed && priv.highlightIndex == zIndex
+                    dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
 
                     readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
 
