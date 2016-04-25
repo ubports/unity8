@@ -45,6 +45,7 @@ Showable {
     // use its own values. Need to ask design about this.
     showAnimation: SequentialAnimation {
         StandardAnimation {
+            target: root
             property: "height"
             to: openedHeight
             duration: UbuntuAnimation.BriskDuration
@@ -56,6 +57,7 @@ Showable {
 
     hideAnimation: SequentialAnimation {
         StandardAnimation {
+            target: root
             property: "height"
             to: minimizedPanelHeight
             duration: UbuntuAnimation.BriskDuration
