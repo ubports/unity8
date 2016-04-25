@@ -326,6 +326,38 @@ Item {
                 left: parent.left
                 right: parent.right
             }
+
+            Label {
+                text: "Searches to remember: " + pageHeader.searchHistory.searchesToRemember
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+        Row {
+            id: sliderRow
+            spacing: units.gu(1)
+            anchors {
+                left: parent.left
+                right: parent.right
+                margins: units.gu(1)
+            }
+
+            Slider {
+                id: slider
+                maximumValue: 20
+                minimumValue: 1
+                width: units.gu(40)
+                value: pageHeader.searchHistory.searchesToRemember
+                onValueChanged: pageHeader.searchHistory.searchesToRemember = Math.round(value)
+            }
+        }
+
+        Row {
+            spacing: units.gu(1)
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
             CheckBox {
                 id: showBackButtonCheckBox
             }
