@@ -151,13 +151,13 @@ Item {
             searchEnabled = true;
             pageHeader.searchHistory.clear();
 
-            pageHeader.searchHistory.addQuery("Search1");
-            pageHeader.searchHistory.addQuery("Search2");
+            for (var i = 0; i < 20; i++) {
+                pageHeader.searchHistory.addQuery("Search" + String(i));
+            }
 
             pageHeader.triggerSearch();
 
             tryCompare(pageHeader.extraPanel, "visible", true);
-
             var searchTextField = findChild(pageHeader, "searchTextField");
             compare(searchTextField.focus, true);
 
@@ -287,6 +287,19 @@ Item {
             Label {
                 text: "searchQuery: \"" + pageHeader.searchQuery + "\""
                 anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+        Row {
+            spacing: units.gu(1)
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            Button {
+                text: "Search! (Add Query)"
+                onClicked: pageHeader.searchHistory.addQuery(pageHeader.searchQuery);
+                width: units.gu(40)
             }
         }
 
