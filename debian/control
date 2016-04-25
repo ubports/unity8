@@ -177,6 +177,8 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends},
 Depends: dbus-test-runner,
          qtdeclarative5-dev-tools,
+         unity8 (= ${source:Version}),
+         xvfb,
          ${misc:Depends},
          ${shlibs:Depends},
 Provides: unity-application-impl,

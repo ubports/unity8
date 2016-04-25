@@ -1,17 +1,14 @@
 include(QmlTest)
 
 # QML tests that do not require graphical capabilities.
-add_custom_target(unittests)
+add_meta_test(unittests)
 
 # QML tests that require graphical capabilities.
-add_custom_target(uitests)
-add_custom_target(xvfbuitests)
+add_meta_test(uitests)
+add_meta_test(xvfbuitests)
 
-add_custom_target(alltests)
-add_dependencies(alltests unittests uitests)
-
-add_custom_target(xvfballtests)
-add_dependencies(xvfballtests unittests xvfbuitests)
+add_meta_test(alltests DEPENDS unittests uitests)
+add_meta_test(xvfballtests DEPENDS unittests xvfbuitests)
 
 # Support libraries and plugins
 add_subdirectory(mocks)

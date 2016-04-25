@@ -258,16 +258,36 @@ function(add_manual_test COMPONENT_NAME TARGET)
 endfunction()
 
 
+# add_meta_test(target)
+#
+# Adds a test target that will run one of our "meta" test targets, like
+# xvfbuitests.  This script will run the specified suite of tests on an
+# installed system.
+
+function(add_meta_test TARGET_NAME)
+    cmake_parse_arguments(TEST "" "" "DEPENDS" ${ARGN})
+
+    add_custom_target(${TARGET_NAME})
+
+    set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${TARGET_NAME}.sh")
+    file(WRITE "${filename}" "#!/bin/sh\n\nset -e\n\n")
+
+    add_meta_dependencies(${TARGET_NAME} DEPENDS ${TEST_DEPENDS})
+    # else we will write the rest of the script as we add cmake targets
+
+    install(FILES "${filename}"
+        PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE
+                    GROUP_EXECUTE GROUP_READ
+                    WORLD_EXECUTE WORLD_READ
+        DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/scripts"
+    )
+endfunction()
+
+
 ################### INTERNAL ####################
 
-function(add_test_target TARGET_NAME)
-    cmake_parse_arguments(TEST "" "" "COMMAND;ENVIRONMENT;DEPENDS" ${ARGN})
-
-    add_custom_target(${TARGET_NAME}
-        env ${TEST_ENVIRONMENT}
-        ${TEST_COMMAND}
-        DEPENDS ${TEST_DEPENDS}
-    )
+function(install_test_script TARGET_NAME)
+    cmake_parse_arguments(TEST "" "" "COMMAND;ENVIRONMENT" ${ARGN})
 
     # Now write the above test into a shell script that we can run on an
     # installed system.
@@ -279,10 +299,7 @@ function(add_test_target TARGET_NAME)
     set(script "${script}export UNITY_TESTING_LIBDIR=\"${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}\"\n")
     set(script "${script}\n")
     foreach(ONE_CMD ${TEST_COMMAND})
-        if (NOT ONE_CMD MATCHES "\\$\\(")
-            # skip variables that look like subcommands like $(FUNCTION)
-            set(script "${script}'${ONE_CMD}' ")
-        endif()
+        set(script "${script}'${ONE_CMD}' ")
     endforeach()
     set(script "${script}$@")
 
@@ -331,6 +348,20 @@ function(add_test_target TARGET_NAME)
     )
 endfunction()
 
+function(add_meta_dependencies UPSTREAM_TARGET)
+    cmake_parse_arguments(TEST "" "" "DEPENDS" ${ARGN})
+
+    foreach(depend ${TEST_DEPENDS})
+        add_dependencies(${UPSTREAM_TARGET} ${depend})
+
+        # add target to the meta test script that we will install on system
+        set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${UPSTREAM_TARGET}.sh")
+        if (EXISTS "${filename}")
+            file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh\n")
+        endif()
+    endforeach()
+endfunction()
+
 # add_qmltest_target(target_name target
 #    COMMAND test_exe [arg1 [...]]       # execute this test with arguments
 #    [...]                               # see above for available arguments:
@@ -347,10 +378,15 @@ function(add_qmltest_target TARGET_NAME TARGET)
         set(function "$(FUNCTION)")
     endif()
 
-    add_test_target(${TARGET_NAME}
-        ENVIRONMENT ${QMLTEST_ENVIRONMENT}
-        COMMAND ${QMLTEST_COMMAND} ${function}
+    add_custom_target(${TARGET_NAME}
+        env ${QMLTEST_ENVIRONMENT}
+        ${QMLTEST_COMMAND} ${function}
         DEPENDS ${TARGET} ${QMLTEST_DEPENDS}
+    )
+
+    install_test_script(${TARGET_NAME}
+        ENVIRONMENT ${QMLTEST_ENVIRONMENT}
+        COMMAND ${QMLTEST_COMMAND}
     )
 
     if(QMLTEST_ADD_TEST)
@@ -370,7 +406,7 @@ function(add_qmltest_target TARGET_NAME TARGET)
     endif()
 
     foreach(UPSTREAM_TARGET ${QMLTEST_TARGETS})
-        add_dependencies(${UPSTREAM_TARGET} ${TARGET_NAME})
+        add_meta_dependencies(${UPSTREAM_TARGET} DEPENDS ${TARGET_NAME})
     endforeach()
 endfunction()
 
