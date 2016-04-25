@@ -21,6 +21,7 @@
 #include <QTest>
 #include <QDebug>
 #include <QSettings>
+#include <QTemporaryDir>
 
 class DeviceConfigParserTest : public QObject
 {
