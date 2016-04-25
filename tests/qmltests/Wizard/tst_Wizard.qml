@@ -21,6 +21,7 @@ import MeeGo.QOfono 0.2
 import QMenuModel 0.1
 import Ubuntu.Components 1.3
 import Ubuntu.SystemSettings.SecurityPrivacy 1.0
+import Ubuntu.SystemSettings.TimeDate 1.0
 import Unity.Test 0.1 as UT
 import Wizard 0.1
 import "../../../qml/Wizard"
@@ -39,7 +40,6 @@ Item {
             Wizard {
                 id: wizard
                 anchors.fill: parent
-                background: Qt.resolvedUrl("../../../qml/graphics/phone_background.jpg")
 
                 Component.onDestruction: {
                     wizardLoader.itemDestroyed = true;
@@ -51,7 +51,7 @@ Item {
     SignalSpy {
         id: updateSessionLanguageSpy
         target: System
-        signalName: "updateSessionLanguageCalled"
+        signalName: "updateSessionLocaleCalled"
     }
 
     SignalSpy {
@@ -69,6 +69,11 @@ Item {
         signalName: "activated"
     }
 
+    SignalSpy {
+        id: timezoneSpy
+        signalName: "timeZoneChangedCalled"
+    }
+
     function setup() {
         AccountsService.hereEnabled = false;
         AccountsService.hereLicensePath = Qt.resolvedUrl("licenses");
@@ -82,6 +87,7 @@ Item {
         setSecuritySpy.clear();
         activateLocationSpy.clear();
         activateGPSSpy.clear();
+        timezoneSpy.clear();
 
         ActionData.data = {
             "location-detection-enabled": {
@@ -96,7 +102,6 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruGradient";
         setup();
     }
 
@@ -180,11 +185,6 @@ Item {
                 tap(findChild(page, "forwardButton"));
             }
 
-            page = waitForPage("passwdPage");
-            if (name === page.objectName) return page;
-            tap(findChild(page, "passwdDelegate0"));
-            tap(findChild(page, "forwardButton"));
-
             page = waitForPage("wifiPage");
             if (name === page.objectName) return page;
             tap(findChild(page, "forwardButton"));
@@ -195,6 +195,24 @@ Item {
                 tap(findChild(page, "forwardButton"));
             }
 
+            page = waitForPage("tzPage");
+            if (name === page.objectName) return page;
+            var tzList = findChild(page, "tzList");
+            verify(tzList);
+            waitForRendering(tzList);
+            page.selectedTimeZone = "Pacific/Honolulu";
+            tap(findChild(page, "forwardButton"));
+
+            page = waitForPage("accountPage");
+            if (name === page.objectName) return page;
+            tap(findChild(page, "nameInput"));
+            typeString("foobar");
+            tap(findChild(page, "forwardButton"));
+
+            page = waitForPage("passwdPage");
+            if (name === page.objectName) return page;
+            tap(findChild(page, "forwardButton"));
+
             if (!skipReporting) {
                 page = waitForPage("reportingPage");
                 if (name === page.objectName) return page;
@@ -203,7 +221,8 @@ Item {
 
             page = waitForPage("finishedPage");
             if (name === page.objectName) return page;
-            tap(findChild(page, "forwardButton"));
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
 
             tryCompare(wizard, "shown", false);
             compare(name, null);
@@ -212,100 +231,43 @@ Item {
 
         function test_languageChange() {
             var page = goToPage("languagePage");
-            tap(findChild(page, "languageCombo"));
-            waitForRendering(findChild(page, "languageDelegate1"));
+            tap(findChild(page, "languageDelegate1")); // should invoke "fr" lang
 
-            // For some reason, the delegate *sometimes* (like 1 in 10 maybe)
-            // needs more time before it can process a tap() call.  I can't
-            // find a rhyme or reason, its properties all seem the same in
-            // cases where it works and does not.  This failure to receive a
-            // tap() call below does *not* happen when running in xvfb, so
-            // jenkins is unaffected (and we don't have to worry about 100 not
-            // being enough time in its slow environment).  This wait() call is
-            // just to help local runs not trip up.
-            wait(100);
-            tap(findChild(page, "languageDelegate1"));
-
-            tryCompare(i18n, "language", "fr");
+            tryCompare(i18n, "language", "fr_FR");
             tap(findChild(page, "forwardButton"));
             tryCompare(updateSessionLanguageSpy, "count", 1);
-            compare(updateSessionLanguageSpy.signalArguments[0][0], "fr");
+            compare(updateSessionLanguageSpy.signalArguments[0][0], "fr_FR");
         }
 
         function test_languageNoChange() {
-            goToPage("simPage"); // one past language page
+            var page = goToPage("languagePage");
+            tap(findChild(page, "forwardButton"));
             compare(updateSessionLanguageSpy.count, 0);
         }
 
         function test_simUnavailableSkip() {
             MockQOfono.available = false;
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simNoModemsSkip() {
             MockQOfono.setModems([], [], []);
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simFirstSkip() {
             MockQOfono.setModems(["a", "b"], [true, false], []);
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simSecondSkip() {
             MockQOfono.setModems(["a", "b"], [false, true], []);
-            goToPage("passwdPage", true);
+            goToPage("wifiPage", true);
         }
 
         function test_simBothSkip() {
             MockQOfono.setModems(["a", "b"], [true, true], []);
-            goToPage("passwdPage", true);
-        }
-
-        function test_simWaitOnManagerAsync() {
-            MockQOfono.ready = false;
-            MockQOfono.setModems(["a"], [false], []);
-
-            // Go to SIM page, which will be waiting for skip to be valid
-            var page = goToPage("languagePage");
-            tap(findChild(page, "forwardButton"));
-            verifyPageIsBlocked("simPage");
-
-            // Now release QOfono from blocking the page
-            MockQOfono.ready = true;
-
-            waitForPage("simPage");
-        }
-
-        function test_simWaitOnCardAsync() {
-            MockQOfono.setModems(["a"], [false], [false]);
-
-            // Go to SIM page, which will be waiting for skip to be valid
-            var page = goToPage("languagePage");
-            tap(findChild(page, "forwardButton"));
-            verifyPageIsBlocked("simPage");
-
-            // Now release QOfono from blocking the page
-            MockQOfono.setModems(["a"], [false], [true]);
-
-            waitForPage("simPage");
-        }
-
-        function test_simWaitTimeout() {
-            MockQOfono.setModems(["a"], [false], [false]);
-
-            // Go to SIM page, which will be waiting for skip to be valid
-            var page = goToPage("languagePage");
-            tap(findChild(page, "forwardButton"));
-            verifyPageIsBlocked("simPage");
-
-            var timeout = findInvisibleChild(wizard, "timeout");
-            timeout.interval = 100; // reduce our delay
-
-            // Now just wait for timeout
-            compare(timeout.running, true);
-            waitForPage("passwdPage");
-            compare(timeout.running, false);
+            goToPage("wifiPage", true);
         }
 
         function enterPasscode(passcode) {
@@ -330,35 +292,44 @@ Item {
             waitForPage("wifiPage"); // thus skipping passwdPage
         }
 
+        function verifyAnimationsNotRunning(page) {
+            var contentAnimation = findInvisibleChild(page, "contentAnimation");
+            var secondaryAnimation = findInvisibleChild(page, "secondaryAnimation");
+            tryCompare(contentAnimation, "running", false);
+            tryCompare(secondaryAnimation, "running", false);
+        }
+
         function test_passwdPasscode() {
             var page = goToPage("passwdPage");
-
+            tap(findChild(page, "passwdDelegate1")); // passcode option
             tap(findChild(page, "forwardButton"));
-            page = waitForPage("passwdSetPage");
+            page = waitForPage("passcodeSetPage");
+            verifyAnimationsNotRunning(page);
 
             enterPasscode("1111");
-            page = waitForPage("passwdConfirmPage");
+            page = waitForPage("passcodeConfirmPage");
+            verifyAnimationsNotRunning(page);
 
-            // make sure we go back to 'set' page not 'type' page
             tap(findChild(page, "backButton"));
-            page = waitForPage("passwdSetPage");
+            page = waitForPage("passcodeSetPage");
+            verifyAnimationsNotRunning(page);
 
             enterPasscode("1111");
-            page = waitForPage("passwdConfirmPage");
+            page = waitForPage("passcodeConfirmPage");
+            verifyAnimationsNotRunning(page);
 
             enterPasscode("1112");
             var error = findChild(page, "wrongNoticeLabel");
             tryCompareFunction(function() { return error.text !== ""; }, true);
 
             enterPasscode("1111");
-            page = waitForPage("wifiPage");
 
             // now finish up
-            tap(findChild(page, "forwardButton"));
-            page = waitForPage("locationPage");
+            page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
-            tap(findChild(page, "forwardButton"));
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
 
             tryCompare(setSecuritySpy, "count", 1);
             compare(setSecuritySpy.signalArguments[0][0], "");
@@ -368,96 +339,64 @@ Item {
 
         function test_passwdPassphrase() {
             var page = goToPage("passwdPage");
-            tap(findChild(page, "passwdDelegate2"));
-
+            tap(findChild(page, "passwdDelegate0")); // password option
             tap(findChild(page, "forwardButton"));
             page = waitForPage("passwdSetPage");
 
+            var passwdField = findChild(page, "passwordField");
+            verify(passwdField);
+            tap(passwdField);
+            verifyAnimationsNotRunning(page);
             typeString("aaa");
             var continueButton = findChild(page, "forwardButton");
-            tryCompare(continueButton.item, "enabled", false);
-            keyClick(Qt.Key_Enter);
-            var error = findChild(page, "wrongNoticeLabel");
-            tryCompareFunction(function() { return error.text !== ""; }, true);
+            tryCompare(page, "passwordsMatching", false);
 
-            typeString("aaaa");
+            tap(passwdField);
+            verifyAnimationsNotRunning(page);
+            passwdField.selectAll(); // overwrite the text
+            typeString("12345678");
+            tryCompare(page, "passwordsMatching", false);
+
+            var passwd2Field = findChild(page, "password2Field");
+            tap(passwd2Field);
+            verifyAnimationsNotRunning(page);
+            typeString("12345678");
+            tryCompare(continueButton, "enabled", true);
             tap(continueButton);
-            page = waitForPage("passwdConfirmPage");
-
-            // make sure we go back to 'set' page not 'type' page
-            var back = findChild(page, "backButton");
-            tap(back);
-            page = waitForPage("passwdSetPage");
-
-            typeString("aaaa");
-            keyClick(Qt.Key_Enter);
-            page = waitForPage("passwdConfirmPage");
-
-            continueButton = findChild(page, "forwardButton");
-            typeString("aaab");
-            tryCompare(continueButton.item, "enabled", false);
-            keyClick(Qt.Key_Enter);
-            var error = findChild(page, "wrongNoticeLabel");
-            tryCompareFunction(function() { return error.text !== ""; }, true);
-
-            typeString("aaaa");
-            tap(continueButton);
-            page = waitForPage("wifiPage");
 
             // now finish up
-            tap(findChild(page, "forwardButton"));
-            page = waitForPage("locationPage");
+            page = waitForPage("reportingPage");
             tap(findChild(page, "forwardButton"));
             page = waitForPage("finishedPage");
-            tap(findChild(page, "forwardButton"));
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
 
             tryCompare(setSecuritySpy, "count", 1);
             compare(setSecuritySpy.signalArguments[0][0], "");
-            compare(setSecuritySpy.signalArguments[0][1], "aaaa");
+            compare(setSecuritySpy.signalArguments[0][1], "12345678");
             compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Passphrase);
         }
 
         function test_passwdSwipe() {
-            goToPage(null, false, false, true);
+            var page = goToPage("passwdPage");
+            tap(findChild(page, "passwdDelegate2")); // swipe option
 
-            tryCompare(setSecuritySpy, "count", 1);
-            compare(setSecuritySpy.signalArguments[0][0], "");
-            compare(setSecuritySpy.signalArguments[0][1], "");
-            compare(setSecuritySpy.signalArguments[0][2], UbuntuSecurityPrivacyPanel.Swipe);
-        }
-
-        function test_locationSkipNoPath() {
-            AccountsService.hereLicensePath = "";
-            goToPage("finishedPage", false, true, true);
-        }
-
-        function test_locationSkipNoFiles() {
-            AccountsService.hereLicensePath = Qt.resolvedUrl("nolicenses");
-            goToPage("finishedPage", false, true, true);
-        }
-
-        function test_locationWaitOnPath() {
-            AccountsService.hereLicensePath = " "; // means we're still getting the path from dbus
-
-            var page = goToPage("wifiPage");
-
-            var pages = findChild(wizard, "wizardPages");
-            var stack = findChild(pages, "pageStack");
+            // now finish up
             tap(findChild(page, "forwardButton"));
-            // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
-            tryCompareFunction(function() { return stack.currentPage.objectName; }, "locationPage");
-            compare(stack.currentPage.enabled, false);
-            compare(stack.currentPage.skipValid, false);
+            page = waitForPage("reportingPage");
+            tap(findChild(page, "forwardButton"));
+            page = waitForPage("finishedPage");
+            waitUntilTransitionsEnd(page);
+            tap(findChild(page, "finishButton"));
 
-            AccountsService.hereLicensePath = "";
-            waitForPage("finishedPage", false, false, true);
+            tryCompare(setSecuritySpy, "count", 0); // not called for swipe method
         }
 
         function test_locationGpsOnly() {
             var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheck");
-            var hereCheck = findChild(page, "hereCheck");
-            var nopeCheck = findChild(page, "nopeCheck");
+            var gpsCheck = findChild(page, "gpsCheckLabel");
+            var hereCheck = findChild(page, "hereCheckLabel");
+            var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
             activateLocationSpy.target = locationActionGroup.location;
@@ -476,9 +415,9 @@ Item {
 
         function test_locationNope() {
             var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheck");
-            var hereCheck = findChild(page, "hereCheck");
-            var nopeCheck = findChild(page, "nopeCheck");
+            var gpsCheck = findChild(page, "gpsCheckLabel");
+            var hereCheck = findChild(page, "hereCheckLabel");
+            var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
             activateLocationSpy.target = locationActionGroup.location;
@@ -491,15 +430,15 @@ Item {
 
             tap(findChild(page, "forwardButton"));
             tryCompare(AccountsService, "hereEnabled", false);
-            tryCompare(activateLocationSpy, "count", 0)
-            tryCompare(activateGPSSpy, "count", 0)
+            tryCompare(activateLocationSpy, "count", 0);
+            tryCompare(activateGPSSpy, "count", 0);
         }
 
         function test_locationHere() {
             var page = goToPage("locationPage");
-            var gpsCheck = findChild(page, "gpsCheck");
-            var hereCheck = findChild(page, "hereCheck");
-            var nopeCheck = findChild(page, "nopeCheck");
+            var gpsCheck = findChild(page, "gpsCheckLabel");
+            var hereCheck = findChild(page, "hereCheckLabel");
+            var nopeCheck = findChild(page, "nopeCheckLabel");
 
             var locationActionGroup = findInvisibleChild(page, "locationActionGroup");
             activateLocationSpy.target = locationActionGroup.location;
@@ -512,68 +451,41 @@ Item {
 
             tap(findChild(page, "forwardButton"));
             tryCompare(AccountsService, "hereEnabled", true);
-            tryCompare(activateLocationSpy, "count", 1)
-            tryCompare(activateGPSSpy, "count", 1)
+            tryCompare(activateLocationSpy, "count", 1);
+            tryCompare(activateGPSSpy, "count", 1);
         }
 
-        function test_locationHereTerms() {
-            var page = goToPage("locationPage");
+        function test_timezonePage() {
+            var page = goToPage("tzPage");
+            verify(page);
+            timezoneSpy.target = page.tdModule;
 
-            var link = findChild(page, "hereTermsLink");
+            var tzFilter = findChild(page, "tzFilter");
+            verify(tzFilter);
+            tap(tzFilter);
+            typeString("London");
 
-            // Test our language lookup code a bit
+            var tzList = findChild(page, "tzList");
+            verify(tzList);
 
-            i18n.language = "fr_FR.UTF-8";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+            // test filtering works and returns some results
+            tryCompareFunction(function() { return tzList.count > 0; }, true);
 
-            i18n.language = "fr_CA";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_CA\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+            // just tap the first one
+            tap(findChild(page, "tz0"));
 
-            i18n.language = "fr_US";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+            // go next and verify the (mock) signal got fired
+            tap(findChild(page, "forwardButton"));
+            tryCompare(timezoneSpy, "count", 1);
+            tryCompare(page.tdModule, "timeZone", timezoneSpy.signalArguments[0][0]);
+        }
 
-            i18n.language = "fr.utf8";
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "fr_FR\n");
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+        function test_accountPage() {
+            var page = goToPage("accountPage");
+            var forwardButton = findChild(page, "forwardButton");
 
-            i18n.language = "es"; // will not be found
-            link.linkActivated("not-used");
-            page = waitForPage("hereTermsPage");
-            tryCompare(findChild(page, "termsLabel"), "text", "en_US\n");
-
-            // OK, done with languages, back to actual page
-
-            var label = findChild(page, "termsLabel");
-            label.linkActivated(Qt.resolvedUrl("licenses/en_US.html"));
-            tryCompare(label, "visible", false);
-
-            var webview = findChild(page, "webview");
-            tryCompare(webview, "visible", true);
-            tryCompare(webview, "url", Qt.resolvedUrl("licenses/en_US.html"));
-            tryCompare(webview, "loadProgress", 100);
-
-            tap(findChild(page, "backButton"));
-            waitForPage("hereTermsPage"); // confirm we're on same page
-            tryCompare(webview, "visible", false);
-            tryCompare(label, "visible", true);
-
-            tap(findChild(page, "backButton"));
-            waitForPage("locationPage");
+            tap(findChild(page, "nameInput"));
+            typeString("foobar");
         }
     }
 }

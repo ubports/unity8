@@ -16,6 +16,8 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
+import "../Components/SearchHistoryModel"
 import Utils 0.1
 import Unity 0.2
 import Dash 0.1
@@ -25,7 +27,6 @@ import "../Components/ListItems" as ListItems
 FocusScope {
     id: scopeView
 
-    readonly property bool navigationDisableParentInteractive: pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].disableParentInteractive : false
     property bool forceNonInteractive: false
     property var scope: null
     property UnitySortFilterProxyModel categories: categoryFilter
@@ -34,20 +35,21 @@ FocusScope {
     property bool hasBackAction: false
     property bool enableHeightBehaviorOnNextCreation: false
     property var categoryView: categoryView
-    property bool showPageHeader: true
     readonly property alias subPageShown: subPageLoader.subPageShown
+    readonly property alias extraPanelShown: peExtraPanel.visible
     property int paginationCount: 0
     property int paginationIndex: 0
     property bool visibleToParent: false
     property alias pageHeaderTotallyVisible: categoryView.pageHeaderTotallyVisible
     property var holdingList: null
     property bool wasCurrentOnMoveStart: false
+    property var filtersPopover: null
 
     property var scopeStyle: ScopeStyle {
         style: scope ? scope.customizations : {}
     }
 
-    readonly property bool processing: scope ? scope.searchInProgress || subPageLoader.processing : false
+    readonly property bool processing: scope ? (scope.searchInProgress || scope.activationInProgress || subPageLoader.processing) : false
 
     signal backClicked()
 
@@ -68,54 +70,34 @@ FocusScope {
     }
 
     function resetSearch() {
-        if(pageHeaderLoader.item && showPageHeader)
-            pageHeaderLoader.item.resetSearch()
+        categoryView.pageHeader.resetSearch()
     }
 
     property var maybePreviewResult;
-    property int maybePreviewIndex;
-    property var maybePreviewResultsModel;
-    property int maybePreviewLimitedCategoryItemCount;
     property string maybePreviewCategoryId;
 
     function clearMaybePreviewData() {
         scopeView.maybePreviewResult = undefined;
-        scopeView.maybePreviewIndex = -1;
-        scopeView.maybePreviewResultsModel = undefined;
-        scopeView.maybePreviewLimitedCategoryItemCount = -1;
         scopeView.maybePreviewCategoryId = "";
     }
 
-    function itemClicked(index, result, itemModel, resultsModel, limitedCategoryItemCount, categoryId) {
+    function itemClicked(result, categoryId) {
         scopeView.maybePreviewResult = result;
-        scopeView.maybePreviewIndex = index;
-        scopeView.maybePreviewResultsModel = resultsModel;
-        scopeView.maybePreviewLimitedCategoryItemCount = limitedCategoryItemCount;
         scopeView.maybePreviewCategoryId = categoryId;
 
         scope.activate(result, categoryId);
     }
 
-    function itemPressedAndHeld(index, result, resultsModel, limitedCategoryItemCount, categoryId) {
+    function itemPressedAndHeld(result, categoryId) {
         clearMaybePreviewData();
 
-        openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId);
+        openPreview(result, categoryId);
     }
 
-    function openPreview(result, index, resultsModel, limitedCategoryItemCount, categoryId) {
-        var previewStack = scope.preview(result, categoryId);
-        if (previewStack) {
-            if (limitedCategoryItemCount > 0) {
-                previewLimitModel.model = resultsModel;
-                previewLimitModel.limit = limitedCategoryItemCount;
-                subPageLoader.model = previewLimitModel;
-            } else {
-                subPageLoader.model = resultsModel;
-            }
-            subPageLoader.initialIndex = -1;
-            subPageLoader.initialIndex = index;
-            subPageLoader.categoryId = categoryId;
-            subPageLoader.previewStack = previewStack;
+    function openPreview(result, categoryId) {
+        var previewModel = scope.preview(result, categoryId);
+        if (previewModel) {
+            subPageLoader.previewModel = previewModel;
             subPageLoader.openSubPage("preview");
         }
     }
@@ -139,24 +121,26 @@ FocusScope {
         if (!holdingList || !holdingList.moving) {
             wasCurrentOnMoveStart = scopeView.isCurrent;
         }
-        if (pageHeaderLoader.item && showPageHeader) {
-            pageHeaderLoader.item.resetSearch();
-        }
+        categoryView.pageHeader.resetSearch();
         subPageLoader.closeSubPage();
+        if (filtersPopover) {
+            PopupUtils.close(filtersPopover)
+            scopeView.filtersPopover = null;
+        }
     }
 
     Binding {
         target: scopeView.scope
         property: "searchQuery"
-        value: pageHeaderLoader.item ? pageHeaderLoader.item.searchQuery : ""
-        when: isCurrent && showPageHeader
+        value: categoryView.pageHeader.searchQuery
+        when: isCurrent
     }
 
     Binding {
-        target: pageHeaderLoader.item
+        target: categoryView.pageHeader
         property: "searchQuery"
         value: scopeView.scope ? scopeView.scope.searchQuery : ""
-        when: isCurrent && showPageHeader
+        when: isCurrent
     }
 
     Connections {
@@ -166,9 +150,6 @@ FocusScope {
         onPreviewRequested: { // (QVariant const& result)
             if (result === scopeView.maybePreviewResult) {
                 openPreview(result,
-                            scopeView.maybePreviewIndex,
-                            scopeView.maybePreviewResultsModel,
-                            scopeView.maybePreviewLimitedCategoryItemCount,
                             scopeView.maybePreviewCategoryId);
 
                 clearMaybePreviewData();
@@ -211,8 +192,8 @@ FocusScope {
         property string expandedCategoryId: ""
         property int runMaximizeAfterSizeChanges: 0
 
-        readonly property bool pageHeaderTotallyVisible: scopeView.showPageHeader &&
-            ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == pageHeaderLoader.item.height))
+        readonly property bool pageHeaderTotallyVisible:
+            ((headerItemShownHeight == 0 && categoryView.contentY <= categoryView.originY) || (headerItemShownHeight == categoryView.pageHeader.height))
 
         onExpandedCategoryIdChanged: {
             var firstCreated = firstCreatedIndex();
@@ -392,6 +373,8 @@ FocusScope {
                             } else {
                                 cardTool.cardWidth = units.gu(10);
                             }
+                        } else {
+                            cardTool.cardWidth = units.gu(12);
                         }
                         item.minimumHorizontalSpacing = item.defaultMinimumHorizontalSpacing;
                     }
@@ -400,11 +383,11 @@ FocusScope {
                 Connections {
                     target: rendererLoader.item
                     onClicked: { // (int index, var result, var item, var itemModel)
-                        scopeView.itemClicked(index, result, itemModel, target.model, categoryItemCount(), baseItem.category);
+                        scopeView.itemClicked(result, baseItem.category);
                     }
 
                     onPressAndHold: { // (int index, var result, var itemModel)
-                        scopeView.itemPressedAndHeld(index, result, target.model, categoryItemCount(), baseItem.category);
+                        scopeView.itemPressedAndHeld(result, baseItem.category);
                     }
 
                     function categoryItemCount() {
@@ -635,40 +618,67 @@ FocusScope {
             }
         }
 
-        pageHeader: scopeView.showPageHeader ? pageHeaderLoader : null
-        Loader {
-            id: pageHeaderLoader
+        pageHeader: DashPageHeader {
+            objectName: "scopePageHeader"
             width: parent.width
-            sourceComponent: scopeView.showPageHeader ? pageHeaderComponent : undefined
-            Component {
-                id: pageHeaderComponent
-                DashPageHeader {
-                    objectName: "scopePageHeader"
-                    width: parent.width
-                    title: scopeView.scope ? scopeView.scope.name : ""
-                    searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
-                    showBackButton: scopeView.hasBackAction
-                    searchEntryEnabled: true
-                    settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
-                    favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
-                    favorite: scopeView.scope && scopeView.scope.favorite
-                    scopeStyle: scopeView.scopeStyle
-                    paginationCount: scopeView.paginationCount
-                    paginationIndex: scopeView.paginationIndex
+            title: scopeView.scope ? scopeView.scope.name : ""
+            extraPanel: peExtraPanel
+            searchHistory: SearchHistoryModel
+            searchHint: scopeView.scope && scopeView.scope.searchHint || i18n.ctr("Label: Hint for dash search line edit", "Search")
+            scopeHasFilters: scopeView.scope.filters != null
+            activeFiltersCount: scopeView.scope.activeFiltersCount
+            showBackButton: scopeView.hasBackAction
+            searchEntryEnabled: true
+            settingsEnabled: scopeView.scope && scopeView.scope.settings && scopeView.scope.settings.count > 0 || false
+            favoriteEnabled: scopeView.scope && scopeView.scope.id !== "clickscope"
+            favorite: scopeView.scope && scopeView.scope.favorite
+            navigationTag: scopeView.scope ? scopeView.scope.primaryNavigationTag : ""
+            scopeStyle: scopeView.scopeStyle
+            paginationCount: scopeView.paginationCount
+            paginationIndex: scopeView.paginationIndex
 
-                    bottomItem: DashNavigation {
-                        scope: scopeView.scope
-                        anchors { left: parent.left; right: parent.right }
-                        windowHeight: scopeView.height
-                        windowWidth: scopeView.width
-                        scopeStyle: scopeView.scopeStyle
-                    }
-
-                    onBackClicked: scopeView.backClicked()
-                    onSettingsClicked: subPageLoader.openSubPage("settings")
-                    onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
-                    onSearchTextFieldFocused: scopeView.showHeader()
+            onBackClicked: scopeView.backClicked()
+            onSettingsClicked: subPageLoader.openSubPage("settings")
+            onFavoriteClicked: scopeView.scope.favorite = !scopeView.scope.favorite
+            onSearchTextFieldFocused: scopeView.showHeader()
+            onClearSearch: { // keepPanelOpen
+                var panelOpen = peExtraPanel.visible;
+                resetSearch(keepPanelOpen);
+                scopeView.scope.resetPrimaryNavigationTag();
+                peExtraPanel.resetNavigation();
+                if ((panelOpen || searchHistory.count > 0) && keepPanelOpen) {
+                    openPopup();
                 }
+            }
+            onShowFiltersPopup: { // item
+                extraPanel.visible = false;
+                scopeView.filtersPopover = PopupUtils.open(Qt.resolvedUrl("FiltersPopover.qml"), item, { "contentWidth": scopeView.width - units.gu(2) } );
+            }
+        }
+
+        PageHeaderExtraPanel {
+            id: peExtraPanel
+            objectName: "peExtraPanel"
+            width: parent.width >= units.gu(60) ? units.gu(40) : parent.width
+            anchors {
+                top: categoryView.pageHeader.bottom
+                topMargin: -categoryView.pageHeader.signatureLineHeight
+            }
+            z: 1
+            visible: false
+
+            searchHistory: SearchHistoryModel
+            scope: scopeView.scope
+            windowHeight: scopeView.height
+
+            onHistoryItemClicked: {
+                SearchHistoryModel.addQuery(text);
+                categoryView.pageHeader.searchQuery = text;
+            }
+
+            onDashNavigationLeafClicked: {
+                categoryView.pageHeader.closePopup();
+                categoryView.pageHeader.unfocus();
             }
         }
     }
@@ -678,7 +688,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: parent.height - pullToRefresh.contentY + (pageHeaderLoader.item ? pageHeaderLoader.item.bottomItem[0].height - pageHeaderLoader.item.height : 0)
+        height: parent.height - pullToRefresh.contentY - categoryView.pageHeader.height
         clip: true
 
         PullToRefresh {
@@ -779,13 +789,10 @@ FocusScope {
         property var scope: scopeView.scope
         property var scopeStyle: scopeView.scopeStyle
         property int initialIndex: -1
-        property var previewStack;
-        property string categoryId
-        property var model: null
+        property var previewModel;
 
         readonly property bool processing: item && item.processing || false
         readonly property int count: item && item.count || 0
-        readonly property int currentIndex: item && item.currentIndex || 0
         readonly property var currentItem: item && item.currentItem || null
 
         property string subPage: ""
@@ -800,7 +807,7 @@ FocusScope {
         }
 
         source: switch(subPage) {
-            case "preview": return "PreviewListView.qml";
+            case "preview": return "PreviewView.qml";
             case "settings": return "ScopeSettingsPage.qml";
             default: return "";
         }
@@ -810,16 +817,13 @@ FocusScope {
             item.scopeStyle = Qt.binding(function() { return subPageLoader.scopeStyle; } )
             if (subPage == "preview") {
                 item.open = Qt.binding(function() { return subPageLoader.open; } )
-                item.initialIndex = Qt.binding(function() { return subPageLoader.initialIndex; } )
-                item.model = Qt.binding(function() { return subPageLoader.model; } )
-                item.categoryId = Qt.binding(function() { return subPageLoader.categoryId; } )
-                item.initialIndexPreviewStack = subPageLoader.previewStack;
-                subPageLoader.previewStack = null;
+                item.previewModel = subPageLoader.previewModel;
+                subPageLoader.previewModel = null;
             }
             open = true;
         }
 
-        onOpenChanged: pageHeaderLoader.item.unfocus()
+        onOpenChanged: categoryView.pageHeader.unfocus()
 
         onVisibleChanged: if (!visible) subPage = ""
 

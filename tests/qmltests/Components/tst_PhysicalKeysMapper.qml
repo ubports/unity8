@@ -26,9 +26,9 @@ Item {
 
     property var physicalKeysMapper: loader.item
 
-    WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
+    WindowInputFilter {
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, lastInputTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, lastInputTimestamp);
     }
 
     Loader {

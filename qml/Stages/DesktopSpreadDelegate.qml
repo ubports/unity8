@@ -56,6 +56,11 @@ Item {
         }
     ]
 
+    scale: highlightShown ? 1.025 : 1
+    Behavior on scale {
+        UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+    }
+
     BorderImage {
         anchors {
             fill: root
@@ -70,7 +75,7 @@ Item {
         anchors.fill: parent
         anchors.margins: -units.gu(1)
         color: "white"
-        opacity: highlightShown ? 0.15 : 0
+        opacity: highlightShown ? 0.55 : 0
         antialiasing: true
     }
 
@@ -106,6 +111,15 @@ Item {
                     yScale: applicationWindow.itemScale
                 }
             ]
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: root.highlightShown ? 0 : .1
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
         }
     }
 }

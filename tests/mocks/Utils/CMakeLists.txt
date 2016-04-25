@@ -12,17 +12,19 @@ set(QMLPLUGIN_SRC
     ${CMAKE_SOURCE_DIR}/plugins/Utils/qlimitproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitysortfilterproxymodelqml.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/unitymenumodelpaths.cpp
-    ${CMAKE_SOURCE_DIR}/plugins/Utils/windowkeysfilter.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/windowinputfilter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/windowscreenshotprovider.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/easingcurve.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/inputwatcher.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/timezoneFormatter.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/applicationsfiltermodel.cpp
     ${CMAKE_SOURCE_DIR}/plugins/Utils/inputeventgenerator.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/deviceconfigparser.cpp
+    ${CMAKE_SOURCE_DIR}/plugins/Utils/globalfunctions.cpp
     ${APPLICATION_API_INCLUDEDIR}/unity/shell/application/ApplicationManagerInterface.h
     constants.cpp
     plugin.cpp
     windowstatestorage.cpp
-    plugin.cpp
     )
 
 add_library(FakeUtils-qml SHARED

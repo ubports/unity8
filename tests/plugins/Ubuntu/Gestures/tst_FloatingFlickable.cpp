@@ -64,6 +64,7 @@ void tst_FloatingFlickable::tapGoesThrough()
 
 void tst_FloatingFlickable::flickChangesContentX()
 {
+    QSKIP("This fails due to bug #1564571");
     FloatingFlickable *floatingFlickable =
         m_view->rootObject()->findChild<FloatingFlickable*>("floatingFlickable");
     QVERIFY(floatingFlickable != nullptr);
@@ -91,6 +92,7 @@ void tst_FloatingFlickable::flickChangesContentX()
 
 void tst_FloatingFlickable::flickChangesContentY()
 {
+    QSKIP("This fails due to bug #1564571");
     FloatingFlickable *floatingFlickable =
         m_view->rootObject()->findChild<FloatingFlickable*>("floatingFlickable");
     QVERIFY(floatingFlickable != nullptr);

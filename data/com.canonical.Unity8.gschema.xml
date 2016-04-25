@@ -27,6 +27,22 @@
       <summary>Maximum push needed to overcome edge barrier</summary>
       <description>How much you have to push (in grid units) the mouse against an edge barrier when sensibility is 1.</description>
     </key>
+    <key type="u" name="edge-drag-width">
+      <default>2</default>
+      <summary>The width of the edge drag areas</summary>
+      <description>How big (in grid units) the edge-drag sensitive area should be.</description>
+    </key>
+    <key type="b" name="autohide-launcher">
+      <default>true</default>
+      <summary>Autohide the launcher</summary>
+      <description>This will only be applied in windowed mode. In staged mode, the launcher will always hide.</description>
+    </key>
+    <key type="u" name="launcher-width">
+      <default>8</default>
+      <range min="6" max="12"/>
+      <summary>Width of the launcher in grid units.</summary>
+      <description>Changes the width of the launcher in all usage modes.</description>
+    </key>
   </schema>
 
   <schema path="/com/canonical/unity8/greeter/" id="com.canonical.Unity8.Greeter" gettext-domain="unity8">

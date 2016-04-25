@@ -21,13 +21,14 @@ import GSettings 1.0
 Rectangle {
     id: root
 
-    color: "#111111"
+    color: "#060606"
 
     // Controls to be set from outside
     property bool altTabPressed
     property url background
     property bool beingResized
     property int dragAreaWidth
+    property real dragProgress // How far left the stage has been dragged, used externally by tutorial code
     property bool interactive
     property real inverseProgress // This is the progress for left edge drags, in pixels.
     property bool keepDashRunning: true
@@ -39,15 +40,20 @@ Rectangle {
     property int shellOrientationAngle
     property bool spreadEnabled: true // If false, animations and right edge will be disabled
     property bool suspended
+     // A Stage should paint a wallpaper etc over its full size but not use the margins for window placement
+    property int leftMargin: 0
 
     // To be read from outside
     property var mainApp: null
-    property int mainAppWindowOrientationAngle
+    property var mainAppWindow: null
+    property int mainAppWindowOrientationAngle: 0
     property bool orientationChangesEnabled
     property int supportedOrientations: Qt.PortraitOrientation
                                       | Qt.LandscapeOrientation
                                       | Qt.InvertedPortraitOrientation
                                       | Qt.InvertedLandscapeOrientation
+
+    signal stageAboutToBeUnloaded
 
     // Shared code for use in stage implementations
     GSettings {

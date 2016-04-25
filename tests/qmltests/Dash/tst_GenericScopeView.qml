@@ -236,12 +236,6 @@ Item {
                 verify(seeAll, "Can't find the seeAll element");
 
                 compare(seeAll.height, 0, "SeeAll should be 0-height.");
-
-                openPreview(4, 0);
-
-                compare(testCase.subPageLoader.count, 16, "There should only be 16 items in preview.");
-
-                closePreview();
             }
 
             function test_narrow_delegate_ranges_expand() {
@@ -404,28 +398,6 @@ Item {
                 closePreview();
             }
 
-            function test_previewCycle() {
-                var categoryListView = findChild(genericScopeView, "categoryListView");
-                categoryListView.positionAtBeginning();
-
-                tryCompare(testCase.subPageLoader, "open", false);
-
-                openPreview();
-                var previewListViewList = findChild(subPageLoader.item, "listView");
-
-                // flick to the next previews
-                tryCompare(testCase.subPageLoader, "count", 25);
-                for (var i = 1; i < testCase.subPageLoader.count; ++i) {
-                    mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.width - units.gu(1),
-                                                testCase.subPageLoader.height / 2,
-                                                units.gu(2),
-                                                testCase.subPageLoader.height / 2);
-                    tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.subPageLoader.currentItem, "objectName", "preview" + i);
-                }
-                closePreview();
-            }
-
             function test_settingsOpenClose() {
                 waitForRendering(genericScopeView);
                 verify(header, "Could not find the header.");
@@ -456,8 +428,8 @@ Item {
 
             function test_header_style_data() {
                 return [
-                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#f5f5f5", logo: "" },
-                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#ffffff", logo: "" },
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#ffffff", logo: "" },
                     { tag: "Logo+Background", index: 2, foreground: UbuntuColors.darkGrey, background: "gradient:///lightgrey/grey",
                       logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
@@ -506,7 +478,7 @@ Item {
                 mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
-                tryCompare(genericScopeView.categoryView, "contentY", units.gu(13));
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(8));
 
                 scrollToEnd();
 

@@ -41,7 +41,8 @@ public:
             Mir::Type type,
             Mir::State state,
             const QUrl& screenshot,
-            const QUrl &qmlFilePath = QUrl());
+            const QUrl &qmlFilePath = QUrl(),
+            QObject *parent = nullptr);
     virtual ~MirSurface();
 
     ////
@@ -73,10 +74,16 @@ public:
     int widthIncrement() const override { return m_widthIncrement; }
     int heightIncrement() const override { return m_heightIncrement; }
 
+    Mir::ShellChrome shellChrome() const override;
+    QString keymapLayout() const override;
+    QString keymapVariant() const override;
+    Q_INVOKABLE void setKeymap(const QString &layout, const QString &variant) override;
+
     ////
     // API for tests
 
     Q_INVOKABLE void setLive(bool live);
+    Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
 
     void registerView(qintptr viewId);
     void unregisterView(qintptr viewId);
@@ -108,9 +115,6 @@ public:
     void setActiveFocus(bool);
 
 Q_SIGNALS:
-    void stateChanged(Mir::State);
-    void liveChanged(bool live);
-    void orientationAngleChanged(Mir::OrientationAngle angle);
     void widthChanged();
     void heightChanged();
     void slowToResizeChanged();
@@ -151,10 +155,14 @@ private:
     QSize m_delayedResize;
     QSize m_pendingResize;
 
+    Mir::ShellChrome m_shellChrome;
+
     struct View {
         bool visible;
     };
     QHash<qintptr, View> m_views;
+
+    QPair<QString,QString> m_keyMap; // pair of layout+variant
 };
 
 #endif // MOCK_MIR_SURFACE_H
