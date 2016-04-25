@@ -13,7 +13,7 @@ include_directories(
     )
 
 export_qmlfiles(UbuntuGesturesTest .
-    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Ubuntu/Gestures"
+    DESTINATION "${SHELL_APP_DIR}/tests/plugins/Ubuntu/Gestures"
 )
 
 macro(build_gesture_test CLASSNAME)

@@ -31,27 +31,27 @@ Rectangle {
 
     property var sourcesModel1: {
         "sources": [
-                    Qt.resolvedUrl("../../../../graphics/phone_background.jpg"),
-                    Qt.resolvedUrl("../../../../graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../../qml/graphics/phone_background.jpg"),
+                    Qt.resolvedUrl("../../../../qml/graphics/tablet_background.jpg"),
                     Qt.resolvedUrl("../../../graphics/clock@18.png"),
-                    Qt.resolvedUrl("../../../../graphics/borked")
+                    Qt.resolvedUrl("../../../../qml/graphics/borked")
                    ]
     }
 
     property var sourcesModel1WithFallback: {
         "sources": [
-                    Qt.resolvedUrl("../../../../graphics/phone_background.jpg"),
-                    Qt.resolvedUrl("../../../../graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../../qml/graphics/phone_background.jpg"),
+                    Qt.resolvedUrl("../../../../qml/graphics/tablet_background.jpg"),
                     Qt.resolvedUrl("../../../graphics/clock@18.png"),
-                    Qt.resolvedUrl("../../../../graphics/borked")
+                    Qt.resolvedUrl("../../../../qml/graphics/borked")
                    ]
         , "fallback": Qt.resolvedUrl("../../../graphics/clock@18.png")
     }
 
     property var sourcesModelEmptyWithFallback: {
         "sources": [
-                    Qt.resolvedUrl("../../../../graphics/phone_background.jpg"),
-                    Qt.resolvedUrl("../../../../graphics/tablet_background.jpg"),
+                    Qt.resolvedUrl("../../../../qml/graphics/phone_background.jpg"),
+                    Qt.resolvedUrl("../../../../qml/graphics/tablet_background.jpg"),
                     Qt.resolvedUrl("../../../graphics/clock@18.png"),
                     ""
                    ]

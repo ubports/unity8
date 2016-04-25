@@ -37,7 +37,10 @@ private Q_SLOTS:
     void init()
     {
         view = new QQuickView();
-        view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/cardcreatortest.qml"));
+        if (isRunningInstalled())
+            view->setSource(QUrl::fromLocalFile(testLibDir() + "/" TEST_DIR "/cardcreatortest.qml"));
+        else
+            view->setSource(QUrl::fromLocalFile(testDataDir() + "/" TEST_DIR "/cardcreatortest.qml"));
         view->show();
         QTest::qWaitForWindowExposed(view);
     }

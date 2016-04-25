@@ -46,7 +46,7 @@ void GestureTest::init()
 {
     m_view = new QQuickView;
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    m_view->setSource(QUrl::fromLocalFile(testLibDir() + "/plugins/Ubuntu/Gestures/" + m_qmlFilename));
+    m_view->setSource(QUrl::fromLocalFile(testDataDir() + "/plugins/Ubuntu/Gestures/" + m_qmlFilename));
     m_view->show();
     QVERIFY(QTest::qWaitForWindowExposed(m_view));
     QVERIFY(m_view->rootObject() != 0);

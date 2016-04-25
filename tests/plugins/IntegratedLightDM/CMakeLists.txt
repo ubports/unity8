@@ -19,6 +19,7 @@ target_include_directories(GreeterDBusTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM
     ${CMAKE_SOURCE_DIR}/tests/mocks/IntegratedLightDM
     )
+set_target_properties(GreeterDBusTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/IntegratedLightDM/liblightdm")
 install(TARGETS GreeterDBusTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/IntegratedLightDM"
 )
@@ -66,6 +67,7 @@ target_include_directories(GreeterUsersModelTestExec PUBLIC
     ${CMAKE_SOURCE_DIR}/plugins/Utils
     ${CMAKE_SOURCE_DIR}/tests/mocks/IntegratedLightDM
     )
+set_target_properties(GreeterUsersModelTestExec PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${SHELL_INSTALL_QML}/mocks/IntegratedLightDM/liblightdm")
 install(TARGETS GreeterUsersModelTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/IntegratedLightDM"
 )

@@ -85,6 +85,9 @@ function(add_qml_test_data PATH COMPONENT_NAME)
     if ("${filename}" MATCHES "\\.qml$")
         file(READ "${filename}" contents)
         string(REGEX REPLACE "(\"[./]*)/qml(/|\")" "\\1\\2" contents "${contents}")
+        # this is for (at least) cardcreatortest which pulls in an architecture-specific
+        # import into the plugins directory (which is a 'qml' once installed).
+        string(REGEX REPLACE "(import \"[./]*)/plugins(/|\")" "\\1/qml\\2" contents "${contents}")
         set(filename "${CMAKE_CURRENT_BINARY_DIR}/${PATH}/${COMPONENT_NAME}")
         file(WRITE "${filename}" "${contents}")
     endif()
