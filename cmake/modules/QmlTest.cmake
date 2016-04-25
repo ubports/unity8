@@ -354,7 +354,7 @@ function(add_meta_dependencies UPSTREAM_TARGET)
     foreach(depend ${TEST_DEPENDS})
         add_dependencies(${UPSTREAM_TARGET} ${depend})
 
-        # add target to the meta test script that we will install on system
+        # add depend to the meta test script that we will install on system
         set(filename "${CMAKE_BINARY_DIR}/tests/scripts/${UPSTREAM_TARGET}.sh")
         if (EXISTS "${filename}")
             file(APPEND "${filename}" "${CMAKE_INSTALL_PREFIX}/${SHELL_PRIVATE_LIBDIR}/tests/scripts/${depend}.sh\n")
