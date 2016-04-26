@@ -52,6 +52,7 @@ FocusScope {
 
     // To be read from outside
     property var mainApp: null
+    property var mainAppDelegate: null
     property int mainAppWindowOrientationAngle: 0
     property bool orientationChangesEnabled
     property int supportedOrientations: Qt.PortraitOrientation

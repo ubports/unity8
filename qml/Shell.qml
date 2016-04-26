@@ -541,6 +541,15 @@ Item {
             locked: greeter && greeter.active
         }
 
+        WindowControlsOverlay {
+            x: target ? target.x : -1
+            y: target ? target.y : -1
+            width: target ? target.width : undefined
+            height: target? target.height : undefined
+            target: applicationsDisplayLoader.item && applicationsDisplayLoader.item.mainAppDelegate ? applicationsDisplayLoader.item.mainAppDelegate : null
+            onActivated: MirFocusController.focusedSurface = target
+        }
+
         Launcher {
             id: launcher
             objectName: "launcher"

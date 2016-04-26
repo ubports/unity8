@@ -106,8 +106,8 @@ private:
 /*
  An area that detects multi-finger gestures.
 
- We can use this to detect gestures contstrained by a minimim and/or maximum number of touch points.
- This components uses the touch registry to apply for ownership of touch points.
+ We can use this to detect gestures constrained by a minimum and/or maximum number of touch points.
+ This component uses the touch registry to apply for ownership of touch points.
  This way we can use the component in conjuntion with the directional drag area to compete for ownwership
  or gestures; unlike the MultiPointTouchArea.
  */
@@ -176,7 +176,7 @@ Q_SIGNALS:
     void clicked();
 
 protected:
-    void itemChange(ItemChange change, const ItemChangeData &value);
+    void itemChange(ItemChange change, const ItemChangeData &value) override;
 
 private Q_SLOTS:
     void rejectGesture();

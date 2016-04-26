@@ -40,6 +40,7 @@ AbstractStage {
     property bool spreadShown: spread.state == "altTab"
 
     mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
+    mainAppDelegate: priv.focusedAppDelegate
 
     // application windows never rotate independently
     mainAppWindowOrientationAngle: shellOrientationAngle
@@ -283,6 +284,7 @@ AbstractStage {
                 property bool visuallyMinimized: false
 
                 readonly property var surface: model.surface
+                readonly property alias resizeArea: resizeArea
 
                 function claimFocus() {
                     if (spread.state == "altTab") {
@@ -602,14 +604,6 @@ AbstractStage {
                                 ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
                     onDecorationPressed: { appDelegate.focus = true; }
-                }
-
-                WindowControlsOverlay {
-                    anchors.fill: resizeArea
-                    target: appDelegate
-                    resizeTarget: resizeArea
-                    borderThickness: resizeArea.borderThickness
-                    onActivated: ApplicationManager.focusApplication(model.appId)
                 }
 
                 WindowedFullscreenPolicy {

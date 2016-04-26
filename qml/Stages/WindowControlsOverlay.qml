@@ -21,10 +21,9 @@ import "../Components/PanelState"
 
 Item {
     id: root
+
     // to be set from outside
     property Item target // appDelegate
-    property Item resizeTarget // WindowResizeArea
-    property int borderThickness
 
     signal activated
 
@@ -33,7 +32,7 @@ Item {
         anchors.fill: parent
 
         // NB: for testing set to 2, not to clash with unity7 touch overlay controls
-        minimumTouchPoints: 3
+        minimumTouchPoints: 2
         maximumTouchPoints: minimumTouchPoints
 
         readonly property bool recognizedPress: status == TouchGestureArea.Recognized &&
@@ -53,49 +52,7 @@ Item {
     Timer {
         id: overlayTimer
         interval: 2000
-        repeat: priv.dragging || root.resizeTarget.dragging
-    }
-
-
-    // dismiss area
-    InverseMouseArea {
-        anchors.fill: overlay
-        visible: overlay.visible
-        enabled: visible
-        onPressed: {
-            overlayTimer.stop();
-            mouse.accepted = false;
-        }
-        propagateComposedEvents: true
-    }
-
-
-    // move handler
-    MouseArea {
-        anchors.fill: overlay
-        visible: overlay.visible
-        enabled: visible
-        hoverEnabled: true
-        cursorShape: priv.dragging ? Qt.ClosedHandCursor : (overlay.visible ? Qt.OpenHandCursor : Qt.ArrowCursor)
-
-        onPressedChanged: {
-            if (pressed) {
-                var pos = mapToItem(root.target, mouseX, mouseY);
-                priv.distanceX = pos.x;
-                priv.distanceY = pos.y;
-                priv.dragging = true;
-            } else {
-                priv.dragging = false;
-            }
-        }
-
-        onPositionChanged: {
-            if (priv.dragging) {
-                var pos = mapToItem(root.target.parent, mouseX, mouseY);
-                root.target.x = pos.x - priv.distanceX;
-                root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
-            }
-        }
+        repeat: priv.dragging || (priv.resizeArea && priv.resizeArea.dragging)
     }
 
     QtObject {
@@ -103,6 +60,9 @@ Item {
         property real distanceX
         property real distanceY
         property bool dragging
+
+        readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
+        readonly property int borderThickness: priv.resizeArea ? priv.resizeArea.borderThickness : 0
     }
 
 
@@ -129,80 +89,119 @@ Item {
             anchors.centerIn: parent
             opacity: 0.95
             visible: target && target.width > units.gu(12) && target.height > units.gu(12)
+
+            // move handler
+            MouseArea {
+                anchors.fill: parent
+                visible: overlay.visible
+                enabled: visible
+                hoverEnabled: true
+                cursorShape: priv.dragging ? Qt.ClosedHandCursor : (overlay.visible ? Qt.OpenHandCursor : Qt.ArrowCursor)
+
+                onPressedChanged: {
+                    if (pressed) {
+                        var pos = mapToItem(root.target, mouseX, mouseY);
+                        priv.distanceX = pos.x;
+                        priv.distanceY = pos.y;
+                        priv.dragging = true;
+                    } else {
+                        priv.dragging = false;
+                    }
+                }
+
+                onPositionChanged: {
+                    if (priv.dragging) {
+                        var pos = mapToItem(root.target.parent, mouseX, mouseY);
+                        root.target.x = pos.x - priv.distanceX;
+                        root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
+                    }
+                }
+            }
+
+            // dismiss area
+            InverseMouseArea {
+                anchors.fill: parent
+                visible: overlay.visible
+                enabled: visible
+                onClicked: {
+                    overlayTimer.stop();
+                    mouse.accepted = false;
+                }
+            }
         }
 
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
-            anchors.horizontalCenterOffset: borderThickness
+            //anchors.horizontalCenterOffset: priv.borderThickness
             anchors.verticalCenter: parent.top
-            anchors.verticalCenterOffset: borderThickness
+            //anchors.verticalCenterOffset: priv.borderThickness
             visible: !overlay.anyMaximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // top center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
-            anchors.verticalCenterOffset: borderThickness
+            //anchors.verticalCenterOffset: priv.borderThickness
             rotation: 45
             visible: !overlay.anyMaximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // top right
             anchors.horizontalCenter: parent.right
-            anchors.horizontalCenterOffset: -borderThickness
+            //anchors.horizontalCenterOffset: -priv.borderThickness
             anchors.verticalCenter: parent.top
-            anchors.verticalCenterOffset: borderThickness
+            //anchors.verticalCenterOffset: priv.borderThickness
             rotation: 90
             visible: !overlay.anyMaximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // right
             anchors.horizontalCenter: parent.right
-            anchors.horizontalCenterOffset: -borderThickness
+            //anchors.horizontalCenterOffset: -priv.borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
             visible: target && !target.maximizedRight && !target.maximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
-            anchors.horizontalCenterOffset: -borderThickness
+            //anchors.horizontalCenterOffset: -priv.borderThickness
             anchors.verticalCenter: parent.bottom
-            anchors.verticalCenterOffset: -borderThickness
+            //anchors.verticalCenterOffset: -priv.borderThickness
             visible: !overlay.anyMaximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // bottom center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
-            anchors.verticalCenterOffset: -borderThickness
+            //anchors.verticalCenterOffset: -priv.borderThickness
             rotation: 45
             visible: !overlay.anyMaximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // bottom left
             anchors.horizontalCenter: parent.left
-            anchors.horizontalCenterOffset: borderThickness
+            //anchors.horizontalCenterOffset: priv.borderThickness
             anchors.verticalCenter: parent.bottom
-            anchors.verticalCenterOffset: -borderThickness
+            //anchors.verticalCenterOffset: -priv.borderThickness
             rotation: 90
             visible: !overlay.anyMaximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
 
         ResizeGrip { // left
             anchors.horizontalCenter: parent.left
-            anchors.horizontalCenterOffset: borderThickness
+            //anchors.horizontalCenterOffset: priv.borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
             visible: target && !target.maximizedLeft && !target.maximized
-            resizeTarget: root.resizeTarget
+            resizeTarget: priv.resizeArea
         }
     }
 }
