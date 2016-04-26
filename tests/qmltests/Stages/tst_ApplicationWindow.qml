@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,16 +34,9 @@ Rectangle {
         root.fakeApplication = ApplicationManager.add("gallery-app");
         root.fakeApplication.manualSurfaceCreation = true;
         root.fakeApplication.setState(ApplicationInfoInterface.Starting);
+        applicationWindowLoader.item.application = root.fakeApplication;
     }
     property QtObject fakeApplication: null
-    readonly property var fakeSession: fakeApplication ? fakeApplication.session : null
-
-    Connections {
-        target: fakeApplication
-        onSessionChanged: {
-            sessionCheckbox.checked = fakeApplication.session !== null
-        }
-    }
 
     Loader {
         id: applicationWindowLoader
@@ -58,7 +51,6 @@ Rectangle {
         sourceComponent: Component {
             ApplicationWindow {
                 anchors.fill: parent
-                application: fakeApplication
                 surfaceOrientationAngle: 0
                 interactive: true
                 focus: true
@@ -86,18 +78,27 @@ Rectangle {
                 Layout.fillWidth: true
 
                 CheckBox {
-                    id: sessionCheckbox; checked: false
+                    id: surfaceCheckbox;
+                    checked: false;
                     activeFocusOnPress: false
                     onCheckedChanged: {
-                        if (checked && !fakeApplication.session) {
-                            fakeApplication.createSession();
-                        } else if (!checked && fakeApplication.session) {
-                            fakeApplication.destroySession();
+                        if (applicationWindowLoader.status !== Loader.Ready)
+                            return;
+
+                        if (checked) {
+                            applicationWindowLoader.item.surface = SurfaceManager.createSurface("foo",
+                                    Mir.NormalType, Mir.MaximizedState, root.fakeApplication);
+
+                            root.fakeApplication.setState(ApplicationInfoInterface.Running);
+                        } else {
+                            if (applicationWindowLoader.item.surface) {
+                                applicationWindowLoader.item.surface.setLive(false);
+                            }
                         }
                     }
                 }
                 Label {
-                    text: "Session"
+                    text: "Surface"
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -117,7 +118,7 @@ Rectangle {
                     id: sessionControl
                     anchors { left: parent.left; right: parent.right; }
 
-                    session: fakeSession
+                    surface: applicationWindowLoader.item ? applicationWindowLoader.item.surface : null
                 }
             }
 
@@ -143,7 +144,15 @@ Rectangle {
                 }
                 onSelectedApplicationStateChanged: {
                     // state is a read-only property, thus we have to call the setter function
-                    fakeApplication.setState(selectedApplicationState);
+                    if (fakeApplication && fakeApplication.state != selectedApplicationState) {
+                        fakeApplication.setState(selectedApplicationState);
+                    }
+                }
+                Connections {
+                    target: fakeApplication
+                    onStateChanged: {
+                        testCase.setApplicationState(state);
+                    }
                 }
             }
 
@@ -197,6 +206,8 @@ Rectangle {
             }
         }
 
+        property var applicationWindow: applicationWindowLoader.item
+
         // holds some of the internal ApplicationWindow objects we probe during the tests
         property var stateGroup: null
 
@@ -211,11 +222,6 @@ Rectangle {
 
         function init() {
             findInterestingApplicationWindowChildren();
-        }
-
-        function initSession() {
-            sessionCheckbox.checked = true;
-            sessionControl.surfaceCheckbox.checked = true;
         }
 
         function cleanup() {
@@ -238,10 +244,17 @@ Rectangle {
             // deleted, so you end up with two instances in memory.
             tryCompare(applicationWindowLoader, "itemDestroyed", true);
 
-            appStateSelector.selectedIndex = 0;
-            sessionCheckbox.checked = false;
+            setApplicationState(appStarting);
+            surfaceCheckbox.checked = false;
+
+            ApplicationManager.stopApplication("gallery-app");
+            root.fakeApplication = ApplicationManager.add("gallery-app");
+            root.fakeApplication.manualSurfaceCreation = true;
+            root.fakeApplication.setState(ApplicationInfoInterface.Starting);
 
             applicationWindowLoader.active = true;
+
+            applicationWindowLoader.item.application = root.fakeApplication;
         }
 
         function test_showSplashUntilAppFullyInit_data() {
@@ -256,7 +269,7 @@ Rectangle {
             verify(stateGroup.state === "splashScreen");
 
             if (data.swapInitOrder) {
-                initSession();
+                surfaceCheckbox.checked = true;
             } else {
                 setApplicationState(appRunning);
             }
@@ -266,14 +279,14 @@ Rectangle {
             if (data.swapInitOrder) {
                 setApplicationState(appRunning);
             } else {
-                initSession();
+                surfaceCheckbox.checked = true;
             }
 
             tryCompare(stateGroup, "state", "surface");
         }
 
         function test_suspendedAppShowsSurface() {
-            initSession();
+            surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
 
             tryCompare(stateGroup, "state", "surface");
@@ -287,7 +300,7 @@ Rectangle {
         }
 
         function test_killedAppShowsScreenshot() {
-            initSession();
+            surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
 
@@ -297,16 +310,17 @@ Rectangle {
             verify(fakeApplication.surface !== null);
 
             // kill it!
+            surfaceCheckbox.checked = false;
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(fakeApplication, "session", null);
+            tryCompare(fakeApplication.surfaceList, "count", 0);
         }
 
         function test_restartApp() {
-            var screenshotImage = findChild(applicationWindowLoader.item, "screenshotImage");
+            var screenshotImage = findChild(applicationWindow, "screenshotImage");
 
-            initSession();
+            surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
@@ -314,109 +328,109 @@ Rectangle {
             setApplicationState(appSuspended);
 
             // kill it
+            surfaceCheckbox.checked = false;
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
             waitUntilTransitionsEnd(stateGroup);
-            tryCompare(fakeApplication, "session", null);
+            tryCompare(applicationWindow, "surface", null);
 
             // and restart it
             setApplicationState(appStarting);
 
             waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "screenshot");
-            verify(fakeSession === null);
+            verify(applicationWindow.surface === null);
 
             setApplicationState(appRunning);
 
             waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "screenshot");
 
-            initSession();
+            surfaceCheckbox.checked = true;
 
             tryCompare(stateGroup, "state", "surface");
             tryCompare(screenshotImage, "status", Image.Null);
         }
 
         function test_appCrashed() {
-            initSession();
+            surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
 
             // oh, it crashed...
+            surfaceCheckbox.checked = false;
             setApplicationState(appStopped);
 
             tryCompare(stateGroup, "state", "screenshot");
-            tryCompare(fakeApplication, "session", null);
+            tryCompare(applicationWindow, "surface", null);
         }
 
         function test_keepSurfaceWhileInvisible() {
-            initSession();
+            surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
-            verify(fakeSession.lastSurface !== null);
+            verify(applicationWindow.surface !== null);
 
-            applicationWindowLoader.item.visible = false;
-
-            waitUntilTransitionsEnd(stateGroup);
-            verify(stateGroup.state === "surface");
-            verify(fakeSession.lastSurface !== null);
-
-            applicationWindowLoader.item.visible = true;
+            applicationWindow.visible = false;
 
             waitUntilTransitionsEnd(stateGroup);
             verify(stateGroup.state === "surface");
-            verify(fakeSession.lastSurface !== null);
+            verify(applicationWindow.surface !== null);
+
+            applicationWindow.visible = true;
+
+            waitUntilTransitionsEnd(stateGroup);
+            verify(stateGroup.state === "surface");
+            verify(applicationWindow.surface !== null);
         }
 
         function test_touchesReachSurfaceWhenItsShown() {
             setApplicationState(appRunning);
-            initSession();
+            surfaceCheckbox.checked = true;
 
             tryCompare(stateGroup, "state", "surface");
 
             waitUntilTransitionsEnd(stateGroup);
 
-            var surfaceItem = findChild(applicationWindowLoader.item, "surfaceItem");
+            var surfaceItem = findChild(applicationWindow, "surfaceItem");
             verify(surfaceItem);
-            verify(surfaceItem.surface === fakeSession.lastSurface);
+            verify(surfaceItem.surface === applicationWindow.surface);
 
             surfaceItem.touchPressCount = 0;
             surfaceItem.touchReleaseCount = 0;
 
-            tap(applicationWindowLoader.item,
-                applicationWindowLoader.item.width / 2, applicationWindowLoader.item.height / 2);
+            tap(applicationWindow);
 
             verify(surfaceItem.touchPressCount === 1);
             verify(surfaceItem.touchReleaseCount === 1);
         }
 
         function test_showNothingOnSuddenSurfaceLoss() {
-            initSession();
+            surfaceCheckbox.checked = true;
             setApplicationState(appRunning);
             tryCompare(stateGroup, "state", "surface");
             waitUntilTransitionsEnd(stateGroup);
 
-            sessionControl.surfaceCheckbox.checked = false;
+            applicationWindow.surface = null;
 
             tryCompare(stateGroup, "state", "void");
         }
 
         function test_surfaceActiveFocusFollowsAppWindowInterative() {
-            fakeApplication.createSession();
-            applicationWindowLoader.item.interactive = false;
-            applicationWindowLoader.item.interactive = true;
-            fakeSession.createSurface();
+            applicationWindow.interactive = false;
+            applicationWindow.interactive = true;
+            surfaceCheckbox.checked = true;
 
-            compare(fakeSession.lastSurface.activeFocus, true);
+            compare(applicationWindow.surface.activeFocus, true);
 
-            applicationWindowLoader.item.interactive = false;
-            compare(fakeSession.lastSurface.activeFocus, false);
+            applicationWindow.interactive = false;
+            compare(applicationWindow.surface.activeFocus, false);
 
-            applicationWindowLoader.item.interactive = true;
-            compare(fakeSession.lastSurface.activeFocus, true);
+            applicationWindow.interactive = true;
+            compare(applicationWindow.surface.activeFocus, true);
         }
     }
 }

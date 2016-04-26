@@ -47,11 +47,12 @@ TutorialPage {
         anchors.right: root.right
         anchors.rightMargin: units.gu(2)
         anchors.verticalCenter: root.verticalCenter
+        rotation: usageScenario === "desktop" ? 180 : 0
     }
 
     label {
         text: root.usageScenario === "desktop" ?
-                    i18n.tr("Hover your mouse on the right edge to view your open apps") :
+                    i18n.tr("Push your mouse against the right edge to view your open apps") :
                     i18n.tr("Short or long swipe from the right edge to view your open apps")
         anchors.right: arrow.left
         anchors.rightMargin: units.gu(2) - (label.width - label.contentWidth)
