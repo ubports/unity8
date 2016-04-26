@@ -19,7 +19,9 @@
 
 #include <QList>
 #include <QObject>
+#include <QQmlParserStatus>
 #include <QStringList>
+#include <QVariant>
 
 class GSettingsSchemaQml: public QObject
 {
@@ -41,47 +43,60 @@ private:
     QByteArray m_path;
 };
 
-class GSettingsQml: public QObject
+class GSettingsQml: public QObject, public QQmlParserStatus
 {
     Q_OBJECT
+    Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(GSettingsSchemaQml* schema READ schema NOTIFY schemaChanged)
-    Q_PROPERTY(QString pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
-    Q_PROPERTY(QString usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
-    Q_PROPERTY(qint64 lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY lockedOutTimeChanged)
-    Q_PROPERTY(QStringList lifecycleExemptAppids READ lifecycleExemptAppids WRITE setLifecycleExemptAppids NOTIFY lifecycleExemptAppidsChanged)
-    Q_PROPERTY(bool autohideLauncher READ autohideLauncher WRITE setAutohideLauncher NOTIFY autohideLauncherChanged)
-    Q_PROPERTY(int launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
+    Q_PROPERTY(QVariant disableHeight READ disableHeight WRITE setDisableHeight NOTIFY disableHeightChanged)
+    Q_PROPERTY(QVariant pictureUri READ pictureUri WRITE setPictureUri NOTIFY pictureUriChanged)
+    Q_PROPERTY(QVariant usageMode READ usageMode WRITE setUsageMode NOTIFY usageModeChanged)
+    Q_PROPERTY(QVariant lockedOutTime READ lockedOutTime WRITE setLockedOutTime NOTIFY lockedOutTimeChanged)
+    Q_PROPERTY(QVariant lifecycleExemptAppids READ lifecycleExemptAppids WRITE setLifecycleExemptAppids NOTIFY lifecycleExemptAppidsChanged)
+    Q_PROPERTY(QVariant autohideLauncher READ autohideLauncher WRITE setAutohideLauncher NOTIFY autohideLauncherChanged)
+    Q_PROPERTY(QVariant launcherWidth READ launcherWidth WRITE setLauncherWidth NOTIFY launcherWidthChanged)
+    Q_PROPERTY(QVariant edgeDragWidth READ edgeDragWidth WRITE setEdgeDragWidth NOTIFY edgeDragWidthChanged)
 
 public:
     GSettingsQml(QObject *parent = nullptr);
 
-    GSettingsSchemaQml * schema() const;
-    QString pictureUri() const;
-    QString usageMode() const;
-    qint64 lockedOutTime() const;
-    QStringList lifecycleExemptAppids() const;
-    bool autohideLauncher() const;
-    int launcherWidth() const;
+    void classBegin();
+    void componentComplete();
 
-    void setPictureUri(const QString &str);
-    void setUsageMode(const QString &usageMode);
-    void setLockedOutTime(qint64 timestamp);
-    void setLifecycleExemptAppids(const QStringList &appIds);
-    void setAutohideLauncher(bool autohideLauncher);
-    void setLauncherWidth(int launcherWidth);
+    GSettingsSchemaQml * schema() const;
+    QVariant disableHeight() const;
+    QVariant pictureUri() const;
+    QVariant usageMode() const;
+    QVariant lockedOutTime() const;
+    QVariant lifecycleExemptAppids() const;
+    QVariant autohideLauncher() const;
+    QVariant launcherWidth() const;
+    QVariant edgeDragWidth() const;
+
+    void setDisableHeight(const QVariant &val);
+    void setPictureUri(const QVariant &str);
+    void setUsageMode(const QVariant &usageMode);
+    void setLockedOutTime(const QVariant &timestamp);
+    void setLifecycleExemptAppids(const QVariant &appIds);
+    void setAutohideLauncher(const QVariant &autohideLauncher);
+    void setLauncherWidth(const QVariant &launcherWidth);
+    void setEdgeDragWidth(const QVariant &edgeDragWidth);
 
 Q_SIGNALS:
+    void disableHeightChanged();
     void schemaChanged();
-    void pictureUriChanged(const QString&);
-    void usageModeChanged(const QString&);
-    void lockedOutTimeChanged(qint64);
-    void lifecycleExemptAppidsChanged(const QStringList &);
-    void autohideLauncherChanged(bool);
-    void launcherWidthChanged(int launcherWidth);
+    void pictureUriChanged();
+    void usageModeChanged();
+    void lockedOutTimeChanged();
+    void lifecycleExemptAppidsChanged();
+    void autohideLauncherChanged();
+    void launcherWidthChanged();
+    void edgeDragWidthChanged();
 
 private:
     GSettingsSchemaQml* m_schema;
+    bool m_valid;
 
     friend class GSettingsSchemaQml;
 };
@@ -93,6 +108,9 @@ class GSettingsControllerQml: public QObject
 public:
     static GSettingsControllerQml* instance();
     ~GSettingsControllerQml();
+
+    bool disableHeight() const;
+    Q_INVOKABLE void setDisableHeight(bool val);
 
     QString pictureUri() const;
     Q_INVOKABLE void setPictureUri(const QString &str);
@@ -112,23 +130,30 @@ public:
     int launcherWidth() const;
     Q_INVOKABLE void setLauncherWidth(int launcherWidth);
 
+    uint edgeDragWidth() const;
+    Q_INVOKABLE void setEdgeDragWidth(uint edgeDragWidth);
+
 Q_SIGNALS:
+    void disableHeightChanged();
     void pictureUriChanged(const QString&);
     void usageModeChanged(const QString&);
     void lockedOutTimeChanged(qint64 timestamp);
     void lifecycleExemptAppidsChanged(const QStringList&);
     void autohideLauncherChanged(bool autohideLauncher);
     void launcherWidthChanged(int launcherWidth);
+    void edgeDragWidthChanged(uint edgeDragWidth);
 
 private:
     GSettingsControllerQml();
 
+    bool m_disableHeight;
     QString m_pictureUri;
     QString m_usageMode;
     qint64 m_lockedOutTime;
     QStringList m_lifecycleExemptAppids;
     bool m_autohideLauncher;
     int m_launcherWidth;
+    uint m_edgeDragWidth;
 
     static GSettingsControllerQml* s_controllerInstance;
     QList<GSettingsQml *> m_registeredGSettings;

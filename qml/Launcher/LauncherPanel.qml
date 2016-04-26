@@ -98,6 +98,7 @@ Rectangle {
             AbstractButton {
                 id: dashItem
                 anchors.fill: parent
+                activeFocusOnPress: false
                 onClicked: root.showDashHome()
             }
             Rectangle {

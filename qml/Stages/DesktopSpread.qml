@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
 import "../Components"
+import Utils 0.1
 
 FocusScope {
     id: root
@@ -69,12 +70,12 @@ FocusScope {
     }
 
     function selectNext(isAutoRepeat) {
-        if (isAutoRepeat && spreadRepeater.highlightedIndex >= ApplicationManager.count -1) {
+        if (isAutoRepeat && spreadRepeater.highlightedIndex >= topLevelSurfaceList.count -1) {
             return; // AutoRepeat is not allowed to wrap around
         }
 
-        spreadRepeater.highlightedIndex = (spreadRepeater.highlightedIndex + 1) % ApplicationManager.count;
-        var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, spreadRepeater.highlightedIndex - 3));
+        spreadRepeater.highlightedIndex = (spreadRepeater.highlightedIndex + 1) % topLevelSurfaceList.count;
+        var newContentX = ((spreadFlickable.contentWidth) / (topLevelSurfaceList.count + 1)) * Math.max(0, Math.min(topLevelSurfaceList.count - 5, spreadRepeater.highlightedIndex - 3));
         if (spreadFlickable.contentX < newContentX || spreadRepeater.highlightedIndex == 0) {
             spreadFlickable.snapTo(newContentX)
         }
@@ -85,10 +86,10 @@ FocusScope {
             return; // AutoRepeat is not allowed to wrap around
         }
 
-        var newIndex = spreadRepeater.highlightedIndex - 1 >= 0 ? spreadRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
+        var newIndex = spreadRepeater.highlightedIndex - 1 >= 0 ? spreadRepeater.highlightedIndex - 1 : topLevelSurfaceList.count - 1;
         spreadRepeater.highlightedIndex = newIndex;
-        var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, spreadRepeater.highlightedIndex - 1));
-        if (spreadFlickable.contentX > newContentX || newIndex == ApplicationManager.count -1) {
+        var newContentX = ((spreadFlickable.contentWidth) / (topLevelSurfaceList.count + 1)) * Math.max(0, Math.min(topLevelSurfaceList.count - 5, spreadRepeater.highlightedIndex - 1));
+        if (spreadFlickable.contentX > newContentX || newIndex == topLevelSurfaceList.count -1) {
             spreadFlickable.snapTo(newContentX)
         }
     }
@@ -98,8 +99,8 @@ FocusScope {
             if (spreadContainer.visible) {
                 root.playFocusAnimation(spreadRepeater.highlightedIndex)
             }
-            var application = ApplicationManager.get(spreadRepeater.highlightedIndex);
-            ApplicationManager.requestFocusApplication(application.appId);
+            var surface = topLevelSurfaceList.surfaceAt(spreadRepeater.highlightedIndex);
+            surface.requestFocus();
         }
     }
 
@@ -144,7 +145,7 @@ FocusScope {
         Repeater {
             id: spreadRepeater
             objectName: "spreadRepeater"
-            model: ApplicationManager
+            model: topLevelSurfaceList
 
             property int highlightedIndex: -1
             property int closingIndex: -1
@@ -182,7 +183,8 @@ FocusScope {
                     objectName: "clippedSpreadDelegate"
                     anchors.left: parent.left
                     anchors.top: parent.top
-                    application: ApplicationManager.get(index)
+                    application: model.application
+                    surface: model.surface
                     width: spreadMaths.spreadHeight
                     height: spreadMaths.spreadHeight
 
@@ -216,7 +218,7 @@ FocusScope {
                     id: spreadMaths
                     flickable: spreadFlickable
                     itemIndex: index
-                    totalItems: Math.max(6, ApplicationManager.count)
+                    totalItems: Math.max(6, topLevelSurfaceList.count)
                     sceneHeight: root.height
                     itemHeight: spreadDelegate.height
                 }
@@ -310,7 +312,7 @@ FocusScope {
                             Layout.preferredWidth: height * 8 / 7.6
                             image: Image {
                                 anchors.fill: parent
-                                source: model.icon
+                                source: model.application.icon
                                 Rectangle {
                                     anchors.fill: parent
                                     color: "black"
@@ -324,7 +326,9 @@ FocusScope {
                         Label {
                             Layout.fillWidth: true
                             Layout.preferredHeight: units.gu(6)
-                            text: model.name
+                            property string surfaceName: model.surface ? model.surface.name : ""
+                            property string applicationName: model.application ? model.application.name : ""
+                            text: surfaceName ? surfaceName : applicationName
                             wrapMode: Text.WordWrap
                             elide: Text.ElideRight
                             maximumLineCount: 2
@@ -354,7 +358,7 @@ FocusScope {
                         anchors.margins: -units.gu(2)
                         onClicked: {
                             spreadRepeater.closingIndex = index;
-                            ApplicationManager.stopApplication(model.appId)
+                            model.surface.close();
                         }
                     }
                 }
@@ -421,7 +425,7 @@ FocusScope {
         objectName: "spreadFlickable"
         anchors.fill: parent
         property int minContentWidth: 6 * Math.min(height / 4, width / 5)
-        contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
+        contentWidth: Math.max(6, topLevelSurfaceList.count) * Math.min(height / 4, width / 5)
         enabled: false
 
         function snapTo(contentX) {
@@ -523,7 +527,7 @@ FocusScope {
     Label {
         id: currentSelectedLabel
         anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
-        text: spreadRepeater.highlightedIndex >= 0 ? ApplicationManager.get(spreadRepeater.highlightedIndex).name : ""
+        text: spreadRepeater.highlightedIndex >= 0 ? topLevelSurfaceList.surfaceAt(spreadRepeater.highlightedIndex).name : ""
         visible: false
         fontSize: "large"
     }
@@ -545,7 +549,7 @@ FocusScope {
             from: "*"
             to: "altTab"
             SequentialAnimation {
-                PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
+                PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: Math.min(topLevelSurfaceList.count - 1, 1) }
                 PauseAnimation { duration: spreadContainer.animateIn ? 0 : 140 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 PropertyAction { target: spreadContainer; property: "visible" }

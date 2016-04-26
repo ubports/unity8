@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2016-03-26 13:06+0000\n"
 "Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-27 05:47+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:03+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -460,22 +460,21 @@ msgstr "Faites glisser vers le haut pour créer un message"
 msgid "Swipe up to manage the app"
 msgstr "Faites glisser vers le haut pour gérer l'application"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Faites glisser à partir du bord gauche pour ouvrir le lanceur"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 "Faites glisser à partir du bord gauche jusqu'au bord droit pour ouvrir le "
 "moteur de recherche Aujourd'hui"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr ""
-"Passez votre souris sur le bord droit pour voir vos applications ouvertes"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "Faites glisser à partir du bord gauche pour ouvrir le lanceur"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 "Faites glisser brièvement ou longuement à partir du bord droit pour voir vos "
@@ -564,7 +563,7 @@ msgstr "Ne pas utiliser ma position"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr "Vous pouvez le modifier ultérieurement dans les Paramètres système."
+msgstr "Vous pourrez le modifier ultérieurement dans les Paramètres système."
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
@@ -607,7 +606,7 @@ msgstr "Politique de confidentialité"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr "Aidez-nous à améliorer"
+msgstr "Aidez-nous à nous améliorer"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
@@ -617,7 +616,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
-msgstr "Politique relative à la vie privée"
+msgstr "Politique de confidentialité"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
@@ -752,7 +751,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr "Pour poursuivre sans carte SIM, appuyez sur « Ignorer »"
+msgstr "Pour poursuivre sans carte SIM, appuyez sur « Passer »"
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
@@ -1102,3 +1101,7 @@ msgstr "Mot de passe très faible"
 
 #~ msgid "Call back"
 #~ msgstr "Rappeler"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr ""
+#~ "Passez votre souris sur le bord droit pour voir vos applications ouvertes"
