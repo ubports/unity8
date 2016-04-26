@@ -32,6 +32,7 @@ Rectangle {
         anchors.centerIn: parent
         width: units.gu(2)
         height: width
+        fillMode: Image.PreserveAspectFit
     }
 
     MouseArea {

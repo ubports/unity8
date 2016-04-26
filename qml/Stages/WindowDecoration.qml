@@ -100,6 +100,11 @@ MouseArea {
             fontSize: "medium"
             font.weight: root.active ? Font.Light : Font.Normal
             elide: Text.ElideRight
+            opacity: TouchControlsState.overlayShown ? 0 : 1
+            visible: opacity == 1
+            Behavior on opacity {
+                OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
+            }
         }
     }
 }
