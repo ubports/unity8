@@ -21,4 +21,5 @@ QtObject {
     id: root
 
     property bool overlayShown: false
+    property bool buttonsShownInPanel: false
 }

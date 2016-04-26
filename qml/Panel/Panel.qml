@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Unity.Application 0.1
 import "../Components"
 import "../Components/PanelState"
+import "../Components/TouchControlsState"
 import ".."
 
 Item {
@@ -109,7 +110,7 @@ Item {
             height: indicators.minimizedPanelHeight
             hoverEnabled: true
             onClicked: callHint.visible ? callHint.showLiveCall() : PanelState.focusMaximizedApp()
-            onDoubleClicked: PanelState.maximize()
+            onDoubleClicked: PanelState.restore()
 
             // WindowControlButtons inside the mouse area, otherwise QML doesn't grok nested hover events :/
             // cf. https://bugreports.qt.io/browse/QTBUG-32909
@@ -124,8 +125,10 @@ Item {
                     bottomMargin: units.gu(0.5)
                 }
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
-                visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
-                active: PanelState.buttonsVisible
+                visible: ((PanelState.buttonsVisible && parent.containsMouse) ||
+                          (TouchControlsState.overlayShown && TouchControlsState.buttonsShownInPanel))
+                         && !root.locked && !callHint.visible
+                active: PanelState.buttonsVisible || TouchControlsState.overlayShown
                 windowIsMaximized: true
                 onClose: PanelState.close()
                 onMinimize: PanelState.minimize()
