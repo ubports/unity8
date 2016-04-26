@@ -20,6 +20,7 @@
 #include <QHash>
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 class AccountsServiceDBusAdaptor;
@@ -37,6 +38,9 @@ class AccountsService: public QObject
                 READ demoEdges
                 WRITE setDemoEdges
                 NOTIFY demoEdgesChanged)
+    Q_PROPERTY (QStringList demoEdgesCompleted
+                READ demoEdgesCompleted
+                NOTIFY demoEdgesCompletedChanged)
     Q_PROPERTY (bool enableLauncherWhileLocked
                 READ enableLauncherWhileLocked
                 NOTIFY enableLauncherWhileLockedChanged)
@@ -68,6 +72,9 @@ class AccountsService: public QObject
                NOTIFY hereLicensePathChanged)
     Q_PROPERTY(QString realName READ realName WRITE setRealName NOTIFY realNameChanged)
     Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
+    Q_PROPERTY(QStringList keymaps
+               READ keymaps
+               NOTIFY keymapsChanged)
 
 public:
     enum PasswordDisplayHint {
@@ -82,6 +89,8 @@ public:
     void setUser(const QString &user);
     bool demoEdges() const;
     void setDemoEdges(bool demoEdges);
+    QStringList demoEdgesCompleted() const;
+    Q_INVOKABLE void markDemoEdgeCompleted(const QString &edge);
     bool enableLauncherWhileLocked() const;
     bool enableIndicatorsWhileLocked() const;
     QString backgroundFile() const;
@@ -97,10 +106,12 @@ public:
     void setRealName(const QString &realName);
     QString email() const;
     void setEmail(const QString &email);
+    QStringList keymaps() const;
 
 Q_SIGNALS:
     void userChanged();
     void demoEdgesChanged();
+    void demoEdgesCompletedChanged();
     void enableLauncherWhileLockedChanged();
     void enableIndicatorsWhileLockedChanged();
     void backgroundFileChanged();
@@ -111,6 +122,7 @@ Q_SIGNALS:
     void hereLicensePathChanged();
     void realNameChanged();
     void emailChanged();
+    void keymapsChanged();
 
 private Q_SLOTS:
     void onPropertiesChanged(const QString &user, const QString &interface, const QStringList &changed);

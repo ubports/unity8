@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import ".."
 import "../../../qml/Dash"
+import "../../../qml/Components/SearchHistoryModel"
 import Ubuntu.Components 1.3
 import Unity 0.2
 import Unity.Test 0.1 as UT
@@ -25,7 +26,7 @@ import Unity.Test 0.1 as UT
 Item {
     id: root
     width: units.gu(110)
-    height: units.gu(30)
+    height: units.gu(50)
 
     UT.UnityTestCase {
         name: "PageHeaderLabelTest"
@@ -54,7 +55,7 @@ Item {
             pageHeader.searchHistory.clear();
 
             // Check initial state
-            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
+            tryCompare(pageHeader.extraPanel, "visible", false);
             compare(pageHeader.searchHistory.count, 0);
         }
 
@@ -146,7 +147,7 @@ Item {
             doResetSearch();
         }
 
-        function test_popover() {
+        function test_extraPanel() {
             searchEnabled = true;
             pageHeader.searchHistory.clear();
 
@@ -155,22 +156,18 @@ Item {
 
             pageHeader.triggerSearch();
 
-            var headerContainer = findChild(pageHeader, "headerContainer");
-            verify(headerContainer !== null, "headerContainer != null");
-            tryCompareFunction(function() { return headerContainer.popover !== null; }, true);
-
-            tryCompare(headerContainer.popover, "visible", true);
+            tryCompare(pageHeader.extraPanel, "visible", true);
 
             var searchTextField = findChild(pageHeader, "searchTextField");
             compare(searchTextField.focus, true);
 
-            var recentSearches = findChild(headerContainer.popover, "recentSearches");
-            verify(recentSearches, "Could not find recent searches in the popover");
+            var recentSearches = findChild(pageHeader.extraPanel, "recentSearchesRepeater");
+            verify(recentSearches, "Could not find recent searches");
             waitForRendering(recentSearches);
             mouseClick(recentSearches.itemAt(0));
 
             compare(pageHeader.searchQuery, "Search2");
-            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
+            tryCompare(pageHeader.extraPanel, "visible", false);
             compare(searchTextField.focus, false);
         }
 
@@ -212,9 +209,7 @@ Item {
             pageHeader.triggerSearch();
 
             var headerContainer = findChild(pageHeader, "headerContainer");
-            verify(headerContainer !== null, "headerContainer != null");
-            tryCompareFunction(function() { return headerContainer.popover !== null; }, true);
-            compare(headerContainer.popover.visible, true);
+            tryCompare(pageHeader.extraPanel, "visible", true);
 
             pageHeader.searchQuery = data.searchText;
 
@@ -225,7 +220,7 @@ Item {
             }
 
             tryCompare(headerContainer, "showSearch", !data.hideSearch);
-            tryCompareFunction(function() { return headerContainer.popover === null; }, true);
+            tryCompare(pageHeader.extraPanel, "visible", false);
 
             doResetSearch();
         }
@@ -251,8 +246,10 @@ Item {
                 right: parent.right
             }
 
+            searchHistory: SearchHistoryModel
             searchEntryEnabled: true
             title: "%^$%^%^&%^&%^$%GHR%"
+            extraPanel: peExtraPanel
             scopeStyle: QtObject {
                 readonly property color foreground: theme.palette.normal.baseText
                 readonly property url headerLogo: showImageCheckBox.checked ? pageHeader.titleImageSource : ""
@@ -262,6 +259,18 @@ Item {
             property string titleImageSource: Qt.resolvedUrl("tst_PageHeader/logo-ubuntu-orange.svg")
             property date lastBackClicked
             onBackClicked: lastBackClicked = new Date()
+        }
+
+        PageHeaderExtraPanel {
+            id: peExtraPanel
+            width: parent.width
+            z: 1
+            visible: false
+            searchHistory: SearchHistoryModel
+            onHistoryItemClicked: {
+                SearchHistoryModel.addQuery(text);
+                pageHeader.searchQuery = text;
+            }
         }
 
         Row {

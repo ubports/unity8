@@ -57,9 +57,17 @@ Rectangle {
             invertedPortrait: deviceConfiguration.invertedPortraitOrientation
         }
     }
-        // to be overwritten by tests
-    property var unity8Settings: Unity8Settings {}
-    property var oskSettings: GSettings { schema.id: "com.canonical.keyboard.maliit" }
+
+    GSettings {
+        id: unity8Settings
+        schema.id: "com.canonical.Unity8"
+    }
+
+    GSettings {
+        id: oskSettings
+        objectName: "oskSettings"
+        schema.id: "com.canonical.keyboard.maliit"
+    }
 
     property int physicalOrientation: Screen.orientation
     property bool orientationLocked: OrientationLock.enabled
@@ -68,11 +76,13 @@ Rectangle {
     InputDeviceModel {
         id: miceModel
         deviceFilter: InputInfo.Mouse
+        property int oldCount: 0
     }
 
     InputDeviceModel {
         id: touchPadModel
         deviceFilter: InputInfo.TouchPad
+        property int oldCount: 0
     }
 
     InputDeviceModel {
@@ -85,6 +95,33 @@ Rectangle {
     InputDeviceModel {
         id: touchScreensModel
         deviceFilter: InputInfo.TouchScreen
+    }
+
+    readonly property int pointerInputDevices: miceModel.count + touchPadModel.count
+    onPointerInputDevicesChanged: calculateUsageMode()
+
+    function calculateUsageMode() {
+        if (unity8Settings.usageMode === undefined)
+            return; // gsettings isn't loaded yet, we'll try again in Component.onCompleted
+
+        console.log("Pointer input devices changed:", pointerInputDevices, "current mode:", unity8Settings.usageMode, "old device count", miceModel.oldCount + touchPadModel.oldCount)
+        if (unity8Settings.usageMode === "Windowed") {
+            if (pointerInputDevices === 0) {
+                // All pointer devices have been unplugged. Move to staged.
+                unity8Settings.usageMode = "Staged";
+            }
+        } else {
+            if (Math.min(root.width, root.height) > units.gu(60)) {
+                if (pointerInputDevices > 0 && pointerInputDevices > miceModel.oldCount + touchPadModel.oldCount) {
+                    unity8Settings.usageMode = "Windowed";
+                }
+            } else {
+                // Make sure we initialize to something sane
+                unity8Settings.usageMode = "Staged";
+            }
+        }
+        miceModel.oldCount = miceModel.count;
+        touchPadModel.oldCount = touchPadModel.count;
     }
 
     /* FIXME: This exposes the NameRole as a work arround for lp:1542224.
@@ -129,6 +166,9 @@ Rectangle {
         if (orientationLocked) {
             orientation = orientationLock.savedOrientation;
         }
+
+        calculateUsageMode();
+
         // We need to manually update this on startup as the binding
         // below doesn't seem to have any effect at that stage
         oskSettings.disableHeight = !shell.oskEnabled || shell.usageScenario == "desktop"
@@ -222,30 +262,15 @@ Rectangle {
         oskEnabled: (keyboardsModel.count === 0 && screens.count === 1) ||
                     forceOSKEnabled
 
-        // TODO: Factor in the connected input devices (eg: physical keyboard, mouse, touchscreen),
-        //       what's the output device (eg: big TV, desktop monitor, phone display), etc.
         usageScenario: {
-            if (root.unity8Settings.usageMode === "Windowed") {
+            if (unity8Settings.usageMode === "Windowed") {
                 return "desktop";
-            } else if (root.unity8Settings.usageMode === "Staged") {
+            } else {
                 if (deviceConfiguration.category === "phone") {
                     return "phone";
                 } else {
                     return "tablet";
                 }
-            } else { // automatic
-                var longEdgeWidth = Math.max(root.width, root.height)
-                if (longEdgeWidth > units.gu(120)) {
-                    if (keyboardsModel.count + miceModel.count + touchPadModel.count > 0) {
-                        return "desktop";
-                    }
-                } else if (longEdgeWidth > units.gu(90)){
-                    if (miceModel.count + touchPadModel.count > 0) {
-                        return "desktop";
-                    }
-                }
-
-                return deviceConfiguration.category;
             }
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 #include <qlimitproxymodelqml.h>
 #include <unitysortfilterproxymodelqml.h>
 #include <unitymenumodelpaths.h>
-#include <windowkeysfilter.h>
+#include <windowinputfilter.h>
 #include <windowscreenshotprovider.h>
 #include <easingcurve.h>
 #include <timezoneFormatter.h>
@@ -69,7 +69,7 @@ void FakeUtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<QLimitProxyModelQML>(uri, 0, 1, "LimitProxyModel");
     qmlRegisterType<UnitySortFilterProxyModelQML>(uri, 0, 1, "UnitySortFilterProxyModel");
     qmlRegisterType<UnityMenuModelPaths>(uri, 0, 1, "UnityMenuModelPaths");
-    qmlRegisterType<WindowKeysFilter>(uri, 0, 1, "WindowKeysFilter");
+    qmlRegisterType<WindowInputFilter>(uri, 0, 1, "WindowInputFilter");
     qmlRegisterType<EasingCurve>(uri, 0, 1, "EasingCurve");
     qmlRegisterSingletonType<WindowStateStorage>(uri, 0, 1, "WindowStateStorage", createWindowStateStorage);
     qmlRegisterType<InputWatcher>(uri, 0, 1, "InputWatcher");

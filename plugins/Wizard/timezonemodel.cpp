@@ -203,11 +203,14 @@ void TimeZoneLocationModel::setCountry(const QString &country)
     if (m_country == country)
         return;
 
+    beginResetModel();
+
     m_country = country;
 
     Q_FOREACH(GeonamesCity *city, m_countryLocations) {
         geonames_city_free(city);
     }
+    m_countryLocations.clear();
 
     gint num_cities = geonames_get_n_cities();
     for (gint i = 0; i < num_cities; i++) {
@@ -218,6 +221,8 @@ void TimeZoneLocationModel::setCountry(const QString &country)
     }
 
     std::sort(m_countryLocations.begin(), m_countryLocations.end(), citycmp);
+
+    endResetModel();
 
     Q_EMIT countryChanged(country);
 }
