@@ -30,7 +30,7 @@ Rectangle {
     Image {
         source: "graphics/arrows.png"
         anchors.centerIn: parent
-        width: parent.width / 2
+        width: units.gu(2)
         height: width
     }
 
