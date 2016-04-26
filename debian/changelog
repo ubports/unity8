@@ -1,3 +1,31 @@
+unity8 (8.12+16.04.20160421.1-0ubuntu1) xenial; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Refactor keymap switching code
+  * Surface-based window management
+  * Use Item.grabToImage() instead of qtmir's ApplicationScreenshot
+    provider
+
+  [ Michael Zanetti ]
+  * Fixes for programmatically closing Applications
+
+  [ Robert Bruce Park ]
+  * Use new bileto_pre_release_hook
+
+ -- Gerry Boland <ci-train-bot@canonical.com>  Thu, 21 Apr 2016 13:48:02 +0000
+
+unity8 (8.12+16.04.20160414.1-0ubuntu1) xenial; urgency=medium
+
+  [ Michael Terry ]
+  * Make sure that usageMode is set on startup, fixing a problem with
+    the tutorial not noticing that it is running on a desktop. (LP:
+    #1564351)
+
+  [ Michael Zanetti ]
+  * make the edge drag area width configurable (LP: #1559512)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Thu, 14 Apr 2016 21:20:28 +0000
+
 unity8 (8.12+16.04.20160401-0ubuntu1) xenial; urgency=medium
 
   * Add missing Testsuite header

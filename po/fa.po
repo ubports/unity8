@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2016-03-30 14:29+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-31 05:49+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -446,19 +446,19 @@ msgstr "برای ایجاد پیام، به بالا بکشید"
 msgid "Swipe up to manage the app"
 msgstr "برای مدیریت کاره، به بالا بکشید"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "برای گشودن اجراگر، از لبهٔ چپ بکشید"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "برای گشودن حوزهٔ امروز، از لبهٔ چپ طولانی بکشید"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr "برای دیدن کاره‌های گشوده، موشی‌تان را روی لبهٔ راست نگه دارید"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "برای گشودن اجراگر، از لبهٔ چپ بکشید"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr "برای دیدن کاره‌های گشوده، از گوشهٔ راست بکشید"
 
@@ -1064,3 +1064,6 @@ msgstr "گذرواژهٔ خیلی ضعیف"
 
 #~ msgid "Call back"
 #~ msgstr "پاسخ تماس"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "برای دیدن کاره‌های گشوده، موشی‌تان را روی لبهٔ راست نگه دارید"

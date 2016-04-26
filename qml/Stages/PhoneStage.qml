@@ -26,7 +26,6 @@ import "../Components"
 AbstractStage {
     id: root
 
-    property QtObject applicationManager: ApplicationManager
     property bool focusFirstApp: true // If false, focused app will appear on right edge like other apps
     property bool altTabEnabled: true
     property real startScale: 1.1
@@ -107,11 +106,7 @@ AbstractStage {
         }
     }
 
-    mainApp: applicationManager.focusedApplicationId
-            ? applicationManager.findApplication(applicationManager.focusedApplicationId)
-            : null
-
-    mainAppWindow: priv.focusedAppDelegate ? priv.focusedAppDelegate.appWindow : null
+    mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     orientationChangesEnabled: priv.focusedAppOrientationChangesEnabled
                                && !priv.focusedAppDelegateIsDislocated
@@ -160,72 +155,27 @@ AbstractStage {
         onTriggered: { root.beingResized = false; }
     }
 
-    Connections {
-        target: applicationManager
-
-        onFocusRequested: {
-            if (spreadView.phase > 0) {
-                spreadView.snapTo(priv.indexOf(appId));
-            } else {
-                applicationManager.focusApplication(appId);
-            }
-        }
-
-        onApplicationAdded: {
-            if (spreadView.phase == 2) {
-                spreadView.snapTo(applicationManager.count - 1);
-            } else {
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-                applicationManager.focusApplication(appId);
-            }
-        }
-
-        onApplicationRemoved: {
-            // Unless we're closing the app ourselves in the spread,
-            // lets make sure the spread doesn't mess up by the changing app list.
-            if (spreadView.closingIndex == -1) {
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-                focusTopMostApp();
-            }
-        }
-
-        function focusTopMostApp() {
-            if (applicationManager.count > 0) {
-                var topmostApp = applicationManager.get(0);
-                applicationManager.focusApplication(topmostApp.appId);
-            }
-        }
-    }
-
     QtObject {
         id: priv
 
-        property string focusedAppId: root.applicationManager.focusedApplicationId
         property bool focusedAppOrientationChangesEnabled: false
         readonly property int firstSpreadIndex: root.focusFirstApp ? 1 : 0
-        readonly property var focusedAppDelegate: {
-            var index = indexOf(focusedAppId);
-            return index >= 0 && index < spreadRepeater.count ? spreadRepeater.itemAt(index) : null
-        }
+        property var focusedAppDelegate
+        // NB! This may differ from applicationManager.focusedApplicationId if focusedAppDelegate
+        // contains a screenshot instead of a surface.
+        property string focusedAppId: focusedAppDelegate ? focusedAppDelegate.application.appId : ""
 
         property real oldInverseProgress: 0
         property bool animateX: false
         property int highlightIndex: 0
 
-        onFocusedAppDelegateChanged: {
-            if (focusedAppDelegate) {
-                focusedAppDelegate.focus = true;
-            }
-        }
-
-        property bool focusedAppDelegateIsDislocated: focusedAppDelegate &&
+        property bool focusedAppDelegateIsDislocated: focusedAppDelegate ?
                                                       (focusedAppDelegate.x !== 0 || focusedAppDelegate.xBehavior.running)
+                                                      : false
 
         function indexOf(appId) {
-            for (var i = 0; i < root.applicationManager.count; i++) {
-                if (root.applicationManager.get(i).appId == appId) {
+            for (var i = 0; i < spreadRepeater.count; i++) {
+                if (spreadRepeater.itemAt(i).application.appId == appId) {
                     return i;
                 }
             }
@@ -239,8 +189,8 @@ AbstractStage {
         function reset() {
             // The app that's about to go to foreground has to be focused, otherwise
             // it would leave us in an inconsistent state.
-            if (!root.applicationManager.focusedApplicationId && root.applicationManager.count > 0) {
-                root.applicationManager.focusApplication(root.applicationManager.get(0).appId);
+            if (!MirFocusController.focusedSurface && spreadRepeater.count > 0) {
+                spreadRepeater.itemAt(0).focus = true;
             }
 
             spreadView.selectedIndex = -1;
@@ -258,6 +208,36 @@ AbstractStage {
         onTriggered: {
             priv.fullyShowingFocusedApp = spreadView.shiftedContentX === 0;
         }
+    }
+
+    Instantiator {
+        model: root.applicationManager
+        delegate: QtObject {
+            property var stateBinding: Binding {
+                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
+                target: model.application
+                property: "requestedState"
+                value: (isDash && root.keepDashRunning)
+                           || (!root.suspended && model.application && priv.focusedAppId === model.application.appId)
+                       ? ApplicationInfoInterface.RequestedRunning
+                       : ApplicationInfoInterface.RequestedSuspended
+            }
+
+            property var lifecycleBinding: Binding {
+                target: model.application
+                property: "exemptFromLifecycle"
+                value: model.application
+                            ? (!model.application.isTouchApp || isExemptFromLifecycle(model.application.appId))
+                            : false
+            }
+        }
+    }
+
+    Binding {
+        target: MirFocusController
+        property: "focusedSurface"
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        when: root.parent && !spreadRepeater.startingUp
     }
 
     Flickable {
@@ -310,13 +290,38 @@ AbstractStage {
         // rely on having Flickable.contentX keeping an out-of-bounds value when it's set programatically
         // (as opposed to having contentX reaching an out-of-bounds value through dragging, which will trigger
         // the Flickable.boundsBehavior upon release).
-        onContentXChanged: { forceItToRemainStillIfBeingResized(); }
+        onContentXChanged: {
+            if (!undoContentXReset()) {
+                forceItToRemainStillIfBeingResized();
+            }
+        }
         onShiftChanged: { forceItToRemainStillIfBeingResized(); }
         function forceItToRemainStillIfBeingResized() {
             if (root.beingResized && contentX != -spreadView.shift) {
                 contentX = -spreadView.shift;
             }
         }
+        function undoContentXReset() {
+            if (contentWidth <= 0) {
+                contentWidthOnLastContentXChange = contentWidth;
+                lastContentX = contentX;
+                return false;
+            }
+
+            if (contentWidth !== contentWidthOnLastContentXChange
+                    && lastContentX === -shift && contentX === 0) {
+                // Flickable is resetting contentX because contentWidth has changed. Undo it.
+                contentX = -shift;
+                return true;
+            }
+
+            contentWidthOnLastContentXChange = contentWidth;
+            lastContentX = contentX;
+            return false;
+        }
+        property real contentWidthOnLastContentXChange: -1
+        property real lastContentX: 0
+        // </FIXME-contentX>
 
         Behavior on contentX {
             enabled: root.altTabPressed
@@ -379,7 +384,7 @@ AbstractStage {
                 snapAnimation.start();
                 return;
             }
-            if (root.applicationManager.count <= index) {
+            if (topLevelSurfaceList.count <= index) {
                 // In case we're trying to snap to some non existing app, lets snap back to the first one
                 index = 0;
             }
@@ -416,7 +421,8 @@ AbstractStage {
             ScriptAction {
                 script: {
                     if (spreadView.selectedIndex >= 0) {
-                        root.applicationManager.focusApplication(root.applicationManager.get(spreadView.selectedIndex).appId);
+                        var delegate = spreadRepeater.itemAt(spreadView.selectedIndex)
+                        delegate.focus = true;
 
                         spreadView.selectedIndex = -1;
                         spreadView.phase = 0;
@@ -431,7 +437,7 @@ AbstractStage {
             // This width controls how much the spread can be flicked left/right. It's composed of:
             //  tileDistance * app count (with a minimum of 3 apps, in order to also allow moving 1 and 2 apps a bit)
             //  + some constant value (still scales with the screen width) which looks good and somewhat fills the screen
-            width: Math.max(3, root.applicationManager.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
+            width: Math.max(3, topLevelSurfaceList.count) * spreadView.tileDistance + (spreadView.width - spreadView.tileDistance) * 1.5
             height: parent.height
             Behavior on width {
                 enabled: spreadView.closingIndex >= 0
@@ -451,13 +457,30 @@ AbstractStage {
                 }
             }
 
-            Repeater {
+            TopLevelSurfaceRepeater {
                 id: spreadRepeater
                 objectName: "spreadRepeater"
-                model: root.applicationManager
+                model: topLevelSurfaceList
+
+                onItemRemoved: {
+                    // Unless we're closing the app ourselves in the spread,
+                    // lets make sure the spread doesn't mess up by the changing app list.
+                    if (spreadView.closingIndex == -1) {
+                        spreadView.phase = 0;
+                        spreadView.contentX = -spreadView.shift;
+                        focusTopMostApp();
+                    }
+                }
+                function focusTopMostApp() {
+                    if (spreadRepeater.count > 0) {
+                        var topmostDelegate = spreadRepeater.itemAt(0);
+                        topmostDelegate.focus = true;
+                    }
+                }
+
                 delegate: TransformedSpreadDelegate {
                     id: appDelegate
-                    objectName: "appDelegate" + index
+                    objectName: "spreadDelegate_" + model.id
                     startAngle: 45
                     endAngle: 5
                     startScale: root.startScale
@@ -469,28 +492,61 @@ AbstractStage {
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
                     interactive: !spreadView.interactive && spreadView.phase === 0
-                            && priv.fullyShowingFocusedApp && root.interactive && isFocused
+                            && priv.fullyShowingFocusedApp && root.interactive && focus
                     swipeToCloseEnabled: spreadView.interactive && root.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
                     dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
                     focusFirstApp: root.focusFirstApp
                     highlightShown: root.altTabPressed && index === priv.highlightIndex
 
-                    readonly property bool isDash: model.appId == "unity8-dash"
+                    readonly property bool isDash: model.application.appId == "unity8-dash"
 
-                    Binding {
-                        target: appDelegate.application
-                        property: "exemptFromLifecycle"
-                        value: !model.isTouchApp || isExemptFromLifecycle(model.appId)
+                    Component.onCompleted: {
+                        // NB: We're differentiating if this delegate was created in response to a new entry in the model
+                        //     or if the Repeater is just populating itself with delegates to match the model it received.
+                        if (!spreadRepeater.startingUp) {
+                            // a top level window is always the focused one when it first appears, unfocusing
+                            // any preexisting one
+                            //
+                            // new items are appended and must be manually brought to front.
+                            // that's how it *must* be in order to get the animation for new
+                            // surfaces working
+                            claimFocus();
+                        }
                     }
 
-                    Binding {
-                        target: appDelegate.application
-                        property: "requestedState"
-                        value: (isDash && root.keepDashRunning)
-                                   || (!root.suspended && appDelegate.focus)
-                               ? ApplicationInfoInterface.RequestedRunning
-                               : ApplicationInfoInterface.RequestedSuspended
+                    onFocusChanged: {
+                        if (focus && !spreadRepeater.startingUp) {
+                            priv.focusedAppDelegate = appDelegate;
+                            // If we're orphan (!parent) it means this stage is no longer the current one
+                            // and will be deleted shortly. So we should no longer have a say over the model
+                            if (root.parent) {
+                                topLevelSurfaceList.raiseId(model.id);
+                            }
+                        }
+                    }
+                    function claimFocus() {
+                        if (spreadView.phase > 0) {
+                            spreadView.snapTo(model.index);
+                        } else {
+                            appDelegate.focus = true;
+                        }
+                    }
+                    Connections {
+                        target: model.surface
+                        onFocusRequested: claimFocus()
+                    }
+                    Connections {
+                        target: model.application
+                        onFocusRequested: {
+                            if (!model.surface) {
+                                // when an app has no surfaces, we assume there's only one entry representing it:
+                                // this delegate.
+                                claimFocus();
+                            } else {
+                                // if the application has surfaces, focus request should be at surface-level.
+                            }
+                        }
                     }
 
                     z: isDash && !spreadView.active ? -1 : behavioredIndex
@@ -511,7 +567,8 @@ AbstractStage {
                         return spreadView.width + spreadIndex * spreadView.tileDistance;
                     }
 
-                    application: root.applicationManager.get(index)
+                    application: model.application
+                    surface: model.surface
                     closeable: !isDash
 
                     property real behavioredIndex: index
@@ -595,11 +652,7 @@ AbstractStage {
 
                     onClicked: {
                         if (root.altTabEnabled && spreadView.phase == 2) {
-                            if (root.applicationManager.focusedApplicationId == root.applicationManager.get(index).appId) {
-                                spreadView.snapTo(index);
-                            } else {
-                                root.applicationManager.requestFocusApplication(root.applicationManager.get(index).appId);
-                            }
+                            spreadView.snapTo(index);
                         }
                     }
 
@@ -613,7 +666,15 @@ AbstractStage {
 
                     onClosed: {
                         spreadView.closingIndex = index;
-                        root.applicationManager.stopApplication(root.applicationManager.get(index).appId);
+                        if (appDelegate.surface) {
+                            appDelegate.surface.close();
+                        } else if (appDelegate.application) {
+                            root.applicationManager.stopApplication(appDelegate.application.appId);
+                        } else {
+                            // should never happen
+                            console.warn("Can't close topLevelSurfaceList entry as it has neither"
+                                         + " a surface nor an application");
+                        }
                     }
 
                     Binding {
@@ -631,7 +692,7 @@ AbstractStage {
 
                     StagedFullscreenPolicy {
                         id: fullscreenPolicy
-                        application: appDelegate.application
+                        surface: model.surface
                     }
 
                     Connections {
@@ -639,7 +700,7 @@ AbstractStage {
                         onStageAboutToBeUnloaded: fullscreenPolicy.active = false
                     }
                 }
-            }
+            } // Repeater {
         }
     }
 

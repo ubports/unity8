@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2016-03-25 05:01+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-26 05:44+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 "Language: sv\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -450,19 +450,19 @@ msgstr "Svep uppåt för att skapa ett meddelande"
 msgid "Swipe up to manage the app"
 msgstr "Svep uppåt för att hantera programmet"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Svep från vänstra kanten för att öppna programstartaren"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Gör ett lång svep från vänstra kanten för öppna vyn Idag"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr "Hovra din mus över högra kanten för att se dina öppna program"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "Svep från vänstra kanten för att öppna programstartaren"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 "Svep kort eller långt från högra kanten för att visa dina öppna program"
@@ -1068,3 +1068,6 @@ msgstr "Väldigt svagt lösenord"
 
 #~ msgid "Call back"
 #~ msgstr "Ring upp"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "Hovra din mus över högra kanten för att se dina öppna program"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2016-03-25 12:02+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-26 05:44+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -454,20 +454,19 @@ msgstr "Deslice arriba para crear un mensaje"
 msgid "Swipe up to manage the app"
 msgstr "Deslice arriba para configurar la apli"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Deslice desde el borde izquierdo para abrir el lanzador"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Deslice largo desde el borde izquierdo para ver el scope Hoy"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr ""
-"Sitúe el ratón en el borde derecho para ver las aplicaciones abiertas"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "Deslice desde el borde izquierdo para abrir el lanzador"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr "Deslice desde el borde derecho para ver las aplis abiertas"
 
@@ -608,11 +607,11 @@ msgstr "Política de privacidad"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr "Le damos la bienvenida a Ubuntu"
+msgstr "Bienvenido a su dispositivo Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr "Ahora ya puede usar su dispositivo"
+msgstr "El dispositivo ya está listo"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
@@ -1075,3 +1074,7 @@ msgstr "Contraseña muy débil"
 
 #~ msgid "Call back"
 #~ msgstr "Devolver llamada"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr ""
+#~ "Sitúe el ratón en el borde derecho para ver las aplicaciones abiertas"
