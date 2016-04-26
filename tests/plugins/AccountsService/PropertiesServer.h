@@ -24,6 +24,7 @@
 #include <QDBusVariant>
 #include <QObject>
 #include <QString>
+#include "types.h"
 
 class PropertiesServer: public QObject, protected QDBusContext
 {
@@ -36,6 +37,10 @@ public Q_SLOTS:
     QDBusVariant Get(const QString &interface, const QString &property) const;
     QVariantMap GetAll(const QString &interface) const;
     void Set(const QString &interface, const QString &property, const QDBusVariant &variant);
+    void SetBackgroundFile(const QString &backgroundFile);
+    void SetEmail(const QString &email);
+    void SetInputSources(const StringMapList &inputSources);
+    void SetRealName(const QString &realName);
 
     // mock only.
     void Reset();
@@ -45,6 +50,8 @@ Q_SIGNALS:
     void Changed();
 
 private:
+    void internalSet(const QString &interface, const QString &property, const QVariant &variant);
+
     QHash<QString, QVariantMap> m_properties;
 };
 
