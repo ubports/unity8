@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,17 +16,15 @@
 
 #include "SurfaceManager.h"
 
+#include "ApplicationInfo.h"
 #include "VirtualKeyboard.h"
 
 #include <paths.h>
 
 SurfaceManager *SurfaceManager::the_surface_manager = nullptr;
 
-SurfaceManager *SurfaceManager::singleton()
+SurfaceManager *SurfaceManager::instance()
 {
-    if (!the_surface_manager) {
-        the_surface_manager = new SurfaceManager();
-    }
     return the_surface_manager;
 }
 
@@ -34,7 +32,10 @@ SurfaceManager::SurfaceManager(QObject *parent) :
     QObject(parent)
     , m_virtualKeyboard(nullptr)
 {
-    m_virtualKeyboard = new VirtualKeyboard(this);
+    Q_ASSERT(the_surface_manager == nullptr);
+    the_surface_manager = this;
+
+    m_virtualKeyboard = new VirtualKeyboard;
     connect(m_virtualKeyboard, &QObject::destroyed, this, [this](QObject *obj) {
         MirSurface* surface = qobject_cast<MirSurface*>(obj);
         m_virtualKeyboard = nullptr;
@@ -43,10 +44,16 @@ SurfaceManager::SurfaceManager(QObject *parent) :
     });
 }
 
+SurfaceManager::~SurfaceManager()
+{
+    Q_ASSERT(the_surface_manager == this);
+    the_surface_manager = nullptr;
+}
+
 MirSurface *SurfaceManager::createSurface(const QString& name,
-                                              Mir::Type type,
-                                              Mir::State state,
-                                              const QUrl& screenshot)
+                                          Mir::Type type,
+                                          Mir::State state,
+                                          const QUrl& screenshot)
 {
     MirSurface* surface = new MirSurface(name, type, state, screenshot);
     connect(surface, &QObject::destroyed, this, [this](QObject *obj) {
