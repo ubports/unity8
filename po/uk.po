@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2016-04-01 17:32+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-04-02 06:24+0000\n"
-"X-Generator: Launchpad (build 17972)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -459,19 +459,19 @@ msgstr "Проведіть догори, щоб написати нове пов
 msgid "Swipe up to manage the app"
 msgstr "Проведіть пальцем догори, щоб керувати додатком"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Проведіть від лівого краю екрану, щоб відкрити меню запуску"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Довге проведення від лівого краю відкриває область «Сьогодні»"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr "Наведіть вказівник на правий кут, щоб побачити відкриті застосунки"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "Проведіть від лівого краю екрану, щоб відкрити меню запуску"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 "Коротке або довге проведення від правого краю відкриває перегляд списку "
@@ -1086,3 +1086,6 @@ msgstr "Дуже слабкий пароль"
 
 #~ msgid "Call back"
 #~ msgstr "Зворотний виклик"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "Наведіть вказівник на правий кут, щоб побачити відкриті застосунки"

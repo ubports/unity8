@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2016-03-24 09:19+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-25 05:55+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -451,19 +451,19 @@ msgstr "Csúsztasson felfelé új üzenet írásához"
 msgid "Swipe up to manage the app"
 msgstr "Csúsztasson felfelé az alkalmazás kezeléséhez"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Csúsztasson balról az indító eléréshez"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Hosszan csúsztasson balról a Ma lencse eléréséhez"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr "Húzza az egeret jobbra a nyitott alkalmazások eléréséhez"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "Csúsztasson balról az indító eléréshez"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 "Csúsztasson röviden vagy hosszan jobbról a nyitott alkalmazások eléréshez"
@@ -547,7 +547,7 @@ msgstr "Ne határozza meg"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr "Ezt később a Rendszerbállítások alatt módosíthatja."
+msgstr "Ezt később a Rendszerbeállítások alatt módosíthatja."
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
@@ -1075,11 +1075,5 @@ msgstr "Nagyon gyenge jelszó"
 #~ msgid "You almost got it!"
 #~ msgstr "Majdnem megvan!"
 
-#~ msgid "Your device is now ready to use."
-#~ msgstr "Az eszköze készen áll a használatra."
-
-#~ msgid "Please select how you’d like to unlock your device."
-#~ msgstr "Válassza ki, hogy milyen módon szeretné feloldani az eszközét."
-
-#~ msgid "Welcome to your Ubuntu device."
-#~ msgstr "Köszönti az Ubuntus eszköze."
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "Húzza az egeret jobbra a nyitott alkalmazások eléréséhez"

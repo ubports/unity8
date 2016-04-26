@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2015-08-25 19:31+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-24 06:08+0000\n"
-"X-Generator: Launchpad (build 17958)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -184,11 +184,11 @@ msgstr "Adder al Favoritos"
 
 #: qml/Dash/FiltersPopover.qml:60
 msgid "Refine your results"
-msgstr ""
+msgstr "Poli tu resultatos"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr ""
+msgstr "Restabilir"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
@@ -205,11 +205,11 @@ msgstr "Cerca"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:55
 msgid "Recent Searches"
-msgstr ""
+msgstr "Recercas recente"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:66
 msgid "Clear All"
-msgstr ""
+msgstr "Clarar toto"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -428,51 +428,52 @@ msgstr "Appellar retro"
 
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
-msgstr ""
+msgstr "Tirar per 3 digitos qualcunque application ab un fenestra al altere"
 
 #: qml/Tutorial/TutorialBottom.qml:78
 msgid "Swipe up to add a contact"
-msgstr ""
+msgstr "Striar in alto pro adder un contacto"
 
 #: qml/Tutorial/TutorialBottom.qml:80
 msgid "Swipe up for favorite calculations"
-msgstr ""
+msgstr "Striar in alto pro le calculationes favorite"
 
 #: qml/Tutorial/TutorialBottom.qml:82
 msgid "Swipe up for recent calls"
-msgstr ""
+msgstr "Striar in alto pro le appellos recente"
 
 #: qml/Tutorial/TutorialBottom.qml:84
 msgid "Swipe up to create a message"
-msgstr ""
+msgstr "Striar in alto pro crear un message"
 
 #: qml/Tutorial/TutorialBottom.qml:85
 msgid "Swipe up to manage the app"
-msgstr ""
-
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr ""
+msgstr "Striar in alto pro gerer le applicationes"
 
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
-msgstr ""
+msgstr "Striar ab le bordo sinistre pro aperir le campo Hodie"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr ""
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "Striar ab le bordo sinistre pro aperir le lanceator"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
+"Striar breve o longe ab le bordo dextre pro vider tu applicationes aperte"
 
 #: qml/Tutorial/TutorialTop.qml:53
 msgid "Swipe from the top right edge to open the notification bar"
-msgstr ""
+msgstr "Stria ab le bordo alte dextre pro aperir le barra del notificationes"
 
 #: qml/Tutorial/TutorialTop.qml:54
 msgid "Swipe from the top edge to open the notification bar"
-msgstr ""
+msgstr "Stria ab le bordo alte pro aperir le barra de notification"
 
 #: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
@@ -481,7 +482,7 @@ msgstr "Retro"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Language"
-msgstr ""
+msgstr "Lingua"
 
 #: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
@@ -490,7 +491,7 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:124
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr ""
+msgstr "Sequente"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -498,15 +499,15 @@ msgstr "Connecter al Wi‑Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
-msgstr ""
+msgstr "Connexe"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
-msgstr ""
+msgstr "Retes Wi-Fi disponibile"
 
 #: qml/Wizard/Pages/30-wifi.qml:164
 msgid "No available Wi-Fi networks"
-msgstr ""
+msgstr "Nulle retes Wi-Fi disponibile"
 
 #: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
 #: qml/Wizard/Pages/sim.qml:101
@@ -515,98 +516,102 @@ msgstr "Salta"
 
 #: qml/Wizard/Pages/40-location.qml:27
 msgid "Location Services"
-msgstr ""
+msgstr "Servicios de position"
 
 #: qml/Wizard/Pages/40-location.qml:83
 msgid ""
 "Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
 "(recommended)"
 msgstr ""
+"Usar GPS, hotspots Wi-Fi e rete mobile anonymemente pro revelar le position "
+"(recommendate)"
 
 #: qml/Wizard/Pages/40-location.qml:105
 #, qt-format
 msgid "By selecting this option you agree to the Nokia HERE %1."
-msgstr ""
+msgstr "Per iste option tu conveni con le Nokia HERE %1."
 
 #: qml/Wizard/Pages/40-location.qml:106
 msgctxt "part of: Nokia HERE terms and conditions"
 msgid "terms and conditions"
-msgstr ""
+msgstr "Terminos & Conditiones"
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr ""
+msgstr "GPS solmente"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
-msgstr ""
+msgstr "Non usar mi position"
 
 #: qml/Wizard/Pages/40-location.qml:260
 msgid "You can change it later in System Settings."
-msgstr ""
+msgstr "Tu poter cambiar lo depois in configurationes del systema."
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr ""
+msgstr "Fuso horari"
 
 #: qml/Wizard/Pages/50-timezone.qml:178
 msgid "Enter your city"
-msgstr ""
+msgstr "Insere tu citate"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
-msgstr ""
+msgstr "Personalisa tu dispositivo"
 
 #: qml/Wizard/Pages/60-account.qml:48
 msgid "Preferred Name"
-msgstr ""
+msgstr "Preferred Name"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:39
 msgid "Lock Screen"
-msgstr ""
+msgstr "Blocar le schermo"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Crear un nove contrasigno"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
 msgid "Create passcode (numbers only)"
-msgstr ""
+msgstr "Crear codice-contrasigno (numeros sol)"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:105
 msgctxt "Label: Type of security method"
 msgid "No lock code"
-msgstr ""
+msgstr "Nulle codice de bloco"
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Regulas del confidentialitate"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
-msgstr ""
+msgstr "Adjuta nos a meliorar"
 
 #: qml/Wizard/Pages/75-report-check.qml:59
 msgid "Improve system performance by sending us crashes and error reports."
 msgstr ""
+"Meliorar le performance del systema per expedir nos errores e reportos de  "
+"error."
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
-msgstr ""
+msgstr "Politica de confidentialitate"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Benvenite a Ubuntu."
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
-msgstr ""
+msgstr "Tu es preste a usar tu dispositivo nunc"
 
 #: qml/Wizard/Pages/80-finished.qml:124
 msgid "Get Started"
-msgstr ""
+msgstr "Initiar"
 
 #: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
@@ -614,7 +619,7 @@ msgstr "Terminos & Conditiones"
 
 #: qml/Wizard/Pages/here-terms.qml:69
 msgid "Your device uses positioning technologies provided by HERE."
-msgstr ""
+msgstr "Tu dispositivo usa le technologias de positionamento de HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:81
 msgid ""
@@ -622,21 +627,26 @@ msgid ""
 "collects information about nearby cell towers and Wi-Fi hotspots around your "
 "current location whenever your position is being found."
 msgstr ""
+"Pro fornir te le servicios de positionamento e pro affinar lor qualitate, "
+"HERE collige informationes del turres del cella vicin e del hotspots Wi-Fi "
+"circa tu actual position quandocunque tu position debe esser trovate."
 
 #: qml/Wizard/Pages/here-terms.qml:93
 msgid ""
 "The information collected is used to analyze the service and to improve the "
 "use of service, but not to identify you personally."
 msgstr ""
+"Le information colligite es usate pro analysar le servicio e pro affinar le "
+"usa de servicio, ma non pro identificar te personalmente"
 
 #: qml/Wizard/Pages/here-terms.qml:106
 #, qt-format
 msgid "By continuing, you agree to the HERE platform %1 and %2."
-msgstr ""
+msgstr "Per continuar, tu conveni al platteforma %1 e %2 de HERE."
 
 #: qml/Wizard/Pages/here-terms.qml:107
 msgid "Service Terms"
-msgstr ""
+msgstr "Terminos de servicio"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:43
 #: qml/Wizard/Pages/passcode-desktop.qml:80
@@ -645,69 +655,69 @@ msgstr "Confirma le codice-contrasigno"
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgid "Incorrect passcode."
-msgstr ""
+msgstr "Codice-contrasigno non correcte."
 
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Per favor re-inserer"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:30
 msgid "Lock Screen Passcode"
-msgstr ""
+msgstr "Codice contrasigno del bloca schermo."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:56
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Insere 4 numeros pro configurar tu codice-contrasigno"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:65
 #: qml/Wizard/Pages/passcode-set.qml:54
 msgid "Choose passcode"
-msgstr ""
+msgstr "Seliger le codice-contrasigno"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:105
 msgid "Passcode too short"
-msgstr ""
+msgstr "Codice-contrasigno troppo breve"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:107
 msgid "Passcodes match"
-msgstr ""
+msgstr "Le codices-contrasigno concorda"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:109
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Le codices-contrasigno non concorda"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Le codice-contrasigno debe esser longe 4 characteres"
 
 #: qml/Wizard/Pages/password-set.qml:30
 msgid "Lock Screen Password"
-msgstr ""
+msgstr "Contrasigno del bloco del schermo"
 
 #: qml/Wizard/Pages/password-set.qml:61
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Insere al minimo 8 characteres"
 
 #: qml/Wizard/Pages/password-set.qml:73
 msgid "Choose password"
-msgstr ""
+msgstr "Seliger un contrasigno"
 
 #: qml/Wizard/Pages/password-set.qml:103
 msgid "Confirm password"
-msgstr ""
+msgstr "Confirmar le contrasigno"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "Nulle carta SIM installate"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "Carta SIM addite"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Tu debe reinitiar le dispositivo pro acceder le rete mobile."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -716,34 +726,35 @@ msgstr "Re-Initiar"
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
 msgstr ""
+"Tu non essera capace a facer appellos o usar messages de texto sin un SIM."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
-msgstr ""
+msgstr "Pro proceder sin SIM colpa Saltar."
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
-msgstr ""
+msgstr "Le contrasignos concorda"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Le contrasignos non concorda"
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"
-msgstr ""
+msgstr "Contrasigno forte"
 
 #: qml/Wizard/PasswordMeter.qml:95
 msgid "Fair password"
-msgstr ""
+msgstr "Contrasigno passabile"
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
-msgstr ""
+msgstr "Contrasigno debile"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Very weak password"
-msgstr ""
+msgstr "Contrasigno troppo debile"
 
 #~ msgid "Log out"
 #~ msgstr "Clauder le Session"
@@ -1049,11 +1060,7 @@ msgstr ""
 #~ msgid "Yesterday %l:%M %p"
 #~ msgstr "Heri"
 
-#~ msgid "Welcome to your Ubuntu device."
-#~ msgstr "Benvenite a tu dispositivo Ubuntu."
-
-#~ msgid "Please select how you’d like to unlock your device."
-#~ msgstr "Per favor elige como tu prefere disblocar tu dispositivo."
-
-#~ msgid "Your device is now ready to use."
-#~ msgstr "Tu dispositivo es nunc preste a usar."
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr ""
+#~ "Passar supra con tu mus sur le bordo dextere pro vider tu applicationes "
+#~ "aperte"
