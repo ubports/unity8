@@ -67,6 +67,7 @@ public:
     void setExemptFromLifecycle(bool) override {}
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
+    MirSurfaceListInterface* surfaceList() override { return nullptr; }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -109,15 +110,13 @@ public:
         }
         return false;
     }
-    bool focusApplication(const QString &appId) override {
+    bool focusApplication(const QString &appId) {
         Q_FOREACH(MockApp* app, m_list) {
             app->setFocused(app->appId() == appId);
         }
         Q_EMIT focusedApplicationIdChanged();
         return true;
     }
-
-    void unfocusCurrentApplication() override { }
 
     void addApplication(MockApp *app) {
         beginInsertRows(QModelIndex(), count(), count());

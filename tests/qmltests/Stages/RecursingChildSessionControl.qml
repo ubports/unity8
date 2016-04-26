@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,16 +22,7 @@ import Unity.Application 0.1
 ColumnLayout {
     id: root
 
-    property var session
-    property var childSessions: session ? session.childSessions : 0
-    property bool removable: false
-    property alias surfaceCheckbox: _surfaceCheckbox
-
-    property var screenshotIds: [ "gallery", "map", "facebook", "camera", "browser", "music", "twitter"]
-
-    onSessionChanged: {
-        if (!session) surfaceCheckbox.checked = false;
-    }
+    property var surface
 
     Column {
         id: column
@@ -41,7 +32,7 @@ ColumnLayout {
 
         Repeater {
             id: repeater
-            model: root.childSessions
+            model: root.surface ? root.surface.promptSurfaceList : null
             delegate: Rectangle {
                 border {
                     color: "black"
@@ -71,8 +62,7 @@ ColumnLayout {
                     }
 
                     onLoaded: {
-                        item.session = modelData;
-                        item.removable = true;
+                        item.surface = model.surface;
                     }
                 }
             }
@@ -84,61 +74,20 @@ ColumnLayout {
         spacing: units.gu(1)
 
         RowLayout {
-            Layout.fillWidth: true
-
-            CheckBox {
-                id: _surfaceCheckbox;
-                checked: root.session.lastSurface ? true : false
-                activeFocusOnPress: false
-                enabled: root.session
-                onCheckedChanged: {
-                    if (checked) {
-                        root.session.createSurface();
-                    } else if (root.session && root.session.lastSurface) {
-                        ApplicationTest.removeSurface(root.session.lastSurface);
-                    }
-                }
-
-                Connections {
-                    target: root.session ? root.session : null
-                    onLastSurfaceChanged: {
-                        surfaceCheckbox.checked = root.session.lastSurface !== null
-                    }
-                }
-            }
-
-            Label {
-                text: "Surface"
-                anchors.verticalCenter: parent.verticalCenter
-            }
-        }
-
-        RowLayout {
             id: buttonLayout
 
             Button {
-                enabled: root.session
+                enabled: root.surface
                 activeFocusOnPress: false
-                text: removable ? "Remove" : "Release"
-                onClicked: {
-                    if (removable) {
-                        // release the surface first. simulates mir app closing
-                        if (root.session.lastSurface) ApplicationTest.removeSurface(root.session.lastSurface);
-                        ApplicationTest.removeSession(root.session);
-                    } else {
-                        root.session.release();
-                    }
-                }
+                text: "Remove"
+                onClicked: { root.surface.close(); }
             }
 
             Button {
-                enabled: root.session !== null
+                enabled: root.surface !== null
                 activeFocusOnPress: false
-                text: "Add Child"
-                onClicked: {
-                    var screenshot = Math.round(Math.random()*100 % (screenshotIds.length-1));
-                    var session = ApplicationTest.addChildSession(root.session, root.screenshotIds[screenshot], true);
-                }
+                text: "Add Prompt Surface"
+                onClicked: { root.surface.createPromptSurface(); }
             }
         }
     }
