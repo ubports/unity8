@@ -18,6 +18,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import "../Components/PanelState"
+import "../Components/TouchControlsState"
 
 Item {
     id: root
@@ -65,6 +66,11 @@ Item {
         readonly property int borderThickness: priv.resizeArea ? priv.resizeArea.borderThickness : 0
     }
 
+    Binding {
+        target: TouchControlsState
+        property: "overlayShown"
+        value: overlay.visible
+    }
 
     // the visual overlay
     Item {
@@ -123,10 +129,11 @@ Item {
                 anchors.fill: parent
                 visible: overlay.visible
                 enabled: visible
-                onClicked: {
+                onPressed: {
                     overlayTimer.stop();
                     mouse.accepted = false;
                 }
+                propagateComposedEvents: true
             }
         }
 

@@ -16,10 +16,11 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "../Components/TouchControlsState"
 
 Row {
     id: root
-    spacing: units.gu(1)
+    spacing: TouchControlsState.overlayShown && !windowIsMaximized ? units.gu(2) : units.gu(1)
 
     // to be set from outside
     property bool active: false
@@ -41,7 +42,7 @@ Row {
             anchors.fill: parent
             radius: height / 2
             color: UbuntuColors.red
-            visible: parent.containsMouse
+            visible: parent.containsMouse && !TouchControlsState.overlayShown
         }
         Icon {
             anchors.fill: parent
@@ -63,7 +64,7 @@ Row {
             anchors.fill: parent
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
-            visible: parent.containsMouse
+            visible: parent.containsMouse && !TouchControlsState.overlayShown
         }
         Icon {
             anchors.fill: parent
@@ -85,7 +86,7 @@ Row {
             anchors.fill: parent
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
-            visible: parent.containsMouse
+            visible: parent.containsMouse && !TouchControlsState.overlayShown
         }
         Icon {
             anchors.fill: parent

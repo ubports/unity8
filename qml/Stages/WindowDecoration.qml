@@ -19,6 +19,7 @@ import Unity.Application 0.1 // For Mir singleton
 import Ubuntu.Components 1.3
 import "../Components"
 import "../Components/PanelState"
+import "../Components/TouchControlsState"
 
 MouseArea {
     id: root
@@ -73,7 +74,7 @@ MouseArea {
     Row {
         anchors {
             fill: parent
-            leftMargin: units.gu(1)
+            leftMargin: TouchControlsState.overlayShown ? units.gu(5) : units.gu(1)
             rightMargin: units.gu(1)
             topMargin: units.gu(0.5)
             bottomMargin: units.gu(0.5)
