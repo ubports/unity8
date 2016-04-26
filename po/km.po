@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2014-08-20 02:48+0000\n"
 "Last-Translator: Sophea Sok <sksophea@gmail.com>\n"
 "Language-Team: Khmer <km@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2016-03-24 06:08+0000\n"
-"X-Generator: Launchpad (build 17958)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -29,7 +29,7 @@ msgstr "ភ្ជាប់​ផ្លូវកាត់"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:53
 msgid "Quit"
-msgstr ""
+msgstr "ចាកចេញ"
 
 #: plugins/Unity/Launcher/launcheritem.cpp:107
 msgid "Unpin shortcut"
@@ -155,7 +155,7 @@ msgstr ""
 
 #: qml/Components/ModeSwitchWarningDialog.qml:88
 msgid "Close all"
-msgstr ""
+msgstr "បិទ​ទាំង​អស់"
 
 #: qml/Dash/DashPageHeader.qml:337
 msgctxt "Button: Open the Ubuntu Store"
@@ -186,7 +186,7 @@ msgstr ""
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr ""
+msgstr "កំណត់​ឡើង​វិញ​"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "See less"
@@ -207,7 +207,7 @@ msgstr ""
 
 #: qml/Dash/PageHeaderExtraPanel.qml:66
 msgid "Clear All"
-msgstr ""
+msgstr "សម្អាត​ទាំងអស់"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -357,32 +357,29 @@ msgstr ""
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 ម៉ោង"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:894
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 នាទី"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:899
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 វិនាទី"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:902
 msgid "0 seconds"
-msgstr ""
+msgstr "០ វិនាទី"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
 #: qml/Panel/Indicators/MenuItemFactory.qml:904
 #, qt-format
 msgid "%1 remaining"
-msgstr ""
+msgstr "នៅ​សល់ %1"
 
 #: qml/Panel/Indicators/MenuItemFactory.qml:910
 msgid "In queue…"
@@ -412,7 +409,7 @@ msgstr "បាន​បរាជ័យ ប៉ះ​ ដើម្បី​ព្�
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:214
 msgctxt "Button: Send a reply message"
 msgid "Send"
-msgstr ""
+msgstr "ផ្ញើ"
 
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:156
 msgctxt "Label: Hint in message indicator line edit"
@@ -422,7 +419,7 @@ msgstr "ឆ្លើយតប"
 #: qml/Panel/Indicators/MessageMenuItemFactory.qml:213
 msgctxt "Button: Call back on phone"
 msgid "Call back"
-msgstr ""
+msgstr "ហៅ​មកវិញ"
 
 #: qml/Stages/SideStage.qml:76
 msgid "Drag using 3 fingers any application from one window to the other"
@@ -448,19 +445,19 @@ msgstr ""
 msgid "Swipe up to manage the app"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr ""
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
 msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 
@@ -479,7 +476,7 @@ msgstr "ថយក្រោយ"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Language"
-msgstr ""
+msgstr "ភាសា"
 
 #: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
@@ -488,7 +485,7 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-desktop.qml:124
 #: qml/Wizard/Pages/password-set.qml:141
 msgid "Next"
-msgstr ""
+msgstr "បន្ទាប់"
 
 #: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
@@ -496,7 +493,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
-msgstr ""
+msgstr "បាន​តភ្ជាប់"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
@@ -545,7 +542,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr ""
+msgstr "តំបន់​ពេល​វេលា"
 
 #: qml/Wizard/Pages/50-timezone.qml:178
 msgid "Enter your city"
@@ -561,7 +558,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/70-passwd-type.qml:39
 msgid "Lock Screen"
-msgstr ""
+msgstr "​អេក្រង់ចាក់សោ"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
@@ -580,7 +577,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
 msgid "Privacy Policy"
-msgstr ""
+msgstr "គោលនយោបាយ​ភាព​ឯកជន"
 
 #: qml/Wizard/Pages/75-report-check.qml:26
 msgid "Help Us Improve"
@@ -592,11 +589,11 @@ msgstr ""
 
 #: qml/Wizard/Pages/75-report-check.qml:60
 msgid "Privacy policy"
-msgstr ""
+msgstr "គោលនយោបាយ​ភាព​ឯកជន"
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "សូម​ស្វាគមន៍​ការ​មកកាន់​ Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
@@ -693,7 +690,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/password-set.qml:103
 msgid "Confirm password"
-msgstr ""
+msgstr "បញ្ជាក់​ពាក្យ​សម្ងាត់"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
@@ -721,11 +718,11 @@ msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​ត្រូវ​គ្នា​ហើយ"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords do not match"
-msgstr ""
+msgstr "ពាក្យ​សម្ងាត់​មិន​ដូច​គ្នា​ទេ"
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"

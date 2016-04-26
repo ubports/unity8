@@ -26,10 +26,10 @@ FocusScope {
     width: !counterRotate ? applicationWindow.width : applicationWindow.height
     height: visibleDecorationHeight + (!counterRotate ? applicationWindow.height : applicationWindow.width)
 
-    property alias window: applicationWindow
     property alias application: applicationWindow.application
+    property alias surface: applicationWindow.surface
     property alias active: decoration.active
-    property alias title: decoration.title
+    readonly property alias title: applicationWindow.title
     property alias fullscreen: applicationWindow.fullscreen
 
     readonly property bool decorationShown: !fullscreen
@@ -82,11 +82,11 @@ FocusScope {
     WindowDecoration {
         id: decoration
         target: root.parent
-        objectName: application ? "appWindowDecoration_" + application.appId : "appWindowDecoration_null"
+        objectName: "appWindowDecoration"
         anchors { left: parent.left; top: parent.top; right: parent.right }
         height: units.gu(3)
         width: root.width
-        title: window.title
+        title: applicationWindow.title
         visible: root.decorationShown
 
         onClose: root.close();
@@ -97,7 +97,7 @@ FocusScope {
 
     ApplicationWindow {
         id: applicationWindow
-        objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+        objectName: "appWindow"
         anchors.top: parent.top
         anchors.topMargin: decoration.height
         anchors.left: parent.left

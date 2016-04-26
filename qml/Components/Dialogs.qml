@@ -51,8 +51,8 @@ Item {
             var comp = Qt.createComponent(Qt.resolvedUrl("ModeSwitchWarningDialog.qml"))
             d.modeSwitchWarningPopup = comp.createObject(root, {model: legacyAppsModel});
             d.modeSwitchWarningPopup.forceClose.connect(function() {
-                while (legacyAppsModel.count > 0) {
-                    ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
+                for (var i = legacyAppsModel.count - 1; i >= 0; i--) {
+                    ApplicationManager.stopApplication(legacyAppsModel.get(i).appId);
                 }
                 d.modeSwitchWarningPopup.hide();
                 d.modeSwitchWarningPopup.destroy();

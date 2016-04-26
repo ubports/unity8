@@ -19,15 +19,12 @@
 
 #include "AccountsService.h"
 #include "AccountsServiceDBusAdaptor.h"
+#include "types.h"
 #include <QSignalSpy>
 #include <QTest>
 #include <QDebug>
 #include <QDBusReply>
 #include <QDBusMetaType>
-
-using StringMap = QMap<QString,QString>;
-using StringMapList = QList<StringMap>;
-Q_DECLARE_METATYPE(StringMapList)
 
 template <class T>
 QVariant dbusVariant(const T& value) { return QVariant::fromValue(QDBusVariant(value)); }
@@ -263,10 +260,13 @@ private Q_SLOTS:
         AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.backgroundFile(), QString());
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                   "org.freedesktop.Accounts.User",
-                                                    "BackgroundFile",
-                                                    dbusVariant("/test/BackgroundFile")));
+
+        QDBusInterface accountsIface(m_userInterface->service(),
+                                     m_userInterface->path(),
+                                     "org.freedesktop.Accounts.User");
+        ASSERT_DBUS_CALL(accountsIface.asyncCall("SetBackgroundFile",
+                                                 "/test/BackgroundFile"));
+
         QTRY_COMPARE(session.backgroundFile(), QString("/test/BackgroundFile"));
     }
 
@@ -311,6 +311,39 @@ private Q_SLOTS:
         QCOMPARE(arguments.at(0).toInt(), 0);
     }
 
+    void testSetRealName()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        // Just confirm that we can't set normal way
+        auto message = m_userInterface->call("Set",
+                                             "org.freedesktop.Accounts.User",
+                                             "RealName",
+                                             dbusVariant("Stallman"));
+        QCOMPARE(message.type(), QDBusMessage::ErrorMessage);
+        QCOMPARE(message.errorName(), QStringLiteral("org.freedesktop.DBus.Error.InvalidArgs"));
+
+        message = m_userInterface->call("Get",
+                                        "org.freedesktop.Accounts.User",
+                                        "RealName");
+        QCOMPARE(message.type(), QDBusMessage::ReplyMessage);
+        auto response = message.arguments().first().value<QDBusVariant>().variant().toString();
+        QCOMPARE(response, QStringLiteral(""));
+
+        // Now try it via our AS wrapper and confirm it did get through, unlike above
+        session.setRealName("Stallman");
+
+        QCOMPARE(session.realName(), QStringLiteral("Stallman"));
+
+        message = m_userInterface->call("Get",
+                                        "org.freedesktop.Accounts.User",
+                                        "RealName");
+        QCOMPARE(message.type(), QDBusMessage::ReplyMessage);
+        response = message.arguments().first().value<QDBusVariant>().variant().toString();
+        QCOMPARE(response, QStringLiteral("Stallman"));
+
+    }
+
     void testAsynchronousChangeForKeymaps()
     {
         AccountsService session(this, QTest::currentTestFunction());
@@ -325,10 +358,11 @@ private Q_SLOTS:
         map2.insert("xkb", "fr");
         inputSources.append(map2);
 
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                    "org.freedesktop.Accounts.User",
-                                                    "InputSources",
-                                                    QVariant::fromValue(QDBusVariant(QVariant::fromValue(inputSources)))));
+        QDBusInterface accountsIface(m_userInterface->service(),
+                                     m_userInterface->path(),
+                                     "org.freedesktop.Accounts.User");
+        ASSERT_DBUS_CALL(accountsIface.asyncCall("SetInputSources",
+                                                 QVariant::fromValue(inputSources)));
         QStringList result = {"cz+qwerty", "fr"};
         QTRY_COMPARE(session.keymaps(), result);
     }

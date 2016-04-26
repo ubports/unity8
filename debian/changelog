@@ -1,3 +1,59 @@
+unity8 (8.12+16.04.20160421.1-0ubuntu1) xenial; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Refactor keymap switching code
+  * Surface-based window management
+  * Use Item.grabToImage() instead of qtmir's ApplicationScreenshot
+    provider
+
+  [ Michael Zanetti ]
+  * Fixes for programmatically closing Applications
+
+  [ Robert Bruce Park ]
+  * Use new bileto_pre_release_hook
+
+ -- Gerry Boland <ci-train-bot@canonical.com>  Thu, 21 Apr 2016 13:48:02 +0000
+
+unity8 (8.12+16.04.20160414.1-0ubuntu1) xenial; urgency=medium
+
+  [ Michael Terry ]
+  * Make sure that usageMode is set on startup, fixing a problem with
+    the tutorial not noticing that it is running on a desktop. (LP:
+    #1564351)
+
+  [ Michael Zanetti ]
+  * make the edge drag area width configurable (LP: #1559512)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Thu, 14 Apr 2016 21:20:28 +0000
+
+unity8 (8.12+16.04.20160401-0ubuntu1) xenial; urgency=medium
+
+  * Add missing Testsuite header
+  * Skip the failing test until we have a working solution for bug
+    #1564571 (LP: #1564571)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 01 Apr 2016 08:32:16 +0000
+
+unity8 (8.12+16.04.20160330-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Use tutorialLeftLoader instead of tutorialLeft
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Lukáš Tinkl ]
+  * Fix the last chance popup colors/theme
+
+  [ Michael Terry ]
+  * Adjust text for desktop right edge tutorial to be accurate. (LP:
+    #1563103)
+  * Fix OOBE wizard not setting your name. (LP: #1562872)
+  * Fix showing "Retry" in password prompt when turning on screen in
+    tablet mode.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 30 Mar 2016 07:46:51 +0000
+
 unity8 (8.12+16.04.20160323.2-0ubuntu1) xenial; urgency=medium
 
   [ Michael Terry ]
