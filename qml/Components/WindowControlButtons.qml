@@ -21,6 +21,9 @@ import "../Components/TouchControlsState"
 Row {
     id: root
     spacing: TouchControlsState.overlayShown && !windowIsMaximized ? units.gu(2) : units.gu(1)
+    Behavior on spacing {
+        UbuntuNumberAnimation {}
+    }
 
     // to be set from outside
     property bool active: false
