@@ -113,6 +113,8 @@ Rectangle {
             sourceComponent: Component {
                 Shell {
                     usageScenario: shellLoader.state
+                    nativeWidth: width
+                    nativeHeight: height
                     property string indicatorProfile: "phone"
                     orientation: shellLoader.shellOrientation
                     orientations: Orientations {
@@ -280,14 +282,6 @@ Rectangle {
             prepareShell();
         }
 
-        function killApps() {
-            while (ApplicationManager.count > 1) {
-                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
-                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
-            }
-            compare(ApplicationManager.count, 1)
-        }
-
         function swipeAwayGreeter() {
             var coverPage = findChild(shell, "coverPage");
             tryCompare(coverPage, "showProgress", 1);
@@ -409,6 +403,8 @@ Rectangle {
 
             var launcher = findChild(shell, "launcher");
             var tutorialLeft = findChild(shell, "tutorialLeftLoader");
+            verify(tutorialLeft);
+
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeft, "shown", false);

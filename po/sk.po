@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-21 13:47+0000\n"
 "PO-Revision-Date: 2016-03-26 15:29+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2016-03-27 05:47+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"X-Launchpad-Export-Date: 2016-04-26 06:04+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 "Language: sk\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -459,19 +459,19 @@ msgstr "Potiahnuť dohora pre vytvorenie správy"
 msgid "Swipe up to manage the app"
 msgstr "Potiahnuť dohora pre spravovanie aplikácie"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "Potiahnite od ľavého okraja pre otvorenie spúšťača"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "Dlhé potiahnutie od ľavého okraja pre otvorenie scope Dnes"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr "Prejdite myšou od pravého okraja pre zobrazenie otvorených aplikácií"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "Potiahnite od ľavého okraja pre otvorenie spúšťača"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 "Krátke alebo dlhé potiahnutie od pravého okraja pre zobrazenie otvorených "
@@ -942,3 +942,6 @@ msgstr "Heslo je veľmi slabé"
 #, qt-format
 #~ msgid "%1  〉"
 #~ msgstr "%1  〉"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "Prejdite myšou od pravého okraja pre zobrazenie otvorených aplikácií"

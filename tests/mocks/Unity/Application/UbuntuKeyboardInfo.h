@@ -40,13 +40,6 @@ public:
     void setWidth(qreal value);
     void setHeight(qreal value);
 
-    static UbuntuKeyboardInfo *singleton() {
-        if (!m_instance) {
-            m_instance = new UbuntuKeyboardInfo;
-        }
-        return m_instance;
-    }
-
 Q_SIGNALS:
     void xChanged(qreal x);
     void yChanged(qreal y);
@@ -59,8 +52,6 @@ private:
     qint32 m_y;
     qint32 m_width;
     qint32 m_height;
-
-    static UbuntuKeyboardInfo *m_instance;
 };
 
 #endif // UBUNTU_KEYBOARD_INFO_H

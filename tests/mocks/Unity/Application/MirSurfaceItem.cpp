@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,14 @@
 
 using namespace unity::shell::application;
 
+#define MIRSURFACEITEM_DEBUG 0
+
+#if MIRSURFACEITEM_DEBUG
+#define DEBUG_MSG(params) qDebug().nospace() << "MirSurfaceItem::" << __func__  << " " << params
+#else
+#define DEBUG_MSG(params) ((void)0)
+#endif
+
 MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     : MirSurfaceItemInterface(parent)
     , m_qmlSurface(nullptr)
@@ -41,7 +49,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_mousePressCount(0)
     , m_mouseReleaseCount(0)
 {
-//    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
+    DEBUG_MSG((void*)(this) << name());
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
         Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
         Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
@@ -53,7 +61,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
 
 MirSurfaceItem::~MirSurfaceItem()
 {
-//    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
+    DEBUG_MSG((void*)(this) << name());
     setSurface(nullptr);
 }
 
@@ -150,7 +158,7 @@ void MirSurfaceItem::onComponentStatusChanged(QQmlComponent::Status status)
 
 void MirSurfaceItem::createQmlContentItem()
 {
-//    qDebug() << "MirSurfaceItem::createQmlContentItem()";
+    DEBUG_MSG("");
 
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
@@ -213,9 +221,7 @@ void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
 
 void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 {
-//    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
-//                                                   << " name=" << name()
-//                                                   << " surface=" << surface;
+    DEBUG_MSG("this=" << (void*)(this) << " name=" << name() << " surface=" << surface);
 
     if (m_qmlSurface == surface) {
         return;
