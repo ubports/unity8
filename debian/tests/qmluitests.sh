@@ -6,4 +6,4 @@ set -xe
 
 DEB_HOST_MULTIARCH=$(dpkg-architecture -qDEB_HOST_MULTIARCH)
 
-/usr/lib/$DEB_HOST_MULTIARCH/unity8/tests/scripts/xvfballtests
+/usr/lib/$DEB_HOST_MULTIARCH/unity8/tests/scripts/xvfballtests.sh
