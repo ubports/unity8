@@ -514,6 +514,11 @@ qreal ListViewWithPageHeader::minYExtent() const
     return m_minYExtent;
 }
 
+qreal ListViewWithPageHeader::maxYExtent() const
+{
+    return height() - contentHeight();
+}
+
 void ListViewWithPageHeader::componentComplete()
 {
     if (m_delegateModel)
@@ -1186,7 +1191,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
 
 void ListViewWithPageHeader::adjustMinYExtent()
 {
-    if (m_visibleItems.isEmpty() || contentHeight() < height()) {
+    if (m_visibleItems.isEmpty() || (contentHeight() + m_minYExtent < height())) {
         m_minYExtent = 0;
     } else {
         qreal nonCreatedHeight = 0;
@@ -1368,7 +1373,7 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
-        if (contentHeight < height()) {
+        if (contentHeight + m_minYExtent < height()) {
             // need this since in the previous call to adjustMinYExtent contentHeight is not set yet
             m_minYExtent = 0;
         }
