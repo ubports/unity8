@@ -63,8 +63,9 @@ endfunction()
 # ${path}.
 
 function(add_qml_test_data PATH COMPONENT_NAME)
+    cmake_parse_arguments(TEST "" "DESTINATION" "" ${ARGN})
+
     set(filename "${CMAKE_CURRENT_SOURCE_DIR}/${PATH}/${COMPONENT_NAME}")
-    file(RELATIVE_PATH relcurpath "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
 
     if (IS_DIRECTORY "${filename}")
         # As a convenience, allow specifying a directory and we will install
@@ -92,9 +93,12 @@ function(add_qml_test_data PATH COMPONENT_NAME)
         file(WRITE "${filename}" "${contents}")
     endif()
 
-    install(FILES "${filename}"
-        DESTINATION "${SHELL_APP_DIR}/${relcurpath}/${PATH}"
-    )
+    if (NOT DESTINATION)
+        file(RELATIVE_PATH relcurpath "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}")
+        set(DESTINATION "${SHELL_APP_DIR}/${relcurpath}/${PATH}")
+    endif()
+
+    install(FILES "${filename}" DESTINATION "${DESTINATION}")
 endfunction()
 
 

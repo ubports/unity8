@@ -73,8 +73,10 @@ add_dashview_try_test(horizontaljournal HorizontalJournal)
 add_dashview_try_test(organicgrid OrganicGrid)
 
 # Install data files needed for tests
-file(GLOB qml_files *.qml)
-install(FILES ${qml_files} DESTINATION "${SHELL_APP_DIR}/tests/plugins/Dash")
+file(GLOB qml_files RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.qml)
+foreach(qml_file ${qml_files})
+    add_qml_test_data(. "${qml_file}")
+endforeach()
 
 # CardCreator test
 add_executable(CardCreatorTestExec cardcreatortest.cpp)
@@ -88,7 +90,9 @@ install(DIRECTORY cardcreator DESTINATION "${SHELL_APP_DIR}/tests/plugins/Dash")
 
 # This one qml file imports a file in an arch-specific directory, so to make its
 # import line relative, we install it into an arch-specific directory too.
-install(FILES cardcreatortest.qml DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash")
+add_qml_test_data(. cardcreatortest.qml
+    DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
+)
 
 # plain qml test
 foreach(dash_test ScopeStyle ListViewWithPageHeaderQML CardAttributes CroppedImageMinimumSourceSize)
