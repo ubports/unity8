@@ -22,13 +22,12 @@
 
 #include <QDebug>
 
-VirtualKeyboard::VirtualKeyboard(QObject *parent)
+VirtualKeyboard::VirtualKeyboard()
     : MirSurface("input-method",
                      Mir::InputMethodType,
                      Mir::MinimizedState,
                      QUrl("qrc:///Unity/Application/vkb_portrait.png"),
-                     QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"),
-                     parent)
+                     QUrl("qrc:///Unity/Application/VirtualKeyboard.qml"))
 {
 }
 
