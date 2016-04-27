@@ -167,7 +167,7 @@ private:
     void reallyReleaseItem(ListItem *item);
     void updateWatchedRoles();
     QQuickItem *getSectionItem(int modelIndex, bool alreadyInserted);
-    QQuickItem *getSectionItem(const QString &sectionText);
+    QQuickItem *getSectionItem(const QString &sectionText, bool watchGeometry = true);
     void updateSectionItem(int modelIndex);
     void initializeValuesForEmptyList();
 
