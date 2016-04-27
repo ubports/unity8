@@ -34,6 +34,8 @@
 #include <QDBusMetaType>
 #include <QDomDocument>
 
+#include <glib.h>
+
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
@@ -141,7 +143,7 @@ private:
 
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
-        QDBusReply<QVariant> reply = as->getUserPropertyAsync(QString(qgetenv("USER")),
+        QDBusReply<QVariant> reply = as->getUserPropertyAsync(QString::fromUtf8(g_get_user_name()),
                                                               "com.canonical.unity.AccountsService",
                                                               "LauncherItems");
         return qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>());
@@ -166,7 +168,7 @@ private Q_SLOTS:
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
         QDBusReply<bool> addReply = accountsInterface.call(QStringLiteral("AddUser"),
-                                                           QString(qgetenv("USER")));
+                                                           QString::fromUtf8(g_get_user_name()));
         QVERIFY(addReply.isValid());
         QCOMPARE(addReply.value(), true);
 
@@ -192,7 +194,7 @@ private Q_SLOTS:
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
         QDBusReply<bool> removeReply = accountsInterface.call(QStringLiteral("RemoveUser"),
-                                                              QString(qgetenv("USER")));
+                                                              QString::fromUtf8(g_get_user_name()));
         QVERIFY(removeReply.isValid());
         QCOMPARE(removeReply.value(), true);
     }
