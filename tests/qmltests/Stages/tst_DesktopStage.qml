@@ -618,8 +618,7 @@ Item {
         }
 
         function test_dashHasNoCloseButton() {
-            var dashApp = startApplication("unity8-dash");
-            var dashAppDelegate = findChild(desktopStage, "appDelegate_unity8-dash");
+            var dashAppDelegate = startApplication("unity8-dash");
             verify(dashAppDelegate);
             var closeButton = findChild(dashAppDelegate, "closeWindowButton");
             tryCompare(closeButton, "visible", false);
