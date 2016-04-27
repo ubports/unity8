@@ -207,7 +207,14 @@ Item {
     }
 
     WindowInputMonitor {
-        onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
+        objectName: "windowInputMonitor"
+        onHomeKeyActivated: {
+            // Ignore when greeter is active, to avoid pocket presses
+            if (!greeter.active) {
+                launcher.fadeOut();
+                shell.showHome();
+            }
+        }
         onTouchBegun: { cursor.opacity = 0; }
         onTouchEnded: {
             // move the (hidden) cursor to the last known touch position
