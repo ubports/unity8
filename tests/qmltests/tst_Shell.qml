@@ -226,7 +226,6 @@ Rectangle {
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
                     checked: true
-                    color: "white"
                 }
                 ListItem.ItemSelector {
                     id: ctrlModifier

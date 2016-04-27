@@ -93,12 +93,12 @@ MouseArea {
         Label {
             id: titleLabel
             objectName: "windowDecorationTitle"
-            color: root.active ? "white" : "#5d5d5d"
+            color: root.active ? "white" : UbuntuColors.slate
             height: parent.height
             width: parent.width - buttons.width - parent.anchors.rightMargin - parent.anchors.leftMargin
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: root.active ? Font.Light : Font.Normal
+            font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
         }
     }
