@@ -88,9 +88,11 @@ Rectangle {
         function test_expandedChanges() {
             var expandingItem = findChild(factory, "expandingItem");
             verify(!expandingItem.expanded)
+            compare(expandingItem.height, expandingItem.collapsedHeight)
             mouseClick(expandingItem);
             verify(expandingItem.expanded)
-            tryCompare(expandingItem, "height", units.gu(15))
+            tryCompare(expandingItem, "height", expandingItem.expandedHeight)
+            verify(expandingItem.collapsedHeight < expandingItem.expandedHeight / 2);
         }
 
     }
