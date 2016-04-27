@@ -20,9 +20,6 @@ import QtQuick 2.4
 // TODO sanitize input, move to persistent storage
 
 ListModel {
-
-    property int searchesToRemember: 3
-
     function addQuery(newQuery) {
         // strip whitespaces
         newQuery = newQuery.replace(/^\s+|\s+$/g, '');
@@ -37,9 +34,9 @@ ListModel {
         }
         // add a new entry
         insert(0, { "query": newQuery })
-        if (count > searchesToRemember) {
+        if (count > 3) {
             // remove entries if there's more than three
-            remove(searchesToRemember)
+            remove(3)
         }
     }
 }

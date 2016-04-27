@@ -151,13 +151,13 @@ Item {
             searchEnabled = true;
             pageHeader.searchHistory.clear();
 
-            for (var i = 0; i < 20; i++) {
-                pageHeader.searchHistory.addQuery("Search" + String(i));
-            }
+            pageHeader.searchHistory.addQuery("Search1");
+            pageHeader.searchHistory.addQuery("Search2");
 
             pageHeader.triggerSearch();
 
             tryCompare(pageHeader.extraPanel, "visible", true);
+
             var searchTextField = findChild(pageHeader, "searchTextField");
             compare(searchTextField.focus, true);
 
@@ -297,19 +297,6 @@ Item {
                 right: parent.right
             }
             Button {
-                text: "Search! (Add Query)"
-                onClicked: pageHeader.searchHistory.addQuery(pageHeader.searchQuery);
-                width: units.gu(40)
-            }
-        }
-
-        Row {
-            spacing: units.gu(1)
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-            Button {
                 text: "Clear history model"
                 onClicked: pageHeader.searchHistory.clear()
                 width: units.gu(40)
@@ -317,38 +304,6 @@ Item {
             Label {
                 text: "History count: " + pageHeader.searchHistory.count
                 anchors.verticalCenter: parent.verticalCenter
-            }
-        }
-
-        Row {
-            spacing: units.gu(1)
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
-
-            Label {
-                text: "Searches to remember: " + pageHeader.searchHistory.searchesToRemember
-                anchors.verticalCenter: parent.verticalCenter
-            }
-        }
-
-        Row {
-            id: sliderRow
-            spacing: units.gu(1)
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: units.gu(1)
-            }
-
-            Slider {
-                id: slider
-                maximumValue: 20
-                minimumValue: 1
-                width: units.gu(40)
-                value: pageHeader.searchHistory.searchesToRemember
-                onValueChanged: pageHeader.searchHistory.searchesToRemember = Math.round(value)
             }
         }
 
