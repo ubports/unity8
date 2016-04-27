@@ -2178,6 +2178,11 @@ Rectangle {
             shell.usageScenario = "desktop";
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
+            // Not sure why 2 but it's the number of times
+            // it triggers at this time and we need to wait
+            // for them otherwise a sessionStarted signal will
+            // hide the launcher and make the test fail
+            tryCompare(sessionSpy, "count", 2);
 
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");
