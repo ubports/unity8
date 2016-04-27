@@ -722,7 +722,7 @@ FocusScope {
 
         Label {
             id: seeLessLabel
-            text: i18n.tr("See less")
+            text: i18n.tr("Show less")
             anchors {
                 centerIn: parent
                 verticalCenterOffset: units.gu(-0.5)
