@@ -32,7 +32,7 @@ Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview)
+Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview, QStringList primaryNavigationFilterOptionLabels)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
@@ -48,8 +48,9 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_settings(new SettingsModel(this))
     , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
+    , m_primaryNavigationFilterOptionLabels(primaryNavigationFilterOptionLabels)
 {
-    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, QStringList() << "meat" << "vegetables", this);
+    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, m_primaryNavigationFilterOptionLabels, this);
     connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
 }
 
