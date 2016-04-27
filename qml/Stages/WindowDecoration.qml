@@ -84,6 +84,7 @@ MouseArea {
             id: buttons
             height: parent.height
             active: root.active
+            closeButtonShown: root.target.application.appId !== "unity8-dash"
             onClose: root.close();
             onMinimize: root.minimize();
             onMaximize: root.maximize();

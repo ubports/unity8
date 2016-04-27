@@ -616,5 +616,12 @@ Item {
             // verify the drop shadow is gone
             tryCompare(PanelState, "dropShadow", false);
         }
+
+        function test_dashHasNoCloseButton() {
+            var dashAppDelegate = startApplication("unity8-dash");
+            verify(dashAppDelegate);
+            var closeButton = findChild(dashAppDelegate, "closeWindowButton");
+            tryCompare(closeButton, "visible", false);
+        }
     }
 }
