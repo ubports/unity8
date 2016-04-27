@@ -633,15 +633,16 @@ Rectangle {
         }
         function test_appRotatesWindowContents(data) {
             loadShell(data.deviceName);
-            var cameraSurfaceId = topLevelSurfaceList.nextId;
-            var cameraApp = ApplicationManager.startApplication("camera-app");
-            verify(cameraApp);
 
             if (data.windowed) {
                 usageModeSelector.selectWindowed();
             } else {
                 usageModeSelector.selectStaged();
             }
+
+            var cameraSurfaceId = topLevelSurfaceList.nextId;
+            var cameraApp = ApplicationManager.startApplication("camera-app");
+            verify(cameraApp);
 
             // ensure the mock camera-app is as we expect
             compare(cameraApp.fullscreen, true);
