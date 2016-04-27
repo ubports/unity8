@@ -90,6 +90,7 @@ QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
 }
 
 void MockNotificationModel::append(MockNotification* n) {
+    QQmlEngine::setObjectOwnership(n, QQmlEngine::CppOwnership);
     int location = m_queue.size();
     QModelIndex insertionPoint = QModelIndex();
     beginInsertRows(insertionPoint, location, location);
@@ -98,9 +99,10 @@ void MockNotificationModel::append(MockNotification* n) {
 }
 
 MockNotification* MockNotificationModel::getNotification(int id) const {
-    for(int i=0; i < m_queue.size(); i++) {
-        if(m_queue[i]->getID() == id) {
-            return m_queue[i];
+    for(int i = 0; i < m_queue.size(); i++) {
+        MockNotification* n = m_queue.at(i);
+        if(n && n->getID() == id) {
+            return n;
         }
     }
 
@@ -130,14 +132,7 @@ void MockNotificationModel::removeInternal(int loc) {
 }
 
 MockNotification* MockNotificationModel::getRaw(const int notificationId) const {
-    for(int i = 0; i < m_queue.size(); i++) {
-        if(m_queue[i]->getID() == notificationId) {
-            MockNotification* n = m_queue[i];
-            return n;
-        }
-    }
-
-    return nullptr;
+    return getNotification(notificationId);
 }
 
 int MockNotificationModel::queued() const {
