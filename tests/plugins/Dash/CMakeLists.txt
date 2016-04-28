@@ -86,7 +86,7 @@ install(TARGETS CardCreatorTestExec
     DESTINATION "${SHELL_PRIVATE_LIBDIR}/tests/plugins/Dash"
 )
 add_unity8_uitest(CardCreator CardCreatorTestExec DEPENDS Dash-qml)
-install(DIRECTORY cardcreator DESTINATION "${SHELL_APP_DIR}/tests/plugins/Dash")
+add_qml_test_data(. cardcreator)
 
 # This one qml file imports a file in an arch-specific directory, so to make its
 # import line relative, we install it into an arch-specific directory too.
