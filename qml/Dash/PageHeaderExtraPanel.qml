@@ -147,6 +147,7 @@ Item {
 
     Flickable {
         id: primaryFilterContainer
+        objectName: "primaryFilterContainer"
 
         readonly property alias active: primaryFilter.active
 
@@ -173,6 +174,8 @@ Item {
 
         Filters.FilterWidgetFactory {
             id: primaryFilter
+            objectName: "primaryFilter"
+
             active: scope && !scope.hasNavigation
 
             anchors.fill: parent
