@@ -124,7 +124,7 @@ Item {
 
             loadScopes();
 
-            compare(dashContentList.count, 6);
+            compare(dashContentList.count, 7);
             verify(dashContentList.currentIndex >= 0 && dashContentList.currentIndex < dashContentList.count);
         }
 
