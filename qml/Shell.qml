@@ -496,7 +496,8 @@ Item {
             launcher.fadeOut();
         }
 
-        if (!greeter.locked && ApplicationManager.focusedApplicationId != "unity8-dash") {
+        if (!greeter.locked && tutorial.launcherLongSwipeEnabled
+            && ApplicationManager.focusedApplicationId != "unity8-dash") {
             ApplicationManager.requestFocusApplication("unity8-dash")
             launcher.fadeOut();
         }

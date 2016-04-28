@@ -309,6 +309,18 @@ Rectangle {
             tryCompare(tutorialTop, "opacity", 1);
         }
 
+        function openTutorialLeftLong() {
+            var tutorialLeftLong = findChild(shell, "tutorialLeftLong");
+            var tutorialLeftLongTimer = findChild(tutorialLeftLong, "tutorialLeftLongTimer");
+
+            AccountsService.demoEdgesCompleted = ["left", "top"];
+            ApplicationManager.startApplication("gallery-app");
+
+            tutorialLeftLongTimer.interval = 1;
+            tryCompare(tutorialLeftLong, "shown", true);
+            tryCompare(tutorialLeftLong, "opacity", 1);
+        }
+
         function openTutorialRight() {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialRight = findChild(shell, "tutorialRight");
@@ -412,6 +424,24 @@ Rectangle {
 
             touchFlick(shell, 0, halfHeight, halfWidth, halfHeight);
             tryCompare(AccountsService, "demoEdgesCompleted", ["left"]);
+        }
+
+        function test_tutorialLongLeftSwipeDisabled() {
+            // Test that a long left swipe is disabled until we get to or pass
+            // the long left tutorial.
+            var tutorial = findChild(shell, "tutorial");
+
+            verify(!tutorial.launcherLongSwipeEnabled);
+
+            openTutorialLeftLong();
+            verify(tutorial.launcherLongSwipeEnabled);
+
+            openTutorialRight();
+            verify(tutorial.launcherLongSwipeEnabled);
+
+            AccountsService.demoEdges = false;
+            tryCompare(tutorial, "running", false);
+            verify(tutorial.launcherLongSwipeEnabled);
         }
 
         function test_tutorialTopEdges() {

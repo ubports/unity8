@@ -37,6 +37,7 @@ Item {
     property int lastInputTimestamp
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
+    readonly property bool launcherLongSwipeEnabled: loader.item ? loader.item.launcherLongSwipeEnabled : true
     readonly property bool spreadEnabled: loader.item ? loader.item.spreadEnabled : true
     readonly property bool panelEnabled: loader.item ? loader.item.panelEnabled : true
     readonly property bool running: loader.item ? loader.item.running : false

@@ -33,9 +33,12 @@ Item {
     readonly property bool launcherEnabled: !running
                                             || tutorialLeftLoader.shown
                                             || tutorialLeftLongLoader.shown
+    readonly property bool launcherLongSwipeEnabled: tutorialLeftLongLoader.shown
+                                                     || tutorialLeftLongLoader.skipped
     readonly property bool spreadEnabled: !running || tutorialRightLoader.shown
     readonly property bool panelEnabled: !running || tutorialTopLoader.shown
     readonly property bool running: tutorialLeftLoader.shown
+                                    || tutorialLeftLongLoader.shown
                                     || tutorialTopLoader.shown
                                     || tutorialRightLoader.shown
 
