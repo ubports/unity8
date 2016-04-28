@@ -27,6 +27,8 @@ import "../Greeter"
 Item {
     id: root
 
+    readonly property alias hasActiveDialog: dialogLoader.active
+
     // to be set from outside, useful mostly for testing purposes
     property var unitySessionService: DBusUnitySessionService
     property var closeAllApps: function() {

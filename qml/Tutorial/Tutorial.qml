@@ -32,8 +32,8 @@ Item {
     property Item panel
     property Item stage
     property string usageScenario
-    property bool paused
-    property bool keyboardVisible
+    property bool paused // hide any existing tutorial and don't show new ones
+    property bool delayed // don't show new tutorials
     property int lastInputTimestamp
 
     readonly property bool launcherEnabled: loader.item ? loader.item.launcherEnabled : true
@@ -86,8 +86,8 @@ Item {
 
         Binding {
             target: loader.item
-            property: "keyboardVisible"
-            value: root.keyboardVisible
+            property: "delayed"
+            value: root.delayed
         }
 
         Binding {

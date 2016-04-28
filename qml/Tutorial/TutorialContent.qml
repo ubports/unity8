@@ -27,7 +27,7 @@ Item {
     property Item stage
     property string usageScenario
     property bool paused
-    property bool keyboardVisible
+    property bool delayed
     property var lastInputTimestamp
 
     readonly property bool launcherEnabled: !running
@@ -85,7 +85,7 @@ Item {
             hides: [launcher, panel.indicators]
             paused: root.paused
 
-            isReady: !tutorialLeftLoader.skipped && !paused && !keyboardVisible
+            isReady: !tutorialLeftLoader.skipped && !paused && !delayed
 
             InactivityTimer {
                 id: tutorialLeftTimer
@@ -119,7 +119,7 @@ Item {
             paused: root.paused
 
             skipped: tutorialTopLoader.skipped
-            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible
+            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !delayed
 
             InactivityTimer {
                 id: tutorialTopTimer
@@ -153,7 +153,7 @@ Item {
             paused: root.paused
 
             skipped: tutorialLeftLongLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible &&
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed &&
                      ApplicationManager.focusedApplicationId != "unity8-dash"
 
             InactivityTimer {
@@ -189,7 +189,7 @@ Item {
             paused: root.paused
 
             skipped: tutorialRightLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible &&
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !delayed &&
                      ApplicationManager.count >= 4
 
             InactivityTimer {

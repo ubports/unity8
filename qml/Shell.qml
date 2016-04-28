@@ -617,7 +617,8 @@ Item {
             anchors.fill: parent
 
             paused: callManager.hasCalls || greeter.shown
-            keyboardVisible: inputMethod.state === "shown"
+            delayed: dialogs.hasActiveDialog || notifications.count > 0 ||
+                     inputMethod.state === "shown"
             usageScenario: shell.usageScenario
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher

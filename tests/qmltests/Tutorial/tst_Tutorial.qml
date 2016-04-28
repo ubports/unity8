@@ -22,6 +22,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
+import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Utils 0.1
 
@@ -53,6 +54,33 @@ Rectangle {
     Telephony.CallEntry {
         id: phoneCall
         phoneNumber: "+447812221111"
+    }
+
+    Component {
+        id: mockNotification
+        QtObject {}
+    }
+
+    ListModel {
+        id: mockNotificationsModel
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockNotificationsModel)
+        }
+    }
+
+    function addNotification() {
+        var n = {
+            type: Notification.Confirmation,
+            hints: {},
+            summary: "",
+            body: "",
+            icon: "",
+            secondaryIcon: "",
+            actions: []
+        };
+
+        mockNotificationsModel.append(n);
     }
 
     Component.onCompleted: {
@@ -262,6 +290,7 @@ Rectangle {
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true;
 
+            mockNotificationsModel.clear();
             tryCompare(shellLoader, "status", Loader.Ready);
             removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
         }
@@ -690,24 +719,59 @@ Rectangle {
             verify(tutorialLeft.shown);
         }
 
-        function test_oskPreventsTutorial() {
-            var surface = SurfaceManager.inputMethodSurface;
-            var inputMethod = findInvisibleChild(shell, "inputMethod");
-
-            AccountsService.demoEdges = false;
-            surface.setState(Mir.RestoredState);
-            tryCompare(inputMethod, "state", "shown");
-
+        function test_oskDelaysTutorial() {
             var tutorial = findChild(shell, "tutorial");
-            tryCompare(tutorial, "keyboardVisible", true);
+            verify(!tutorial.delayed);
 
-            AccountsService.demoEdges = true;
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            verify(!tutorialLeft.shown);
+            SurfaceManager.inputMethodSurface.setState(Mir.RestoredState);
 
-            surface.setState(Mir.MinimizedState);
-            tryCompare(inputMethod, "state", "hidden");
-            tryCompare(tutorialLeft, "shown", false);
+            tryCompare(tutorial, "delayed", true);
+        }
+
+        function test_notificationDelaysTutorial() {
+            var tutorial = findChild(shell, "tutorial");
+            verify(!tutorial.delayed);
+
+            var notifications = findChild(shell, "notificationList");
+            notifications.model = mockNotificationsModel;
+            addNotification();
+
+            tryCompare(tutorial, "delayed", true);
+        }
+
+        function test_dialogDelaysTutorial() {
+            var tutorial = findChild(shell, "tutorial");
+            verify(!tutorial.delayed);
+
+            var dialogs = findChild(shell, "dialogs");
+            dialogs.showPowerDialog();
+
+            verify(tutorial.delayed);
+        }
+
+        function test_delayedTutorial() {
+            var tutorial = findChild(shell, "tutorial");
+            var tutorialTop = findChild(tutorial, "tutorialTop");
+            var tutorialTopTimer = findChild(tutorialTop, "tutorialTopTimer");
+
+            // Get top tutorial ready
+            AccountsService.demoEdgesCompleted = ["left"];
+            verify(tutorialTop.isReady);
+            verify(tutorialTopTimer.running);
+
+            // Confirm that we become unready when delayed, but timer still goes
+            tutorial.delayed = true;
+            verify(!tutorialTop.isReady);
+            verify(tutorialTopTimer.running);
+
+            // Confirm that we don't open the tutorial when delayed
+            tutorialTopTimer.interval = 1;
+            wait(5);
+            verify(!tutorialTop.shown);
+
+            // Confirm we go back to normal when undelayed
+            tutorial.delayed = false;
+            tryCompare(tutorialTop, "shown", true);
         }
 
         function test_accountsServiceSettings() {
