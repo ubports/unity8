@@ -302,7 +302,7 @@ Rectangle {
             var tutorialTopTimer = findInvisibleChild(tutorialTop, "tutorialTopTimer");
 
             tutorialTopTimer.interval = 1;
-            AccountsService.demoEdgesCompleted = ["left", "left-long"];
+            AccountsService.demoEdgesCompleted = ["left"];
 
             tryCompare(tutorialLeftLoader, "active", false);
             tryCompare(tutorialTop, "shown", true);
@@ -314,7 +314,7 @@ Rectangle {
             var tutorialRight = findChild(shell, "tutorialRight");
             var tutorialRightTimer = findChild(tutorialRight, "tutorialRightTimer");
 
-            AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
+            AccountsService.demoEdgesCompleted = ["left", "top", "left-long"];
             ApplicationManager.startApplication("gallery-app");
             ApplicationManager.startApplication("facebook-webapp");
             ApplicationManager.startApplication("camera-app");
@@ -442,7 +442,7 @@ Rectangle {
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
 
             tryCompare(tutorialTop, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
             tryCompare(panel.indicators, "fullyOpened", true);
         }
 
@@ -468,12 +468,12 @@ Rectangle {
 
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialTop = findChild(shell, "tutorialTop");
-            AccountsService.demoEdgesCompleted = ["left", "left-long"];
+            AccountsService.demoEdgesCompleted = ["left"];
             tryCompare(tutorialLeftLoader, "active", false);
             verify(!tutorialTop.shown);
 
             touchFlick(shell, halfWidth, 0, halfWidth, shell.height);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top"]);
         }
 
         function test_tutorialRightEdges() {
@@ -504,7 +504,7 @@ Rectangle {
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
 
             tryCompare(tutorialRight, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top", "right"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "top", "left-long", "right"]);
         }
 
         function test_tutorialRightShortDrag() {
@@ -537,7 +537,7 @@ Rectangle {
             ApplicationManager.startApplication("camera-app");
             tryCompare(ApplicationManager, "count", 4);
 
-            AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
+            AccountsService.demoEdgesCompleted = ["left", "top", "left-long"];
             verify(tutorialRightTimer.running);
             verify(!tutorialRight.shown);
             tryCompare(tutorialRight, "shown", true);
@@ -547,11 +547,11 @@ Rectangle {
             // Test that we skip the tutorial if user uses right edge themselves
 
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
-            AccountsService.demoEdgesCompleted = ["left", "left-long"];
+            AccountsService.demoEdgesCompleted = ["left"];
             tryCompare(tutorialLeftLoader, "active", false);
 
             touchFlick(shell, shell.width, halfHeight, 0, halfHeight);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "right"]);
+            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "right"]);
         }
 
         function test_activeCallInterruptsTutorial() {
@@ -604,7 +604,7 @@ Rectangle {
             verify(!tutorialRight.isReady);
             verify(!tutorialRight.shown);
             verify(!tutorialRight.paused);
-            compare(AccountsService.demoEdgesCompleted, ["left", "left-long", "top"]);
+            compare(AccountsService.demoEdgesCompleted, ["left", "top", "left-long"]);
         }
 
         function test_desktopOnlyShowsTutorialRight() {

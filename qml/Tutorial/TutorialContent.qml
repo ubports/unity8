@@ -56,10 +56,6 @@ Item {
                                       root.usageScenario === "phone" ||
                                       root.usageScenario === "tablet"
 
-        property var focusedApp: ApplicationManager.focusedApplicationId
-                                 ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
-                                 : null
-
         function haveShown(tutorialId) {
             return AccountsService.demoEdgesCompleted.indexOf(tutorialId) != -1;
         }
@@ -102,40 +98,6 @@ Item {
     }
 
     Loader {
-        id: tutorialLeftLongLoader
-        objectName: "tutorialLeftLongLoader"
-        anchors.fill: parent
-
-        readonly property bool skipped: !d.mobileScenario || d.haveShown("left-long")
-        readonly property bool shown: item && item.shown
-        active: !skipped || (item && item.visible)
-        onSkippedChanged: if (skipped && shown) item.hide()
-
-        sourceComponent: TutorialLeftLong {
-            id: tutorialLeftLong
-            objectName: "tutorialLeftLong"
-            anchors.fill: parent
-            launcher: root.launcher
-            hides: [launcher, panel.indicators]
-            paused: root.paused
-
-            skipped: tutorialLeftLongLoader.skipped
-            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible
-
-            InactivityTimer {
-                id: tutorialLeftLongTimer
-                objectName: "tutorialLeftLongTimer"
-                interval: 10000
-                lastInputTimestamp: root.lastInputTimestamp
-                page: parent
-            }
-
-            onIsReadyChanged: if (isReady && !shown) tutorialLeftLongTimer.start()
-            onFinished: AccountsService.markDemoEdgeCompleted("left-long")
-        }
-    }
-
-    Loader {
         id: tutorialTopLoader
         objectName: "tutorialTopLoader"
         anchors.fill: parent
@@ -154,7 +116,7 @@ Item {
             paused: root.paused
 
             skipped: tutorialTopLoader.skipped
-            isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !keyboardVisible
+            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible
 
             InactivityTimer {
                 id: tutorialTopTimer
@@ -166,6 +128,41 @@ Item {
 
             onIsReadyChanged: if (isReady && !shown) tutorialTopTimer.start()
             onFinished: AccountsService.markDemoEdgeCompleted("top")
+        }
+    }
+
+    Loader {
+        id: tutorialLeftLongLoader
+        objectName: "tutorialLeftLongLoader"
+        anchors.fill: parent
+
+        readonly property bool skipped: !d.mobileScenario || d.haveShown("left-long")
+        readonly property bool shown: item && item.shown
+        active: !skipped || (item && item.visible)
+        onSkippedChanged: if (skipped && shown) item.hide()
+
+        sourceComponent: TutorialLeftLong {
+            id: tutorialLeftLong
+            objectName: "tutorialLeftLong"
+            anchors.fill: parent
+            launcher: root.launcher
+            hides: [launcher, panel.indicators]
+            paused: root.paused
+
+            skipped: tutorialLeftLongLoader.skipped
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible &&
+                     ApplicationManager.focusedApplicationId != "unity8-dash"
+
+            InactivityTimer {
+                id: tutorialLeftLongTimer
+                objectName: "tutorialLeftLongTimer"
+                interval: 10000
+                lastInputTimestamp: root.lastInputTimestamp
+                page: parent
+            }
+
+            onIsReadyChanged: if (isReady && !shown) tutorialLeftLongTimer.start()
+            onFinished: AccountsService.markDemoEdgeCompleted("left-long")
         }
     }
 
