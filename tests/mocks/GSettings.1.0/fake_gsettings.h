@@ -61,8 +61,8 @@ class GSettingsQml: public QObject, public QQmlParserStatus
 public:
     GSettingsQml(QObject *parent = nullptr);
 
-    void classBegin();
-    void componentComplete();
+    void classBegin() override;
+    void componentComplete() override;
 
     GSettingsSchemaQml * schema() const;
     QVariant disableHeight() const;

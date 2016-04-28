@@ -69,8 +69,8 @@ public:
     explicit QDeclarativeInputDeviceModel(QObject *parent = 0);
     virtual ~QDeclarativeInputDeviceModel();
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     void setDeviceFilter(QInputDevice::InputType filter);
     QInputDevice::InputType deviceFilter();
@@ -78,7 +78,7 @@ public:
     Q_INVOKABLE int indexOf(const QString &devicePath) const;
 
     Q_INVOKABLE QInputDevice *get(int index) const;
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const override;
 
 Q_SIGNALS:
     void deviceAdded(const QString &devicePath);
