@@ -38,7 +38,6 @@ Item {
     readonly property bool running: tutorialLeftLoader.shown
                                     || tutorialTopLoader.shown
                                     || tutorialRightLoader.shown
-                                    || tutorialBottomLoader.shown
 
     signal finished()
 
@@ -65,8 +64,7 @@ Item {
             return AccountsService.demoEdgesCompleted.indexOf(tutorialId) != -1;
         }
 
-        property bool endPointsFinished: tutorialRightLoader.skipped &&
-                                         tutorialBottomLoader.skipped
+        property bool endPointsFinished: tutorialRightLoader.skipped
         onEndPointsFinishedChanged: if (endPointsFinished) root.finish()
     }
 
@@ -88,8 +86,7 @@ Item {
             hides: [launcher, panel.indicators]
             paused: root.paused
 
-            isReady: !tutorialLeftLoader.skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
+            isReady: !tutorialLeftLoader.skipped && !paused && !keyboardVisible
 
             // Use an idle timer here, because when constructed, all our isReady variables will be false.
             // Qml needs a moment to copy their values from Tutorial.qml.  So we idle it and recheck.
@@ -123,8 +120,7 @@ Item {
             paused: root.paused
 
             skipped: tutorialLeftLongLoader.skipped
-            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
+            isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible
 
             Timer {
                 id: tutorialLeftLongTimer
@@ -165,8 +161,7 @@ Item {
             paused: root.paused
 
             skipped: tutorialTopLoader.skipped
-            isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow
+            isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !keyboardVisible
 
             // We fire 30s after left edge tutorial, with at least 3s of inactivity
 
@@ -208,8 +203,7 @@ Item {
             paused: root.paused
 
             skipped: tutorialRightLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible &&
-                     !tutorialBottomLoader.shown && !tutorialBottomLoader.mightShow &&
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible
                      ApplicationManager.count >= 3
 
             InactivityTimer {
@@ -231,60 +225,6 @@ Item {
 
             onIsReadyChanged: if (isReady && !shown) tutorialRightInactivityTimer.start()
             onFinished: AccountsService.markDemoEdgeCompleted("right")
-        }
-    }
-
-    Loader {
-        id: tutorialBottomLoader
-        objectName: "tutorialBottomLoader"
-        anchors.fill: parent
-
-        // See TutorialBottom.qml for an explanation of why we only support
-        // certain apps.
-        readonly property var supportedApps: ["address-book-app",
-                                              "com.ubuntu.calculator_calculator",
-                                              "dialer-app",
-                                              "messaging-app"]
-        readonly property bool skipped: {
-            if (!d.mobileScenario) {
-                return true;
-            }
-            for (var i = 0; i < supportedApps.length; i++) {
-                if (!d.haveShown("bottom-" + supportedApps[i])) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        readonly property bool shown: item && item.shown
-        readonly property bool haveShownFocusedApp: d.focusedApp &&
-                                                    d.haveShown("bottom-" + d.focusedApp.appId)
-        readonly property bool mightShow: !skipped && d.focusedApp &&
-                                          supportedApps.indexOf(d.focusedApp.appId) !== -1 &&
-                                          !haveShownFocusedApp
-        active: !skipped || (item && item.visible)
-        onHaveShownFocusedAppChanged: if (haveShownFocusedApp && shown) hide()
-        onSkippedChanged: if (skipped && shown) item.hide()
-
-        sourceComponent: TutorialBottom {
-            id: tutorialBottom
-            objectName: "tutorialBottom"
-            anchors.fill: parent
-            hides: [launcher, panel.indicators]
-            paused: root.paused
-            usageScenario: root.usageScenario
-            stage: root.stage
-            application: d.focusedApp
-
-            skipped: tutorialBottomLoader.skipped
-            isReady: !tutorialBottomLoader.skipped && !paused && !keyboardVisible &&
-                     !tutorialLeftLoader.shown && !tutorialLeftLongLoader.shown &&
-                     !tutorialTopLoader.shown && !tutorialRightLoader.shown &&
-                     tutorialBottomLoader.mightShow &&
-                     d.focusedApp.state === ApplicationInfoInterface.Running
-
-            onIsReadyChanged: if (isReady && !shown) show()
-            onFinished: AccountsService.markDemoEdgeCompleted("bottom-" + d.focusedApp.appId)
         }
     }
 }

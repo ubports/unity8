@@ -320,20 +320,6 @@ Rectangle {
             tryCompare(tutorialRight, "opacity", 1);
         }
 
-        function openTutorialBottom() {
-            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
-            var tutorialBottom = findChild(shell, "tutorialBottom");
-
-            AccountsService.demoEdgesCompleted = ["left", "left-long", "top", "right"];
-            tryCompare(tutorialLeftLoader, "active", false);
-
-            ApplicationManager.startApplication("dialer-app");
-            ApplicationManager.requestFocusApplication("dialer-app");
-
-            tryCompare(tutorialBottom, "shown", true);
-            tryCompare(tutorialBottom, "opacity", 1);
-        }
-
         function test_tutorialLeftEdges() {
             var tutorial = findChild(shell, "tutorial");
             var tutorialLeft = findChild(tutorial, "tutorialLeft");
@@ -562,107 +548,6 @@ Rectangle {
             tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "right"]);
         }
 
-        function test_tutorialBottomEdges() {
-            var tutorial = findChild(shell, "tutorial");
-            var tutorialBottom = findChild(tutorial, "tutorialBottom");
-            var tutorialLabel = findChild(tutorialBottom, "tutorialLabel");
-            var launcher = findChild(shell, "launcher");
-            var stage = findChild(shell, "stage");
-            var panel = findChild(shell, "panel");
-
-            openTutorialBottom();
-
-            tryCompare(tutorial, "running", true);
-            verify(!tutorial.launcherEnabled);
-            verify(!tutorial.spreadEnabled);
-            verify(!tutorial.panelEnabled);
-            verify(tutorialBottom.shown);
-            verify(!launcher.available);
-            verify(!stage.spreadEnabled);
-            verify(!panel.indicators.available);
-            compare(tutorialLabel.text, "Swipe up for recent calls");
-        }
-
-        function test_tutorialBottomFinish() {
-            var tutorial = findChild(shell, "tutorial");
-            var tutorialBottom = findChild(tutorial, "tutorialBottom");
-
-            openTutorialBottom();
-            touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
-
-            tryCompare(tutorialBottom, "shown", false);
-            tryCompare(AccountsService, "demoEdgesCompleted", ["left", "left-long", "top", "right", "bottom-dialer-app"]);
-
-            // OK, we did one, just confirm that when all are done, we mark whole tutorial as done.
-            verify(AccountsService.demoEdges);
-            AccountsService.demoEdgesCompleted = ["left", "left-long", "top", "right",
-                                                  "bottom-address-book-app",
-                                                  "bottom-com.ubuntu.calculator_calculator",
-                                                  "bottom-dialer-app",
-                                                  "bottom-messaging-app"];
-            verify(!AccountsService.demoEdges);
-        }
-
-        function test_tutorialBottomAppearsBeforeRight() {
-            // Confirm that if bottom edge and right edge would appear on the
-            // the same app open, bottom edge appears first. (this is a lightly
-            // edited version of openTutorialRight)
-            var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
-            var tutorialRight = findChild(shell, "tutorialRight");
-            var tutorialBottom = findChild(shell, "tutorialBottom");
-
-            AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
-            ApplicationManager.startApplication("gallery-app");
-            ApplicationManager.startApplication("dialer-app");
-
-            tryCompare(tutorialLeftLoader, "active", false);
-            tryCompare(tutorialBottom, "shown", true);
-            tryCompare(tutorialBottom, "opacity", 1);
-            tryCompare(tutorialRight, "visible", false);
-        }
-
-        function test_tutorialBottomOnlyCoversSideStageOnTablet() {
-            loadShell("tablet");
-
-            var tutorialBottom = findChild(shell, "tutorialBottom");
-            var targetHeight = shell.height - units.gu(4);
-            var mainStageX = units.gu(20);
-            var sideStageX = shell.width - units.gu(20);
-
-            WindowStateStorage.saveStage("dialer-app", ApplicationInfoInterface.SideStage);
-            openTutorialBottom();
-
-            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, true, false);
-            compare(tutorialBottom.opacity, 1);
-            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, false, true);
-
-            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, true, false);
-            verify(tutorialBottom.opacity < 1);
-            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, false, true);
-        }
-
-        function test_tutorialBottomOnlyCoversMainStageOnTablet() {
-            loadShell("tablet");
-
-            var tutorialBottom = findChild(shell, "tutorialBottom");
-            var targetHeight = shell.height - units.gu(4);
-            var mainStageX = units.gu(20);
-            var sideStageX = shell.width - units.gu(20);
-
-            WindowStateStorage.saveStage("notes-app", ApplicationInfoInterface.SideStage);
-            ApplicationManager.startApplication("notes-app");
-
-            openTutorialBottom();
-
-            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, true, false);
-            compare(tutorialBottom.opacity, 1);
-            touchFlick(shell, sideStageX, shell.height, sideStageX, targetHeight, false, true);
-
-            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, true, false);
-            verify(tutorialBottom.opacity < 1);
-            touchFlick(shell, mainStageX, shell.height, mainStageX, targetHeight, false, true);
-        }
-
         function test_activeCallInterruptsTutorial() {
             var tutorialLeft = findChild(shell, "tutorialLeft");
             verify(tutorialLeft.shown);
@@ -676,31 +561,6 @@ Rectangle {
             callManager.foregroundCall = null;
             tryCompare(tutorialLeft, "shown", true);
             verify(!tutorialLeft.paused);
-        }
-
-        function test_dialerInterruptionWithNoOverlappingTutorials() {
-            var tutorialLeft = findChild(shell, "tutorialLeft");
-            var tutorialBottom = findChild(shell, "tutorialBottom");
-            verify(tutorialLeft.shown);
-
-            // Start call, hiding left tutorial
-            callManager.foregroundCall = phoneCall;
-            tryCompare(tutorialLeft, "shown", false);
-
-            // Start dialer app
-            ApplicationManager.startApplication("dialer-app");
-            tryCompare(ApplicationManager, "focusedApplicationId", "dialer-app");
-            verify(!tutorialBottom.shown);
-
-            // Dismiss call, bottom tutorial should appear
-            callManager.foregroundCall = null;
-            tryCompare(tutorialBottom, "shown", true);
-            verify(!tutorialLeft.shown);
-
-            // Get rid of bottom tutorial, left should now be shown
-            touchFlick(shell, halfWidth, shell.height, halfWidth, halfHeight);
-            tryCompare(tutorialBottom, "shown", false);
-            tryCompare(tutorialLeft, "shown", true);
         }
 
         function test_greeterInterruptsTutorial() {
@@ -747,11 +607,9 @@ Rectangle {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialTopLoader = findChild(shell, "tutorialTopLoader");
             var tutorialRightLoader = findChild(shell, "tutorialRightLoader");
-            var tutorialBottomLoader = findChild(shell, "tutorialBottomLoader");
             verify(!tutorialLeftLoader.active);
             verify(!tutorialTopLoader.active);
             verify(tutorialRightLoader.active);
-            verify(!tutorialBottomLoader.active);
             compare(AccountsService.demoEdgesCompleted, []);
 
             ApplicationManager.startApplication("dialer-app");
