@@ -45,9 +45,8 @@ Showable {
     opacity: Math.max(Math.min(_showOpacity, opacityOverride), 0)
     onOpacityOverrideChanged: {
         if (opacityOverride <= 0) {
-            _showOpacity = 0; // make sure we don't accidentally flash back
             d.showOnUnpause = false;
-            hide();
+            hideNow();
         }
     }
     property real _showOpacity: 0
