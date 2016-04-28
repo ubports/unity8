@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,17 +12,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-#include "plugin.h"
-#include "screengrabber.h"
+#ifndef SCREENSHOTDIRECTORY_PLUGIN_H
+#define SCREENSHOTDIRECTORY_PLUGIN_H
 
-#include <QtQml/qqml.h>
+#include <QtQml/QQmlExtensionPlugin>
 
-void ScreenGrabberPlugin::registerTypes(const char *uri)
+class ScreenshotDirectoryPlugin : public QQmlExtensionPlugin
 {
-    Q_ASSERT(uri == QLatin1String("ScreenGrabber"));
-    qmlRegisterType<ScreenGrabber>(uri, 0, 1, "ScreenGrabber");
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+
+public:
+    void registerTypes(const char *uri) override;
+};
+
+#endif // SCREENSHOTDIRECTORY_PLUGIN_H

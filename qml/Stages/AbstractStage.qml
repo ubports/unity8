@@ -60,6 +60,7 @@ FocusScope {
                                       | Qt.InvertedLandscapeOrientation
 
     signal stageAboutToBeUnloaded
+    signal itemSnapshotRequested(Item item)
 
     // Shared code for use in stage implementations
     GSettings {
