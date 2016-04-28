@@ -18,36 +18,44 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 Item {
-    readonly property alias running: internalTimer.running
-    property alias interval: internalTimer.interval
+    id: root
+
+    readonly property bool running: delayTimer.running || inactivityTimer.running
+    property int interval: 3000
     property var page
     property int lastInputTimestamp
 
     function start() {
-        internalTimer.start();
+        delayTimer.start();
     }
 
     ////
 
     onLastInputTimestampChanged: {
-        if (internalTimer.running) {
-            internalTimer.restart();
+        if (inactivityTimer.running) {
+            inactivityTimer.restart();
         }
     }
 
     Connections {
         target: page
         onIsReadyChanged: {
-            if (page.isReady && internalTimer.running) {
-                internalTimer.restart();
+            if (page.isReady && inactivityTimer.running) {
+                inactivityTimer.restart();
             }
         }
     }
 
     Timer {
-        id: internalTimer
+        id: delayTimer
+        interval: Math.max(root.interval - 3000, 0)
+        onTriggered: inactivityTimer.start()
+    }
 
-        interval: 3000
+    Timer {
+        id: inactivityTimer
+
+        interval: Math.min(root.interval, 3000)
 
         onTriggered: {
             if (page.isReady) {

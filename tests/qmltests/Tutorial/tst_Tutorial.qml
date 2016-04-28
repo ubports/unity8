@@ -231,6 +231,8 @@ Rectangle {
             prepareShell();
 
             var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialLeftTimer = findInvisibleChild(tutorialLeft, "tutorialLeftTimer");
+            tutorialLeftTimer.interval = 0;
             tryCompare(tutorialLeft, "opacity", 1);
         }
 
@@ -310,12 +312,15 @@ Rectangle {
         function openTutorialRight() {
             var tutorialLeftLoader = findChild(shell, "tutorialLeftLoader");
             var tutorialRight = findChild(shell, "tutorialRight");
+            var tutorialRightTimer = findChild(tutorialRight, "tutorialRightTimer");
 
             AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
             ApplicationManager.startApplication("gallery-app");
             ApplicationManager.startApplication("facebook-webapp");
+            ApplicationManager.startApplication("camera-app");
 
             tryCompare(tutorialLeftLoader, "active", false);
+            tutorialRightTimer.interval = 1;
             tryCompare(tutorialRight, "shown", true);
             tryCompare(tutorialRight, "opacity", 1);
         }
@@ -523,16 +528,17 @@ Rectangle {
             // Test that if we exit the top tutorial, we don't immediately
             // jump into right tutorial.
             var tutorialRight = findChild(shell, "tutorialRight");
-            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightInactivityTimer");
+            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
 
             tutorialRightTimer.interval = 1;
             openTutorialTop();
             ApplicationManager.startApplication("gallery-app");
             ApplicationManager.startApplication("facebook-webapp");
-            tryCompare(ApplicationManager, "count", 3);
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(ApplicationManager, "count", 4);
 
             AccountsService.demoEdgesCompleted = ["left", "left-long", "top"];
-            verify(tutorialRightTimer.running, true);
+            verify(tutorialRightTimer.running);
             verify(!tutorialRight.shown);
             tryCompare(tutorialRight, "shown", true);
         }
@@ -614,7 +620,11 @@ Rectangle {
 
             ApplicationManager.startApplication("dialer-app");
             ApplicationManager.startApplication("camera-app");
+            ApplicationManager.startApplication("facebook-webapp");
             tryCompare(tutorialRightLoader.item, "isReady", true);
+
+            var tutorialRightTimer = findInvisibleChild(tutorialRightLoader, "tutorialRightTimer");
+            tutorialRightTimer.interval = 1;
             tryCompare(tutorialRightLoader, "shown", true);
         }
 
@@ -622,8 +632,11 @@ Rectangle {
             loadShell("desktop");
 
             var tutorialRight = findChild(shell, "tutorialRight");
+            var tutorialRightTimer = findInvisibleChild(tutorialRight, "tutorialRightTimer");
             ApplicationManager.startApplication("dialer-app");
             ApplicationManager.startApplication("camera-app");
+            ApplicationManager.startApplication("facebook-webapp");
+            tutorialRightTimer.interval = 1;
             tryCompare(tutorialRight, "shown", true);
 
             var stage = findChild(shell, "stage");
@@ -678,7 +691,9 @@ Rectangle {
             AccountsService.demoEdges = true;
             tutorialLeft = findChild(shell, "tutorialLeft");
             verify(tutorialLeft != null);
-            tryCompare(tutorialLeft, "shown", true);
+
+            var tutorialLeftTimer = findChild(tutorialLeft, "tutorialLeftTimer");
+            verify(tutorialLeftTimer.running);
         }
     }
 }

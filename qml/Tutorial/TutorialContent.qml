@@ -88,12 +88,12 @@ Item {
 
             isReady: !tutorialLeftLoader.skipped && !paused && !keyboardVisible
 
-            // Use an idle timer here, because when constructed, all our isReady variables will be false.
-            // Qml needs a moment to copy their values from Tutorial.qml.  So we idle it and recheck.
-            Timer {
+            InactivityTimer {
                 id: tutorialLeftTimer
-                interval: 0
-                onTriggered: if (tutorialLeft.isReady && !tutorialLeft.shown) tutorialLeft.show()
+                objectName: "tutorialLeftTimer"
+                interval: 20000
+                lastInputTimestamp: root.lastInputTimestamp
+                page: parent
             }
 
             onIsReadyChanged: if (isReady && !shown) tutorialLeftTimer.start()
@@ -122,19 +122,12 @@ Item {
             skipped: tutorialLeftLongLoader.skipped
             isReady: tutorialLeftLoader.skipped && !skipped && !paused && !keyboardVisible
 
-            Timer {
+            InactivityTimer {
                 id: tutorialLeftLongTimer
                 objectName: "tutorialLeftLongTimer"
-                interval: 5000
-                onTriggered: {
-                    if (parent.isReady) {
-                        if (!parent.shown) {
-                            parent.show();
-                        }
-                    } else if (!parent.skipped) {
-                        restart();
-                    }
-                }
+                interval: 10000
+                lastInputTimestamp: root.lastInputTimestamp
+                page: parent
             }
 
             onIsReadyChanged: if (isReady && !shown) tutorialLeftLongTimer.start()
@@ -163,19 +156,12 @@ Item {
             skipped: tutorialTopLoader.skipped
             isReady: tutorialLeftLongLoader.skipped && !skipped && !paused && !keyboardVisible
 
-            // We fire 30s after left edge tutorial, with at least 3s of inactivity
-
             InactivityTimer {
-                id: tutorialTopInactivityTimer
-                lastInputTimestamp: root.lastInputTimestamp
-                page: parent
-            }
-
-            Timer {
                 id: tutorialTopTimer
                 objectName: "tutorialTopTimer"
-                interval: 27000
-                onTriggered: tutorialTopInactivityTimer.start()
+                interval: 60000
+                lastInputTimestamp: root.lastInputTimestamp
+                page: parent
             }
 
             onIsReadyChanged: if (isReady && !shown) tutorialTopTimer.start()
@@ -203,27 +189,18 @@ Item {
             paused: root.paused
 
             skipped: tutorialRightLoader.skipped
-            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible
-                     ApplicationManager.count >= 3
+            isReady: tutorialTopLoader.skipped && !skipped && !paused && !keyboardVisible &&
+                     ApplicationManager.count >= 4
 
             InactivityTimer {
-                id: tutorialRightInactivityTimer
-                objectName: "tutorialRightInactivityTimer"
+                id: tutorialRightTimer
+                objectName: "tutorialRightTimer"
+                interval: 10000
                 lastInputTimestamp: root.lastInputTimestamp
                 page: parent
             }
 
-            Connections {
-                target: d
-                onFocusedAppChanged: {
-                    if (tutorialRight.isReady && !tutorialRight.shown && d.focusedApp
-                            && d.focusedApp.state === ApplicationInfoInterface.Starting) {
-                        tutorialRight.show();
-                    }
-                }
-            }
-
-            onIsReadyChanged: if (isReady && !shown) tutorialRightInactivityTimer.start()
+            onIsReadyChanged: if (isReady && !shown) tutorialRightTimer.start()
             onFinished: AccountsService.markDemoEdgeCompleted("right")
         }
     }
