@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-04-21 13:47+0000\n"
-"PO-Revision-Date: 2016-04-18 07:33+0000\n"
+"PO-Revision-Date: 2016-04-27 12:20+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-04-27 06:02+0000\n"
+"X-Launchpad-Export-Date: 2016-04-28 05:59+0000\n"
 "X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -189,7 +189,7 @@ msgstr "Ouzhpennañ d'ar sinedoù"
 
 #: qml/Dash/FiltersPopover.qml:60
 msgid "Refine your results"
-msgstr ""
+msgstr "Purañ ho tisoc'hoù"
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
@@ -661,7 +661,7 @@ msgstr "Kod da brennañ ar skramm"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:56
 msgid "Enter 4 numbers to setup your passcode"
-msgstr ""
+msgstr "Skrivit 4 sifr evit lakaat ho kod"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:65
 #: qml/Wizard/Pages/passcode-set.qml:54
@@ -674,15 +674,15 @@ msgstr "Kod re verr"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:107
 msgid "Passcodes match"
-msgstr ""
+msgstr "klotañ a ra ar c'hodoù an eil gant egile"
 
 #: qml/Wizard/Pages/passcode-desktop.qml:109
 msgid "Passcodes do not match"
-msgstr ""
+msgstr "Ne glot ket ar c'hodoù an eil gant egile"
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "4 arouezenn a rank bezañ ar c'hod"
 
 #: qml/Wizard/Pages/password-set.qml:30
 msgid "Lock Screen Password"
