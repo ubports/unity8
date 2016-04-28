@@ -53,7 +53,7 @@ TutorialPage {
     label {
         text: root.usageScenario === "desktop" ?
                     i18n.tr("Push your mouse against the right edge to view your open apps") :
-                    i18n.tr("Short or long swipe from the right edge to view your open apps")
+                    i18n.tr("Swipe from the right edge to view your open apps")
         anchors.right: arrow.left
         anchors.rightMargin: units.gu(2) - (label.width - label.contentWidth)
         anchors.verticalCenter: arrow.verticalCenter

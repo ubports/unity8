@@ -44,7 +44,7 @@ TutorialPage {
     }
 
     label {
-        text: i18n.tr("Swipe from the left edge to open the launcher")
+        text: i18n.tr("Short swipe from the left edge to open the launcher")
         anchors.left: arrow.right
         anchors.leftMargin: units.gu(3)
         anchors.right: root.right
