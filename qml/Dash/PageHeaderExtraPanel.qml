@@ -95,8 +95,6 @@ Item {
             // FIXME Move to ListItem once 1556971 is fixed
             delegate: ListItems.Empty {
                 anchors {
-                    // left: parent.left
-                    // right: parent.right
                     leftMargin: units.gu(2)
                     rightMargin: units.gu(2)
                 }
