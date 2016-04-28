@@ -45,8 +45,10 @@ import Cursor 1.0
 import WindowManager 0.1
 
 
-Item {
+StyledItem {
     id: shell
+
+    theme.name: "Ubuntu.Components.Themes.SuruDark"
 
     // to be set from outside
     property int orientationAngle: 0
@@ -171,7 +173,6 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruDark"
         finishStartUpTimer.start();
     }
 
