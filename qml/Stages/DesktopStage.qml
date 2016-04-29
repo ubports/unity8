@@ -190,6 +190,12 @@ AbstractStage {
         value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppDelegate !== null
     }
 
+    Binding {
+        target: PanelState
+        property: "closeButtonShown"
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && priv.focusedAppDelegate.application.appId !== "unity8-dash"
+    }
+
     Component.onDestruction: {
         PanelState.title = "";
         PanelState.buttonsVisible = false;
@@ -249,7 +255,8 @@ AbstractStage {
                     }
                 }
                 z: normalZ
-                y: PanelState.panelHeight
+                x: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
+                y: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
 
                 width: decoratedWindow.width
                 height: decoratedWindow.height

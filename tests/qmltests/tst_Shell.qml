@@ -226,7 +226,6 @@ Rectangle {
                 MouseTouchEmulationCheckbox {
                     id: mouseEmulation
                     checked: true
-                    color: "white"
                 }
                 ListItem.ItemSelector {
                     id: ctrlModifier
@@ -1404,6 +1403,16 @@ Rectangle {
             tryCompare(launcherPanel, "x", -launcherPanel.width);
         }
 
+        function test_physicalHomeKeyPressDoesNothingWithActiveGreeter() {
+            loadShell("phone");
+
+            var windowInputMonitor = findInvisibleChild(shell, "windowInputMonitor");
+            var coverPage = findChild(shell, "coverPage");
+
+            windowInputMonitor.homeKeyActivated();
+            verify(coverPage.shown);
+        }
+
         function test_tabletLogin_data() {
             return [
                 {tag: "auth error", user: "auth-error", loggedIn: false, password: ""},
@@ -2179,6 +2188,11 @@ Rectangle {
             shell.usageScenario = "desktop";
             GSettingsController.setAutohideLauncher(!data.launcherLocked);
             waitForRendering(shell);
+            // Not sure why 2 but it's the number of times
+            // it triggers at this time and we need to wait
+            // for them otherwise a sessionStarted signal will
+            // hide the launcher and make the test fail
+            tryCompare(sessionSpy, "count", 2);
 
             var launcher = findChild(shell, "launcher");
             var launcherPanel = findChild(launcher, "launcherPanel");

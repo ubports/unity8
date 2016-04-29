@@ -26,10 +26,13 @@ import Utils 0.1 // For EdgeBarrierSettings
 
 /* Nothing is shown at first. If you drag from left edge you will bring up the
    launcher. */
-Item {
+Rectangle {
     id: root
     width: units.gu(140)
     height: units.gu(70)
+    color: UbuntuColors.graphite // something neither white nor black
+
+    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
     Loader {
         id: launcherLoader
@@ -868,7 +871,7 @@ Item {
 
             // Doing longpress
             mousePress(draggedItem);
-            tryCompare(quickListShape, "opacity", 0.8);
+            tryCompare(quickListShape, "opacity", 0.95);
             mouseRelease(draggedItem);
 
             verify(quickList.y >= units.gu(1));

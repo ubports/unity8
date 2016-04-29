@@ -23,7 +23,7 @@ QInputDeviceManagerPrivate::QInputDeviceManagerPrivate(QObject *parent) :
     QObject(parent),
     currentFilter(QInputDevice::Unknown)
 {
-    QTimer::singleShot(1, SIGNAL(ready()));
+    QTimer::singleShot(1, this, SIGNAL(ready()));
 }
 
 QInputDeviceManagerPrivate::~QInputDeviceManagerPrivate()
