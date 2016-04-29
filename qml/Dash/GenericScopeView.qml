@@ -360,6 +360,9 @@ FocusScope {
                         scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
                     }
                 }
+                // FIXME: directly connecting to onUnitsChanged cause a compile error:
+                // Cannot assign to non-existent property "onUnitsChanged"
+                // Until the units object is reworked to properly do all we need, let's go through a intermediate property
                 property int pxpgu: units.gu(1);
                 onPxpguChanged: clickScopeSizingHacks();
 
