@@ -619,7 +619,7 @@ Item {
             paused: callManager.hasCalls || !greeter || greeter.shown
             delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
                      inputMethod.state === "shown" || launcher.shown ||
-                     panel.indicators.shown
+                     panel.indicators.shown || stage.dragProgress > 0
             usageScenario: shell.usageScenario
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
