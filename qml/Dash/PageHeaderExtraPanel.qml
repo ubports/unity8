@@ -150,7 +150,7 @@ Item {
         objectName: "primaryFilterContainer"
 
         height: {
-            if (!active) {
+            if (!primaryFilter.active) {
                 return 0;
             } else if (contentHeight > dashNavigation.availableHeight) {
                 return dashNavigation.availableHeight;
@@ -159,7 +159,7 @@ Item {
             }
         }
 
-        clip: contentY < contentHeight
+        clip: true
         contentHeight: primaryFilter.implicitHeight
 
         anchors {
