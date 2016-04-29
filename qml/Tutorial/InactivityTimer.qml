@@ -26,7 +26,9 @@ Item {
     property int lastInputTimestamp
 
     function start() {
-        delayTimer.start();
+        if (!delayTimer.running && !inactivityTimer.running) {
+            delayTimer.start();
+        }
     }
 
     ////
@@ -42,6 +44,12 @@ Item {
         onIsReadyChanged: {
             if (page.isReady && inactivityTimer.running) {
                 inactivityTimer.restart();
+            }
+        }
+        onPausedChanged: {
+            if (root.paused) {
+                delayTimer.stop();
+                inactivityTimer.stop();
             }
         }
     }

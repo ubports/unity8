@@ -26,6 +26,7 @@ ListView {
     objectName: "notificationList"
     interactive: false
 
+    readonly property bool hasNotification: count > 1 // placeholder is index 0
     property real margin
     property bool useModal: snapDecisionProxyModel.count > 0
     property bool hasMouse

@@ -26,8 +26,8 @@ Item {
     property Item panel
     property Item stage
     property string usageScenario
-    property bool paused
-    property bool delayed
+    property bool paused: true // default to true so that we won't start until top level is all ready
+    property bool delayed: true // same
     property var lastInputTimestamp
 
     readonly property bool launcherEnabled: !running

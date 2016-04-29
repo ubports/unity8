@@ -312,7 +312,7 @@ Item {
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "inverseProgress"
-                value: greeter && greeter.locked ? 0 : launcher.progress
+                value: !greeter || greeter.locked || !tutorial.launcherLongSwipeEnabled ? 0 : launcher.progress
             }
             Binding {
                 target: applicationsDisplayLoader.item
@@ -616,9 +616,10 @@ Item {
             objectName: "tutorial"
             anchors.fill: parent
 
-            paused: callManager.hasCalls || greeter.shown
-            delayed: dialogs.hasActiveDialog || notifications.count > 0 ||
-                     inputMethod.state === "shown"
+            paused: callManager.hasCalls || !greeter || greeter.shown
+            delayed: dialogs.hasActiveDialog || notifications.hasNotification ||
+                     inputMethod.state === "shown" || launcher.shown ||
+                     panel.indicators.shown
             usageScenario: shell.usageScenario
             lastInputTimestamp: inputFilter.lastInputTimestamp
             launcher: launcher
