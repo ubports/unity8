@@ -140,7 +140,7 @@ Item {
             expandingItem.expanded = true
 
             // Flick the navigation list and ensure the underlying scope didn't move
-            wait(250) // FIXME: Wait for the expanding animation to complete
+            tryCompareFunction(function() { return expandingItem.height == expandingItem.expandedHeight; }, true);
             flickToYEnd(primaryFilterContainer)
 
             tryCompare(categoryListView, "atYBeginning", true)
