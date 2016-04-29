@@ -95,6 +95,8 @@ Item {
             // FIXME Move to ListItem once 1556971 is fixed
             delegate: ListItems.Empty {
                 anchors {
+                    left: parent.left
+                    right: parent.right
                     leftMargin: units.gu(2)
                     rightMargin: units.gu(2)
                 }
@@ -122,7 +124,7 @@ Item {
                     color: "#888888"
                 }
 
-                divider.visible: index != recentSearchesRepeater.count - 1 || (scope && scope.hasNavigation) || primaryFilterContainer.active
+                divider.visible: index != recentSearchesRepeater.count - 1 || (scope && scope.hasNavigation) || primaryFilter.active
 
                 onClicked: root.historyItemClicked(query)
             }
@@ -147,13 +149,10 @@ Item {
         id: primaryFilterContainer
         objectName: "primaryFilterContainer"
 
-        readonly property alias active: primaryFilter.active
-
         height: {
             if (!active) {
                 return 0;
-            }
-            else if (contentHeight > dashNavigation.availableHeight) {
+            } else if (contentHeight > dashNavigation.availableHeight) {
                 return dashNavigation.availableHeight;
             } else {
                 return contentHeight;

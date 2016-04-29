@@ -34,7 +34,7 @@ class Scope : public unity::shell::scopes::ScopeInterface
 
 public:
     Scope(Scopes* parent = 0);
-    Scope(QString const& id, QString const& name, bool favorite, Scopes* parent = 0, int categories = 20, bool returnNullPreview = false, QStringList primaryNavigationFilterOptionLabels = QStringList() << "meat" << "vegetables");
+    Scope(QString const& id, QString const& name, bool favorite, Scopes* parent = 0, int categories = 20, bool returnNullPreview = false, const QStringList primaryNavigationFilterOptionLabels = QStringList() << "meat" << "vegetables");
 
     /* getters */
     QString id() const override;
@@ -122,7 +122,7 @@ protected:
     FakeOptionSelectorFilter* m_primaryNavigationFilter;
 
     bool m_returnNullPreview;
-    QStringList m_primaryNavigationFilterOptionLabels;
+    const QStringList m_primaryNavigationFilterOptionLabels;
 };
 
 #endif // FAKE_SCOPE_H

@@ -32,7 +32,7 @@ Scope::Scope(Scopes* parent) : Scope("MockScope5", "Mock Scope", false, parent)
 {
 }
 
-Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview, QStringList primaryNavigationFilterOptionLabels)
+Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* parent, int categories, bool returnNullPreview, const QStringList primaryNavigationFilterOptionLabels)
     : unity::shell::scopes::ScopeInterface(parent)
     , m_id(id)
     , m_name(name)
