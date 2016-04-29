@@ -122,7 +122,6 @@ protected:
     FakeOptionSelectorFilter* m_primaryNavigationFilter;
 
     bool m_returnNullPreview;
-    const QStringList m_primaryNavigationFilterOptionLabels;
 };
 
 #endif // FAKE_SCOPE_H

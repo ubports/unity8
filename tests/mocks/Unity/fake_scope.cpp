@@ -48,9 +48,8 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_settings(new SettingsModel(this))
     , m_filters(new Filters(this))
     , m_returnNullPreview(returnNullPreview)
-    , m_primaryNavigationFilterOptionLabels(primaryNavigationFilterOptionLabels)
 {
-    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, m_primaryNavigationFilterOptionLabels, this);
+    m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, primaryNavigationFilterOptionLabels, this);
     connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
 }
 
