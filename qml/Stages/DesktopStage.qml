@@ -95,7 +95,7 @@ AbstractStage {
     }
 
     GlobalShortcut {
-        shortcut: Qt.ControlModifier|Qt.Key_Print
+        shortcut: Qt.AltModifier|Qt.Key_Print
         onTriggered: root.itemSnapshotRequested(priv.focusedAppDelegate)
         active: priv.focusedAppDelegate !== null
     }
