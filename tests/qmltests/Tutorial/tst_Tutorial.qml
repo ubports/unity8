@@ -64,6 +64,8 @@ Rectangle {
     ListModel {
         id: mockNotificationsModel
 
+        property bool paused
+
         function getRaw(id) {
             return mockNotification.createObject(mockNotificationsModel)
         }

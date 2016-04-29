@@ -667,6 +667,11 @@ Item {
             y: topmostIsFullscreen ? 0 : panel.panelHeight
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
+            Binding {
+                target: model
+                paused: tutorial.running
+            }
+
             states: [
                 State {
                     name: "narrow"

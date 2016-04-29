@@ -349,6 +349,8 @@ Rectangle {
     ListModel {
         id: mockNotificationsModel
 
+        property bool paused
+
         signal actionInvoked(string actionId)
 
         function getRaw(id) {
