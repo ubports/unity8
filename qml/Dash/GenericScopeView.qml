@@ -360,6 +360,8 @@ FocusScope {
                         scopeView.enableHeightBehaviorOnNextCreation = item.enableHeightBehaviorOnNextCreation;
                     }
                 }
+                property int pxpgu: units.gu(1);
+                onPxpguChanged: clickScopeSizingHacks();
 
                 function clickScopeSizingHacks() {
                     if (scope && scope.id === "clickscope" &&
