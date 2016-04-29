@@ -27,31 +27,29 @@ import Unity.Application 0.1
 // Chrome not set and state change to fulscreen -> client window stays "fullscreen"
 QtObject {
     property bool active: true
-    property QtObject application: null
 
-    readonly property var lastSurface: application && application.session ?
-                              application.session.lastSurface : null
-    onLastSurfaceChanged: {
-        if (!active || !lastSurface) return;
-        if (lastSurface.shellChrome === Mir.LowChrome) {
-            lastSurface.state = Mir.FullscreenState;
+    property var surface: null
+    onSurfaceChanged: {
+        if (!active || !surface) return;
+        if (surface.shellChrome === Mir.LowChrome) {
+            surface.state = Mir.FullscreenState;
         }
     }
 
     property var _connections: Connections {
-        target: lastSurface
+        target: surface
         onShellChromeChanged: {
-            if (!active || !lastSurface) return;
-            if (lastSurface.shellChrome === Mir.LowChrome) {
-                lastSurface.state = Mir.FullscreenState;
+            if (!active || !surface) return;
+            if (surface.shellChrome === Mir.LowChrome) {
+                surface.state = Mir.FullscreenState;
             } else {
-                lastSurface.state = Mir.RestoredState;
+                surface.state = Mir.RestoredState;
             }
         }
         onStateChanged: {
             if (!active) return;
-            if (lastSurface.state === Mir.RestoredState && lastSurface.shellChrome === Mir.LowChrome) {
-                lastSurface.state = Mir.FullscreenState;
+            if (surface.state === Mir.RestoredState && surface.shellChrome === Mir.LowChrome) {
+                surface.state = Mir.FullscreenState;
             }
         }
     }

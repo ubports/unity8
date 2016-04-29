@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014,2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -312,7 +312,7 @@ SpreadDelegate {
         // non-fullscreen window when they're stacked on top of each other on the
         // far left of the spread.
         Translate {
-            y: !fullscreen && appWindowRotation === 180
+            y: !root.fullscreen && appWindowRotation === 180
                    ? priv.topMarginProgress * maximizedAppTopMargin
                    : 0
         },
@@ -326,7 +326,7 @@ SpreadDelegate {
                 switch (appWindowRotation) {
                 case 90:
                 case 270:
-                    if (fullscreen) {
+                    if (root.fullscreen) {
                         return 1;
                     } else {
                         return 1 + priv.topMarginProgress * maximizedAppTopMargin / spreadView.width;
@@ -340,7 +340,7 @@ SpreadDelegate {
             yScale: {
                 switch (appWindowRotation) {
                 case 0:
-                    if (fullscreen) {
+                    if (root.fullscreen) {
                         return 1 - priv.topMarginProgress * maximizedAppTopMargin / spreadView.height;
                     } else {
                         return 1;

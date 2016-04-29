@@ -42,6 +42,19 @@
   <interface name="com.ubuntu.location.providers.here.AccountsService" />
   <interface name="org.freedesktop.Accounts.User">
     <signal name="Changed" />
+    <method name="SetBackgroundFile">
+      <arg name="backgroundFile" type="s" direction="in" />
+    </method>
+    <method name="SetEmail">
+      <arg name="email" type="s" direction="in" />
+    </method>
+    <method name="SetInputSources">
+      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="StringMapList"/>
+      <arg name="inputSources" type="aa{ss}" direction="in" />
+    </method>
+    <method name="SetRealName">
+      <arg name="realName" type="s" direction="in" />
+    </method>
   </interface>
   <interface name="com.canonical.unity.AccountsService.Private" />
 

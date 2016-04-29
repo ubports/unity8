@@ -113,6 +113,8 @@ Rectangle {
             sourceComponent: Component {
                 Shell {
                     usageScenario: shellLoader.state
+                    nativeWidth: width
+                    nativeHeight: height
                     property string indicatorProfile: "phone"
                     orientation: shellLoader.shellOrientation
                     orientations: Orientations {
@@ -280,14 +282,6 @@ Rectangle {
             prepareShell();
         }
 
-        function killApps() {
-            while (ApplicationManager.count > 1) {
-                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
-                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
-            }
-            compare(ApplicationManager.count, 1)
-        }
-
         function swipeAwayGreeter() {
             var coverPage = findChild(shell, "coverPage");
             tryCompare(coverPage, "showProgress", 1);
@@ -408,7 +402,9 @@ Rectangle {
             ApplicationManager.startApplication("gallery-app");
 
             var launcher = findChild(shell, "launcher");
-            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialLeft = findChild(shell, "tutorialLeftLoader");
+            verify(tutorialLeft);
+
             touchFlick(shell, 0, halfHeight, shell.width, halfHeight);
 
             tryCompare(tutorialLeft, "shown", false);
@@ -762,6 +758,22 @@ Rectangle {
             ApplicationManager.startApplication("camera-app");
             tryCompare(tutorialRightLoader.item, "isReady", true);
             tryCompare(tutorialRightLoader, "shown", true);
+        }
+
+        function test_desktopTutorialRightFinish() {
+            loadShell("desktop");
+
+            var tutorialRight = findChild(shell, "tutorialRight");
+            ApplicationManager.startApplication("dialer-app");
+            ApplicationManager.startApplication("camera-app");
+            tryCompare(tutorialRight, "shown", true);
+
+            var stage = findChild(shell, "stage");
+            mouseMove(shell, shell.width, shell.height / 2);
+            stage.pushRightEdge(units.gu(8));
+            tryCompare(tutorialRight, "shown", false);
+
+            tryCompare(AccountsService, "demoEdges", false);
         }
 
         function test_oskDoesNotHideTutorial() {

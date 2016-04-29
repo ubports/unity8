@@ -14,6 +14,7 @@ usr/lib/*/unity8/qml/Ubuntu
 usr/lib/*/unity8/qml/Unity
 usr/lib/*/unity8/qml/UInput
 usr/lib/*/unity8/qml/Utils
+usr/lib/*/unity8/qml/WindowManager
 usr/lib/*/unity8/qml/Wizard
 usr/share/accountsservice/interfaces
 usr/share/dbus-1/interfaces
