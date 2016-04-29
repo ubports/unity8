@@ -26,9 +26,8 @@ import "Rotation"
 // Workaround https://bugs.launchpad.net/ubuntu/+source/unity8/+bug/1473471
 import Ubuntu.Components 1.3
 
-Rectangle {
+Item {
     id: root
-    color: "black"
 
     implicitWidth: units.gu(40)
     implicitHeight: units.gu(71)
