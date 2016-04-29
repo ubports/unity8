@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,19 @@ import QtQuick 2.4
 Item {
     id: root
 
+    property Item target
+
+    property bool ready: image.status === Image.Ready
+
     function take() {
-        var timeNow = new Date().getTime();
-        image.source = "image://window/" + timeNow;
+        if (!target) {
+            console.warn("ItemSnapshot.take(): no target set");
+            return;
+        }
+
+        target.grabToImage(function(result) {
+                               image.source = result.url;
+                           });
     }
 
     // Unload the image to free up memory
