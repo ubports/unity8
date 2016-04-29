@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,36 +14,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SNAPSHOTTER_H
-#define SNAPSHOTTER_H
+#ifndef SCREENSHOTDIRECTORY_H
+#define SCREENSHOTDIRECTORY_H
 
 #include <QObject>
 #include <QString>
-#include <QtConcurrent>
 
-class ScreenGrabber: public QObject
+class ScreenshotDirectory: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ScreenGrabber(QObject *parent = 0);
-    ~ScreenGrabber() = default;
+    explicit ScreenshotDirectory(QObject *parent = 0);
+    ~ScreenshotDirectory() = default;
 
 public Q_SLOTS:
-    void captureAndSave(int angle = 0);
-
-Q_SIGNALS:
-    void screenshotSaved(const QString &filename);
-
-private Q_SLOTS:
-    void onScreenshotSaved();
+    QString makeFileName() const;
 
 private:
-    QString makeFileName() const;
-    QString getFormat() const;
-    QString fileNamePrefix;
-    int screenshotQuality = -1; // default quality for the format
-    QFutureWatcher<QString> m_watcher;
+    QString format() const;
+    QString m_fileNamePrefix;
 };
 
-#endif
+#endif // SCREENSHOTDIRECTORY_H

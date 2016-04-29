@@ -94,6 +94,12 @@ AbstractStage {
         active: priv.focusedAppDelegate !== null
     }
 
+    GlobalShortcut {
+        shortcut: Qt.AltModifier|Qt.Key_Print
+        onTriggered: root.itemSnapshotRequested(priv.focusedAppDelegate)
+        active: priv.focusedAppDelegate !== null
+    }
+
     Connections {
         target: root.topLevelSurfaceList
         onCountChanged: {
