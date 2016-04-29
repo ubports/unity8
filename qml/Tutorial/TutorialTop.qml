@@ -50,8 +50,7 @@ TutorialPage {
     }
 
     label {
-        text: d.landscape ? i18n.tr("Swipe from the top right edge to access quick settings")
-                          : i18n.tr("Swipe from the top edge to access quick settings")
+        text: i18n.tr("Swipe from the top edge to access notifications and quick settings")
         anchors.top: arrow.bottom
         anchors.topMargin: units.gu(3)
         anchors.horizontalCenter: arrow.horizontalCenter
