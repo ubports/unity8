@@ -37,6 +37,10 @@ Item {
                 function invokeAction(actionId) {
                     mockModel.actionInvoked(actionId)
                 }
+
+                function close() {
+                    console.log("Close notification");
+                }
             }
         }
 
@@ -73,7 +77,7 @@ Item {
                 summary: "Incoming call",
                 body: "Frank Zappa\n+44 (0)7736 027340",
                 icon: "../../tests/graphics/avatars/amanda.png",
-                secondaryIcon: "incoming-call",
+                secondaryIcon: "image://theme/incoming-call",
                 actions: [{ id: "ok_id", label: "Ok"},
                     { id: "cancel_id", label: "Cancel"},
                     { id: "foo_id", label: "Foo"},
@@ -161,6 +165,11 @@ Item {
                         text: "With fake mouse"
                         anchors.verticalCenter: parent.verticalCenter
                     }
+                }
+
+                MouseTouchEmulationCheckbox {
+                    id: mouseEmulation
+                    checked: false
                 }
             }
         }
@@ -301,6 +310,7 @@ Item {
 
                     // add a mock mouse, test clicking the left/right buttons
                     notifications.hasMouse = true;
+                    waitForRendering(notification);
                     var leftButton = findChild(swipeButton, "leftButton");
                     var rightButton = findChild(swipeButton, "rightButton");
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,20 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pragma Singleton
-import QtQuick 2.4
+#ifndef QMLDEBUGGERUTILS_H
+#define QMLDEBUGGERUTILS_H
 
-QtObject {
-    id: root
-
-    property string title: ""
-    property bool buttonsVisible: false
-    property bool closeButtonShown: true
-    property bool dropShadow: false
-    property int panelHeight: 0
-
-    signal close()
-    signal minimize()
-    signal maximize()
-    signal focusMaximizedApp()
+bool enableQmlDebugger(int argc, const char *argv[])
+{
+    for (int i = 1; i < argc; ++i) {
+        QByteArray arg = argv[i];
+        if (arg.startsWith("--"))
+            arg.remove(0, 1);
+        if (arg.startsWith("-qmljsdebugger=") || (arg == "-qmljsdebugger" && i < argc - 1)) {
+            return true;
+        }
+    }
+    return false;
 }
+
+#endif

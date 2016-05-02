@@ -536,8 +536,6 @@ Rectangle {
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
-/* Flaky in adt and cannot reproduce locally. Given the deadline I won't risk this getting stuck in proposed.
-   Adding a skip() seems to fail this nevertheless for accessing a null object
         function test_appSupportingOnlyPrimaryOrientationWillOnlyRotateInLandscape_data() {
             return [
                 {tag: "manta", deviceName: "manta"},
@@ -561,25 +559,25 @@ Rectangle {
             compare(dashApp.stage, ApplicationInfoInterface.MainStage);
 
             tryCompareFunction(function(){return dashApp.surfaceList.count > 0;}, true);
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
 
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
+
             rotateTo(90);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(180);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180));
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
 
             rotateTo(270);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180));
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
         }
-*/
 
         function test_greeterRemainsInPrimaryOrientation_data() {
             return [
