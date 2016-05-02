@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,8 @@ Rectangle {
     color: "black"
     width: units.gu(70)
     height: fakeShell.longestDimension
+
+    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark" // use the same theme as the real shell
 
     QtObject {
         id: fakeUnitySession
@@ -69,7 +71,7 @@ Rectangle {
     }
 
     Rectangle {
-        color: "white"
+        color: theme.palette.normal.background
         x: fakeShell.shortestDimension
         width: root.width - x
         anchors {

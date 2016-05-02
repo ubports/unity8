@@ -253,10 +253,10 @@ Showable {
 
     Component {
         id: infoPopupComponent
-        Dialog {
+        ShellDialog {
             id: dialog
             objectName: "infoPopup"
-            modal: true
+            property var dialogLoader // dummy to satisfy ShellDialog's context dependent prop
 
             Button {
                 objectName: "infoPopupOkButton"

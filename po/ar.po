@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-27 15:01+0000\n"
 "PO-Revision-Date: 2015-07-29 09:41+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n % 100 >= "
 "3 && n % 100 <= 10 ? 3 : n % 100 >= 11 && n % 100 <= 99 ? 4 : 5;\n"
-"X-Launchpad-Export-Date: 2016-03-24 06:07+0000\n"
-"X-Generator: Launchpad (build 17958)\n"
+"X-Launchpad-Export-Date: 2016-04-30 05:36+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -80,7 +80,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "خروج"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -99,16 +99,16 @@ msgstr "هل أنت متأكد من رغبتك في إعادة تشغيل الج
 msgid "No"
 msgstr "لا"
 
-#: qml/Components/Dialogs.qml:183
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "نعم"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "الطاقة"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -116,12 +116,12 @@ msgstr ""
 "هل أنت متأكد من رغبتك\n"
 "في إيقاف التشغيل؟"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "إيقاف التشغيل"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "إعادة التشغيل"
@@ -196,12 +196,12 @@ msgid "Reset"
 msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
-msgid "See less"
-msgstr "شاهد أقل"
+msgid "Show less"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:570
-msgid "See all"
-msgstr "عرض الكل"
+msgid "Show all"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
@@ -342,7 +342,7 @@ msgstr "برجاء إعادة إدخالها"
 msgid "Sorry, incorrect passcode"
 msgstr "نأسف، الرمز السري غير صحيح"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "عرض كلمة السر"
 
@@ -354,11 +354,11 @@ msgstr "انقر للعودة إلى المكالمة..."
 msgid "Conference"
 msgstr "مؤتمر"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:761
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "لا شيء مُشغّل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -369,7 +369,7 @@ msgstr[3] "%1 ساعات"
 msgstr[4] "%1 ساعة"
 msgstr[5] "%1 ساعة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -380,7 +380,7 @@ msgstr[3] "%1 دقائق"
 msgstr[4] "%1 دقيقة"
 msgstr[5] "%1 دقيقة"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:899
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -391,37 +391,37 @@ msgstr[3] "%1 ثوان"
 msgstr[4] "%1 ثانية"
 msgstr[5] "%1 ثانية"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "أقل من ثانية"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "باق %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "في الانتظار..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "التنزيل"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "مُلبث، انقر للاستئناف"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:918
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "تم إلغائه"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "انتهى"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:922
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "فشل، انقل لإعادة المحاولة"
 
@@ -465,19 +465,19 @@ msgstr ""
 msgid "Swipe up to manage the app"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr ""
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
 msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 
@@ -809,6 +809,9 @@ msgstr ""
 #~ msgid "Well done"
 #~ msgstr "أحسنت!"
 
+#~ msgid "See less"
+#~ msgstr "شاهد أقل"
+
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
@@ -860,6 +863,9 @@ msgstr ""
 #~ msgctxt "Button: Reboot the system"
 #~ msgid "Reboot"
 #~ msgstr "إعادة التشغيل"
+
+#~ msgid "See all"
+#~ msgstr "عرض الكل"
 
 #~ msgid "Please re-enter"
 #~ msgstr "برجاء إعادة إدخالها"

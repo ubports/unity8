@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #include "MirSurface.h"
 #include "VirtualKeyboard.h"
 
+class ApplicationInfo;
+
 class SurfaceManager : public QObject
 {
     Q_OBJECT
@@ -35,8 +37,9 @@ class SurfaceManager : public QObject
 
 public:
     explicit SurfaceManager(QObject *parent = 0);
+    virtual ~SurfaceManager();
 
-    static SurfaceManager *singleton();
+    static SurfaceManager *instance();
 
     Q_INVOKABLE MirSurface* createSurface(const QString& name,
                                   Mir::Type type,
