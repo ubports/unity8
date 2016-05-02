@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +22,10 @@ import "../../../qml/Components"
 import "../../../qml/Stages"
 import Ubuntu.Components 1.3
 import Unity.Application 0.1
+import WindowManager 0.1
 
 Item {
+    id: root
     width: units.gu(70)
     height: units.gu(70)
 
@@ -38,63 +40,40 @@ Item {
         interactive: true
         shellOrientation: Qt.PortraitOrientation
         orientations: Orientations {}
+        applicationManager: ApplicationManager
+        topLevelSurfaceList: TopLevelSurfaceList {
+            id: topLevelSurfaceList
+            applicationsModel: ApplicationManager
+        }
     }
 
-    Rectangle {
-        anchors { fill: parent; leftMargin: phoneStage.width }
+    Flickable {
+        contentHeight: controlRect.height
 
-        Column {
-            id: buttons
-            anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
-            spacing: units.gu(1)
-            Button {
-                anchors { left: parent.left; right: parent.right }
-                text: "Add App"
-                activeFocusOnPress: false
-                onClicked: {
-                    testCase.addApps();
+        anchors.top: root.top
+        anchors.bottom: root.bottom
+        anchors.right: root.right
+        width: units.gu(30)
+        Rectangle {
+            id: controlRect
+            anchors { left: parent.left; right: parent.right }
+            height: childrenRect.height + units.gu(2)
+            color: "darkGrey"
+            Column {
+                anchors { left: parent.left; right: parent.right; top: parent.top; margins: units.gu(1) }
+                spacing: units.gu(1)
+                EdgeBarrierControls {
+                    id: edgeBarrierControls
+                    text: "Drag here to pull out spread"
+                    backgroundColor: "blue"
+                    onDragged: { phoneStage.pushRightEdge(amount); }
+                    Component.onCompleted: {
+                        edgeBarrierControls.target = testCase.findChild(phoneStage, "edgeBarrierController");
+                    }
                 }
-            }
-            Button {
-                anchors { left: parent.left; right: parent.right }
-                text: "Remove Selected"
-                activeFocusOnPress: false
-                onClicked: {
-                    ApplicationManager.stopApplication(ApplicationManager.get(appList.selectedAppIndex).appId);
-                }
-            }
-            Button {
-                anchors { left: parent.left; right: parent.right }
-                text: "Stop Selected"
-                activeFocusOnPress: false
-                onClicked: {
-                    ApplicationManager.get(appList.selectedAppIndex).setState(ApplicationInfoInterface.Stopped);
-                }
-            }
-            EdgeBarrierControls {
-                id: edgeBarrierControls
-                text: "Drag here to pull out spread"
-                backgroundColor: "blue"
-                onDragged: { phoneStage.pushRightEdge(amount); }
-                Component.onCompleted: {
-                    edgeBarrierControls.target = testCase.findChild(phoneStage, "edgeBarrierController");
-                }
-            }
-        }
-        ListView {
-            id: appList
-            property int selectedAppIndex
-            anchors { left: parent.left; right: parent.right; top: buttons.bottom; bottom: parent.bottom }
-            boundsBehavior: Flickable.StopAtBounds
-            model: ApplicationManager
-            delegate: Rectangle {
-                anchors { left: parent.left; right: parent.right }
-                height: units.gu(2)
-                color: appList.selectedAppIndex === model.index ? "red" : "white"
-                Text { anchors.fill: parent; text: model.appId }
-                MouseArea {
-                    anchors.fill: parent
-                    onPressed: { appList.selectedAppIndex = model.index; }
+                Repeater {
+                    model: ApplicationManager.availableApplications
+                    ApplicationCheckBox { appId: modelData }
                 }
             }
         }
@@ -105,18 +84,41 @@ Item {
         name: "PhoneStage"
         when: windowShown
 
+        function findAppWindowForSurfaceId(surfaceId) {
+            var delegateObjectName = "spreadDelegate_" + surfaceId;
+            var spreadDelegate = findChild(phoneStage, delegateObjectName);
+            if (!spreadDelegate) {
+                console.warn("Failed to find " + delegateObjectName + " in phoneStage ("+phoneStage+")");
+                return null;
+            }
+            var appWindow = findChild(spreadDelegate, "appWindow");
+            return appWindow;
+        }
+
+        // Waits until ApplicationWindow has moved from showing a splash screen to displaying
+        // the application surface.
+        function waitUntilAppSurfaceShowsUp(surfaceId) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId);
+            verify(appWindow);
+            var appWindowStates = findInvisibleChild(appWindow, "applicationWindowStateGroup");
+            verify(appWindowStates);
+            tryCompare(appWindowStates, "state", "surface");
+        }
+
         function addApps(count) {
             if (count == undefined) count = 1;
             for (var i = 0; i < count; i++) {
+                var appSurfaceId = topLevelSurfaceList.nextId;
                 var app = ApplicationManager.startApplication(ApplicationManager.availableApplications[ApplicationManager.count])
                 tryCompare(app, "state", ApplicationInfoInterface.Running)
                 var spreadView = findChild(phoneStage, "spreadView");
                 tryCompare(spreadView, "contentX", -spreadView.shift);
+                waitUntilAppSurfaceShowsUp(appSurfaceId);
                 waitForRendering(phoneStage)
             }
         }
 
-        function goToSpread() {
+        function performEdgeSwipeToShowAppSpread() {
             var spreadView = findChild(phoneStage, "spreadView");
 
             // Keep it inside the PhoneStage otherwise the controls on the right side will
@@ -130,7 +132,44 @@ Item {
                        true /* beginTouch */, true /* endTouch */, units.gu(10), 50);
 
             tryCompare(spreadView, "phase", 2);
+            tryCompare(spreadView, "flicking", false);
+            tryCompare(spreadView, "moving", false);
             waitForRendering(phoneStage);
+        }
+
+        function swipeSurfaceUpwards(surfaceId) {
+            var appWindow = findAppWindowForSurfaceId(surfaceId);
+            verify(appWindow);
+
+            // Swipe from the left side of the surface as it's the one most likely
+            // to not be covered by other surfaces when they're all being shown in the spread
+            touchFlick(appWindow,
+                    appWindow.width * 0.1, appWindow.height / 2,
+                    appWindow.width * 0.1, -appWindow.height / 2);
+        }
+
+        function switchToSurface(targetSurfaceId) {
+            performEdgeSwipeToShowAppSpread();
+
+            waitUntilAppDelegateStopsMoving(targetSurfaceId);
+
+            // TODO: won't work if there are many items in the spread. in this case
+            // you might have to drag the list to the right or left a bit to better
+            // expose the target surface. Improve this code if needed.
+            var targetAppWindow = findAppWindowForSurfaceId(targetSurfaceId);
+            verify(targetAppWindow);
+            tap(targetAppWindow, 10, 10);
+        }
+
+        function waitUntilAppDelegateStopsMoving(targetSurfaceId)
+        {
+            var targetAppDelegate = findChild(phoneStage, "spreadDelegate_" + targetSurfaceId);
+            verify(targetAppDelegate);
+            var lastValue = undefined;
+            do {
+                lastValue = targetAppDelegate.animatedProgress;
+                wait(300);
+            } while (lastValue != targetAppDelegate.animatedProgress);
         }
 
         function test_shortFlick() {
@@ -200,7 +239,7 @@ Item {
             tryCompare(spreadView, "phase", data.targetPhase)
 
             if (data.targetPhase == 2) {
-                var app2 = findChild(spreadView, "appDelegate2");
+                var app2 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(2));
                 tryCompare(app2, "swipeToCloseEnabled", true);
                 mouseClick(app2, units.gu(1), units.gu(1));
             }
@@ -226,11 +265,11 @@ Item {
 
             var spreadView = findChild(phoneStage, "spreadView");
 
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
 
             tryCompare(spreadView, "phase", 2);
 
-            var tile = findChild(spreadView, "appDelegate" + data.index);
+            var tile = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(data.index));
             var appId = ApplicationManager.get(data.index).appId;
 
             if (tile.mapToItem(spreadView).x > spreadView.width) {
@@ -266,7 +305,7 @@ Item {
             var spreadView = findChild(phoneStage, "spreadView");
             var selectedApp = ApplicationManager.get(data.index);
 
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
 
             phoneStage.select(selectedApp.appId);
 
@@ -280,7 +319,7 @@ Item {
 
             var focusedAppId = ApplicationManager.focusedApplicationId;
 
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
 
             mouseClick(phoneStage, units.gu(1), units.gu(1));
 
@@ -292,15 +331,26 @@ Item {
             compare(focusedAppId, ApplicationManager.focusedApplicationId);
         }
 
+        function init() {
+            // wait until unity8-dash is up and running.
+            // it's started automatically by ApplicationManager mock implementation
+            tryCompare(ApplicationManager, "count", 1);
+            var dashApp = ApplicationManager.findApplication("unity8-dash");
+            verify(dashApp);
+            tryCompare(dashApp, "state", ApplicationInfoInterface.Running);
+        }
+
         function cleanup() {
-            while (ApplicationManager.count > 1) {
-                var oldCount = ApplicationManager.count;
-                var closingIndex = ApplicationManager.focusedApplicationId == "unity8-dash" ? 1 : 0
-                ApplicationManager.stopApplication(ApplicationManager.get(closingIndex).appId)
-                tryCompare(ApplicationManager, "count", oldCount - 1)
-            }
+            killApps();
+
             phoneStage.shellOrientationAngle = 0;
             phoneStage.select(ApplicationManager.get(0).appId);
+
+            // wait for PhoneStage to stabilize back into its initial state
+            var spreadView = findChild(phoneStage, "spreadView");
+            while (spreadView.phase !== 0 || spreadView.contentX !== -spreadView.shift) {
+                wait(50);
+            }
         }
 
         function test_focusNewTopMostAppAfterFocusedOneClosesItself() {
@@ -323,16 +373,16 @@ Item {
         function test_cantCloseWhileSnapping() {
             addApps(2);
 
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
 
             var spreadView = findChild(phoneStage, "spreadView");
             var selectedApp = ApplicationManager.get(2);
 
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
 
-            var app0 = findChild(spreadView, "appDelegate0");
-            var app1 = findChild(spreadView, "appDelegate1");
-            var app2 = findChild(spreadView, "appDelegate2");
+            var app0 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
+            var app1 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(1));
+            var app2 = findChild(spreadView, "spreadDelegate_" + topLevelSurfaceList.idAt(2));
 
             var dragArea0 = findChild(app0, "dragArea");
             var dragArea1 = findChild(app1, "dragArea");
@@ -382,10 +432,10 @@ Item {
             addApps(2);
 
             if (data.inSpread) {
-                goToSpread();
+                performEdgeSwipeToShowAppSpread();
             }
 
-            var focusedDelegate = findChild(phoneStage, "appDelegate0");
+            var focusedDelegate = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
             phoneStage.inverseProgress = data.leftEdgeDragWidth;
 
             tryCompare(focusedDelegate, "x", data.shouldMoveApp ? data.leftEdgeDragWidth : 0);
@@ -398,9 +448,9 @@ Item {
         function test_focusedAppIsTheOnlyRunningApp() {
             addApps(2);
 
-            var delegateA = findChild(phoneStage, "appDelegate0");
+            var delegateA = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateA);
-            var delegateB = findChild(phoneStage, "appDelegate1");
+            var delegateB = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(1));
             verify(delegateB);
 
             // A is focused and running, B is unfocused and suspended
@@ -410,7 +460,7 @@ Item {
             compare(delegateB.application.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
             // Switch foreground/focused appp from A to B
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
             phoneStage.select(delegateB.application.appId);
 
             // Now it's the other way round
@@ -424,14 +474,14 @@ Item {
         function test_dashRemainsRunningIfStageIsToldSo() {
             addApps(1);
 
-            var delegateDash = findChild(phoneStage, "appDelegate1");
+            var delegateDash = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(1));
             verify(delegateDash);
             compare(delegateDash.application.appId, "unity8-dash");
 
-            var delegateOther = findChild(phoneStage, "appDelegate0");
+            var delegateOther = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegateOther);
 
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
             phoneStage.select("unity8-dash");
 
             tryCompare(delegateDash, "focus", true);
@@ -439,7 +489,7 @@ Item {
             compare(delegateOther.focus, false);
             compare(delegateOther.application.requestedState, ApplicationInfoInterface.RequestedSuspended);
 
-            goToSpread();
+            performEdgeSwipeToShowAppSpread();
             phoneStage.select(delegateOther.application.appId);
 
             // The other app gets focused and running but dash is kept running despite being unfocused
@@ -452,7 +502,7 @@ Item {
         function test_foregroundAppIsSuspendedWhenStageIsSuspended() {
             addApps(1);
 
-            var delegate = findChild(phoneStage, "appDelegate0");
+            var delegate = findChild(phoneStage, "spreadDelegate_" + topLevelSurfaceList.idAt(0));
             verify(delegate);
 
             compare(delegate.focus, true);
@@ -475,6 +525,146 @@ Item {
                 phoneStage.pushRightEdge(1);
             }
             tryCompare(spreadView, "phase", 2);
+        }
+
+        function test_closeSurfaceOfMultiSurfaceApp() {
+            var surface1Id = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp(surface1Id);
+
+            var surface2Id = topLevelSurfaceList.nextId;
+            verify(surface1Id !== surface2Id); // sanity checking
+            webbrowserApp.createSurface();
+            waitUntilAppSurfaceShowsUp(surface2Id);
+
+            performEdgeSwipeToShowAppSpread();
+
+            var appDelegate = findChild(phoneStage, "spreadDelegate_" + surface1Id);
+            verify(appDelegate);
+            tryCompare(appDelegate, "swipeToCloseEnabled", true);
+
+            compare(webbrowserApp.surfaceList.count, 2);
+            compare(webbrowserApp.state, ApplicationInfoInterface.Running);
+
+            swipeSurfaceUpwards(surface1Id);
+
+            // Surface must eventually be gone
+            tryCompareFunction(function() { return topLevelSurfaceList.indexForId(surface1Id); }, -1);
+            tryCompare(webbrowserApp.surfaceList, "count", 1);
+            compare(webbrowserApp.state, ApplicationInfoInterface.Running);
+        }
+
+        /*
+            1- Suspended app gets killed behind the scenes, causing its surface to go zombie.
+            2- Surface gets screenshotted and removed. Its slot in the topLevelSurfaceList remains,
+               though (so ApplicationWindow can display the screenshot in its place).
+            3- User taps on the screenshot of the long-gone surface.
+
+            Expected outcome:
+            Application gets relaunched. Its new surface will seamlessly replace the screenshot.
+         */
+        function test_selectSuspendedAppWithoutSurface() {
+            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topLevelSurfaceList.idAt(0);
+            var dashSurface = topLevelSurfaceList.surfaceAt(0);
+
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            switchToSurface(dashSurfaceId);
+
+            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+
+            compare(webbrowserApp.surfaceList.count, 1);
+
+            // simulate the suspended app being killed by the out-of-memory daemon
+            webbrowserApp.surfaceList.get(0).setLive(false);
+
+            // wait until the surface is gone
+            tryCompare(webbrowserApp.surfaceList, "count", 0);
+
+            compare(topLevelSurfaceList.surfaceAt(topLevelSurfaceList.indexForId(webbrowserSurfaceId)), null);
+
+            switchToSurface(webbrowserSurfaceId);
+
+            // webbrowser should have been brought to front
+            tryCompareFunction(function(){return topLevelSurfaceList.idAt(0);}, webbrowserSurfaceId);
+
+            // and it should eventually get a new surface and get resumed
+            tryCompareFunction(function(){return topLevelSurfaceList.surfaceAt(0) !== null;}, true);
+            compare(topLevelSurfaceList.count, 2); // still two top-level items
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Running);
+            compare(webbrowserApp.surfaceList.count, 1);
+        }
+
+        /*
+            1 - user suspends an application (ie, focus a surface from a different application)
+            2 - That suspended application gets killed, causing its surface to go zombie
+            3 - user goes to spread and closes that zombie surface. Actually, by that time
+                Tablet shell will be displaying a screenshot of it instead, so there's no
+                MirSurface whatsoever backing it up.
+         */
+        function test_closeZombieSurface()
+        {
+            compare(topLevelSurfaceList.applicationAt(0).appId, "unity8-dash");
+            var dashSurfaceId = topLevelSurfaceList.idAt(0);
+            var dashSurface = topLevelSurfaceList.surfaceAt(0);
+
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            switchToSurface(dashSurfaceId);
+
+            tryCompare(MirFocusController, "focusedSurface", dashSurface);
+            tryCompare(webbrowserApp, "state", ApplicationInfoInterface.Suspended);
+
+            compare(webbrowserApp.surfaceList.count, 1);
+
+            // simulate the suspended app being killed by the out-of-memory daemon
+            webbrowserApp.surfaceList.get(0).setLive(false);
+
+            // wait until the surface is gone
+            tryCompare(webbrowserApp.surfaceList, "count", 0);
+            compare(topLevelSurfaceList.surfaceAt(topLevelSurfaceList.indexForId(webbrowserSurfaceId)), null);
+
+            performEdgeSwipeToShowAppSpread();
+
+            {
+                var appDelegate = findChild(phoneStage, "spreadDelegate_" + webbrowserSurfaceId);
+                verify(appDelegate);
+                tryCompare(appDelegate, "swipeToCloseEnabled", true);
+            }
+
+            swipeSurfaceUpwards(webbrowserSurfaceId);
+
+            // webbrowser entry is nowhere to be seen
+            tryCompareFunction(function(){return topLevelSurfaceList.indexForId(webbrowserSurfaceId);}, -1);
+
+            // nor is its app
+            compare(ApplicationManager.findApplication("webbrowser-app"), null);
+
+            // only unity8-dash surface is left
+            compare(topLevelSurfaceList.count, 1);
+        }
+
+
+        /*
+            Check that when an application starts while the spread is open, the
+            spread closes and that new app is brought to front (gets focused).
+         */
+        function test_launchAppWithSpreadOpen()
+        {
+            performEdgeSwipeToShowAppSpread();
+
+            var webbrowserSurfaceId = topLevelSurfaceList.nextId;
+            var webbrowserApp  = ApplicationManager.startApplication("webbrowser-app");
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            compare(topLevelSurfaceList.idAt(0), webbrowserSurfaceId);
+            compare(webbrowserApp.focused, true);
         }
     }
 }

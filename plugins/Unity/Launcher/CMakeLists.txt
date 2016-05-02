@@ -7,6 +7,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/plugins/AccountsService
     ${GSETTINGS_QT_INCLUDE_DIRS}
+    ${GLIB_INCLUDE_DIRS}
     ${libunity8-private_SOURCE_DIR}
 )
 
@@ -34,6 +35,7 @@ add_library(UnityLauncher-qml MODULE
 target_link_libraries(UnityLauncher-qml
     unity8-private
     ${GSETTINGS_QT_LDFLAGS}
+    ${GLIB_LIBRARIES}
     )
 
 qt5_use_modules(UnityLauncher-qml DBus Qml Gui)
