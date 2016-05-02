@@ -41,7 +41,10 @@ Item {
         value: false
     }
 
-    Component.onCompleted: resetGeometry()
+    Component.onCompleted: {
+        theme.name = "Ubuntu.Components.Themes.SuruDark";
+        resetGeometry();
+    }
 
     function resetGeometry() {
         // ensures apps which are tested decorations are in view.
@@ -71,7 +74,6 @@ Item {
         property bool itemDestroyed: false
         sourceComponent: Component {
             DesktopStage {
-                color: "white"
                 anchors.fill: parent
                 background: "../../../qml/graphics/tablet_background.jpg"
                 focus: true
@@ -91,8 +93,8 @@ Item {
 
     Rectangle {
         id: controls
-        color: "darkgrey"
         width: units.gu(30)
+        color: theme.palette.normal.background
         anchors {
             top: parent.top
             bottom: parent.bottom
@@ -107,7 +109,6 @@ Item {
                 spacing: units.gu(1)
 
                 Button {
-                    color: "white"
                     text: "Make surface slow to resize"
                     activeFocusOnPress: false
                     onClicked: {
@@ -134,7 +135,7 @@ Item {
                     }
                 }
 
-                SurfaceManagerControls { textColor: "white" }
+                SurfaceManagerControls { }
             }
         }
     }
@@ -645,6 +646,13 @@ Item {
 
             // verify the drop shadow is gone
             tryCompare(PanelState, "dropShadow", false);
+        }
+
+        function test_dashHasNoCloseButton() {
+            var dashAppDelegate = startApplication("unity8-dash");
+            verify(dashAppDelegate);
+            var closeButton = findChild(dashAppDelegate, "closeWindowButton");
+            tryCompare(closeButton, "visible", false);
         }
     }
 }

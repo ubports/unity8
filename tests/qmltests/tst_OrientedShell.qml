@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import QtTest 1.0
+import GSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Unity.Application 0.1
@@ -45,18 +46,17 @@ Rectangle {
         property int savedOrientation
     }
 
-    QtObject {
-        id: mockUnity8Settings
-        property string usageMode: usageModeSelector.model[usageModeSelector.selectedIndex]
+    GSettings {
+        id: unity8Settings
+        schema.id: "com.canonical.Unity8"
         onUsageModeChanged: {
             usageModeSelector.selectedIndex = usageModeSelector.model.indexOf(usageMode)
         }
     }
 
-    QtObject{
-        id: mockOskSettings
-        property bool stayHidden: false
-        property bool disableHeight: false
+    GSettings {
+        id: oskSettings
+        schema.id: "com.canonical.keyboard.maliit"
     }
 
     InputDeviceModel {
@@ -101,7 +101,7 @@ Rectangle {
             PropertyChanges {
                 target: orientedShellLoader
                 width: units.gu(160)
-                height: units.gu(100)
+                height: units.gu(60)
             }
             PropertyChanges {
                 target: root
@@ -116,7 +116,7 @@ Rectangle {
             name: "flo"
             PropertyChanges {
                 target: orientedShellLoader
-                width: units.gu(62)
+                width: units.gu(60)
                 height: units.gu(100)
             }
             PropertyChanges {
@@ -133,7 +133,7 @@ Rectangle {
             PropertyChanges {
                 target: orientedShellLoader
                 width: units.gu(100)
-                height: units.gu(56)
+                height: units.gu(65)
             }
             PropertyChanges {
                 target: root
@@ -158,8 +158,6 @@ Rectangle {
         sourceComponent: Component {
             OrientedShell {
                 anchors.fill: parent
-                unity8Settings: mockUnity8Settings
-                oskSettings: mockOskSettings
                 physicalOrientation: root.physicalOrientation0
                 orientationLocked: orientationLockedCheckBox.checked
                 orientationLock: mockOrientationLock
@@ -312,7 +310,7 @@ Rectangle {
                 function selectWindowed() {selectedIndex = 1;}
                 function selectAutomatic() {selectedIndex = 2;}
                 onSelectedIndexChanged: {
-                    mockUnity8Settings.usageMode = usageModeSelector.model[usageModeSelector.selectedIndex]
+                    GSettingsController.setUsageMode(usageModeSelector.model[usageModeSelector.selectedIndex]);
                 }
             }
             MouseTouchEmulationCheckbox {
@@ -474,6 +472,13 @@ Rectangle {
             // kill all (fake) running apps
             killApps();
 
+            while (miceModel.count > 0)
+                MockInputDeviceBackend.removeDevice("/mouse" + (miceModel.count - 1));
+            while (touchpadModel.count > 0)
+                MockInputDeviceBackend.removeDevice("/touchpad" + (touchpadModel.count - 1));
+            while (keyboardsModel.count > 0)
+                MockInputDeviceBackend.removeDevice("/kbd" + (keyboardsModel.count - 1))
+
             spreadRepeaterConnections.target = null;
             spreadRepeaterConnections.itemAddedCallback = null;
             signalSpy.target = null;
@@ -531,8 +536,6 @@ Rectangle {
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
         }
 
-/* Flaky in adt and cannot reproduce locally. Given the deadline I won't risk this getting stuck in proposed.
-   Adding a skip() seems to fail this nevertheless for accessing a null object
         function test_appSupportingOnlyPrimaryOrientationWillOnlyRotateInLandscape_data() {
             return [
                 {tag: "manta", deviceName: "manta"},
@@ -556,25 +559,25 @@ Rectangle {
             compare(dashApp.stage, ApplicationInfoInterface.MainStage);
 
             tryCompareFunction(function(){return dashApp.surfaceList.count > 0;}, true);
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
 
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
+
             rotateTo(90);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle));
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle);
 
             rotateTo(180);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180));
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
 
             rotateTo(270);
 
-            verify(checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180));
+            tryCompareFunction(function(){return checkAppSurfaceOrientation(dashAppWindow, dashApp, root.primaryOrientationAngle + 180)}, true);
             compare(shell.transformRotationAngle, root.primaryOrientationAngle + 180);
         }
-*/
 
         function test_greeterRemainsInPrimaryOrientation_data() {
             return [
@@ -1102,7 +1105,7 @@ Rectangle {
 
             tryCompare(shell, "usageScenario", "phone");
             tryCompare(inputMethod, "enabled", true);
-            tryCompare(mockOskSettings, "disableHeight", false);
+            tryCompare(oskSettings, "disableHeight", false);
 
             if (data.kbd) {
                 MockInputDeviceBackend.addMockDevice("/kbd0", InputInfo.Keyboard);
@@ -1113,14 +1116,7 @@ Rectangle {
 
             tryCompare(shell, "usageScenario", data.expectedMode);
             tryCompare(inputMethod, "enabled", data.oskExpected);
-            tryCompare(mockOskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
-
-            if (data.kbd) {
-                MockInputDeviceBackend.removeDevice("/kbd0");
-            }
-            if (data.mouse) {
-                MockInputDeviceBackend.removeDevice("/mouse0");
-            }
+            tryCompare(oskSettings, "disableHeight", data.expectedMode == "desktop" || data.kbd);
 
             // Restore width
             orientedShellLoader.width = oldWidth;
@@ -1159,6 +1155,18 @@ Rectangle {
 
             // Restore width
             orientedShellLoader.width = oldWidth;
+        }
+
+        function test_setsUsageModeOnStartup() {
+            // Prepare inconsistent beginning (mouse & staged mode)
+            MockInputDeviceBackend.addMockDevice("/mouse0", InputInfo.Mouse);
+            usageModeSelector.selectStaged();
+            compare(unity8Settings.usageMode, "Staged");
+
+            // Load shell, and have it pick desktop
+            loadShell("desktop");
+            compare(shell.usageScenario, "desktop");
+            compare(unity8Settings.usageMode, "Windowed");
         }
 
         function test_overrideWindowed() {

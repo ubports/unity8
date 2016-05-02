@@ -75,7 +75,7 @@ FocusScope {
         }
         source: "graphics/dropshadow2gu.sci"
         opacity: root.shadowOpacity * .3
-        enabled: !fullscreen
+        visible: !fullscreen
     }
 
     WindowDecoration {

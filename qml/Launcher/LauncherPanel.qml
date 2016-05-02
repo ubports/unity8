@@ -16,16 +16,14 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItems
 import Unity.Launcher 0.1
 import Ubuntu.Components.Popups 1.3
-import GlobalShortcut 1.0
 import "../Components/ListItems"
 import "../Components/"
 
 Rectangle {
     id: root
-    color: "#E0292929"
+    color: "#F2111111"
 
     rotation: inverted ? 180 : 0
 
@@ -634,9 +632,10 @@ Rectangle {
         id: quickListShape
         objectName: "quickListShape"
         anchors.fill: quickList
-        opacity: quickList.state === "open" ? 0.8 : 0
+        opacity: quickList.state === "open" ? 0.95 : 0
         visible: opacity > 0
         rotation: root.rotation
+        aspect: UbuntuShape.Flat
 
         Behavior on opacity {
             UbuntuNumberAnimation {}
@@ -697,7 +696,7 @@ Rectangle {
     Rectangle {
         id: quickList
         objectName: "quickList"
-        color: "#f5f5f5"
+        color: theme.palette.normal.background
         // Because we're setting left/right anchors depending on orientation, it will break the
         // width setting after rotating twice. This makes sure we also re-apply width on rotation
         width: root.inverted ? units.gu(30) : units.gu(30)
@@ -768,13 +767,9 @@ Rectangle {
             quickList.state = "open";
         }
 
-        StyledItem {
+        Item {
             width: parent.width
             height: quickListColumn.height
-
-            theme: ThemeSettings {
-                name: "Ubuntu.Components.Themes.Ambiance"
-            }
 
             Column {
                 id: quickListColumn
@@ -785,11 +780,28 @@ Rectangle {
                     id: popoverRepeater
                     model: quickList.model
 
-                    ListItems.Standard {
+                    ListItem {
                         objectName: "quickListEntry" + index
-                        text: (model.clickable ? "" : "<b>") + model.label + (model.clickable ? "" : "</b>")
-                        highlightWhenPressed: model.clickable
                         selected: index === quickList.selectedIndex
+                        height: label.implicitHeight + label.anchors.topMargin + label.anchors.bottomMargin
+                        color: model.clickable ? (selected ? theme.palette.highlighted.background : "transparent") : theme.palette.disabled.background
+                        highlightColor: !model.clickable ? quickList.color : undefined // make disabled items visually unclickable
+                        divider.colorFrom: UbuntuColors.inkstone
+                        divider.colorTo: UbuntuColors.inkstone
+
+                        Label {
+                            id: label
+                            anchors.fill: parent
+                            anchors.leftMargin: units.gu(3) // 2 GU for checkmark, 3 GU total
+                            anchors.rightMargin: units.gu(2)
+                            anchors.topMargin: units.gu(2)
+                            anchors.bottomMargin: units.gu(2)
+                            verticalAlignment: Label.AlignVCenter
+                            text: model.label
+                            fontSize: index == 0 ? "medium" : "small"
+                            font.weight: index == 0 ? Font.Medium : Font.Light
+                            color: model.clickable ? theme.palette.normal.backgroundText : theme.palette.disabled.backgroundText
+                        }
 
                         onClicked: {
                             if (!model.clickable) {
