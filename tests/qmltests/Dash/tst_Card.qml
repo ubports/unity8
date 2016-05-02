@@ -217,16 +217,16 @@ Rectangle {
 
         when: windowShown
 
-        property Item title: findChild(card, "titleLabel")
-        property Item subtitle: findChild(card, "subtitleLabel")
-        property var headerRow: findChild(card, "outerRow")
-        property var art: findChild(card, "artShape")
-        property Item artImage: findChild(card, "artImage")
-        property Item summary: findChild(card, "summaryLabel")
-        property Item background: findChild(card, "background")
-        property Item backgroundLoader: findChild(card, "backgroundLoader")
-        property Item backgroundImage: findChild(card, "backgroundImage")
-        property Item mascotImage: findChild(card, "mascotImage");
+        property Item title: findChild(loader, "titleLabel")
+        property Item subtitle: findChild(loader, "subtitleLabel")
+        property var headerRow: findChild(loader, "outerRow")
+        property var art: findChild(loader, "artShape")
+        property Item artImage: findChild(loader, "artImage")
+        property Item summary: findChild(loader, "summaryLabel")
+        property Item background: findChild(loader, "background")
+        property Item backgroundLoader: findChild(loader, "backgroundLoader")
+        property Item backgroundImage: findChild(loader, "backgroundImage")
+        property Item mascotImage: findChild(loader, "mascotImage");
 
         function init() {
             cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
