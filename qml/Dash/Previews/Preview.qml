@@ -105,7 +105,10 @@ Item {
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
 
-                    onHeightChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
+                    onHeightChanged: if (focus) {
+                        column.forceLayout();
+                        column.positionViewAtIndex(index, ListView.Contain)
+                    }
                 }
             }
         }

@@ -1,3 +1,61 @@
+unity8 (8.12+16.04.20160427.3-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add env var to enable js debugging/profiling even if not built on
+    debug mode
+  * Better error message if the item does not exist
+  * CardCreator: Remove ShaderEffectSource (LP: #1544875)
+  * Compile with Qt 5.6 (LP: #1565632)
+  * LVWPH: Account for contentHeight not really being "all" of the
+    content height (LP: #1569976)
+  * NotificationAudio: We don't need weird "ifdef" for multimedia 5.6 vs
+    5.0 roles anymore
+  * See all/less -> Show all/less (LP: #1349471)
+  * Stabilize test_superTabToCycleLauncher
+  * Take into account that sectionItem height can change
+  * Turn verify intro tryCompareFunction
+  * forceLayout before calling positionViewAtIndex (LP: #1553475)
+  * rootObject can be null for a small moment after setSource is called
+    (LP: #1560501)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel van Vugt ]
+  * Reinstate the touch performance/smoothness fix (LP: #1486341, LP:
+    #1556763). (LP: #1556763, #1486341)
+
+  [ Josh Arenson ]
+  * Change the color of the activity pulse to blue (LP: #1568082)
+  * Make scope filter settings button the same color as other foreground
+    elements (LP: #1563357)
+
+  [ Lukáš Tinkl ]
+  * Drop OOBE wizard autopilot tests
+  * Fix labels in desktop spread
+  * Fix upcoming event ETAs falling out of sync (LP: #1557571)
+  * Hide the close button for dash (LP: #1550056, #1564347)
+  * Notifications visual update, close button on mouse hover (LP:
+    #1564343)
+  * Shell visual update
+  * Stabilize wizard tests
+  * Unity8 windows now cascade instead of opening all in the top left
+    corner (LP: #1513813)
+
+  [ Michael Terry ]
+  * Fix some unreliable test code.
+  * Ignore Home Key presses when the greeter is up. (LP: #1565818)
+
+  [ Michael Zanetti ]
+  * Drop the rotation lock for the dash (LP: #1465331, #1574165)
+  * improve the pin lockscreen
+  * install devices.conf by default
+
+  [ Ted Gould ]
+  * Switch to using uid/pwdent for getting username
+
+ -- Michael Terry <michael.terry@canonical.com>  Wed, 27 Apr 2016 15:01:28 +0000
+
 unity8 (8.12+16.04.20160421.1-0ubuntu1) xenial; urgency=medium
 
   [ Daniel d'Andrada ]

@@ -30,6 +30,9 @@
 #include <QDateTime>
 #include <QDBusUnixFileDescriptor>
 
+// Glib
+#include <glib.h>
+
 #define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
 #define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
 #define LOGIN1_IFACE QStringLiteral("org.freedesktop.login1.Manager")
@@ -295,12 +298,7 @@ bool DBusUnitySessionService::CanLock() const
 
 QString DBusUnitySessionService::UserName() const
 {
-    struct passwd *p = getpwuid(geteuid());
-    if (p) {
-        return QString::fromUtf8(p->pw_name);
-    }
-
-    return QString();
+    return QString::fromUtf8(g_get_user_name());
 }
 
 QString DBusUnitySessionService::RealName() const

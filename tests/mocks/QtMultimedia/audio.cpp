@@ -34,6 +34,19 @@ Audio::Audio(QObject* parent):
     Q_EMIT durationChanged(m_duration);
 }
 
+QUrl Audio::source() const
+{
+    return m_source;
+}
+
+void Audio::setSource(const QUrl &source)
+{
+    if (m_source != source) {
+        m_source = source;
+        Q_EMIT sourceChanged(source);
+    }
+}
+
 Audio::PlaybackState Audio::playbackState() const
 {
     return m_playbackState;

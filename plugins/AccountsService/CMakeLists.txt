@@ -1,4 +1,5 @@
 add_definitions(-DSM_BUSNAME=systemBus)
+include_directories(${GLIB_INCLUDE_DIRS})
 
 add_library(AccountsService-qml MODULE
     AccountsService.cpp
@@ -7,6 +8,10 @@ add_library(AccountsService-qml MODULE
     )
 
 qt5_use_modules(AccountsService-qml DBus Qml)
+
+target_link_libraries(AccountsService-qml
+    ${GLIB_LIBRARIES}
+    )
 
 add_unity8_plugin(AccountsService 0.1 AccountsService TARGETS AccountsService-qml)
 
