@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -37,7 +37,6 @@ FocusScope {
                                                       | Qt.LandscapeOrientation
                                                       | Qt.InvertedPortraitOrientation
                                                       | Qt.InvertedLandscapeOrientation
-    readonly property alias appWindow: appWindow
 
     // to be set from outside
     property bool interactive: true
@@ -46,6 +45,7 @@ FocusScope {
     property alias swipeToCloseEnabled: dragArea.enabled
     property bool closeable
     property alias application: appWindow.application
+    property alias surface: appWindow.surface
     property int shellOrientationAngle
     property int shellOrientation
     property QtObject orientations
@@ -251,7 +251,7 @@ FocusScope {
                     }
                     PropertyChanges {
                         target: appWindow
-                        surfaceOrientationAngle: orientationAngle
+                        surfaceOrientationAngle: appWindowWithShadow.orientationAngle
                     }
                 },
                 State {
@@ -293,7 +293,7 @@ FocusScope {
 
             ApplicationWindow {
                 id: appWindow
-                objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+                objectName: "appWindow"
                 focus: true
                 anchors {
                     fill: parent

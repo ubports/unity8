@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-27 15:01+0000\n"
 "PO-Revision-Date: 2015-07-06 05:33+0000\n"
 "Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2016-03-24 06:08+0000\n"
-"X-Generator: Launchpad (build 17958)\n"
+"X-Launchpad-Export-Date: 2016-04-30 05:37+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -79,7 +79,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Выйти из системы"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -98,27 +98,27 @@ msgstr "Перезагрузить систему?"
 msgid "No"
 msgstr "Нет"
 
-#: qml/Components/Dialogs.qml:183
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "Да"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Питание"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
 msgstr "Отключить питание?"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Отключить"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Перезагрузить"
@@ -190,15 +190,15 @@ msgstr ""
 
 #: qml/Dash/FiltersPopover.qml:69
 msgid "Reset"
-msgstr ""
+msgstr "Сбросить"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
-msgid "See less"
-msgstr "Вкратце"
+msgid "Show less"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:570
-msgid "See all"
-msgstr "Показать всё"
+msgid "Show all"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
@@ -207,11 +207,11 @@ msgstr "Поиск"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:55
 msgid "Recent Searches"
-msgstr ""
+msgstr "Недавние поиски"
 
 #: qml/Dash/PageHeaderExtraPanel.qml:66
 msgid "Clear All"
-msgstr ""
+msgstr "Очистить всё"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -267,6 +267,8 @@ msgid ""
 "Your device is now connected to an external display. Use this screen as a "
 "touch pad to interact with the pointer."
 msgstr ""
+"Ваше устройство подключено к внешнему дисплею. Используйте этот экран как "
+"сенсорную панель для управления указателем."
 
 #: qml/Greeter/CoverPage.qml:118
 msgid "Unlock"
@@ -339,7 +341,7 @@ msgstr "Повторите ввод"
 msgid "Sorry, incorrect passcode"
 msgstr "Секретный код введён неверно"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "Показать пароль"
 
@@ -351,11 +353,11 @@ msgstr "Нажмите для возврата к вызову..."
 msgid "Conference"
 msgstr "Конференция"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:761
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "Ничего не воспроизводится"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -363,7 +365,7 @@ msgstr[0] "%1 час"
 msgstr[1] "%1 часа"
 msgstr[2] "%1 часов"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -371,7 +373,7 @@ msgstr[0] "%1 минута"
 msgstr[1] "%1 минуты"
 msgstr[2] "%1 минут"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:899
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -379,37 +381,37 @@ msgstr[0] "%1 секунда"
 msgstr[1] "%1 секунды"
 msgstr[2] "%1 секунд"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "0 секунд"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "Осталось %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "В очереди..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "Загрузка"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "Приостановлено, нажмите для возобновления"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:918
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "Отменено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "Завершено"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:922
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "Сбой, нажмите для повтора"
 
@@ -453,19 +455,19 @@ msgstr ""
 msgid "Swipe up to manage the app"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr ""
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
 msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 
@@ -484,7 +486,7 @@ msgstr "Назад"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
 #: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
@@ -501,7 +503,7 @@ msgstr "Подключение к Wi‑Fi"
 
 #: qml/Wizard/Pages/30-wifi.qml:130
 msgid "Connected"
-msgstr ""
+msgstr "Подключено"
 
 #: qml/Wizard/Pages/30-wifi.qml:163
 msgid "Available Wi-Fi networks"
@@ -538,7 +540,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/40-location.qml:160
 msgid "GPS only"
-msgstr ""
+msgstr "Только GPS"
 
 #: qml/Wizard/Pages/40-location.qml:214
 msgid "Don't use my location"
@@ -550,11 +552,11 @@ msgstr ""
 
 #: qml/Wizard/Pages/50-timezone.qml:29
 msgid "Time Zone"
-msgstr ""
+msgstr "Часовой пояс"
 
 #: qml/Wizard/Pages/50-timezone.qml:178
 msgid "Enter your city"
-msgstr ""
+msgstr "Введите ваш город"
 
 #: qml/Wizard/Pages/60-account.qml:24
 msgid "Personalize Your Device"
@@ -571,7 +573,7 @@ msgstr ""
 #: qml/Wizard/Pages/70-passwd-type.qml:101
 msgctxt "Label: Type of security method"
 msgid "Create new password"
-msgstr ""
+msgstr "Создать новый пароль"
 
 #: qml/Wizard/Pages/70-passwd-type.qml:103
 msgctxt "Label: Type of security method"
@@ -601,7 +603,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/80-finished.qml:89
 msgid "Welcome to Ubuntu"
-msgstr ""
+msgstr "Добро пожаловать в Ubuntu"
 
 #: qml/Wizard/Pages/80-finished.qml:104
 msgid "You are ready to use your device now"
@@ -653,7 +655,7 @@ msgstr ""
 #: qml/Wizard/Pages/passcode-confirm.qml:45
 msgctxt "Enter the passcode again"
 msgid "Please re-enter."
-msgstr ""
+msgstr "Введите заново."
 
 #: qml/Wizard/Pages/passcode-desktop.qml:30
 msgid "Lock Screen Passcode"
@@ -682,7 +684,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/passcode-set.qml:62
 msgid "Passcode must be 4 characters long"
-msgstr ""
+msgstr "Код должен содержать 4 символа"
 
 #: qml/Wizard/Pages/password-set.qml:30
 msgid "Lock Screen Password"
@@ -690,7 +692,7 @@ msgstr ""
 
 #: qml/Wizard/Pages/password-set.qml:61
 msgid "Enter at least 8 characters"
-msgstr ""
+msgstr "Введите не менее 8 символов"
 
 #: qml/Wizard/Pages/password-set.qml:73
 msgid "Choose password"
@@ -698,19 +700,19 @@ msgstr ""
 
 #: qml/Wizard/Pages/password-set.qml:103
 msgid "Confirm password"
-msgstr ""
+msgstr "Подтвердите пароль"
 
 #: qml/Wizard/Pages/sim.qml:27
 msgid "No SIM card installed"
-msgstr ""
+msgstr "SIM-карта не вставлена"
 
 #: qml/Wizard/Pages/sim.qml:54
 msgid "SIM card added"
-msgstr ""
+msgstr "Добавлена SIM-карта"
 
 #: qml/Wizard/Pages/sim.qml:55
 msgid "You must restart the device to access the mobile network."
-msgstr ""
+msgstr "Необходимо перезапустить устройство для доступа к мобильной сети."
 
 #: qml/Wizard/Pages/sim.qml:59
 msgid "Restart"
@@ -719,6 +721,7 @@ msgstr "Перезагрузить"
 #: qml/Wizard/Pages/sim.qml:78
 msgid "You won’t be able to make calls or use text messaging without a SIM."
 msgstr ""
+"Без SIM-карты невозможно делать звонки или отправлять текстовые сообщения."
 
 #: qml/Wizard/Pages/sim.qml:90
 msgid "To proceed with no SIM tap Skip."
@@ -726,11 +729,11 @@ msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:87
 msgid "Passwords match"
-msgstr ""
+msgstr "Пароли совпадают"
 
 #: qml/Wizard/PasswordMeter.qml:89
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Пароли не совпадают"
 
 #: qml/Wizard/PasswordMeter.qml:93
 msgid "Strong password"
@@ -742,11 +745,11 @@ msgstr ""
 
 #: qml/Wizard/PasswordMeter.qml:97
 msgid "Weak password"
-msgstr ""
+msgstr "Слабый пароль"
 
 #: qml/Wizard/PasswordMeter.qml:99
 msgid "Very weak password"
-msgstr ""
+msgstr "Very weak password"
 
 #~ msgid "Type or say a command"
 #~ msgstr "Введите или произнесите команду"
@@ -801,12 +804,18 @@ msgstr ""
 #~ "Переместите палец от левого края вправо для открытия лаунчера для быстрого "
 #~ "доступа к приложениям"
 
+#~ msgid "See less"
+#~ msgstr "Вкратце"
+
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
 #~ "Вы научились пользоваться Ubuntu и можете начать использовать свой "
 #~ "телефон<br><br>Нажмите на экран"
+
+#~ msgid "See all"
+#~ msgstr "Показать всё"
 
 #~ msgid "Unlock SIM"
 #~ msgstr "Разблокировать SIM-карту"
@@ -1067,3 +1076,6 @@ msgstr ""
 
 #~ msgid "Call back"
 #~ msgstr "Позвонить"
+
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "Наведите указатель на правый угол, чтобы увидеть открытые приложения"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-27 15:01+0000\n"
 "PO-Revision-Date: 2015-11-27 19:38+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Bengali <bn@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-03-24 06:07+0000\n"
-"X-Generator: Launchpad (build 17958)\n"
+"X-Launchpad-Export-Date: 2016-04-30 05:36+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -73,7 +73,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -92,16 +92,16 @@ msgstr "আপনি কি পুনরায় চালু করতে চা�
 msgid "No"
 msgstr "না"
 
-#: qml/Components/Dialogs.qml:183
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "হ্যাঁ"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr ""
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -109,12 +109,12 @@ msgstr ""
 "আপনি নিশ্চিত যে আপনি\n"
 "বন্ধ করতে চান?"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "বন্ধ করুন"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "পুনরায় চালু"
@@ -189,12 +189,12 @@ msgid "Reset"
 msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
-msgid "See less"
-msgstr "কম দেখুন"
+msgid "Show less"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:570
-msgid "See all"
-msgstr "সব দেখুন"
+msgid "Show all"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
@@ -332,7 +332,7 @@ msgstr "অনুগ্রহ করে আবার লিখুন"
 msgid "Sorry, incorrect passcode"
 msgstr "দুঃখিত, পাসকোড ভুল হয়েছে"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "পাসওয়ার্ড দেখান"
 
@@ -344,62 +344,62 @@ msgstr "কলে ফিরে যেতে চাপ দিন..."
 msgid "Conference"
 msgstr "কনফারেন্স"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:761
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "কোন কিছু বাজছে না।"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ঘণ্টা"
 msgstr[1] "%1 ঘণ্টা"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 মিনিট"
 msgstr[1] "%1 মিনিট"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:899
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 সেকেন্ড"
 msgstr[1] "%1 সেকেন্ড"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "0 সেকেন্ড"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 বাকি"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "অপেক্ষায় রয়েছে..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "ডাউনলোড হচ্ছে"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "থামানো, শুরু করতে চাপ দিন"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:918
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "বাতিল হয়েছে"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "শেষ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:922
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "ব্যার্থ হয়েছে, পুনরায় চেষ্টা করতে চাপ দিন"
 
@@ -443,19 +443,19 @@ msgstr ""
 msgid "Swipe up to manage the app"
 msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr ""
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
 msgstr ""
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr ""
 
@@ -741,6 +741,12 @@ msgstr ""
 #~ msgctxt "Button: Reboot the system"
 #~ msgid "Reboot"
 #~ msgstr "পুনরায় চালু করুন"
+
+#~ msgid "See all"
+#~ msgstr "সব দেখুন"
+
+#~ msgid "See less"
+#~ msgstr "কম দেখুন"
 
 #~ msgid "This action does different things for different apps"
 #~ msgstr "এই কাজটি বিভিন্ন অ্যাপের জন্য ভিন্ন ভিন্ন ভাবে কাজ করে।"

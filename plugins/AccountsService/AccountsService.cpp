@@ -22,6 +22,8 @@
 #include <QStringList>
 #include <QDebug>
 
+#include <glib.h>
+
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
 #define IFACE_LOCATION_HERE          QStringLiteral("com.ubuntu.location.providers.here.AccountsService")
 #define IFACE_UBUNTU_INPUT           QStringLiteral("com.ubuntu.AccountsService.Input")
@@ -126,7 +128,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
                   m_unityInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
-    setUser(!user.isEmpty() ? user : QString::fromUtf8(qgetenv("USER")));
+    setUser(!user.isEmpty() ? user : QString::fromUtf8(g_get_user_name()));
 }
 
 QString AccountsService::user() const

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,44 +36,40 @@ StyledItem {
     property var type
     property var hints
     property var notification
-    property color color
+    property color color: theme.palette.normal.background
     property bool fullscreen: false
     property int maxHeight
-    property int margins
-    readonly property bool draggable: (type === Notification.SnapDecision && state === "contracted") || type === Notification.Interactive || type === Notification.Ephemeral
-    readonly property bool darkOnBright: inverseMode || type === Notification.SnapDecision
-    readonly property color sdLightGrey: "#eaeaea"
-    readonly property real contentSpacing: units.gu(2)
-    readonly property bool canBeClosed: type === Notification.Ephemeral
+    property int margins: units.gu(1)
+
+    readonly property real defaultOpacity: 1.0
     property bool hasMouse
-    property bool inverseMode
     property url background: ""
 
     objectName: "background"
-    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height - shapedBack.anchors.topMargin + contentSpacing * 2) : 0
+    implicitHeight: type !== Notification.PlaceHolder ? (fullscreen ? maxHeight : outterColumn.height + shapedBack.anchors.topMargin + margins * 2) : 0
 
-    color: (type === Notification.Confirmation && notificationList.useModal && !greeter.shown) || darkOnBright ? sdLightGrey : Qt.rgba(0.132, 0.117, 0.109, 0.97)
-    opacity: 1 - (x / notification.width) // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
+    // FIXME: non-zero initially because of LP: #1354406 workaround, we want this to start at 0 upon creation eventually
+    opacity: defaultOpacity - Math.abs(x / notification.width)
 
     theme: ThemeSettings {
-        name: darkOnBright ? "Ubuntu.Components.Themes.Ambiance" : "Ubuntu.Components.Themes.SuruDark"
+        name: "Ubuntu.Components.Themes.Ambiance"
     }
 
-    state: {
-        var result = "";
+    readonly property bool expanded: {
+        var result = false;
 
-        if (type == Notification.SnapDecision) {
-            if (ListView.view.currentIndex == index) {
-                result = "expanded";
+        if (type === Notification.SnapDecision) {
+            if (ListView.view.currentIndex === index) {
+                result = true;
             } else {
                 if (ListView.view.count > 2) {
-                    if (ListView.view.currentIndex == -1 && index == 1) {
-                        result = "expanded";
+                    if (ListView.view.currentIndex === -1 && index == 1) {
+                        result = true;
                     } else {
-                        result = "contracted";
+                        result = false;
                     }
                 } else {
-                    result = "expanded";
+                    result = true;
                 }
             }
         }
@@ -90,72 +86,66 @@ StyledItem {
     Component.onCompleted: {
         // Turn on screen as needed (Powerd.Notification means the screen
         // stays on for a shorter amount of time)
-        if (type == Notification.SnapDecision) {
+        if (type === Notification.SnapDecision) {
             Powerd.setStatus(Powerd.On, Powerd.SnapDecision);
-        } else if (type != Notification.Confirmation) {
+        } else if (type !== Notification.Confirmation) {
             Powerd.setStatus(Powerd.On, Powerd.Notification);
         }
 
         // FIXME: using onCompleted because of LP: #1354406 workaround, has to be onOpacityChanged really
-        if (opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
+        if (opacity == defaultOpacity && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
 
-    Behavior on x {
-        id: normalXBehavior
-
-        enabled: draggable
-        UbuntuNumberAnimation {
-            duration: UbuntuAnimation.FastDuration
-            easing.type: Easing.OutBounce
+    function closeNotification() {
+        if (notification.actions.count > 1) { // perform the "reject" action
+            notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
         }
+        notification.notification.close();
+    }
+
+    Behavior on x {
+        UbuntuNumberAnimation { easing.type: Easing.OutBounce }
     }
 
     onHintsChanged: {
-        if (type === Notification.Confirmation && opacity == 1.0 && hints["suppress-sound"] !== "true" && sound.source !== "") {
+        if (type === Notification.Confirmation && opacity == defaultOpacity && hints["suppress-sound"] !== "true" && sound.source !== "") {
             sound.play();
         }
     }
 
     Behavior on height {
-        id: normalHeightBehavior
-
-        //enabled: menuItemFactory.progress == 1
-        enabled: true
         UbuntuNumberAnimation {
             duration: UbuntuAnimation.SnapDuration
         }
     }
 
-    states:[
-        State {
-            name: "contracted"
-            PropertyChanges {target: notification; height: units.gu(10)}
-        },
-        State {
-            name: "expanded"
-            PropertyChanges {target: notification; height: implicitHeight}
+    visible: type !== Notification.PlaceHolder
+
+    BorderImage {
+        anchors {
+            fill: contents
+            margins: shapedBack.visible ? -units.gu(1) : -units.gu(1.5)
         }
-    ]
-
-    clip: fullscreen ? false : true
-
-    visible: type != Notification.PlaceHolder
+        source: "../Stages/graphics/dropshadow2gu.sci"
+        opacity: notification.opacity * 0.5
+        enabled: !fullscreen
+    }
 
     UbuntuShape {
         id: shapedBack
+        objectName: "shapedBack"
 
         visible: !fullscreen
         anchors {
             fill: parent
             leftMargin: notification.margins
             rightMargin: notification.margins
-            topMargin: type === Notification.Confirmation ? units.gu(.5) : 0
+            topMargin: index == 0 ? notification.margins : 0
         }
         backgroundColor: parent.color
-        opacity: parent.opacity
-        radius: "medium"
+        radius: "small"
         aspect: UbuntuShape.Flat
     }
 
@@ -165,12 +155,11 @@ StyledItem {
         visible: fullscreen
         anchors.fill: parent
         color: parent.color
-        opacity: parent.opacity
     }
 
     onXChanged: {
-        if (draggable && notification.x > 0.75 * notification.width) {
-            notification.notification.close()
+        if (Math.abs(notification.x) > 0.75 * notification.width) {
+            closeNotification();
         }
     }
 
@@ -210,22 +199,21 @@ StyledItem {
             anchors.fill: parent
             objectName: "interactiveArea"
 
-            drag.target: draggable ? notification : undefined
+            drag.target: notification
             drag.axis: Drag.XAxis
-            drag.minimumX: 0
+            drag.minimumX: -notification.width
             drag.maximumX: notification.width
+            hoverEnabled: true
 
             onClicked: {
-                if (notification.type == Notification.Interactive) {
+                if (notification.type === Notification.Interactive) {
                     notification.notification.invokeAction(actionRepeater.itemAt(0).actionId)
-                } else if (hasMouse && canBeClosed) {
-                    notification.notification.close()
                 } else {
                     notificationList.currentIndex = index;
                 }
             }
             onReleased: {
-                if (notification.x < notification.width / 2) {
+                if (Math.abs(notification.x) < notification.width / 2) {
                     notification.x = 0
                 } else {
                     notification.x = notification.width
@@ -233,44 +221,61 @@ StyledItem {
             }
         }
 
+        NotificationButton {
+            objectName: "closeButton"
+            width: units.gu(2)
+            height: width
+            radius: width / 2
+            visible: hasMouse && (containsMouse || interactiveArea.containsMouse)
+            iconName: "close"
+            outline: false
+            hoverEnabled: true
+            color: theme.palette.normal.negative
+            anchors.horizontalCenter: parent.left
+            anchors.horizontalCenterOffset: notification.parent.state === "narrow" ? notification.margins / 2 : 0
+            anchors.verticalCenter: parent.top
+            anchors.verticalCenterOffset: notification.parent.state === "narrow" ? notification.margins / 2 : 0
+
+            onClicked: closeNotification();
+        }
+
         Column {
             id: outterColumn
+            objectName: "outterColumn"
 
             anchors {
                 left: parent.left
                 right: parent.right
                 top: parent.top
-                margins: 0
-                topMargin: fullscreen ? 0 : type === Notification.Confirmation ? units.gu(1) : units.gu(2)
+                margins: !fullscreen ? notification.margins : 0
             }
 
-            spacing: type === Notification.Confirmation ? units.gu(1) : units.gu(2)
+            spacing: notification.margins
 
             Row {
                 id: topRow
 
-                spacing: contentSpacing
+                spacing: notification.margins
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
 
                 ShapedIcon {
                     id: icon
 
                     objectName: "icon"
-                    width: type == Notification.Ephemeral && !bodyLabel.visible ? units.gu(3) : units.gu(6)
+                    width: units.gu(6)
                     height: width
-                    shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
-                    visible: iconSource !== undefined && iconSource !== "" && type !== Notification.Confirmation
+                    shaped: notification.hints["x-canonical-non-shaped-icon"] !== "true"
+                    visible: iconSource !== "" && type !== Notification.Confirmation
                 }
 
                 Column {
                     id: labelColumn
-                    width: secondaryIcon.visible ? parent.width - x - units.gu(4.5) : parent.width - x
-
+                    width: secondaryIcon.visible ? parent.width - x - units.gu(3) : parent.width - x
                     anchors.verticalCenter: (icon.visible && !bodyLabel.visible) ? icon.verticalCenter : undefined
+                    spacing: units.gu(.4)
 
                     Label {
                         id: summaryLabel
@@ -282,6 +287,8 @@ StyledItem {
                         }
                         visible: type !== Notification.Confirmation
                         fontSize: "medium"
+                        font.weight: Font.Light
+                        color: theme.palette.normal.backgroundSecondaryText
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
                     }
@@ -296,10 +303,13 @@ StyledItem {
                         }
                         visible: body != "" && type !== Notification.Confirmation
                         fontSize: "small"
+                        font.weight: Font.Light
+                        color: theme.palette.normal.backgroundTertiaryText
                         wrapMode: Text.Wrap
-                        maximumLineCount: type == Notification.SnapDecision ? 12 : 2
+                        maximumLineCount: type === Notification.SnapDecision ? 12 : 2
                         elide: Text.ElideRight
                         textFormat: Text.PlainText
+                        lineHeight: 1.1
                     }
                 }
 
@@ -307,25 +317,34 @@ StyledItem {
                     id: secondaryIcon
 
                     objectName: "secondaryIcon"
-                    width: units.gu(3)
-                    height: units.gu(3)
+                    width: units.gu(2)
+                    height: width
                     visible: status === Image.Ready
                     fillMode: Image.PreserveAspectCrop
                 }
             }
 
             ListItem.ThinDivider {
-                visible: type == Notification.SnapDecision
+                visible: type === Notification.SnapDecision && notification.expanded
+            }
+
+            Icon {
+                name: "toolkit_chevron-down_3gu"
+                visible: type === Notification.SnapDecision && !notification.expanded
+                width: units.gu(2)
+                height: width
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: theme.palette.normal.base
             }
 
             ShapedIcon {
                 id: centeredIcon
                 objectName: "centeredIcon"
-                width: units.gu(5)
+                width: units.gu(4)
                 height: width
-                shaped: notification.hints["x-canonical-non-shaped-icon"] == "true" ? false : true
+                shaped: notification.hints["x-canonical-non-shaped-icon"] !== "true"
                 fileSource: icon.fileSource
-                visible: fileSource !== undefined && fileSource !== "" && type === Notification.Confirmation
+                visible: fileSource !== "" && type === Notification.Confirmation
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
@@ -336,44 +355,32 @@ StyledItem {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: type === Notification.Confirmation && body !== ""
                 fontSize: "medium"
+                font.weight: Font.Light
+                color: theme.palette.normal.backgroundSecondaryText
                 wrapMode: Text.WordWrap
                 maximumLineCount: 1
                 elide: Text.ElideRight
                 textFormat: Text.PlainText
             }
 
-            UbuntuShape {
+            ProgressBar {
                 id: valueIndicator
                 objectName: "valueIndicator"
                 visible: type === Notification.Confirmation
-                property double value
-
+                minimumValue: 0
+                maximumValue: 100
+                showProgressPercentage: false
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
-
                 height: units.gu(1)
-                backgroundColor: theme.palette.normal.background
-                aspect: UbuntuShape.Flat
-                radius: "small"
-
-                UbuntuShape {
-                    id: innerBar
-                    objectName: "innerBar"
-                    width: valueIndicator.width * valueIndicator.value / 100
-                    height: units.gu(1)
-                    backgroundColor: notification.hints["x-canonical-value-bar-tint"] === "true" ? theme.palette.normal.activity : theme.palette.highlighted.foreground
-                    aspect: UbuntuShape.Flat
-                    radius: "small"
-                }
             }
 
             Column {
                 id: dialogColumn
                 objectName: "dialogListView"
-                spacing: units.gu(2)
+                spacing: notification.margins
 
                 visible: count > 0
 
@@ -417,12 +424,11 @@ StyledItem {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
 
-                spacing: contentSpacing
+                spacing: notification.margins
 
-                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3
+                visible: notification.type === Notification.SnapDecision && oneOverTwoRepeaterTop.count === 3 && notification.expanded
 
                 Repeater {
                     id: oneOverTwoRepeaterTop
@@ -437,11 +443,13 @@ StyledItem {
                         Component {
                             id: oneOverTwoButtonTop
 
-                            Button {
+                            NotificationButton {
                                 objectName: "notify_oot_button" + index
                                 width: oneOverTwoCase.width
                                 text: oneOverTwoLoaderTop.actionLabel
-                                color: notification.hints["x-canonical-private-affirmative-tint"] == "true" ? UbuntuColors.green : theme.palette.normal.baseText
+                                outline: notification.hints["x-canonical-private-affirmative-tint"] !== "true"
+                                color: notification.hints["x-canonical-private-affirmative-tint"] === "true" ? theme.palette.normal.positive
+                                                                                                             : theme.palette.normal.foreground
                                 onClicked: notification.notification.invokeAction(oneOverTwoLoaderTop.actionId)
                             }
                         }
@@ -450,7 +458,7 @@ StyledItem {
                 }
 
                 Row {
-                    spacing: contentSpacing
+                    spacing: notification.margins
 
                     Repeater {
                         id: oneOverTwoRepeaterBottom
@@ -465,11 +473,13 @@ StyledItem {
                             Component {
                                 id: oneOverTwoButtonBottom
 
-                                Button {
+                                NotificationButton {
                                     objectName: "notify_oot_button" + index
-                                    width: oneOverTwoCase.width / 2 - spacing * 2
+                                    width: oneOverTwoCase.width / 2 - spacing / 2
                                     text: oneOverTwoLoaderBottom.actionLabel
-                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true" ? UbuntuColors.red : theme.palette.normal.baseText
+                                    outline: notification.hints["x-canonical-private-rejection-tint"] !== "true"
+                                    color: index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true" ? theme.palette.normal.negative
+                                                                                                                             : theme.palette.normal.foreground
                                     onClicked: notification.notification.invokeAction(oneOverTwoLoaderBottom.actionId)
                                 }
                             }
@@ -486,10 +496,9 @@ StyledItem {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
-                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible
-                spacing: contentSpacing
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 0 && !oneOverTwoCase.visible && notification.expanded
+                spacing: notification.margins
                 layoutDirection: Qt.RightToLeft
 
                 Loader {
@@ -525,17 +534,19 @@ StyledItem {
                         Component {
                             id: actionButton
 
-                            Button {
+                            NotificationButton {
                                 objectName: "notify_button" + index
-                                width: buttonRow.width / 2 - spacing * 2
+                                width: buttonRow.width / 2 - spacing / 2
                                 text: loader.actionLabel
+                                outline: (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] !== "true") ||
+                                         (index == 1 && notification.hints["x-canonical-private-rejection-tint"] !== "true")
                                 color: {
-                                    var result = theme.palette.normal.baseText;
-                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] == "true") {
-                                        result = UbuntuColors.green;
+                                    var result = theme.palette.normal.foreground;
+                                    if (index == 0 && notification.hints["x-canonical-private-affirmative-tint"] === "true") {
+                                        result = theme.palette.normal.positive;
                                     }
-                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] == "true") {
-                                        result = UbuntuColors.red;
+                                    if (index == 1 && notification.hints["x-canonical-private-rejection-tint"] === "true") {
+                                        result = theme.palette.normal.negative;
                                     }
                                     return result;
                                 }
@@ -554,10 +565,9 @@ StyledItem {
                 anchors {
                     left: parent.left
                     right: parent.right
-                    margins: contentSpacing
                 }
 
-                visible: notification.type == Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible
+                visible: notification.type === Notification.SnapDecision && actionRepeater.count > 3 && !oneOverTwoCase.visible && notification.expanded
                 model: notification.actions
                 expanded: false
                 startIndex: 2

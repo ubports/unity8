@@ -21,9 +21,11 @@
 GSettingsControllerQml* GSettingsControllerQml::s_controllerInstance = 0;
 
 GSettingsControllerQml::GSettingsControllerQml()
-    : m_usageMode("Staged")
+    : m_disableHeight(false)
+    , m_usageMode("Staged")
     , m_autohideLauncher(false)
     , m_launcherWidth(8)
+    , m_edgeDragWidth(2)
 {
 }
 
@@ -36,6 +38,19 @@ GSettingsControllerQml* GSettingsControllerQml::instance()  {
         s_controllerInstance = new GSettingsControllerQml();
     }
     return s_controllerInstance;
+}
+
+bool GSettingsControllerQml::disableHeight() const
+{
+    return m_disableHeight;
+}
+
+void GSettingsControllerQml::setDisableHeight(bool val)
+{
+    if (val != m_disableHeight) {
+        m_disableHeight = val;
+        Q_EMIT disableHeightChanged();
+    }
 }
 
 QString GSettingsControllerQml::pictureUri() const
@@ -116,6 +131,19 @@ void GSettingsControllerQml::setLauncherWidth(int launcherWidth)
     }
 }
 
+uint GSettingsControllerQml::edgeDragWidth() const
+{
+    return m_edgeDragWidth;
+}
+
+void GSettingsControllerQml::setEdgeDragWidth(uint edgeDragWidth)
+{
+    if (m_edgeDragWidth != edgeDragWidth) {
+        m_edgeDragWidth = edgeDragWidth;
+        Q_EMIT edgeDragWidthChanged(edgeDragWidth);
+    }
+}
+
 GSettingsSchemaQml::GSettingsSchemaQml(QObject *parent): QObject(parent) {
 }
 
@@ -146,9 +174,26 @@ void GSettingsSchemaQml::setPath(const QByteArray &path) {
 }
 
 GSettingsQml::GSettingsQml(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_valid(false)
 {
     m_schema = new GSettingsSchemaQml(this);
+}
+
+void GSettingsQml::classBegin()
+{
+}
+
+void GSettingsQml::componentComplete()
+{
+    // Emulate what the real GSettings module does, and only return undefined
+    // values until we are completed loading.
+    m_valid = true;
+
+    // FIXME: We should make this dynamic, instead of hard-coding all possible
+    // properties in one object.  We should create properties based on the schema.
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::disableHeightChanged,
+            this, &GSettingsQml::disableHeightChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::pictureUriChanged,
             this, &GSettingsQml::pictureUriChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::usageModeChanged,
@@ -161,104 +206,147 @@ GSettingsQml::GSettingsQml(QObject *parent)
             this, &GSettingsQml::autohideLauncherChanged);
     connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::launcherWidthChanged,
             this, &GSettingsQml::launcherWidthChanged);
+    connect(GSettingsControllerQml::instance(), &GSettingsControllerQml::edgeDragWidthChanged,
+            this, &GSettingsQml::edgeDragWidthChanged);
+
+    Q_EMIT disableHeightChanged();
+    Q_EMIT pictureUriChanged();
+    Q_EMIT usageModeChanged();
+    Q_EMIT lockedOutTimeChanged();
+    Q_EMIT lifecycleExemptAppidsChanged();
+    Q_EMIT autohideLauncherChanged();
+    Q_EMIT launcherWidthChanged();
+    Q_EMIT edgeDragWidthChanged();
 }
 
 GSettingsSchemaQml * GSettingsQml::schema() const {
     return m_schema;
 }
 
-QString GSettingsQml::pictureUri() const
+QVariant GSettingsQml::disableHeight() const
 {
-    if (m_schema->id() == "org.gnome.desktop.background") {
+    if (m_valid && m_schema->id() == "com.canonical.keyboard.maliit") {
+        return GSettingsControllerQml::instance()->disableHeight();
+    } else {
+        return QVariant();
+    }
+}
+
+void GSettingsQml::setDisableHeight(const QVariant &val)
+{
+    if (m_valid && m_schema->id() == "com.canonical.keyboard.maliit") {
+        GSettingsControllerQml::instance()->setDisableHeight(val.toBool());
+    }
+}
+
+QVariant GSettingsQml::pictureUri() const
+{
+    if (m_valid && m_schema->id() == "org.gnome.desktop.background") {
         return GSettingsControllerQml::instance()->pictureUri();
     } else {
-        return "";
+        return QVariant();
     }
 }
 
-void GSettingsQml::setPictureUri(const QString &str)
+void GSettingsQml::setPictureUri(const QVariant &str)
 {
-    if (m_schema->id() == "org.gnome.desktop.background") {
-        GSettingsControllerQml::instance()->setPictureUri(str);
+    if (m_valid && m_schema->id() == "org.gnome.desktop.background") {
+        GSettingsControllerQml::instance()->setPictureUri(str.toString());
     }
 }
 
-QString GSettingsQml::usageMode() const
+QVariant GSettingsQml::usageMode() const
 {
-    if (m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         return GSettingsControllerQml::instance()->usageMode();
     } else {
-        return "";
+        return QVariant();
     }
 }
 
-void GSettingsQml::setUsageMode(const QString &usageMode)
+void GSettingsQml::setUsageMode(const QVariant &usageMode)
 {
-    if (m_schema->id() == "com.canonical.Unity8") {
-        GSettingsControllerQml::instance()->setUsageMode(usageMode);
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setUsageMode(usageMode.toString());
     }
 }
 
-qint64 GSettingsQml::lockedOutTime() const
+QVariant GSettingsQml::lockedOutTime() const
 {
-    if (m_schema->id() == "com.canonical.Unity8.Greeter") {
+    if (m_valid && m_schema->id() == "com.canonical.Unity8.Greeter") {
         return GSettingsControllerQml::instance()->lockedOutTime();
     } else {
-        return 0;
+        return QVariant();
     }
 }
 
-void GSettingsQml::setLockedOutTime(qint64 timestamp)
+void GSettingsQml::setLockedOutTime(const QVariant &timestamp)
 {
-    if (m_schema->id() == "com.canonical.Unity8.Greeter") {
-        GSettingsControllerQml::instance()->setLockedOutTime(timestamp);
+    if (m_valid && m_schema->id() == "com.canonical.Unity8.Greeter") {
+        GSettingsControllerQml::instance()->setLockedOutTime(timestamp.value<qint64>());
     }
 }
 
-QStringList GSettingsQml::lifecycleExemptAppids() const
+QVariant GSettingsQml::lifecycleExemptAppids() const
 {
-    if (m_schema->id() == "com.canonical.qtmir") {
+    if (m_valid && m_schema->id() == "com.canonical.qtmir") {
         return GSettingsControllerQml::instance()->lifecycleExemptAppids();
     } else {
-        return QStringList();
+        return QVariant();
     }
 }
 
-bool GSettingsQml::autohideLauncher() const
+QVariant GSettingsQml::autohideLauncher() const
 {
-    if (m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         return GSettingsControllerQml::instance()->autohideLauncher();
     } else {
-        return false;
+        return QVariant();
     }
 }
 
-int GSettingsQml::launcherWidth() const
+QVariant GSettingsQml::launcherWidth() const
 {
-    if (m_schema->id() == "com.canonical.Unity8") {
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
         return GSettingsControllerQml::instance()->launcherWidth();
     } else {
-        return false;
+        return QVariant();
     }
 }
 
-void GSettingsQml::setLifecycleExemptAppids(const QStringList &appIds)
+QVariant GSettingsQml::edgeDragWidth() const
 {
-    if (m_schema->id() == "com.canonical.qtmir") {
-        GSettingsControllerQml::instance()->setLifecycleExemptAppids(appIds);
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        return GSettingsControllerQml::instance()->edgeDragWidth();
+    } else {
+        return QVariant();
     }
 }
 
-void GSettingsQml::setAutohideLauncher(bool autohideLauncher)
+void GSettingsQml::setLifecycleExemptAppids(const QVariant &appIds)
 {
-    if (m_schema->id() == "com.canonical.Unity8") {
-        GSettingsControllerQml::instance()->setAutohideLauncher(autohideLauncher);
+    if (m_valid && m_schema->id() == "com.canonical.qtmir") {
+        GSettingsControllerQml::instance()->setLifecycleExemptAppids(appIds.toStringList());
     }
 }
 
-void GSettingsQml::setLauncherWidth(int launcherWidth)
+void GSettingsQml::setAutohideLauncher(const QVariant &autohideLauncher)
 {
-    if (m_schema->id() == "com.canonical.Unity8") {
-        GSettingsControllerQml::instance()->setLauncherWidth(launcherWidth);
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setAutohideLauncher(autohideLauncher.toBool());
+    }
+}
+
+void GSettingsQml::setLauncherWidth(const QVariant &launcherWidth)
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setLauncherWidth(launcherWidth.toInt());
+    }
+}
+
+void GSettingsQml::setEdgeDragWidth(const QVariant &edgeDragWidth)
+{
+    if (m_valid && m_schema->id() == "com.canonical.Unity8") {
+        GSettingsControllerQml::instance()->setEdgeDragWidth(edgeDragWidth.toUInt());
     }
 }

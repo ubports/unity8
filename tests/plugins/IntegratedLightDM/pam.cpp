@@ -18,6 +18,8 @@
 
 #include <QtTest>
 
+#include <glib.h>
+
 class GreeterPamTest : public QObject
 {
     Q_OBJECT
@@ -37,7 +39,7 @@ private Q_SLOTS:
 
     void testRapidFireAuthentication()
     {
-        m_greeterpriv->authenticationUser = qgetenv("USER");
+        m_greeterpriv->authenticationUser = QString::fromUtf8(g_get_user_name());
         for (int i = 0; i < 100; i++) {
             m_greeterpriv->handleAuthenticate();
         }
