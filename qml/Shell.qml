@@ -668,7 +668,7 @@ Item {
             height: parent.height - (topmostIsFullscreen ? 0 : panel.panelHeight)
 
             Binding {
-                target: model
+                target: NotificationBackend.Model
                 paused: tutorial.running
             }
 
