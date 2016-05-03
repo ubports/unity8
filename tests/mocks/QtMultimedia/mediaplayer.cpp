@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@ MediaPlayer::MediaPlayer(QObject* parent)
     , m_playbackState(StoppedState)
     , m_status(NoMedia)
     , m_metaData(new MetaDataObject(this))
+    , m_playlist(0)
 {
     qsrand(time(nullptr));
     m_timer.setInterval(100);
@@ -104,6 +105,21 @@ void MediaPlayer::setSource(const QUrl &source)
         Q_EMIT statusChanged();
     }
 }
+
+DeclarativePlaylist *MediaPlayer::playlist() const
+{
+    return m_playlist;
+}
+
+void MediaPlayer::setPlaylist(DeclarativePlaylist *playlist)
+{
+    if (playlist == m_playlist)
+        return;
+
+    m_playlist = playlist;
+    Q_EMIT playlistChanged();
+}
+
 
 MediaPlayer::PlaybackState MediaPlayer::playbackState() const
 {

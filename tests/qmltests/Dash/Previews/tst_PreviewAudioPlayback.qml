@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtTest 1.0
 import Ubuntu.Components 1.3
 import "../../../../qml/Dash/Previews"
+import Dash 0.1
 import Unity.Test 0.1 as UT
 import QtMultimedia 5.0
 
@@ -58,8 +59,8 @@ Rectangle {
         function test_time_formatter_data() {
             return [
                     { tag: "NaN", value: "not a number", result: "" },
-                    { tag: "0", value: 0, result: "" },
                     { tag: "-1", value: -1, result: "" },
+                    { tag: "0", value: 0, result: "0:00" },
                     { tag: "30", value: 30, result: "0:30" },
                     { tag: "60", value: 60, result: "1:00" },
                     { tag: "3600", value: 3600, result: "1:00:00" }
@@ -67,8 +68,7 @@ Rectangle {
         }
 
         function test_time_formatter(data) {
-            var audio = findInvisibleChild(previewAudioPlayback, "audio");
-            compare(audio.lengthToString(data.value), data.result)
+            compare(DashAudioPlayer.lengthToString(data.value), data.result)
         }
 
         function test_tracks_data() {
@@ -100,11 +100,15 @@ Rectangle {
             }
         }
 
-        function checkPlayerSource(index) {
-            var modelFilename = previewAudioPlayback.widgetData["tracks"][index]["source"].replace(/^.*[\\\/]/, '');
-            var playerFilename = findInvisibleChild(previewAudioPlayback, "audio").source.toString().replace(/^.*[\\\/]/, '');
+        function checkPlayerUrls(modelFilename, playerUrl) {
+            var modelFilename = modelFilename.replace(/^.*[\\\/]/, '');
+            var playerFilename = playerUrl.toString().replace(/^.*[\\\/]/, '');
 
             compare(modelFilename, playerFilename, "Player source is not set correctly.");
+        }
+
+        function checkPlayerSource(index) {
+            checkPlayerUrls(previewAudioPlayback.widgetData["tracks"][index]["source"], DashAudioPlayer.currentSource);
         }
 
         function test_playback() {
@@ -123,7 +127,7 @@ Rectangle {
             var track1PlayButton = findChild(track1Item, "playButton");
             var track2PlayButton = findChild(track2Item, "playButton");
 
-            var audio = findInvisibleChild(previewAudioPlayback, "audio");
+            var audio = DashAudioPlayer.audio;
 
             // All progress bars must be hidden in the beginning
             compare(track0ProgressBar.visible, false);
@@ -157,6 +161,11 @@ Rectangle {
             tryCompare(audio, "playbackState", Audio.PlayingState);
             checkPlayerSource(1);
 
+            // Check the playlist is song 0, 1, 2
+            checkPlayerUrls(tracksModel2["tracks"][0].source, audio.playlist.itemSource(0));
+            checkPlayerUrls(tracksModel2["tracks"][1].source, audio.playlist.itemSource(1));
+            checkPlayerUrls(tracksModel2["tracks"][2].source, audio.playlist.itemSource(2));
+
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", true);
             tryCompare(track2ProgressBar, "visible", false);
@@ -170,10 +179,6 @@ Rectangle {
             tryCompare(track0ProgressBar, "visible", false);
             tryCompare(track1ProgressBar, "visible", false);
             tryCompare(track2ProgressBar, "visible", true);
-
-            // Changing preview should make all players shut up!
-            previewAudioPlayback.isCurrentPreview = false
-            tryCompare(audio, "playbackState", Audio.StoppedState);
         }
     }
 }

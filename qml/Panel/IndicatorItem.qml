@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Settings.Components 0.1
+import QMenuModel 0.1
 import "Indicators"
 
 IndicatorDelegate {
@@ -31,18 +32,29 @@ IndicatorDelegate {
     property bool selected: false
     property real iconHeight: units.gu(2)
     readonly property color color: {
-        if (!expanded) return "#ffffff";
-        if (!selected) return "#888888";
-        return "#ffffff";
+        if (!expanded) return theme.palette.normal.backgroundText;
+        if (!selected) return theme.palette.disabled.backgroundText;
+        return theme.palette.normal.backgroundText;
     }
-
-    signal clicked()
 
     implicitWidth: mainItems.width
 
     MouseArea {
+        readonly property int stepUp: 1
+        readonly property int stepDown: -1
+
         anchors.fill: parent
-        onClicked: parent.clicked()
+        acceptedButtons: Qt.MiddleButton
+        onClicked: {
+            if ((!expanded || selected) && secondaryAction.valid) {
+                secondaryAction.activate();
+            }
+        }
+        onWheel: {
+            if ((!expanded || selected) && scrollAction.valid) {
+                scrollAction.activate(wheel.angleDelta.y > 0 ? stepUp : stepDown);
+            }
+        }
     }
 
     Item {
@@ -101,13 +113,6 @@ IndicatorDelegate {
                         source: modelData
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
-
-                        opacity: {
-                            if (!expanded) return 1.0;
-                            if (!selected) return 0.6;
-                            return 1.0;
-                        }
-                        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
                     }
                 }
             }
@@ -152,9 +157,6 @@ IndicatorDelegate {
     }
 
     StateGroup {
-        id: d
-        property bool useFallbackIcon: false
-
         states: [
             State {
                 name: "minimised"
@@ -250,5 +252,46 @@ IndicatorDelegate {
         leftLabel = rootActionState.leftLabel ? rootActionState.leftLabel : "";
         rightLabel = rootActionState.rightLabel ? rootActionState.rightLabel : "";
         icons = rootActionState.icons;
+    }
+
+    QtObject {
+        id: d
+
+        property bool useFallbackIcon: false
+        property var shouldIndicatorBeShown: undefined
+
+        onShouldIndicatorBeShownChanged: {
+            if (shouldIndicatorBeShown !== undefined) {
+                submenuAction.changeState(shouldIndicatorBeShown);
+            }
+        }
+    }
+
+    UnityMenuAction {
+        id: secondaryAction
+        model: menuModel
+        index: 0
+        name: rootActionState.secondaryAction
+    }
+
+    UnityMenuAction {
+        id: scrollAction
+        model: menuModel
+        index: 0
+        name: rootActionState.scrollAction
+    }
+
+    UnityMenuAction {
+        id: submenuAction
+        model: menuModel
+        index: 0
+        name: rootActionState.submenuAction
+    }
+
+    Binding {
+        target: d
+        property: "shouldIndicatorBeShown"
+        when: submenuAction.valid
+        value: root.selected && root.expanded
     }
 }

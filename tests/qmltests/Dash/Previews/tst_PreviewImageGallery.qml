@@ -48,6 +48,16 @@ Rectangle {
         , "fallback": "../../../tests/graphics/clock@18.png"
     }
 
+    property var sourcesModelEmptyWithFallback: {
+        "sources": [
+                    "../../graphics/phone_background.jpg",
+                    "../../graphics/tablet_background.jpg",
+                    "../../../tests/graphics/clock@18.png",
+                    ""
+                   ]
+        , "fallback": "../../../tests/graphics/clock@18.png"
+    }
+
     PreviewImageGallery {
         id: imageGallery
         width: parent.width
@@ -60,8 +70,6 @@ Rectangle {
         when: windowShown
 
         property Item overlay: findChild(imageGallery.rootItem, "overlay")
-        property Item overlayCloseButton: findChild(overlay, "overlayCloseButton")
-        property Item overlayListView: findChild(overlay, "overlayListView")
 
         function cleanup() {
             overlay.hide();
@@ -77,6 +85,7 @@ Rectangle {
         }
 
         function test_overlayOpenClose() {
+            var overlayCloseButton = findChild(overlay, "overlayCloseButton");
             var image0 = findChild(imageGallery, "previewImage0");
             mouseClick(image0);
             tryCompare(overlay, "visible", true);
@@ -87,6 +96,7 @@ Rectangle {
         }
 
         function test_overlayShowHideHeader() {
+            var overlayCloseButton = findChild(overlay, "overlayCloseButton");
             var image0 = findChild(imageGallery, "previewImage0");
             mouseClick(image0);
             tryCompare(overlay, "visible", true);
@@ -107,6 +117,7 @@ Rectangle {
         }
 
         function test_overlayOpenCorrectImage(data) {
+            var overlayListView = findChild(overlay, "overlayListView");
             var image = findChild(imageGallery, "previewImage" + data.index);
             mouseClick(image);
             tryCompare(overlay, "visible", true);
@@ -120,6 +131,15 @@ Rectangle {
             tryCompare(image3, "state", "error");
             imageGallery.widgetData = sourcesModel0;
             imageGallery.widgetData = sourcesModel1WithFallback;
+            image3 = findChild(imageGallery, "previewImage3");
+            tryCompare(image3, "state", "ready");
+        }
+
+        function test_empty_fallback() {
+            var image3 = findChild(imageGallery, "previewImage3");
+            tryCompare(image3, "state", "error");
+            imageGallery.widgetData = sourcesModel0;
+            imageGallery.widgetData = sourcesModelEmptyWithFallback;
             image3 = findChild(imageGallery, "previewImage3");
             tryCompare(image3, "state", "ready");
         }

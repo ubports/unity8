@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -32,6 +32,11 @@ FocusScope {
     readonly property alias appWindowOrientationAngle: appWindowWithShadow.orientationAngle
     readonly property alias appWindowRotation: appWindowWithShadow.rotation
     readonly property alias orientationChangesEnabled: appWindow.orientationChangesEnabled
+    property int supportedOrientations: application ? application.supportedOrientations :
+                                                      Qt.PortraitOrientation
+                                                      | Qt.LandscapeOrientation
+                                                      | Qt.InvertedPortraitOrientation
+                                                      | Qt.InvertedLandscapeOrientation
 
     // to be set from outside
     property bool interactive: true
@@ -40,9 +45,14 @@ FocusScope {
     property alias swipeToCloseEnabled: dragArea.enabled
     property bool closeable
     property alias application: appWindow.application
+    property alias surface: appWindow.surface
     property int shellOrientationAngle
     property int shellOrientation
     property QtObject orientations
+    property bool highlightShown: false
+
+    // overrideable from outside
+    property alias fullscreen: appWindow.fullscreen
 
     function matchShellOrientation() {
         if (!root.application)
@@ -153,7 +163,8 @@ FocusScope {
                             if (!root.application || root.application.rotatesWindowContents) {
                                 return 0;
                             }
-                            var supportedOrientations = root.application.supportedOrientations;
+
+                            var supportedOrientations = root.supportedOrientations;
 
                             if (supportedOrientations === Qt.PrimaryOrientation) {
                                 supportedOrientations = root.orientations.primary;
@@ -240,7 +251,7 @@ FocusScope {
                     }
                     PropertyChanges {
                         target: appWindow
-                        surfaceOrientationAngle: orientationAngle
+                        surfaceOrientationAngle: appWindowWithShadow.orientationAngle
                     }
                 },
                 State {
@@ -261,9 +272,28 @@ FocusScope {
                 Behavior on opacity { UbuntuNumberAnimation {} }
             }
 
+            Rectangle {
+                id: selectionHighlight
+                objectName: "selectionHighlight"
+                anchors.fill: appWindow
+                anchors.margins: -units.gu(1)
+                color: "white"
+                opacity: root.highlightShown ? 0.15 : 0
+                antialiasing: true
+                visible: opacity > 0
+            }
+
+            Rectangle {
+                anchors { left: selectionHighlight.left; right: selectionHighlight.right; bottom: selectionHighlight.bottom; }
+                height: units.dp(2)
+                color: UbuntuColors.orange
+                visible: root.highlightShown
+                antialiasing: true
+            }
+
             ApplicationWindow {
                 id: appWindow
-                objectName: application ? "appWindow_" + application.appId : "appWindow_null"
+                objectName: "appWindow"
                 focus: true
                 anchors {
                     fill: parent

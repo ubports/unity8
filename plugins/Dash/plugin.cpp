@@ -23,6 +23,38 @@
 #include "verticaljournal.h"
 
 #include <QAbstractItemModel>
+#include <QUrlQuery>
+
+static QUrl oauthCleanedUrl(QUrl u)
+{
+    QUrlQuery q(u);
+    q.removeQueryItem(QStringLiteral("oauth_nonce"));
+    q.removeQueryItem(QStringLiteral("oauth_timestamp"));
+    q.removeQueryItem(QStringLiteral("oauth_consumer_key"));
+    q.removeQueryItem(QStringLiteral("oauth_signature_method"));
+    q.removeQueryItem(QStringLiteral("oauth_version"));
+    q.removeQueryItem(QStringLiteral("oauth_signature"));
+    u.setQuery(q);
+    return u;
+}
+
+class AudioComparer : public QObject
+{
+    Q_OBJECT
+public:
+    Q_INVOKABLE bool compare(const QUrl &url1, const QUrl &url2)
+    {
+        return oauthCleanedUrl(url1) == oauthCleanedUrl(url2);
+    }
+};
+
+static QObject *audio_comparer_singleton_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    return new AudioComparer();
+}
 
 void DashPlugin::registerTypes(const char *uri)
 {
@@ -32,4 +64,7 @@ void DashPlugin::registerTypes(const char *uri)
     qmlRegisterType<ListViewWithPageHeader>(uri, 0, 1, "ListViewWithPageHeader");
     qmlRegisterType<OrganicGrid>(uri, 0, 1, "OrganicGrid");
     qmlRegisterType<VerticalJournal>(uri, 0, 1, "VerticalJournal");
+    qmlRegisterSingletonType<AudioComparer>(uri, 0, 1, "AudioUrlComparer", audio_comparer_singleton_provider);
 }
+
+#include "plugin.moc"

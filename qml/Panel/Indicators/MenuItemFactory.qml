@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Window 2.2
 import Ubuntu.Settings.Menus 0.1 as Menus
 import Ubuntu.Settings.Components 0.1
 import QMenuModel 0.1
@@ -22,6 +23,7 @@ import Utils 0.1 as Utils
 import Ubuntu.Components.ListItems 1.3 as ListItems
 import Ubuntu.Components 1.3
 import Unity.Session 0.1
+import Unity.Platform 1.0
 
 Item {
     id: menuFactory
@@ -61,9 +63,11 @@ Item {
 
             "com.canonical.indicator.calendar": calendarMenu,
             "com.canonical.indicator.location": timezoneMenu,
-
-            "indicator.user-menu-item": userMenuItem,
-            "indicator.guest-menu-item": userMenuItem
+        },
+        "indicator-session": {
+            "indicator.user-menu-item": Platform.isPC ? userMenuItem : null,
+            "indicator.guest-menu-item": Platform.isPC ? userMenuItem : null,
+            "com.canonical.indicator.switch": Math.min(Screen.width, Screen.height) > units.gu(60) ? switchMenu : null // Desktop mode switch
         },
         "indicator-messages" : {
             "com.canonical.indicator.button"         : messagesButtonMenu
@@ -125,10 +129,12 @@ Item {
                 menuModel.loadExtendedAttributes(menuIndex, {'min-value': 'double',
                                                              'max-value': 'double',
                                                              'min-icon': 'icon',
-                                                             'max-icon': 'icon'});
+                                                             'max-icon': 'icon',
+                                                             'x-canonical-sync-action': 'string'});
             }
 
             ServerPropertySynchroniser {
+                id: sliderPropertySync
                 objectName: "sync"
                 syncTimeout: Utils.Constants.indicatorValueTimeout
                 bufferedSyncTimeout: true
@@ -140,6 +146,16 @@ Item {
                 userProperty: "value"
 
                 onSyncTriggered: menuModel.changeState(menuIndex, value)
+            }
+
+            UnityMenuAction {
+                model: menuModel
+                index: menuIndex
+                name: getExtendedProperty(extendedData, "xCanonicalSyncAction", "")
+                onStateChanged: {
+                    sliderPropertySync.reset();
+                    sliderPropertySync.updateUserValue();
+                }
             }
         }
     }
@@ -217,6 +233,10 @@ Item {
             iconSource: menuData && menuData.icon || ""
             value : menuData && menuData.actionState || 0.0
             enabled: menuData && menuData.sensitive || false
+            // FIXME: Because of this bug, setting it to the theme foreground color (white)
+            // currently doesn't work. Let's hack it to be "close enough"
+            // https://bugs.launchpad.net/ubuntu/+source/ubuntu-ui-toolkit/+bug/1555784
+            foregroundColor: "#fffffe"
             highlightWhenPressed: false
         }
     }
@@ -249,7 +269,7 @@ Item {
                     name: "settings"
                     height: units.gu(3)
                     width: height
-                    color: theme.palette.selected.backgroundText
+                    color: theme.palette.normal.backgroundText
                 }
             }
         }
@@ -281,7 +301,7 @@ Item {
                     source: menuData.icon
                     height: units.gu(3)
                     width: height
-                    color: theme.palette.selected.backgroundText
+                    color: theme.palette.normal.backgroundText
                 }
             }
         }
@@ -398,11 +418,12 @@ Item {
             property int menuIndex: -1
             property var extendedData: menuData && menuData.ext || undefined
 
-            property date serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
+            readonly property date serverTime: new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
+
             LiveTimer {
                 frequency: LiveTimer.Relative
                 relativeTime: appointmentItem.serverTime
-                onTrigger: appointmentItem.serverTime = new Date(getExtendedProperty(extendedData, "xCanonicalTime", 0) * 1000)
+                onTrigger: appointmentItem.time = i18n.relativeDateTime(appointmentItem.serverTime)
             }
 
             text: menuData && menuData.label || ""
@@ -564,7 +585,17 @@ Item {
             active: serverChecked
             secure: getExtendedProperty(extendedData, "xCanonicalWifiApIsSecure", false)
             adHoc: getExtendedProperty(extendedData, "xCanonicalWifiApIsAdhoc", false)
-            signalStrength: strengthAction.valid ? strengthAction.state : 0
+            signalStrength: {
+                if (strengthAction.valid) {
+                    var state = strengthAction.state; // handle both int and uchar
+                    // FIXME remove the special casing when we switch to indicator-network completely
+                    if (typeof state == "string") {
+                        return state.charCodeAt();
+                    }
+                    return state;
+                }
+                return 0;
+            }
             highlightWhenPressed: false
 
             onMenuModelChanged: {
@@ -598,7 +629,7 @@ Item {
 
     Component {
         id: modeminfoitem;
-        ModemInfoItem {
+        Menus.ModemInfoItem {
             objectName: "modemInfoItem"
             property QtObject menuData: null
             property var menuModel: menuFactory.menuModel
@@ -955,6 +986,15 @@ Item {
     }
 
     function load(modelData, context) {
+        // tweak indicator-session items
+        if (context === "indicator-session") {
+            if ((modelData.action === "indicator.logout" || modelData.action === "indicator.suspend" || modelData.action === "indicator.hibernate" ||
+                 modelData.action === "indicator.reboot")
+                    && !Platform.isPC) {
+                return null; // logout, suspend and hibernate hidden on devices
+            }
+        }
+
         if (modelData.type !== undefined && modelData.type !== "") {
             var component = undefined;
 

@@ -23,6 +23,7 @@
 
 class UNITYINDICATORS_EXPORT RootStateParser : public ActionStateParser
 {
+Q_OBJECT
 public:
     RootStateParser(QObject* parent = nullptr);
     virtual QVariant toQVariant(GVariant* state) const override;

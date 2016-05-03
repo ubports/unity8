@@ -23,8 +23,13 @@
 #include <QSqlError>
 #include <QSqlResult>
 #include <QRect>
+#include <unity/shell/application/ApplicationInfoInterface.h>
 
 QMutex WindowStateStorage::s_mutex;
+
+inline QString sanitiseString(QString string) {
+    return string.remove("\"").remove("'").remove("\\");
+}
 
 WindowStateStorage::WindowStateStorage(QObject *parent):
     QObject(parent)
@@ -50,7 +55,7 @@ WindowStateStorage::~WindowStateStorage()
 void WindowStateStorage::saveState(const QString &windowId, WindowStateStorage::WindowState state)
 {
     const QString queryString = QStringLiteral("INSERT OR REPLACE INTO state (windowId, state) values ('%1', '%2');")
-            .arg(windowId)
+            .arg(sanitiseString(windowId))
             .arg((int)state);
 
     saveValue(queryString);
@@ -59,7 +64,7 @@ void WindowStateStorage::saveState(const QString &windowId, WindowStateStorage::
 WindowStateStorage::WindowState WindowStateStorage::getState(const QString &windowId, WindowStateStorage::WindowState defaultValue) const
 {
     const QString queryString = QStringLiteral("SELECT * FROM state WHERE windowId = '%1';")
-            .arg(windowId);
+            .arg(sanitiseString(windowId));
 
     QSqlQuery query = getValue(queryString);
 
@@ -72,13 +77,35 @@ WindowStateStorage::WindowState WindowStateStorage::getState(const QString &wind
 void WindowStateStorage::saveGeometry(const QString &windowId, const QRect rect)
 {
     const QString queryString = QStringLiteral("INSERT OR REPLACE INTO geometry (windowId, x, y, width, height) values ('%1', '%2', '%3', '%4', '%5');")
-            .arg(windowId)
+            .arg(sanitiseString(windowId))
             .arg(rect.x())
             .arg(rect.y())
             .arg(rect.width())
             .arg(rect.height());
 
     saveValue(queryString);
+}
+
+void WindowStateStorage::saveStage(const QString &appId, int stage)
+{
+    const QString queryString = QStringLiteral("INSERT OR REPLACE INTO stage (appId, stage) values ('%1', '%2');")
+            .arg(sanitiseString(appId))
+            .arg((int)stage);
+
+    saveValue(queryString);
+}
+
+int WindowStateStorage::getStage(const QString &appId) const
+{
+    const QString queryString = QStringLiteral("SELECT * FROM stage WHERE appId = '%1';")
+            .arg(sanitiseString(appId));
+
+    QSqlQuery query = getValue(queryString);
+
+    if (!query.first()) {
+        return unity::shell::application::ApplicationInfoInterface::MainStage;
+    }
+    return query.value("stage").toInt();
 }
 
 void WindowStateStorage::executeAsyncQuery(const QString &queryString)
@@ -97,7 +124,7 @@ void WindowStateStorage::executeAsyncQuery(const QString &queryString)
 QRect WindowStateStorage::getGeometry(const QString &windowId, const QRect defaultValue) const
 {
     QString queryString = QStringLiteral("SELECT * FROM geometry WHERE windowId = '%1';")
-            .arg(windowId);
+            .arg(sanitiseString(windowId));
 
     QSqlQuery query = getValue(queryString);
 
@@ -123,6 +150,11 @@ void WindowStateStorage::initdb()
     if (!m_db.tables().contains(QStringLiteral("state"))) {
         QSqlQuery query;
         query.exec(QStringLiteral("CREATE TABLE state(windowId TEXT UNIQUE, state INTEGER);"));
+    }
+
+    if (!m_db.tables().contains(QStringLiteral("stage"))) {
+        QSqlQuery query;
+        query.exec(QStringLiteral("CREATE TABLE stage(appId TEXT UNIQUE, stage INTEGER);"));
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -30,10 +30,42 @@ Item {
     property bool indicatorVisible: cachedState && cachedState.hasOwnProperty("visible") ? cachedState["visible"] : true
 
     property var cachedState: menu ? menu.get(0, "actionState") : undefined
+    property string submenuAction: {
+        if (!menu) return "";
+        var ext = menu.get(0, "ext");
+        var action = ext ? ext["submenu-action"] : undefined;
+        return action ? action : ""
+    }
+
+    property string secondaryAction: {
+        if (!menu) return "";
+        var ext = menu.get(0, "ext");
+        var action = ext ? ext["x-canonical-secondary-action"] : undefined;
+        return action ? action : ""
+    }
+
+    property string scrollAction: {
+        if (!menu) return "";
+        var ext = menu.get(0, "ext");
+        var action = ext ? ext["x-canonical-scroll-action"] : undefined;
+        return action ? action : ""
+    }
+
     Connections {
         target: menu
         onModelDataChanged: {
             cachedState = menu.get(0, "actionState");
+
+            var ext = menu.get(0, "ext");
+
+            var action = ext ? ext["submenu-action"] : undefined;
+            submenuAction = action ? action : ""
+
+            action = ext ? ext["x-canonical-secondary-action"] : undefined;
+            secondaryAction = action ? action : ""
+
+            action = ext ? ext["x-canonical-scroll-action"] : undefined;
+            scrollAction = action ? action : ""
         }
     }
 

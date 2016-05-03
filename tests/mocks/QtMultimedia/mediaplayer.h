@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012,2013 Canonical, Ltd.
+ * Copyright (C) 2012, 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -13,7 +13,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Authors: Michael Zanetti <michael.zanetti@canonical.com>
  */
 
 #ifndef MOCK_MEDIAPLAYER_H
@@ -26,6 +25,7 @@
 #include <QVariant>
 
 class MetaDataObject;
+class DeclarativePlaylist;
 
 class MediaPlayer: public QObject
 {
@@ -43,6 +43,7 @@ class MediaPlayer: public QObject
     Q_PROPERTY(Availability availability READ availability NOTIFY availabilityChanged)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
     Q_PROPERTY(QObject *metaData READ metaData CONSTANT)
+    Q_PROPERTY(DeclarativePlaylist *playlist READ playlist WRITE setPlaylist NOTIFY playlistChanged)
 
     Q_ENUMS(PlaybackState)
     Q_ENUMS(AudioRole)
@@ -96,6 +97,9 @@ public:
     QUrl source() const;
     void setSource(const QUrl &source);
 
+    DeclarativePlaylist *playlist() const;
+    void setPlaylist(DeclarativePlaylist *playlist);
+
     PlaybackState playbackState() const;
 
     int position() const;
@@ -120,6 +124,7 @@ public Q_SLOTS:
     void seek(int position);
 
 Q_SIGNALS:
+    void playlistChanged();
     void sourceChanged(const QUrl &source);
     void playbackStateChanged(PlaybackState playbackState);
     void positionChanged(int position);
@@ -142,6 +147,7 @@ private:
     int m_position;
     Status m_status;
     MetaDataObject *m_metaData;
+    DeclarativePlaylist *m_playlist;
 };
 
 class MediaDataSource : public QObject

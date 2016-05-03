@@ -18,6 +18,7 @@
 
 #include "plugin.h"
 #include "mediaplayer.h"
+#include "declarativeplaylist.h"
 #include "videooutput.h"
 
 #include <QtQml/qqml.h>
@@ -30,4 +31,5 @@ void MockQtMultimediaPlugin::registerTypes(const char *uri)
     qmlRegisterType<VideoOutput>(uri, 5, 0, "VideoOutput");
 
     qmlRegisterType<MediaDataSource>(uri, 5, 0, "MediaDataSource");
+    qmlRegisterType<DeclarativePlaylist>(uri, 5, 6, "Playlist");
 }

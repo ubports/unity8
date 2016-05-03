@@ -45,6 +45,30 @@ private Q_SLOTS:
         delete view;
     }
 
+    void compareFileContents(const QString &filePath, const QString cardStringResult)
+    {
+        QFile testResultFile(filePath);
+        QVERIFY(testResultFile.open(QIODevice::ReadOnly));
+        QTextStream ts2(&testResultFile);
+
+        // Record failed results to /tmp
+        const QString executedResult = cardStringResult;
+        QTemporaryFile tmpFile(QDir::tempPath() + QDir::separator() + "testCardCreatorFailedResultXXXXXX");
+        tmpFile.open();
+        tmpFile.setAutoRemove(false);
+        tmpFile.write(executedResult.toUtf8().constData());
+
+        // Line by line comparison
+        const QStringList expectedLines = ts2.readAll().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
+        const QStringList cardStringResultLines = cardStringResult.trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
+        for (int i = 0; i < expectedLines.size(); ++i) {
+            QCOMPARE(cardStringResultLines[i].simplified(), expectedLines[i].simplified());
+        }
+
+        // Remove the result if it passed
+        tmpFile.setAutoRemove(true);
+    }
+
     void testKnownCases()
     {
         const QString templateString("template: ");
@@ -64,36 +88,23 @@ private Q_SLOTS:
             QVERIFY(lines[0].startsWith(templateString));
             QVERIFY(lines[1].startsWith(componentsString));
             QVERIFY(lines[2].startsWith(resultString));
+
             const QString templateJSON = lines[0].mid(templateString.length());
             const QString componentsJSON = lines[1].mid(componentsString.length());
             const QString resultFileName = lines[2].mid(resultString.length());
-
             QVariant cardStringResult;
-            QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON));
-
-            QFile testResultFile(testDirPath + resultFileName);
-            QVERIFY(testResultFile.open(QIODevice::ReadOnly));
-            QTextStream ts2(&testResultFile);
-
-            // Record failed results to /tmp
-            const QString executedResult = cardStringResult.toString();
-            QTemporaryFile tmpFile(QDir::tempPath() + QDir::separator() + "testCardCreatorFailedResultXXXXXX");
-            tmpFile.open();
-            tmpFile.setAutoRemove(false);
-            tmpFile.write(executedResult.toUtf8().constData());
-
-            // Line by line comparison
-            const QStringList expectedLines = ts2.readAll().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
-            const QStringList cardStringResultLines = cardStringResult.toString().trimmed().replace(QRegExp("\n\\s*\n"),"\n").split("\n");
-            for (int i = 0; i < expectedLines.size(); ++i) {
-                QCOMPARE(cardStringResultLines[i].simplified(), expectedLines[i].simplified());
-            }
-
-            // Remove the result if it passed
-            tmpFile.setAutoRemove(true);
-
             QVariant createCardComponentResult;
-            QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON));
+
+            QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, false));
+            compareFileContents(testDirPath + resultFileName, cardStringResult.toString());
+
+            QMetaObject::invokeMethod(view->rootObject(), "cardString", Q_RETURN_ARG(QVariant, cardStringResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, true));
+            compareFileContents(testDirPath + resultFileName + ".cardcreator", cardStringResult.toString());
+
+            QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, false));
+            QVERIFY(createCardComponentResult.toBool());
+
+            QMetaObject::invokeMethod(view->rootObject(), "createCardComponent", Q_RETURN_ARG(QVariant, createCardComponentResult), Q_ARG(QVariant, templateJSON), Q_ARG(QVariant, componentsJSON), Q_ARG(QVariant, true));
             QVERIFY(createCardComponentResult.toBool());
         }
     }

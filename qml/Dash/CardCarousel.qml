@@ -64,10 +64,8 @@ DashRenderer {
                 item.fixedHeaderHeight = Qt.binding(function() { return carousel.headerHeight; });
                 item.height = Qt.binding(function() { return cardTool.cardHeight; });
                 item.cardData = Qt.binding(function() { return model; });
-                item.components = Qt.binding(function() { return cardTool.components; });
                 item.fontScale = Qt.binding(function() { return carousel.fontScale; });
                 item.showHeader = Qt.binding(function() { return loader.explicitlyScaled; });
-                item.titleAlignment = Qt.binding(function() { return cardTool.titleAlignment; });
                 item.artShapeStyle = "shadow";
                 item.scopeStyle = cardCarousel.scopeStyle;
             }

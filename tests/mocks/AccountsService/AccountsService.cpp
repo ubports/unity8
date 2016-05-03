@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "AccountsService.h"
@@ -28,6 +26,7 @@ AccountsService::AccountsService(QObject* parent)
     m_statsWelcomeScreen(true),
     m_failedLogins(0),
     m_demoEdges(false),
+    m_demoEdgesCompleted(),
     m_hereEnabled(false),
     m_hereLicensePath("")
 {
@@ -54,6 +53,25 @@ void AccountsService::setDemoEdges(bool demoEdges)
 {
     m_demoEdges = demoEdges;
     Q_EMIT demoEdgesChanged();
+}
+
+QStringList AccountsService::demoEdgesCompleted() const
+{
+    return m_demoEdgesCompleted;
+}
+
+void AccountsService::markDemoEdgeCompleted(const QString &edge)
+{
+    if (!m_demoEdgesCompleted.contains(edge)) {
+        m_demoEdgesCompleted << edge;
+        Q_EMIT demoEdgesCompletedChanged();
+    }
+}
+
+void AccountsService::setDemoEdgesCompleted(const QStringList &demoEdgesCompleted)
+{
+    m_demoEdgesCompleted = demoEdgesCompleted;
+    Q_EMIT demoEdgesCompletedChanged();
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
@@ -151,4 +169,43 @@ void AccountsService::setHereLicensePath(const QString &path)
 bool AccountsService::hereLicensePathValid() const
 {
     return !m_hereLicensePath.isNull();
+}
+
+QString AccountsService::realName() const
+{
+    return m_realName;
+}
+
+void AccountsService::setRealName(const QString &realName)
+{
+    m_realName = realName;
+    Q_EMIT realNameChanged();
+}
+
+QString AccountsService::email() const
+{
+    return m_email;
+}
+
+void AccountsService::setEmail(const QString &email)
+{
+    m_email = email;
+    Q_EMIT emailChanged();
+}
+
+QStringList AccountsService::keymaps() const
+{
+    if (!m_kbdMap.isEmpty()) {
+        return m_kbdMap;
+    }
+
+    return {QStringLiteral("us")};
+}
+
+void AccountsService::setKeymaps(const QStringList &keymaps)
+{
+    if (keymaps != m_kbdMap) {
+        m_kbdMap = keymaps;
+        Q_EMIT keymapsChanged();
+    }
 }

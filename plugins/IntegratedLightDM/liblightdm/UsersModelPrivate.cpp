@@ -18,6 +18,11 @@
 
 #include "UsersModelPrivate.h"
 
+#include "AccountsServiceDBusAdaptor.h"
+#include "UsersModel.h"
+
+#include <glib.h>
+#include <QDebug>
 #include <QDir>
 #include <QSettings>
 #include <QStringList>
@@ -26,16 +31,61 @@ namespace QLightDM
 {
 
 UsersModelPrivate::UsersModelPrivate(UsersModel* parent)
-  : q_ptr(parent)
+  : QObject(parent),
+    q_ptr(parent),
+    m_service(new AccountsServiceDBusAdaptor(this))
 {
-    QSettings settings(QDir::homePath() + "/.unity8-greeter-demo", QSettings::NativeFormat);
-    QStringList users = settings.value(QStringLiteral("users"), QStringList() << qgetenv("USER")).toStringList();
+    QFileInfo demoFile(QDir::homePath() + "/.unity8-greeter-demo");
+    QString currentUser = g_get_user_name();
 
-    entries.reserve(users.count());
-    Q_FOREACH(const QString &user, users)
-    {
-        QString name = settings.value(user + "/name", user).toString();
-        entries.append({user, name, 0, 0, false, false, 0, 0});
+    if (demoFile.exists()) {
+        QSettings settings(demoFile.filePath(), QSettings::NativeFormat);
+        QStringList users = settings.value(QStringLiteral("users"), QStringList() << currentUser).toStringList();
+
+        entries.reserve(users.count());
+        Q_FOREACH(const QString &user, users)
+        {
+            QString name = settings.value(user + "/name", user).toString();
+            entries.append({user, name, 0, 0, false, false, 0, 0});
+        }
+    } else {
+        entries.append({currentUser, 0, 0, 0, false, false, 0, 0});
+
+        connect(m_service, &AccountsServiceDBusAdaptor::maybeChanged,
+                this, [this](const QString &user) {
+            if (user == entries[0].username) {
+                updateName(true);
+            }
+        });
+        updateName(false);
+    }
+}
+
+void UsersModelPrivate::updateName(bool async)
+{
+    auto pendingReply = m_service->getUserPropertyAsync(entries[0].username,
+                                                        QStringLiteral("org.freedesktop.Accounts.User"),
+                                                        QStringLiteral("RealName"));
+    auto *watcher = new QDBusPendingCallWatcher(pendingReply, this);
+
+    connect(watcher, &QDBusPendingCallWatcher::finished,
+            this, [this](QDBusPendingCallWatcher* watcher) {
+
+        QDBusPendingReply<QVariant> reply = *watcher;
+        watcher->deleteLater();
+        if (reply.isError()) {
+            qWarning() << "Failed to get 'RealName' property - " << reply.error().message();
+            return;
+        }
+
+        const QString realName = reply.value().toString();
+        if (entries[0].real_name != realName) {
+            entries[0].real_name = realName;
+            Q_EMIT dataChanged(0);
+        }
+    });
+    if (!async) {
+        watcher->waitForFinished();
     }
 }
 

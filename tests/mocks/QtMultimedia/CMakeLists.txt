@@ -7,6 +7,7 @@ add_library(QtMultimedia-qml MODULE
     plugin.cpp
     mediaplayer.cpp
     videooutput.cpp
+    declarativeplaylist.cpp
     )
 
 qt5_use_modules(QtMultimedia-qml Qml Quick)

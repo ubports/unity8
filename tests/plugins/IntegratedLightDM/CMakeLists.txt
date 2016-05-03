@@ -2,6 +2,7 @@ add_definitions(
     -DCURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
     )
 include_directories(
+    ${GLIB_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR}
     )
 
@@ -64,4 +65,29 @@ add_unity8_uitest(GreeterUsers GreeterUsersModelTestExec
     ENVIRONMENT LIBLIGHTDM_MOCK_MODE=full
     DEPENDS MockLightDM
     LIGHTDM
+    )
+
+add_executable(GreeterIntegratedTestExec
+    integrated.cpp
+    )
+qt5_use_modules(GreeterIntegratedTestExec Core DBus Quick Test)
+target_link_libraries(GreeterIntegratedTestExec
+    ${GLIB_LIBRARIES}
+    integratedLightDMSession
+    )
+target_include_directories(GreeterIntegratedTestExec PUBLIC
+    ${GLIB_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/plugins/IntegratedLightDM/liblightdm
+    )
+add_unity8_unittest(GreeterIntegrated dbus-test-runner
+    ENVIRONMENT LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/plugins/IntegratedLightDM/liblightdm/
+    ARG_PREFIX "--parameter"
+    ARGS
+        --task $<TARGET_FILE:mock-server>
+        --task-name server
+        --ignore-return
+        --task $<TARGET_FILE:GreeterIntegratedTestExec>
+        --task-name client
+        --wait-for org.freedesktop.Accounts
+    DEPENDS integratedLightDMSession
     )

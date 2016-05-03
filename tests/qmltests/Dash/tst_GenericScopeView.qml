@@ -107,11 +107,12 @@ Item {
             {
                 var categoryListView = findChild(genericScopeView, "categoryListView");
                 waitForRendering(categoryListView);
-                while (!categoryListView.atYEnd) {
-                    mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height - units.gu(8),
-                               genericScopeView.width/2, genericScopeView.y)
-                    tryCompare(categoryListView, "moving", false);
-                }
+                tryCompareFunction(function() {
+                        mouseFlick(genericScopeView, genericScopeView.width/2, genericScopeView.height - units.gu(8),
+                                   genericScopeView.width/2, genericScopeView.y)
+                        tryCompare(categoryListView, "moving", false);
+                        return categoryListView.atYEnd;
+                    }, true);
             }
 
             function test_isActive() {
@@ -235,12 +236,6 @@ Item {
                 verify(seeAll, "Can't find the seeAll element");
 
                 compare(seeAll.height, 0, "SeeAll should be 0-height.");
-
-                openPreview(4, 0);
-
-                compare(testCase.subPageLoader.count, 12, "There should only be 12 items in preview.");
-
-                closePreview();
             }
 
             function test_narrow_delegate_ranges_expand() {
@@ -403,28 +398,6 @@ Item {
                 closePreview();
             }
 
-            function test_previewCycle() {
-                var categoryListView = findChild(genericScopeView, "categoryListView");
-                categoryListView.positionAtBeginning();
-
-                tryCompare(testCase.subPageLoader, "open", false);
-
-                openPreview();
-                var previewListViewList = findChild(subPageLoader.item, "listView");
-
-                // flick to the next previews
-                tryCompare(testCase.subPageLoader, "count", 15);
-                for (var i = 1; i < testCase.subPageLoader.count; ++i) {
-                    mouseFlick(testCase.subPageLoader.item, testCase.subPageLoader.width - units.gu(1),
-                                                testCase.subPageLoader.height / 2,
-                                                units.gu(2),
-                                                testCase.subPageLoader.height / 2);
-                    tryCompare(previewListViewList, "moving", false);
-                    tryCompare(testCase.subPageLoader.currentItem, "objectName", "preview" + i);
-                }
-                closePreview();
-            }
-
             function test_settingsOpenClose() {
                 waitForRendering(genericScopeView);
                 verify(header, "Could not find the header.");
@@ -455,8 +428,8 @@ Item {
 
             function test_header_style_data() {
                 return [
-                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#f5f5f5", logo: "" },
-                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#f5f5f5", logo: "" },
+                    { tag: "Default", index: 0, foreground: UbuntuColors.darkGrey, background: "color:///#ffffff", logo: "" },
+                    { tag: "Foreground", index: 1, foreground: "yellow", background: "color:///#ffffff", logo: "" },
                     { tag: "Logo+Background", index: 2, foreground: UbuntuColors.darkGrey, background: "gradient:///lightgrey/grey",
                       logo: Qt.resolvedUrl("../Dash/tst_PageHeader/logo-ubuntu-orange.svg") },
                 ];
@@ -487,7 +460,7 @@ Item {
                 mockScope.setName("Mock Scope");
                 mockScope.categories.setCount(2);
                 mockScope.categories.resultModel(0).setResultCount(50);
-                mockScope.categories.resultModel(1).setResultCount(15);
+                mockScope.categories.resultModel(1).setResultCount(25);
                 mockScope.categories.setLayout(0, "grid");
                 mockScope.categories.setLayout(1, "grid");
                 mockScope.categories.setHeaderLink(0, "");
@@ -505,7 +478,7 @@ Item {
                 mouseClick(seeAll0);
                 verify(category0.expanded);
                 tryCompare(category0, "height", category0.item.expandedHeight + seeAll0.height);
-                tryCompare(genericScopeView.categoryView, "contentY", units.gu(13));
+                tryCompare(genericScopeView.categoryView, "contentY", units.gu(8));
 
                 scrollToEnd();
 
@@ -529,7 +502,7 @@ Item {
                 mockScope.setId("mockScope");
                 mockScope.setName("Mock Scope");
                 mockScope.categories.setCount(2);
-                mockScope.categories.resultModel(0).setResultCount(15);
+                mockScope.categories.resultModel(0).setResultCount(25);
                 mockScope.categories.resultModel(1).setResultCount(50);
                 mockScope.categories.setLayout(0, "grid");
                 mockScope.categories.setLayout(1, "grid");
@@ -665,6 +638,26 @@ Item {
                 var artShapeLoader = findChild(tile, "artShapeLoader");
                 var shape = findChildsByType(artShapeLoader, "UCUbuntuShape");
                 compare(shape.borderSource, undefined);
+            }
+
+            function test_clickScopeSizing() {
+                genericScopeView.scope = scopes.getScopeFromAll("clickscope");
+                waitForRendering(genericScopeView);
+
+                var categoryListView = findChild(genericScopeView, "categoryListView");
+                waitForRendering(categoryListView);
+
+                var categorypredefined = findChild(categoryListView, "dashCategorypredefined");
+                waitForRendering(categorypredefined);
+
+                var cardTool = findChild(categorypredefined, "cardTool");
+
+                compare(cardTool.cardWidth, units.gu(11));
+                shell.width = units.gu(46);
+                waitForRendering(genericScopeView);
+                compare(cardTool.cardWidth, units.gu(10));
+
+                shell.width = units.gu(120)
             }
         }
     }

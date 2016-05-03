@@ -34,9 +34,6 @@ Item {
      */
     property var previewModel
 
-    //! \brief Should be set to true if this preview is currently displayed.
-    property bool isCurrent: false
-
     //! \brief The ScopeStyle component.
     property var scopeStyle: null
 
@@ -88,7 +85,6 @@ Item {
                     widgetId: model.widgetId
                     widgetType: model.type
                     widgetData: model.properties
-                    isCurrentPreview: root.isCurrent
                     scopeStyle: root.scopeStyle
                     parentFlickable: column
 
@@ -109,7 +105,10 @@ Item {
 
                     onFocusChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
 
-                    onHeightChanged: if (focus) column.positionViewAtIndex(index, ListView.Contain)
+                    onHeightChanged: if (focus) {
+                        column.forceLayout();
+                        column.positionViewAtIndex(index, ListView.Contain)
+                    }
                 }
             }
         }

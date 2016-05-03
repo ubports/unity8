@@ -89,7 +89,7 @@ Item {
 
         Rectangle {
             id: indicatorAreaBackground
-            color: callHint.visible ? "green" : "#292929"
+            color: callHint.visible ? UbuntuColors.green : theme.palette.normal.background
             anchors {
                 top: parent.top
                 left: parent.left
@@ -126,6 +126,7 @@ Item {
                 height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
                 visible: PanelState.buttonsVisible && parent.containsMouse && !root.locked && !callHint.visible
                 active: PanelState.buttonsVisible
+                closeButtonShown: PanelState.closeButtonShown
                 onClose: PanelState.close()
                 onMinimize: PanelState.minimize()
                 onMaximize: PanelState.maximize()
@@ -169,18 +170,22 @@ Item {
             objectName: "windowDecorationTitle"
             anchors {
                 left: parent.left
+                right: __indicators.left
                 top: parent.top
                 leftMargin: units.gu(1)
+                rightMargin: units.gu(1)
                 topMargin: units.gu(0.5)
                 bottomMargin: units.gu(0.5)
             }
-            color: PanelState.buttonsVisible ? "#ffffff" : "#5d5d5d"
+            color: "white"
             height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
             visible: !windowControlButtons.visible && !root.locked && !callHint.visible
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: Font.Normal
+            font.weight: PanelState.buttonsVisible ? Font.Light : Font.Medium
             text: PanelState.title
+            elide: Text.ElideRight
+            maximumLineCount: 1
         }
 
         // TODO here would the Locally integrated menus come

@@ -1,16 +1,13 @@
 AbstractButton {
                 id: root;
-                property var components;
                 property var cardData;
                 property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0;
                 property var scopeStyle: null;
-                property int titleAlignment: Text.AlignLeft;
                 property int fixedHeaderHeight: -1;
                 property size fixedArtShapeSize: Qt.size(-1, -1);
                 readonly property string title: cardData && cardData["title"] || "";
-                property bool asynchronous: true;
                 property bool showHeader: true;
                 implicitWidth: childrenRect.width;
                 enabled: true;
@@ -19,7 +16,7 @@ Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
-                                asynchronous: root.asynchronous; 
+                                asynchronous: true;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
@@ -42,7 +39,7 @@ Loader {
                                         objectName: "backgroundImage"; 
                                         source: { 
                                             if (cardData && typeof cardData["background"] === "string") return cardData["background"]; 
-                                            else return "http://assets.ubuntu.com/sites/ubuntu/latest/u/img/logos/logo-ubuntu-grey.png";
+                                            else return decodeURI("http://assets.ubuntu.com/sites/ubuntu/latest/u/img/logos/logo-ubuntu-grey.png");
                                         } 
                                     } 
                                     function getColor(index) { 
@@ -82,7 +79,7 @@ Item {
                         width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: Text.AlignLeft;
                     }
 ,Label { 
                             id: subtitleLabel; 

@@ -1,16 +1,13 @@
 AbstractButton { 
                 id: root; 
-                property var components; 
                 property var cardData; 
                 property string artShapeStyle: "inset"; 
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null;
-                property int titleAlignment: Text.AlignLeft;
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true;
@@ -22,7 +19,7 @@ Row {
                     objectName: "outerRow"; 
                     property real margins: units.gu(1); 
                     spacing: margins; 
-                    height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight;
+                    height: root.fixedHeaderHeight;
                     anchors { top: parent.top; 
                                      topMargin: units.gu(1);
                     left: parent.left;
@@ -34,7 +31,7 @@ data: [
 Loader { 
                         id: mascotShapeLoader; 
                         objectName: "mascotShapeLoader"; 
-                        asynchronous: root.asynchronous; 
+                        asynchronous: true;
                         active: mascotImage.status === Image.Ready;
                         visible: showHeader && active && status == Loader.Ready; 
                         width: units.gu(6); 
@@ -78,7 +75,7 @@ Label {
                     width: undefined;
                     text: root.title; 
                     font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                    horizontalAlignment: root.titleAlignment; 
+                    horizontalAlignment: Text.AlignLeft;
                 }
 ,Label { 
                         id: subtitleLabel; 

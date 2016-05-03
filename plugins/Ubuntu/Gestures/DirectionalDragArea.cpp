@@ -194,6 +194,26 @@ void DirectionalDragArea::setImmediateRecognition(bool enabled)
     }
 }
 
+bool DirectionalDragArea::monitorOnly() const
+{
+    return d->monitorOnly;
+}
+
+void DirectionalDragArea::setMonitorOnly(bool monitorOnly)
+{
+    if (d->monitorOnly != monitorOnly) {
+        d->monitorOnly = monitorOnly;
+
+        if (monitorOnly && d->status == DirectionalDragAreaPrivate::Undecided) {
+            TouchRegistry::instance()->removeCandidateOwnerForTouch(d->touchId, this);
+            // We still wanna know when it ends for keeping the composition time window up-to-date
+            TouchRegistry::instance()->addTouchWatcher(d->touchId, this);
+        }
+
+        Q_EMIT monitorOnlyChanged(monitorOnly);
+    }
+}
+
 void DirectionalDragArea::removeTimeConstraints()
 {
     d->setMaxTime(60 * 60 * 1000);
@@ -260,7 +280,10 @@ void DirectionalDragAreaPrivate::unownedTouchEvent(UnownedTouchEvent *unownedTou
             unownedTouchEvent_undecided(unownedTouchEvent);
             break;
         default: // Recognized:
-            // do nothing
+            if (monitorOnly) {
+                // Treat unowned event as if we owned it, but we are really just watching it
+                touchEvent_recognized(event);
+            }
             break;
     }
 
@@ -311,7 +334,9 @@ void DirectionalDragAreaPrivate::unownedTouchEvent_undecided(UnownedTouchEvent *
     }
 
     if (movedFarEnoughAlongGestureAxis()) {
-        TouchRegistry::instance()->requestTouchOwnership(touchId, q);
+        if (!monitorOnly) {
+            TouchRegistry::instance()->requestTouchOwnership(touchId, q);
+        }
         setStatus(Recognized);
         setPublicPos(touchPoint->pos());
         setPublicScenePos(touchScenePos);
@@ -411,12 +436,21 @@ void DirectionalDragAreaPrivate::touchEvent_absent(QTouchEvent *event)
         if (recognitionIsDisabled()) {
             // Behave like a dumb TouchArea
             ddaDebug("Gesture recognition is disabled. Requesting touch ownership immediately.");
-            TouchRegistry::instance()->requestTouchOwnership(touchId, q);
             setStatus(Recognized);
-            event->accept();
+            if (monitorOnly) {
+                watchPressedTouchPoints(touchPoints);
+                event->ignore();
+            } else {
+                TouchRegistry::instance()->requestTouchOwnership(touchId, q);
+                event->accept();
+            }
         } else {
             // just monitor the touch points for now.
-            TouchRegistry::instance()->addCandidateOwnerForTouch(touchId, q);
+            if (monitorOnly) {
+                watchPressedTouchPoints(touchPoints);
+            } else {
+                TouchRegistry::instance()->addCandidateOwnerForTouch(touchId, q);
+            }
 
             setStatus(Undecided);
             // Let the item below have it. We will monitor it and grab it later if a gesture
@@ -606,6 +640,9 @@ void DirectionalDragAreaPrivate::setStatus(Status newStatus)
             Q_EMIT q->pressedChanged(true);
             break;
         case Recognized:
+            if (oldStatus == WaitingForTouch) { // for immediate recognition
+                Q_EMIT q->pressedChanged(true);
+            }
             Q_EMIT q->draggingChanged(true);
             break;
         default:
@@ -715,8 +752,14 @@ void DirectionalDragArea::itemChange(ItemChange change, const ItemChangeData &va
             value.window->installEventFilter(TouchRegistry::instance());
 
             // TODO: Handle window->screen() changes (ie window changing screens)
-            qreal pixelsPerMm = value.window->screen()->physicalDotsPerInch() / 25.4;
-            d->setPixelsPerMm(pixelsPerMm);
+
+            qreal pixelsPerInch = value.window->screen()->physicalDotsPerInch();
+            if (pixelsPerInch < 0) {
+                // It can return garbage when run in a XVFB server (Virtual Framebuffer 'fake' X server)
+                pixelsPerInch = 72;
+            }
+
+            d->setPixelsPerMm(pixelsPerInch / 25.4);
         }
     }
 }
@@ -884,5 +927,6 @@ DirectionalDragAreaPrivate::DirectionalDragAreaPrivate(DirectionalDragArea *q)
     , recognitionTimer(nullptr)
     , timeSource(new RealTimeSource)
     , activeTouches(timeSource)
+    , monitorOnly(false)
 {
 }

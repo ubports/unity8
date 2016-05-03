@@ -20,6 +20,7 @@ import GSettings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
+import Unity.Session 0.1
 import "../Components"
 
 Showable {
@@ -33,7 +34,7 @@ Showable {
     // How far to offset the top greeter layer during a launcher left-drag
     property real launcherOffset
 
-    readonly property bool active: shown || hasLockedApp
+    readonly property bool active: required || hasLockedApp
     readonly property bool fullyShown: loader.item ? loader.item.fullyShown : false
 
     // True when the greeter is waiting for PAM or other setup process
@@ -60,10 +61,10 @@ Showable {
 
     function forceShow() {
         showNow();
-        loader.item.reset();
+        d.selectUser(d.currentIndex, true);
     }
 
-    function notifyAppFocused(appId) {
+    function notifyAppFocusRequested(appId) {
         if (!active) {
             return;
         }
@@ -80,19 +81,20 @@ Showable {
         }
     }
 
-    function notifyAboutToFocusApp(appId) {
+    // Notify that the user has explicitly requested the given app through unity8 GUI.
+    function notifyUserRequestedApp(appId) {
         if (!active) {
             return;
         }
 
         // A hint that we're about to focus an app.  This way we can look
         // a little more responsive, rather than waiting for the above
-        // notifyAppFocused call.  We also need this in case we have a locked
+        // notifyAppFocusRequested call.  We also need this in case we have a locked
         // app, in order to show lockscreen instead of new app.
         d.startUnlock(false /* toTheRight */);
     }
 
-    // This is a just a glorified notifyAboutToFocusApp(), but it does one
+    // This is a just a glorified notifyUserRequestedApp(), but it does one
     // other thing: it hides any cover pages to the RIGHT, because the user
     // just came from a launcher drag starting on the left.
     // It also returns a boolean value, indicating whether there was a visual
@@ -160,6 +162,14 @@ Showable {
                 return false;
             }
         }
+
+        function checkForcedUnlock() {
+            if (forcedUnlock && shown && loader.item) {
+                // pretend we were just authenticated
+                loader.item.notifyAuthenticationSucceeded();
+                loader.item.hide();
+            }
+        }
     }
 
     onLauncherOffsetChanged: {
@@ -168,12 +178,8 @@ Showable {
         }
     }
 
-    onForcedUnlockChanged: {
-        if (forcedUnlock && shown) {
-            // pretend we were just authenticated
-            loader.item.notifyAuthenticationSucceeded();
-        }
-    }
+    onForcedUnlockChanged: d.checkForcedUnlock()
+    Component.onCompleted: d.checkForcedUnlock()
 
     onRequiredChanged: {
         if (required) {
@@ -226,14 +232,17 @@ Showable {
         }
 
         function checkForForcedDelay() {
+            if (greeterSettings.lockedOutTime === 0) {
+                return;
+            }
+
             var now = new Date();
-            delayTarget = now;
-            delayTarget.setTime(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
+            delayTarget = new Date(greeterSettings.lockedOutTime + failedLoginsDelayMinutes * 60000);
 
             // If tooEarly is true, something went very wrong.  Bug or NTP
             // misconfiguration maybe?
             var tooEarly = now.getTime() < greeterSettings.lockedOutTime;
-            var tooLate = now > delayTarget;
+            var tooLate = now >= delayTarget;
 
             // Compare stored time to system time. If a malicious actor is
             // able to manipulate time to avoid our lockout, they already have
@@ -438,6 +447,11 @@ Showable {
                 }
             }
         }
+    }
+
+    Connections {
+        target: DBusUnitySessionService
+        onLockRequested: root.forceShow()
     }
 
     Binding {

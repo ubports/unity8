@@ -38,6 +38,14 @@ Rectangle {
         "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
     }
 
+    property var emblemheaderjson: {
+        "title": "THE TITLE",
+        "subtitle": "Something catchy",
+        "mascot": "../graphics/play_button.png",
+        "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
+        "emblem": Qt.resolvedUrl("../artwork/emblem.png")
+    }
+
     property var brokenheaderjson: {
         "title": "THE TITLE",
         "subtitle": "Something catchy",
@@ -54,9 +62,17 @@ Rectangle {
         "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
     }
 
+    property var emptyfallbackheaderjson: {
+        "title": "THE TITLE",
+        "subtitle": "Something catchy",
+        "mascot": "",
+        "fallback": "../graphics/play_button.png",
+        "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}]
+    }
+
     PreviewHeader {
         id: previewHeader
-        widgetData: headerjson
+        widgetData: emblemheaderjson
         width: units.gu(30)
 
         Rectangle {
@@ -128,6 +144,15 @@ Rectangle {
             }
         }
 
+        function test_emblem() {
+            previewHeader.widgetData = emblemheaderjson;
+
+            var emblemIcon = findChild(previewHeader, "emblemIcon");
+            var titleLabel = findChild(previewHeader, "titleLabel");
+            verify(emblemIcon.height > 0);
+            compare(emblemIcon.height, titleLabel.font.pixelSize);
+        }
+
         function test_json() {
             headerjson = origHeaderjson;
             previewHeader.widgetData = headerjson;
@@ -146,6 +171,13 @@ Rectangle {
 
             previewHeader.widgetData = {};
             previewHeader.widgetData = fallbackheaderjson;
+            tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
+            var mascot = findChild(previewHeader, "mascotShape");
+            tryCompare(mascot, "visible", true);
+            tryCompare(mascot.source, "status", Image.Ready);
+
+            previewHeader.widgetData = {};
+            previewHeader.widgetData = emptyfallbackheaderjson;
             tryCompareFunction(function() { return findChild(previewHeader, "mascotShape") != null }, true);
             var mascot = findChild(previewHeader, "mascotShape");
             tryCompare(mascot, "visible", true);

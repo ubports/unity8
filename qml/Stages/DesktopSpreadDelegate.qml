@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,12 +25,13 @@ Item {
 
     property alias window: applicationWindow
     property alias application: applicationWindow.application
+    property alias surface: applicationWindow.surface
 
     property bool highlightShown: false
     property real shadowOpacity: 1
 
-    property int windowWidth: application && application.session && application.session.lastSurface ? application.session.lastSurface.size.width : 0
-    property int windowHeight: application && application.session && application.session.lastSurface ? application.session.lastSurface.size.height : 0
+    property int windowWidth: surface ? surface.size.width : 0
+    property int windowHeight: surface ? surface.size.height : 0
 
     state: "normal"
     states: [
@@ -56,6 +57,11 @@ Item {
         }
     ]
 
+    scale: highlightShown ? 1.025 : 1
+    Behavior on scale {
+        UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+    }
+
     BorderImage {
         anchors {
             fill: root
@@ -70,7 +76,7 @@ Item {
         anchors.fill: parent
         anchors.margins: -units.gu(1)
         color: "white"
-        opacity: highlightShown ? 0.15 : 0
+        opacity: highlightShown ? 0.55 : 0
         antialiasing: true
     }
 
@@ -106,6 +112,15 @@ Item {
                     yScale: applicationWindow.itemScale
                 }
             ]
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        opacity: root.highlightShown ? 0 : .1
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
         }
     }
 }

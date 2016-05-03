@@ -22,11 +22,11 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 
 Rectangle {
-    color: "#292929"
+    color: theme.palette.normal.background
     id: root
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruGradient"
+        theme.name = "Ubuntu.Components.Themes.SuruDark"
     }
 
     PageStack {

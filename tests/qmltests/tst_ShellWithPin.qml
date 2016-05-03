@@ -128,6 +128,20 @@ Item {
         phoneNumber: "+447812221111"
     }
 
+    Item {
+        id: fakeDismissTimer
+        property bool running: false
+        signal triggered
+
+        function stop() {
+            running = false;
+        }
+
+        function restart() {
+            running = true;
+        }
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "ShellWithPin"
@@ -143,6 +157,11 @@ Item {
             waitForLockscreen()
             greeter.failedLoginsDelayAttempts = -1;
             greeter.maxFailedLogins = -1;
+
+            var launcher = findChild(shell, "launcher");
+            var panel = findChild(launcher, "launcherPanel");
+            verify(!!panel);
+            panel.dismissTimer = fakeDismissTimer;
         }
 
         function cleanup() {
@@ -176,14 +195,6 @@ Item {
 
             tryCompare(shellLoader, "status", Loader.Ready)
             removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item)
-        }
-
-        function killApps() {
-            while (ApplicationManager.count > 1) {
-                var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
-                ApplicationManager.stopApplication(ApplicationManager.get(appIndex).appId);
-            }
-            compare(ApplicationManager.count, 1)
         }
 
         function swipeAwayGreeter(waitForCoverPage) {
@@ -251,28 +262,6 @@ Item {
             tryCompare(sessionSpy, "count", 1)
         }
 
-        function test_edgeDemoHidesLockscreen() {
-            LightDM.Greeter.showGreeter()
-            sessionSpy.clear()
-            var lockscreen = findChild(shell, "lockscreen")
-
-            tryCompare(lockscreen, "shown", true)
-            AccountsService.demoEdges = true
-            tryCompare(lockscreen, "shown", false)
-
-            var greeter = findChild(shell, "greeter");
-            swipeAwayGreeter(false);
-            tryCompare(greeter, "shown", false);
-            tryCompare(sessionSpy, "count", 1)
-
-            // Lockscreen is only hidden by the edge demo, so if we turn that
-            // off and show greeter again, lockscreen should appear
-            AccountsService.demoEdges = false
-            LightDM.Greeter.showGreeter()
-            lockscreen = findChild(shell, "lockscreen");
-            tryCompare(lockscreen, "shown", true)
-        }
-
         function test_disabledEdges() {
             var launcher = findChild(shell, "launcher")
             tryCompare(launcher, "available", true)
@@ -320,6 +309,7 @@ Item {
             var greeter = findChild(shell, "greeter");
             var emergencyButton = findChild(greeter, "emergencyCallLabel");
             tap(emergencyButton)
+
 
             tryCompare(greeter, "shown", false);
             killApps() // kill dialer-app, as if it crashed
@@ -427,12 +417,15 @@ Item {
 
             var greeter = findChild(shell, "greeter");
             var lockscreen = findChild(shell, "lockscreen");
+            verify(lockscreen);
 
             lockscreen.emergencyCall();
             confirmLockedApp("dialer-app");
             callManager.foregroundCall = phoneCall;
 
             LightDM.Greeter.showGreeter();
+            lockscreen = findChild(shell, "lockscreen");
+            verify(lockscreen);
             tryCompare(lockscreen, "shown", true);
             tryCompare(greeter, "hasLockedApp", false);
 
@@ -479,7 +472,7 @@ Item {
 
             var app = ApplicationManager.startApplication("gallery-app");
             // wait until the app is fully loaded (ie, real surface replaces splash screen)
-            tryCompareFunction(function() { return app.session !== null && app.session.lastSurface !== null }, true);
+            tryCompareFunction(function() { return app.session !== null && app.surfaceList.count > 0 }, true);
 
             // New app hides coverPage?
             var greeter = findChild(shell, "greeter");
@@ -565,11 +558,6 @@ Item {
             tryCompare(coverPage, "showProgress", 1);
 
             var launcher = testCase.findChild(shell, "launcher")
-            {
-                var dismissTimer = testCase.findInvisibleChild(launcher, "dismissTimer");
-                // effectively disable the dismiss timer
-                dismissTimer.interval = 24 * 60 * 60 * 1000 // 24 hours
-            }
             var launcherPanel = testCase.findChild(launcher, "launcherPanel");
 
             var toX = shell.width * 0.45;
@@ -601,8 +589,8 @@ Item {
             var coverPage = findChild(shell, "coverPage");
             var lockscreen = findChild(shell, "lockscreen");
             var launcher = findChild(shell, "launcherPanel");
-            ApplicationManager.startApplication("gallery-app");
-            tryCompare(ApplicationManager, "focusedApplicationId", "gallery-app");
+            var galleryApp = ApplicationManager.startApplication("gallery-app");
+            tryCompare(shell, "mainApp", galleryApp);
 
             // Show greeter
             LightDM.Greeter.showGreeter();
@@ -613,13 +601,13 @@ Item {
             tryCompare(launcher, "x", -launcher.width);
             tryCompare(coverPage, "showProgress", 0);
             compare(lockscreen.shown, true);
-            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+            tryCompare(shell, "mainApp", galleryApp);
 
             // Now attempt a swipe on lockscreen
             touchFlick(shell, 2, shell.height / 2, units.gu(30), shell.height / 2);
             tryCompare(launcher, "x", 0);
             compare(lockscreen.shown, true);
-            compare(ApplicationManager.focusedApplicationId, "gallery-app");
+            tryCompare(shell, "mainApp", galleryApp);
         }
     }
 }

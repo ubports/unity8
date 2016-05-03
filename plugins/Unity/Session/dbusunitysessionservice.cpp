@@ -30,6 +30,9 @@
 #include <QDateTime>
 #include <QDBusUnixFileDescriptor>
 
+// Glib
+#include <glib.h>
+
 #define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
 #define LOGIN1_PATH QStringLiteral("/org/freedesktop/login1")
 #define LOGIN1_IFACE QStringLiteral("org.freedesktop.login1.Manager")
@@ -295,12 +298,7 @@ bool DBusUnitySessionService::CanLock() const
 
 QString DBusUnitySessionService::UserName() const
 {
-    struct passwd *p = getpwuid(geteuid());
-    if (p) {
-        return QString::fromUtf8(p->pw_name);
-    }
-
-    return QString();
+    return QString::fromUtf8(g_get_user_name());
 }
 
 QString DBusUnitySessionService::RealName() const
@@ -336,6 +334,9 @@ void DBusUnitySessionService::PromptLock()
 
 void DBusUnitySessionService::Lock()
 {
+    // signal u8 to show the lockscreen/greeter
+    PromptLock();
+
     // lock the session using the org.freedesktop.DisplayManager system DBUS service
     const QString sessionPath = QString::fromLocal8Bit(qgetenv("XDG_SESSION_PATH"));
     QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.freedesktop.DisplayManager"),
@@ -348,7 +349,7 @@ void DBusUnitySessionService::Lock()
     connect(watcher, &QDBusPendingCallWatcher::finished,
         this, [this](QDBusPendingCallWatcher* watcher) {
 
-        QDBusPendingReply<QVariant> reply = *watcher;
+        QDBusPendingReply<void> reply = *watcher;
         watcher->deleteLater();
         if (reply.isError()) {
             qWarning() << "Lock call failed" << reply.error().message();

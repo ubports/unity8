@@ -66,7 +66,7 @@ Item {
         return layout;
     }
 
-    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components);
+    property var cardComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, false);
 
     // FIXME: Saviq
     // Only way for the card below to actually be laid out completely.
@@ -139,29 +139,6 @@ Item {
     readonly property int headerHeight: cardLoader.item ? cardLoader.item.headerHeight : 0
     property size artShapeSize: cardLoader.item ? cardLoader.item.artShapeSize : 0
 
-    /*!
-     \brief Desired alignment of title
-     */
-    readonly property int titleAlignment: {
-        if (template["card-layout"] === "horizontal"
-            || typeof components["title"] !== "object"
-            || components["title"]["align"] === "left") return Text.AlignLeft;
-
-        var keys = ["mascot", "emblem", "subtitle", "attributes", "summary"];
-
-        for (var key in keys) {
-            key = keys[key];
-            try {
-                if (typeof components[key] === "string"
-                    || typeof components[key]["field"] === "string") return Text.AlignLeft;
-            } catch (e) {
-                continue;
-            }
-        }
-
-        return Text.AlignHCenter;
-    }
-
     QtObject {
         id: carouselTool
 
@@ -216,11 +193,9 @@ Item {
             "summary": "—\n—\n—\n—\n—",
             "attributes": attributesModel.model
         }
-        sourceComponent: cardTool.cardComponent
+        sourceComponent: CardCreatorCache.getCardComponent(cardTool.template, cardTool.components, true);
         onLoaded: {
             item.objectName = "cardToolCard";
-            item.asynchronous = false;
-            item.components = Qt.binding(function() { return cardTool.components; });
             item.width = Qt.binding(function() { return cardTool.cardWidth !== -1 ? cardTool.cardWidth : item.implicitWidth; });
             item.height = Qt.binding(function() { return cardTool.cardHeight !== -1 ? cardTool.cardHeight : item.implicitHeight; });
         }

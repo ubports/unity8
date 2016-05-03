@@ -24,12 +24,11 @@ Item {
     implicitWidth: button.width
 
     property var shareData
+    property alias active: peerPicker.active
     readonly property bool isUrlExternal: url && url.indexOf("file:///") != 0 && url.indexOf("/") != 0
-    readonly property string contentType: shareData ? shareData["contentType"] : ""
+    readonly property string contentType: shareData ? shareData["content-type"] : ""
     readonly property var url: shareData ? shareData["uri"] : ""
     readonly property Item rootItem: QuickUtils.rootItem(root)
-
-    visible: url != ""
 
     AbstractButton {
         id: button
@@ -43,6 +42,22 @@ Item {
             width: units.gu(3)
             source: "image://theme/share"
         }
+    }
+
+    function createExportedItems(url) {
+        var items = new Array();
+        if (typeof url === "string") {
+            var exportItem = exportItemComponent.createObject();
+            exportItem.url = url;
+            items.push(exportItem);
+        } else {
+            for (var i = 0; i < url.length; i++) {
+                var exportItem = exportItemComponent.createObject();
+                exportItem.url = url[i];
+                items.push(exportItem);
+            }
+        }
+        return items;
     }
 
     Component {
@@ -77,13 +92,7 @@ Item {
             onPeerSelected: {
                 var transfer = peer.request();
                 if (transfer.state === ContentTransfer.InProgress) {
-                    var items = new Array();
-                    for (var i = 0; i < url.length; i++) {
-                        var exportItem = exportItemComponent.createObject();
-                        exportItem.url = url[i];
-                        items.push(exportItem);
-                    }
-                    transfer.items = items;
+                    transfer.items = createExportedItems(url);
                     transfer.state = ContentTransfer.Charged;
                 }
                 peerPicker.visible = false;
@@ -98,7 +107,7 @@ Item {
         parent: rootItem
         anchors.fill: parent
         visible: false
-        active: root.visible
+        active: root.url != ""
 
         sourceComponent: contentPeerComponent
     }

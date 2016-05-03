@@ -219,13 +219,7 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
         Q_FOREACH(ListItem *item, m_visibleItems)
             releaseItem(item);
         m_visibleItems.clear();
-        m_firstVisibleIndex = -1;
-        adjustMinYExtent();
-        setContentY(0);
-        m_clipItem->setY(0);
-        if (m_topSectionItem) {
-            QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
-        }
+        initializeValuesForEmptyList();
 
         m_delegateModel->setDelegate(delegate);
 
@@ -233,6 +227,17 @@ void ListViewWithPageHeader::setDelegate(QQmlComponent *delegate)
         m_delegateValidated = false;
         m_contentHeightDirty = true;
         polish();
+    }
+}
+
+void ListViewWithPageHeader::initializeValuesForEmptyList()
+{
+    m_firstVisibleIndex = -1;
+    adjustMinYExtent();
+    setContentY(0);
+    m_clipItem->setY(0);
+    if (m_topSectionItem) {
+        QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
     }
 }
 
@@ -280,7 +285,7 @@ void ListViewWithPageHeader::setSectionDelegate(QQmlComponent *delegate)
 
         m_sectionDelegate = delegate;
 
-        m_topSectionItem = getSectionItem(QString());
+        m_topSectionItem = getSectionItem(QString(), false /*watchGeometry*/);
         m_topSectionItem->setZ(3);
         QQuickItemPrivate::get(m_topSectionItem)->setCulled(true);
         connect(m_topSectionItem, &QQuickItem::heightChanged, this, &ListViewWithPageHeader::stickyHeaderHeightChanged);
@@ -509,6 +514,11 @@ qreal ListViewWithPageHeader::minYExtent() const
     return m_minYExtent;
 }
 
+qreal ListViewWithPageHeader::maxYExtent() const
+{
+    return height() - contentHeight();
+}
+
 void ListViewWithPageHeader::componentComplete()
 {
     if (m_delegateModel)
@@ -695,8 +705,10 @@ void ListViewWithPageHeader::reallyReleaseItem(ListItem *listItem)
 
 void ListViewWithPageHeader::releaseItem(ListItem *listItem)
 {
-    QQuickItemPrivate *itemPrivate = QQuickItemPrivate::get(listItem->m_item);
-    itemPrivate->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    QQuickItemPrivate::get(listItem->m_item)->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    if (listItem->sectionItem()) {
+        QQuickItemPrivate::get(listItem->sectionItem())->removeItemChangeListener(this, QQuickItemPrivate::Geometry);
+    }
     m_itemsToRelease << listItem;
 }
 
@@ -739,7 +751,7 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(int modelIndex, bool alreadyI
     return getSectionItem(section);
 }
 
-QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
+QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText, bool watchGeometry)
 {
     QQuickItem *sectionItem = nullptr;
 
@@ -763,7 +775,9 @@ QQuickItem *ListViewWithPageHeader::getSectionItem(const QString &sectionText)
     }
     m_sectionDelegate->completeCreate();
 
-    // TODO attach to sectionItem so we can accomodate to it changing its height
+    if (watchGeometry) {
+        QQuickItemPrivate::get(sectionItem)->addItemChangeListener(this, QQuickItemPrivate::Geometry);
+    }
 
     return sectionItem;
 }
@@ -835,7 +849,7 @@ bool ListViewWithPageHeader::removeNonVisibleItems(qreal bufferFrom, qreal buffe
         }
     }
     if (!foundVisible) {
-        m_firstVisibleIndex = -1;
+        initializeValuesForEmptyList();
     }
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
         adjustMinYExtent();
@@ -1092,7 +1106,11 @@ void ListViewWithPageHeader::onModelUpdated(const QQmlChangeSet &changeSet, bool
     }
 
     if (m_firstVisibleIndex != oldFirstVisibleIndex) {
-        adjustMinYExtent();
+        if (m_visibleItems.isEmpty()) {
+            initializeValuesForEmptyList();
+        } else {
+            adjustMinYExtent();
+        }
     }
 
     for (int i = 0; i < m_visibleItems.count(); ++i) {
@@ -1117,15 +1135,23 @@ void ListViewWithPageHeader::contentYAnimationRunningChanged(bool running)
     }
 }
 
-void ListViewWithPageHeader::itemGeometryChanged(QQuickItem * /*item*/, const QRectF &newGeometry, const QRectF &oldGeometry)
+void ListViewWithPageHeader::itemGeometryChanged(QQuickItem *item, const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     const qreal heightDiff = newGeometry.height() - oldGeometry.height();
     if (heightDiff != 0) {
-        if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY() && !m_visibleItems.isEmpty()) {
+        if (!m_visibleItems.isEmpty()) {
             ListItem *firstItem = m_visibleItems.first();
-            firstItem->setY(firstItem->y() - heightDiff);
-            adjustMinYExtent();
-            layout();
+            const auto prevFirstItemY = firstItem->y();
+            if (!m_inContentHeightKeepHeaderShown && oldGeometry.y() + oldGeometry.height() + m_clipItem->y() <= contentY()) {
+                firstItem->setY(firstItem->y() - heightDiff);
+            } else if (item == firstItem->sectionItem()) {
+                firstItem->setY(firstItem->y() + heightDiff);
+            }
+
+            if (firstItem->y() != prevFirstItemY) {
+                adjustMinYExtent();
+                layout();
+            }
         }
         refill();
         adjustMinYExtent();
@@ -1177,7 +1203,7 @@ void ListViewWithPageHeader::headerHeightChanged(qreal newHeaderHeight, qreal ol
 
 void ListViewWithPageHeader::adjustMinYExtent()
 {
-    if (m_visibleItems.isEmpty()) {
+    if (m_visibleItems.isEmpty() || (contentHeight() + m_minYExtent < height())) {
         m_minYExtent = 0;
     } else {
         qreal nonCreatedHeight = 0;
@@ -1359,6 +1385,10 @@ void ListViewWithPageHeader::updatePolish()
 
         m_contentHeightDirty = false;
         adjustMinYExtent();
+        if (contentHeight + m_minYExtent < height()) {
+            // need this since in the previous call to adjustMinYExtent contentHeight is not set yet
+            m_minYExtent = 0;
+        }
         m_inContentHeightKeepHeaderShown = m_headerItem && m_headerItem->y() == contentY();
         setContentHeight(contentHeight);
         m_inContentHeightKeepHeaderShown = false;

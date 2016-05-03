@@ -27,6 +27,8 @@ Item {
     width: units.gu(90)
     height: units.gu(80)
 
+    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark" // use the same theme as the real shell
+
     Row {
         anchors.fill: parent
         Loader {
@@ -61,7 +63,7 @@ Item {
 
         Rectangle {
             id: controls
-            color: "white"
+            color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
 
@@ -517,6 +519,15 @@ Item {
             tryCompare(coverPage, "visible", false);
             tryCompare(coverPage, "shown", false);
             tryCompare(coverPage, "showProgress", 0);
+        }
+
+        // Make sure that if user has a mouse, they can still get rid of cover page
+        function test_mouseClickHidesCoverPage() {
+            var coverPage = findChild(view, "coverPage");
+
+            verify(coverPage.shown);
+            mouseClick(coverPage, coverPage.width/2, coverPage.height - units.gu(2));
+            verify(!coverPage.shown);
         }
     }
 }

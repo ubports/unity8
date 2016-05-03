@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@ import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Application 0.1
+import "../Components"
+import Utils 0.1
 
 FocusScope {
     id: root
@@ -26,7 +28,10 @@ FocusScope {
     property bool altTabPressed: false
     property Item workspace: null
 
+    readonly property alias ready: blurLayer.ready
     readonly property alias highlightedIndex: spreadRepeater.highlightedIndex
+
+    signal playFocusAnimation(int index)
 
     function show() {
         spreadContainer.animateIn = true;
@@ -65,12 +70,12 @@ FocusScope {
     }
 
     function selectNext(isAutoRepeat) {
-        if (isAutoRepeat && spreadRepeater.highlightedIndex >= ApplicationManager.count -1) {
+        if (isAutoRepeat && spreadRepeater.highlightedIndex >= topLevelSurfaceList.count -1) {
             return; // AutoRepeat is not allowed to wrap around
         }
 
-        spreadRepeater.highlightedIndex = (spreadRepeater.highlightedIndex + 1) % ApplicationManager.count;
-        var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, spreadRepeater.highlightedIndex - 3));
+        spreadRepeater.highlightedIndex = (spreadRepeater.highlightedIndex + 1) % topLevelSurfaceList.count;
+        var newContentX = ((spreadFlickable.contentWidth) / (topLevelSurfaceList.count + 1)) * Math.max(0, Math.min(topLevelSurfaceList.count - 5, spreadRepeater.highlightedIndex - 3));
         if (spreadFlickable.contentX < newContentX || spreadRepeater.highlightedIndex == 0) {
             spreadFlickable.snapTo(newContentX)
         }
@@ -81,24 +86,52 @@ FocusScope {
             return; // AutoRepeat is not allowed to wrap around
         }
 
-        var newIndex = spreadRepeater.highlightedIndex - 1 >= 0 ? spreadRepeater.highlightedIndex - 1 : ApplicationManager.count - 1;
+        var newIndex = spreadRepeater.highlightedIndex - 1 >= 0 ? spreadRepeater.highlightedIndex - 1 : topLevelSurfaceList.count - 1;
         spreadRepeater.highlightedIndex = newIndex;
-        var newContentX = ((spreadFlickable.contentWidth) / (ApplicationManager.count + 1)) * Math.max(0, Math.min(ApplicationManager.count - 5, spreadRepeater.highlightedIndex - 1));
-        if (spreadFlickable.contentX > newContentX || newIndex == ApplicationManager.count -1) {
+        var newContentX = ((spreadFlickable.contentWidth) / (topLevelSurfaceList.count + 1)) * Math.max(0, Math.min(topLevelSurfaceList.count - 5, spreadRepeater.highlightedIndex - 1));
+        if (spreadFlickable.contentX > newContentX || newIndex == topLevelSurfaceList.count -1) {
             spreadFlickable.snapTo(newContentX)
         }
     }
 
     function focusSelected() {
         if (spreadRepeater.highlightedIndex != -1) {
-            var application = ApplicationManager.get(spreadRepeater.highlightedIndex);
-            ApplicationManager.requestFocusApplication(application.appId);
+            if (spreadContainer.visible) {
+                root.playFocusAnimation(spreadRepeater.highlightedIndex)
+            }
+            var surface = topLevelSurfaceList.surfaceAt(spreadRepeater.highlightedIndex);
+            surface.requestFocus();
         }
     }
 
     function cancel() {
         spreadRepeater.highlightedIndex = -1;
         state = ""
+    }
+
+    BlurLayer {
+        id: blurLayer
+        anchors.fill: parent
+        source: root.workspace
+        visible: false
+    }
+
+    Rectangle {
+        id: spreadBackground
+        anchors.fill: parent
+        color: "#B2000000"
+        visible: false
+        opacity: visible ? 1 : 0
+        Behavior on opacity {
+            UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+        }
+    }
+
+    MouseArea {
+        id: eventEater
+        anchors.fill: parent
+        visible: spreadBackground.visible
+        enabled: visible
     }
 
     Item {
@@ -112,7 +145,7 @@ FocusScope {
         Repeater {
             id: spreadRepeater
             objectName: "spreadRepeater"
-            model: ApplicationManager
+            model: topLevelSurfaceList
 
             property int highlightedIndex: -1
             property int closingIndex: -1
@@ -137,6 +170,8 @@ FocusScope {
                 property int itemScaleOriginX: 0
                 property int itemScaleOriginY: 0
 
+                readonly property string windowTitle: clippedSpreadDelegate.window.title
+
                 Behavior on x {
                     id: closeBehavior
                     enabled: spreadRepeater.closingIndex >= 0
@@ -150,7 +185,8 @@ FocusScope {
                     objectName: "clippedSpreadDelegate"
                     anchors.left: parent.left
                     anchors.top: parent.top
-                    application: ApplicationManager.get(index)
+                    application: model.application
+                    surface: model.surface
                     width: spreadMaths.spreadHeight
                     height: spreadMaths.spreadHeight
 
@@ -184,7 +220,7 @@ FocusScope {
                     id: spreadMaths
                     flickable: spreadFlickable
                     itemIndex: index
-                    totalItems: Math.max(6, ApplicationManager.count)
+                    totalItems: Math.max(6, topLevelSurfaceList.count)
                     sceneHeight: root.height
                     itemHeight: spreadDelegate.height
                 }
@@ -226,13 +262,20 @@ FocusScope {
                     Transition {
                         from: ""
                         to: "altTab"
-                        PropertyAction { target: spreadDelegate; properties: "y,height,width,angle,z,itemScale,itemScaleOriginY,visible" }
-                        PropertyAction { target: clippedSpreadDelegate; properties: "anchors.topMargin" }
-                        PropertyAnimation {
-                            target: spreadDelegate; properties: "x"
-                            from: root.width
-                            duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration :0
-                            easing: UbuntuAnimation.StandardEasing
+                        SequentialAnimation {
+                            ParallelAnimation {
+                                PropertyAction { target: spreadDelegate; properties: "y,height,width,angle,z,itemScale,itemScaleOriginY,visible" }
+                                PropertyAction { target: clippedSpreadDelegate; properties: "anchors.topMargin" }
+                                PropertyAnimation {
+                                    target: spreadDelegate; properties: "x"
+                                    from: root.width
+                                    duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration :0
+                                    easing: UbuntuAnimation.StandardEasing
+                                }
+                                UbuntuNumberAnimation { target: clippedSpreadDelegate; property: "shadowOpacity"; from: 0; to: spreadMaths.shadowOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
+                                UbuntuNumberAnimation { target: tileInfo; property: "opacity"; from: 0; to: spreadMaths.tileInfoOpacity; duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0 }
+                            }
+                            PropertyAction { target: spreadSelectArea; property: "enabled" }
                         }
                     }
                 ]
@@ -240,7 +283,11 @@ FocusScope {
                 MouseArea {
                     id: tileInfo
                     objectName: "tileInfo"
-                    anchors { left: parent.left; top: clippedSpreadDelegate.bottom; topMargin: units.gu(5) }
+                    anchors {
+                        left: parent.left
+                        top: clippedSpreadDelegate.bottom
+                        topMargin: ((spreadMaths.sceneHeight - spreadDelegate.y) - clippedSpreadDelegate.height) * 0.2
+                    }
                     property int nextItemX: spreadRepeater.count > index + 1 ? spreadRepeater.itemAt(index + 1).x : spreadDelegate.x + units.gu(30)
                     width: Math.min(units.gu(30), nextItemX - spreadDelegate.x)
                     height: titleInfoColumn.height
@@ -262,18 +309,26 @@ FocusScope {
                         anchors { left: parent.left; top: parent.top; right: parent.right }
                         spacing: units.gu(1)
 
-                        UbuntuShape {
+                        UbuntuShapeForItem {
                             Layout.preferredHeight: Math.min(units.gu(6), root.height * .05)
                             Layout.preferredWidth: height * 8 / 7.6
                             image: Image {
                                 anchors.fill: parent
-                                source: model.icon
+                                source: model.application.icon
+                                Rectangle {
+                                    anchors.fill: parent
+                                    color: "black"
+                                    opacity: clippedSpreadDelegate.highlightShown ? 0 : .1
+                                    Behavior on opacity {
+                                        UbuntuNumberAnimation { duration: UbuntuAnimation.SnapDuration }
+                                    }
+                                }
                             }
                         }
                         Label {
                             Layout.fillWidth: true
                             Layout.preferredHeight: units.gu(6)
-                            text: model.name
+                            text: model.application ? model.application.name : spreadDelegate.windowTitle
                             wrapMode: Text.WordWrap
                             elide: Text.ElideRight
                             maximumLineCount: 2
@@ -303,7 +358,7 @@ FocusScope {
                         anchors.margins: -units.gu(2)
                         onClicked: {
                             spreadRepeater.closingIndex = index;
-                            ApplicationManager.stopApplication(model.appId)
+                            model.surface.close();
                         }
                     }
                 }
@@ -370,7 +425,7 @@ FocusScope {
         objectName: "spreadFlickable"
         anchors.fill: parent
         property int minContentWidth: 6 * Math.min(height / 4, width / 5)
-        contentWidth: Math.max(6, ApplicationManager.count) * Math.min(height / 4, width / 5)
+        contentWidth: Math.max(6, topLevelSurfaceList.count) * Math.min(height / 4, width / 5)
         enabled: false
 
         function snapTo(contentX) {
@@ -420,7 +475,7 @@ FocusScope {
 
                             property var source: ShaderEffectSource {
                                 id: shaderEffectSource
-                                sourceItem: appContainer
+                                sourceItem: root.workspace
                             }
 
                             fragmentShader: "
@@ -472,7 +527,7 @@ FocusScope {
     Label {
         id: currentSelectedLabel
         anchors { bottom: parent.bottom; bottomMargin: root.height * 0.625; horizontalCenter: parent.horizontalCenter }
-        text: spreadRepeater.highlightedIndex >= 0 ? ApplicationManager.get(spreadRepeater.highlightedIndex).name : ""
+        text: spreadRepeater.highlightedIndex >= 0 ? spreadRepeater.itemAt(spreadRepeater.highlightedIndex).windowTitle: ""
         visible: false
         fontSize: "large"
     }
@@ -494,20 +549,17 @@ FocusScope {
             from: "*"
             to: "altTab"
             SequentialAnimation {
-                PropertyAction { target: hoverMouseArea; property: "progressiveScrollingEnabled"; value: false }
-                PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: Math.min(ApplicationManager.count - 1, 1) }
-                PauseAnimation { duration: 140 }
+                PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: Math.min(topLevelSurfaceList.count - 1, 1) }
+                PauseAnimation { duration: spreadContainer.animateIn ? 0 : 140 }
                 PropertyAction { target: workspaceSelector; property: "visible" }
                 PropertyAction { target: spreadContainer; property: "visible" }
                 ParallelAnimation {
-                    UbuntuNumberAnimation {
-                        target: blurLayer; properties: "saturation,blurRadius";
-                        duration: spreadContainer.animateIn ? UbuntuAnimation.FastDuration : 0
-                    }
+                    UbuntuNumberAnimation { target: blurLayer; properties: "saturation,blurRadius"; duration: UbuntuAnimation.SnapDuration }
                     PropertyAction { target: spreadFlickable; property: "visible" }
                     PropertyAction { targets: [currentSelectedLabel,spreadBackground]; property: "visible" }
                     PropertyAction { target: spreadFlickable; property: "contentX"; value: 0 }
                 }
+                PropertyAction { target: hoverMouseArea; properties: "enabled,progressiveScrollingEnabled"; value: false }
             }
         },
         Transition {
@@ -518,6 +570,5 @@ FocusScope {
             PropertyAction { target: spreadRepeater; property: "highlightedIndex"; value: -1 }
             PropertyAction { target: spreadContainer; property: "animateIn"; value: false }
         }
-
     ]
 }
