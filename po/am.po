@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-23 10:01+0000\n"
+"POT-Creation-Date: 2016-04-27 15:01+0000\n"
 "PO-Revision-Date: 2016-03-24 19:07+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-25 05:54+0000\n"
-"X-Generator: Launchpad (build 17967)\n"
+"X-Launchpad-Export-Date: 2016-04-30 05:36+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -73,7 +73,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "መውጫ"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -92,16 +92,16 @@ msgstr "በእርግጥ እንደገና ማስነሳት ይፈልጋሉ?"
 msgid "No"
 msgstr "አይ"
 
-#: qml/Components/Dialogs.qml:183
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "አዎ"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "ሐይል"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -109,12 +109,12 @@ msgstr ""
 "በእርግጥ ሐይሉን ማጥፋት\n"
 "ይፈልጋሉ?"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "ሐይል ማጥፊያ"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "እንደገና ማስጀመሪያ"
@@ -189,12 +189,12 @@ msgid "Reset"
 msgstr "እንደ ነበረ መመለሻ"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
-msgid "See less"
-msgstr "አነስተኛ መመልከቻ"
+msgid "Show less"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:570
-msgid "See all"
-msgstr "ሁሉንም መመልከቻ"
+msgid "Show all"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
@@ -335,7 +335,7 @@ msgstr "እባክዎን እንደገና-ያስገቡ"
 msgid "Sorry, incorrect passcode"
 msgstr "አዝናለሁ የተሳሳተ የማለፊያ ኮድ"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "የመግቢያ ቃል ማሳያ"
 
@@ -347,62 +347,62 @@ msgstr "ወደ ጥሪው ለመመለስ መታ ያድርጉ..."
 msgid "Conference"
 msgstr "ስብሰባ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:761
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "ምንም አይጫወትም"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 ሰአት"
 msgstr[1] "%1 ሰአቶች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 ደቂቃ"
 msgstr[1] "%1 ደቂቃዎች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:899
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 ሰከንድ"
 msgstr[1] "%1 ሰከንዶች"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "0 ሰከንዶች"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 የቀረው"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "ወረፋ በመጠበቅ ላይ…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "በማውረድ ላይ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "ማስቆሚያ: ለመቀጠል መታ ያድርጉ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:918
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "ተሰርዟል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "ጨርሷል"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:922
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "አልተቻለም: እንደገና ለመሞከር መታ ያድርጉ"
 
@@ -446,19 +446,19 @@ msgstr "ወደ ላይ ይጥረጉ መልእክት ለ መፍጠር"
 msgid "Swipe up to manage the app"
 msgstr "ወደ ላይ ይጥረጉ መተግበሪያ ለማስተዳደር"
 
-#: qml/Tutorial/TutorialLeft.qml:47
-msgid "Swipe from the left edge to open the launcher"
-msgstr "ከ ግራ ጠርዝ በኩል ይጥረጉ ማስጀመሪያውን ለ መክፈት"
-
 #: qml/Tutorial/TutorialLeftLong.qml:47
 msgid "Long swipe from the left edge to open the Today scope"
 msgstr "በ ረጅሙ ከ ግራ ጠርዝ በኩል ይጥረጉ የ ዛሬን ክልል ለ መክፈት"
 
-#: qml/Tutorial/TutorialRight.qml:54
-msgid "Hover your mouse on the right edge to view your open apps"
-msgstr "የ እርስዎን አይጥ ወደ ቀኝ ጠርዝ በኩል ሲያደርጉ የ ተከፈቱ መተግበሪያዎች መመልከቻ"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr "ከ ግራ ጠርዝ በኩል ይጥረጉ ማስጀመሪያውን ለ መክፈት"
 
 #: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
+
+#: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
 msgstr "በ አጭሩ ወይንም በ ረጅሙ ይጥረጉ ከ ቀኝ ጠረዝ በኩል የ ተከፈቱ መተግበሪያዎችን ለማየት"
 
@@ -773,6 +773,12 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "Search"
 #~ msgstr "መፈለጊያ"
 
+#~ msgid "See less"
+#~ msgstr "አነስተኛ መመልከቻ"
+
+#~ msgid "See all"
+#~ msgstr "ሁሉንም መመልከቻ"
+
 #~ msgid "Skip intro"
 #~ msgstr "መግቢያውን መዝለያ"
 
@@ -1051,11 +1057,5 @@ msgstr "በጣም ደካማ የ መግቢያ ቃል"
 #~ msgid "Call back"
 #~ msgstr "መልሶ መደወያ"
 
-#~ msgid "Welcome to your Ubuntu device."
-#~ msgstr "እንኳን ድህና መጡ ወደ ኡቡንቱ"
-
-#~ msgid "Please select how you’d like to unlock your device."
-#~ msgstr "እባክዎን የ እርስዎን አካል እንዴት እንደሚከፈት ይምረጡ"
-
-#~ msgid "Your device is now ready to use."
-#~ msgstr "የ እርስዎ አካል አሁን ዝግጁ ነው"
+#~ msgid "Hover your mouse on the right edge to view your open apps"
+#~ msgstr "የ እርስዎን አይጥ ወደ ቀኝ ጠርዝ በኩል ሲያደርጉ የ ተከፈቱ መተግበሪያዎች መመልከቻ"

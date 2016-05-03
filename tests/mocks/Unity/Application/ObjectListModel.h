@@ -20,6 +20,8 @@
 // Qt
 #include <QAbstractListModel>
 
+#include <QDebug>
+
 template<class TYPE>
 class ObjectListModel : public QAbstractListModel
 {
