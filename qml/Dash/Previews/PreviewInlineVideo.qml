@@ -39,7 +39,7 @@ PreviewWidget {
         width: parent.width
 
         context: "video"
-        sourceData: root.isCurrentPreview ? widgetData : undefined
+        sourceData: widgetData
         fullscreen: false
         maximumEmbeddedHeight: rootItem.height / 2
 
