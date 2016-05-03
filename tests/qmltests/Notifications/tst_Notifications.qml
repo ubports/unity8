@@ -34,23 +34,19 @@ Item {
     Row {
         id: rootRow
 
-        NotificationModel {
-            id: mockModel
-
-            // add the default/PlaceHolder notification to the model
-            Component.onCompleted: {
-                var component = Qt.createComponent("Notification.qml")
-                var n = component.createObject("notification", {"nid": index++,
-                                                                "type": Notification.PlaceHolder,
-                                                                "hints": {},
-                                                                "summary": "",
-                                                                "body": "",
-                                                                "icon": "",
-                                                                "secondaryIcon": "",
-                                                                "rawActions": []})
-                n.completed.connect(mockModel.onCompleted)
-                append(n)
-            }
+        // add the default/PlaceHolder notification to the model
+        Component.onCompleted: {
+            var component = Qt.createComponent("Notification.qml")
+            var n = component.createObject("notification", {"nid": index++,
+                                                            "type": Notification.PlaceHolder,
+                                                            "hints": {},
+                                                            "summary": "",
+                                                            "body": "",
+                                                            "icon": "",
+                                                            "secondaryIcon": "",
+                                                            "rawActions": []})
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function add2over1SnapDecisionNotification() {
@@ -65,8 +61,8 @@ Item {
                                                             "rawActions": ["ok_id",     "Ok",
                                                                            "snooze_id", "Snooze",
                                                                            "view_id",   "View"]})
-            n.completed.connect(mockModel.onCompleted)
-            mockModel.append(n)
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function addEphemeralNotification() {
@@ -79,8 +75,8 @@ Item {
                                                             "icon": "../../tests/graphics/avatars/amanda.png",
                                                             "secondaryIcon": "../../tests/graphics/applicationIcons/facebook.png",
                                                             "rawActions": ["reply_id", "Dummy"]})
-            n.completed.connect(mockModel.onCompleted)
-            mockModel.append(n)
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function addEphemeralNonShapedIconNotification() {
@@ -93,8 +89,8 @@ Item {
                                                             "icon": "../../tests/graphics/applicationIcons/contacts-app.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
-            n.completed.connect(mockModel.onCompleted)
-            mockModel.append(n)
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function addEphemeralIconSummaryNotification() {
@@ -107,8 +103,8 @@ Item {
                                                             "icon": "../../tests/graphics/applicationIcons/facebook.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
-            n.completed.connect(mockModel.onCompleted)
-            mockModel.append(n)
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function addInteractiveNotification() {
@@ -121,8 +117,8 @@ Item {
                                                             "icon": "../../tests/graphics/avatars/anna_olsson.png",
                                                             "secondaryIcon": "",
                                                             "rawActions": ["reply_id", "Dummy"]})
-            n.completed.connect(mockModel.onCompleted)
-            mockModel.append(n)
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function addConfirmationNotification() {
@@ -136,8 +132,8 @@ Item {
                                                             "secondaryIcon": "",
                                                             "value": 50,
                                                             "rawActions": ["reply_id", "Dummy"]})
-            n.completed.connect(mockModel.onCompleted)
-            mockModel.append(n)
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function add2ndConfirmationNotification() {
@@ -152,19 +148,19 @@ Item {
                                                             "secondaryIcon": "",
                                                             "value": 85,
                                                             "rawActions": ["reply_id", "Dummy"]})
-            n.completed.connect(mockModel.onCompleted)
-            mockModel.append(n)
+            n.completed.connect(Model.onCompleted)
+            Model.append(n)
         }
 
         function clearNotifications() {
-            while(mockModel.count > 1) {
+            while(Model.count > 1) {
                 remove1stNotification()
             }
         }
 
         function remove1stNotification() {
-            if (mockModel.count > 1) {
-                mockModel.removeSecond()
+            if (Model.count > 1) {
+                Model.removeSecond()
             }
         }
 
@@ -186,7 +182,7 @@ Item {
                 margin: units.gu(1)
 
                 anchors.fill: parent
-                model: mockModel
+                model: Model
                 hasMouse: fakeMouseCB.checked
                 inverseMode: inverseModeCB.checked
             }
@@ -558,7 +554,7 @@ Item {
             SignalSpy {
                 id: actionSpy
 
-                target: mockModel
+                target: Model
                 signalName: "actionInvoked"
             }
 
@@ -569,19 +565,19 @@ Item {
 
             function test_NotificationRenderer(data) {
                 // make sure the clicks on mocked notifications can be checked against by "actionSpy" (mimicking the NotificationServer component)
-                data.n.actionInvoked.connect(mockModel.actionInvoked)
+                data.n.actionInvoked.connect(Model.actionInvoked)
 
                 // hook up notification's completed-signal with model's onCompleted-slot, so that remove() (model) happens on close() (notification)
-                data.n.completed.connect(mockModel.onCompleted)
+                data.n.completed.connect(Model.onCompleted)
 
                 // populate model with some mock notifications
-                mockModel.append(data.n)
+                Model.append(data.n)
 
                 // make sure the view is properly updated before going on
                 notifications.forceLayout();
                 waitForRendering(notifications);
 
-                var notification = findChild(notifications, "notification" + (mockModel.count - 1))
+                var notification = findChild(notifications, "notification" + (Model.count - 1))
                 verify(notification !== undefined, "notification wasn't found");
 
                 waitForRendering(notification);
@@ -627,7 +623,7 @@ Item {
 
                 // After clicking the state of notifications can change so let's wait
                 // for their height animations to finish before continuing
-                for (var i = 0; i < mockModel.count; ++i) {
+                for (var i = 0; i < Model.count; ++i) {
                     var n = findChild(notifications, "notification" + i)
                     tryCompare(n, "height", n.state === "contracted" ? units.gu(10) : n.implicitHeight);
                 }
@@ -685,16 +681,16 @@ Item {
 
                 // swipe-to-dismiss check
                 waitForRendering(notification)
-                var before = mockModel.count
+                var before = Model.count
                 var dragStart = notification.width * 0.25;
                 var dragEnd = notification.width;
                 var dragY = notification.height / 2;
                 touchFlick(notification, dragStart, dragY, dragEnd, dragY)
                 waitForRendering(notification)
                 if ((data.n.type === Notification.SnapDecision && notification.state === "expanded") || data.n.type === Notification.Confirmation) {
-                    tryCompare(mockModel, "count", before)
+                    tryCompare(Model, "count", before)
                 } else {
-                    tryCompare(mockModel, "count", before - 1)
+                    tryCompare(Model, "count", before - 1)
                 }
             }
 
@@ -705,27 +701,27 @@ Item {
 
             function test_clickToClose(data) {
                 // populate model with some mock notifications
-                mockModel.append(data.n)
+                Model.append(data.n)
 
                 // make sure the view is properly updated before going on
                 notifications.forceLayout();
                 waitForRendering(notifications);
 
-                var notification = findChild(notifications, "notification" + (mockModel.count - 1))
+                var notification = findChild(notifications, "notification" + (Model.count - 1))
                 verify(!!notification, "notification wasn't found");
 
                 // click-to-dismiss check
                 waitForRendering(notification);
-                var before = mockModel.count;
+                var before = Model.count;
                 var canBeClosed = notification.canBeClosed;
                 mouseClick(notification);
 
                 if (canBeClosed) {
                     // closing the notification, the model count should be one less
-                    tryCompare(mockModel, "count", before - 1)
+                    tryCompare(Model, "count", before - 1)
                 } else {
                     // not closing, model stays the same
-                    tryCompare(mockModel, "count", before)
+                    tryCompare(Model, "count", before)
                 }
             }
 

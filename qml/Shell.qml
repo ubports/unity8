@@ -669,7 +669,8 @@ Item {
 
             Binding {
                 target: NotificationBackend.Model
-                paused: tutorial.running
+                property: "paused"
+                value: tutorial.running
             }
 
             states: [

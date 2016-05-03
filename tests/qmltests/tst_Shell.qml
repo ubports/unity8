@@ -25,7 +25,7 @@ import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
 import Unity.Indicators 0.1
-import Unity.Notifications 1.0
+import Unity.Notifications 1.0 as NotificationBackend
 import Unity.Launcher 0.1
 import Unity.Test 0.1
 import Powerd 0.1
@@ -1287,6 +1287,21 @@ Rectangle {
 
             swipeAwayGreeter();
             tryCompare(tutorial, "paused", false);
+        }
+
+        function test_notificationsPausedDuringTutorial() {
+            loadShell("phone");
+            swipeAwayGreeter();
+            verify(!NotificationBackend.Model.paused);
+
+            AccountsService.demoEdges = true;
+            var tutorialLeft = findChild(shell, "tutorialLeft");
+            var tutorialLeftTimer = findInvisibleChild(tutorialLeft, "tutorialLeftTimer");
+            tutorialLeftTimer.interval = 0;
+            tryCompare(NotificationBackend.Model, "paused", true);
+
+            AccountsService.demoEdges = false;
+            tryCompare(NotificationBackend.Model, "paused", false);
         }
 
         function test_tapOnRightEdgeReachesApplicationSurface() {

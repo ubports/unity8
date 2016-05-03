@@ -31,14 +31,14 @@
 
 using namespace unity::shell::notifications;
 
-MockNotificationModel::MockNotificationModel(QObject *parent) : QAbstractListModel(parent) {
+MockNotificationModel::MockNotificationModel(QObject *parent)
+    : QAbstractListModel(parent)
+    , m_paused(false)
+{
 }
 
 MockNotificationModel::~MockNotificationModel() {
-    Q_FOREACH(MockNotification *n, m_queue) {
-        n->deleteLater();
-    }
-    m_queue.clear();
+    clear();
 }
 
 int MockNotificationModel::rowCount(const QModelIndex &) const {
@@ -89,6 +89,17 @@ QVariant MockNotificationModel::data(const QModelIndex &index, int role) const {
     }
 }
 
+bool MockNotificationModel::getPaused() const {
+    return m_paused;
+}
+
+void MockNotificationModel::setPaused(bool paused) {
+    if (m_paused != paused) {
+        m_paused = paused;
+        Q_EMIT pausedChanged(paused);
+    }
+}
+
 void MockNotificationModel::append(MockNotification* n) {
     int location = m_queue.size();
     QModelIndex insertionPoint = QModelIndex();
@@ -105,6 +116,13 @@ MockNotification* MockNotificationModel::getNotification(int id) const {
     }
 
     return nullptr;
+}
+
+void MockNotificationModel::clear() {
+    Q_FOREACH(MockNotification *n, m_queue) {
+        n->deleteLater();
+    }
+    m_queue.clear();
 }
 
 void MockNotificationModel::remove(const int id) {
