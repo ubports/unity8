@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,21 +14,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "plugin.h"
-#include "MockFingerprints.h"
+#ifndef MOCK_OBSERVER_H
+#define MOCK_OBSERVER_H
 
-#include <QtQml>
+#include <QObject>
+#include <QString>
+#include <QVariant>
 
-static QObject *service_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+class MockObserver : public QObject
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    return new MockFingerprints();
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(MockObserver)
 
-void BackendPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("Ubuntu.Fingerprints"));
+public:
+    explicit MockObserver(QObject *parent = 0);
 
-    qmlRegisterSingletonType<MockFingerprints>(uri, 0, 1, "Fingerprints", service_provider);
-}
+    Q_INVOKABLE void mockIdentification(int uid, const QString &error); // only in mock
+
+Q_SIGNALS:
+    void succeeded(const QVariant &result);
+    void failed(const QString &reason);
+};
+
+#endif // MOCK_OBSERVER_H

@@ -19,7 +19,6 @@ import QtTest 1.0
 import ".."
 import "../../../qml/Greeter"
 import Ubuntu.Components 1.3
-import Ubuntu.Fingerprints 0.1
 import AccountsService 0.1
 import GSettings 1.0
 import IntegratedLightDM 0.1 as LightDM
@@ -562,42 +561,46 @@ Item {
         }
 
         function test_fingerprintSuccess() {
+            var biometryd = findInvisibleChild(greeter, "biometryd");
             selectUser("has-password");
-            Fingerprints.mockIdentification(0, Fingerprints.None);
+            biometryd.mockIdentification(0, "");
             verify(greeter.forcedUnlock);
         }
 
         function test_fingerprintFailureMessage() {
+            var biometryd = findInvisibleChild(greeter, "biometryd");
             selectUser("has-password");
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            biometryd.mockIdentification(0, "error");
             compare(viewShowErrorMessageSpy.count, 1);
             compare(viewShowErrorMessageSpy.signalArguments[0][0], i18n.tr("Try again"));
         }
 
         function test_fingerprintTooManyFailures() {
+            var biometryd = findInvisibleChild(greeter, "biometryd");
             selectUser("has-password");
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            biometryd.mockIdentification(0, "error");
+            biometryd.mockIdentification(0, "error");
             compare(viewTryToUnlockSpy.count, 0);
 
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            biometryd.mockIdentification(0, "error");
             compare(viewTryToUnlockSpy.count, 1);
 
             compare(viewShowErrorMessageSpy.count, 3);
         }
 
         function test_fingerprintFailureCountReset() {
+            var biometryd = findInvisibleChild(greeter, "biometryd");
             selectUser("has-password");
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            biometryd.mockIdentification(0, "error");
+            biometryd.mockIdentification(0, "error");
             compare(viewTryToUnlockSpy.count, 0);
 
             greeter.forceShow();
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            biometryd.mockIdentification(0, "error");
+            biometryd.mockIdentification(0, "error");
             compare(viewTryToUnlockSpy.count, 0);
 
-            Fingerprints.mockIdentification(0, Fingerprints.Error);
+            biometryd.mockIdentification(0, "error");
             compare(viewTryToUnlockSpy.count, 1);
 
             compare(viewShowErrorMessageSpy.count, 5);

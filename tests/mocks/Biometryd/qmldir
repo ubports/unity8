@@ -1,0 +1,3 @@
+module Biometryd
+plugin MockBiometryd
+typeinfo Biometryd.qmltypes

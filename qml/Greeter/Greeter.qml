@@ -16,9 +16,9 @@
 
 import QtQuick 2.4
 import AccountsService 0.1
+import Biometryd 0.0 as Biometryd
 import GSettings 1.0
 import Ubuntu.Components 1.3
-import Ubuntu.Fingerprints 0.1
 import Ubuntu.SystemImage 0.1
 import Unity.Launcher 0.1
 import Unity.Session 0.1
@@ -481,14 +481,15 @@ Showable {
         onLanguageChanged: lightDM.infographic.readyForDataChange()
     }
 
-    Connections {
-        target: Fingerprints
-        onIdentificationCompleted: {
-            // FIXME validate uid
+    Biometryd.Observer {
+        objectName: "biometryd"
+        onSucceeded: {
+            // FIXME validate result.uid
+            d.fingerprintFailureCount = 0;
             if (root.active)
                 root.forcedUnlock = true;
         }
-        onIdentificationFailed: {
+        onFailed: {
             d.fingerprintFailureCount++;
             if (loader.item)
                 loader.item.showErrorMessage(i18n.tr("Try again"));

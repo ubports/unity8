@@ -1,3 +1,0 @@
-module Ubuntu.Fingerprints
-plugin MockFingerprints
-typeinfo Fingerprints.qmltypes

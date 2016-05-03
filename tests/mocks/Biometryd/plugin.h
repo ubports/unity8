@@ -14,30 +14,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MOCK_FINGERPRINTS_H
-#define MOCK_FINGERPRINTS_H
+#ifndef MOCK_BIOMETRYD_PLUGIN_H
+#define MOCK_BIOMETRYD_PLUGIN_H
 
-#include <QObject>
+#include <QQmlExtensionPlugin>
 
-class MockFingerprints : public QObject
+class BackendPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_DISABLE_COPY(MockFingerprints)
-    Q_ENUMS(IdentificationError)
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    enum IdentificationError {
-         None,
-         Error,
-    };
-
-    explicit MockFingerprints(QObject *parent = 0);
-
-    Q_INVOKABLE void mockIdentification(int uid, IdentificationError error); // only in mock
-
-Q_SIGNALS:
-    void identificationCompleted(int uid);
-    void identificationFailed(IdentificationError);
+    void registerTypes(const char *uri) override;
 };
 
-#endif // MOCK_FINGERPRINTS_H
+#endif // MOCK_BIOMETRYD_PLUGIN_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Canonical, Ltd.
+ * Copyright (C) 2014 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,17 +14,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MockFingerprints.h"
+#include "plugin.h"
+#include "MockObserver.h"
 
-MockFingerprints::MockFingerprints(QObject *parent)
-    : QObject(parent)
-{
-}
+#include <QtQml>
 
-void MockFingerprints::mockIdentification(int uid, IdentificationError error)
+void BackendPlugin::registerTypes(const char *uri)
 {
-    if (error != None)
-        Q_EMIT identificationFailed(error);
-    else
-        Q_EMIT identificationCompleted(uid);
+    Q_ASSERT(uri == QLatin1String("Biometryd"));
+
+    qmlRegisterType<MockObserver>(uri, 0, 0, "Observer");
 }

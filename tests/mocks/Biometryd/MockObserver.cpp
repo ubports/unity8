@@ -14,18 +14,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MOCK_FINGERPRINTS_PLUGIN_H
-#define MOCK_FINGERPRINTS_PLUGIN_H
+#include "MockObserver.h"
 
-#include <QQmlExtensionPlugin>
-
-class BackendPlugin : public QQmlExtensionPlugin
+class Result : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_PROPERTY(unsigned int uid READ uid CONSTANT)
 
 public:
-    void registerTypes(const char *uri) override;
+    explicit Result(unsigned int uid, QObject *parent = 0)
+        : QObject(parent), m_uid(uid)
+    {}
+
+    unsigned int uid() const { return m_uid; }
+
+private:
+    unsigned int m_uid;
 };
 
-#endif // MOCK_FINGERPRINTS_PLUGIN_H
+MockObserver::MockObserver(QObject *parent)
+    : QObject(parent)
+{
+}
+
+void MockObserver::mockIdentification(int uid, const QString &error)
+{
+    if (error.isEmpty())
+        Q_EMIT succeeded(QVariant::fromValue(new Result(uid, this)));
+    else
+        Q_EMIT failed(error);
+}
+
+#include "MockObserver.moc"

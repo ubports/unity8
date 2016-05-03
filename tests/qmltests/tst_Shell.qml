@@ -21,7 +21,6 @@ import GSettings 1.0
 import IntegratedLightDM 0.1 as LightDM
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
-import Ubuntu.Fingerprints 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
 import Unity.Connectivity 0.1
@@ -332,12 +331,18 @@ Rectangle {
                 Row {
                     Button {
                         text: "Success"
-                        onClicked: Fingerprints.mockIdentification(0, Fingerprints.None)
+                        onClicked: {
+                            var biometryd = findInvisibleChild(shell, "biometryd");
+                            biometryd.mockIdentification(0, "");
+                        }
                     }
 
                     Button {
                         text: "Failure"
-                        onClicked: Fingerprints.mockIdentification(0, Fingerprints.Error)
+                        onClicked: {
+                            var biometryd = findInvisibleChild(shell, "biometryd");
+                            biometryd.mockIdentification(0, "error");
+                        }
                     }
                 }
             }
