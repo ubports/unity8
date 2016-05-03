@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-04-27 15:01+0000\n"
-"PO-Revision-Date: 2016-03-26 15:29+0000\n"
+"PO-Revision-Date: 2016-05-02 10:43+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2016-04-30 05:37+0000\n"
+"X-Launchpad-Export-Date: 2016-05-03 05:41+0000\n"
 "X-Generator: Launchpad (build 17995)\n"
 "Language: sk\n"
 
@@ -197,11 +197,11 @@ msgstr "Resetovať"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
 msgid "Show less"
-msgstr ""
+msgstr "Zobraziť menej"
 
 #: qml/Dash/GenericScopeView.qml:570
 msgid "Show all"
-msgstr ""
+msgstr "Zobraziť všetko"
 
 #: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
@@ -469,7 +469,7 @@ msgstr "Potiahnite od ľavého okraja pre otvorenie spúšťača"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "Potiahnuť myšou do pravého rohu pre zobrazenie otvorených aplikácií"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
