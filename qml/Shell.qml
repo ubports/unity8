@@ -221,6 +221,7 @@ Item {
             var mappedCoords = mapFromItem(null, pos.x, pos.y);
             cursor.x = mappedCoords.x;
             cursor.y = mappedCoords.y;
+            cursor.mouseNeverMoved = false;
         }
     }
 
@@ -716,6 +717,14 @@ Item {
         visible: shell.hasMouse
         z: screenGrabber.z + 1
 
+        property bool mouseNeverMoved: true
+        Binding {
+            target: cursor; property: "x"; value: shell.width / 2; when: mouseNeverMoved && visible
+        }
+        Binding {
+            target: cursor; property: "y"; value: shell.height / 2; when: mouseNeverMoved && visible
+        }
+
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {
                 launcher.pushEdge(amount);
@@ -729,7 +738,10 @@ Item {
             }
         }
 
-        onMouseMoved: { cursor.opacity = 1; }
+        onMouseMoved: {
+            mouseNeverMoved = false;
+            cursor.opacity = 1;
+        }
     }
 
     // non-visual object
