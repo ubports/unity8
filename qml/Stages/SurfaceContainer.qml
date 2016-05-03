@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Canonical Ltd.
+ * Copyright 2014-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -24,21 +24,22 @@ FocusScope {
     id: root
     objectName: "surfaceContainer"
 
+    // Must be set from outside
     property var surface: null
-    property bool hadSurface: false
-    property bool interactive
-    property int surfaceOrientationAngle: 0
-    property string name: surface ? surface.name : ""
-    property bool resizeSurface: true
 
+    // Might be changed from outside
     property int requestedWidth: -1
     property int requestedHeight: -1
+    property bool interactive
+    property int surfaceOrientationAngle: 0
+    property bool resizeSurface: true
+    property bool inPromptSession: false
 
     onSurfaceChanged: {
-        if (surface) {
-            surfaceItem.surface = surface;
-            root.hadSurface = false;
-        }
+        // Not a binding because animations might remove the surface from the surfaceItem
+        // programatically (in order to signal that a zombie surface is free for deletion),
+        // even though root.surface is still !null.
+        surfaceItem.surface = surface;
     }
 
     InputWatcher {
@@ -83,9 +84,14 @@ FocusScope {
         }
 
         enabled: root.interactive
-        focus: true
         antialiasing: !root.interactive
         orientationAngle: root.surfaceOrientationAngle
+    }
+
+    TouchGate {
+        targetItem: surfaceItem
+        anchors.fill: root
+        enabled: surfaceItem.enabled
     }
 
     // MirSurface size drives SurfaceContainer size
@@ -116,38 +122,90 @@ FocusScope {
         when: root.requestedHeight < 0
     }
 
+    Repeater {
+        id: childSurfacesRepeater
+        objectName: "childSurfacesRepeater"
+        model: root.surface ? root.surface.promptSurfaceList : null
 
-    TouchGate {
-        targetItem: surfaceItem
-        anchors.fill: root
-        enabled: surfaceItem.enabled
+        delegate: Loader {
+            objectName: "childDelegate" + index
+            anchors.fill: root
+
+            // Only way to do recursive qml items.
+            source: Qt.resolvedUrl("SurfaceContainer.qml")
+
+            z: index
+
+            // Since a Loader is a FocusScope, propagate its focus to the loaded Item
+            Binding {
+                target: item; when: item
+                property: "focus"; value: focus
+            }
+
+            Binding {
+                target: item; when: item
+                property: "interactive"; value: index == (childSurfacesRepeater.count - 1) && root.interactive
+            }
+
+            Binding {
+                target: item; when: item
+                property: "surface"; value: model.surface
+            }
+
+            Binding {
+                target: item; when: item
+                property: "width"; value: root.width
+            }
+
+            Binding {
+                target: item; when: item
+                property: "height"; value: root.height
+            }
+
+            Binding {
+                target: item; when: item
+                property: "inPromptSession"; value: true
+            }
+        }
     }
 
-    states: [
-        State {
-            name: "zombie"
-            when: surfaceItem.surface && !surfaceItem.live
-        }
-    ]
-    transitions: [
-        Transition {
-            from: ""; to: "zombie"
-            SequentialAnimation {
-                UbuntuNumberAnimation { target: surfaceItem; property: "opacity"; to: 0.0
-                                        duration: UbuntuAnimation.BriskDuration }
-                PropertyAction { target: surfaceItem; property: "visible"; value: false }
-                ScriptAction { script: {
-                    surfaceItem.surface = null;
-                    root.hadSurface = true;
-                } }
+    Loader {
+        id: animationsLoader
+        objectName: "animationsLoader"
+        active: root.surface
+        source: {
+            if (root.inPromptSession) {
+                return "PromptSurfaceAnimations.qml";
+            } else {
+                // Let ApplicationWindow do the animations
+                return "";
             }
-        },
-        Transition {
-            from: "zombie"; to: ""
-            ScriptAction { script: {
-                surfaceItem.opacity = 1.0;
-                surfaceItem.visible = true;
-            } }
         }
-    ]
+        Binding {
+            target: animationsLoader.item
+            when: animationsLoader.item
+            property: "surfaceItem"
+            value: surfaceItem
+        }
+        Binding {
+            target: animationsLoader.item
+            when: animationsLoader.item
+            property: "container"
+            value: root
+        }
+    }
+
+    QtObject {
+        id: d
+        property var focusedChild: {
+            if (childSurfacesRepeater.count == 0) {
+                return surfaceItem;
+            } else {
+                return childSurfacesRepeater.itemAt(childSurfacesRepeater.count - 1);
+            }
+        }
+        onFocusedChildChanged: {
+            focusedChild.focus = true;
+        }
+    }
 }

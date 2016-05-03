@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 Canonical Ltd.
+ * Copyright 2013-2016 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,14 @@
 
 import QtQuick 2.4
 import QtTest 1.0
+import Unity.Application 0.1
 import Ubuntu.Components 1.3
 import Unity.Test 0.1 as UT
+import Utils 0.1
 
 TestCase {
     id: testCase
-    TestUtil {id:util}
+    property var util: TestUtil {id:util}
 
     // This is needed for waitForRendering calls to return
     // if the watched element already got rendered
@@ -50,8 +52,11 @@ TestCase {
         this.getCurrentTimeMs = function() {return this.currentTimeMs}
     }
 
-    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    // TODO This function can be removed altogether once we use Qt 5.7 which has the same feature
     function mouseClick(item, x, y, button, modifiers, delay) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         if (button === undefined)
             button = Qt.LeftButton;
         if (modifiers === undefined)
@@ -66,8 +71,11 @@ TestCase {
             qtest_fail("window not shown", 2);
     }
 
-    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    // TODO This function can be removed altogether once we use Qt 5.7 which has the same feature
     function mouseDoubleClick(item, x, y, button, modifiers, delay) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         if (button === undefined)
             button = Qt.LeftButton;
         if (modifiers === undefined)
@@ -82,8 +90,11 @@ TestCase {
             qtest_fail("window not shown", 2)
     }
 
-    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    // TODO This function can be removed altogether once we use Qt 5.7 which has the same feature
     function mousePress(item, x, y, button, modifiers, delay) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         if (button === undefined)
             button = Qt.LeftButton;
         if (modifiers === undefined)
@@ -98,8 +109,11 @@ TestCase {
             qtest_fail("window not shown", 2)
     }
 
-    // TODO This function can be removed altogether once we use Qt 5.5 which has the same feature
+    // TODO This function can be removed altogether once we use Qt 5.7 which has the same feature
     function mouseRelease(item, x, y, button, modifiers, delay) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         if (button === undefined)
             button = Qt.LeftButton;
         if (modifiers === undefined)
@@ -121,6 +135,9 @@ TestCase {
     // speed is in pixels/second
     function mouseFlick(item, x, y, toX, toY, pressMouse, releaseMouse,
                         speed, iterations) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         pressMouse = ((pressMouse != null) ? pressMouse : true); // Default to true for pressMouse if not present
         releaseMouse = ((releaseMouse != null) ? releaseMouse : true); // Default to true for releaseMouse if not present
 
@@ -159,6 +176,9 @@ TestCase {
 
     // Find an object with the given name in the children tree of "obj"
     function findChild(obj, objectName) {
+        if (!obj)
+            qtest_fail("no obj given", 1);
+
         return findChildIn(obj, "children", objectName);
     }
 
@@ -168,11 +188,17 @@ TestCase {
     // as this tree is much bigger and might contain stuff that goes
     // away randomly.
     function findInvisibleChild(obj, objectName) {
+        if (!obj)
+            qtest_fail("no obj given", 1);
+
         return findChildIn(obj, "data", objectName);
     }
 
     // Find a child in the named property
     function findChildIn(obj, prop, objectName) {
+        if (!obj)
+            qtest_fail("no obj given", 1);
+
         var childs = new Array(0);
         childs.push(obj)
         while (childs.length > 0) {
@@ -188,6 +214,9 @@ TestCase {
     }
 
     function findChildsByType(obj, typeName) {
+        if (!obj)
+            qtest_fail("no obj given", 1);
+
         var res = new Array(0);
         for (var i in obj.children) {
             var c = obj.children[i];
@@ -235,6 +264,9 @@ TestCase {
     }
 
     function flickToYEnd(item) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         var i = 0;
         var x = item.width / 2;
         var y = item.height - units.gu(1);
@@ -254,6 +286,9 @@ TestCase {
 
     // speed is in pixels/second
     function touchFlick(item, x, y, toX, toY, beginTouch, endTouch, speed, iterations) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         // Make sure the item is rendered
         waitForRendering(item);
 
@@ -313,6 +348,15 @@ TestCase {
     // perform a drag in the given direction until the given condition is true
     // The condition is a function to be evaluated after every step
     function touchDragUntil(item, startX, startY, stepX, stepY, condition) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        multiTouchDragUntil([0], item, startX, startY, stepX, stepY, condition);
+    }
+
+    function multiTouchDragUntil(touchIds, item, startX, startY, stepX, stepY, condition) {
+        if (!item)
+            qtest_fail("no item given", 1);
 
         var root = fetchRootItem(item);
         var pos = item.mapToItem(root, startX, startY);
@@ -326,7 +370,9 @@ TestCase {
         stepY = stepEnd.y - stepStart.y;
 
         var event = touchEvent(item)
-        event.press(0 /* touchId */, pos.x, pos.y)
+        for (var i = 0; i < touchIds.length; i++) {
+            event.press(touchIds[i], pos.x, pos.y)
+        }
         event.commit()
 
         // we have to stop at some point
@@ -341,27 +387,45 @@ TestCase {
             pos.y += stepY;
 
             event = touchEvent(item);
-            event.move(0 /* touchId */, pos.x, pos.y);
+            for (i = 0; i < touchIds.length; i++) {
+                event.move(touchIds[i], pos.x, pos.y);
+            }
             event.commit();
 
             stepsDone += 1;
         }
 
         event = touchEvent(item)
-        event.release(0 /* touchId */, pos.x, pos.y)
+        for (i = 0; i < touchIds.length; i++) {
+            event.release(touchIds[i], pos.x, pos.y)
+        }
         event.commit()
     }
 
     function touchMove(item, tox, toy) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        multiTouchMove(0, item, tox, toy);
+    }
+
+    function multiTouchMove(touchId, item, tox, toy) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        if (typeof touchId !== "number") touchId = 0;
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, tox, toy)
 
         var event = touchEvent(item);
-        event.move(0 /* touchId */, rootPoint.x, rootPoint.y);
+        event.move(touchId, rootPoint.x, rootPoint.y);
         event.commit();
     }
 
     function touchPinch(item, x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         // Make sure the item is rendered
         waitForRendering(item);
 
@@ -388,6 +452,9 @@ TestCase {
     }
 
     function fetchRootItem(item) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
         if (item.parent)
             return fetchRootItem(item.parent)
         else
@@ -395,20 +462,70 @@ TestCase {
     }
 
     function touchPress(item, x, y) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        multiTouchPress(0, item, x, y, []);
+    }
+
+    /*! \brief Release a touch point
+
+      \param touchId The touchId to be pressed
+      \param item The item
+      \param x The x coordinate of the press, defaults to horizontal center
+      \param y The y coordinate of the press, defaults to vertical center
+      \param stationaryPoints An array of touchIds which are "already touched"
+    */
+    function multiTouchPress(touchId, item, x, y, stationaryPoints) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        if (typeof touchId !== "number") touchId = 0;
+        if (typeof x !== "number") x = item.width / 2;
+        if (typeof y !== "number") y = item.height / 2;
+        if (typeof stationaryPoints !== "object") stationaryPoints = []
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
         var event = touchEvent(item)
-        event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
+        event.press(touchId, rootPoint.x, rootPoint.y)
+        for (var i = 0; i < stationaryPoints.length; i++) {
+            event.stationary(stationaryPoints[i]);
+        }
         event.commit()
     }
 
     function touchRelease(item, x, y) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        multiTouchRelease(0, item, x, y, []);
+    }
+
+    /*! \brief Release a touch point
+
+      \param touchId The touchId to be released
+      \param item The item
+      \param x The x coordinate of the release, defaults to horizontal center
+      \param y The y coordinate of the release, defaults to vertical center
+      \param stationaryPoints An array of touchIds which are "still touched"
+     */
+    function multiTouchRelease(touchId, item, x, y, stationaryPoints) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        if (typeof touchId !== "number") touchId = 0;
+        if (typeof x !== "number") x = item.width / 2;
+        if (typeof y !== "number") y = item.height / 2;
+        if (typeof stationaryPoints !== "object") stationaryPoints = []
         var root = fetchRootItem(item)
         var rootPoint = item.mapToItem(root, x, y)
 
         var event = touchEvent(item)
-        event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
+        event.release(touchId, rootPoint.x, rootPoint.y)
+        for (var i = 0; i < stationaryPoints.length; i++) {
+            event.stationary(stationaryPoints[i]);
+        }
         event.commit()
     }
 
@@ -419,6 +536,17 @@ TestCase {
       \param y The y coordinate of the tap, defaults to vertical center
      */
     function tap(item, x, y) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        multiTouchTap([0], item, x, y);
+    }
+
+    function multiTouchTap(touchIds, item, x, y) {
+        if (!item)
+            qtest_fail("no item given", 1);
+
+        if (typeof touchIds !== "object") touchIds = [0];
         if (typeof x !== "number") x = item.width / 2;
         if (typeof y !== "number") y = item.height / 2;
 
@@ -426,13 +554,18 @@ TestCase {
         var rootPoint = item.mapToItem(root, x, y)
 
         var event = touchEvent(item)
-        event.press(0 /* touchId */, rootPoint.x, rootPoint.y)
+        for (var i = 0; i < touchIds.length; i++) {
+            event.press(touchIds[i], rootPoint.x, rootPoint.y)
+        }
         event.commit()
 
         event = touchEvent(item)
-        event.release(0 /* touchId */, rootPoint.x, rootPoint.y)
+        for (i = 0; i < touchIds.length; i++) {
+            event.release(touchIds[i], rootPoint.x, rootPoint.y)
+        }
         event.commit()
     }
+
 
     Component.onCompleted: {
         var rootItem = parent;
@@ -452,6 +585,8 @@ TestCase {
       This effectively makes DirectionalDragAreas easier to fool.
      */
     function removeTimeConstraintsFromDirectionalDragAreas(item) {
+        if (!item)
+            qtest_fail("no item given", 1);
 
         // use duck-typing to identify a DirectionalDragArea
         if (item.removeTimeConstraints != undefined) {
@@ -481,5 +616,21 @@ TestCase {
             var transition = transitions[i];
             tryCompare(transition, "running", false, 2000);
         }
+    }
+
+    /*
+         kill all (fake) running apps but unity8-dash, bringing Unity.Application back to its initial state
+     */
+    function killApps() {
+        while (ApplicationManager.count > 1) {
+            var appIndex = ApplicationManager.get(0).appId == "unity8-dash" ? 1 : 0
+            var application = ApplicationManager.get(appIndex);
+            ApplicationManager.stopApplication(application.appId);
+            // wait until all zombie surfaces are gone. As MirSurfaceItems hold references over them.
+            // They won't be gone until those surface items are destroyed.
+            tryCompareFunction(function() { return application.surfaceList.count }, 0);
+            tryCompare(application, "state", ApplicationInfo.Stopped);
+        }
+        compare(ApplicationManager.count, 1);
     }
 }

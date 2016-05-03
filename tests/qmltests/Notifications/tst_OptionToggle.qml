@@ -36,6 +36,10 @@ Row {
                 console.log("Action invoked", actionId);
                 mockModel.actionInvoked(actionId)
             }
+
+            function close() {
+                console.log("Close notification");
+            }
         }
     }
 
@@ -96,7 +100,7 @@ Row {
 
         width: units.gu(40)
         height: units.gu(81)
-        color: "#cccccc"
+        color: theme.palette.normal.background
 
         MouseArea{
             id: clickThroughCatcher
@@ -142,6 +146,11 @@ Row {
                 width: parent.width
                 text: "clear model"
                 onClicked: clearNotifications()
+            }
+
+            MouseTouchEmulationCheckbox {
+                id: mouseEmulation
+                checked: false
             }
         }
     }
@@ -225,7 +234,7 @@ Row {
             }
 
             // test input does not fall through
-            mouseClick(notification)
+            mouseClick(notification, units.gu(2), units.gu(2))
             if(data.type == Notification.Interactive) {
                 actionSpy.wait()
                 compare(actionSpy.signalArguments[0][0], data.actions[0]["id"], "got wrong id for interactive action")

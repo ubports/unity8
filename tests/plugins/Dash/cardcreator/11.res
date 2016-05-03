@@ -5,11 +5,9 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int titleAlignment: Text.AlignLeft; 
                 property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
-                property bool asynchronous: true; 
                 property bool showHeader: true; 
                 implicitWidth: childrenRect.width; 
                 enabled: true; 
@@ -18,7 +16,7 @@ Loader {
                                 id: backgroundLoader; 
                                 objectName: "backgroundLoader"; 
                                 anchors.fill: parent; 
-                                asynchronous: root.asynchronous; 
+                                asynchronous: true;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: UbuntuShape { 
                                     objectName: "background"; 
@@ -63,21 +61,13 @@ Item {
                                 objectName: "artShapeLoader"; 
                                 readonly property string cardArt: cardData && cardData["art"] || decodeURI("%5C");
                                 active: cardArt != "";
-                                asynchronous: root.asynchronous; 
+                                asynchronous: true;
                                 visible: status == Loader.Ready; 
                                 sourceComponent: Item { 
                                     id: artShape; 
                                     objectName: "artShape"; 
                                     visible: image.status == Image.Ready; 
                                     readonly property alias image: artImage; 
-                                    ShaderEffectSource { 
-                                        id: artShapeSource; 
-                                        sourceItem: artImage; 
-                                        anchors.centerIn: parent; 
-                                        width: 1; 
-                                        height: 1; 
-                                        hideSource: true;
-                                    } 
                                     Loader { 
                                         anchors.fill: parent; 
                                         visible: true;
@@ -85,7 +75,7 @@ Item {
                                         Component { 
                                             id: artShapeShapeComponent; 
                                             UbuntuShape { 
-                                                source: artShapeSource; 
+                                                source: artImage;
                                                 sourceFillMode: UbuntuShape.PreserveAspectCrop; 
                                                 radius: "medium"; 
                                                 aspect: { 
@@ -100,7 +90,7 @@ Item {
                                         } 
                                         Component { 
                                             id: artShapeIconComponent; 
-                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; } 
+                                            ProportionalShape { source: artImage; aspect: UbuntuShape.DropShadow; }
                                         } 
                                     } 
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; 
@@ -120,7 +110,8 @@ Item {
                                         id: artImage; 
                                         objectName: "artImage"; 
                                         source: artShapeLoader.cardArt;
-                                        asynchronous: root.asynchronous; 
+                                        asynchronous: true;
+                                        visible: !true;
                                         width: root.width; 
                                         height: width / artShape.aspect; 
                                         onStatusChanged: if (status === Image.Error) source = decodeURI("%5C");
@@ -134,7 +125,7 @@ Row {
                         objectName: "outerRow"; 
                         property real margins: units.gu(1); 
                         spacing: margins; 
-                        height: root.fixedHeaderHeight != -1 ? root.fixedHeaderHeight : implicitHeight; 
+                        height: root.fixedHeaderHeight;
                         anchors { top: artShapeHolder.bottom; 
                                          topMargin: units.gu(1);
 left: parent.left;
@@ -178,7 +169,7 @@ left: parent.left;
                         width: undefined; 
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: root.titleAlignment; 
+                        horizontalAlignment: Text.AlignLeft;
                     }
 ,Label { 
                             id: subtitleLabel; 

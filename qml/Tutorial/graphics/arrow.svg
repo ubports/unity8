@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="35px" height="106px" viewBox="0 0 35 106" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12072) - http://www.bohemiancoding.com/sketch -->
+    <title>left swipe arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Final-design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="1.Left-swipe" sketch:type="MSArtboardGroup" transform="translate(-54.000000, -906.000000)">
+            <g id="left-swipe-arrow" sketch:type="MSLayerGroup" transform="translate(15.000000, 903.000000)">
+                <g id="layer1" transform="translate(0.857146, 0.494959)" sketch:type="MSShapeGroup">
+                    <g id="g4216" transform="translate(0.952384, 0.831650)">
+                        <path d="M38.0127338,5.94292186 C40.8696258,9.70328846 43.6961579,13.5492607 46.4521869,17.5776877 C50.0756129,22.8738077 53.4767719,28.2917937 56.6611719,33.8315937 C60.6031619,40.9214757 64.3797399,47.5658927 67.7217189,54.6714377 C64.3797399,61.7769828 60.6031619,68.4213998 56.6611719,75.5112818 C53.4767719,81.0510808 50.0756129,86.4690678 46.4521869,91.7651878 C43.6961579,95.7936138 40.8696258,99.6395938 38.0127338,103.399951 L38.0127338,107.669481 C42.0030779,102.508161 45.9748129,97.3405748 49.5537499,92.0679218 C54.5609019,84.6937758 59.0395839,77.5443828 62.9990629,70.6226098 C66.5019159,64.4983168 69.0866949,59.3452977 71.2158589,54.6733907 L69.4678129,54.6713907 L71.2158589,54.6693907 C69.0866949,49.9975777 66.5019159,44.8445587 62.9990629,38.7202657 C59.0395839,31.7984927 54.5609019,24.6490997 49.5537499,17.2749527 C45.9748129,12.0022997 42.0030779,6.83471186 38.0127338,1.67339065 L38.0127338,5.94292186 Z" id="left-swipe-arrow" fill="#6C0D52" transform="translate(54.614296, 54.671436) scale(-1, 1) translate(-54.614296, -54.671436) "></path>
+                        <rect id="rect4782-01" transform="translate(54.190469, 54.673389) rotate(90.000000) translate(-54.190469, -54.673389) " x="0.190470662" y="0.67339065" width="107.999997" height="107.999997"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

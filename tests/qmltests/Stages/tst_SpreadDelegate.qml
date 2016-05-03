@@ -61,6 +61,7 @@ Rectangle {
                 swipeToCloseEnabled: swipeToCloseCheckbox.checked
                 closeable: closeableCheckbox.checked
                 application: fakeApplication
+                surface: fakeApplication && fakeApplication.surfaceList.count > 0 ? fakeApplication.surfaceList.get(0) : null
                 shellOrientationAngle: shellOrientationAngleSelector.value
                 shellOrientation: {
                     switch (shellOrientationAngleSelector.value) {
@@ -162,8 +163,8 @@ Rectangle {
             unloadSpreadDelegate();
             spyClosedSignal.clear();
             shellOrientationAngleSelector.selectedIndex = 0;
-            ApplicationManager.stopApplication(root.fakeApplication.appId);
             root.fakeApplication = null;
+            killApps();
         }
 
         function restartWithApp(appId) {
@@ -258,7 +259,7 @@ Rectangle {
         function test_loadingLandscapeOnlyAppWhenShellInPortrait() {
             loadWithWeatherApp.clicked();
 
-            var appWindow = findChild(spreadDelegate, "appWindow_ubuntu-weather-app");
+            var appWindow = findChild(spreadDelegate, "appWindow");
             verify(appWindow);
 
             // It must have landscape dimensions as it does not support portrait
@@ -308,5 +309,12 @@ Rectangle {
             tryCompare(closeAnimation, "running", false);
         }
 
+        function test_showHighLight() {
+            loadWithGalleryApp.clicked();
+            var highlightRect = findChild(spreadDelegateLoader.item, "selectionHighlight")
+            tryCompare(highlightRect, "visible", false)
+            spreadDelegateLoader.item.highlightShown = true;
+            tryCompare(highlightRect, "visible", true)
+        }
     }
 }

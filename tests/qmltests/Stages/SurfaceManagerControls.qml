@@ -20,14 +20,13 @@ import Unity.Application 0.1
 
 Column {
     id: root
-    property color textColor: "black"
 
     Label {text: "Size hints for new surface:"; color: root.textColor; font.bold: true}
 
-    SurfaceManagerField { text: "min width"; propertyName: "newSurfaceMinimumWidth"; textColor: root.textColor }
-    SurfaceManagerField { text: "max width"; propertyName: "newSurfaceMaximumWidth"; textColor: root.textColor }
-    SurfaceManagerField { text: "min height"; propertyName: "newSurfaceMinimumHeight"; textColor: root.textColor }
-    SurfaceManagerField { text: "max height"; propertyName: "newSurfaceMaximumHeight"; textColor: root.textColor }
-    SurfaceManagerField { text: "width increment"; propertyName: "newSurfaceWidthIncrement"; textColor: root.textColor }
-    SurfaceManagerField { text: "height increment"; propertyName: "newSurfaceHeightIncrement"; textColor: root.textColor }
+    SurfaceManagerField { text: "min width"; propertyName: "newSurfaceMinimumWidth"; }
+    SurfaceManagerField { text: "max width"; propertyName: "newSurfaceMaximumWidth"; }
+    SurfaceManagerField { text: "min height"; propertyName: "newSurfaceMinimumHeight"; }
+    SurfaceManagerField { text: "max height"; propertyName: "newSurfaceMaximumHeight"; }
+    SurfaceManagerField { text: "width increment"; propertyName: "newSurfaceWidthIncrement"; }
+    SurfaceManagerField { text: "height increment"; propertyName: "newSurfaceHeightIncrement"; }
 }

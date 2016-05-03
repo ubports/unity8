@@ -40,6 +40,7 @@ MouseArea {
     property int defaultHeight: units.gu(50)
     property int screenWidth: 0
     property int screenHeight: 0
+    property int leftMargin: 0
 
     QtObject {
         id: priv
@@ -68,14 +69,16 @@ MouseArea {
         onHeightChanged: priv.updateNormalGeometry();
     }
 
-    Component.onCompleted: {
+    function loadWindowState() {
         var windowGeometry = windowStateStorage.getGeometry(root.windowId,
                                                             Qt.rect(target.x, target.y, defaultWidth, defaultHeight));
 
-        target.requestedWidth = Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth);
-        target.requestedHeight = Math.min(Math.max(windowGeometry.height, d.minimumHeight), root.screenHeight - PanelState.panelHeight);
-        target.x = Math.max(Math.min(windowGeometry.x, root.screenWidth - target.requestedWidth), 0)
-        target.y = Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight)
+        target.requestedWidth = Qt.binding(function() { return Math.min(Math.max(windowGeometry.width, d.minimumWidth), screenWidth - root.leftMargin); });
+        target.requestedHeight = Qt.binding(function() { return Math.min(Math.max(windowGeometry.height, d.minimumHeight),
+                                                                         root.screenHeight - (target.fullscreen ? 0 : PanelState.panelHeight)); });
+        target.x = Qt.binding(function() { return Math.max(Math.min(windowGeometry.x, root.screenWidth - root.leftMargin - target.requestedWidth),
+                                                           (target.fullscreen ? 0 : root.leftMargin)); });
+        target.y = Qt.binding(function() { return Math.max(Math.min(windowGeometry.y, root.screenHeight - target.requestedHeight), PanelState.panelHeight); });
 
         var windowState = windowStateStorage.getState(root.windowId, WindowStateStorage.WindowStateNormal)
         if (windowState === WindowStateStorage.WindowStateMaximized) {
@@ -84,7 +87,7 @@ MouseArea {
         priv.updateNormalGeometry();
     }
 
-    Component.onDestruction: {
+    function saveWindowState() {
         windowStateStorage.saveState(root.windowId, target.state == "maximized" ? WindowStateStorage.WindowStateMaximized : WindowStateStorage.WindowStateNormal)
         windowStateStorage.saveGeometry(root.windowId, Qt.rect(priv.normalX, priv.normalY, priv.normalWidth, priv.normalHeight))
     }
@@ -298,7 +301,7 @@ MouseArea {
         }
 
         if (d.topBorder) {
-            var newTargetY = d.startY + deltaY;
+            var newTargetY = Math.max(d.startY + deltaY, PanelState.panelHeight); // disallow resizing up past Panel
             var bottomBorderY = target.y + target.height;
             if (bottomBorderY > newTargetY + d.minimumHeight) {
                 if (bottomBorderY < newTargetY + d.maximumHeight) {

@@ -24,7 +24,8 @@ import Ubuntu.Gestures 0.1
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Connectivity 0.1
 import Unity.Launcher 0.1
-import GlobalShortcut 1.0 // has to be before Utils, because of WindowKeysFilter
+import GlobalShortcut 1.0 // has to be before Utils, because of WindowInputFilter
+import GSettings 1.0
 import Utils 0.1
 import Powerd 0.1
 import SessionBroadcast 0.1
@@ -41,6 +42,7 @@ import Unity.Session 0.1
 import Unity.DashCommunicator 0.1
 import Unity.Indicators 0.1 as Indicators
 import Cursor 1.0
+import WindowManager 0.1
 
 
 Item {
@@ -95,18 +97,50 @@ Item {
         }
     }
 
-    // For autopilot consumption
-    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
-
-    // internal props from here onwards
     readonly property var mainApp:
             applicationsDisplayLoader.item ? applicationsDisplayLoader.item.mainApp : null
+    onMainAppChanged: {
+        if (mainApp) {
+            _onMainAppChanged(mainApp.appId);
+        }
+    }
+    Connections {
+        target: ApplicationManager
+        onFocusRequested: {
+            if (shell.mainApp && shell.mainApp.appId === appId) {
+                _onMainAppChanged(appId);
+            }
+        }
+    }
+    function _onMainAppChanged(appId) {
+        if (wizard.active && appId != "" && appId != "unity8-dash") {
+            // If this happens on first boot, we may be in edge
+            // tutorial or wizard while receiving a call.  But a call
+            // is more important than wizard so just bail out of those.
+            tutorial.finish();
+            wizard.hide();
+        }
+
+        if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
+            // If we are in the middle of a call, make dialer lockedApp and show it.
+            // This can happen if user backs out of dialer back to greeter, then
+            // launches dialer again.
+            greeter.lockedApp = appId;
+        }
+        greeter.notifyAppFocusRequested(appId);
+
+        panel.indicators.hide();
+        launcher.hide();
+    }
+
+    // For autopilot consumption
+    readonly property string focusedApplicationId: ApplicationManager.focusedApplicationId
 
     // Disable everything while greeter is waiting, so that the user can't swipe
     // the greeter or launcher until we know whether the session is locked.
     enabled: greeter && !greeter.waiting
 
-    property real edgeSize: units.gu(2)
+    property real edgeSize: units.gu(settings.edgeDragWidth)
 
     WallpaperResolver {
         id: wallpaperResolver
@@ -119,9 +153,7 @@ Item {
         if (ApplicationManager.findApplication(appId)) {
             ApplicationManager.requestFocusApplication(appId);
         } else {
-            var execFlags = shell.usageScenario === "phone" ? ApplicationManager.ForceMainStage
-                                                            : ApplicationManager.NoFlag;
-            ApplicationManager.startApplication(appId, execFlags);
+            ApplicationManager.startApplication(appId);
         }
     }
 
@@ -139,10 +171,7 @@ Item {
     }
 
     Component.onCompleted: {
-        theme.name = "Ubuntu.Components.Themes.SuruGradient"
-        if (ApplicationManager.count > 0) {
-            ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
-        }
+        theme.name = "Ubuntu.Components.Themes.SuruDark"
         finishStartUpTimer.start();
     }
 
@@ -168,16 +197,24 @@ Item {
     }
 
     GlobalShortcut {
-        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowKeyFilter
+        // dummy shortcut to force creation of GlobalShortcutRegistry before WindowInputFilter
     }
 
-    WindowKeysFilter {
-        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, currentEventTimestamp);
-        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, currentEventTimestamp);
+    WindowInputFilter {
+        id: inputFilter
+        Keys.onPressed: physicalKeysMapper.onKeyPressed(event, lastInputTimestamp);
+        Keys.onReleased: physicalKeysMapper.onKeyReleased(event, lastInputTimestamp);
     }
 
     WindowInputMonitor {
-        onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
+        objectName: "windowInputMonitor"
+        onHomeKeyActivated: {
+            // Ignore when greeter is active, to avoid pocket presses
+            if (!greeter.active) {
+                launcher.fadeOut();
+                shell.showHome();
+            }
+        }
         onTouchBegun: { cursor.opacity = 0; }
         onTouchEnded: {
             // move the (hidden) cursor to the last known touch position
@@ -187,42 +224,21 @@ Item {
         }
     }
 
+    GSettings {
+        id: settings
+        schema.id: "com.canonical.Unity8"
+    }
+
     Item {
         id: stages
         objectName: "stages"
         width: parent.width
         height: parent.height
 
-        Connections {
-            target: ApplicationManager
-
-            // This signal is also fired when we try to focus the current app
-            // again.  We rely on this!
-            onFocusedApplicationIdChanged: {
-                var appId = ApplicationManager.focusedApplicationId;
-
-                if (tutorial.running && appId != "" && appId != "unity8-dash") {
-                    // If this happens on first boot, we may be in edge
-                    // tutorial or wizard while receiving a call.  But a call
-                    // is more important than wizard so just bail out of those.
-                    tutorial.finish();
-                    wizard.hide();
-                }
-
-                if (appId === "dialer-app" && callManager.hasCalls && greeter.locked) {
-                    // If we are in the middle of a call, make dialer lockedApp and show it.
-                    // This can happen if user backs out of dialer back to greeter, then
-                    // launches dialer again.
-                    greeter.lockedApp = appId;
-                }
-                greeter.notifyAppFocused(appId);
-
-                panel.indicators.hide();
-            }
-
-            onApplicationAdded: {
-                launcher.hide();
-            }
+        TopLevelSurfaceList {
+            id: topLevelSurfaceList
+            objectName: "topLevelSurfaceList"
+            applicationsModel: ApplicationManager
         }
 
         Loader {
@@ -242,7 +258,7 @@ Item {
             property string usageScenario: shell.usageScenario === "phone" || greeter.hasLockedApp
                                            ? "phone"
                                            : shell.usageScenario
-            source: {
+            readonly property string qmlComponent: {
                 if(shell.mode === "greeter") {
                     return "Stages/ShimStage.qml"
                 } else if (applicationsDisplayLoader.usageScenario === "phone") {
@@ -253,15 +269,27 @@ Item {
                     return "Stages/DesktopStage.qml";
                 }
             }
+            // TODO: Ensure the current stage is destroyed before the new one gets loaded.
+            //       Currently the new one will get loaded while the old is still hanging
+            //       around for a bit, which might lead to conflicts where both stages
+            //       change the model simultaneously.
+            onQmlComponentChanged: {
+                if (item) item.stageAboutToBeUnloaded();
+                source = qmlComponent;
+            }
 
-            property bool interactive: tutorial.spreadEnabled
-                    && (!greeter || !greeter.shown)
+            property bool interactive: (!greeter || !greeter.shown)
                     && panel.indicators.fullyClosed
                     && launcher.progress == 0
                     && !notifications.useModal
 
             onInteractiveChanged: { if (interactive) { focus = true; } }
 
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "focus"
+                value: true
+            }
             Binding {
                 target: applicationsDisplayLoader.item
                 property: "objectName"
@@ -343,29 +371,20 @@ Item {
                 property: "altTabPressed"
                 value: physicalKeysMapper.altTabPressed
             }
-        }
-
-        Tutorial {
-            id: tutorial
-            objectName: "tutorial"
-            anchors.fill: parent
-
-            // EdgeDragAreas don't work with mice.  So to avoid trapping the user,
-            // we skip the tutorial on the Desktop to avoid using them.  The
-            // Desktop doesn't use the same spread design anyway.  The tutorial is
-            // all a bit of a placeholder on non-phone form factors right now.
-            // When the design team gives us more guidance, we can do something
-            // more clever here.
-            active: usageScenario != "desktop" && AccountsService.demoEdges
-
-            paused: lightDM.greeter.active
-            launcher: launcher
-            panel: panel
-            edgeSize: shell.edgeSize
-
-            onFinished: {
-                AccountsService.demoEdges = false;
-                active = false; // for immediate response / if AS is having problems
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "leftMargin"
+                value: shell.usageScenario == "desktop" && !settings.autohideLauncher ? launcher.panelWidth: 0
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "applicationManager"
+                value: ApplicationManager
+            }
+            Binding {
+                target: applicationsDisplayLoader.item
+                property: "topLevelSurfaceList"
+                value: topLevelSurfaceList
             }
         }
     }
@@ -373,18 +392,12 @@ Item {
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
-        anchors { fill: parent; topMargin: panel.panelHeight }
-        z: notifications.useModal || panel.indicators.shown || wizard.active ? overlay.z + 1 : overlay.z - 1
-    }
-
-    Connections {
-        target: SessionManager
-        onSessionStopping: {
-            if (!session.parentSession && !session.application) {
-                // nothing is using it. delete it right away
-                session.release();
-            }
+        anchors {
+            fill: parent
+            topMargin: panel.panelHeight
+            leftMargin: launcher.lockedVisible ? launcher.panelWidth : 0
         }
+        z: notifications.useModal || panel.indicators.shown || wizard.active || tutorial.running ? overlay.z + 1 : overlay.z - 1
     }
 
     Loader {
@@ -405,7 +418,7 @@ Item {
             hides: [launcher, panel.indicators]
             tabletMode: shell.usageScenario != "phone"
             launcherOffset: launcher.progress
-            forcedUnlock: tutorial.running
+            forcedUnlock: wizard.active
             background: wallpaperResolver.background
 
             // avoid overlapping with Launcher's edge drag area
@@ -462,7 +475,7 @@ Item {
 
         onStatusChanged: {
             if (Powerd.status === Powerd.Off && reason !== Powerd.Proximity &&
-                    !callManager.hasCalls && !tutorial.running) {
+                    !callManager.hasCalls && !wizard.active) {
                 // We don't want to simply call greeter.showNow() here, because
                 // that will take too long.  Qt will delay button event
                 // handling until the greeter is done loading and may think the
@@ -478,11 +491,7 @@ Item {
     }
 
     function showHome() {
-        if (tutorial.running) {
-            return
-        }
-
-        greeter.notifyAboutToFocusApp("unity8-dash");
+        greeter.notifyUserRequestedApp("unity8-dash");
 
         var animate = !lightDM.greeter.active && !stages.shown
         dash.setCurrentScope(0, animate, false)
@@ -515,7 +524,6 @@ Item {
                 available: tutorial.panelEnabled
                         && ((!greeter || !greeter.locked) || AccountsService.enableIndicatorsWhileLocked)
                         && (!greeter || !greeter.hasLockedApp)
-                contentEnabled: tutorial.panelContentEnabled
                 width: parent.width > units.gu(60) ? units.gu(40) : parent.width
 
                 minimizedPanelHeight: units.gu(3)
@@ -532,11 +540,10 @@ Item {
                 greeterShown: greeter.shown
             }
 
-            readonly property bool topmostApplicationIsFullscreen:
-                ApplicationManager.focusedApplicationId &&
-                    ApplicationManager.findApplication(ApplicationManager.focusedApplicationId).fullscreen
-
-            fullscreenMode: (topmostApplicationIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
+            readonly property bool focusedSurfaceIsFullscreen: MirFocusController.focusedSurface
+                ? MirFocusController.focusedSurface.state === Mir.FullscreenState
+                : false
+            fullscreenMode: (focusedSurfaceIsFullscreen && !lightDM.greeter.active && launcher.progress == 0)
                             || greeter.hasLockedApp
             locked: greeter && greeter.active
         }
@@ -556,7 +563,10 @@ Item {
                     && (!greeter.locked || AccountsService.enableLauncherWhileLocked)
                     && !greeter.hasLockedApp
             inverted: shell.usageScenario !== "desktop"
-            shadeBackground: !tutorial.running
+            superPressed: physicalKeysMapper.superPressed
+            superTabPressed: physicalKeysMapper.superTabPressed
+            panelWidth: units.gu(settings.launcherWidth)
+            lockedVisible: shell.usageScenario == "desktop" && !settings.autohideLauncher && !panel.fullscreenMode
 
             onShowDashHome: showHome()
             onDash: showDash()
@@ -566,23 +576,65 @@ Item {
                 }
             }
             onLauncherApplicationSelected: {
-                if (!tutorial.running) {
-                    greeter.notifyAboutToFocusApp(appId);
-                    shell.activateApplication(appId)
-                }
+                greeter.notifyUserRequestedApp(appId);
+                shell.activateApplication(appId);
             }
             onShownChanged: {
                 if (shown) {
                     panel.indicators.hide()
                 }
             }
+            onFocusChanged: {
+                if (!focus) {
+                    applicationsDisplayLoader.focus = true;
+                }
+            }
+
+            GlobalShortcut {
+                shortcut: Qt.AltModifier | Qt.Key_F1
+                onTriggered: {
+                    launcher.openForKeyboardNavigation();
+                }
+            }
+            GlobalShortcut {
+                shortcut: Qt.MetaModifier | Qt.Key_0
+                onTriggered: {
+                    if (LauncherModel.get(9)) {
+                        activateApplication(LauncherModel.get(9).appId);
+                    }
+                }
+            }
+            Repeater {
+                model: 9
+                GlobalShortcut {
+                    shortcut: Qt.MetaModifier | (Qt.Key_1 + index)
+                    onTriggered: {
+                        if (LauncherModel.get(index)) {
+                            activateApplication(LauncherModel.get(index).appId);
+                        }
+                    }
+                }
+            }
+        }
+
+        Tutorial {
+            id: tutorial
+            objectName: "tutorial"
+            anchors.fill: parent
+
+            paused: callManager.hasCalls || greeter.shown
+            keyboardVisible: inputMethod.state === "shown"
+            usageScenario: shell.usageScenario
+            lastInputTimestamp: inputFilter.lastInputTimestamp
+            launcher: launcher
+            panel: panel
+            stage: applicationsDisplayLoader.item
         }
 
         Wizard {
             id: wizard
             objectName: "wizard"
             anchors.fill: parent
-            background: wallpaperResolver.background
 
             function unlockWhenDoneWithWizard() {
                 if (!active) {
@@ -594,17 +646,10 @@ Item {
             onActiveChanged: unlockWhenDoneWithWizard()
         }
 
-        Rectangle {
-            id: modalNotificationBackground
-
-            visible: notifications.useModal
-            color: "#000000"
+        MouseArea { // modal notifications prevent interacting with other contents
             anchors.fill: parent
-            opacity: 0.9
-
-            MouseArea {
-                anchors.fill: parent
-            }
+            visible: notifications.useModal
+            enabled: visible
         }
 
         Notifications {
@@ -686,6 +731,9 @@ Item {
 
         onMouseMoved: { cursor.opacity = 1; }
     }
+
+    // non-visual object
+    KeymapSwitcher {}
 
     Rectangle {
         id: shutdownFadeOutRectangle

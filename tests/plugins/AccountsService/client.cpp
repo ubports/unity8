@@ -19,10 +19,12 @@
 
 #include "AccountsService.h"
 #include "AccountsServiceDBusAdaptor.h"
+#include "types.h"
 #include <QSignalSpy>
 #include <QTest>
 #include <QDebug>
 #include <QDBusReply>
+#include <QDBusMetaType>
 
 template <class T>
 QVariant dbusVariant(const T& value) { return QVariant::fromValue(QDBusVariant(value)); }
@@ -42,7 +44,19 @@ public:
         : QObject(parent)
         , m_userInterface(nullptr)
         , m_spy(this, &AccountsServiceTest::propertiesChanged)
+        , m_mousePrimaryButtonSpy(this, &AccountsServiceTest::setMousePrimaryButtonCalled)
     {
+        m_uscInputInterface = new QDBusInterface("com.canonical.Unity.Input",
+                                                 "/com/canonical/Unity/Input",
+                                                 "com.canonical.Unity.Input",
+                                                 QDBusConnection::sessionBus(),
+                                                 this);
+
+        QObject::connect(m_uscInputInterface, SIGNAL(setMousePrimaryButtonCalled(int)),
+                         this, SIGNAL(setMousePrimaryButtonCalled(int)));
+
+        qDBusRegisterMetaType<StringMap>();
+        qDBusRegisterMetaType<StringMapList>();
     }
 
 private Q_SLOTS:
@@ -71,6 +85,7 @@ private Q_SLOTS:
 
         delete m_userInterface;
         m_spy.clear();
+        m_mousePrimaryButtonSpy.clear();
     }
 
     void testInvalids()
@@ -107,7 +122,44 @@ private Q_SLOTS:
         QCOMPARE(session.hereEnabled(), true);
     }
 
-    void testAsynchornousChangeForDemoEdges()
+    void testMarkDemoEdgeCompleted()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QSignalSpy changedSpy(&session, &AccountsService::demoEdgesCompletedChanged);
+
+        QCOMPARE(changedSpy.count(), 0);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList());
+
+        session.markDemoEdgeCompleted("testedge");
+        QCOMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+
+        session.markDemoEdgeCompleted("testedge");
+        QCOMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+
+        session.markDemoEdgeCompleted("testedge2");
+        QCOMPARE(changedSpy.count(), 2);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge" << "testedge2");
+    }
+
+    void testAsynchronousChangeForDemoEdgesCompleted()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QSignalSpy changedSpy(&session, &AccountsService::demoEdgesCompletedChanged);
+
+        QCOMPARE(changedSpy.count(), 0);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList());
+
+        ASSERT_DBUS_CALL(m_userInterface->call("Set",
+                                               "com.canonical.unity.AccountsService",
+                                               "DemoEdgesCompleted",
+                                               dbusVariant(QStringList() << "testedge")));
+        QTRY_COMPARE(changedSpy.count(), 1);
+        QCOMPARE(session.demoEdgesCompleted(), QStringList() << "testedge");
+    }
+
+    void testAsynchronousChangeForDemoEdges()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -119,7 +171,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.demoEdges(), true);
     }
 
-    void testAsynchornousChangeForFailedLogins()
+    void testAsynchronousChangeForFailedLogins()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -131,7 +183,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.failedLogins(), (uint)5);
     }
 
-    void testAsynchornousChangeForStatsWelcomeScreen()
+    void testAsynchronousChangeForStatsWelcomeScreen()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -143,7 +195,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.statsWelcomeScreen(), false);
     }
 
-    void testAsynchornousChangeForStatsEnableLauncherWhileLocked()
+    void testAsynchronousChangeForEnableLauncherWhileLocked()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -155,7 +207,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.enableLauncherWhileLocked(), false);
     }
 
-    void testAsynchornousChangeForStatsEnableIndicatorsWhileLocked()
+    void testAsynchronousChangeForEnableIndicatorsWhileLocked()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -167,7 +219,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.enableIndicatorsWhileLocked(), false);
     }
 
-    void testAsynchornousChangeForStatsPasswordDisplayHint()
+    void testAsynchronousChangeForPasswordDisplayHint()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -179,7 +231,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.passwordDisplayHint(), AccountsService::Numeric);
     }
 
-    void testAsynchornousChangeForStatsLicenseAccepted()
+    void testAsynchronousChangeForLicenseAccepted()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -191,7 +243,7 @@ private Q_SLOTS:
         QTRY_COMPARE(session.hereEnabled(), true);
     }
 
-    void testAsynchornousChangeForLicenseBasePath()
+    void testAsynchronousChangeForLicenseBasePath()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
@@ -203,24 +255,127 @@ private Q_SLOTS:
         QTRY_COMPARE(session.hereLicensePath(), QString("/"));
     }
 
-    void testAsynchornousChangeForStatsBackgroundFile()
+    void testAsynchronousChangeForBackgroundFile()
     {
         AccountsService session(this, QTest::currentTestFunction());
 
         QCOMPARE(session.backgroundFile(), QString());
-        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
-                                                   "org.freedesktop.Accounts.User",
-                                                    "BackgroundFile",
-                                                    dbusVariant("/test/BackgroundFile")));
+
+        QDBusInterface accountsIface(m_userInterface->service(),
+                                     m_userInterface->path(),
+                                     "org.freedesktop.Accounts.User");
+        ASSERT_DBUS_CALL(accountsIface.asyncCall("SetBackgroundFile",
+                                                 "/test/BackgroundFile"));
+
         QTRY_COMPARE(session.backgroundFile(), QString("/test/BackgroundFile"));
+    }
+
+    void testProxyOnStartup()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 1);
+    }
+
+    void testProxyOnChange()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        m_mousePrimaryButtonSpy.clear();
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.Input",
+                                                    "MousePrimaryButton",
+                                                    dbusVariant("left")));
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
+    void testInvalidPrimaryButton()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        m_mousePrimaryButtonSpy.clear();
+
+        ASSERT_DBUS_CALL(m_userInterface->asyncCall("Set",
+                                                    "com.ubuntu.AccountsService.Input",
+                                                    "MousePrimaryButton",
+                                                    dbusVariant("NOPE")));
+
+        QTRY_COMPARE(m_mousePrimaryButtonSpy.count(), 1);
+        QList<QVariant> arguments = m_mousePrimaryButtonSpy.takeFirst();
+        QCOMPARE(arguments.at(0).toInt(), 0);
+    }
+
+    void testSetRealName()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        // Just confirm that we can't set normal way
+        auto message = m_userInterface->call("Set",
+                                             "org.freedesktop.Accounts.User",
+                                             "RealName",
+                                             dbusVariant("Stallman"));
+        QCOMPARE(message.type(), QDBusMessage::ErrorMessage);
+        QCOMPARE(message.errorName(), QStringLiteral("org.freedesktop.DBus.Error.InvalidArgs"));
+
+        message = m_userInterface->call("Get",
+                                        "org.freedesktop.Accounts.User",
+                                        "RealName");
+        QCOMPARE(message.type(), QDBusMessage::ReplyMessage);
+        auto response = message.arguments().first().value<QDBusVariant>().variant().toString();
+        QCOMPARE(response, QStringLiteral(""));
+
+        // Now try it via our AS wrapper and confirm it did get through, unlike above
+        session.setRealName("Stallman");
+
+        QCOMPARE(session.realName(), QStringLiteral("Stallman"));
+
+        message = m_userInterface->call("Get",
+                                        "org.freedesktop.Accounts.User",
+                                        "RealName");
+        QCOMPARE(message.type(), QDBusMessage::ReplyMessage);
+        response = message.arguments().first().value<QDBusVariant>().variant().toString();
+        QCOMPARE(response, QStringLiteral("Stallman"));
+
+    }
+
+    void testAsynchronousChangeForKeymaps()
+    {
+        AccountsService session(this, QTest::currentTestFunction());
+
+        QCOMPARE(session.keymaps(), {"us"});
+
+        StringMapList inputSources;
+        StringMap map1;
+        map1.insert("xkb", "cz+qwerty");
+        inputSources.append(map1);
+        StringMap map2;
+        map2.insert("xkb", "fr");
+        inputSources.append(map2);
+
+        QDBusInterface accountsIface(m_userInterface->service(),
+                                     m_userInterface->path(),
+                                     "org.freedesktop.Accounts.User");
+        ASSERT_DBUS_CALL(accountsIface.asyncCall("SetInputSources",
+                                                 QVariant::fromValue(inputSources)));
+        QStringList result = {"cz+qwerty", "fr"};
+        QTRY_COMPARE(session.keymaps(), result);
     }
 
 Q_SIGNALS:
     void propertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalid);
+    void setMousePrimaryButtonCalled(int button);
 
 private:
+    QDBusInterface* m_uscInputInterface;
     QDBusInterface* m_userInterface;
     QSignalSpy m_spy;
+    QSignalSpy m_mousePrimaryButtonSpy;
 };
 
 QTEST_MAIN(AccountsServiceTest)

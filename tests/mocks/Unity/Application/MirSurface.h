@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,30 @@
 #include <QHash>
 
 // unity-api
+#include <unity/shell/application/MirFocusControllerInterface.h>
 #include <unity/shell/application/MirSurfaceInterface.h>
+
+#include "MirSurfaceListModel.h"
+
+class MirSurface;
+
+class MirFocusController : public unity::shell::application::MirFocusControllerInterface
+{
+    Q_OBJECT
+public:
+    MirFocusController();
+    virtual ~MirFocusController();
+    static MirFocusController* instance();
+
+    void setFocusedSurface(unity::shell::application::MirSurfaceInterface *surface) override;
+    unity::shell::application::MirSurfaceInterface* focusedSurface() const override { return m_focusedSurface; }
+    unity::shell::application::MirSurfaceInterface* previouslyFocusedSurface() { return m_previouslyFocusedSurface; }
+    void clear();
+private:
+    static MirFocusController *m_instance;
+    unity::shell::application::MirSurfaceInterface* m_previouslyFocusedSurface{nullptr};
+    unity::shell::application::MirSurfaceInterface* m_focusedSurface{nullptr};
+};
 
 class MirSurface : public unity::shell::application::MirSurfaceInterface
 {
@@ -73,15 +96,26 @@ public:
     int widthIncrement() const override { return m_widthIncrement; }
     int heightIncrement() const override { return m_heightIncrement; }
 
+    virtual void setKeymap(const QString &);
+    virtual QString keymap() const;
+
+    Mir::ShellChrome shellChrome() const override;
+
+    bool focused() const override;
+
+    Q_INVOKABLE void requestFocus() override;
+
+    Q_INVOKABLE void close() override;
+
+    unity::shell::application::MirSurfaceListInterface* promptSurfaceList() override;
+
+    Q_INVOKABLE void raise() override;
+
     ////
     // API for tests
 
     Q_INVOKABLE void setLive(bool live);
-
-    void registerView(qintptr viewId);
-    void unregisterView(qintptr viewId);
-    void setViewVisibility(qintptr viewId, bool visible);
-    int viewCount() const { return m_views.count(); }
+    Q_INVOKABLE void setShellChrome(Mir::ShellChrome shellChrome);
 
     int width() const;
     int height() const;
@@ -96,6 +130,8 @@ public:
     Q_INVOKABLE void setWidthIncrement(int);
     Q_INVOKABLE void setHeightIncrement(int);
 
+    Q_INVOKABLE void createPromptSurface();
+
     /////
     // internal mock stuff
 
@@ -107,10 +143,16 @@ public:
     bool activeFocus() const;
     void setActiveFocus(bool);
 
+    void registerView(qintptr viewId);
+    void unregisterView(qintptr viewId);
+    void setViewVisibility(qintptr viewId, bool visible);
+    int viewCount() const { return m_views.count(); }
+
+    void setFocused(bool value);
+
 Q_SIGNALS:
-    void stateChanged(Mir::State);
-    void liveChanged(bool live);
-    void orientationAngleChanged(Mir::OrientationAngle angle);
+    ////
+    // API for tests
     void widthChanged();
     void heightChanged();
     void slowToResizeChanged();
@@ -119,6 +161,8 @@ Q_SIGNALS:
     // internal mock stuff
     void screenshotUrlChanged(QUrl);
     void activeFocusChanged(bool);
+    void raiseRequested();
+    void closeRequested();
 
 private Q_SLOTS:
     void applyDelayedResize();
@@ -131,6 +175,7 @@ private:
     const Mir::Type m_type;
     Mir::State m_state;
     Mir::OrientationAngle m_orientationAngle;
+
     QUrl m_screenshotUrl;
     QUrl m_qmlFilePath;
     bool m_live;
@@ -146,15 +191,22 @@ private:
     int m_widthIncrement{0};
     int m_heightIncrement{0};
 
+    QString m_keymap;
+
     bool m_slowToResize;
     QTimer m_delayedResizeTimer;
     QSize m_delayedResize;
     QSize m_pendingResize;
 
+    Mir::ShellChrome m_shellChrome;
+    MirSurfaceListModel m_promptSurfaceList;
+
     struct View {
         bool visible;
     };
     QHash<qintptr, View> m_views;
+
+    QTimer m_zombieTimer;
 };
 
 #endif // MOCK_MIR_SURFACE_H

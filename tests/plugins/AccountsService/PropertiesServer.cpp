@@ -25,16 +25,20 @@
 #include <QDBusMessage>
 #include <QDBusMetaType>
 
+#define IFACE_ACCOUNTS_USER QStringLiteral("org.freedesktop.Accounts.User")
+
 PropertiesServer::PropertiesServer(QObject *parent)
     : QObject(parent)
 {
     qDBusRegisterMetaType<QList<QVariantMap>>();
+    qDBusRegisterMetaType<StringMap>();
+    qDBusRegisterMetaType<StringMapList>();
     Reset();
 }
 
-QDBusVariant PropertiesServer::Get(const QString &interface, const QString &property)
+QDBusVariant PropertiesServer::Get(const QString &interface, const QString &property) const
 {
-    if (m_properties[interface].contains(property)) {
+    if (m_properties.contains(interface) && m_properties[interface].contains(property)) {
         return QDBusVariant(m_properties[interface][property]);
     } else {
         sendErrorReply(QDBusError::InvalidArgs, "Bad interface or property");
@@ -42,9 +46,51 @@ QDBusVariant PropertiesServer::Get(const QString &interface, const QString &prop
     }
 }
 
+QVariantMap PropertiesServer::GetAll(const QString &interface) const
+{
+    if (m_properties.contains(interface)) {
+        return m_properties[interface];
+    } else {
+        sendErrorReply(QDBusError::InvalidArgs, "Bad interface");
+        return QVariantMap();
+    }
+}
+
 void PropertiesServer::Set(const QString &interface, const QString &property, const QDBusVariant &variant)
 {
     QVariant newValue = variant.variant();
+
+    if (interface == IFACE_ACCOUNTS_USER) {
+        sendErrorReply(QDBusError::InvalidArgs, QStringLiteral("Property is not writable"));
+        return;
+    }
+
+    internalSet(interface, property, newValue);
+}
+
+void PropertiesServer::SetBackgroundFile(const QString &backgroundFile)
+{
+    internalSet(IFACE_ACCOUNTS_USER, QStringLiteral("BackgroundFile"), backgroundFile);
+}
+
+void PropertiesServer::SetEmail(const QString &email)
+{
+    internalSet(IFACE_ACCOUNTS_USER, QStringLiteral("Email"), email);
+}
+
+void PropertiesServer::SetInputSources(const StringMapList &inputSources)
+{
+    internalSet(IFACE_ACCOUNTS_USER, QStringLiteral("InputSources"), QVariant::fromValue(inputSources));
+}
+
+void PropertiesServer::SetRealName(const QString &realName)
+{
+    internalSet(IFACE_ACCOUNTS_USER, QStringLiteral("RealName"), realName);
+}
+
+void PropertiesServer::internalSet(const QString &interface, const QString &property, const QVariant &variant)
+{
+    QVariant newValue = variant;
 
     if (m_properties[interface].contains(property)) {
         QVariant& oldValue = m_properties[interface][property];
@@ -57,8 +103,8 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 
             oldValue = newValue;
 
-            // Special case for Background file.
-            if (interface == "org.freedesktop.Accounts.User" && property == "BackgroundFile") {
+            // Special case for user properties.
+            if (interface == IFACE_ACCOUNTS_USER) {
                 Q_EMIT Changed();
             } else {
                 QVariantMap propertyChanges;
@@ -79,13 +125,18 @@ void PropertiesServer::Set(const QString &interface, const QString &property, co
 void PropertiesServer::Reset()
 {
     m_properties["com.canonical.unity.AccountsService"]["demo-edges"] = false;
+    m_properties["com.canonical.unity.AccountsService"]["DemoEdgesCompleted"] = QStringList();
     m_properties["com.canonical.unity.AccountsService"]["LauncherItems"] = QVariant::fromValue(QList<QVariantMap>());
     m_properties["com.canonical.unity.AccountsService.Private"]["FailedLogins"] = 0;
     m_properties["com.ubuntu.touch.AccountsService.SecurityPrivacy"]["StatsWelcomeScreen"] = true;
+    m_properties["com.ubuntu.AccountsService.Input"]["MousePrimaryButton"] = "right";
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableLauncherWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["EnableIndicatorsWhileLocked"] = true;
     m_properties["com.ubuntu.AccountsService.SecurityPrivacy"]["PasswordDisplayHint"] = AccountsService::Keyboard;
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseAccepted"] = false;
     m_properties["com.ubuntu.location.providers.here.AccountsService"]["LicenseBasePath"] = "";
     m_properties["org.freedesktop.Accounts.User"]["BackgroundFile"] = "";
+    m_properties["org.freedesktop.Accounts.User"]["Email"] = "";
+    m_properties["org.freedesktop.Accounts.User"]["InputSources"] = QVariant::fromValue(StringMapList());
+    m_properties["org.freedesktop.Accounts.User"]["RealName"] = "";
 }

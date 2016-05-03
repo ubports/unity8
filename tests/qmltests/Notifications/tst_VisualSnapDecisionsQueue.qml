@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,10 @@ Row {
         QtObject {
             function invokeAction(actionId) {
                 mockModel.actionInvoked(actionId)
+            }
+
+            function close() {
+                console.log("Close notification");
             }
         }
     }
@@ -180,6 +184,11 @@ Row {
                 text: "clear model"
                 onClicked: clearNotifications()
             }
+
+            MouseTouchEmulationCheckbox {
+                id: mouseEmulation
+                checked: false
+            }
         }
     }
 
@@ -207,9 +216,9 @@ Row {
             }
 
             // check initial states once all five snap-decisions were appended to the model
-            compare(snap_decision[0].state, "expanded", "state of first snap-decision is not expanded");
+            compare(snap_decision[0].expanded, true, "state of first snap-decision is not expanded");
             for (var index = 1; index < snap_decision.length; index++) {
-                compare(snap_decision[index].state, "contracted", "state of "+ index + ".snap-decision is not contracted");
+                compare(snap_decision[index].expanded, false, "state of "+ index + ".snap-decision is not contracted");
             }
 
             // click/tap on each snap-decision and verify only one is in expanded-state at any time
@@ -217,21 +226,22 @@ Row {
                 mouseClick(snap_decision[index])
                 for (var kindex = 0; kindex < snap_decision.length; kindex++) {
                     if (kindex == index) {
-                        compare(snap_decision[kindex].state, "expanded", "state of "+ kindex + ".snap-decision is not expanded");
+                        compare(snap_decision[kindex].expanded, true, "state of "+ kindex + ".snap-decision is not expanded");
                     } else {
-                        compare(snap_decision[kindex].state, "contracted", "state of "+ kindex + ".snap-decision is not contracted");
+                        compare(snap_decision[kindex].expanded, false, "state of "+ kindex + ".snap-decision is not contracted");
                     }
                 }
             }
 
             // remove top-most and verify one of the remaining ones is still getting expanded
 
+            waitForRendering(notifications);
             // make first snap-decision expand
             mouseClick(snap_decision[0]);
 
             for (var index = 1; index < snap_decision.length; index++) {
                 removeTopMostNotification();
-                compare(snap_decision[index].state, "expanded", "state of " + index + ". snap-decision is not expanded");
+                compare(snap_decision[index].expanded, true, "state of " + index + ". snap-decision is not expanded");
             }
         }
     }
