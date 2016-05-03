@@ -34,6 +34,11 @@ Rectangle {
 
     Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark"
 
+    MouseArea {
+        id: clickThroughTester
+        anchors.fill: parent
+    }
+
     Loader {
         id: launcherLoader
         anchors.fill: parent
@@ -200,6 +205,12 @@ Rectangle {
     SignalSpy {
         id: signalSpy
         target: LauncherModel
+    }
+
+    SignalSpy {
+        id: clickThroughSpy
+        target: clickThroughTester
+        signalName: "clicked"
     }
 
     Item {
@@ -835,10 +846,12 @@ Rectangle {
         function test_launcher_dismiss() {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
+            clickThroughSpy.clear();
 
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            verify(clickThroughSpy.count, 1);
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
@@ -846,6 +859,7 @@ Rectangle {
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
+            verify(clickThroughSpy.count, 2);
         }
 
         function test_quicklist_positioning_data() {

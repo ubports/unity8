@@ -299,18 +299,10 @@ FocusScope {
         enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
         visible: enabled
         onPressed: {
-            panel.highlightIndex = -2
+            mouse.accepted = false;
+            panel.highlightIndex = -2;
             root.hide();
         }
-    }
-
-    Rectangle {
-        id: backgroundShade
-        anchors.fill: parent
-        color: "black"
-        opacity: root.state == "visible" && !root.lockedVisible ? 0.6 : 0
-
-        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.BriskDuration } }
     }
 
     EdgeBarrier {
