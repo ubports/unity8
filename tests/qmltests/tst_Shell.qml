@@ -339,7 +339,7 @@ Rectangle {
                     Button {
                         text: "Success"
                         onClicked: {
-                            var biometryd = findInvisibleChild(shell, "biometryd");
+                            var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
                             biometryd.mockIdentification(0, "");
                         }
                     }
@@ -347,7 +347,7 @@ Rectangle {
                     Button {
                         text: "Failure"
                         onClicked: {
-                            var biometryd = findInvisibleChild(shell, "biometryd");
+                            var biometryd = testCase.findInvisibleChild(shellContainer, "biometryd");
                             biometryd.mockIdentification(0, "error");
                         }
                     }
