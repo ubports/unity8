@@ -62,7 +62,7 @@ StyledItem {
             if (ListView.view.currentIndex === index) {
                 result = true;
             } else {
-                if (ListView.view.count > 2) {
+                if (ListView.view.count > 1) {
                     if (ListView.view.currentIndex === -1 && index == 1) {
                         result = true;
                     } else {
@@ -99,6 +99,10 @@ StyledItem {
     }
 
     function closeNotification() {
+        if (index === ListView.view.currentIndex) { // reset to get the 1st snap decision expanded
+            ListView.view.currentIndex = -1;
+        }
+
         if (notification.actions.count > 1) { // perform the "reject" action
             notification.notification.invokeAction(notification.actions.data(1, ActionModel.RoleActionId));
         }

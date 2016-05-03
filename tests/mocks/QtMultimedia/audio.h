@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012, 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2012-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,13 +44,19 @@ public:
     };
 
     enum AudioRole {
-        alarm,
-        alert,
-        multimedia,
-        phone
+        UnknownRole,
+        MusicRole,
+        VideoRole,
+        VoiceCommunicationRole,
+        AlarmRole,
+        NotificationRole,
+        RingtoneRole,
+        AccessibilityRole,
+        SonificationRole,
+        GameRole
     };
 
-    explicit Audio(QObject *parent = 0);
+    explicit Audio(QObject *parent = nullptr);
 
     QUrl source() const;
     void setSource(const QUrl &source);

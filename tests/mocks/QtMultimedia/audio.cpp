@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013, 2015 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 Audio::Audio(QObject* parent):
     QObject(parent),
     m_playbackState(StoppedState),
-    m_playlist(0)
+    m_playlist(nullptr)
 {
     qsrand(time(nullptr));
     m_timer.setInterval(1000);
@@ -109,7 +109,7 @@ void Audio::timerEvent()
 
 Audio::AudioRole Audio::audioRole() const
 {
-    return Audio::multimedia;
+    return Audio::MusicRole;
 }
 
 void Audio::setAudioRole(Audio::AudioRole audioRole)
