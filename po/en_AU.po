@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-04-21 13:47+0000\n"
+"POT-Creation-Date: 2016-04-27 15:01+0000\n"
 "PO-Revision-Date: 2016-03-27 10:09+0000\n"
 "Last-Translator: Jared Norris <jarednorris@ubuntu.com>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-04-27 06:03+0000\n"
+"X-Launchpad-Export-Date: 2016-04-30 05:37+0000\n"
 "X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -73,7 +73,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Log Out"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -92,16 +92,16 @@ msgstr "Are you sure you want to reboot?"
 msgid "No"
 msgstr "No"
 
-#: qml/Components/Dialogs.qml:183
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "Yes"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Power"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -109,12 +109,12 @@ msgstr ""
 "Are you sure you would like\n"
 "to power off?"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Power off"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Restart"
@@ -189,12 +189,12 @@ msgid "Reset"
 msgstr "Reset"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
-msgid "See less"
-msgstr "See less"
+msgid "Show less"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:570
-msgid "See all"
-msgstr "See all"
+msgid "Show all"
+msgstr ""
 
 #: qml/Dash/GenericScopeView.qml:627
 msgctxt "Label: Hint for dash search line edit"
@@ -337,7 +337,7 @@ msgstr "Please re-enter"
 msgid "Sorry, incorrect passcode"
 msgstr "Sorry, incorrect passcode"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "Show password"
 
@@ -349,62 +349,62 @@ msgstr "Tap to return to call..."
 msgid "Conference"
 msgstr "Conference"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:761
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "Nothing is playing"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 hour"
 msgstr[1] "%1 hours"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 minute"
 msgstr[1] "%1 minutes"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:899
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 second"
 msgstr[1] "%1 seconds"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "0 seconds"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 remaining"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "In queue…"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "Downloading"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "Paused, tap to resume"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:918
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "Cancelled"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "Finished"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:922
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "Failed, tap to retry"
 
@@ -798,12 +798,18 @@ msgstr "Very weak password"
 #~ msgid "Right edge"
 #~ msgstr "Right edge"
 
+#~ msgid "See less"
+#~ msgstr "See less"
+
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
 #~ msgstr ""
 #~ "You have now mastered the edge gestures and can start using the "
 #~ "phone<br><br>Tap on the screen to start"
+
+#~ msgid "See all"
+#~ msgstr "See all"
 
 #~ msgid "All"
 #~ msgstr "All"
