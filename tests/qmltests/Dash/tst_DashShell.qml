@@ -91,8 +91,12 @@ Item {
             var stopY = startY;
             touchFlick(shell, startX, startY, stopX, stopY);
 
-            // Now do a long launcher movement
-            touchFlick(shell, stopX, startY, startX, stopY);
+            // bring in the launcher
+            var startX = units.gu(1);
+            var startY = shell.height / 2;
+            var stopX = shell.width / 3;
+            var stopY = startY;
+            touchFlick(shell, startX, startY, stopX, stopY);
 
             var launcher = findChild(shell, "launcher");
             var buttonShowDashHome = findChild(launcher, "buttonShowDashHome");

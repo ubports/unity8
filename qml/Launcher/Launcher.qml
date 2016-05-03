@@ -19,7 +19,6 @@ import "../Components"
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
 import Unity.Launcher 0.1
-import GlobalShortcut 1.0
 
 FocusScope {
     id: root
