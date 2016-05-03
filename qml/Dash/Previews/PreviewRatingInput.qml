@@ -87,6 +87,7 @@ PreviewWidget {
             size: 5
             height: units.gu(4)
             onValueChanged: {
+                root.makeSureVisible(rating);
                 if (widgetData["visible"] === "rating") root.submit();
             }
 
