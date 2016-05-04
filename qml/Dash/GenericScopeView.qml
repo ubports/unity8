@@ -395,6 +395,10 @@ FocusScope {
                         scopeView.itemPressedAndHeld(result, baseItem.category);
                     }
 
+                    onAction: { // (int index, var result, var actionId)
+                        scope.activateAction(result, baseItem.categoryId, actionId);
+                    }
+
                     function categoryItemCount() {
                         var categoryItemCount = -1;
                         if (!rendererLoader.expanded && !seeAllLabel.visible && target.collapsedItemCount > 0) {

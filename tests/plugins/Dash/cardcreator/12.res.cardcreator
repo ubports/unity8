@@ -5,7 +5,6 @@ AbstractButton {
                 property string backgroundShapeStyle: "inset"; 
                 property real fontScale: 1.0; 
                 property var scopeStyle: null; 
-                property int fixedHeaderHeight: -1; 
                 property size fixedArtShapeSize: Qt.size(-1, -1); 
                 readonly property string title: cardData && cardData["title"] || ""; 
                 property bool showHeader: true; 
@@ -21,9 +20,9 @@ Item  {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
-                                active: cardArt != "";
-                                asynchronous: true;
+                                readonly property string cardArt: cardData && cardData["art"] || ""; 
+                                active: cardArt != ""; 
+                                asynchronous: false; 
                                 visible: status == Loader.Ready;
                                 sourceComponent: Item {
                                     id: artShape;
@@ -72,11 +71,10 @@ Item  {
                                         id: artImage;
                                         objectName: "artImage";
                                         source: artShapeLoader.cardArt;
-                                        asynchronous: true;
+                                        asynchronous: false;
                                         visible: !true;
                                         width: root.width;
                                         height: width / artShape.aspect;
-                                        onStatusChanged: if (status === Image.Error) source = decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
                                     }
                                 } 
                             } 
@@ -100,7 +98,7 @@ Label {
                         width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: Text.AlignLeft;
+                        horizontalAlignment: Text.AlignLeft; 
                     }
 Label { 
                             id: subtitleLabel; 
@@ -120,6 +118,14 @@ Label {
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
+CardSocialActions {
+    id: socialActionsRow;
+    objectName: "socialActionsRow";
+    anchors { top: subtitleLabel.bottom; left: parent.left; right: parent.right; topMargin: units.gu(1); }
+    color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
+    model: cardData && cardData["socialActions"];
+    onClicked: root.action(actionId);
+}
 UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
@@ -128,5 +134,5 @@ UbuntuShape {
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }
-implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
+implicitHeight: socialActionsRow.y + socialActionsRow.height + units.gu(1);
 }

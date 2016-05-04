@@ -21,9 +21,9 @@ Item  {
                             Loader { 
                                 id: artShapeLoader; 
                                 objectName: "artShapeLoader"; 
-                                readonly property string cardArt: cardData && cardData["art"] || decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
-                                active: cardArt != "";
-                                asynchronous: true;
+                                readonly property string cardArt: cardData && cardData["art"] || ""; 
+                                active: cardArt != ""; 
+                                asynchronous: true; 
                                 visible: status == Loader.Ready;
                                 sourceComponent: Item {
                                     id: artShape;
@@ -76,7 +76,6 @@ Item  {
                                         visible: !true;
                                         width: root.width;
                                         height: width / artShape.aspect;
-                                        onStatusChanged: if (status === Image.Error) source = decodeURI("IHAVE%5C%22ESCAPED%5C%22QUOTES%5C%22");
                                     }
                                 } 
                             } 
@@ -100,7 +99,7 @@ Label {
                         width: undefined;
                         text: root.title; 
                         font.weight: cardData && cardData["subtitle"] ? Font.DemiBold : Font.Normal; 
-                        horizontalAlignment: Text.AlignLeft;
+                        horizontalAlignment: Text.AlignLeft; 
                     }
 Label { 
                             id: subtitleLabel; 
@@ -120,6 +119,14 @@ Label {
                             text: cardData && cardData["subtitle"] || ""; 
                             font.weight: Font.Light; 
                         }
+CardSocialActions {
+    id: socialActionsRow;
+    objectName: "socialActionsRow";
+    anchors { top: subtitleLabel.bottom; left: parent.left; right: parent.right; topMargin: units.gu(1); }
+    color: root.scopeStyle ? root.scopeStyle.foreground : theme.palette.normal.baseText;
+    model: cardData && cardData["socialActions"];
+    onClicked: root.action(actionId);
+}
 UbuntuShape {
     id: touchdown;
     objectName: "touchdown";
@@ -128,5 +135,5 @@ UbuntuShape {
     radius: "medium";
     borderSource: "radius_pressed.sci"
 }
-implicitHeight: subtitleLabel.y + subtitleLabel.height + units.gu(1);
+implicitHeight: socialActionsRow.y + socialActionsRow.height + units.gu(1);
 }
