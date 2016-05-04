@@ -96,7 +96,6 @@ Column {
         Label {
             id: appIdLabel
             text: root.appId
-            color: "white"
             anchors.verticalCenter: parent.verticalCenter
         }
         Rectangle {

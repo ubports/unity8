@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-04-21 13:47+0000\n"
-"PO-Revision-Date: 2016-03-26 15:29+0000\n"
+"POT-Creation-Date: 2016-04-27 15:01+0000\n"
+"PO-Revision-Date: 2016-05-02 10:43+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2016-04-27 06:02+0000\n"
+"X-Launchpad-Export-Date: 2016-05-03 05:41+0000\n"
 "X-Generator: Launchpad (build 17995)\n"
 "Language: sk\n"
 
@@ -79,7 +79,7 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Odhlásiť"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:219
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
 #: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
 #: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
@@ -98,16 +98,16 @@ msgstr "Ste si istý, že chcete zariadenie reštartovať?"
 msgid "No"
 msgstr "Nie"
 
-#: qml/Components/Dialogs.qml:183
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "Áno"
 
-#: qml/Components/Dialogs.qml:198
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Napájanie"
 
-#: qml/Components/Dialogs.qml:199
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -115,12 +115,12 @@ msgstr ""
 "Naozaj chcete zariadenie\n"
 "vypnúť?"
 
-#: qml/Components/Dialogs.qml:201
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Vypnúť"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Reštartovať"
@@ -196,11 +196,11 @@ msgid "Reset"
 msgstr "Resetovať"
 
 #: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
-msgid "See less"
+msgid "Show less"
 msgstr "Zobraziť menej"
 
 #: qml/Dash/GenericScopeView.qml:570
-msgid "See all"
+msgid "Show all"
 msgstr "Zobraziť všetko"
 
 #: qml/Dash/GenericScopeView.qml:627
@@ -344,7 +344,7 @@ msgstr "Zadajte znova"
 msgid "Sorry, incorrect passcode"
 msgstr "Prepáčte, nesprávne heslo"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "Zobraziť heslo"
 
@@ -356,11 +356,11 @@ msgstr "Kliknúť pre návrat k hovoru..."
 msgid "Conference"
 msgstr "Konferencia"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:761
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "Nič nehrá"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
@@ -368,7 +368,7 @@ msgstr[0] "%1 hodín"
 msgstr[1] "%1 hodina"
 msgstr[2] "%1 hodiny"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:894
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
@@ -376,7 +376,7 @@ msgstr[0] "%1 minút"
 msgstr[1] "%1 minúta"
 msgstr[2] "%1 minúty"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:899
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
@@ -384,37 +384,37 @@ msgstr[0] "%1 sekúnd"
 msgstr[1] "%1 sekunda"
 msgstr[2] "%1 sekundy"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:902
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "0 sekúnd"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:904
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "Zostáva %1"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:910
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "V poradí..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:914
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "Sťahuje sa"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:916
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "Pauza, kliknúť pre pokračovanie"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:918
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "Zrušené"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:920
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "Ukončené"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:922
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "Zlyhanie, kliknúť pre zopakovanie"
 
@@ -469,7 +469,7 @@ msgstr "Potiahnite od ľavého okraja pre otvorenie spúšťača"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "Potiahnuť myšou do pravého rohu pre zobrazenie otvorených aplikácií"
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"
@@ -778,6 +778,12 @@ msgstr "Heslo je veľmi slabé"
 #~ msgctxt "Button: Shut down the system"
 #~ msgid "Shut down"
 #~ msgstr "Vypnúť"
+
+#~ msgid "See less"
+#~ msgstr "Zobraziť menej"
+
+#~ msgid "See all"
+#~ msgstr "Zobraziť všetko"
 
 #~ msgid "Unlock SIM"
 #~ msgstr "Odomknúť SIM"
