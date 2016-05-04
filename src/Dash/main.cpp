@@ -117,10 +117,10 @@ int main(int argc, const char *argv[])
     view->setSource(source);
     view->show();
 
-    UnixSignalHandler signal_handler([]{
+    UnixSignalHandler signalHandler([]{
         QGuiApplication::exit(0);
     });
-    signal_handler.setupUnixSignalHandlers();
+    signalHandler.setupUnixSignalHandlers();
 
     int result = application->exec();
 
