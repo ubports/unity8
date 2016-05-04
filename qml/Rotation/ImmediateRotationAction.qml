@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,30 +16,19 @@
 
 import QtQuick 2.4
 
-ScriptAction {
+SequentialAnimation {
+    id: root
     property var info
     property var shell
 
-    script: {
-        info.transitioning = true;
-        shell.orientationAngle = info.requestedOrientationAngle;
-        shell.transformRotationAngle = info.requestedOrientationAngle;
+    ScriptAction { script: {
+        root.info.transitioning = true;
+    } }
 
-        // Making bindings as orientedShell's dimensions might wiggle during startup.
-        if (info.requestedOrientationAngle === 90 || info.requestedOrientationAngle === 270) {
-            shell.width = Qt.binding(function() { return orientedShell.height; });
-            shell.height = Qt.binding(function() { return orientedShell.width; });
-        } else {
-            shell.width = Qt.binding(function() { return orientedShell.width; });
-            shell.height = Qt.binding(function() { return orientedShell.height; });
-        }
+    UpdateShellTransformations { info: root.info; shell: root.shell }
 
-        shell.x = Qt.binding(function() { return (orientedShell.width - shell.width) / 2; });
-        shell.y = Qt.binding(function() { return (orientedShell.height - shell.height) / 2; });
-        shell.transformOriginX = Qt.binding(function() { return shell.width / 2; });
-        shell.transformOriginY = Qt.binding(function() { return shell.height / 2; });
-
-        shell.updateFocusedAppOrientation();
-        info.transitioning = false;
-    }
+    ScriptAction { script: {
+        root.shell.updateFocusedAppOrientation();
+        root.info.transitioning = false;
+    } }
 }

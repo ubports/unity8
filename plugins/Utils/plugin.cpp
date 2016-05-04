@@ -31,7 +31,6 @@
 #include "unitysortfilterproxymodelqml.h"
 #include "unitymenumodelpaths.h"
 #include "windowinputfilter.h"
-#include "windowscreenshotprovider.h"
 #include "windowstatestorage.h"
 #include "constants.h"
 #include "timezoneFormatter.h"
@@ -81,11 +80,4 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterType<InputEventGenerator>(uri, 0, 1, "InputEventGenerator");
     qmlRegisterType<DeviceConfigParser>(uri, 0, 1, "DeviceConfigParser");
     qmlRegisterSingletonType<GlobalFunctions>(uri, 0, 1, "Functions", createGlobalFunctions);
-}
-
-void UtilsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QQmlExtensionPlugin::initializeEngine(engine, uri);
-
-    engine->addImageProvider(QStringLiteral("window"), new WindowScreenshotProvider);
 }
