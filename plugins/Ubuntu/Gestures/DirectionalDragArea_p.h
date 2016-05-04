@@ -160,6 +160,8 @@ public:
 
     ActiveTouchesInfo activeTouches;
 
+    bool monitorOnly;
+
 Q_SIGNALS:
     void statusChanged(Status value);
 };

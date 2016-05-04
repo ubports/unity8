@@ -258,6 +258,7 @@ Item {
 
                     AbstractButton {
                         id: settingsButton
+                        objectName: "settingsButton"
 
                         width: root.scopeHasFilters ? height : 0
                         visible: width > 0
@@ -272,7 +273,7 @@ Item {
                             anchors.fill: parent
                             anchors.margins: units.gu(2)
                             name: "filters"
-                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : Qt.rgba(0.0, 0.0, 0.0, 0.0)
+                            color: root.activeFiltersCount > 0 ? UbuntuColors.orange : header.config.foregroundColor
                         }
 
                         onClicked: {

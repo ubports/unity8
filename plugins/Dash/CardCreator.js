@@ -62,7 +62,7 @@ var kBackgroundLoaderCode = 'Loader {\n\
 // %1 is used as anchors of artShapeHolder
 // %2 is used as image width
 // %3 is used as image height
-// %4 is used for artShapeSource.hideSource and inner Loader visible
+// %4 is whether the image or the Loader with the UbuntuShape/ProportionalShape should be visible
 // %5 is used as aspect ratio fallback
 // %6 is whether the loader should be asynchronous or not
 // %7 is injected as code to artImage
@@ -84,14 +84,6 @@ var kArtShapeHolderCode = 'Item { \n\
                                     objectName: "artShape"; \n\
                                     visible: image.status == Image.Ready; \n\
                                     readonly property alias image: artImage; \n\
-                                    ShaderEffectSource { \n\
-                                        id: artShapeSource; \n\
-                                        sourceItem: artImage; \n\
-                                        anchors.centerIn: parent; \n\
-                                        width: 1; \n\
-                                        height: 1; \n\
-                                        hideSource: %4; \n\
-                                    } \n\
                                     Loader { \n\
                                         anchors.fill: parent; \n\
                                         visible: %4; \n\
@@ -99,7 +91,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         Component { \n\
                                             id: artShapeShapeComponent; \n\
                                             UbuntuShape { \n\
-                                                source: artShapeSource; \n\
+                                                source: artImage; \n\
                                                 sourceFillMode: UbuntuShape.PreserveAspectCrop; \n\
                                                 radius: "medium"; \n\
                                                 aspect: { \n\
@@ -114,7 +106,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         } \n\
                                         Component { \n\
                                             id: artShapeIconComponent; \n\
-                                            ProportionalShape { source: artShapeSource; aspect: UbuntuShape.DropShadow; } \n\
+                                            ProportionalShape { source: artImage; aspect: UbuntuShape.DropShadow; } \n\
                                         } \n\
                                     } \n\
                                     readonly property real fixedArtShapeSizeAspect: (root.fixedArtShapeSize.height > 0 && root.fixedArtShapeSize.width > 0) ? root.fixedArtShapeSize.width / root.fixedArtShapeSize.height : -1; \n\
@@ -135,6 +127,7 @@ var kArtShapeHolderCode = 'Item { \n\
                                         objectName: "artImage"; \n\
                                         source: artShapeLoader.cardArt; \n\
                                         asynchronous: %6; \n\
+                                        visible: !%4; \n\
                                         width: %2; \n\
                                         height: %3; \n\
                                         %7 \n\

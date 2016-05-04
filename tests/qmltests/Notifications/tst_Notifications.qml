@@ -31,26 +31,26 @@ Item {
     height: notificationsRect.height
     property int index: 0
 
+    // add the default/PlaceHolder notification to the model
+    Component.onCompleted: {
+        var component = Qt.createComponent("Notification.qml")
+        var n = component.createObject("notification", {"nid": index++,
+                                                        "type": Notification.PlaceHolder,
+                                                        "hints": {},
+                                                        "summary": "",
+                                                        "body": "",
+                                                        "icon": "",
+                                                        "secondaryIcon": "",
+                                                        "rawActions": []})
+        n.completed.connect(mockModel.onCompleted)
+        mockModel.append(n)
+    }
+
     Row {
         id: rootRow
 
         NotificationModel {
             id: mockModel
-
-            // add the default/PlaceHolder notification to the model
-            Component.onCompleted: {
-                var component = Qt.createComponent("Notification.qml")
-                var n = component.createObject("notification", {"nid": index++,
-                                                                "type": Notification.PlaceHolder,
-                                                                "hints": {},
-                                                                "summary": "",
-                                                                "body": "",
-                                                                "icon": "",
-                                                                "secondaryIcon": "",
-                                                                "rawActions": []})
-                n.completed.connect(mockModel.onCompleted)
-                append(n)
-            }
         }
 
         function add2over1SnapDecisionNotification() {
@@ -187,7 +187,7 @@ Item {
 
                 anchors.fill: parent
                 model: mockModel
-                hasMouse: false
+                hasMouse: fakeMouseCB.checked
             }
         }
 
@@ -261,18 +261,16 @@ Item {
                     Layout.fillWidth: true
                     CheckBox {
                         id: fakeMouseCB
-                        onClicked: {
-                            if (checked) {
-                                notifications.hasMouse = true;
-                            } else {
-                                notifications.hasMouse = false;
-                            }
-                        }
                     }
                     Label {
                         text: "With fake mouse"
                         anchors.verticalCenter: parent.verticalCenter
                     }
+                }
+
+                MouseTouchEmulationCheckbox {
+                    id: mouseEmulation
+                    checked: false
                 }
             }
         }
@@ -557,6 +555,12 @@ Item {
                 signalName: "actionInvoked"
             }
 
+            function init() {
+                while (mockModel.count > 0) {
+                    mockModel.remove(0);
+                }
+            }
+
             function cleanup() {
                 clickThroughSpy.clear()
                 actionSpy.clear()
@@ -577,10 +581,9 @@ Item {
                 waitForRendering(notifications);
 
                 var notification = findChild(notifications, "notification" + (mockModel.count - 1))
-                verify(notification !== undefined, "notification wasn't found");
-
                 waitForRendering(notification);
-                tryCompare(notification, "height", notification.state === "contracted" ? units.gu(10) : notification.implicitHeight);
+                verify(notification, "notification wasn't found");
+                tryCompare(notification, "height", notification.implicitHeight);
 
                 var icon = findChild(notification, "icon")
                 var centeredIcon = findChild(notification, "centeredIcon")
@@ -591,7 +594,6 @@ Item {
                 var buttonRow = findChild(notification, "buttonRow")
                 var valueIndicator = findChild(notification, "valueIndicator")
                 var valueLabel = findChild(notification, "valueLabel")
-                var innerBar = findChild(notification, "innerBar")
 
                 compare(icon.visible, data.iconVisible, "avatar-icon visibility is incorrect")
                 if (icon.visible) {
@@ -602,9 +604,6 @@ Item {
                     compare(centeredIcon.shaped, data.shaped, "shaped-status is incorrect")
                 }
                 compare(valueIndicator.visible, data.valueVisible, "value-indicator visibility is incorrect")
-                if (valueIndicator.visible) {
-                    verify(innerBar.color === data.valueTinted ? UbuntuColors.orange : "white", "value-bar has the wrong color-tint")
-                }
                 compare(valueLabel.visible, data.valueLabelVisible, "value-label visibility is incorrect")
 
                 // test input does not fall through
@@ -624,7 +623,12 @@ Item {
                 // for their height animations to finish before continuing
                 for (var i = 0; i < mockModel.count; ++i) {
                     var n = findChild(notifications, "notification" + i)
-                    tryCompare(n, "height", n.state === "contracted" ? units.gu(10) : n.implicitHeight);
+                    if (n.type === Notification.PlaceHolder)
+                        continue;
+                    waitForRendering(n);
+                    var outterColumn = findChild(n, "outterColumn");
+                    var shapedBack = findChild(n, "shapedBack");
+                    tryCompare(n, "height", outterColumn.height + n.margins * 2 + shapedBack.anchors.topMargin);
                 }
 
                 if (data.hasSound) {
@@ -657,7 +661,7 @@ Item {
                         tryCompareFunction(function() { return comboButton.expanded === false; }, true);
 
                         // click to expand
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded === true; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded; }, true);
 
                         // try clicking on choices in expanded comboList
                         var choiceButton1 = findChild(notification, "notify_button3")
@@ -671,7 +675,7 @@ Item {
                         actionSpy.clear()
 
                         // click to collapse
-                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return comboButton.expanded == false; }, true);
+                        tryCompareFunction(function() { mouseClick(comboButton, comboButton.width / 2, comboButton.height / 2); return !comboButton.expanded; }, true);
                     } else {
                         mouseClick(buttonCancel)
                         compare(actionSpy.signalArguments[0][0], data.n.actions.data(1, ActionModel.RoleActionId), "got wrong id for negative action")
@@ -686,19 +690,18 @@ Item {
                 var dragY = notification.height / 2;
                 touchFlick(notification, dragStart, dragY, dragEnd, dragY)
                 waitForRendering(notification)
-                if ((data.n.type === Notification.SnapDecision && notification.state === "expanded") || data.n.type === Notification.Confirmation) {
-                    tryCompare(mockModel, "count", before)
-                } else {
-                    tryCompare(mockModel, "count", before - 1)
-                }
+                tryCompare(mockModel, "count", before - 1)
             }
 
-            function test_clickToClose_data() { // reuse the data
+            function test_closeButton_data() { // reuse the data
                 notifications.hasMouse = true;
                 return test_NotificationRenderer_data();
             }
 
-            function test_clickToClose(data) {
+            function test_closeButton(data) {
+                // hook up notification's completed-signal with model's onCompleted-slot, so that remove() (model) happens on close() (notification)
+                data.n.completed.connect(mockModel.onCompleted)
+
                 // populate model with some mock notifications
                 mockModel.append(data.n)
 
@@ -707,21 +710,19 @@ Item {
                 waitForRendering(notifications);
 
                 var notification = findChild(notifications, "notification" + (mockModel.count - 1))
+                waitForRendering(notification);
                 verify(!!notification, "notification wasn't found");
 
-                // click-to-dismiss check
-                waitForRendering(notification);
+                // close button check
+                mouseMove(notification, notification.width/2, notification.height/2);
+                var closeButton = findChild(notification, "closeButton");
+                tryCompare(closeButton, "visible", true);
                 var before = mockModel.count;
-                var canBeClosed = notification.canBeClosed;
-                mouseClick(notification);
+                mouseClick(closeButton);
+                waitForRendering(notification);
 
-                if (canBeClosed) {
-                    // closing the notification, the model count should be one less
-                    tryCompare(mockModel, "count", before - 1)
-                } else {
-                    // not closing, model stays the same
-                    tryCompare(mockModel, "count", before)
-                }
+                // closing the notification, the model count should be one less
+                tryCompare(mockModel, "count", before - 1)
             }
 
             function cleanupTestCase() {

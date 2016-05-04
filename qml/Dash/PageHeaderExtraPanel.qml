@@ -92,7 +92,8 @@ Item {
             objectName: "recentSearchesRepeater"
             model: searchHistory
 
-            delegate: ListItem {
+            // FIXME Move to ListItem once 1556971 is fixed
+            delegate: ListItems.Empty {
                 anchors {
                     left: parent.left
                     right: parent.right

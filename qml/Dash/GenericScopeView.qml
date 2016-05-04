@@ -571,7 +571,7 @@ FocusScope {
 
                 Label {
                     id: seeAllLabel
-                    text: baseItem.expanded ? i18n.tr("See less") : i18n.tr("See all")
+                    text: baseItem.expanded ? i18n.tr("Show less") : i18n.tr("Show all")
                     anchors {
                         centerIn: parent
                         verticalCenterOffset: units.gu(-0.5)
@@ -756,7 +756,7 @@ FocusScope {
 
         Label {
             id: seeLessLabel
-            text: i18n.tr("See less")
+            text: i18n.tr("Show less")
             anchors {
                 centerIn: parent
                 verticalCenterOffset: units.gu(-0.5)

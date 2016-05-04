@@ -53,6 +53,7 @@ Item {
 
     Loader {
         id: loader
+        objectName: "loader"
 
         anchors {
             top: title.bottom

@@ -11,6 +11,7 @@ set(UbuntuGesturesQml_SOURCES
     PressedOutsideNotifier.cpp
     TouchDispatcher.cpp
     TouchGate.cpp
+    TouchGestureArea.cpp
 )
 
 add_definitions(-DUBUNTUGESTURESQML_LIBRARY)

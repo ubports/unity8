@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014-2015 Canonical, Ltd.
+ * Copyright (C) 2014-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 
 #include <QGuiApplication>
 #include <QQuickView>
+#include <QQmlContext>
 #include <QQmlProperty>
 #include <QQmlEngine>
 #include <QString>
@@ -27,6 +28,14 @@
 #include <QDebug>
 
 using namespace unity::shell::application;
+
+#define MIRSURFACEITEM_DEBUG 0
+
+#if MIRSURFACEITEM_DEBUG
+#define DEBUG_MSG(params) qDebug().nospace() << "MirSurfaceItem::" << __func__  << " " << params
+#else
+#define DEBUG_MSG(params) ((void)0)
+#endif
 
 MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     : MirSurfaceItemInterface(parent)
@@ -40,7 +49,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
     , m_mousePressCount(0)
     , m_mouseReleaseCount(0)
 {
-//    qDebug() << "MirSurfaceItem::MirSurfaceItem() " << (void*)(this) << name();
+    DEBUG_MSG((void*)(this) << name());
     setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton | Qt::RightButton |
         Qt::ExtraButton1 | Qt::ExtraButton2 | Qt::ExtraButton3 | Qt::ExtraButton4 |
         Qt::ExtraButton5 | Qt::ExtraButton6 | Qt::ExtraButton7 | Qt::ExtraButton8 |
@@ -52,7 +61,7 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
 
 MirSurfaceItem::~MirSurfaceItem()
 {
-//    qDebug() << "MirSurfaceItem::~MirSurfaceItem() " << (void*)(this) << name();
+    DEBUG_MSG((void*)(this) << name());
     setSurface(nullptr);
 }
 
@@ -100,6 +109,15 @@ bool MirSurfaceItem::live() const
     }
 }
 
+Mir::ShellChrome MirSurfaceItem::shellChrome() const
+{
+    if (m_qmlSurface) {
+        return m_qmlSurface->shellChrome();
+    } else {
+        return Mir::NormalChrome;
+    }
+}
+
 Mir::OrientationAngle MirSurfaceItem::orientationAngle() const
 {
     if (m_qmlSurface) {
@@ -140,7 +158,7 @@ void MirSurfaceItem::onComponentStatusChanged(QQmlComponent::Status status)
 
 void MirSurfaceItem::createQmlContentItem()
 {
-//    qDebug() << "MirSurfaceItem::createQmlContentItem()";
+    DEBUG_MSG("");
 
     m_qmlItem = qobject_cast<QQuickItem*>(m_qmlContentComponent->create());
     m_qmlItem->setParentItem(this);
@@ -156,12 +174,29 @@ void MirSurfaceItem::createQmlContentItem()
 
 void MirSurfaceItem::touchEvent(QTouchEvent * event)
 {
+    if (event->type() == QEvent::TouchBegin) {
+        m_touchTrail.clear();
+    }
+
     if (event->touchPointStates() & Qt::TouchPointPressed) {
         ++m_touchPressCount;
         Q_EMIT touchPressCountChanged(m_touchPressCount);
     } else if (event->touchPointStates() & Qt::TouchPointReleased) {
         ++m_touchReleaseCount;
         Q_EMIT touchReleaseCountChanged(m_touchReleaseCount);
+    }
+
+    Q_FOREACH(QTouchEvent::TouchPoint touchPoint, event->touchPoints()) {
+        QString id(touchPoint.id());
+        QVariantList list =  m_touchTrail[id].toList();
+        list.append(QVariant::fromValue(touchPoint.pos()));
+        if (list.count() > 100) list.pop_front();
+        m_touchTrail[id] = list;
+    }
+
+    if (m_qmlItem) {
+        QQmlProperty touchTrail(m_qmlItem, "touchTrail");
+        touchTrail.write(m_touchTrail);
     }
 }
 
@@ -186,9 +221,7 @@ void MirSurfaceItem::mouseReleaseEvent(QMouseEvent * event)
 
 void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 {
-//    qDebug().nospace() << "MirSurfaceItem::setSurface() this=" << (void*)(this)
-//                                                   << " name=" << name()
-//                                                   << " surface=" << surface;
+    DEBUG_MSG("this=" << (void*)(this) << " name=" << name() << " surface=" << surface);
 
     if (m_qmlSurface == surface) {
         return;
@@ -220,10 +253,6 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         connect(m_qmlSurface, &MirSurface::liveChanged, this, &MirSurfaceItem::liveChanged);
         connect(m_qmlSurface, &MirSurface::stateChanged, this, &MirSurfaceItem::surfaceStateChanged);
 
-        // The assumptions I make here really should hold.
-        QQuickView *quickView =
-            qobject_cast<QQuickView*>(QGuiApplication::topLevelWindows()[0]);
-
         QUrl qmlComponentFilePath;
         if (!m_qmlSurface->qmlFilePath().isEmpty()) {
             qmlComponentFilePath = m_qmlSurface->qmlFilePath();
@@ -231,7 +260,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
             qmlComponentFilePath = QUrl("qrc:///Unity/Application/MirSurfaceItem.qml");
         }
 
-        m_qmlContentComponent = new QQmlComponent(quickView->engine(), qmlComponentFilePath);
+        m_qmlContentComponent = new QQmlComponent(QQmlEngine::contextForObject(parent())->engine(), qmlComponentFilePath);
 
         switch (m_qmlContentComponent->status()) {
             case QQmlComponent::Ready:
