@@ -107,7 +107,7 @@ PreviewWidget {
             right: parent.right
             top: ratingLabelAndWidgetContainer.visible ? ratingLabelAndWidgetContainer.bottom : parent.top
             bottom: parent.bottom
-            topMargin: ratingLabelAndWidgetContainer.visible ? reviewContainer.innerMargin : 0
+            topMargin: ratingLabelAndWidgetContainer.visible ? reviewSubmitContainer.implicitHeight * (opacity - 1) + innerMargin : 0
         }
         visible: {
             switch(widgetData["visible"]) {
@@ -118,7 +118,17 @@ PreviewWidget {
                     return false;
                 case "review":
                     return true;
-                }
+            }
+        }
+
+        opacity: visible ? 1 : 0
+        z: opacity < 1 ? -1 : 1
+
+        Behavior on opacity {
+            UbuntuNumberAnimation {
+                duration: UbuntuAnimation.BriskDuration
+                easing.type: Easing.OutCubic
+            }
         }
 
         Item {
