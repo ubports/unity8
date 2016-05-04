@@ -273,6 +273,18 @@ FocusScope {
         }
     }
 
+    InverseMouseArea {
+        id: closeMouseArea
+        anchors.fill: panel
+        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
+        visible: enabled
+        onPressed: {
+            mouse.accepted = false;
+            panel.highlightIndex = -2;
+            root.hide();
+        }
+    }
+
     MouseArea {
         id: launcherDragArea
         enabled: root.available && (root.state == "visible" || root.state == "visibleTemporary") && !root.lockedVisible
@@ -290,18 +302,6 @@ FocusScope {
             } else {
                 root.switchToNextState("visible")
             }
-        }
-    }
-
-    InverseMouseArea {
-        id: closeMouseArea
-        anchors.fill: panel
-        enabled: root.state == "visible" && (!root.lockedVisible || panel.highlightIndex >= -1)
-        visible: enabled
-        onPressed: {
-            mouse.accepted = false;
-            panel.highlightIndex = -2;
-            root.hide();
         }
     }
 
