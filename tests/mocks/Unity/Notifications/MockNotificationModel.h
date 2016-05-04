@@ -30,7 +30,6 @@ class MockNotification;
 class MockNotificationModel : public QAbstractListModel {
     Q_OBJECT
     Q_PROPERTY(int count READ getCount)
-    Q_PROPERTY(bool paused READ getPaused WRITE setPaused NOTIFY pausedChanged)
 
 public:
     MockNotificationModel(QObject *parent=nullptr);
@@ -39,9 +38,6 @@ public:
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
-
-    bool getPaused() const;
-    void setPaused(bool paused);
 
     Q_INVOKABLE void append(MockNotification* n);
     MockNotification* getNotification(int id) const;
@@ -53,8 +49,6 @@ public:
     Q_INVOKABLE int queued() const;
     Q_INVOKABLE void remove(const int id);
     Q_INVOKABLE void removeSecond();
-
-    Q_INVOKABLE void clear(); // only in mock
 
     int getCount() const;
 
@@ -69,11 +63,9 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void queueSizeChanged(int newSize);
-    void pausedChanged(bool paused);
 
 private:
     QList<MockNotification*> m_queue;
-    bool m_paused;
     void removeInternal(int loc);
 };
 

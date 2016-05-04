@@ -22,7 +22,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3
 import Ubuntu.Telephony 0.1 as Telephony
 import Unity.Application 0.1
-import Unity.Notifications 1.0 as NotificationBackend
+import Unity.Notifications 1.0
 import Unity.Test 0.1 as UT
 import Utils 0.1
 
@@ -57,21 +57,30 @@ Rectangle {
     }
 
     Component {
-        id: notification
-        NotificationBackend.Notification {
-            nid: 1
-            type: NotificationBackend.Notification.Confirmation
-            summary: ""
-            body: ""
-            icon: ""
-            secondaryIcon: ""
-            value: 0
-            rawActions: []
+        id: mockNotification
+        QtObject {}
+    }
+
+    ListModel {
+        id: mockNotificationsModel
+
+        function getRaw(id) {
+            return mockNotification.createObject(mockNotificationsModel)
         }
     }
 
     function addNotification() {
-        NotificationBackend.Model.append(notification.createObject());
+        var n = {
+            type: Notification.Confirmation,
+            hints: {},
+            summary: "",
+            body: "",
+            icon: "",
+            secondaryIcon: "",
+            actions: []
+        };
+
+        mockNotificationsModel.append(n);
     }
 
     Component.onCompleted: {
@@ -277,11 +286,11 @@ Rectangle {
 
             // kill all (fake) running apps
             killApps();
-            NotificationBackend.Model.clear();
 
             // reload our test subject to get it in a fresh state once again
             shellLoader.active = true;
 
+            mockNotificationsModel.clear();
             tryCompare(shellLoader, "status", Loader.Ready);
             removeTimeConstraintsFromDirectionalDragAreas(shellLoader.item);
         }
@@ -723,6 +732,8 @@ Rectangle {
             var tutorial = findChild(shell, "tutorial");
             verify(!tutorial.delayed);
 
+            var notifications = findChild(shell, "notificationList");
+            notifications.model = mockNotificationsModel;
             addNotification();
 
             tryCompare(tutorial, "delayed", true);

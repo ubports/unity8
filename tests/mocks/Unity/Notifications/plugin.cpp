@@ -24,15 +24,10 @@
 
 #include <QtQml/qqml.h>
 
-static QObject* modelProvider(QQmlEngine* /* engine */, QJSEngine* /* scriptEngine */)
-{
-    return new MockNotificationModel;
-}
-
 void TestNotificationPlugin::registerTypes(const char* uri)
 {
     // @uri Unity.Notifications
     qmlRegisterType<MockNotification>(uri, 1, 0, "Notification");
-    qmlRegisterSingletonType<MockNotificationModel>(uri, 1, 0, "Model", modelProvider);
+    qmlRegisterType<MockNotificationModel>(uri, 1, 0, "NotificationModel");
     qmlRegisterType<ActionModel>(uri, 1, 0, "ActionModel");
 }
