@@ -483,15 +483,34 @@ Showable {
     }
 
     Biometryd.Observer {
+        id: biometryd
         objectName: "biometryd"
+
+        property var operation
+
+        Component.onCompleted: {
+            if (Biometryd.defaultDevice) {
+                var identifier = Biometryd.defaultDevice.identifier;
+                operation = identifier.identifyUser();
+                operation.start(biometryd);
+            }
+        }
+
+        Component.onDestruction: {
+            if (operation)
+                operation.cancel();
+        }
+
         onSucceeded: {
             // FIXME validate result.uid
             d.fingerprintFailureCount = 0;
+            operation.start(biometryd);
             if (root.active)
                 root.forcedUnlock = true;
         }
         onFailed: {
             d.fingerprintFailureCount++;
+            operation.start(biometryd);
             if (loader.item)
                 loader.item.showErrorMessage(i18n.tr("Try again"));
         }
