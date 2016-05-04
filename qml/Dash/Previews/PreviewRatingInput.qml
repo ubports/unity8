@@ -48,6 +48,8 @@ PreviewWidget {
             }
     }
 
+    clip: reviewContainer.visible
+
     property alias ratingValue: rating.value
     property alias reviewText: reviewTextArea.text
 
@@ -98,7 +100,7 @@ PreviewWidget {
 
     Item {
         id: reviewContainer
-        implicitHeight: reviewSubmitContainer.implicitHeight + anchors.topMargin
+        implicitHeight: visible ? reviewSubmitContainer.implicitHeight + anchors.topMargin : 0
 
         readonly property real innerMargin: units.gu(1)
 
@@ -107,7 +109,7 @@ PreviewWidget {
             right: parent.right
             top: ratingLabelAndWidgetContainer.visible ? ratingLabelAndWidgetContainer.bottom : parent.top
             bottom: parent.bottom
-            topMargin: ratingLabelAndWidgetContainer.visible ? reviewSubmitContainer.implicitHeight * (opacity - 1) + innerMargin : 0
+            topMargin: ratingLabelAndWidgetContainer.visible ? innerMargin : 0
         }
         visible: {
             switch(widgetData["visible"]) {
@@ -121,12 +123,9 @@ PreviewWidget {
             }
         }
 
-        opacity: visible ? 1 : 0
-        z: opacity < 1 ? -1 : 1
-
-        Behavior on opacity {
+        Behavior on implicitHeight {
             UbuntuNumberAnimation {
-                duration: UbuntuAnimation.BriskDuration
+                duration: UbuntuAnimation.FastDuration
                 easing.type: Easing.OutCubic
             }
         }
