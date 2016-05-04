@@ -97,7 +97,7 @@ Architecture: any
 Provides: indicator-renderer,
 Depends: dmz-cursor-theme,
          gsettings-desktop-schemas,
-         libbiometryd1,
+         libbiometryd0 | libbiometryd1,
          libcap2-bin,
          libglib2.0-bin,
          qmenumodel-qml (>= 0.2.9),
