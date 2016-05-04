@@ -37,6 +37,9 @@ Rectangle {
     MouseArea {
         id: clickThroughTester
         anchors.fill: parent
+        // SignalSpy does not seem to want to connect to the pressed signal. let's count them ourselves.
+        property int pressCount: 0
+        onPressed: pressCount++;
     }
 
     Loader {
@@ -205,12 +208,6 @@ Rectangle {
     SignalSpy {
         id: signalSpy
         target: LauncherModel
-    }
-
-    SignalSpy {
-        id: clickThroughSpy
-        target: clickThroughTester
-        signalName: "clicked"
     }
 
     Item {
@@ -846,12 +843,12 @@ Rectangle {
         function test_launcher_dismiss() {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
-            clickThroughSpy.clear();
+            clickThroughTester.pressCount = 0;
 
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
-            verify(clickThroughSpy.count, 1);
+            verify(clickThroughTester.pressCount, 1);
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
@@ -859,7 +856,7 @@ Rectangle {
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
-            verify(clickThroughSpy.count, 2);
+            verify(clickThroughTester.pressCount, 2);
         }
 
         function test_quicklist_positioning_data() {
