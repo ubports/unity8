@@ -17,6 +17,7 @@
 // local
 #include "ShellApplication.h"
 #include "qmldebuggerutils.h"
+#include "unix-signal-handler.h"
 
 int main(int argc, const char *argv[])
 {
@@ -31,6 +32,11 @@ int main(int argc, const char *argv[])
     }
 
     ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
+
+    UnixSignalHandler signal_handler([]{
+        QGuiApplication::exit(0);
+    });
+    signal_handler.setupUnixSignalHandlers();
 
     int result = application->exec();
 

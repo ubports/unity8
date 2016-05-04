@@ -32,6 +32,7 @@
     #include "../MouseTouchAdaptor.h"
 #endif
 #include "../CachingNetworkManagerFactory.h"
+#include "../unix-signal-handler.h"
 
 int main(int argc, const char *argv[])
 {
@@ -115,6 +116,11 @@ int main(int argc, const char *argv[])
 
     view->setSource(source);
     view->show();
+
+    UnixSignalHandler signal_handler([]{
+        QGuiApplication::exit(0);
+    });
+    signal_handler.setupUnixSignalHandlers();
 
     int result = application->exec();
 
