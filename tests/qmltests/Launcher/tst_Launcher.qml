@@ -843,20 +843,21 @@ Rectangle {
         function test_launcher_dismiss() {
             dragLauncherIntoView();
             verify(launcher.state == "visible");
-            clickThroughTester.pressCount = 0;
 
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
-            verify(clickThroughTester.pressCount, 1);
+            compare(clickThroughTester.pressCount, 1);
 
             // and repeat, as a test for regression in lpbug#1531339
             dragLauncherIntoView();
             verify(launcher.state == "visible");
+            clickThroughTester.pressCount = 0;
             mouseClick(root, root.width / 2, units.gu(1));
             waitUntilLauncherDisappears();
             verify(launcher.state == "");
-            verify(clickThroughTester.pressCount, 2);
+            compare(clickThroughTester.pressCount, 1);
         }
 
         function test_quicklist_positioning_data() {
