@@ -31,6 +31,8 @@ AbstractStage {
     property real startScale: 1.1
     property real endScale: 0.7
 
+    paintBackground: spreadView.shiftedContentX !== 0
+
     onBeingResizedChanged: {
         if (beingResized) {
             // Brace yourselves for impact!

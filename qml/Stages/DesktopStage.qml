@@ -26,6 +26,7 @@ import GlobalShortcut 1.0
 AbstractStage {
     id: root
     anchors.fill: parent
+    paintBackground: false
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
@@ -91,6 +92,12 @@ AbstractStage {
         shortcut: Qt.MetaModifier|Qt.ControlModifier|Qt.Key_Down
         onTriggered: priv.focusedAppDelegate.maximized || priv.focusedAppDelegate.maximizedLeft || priv.focusedAppDelegate.maximizedRight
                      ? priv.focusedAppDelegate.restoreFromMaximized() : priv.focusedAppDelegate.minimize()
+        active: priv.focusedAppDelegate !== null
+    }
+
+    GlobalShortcut {
+        shortcut: Qt.AltModifier|Qt.Key_Print
+        onTriggered: root.itemSnapshotRequested(priv.focusedAppDelegate)
         active: priv.focusedAppDelegate !== null
     }
 
