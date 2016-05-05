@@ -38,7 +38,7 @@ Item {
 
     Label {
         id: title
-        text: widgetData ? widgetData.title : ""
+        text: widgetData && !(loader.item && loader.item.showsTitleOnItsOwn) ? widgetData.title : ""
         height: text != "" ? implicitHeight : 0
 
         anchors {
@@ -71,6 +71,7 @@ Item {
                 case Filters.OptionSelectorFilter: return "FilterOptionSelector.qml";
                 case Filters.RangeInputFilter: return "FilterRangeInput.qml";
                 case Filters.ValueSliderFilter: return "FilterValueSlider.qml";
+                case Filters.ExpandableFilterWidget: return "FilterExpandableWidget.qml";
                 default: return "";
             }
         }

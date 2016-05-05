@@ -50,6 +50,7 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     , m_returnNullPreview(returnNullPreview)
 {
     m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, primaryNavigationFilterOptionLabels, this);
+    m_filters->addFakeFilters();
     connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
 }
 

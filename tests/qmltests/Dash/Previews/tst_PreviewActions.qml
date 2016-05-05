@@ -26,22 +26,31 @@ Rectangle {
     width: units.gu(60)
     height: units.gu(80)
 
-    property var actionDataOneAction: {
+    readonly property var actionDataOneAction: {
         "actions": [{"label": "Some Label", "id": "someid"}]
     }
 
-    property var actionDataTwoActions: {
+    readonly property var actionDataTwoActions: {
         "actions": [{"label": "Some Label A", "id": "someid1"},
                     {"label": "Some Label B", "id": "someid2"}
         ]
     }
 
-    property var actionDataFiveActions: {
+    readonly property var actionDataFiveActions: {
         "actions": [{"label": "Some Label C", "id": "someid3"},
                     {"label": "Some Label D", "id": "someid4"},
                     {"label": "Some Label E", "id": "someid5"},
                     {"label": "Some Label F", "id": "someid6"},
                     {"label": "Some Label G", "id": "someid7"}
+        ]
+    }
+
+    property var actionModelActions: {
+        "actions": [{"label": "Some Label H", "id": "someid8"},
+                    {"label": "Some Label I", "id": "someid9"},
+                    {"label": "Some Label J", "id": "someid10"},
+                    {"label": "Some Label K", "id": "someid11"},
+                    {"label": "Some Label L", "id": "someid12"}
         ]
     }
 
@@ -88,26 +97,32 @@ Rectangle {
             onTriggered: console.log("triggered", widgetId, actionId);
             width: units.gu(60)
         }
+
+        PreviewActions {
+            id: changeModelActions
+            width: units.gu(60)
+        }
+
+        PreviewActions {
+            id: updateModelActions
+            width: units.gu(60)
+        }
     }
 
     UT.UnityTestCase {
         name: "PreviewActionTest"
         when: windowShown
 
-        function cleanup()
-        {
-            spy.clear();
-        }
-
         function checkButtonPressSignal(target, id)
         {
-            var button = findChild(root, "button" + id);
+            var button = findChild(target, "button" + id);
             verify(button != null);
             spy.target = target;
             mouseClick(button);
             compare(spy.count, 1);
             compare(spy.signalArguments[0][0], target.widgetId);
             compare(spy.signalArguments[0][1], id);
+            spy.clear();
         }
 
         function test_checkButtons_data() {
@@ -120,7 +135,7 @@ Rectangle {
         }
 
         function test_checkButtons(data) {
-            checkButtonPressSignal(data.target, data.id, data.buttonNumber)
+            checkButtonPressSignal(data.target, data.id)
         }
 
         function test_comboButton_data() {
@@ -132,17 +147,85 @@ Rectangle {
             ]
         }
 
-        function test_comboButton(data) {
-            var button = findChild(root, "moreLessButton");
-            var buttonColumn = findChild(root, "buttonColumn");
+        function pressMoreButton(buttonGroup)
+        {
+            var button = findChild(buttonGroup, "moreLessButton");
+            var buttonColumn = findChild(buttonGroup, "buttonColumn");
             verify(button != null);
-            var twoActionsY = twoActions.y
             mouseClick(button);
-            tryCompareFunction(function () { return twoActions.y <= twoActionsY; }, false);
             tryCompare(buttonColumn, "height", buttonColumn.implicitHeight);
-            checkButtonPressSignal(buttonAndCombo, data.id, data.buttonNumber);
-            mouseClick(button);
+        }
+
+        function test_comboButton(data) {
+            var twoActionsY = twoActions.y
+            pressMoreButton(buttonAndCombo);
+            tryCompareFunction(function () { return twoActions.y <= twoActionsY; }, false);
+            checkButtonPressSignal(buttonAndCombo, data.id);
+            mouseClick(findChild(buttonAndCombo, "moreLessButton"));
             tryCompare(twoActions, "y", twoActionsY);
+        }
+
+        function test_modelChange() {
+            changeModelActions.widgetData = actionDataOneAction;
+            waitForRendering(changeModelActions);
+            checkButtonPressSignal(changeModelActions, "someid");
+
+            changeModelActions.widgetData = actionDataTwoActions;
+            waitForRendering(changeModelActions);
+            checkButtonPressSignal(changeModelActions, "someid1");
+            checkButtonPressSignal(changeModelActions, "someid2");
+
+            changeModelActions.widgetData = actionDataFiveActions;
+            waitForRendering(changeModelActions);
+            pressMoreButton(changeModelActions);
+            checkButtonPressSignal(changeModelActions, "someid3");
+            checkButtonPressSignal(changeModelActions, "someid4");
+            checkButtonPressSignal(changeModelActions, "someid5");
+            checkButtonPressSignal(changeModelActions, "someid6");
+        }
+
+        function test_modelUpdate() {
+            updateModelActions.widgetData = actionModelActions;
+            waitForRendering(updateModelActions);
+            pressMoreButton(updateModelActions);
+            checkButtonPressSignal(updateModelActions, "someid8");
+            checkButtonPressSignal(updateModelActions, "someid9");
+            checkButtonPressSignal(updateModelActions, "someid10");
+            checkButtonPressSignal(updateModelActions, "someid11");
+            checkButtonPressSignal(updateModelActions, "someid12");
+
+            updateModelActions["actions"].pop();
+            updateModelActions.actionsChanged();
+
+            // Check that some12 is gone
+            verify(!findChild(updateModelActions, "buttonsomeid12"));
+
+            updateModelActions["actions"][3].id = "someidmoo";
+            updateModelActions.actionsChanged();
+            checkButtonPressSignal(updateModelActions, "someidmoo");
+
+            verify(findChild(updateModelActions, "moreLessButton"));
+
+            updateModelActions["actions"].pop();
+            updateModelActions["actions"].pop();
+            updateModelActions.actionsChanged();
+
+            // Check there is no more/less button anymore
+            verify(!findChild(updateModelActions, "moreLessButton"));
+
+            updateModelActions["actions"][1].id = "someidbar";
+            updateModelActions.actionsChanged();
+            checkButtonPressSignal(updateModelActions, "someidbar");
+
+            updateModelActions["actions"].pop();
+            updateModelActions.actionsChanged();
+
+            // Check the loader for the second button/combo is gone
+            compare(findChild(updateModelActions, "loader").source, "");
+
+            updateModelActions["actions"][0].id = "someidlolar";
+            updateModelActions.actionsChanged();
+            checkButtonPressSignal(updateModelActions, "someidlolar");
         }
     }
 }

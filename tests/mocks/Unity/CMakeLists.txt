@@ -8,7 +8,7 @@ add_subdirectory(DashCommunicator)
 add_subdirectory(Screens)
 
 pkg_search_module(GOBJECT gobject-2.0 REQUIRED)
-pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=11)
+pkg_check_modules(SCOPES_API REQUIRED unity-shell-scopes=12)
 
 include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -34,6 +34,7 @@ set(UnityQML_SOURCES
   fake_optionselectoroptions.cpp
   fake_rangeinputfilter.cpp
   fake_valuesliderfilter.cpp
+  fake_expandablefilterwidget.cpp
   fake_valueslidervalues.cpp
   fake_unity_plugin.cpp
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/CategoriesInterface.h
@@ -51,6 +52,7 @@ set(UnityQML_SOURCES
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/SettingsModelInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ValueSliderFilterInterface.h
   ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ValueSliderValuesInterface.h
+  ${SCOPES_API_INCLUDEDIR}/unity/shell/scopes/ExpandableFilterWidgetInterface.h
 )
 
 # Workaround for gcc failure LP: #1417664
