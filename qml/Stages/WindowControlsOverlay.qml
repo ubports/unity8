@@ -17,6 +17,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Gestures 0.1
+import Unity.Application 0.1
 import "../Components/PanelState"
 import "../Components/TouchControlsState"
 
@@ -25,8 +26,6 @@ Item {
 
     // to be set from outside
     property Item target // appDelegate
-
-    signal activated
 
     TouchGestureArea {
         id: gestureArea
@@ -42,12 +41,11 @@ Item {
 
         onRecognizedPressChanged: {
             if (recognizedPress && target && !target.fullscreen) {
-                overlayTimer.running = true;
-                root.activated();
+                print("!!! RECOGNIZED")
+                overlayTimer.start();
             }
         }
     }
-
 
     // dismiss timer
     Timer {
@@ -63,7 +61,6 @@ Item {
         property bool dragging
 
         readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
-        readonly property int borderThickness: priv.resizeArea ? priv.resizeArea.borderThickness : 0
     }
 
     Binding {
@@ -77,8 +74,9 @@ Item {
         id: overlay
         objectName: "windowControlsOverlay"
         anchors.fill: parent
-        opacity: overlayTimer.running ? 1 : 0
-        visible: opacity == 1
+        //opacity: target.surface == MirFocusController.focusedSurface && overlayTimer.running ? 1 : 0
+        //visible: opacity == 1
+        visible: target.surface == MirFocusController.focusedSurface && overlayTimer.running
         enabled: visible
 
         readonly property bool anyMaximized: target && (target.maximized || target.maximizedLeft || target.maximizedRight)
@@ -139,9 +137,7 @@ Item {
 
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
-            //anchors.horizontalCenterOffset: priv.borderThickness
             anchors.verticalCenter: parent.top
-            //anchors.verticalCenterOffset: priv.borderThickness
             visible: !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
@@ -149,7 +145,6 @@ Item {
         ResizeGrip { // top center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
-            //anchors.verticalCenterOffset: priv.borderThickness
             rotation: 45
             visible: !overlay.anyMaximized
             resizeTarget: priv.resizeArea
@@ -157,9 +152,7 @@ Item {
 
         ResizeGrip { // top right
             anchors.horizontalCenter: parent.right
-            //anchors.horizontalCenterOffset: -priv.borderThickness
             anchors.verticalCenter: parent.top
-            //anchors.verticalCenterOffset: priv.borderThickness
             rotation: 90
             visible: !overlay.anyMaximized
             resizeTarget: priv.resizeArea
@@ -167,7 +160,6 @@ Item {
 
         ResizeGrip { // right
             anchors.horizontalCenter: parent.right
-            //anchors.horizontalCenterOffset: -priv.borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
             visible: target && !target.maximizedRight && !target.maximized
@@ -176,9 +168,7 @@ Item {
 
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
-            //anchors.horizontalCenterOffset: -priv.borderThickness
             anchors.verticalCenter: parent.bottom
-            //anchors.verticalCenterOffset: -priv.borderThickness
             visible: !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
@@ -186,7 +176,6 @@ Item {
         ResizeGrip { // bottom center
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
-            //anchors.verticalCenterOffset: -priv.borderThickness
             rotation: 45
             visible: !overlay.anyMaximized
             resizeTarget: priv.resizeArea
@@ -194,9 +183,7 @@ Item {
 
         ResizeGrip { // bottom left
             anchors.horizontalCenter: parent.left
-            //anchors.horizontalCenterOffset: priv.borderThickness
             anchors.verticalCenter: parent.bottom
-            //anchors.verticalCenterOffset: -priv.borderThickness
             rotation: 90
             visible: !overlay.anyMaximized
             resizeTarget: priv.resizeArea
@@ -204,7 +191,6 @@ Item {
 
         ResizeGrip { // left
             anchors.horizontalCenter: parent.left
-            //anchors.horizontalCenterOffset: priv.borderThickness
             anchors.verticalCenter: parent.verticalCenter
             rotation: 135
             visible: target && !target.maximizedLeft && !target.maximized
