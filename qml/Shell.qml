@@ -194,7 +194,7 @@ StyledItem {
         onPowerKeyLongPressed: dialogs.showPowerDialog();
         onVolumeDownTriggered: volumeControl.volumeDown();
         onVolumeUpTriggered: volumeControl.volumeUp();
-        onScreenshotTriggered: screenGrabber.capture();
+        onScreenshotTriggered: itemGrabber.capture(shell);
     }
 
     GlobalShortcut {
@@ -208,7 +208,14 @@ StyledItem {
     }
 
     WindowInputMonitor {
-        onHomeKeyActivated: { launcher.fadeOut(); shell.showHome(); }
+        objectName: "windowInputMonitor"
+        onHomeKeyActivated: {
+            // Ignore when greeter is active, to avoid pocket presses
+            if (!greeter.active) {
+                launcher.fadeOut();
+                shell.showHome();
+            }
+        }
         onTouchBegun: { cursor.opacity = 0; }
         onTouchEnded: {
             // move the (hidden) cursor to the last known touch position
@@ -640,17 +647,10 @@ StyledItem {
             onActiveChanged: unlockWhenDoneWithWizard()
         }
 
-        Rectangle {
-            id: modalNotificationBackground
-
-            visible: notifications.useModal
-            color: "#000000"
+        MouseArea { // modal notifications prevent interacting with other contents
             anchors.fill: parent
-            opacity: 0.9
-
-            MouseArea {
-                anchors.fill: parent
-            }
+            visible: notifications.useModal
+            enabled: visible
         }
 
         Notifications {
@@ -659,7 +659,6 @@ StyledItem {
             model: NotificationBackend.Model
             margin: units.gu(1)
             hasMouse: shell.hasMouse
-            inverseMode: panel.indicators.shown
             background: wallpaperResolver.background
 
             y: topmostIsFullscreen ? 0 : panel.panelHeight
@@ -707,16 +706,22 @@ StyledItem {
         onShowHome: showHome()
     }
 
-    ScreenGrabber {
-        id: screenGrabber
-        rotationAngle: -shell.orientationAngle
+    ItemGrabber {
+        id: itemGrabber
+        anchors.fill: parent
         z: dialogs.z + 10
+        GlobalShortcut { shortcut: Qt.Key_Print; onTriggered: itemGrabber.capture(shell) }
+        Connections {
+            target: applicationsDisplayLoader.item
+            ignoreUnknownSignals: true
+            onItemSnapshotRequested: itemGrabber.capture(item)
+        }
     }
 
     Cursor {
         id: cursor
         visible: shell.hasMouse
-        z: screenGrabber.z + 1
+        z: itemGrabber.z + 1
 
         onPushedLeftBoundary: {
             if (buttons === Qt.NoButton) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,17 +12,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors: Alberto Aguirre <alberto.aguirre@canonical.com>
  */
 
-#include "plugin.h"
-#include "screengrabber.h"
+#ifndef QMLDEBUGGERUTILS_H
+#define QMLDEBUGGERUTILS_H
 
-#include <QtQml/qqml.h>
-
-void ScreenGrabberPlugin::registerTypes(const char *uri)
+bool enableQmlDebugger(int argc, const char *argv[])
 {
-    Q_ASSERT(uri == QLatin1String("ScreenGrabber"));
-    qmlRegisterType<ScreenGrabber>(uri, 0, 1, "ScreenGrabber");
+    for (int i = 1; i < argc; ++i) {
+        QByteArray arg = argv[i];
+        if (arg.startsWith("--"))
+            arg.remove(0, 1);
+        if (arg.startsWith("-qmljsdebugger=") || (arg == "-qmljsdebugger" && i < argc - 1)) {
+            return true;
+        }
+    }
+    return false;
 }
+
+#endif
