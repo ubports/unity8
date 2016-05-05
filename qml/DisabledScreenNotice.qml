@@ -124,7 +124,8 @@ Item {
 
         InputMethod {
             id: inputMethod
-            active: screens.count > 1
+            // Make sure we don't resize the input method if we dont have a secondary screen.
+            enabled: screens.count > 1
             objectName: "inputMethod"
             anchors.fill: parent
         }
