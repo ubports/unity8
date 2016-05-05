@@ -25,6 +25,8 @@ FilterWidget {
 
     implicitHeight: expandingItem.height
 
+    signal filterSelected()
+
     ListItems.Expandable {
         id: expandingItem
         objectName: "expandingItem"
@@ -67,6 +69,7 @@ FilterWidget {
             width: parent.width
             Repeater {
                 model: widgetData.options
+                objectName: "optionsRepeater"
 
                 ListItems.Standard {
                     text: label
@@ -83,6 +86,7 @@ FilterWidget {
 
                     onClicked: {
                         widgetData.options.setChecked(index, !checked);
+                        root.filterSelected()
                     }
                 }
             }
