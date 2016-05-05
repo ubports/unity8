@@ -100,6 +100,7 @@ PreviewWidget {
 
     Item {
         id: reviewContainer
+        objectName: "reviewContainer"
         implicitHeight: visible ? reviewSubmitContainer.implicitHeight + anchors.topMargin : 0
 
         readonly property real innerMargin: units.gu(1)
@@ -132,6 +133,7 @@ PreviewWidget {
 
         Item {
             id: reviewSubmitContainer
+            objectName: "reviewSubmitContainer"
             anchors.fill: parent
             implicitHeight: reviewTextArea.implicitHeight + anchors.topMargin
 
