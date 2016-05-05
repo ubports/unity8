@@ -34,6 +34,8 @@ Item {
         // NB: for testing set to 2, not to clash with unity7 touch overlay controls
         minimumTouchPoints: 2
         maximumTouchPoints: minimumTouchPoints
+        recognitionPeriod: 500
+        releaseRejectPeriod: 500
 
         readonly property bool recognizedPress: status == TouchGestureArea.Recognized &&
                                                 touchPoints.length >= minimumTouchPoints &&
@@ -44,6 +46,10 @@ Item {
                 print("!!! RECOGNIZED")
                 overlayTimer.start();
             }
+        }
+
+        onStatusChanged: {
+            print("Status changed:", status)
         }
     }
 
@@ -136,7 +142,7 @@ Item {
         ResizeGrip { // top left
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.top
-            visible: !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
 
@@ -144,7 +150,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.top
             rotation: 45
-            visible: !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
 
@@ -152,7 +158,7 @@ Item {
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.top
             rotation: 90
-            visible: !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
 
@@ -167,7 +173,7 @@ Item {
         ResizeGrip { // bottom right
             anchors.horizontalCenter: parent.right
             anchors.verticalCenter: parent.bottom
-            visible: !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
 
@@ -175,7 +181,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.bottom
             rotation: 45
-            visible: !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
 
@@ -183,7 +189,7 @@ Item {
             anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.bottom
             rotation: 90
-            visible: !overlay.anyMaximized
+            visible: target && !overlay.anyMaximized
             resizeTarget: priv.resizeArea
         }
 

@@ -549,10 +549,10 @@ Item {
         }
 
         WindowControlsOverlay {
-            x: target ? target.x : -1
-            y: target ? target.y : -1
-            width: target ? target.width : 0
-            height: target? target.height : 0
+            x: target ? target.x : undefined
+            y: target ? target.y : undefined
+            width: target ? target.width : undefined
+            height: target? target.height : undefined
             target: applicationsDisplayLoader.item && applicationsDisplayLoader.item.mainAppDelegate ? applicationsDisplayLoader.item.mainAppDelegate : null
         }
 
