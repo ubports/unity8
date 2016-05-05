@@ -18,6 +18,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.1
 import Ubuntu.Components 1.3
 import Unity.Session 0.1
+import Unity.Screens 0.1
 import QtQuick.Window 2.2
 import "Components"
 
@@ -33,6 +34,10 @@ Item {
     DeviceConfiguration {
         id: deviceConfiguration
         name: applicationArguments.deviceName
+    }
+
+    Screens {
+        id: screens
     }
 
     Item {
@@ -119,6 +124,7 @@ Item {
 
         InputMethod {
             id: inputMethod
+            active: screens.count > 1
             objectName: "inputMethod"
             anchors.fill: parent
         }

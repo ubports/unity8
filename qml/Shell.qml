@@ -392,6 +392,7 @@ Item {
     InputMethod {
         id: inputMethod
         objectName: "inputMethod"
+        active: oskEnabled
         anchors {
             fill: parent
             topMargin: panel.panelHeight
