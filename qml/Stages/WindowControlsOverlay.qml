@@ -74,16 +74,14 @@ Item {
         id: overlay
         objectName: "windowControlsOverlay"
         anchors.fill: parent
-        //opacity: target.surface == MirFocusController.focusedSurface && overlayTimer.running ? 1 : 0
-        //visible: opacity == 1
         visible: target.surface == MirFocusController.focusedSurface && overlayTimer.running
-        enabled: visible
-
-        readonly property bool anyMaximized: target && (target.maximized || target.maximizedLeft || target.maximizedRight)
+        opacity: visible ? 1 : 0
 
         Behavior on opacity {
             OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }
         }
+
+        readonly property bool anyMaximized: target && (target.maximized || target.maximizedLeft || target.maximizedRight)
 
         Image {
             source: "graphics/arrows-centre.png"
