@@ -129,6 +129,12 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: stageSaver
+        target: WindowStateStorage
+        signalName: "stageSaved"
+    }
+
     UnityTestCase {
         id: testCase
         name: "TabletStage"
@@ -138,6 +144,7 @@ Rectangle {
         property Item sideStage: tabletStage ? findChild(tabletStage, "sideStage") : null
 
         function init() {
+            stageSaver.clear();
             tabletStageLoader.active = true;
             tryCompare(tabletStageLoader, "status", Loader.Ready);
 
@@ -510,7 +517,35 @@ Rectangle {
             tryCompare(stagesPriv, "sideStageAppId", data.sideStageAppId);
         }
 
-        function test_loadSideStageByDragginFromMainStage() {
+        function test_applicationSavesLastStage_data() {
+            return [
+                { tag: "MainStage", stage: ApplicationInfoInterface.MainStage},
+                { tag: "SideStage", stage: ApplicationInfoInterface.SideStage},
+            ];
+        }
+
+        function test_applicationSavesLastStage(data) {
+            WindowStateStorage.saveStage(webbrowserCheckBox.appId, data.stage);
+            stageSaver.clear();
+
+            var stagesPriv = findInvisibleChild(tabletStage, "stagesPriv");
+            verify(stagesPriv);
+
+            tryCompare(stagesPriv, "mainStageAppId", "unity8-dash");
+            tryCompare(stagesPriv, "sideStageAppId", "");
+
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            webbrowserCheckBox.checked = false;
+
+            tryCompare(stageSaver, "count", 1);
+            compare(stageSaver.signalArguments[0][0], "webbrowser-app")
+            compare(stageSaver.signalArguments[0][1], data.stage)
+        }
+
+        function test_loadSideStageByDraggingFromMainStage() {
             sideStage.showNow();
             var webbrowserSurfaceId = topSurfaceList.nextId;
             webbrowserCheckBox.checked = true;
@@ -538,7 +573,7 @@ Rectangle {
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
 
-        function test_unloadSideStageByDragginFromStageStage() {
+        function test_unloadSideStageByDraggingFromStageStage() {
             sideStage.showNow();
             WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
             var webbrowserSurfaceId = topSurfaceList.nextId;
