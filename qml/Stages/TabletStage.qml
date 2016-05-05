@@ -34,6 +34,8 @@ AbstractStage {
     property int stageFocusedSurface: priv.focusedAppDelegate ? priv.focusedAppDelegate.stage : ApplicationInfoInterface.MainStage
     // </tutorial-hacks>
 
+    paintBackground: spreadView.shiftedContentX !== 0
+
     // Functions to be called from outside
     function updateFocusedAppOrientation() {
         var mainStageIndex = root.topLevelSurfaceList.indexForId(priv.mainStageItemId);
@@ -746,6 +748,7 @@ AbstractStage {
                     surface: model.surface
                     closeable: !isDash
                     highlightShown: root.altTabPressed && priv.highlightIndex == zIndex
+                    dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
 
                     readonly property bool wantsMainStage: stage == ApplicationInfoInterface.MainStage
 

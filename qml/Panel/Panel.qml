@@ -130,6 +130,7 @@ Item {
                          && !root.locked && !callHint.visible
                 active: PanelState.buttonsVisible || TouchControlsState.overlayShown
                 windowIsMaximized: true
+                closeButtonShown: PanelState.closeButtonShown
                 onClose: PanelState.close()
                 onMinimize: PanelState.minimize()
                 onMaximize: PanelState.restore()
@@ -180,12 +181,12 @@ Item {
                 topMargin: units.gu(0.5)
                 bottomMargin: units.gu(0.5)
             }
-            color: PanelState.buttonsVisible ? "#ffffff" : "#5d5d5d"
+            color: "white"
             height: indicators.minimizedPanelHeight - anchors.topMargin - anchors.bottomMargin
             visible: !windowControlButtons.visible && !root.locked && !callHint.visible
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: Font.Normal
+            font.weight: PanelState.buttonsVisible ? Font.Light : Font.Medium
             text: PanelState.title
             elide: Text.ElideRight
             maximumLineCount: 1
