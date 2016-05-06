@@ -1072,6 +1072,7 @@ AbstractStage {
                 property Item spreadDelegate
 
                 surface: spreadDelegate ? spreadDelegate.surface : null
+
                 interactive: false
                 resizeSurface: false
                 focus: false
