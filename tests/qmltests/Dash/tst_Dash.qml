@@ -146,7 +146,7 @@ Item {
             tryCompare(categoryListView, "atYBeginning", true)
         }
 
- 		function test_navigationFilterPopupClosesWhenOptionSelected() {
+        function test_navigationFilterPopupClosesWhenOptionSelected() {
             dash.setCurrentScope("LongPrimaryNavigation")
 
             var dashContentList = findChild(dashContent, "dashContentList")
