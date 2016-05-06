@@ -57,10 +57,9 @@ Item {
     }
 
     function showPrompt(text, isSecret, isDefaultPrompt) {
-        passwordInput.text = "";
-        passwordInput.promptText = text;
-        passwordInput.enabled = true;
-        passwordInput.echoMode = isSecret ? TextInput.Password : TextInput.Normal;
+        d.promptText = text;
+        passwordInput.reset();
+        passwordInput.isSecret = isSecret;
         if (wasPrompted) // stay in text field if second prompt
             passwordInput.focus = true;
         wasPrompted = true;
@@ -76,6 +75,12 @@ Item {
 
     function reset() {
         root.resetAuthentication();
+    }
+
+    QtObject {
+        id: d
+
+        property string promptText
     }
 
     Keys.onEscapePressed: {
@@ -151,7 +156,7 @@ Item {
                 return 1 - Math.min(1, (Math.abs(highlightDist) + root.cellHeight) / ((root.numAboveBelow + 1) * root.cellHeight))
             }
 
-            Label {
+            FadingLabel {
                 objectName: "username" + index
 
                 anchors {
@@ -164,8 +169,7 @@ Item {
                     topMargin: units.gu(1) + (parent.belowHighlight ? parent.belowOffset : 0)
                 }
                 text: realName
-                color: "white"
-                elide: Text.ElideRight
+                color: UbuntuColors.porcelain
 
                 Behavior on anchors.topMargin { NumberAnimation { duration: root.moveDuration; easing.type: Easing.InOutQuad; } }
             }
@@ -208,7 +212,7 @@ Item {
             rightMargin: units.gu(1)
         }
 
-        color: "white"
+        color: UbuntuColors.porcelain
         width: root.width - anchors.leftMargin - anchors.rightMargin
         fontSize: "small"
         textFormat: Text.StyledText
@@ -220,7 +224,7 @@ Item {
         }
     }
 
-    TextField {
+    GreeterPrompt {
         id: passwordInput
         objectName: "passwordInput"
         anchors {
@@ -228,64 +232,28 @@ Item {
             horizontalCenter: parent.horizontalCenter
             margins: units.gu(1)
         }
-        height: units.gu(4.5)
         width: parent.width - anchors.margins * 2
         opacity: userList.movingInternally ? 0 : 1
 
-        inputMethodHints: root.alphanumeric ? Qt.ImhNone : Qt.ImhDigitsOnly
+        isPrompt: root.wasPrompted
+        isAlphanumeric: root.alphanumeric
 
-        property string promptText
-        placeholderText: root.wasPrompted ? promptText
-                                          : (root.locked ? i18n.tr("Retry")
-                                                         : i18n.tr("Tap to unlock"))
+        text: root.wasPrompted ? d.promptText
+                               : (root.locked ? i18n.tr("Retry")
+                                              : i18n.tr("Log In"))
+
+        onClicked: root.tryToUnlock()
+        onResponded: root.responded(text)
+        onCanceled: root.selected(currentIndex)
 
         Behavior on opacity {
             NumberAnimation { duration: 100 }
-        }
-
-        onAccepted: {
-            if (!enabled)
-                return;
-            root.focus = true; // so that it can handle Escape presses for us
-            enabled = false;
-            root.responded(text);
-        }
-        Keys.onEscapePressed: {
-            root.selected(currentIndex);
-        }
-
-        Image {
-            anchors {
-                right: parent.right
-                rightMargin: units.gu(2)
-                verticalCenter: parent.verticalCenter
-            }
-            visible: !root.wasPrompted
-            source: "graphics/icon_arrow.png"
         }
 
         WrongPasswordAnimation {
             id: wrongPasswordAnimation
             target: passwordInput
         }
-
-        Connections {
-            target: Qt.inputMethod
-            onVisibleChanged: {
-                if (!Qt.inputMethod.visible) {
-                    passwordInput.focus = false;
-                }
-            }
-        }
-
-    }
-
-    MouseArea {
-        id: passwordMouseArea
-        objectName: "passwordMouseArea"
-        anchors.fill: passwordInput
-        enabled: !root.wasPrompted
-        onClicked: root.tryToUnlock()
     }
 
     function resetAuthentication() {
@@ -293,10 +261,8 @@ Item {
             return;
         }
         infoLabel.text = "";
-        passwordInput.promptText = "";
-        passwordInput.text = "";
-        passwordInput.focus = false;
-        passwordInput.enabled = true;
+        d.promptText = "";
+        passwordInput.reset();
         root.wasPrompted = false;
     }
 }

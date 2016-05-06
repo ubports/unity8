@@ -27,6 +27,7 @@ FocusScope {
     property alias delayMinutes: lockscreen.delayMinutes
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property url background
+    property bool customBackground // unused
     property bool locked
     property bool alphanumeric
     property var userModel // unused

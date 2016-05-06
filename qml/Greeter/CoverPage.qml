@@ -28,6 +28,7 @@ Showable {
     property real backgroundTopMargin
     property var infographicModel
     property bool draggable: true
+    property bool blur
 
     property alias infographics: infographics
 
@@ -88,6 +89,14 @@ Showable {
         sourceSize.width: width
     }
 
+    // FIXME
+    /*BlurLayer {
+        anchors.fill: greeterBackground
+        source: greeterBackground
+        blurRadius: 60
+    }*/
+
+    // Darkens wallpaper so that we can read text on it and see infographic
     Rectangle {
         anchors.fill: parent
         color: "black"

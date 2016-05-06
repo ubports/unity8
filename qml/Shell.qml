@@ -420,6 +420,7 @@ Item {
             launcherOffset: launcher.progress
             forcedUnlock: wizard.active
             background: wallpaperResolver.background
+            customBackground: wallpaperResolver.background != wallpaperResolver.defaultBackground
 
             // avoid overlapping with Launcher's edge drag area
             // FIXME: Fix TouchRegistry & friends and remove this workaround

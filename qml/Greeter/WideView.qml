@@ -26,6 +26,7 @@ FocusScope {
     property int delayMinutes // TODO
     property alias backgroundTopMargin: coverPage.backgroundTopMargin
     property alias background: coverPage.background
+    property bool customBackground
     property bool locked
     property alias alphanumeric: loginList.alphanumeric
     property alias userModel: loginList.model
@@ -98,6 +99,7 @@ FocusScope {
         height: parent.height
         width: parent.width
         draggable: !root.locked
+        blur: root.customBackground
 
         infographics {
             height: 0.75 * parent.height
