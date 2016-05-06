@@ -124,7 +124,7 @@ Item {
 
         InputMethod {
             id: inputMethod
-            // Make sure we don't resize the input method if we dont have a secondary screen.
+            // Don't resize when there is only one screen to avoid resize clashing with the InputMethod in the Shell.
             enabled: screens.count > 1
             objectName: "inputMethod"
             anchors.fill: parent
