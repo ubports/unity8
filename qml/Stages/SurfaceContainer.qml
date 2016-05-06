@@ -34,7 +34,6 @@ FocusScope {
     property int surfaceOrientationAngle: 0
     property bool resizeSurface: true
     property bool inPromptSession: false
-    property alias consumesInput: surfaceItem.consumesInput
 
     onSurfaceChanged: {
         // Not a binding because animations might remove the surface from the surfaceItem
@@ -58,7 +57,7 @@ FocusScope {
         objectName: "surfaceItem"
 
         fillMode: MirSurfaceItem.PadOrCrop
-        consumesInput: true
+        consumesInput: root.interactive
 
         surfaceWidth: {
             if (root.resizeSurface) {
