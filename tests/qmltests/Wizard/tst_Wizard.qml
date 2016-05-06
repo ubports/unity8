@@ -143,6 +143,8 @@ Item {
         function waitForPage(name) {
             var pages = findChild(wizard, "wizardPages");
             var stack = findChild(pages, "pageStack");
+            var contentAnimation = findInvisibleChild(stack.currentPage, "contentAnimation");
+            tryCompareFunction(function() { return contentAnimation.running; }, false);
             // don't simply call tryCompare here, because stack.currentPage will be swapped out itself
             tryCompareFunction(function() { return stack.currentPage.objectName; }, name, 15000);
             tryCompare(stack.currentPage, "opacity", 1.0);
@@ -185,8 +187,6 @@ Item {
             }
 
             page = waitForPage("tzPage");
-            var contentAnimation = findInvisibleChild(page, "contentAnimation");
-            tryCompareFunction(function() { return contentAnimation.running; }, false);
             if (name === page.objectName) return page;
             waitUntilTransitionsEnd(page);
             var tzList = findChild(page, "tzList");
