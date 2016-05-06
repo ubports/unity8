@@ -57,4 +57,10 @@ Item {
     /// @param result result model of the clicked item, used for activation
     /// @param itemModel model of the item
     signal pressAndHold(int index, var result, var itemModel)
+
+    /// Emitted when the user clicked on an item action
+    /// @param index is the index of the clicked item
+    /// @param result result model of the clicked item, used for activation
+    /// @param actionId id of the clicked action
+    signal action(int index, var result, var actionId)
 }
