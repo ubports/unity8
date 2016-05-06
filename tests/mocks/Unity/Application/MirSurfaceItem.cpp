@@ -234,6 +234,10 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
         delete m_qmlContentComponent;
         m_qmlContentComponent = nullptr;
 
+        if (hasActiveFocus() && m_consumesInput && m_qmlSurface->live()) {
+            m_qmlSurface->setActiveFocus(false);
+        }
+
         disconnect(m_qmlSurface, nullptr, this, nullptr);
         m_qmlSurface->unregisterView((qintptr)this);
     }
@@ -242,8 +246,6 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 
     if (m_qmlSurface) {
         m_qmlSurface->registerView((qintptr)this);
-
-        m_qmlSurface->setActiveFocus(hasActiveFocus());
 
         updateSurfaceSize();
         updateMirSurfaceVisibility();
@@ -277,6 +279,10 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
             default:
                 qFatal("MirSurfaceItem: Unhandled component status");
         }
+
+        if (m_consumesInput) {
+            m_qmlSurface->setActiveFocus(hasActiveFocus());
+        }
     }
 
     Q_EMIT surfaceChanged(m_qmlSurface);
@@ -285,7 +291,7 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
 void MirSurfaceItem::itemChange(ItemChange change, const ItemChangeData & value)
 {
     if (change == QQuickItem::ItemActiveFocusHasChanged) {
-        if (m_qmlSurface) {
+        if (m_qmlSurface && m_consumesInput && m_qmlSurface->live()) {
             m_qmlSurface->setActiveFocus(value.boolValue);
         }
     }

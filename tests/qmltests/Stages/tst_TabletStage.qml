@@ -725,5 +725,34 @@ Rectangle {
             // only unity8-dash surface is left
             compare(topSurfaceList.count, 1);
         }
+
+        function test_draggingSurfaceKeepsSurfaceFocus() {
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
+
+            tryCompare(appDelegate.surface, "activeFocus", true);
+
+            var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+            var end_pos = tabletStage.width - sideStage.width / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                units.gu(3),
+                                0,
+                                function() {
+                                    pos += units.gu(3);
+                                    return sideStage.shown && !sideStage.showAnimation.running &&
+                                           pos >= end_pos;
+                                });
+
+            tryCompare(appDelegate.surface, "activeFocus", true);
+        }
     }
 }
