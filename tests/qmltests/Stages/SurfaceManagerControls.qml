@@ -23,10 +23,10 @@ Column {
 
     Label {text: "Size hints for new surface:"; font.bold: true}
 
-    SurfaceManagerField { text: "min width"; propertyName: "newSurfaceMinimumWidth" }
-    SurfaceManagerField { text: "max width"; propertyName: "newSurfaceMaximumWidth" }
-    SurfaceManagerField { text: "min height"; propertyName: "newSurfaceMinimumHeight" }
-    SurfaceManagerField { text: "max height"; propertyName: "newSurfaceMaximumHeight" }
-    SurfaceManagerField { text: "width increment"; propertyName: "newSurfaceWidthIncrement" }
-    SurfaceManagerField { text: "height increment"; propertyName: "newSurfaceHeightIncrement" }
+    SurfaceManagerField { text: "min width"; propertyName: "newSurfaceMinimumWidth"; }
+    SurfaceManagerField { text: "max width"; propertyName: "newSurfaceMaximumWidth"; }
+    SurfaceManagerField { text: "min height"; propertyName: "newSurfaceMinimumHeight"; }
+    SurfaceManagerField { text: "max height"; propertyName: "newSurfaceMaximumHeight"; }
+    SurfaceManagerField { text: "width increment"; propertyName: "newSurfaceWidthIncrement"; }
+    SurfaceManagerField { text: "height increment"; propertyName: "newSurfaceHeightIncrement"; }
 }

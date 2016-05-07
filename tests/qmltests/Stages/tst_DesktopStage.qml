@@ -93,8 +93,8 @@ Item {
 
     Rectangle {
         id: controls
-        color: theme.palette.normal.background
         width: units.gu(30)
+        color: theme.palette.normal.background
         anchors {
             top: parent.top
             bottom: parent.bottom
