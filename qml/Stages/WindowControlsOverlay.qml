@@ -35,17 +35,27 @@ Item {
         minimumTouchPoints: 2
         maximumTouchPoints: minimumTouchPoints
         recognitionPeriod: 500
-        releaseRejectPeriod: 500
+        //releaseRejectPeriod: 500
 
         readonly property bool recognizedPress: status == TouchGestureArea.Recognized &&
                                                 touchPoints.length >= minimumTouchPoints &&
                                                 touchPoints.length <= maximumTouchPoints
-
         onRecognizedPressChanged: {
             if (recognizedPress && target && !target.fullscreen) {
                 print("!!! RECOGNIZED")
                 overlayTimer.start();
             }
+        }
+
+        readonly property bool recognizedDrag: recognizedPress && dragging
+        onRecognizedDragChanged: {
+            print("Dragging:", recognizedDrag);
+            priv.handlePressedChanged(recognizedDrag, center.x, center.y);
+        }
+
+        readonly property point center: Qt.point(touchPoints[0].x, touchPoints[0].y);
+        onCenterChanged: {
+            priv.handlePositionChanged(center.x, center.y)
         }
 
         onStatusChanged: {
@@ -67,6 +77,27 @@ Item {
         property bool dragging
 
         readonly property var resizeArea: root.target && root.target.resizeArea ? root.target.resizeArea : null
+
+        function handlePressedChanged(pressed, mouseX, mouseY) {
+            if (pressed) {
+                var pos = mapToItem(root.target, mouseX, mouseY);
+                print("SAVING POS", pos.x, pos.y)
+                priv.distanceX = pos.x;
+                priv.distanceY = pos.y;
+                priv.dragging = true;
+            } else {
+                priv.dragging = false;
+            }
+        }
+
+        function handlePositionChanged(mouseX, mouseY) {
+            if (priv.dragging) {
+                var pos = mapToItem(root.target.parent, mouseX, mouseY);
+                root.target.x = pos.x - priv.distanceX;
+                root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
+                print("MOVED TO", root.target.x, root.target.y)
+            }
+        }
     }
 
     Binding {
@@ -106,24 +137,8 @@ Item {
                 hoverEnabled: true
                 cursorShape: priv.dragging ? Qt.ClosedHandCursor : (overlay.visible ? Qt.OpenHandCursor : Qt.ArrowCursor)
 
-                onPressedChanged: {
-                    if (pressed) {
-                        var pos = mapToItem(root.target, mouseX, mouseY);
-                        priv.distanceX = pos.x;
-                        priv.distanceY = pos.y;
-                        priv.dragging = true;
-                    } else {
-                        priv.dragging = false;
-                    }
-                }
-
-                onPositionChanged: {
-                    if (priv.dragging) {
-                        var pos = mapToItem(root.target.parent, mouseX, mouseY);
-                        root.target.x = pos.x - priv.distanceX;
-                        root.target.y = Math.max(pos.y - priv.distanceY, PanelState.panelHeight);
-                    }
-                }
+                onPressedChanged: priv.handlePressedChanged(pressed, mouseX, mouseY)
+                onPositionChanged: priv.handlePositionChanged(mouseX, mouseY)
             }
 
             // dismiss area

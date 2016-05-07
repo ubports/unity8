@@ -37,7 +37,7 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        anchors.margins: -units.gu(1)
+        anchors.margins: -units.gu(1.5)
         hoverEnabled: true
 
         Mouse.enabled: resizeTarget
