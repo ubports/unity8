@@ -20,15 +20,18 @@ import "../Components/TouchControlsState"
 
 Row {
     id: root
-    spacing: TouchControlsState.overlayShown ? units.gu(2) : units.gu(1)
+    spacing: overlayShown ? units.gu(2) : units.gu(1)
     Behavior on spacing {
         UbuntuNumberAnimation {}
     }
 
     // to be set from outside
+    property Item target
     property bool active: false
     property bool windowIsMaximized: false
     property bool closeButtonShown: true
+
+    readonly property bool overlayShown: TouchControlsState.overlayShown && target && target.surface === TouchControlsState.surface
 
     signal close()
     signal minimize()
@@ -47,7 +50,7 @@ Row {
             anchors.fill: parent
             radius: height / 2
             color: UbuntuColors.red
-            visible: parent.containsMouse && !TouchControlsState.overlayShown
+            visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent
@@ -69,7 +72,7 @@ Row {
             anchors.fill: parent
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
-            visible: parent.containsMouse && !TouchControlsState.overlayShown
+            visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent
@@ -91,7 +94,7 @@ Row {
             anchors.fill: parent
             radius: height / 2
             color: root.active ? UbuntuColors.graphite : UbuntuColors.ash
-            visible: parent.containsMouse && !TouchControlsState.overlayShown
+            visible: parent.containsMouse && !overlayShown
         }
         Icon {
             anchors.fill: parent

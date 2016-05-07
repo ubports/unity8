@@ -200,15 +200,22 @@ AbstractStage {
     }
 
     Binding {
+        target: PanelState
+        property: "closeButtonShown"
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && priv.focusedAppDelegate.application.appId !== "unity8-dash"
+    }
+
+    Binding {
         target: TouchControlsState
         property: "buttonsShownInPanel"
         value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized
     }
 
     Binding {
-        target: PanelState
-        property: "closeButtonShown"
-        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && priv.focusedAppDelegate.application.appId !== "unity8-dash"
+        target: TouchControlsState
+        property: "surface"
+        value: priv.focusedAppDelegate.surface
+        when: priv.focusedAppDelegate && priv.focusedAppDelegate.surface
     }
 
     Component.onDestruction: {

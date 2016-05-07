@@ -41,6 +41,8 @@ MouseArea {
         property real distanceX
         property real distanceY
         property bool dragging
+
+        readonly property bool overlayShown: TouchControlsState.overlayShown && target && target.surface === TouchControlsState.surface
     }
 
     onPressedChanged: {
@@ -74,11 +76,15 @@ MouseArea {
     Row {
         anchors {
             fill: parent
-            leftMargin: TouchControlsState.overlayShown ? units.gu(5) : units.gu(1)
+            leftMargin: priv.overlayShown ? units.gu(5) : units.gu(1)
             rightMargin: units.gu(1)
             topMargin: units.gu(0.5)
             bottomMargin: units.gu(0.5)
         }
+        Behavior on anchors.leftMargin {
+            UbuntuNumberAnimation {}
+        }
+
         spacing: units.gu(3)
 
         WindowControlButtons {
@@ -86,6 +92,7 @@ MouseArea {
             height: parent.height
             active: root.active
             closeButtonShown: root.target.application.appId !== "unity8-dash"
+            target: root.target
             onClose: root.close();
             onMinimize: root.minimize();
             onMaximize: root.maximize();
@@ -101,7 +108,7 @@ MouseArea {
             fontSize: "medium"
             font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
-            opacity: TouchControlsState.overlayShown ? 0 : 1
+            opacity: priv.overlayShown ? 0 : 1
             visible: opacity == 1
             Behavior on opacity {
                 OpacityAnimator { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing }

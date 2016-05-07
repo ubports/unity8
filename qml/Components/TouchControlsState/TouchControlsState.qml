@@ -22,4 +22,5 @@ QtObject {
 
     property bool overlayShown: false
     property bool buttonsShownInPanel: false
+    property var surface: null
 }
