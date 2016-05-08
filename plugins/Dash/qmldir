@@ -5,6 +5,7 @@ singleton CardCreatorCache 0.1 CardCreatorCache.qml
 singleton DashAudioPlayer 0.1 DashAudioPlayer.qml
 ScopeStyle 0.1 ScopeStyle.qml
 CardAttributes 0.1 CardAttributes.qml
+CardSocialActions 0.1 CardSocialActions.qml
 CroppedImageMinimumSourceSize 0.1 CroppedImageMinimumSourceSize.qml
 AudioProgressBar 0.1 AudioProgressBar.qml
 CardAudioProgress 0.1 CardAudioProgress.qml
