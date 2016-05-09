@@ -44,46 +44,5 @@ PreviewWidget {
         maximumEmbeddedHeight: rootItem.height / 2
 
         onClose: fullscreen = false
-
-//        actions: [
-//            Action {
-//                text: i18n.tr("Share")
-//                iconSource: "image://theme/share"
-//                onTriggered: sharePicker.visible = true
-//            }
-//        ]
     }
-
-//    Component {
-//        id: contentItemComp
-//        ContentItem {
-//            url: widgetData["source"]
-//        }
-//    }
-//    ContentPeerPicker {
-//        id: sharePicker
-//        objectName: "sharePickerEvents"
-//        anchors.fill: parent
-//        showTitle: false
-//        visible: false
-//        parent: rootItem
-//        z: 100
-
-//        contentType: ContentType.Videos
-//        handler: ContentHandler.Share
-
-//        onPeerSelected: {
-//            visible = false;
-
-//            var curTransfer = peer.request();
-//            if (curTransfer.state === ContentTransfer.InProgress)
-//            {
-//                var medias = [ contentItemComp.createObject(parent) ]
-//                curTransfer.state = ContentTransfer.Charged;
-//            }
-//        }
-//        onCancelPressed: {
-//            visible = false;
-//        }
-//    }
 }
