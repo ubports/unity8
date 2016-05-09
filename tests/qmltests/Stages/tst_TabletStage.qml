@@ -242,6 +242,48 @@ Rectangle {
                     appWindow.width * 0.1, -appWindow.height / 2);
         }
 
+        function dragToSideStage(surfaceId) {
+            sideStage.showNow();
+            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
+
+            var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+            var end_pos = tabletStage.width - sideStage.width / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                units.gu(3),
+                                0,
+                                function() {
+                                    pos += units.gu(3);
+                                    return sideStage.shown && !sideStage.showAnimation.running &&
+                                           pos >= end_pos;
+                                });
+            tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.SideStage);
+        }
+
+        function dragToMainStage(surfaceId) {
+            sideStage.showNow();
+            var targetAppDelegate = findChild(tabletStage, "spreadDelegate_" + surfaceId);
+            verify(targetAppDelegate);
+
+            var pos = tabletStage.width - sideStage.width / 2;
+            var end_pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
+
+            multiTouchDragUntil([0,1,2],
+                                tabletStage,
+                                pos,
+                                tabletStage.height / 2,
+                                -units.gu(3),
+                                0,
+                                function() {
+                                    pos -= units.gu(3);
+                                    return pos <= end_pos;
+                                });
+            tryCompare(targetAppDelegate, "stage", ApplicationInfoInterface.MainStage);
+        }
+
         function test_tappingSwitchesFocusBetweenStages() {
             WindowStateStorage.saveStage(dialerCheckBox.appId, ApplicationInfoInterface.SideStage)
 
@@ -555,20 +597,7 @@ Rectangle {
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.MainStage);
 
-            var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
-            var end_pos = tabletStage.width - sideStage.width / 2;
-
-            multiTouchDragUntil([0,1,2],
-                                tabletStage,
-                                pos,
-                                tabletStage.height / 2,
-                                units.gu(3),
-                                0,
-                                function() {
-                                    pos += units.gu(3);
-                                    return sideStage.shown && !sideStage.showAnimation.running &&
-                                           pos >= end_pos;
-                                });
+            dragToSideStage(webbrowserSurfaceId);
 
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
@@ -584,19 +613,7 @@ Rectangle {
             verify(appDelegate);
             compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
 
-            var pos = tabletStage.width - sideStage.width / 2;
-            var end_pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
-
-            multiTouchDragUntil([0,1,2],
-                                tabletStage,
-                                pos,
-                                tabletStage.height / 2,
-                                -units.gu(3),
-                                0,
-                                function() {
-                                    pos -= units.gu(3);
-                                    return pos <= end_pos;
-                                });
+            dragToMainStage(webbrowserSurfaceId);
 
             tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
         }
@@ -737,22 +754,41 @@ Rectangle {
 
             tryCompare(appDelegate.surface, "activeFocus", true);
 
-            var pos = tabletStage.width - sideStage.width - (tabletStage.width - sideStage.width) / 2;
-            var end_pos = tabletStage.width - sideStage.width / 2;
-
-            multiTouchDragUntil([0,1,2],
-                                tabletStage,
-                                pos,
-                                tabletStage.height / 2,
-                                units.gu(3),
-                                0,
-                                function() {
-                                    pos += units.gu(3);
-                                    return sideStage.shown && !sideStage.showAnimation.running &&
-                                           pos >= end_pos;
-                                });
+            dragToSideStage(webbrowserSurfaceId);
 
             tryCompare(appDelegate.surface, "activeFocus", true);
+        }
+
+        function test_switchStageOnRotation() {
+            WindowStateStorage.saveStage(webbrowserCheckBox.appId, ApplicationInfoInterface.SideStage)
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+            compare(appDelegate.stage, ApplicationInfoInterface.SideStage);
+
+            tabletStage.shellOrientation = Qt.PortraitOrientation;
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
+        }
+
+        function test_restoreOriginalStageOnRotation() {
+            var webbrowserSurfaceId = topSurfaceList.nextId;
+            webbrowserCheckBox.checked = true;
+            waitUntilAppSurfaceShowsUp(webbrowserSurfaceId);
+
+            var appDelegate = findChild(tabletStage, "spreadDelegate_" + webbrowserSurfaceId);
+            verify(appDelegate);
+
+            dragToSideStage(webbrowserSurfaceId);
+
+            // will be in sidestage now
+            tabletStage.shellOrientation = Qt.PortraitOrientation;
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.MainStage);
+
+            tabletStage.shellOrientation = Qt.LandscapeOrientation;
+            tryCompare(appDelegate, "stage", ApplicationInfoInterface.SideStage);
         }
     }
 }
