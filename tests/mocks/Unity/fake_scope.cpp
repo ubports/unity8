@@ -52,6 +52,8 @@ Scope::Scope(QString const& id, QString const& name, bool favorite, Scopes* pare
     m_primaryNavigationFilter = new FakeOptionSelectorFilter("OSF3", "PFTag", "Which food you like More", false, primaryNavigationFilterOptionLabels, this);
     m_filters->addFakeFilters();
     connect(m_filters, &Filters::activeFiltersCountChanged, this, &Scope::activeFiltersCountChanged);
+    connect(m_primaryNavigationFilter, &FakeOptionSelectorFilter::isActiveChanged,
+            this, &unity::shell::scopes::ScopeInterface::primaryNavigationTagChanged);
 }
 
 QString Scope::id() const
@@ -325,6 +327,8 @@ unity::shell::scopes::FiltersInterface* Scope::filters() const
 
 QString Scope::primaryNavigationTag() const
 {
+    if (m_hasPrimaryFilter && m_primaryNavigationFilter->isActive())
+        return m_primaryNavigationFilter->filterTag();
     if (m_currentNavigationId == "root")
         return QString();
     else
