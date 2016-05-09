@@ -81,7 +81,7 @@ MediaServicesControls {
             }
             verticalAlignment: Text.AlignBottom
             fontSize: "x-small"
-            color: "#F3F3E7"
+            color: root.iconColor
 
             text: priv.formatProgress(mediaPlayer.position)
         }
@@ -102,7 +102,7 @@ MediaServicesControls {
             value: mediaPlayer.position
 
             onStyleInstanceChanged: {
-                if (__styleInstance) __styleInstance.backgroundColor = "#F3F3E7";
+                if (__styleInstance) __styleInstance.backgroundColor = root.iconColor;
             }
 
             onValueChanged: {
@@ -141,7 +141,7 @@ MediaServicesControls {
             }
             verticalAlignment: Text.AlignBottom
             fontSize: "x-small"
-            color: "#F3F3E7"
+            color: root.iconColor
 
             text: priv.formatProgress(mediaPlayer.duration)
         }

@@ -23,6 +23,7 @@ Item {
 
     property alias title: _title.text
     property alias component: loader.sourceComponent
+    property alias iconColor: _title.color
 
     signal goPrevious
 
@@ -47,7 +48,7 @@ Item {
             Icon {
                 anchors.fill: parent
                 name: "go-previous"
-                color: "#F3F3E7"
+                color: _title.color
             }
 
             onTriggered: {
@@ -60,7 +61,6 @@ Item {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
             elide: Text.ElideRight
-            color: "#F3F3E7"
         }
 
         Loader {

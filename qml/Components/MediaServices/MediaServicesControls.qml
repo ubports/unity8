@@ -31,6 +31,9 @@ Item {
     property list<Action> userActions
     property Action viewAction
 
+    property color iconColor
+    property color backgroundColor
+
     RowLayout {
         anchors {
             left: parent.left
@@ -68,7 +71,7 @@ Item {
                 anchors.fill: parent
                 visible: actionButton.action && actionButton.action.iconSource !== "" || false
                 source: actionButton.action ? actionButton.action.iconSource : ""
-                color: "#F3F3E7"
+                color: root.iconColor
                 opacity: actionButton.action && actionButton.action.enabled ? 1.0 : 0.5
             }
         }
@@ -91,7 +94,7 @@ Item {
                 anchors.fill: parent
                 visible: viewAction.iconSource !== ""
                 source: viewAction.iconSource
-                color: "#F3F3E7"
+                color: root.iconColor
                 opacity: viewAction.enabled ? 1.0 : 0.5
             }
         }
@@ -102,7 +105,7 @@ Item {
 
         Rectangle {
             id: popup
-            color: "#1B1B1B"
+            color: root.backgroundColor
             width: userActionsColumn.width
             height: userActionsColumn.height
 
@@ -147,7 +150,7 @@ Item {
                             id: actionIcon
                             visible: "" !== action.iconSource
                             source: action.iconSource
-                            color: "#F3F3E7"
+                            color: root.iconColor
                             anchors {
                                 verticalCenter: parent.verticalCenter
                                 verticalCenterOffset: units.dp(-1)
@@ -172,7 +175,7 @@ Item {
                             fontSize: actionIcon.visible ? "small" : "medium"
                             elide: Text.ElideRight
                             text: action.text
-                            color: "#F3F3E7"
+                            color: root.iconColor
                             opacity: action.enabled ? 1.0 : 0.5
                         }
 

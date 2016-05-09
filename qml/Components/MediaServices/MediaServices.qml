@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,9 @@ FocusScope {
     onFullscreenChanged: {
         if (!fullscreen) rotationAction.checked = false;
     }
+
+    readonly property color backgroundColor: "#1B1B1B"
+    readonly property color iconColor: "#F3F3E7"
 
     OrientationHelper {
         id: orientationHelper
@@ -88,7 +91,7 @@ FocusScope {
 
             Rectangle {
                 anchors.fill: parent
-                color: "#1B1B1B"
+                color: root.backgroundColor
                 opacity: 0.85
             }
 
@@ -103,6 +106,9 @@ FocusScope {
                     maximumEmbeddedHeight: root.maximumEmbeddedHeight
                     fixedHeight: fullscreen
                     orientation: orientationState.state == "landscape" ? Qt.LandscapeOrientation : Qt.PortraitOrientation
+
+                    playButtonBackgroundColor: root.backgroundColor
+                    playButtonIconColor: root.iconColor
 
                     screenshot: {
                         var screenshot = root.sourceData["screenshot"];
@@ -145,7 +151,7 @@ FocusScope {
                 top: contentLoader.top
                 left: parent.left
                 right: parent.right
-                topMargin: -units.gu(6)
+                topMargin: -headerContent.height
             }
             height: units.gu(6)
             visible: false
@@ -157,7 +163,7 @@ FocusScope {
 
             Rectangle {
                 anchors.fill: parent
-                color: "#1B1B1B"
+                color: root.backgroundColor
                 opacity: 0.85
                 visible: headerContent.status === Loader.Ready
             }
@@ -171,14 +177,6 @@ FocusScope {
                     onGoPrevious: {
                         rotationAction.checked = false;
                         root.close();
-                    }
-
-                    component: {
-                        switch (context) {
-                        case "video":
-                            break;
-                        }
-                        return undefined;
                     }
                 }
             }
@@ -199,7 +197,7 @@ FocusScope {
                 left: parent.left
                 right: parent.right
                 bottom: contentLoader.bottom
-                bottomMargin: -units.gu(7)
+                bottomMargin: -footerContent.height
             }
             height: units.gu(7)
             visible: false
@@ -218,7 +216,7 @@ FocusScope {
 
             Rectangle {
                 anchors.fill: parent
-                color: "#1B1B1B"
+                color: root.backgroundColor
                 opacity: 0.85
                 visible: footerContent.status === Loader.Ready
             }
@@ -231,15 +229,17 @@ FocusScope {
 
                     viewAction: rotationAction.enabled ? rotationAction : fullscreenAction
                     userActions: root.actions
+                    iconColor: root.iconColor
+                    backgroundColor: root.backgroundColor
 
                     mediaPlayer.source: {
                         if (!root.sourceData) return "";
 
-                        var x = root.sourceData["source"];
-                        if (x.toString().indexOf("video://") === 0) {
-                            return x.toString().substr(6);
+                        var source = root.sourceData["source"];
+                        if (source.toString().indexOf("video://") === 0) {
+                            return source.toString().substr(6);
                         }
-                        return x;
+                        return source;
                     }
                     mediaPlayer.onPlaybackStateChanged: {
                         controlHideTimer.restart();

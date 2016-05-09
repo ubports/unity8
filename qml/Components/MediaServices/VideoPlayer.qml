@@ -29,6 +29,9 @@ Item {
     property bool fixedHeight: false
     property var maximumEmbeddedHeight
 
+    property alias playButtonBackgroundColor: playButton.color
+    property alias playButtonIconColor: playButtonIcon.color
+
     implicitHeight: {
         if (parent && orientation == Qt.LandscapeOrientation) {
             return parent.height;
@@ -112,17 +115,16 @@ Item {
         width: bigButton ? units.gu(10) : units.gu(8)
         height: width
         visible: mediaPlayer && mediaPlayer.playbackState !== MediaPlayer.PlayingState || false
-        color: "#1B1B1B"
         opacity: 0.85
         radius: width/2
 
         Behavior on width { UbuntuNumberAnimation {} }
 
         Icon {
+            id: playButtonIcon
             anchors.fill: parent
             anchors.margins: units.gu(1)
             name: errorTimer.running ? "dialog-warning-symbolic" : "media-playback-start"
-            color: "#F3F3E7"
         }
     }
 
