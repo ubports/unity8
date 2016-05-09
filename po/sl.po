@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-04-27 15:01+0000\n"
+"POT-Creation-Date: 2016-05-04 18:09+0000\n"
 "PO-Revision-Date: 2016-01-31 18:34+0000\n"
 "Last-Translator: Bernard Banko <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2016-04-30 05:37+0000\n"
+"X-Launchpad-Export-Date: 2016-05-06 04:55+0000\n"
 "X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -193,15 +193,15 @@ msgstr "Prečistite rezultate"
 msgid "Reset"
 msgstr "Ponastavi"
 
-#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
 msgid "Show less"
-msgstr ""
+msgstr "Pokaži manj"
 
-#: qml/Dash/GenericScopeView.qml:570
+#: qml/Dash/GenericScopeView.qml:579
 msgid "Show all"
-msgstr ""
+msgstr "Pokaži vse"
 
-#: qml/Dash/GenericScopeView.qml:627
+#: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Iskanje"
@@ -469,7 +469,7 @@ msgstr "Potegnite levi rob za prikaz zaganjalnika"
 
 #: qml/Tutorial/TutorialRight.qml:55
 msgid "Push your mouse against the right edge to view your open apps"
-msgstr ""
+msgstr "Za prikaz odprtih programov potisnite kazalko proti desnemu robu."
 
 #: qml/Tutorial/TutorialRight.qml:56
 msgid "Short or long swipe from the right edge to view your open apps"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-04-27 15:01+0000\n"
+"POT-Creation-Date: 2016-05-04 18:09+0000\n"
 "PO-Revision-Date: 2016-02-18 01:11+0000\n"
 "Last-Translator: Ivo Xavier <ivoxavier.8@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-04-30 05:37+0000\n"
+"X-Launchpad-Export-Date: 2016-05-06 04:54+0000\n"
 "X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -193,15 +193,15 @@ msgstr "Redefina os seus resultados"
 msgid "Reset"
 msgstr "Repor"
 
-#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
 msgid "Show less"
-msgstr ""
+msgstr "Mostrar menos"
 
-#: qml/Dash/GenericScopeView.qml:570
+#: qml/Dash/GenericScopeView.qml:579
 msgid "Show all"
-msgstr ""
+msgstr "Mostrar tudo"
 
-#: qml/Dash/GenericScopeView.qml:627
+#: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Procurar"

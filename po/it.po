@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-04-27 15:01+0000\n"
+"POT-Creation-Date: 2016-05-04 18:09+0000\n"
 "PO-Revision-Date: 2016-04-03 16:08+0000\n"
 "Last-Translator: Milo Casagrande <milo.casagrande@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2016-04-30 05:37+0000\n"
+"X-Launchpad-Export-Date: 2016-05-06 04:54+0000\n"
 "X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
@@ -194,15 +194,15 @@ msgstr "Affina la ricerca"
 msgid "Reset"
 msgstr "Azzera"
 
-#: qml/Dash/GenericScopeView.qml:570 qml/Dash/GenericScopeView.qml:755
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
 msgid "Show less"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:570
+#: qml/Dash/GenericScopeView.qml:579
 msgid "Show all"
 msgstr ""
 
-#: qml/Dash/GenericScopeView.qml:627
+#: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Cerca"
