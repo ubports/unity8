@@ -592,7 +592,7 @@ AbstractStage {
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
 
-                    onPressed: { mouse.accepted = false; appDelegate.focus = true; }
+                    onPressed: { appDelegate.focus = true; }
 
                     Component.onCompleted: {
                         loadWindowState();

@@ -32,7 +32,7 @@ Item {
         anchors.fill: parent
 
         // NB: for testing set to 2, not to clash with unity7 touch overlay controls
-        minimumTouchPoints: 2
+        minimumTouchPoints: 3
         maximumTouchPoints: minimumTouchPoints
         recognitionPeriod: 500
         //releaseRejectPeriod: 500
@@ -81,9 +81,9 @@ Item {
         function handlePressedChanged(pressed, mouseX, mouseY) {
             if (pressed) {
                 var pos = mapToItem(root.target, mouseX, mouseY);
-                print("SAVING POS", pos.x, pos.y)
                 priv.distanceX = pos.x;
                 priv.distanceY = pos.y;
+                print("SAVING POS", priv.distanceX, priv.distanceY)
                 priv.dragging = true;
             } else {
                 priv.dragging = false;
