@@ -36,6 +36,7 @@ QmlConnectivityNetworkingPlugin::registerTypes(const char *uri)
 {
     // @uri Ubuntu.Connectivity
     qmlRegisterSingletonType<NetworkingStatus>(uri, 1, 0, "NetworkingStatus", networkingStatusSingletonProvider);
+    qmlRegisterSingletonType<NetworkingStatus>(uri, 1, 0, "Connectivity", networkingStatusSingletonProvider);
 }
 
 void

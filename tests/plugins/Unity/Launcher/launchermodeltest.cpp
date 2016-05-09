@@ -34,6 +34,8 @@
 #include <QDBusMetaType>
 #include <QDomDocument>
 
+#include <glib.h>
+
 // This is a mock, specifically to test the LauncherModel
 class MockApp: public unity::shell::application::ApplicationInfoInterface
 {
@@ -48,6 +50,7 @@ public:
     QString comment() const override { return "this is a mock"; }
     QUrl icon() const override { return QUrl(); }
     ApplicationInfoInterface::Stage stage() const override { return ApplicationInfoInterface::MainStage; }
+    void setStage(ApplicationInfoInterface::Stage) override {}
     ApplicationInfoInterface::State state() const override { return ApplicationInfoInterface::Running; }
     bool focused() const override { return m_focused; }
     QString splashTitle() const override { return QString(); }
@@ -63,6 +66,7 @@ public:
     void setExemptFromLifecycle(bool) override {}
     QSize initialSurfaceSize() const override { return QSize(); }
     void setInitialSurfaceSize(const QSize &) override {}
+    MirSurfaceListInterface* surfaceList() override { return nullptr; }
 
     // Methods used for mocking (not in the interface)
     void setFocused(bool focused) { m_focused = focused; Q_EMIT focusedChanged(focused); }
@@ -105,15 +109,13 @@ public:
         }
         return false;
     }
-    bool focusApplication(const QString &appId) override {
+    bool focusApplication(const QString &appId) {
         Q_FOREACH(MockApp* app, m_list) {
             app->setFocused(app->appId() == appId);
         }
         Q_EMIT focusedApplicationIdChanged();
         return true;
     }
-
-    void unfocusCurrentApplication() override { }
 
     void addApplication(MockApp *app) {
         beginInsertRows(QModelIndex(), count(), count());
@@ -141,7 +143,7 @@ private:
 
     QList<QVariantMap> getASConfig() {
         AccountsServiceDBusAdaptor *as = launcherModel->m_asAdapter->m_accounts;
-        QDBusReply<QVariant> reply = as->getUserPropertyAsync(QString(qgetenv("USER")),
+        QDBusReply<QVariant> reply = as->getUserPropertyAsync(QString::fromUtf8(g_get_user_name()),
                                                               "com.canonical.unity.AccountsService",
                                                               "LauncherItems");
         return qdbus_cast<QList<QVariantMap>>(reply.value().value<QDBusArgument>());
@@ -166,7 +168,7 @@ private Q_SLOTS:
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
         QDBusReply<bool> addReply = accountsInterface.call(QStringLiteral("AddUser"),
-                                                           QString(qgetenv("USER")));
+                                                           QString::fromUtf8(g_get_user_name()));
         QVERIFY(addReply.isValid());
         QCOMPARE(addReply.value(), true);
 
@@ -192,7 +194,7 @@ private Q_SLOTS:
                                          QStringLiteral("/org/freedesktop/Accounts"),
                                          QStringLiteral("org.freedesktop.Accounts"));
         QDBusReply<bool> removeReply = accountsInterface.call(QStringLiteral("RemoveUser"),
-                                                              QString(qgetenv("USER")));
+                                                              QString::fromUtf8(g_get_user_name()));
         QVERIFY(removeReply.isValid());
         QCOMPARE(removeReply.value(), true);
     }

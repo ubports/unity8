@@ -16,26 +16,17 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../Components"
 
 Item {
     id: root
     property var navigation: null
     property var currentNavigation: null
-    property var scopeStyle: null
-    property color foregroundColor: theme.palette.normal.baseText
-    signal enterNavigation(var newNavigationId, bool hasChildren)
-    signal goBackToParentClicked()
-    signal allNavigationClicked()
+    signal enterNavigation(var newNavigationId, string newNavigationLabel, bool hasChildren)
 
     readonly property int itemHeight: units.gu(5)
     implicitHeight: flickable.contentHeight
-
-    Background {
-        style: root.scopeStyle ? root.scopeStyle.navigationBackground : "color:///#f5f5f5"
-        anchors.fill: parent
-    }
 
     clip: true
 
@@ -59,89 +50,46 @@ Item {
             id: column
             width: parent.width
 
-            ListItem.Standard {
-                id: backButton
-                objectName: "backButton"
-                visible: navigation && !navigation.isRoot || false
-                height: itemHeight
-
-                onClicked: root.goBackToParentClicked();
-
-                Icon {
-                    id: backImage
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                        leftMargin: units.gu(2)
-                    }
-                    name: "back"
-                    height: units.gu(2)
-                    width: height
-                    color: root.foregroundColor
-                }
-
-                Label {
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: backImage.right
-                        right: parent.right
-                        leftMargin: units.gu(0.5)
-                        rightMargin: units.gu(2)
-                    }
-                    text: navigation ? navigation.parentLabel : ""
-                    color: root.foregroundColor
-                    wrapMode: Text.Wrap
-                    maximumLineCount: 2
-                    elide: Text.ElideMiddle
-                }
-            }
-
-            ListItem.Standard {
-                id: allButton
-                objectName: "allButton"
-                visible: navigation && (!navigation.isRoot || (!navigation.hidden && root.currentNavigation && !root.currentNavigation.isRoot && root.currentNavigation.parentNavigationId == navigation.navigationId)) || false
-                height: itemHeight
-
-                Label {
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                        right: parent.right
-                        leftMargin: units.gu(2)
-                        rightMargin: units.gu(2)
-                    }
-                    text: navigation ? (navigation.allLabel != "" ? navigation.allLabel : navigation.label) : ""
-                    font.bold: true
-                    color: root.foregroundColor
-                    wrapMode: Text.Wrap
-                    maximumLineCount: 2
-                    elide: Text.ElideMiddle
-                }
-
-                onClicked: root.allNavigationClicked();
-            }
-
             Repeater {
                 model: navigation && navigation.loaded ? navigation : null
                 clip: true
-                delegate: ListItem.Standard {
+                // FIXME Move to ListItem (and remove import) once 1556971 is fixed
+                delegate: ListItems.Empty {
                     objectName: root.objectName + "child" + index
                     height: root.itemHeight
-                    showDivider: index != navigation.count - 1
-                    selected: isActive
+                    width: column.width
+                    anchors {
+                        left: column.left
+                        right: column.right
+                        leftMargin: units.gu(2)
+                        rightMargin: units.gu(2)
+                    }
 
-                    onClicked: root.enterNavigation(navigationId, hasChildren)
+                    onClicked: root.enterNavigation(navigationId, allLabel != "" ? allLabel : label, hasChildren)
+
+                    Icon {
+                        id: leftIcon
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            left: parent.left
+                        }
+                        height: units.gu(2)
+                        width: height
+                        name: "tick"
+                        color: "#3EB34F"
+                        visible: isActive
+                    }
 
                     Label {
                         anchors {
                             verticalCenter: parent.verticalCenter
-                            left: parent.left
-                            leftMargin: units.gu(2)
-                            right: rightIcon.visible ? rightIcon.left : parent.right
-                            rightMargin: rightIcon.visible ? units.gu(0.5) : units.gu(2)
+                            left: leftIcon.right
+                            leftMargin: units.gu(1)
+                            right: rightIcon.left
+                            rightMargin: units.gu(2)
                         }
                         text: label
-                        color: root.foregroundColor
+                        color: isActive ? "#333333" : "#888888"
                         wrapMode: Text.Wrap
                         maximumLineCount: 2
                         elide: Text.ElideMiddle
@@ -152,14 +100,14 @@ Item {
                         anchors {
                             verticalCenter: parent.verticalCenter
                             right: parent.right
-                            rightMargin: units.gu(2)
                         }
                         height: units.gu(2)
                         width: height
-                        name: hasChildren ? "go-next" : "tick"
-                        color: root.foregroundColor
-                        visible: hasChildren || isActive
+                        name: "go-next"
+                        visible: hasChildren
                     }
+
+                    divider.visible: index != navigation.count - 1
                 }
             }
         }

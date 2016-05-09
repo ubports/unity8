@@ -17,13 +17,13 @@ set(QMLPLUGIN_SRC
     unitysortfilterproxymodelqml.cpp
     Timer.cpp
     unitymenumodelpaths.cpp
-    windowkeysfilter.cpp
-    windowscreenshotprovider.cpp
+    windowinputfilter.cpp
     easingcurve.cpp
     windowstatestorage.cpp
     timezoneFormatter.cpp
     inputeventgenerator.cpp
     deviceconfigparser.cpp
+    globalfunctions.cpp
     plugin.cpp
     )
 

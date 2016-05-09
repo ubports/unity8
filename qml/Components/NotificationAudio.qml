@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.4
+import QtMultimedia 5.6
 
 Item {
     id: root
@@ -22,21 +23,21 @@ Item {
     readonly property var playbackState: priv.audio ? priv.audio.playbackState : 0
 
     function play() {
-        priv.audio.play();
+        if (priv.audio) {
+            priv.audio.play();
+        }
     }
     function stop() {
-        priv.audio.stop();
+        if (priv.audio) {
+            priv.audio.stop();
+        }
     }
 
     QtObject {
         id: priv
-        property var audio: {
-            try {
-                return Qt.createQmlObject("import QtMultimedia 5.6; Audio { source: root.source; audioRole: MediaPlayer.NotificationRole }", priv)
-            } catch(err) {
-                console.log("Upstream audioRole enum not available, falling back to old role name.");
-                return Qt.createQmlObject("import QtMultimedia 5.0; Audio { source: root.source; audioRole: MediaPlayer.alert }", priv)
-            }
+        property var audio: Audio {
+            source: root.source
+            audioRole: MediaPlayer.NotificationRole
         }
     }
 }

@@ -145,10 +145,10 @@ Module {
         }
     }
     Component {
-        name: "WindowKeysFilter"
+        name: "WindowInputFilter"
         defaultProperty: "data"
         prototype: "QQuickItem"
-        exports: ["Utils/WindowKeysFilter 0.1"]
+        exports: ["Utils/WindowInputFilter 0.1"]
         exportMetaObjectRevisions: [0]
     }
     Component {

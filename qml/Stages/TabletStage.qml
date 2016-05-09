@@ -27,16 +27,26 @@ AbstractStage {
     objectName: "stages"
     anchors.fill: parent
 
+    // <tutorial-hacks> The Tutorial looks into our implementation details
+    property alias sideStageVisible: spreadView.sideStageVisible
+    property alias sideStageWidth: spreadView.sideStageWidth
+    // The stage the currently focused surface is in
+    property int stageFocusedSurface: priv.focusedAppDelegate ? priv.focusedAppDelegate.stage : ApplicationInfoInterface.MainStage
+    // </tutorial-hacks>
+
+    paintBackground: spreadView.shiftedContentX !== 0
+
     // Functions to be called from outside
     function updateFocusedAppOrientation() {
-        var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
-        if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
-            spreadRepeater.itemAt(mainStageAppIndex).matchShellOrientation();
+        var mainStageIndex = root.topLevelSurfaceList.indexForId(priv.mainStageItemId);
+
+        if (priv.mainStageItemId && mainStageIndex >= 0 && mainStageIndex < spreadRepeater.count) {
+            spreadRepeater.itemAt(mainStageIndex).matchShellOrientation();
         }
 
         for (var i = 0; i < spreadRepeater.count; ++i) {
 
-            if (i === mainStageAppIndex) {
+            if (i === mainStageIndex) {
                 continue;
             }
 
@@ -46,7 +56,7 @@ AbstractStage {
             if (delta < 0) { delta += 360; }
             delta = delta % 360;
 
-            var supportedOrientations = spreadDelegate.application.supportedOrientations;
+            var supportedOrientations = spreadDelegate.supportedOrientations;
             if (supportedOrientations === Qt.PrimaryOrientation) {
                 supportedOrientations = spreadDelegate.orientations.primary;
             }
@@ -57,16 +67,14 @@ AbstractStage {
         }
     }
     function updateFocusedAppOrientationAnimated() {
-        var mainStageAppIndex = priv.indexOf(priv.mainStageAppId);
-        if (mainStageAppIndex >= 0 && mainStageAppIndex < spreadRepeater.count) {
-            spreadRepeater.itemAt(mainStageAppIndex).animateToShellOrientation();
+        var mainStageIndex = root.topLevelSurfaceList.indexForId(priv.mainStageItemId);
+        if (priv.mainStageItemId && mainStageIndex >= 0 && mainStageIndex < spreadRepeater.count) {
+            spreadRepeater.itemAt(mainStageIndex).animateToShellOrientation();
         }
 
-        if (priv.sideStageAppId) {
-            var sideStageAppIndex = priv.indexOf(priv.sideStageAppId);
-            if (sideStageAppIndex >= 0 && sideStageAppIndex < spreadRepeater.count) {
-                spreadRepeater.itemAt(sideStageAppIndex).matchShellOrientation();
-            }
+        var sideStageIndex = root.topLevelSurfaceList.indexForId(priv.sideStageItemId);
+        if (sideStageIndex >= 0 && sideStageIndex < spreadRepeater.count) {
+            spreadRepeater.itemAt(sideStageIndex).matchShellOrientation();
         }
     }
 
@@ -78,21 +86,41 @@ AbstractStage {
 
     orientationChangesEnabled: priv.mainAppOrientationChangesEnabled
 
-    supportedOrientations: mainApp ? mainApp.supportedOrientations
-                                   : (Qt.PortraitOrientation | Qt.LandscapeOrientation
-                                      | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation)
+    mainApp: {
+        if (priv.mainStageItemId > 0) {
+            var index = root.topLevelSurfaceList.indexForId(priv.mainStageItemId);
+            return root.topLevelSurfaceList.applicationAt(index);
+        } else {
+            return null;
+        }
+    }
+
+    supportedOrientations: {
+        if (mainApp) {
+            var orientations = mainApp.supportedOrientations;
+            orientations |= Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
+            if (priv.sideStageItemId && !spreadView.surfaceDragging) {
+                // If we have a sidestage app, support Portrait orientation
+                // so that it will switch the sidestage app to mainstage on rotate
+                orientations |= Qt.PortraitOrientation|Qt.InvertedPortraitOrientation;
+            }
+            return orientations;
+        } else {
+            // we just don't care
+            return Qt.PortraitOrientation |
+                   Qt.LandscapeOrientation |
+                   Qt.InvertedPortraitOrientation |
+                   Qt.InvertedLandscapeOrientation;
+        }
+    }
+
+    // How far left the stage has been dragged, used externally by tutorial code
+    dragProgress: spreadRepeater.count > 0 ? spreadRepeater.itemAt(0).animatedProgress : 0
 
     onWidthChanged: {
         spreadView.selectedIndex = -1;
         spreadView.phase = 0;
         spreadView.contentX = -spreadView.shift;
-    }
-
-    onShellOrientationChanged: {
-        if (shellOrientation == Qt.PortraitOrientation || shellOrientation == Qt.InvertedPortraitOrientation) {
-            ApplicationManager.focusApplication(priv.mainStageAppId);
-            priv.sideStageAppId = "";
-        }
     }
 
     onInverseProgressChanged: {
@@ -102,7 +130,7 @@ AbstractStage {
         if (inverseProgress == 0 && priv.oldInverseProgress > 0) {
             // left edge drag released. Minimum distance is given by design.
             if (priv.oldInverseProgress > units.gu(22)) {
-                ApplicationManager.requestFocusApplication("unity8-dash");
+                root.applicationManager.requestFocusApplication("unity8-dash");
             }
         }
         priv.oldInverseProgress = inverseProgress;
@@ -140,17 +168,51 @@ AbstractStage {
         }
     }
 
+    Connections {
+        target: root.topLevelSurfaceList
+        onListChanged: priv.updateMainAndSideStageIndexes()
+    }
+
     QtObject {
         id: priv
         objectName: "stagesPriv"
 
-        property string focusedAppId: ApplicationManager.focusedApplicationId
-        readonly property var focusedAppDelegate: {
-            var index = indexOf(focusedAppId);
-            return index >= 0 && index < spreadRepeater.count ? spreadRepeater.itemAt(index) : null
+        function updateMainAndSideStageIndexes() {
+            var choseMainStage = false;
+            var choseSideStage = false;
+
+            if (!root.topLevelSurfaceList)
+                return;
+
+            for (var i = 0; i < spreadRepeater.count && (!choseMainStage || !choseSideStage); ++i) {
+                var spreadDelegate = spreadRepeater.itemAt(i);
+                if (sideStage.shown && spreadDelegate.stage == ApplicationInfoInterface.SideStage
+                        && !choseSideStage) {
+                    priv.sideStageDelegate = spreadDelegate
+                    priv.sideStageItemId = root.topLevelSurfaceList.idAt(i);
+                    priv.sideStageAppId = root.topLevelSurfaceList.applicationAt(i).appId;
+                    choseSideStage = true;
+                } else if (!choseMainStage && spreadDelegate.stage == ApplicationInfoInterface.MainStage) {
+                    priv.mainStageDelegate = spreadDelegate;
+                    priv.mainStageItemId = root.topLevelSurfaceList.idAt(i);
+                    priv.mainStageAppId = root.topLevelSurfaceList.applicationAt(i).appId;
+                    choseMainStage = true;
+                }
+            }
+            if (!choseMainStage) {
+                priv.mainStageDelegate = null;
+                priv.mainStageItemId = 0;
+                priv.mainStageAppId = "";
+            }
+            if (!choseSideStage) {
+                priv.sideStageDelegate = null;
+                priv.sideStageItemId = 0;
+                priv.sideStageAppId = "";
+            }
         }
 
-        property string oldFocusedAppId: ""
+        property var focusedAppDelegate: null
+
         property bool mainAppOrientationChangesEnabled: false
 
         property real landscapeHeight: root.orientations.native_ == Qt.LandscapeOrientation ?
@@ -159,49 +221,21 @@ AbstractStage {
         property bool shellIsLandscape: root.shellOrientation === Qt.LandscapeOrientation
                       || root.shellOrientation === Qt.InvertedLandscapeOrientation
 
-        property string mainStageAppId
-        property string sideStageAppId
+        property var mainStageDelegate: null
+        property var sideStageDelegate: null
 
-        // For convenience, keep properties of the first two apps in the model
-        property string appId0
-        property string appId1
+        property int mainStageItemId: 0
+        property int sideStageItemId: 0
+
+        property string mainStageAppId: ""
+        property string sideStageAppId: ""
 
         property int oldInverseProgress: 0
 
         property int highlightIndex: 0
 
-        onFocusedAppIdChanged: {
-            if (priv.focusedAppId.length > 0) {
-                var focusedApp = ApplicationManager.findApplication(focusedAppId);
-                if (focusedApp.stage == ApplicationInfoInterface.SideStage) {
-                    priv.sideStageAppId = focusedAppId;
-                } else {
-                    priv.mainStageAppId = focusedAppId;
-                    root.mainApp = focusedApp;
-                }
-            }
-
-            appId0 = ApplicationManager.count >= 1 ? ApplicationManager.get(0).appId : "";
-            appId1 = ApplicationManager.count > 1 ? ApplicationManager.get(1).appId : "";
-        }
-
-        onFocusedAppDelegateChanged: {
-            if (focusedAppDelegate) {
-                focusedAppDelegate.focus = true;
-            }
-        }
-
         property bool focusedAppDelegateIsDislocated: focusedAppDelegate &&
                                                       (focusedAppDelegate.dragOffset !== 0 || focusedAppDelegate.xTranslateAnimating)
-        function indexOf(appId) {
-            for (var i = 0; i < ApplicationManager.count; i++) {
-                if (ApplicationManager.get(i).appId == appId) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
         function evaluateOneWayFlick(gesturePoints) {
             // Need to have at least 3 points to recognize it as a flick
             if (gesturePoints.length < 3) {
@@ -229,47 +263,46 @@ AbstractStage {
         onHighlightIndexChanged: {
             spreadView.contentX = highlightIndex * spreadView.contentWidth / (spreadRepeater.count + 2)
         }
+
+        readonly property bool sideStageEnabled: root.shellOrientation == Qt.LandscapeOrientation ||
+                                                 root.shellOrientation == Qt.InvertedLandscapeOrientation
     }
 
-    Connections {
-        target: ApplicationManager
-        onFocusRequested: {
-            if (spreadView.interactive) {
-                spreadView.snapTo(priv.indexOf(appId));
-            } else {
-                ApplicationManager.focusApplication(appId);
-            }
-        }
+    Instantiator {
+        model: root.applicationManager
+        delegate: QtObject {
+            property var stateBinding: Binding {
+                readonly property bool isDash: model.application ? model.application.appId == "unity8-dash" : false
+                target: model.application
+                property: "requestedState"
 
-        onApplicationAdded: {
-            if (spreadView.phase == 2) {
-                spreadView.snapTo(ApplicationManager.count - 1);
-            } else {
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-                ApplicationManager.focusApplication(appId);
-            }
-        }
-
-        onApplicationRemoved: {
-            if (priv.mainStageAppId == appId) {
-                ApplicationManager.focusApplication("unity8-dash")
-            }
-            if (priv.sideStageAppId == appId) {
-                priv.sideStageAppId = "";
+                // NB: the first application clause is just to ensure we never get warnings for trying to access
+                //     members of a null variable.
+                value: model.application &&
+                        (
+                          (isDash && root.keepDashRunning)
+                           || (!root.suspended && (model.application.appId === priv.mainStageAppId
+                                                   || model.application.appId === priv.sideStageAppId))
+                        )
+                       ? ApplicationInfoInterface.RequestedRunning
+                       : ApplicationInfoInterface.RequestedSuspended
             }
 
-            if (ApplicationManager.count == 0) {
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-            } else if (spreadView.closingIndex == -1) {
-                // Unless we're closing the app ourselves in the spread,
-                // lets make sure the spread doesn't mess up by the changing app list.
-                spreadView.phase = 0;
-                spreadView.contentX = -spreadView.shift;
-                ApplicationManager.focusApplication(ApplicationManager.get(0).appId);
+            property var lifecycleBinding: Binding {
+                target: model.application
+                property: "exemptFromLifecycle"
+                value: model.application
+                            ? (!model.application.isTouchApp || isExemptFromLifecycle(model.application.appId))
+                            : false
             }
         }
+    }
+
+    Binding {
+        target: MirFocusController
+        property: "focusedSurface"
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        when: root.parent && !spreadRepeater.startingUp
     }
 
     Flickable {
@@ -281,8 +314,6 @@ AbstractStage {
         contentX: -shift
 
         property int tileDistance: units.gu(20)
-        property int sideStageWidth: units.gu(40)
-        property bool sideStageVisible: priv.sideStageAppId
 
         // This indicates when the spreadView is active. That means, all the animations
         // are activated and tiles need to line up for the spread.
@@ -322,15 +353,45 @@ AbstractStage {
         property int selectedIndex: -1
         property int draggedDelegateCount: 0
         property int closingIndex: -1
+        property var selectedDelegate: selectedIndex !== -1 ? spreadRepeater.itemAt(selectedIndex) : null
 
-        // FIXME: Workaround Flickable's not keepping its contentX still when resized
-        onContentXChanged: { forceItToRemainStillIfBeingResized(); }
-        onShiftChanged: { forceItToRemainStillIfBeingResized(); }
-        function forceItToRemainStillIfBeingResized() {
-            if (root.beingResized && contentX != -shift) {
-                contentX = -shift;
+        // <FIXME-contentX> Workaround Flickable's behavior of bringing contentX back between valid boundaries
+        // when resized. The proper way to fix this is refactoring PhoneStage so that it doesn't
+        // rely on having Flickable.contentX keeping an out-of-bounds value when it's set programatically
+        // (as opposed to having contentX reaching an out-of-bounds value through dragging, which will trigger
+        // the Flickable.boundsBehavior upon release).
+        onContentXChanged: {
+            if (!undoContentXReset()) {
+                forceItToRemainStillIfBeingResized();
             }
         }
+        onShiftChanged: { forceItToRemainStillIfBeingResized(); }
+        function forceItToRemainStillIfBeingResized() {
+            if (root.beingResized && contentX != -spreadView.shift) {
+                contentX = -spreadView.shift;
+            }
+        }
+        function undoContentXReset() {
+            if (contentWidth <= 0) {
+                contentWidthOnLastContentXChange = contentWidth;
+                lastContentX = contentX;
+                return false;
+            }
+
+            if (contentWidth != contentWidthOnLastContentXChange
+                    && lastContentX == -shift && contentX == 0) {
+                // Flickable is resetting contentX because contentWidth has changed. Undo it.
+                contentX = -shift;
+                return true;
+            }
+
+            contentWidthOnLastContentXChange = contentWidth;
+            lastContentX = contentX;
+            return false;
+        }
+        property real contentWidthOnLastContentXChange: -1
+        property real lastContentX: 0
+        // </FIXME-contentX>
 
         property bool animateX: true
         property bool beingResized: root.beingResized
@@ -343,35 +404,33 @@ AbstractStage {
             }
         }
 
-        property bool sideStageDragging: sideStageDragHandle.dragging
-        property real sideStageDragProgress: sideStageDragHandle.progress
+        property real sideStageWidth: units.gu(40)
 
-        onSideStageDragProgressChanged: {
-            if (sideStageDragProgress == 1) {
-                ApplicationManager.focusApplication(priv.mainStageAppId);
-                priv.sideStageAppId = "";
-            }
-        }
+        property bool surfaceDragging: triGestureArea.recognisedDrag
 
-        // In case the ApplicationManager already holds an app when starting up we're missing animations
+        readonly property bool sideStageVisible: priv.sideStageItemId != 0
+
+        // In case applicationManager already holds an app when starting up we're missing animations
         // Make sure we end up in the same state
         Component.onCompleted: {
             spreadView.contentX = -spreadView.shift
         }
 
         property int nextInStack: {
+            var mainStageIndex = priv.mainStageDelegate ? priv.mainStageDelegate.index : -1;
+            var sideStageIndex = priv.sideStageDelegate ? priv.sideStageDelegate.index : -1;
             switch (state) {
             case "main":
-                if (ApplicationManager.count > 1) {
+                if (root.topLevelSurfaceList.count > 1) {
                     return 1;
                 }
                 return -1;
             case "mainAndOverlay":
-                if (ApplicationManager.count <= 2) {
+                if (root.topLevelSurfaceList.count <= 2) {
                     return -1;
                 }
-                if (priv.appId0 == priv.mainStageAppId || priv.appId0 == priv.sideStageAppId) {
-                    if (priv.appId1 == priv.mainStageAppId || priv.appId1 == priv.sideStageAppId) {
+                if (mainStageIndex == 0 || sideStageIndex == 0) {
+                    if (mainStageIndex == 1 || sideStageIndex == 1) {
                         return 2;
                     }
                     return 1;
@@ -382,7 +441,7 @@ AbstractStage {
             }
             return -1;
         }
-        property int nextZInStack: indexToZIndex(nextInStack)
+        property int nextZInStack
 
         states: [
             State {
@@ -402,13 +461,13 @@ AbstractStage {
             }
         ]
         state: {
-            if (priv.mainStageAppId && !priv.sideStageAppId) {
+            if ((priv.mainStageItemId && !priv.sideStageItemId) || !priv.sideStageEnabled) {
                 return "main";
             }
-            if (!priv.mainStageAppId && priv.sideStageAppId) {
+            if (!priv.mainStageItemId && priv.sideStageItemId) {
                 return "overlay";
             }
-            if (priv.mainStageAppId && priv.sideStageAppId) {
+            if (priv.mainStageItemId && priv.sideStageItemId) {
                 return "mainAndOverlay";
             }
             return "empty";
@@ -419,12 +478,26 @@ AbstractStage {
                 // Flickabe.contentX wiggles during resizes. Don't react to it.
                 return;
             }
-            if (spreadView.phase == 0 && spreadView.shiftedContentX > spreadView.width * spreadView.positionMarker2) {
-                spreadView.phase = 1;
-            } else if (spreadView.phase == 1 && spreadView.shiftedContentX > spreadView.width * spreadView.positionMarker4) {
-                spreadView.phase = 2;
-            } else if (spreadView.phase == 1 && spreadView.shiftedContentX < spreadView.width * spreadView.positionMarker2) {
-                spreadView.phase = 0;
+
+            switch (phase) {
+            case 0:
+                // the "spreadEnabled" part is because when code does "phase = 0; contentX = -shift" to
+                // dismiss the spread because spreadEnabled went to false, for some reason, during tests,
+                // Flickable might jump in and change contentX value back, causing the code below to do
+                // "phase = 1" which will make the spread stay.
+                // It sucks that we have no control whatsoever over whether or when Flickable animates its
+                // contentX.
+                if (root.spreadEnabled && shiftedContentX > width * positionMarker2) {
+                    phase = 1;
+                }
+                break;
+            case 1:
+                if (shiftedContentX < width * positionMarker2) {
+                    phase = 0;
+                } else if (shiftedContentX >= width * positionMarker4 && !spreadDragArea.dragging) {
+                    phase = 2;
+                }
+                break;
             }
         }
 
@@ -446,6 +519,7 @@ AbstractStage {
         }
 
         function snapTo(index) {
+            snapAnimation.stop();
             spreadView.selectedIndex = index;
             snapAnimation.targetContentX = -shift;
             snapAnimation.start();
@@ -455,55 +529,44 @@ AbstractStage {
         // We don't want to really reorder them in the model because that allows us to keep track
         // of the last focused order.
         function indexToZIndex(index) {
-            var app = ApplicationManager.get(index);
+            // only shuffle when we've got a main and overlay
+            if (state !== "mainAndOverlay") return index;
+
+            var app = root.topLevelSurfaceList.applicationAt(index);
             if (!app) {
                 return index;
             }
+            var stage = spreadRepeater.itemAt(index) ? spreadRepeater.itemAt(index).stage : app.stage;
 
-            var active = app.appId == priv.mainStageAppId || app.appId == priv.sideStageAppId;
-            if (active && app.stage == ApplicationInfoInterface.MainStage) {
-                // if this app is active, and its the MainStage, always put it to index 0
+            // don't shuffle indexes greater than "actives or next"
+            if (index > 2) return index;
+
+            var mainStageIndex = root.topLevelSurfaceList.indexForId(priv.mainStageItemId);
+
+            if (index == mainStageIndex) {
+                // Active main stage always at 0
                 return 0;
             }
-            if (active && app.stage == ApplicationInfoInterface.SideStage) {
-                if (!priv.mainStageAppId) {
-                    // Only have SS apps running. Put the active one at 0
-                    return 0;
-                }
 
-                // Precondition now: There's an active MS app and this is SS app:
-                if (spreadView.nextInStack >= 0 && ApplicationManager.get(spreadView.nextInStack).stage == ApplicationInfoInterface.MainStage) {
-                    // If the next app coming from the right is a MS app, we need to elevate this SS ap above it.
-                    // Put it to at least level 2, or higher if there's more apps coming in before this one.
-                    return Math.max(index, 2);
-                } else {
-                    // if this is no next app to come in from the right, place this one at index 1, just on top the active MS app.
+            if (spreadView.nextInStack > 0) {
+                var stageOfNextInStack = spreadRepeater.itemAt(spreadView.nextInStack).stage;
+
+                if (index === spreadView.nextInStack) {
+                    // this is the next app in stack.
+
+                    if (stage ===  ApplicationInfoInterface.SideStage) {
+                        // if the next app in stack is a sidestage app, it must order on top of other side stage app
+                        return Math.min(2, root.topLevelSurfaceList.count-1);
+                    }
                     return 1;
                 }
-            }
-            if (index <= 2 && app.stage == ApplicationInfoInterface.MainStage && priv.sideStageAppId) {
-                // Ok, this is an inactive MS app. If there's an active SS app around, we need to place this one
-                // in between the active MS app and the active SS app, so that it comes in from there when dragging from the right.
-                // If there's now active SS app, just leave it where it is.
-                return priv.indexOf(priv.sideStageAppId) < index ? index - 1 : index;
-            }
-            if (index == spreadView.nextInStack && app.stage == ApplicationInfoInterface.SideStage) {
-                // This is a SS app and the next one to come in from the right:
-                if (priv.sideStageAppId && priv.mainStageAppId) {
-                    // If there's both, an active MS and an active SS app, put this one right on top of that
-                    return 2;
+                if (stageOfNextInStack === ApplicationInfoInterface.SideStage) {
+                    // if the next app in stack is a sidestage app, it must order on top of other side stage app
+                    return 1;
                 }
-                // Or if there's only one other active app, put it on top of that.
-                // The case that there isn't any other active app is already handled above.
-                return 1;
+                return Math.min(2, root.topLevelSurfaceList.count-1);
             }
-            if (index == 2 && spreadView.nextInStack == 1 && priv.sideStageAppId) {
-                // If its index 2 but not the next one to come in, it means
-                // we've pulled another one down to index 2. Move this one up to 2 instead.
-                return 3;
-            }
-            // don't touch all others... (mostly index > 3 + simple cases where the above doesn't shuffle much)
-            return index;
+            return Math.min(index+1, root.topLevelSurfaceList.count-1);
         }
 
         SequentialAnimation {
@@ -521,8 +584,13 @@ AbstractStage {
                 script: {
                     if (spreadView.selectedIndex >= 0) {
                         var newIndex = spreadView.selectedIndex;
+                        var application = root.topLevelSurfaceList.applicationAt(newIndex);
+                        var spreadDelegate = spreadRepeater.itemAt(newIndex);
+                        if (spreadDelegate.stage === ApplicationInfoInterface.SideStage) {
+                            sideStage.showNow();
+                        }
                         spreadView.selectedIndex = -1;
-                        ApplicationManager.focusApplication(ApplicationManager.get(newIndex).appId);
+                        spreadDelegate.focus = true;
                         spreadView.phase = 0;
                         spreadView.contentX = -spreadView.shift;
                     }
@@ -538,153 +606,208 @@ AbstractStage {
         MouseArea {
             id: spreadRow
             x: spreadView.contentX
-            width: spreadView.width + Math.max(spreadView.width, ApplicationManager.count * spreadView.tileDistance)
+            width: spreadView.width + Math.max(spreadView.width, root.topLevelSurfaceList.count * spreadView.tileDistance)
             height: root.height
 
             onClicked: {
                 spreadView.snapTo(0);
             }
 
-            Rectangle {
-                id: sideStageBackground
-                color: "black"
-                width: spreadView.sideStageWidth * (1 - sideStageDragHandle.progress)
+            DropArea {
+                objectName: "MainStageDropArea"
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                width: spreadView.width - sideStage.width
+                enabled: priv.sideStageEnabled
+
+                onDropped: {
+                    drop.source.spreadDelegate.stage = ApplicationInfoInterface.MainStage;
+                    drop.source.spreadDelegate.focus = true;
+                }
+                keys: "SideStage"
+            }
+
+            SideStage {
+                id: sideStage
+                objectName: "sideStage"
                 height: priv.landscapeHeight
                 x: spreadView.width - width
-                z: spreadView.indexToZIndex(priv.indexOf(priv.sideStageAppId))
-                opacity: spreadView.phase == 0 ? 1 : 0
-                Behavior on opacity { UbuntuNumberAnimation {} }
-            }
+                z: {
+                    if (!priv.mainStageItemId) return 0;
 
-            Item {
-                id: sideStageDragHandle
-                anchors.right: sideStageBackground.left
-                anchors.top: sideStageBackground.top
-                width: units.gu(2)
-                height: priv.landscapeHeight
-                z: sideStageBackground.z
-                opacity: spreadView.phase <= 0 && spreadView.sideStageVisible ? 1 : 0
-                property real progress: 0
-                property bool dragging: false
+                    if (priv.sideStageItemId && spreadView.nextInStack > 0) {
+                        var nextDelegateInStack = spreadRepeater.itemAt(spreadView.nextInStack);
 
-                Behavior on opacity { UbuntuNumberAnimation {} }
-
-                Connections {
-                    target: spreadView
-                    onSideStageVisibleChanged: {
-                        if (spreadView.sideStageVisible) {
-                            sideStageDragHandle.progress = 0;
+                        if (nextDelegateInStack.stage ===  ApplicationInfoInterface.MainStage) {
+                            // if the next app in stack is a main stage app, put the sidestage on top of it.
+                            return 2;
                         }
+                        return 1;
+                    }
+
+                    return 1;
+                }
+                visible: progress != 0
+                enabled: priv.sideStageEnabled && sideStageDropArea.dropAllowed
+                opacity: priv.sideStageEnabled && !spreadView.active ? 1 : 0
+                Behavior on opacity { UbuntuNumberAnimation {} }
+
+                onShownChanged: {
+                    if (!shown && priv.sideStageDelegate && priv.focusedAppDelegate === priv.sideStageDelegate
+                            && priv.mainStageDelegate) {
+                        priv.mainStageDelegate.focus = true;
+                    } else if (shown && priv.sideStageDelegate) {
+                        priv.sideStageDelegate.focus = true;
                     }
                 }
 
-                Image {
-                    anchors.centerIn: parent
-                    width: sideStageDragHandleMouseArea.pressed ? parent.width * 2 : parent.width
-                    height: parent.height
-                    source: "graphics/sidestage_handle@20.png"
-                    Behavior on width { UbuntuNumberAnimation {} }
-                }
-
-                MouseArea {
-                    id: sideStageDragHandleMouseArea
+                DropArea {
+                    id: sideStageDropArea
+                    objectName: "SideStageDropArea"
                     anchors.fill: parent
-                    enabled: spreadView.shiftedContentX == 0
-                    property int startX
-                    property var gesturePoints: new Array()
-                    property real totalDiff
 
-                    onPressed: {
-                        gesturePoints = [];
-                        startX = mouseX;
-                        totalDiff = 0.0;
-                        sideStageDragHandle.progress = 0;
-                        sideStageDragHandle.dragging = true;
+                    property bool dropAllowed: true
+
+                    onEntered: {
+                        dropAllowed = drag.keys != "Disabled";
                     }
-                    onMouseXChanged: {
-                        totalDiff += mouseX - startX;
-                        if (priv.mainStageAppId) {
-                            sideStageDragHandle.progress = Math.max(0, totalDiff / spreadView.sideStageWidth);
-                        }
-                        gesturePoints.push(mouseX);
+                    onExited: {
+                        dropAllowed = true;
                     }
-                    onReleased: {
-                        if (priv.mainStageAppId) {
-                            var oneWayFlick = priv.evaluateOneWayFlick(gesturePoints);
-                            sideStageDragSnapAnimation.to = sideStageDragHandle.progress > 0.5 || oneWayFlick ? 1 : 0;
-                            sideStageDragSnapAnimation.start();
-                        } else {
-                            sideStageDragHandle.dragging = false;
+                    onDropped: {
+                        if (drop.keys == "MainStage") {
+                            drop.source.spreadDelegate.stage = ApplicationInfoInterface.SideStage;
+                            drop.source.spreadDelegate.focus = true;
                         }
                     }
-                }
-                UbuntuNumberAnimation {
-                    id: sideStageDragSnapAnimation
-                    target: sideStageDragHandle
-                    property: "progress"
-
-                    onRunningChanged: {
-                        if (!running) {
-                            sideStageDragHandle.dragging = false;
+                    drag {
+                        onSourceChanged: {
+                            if (!sideStageDropArea.drag.source) {
+                                dropAllowed = true;
+                            }
                         }
                     }
                 }
             }
 
-            Repeater {
+            TopLevelSurfaceRepeater {
                 id: spreadRepeater
                 objectName: "spreadRepeater"
-                model: ApplicationManager
+                model: root.topLevelSurfaceList
+
+                onItemAdded: {
+                    priv.updateMainAndSideStageIndexes();
+                    if (spreadView.phase == 2) {
+                        spreadView.snapTo(index);
+                    }
+                }
+
+                onItemRemoved: {
+                    priv.updateMainAndSideStageIndexes();
+                    // Unless we're closing the app ourselves in the spread,
+                    // lets make sure the spread doesn't mess up by the changing app list.
+                    if (spreadView.closingIndex == -1) {
+                        spreadView.phase = 0;
+                        spreadView.contentX = -spreadView.shift;
+                        focusTopMostApp();
+                    }
+                }
+                function focusTopMostApp() {
+                    if (spreadRepeater.count > 0) {
+                        var topmostDelegate = spreadRepeater.itemAt(0);
+                        topmostDelegate.focus = true;
+                    }
+                }
 
                 delegate: TransformedTabletSpreadDelegate {
                     id: spreadTile
-                    objectName: model.appId ? "tabletSpreadDelegate_" + model.appId
-                                            : "tabletSpreadDelegate_null";
-                    width: {
-                        if (wantsMainStage) {
-                            return spreadView.width;
-                        } else {
-                            return spreadView.sideStageWidth;
+                    objectName: "spreadDelegate_" + model.id
+
+                    readonly property int index: model.index
+                    width: spreadView.width
+                    height: spreadView.height
+                    active: model.id == priv.mainStageItemId || model.id == priv.sideStageItemId
+                    zIndex: selected && stage == ApplicationInfoInterface.MainStage ? 0 : spreadView.indexToZIndex(index)
+                    onZIndexChanged: {
+                        if (spreadView.nextInStack == model.index) {
+                            spreadView.nextZInStack = zIndex;
                         }
                     }
-                    height: {
-                        if (wantsMainStage) {
-                            return spreadView.height;
-                        } else {
-                            return priv.landscapeHeight;
-                        }
-                    }
-                    active: model.appId == priv.mainStageAppId || model.appId == priv.sideStageAppId
-                    zIndex: spreadView.indexToZIndex(index)
                     selected: spreadView.selectedIndex == index
                     otherSelected: spreadView.selectedIndex >= 0 && !selected
-                    isInSideStage: priv.sideStageAppId == model.appId
+                    isInSideStage: priv.sideStageItemId == model.id
                     interactive: !spreadView.interactive && spreadView.phase === 0 && root.interactive
                     swipeToCloseEnabled: spreadView.interactive && !snapAnimation.running
                     maximizedAppTopMargin: root.maximizedAppTopMargin
-                    dragOffset: !isDash && model.appId == priv.mainStageAppId && root.inverseProgress > 0 && spreadView.phase === 0 ? root.inverseProgress : 0
-                    application: ApplicationManager.get(index)
+                    dragOffset: !isDash && model.id == priv.mainStageItemId && root.inverseProgress > 0
+                            && spreadView.phase === 0 ? root.inverseProgress : 0
+                    application: model.application
+                    surface: model.surface
                     closeable: !isDash
                     highlightShown: root.altTabPressed && priv.highlightIndex == zIndex
+                    dropShadow: spreadView.active || priv.focusedAppDelegateIsDislocated
 
-                    readonly property bool wantsMainStage: model.stage == ApplicationInfoInterface.MainStage
+                    readonly property bool wantsMainStage: stage == ApplicationInfoInterface.MainStage
 
-                    readonly property bool isDash: model.appId == "unity8-dash"
+                    readonly property bool isDash: model.application.appId == "unity8-dash"
 
-                    Binding {
-                        target: spreadTile.application
-                        property: "exemptFromLifecycle"
-                        value: !model.isTouchApp || isExemptFromLifecycle(model.appId)
+                    onFocusChanged: {
+                        if (focus && !spreadRepeater.startingUp) {
+                            priv.focusedAppDelegate = spreadTile;
+                            root.topLevelSurfaceList.raiseId(model.id);
+                        }
+                        if (focus && priv.sideStageEnabled && stage === ApplicationInfoInterface.SideStage) {
+                            sideStage.show();
+                        }
+                    }
+                    Connections {
+                        target: model.surface
+                        onFocusRequested: spreadTile.focus = true;
+                    }
+                    Connections {
+                        target: model.application
+                        onFocusRequested: {
+                            if (!model.surface) {
+                                // when an app has no surfaces, we assume there's only one entry representing it:
+                                // this delegate.
+                                spreadTile.focus = true;
+                            } else {
+                                // if the application has surfaces, focus request should be at surface-level.
+                            }
+                        }
                     }
 
-                    Binding {
-                        target: spreadTile.application
-                        property: "requestedState"
-                        value: (isDash && root.keepDashRunning)
-                                   || (!root.suspended && (model.appId == priv.mainStageAppId
-                                                           || model.appId == priv.sideStageAppId))
-                               ? ApplicationInfoInterface.RequestedRunning
-                               : ApplicationInfoInterface.RequestedSuspended
+                    fullscreen: {
+                        if (priv.mainStageDelegate && stage === ApplicationInfoInterface.SideStage) {
+                            return priv.mainStageDelegate.fullscreen;
+                        } else if (surface) {
+                            return surface.state === Mir.FullscreenState;
+                        } else if (application) {
+                            return application.fullscreen;
+                        } else {
+                            return false;
+                        }
+                    }
+
+                    supportedOrientations: {
+                        if (application) {
+                            var orientations = application.supportedOrientations;
+                            if (stage == ApplicationInfoInterface.MainStage) {
+                                // When an app is in the mainstage, it always supports Landscape|InvertedLandscape
+                                // so that we can drag it from the main stage to the side stage
+                                orientations |= Qt.LandscapeOrientation | Qt.InvertedLandscapeOrientation;
+                            }
+                            return orientations;
+                        } else {
+                            // we just don't care
+                            return Qt.PortraitOrientation |
+                                   Qt.LandscapeOrientation |
+                                   Qt.InvertedPortraitOrientation |
+                                   Qt.InvertedLandscapeOrientation;
+                        }
                     }
 
                     // FIXME: A regular binding doesn't update any more after closing an app.
@@ -701,17 +824,38 @@ AbstractStage {
                         enabled: spreadView.closingIndex >= 0
                         UbuntuNumberAnimation {}
                     }
-
-                    // This is required because none of the bindings are triggered in some cases:
-                    // When an app is closed, it might happen that ApplicationManager.get(nextInStack)
-                    // returns a different app even though the nextInStackIndex and all the related
-                    // bindings (index, mainStageApp, sideStageApp, etc) don't change. Let's force a
-                    // binding update in that case.
                     Connections {
-                        target: ApplicationManager
-                        onApplicationRemoved: spreadTile.z = Qt.binding(function() {
-                            return spreadView.indexToZIndex(index);
-                        })
+                        target: priv
+                        onSideStageEnabledChanged: refreshStage()
+                    }
+
+                    property bool _constructing: true;
+                    onStageChanged: {
+                        if (!_constructing) {
+                            priv.updateMainAndSideStageIndexes();
+                        }
+                    }
+
+                    Component.onCompleted: {
+                        // a top level window is always the focused one when it first appears, unfocusing
+                        // any preexisting one
+                        focus = true;
+                        refreshStage();
+                        _constructing = false;
+                    }
+                    Component.onDestruction: {
+                        WindowStateStorage.saveStage(model.application.appId, stage);
+                    }
+
+                    function refreshStage() {
+                        var newStage = ApplicationInfoInterface.MainStage;
+                        if (priv.sideStageEnabled) {
+                            if (application && application.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                                newStage = WindowStateStorage.getStage(application.appId);
+                            }
+                        }
+
+                        stage = newStage;
                     }
 
                     progress: {
@@ -725,7 +869,7 @@ AbstractStage {
 
                     // TODO: Hiding tile when progress is such that it will be off screen.
                     property bool occluded: {
-                        if (spreadView.active) return false;
+                        if (spreadView.active && !offScreen) return false;
                         else if (spreadTile.active) return false;
                         else if (xTranslateAnimating) return false;
                         else if (z <= 1 && priv.focusedAppDelegateIsDislocated) return false;
@@ -749,16 +893,83 @@ AbstractStage {
                         return progress;
                     }
 
-                    shellOrientationAngle: wantsMainStage ? root.shellOrientationAngle : 0
-                    shellOrientation: wantsMainStage ? root.shellOrientation : Qt.PortraitOrientation
-                    orientations: Orientations {
-                        primary: spreadTile.wantsMainStage ? root.orientations.primary : Qt.PortraitOrientation
-                        native_: spreadTile.wantsMainStage ? root.orientations.native_ : Qt.PortraitOrientation
+                    shellOrientationAngle: root.shellOrientationAngle
+                    shellOrientation: root.shellOrientation
+                    orientations: root.orientations
+
+                    states: [
+                        State {
+                            name: "MainStage"
+                            when: spreadTile.stage == ApplicationInfoInterface.MainStage
+                        },
+                        State {
+                            name: "SideStage"
+                            when: spreadTile.stage == ApplicationInfoInterface.SideStage
+
+                            PropertyChanges {
+                                target: spreadTile
+                                width: spreadView.sideStageWidth
+                                height: priv.landscapeHeight
+
+                                supportedOrientations: Qt.PortraitOrientation
+                                shellOrientationAngle: 0
+                                shellOrientation: Qt.PortraitOrientation
+                                orientations: sideStageOrientations
+                            }
+                        }
+                    ]
+
+                    Orientations {
+                        id: sideStageOrientations
+                        primary: Qt.PortraitOrientation
+                        native_: Qt.PortraitOrientation
                         portrait: root.orientations.portrait
                         invertedPortrait: root.orientations.invertedPortrait
                         landscape: root.orientations.landscape
                         invertedLandscape: root.orientations.invertedLandscape
                     }
+
+                    transitions: [
+                        Transition {
+                            to: "SideStage"
+                            SequentialAnimation {
+                                PropertyAction {
+                                    target: spreadTile
+                                    properties: "width,height,supportedOrientations,shellOrientationAngle,shellOrientation,orientations"
+                                }
+                                ScriptAction {
+                                    script: {
+                                        // rotate immediately.
+                                        spreadTile.matchShellOrientation();
+                                        if (priv.focusedAppDelegate === spreadTile &&
+                                                priv.sideStageEnabled && !sideStage.shown) {
+                                            // Sidestage was focused, so show the side stage.
+                                            sideStage.show();
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        Transition {
+                            from: "SideStage"
+                            SequentialAnimation {
+                                ScriptAction {
+                                    script: {
+                                        if (priv.sideStageDelegate === spreadTile &&
+                                                mainApp && (mainApp.supportedOrientations & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) == 0) {
+                                            // The mainstage app did not natively support portrait orientation, so focus the sidestage.
+                                            spreadTile.focus = true;
+                                        }
+                                    }
+                                }
+                                PropertyAction {
+                                    target: spreadTile
+                                    properties: "width,height,supportedOrientations,shellOrientationAngle,shellOrientation,orientations"
+                                }
+                                ScriptAction { script: { spreadTile.matchShellOrientation(); } }
+                            }
+                        }
+                    ]
 
                     onClicked: {
                         if (spreadView.phase == 2) {
@@ -776,18 +987,26 @@ AbstractStage {
 
                     onClosed: {
                         spreadView.closingIndex = index;
-                        ApplicationManager.stopApplication(ApplicationManager.get(index).appId);
+                        if (spreadTile.surface) {
+                            spreadTile.surface.close();
+                        } else if (spreadTile.application) {
+                            root.applicationManager.stopApplication(spreadTile.application.appId);
+                        } else {
+                            // should never happen
+                            console.warn("Can't close topLevelSurfaceList entry as it has neither"
+                                         + " a surface nor an application");
+                        }
                     }
 
                     Binding {
                         target: root
-                        when: model.appId == priv.mainStageAppId
+                        when: model.id == priv.mainStageItemId
                         property: "mainAppWindowOrientationAngle"
                         value: appWindowOrientationAngle
                     }
                     Binding {
                         target: priv
-                        when: model.appId == priv.mainStageAppId
+                        when: model.id == priv.mainStageItemId
                         property: "mainAppOrientationChangesEnabled"
                         value: orientationChangesEnabled
                     }
@@ -798,6 +1017,83 @@ AbstractStage {
                         period: (spreadView.positionMarker2 - spreadView.positionMarker1) / 3
                         progress: spreadTile.progress - spreadView.positionMarker1
                     }
+
+                    StagedFullscreenPolicy {
+                        id: fullscreenPolicy
+                        surface: model.surface
+                    }
+                    Connections {
+                        target: root
+                        onStageAboutToBeUnloaded: fullscreenPolicy.active = false
+                    }
+                }
+            }
+        }
+    }
+
+    TabletSideStageTouchGesture {
+        id: triGestureArea
+        anchors.fill: parent
+        enabled: priv.sideStageEnabled && !spreadView.active
+        property var dragObject: null
+
+        property Item spreadDelegate
+
+        dragComponent: dragComponent
+        dragComponentProperties: { "spreadDelegate": spreadDelegate }
+
+        onPressed: {
+            function matchDelegate(obj) { return String(obj.objectName).indexOf("spreadDelegate") >= 0; }
+
+            var delegateAtCenter = Functions.itemAt(spreadRow, x, y, matchDelegate);
+            if (!delegateAtCenter) return;
+
+            spreadDelegate = delegateAtCenter;
+        }
+
+        onClicked: {
+            if (sideStage.shown) {
+               sideStage.hide();
+            } else  {
+               sideStage.show();
+            }
+        }
+
+        onDragStarted: {
+            // If we're dragging to the sidestage.
+            if (!sideStage.shown) {
+                sideStage.show();
+            }
+        }
+
+        Component {
+            id: dragComponent
+            SurfaceContainer {
+                property Item spreadDelegate
+
+                surface: spreadDelegate ? spreadDelegate.surface : null
+
+                interactive: false
+                resizeSurface: false
+                focus: false
+
+                width: units.gu(40)
+                height: units.gu(40)
+
+                Drag.hotSpot.x: width/2
+                Drag.hotSpot.y: height/2
+                // only accept opposite stage.
+                Drag.keys: {
+                    if (!surface) return "Disabled";
+
+                    if (spreadDelegate.stage === ApplicationInfo.MainStage) {
+                        if (spreadDelegate.application.supportedOrientations
+                                & (Qt.PortraitOrientation|Qt.InvertedPortraitOrientation)) {
+                            return "MainStage";
+                        }
+                        return "Disabled";
+                    }
+                    return "SideStage";
                 }
             }
         }
@@ -812,7 +1108,8 @@ AbstractStage {
     DirectionalDragArea {
         id: spreadDragArea
         objectName: "spreadDragArea"
-        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+        x: parent.width - root.dragAreaWidth
+        anchors { top: parent.top; bottom: parent.bottom }
         width: root.dragAreaWidth
         direction: Direction.Leftwards
         enabled: (spreadView.phase != 2 && root.spreadEnabled) || dragging

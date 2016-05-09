@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013, 2015 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,8 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Author: Michael Terry <michael.terry@canonical.com>
  */
 
 #include "AccountsService.h"
@@ -23,6 +21,8 @@
 #include <QFile>
 #include <QStringList>
 #include <QDebug>
+
+#include <glib.h>
 
 #define IFACE_ACCOUNTS_USER          QStringLiteral("org.freedesktop.Accounts.User")
 #define IFACE_LOCATION_HERE          QStringLiteral("com.ubuntu.location.providers.here.AccountsService")
@@ -34,9 +34,12 @@
 
 #define PROP_BACKGROUND_FILE                   QStringLiteral("BackgroundFile")
 #define PROP_DEMO_EDGES                        QStringLiteral("demo-edges")
+#define PROP_DEMO_EDGES_COMPLETED              QStringLiteral("DemoEdgesCompleted")
+#define PROP_EMAIL                             QStringLiteral("Email")
 #define PROP_ENABLE_INDICATORS_WHILE_LOCKED    QStringLiteral("EnableIndicatorsWhileLocked")
 #define PROP_ENABLE_LAUNCHER_WHILE_LOCKED      QStringLiteral("EnableLauncherWhileLocked")
 #define PROP_FAILED_LOGINS                     QStringLiteral("FailedLogins")
+#define PROP_INPUT_SOURCES                     QStringLiteral("InputSources")
 #define PROP_LICENSE_ACCEPTED                  QStringLiteral("LicenseAccepted")
 #define PROP_LICENSE_BASE_PATH                 QStringLiteral("LicenseBasePath")
 #define PROP_MOUSE_CURSOR_SPEED                QStringLiteral("MouseCursorSpeed")
@@ -44,6 +47,7 @@
 #define PROP_MOUSE_PRIMARY_BUTTON              QStringLiteral("MousePrimaryButton")
 #define PROP_MOUSE_SCROLL_SPEED                QStringLiteral("MouseScrollSpeed")
 #define PROP_PASSWORD_DISPLAY_HINT             QStringLiteral("PasswordDisplayHint")
+#define PROP_REAL_NAME                         QStringLiteral("RealName")
 #define PROP_STATS_WELCOME_SCREEN              QStringLiteral("StatsWelcomeScreen")
 #define PROP_TOUCHPAD_CURSOR_SPEED             QStringLiteral("TouchpadCursorSpeed")
 #define PROP_TOUCHPAD_DISABLE_WHILE_TYPING     QStringLiteral("TouchpadDisableWhileTyping")
@@ -53,6 +57,10 @@
 #define PROP_TOUCHPAD_SCROLL_SPEED             QStringLiteral("TouchpadScrollSpeed")
 #define PROP_TOUCHPAD_TAP_TO_CLICK             QStringLiteral("TouchpadTapToClick")
 #define PROP_TOUCHPAD_TWO_FINGER_SCROLL        QStringLiteral("TouchpadTwoFingerScroll")
+
+using StringMap = QMap<QString,QString>;
+using StringMapList = QList<StringMap>;
+Q_DECLARE_METATYPE(StringMapList)
 
 
 QVariant primaryButtonConverter(const QVariant &value)
@@ -80,6 +88,9 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     connect(m_service, &AccountsServiceDBusAdaptor::maybeChanged, this, &AccountsService::onMaybeChanged);
 
     registerProperty(IFACE_ACCOUNTS_USER, PROP_BACKGROUND_FILE, QStringLiteral("backgroundFileChanged"));
+    registerProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, QStringLiteral("emailChanged"));
+    registerProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, QStringLiteral("realNameChanged"));
+    registerProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES, QStringLiteral("keymapsChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_ACCEPTED, QStringLiteral("hereEnabledChanged"));
     registerProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH, QStringLiteral("hereLicensePathChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_ENABLE_LAUNCHER_WHILE_LOCKED, QStringLiteral("enableLauncherWhileLockedChanged"));
@@ -87,6 +98,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProperty(IFACE_UBUNTU_SECURITY, PROP_PASSWORD_DISPLAY_HINT, QStringLiteral("passwordDisplayHintChanged"));
     registerProperty(IFACE_UBUNTU_SECURITY_OLD, PROP_STATS_WELCOME_SCREEN, QStringLiteral("statsWelcomeScreenChanged"));
     registerProperty(IFACE_UNITY, PROP_DEMO_EDGES, QStringLiteral("demoEdgesChanged"));
+    registerProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, QStringLiteral("demoEdgesCompletedChanged"));
     registerProperty(IFACE_UNITY_PRIVATE, PROP_FAILED_LOGINS, QStringLiteral("failedLoginsChanged"));
 
     registerProxy(IFACE_UBUNTU_INPUT, PROP_MOUSE_CURSOR_SPEED,
@@ -116,7 +128,7 @@ AccountsService::AccountsService(QObject* parent, const QString &user)
     registerProxy(IFACE_UBUNTU_INPUT, PROP_TOUCHPAD_TWO_FINGER_SCROLL,
                   m_unityInput, QStringLiteral("setTouchpadTwoFingerScroll"));
 
-    setUser(!user.isEmpty() ? user : QString::fromUtf8(qgetenv("USER")));
+    setUser(!user.isEmpty() ? user : QString::fromUtf8(g_get_user_name()));
 }
 
 QString AccountsService::user() const
@@ -148,6 +160,20 @@ bool AccountsService::demoEdges() const
 void AccountsService::setDemoEdges(bool demoEdges)
 {
     setProperty(IFACE_UNITY, PROP_DEMO_EDGES, demoEdges);
+}
+
+QStringList AccountsService::demoEdgesCompleted() const
+{
+    auto value = getProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED);
+    return value.toStringList();
+}
+
+void AccountsService::markDemoEdgeCompleted(const QString &edge)
+{
+    auto currentList = demoEdgesCompleted();
+    if (!currentList.contains(edge)) {
+        setProperty(IFACE_UNITY, PROP_DEMO_EDGES_COMPLETED, currentList << edge);
+    }
 }
 
 bool AccountsService::enableLauncherWhileLocked() const
@@ -204,6 +230,48 @@ bool AccountsService::hereLicensePathValid() const
 {
     auto value = getProperty(IFACE_LOCATION_HERE, PROP_LICENSE_BASE_PATH);
     return !value.toString().isNull();
+}
+
+QString AccountsService::realName() const
+{
+    auto value = getProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME);
+    return value.toString();
+}
+
+void AccountsService::setRealName(const QString &realName)
+{
+    setProperty(IFACE_ACCOUNTS_USER, PROP_REAL_NAME, realName);
+}
+
+QString AccountsService::email() const
+{
+    auto value = getProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL);
+    return value.toString();
+}
+
+void AccountsService::setEmail(const QString &email)
+{
+    setProperty(IFACE_ACCOUNTS_USER, PROP_EMAIL, email);
+}
+
+QStringList AccountsService::keymaps() const
+{
+    auto value = getProperty(IFACE_ACCOUNTS_USER, PROP_INPUT_SOURCES);
+    QDBusArgument arg = value.value<QDBusArgument>();
+    StringMapList maps = qdbus_cast<StringMapList>(arg);
+    QStringList simplifiedMaps;
+
+    Q_FOREACH(const StringMap &map, maps) {
+        Q_FOREACH(const QString &entry, map) {
+            simplifiedMaps.append(entry);
+        }
+    }
+
+    if (!simplifiedMaps.isEmpty()) {
+        return simplifiedMaps;
+    }
+
+    return {QStringLiteral("us")};
 }
 
 uint AccountsService::failedLogins() const

@@ -36,6 +36,10 @@ Rectangle {
       "subtitle": "bar",
       "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       "attributes": [{"value":"text1","icon":"image://theme/ok"},{"value":"text2","icon":"image://theme/cancel"}],
+      "socialActions": [{"id":"like","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
+                        {"id":"share","icon":"image://theme/cancel"},
+                        {"id":"like","icon":"image://theme/ok","temporaryIcon":"image://theme/undo"},
+                        {"id":"share","icon":"image://theme/cancel"}],
       "quickPreviewData": {"uri": "/some/file", "duration": "14"}
     }'
 
@@ -211,22 +215,27 @@ Rectangle {
         }
     }
 
+    SignalSpy {
+        id: signalSpy
+        signalName: "action"
+    }
+
     UT.UnityTestCase {
         id: testCase
         name: "Card"
 
         when: windowShown
 
-        property Item title: findChild(card, "titleLabel")
-        property Item subtitle: findChild(card, "subtitleLabel")
-        property var headerRow: findChild(card, "outerRow")
-        property var art: findChild(card, "artShape")
-        property Item artImage: findChild(card, "artImage")
-        property Item summary: findChild(card, "summaryLabel")
-        property Item background: findChild(card, "background")
-        property Item backgroundLoader: findChild(card, "backgroundLoader")
-        property Item backgroundImage: findChild(card, "backgroundImage")
-        property Item mascotImage: findChild(card, "mascotImage");
+        property Item title: findChild(loader, "titleLabel")
+        property Item subtitle: findChild(loader, "subtitleLabel")
+        property var headerRow: findChild(loader, "outerRow")
+        property var art: findChild(loader, "artShape")
+        property Item artImage: findChild(loader, "artImage")
+        property Item summary: findChild(loader, "summaryLabel")
+        property Item background: findChild(loader, "background")
+        property Item backgroundLoader: findChild(loader, "backgroundLoader")
+        property Item backgroundImage: findChild(loader, "backgroundImage")
+        property Item mascotImage: findChild(loader, "mascotImage");
 
         function init() {
             cardTool.components = Qt.binding(function() { return Helpers.update(JSON.parse(Helpers.defaultLayout), Helpers.tryParse(layoutArea.text, layoutError))['components']; });
@@ -274,9 +283,11 @@ Rectangle {
                 { tag: "Wide", width: units.gu(18), index: 0 },
                 { tag: "Horizontal", width: units.gu(38), index: 5 },
                 // Make sure card ends with header when there's no summary
-                { tag: "NoSummary", height: function() { var cardToolRow = findChild(cardTool, "outerRow");
-                                                         return cardToolRow.y + cardToolRow.height + units.gu(1) }, index: 6 },
-                { tag: "HorizontalNoSummary", height: function() { return headerRow.height + units.gu(2) }, card_layout: "horizontal", index: 6 },
+                { tag: "NoSummary", height: function() { var socialActionsRow = findChild(cardTool, "socialActionsRow");
+                                                         return socialActionsRow.y + socialActionsRow.height + units.gu(1) }, index: 6 },
+                { tag: "HorizontalNoSummary", height: function() { var socialActionsRow = findChild(cardTool, "socialActionsRow");
+                                                                   return socialActionsRow.y + socialActionsRow.height + units.gu(1) },
+                                              card_layout: "horizontal", index: 6 },
             ]
         }
 
@@ -640,6 +651,30 @@ Rectangle {
             } else if (title) {
                 verify((card.width - titleToCard.x - titleToCard.width) === units.gu(1));
             }
+        }
+
+        function test_action() {
+            selector.selectedIndex = 0;
+            waitForRendering(card);
+
+            signalSpy.target = card;
+            var socialActionsRow = findChild(card, "socialActionsRow");
+            var delegate0 = findChild(socialActionsRow, "delegate0");
+            var icon0 = findChild(delegate0, "icon");
+            var delegate1 = findChild(socialActionsRow, "delegate1");
+            var icon1 = findChild(delegate1, "icon");
+
+            compare(icon0.source, "image://theme/ok");
+            mouseClick(delegate0, delegate0.height / 2, delegate0.height / 2);
+            tryCompare(signalSpy, "count", 1);
+            compare(signalSpy.signalArguments[0][0], "like");
+            compare(icon0.source, "image://theme/undo");
+
+            compare(icon1.source, "image://theme/cancel");
+            mouseClick(delegate1, delegate1.height / 2, delegate1.height / 2);
+            tryCompare(signalSpy, "count", 2);
+            compare(signalSpy.signalArguments[1][0], "share");
+            compare(icon1.source, "image://theme/cancel");
         }
     }
 }

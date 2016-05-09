@@ -21,7 +21,6 @@ AbstractStage {
     id: shimStage
 
     anchors.fill: parent
-    color: UbuntuColors.lightAubergine
 
     Text {
         id: greeterModeText

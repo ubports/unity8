@@ -27,6 +27,8 @@ Item {
     width: units.gu(90)
     height: units.gu(80)
 
+    Component.onCompleted: theme.name = "Ubuntu.Components.Themes.SuruDark" // use the same theme as the real shell
+
     Row {
         anchors.fill: parent
         Loader {
@@ -61,7 +63,7 @@ Item {
 
         Rectangle {
             id: controls
-            color: "white"
+            color: theme.palette.normal.background
             width: units.gu(40)
             height: parent.height
 

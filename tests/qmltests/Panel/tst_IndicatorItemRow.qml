@@ -26,7 +26,6 @@ IndicatorTest {
     id: root
     width: units.gu(120)
     height: units.gu(40)
-    color: "white"
 
     RowLayout {
         anchors.fill: parent
@@ -40,7 +39,7 @@ IndicatorTest {
             color: "blue"
 
             Rectangle {
-                color: "black"
+                color: theme.palette.normal.background
                 anchors.fill: indicatorsRow
             }
 

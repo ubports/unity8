@@ -98,7 +98,7 @@ Rectangle {
         sectionDelegate: Component {
             Rectangle {
                 color: "green"
-                height: 40
+                height: section === "" ? 0 : section != "halfheight" ? 40 : 20;
                 Text { text: section; font.pixelSize: 34 }
                 anchors { left: parent.left; right: parent.right }
             }

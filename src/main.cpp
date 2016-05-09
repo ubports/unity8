@@ -16,6 +16,7 @@
 
 // local
 #include "ShellApplication.h"
+#include "qmldebuggerutils.h"
 
 int main(int argc, const char *argv[])
 {
@@ -23,6 +24,10 @@ int main(int argc, const char *argv[])
     if (qgetenv("QT_QPA_PLATFORM") == "ubuntumirclient") {
         setenv("QT_QPA_PLATFORM", "mirserver", 1 /* overwrite */);
         isMirServer = true;
+    }
+
+    if (enableQmlDebugger(argc, argv)) {
+        QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
     }
 
     ShellApplication *application = new ShellApplication(argc, (char**)argv, isMirServer);
