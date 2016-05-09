@@ -56,7 +56,11 @@ MirSurfaceItem::MirSurfaceItem(QQuickItem *parent)
         Qt::ExtraButton9 | Qt::ExtraButton10 | Qt::ExtraButton11 |
         Qt::ExtraButton12 | Qt::ExtraButton13);
 
+    connect(this, &QQuickItem::activeFocusChanged, this, &MirSurfaceItem::updateMirSurfaceActiveFocus);
     connect(this, &QQuickItem::visibleChanged, this, &MirSurfaceItem::updateMirSurfaceVisibility);
+    connect(this, &MirSurfaceItem::consumesInputChanged, this, [this]() {
+        updateMirSurfaceActiveFocus(hasActiveFocus());
+    });
 }
 
 MirSurfaceItem::~MirSurfaceItem()
@@ -288,12 +292,11 @@ void MirSurfaceItem::setSurface(MirSurfaceInterface* surface)
     Q_EMIT surfaceChanged(m_qmlSurface);
 }
 
-void MirSurfaceItem::itemChange(ItemChange change, const ItemChangeData & value)
+
+void MirSurfaceItem::updateMirSurfaceActiveFocus(bool focused)
 {
-    if (change == QQuickItem::ItemActiveFocusHasChanged) {
-        if (m_qmlSurface && m_consumesInput && m_qmlSurface->live()) {
-            m_qmlSurface->setActiveFocus(value.boolValue);
-        }
+    if (m_qmlSurface && m_consumesInput && m_qmlSurface->live()) {
+        m_qmlSurface->setActiveFocus(focused);
     }
 }
 
