@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unity8\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-03-10 22:48+0000\n"
-"PO-Revision-Date: 2016-02-22 12:29+0000\n"
+"POT-Creation-Date: 2016-05-04 18:09+0000\n"
+"PO-Revision-Date: 2016-04-27 12:20+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2016-03-13 05:50+0000\n"
-"X-Generator: Launchpad (build 17939)\n"
+"X-Launchpad-Export-Date: 2016-05-06 04:54+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #: plugins/IntegratedLightDM/Greeter.cpp:112
 msgid "Password: "
@@ -77,53 +77,35 @@ msgctxt "Button: Log out from the system"
 msgid "Log Out"
 msgstr "Digevreañ"
 
-#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:194
-#: qml/Components/Dialogs.qml:253
+#: qml/Components/Dialogs.qml:161 qml/Components/Dialogs.qml:217
+#: qml/Dash/DashPageHeader.qml:298 qml/Wizard/Pages/passcode-confirm.qml:32
+#: qml/Wizard/Pages/passcode-set.qml:32
 msgid "Cancel"
 msgstr "Nullañ"
 
 #: qml/Components/Dialogs.qml:173
-msgctxt "Title: Reboot/Shut down dialog"
-msgid "Shut down"
-msgstr "Lazhañ ar benveg"
-
-#: qml/Components/Dialogs.qml:174
-msgid "Are you sure you want to shut down?"
-msgstr "Ha sur oc'h e fell deoc'h lazhañ ar benveg ?"
-
-#: qml/Components/Dialogs.qml:176
-msgctxt "Button: Reboot the system"
-msgid "Reboot"
-msgstr "Adloc'hañ"
-
-#: qml/Components/Dialogs.qml:185
-msgctxt "Button: Shut down the system"
-msgid "Shut down"
-msgstr "Lazhañ ar benveg"
-
-#: qml/Components/Dialogs.qml:207
 msgctxt "Title: Reboot dialog"
 msgid "Reboot"
 msgstr "Adloc'hañ"
 
-#: qml/Components/Dialogs.qml:208
+#: qml/Components/Dialogs.qml:174
 msgid "Are you sure you want to reboot?"
 msgstr "Ha sur oc'h e fell deoc'h adloc'hañ ?"
 
-#: qml/Components/Dialogs.qml:210
+#: qml/Components/Dialogs.qml:176
 msgid "No"
 msgstr "N'on ket"
 
-#: qml/Components/Dialogs.qml:217
+#: qml/Components/Dialogs.qml:182
 msgid "Yes"
 msgstr "Ya"
 
-#: qml/Components/Dialogs.qml:232
+#: qml/Components/Dialogs.qml:197
 msgctxt "Title: Power off/Restart dialog"
 msgid "Power"
 msgstr "Enaouiñ"
 
-#: qml/Components/Dialogs.qml:233
+#: qml/Components/Dialogs.qml:198
 msgid ""
 "Are you sure you would like\n"
 "to power off?"
@@ -131,12 +113,12 @@ msgstr ""
 "Ha sur oc'h e fell deoc'h\n"
 "troc'hañ an tredan ?"
 
-#: qml/Components/Dialogs.qml:235
+#: qml/Components/Dialogs.qml:200
 msgctxt "Button: Power off the system"
 msgid "Power off"
 msgstr "Lazhañ"
 
-#: qml/Components/Dialogs.qml:244
+#: qml/Components/Dialogs.qml:209
 msgctxt "Button: Restart the system"
 msgid "Restart"
 msgstr "Adloc'hañ"
@@ -162,6 +144,8 @@ msgctxt ""
 "Re-dock means connect the device again to an external screen/mouse/keyboard"
 msgid "Re-dock, save your work and close these apps to continue."
 msgstr ""
+"Adkevreit ouzh ar savlec'h degemer, enrollot ho labour ha serrit an arloadoù-"
+"mañ evit kenderc'hel."
 
 #: qml/Components/ModeSwitchWarningDialog.qml:63
 msgid "Or force close now (unsaved data will be lost)."
@@ -180,41 +164,57 @@ msgstr "Adkevreañ bremañ !"
 msgid "Close all"
 msgstr "Serriñ pep tra"
 
-#: qml/Dash/DashPageHeader.qml:270
+#: qml/Dash/DashPageHeader.qml:337
 msgctxt "Button: Open the Ubuntu Store"
 msgid "Store"
 msgstr "Stal"
 
-#: qml/Dash/DashPageHeader.qml:277
+#: qml/Dash/DashPageHeader.qml:344
 msgctxt "Button: Start a search in the current dash scope"
 msgid "Search"
 msgstr "Klask"
 
-#: qml/Dash/DashPageHeader.qml:287
+#: qml/Dash/DashPageHeader.qml:354
 msgctxt "Button: Show the current dash scope settings"
 msgid "Settings"
 msgstr "Arventennoù"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Remove from Favorites"
 msgstr "Lemel eus ar sinedoù"
 
-#: qml/Dash/DashPageHeader.qml:294
+#: qml/Dash/DashPageHeader.qml:361
 msgid "Add to Favorites"
 msgstr "Ouzhpennañ d'ar sinedoù"
 
-#: qml/Dash/GenericScopeView.qml:567 qml/Dash/GenericScopeView.qml:725
-msgid "See less"
-msgstr "Gwelet nebeutoc'h"
+#: qml/Dash/FiltersPopover.qml:60
+msgid "Refine your results"
+msgstr "Purañ ho tisoc'hoù"
 
-#: qml/Dash/GenericScopeView.qml:567
-msgid "See all"
-msgstr "Gwelet pep tra"
+#: qml/Dash/FiltersPopover.qml:69
+msgid "Reset"
+msgstr "Adderaouekaat"
 
-#: qml/Dash/GenericScopeView.qml:629
+#: qml/Dash/GenericScopeView.qml:579 qml/Dash/GenericScopeView.qml:764
+msgid "Show less"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:579
+msgid "Show all"
+msgstr ""
+
+#: qml/Dash/GenericScopeView.qml:636
 msgctxt "Label: Hint for dash search line edit"
 msgid "Search"
 msgstr "Klask"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:55
+msgid "Recent Searches"
+msgstr "Enklaskoù graet nevez zo"
+
+#: qml/Dash/PageHeaderExtraPanel.qml:66
+msgid "Clear All"
+msgstr "Diverkañ pep tra"
 
 #: qml/Dash/Previews/PreviewActionCombo.qml:35
 msgid "More..."
@@ -283,11 +283,11 @@ msgstr "Esaeañ en-dro"
 msgid "Tap to unlock"
 msgstr "Pouezañ evit dibrennañ"
 
-#: qml/Greeter/NarrowView.qml:54 qml/Wizard/Pages/passwd-confirm.qml:53
+#: qml/Greeter/NarrowView.qml:54
 msgid "Sorry, incorrect passphrase."
 msgstr "Siwazh, frazenn-dremen direizh"
 
-#: qml/Greeter/NarrowView.qml:55 qml/Wizard/Pages/passwd-confirm.qml:54
+#: qml/Greeter/NarrowView.qml:55
 msgid "Sorry, incorrect passcode."
 msgstr "Siwazh, kod-tremen direizh"
 
@@ -316,7 +316,7 @@ msgstr ""
 msgid "Enter %1"
 msgstr "Merkañ  %1"
 
-#: qml/Greeter/NarrowView.qml:117 qml/Wizard/Pages/passwd-set.qml:60
+#: qml/Greeter/NarrowView.qml:117
 msgid "Enter passphrase"
 msgstr "Merkañ ar frazenn-dremen"
 
@@ -342,7 +342,7 @@ msgstr "Adverkañ, mar plij"
 msgid "Sorry, incorrect passcode"
 msgstr "Digarezit, kod-tremen direizh"
 
-#: qml/Notifications/NotificationMenuItemFactory.qml:129
+#: qml/Notifications/NotificationMenuItemFactory.qml:124
 msgid "Show password"
 msgstr "Diskouez ar ger-tremen"
 
@@ -354,62 +354,62 @@ msgstr "Touchit evit distreiñ d'ar bellgomzadenn..."
 msgid "Conference"
 msgstr "Kendiviz"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:752
+#: qml/Panel/Indicators/MenuItemFactory.qml:762
 msgid "Nothing is playing"
 msgstr "Ne lenner netra bremañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:881
+#: qml/Panel/Indicators/MenuItemFactory.qml:891
 #, qt-format
 msgid "%1 hour"
 msgid_plural "%1 hours"
 msgstr[0] "%1 eur"
 msgstr[1] "%1 eur"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:885
+#: qml/Panel/Indicators/MenuItemFactory.qml:895
 #, qt-format
 msgid "%1 minute"
 msgid_plural "%1 minutes"
 msgstr[0] "%1 vunutenn"
 msgstr[1] "%1 vunutenn"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:890
+#: qml/Panel/Indicators/MenuItemFactory.qml:900
 #, qt-format
 msgid "%1 second"
 msgid_plural "%1 seconds"
 msgstr[0] "%1 eilenn"
 msgstr[1] "%1 eilenn"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:893
+#: qml/Panel/Indicators/MenuItemFactory.qml:903
 msgid "0 seconds"
 msgstr "0 eilenn"
 
 #. Translators: String like "1 hour, 2 minutes, 3 seconds remaining"
-#: qml/Panel/Indicators/MenuItemFactory.qml:895
+#: qml/Panel/Indicators/MenuItemFactory.qml:905
 #, qt-format
 msgid "%1 remaining"
 msgstr "%1 o chom"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:901
+#: qml/Panel/Indicators/MenuItemFactory.qml:911
 msgid "In queue…"
 msgstr "El lostennad..."
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:905
+#: qml/Panel/Indicators/MenuItemFactory.qml:915
 msgid "Downloading"
 msgstr "O pellgargañ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:907
+#: qml/Panel/Indicators/MenuItemFactory.qml:917
 msgid "Paused, tap to resume"
 msgstr "Ehanet, touchit evit adkregiñ"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:909
+#: qml/Panel/Indicators/MenuItemFactory.qml:919
 msgid "Canceled"
 msgstr "Nullet"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:911
+#: qml/Panel/Indicators/MenuItemFactory.qml:921
 msgid "Finished"
 msgstr "Echu"
 
-#: qml/Panel/Indicators/MenuItemFactory.qml:913
+#: qml/Panel/Indicators/MenuItemFactory.qml:923
 msgid "Failed, tap to retry"
 msgstr "C'hwitet, touchit evit adkregiñ"
 
@@ -429,251 +429,324 @@ msgctxt "Button: Call back on phone"
 msgid "Call back"
 msgstr "Gervel en-dro"
 
-#: qml/Tutorial/TutorialBottom.qml:28
-msgid "Open special menus"
-msgstr "Digeriñ al lañserioù ispisial"
+#: qml/Stages/SideStage.qml:76
+msgid "Drag using 3 fingers any application from one window to the other"
+msgstr ""
 
-#: qml/Tutorial/TutorialBottom.qml:29
-msgid "Swipe up from the bottom edge."
-msgstr "Riklit war-du an nec'h adalek an traoñ"
+#: qml/Tutorial/TutorialBottom.qml:78
+msgid "Swipe up to add a contact"
+msgstr "Riklit d'an nec'h evit ouzhpennañ un darempred"
 
-#: qml/Tutorial/TutorialBottomFinish.qml:24
-msgid "This action does different things for different apps"
-msgstr "An ober-mañ a ra meur a dra evit meur a arload"
+#: qml/Tutorial/TutorialBottom.qml:80
+msgid "Swipe up for favorite calculations"
+msgstr ""
 
-#: qml/Tutorial/TutorialBottomFinish.qml:25
-msgid "Tap here to finish."
-msgstr "Pouezañ amañ evit echuiñ."
+#: qml/Tutorial/TutorialBottom.qml:82
+msgid "Swipe up for recent calls"
+msgstr ""
 
-#: qml/Tutorial/TutorialContent.qml:80 qml/Tutorial/TutorialLeftFinish.qml:25
-#: qml/Tutorial/TutorialRight.qml:144
-msgid "Tap here to continue."
-msgstr "Pouzañ amañ evit kenderc'hel"
+#: qml/Tutorial/TutorialBottom.qml:84
+msgid "Swipe up to create a message"
+msgstr "Riklit d'an nec'h evit krouiñ ur gemennadenn"
 
-#: qml/Tutorial/TutorialLeft.qml:26
-msgid "Open the launcher"
-msgstr "Digeriñ al lañser"
+#: qml/Tutorial/TutorialBottom.qml:85
+msgid "Swipe up to manage the app"
+msgstr ""
 
-#: qml/Tutorial/TutorialLeft.qml:27
-msgid "Short swipe from the left edge."
-msgstr "Riklik dousik adalek ar bord kleiz."
+#: qml/Tutorial/TutorialLeftLong.qml:47
+msgid "Long swipe from the left edge to open the Today scope"
+msgstr ""
 
-#: qml/Tutorial/TutorialLeftFinish.qml:24
-msgid "These are the shortcuts to favorite apps"
-msgstr "Berradennoù war-du hoc'h arloadoù gwellañ-deuet eo ar re-mañ"
+#: qml/Tutorial/TutorialLeft.qml:47
+msgid "Swipe from the left edge to open the launcher"
+msgstr ""
 
-#: qml/Tutorial/TutorialPage.qml:178
-msgid "You almost got it!"
-msgstr "Deuet eo ganeoc'h pe dost ?"
+#: qml/Tutorial/TutorialRight.qml:55
+msgid "Push your mouse against the right edge to view your open apps"
+msgstr ""
 
-#: qml/Tutorial/TutorialPage.qml:195
-msgid "Try again."
-msgstr "Esaeit en-dro."
+#: qml/Tutorial/TutorialRight.qml:56
+msgid "Short or long swipe from the right edge to view your open apps"
+msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:31
-msgid "To view open apps"
-msgstr "Evit gwelet an arloadoù digor"
+#: qml/Tutorial/TutorialTop.qml:53
+msgid "Swipe from the top right edge to open the notification bar"
+msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:32
-msgid "Long swipe from the right edge."
-msgstr "Riklit pell adalek ar bord dehoù."
+#: qml/Tutorial/TutorialTop.qml:54
+msgid "Swipe from the top edge to open the notification bar"
+msgstr ""
 
-#: qml/Tutorial/TutorialRight.qml:122
-msgid "View all your running tasks."
-msgstr "Gwelet an holl drevelloù a ya en-dro."
-
-#: qml/Wizard/Page.qml:89
+#: qml/Wizard/Page.qml:54
 msgctxt "Button: Go back one page in the Wizard"
 msgid "Back"
 msgstr "Distreiñ"
 
 #: qml/Wizard/Pages/10-welcome.qml:27
-msgid "Hi!"
-msgstr "Salud deoc'h !"
+msgid "Language"
+msgstr "Yezh"
 
-#: qml/Wizard/Pages/10-welcome.qml:44
-msgid "Welcome to your Ubuntu device."
-msgstr "Donemat en ho penveg Ubuntu"
+#: qml/Wizard/Pages/10-welcome.qml:156 qml/Wizard/Pages/30-wifi.qml:206
+#: qml/Wizard/Pages/40-location.qml:271 qml/Wizard/Pages/50-timezone.qml:267
+#: qml/Wizard/Pages/60-account.qml:65 qml/Wizard/Pages/70-passwd-type.qml:144
+#: qml/Wizard/Pages/75-report-check.qml:84
+#: qml/Wizard/Pages/passcode-desktop.qml:124
+#: qml/Wizard/Pages/password-set.qml:141
+msgid "Next"
+msgstr "War-lerc'h"
 
-#: qml/Wizard/Pages/10-welcome.qml:52
-msgid "Let’s get started."
-msgstr "Krogomp ganti."
-
-#: qml/Wizard/Pages/10-welcome.qml:88 qml/Wizard/Pages/30-passwd-type.qml:133
-#: qml/Wizard/Pages/40-wifi.qml:215 qml/Wizard/Pages/50-location.qml:131
-#: qml/Wizard/Pages/60-reporting.qml:60 qml/Wizard/Pages/passwd-confirm.qml:82
-#: qml/Wizard/Pages/passwd-set.qml:90
-msgid "Continue"
-msgstr "Kenderc'hel"
-
-#: qml/Wizard/Pages/20-sim.qml:25
-msgid "Add a SIM card and restart your device"
-msgstr "Lakait ur gartenn SIM hag adloc'hit ho penveg"
-
-#: qml/Wizard/Pages/20-sim.qml:59
-msgid "Without it, you won’t be able to make calls or use text messaging."
-msgstr "Ne vioc'h ket evit pellgomz pe kas kemennadennoù hepti."
-
-#: qml/Wizard/Pages/20-sim.qml:73 qml/Wizard/Pages/40-wifi.qml:215
-msgid "Skip"
-msgstr "Tremen hebiou"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:39
-msgid "Lock security"
-msgstr "Surentez ar prennañ"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:79
-msgid "Please select how you’d like to unlock your device."
-msgstr "Diuzit penaos e fell deoc'h dibrennañ ho penveg, mar plij."
-
-#: qml/Wizard/Pages/30-passwd-type.qml:102
-msgctxt "Label: Type of security method"
-msgid "Swipe"
-msgstr "Riklañ"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:103
-msgctxt "Label: Description of security method"
-msgid "No security"
-msgstr "Tamm surentez ebet"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:105
-msgctxt "Label: Type of security method"
-msgid "Passcode"
-msgstr "Kod-tremen"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:106
-msgctxt "Label: Description of security method"
-msgid "4 digits only"
-msgstr "4 sifr hepken"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:108
-msgctxt "Label: Type of security method"
-msgid "Passphrase"
-msgstr "Frazenn-dremen"
-
-#: qml/Wizard/Pages/30-passwd-type.qml:109
-msgctxt "Label: Description of security method"
-msgid "Numbers and letters"
-msgstr "Sifroù ha lizherennoù"
-
-#: qml/Wizard/Pages/40-wifi.qml:29
+#: qml/Wizard/Pages/30-wifi.qml:29
 msgid "Connect to Wi‑Fi"
 msgstr "Kevreañ ouzh ar Wi-Fi"
 
-#: qml/Wizard/Pages/40-wifi.qml:168
-msgid "Available networks…"
-msgstr "Rouedadoù a c'haller kaout..."
+#: qml/Wizard/Pages/30-wifi.qml:130
+msgid "Connected"
+msgstr "Kevreet"
 
-#: qml/Wizard/Pages/40-wifi.qml:169
-msgid "No available networks."
-msgstr "N'eus rouedad ebet da gaout."
+#: qml/Wizard/Pages/30-wifi.qml:163
+msgid "Available Wi-Fi networks"
+msgstr "Rouedadoù Wi-Fi da gaout"
 
-#: qml/Wizard/Pages/50-location.qml:27
-msgid "Location"
-msgstr "Lec'h"
+#: qml/Wizard/Pages/30-wifi.qml:164
+msgid "No available Wi-Fi networks"
+msgstr "N'eus ket rouedadoù Wi-Fi da gaout"
 
-#: qml/Wizard/Pages/50-location.qml:62
-msgid "Let the phone detect your location:"
-msgstr "Lezel ar pellgomzer da gavout pelec'h emaoc'h :"
+#: qml/Wizard/Pages/30-wifi.qml:206 qml/Wizard/Pages/60-account.qml:65
+#: qml/Wizard/Pages/sim.qml:101
+msgid "Skip"
+msgstr "Tremen hebiou"
 
-#: qml/Wizard/Pages/50-location.qml:69
-msgid "Using GPS only (less accurate)"
-msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
+#: qml/Wizard/Pages/40-location.qml:27
+msgid "Location Services"
+msgstr "Servijoù lec'hiañ"
 
-#: qml/Wizard/Pages/50-location.qml:86
-msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
-msgstr ""
-"Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
-
-#. Translators: HERE is a trademark for Nokia's location service, you probably shouldn't translate it
-#: qml/Wizard/Pages/50-location.qml:103
+#: qml/Wizard/Pages/40-location.qml:83
 msgid ""
-"By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
-"conditions</a>."
+"Use GPS, Wi-Fi hotspots and mobile network anonymously to detect location "
+"(recommended)"
 msgstr ""
-"Pa ziuzit an dibarzh-mañ ez asantit da <a href='#'>zivizoù implij</a> Nokia."
 
-#: qml/Wizard/Pages/50-location.qml:112
-msgid "Not at all"
-msgstr "Tamm ebet"
-
-#: qml/Wizard/Pages/50-location.qml:124
-msgid "You can change your mind later in <b>System Settings</b>."
+#: qml/Wizard/Pages/40-location.qml:105
+#, qt-format
+msgid "By selecting this option you agree to the Nokia HERE %1."
 msgstr ""
-"Gallout a rit cheñch soñj diwezhatoc'h en <b>Arventennoù ar reizhad</b>."
 
-#: qml/Wizard/Pages/60-reporting.qml:26
-msgid "Improving your experience"
-msgstr "Gwellaat ho skiant-prenet"
+#: qml/Wizard/Pages/40-location.qml:106
+msgctxt "part of: Nokia HERE terms and conditions"
+msgid "terms and conditions"
+msgstr "penndivizoù implij"
 
-#: qml/Wizard/Pages/60-reporting.qml:46
-msgid ""
-"Your phone is set up to automatically report errors to Canonical and its "
-"partners, the makers of the operating system."
+#: qml/Wizard/Pages/40-location.qml:160
+msgid "GPS only"
+msgstr "GPS hepken"
+
+#: qml/Wizard/Pages/40-location.qml:214
+msgid "Don't use my location"
+msgstr "Arabat implijout ma lec'h"
+
+#: qml/Wizard/Pages/40-location.qml:260
+msgid "You can change it later in System Settings."
 msgstr ""
-"Arventennet eo ho pellgomzer evit titourañ ent emgefre ar fazioù da "
-"gCanonical ha d'e gevelerien, ar re o deus savet ar reizhiad korvoiñ."
 
-#: qml/Wizard/Pages/60-reporting.qml:53
-msgid ""
-"This can be disabled in <b>System Settings</b> under <b>Security &amp; "
-"Privacy</b>"
+#: qml/Wizard/Pages/50-timezone.qml:29
+msgid "Time Zone"
+msgstr "Gwerzhid-eur"
+
+#: qml/Wizard/Pages/50-timezone.qml:178
+msgid "Enter your city"
+msgstr "Skrivit ho kêr"
+
+#: qml/Wizard/Pages/60-account.qml:24
+msgid "Personalize Your Device"
+msgstr "Personelaat ho penveg"
+
+#: qml/Wizard/Pages/60-account.qml:48
+msgid "Preferred Name"
 msgstr ""
-"Gallout a ra bezañ diweredekaet e-barzh <b>Arventennoù ar reizhiad</b> "
-"dindan <b>Surentez &amp; Prevezded</b>"
 
-#: qml/Wizard/Pages/80-finished.qml:24
-msgid "All done"
-msgstr "Echu penn-da-benn"
+#: qml/Wizard/Pages/70-passwd-type.qml:39
+msgid "Lock Screen"
+msgstr "Prennañ ar skramm"
 
-#: qml/Wizard/Pages/80-finished.qml:39
-msgid "Nice work!"
-msgstr "Gwellat labour !"
+#: qml/Wizard/Pages/70-passwd-type.qml:101
+msgctxt "Label: Type of security method"
+msgid "Create new password"
+msgstr "Krouiñ ur ger-tremen nevez"
 
-#: qml/Wizard/Pages/80-finished.qml:46
-msgid "Your device is now ready to use."
-msgstr "Prest eo ho penveg da vezañ implijet bremañ."
+#: qml/Wizard/Pages/70-passwd-type.qml:103
+msgctxt "Label: Type of security method"
+msgid "Create passcode (numbers only)"
+msgstr "Krouiñ ur c'hod (difroù hepken)"
 
-#: qml/Wizard/Pages/80-finished.qml:53
-msgid "Finish"
-msgstr "Echuiñ"
+#: qml/Wizard/Pages/70-passwd-type.qml:105
+msgctxt "Label: Type of security method"
+msgid "No lock code"
+msgstr "N'eus kod prennañ ebet"
 
-#: qml/Wizard/Pages/here-terms.qml:27
+#: qml/Wizard/Pages/75-report-check.qml:26 qml/Wizard/Pages/here-terms.qml:108
+msgid "Privacy Policy"
+msgstr "Reolennoù prevezded"
+
+#: qml/Wizard/Pages/75-report-check.qml:26
+msgid "Help Us Improve"
+msgstr "Sikourit ac'hanomp da wellaat"
+
+#: qml/Wizard/Pages/75-report-check.qml:59
+msgid "Improve system performance by sending us crashes and error reports."
+msgstr ""
+
+#: qml/Wizard/Pages/75-report-check.qml:60
+msgid "Privacy policy"
+msgstr "Reolennoù buhez prevez"
+
+#: qml/Wizard/Pages/80-finished.qml:89
+msgid "Welcome to Ubuntu"
+msgstr "Donemat en Ubuntu"
+
+#: qml/Wizard/Pages/80-finished.qml:104
+msgid "You are ready to use your device now"
+msgstr "Bremañ oc'h prest da implijout ho penveg"
+
+#: qml/Wizard/Pages/80-finished.qml:124
+msgid "Get Started"
+msgstr "Kregiñ ganti"
+
+#: qml/Wizard/Pages/here-terms.qml:25
 msgid "Terms & Conditions"
 msgstr "Penndivizoù implij"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:49
-msgid "Confirm passphrase"
-msgstr "Kadarnaat ar frazenn-dremen"
+#: qml/Wizard/Pages/here-terms.qml:69
+msgid "Your device uses positioning technologies provided by HERE."
+msgstr ""
 
-#: qml/Wizard/Pages/passwd-confirm.qml:50
+#: qml/Wizard/Pages/here-terms.qml:81
+msgid ""
+"To provide you with positioning services and to improve their quality, HERE "
+"collects information about nearby cell towers and Wi-Fi hotspots around your "
+"current location whenever your position is being found."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:93
+msgid ""
+"The information collected is used to analyze the service and to improve the "
+"use of service, but not to identify you personally."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:106
+#, qt-format
+msgid "By continuing, you agree to the HERE platform %1 and %2."
+msgstr ""
+
+#: qml/Wizard/Pages/here-terms.qml:107
+msgid "Service Terms"
+msgstr "Divizoù servij"
+
+#: qml/Wizard/Pages/passcode-confirm.qml:43
+#: qml/Wizard/Pages/passcode-desktop.qml:80
 msgid "Confirm passcode"
 msgstr "Kadarnaat ar c'hod-tremen"
 
-#: qml/Wizard/Pages/passwd-confirm.qml:53
-#: qml/Wizard/Pages/passwd-confirm.qml:54
-msgid "Please try again."
-msgstr "Esaeit en-dro, mar plij."
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgid "Incorrect passcode."
+msgstr "Kod direizh"
 
-#: qml/Wizard/Pages/passwd-set.qml:61
-msgid "Choose your passcode"
-msgstr "Choaz ho kod-tremen"
+#: qml/Wizard/Pages/passcode-confirm.qml:45
+msgctxt "Enter the passcode again"
+msgid "Please re-enter."
+msgstr "Skrivit adarre, mar plij."
 
-#: qml/Wizard/Pages/passwd-set.qml:68
-msgid "Passphrase must be 4 characters long"
-msgstr "4 arouezenn a rank bezañ er frazenn-dremen"
+#: qml/Wizard/Pages/passcode-desktop.qml:30
+msgid "Lock Screen Passcode"
+msgstr "Kod da brennañ ar skramm"
 
-#. Translators: This is the arrow for "Back" buttons
-#: qml/Wizard/StackButton.qml:39
-#, qt-format
-msgid "〈  %1"
-msgstr "〈  %1"
+#: qml/Wizard/Pages/passcode-desktop.qml:56
+msgid "Enter 4 numbers to setup your passcode"
+msgstr "Skrivit 4 sifr evit lakaat ho kod"
 
-#. Translators: This is the arrow for "Forward" buttons
-#: qml/Wizard/StackButton.qml:42
-#, qt-format
-msgid "%1  〉"
-msgstr "%1  〉"
+#: qml/Wizard/Pages/passcode-desktop.qml:65
+#: qml/Wizard/Pages/passcode-set.qml:54
+msgid "Choose passcode"
+msgstr "Choaz ur c'hod"
+
+#: qml/Wizard/Pages/passcode-desktop.qml:105
+msgid "Passcode too short"
+msgstr "Kod re verr"
+
+#: qml/Wizard/Pages/passcode-desktop.qml:107
+msgid "Passcodes match"
+msgstr "klotañ a ra ar c'hodoù an eil gant egile"
+
+#: qml/Wizard/Pages/passcode-desktop.qml:109
+msgid "Passcodes do not match"
+msgstr "Ne glot ket ar c'hodoù an eil gant egile"
+
+#: qml/Wizard/Pages/passcode-set.qml:62
+msgid "Passcode must be 4 characters long"
+msgstr "4 arouezenn a rank bezañ ar c'hod"
+
+#: qml/Wizard/Pages/password-set.qml:30
+msgid "Lock Screen Password"
+msgstr "Ger-tremen da brennañ ar skramm"
+
+#: qml/Wizard/Pages/password-set.qml:61
+msgid "Enter at least 8 characters"
+msgstr "Skrivit 8 arouezenn da vihanañ"
+
+#: qml/Wizard/Pages/password-set.qml:73
+msgid "Choose password"
+msgstr "Choaz ur ger-tremen"
+
+#: qml/Wizard/Pages/password-set.qml:103
+msgid "Confirm password"
+msgstr "Kadarnaat ar ger-tremen"
+
+#: qml/Wizard/Pages/sim.qml:27
+msgid "No SIM card installed"
+msgstr "N'eus kartenn SIM ebet"
+
+#: qml/Wizard/Pages/sim.qml:54
+msgid "SIM card added"
+msgstr "Lakaet ez eus bet ur gartenn SIM"
+
+#: qml/Wizard/Pages/sim.qml:55
+msgid "You must restart the device to access the mobile network."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:59
+msgid "Restart"
+msgstr "Adloc'hañ"
+
+#: qml/Wizard/Pages/sim.qml:78
+msgid "You won’t be able to make calls or use text messaging without a SIM."
+msgstr ""
+
+#: qml/Wizard/Pages/sim.qml:90
+msgid "To proceed with no SIM tap Skip."
+msgstr ""
+
+#: qml/Wizard/PasswordMeter.qml:87
+msgid "Passwords match"
+msgstr "Klotañ a ra ar gerioù-tremen an eil gant egile"
+
+#: qml/Wizard/PasswordMeter.qml:89
+msgid "Passwords do not match"
+msgstr "Ne glot ket ar gerioù-tremen"
+
+#: qml/Wizard/PasswordMeter.qml:93
+msgid "Strong password"
+msgstr "Ger-tremen sur"
+
+#: qml/Wizard/PasswordMeter.qml:95
+msgid "Fair password"
+msgstr "Ger-tremen reizh"
+
+#: qml/Wizard/PasswordMeter.qml:97
+msgid "Weak password"
+msgstr "Ger-tremen diasur"
+
+#: qml/Wizard/PasswordMeter.qml:99
+msgid "Very weak password"
+msgstr "Ger-tremen diasur-kenañ"
 
 #~ msgid "Close"
 #~ msgstr "Serriñ"
@@ -689,6 +762,9 @@ msgstr "%1  〉"
 
 #~ msgid "Right edge"
 #~ msgstr "Bord dehoù"
+
+#~ msgid "See less"
+#~ msgstr "Gwelet nebeutoc'h"
 
 #~ msgid ""
 #~ "You have now mastered the edge gestures and can start using the "
@@ -735,6 +811,9 @@ msgstr "%1  〉"
 #~ msgid "Type or say a command"
 #~ msgstr "Skrivit pe lavarit un urzhiad"
 
+#~ msgid "See all"
+#~ msgstr "Gwelet pep tra"
+
 #~ msgid "Store"
 #~ msgstr "Enrollañ"
 
@@ -762,6 +841,9 @@ msgstr "%1  〉"
 #~ msgid "Log out"
 #~ msgstr "Digevreañ"
 
+#~ msgid "Are you sure you want to shut down?"
+#~ msgstr "Ha sur oc'h e fell deoc'h lazhañ ar benveg ?"
+
 #~ msgid "Reboot"
 #~ msgstr "Adloc'hañ"
 
@@ -771,24 +853,192 @@ msgstr "%1  〉"
 #~ msgid "Settings"
 #~ msgstr "Arventennoù"
 
-#~ msgid "Restart"
-#~ msgstr "Adloc'hañ"
-
 #~ msgid "Manage Scopes"
 #~ msgstr "Merañ ar c'hefluskerioù enklask"
 
 #~ msgid "Please re-enter"
 #~ msgstr "Adverkañ, mar plij"
 
+#~ msgid "Lock security"
+#~ msgstr "Surentez ar prennañ"
+
+#~ msgid "Without it, you won’t be able to make calls or use text messaging."
+#~ msgstr "Ne vioc'h ket evit pellgomz pe kas kemennadennoù hepti."
+
+#~ msgid "Add a SIM card and restart your device"
+#~ msgstr "Lakait ur gartenn SIM hag adloc'hit ho penveg"
+
 #~ msgid "Please select how you’d like to unlock your phone."
 #~ msgstr ""
 #~ "Diuzit e peseurt mod e fell deoc'h dibrennañ ho pellgomzer, mar plij."
 
+#~ msgid "Hi!"
+#~ msgstr "Salud deoc'h !"
+
+#~ msgid "Let’s get started."
+#~ msgstr "Krogomp ganti."
+
+#~ msgid "Continue"
+#~ msgstr "Kenderc'hel"
+
 #~ msgid "Welcome to your Ubuntu phone."
 #~ msgstr "Deuet-mat oc'h en ho pellgomzer Ubuntu."
 
+#~ msgid "Available networks…"
+#~ msgstr "Rouedadoù a c'haller kaout..."
+
+#~ msgid "No available networks."
+#~ msgstr "N'eus rouedad ebet da gaout."
+
+#~ msgid "Location"
+#~ msgstr "Lec'h"
+
+#~ msgid "You can change your mind later in <b>System Settings</b>."
+#~ msgstr ""
+#~ "Gallout a rit cheñch soñj diwezhatoc'h en <b>Arventennoù ar reizhad</b>."
+
+#~ msgid ""
+#~ "This can be disabled in <b>System Settings</b> under <b>Security &amp; "
+#~ "Privacy</b>"
+#~ msgstr ""
+#~ "Gallout a ra bezañ diweredekaet e-barzh <b>Arventennoù ar reizhiad</b> "
+#~ "dindan <b>Surentez &amp; Prevezded</b>"
+
+#~ msgid ""
+#~ "Your phone is set up to automatically report errors to Canonical and its "
+#~ "partners, the makers of the operating system."
+#~ msgstr ""
+#~ "Arventennet eo ho pellgomzer evit titourañ ent emgefre ar fazioù da "
+#~ "gCanonical ha d'e gevelerien, ar re o deus savet ar reizhiad korvoiñ."
+
+#~ msgid "All done"
+#~ msgstr "Echu penn-da-benn"
+
+#~ msgid "Improving your experience"
+#~ msgstr "Gwellaat ho skiant-prenet"
+
+#~ msgid ""
+#~ "By selecting this option you agree to the Nokia HERE <a href='#'>terms and "
+#~ "conditions</a>."
+#~ msgstr ""
+#~ "Pa ziuzit an dibarzh-mañ ez asantit da <a href='#'>zivizoù implij</a> Nokia."
+
+#~ msgid "Not at all"
+#~ msgstr "Tamm ebet"
+
+#~ msgid "Let the phone detect your location:"
+#~ msgstr "Lezel ar pellgomzer da gavout pelec'h emaoc'h :"
+
+#~ msgid "Using GPS only (less accurate)"
+#~ msgstr "Implijout ar GPS hepken (n'eo ket ken resis)"
+
+#~ msgid "Using GPS, anonymized Wi-Fi and cellular network info (recommended)"
+#~ msgstr ""
+#~ "Implijout ar GPS, Wi-Fi dizanv pe titouroù ar rouedad kelligel (aliet)"
+
+#~ msgid "Nice work!"
+#~ msgstr "Gwellat labour !"
+
+#~ msgid "Finish"
+#~ msgstr "Echuiñ"
+
+#~ msgid "Confirm passphrase"
+#~ msgstr "Kadarnaat ar frazenn-dremen"
+
+#, qt-format
+#~ msgid "〈  %1"
+#~ msgstr "〈  %1"
+
+#~ msgid "Choose your passcode"
+#~ msgstr "Choaz ho kod-tremen"
+
+#~ msgid "Passphrase must be 4 characters long"
+#~ msgstr "4 arouezenn a rank bezañ er frazenn-dremen"
+
+#~ msgid "Please try again."
+#~ msgstr "Esaeit en-dro, mar plij."
+
 #~ msgid "Your phone is now ready to use."
 #~ msgstr "Prest eo ho pellgomzer da vezañ implijet bremañ."
+
+#, qt-format
+#~ msgid "%1  〉"
+#~ msgstr "%1  〉"
+
+#~ msgid "This action does different things for different apps"
+#~ msgstr "An ober-mañ a ra meur a dra evit meur a arload"
+
+#~ msgid "Open special menus"
+#~ msgstr "Digeriñ al lañserioù ispisial"
+
+#~ msgid "Tap here to finish."
+#~ msgstr "Pouezañ amañ evit echuiñ."
+
+#~ msgid "To view open apps"
+#~ msgstr "Evit gwelet an arloadoù digor"
+
+#~ msgid "Long swipe from the right edge."
+#~ msgstr "Riklit pell adalek ar bord dehoù."
+
+#~ msgid "View all your running tasks."
+#~ msgstr "Gwelet an holl drevelloù a ya en-dro."
+
+#~ msgid "Try again."
+#~ msgstr "Esaeit en-dro."
+
+#~ msgid "You almost got it!"
+#~ msgstr "Deuet eo ganeoc'h pe dost ?"
+
+#~ msgid "Short swipe from the left edge."
+#~ msgstr "Riklik dousik adalek ar bord kleiz."
+
+#~ msgid "Open the launcher"
+#~ msgstr "Digeriñ al lañser"
+
+#~ msgid "Tap here to continue."
+#~ msgstr "Pouzañ amañ evit kenderc'hel"
+
+#~ msgid "These are the shortcuts to favorite apps"
+#~ msgstr "Berradennoù war-du hoc'h arloadoù gwellañ-deuet eo ar re-mañ"
+
+#~ msgid "Swipe up from the bottom edge."
+#~ msgstr "Riklit war-du an nec'h adalek an traoñ"
+
+#~ msgctxt "Button: Shut down the system"
+#~ msgid "Shut down"
+#~ msgstr "Lazhañ ar benveg"
+
+#~ msgctxt "Title: Reboot/Shut down dialog"
+#~ msgid "Shut down"
+#~ msgstr "Lazhañ ar benveg"
+
+#~ msgctxt "Button: Reboot the system"
+#~ msgid "Reboot"
+#~ msgstr "Adloc'hañ"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passcode"
+#~ msgstr "Kod-tremen"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "No security"
+#~ msgstr "Tamm surentez ebet"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Swipe"
+#~ msgstr "Riklañ"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "4 digits only"
+#~ msgstr "4 sifr hepken"
+
+#~ msgctxt "Label: Type of security method"
+#~ msgid "Passphrase"
+#~ msgstr "Frazenn-dremen"
+
+#~ msgctxt "Label: Description of security method"
+#~ msgid "Numbers and letters"
+#~ msgstr "Sifroù ha lizherennoù"
 
 #~ msgid "%a %d %b %H:%M"
 #~ msgstr "%a  %b %d %H:%M"
@@ -822,14 +1072,3 @@ msgstr "%1  〉"
 
 #~ msgid "Call back"
 #~ msgstr "Gervel en-dro"
-
-#~ msgid ""
-#~ "Your device is now connected to an external display. Use this screen as a "
-#~ "touch pad to interact with the mouse."
-#~ msgstr ""
-#~ "N'eo ket kevreet ho penveg ouzh un diskwel diavaez. Implijit ar skramm-mañ "
-#~ "da douch evit ober gant al logodenn."
-
-#~ msgid "Re-dock, save your work and close these apps to continue."
-#~ msgstr ""
-#~ "Adlugit, enrollit ho labour ha serrit an arloadoù-mañ evit kenderc'hel."

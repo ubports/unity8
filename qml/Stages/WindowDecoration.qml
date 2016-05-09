@@ -67,7 +67,7 @@ MouseArea {
         anchors.fill: parent
         anchors.bottomMargin: -radius
         radius: units.gu(.5)
-        color: "#292929"
+        color: theme.palette.normal.background
     }
 
     Row {
@@ -84,6 +84,7 @@ MouseArea {
             id: buttons
             height: parent.height
             active: root.active
+            closeButtonShown: root.target.application.appId !== "unity8-dash"
             onClose: root.close();
             onMinimize: root.minimize();
             onMaximize: root.maximize();
@@ -92,12 +93,12 @@ MouseArea {
         Label {
             id: titleLabel
             objectName: "windowDecorationTitle"
-            color: root.active ? "white" : "#5d5d5d"
+            color: root.active ? "white" : UbuntuColors.slate
             height: parent.height
             width: parent.width - buttons.width - parent.anchors.rightMargin - parent.anchors.leftMargin
             verticalAlignment: Text.AlignVCenter
             fontSize: "medium"
-            font.weight: root.active ? Font.Light : Font.Normal
+            font.weight: root.active ? Font.Light : Font.Medium
             elide: Text.ElideRight
         }
     }

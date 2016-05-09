@@ -26,6 +26,7 @@ import GlobalShortcut 1.0
 AbstractStage {
     id: root
     anchors.fill: parent
+    paintBackground: false
 
     // functions to be called from outside
     function updateFocusedAppOrientation() { /* TODO */ }
@@ -36,45 +37,21 @@ AbstractStage {
         }
     }
 
-    mainApp: ApplicationManager.focusedApplicationId
-            ? ApplicationManager.findApplication(ApplicationManager.focusedApplicationId)
-            : null
+    // Used by TutorialRight
+    property bool spreadShown: spread.state == "altTab"
+
+    mainApp: priv.focusedAppDelegate ? priv.focusedAppDelegate.application : null
 
     // application windows never rotate independently
     mainAppWindowOrientationAngle: shellOrientationAngle
 
     orientationChangesEnabled: true
 
-    Connections {
-        target: ApplicationManager
-        onApplicationAdded: {
-            if (spread.state == "altTab") {
-                spread.state = "";
-            }
-
-            ApplicationManager.focusApplication(appId);
-        }
-
-        onApplicationRemoved: {
-            priv.focusNext();
-        }
-
-        onFocusRequested: {
-            var appIndex = priv.indexOf(appId);
-            var appDelegate = appRepeater.itemAt(appIndex);
-            appDelegate.restore();
-
-            if (spread.state == "altTab") {
-                spread.cancel();
-            }
-        }
-    }
-
     GlobalShortcut {
         id: closeWindowShortcut
         shortcut: Qt.AltModifier|Qt.Key_F4
-        onTriggered: ApplicationManager.stopApplication(priv.focusedAppId)
-        active: priv.focusedAppId !== ""
+        onTriggered: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
+        active: priv.focusedAppDelegate !== null
     }
 
     GlobalShortcut {
@@ -118,40 +95,46 @@ AbstractStage {
         active: priv.focusedAppDelegate !== null
     }
 
+    GlobalShortcut {
+        shortcut: Qt.AltModifier|Qt.Key_Print
+        onTriggered: root.itemSnapshotRequested(priv.focusedAppDelegate)
+        active: priv.focusedAppDelegate !== null
+    }
+
+    Connections {
+        target: root.topLevelSurfaceList
+        onCountChanged: {
+            if (spread.state == "altTab") {
+                spread.cancel();
+            }
+        }
+    }
+
     QtObject {
         id: priv
+        objectName: "DesktopStagePrivate"
 
-        readonly property string focusedAppId: ApplicationManager.focusedApplicationId
-        readonly property var focusedAppDelegate: {
-            var index = indexOf(focusedAppId);
-            return index >= 0 && index < appRepeater.count ? appRepeater.itemAt(index) : null
+        property var focusedAppDelegate: null
+        onFocusedAppDelegateChanged: {
+            if (spread.state == "altTab") {
+                spread.state = "";
+            }
         }
-        onFocusedAppDelegateChanged: updateForegroundMaximizedApp();
 
-        property int foregroundMaximizedAppZ: -1
-        property int foregroundMaximizedAppIndex: -1 // for stuff like drop shadow and focusing maximized app by clicking panel
+        property var foregroundMaximizedAppDelegate: null // for stuff like drop shadow and focusing maximized app by clicking panel
 
         function updateForegroundMaximizedApp() {
-            var tmp = -1;
-            var tmpAppId = -1;
-            for (var i = appRepeater.count - 1; i >= 0; i--) {
+            var found = false;
+            for (var i = 0; i < appRepeater.count && !found; i++) {
                 var item = appRepeater.itemAt(i);
                 if (item && item.visuallyMaximized) {
-                    tmpAppId = i;
-                    tmp = Math.max(tmp, item.normalZ);
+                    foregroundMaximizedAppDelegate = item;
+                    found = true;
                 }
             }
-            foregroundMaximizedAppZ = tmp;
-            foregroundMaximizedAppIndex = tmpAppId;
-        }
-
-        function indexOf(appId) {
-            for (var i = 0; i < ApplicationManager.count; i++) {
-                if (ApplicationManager.get(i).appId == appId) {
-                    return i;
-                }
+            if (!found) {
+                foregroundMaximizedAppDelegate = null;
             }
-            return -1;
         }
 
         function minimizeAllWindows() {
@@ -161,16 +144,13 @@ AbstractStage {
                     appDelegate.minimize();
                 }
             }
-
-            ApplicationManager.unfocusCurrentApplication(); // no app should have focus at this point
         }
 
         function focusNext() {
-            ApplicationManager.unfocusCurrentApplication();
             for (var i = 0; i < appRepeater.count; i++) {
                 var appDelegate = appRepeater.itemAt(i);
                 if (appDelegate && !appDelegate.minimized) {
-                    ApplicationManager.focusApplication(appDelegate.appId);
+                    appDelegate.focus = true;
                     return;
                 }
             }
@@ -179,15 +159,14 @@ AbstractStage {
 
     Connections {
         target: PanelState
-        onClose: {
-            ApplicationManager.stopApplication(ApplicationManager.focusedApplicationId)
+        onClose: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.close(); } }
+        onMinimize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.minimize(); } }
+        onMaximize: { if (priv.focusedAppDelegate) { priv.focusedAppDelegate.restoreFromMaximized(); } }
+        onFocusMaximizedApp: {
+            if (priv.foregroundMaximizedAppDelegate) {
+                priv.foregroundMaximizedAppDelegate.focus = true;
+             }
         }
-        onMinimize: priv.focusedAppDelegate && priv.focusedAppDelegate.minimize();
-        onMaximize: priv.focusedAppDelegate // don't restore minimized apps when double clicking the panel
-                    && priv.focusedAppDelegate.restoreFromMaximized();
-        onFocusMaximizedApp: if (priv.foregroundMaximizedAppIndex != -1) {
-                                 ApplicationManager.focusApplication(appRepeater.itemAt(priv.foregroundMaximizedAppIndex).appId);
-                             }
     }
 
     Binding {
@@ -215,7 +194,13 @@ AbstractStage {
     Binding {
         target: PanelState
         property: "dropShadow"
-        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppIndex !== -1
+        value: priv.focusedAppDelegate && !priv.focusedAppDelegate.maximized && priv.foregroundMaximizedAppDelegate !== null
+    }
+
+    Binding {
+        target: PanelState
+        property: "closeButtonShown"
+        value: priv.focusedAppDelegate && priv.focusedAppDelegate.maximized && priv.focusedAppDelegate.application.appId !== "unity8-dash"
     }
 
     Component.onDestruction: {
@@ -224,6 +209,27 @@ AbstractStage {
         PanelState.dropShadow = false;
     }
 
+    Instantiator {
+        model: root.applicationManager
+        delegate: Binding {
+            target: model.application
+            property: "requestedState"
+
+            // TODO: figure out some lifecycle policy, like suspending minimized apps
+            //       if running on a tablet or something.
+            // TODO: If the device has a dozen suspended apps because it was running
+            //       in staged mode, when it switches to Windowed mode it will suddenly
+            //       resume all those apps at once. We might want to avoid that.
+            value: ApplicationInfoInterface.RequestedRunning // Always running for now
+        }
+    }
+
+    Binding {
+        target: MirFocusController
+        property: "focusedSurface"
+        value: priv.focusedAppDelegate ? priv.focusedAppDelegate.surface : null
+        when: !appRepeater.startingUp && root.parent
+    }
 
     FocusScope {
         id: appContainer
@@ -239,24 +245,30 @@ AbstractStage {
             fillMode: Image.PreserveAspectCrop
         }
 
-        Repeater {
+        TopLevelSurfaceRepeater {
             id: appRepeater
-            model: ApplicationManager
+            model: topLevelSurfaceList
             objectName: "appRepeater"
 
             delegate: FocusScope {
                 id: appDelegate
-                objectName: "appDelegate_" + appId
+                objectName: "appDelegate_" + model.id
                 // z might be overriden in some cases by effects, but we need z ordering
                 // to calculate occlusion detection
-                property int normalZ: ApplicationManager.count - index
+                property int normalZ: topLevelSurfaceList.count - index
+                onNormalZChanged: {
+                    if (visuallyMaximized) {
+                        priv.updateForegroundMaximizedApp();
+                    }
+                }
                 z: normalZ
-                y: PanelState.panelHeight
-                focus: appId === priv.focusedAppId
+                x: priv.focusedAppDelegate ? priv.focusedAppDelegate.x + units.gu(3) : (normalZ - 1) * units.gu(3)
+                y: priv.focusedAppDelegate ? priv.focusedAppDelegate.y + units.gu(3) : normalZ * units.gu(3)
+
                 width: decoratedWindow.width
                 height: decoratedWindow.height
-                property alias requestedWidth: decoratedWindow.requestedWidth
-                property alias requestedHeight: decoratedWindow.requestedHeight
+                property int requestedWidth: -1
+                property int requestedHeight: -1
                 property alias minimumWidth: decoratedWindow.minimumWidth
                 property alias minimumHeight: decoratedWindow.minimumHeight
                 property alias maximumWidth: decoratedWindow.maximumWidth
@@ -277,36 +289,99 @@ AbstractStage {
                 readonly property alias minimized: appDelegatePrivate.minimized
                 readonly property alias fullscreen: decoratedWindow.fullscreen
 
-                readonly property string appId: model.appId
+                readonly property var application: model.application
                 property bool animationsEnabled: true
                 property alias title: decoratedWindow.title
-                readonly property string appName: model.name
+                readonly property string appName: model.application ? model.application.name : ""
                 property bool visuallyMaximized: false
                 property bool visuallyMinimized: false
 
+                readonly property var surface: model.surface
+
+                function claimFocus() {
+                    if (spread.state == "altTab") {
+                        spread.cancel();
+                    }
+                    appDelegate.restore();
+                }
+                Connections {
+                    target: model.surface
+                    onFocusRequested: claimFocus();
+                }
+                Connections {
+                    target: model.application
+                    onFocusRequested: {
+                        if (!model.surface) {
+                            // when an app has no surfaces, we assume there's only one entry representing it:
+                            // this delegate.
+                            claimFocus();
+                        } else {
+                            // if the application has surfaces, focus request should be at surface-level.
+                        }
+                    }
+                }
+
                 onFocusChanged: {
-                    if (focus && ApplicationManager.focusedApplicationId !== appId) {
-                        ApplicationManager.focusApplication(appId);
+                    if (appRepeater.startingUp)
+                        return;
+
+                    if (focus) {
+                        priv.focusedAppDelegate = appDelegate;
+
+                        // If we're orphan (!parent) it means this stage is no longer the current one
+                        // and will be deleted shortly. So we should no longer have a say over the model
+                        if (root.parent) {
+                            topLevelSurfaceList.raiseId(model.id);
+                        }
+                    } else if (!focus && priv.focusedAppDelegate === appDelegate) {
+                        priv.focusedAppDelegate = null;
+                        // FIXME: No idea why the Binding{} doens't update when focusedAppDelegate turns null
+                        MirFocusController.focusedSurface = null;
+                    }
+                }
+                Component.onCompleted: {
+                    // NB: We're differentiating if this delegate was created in response to a new entry in the model
+                    //     or if the Repeater is just populating itself with delegates to match the model it received.
+                    if (!appRepeater.startingUp) {
+                        // a top level window is always the focused one when it first appears, unfocusing
+                        // any preexisting one
+                        focus = true;
+                    }
+                }
+                Component.onDestruction: {
+                    if (!root.parent) {
+                        // This stage is about to be destroyed. Don't mess up with the model at this point
+                        return;
+                    }
+
+                    if (visuallyMaximized) {
+                        priv.updateForegroundMaximizedApp();
+                    }
+
+                    if (focus) {
+                        // focus some other window
+                        for (var i = 0; i < appRepeater.count; i++) {
+                            var appDelegate = appRepeater.itemAt(i);
+                            if (appDelegate && !appDelegate.minimized && i != index) {
+                                appDelegate.focus = true;
+                                return;
+                            }
+                        }
                     }
                 }
 
                 onVisuallyMaximizedChanged: priv.updateForegroundMaximizedApp()
 
-                visible: !visuallyMinimized &&
-                         !greeter.fullyShown &&
-                         (priv.foregroundMaximizedAppZ === -1 || priv.foregroundMaximizedAppZ <= z) ||
-                         decoratedWindow.fullscreen ||
-                         (spread.state == "altTab" && index === spread.highlightedIndex)
+                visible: (
+                          !visuallyMinimized
+                          && !greeter.fullyShown
+                          && (priv.foregroundMaximizedAppDelegate === null || priv.foregroundMaximizedAppDelegate.normalZ <= z)
+                         )
+                         || decoratedWindow.fullscreen
+                         || (spread.state == "altTab" && index === spread.highlightedIndex)
 
-                Binding {
-                    target: ApplicationManager.get(index)
-                    property: "requestedState"
-                    // TODO: figure out some lifecycle policy, like suspending minimized apps
-                    //       if running on a tablet or something.
-                    // TODO: If the device has a dozen suspended apps because it was running
-                    //       in staged mode, when it switches to Windowed mode it will suddenly
-                    //       resume all those apps at once. We might want to avoid that.
-                    value: ApplicationInfoInterface.RequestedRunning // Always running for now
+                function close() {
+                    model.surface.close();
                 }
 
                 function maximize(animated) {
@@ -348,7 +423,8 @@ AbstractStage {
                         maximizeLeft();
                     else if (maximizedRight)
                         maximizeRight();
-                    ApplicationManager.focusApplication(appId);
+
+                    focus = true;
                 }
 
                 function playFocusAnimation() {
@@ -366,11 +442,13 @@ AbstractStage {
 
                 states: [
                     State {
-                        name: "fullscreen"; when: decoratedWindow.fullscreen
+                        name: "fullscreen"; when: decoratedWindow.fullscreen && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: 0; y: -PanelState.panelHeight
-                            requestedWidth: appContainer.width; requestedHeight: appContainer.height;
+                            x: 0;
+                            y: -PanelState.panelHeight
+                            requestedWidth: appContainer.width;
+                            requestedHeight: appContainer.height;
                         }
                     },
                     State {
@@ -387,21 +465,42 @@ AbstractStage {
                         name: "maximized"; when: appDelegate.maximized && !appDelegate.minimized
                         PropertyChanges {
                             target: appDelegate;
-                            x: root.leftMargin; y: 0;
-                            requestedWidth: appContainer.width - root.leftMargin; requestedHeight: appContainer.height;
+                            x: root.leftMargin;
+                            y: 0;
                             visuallyMinimized: false;
                             visuallyMaximized: true
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: appContainer.width - root.leftMargin;
+                            requestedHeight: appContainer.height;
                         }
                     },
                     State {
                         name: "maximizedLeft"; when: appDelegate.maximizedLeft && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: root.leftMargin; y: PanelState.panelHeight;
-                            requestedWidth: (appContainer.width - root.leftMargin)/2; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        PropertyChanges {
+                            target: appDelegate
+                            x: root.leftMargin
+                            y: PanelState.panelHeight
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: (appContainer.width - root.leftMargin)/2
+                            requestedHeight: appContainer.height - PanelState.panelHeight
+                        }
                     },
                     State {
                         name: "maximizedRight"; when: appDelegate.maximizedRight && !appDelegate.minimized
-                        PropertyChanges { target: appDelegate; x: (appContainer.width + root.leftMargin)/2; y: PanelState.panelHeight;
-                            requestedWidth: (appContainer.width - root.leftMargin)/2; requestedHeight: appContainer.height - PanelState.panelHeight }
+                        PropertyChanges {
+                            target: appDelegate;
+                            x: (appContainer.width + root.leftMargin)/2
+                            y: PanelState.panelHeight
+                        }
+                        PropertyChanges {
+                            target: decoratedWindow
+                            requestedWidth: (appContainer.width - root.leftMargin)/2
+                            requestedHeight: appContainer.height - PanelState.panelHeight
+                        }
                     },
                     State {
                         name: "minimized"; when: appDelegate.minimized
@@ -421,17 +520,22 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; properties: "visuallyMinimized,visuallyMaximized" }
                         UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
+                        UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
                     },
                     Transition {
                         to: "minimized"
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
+                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                            }
                             PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                             ScriptAction {
                                 script: {
                                     if (appDelegate.minimized) {
+                                        appDelegate.focus = false;
                                         priv.focusNext();
                                     }
                                 }
@@ -443,7 +547,10 @@ AbstractStage {
                         enabled: appDelegate.animationsEnabled
                         PropertyAction { target: appDelegate; property: "visuallyMinimized" }
                         SequentialAnimation {
-                            UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,requestedWidth,requestedHeight,scale"; duration: UbuntuAnimation.FastDuration }
+                            ParallelAnimation {
+                                UbuntuNumberAnimation { target: appDelegate; properties: "x,y,opacity,scale"; duration: UbuntuAnimation.FastDuration }
+                                UbuntuNumberAnimation { target: decoratedWindow; properties: "requestedWidth,requestedHeight"; duration: UbuntuAnimation.FastDuration }
+                            }
                             PropertyAction { target: appDelegate; property: "visuallyMaximized" }
                         }
                     }
@@ -453,22 +560,42 @@ AbstractStage {
                     id: previewBinding
                     target: appDelegate
                     property: "z"
-                    value: ApplicationManager.count + 1
+                    value: topLevelSurfaceList.count + 1
                     when: index == spread.highlightedIndex && spread.ready
                 }
 
                 WindowResizeArea {
+                    id: resizeArea
                     objectName: "windowResizeArea"
                     target: appDelegate
                     minWidth: units.gu(10)
                     minHeight: units.gu(10)
                     borderThickness: units.gu(2)
-                    windowId: model.appId // FIXME: Change this to point to windowId once we have such a thing
+                    windowId: model.application.appId // FIXME: Change this to point to windowId once we have such a thing
                     screenWidth: appContainer.width
                     screenHeight: appContainer.height
                     leftMargin: root.leftMargin
 
-                    onPressed: { ApplicationManager.focusApplication(model.appId) }
+                    onPressed: { appDelegate.focus = true; }
+
+                    Component.onCompleted: {
+                        loadWindowState();
+                    }
+
+                    property bool saveStateOnDestruction: true
+                    Connections {
+                        target: root
+                        onStageAboutToBeUnloaded: {
+                            resizeArea.saveWindowState();
+                            resizeArea.saveStateOnDestruction = false;
+                            fullscreenPolicy.active = false;
+                        }
+                    }
+                    Component.onDestruction: {
+                        if (saveStateOnDestruction) {
+                            saveWindowState();
+                        }
+                    }
                 }
 
                 DecoratedWindow {
@@ -476,15 +603,25 @@ AbstractStage {
                     objectName: "decoratedWindow"
                     anchors.left: appDelegate.left
                     anchors.top: appDelegate.top
-                    application: ApplicationManager.get(index)
-                    active: ApplicationManager.focusedApplicationId === model.appId
+                    application: model.application
+                    surface: model.surface
+                    active: appDelegate.focus
                     focus: true
 
-                    onClose: ApplicationManager.stopApplication(model.appId)
+                    requestedWidth: appDelegate.requestedWidth
+                    requestedHeight: appDelegate.requestedHeight
+
+                    onClose: { appDelegate.close(); }
                     onMaximize: appDelegate.maximized || appDelegate.maximizedLeft || appDelegate.maximizedRight
                                 ? appDelegate.restoreFromMaximized() : appDelegate.maximize()
                     onMinimize: appDelegate.minimize()
-                    onDecorationPressed: { ApplicationManager.focusApplication(model.appId) }
+                    onDecorationPressed: { appDelegate.focus = true; }
+                }
+
+                WindowedFullscreenPolicy {
+                    id: fullscreenPolicy
+                    active: true
+                    surface: model.surface
                 }
             }
         }

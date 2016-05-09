@@ -113,13 +113,6 @@ IndicatorDelegate {
                         source: modelData
                         color: root.color
                         Behavior on color { ColorAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
-
-                        opacity: {
-                            if (!expanded) return 1.0;
-                            if (!selected) return 0.6;
-                            return 1.0;
-                        }
-                        Behavior on opacity { NumberAnimation { duration: UbuntuAnimation.FastDuration; easing: UbuntuAnimation.StandardEasing } }
                     }
                 }
             }

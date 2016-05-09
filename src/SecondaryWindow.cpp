@@ -19,9 +19,18 @@
 // local
 #include <paths.h>
 
+#include <QQmlContext>
+
 SecondaryWindow::SecondaryWindow(QQmlEngine *engine)
     : QQuickView(engine, nullptr)
 {
+    QByteArray pxpguEnv = qgetenv("GRID_UNIT_PX");
+    bool ok;
+    int pxpgu = pxpguEnv.toInt(&ok);
+    if (!ok) {
+        pxpgu = 8;
+    }
+    engine->rootContext()->setContextProperty("internalGu", pxpgu);
     setResizeMode(QQuickView::SizeRootObjectToView);
     setColor("black");
     setTitle(QStringLiteral("Unity8 Shell - Secondary Screen"));

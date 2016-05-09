@@ -96,19 +96,19 @@ Item {
 
             Column {
                 anchors.centerIn: parent
-                width: parent.width - units.gu(8)
-                spacing: units.gu(4)
+                width: parent.width - (internalGu * 8)
+                spacing: internalGu * 4
 
                 Label {
                     id: text
                     text: i18n.tr("Your device is now connected to an external display. Use this screen as a touch pad to interact with the pointer.")
                     color: "white"
                     width: parent.width
-                    fontSize: "large"
+                    font.pixelSize: 2.5 * internalGu
                     wrapMode: Text.Wrap
                 }
                 Icon {
-                    height: units.gu(8)
+                    height: internalGu * 8
                     width: height
                     name: "input-touchpad-symbolic"
                     color: "white"

@@ -1,2 +1,3 @@
 module Ubuntu.SystemSettings.LanguagePlugin
 UbuntuLanguagePlugin 1.0 MockLanguagePlugin.qml
+OnScreenKeyboardPlugin 1.0 MockKeyboardPlugin.qml

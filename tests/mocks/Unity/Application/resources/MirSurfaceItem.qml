@@ -29,6 +29,9 @@ Rectangle {
     property alias screenshotSource: screenshotImage.source
     property int orientationAngle
 
+    property var touchTrail
+    onTouchTrailChanged: canvas.requestPaint()
+
     Image {
         id: screenshotImage
         anchors.fill: parent
@@ -66,5 +69,61 @@ Rectangle {
         y: (parent.height - height) / 2
         width: (rotation == 0 || rotation == 180 ? parent.width : parent.height)
         height:(rotation == 0 || rotation == 180 ? parent.height : parent.width)
+    }
+
+    Canvas {
+        id: canvas
+        anchors.fill: parent
+        onPaint: {
+            // get context to draw with
+            var ctx = getContext("2d")
+            ctx.reset(0, 0, canvas.width, canvas.height);
+            ctx.lineWidth = 20;
+
+            if (touchTrail === undefined) return;
+
+            var i = 0;
+            for (var prop in touchTrail) {
+                var trail = touchTrail[prop];
+
+                if (trail.length > 0) {
+                    ctx.fillStyle = Qt.rgba(0, 0, 1, 0.3);
+                    ctx.strokeStyle = Qt.rgba(0, 0, 1, 0.3);
+                    ctx.beginPath();
+                    ctx.moveTo(trail[0].x, trail[0].y);
+                    ctx.ellipse(trail[0].x-1, trail[0].y-1, 2, 2);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    if (i == 0) {
+                        ctx.strokeStyle = Qt.rgba(1, 1, 0, 0.3);
+                    } else if (i == 1) {
+                        ctx.strokeStyle = Qt.rgba(0, 1, 1, 0.3);
+
+                    } else if (i == 2) {
+                        ctx.strokeStyle = Qt.rgba(1, 0, 1, 0.3);
+
+                    } else if (i == 3) {
+                        ctx.strokeStyle = Qt.rgba(0, 0.5, 0.5, 0.3);
+
+                    } else {
+                        ctx.strokeStyle = Qt.rgba(0.7, 0.5, 0, 0.3);
+                    }
+
+                    for (var i = 1; i < trail.length; i++) {
+                        ctx.lineTo(trail[i].x, trail[i].y)
+                    }
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.fillStyle = Qt.rgba(1, 0, 0, 0.3);
+                    ctx.strokeStyle = Qt.rgba(1, 0, 0, 0.3);
+                    ctx.ellipse(trail[i-1].x-1, trail[i-1].y-1, 2, 2);
+                    ctx.stroke();
+                }
+                i++;
+            }
+
+        }
     }
 }

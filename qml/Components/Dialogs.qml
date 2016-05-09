@@ -51,8 +51,8 @@ Item {
             var comp = Qt.createComponent(Qt.resolvedUrl("ModeSwitchWarningDialog.qml"))
             d.modeSwitchWarningPopup = comp.createObject(root, {model: legacyAppsModel});
             d.modeSwitchWarningPopup.forceClose.connect(function() {
-                while (legacyAppsModel.count > 0) {
-                    ApplicationManager.stopApplication(legacyAppsModel.get(0).appId);
+                for (var i = legacyAppsModel.count - 1; i >= 0; i--) {
+                    ApplicationManager.stopApplication(legacyAppsModel.get(i).appId);
                 }
                 d.modeSwitchWarningPopup.hide();
                 d.modeSwitchWarningPopup.destroy();
@@ -167,40 +167,6 @@ Item {
     }
 
     Component {
-        id: shutdownDialogComponent
-        ShellDialog {
-            id: shutdownDialog
-            title: i18n.ctr("Title: Reboot/Shut down dialog", "Shut down")
-            text: i18n.tr("Are you sure you want to shut down?")
-            Button {
-                text: i18n.ctr("Button: Reboot the system", "Reboot")
-                onClicked: {
-                    root.closeAllApps();
-                    unitySessionService.reboot();
-                    shutdownDialog.hide();
-                }
-                color: UbuntuColors.lightGrey
-            }
-            Button {
-                text: i18n.ctr("Button: Shut down the system", "Shut down")
-                onClicked: {
-                    root.closeAllApps();
-                    unitySessionService.shutdown();
-                    shutdownDialog.hide();
-                }
-                color: UbuntuColors.red
-            }
-            Button {
-                text: i18n.tr("Cancel")
-                onClicked: {
-                    shutdownDialog.hide();
-                }
-                color: UbuntuColors.lightGrey
-            }
-        }
-    }
-
-    Component {
         id: rebootDialogComponent
         ShellDialog {
             id: rebootDialog
@@ -211,7 +177,6 @@ Item {
                 onClicked: {
                     rebootDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Yes")
@@ -247,14 +212,12 @@ Item {
                     unitySessionService.reboot();
                     powerDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
             Button {
                 text: i18n.tr("Cancel")
                 onClicked: {
                     powerDialog.hide();
                 }
-                color: UbuntuColors.lightGrey
             }
         }
     }
@@ -273,23 +236,16 @@ Item {
 
         onShutdownRequested: {
             // Display a dialog to ask the user to confirm.
-            if (!dialogLoader.active) {
-                dialogLoader.sourceComponent = shutdownDialogComponent;
-                dialogLoader.focus = true;
-                dialogLoader.active = true;
-            }
+            showPowerDialog();
         }
 
         onRebootRequested: {
             // Display a dialog to ask the user to confirm.
-            if (!dialogLoader.active) {
-                // display a combined reboot/shutdown dialog, sadly the session indicator calls rather the "Reboot()" method
-                // than shutdown when clicking on the "Shutdown..." menu item
-                // FIXME: when/if session indicator is fixed, put the rebootDialogComponent here
-                dialogLoader.sourceComponent = shutdownDialogComponent;
-                dialogLoader.focus = true;
-                dialogLoader.active = true;
-            }
+
+            // display a combined reboot/shutdown dialog, sadly the session indicator calls rather the "Reboot()" method
+            // than shutdown when clicking on the "Shutdown..." menu item
+            // FIXME: when/if session indicator is fixed, put the rebootDialogComponent here
+            showPowerDialog();
         }
 
         onLogoutReady: {

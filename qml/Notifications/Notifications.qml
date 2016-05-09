@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,9 +27,10 @@ ListView {
     interactive: false
 
     property real margin
-    property bool useModal: snapDecisionProxyModel.count > 0
     property bool hasMouse
     property url background: ""
+
+    readonly property bool useModal: snapDecisionProxyModel.count > 0
 
     UnitySortFilterProxyModel {
         id: snapDecisionProxyModel
@@ -41,7 +42,7 @@ ListView {
     }
 
     property bool topmostIsFullscreen: false
-    spacing: topmostIsFullscreen ? 0 : units.gu(.5)
+    spacing: topmostIsFullscreen ? 0 : units.gu(1)
 
     currentIndex: count > 1 ? 1 : -1
 

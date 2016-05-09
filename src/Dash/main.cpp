@@ -27,6 +27,7 @@
 #include <libintl.h>
 
 #include <paths.h>
+#include "../qmldebuggerutils.h"
 #ifdef UNITY8_ENABLE_TOUCH_EMULATION
     #include "../MouseTouchAdaptor.h"
 #endif
@@ -34,6 +35,10 @@
 
 int main(int argc, const char *argv[])
 {
+    if (enableQmlDebugger(argc, argv)) {
+        QQmlDebuggingEnabler qQmlEnableDebuggingHelper(true);
+    }
+
     QGuiApplication *application = new QGuiApplication(argc, (char**)argv);
 
     QCommandLineParser parser;

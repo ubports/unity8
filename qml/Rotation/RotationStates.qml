@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Canonical, Ltd.
+ * Copyright (C) 2015,2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ StateGroup {
     property Item orientedShell
     property Item shell
     property Item shellCover
-    property Item windowScreenshot
+    property Item shellSnapshot
 
     property int rotationDuration: 450
     property int rotationEasing: Easing.InOutCubic
@@ -88,11 +88,31 @@ StateGroup {
             }
 
             var requestedState = d.requestedOrientationAngle.toString();
-            if (requestedState !== root.state) {
-                d.resolveAnimationType();
-                root.state = requestedState;
+            if (requestedState === root.state) {
+                return;
             }
+
+            d.resolveAnimationType();
+
+            var angleDiff = Math.abs(root.shell.orientationAngle - d.requestedOrientationAngle);
+            var isNinetyRotationAnimation = angleDiff == 90 || angleDiff == 270;
+            var needsShellSnapshot = d.animationType == d.fullAnimation && isNinetyRotationAnimation;
+
+            if (needsShellSnapshot && !shellSnapshotReady) {
+                root.shellSnapshot.take();
+                // try again once we have a shell snapshot ready for use. Snapshot taking is async.
+                return;
+            }
+
+            if (!needsShellSnapshot && shellSnapshotReady) {
+                root.shellSnapshot.discard();
+            }
+
+            root.state = requestedState;
         }
+
+        property bool shellSnapshotReady: root.shellSnapshot && root.shellSnapshot.ready
+        onShellSnapshotReadyChanged: tryUpdateState();
 
         property Connections shellConnections: Connections {
             target: root.orientedShell

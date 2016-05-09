@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical, Ltd.
- *
- * Authors:
- *   Daniel d'Andrada <daniel.dandrada@canonical.com>
+ * Copyright (C) 2013-2016 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +15,6 @@
  */
 
 import QtQuick 2.4
-import Ubuntu.Settings.Menus 0.1 as Menus
 import QMenuModel 0.1
 
 QtObject {
@@ -46,6 +42,10 @@ QtObject {
 
                 function activate() {
                     activated();
+                }
+
+                function updateState(newState) {
+                    state = newState;
                 }
             }", actionGroup);
     }

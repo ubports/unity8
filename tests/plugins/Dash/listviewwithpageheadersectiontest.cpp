@@ -2180,6 +2180,21 @@ private Q_SLOTS:
         verifyItem(2, 480., 390., false, "Agressive", false);
     }
 
+    void firstItemSectionHeightChange()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 1), Q_ARG(QVariant, 5));
+        model->setProperty(0, "type", "halfheight");
+        verifyItem(0, 50., 170., false, "halfheight", false);
+    }
+
+    void secondItemSectionHeightChange()
+    {
+        QMetaObject::invokeMethod(model, "removeItems", Q_ARG(QVariant, 2), Q_ARG(QVariant, 4));
+        model->setProperty(1, "type", "halfheight");
+        verifyItem(0, 50., 190., false, "Agressive", false);
+        verifyItem(1, 240., 220., false, "halfheight", false);
+    }
+
 private:
     QQuickView *view;
     ListViewWithPageHeader *lvwph;

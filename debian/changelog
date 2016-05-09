@@ -1,3 +1,224 @@
+unity8 (8.12+16.04.20160504.2-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Expandable Filter Widget
+  * Pass the category correctly
+
+  [ Albert Astals Cid, CI Train Bot ]
+  * Make the previewActions react to the actions model changing (LP:
+    #1485887)
+  * Reload Preview Zoomable Image source if it gets updated
+  * Update the icon also to the original one if that's what the scope
+    wants
+
+  [ Andrea Cimitan ]
+  * Add social actions to cards
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+ -- Pawel Stolowski <ci-train-bot@canonical.com>  Wed, 04 May 2016 18:09:33 +0000
+
+unity8 (8.12+16.04.20160429.2-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel d'Andrada ]
+  * Ensure shell transformations use bindings as OrientedShell can get
+    resized
+  * Make shell rotation animation work on multimonitor scenarios.
+  * Refactor screenshotting code and make it work in multimonitor
+    scenarios
+
+  [ Gerry Boland, Nick Dedekind ]
+  * Indicators: set menu height binding while fully open/closed, fixes
+    dynamic grid unit bug.
+
+  [ Michael Zanetti ]
+  * Call the dash sizing hack when units.gu changes
+  * Temporary means to override GUs on the internal screen
+  * reduce some paint layers.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 29 Apr 2016 20:07:37 +0000
+
+unity8 (8.12+16.04.20160427.3-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Add env var to enable js debugging/profiling even if not built on
+    debug mode
+  * Better error message if the item does not exist
+  * CardCreator: Remove ShaderEffectSource (LP: #1544875)
+  * Compile with Qt 5.6 (LP: #1565632)
+  * LVWPH: Account for contentHeight not really being "all" of the
+    content height (LP: #1569976)
+  * NotificationAudio: We don't need weird "ifdef" for multimedia 5.6 vs
+    5.0 roles anymore
+  * See all/less -> Show all/less (LP: #1349471)
+  * Stabilize test_superTabToCycleLauncher
+  * Take into account that sectionItem height can change
+  * Turn verify intro tryCompareFunction
+  * forceLayout before calling positionViewAtIndex (LP: #1553475)
+  * rootObject can be null for a small moment after setSource is called
+    (LP: #1560501)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ Daniel van Vugt ]
+  * Reinstate the touch performance/smoothness fix (LP: #1486341, LP:
+    #1556763). (LP: #1556763, #1486341)
+
+  [ Josh Arenson ]
+  * Change the color of the activity pulse to blue (LP: #1568082)
+  * Make scope filter settings button the same color as other foreground
+    elements (LP: #1563357)
+
+  [ Lukáš Tinkl ]
+  * Drop OOBE wizard autopilot tests
+  * Fix labels in desktop spread
+  * Fix upcoming event ETAs falling out of sync (LP: #1557571)
+  * Hide the close button for dash (LP: #1550056, #1564347)
+  * Notifications visual update, close button on mouse hover (LP:
+    #1564343)
+  * Shell visual update
+  * Stabilize wizard tests
+  * Unity8 windows now cascade instead of opening all in the top left
+    corner (LP: #1513813)
+
+  [ Michael Terry ]
+  * Fix some unreliable test code.
+  * Ignore Home Key presses when the greeter is up. (LP: #1565818)
+
+  [ Michael Zanetti ]
+  * Drop the rotation lock for the dash (LP: #1465331, #1574165)
+  * improve the pin lockscreen
+  * install devices.conf by default
+
+  [ Ted Gould ]
+  * Switch to using uid/pwdent for getting username
+
+ -- Michael Terry <michael.terry@canonical.com>  Wed, 27 Apr 2016 15:01:28 +0000
+
+unity8 (8.12+16.04.20160421.1-0ubuntu1) xenial; urgency=medium
+
+  [ Daniel d'Andrada ]
+  * Refactor keymap switching code
+  * Surface-based window management
+  * Use Item.grabToImage() instead of qtmir's ApplicationScreenshot
+    provider
+
+  [ Michael Zanetti ]
+  * Fixes for programmatically closing Applications
+
+  [ Robert Bruce Park ]
+  * Use new bileto_pre_release_hook
+
+ -- Gerry Boland <ci-train-bot@canonical.com>  Thu, 21 Apr 2016 13:48:02 +0000
+
+unity8 (8.12+16.04.20160414.1-0ubuntu1) xenial; urgency=medium
+
+  [ Michael Terry ]
+  * Make sure that usageMode is set on startup, fixing a problem with
+    the tutorial not noticing that it is running on a desktop. (LP:
+    #1564351)
+
+  [ Michael Zanetti ]
+  * make the edge drag area width configurable (LP: #1559512)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Thu, 14 Apr 2016 21:20:28 +0000
+
+unity8 (8.12+16.04.20160401-0ubuntu1) xenial; urgency=medium
+
+  * Add missing Testsuite header
+  * Skip the failing test until we have a working solution for bug
+    #1564571 (LP: #1564571)
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Fri, 01 Apr 2016 08:32:16 +0000
+
+unity8 (8.12+16.04.20160330-0ubuntu1) xenial; urgency=medium
+
+  [ Albert Astals Cid ]
+  * Use tutorialLeftLoader instead of tutorialLeft
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Lukáš Tinkl ]
+  * Fix the last chance popup colors/theme
+
+  [ Michael Terry ]
+  * Adjust text for desktop right edge tutorial to be accurate. (LP:
+    #1563103)
+  * Fix OOBE wizard not setting your name. (LP: #1562872)
+  * Fix showing "Retry" in password prompt when turning on screen in
+    tablet mode.
+
+ -- Michał Sawicz <michal.sawicz@canonical.com>  Wed, 30 Mar 2016 07:46:51 +0000
+
+unity8 (8.12+16.04.20160323.2-0ubuntu1) xenial; urgency=medium
+
+  [ Michael Terry ]
+  * 
+  * Fix setting OSK layout in OOBE wizard
+  * Stop the left edge tutorial from being shown when the bottom edge
+    tutorial wants to be shown after receiving a call.
+
+  [ Albert Astals Cid ]
+  * Filter implementation with Option Selector filter as the only filter
+  * Get the engine from the parent context
+  * Implement the API changes due to filters
+  * Match design visuals for the new dash navigation/page header popup
+  * New Dash Navigation UX
+  * Range Input filter
+  * Value slider filter
+  * Workaround SDK ListItem bug
+
+  [ Albert Astals Cid, Lukáš Tinkl ]
+  * Fix various tests
+
+  [ CI Train Bot ]
+  * Resync trunk.
+  * Update translation template
+
+  [ Lukáš Tinkl, Michael Terry ]
+  * New first-run wizard for the phone (part of the OOBE effort) (LP:
+    #1536688, #1536617, #1543790, #1555222)
+
+  [ Lukáš Tinkl, Michał Sawicz ]
+  * Keymap switching support (LP: #1524400, #1412492, #1491340)
+
+  [ Michael Terry, Michael Zanetti ]
+  * Redesign the first-boot edge tutorial
+
+  [ Michael Zanetti ]
+  * disabling some tests that are flaky in adt but can't be made fail on
+    our machines
+
+  [ Michael Zanetti, Michał Sawicz ]
+  * Change the behavior alond with the switch in indicator-display (LP:
+    #1538591)
+
+  [ Michael Zanetti, Michał Sawicz, Nick Dedekind ]
+  * Add support for low shell chrome. (LP: #1535397)
+  * Sidestage load/unload redesign (LP: #1544479)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Wed, 23 Mar 2016 09:53:17 +0000
+
+unity8 (8.11+16.04.20160318.1-0ubuntu1) xenial; urgency=medium
+
+  [ CI Train Bot ]
+  * Update translation template
+
+  [ Lukáš Tinkl ]
+  * Fix notifications with the new UITK color schemes (LP: #1554616,
+    #1556523)
+
+  [ Lukáš Tinkl, Michael Zanetti, Nick Dedekind ]
+  * more fixes for the new theme palette (LP: #1554616, #1557534)
+
+ -- Michael Zanetti <michael.zanetti@canonical.com>  Fri, 18 Mar 2016 17:12:53 +0000
+
 unity8 (8.11+16.04.20160310.4-0ubuntu1) xenial; urgency=medium
 
   [ Albert Astals Cid ]
