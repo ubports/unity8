@@ -17,7 +17,7 @@
 // local
 #include "ShellApplication.h"
 #include "qmldebuggerutils.h"
-#include "unix-signal-handler.h"
+#include "UnixSignalHandler.h"
 
 int main(int argc, const char *argv[])
 {

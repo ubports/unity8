@@ -32,7 +32,7 @@
     #include "../MouseTouchAdaptor.h"
 #endif
 #include "../CachingNetworkManagerFactory.h"
-#include "../unix-signal-handler.h"
+#include "../UnixSignalHandler.h"
 
 int main(int argc, const char *argv[])
 {
